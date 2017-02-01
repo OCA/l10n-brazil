@@ -2,12 +2,29 @@
 # Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import fields, models
+from openerp import api, fields, models
 
 
 class HrContract(models.Model):
 
     _inherit = 'hr.contract'
+
+    @api.multi
+    def _salario_dia(self, data_inicio, data_fim):
+        if data_inicio >= self.date_start and data_fim <= self.date_end:
+            return self.wage/30
+
+    @api.multi
+    def _salario_hora(self, data_inicio, data_fim):
+        if data_inicio >= self.date_start and data_fim <= self.date_end:
+            return self.wage/(
+                220 if not self.monthly_hours else self.monthly_hours
+            )
+
+    @api.multi
+    def _salario_mes(self, data_inicio, data_fim):
+        if data_inicio >= self.date_start and data_fim <= self.date_end:
+            return self.wage
 
     specific_rule_ids = fields.One2many(
         comodel_name='hr.contract.salary.rule',

@@ -10,6 +10,101 @@
         <field name="model">hr.payslip</field>
         <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//notebook" position="replace">
+                <notebook>
+                    <page string="Holerite" >
+                        <field name="line_resume_ids" colspan="4" nolabel="1">
+                            <tree string="Salary Structure" editable="bottom" colors="blue:valor_provento > 0;red:valor_deducao > 0">
+                                <field name="name"/>
+                                <field name="valor_provento"/>
+                                <field name="valor_deducao"/>
+                            </tree>
+                            <form string="Payslip Line">
+                                <group col="4">
+                                    <field name="name"/>
+                                    <field name="valor_provento"/>
+                                    <field name="valor_deducao"/>
+                                </group>
+                            </form>
+                        </field>
+                        <group class="oe_subtotal_footer oe_right" colspan="2">
+                            <field name="total_folha" />
+                        </group>
+                        <div class="oe_clear"/>
+                    </page>
+                    <page string="Salary Computation" >
+                        <field name="line_ids" colspan="4" nolabel="1">
+                            <tree string="Salary Structure" editable="bottom" colors="orange:total == 0">
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="category_id"/>
+                                <field name="sequence" invisible="1"/>
+                                <field name="quantity"/>
+                                <field name="rate"/>
+                                <field name="amount"/>
+                                <field name="total"/>
+                            </tree>
+                            <form string="Payslip Line">
+                                <group col="4">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="category_id"/>
+                                    <field name="sequence"/>
+                                    <field name="quantity"/>
+                                    <field name="rate"/>
+                                    <field name="amount"/>
+                                    <field name="total"/>
+                                    <field name="salary_rule_id"/>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                    <page string="Variáveis">
+                        <separator string="Worked Days"/>
+                        <field name="worked_days_line_ids">
+                            <tree string="Worked Days" editable="bottom">
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="number_of_days" sum="Total Working Days"/>
+                                <field name="number_of_hours"/>
+                                <field name="contract_id"/>
+                                <field name="sequence" invisible="True"/>
+                            </tree>
+                            <form string="Worked Day">
+                                <group col="4">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="payslip_id"/>
+                                    <field name="sequence"/>
+                                    <field name="number_of_days"/>
+                                    <field name="number_of_hours"/>
+                                    <field name="contract_id"/>
+                                </group>
+                            </form>
+                        </field>
+                        <separator string="Other Inputs"/>
+                        <field name="input_line_ids" colspan="4" nolabel="1">
+                            <tree string="Input Data" editable="bottom">
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="amount"/>
+                                <field name="contract_id"/>
+                                <field name="sequence" invisible="True"/>
+                            </tree>
+                            <form string="Payslip Line">
+                                <group col="4">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="payslip_id"/>
+                                    <field name="sequence"/>
+                                    <field name="amount"/>
+                                    <field name="contract_id"/>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+			 </xpath>
 
             <!--Redefinindo campo Funcionario-->
             <field name="contract_id" position="replace">
@@ -45,30 +140,30 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="hr_payslip_search_view">
-        <field name="name">hr.payslip.search (in l10n_br_hr_payroll)</field>
-        <field name="model">hr.payslip</field>
-        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_filter"/>
-        <field name="arch" type="xml">
-            <field name="date_from" position="after">
-                <field name="tipo_de_folha"/>
-            </field>
-            <filter name="employee_id" position="after">
-                <filter string="Tipo" icon="terp-personal" name="tipo_de_folha" context="{'group_by':'tipo_de_folha'}"/>
-            </filter>
-        </field>
-    </record>
+    <!--<record model="ir.ui.view" id="hr_payslip_search_view">-->
+        <!--<field name="name">hr.payslip.search (in l10n_br_hr_payroll)</field>-->
+        <!--<field name="model">hr.payslip</field>-->
+        <!--<field name="inherit_id" ref="hr_payroll.view_hr_payslip_filter"/>-->
+        <!--<field name="arch" type="xml">-->
+            <!--<field name="date_from" position="after">-->
+                <!--<field name="tipo_de_folha"/>-->
+            <!--</field>-->
+            <!--<filter name="employee_id" position="after">-->
+                <!--<filter string="Tipo" icon="terp-personal" name="tipo_de_folha" context="{'group_by':'tipo_de_folha'}"/>-->
+            <!--</filter>-->
+        <!--</field>-->
+    <!--</record>-->
 
-    <record model="ir.ui.view" id="hr_payslip_tree_view">
-        <field name="name">hr.payslip.tree (in l10n_br_hr_payroll)</field>
-        <field name="model">hr.payslip</field>
-        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
-        <field name="arch" type="xml">
-            <field name="state" position="before">
-                <field name="tipo_de_folha"/>
-            </field>
-        </field>
-    </record>
+    <!--<record model="ir.ui.view" id="hr_payslip_tree_view">-->
+        <!--<field name="name">hr.payslip.tree (in l10n_br_hr_payroll)</field>-->
+        <!--<field name="model">hr.payslip</field>-->
+        <!--<field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>-->
+        <!--<field name="arch" type="xml">-->
+            <!--<field name="state" position="before">-->
+                <!--<field name="tipo_de_folha"/>-->
+            <!--</field>-->
+        <!--</field>-->
+    <!--</record>-->
 
     <!--<record model="ir.actions.act_window" id="hr_payslip_act_window">-->
         <!--<field name="name">Hr Payslip</field> &lt;!&ndash; TODO &ndash;&gt;-->

@@ -5,16 +5,6 @@
 from openerp import api, fields, models
 from datetime import datetime
 
-TIPO_DE_FOLHA = [
-    ('normal', u'Folha normal'),
-    ('rescisao', u'Rescisão'),
-    ('ferias', u'Férias'),
-    ('decimo_terceiro', u'Décimo terceiro (13º)'),
-    ('licenca_maternidade', u'Licença maternidade'),
-    ('auxilio_doenca', u'Auxílio doença'),
-    ('auxílio_acidente_trabalho', u'Auxílio acidente de trabalho'),
-]
-
 MES_DO_ANO = [
     (1, u'Jan'),
     (2, u'Fev'),
@@ -34,18 +24,27 @@ MES_DO_ANO = [
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
 
-    tipo_de_folha = fields.Selection(
-        selection=TIPO_DE_FOLHA,
-        string=u'Tipo de folha',
-        required=True,
-        default='normal',
-    )
+    @api.multi
+    def _valor_total_folha(self):
+        total = 0.00
+        for line in self.line_ids:
+            total += line.valor_provento - line.valor_deducao
+        self.write({'total_folha': total})
 
     employee_id_readonly = fields.Many2one(
         string=u'Funcionário',
         comodel_name='hr.employee',
         compute='set_employee_id',
     )
+
+    @api.depends('line_ids')
+    @api.model
+    def _buscar_payslip_line(self):
+        lines = []
+        for line in self.line_ids:
+            if line.valor_provento or line.valor_deducao:
+                lines.append(line.id)
+        self.line_resume_ids = lines
 
     struct_id_readonly = fields.Many2one(
         string=u'Estrutura de Salário',
@@ -63,6 +62,18 @@ class HrPayslip(models.Model):
     ano = fields.Integer(
         string=u'Ano',
         default=datetime.now().year,
+    )
+
+    total_folha = fields.Float(
+        string="Total",
+        default=0.00
+    )
+
+    line_resume_ids = fields.One2many(
+        comodel_name='hr.payslip.line',
+        inverse_name='slip_id',
+        compute=_buscar_payslip_line,
+        string="Holerite Resumo",
     )
 
     def get_attendances(self, nome, sequence, code, number_of_days,
@@ -160,6 +171,35 @@ class HrPayslip(models.Model):
                                             0.0, contract_id)]
         return result
 
+    @api.model
+    def get_inputs(self, contract_ids, date_from, date_to):
+        res = super(HrPayslip, self).get_inputs(
+            contract_ids, date_from, date_to
+        )
+        contract = self.env['hr.contract'].browse(contract_ids)
+        salario_mes_dic = {
+            'name': 'Salário Mês',
+            'code': 'SALARIO_MES',
+            'amount': contract._salario_mes(date_from, date_to),
+            'contract_id': contract.id,
+        }
+        salario_dia_dic = {
+            'name': 'Salário Dia',
+            'code': 'SALARIO_DIA',
+            'amount': contract._salario_dia(date_from, date_to),
+            'contract_id': contract.id,
+        }
+        salario_hora_dic = {
+            'name': 'Salário Hora',
+            'code': 'SALARIO_HORA',
+            'amount': contract._salario_hora(date_from, date_to),
+            'contract_id': contract.id,
+        }
+        res += [salario_mes_dic]
+        res += [salario_dia_dic]
+        res += [salario_hora_dic]
+        return res
+
     def INSS(self, BASE_INSS):
         tabela_inss_obj = self.env['l10n_br.hr.social.security.tax']
         inss = tabela_inss_obj._compute_inss(BASE_INSS, self.date_from)
@@ -191,6 +231,13 @@ class HrPayslip(models.Model):
                 return rubrica.specific_quantity * \
                     rubrica.specific_percentual/100 * \
                     rubrica.specific_amount
+
+    @api.multi
+    def _buscar_valor_salario(self, codigo):
+        for tipo_salario in self.input_line_ids:
+            if tipo_salario.code == codigo:
+                return tipo_salario.amount
+        return 0.00
 
     @api.multi
     def get_payslip_lines(self, payslip_id):
@@ -300,11 +347,16 @@ class HrPayslip(models.Model):
         categories_obj = \
             BrowsableObject(payslip.employee_id.id, categories_dict)
 
+        salario_mes = self._buscar_valor_salario('SALARIO_MES')
+        salario_dia = self._buscar_valor_salario('SALARIO_DIA')
+        salario_hora = self._buscar_valor_salario('SALARIO_HORA')
+
         baselocaldict = {
             'CALCULAR': payslip, 'BASE_INSS': 0.0, 'BASE_FGTS': 0.0,
             'BASE_IR': 0.0, 'categories': categories_obj, 'rules': rules_obj,
             'payslip': payslip_obj, 'worked_days': worked_days_obj,
-            'inputs': input_obj, 'rubrica': None
+            'inputs': input_obj, 'rubrica': None, 'SALARIO_MES': salario_mes,
+            'SALARIO_DIA': salario_dia, 'SALARIO_HORA': salario_hora,
         }
 
         for contract_ids in self:
@@ -434,3 +486,42 @@ class HrPayslip(models.Model):
                 record.date_to = record.contract_id.date_end
             else:
                 record.date_to = str(ultimo_dia_do_mes)
+
+    @api.multi
+    def compute_sheet(self):
+        super(HrPayslip, self).compute_sheet()
+        self._valor_total_folha()
+        return True
+
+
+class HrPayslipeLine(models.Model):
+    _inherit = "hr.payslip.line"
+
+    @api.model
+    def _valor_provento(self):
+        for record in self:
+            if record.salary_rule_id.category_id.code == "PROVENTO":
+                record.valor_provento = record.total
+            else:
+                record.valor_provento = 0.00
+
+    @api.model
+    def _valor_deducao(self):
+        for record in self:
+            if record.salary_rule_id.category_id.code in ["DEDUCAO"] \
+                    or record.salary_rule_id.code == "INSS" \
+                    or record.salary_rule_id.code == "IRPF":
+                record.valor_deducao = record.total
+            else:
+                record.valor_deducao = 0.00
+
+    valor_provento = fields.Float(
+        string="Provento",
+        compute=_valor_provento,
+        default=0.00,
+    )
+    valor_deducao = fields.Float(
+        string="Dedução",
+        compute=_valor_deducao,
+        default=0.00,
+    )
