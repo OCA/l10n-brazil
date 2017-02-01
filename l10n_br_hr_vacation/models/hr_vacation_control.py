@@ -46,7 +46,7 @@ class HrVacationControl(models.Model):
 
     faltas = fields.Integer(
         string=u'FALTAS',
-        default=0,
+        compute='calcular_faltas',
     )
 
     afastamentos = fields.Integer(
@@ -94,20 +94,12 @@ class HrVacationControl(models.Model):
         string=u'CONTRATO VIGENTE',
     )
 
-    #
-    # contract_id = fields.Many2one(
-    #     comodel_name ='hr.contract',
-    #     string=u'Contrato Vigente',
-    # )
-    # periodo_concessivo_inicio = fields.Date(
-    #     string=u'Início Período Concessivo',
-    # )
-    # periodo_concessivo_fim = fields.Date(
-    #     string=u'Fim Período Concessivo',
-    # )
-    # limite_gozo = fields.Date(
-    #     string=u'Data limite para gozar férias',
-    # )
-    # limite_aviso = fields.Date(
-    #     string=u'Data limite para aviso de férias',
-    # )
+    def calcular_faltas(self):
+        employee_id = self.contract_id.employee_id.id
+        leaves  = self.env['resource.calendar'].get_ocurrences(
+             employee_id, self.inicio_aquisitivo, self.fim_aquisitivo
+        )
+        self.faltas = leaves['quantidade_dias_faltas_nao_remuneradas']
+
+    def atualizar_controle_ferias(self):
+        pass
