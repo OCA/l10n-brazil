@@ -134,6 +134,15 @@ class Unidade(models.Model):
     active = fields.Boolean(compute='_compute_symbol')
 
     #
+    # Campos para usar a unidade com o campo Monetary
+    #
+    symbol = fields.Char('Symbol', size=11, compute='_compute_symbol')
+    position = fields.Char('Position', compute='_compute_symbol')
+    rounding = fields.Float(string='Rounding Factor', digits=(12, 6), default=0.01, compute='_compute_symbol')
+    decimal_places = fields.Integer(compute='_compute_symbol')
+    active = fields.Boolean(compute='_compute_symbol')
+
+    #
     # Exemplos do texto por extenso
     #
     extenso_zero = fields.Char(
