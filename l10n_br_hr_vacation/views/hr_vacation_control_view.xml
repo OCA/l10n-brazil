@@ -11,7 +11,12 @@
                         <field name="vacation_control_ids">
                             <tree string="Férias" create="false" edit="false" delete="false">
                                 <!--<field name="name"/>-->
-                                <!--<field name="inicio_aquisitivo" widget="date" string="Inicio do Período Aquisitivo"/>-->
+                                <field name="inicio_aquisitivo" widget="date"/>
+                                <field name="fim_aquisitivo" widget="date"/>
+                                <field name="inicio_concessivo" widget="date"/>
+                                <field name="fim_concessivo" widget="date"/>
+                                <field name="inicio_gozo" widget="date"/>
+                                <field name="fim_gozo" widget="date"/>
                                 <!--<field name="date_from" widget="date" string="Inicio do Período de Gozo"/>-->
                                 <!--<field name="date_to" widget="date" string="Fim Do Período De Gozo"/>-->
                                 <!--<field name="vacations_days_temp" string="Dias de Gozo"/>-->
