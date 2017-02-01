@@ -104,6 +104,8 @@
                                     <group col="4" colspan="4" attrs="{'invisible': ['!', ('regime_tributario', 'in', ('1', '2'))]}">
                                         <field name="simples_anexo_id" options="{'no_open': True, 'no_create': True}" attrs="{'required': [('regime_tributario', 'in', ('1', '2'))]}" />
                                         <field name="simples_teto_id" options="{'no_open': True, 'no_create': True}" attrs="{'required': [('regime_tributario', 'in', ('1', '2'))]}" />
+                                        <newline />
+                                        <field name="simples_anexo_servico_id" options="{'no_open': True, 'no_create': True}" attrs="{'required': [('regime_tributario', 'in', ('1', '2'))]}" />
                                     </group>
                                     <newline />
         <!--                            <field name="eh_consumidor_final" />
