@@ -37,15 +37,10 @@ class AliquotaSIMPLESAnexo(models.Model):
 
 class AliquotaSIMPLESTeto(models.Model):
     _description = 'Teto do SIMPLES Nacional'
+    _inherit = 'sped.base'
     _name = 'sped.aliquota.simples.teto'
     _rec_name = 'nome'
     _order = 'valor'
-
-    #
-    # Para todos os valores de teto de alíquota do SIMPLES, a moeda é sempre o
-    # Real BRL
-    #
-    currency_id = fields.Many2one('res.currency', 'Moeda', default=lambda self: self.env.ref('base.BRL').id)
 
     valor = fields.Monetary('Valor do teto do SIMPLES Nacional', required=True, index=True)
     nome = fields.Char('Teto do SIMPLES Nacional', size=40, index=True)
@@ -66,17 +61,18 @@ class AliquotaSIMPLESTeto(models.Model):
 
 class AliquotaSIMPLESAliquota(models.Model):
     _description = 'Alíquota do SIMPLES Nacional'
+    _inherit = 'sped.base'
     _name = 'sped.aliquota.simples.aliquota'
     _rec_name = 'al_simples'
     _order = 'anexo_id, teto_id'
 
     anexo_id = fields.Many2one('sped.aliquota.simples.anexo', 'Anexo', required=True, ondelete='cascade')
     teto_id = fields.Many2one('sped.aliquota.simples.teto', 'Teto', required=True, ondelete='cascade')
-    al_simples = fields.Float('SIMPLES', digits=(5, 2))
-    al_irpj = fields.Float('IRPJ', digits=(5, 2))
-    al_csll = fields.Float('CSLL', digits=(5, 2))
-    al_cofins = fields.Float('COFINS', digits=(5, 2))
-    al_pis = fields.Float('PIS', digits=(5, 2))
-    al_cpp = fields.Float('CPP', digits=(5, 2))
-    al_icms = fields.Float('ICMS', digits=(5, 2))
-    al_iss = fields.Float('ISS', digits=(5, 2))
+    al_simples = fields.Monetary('SIMPLES', digits=(5, 2), currency_field='currency_aliquota_id')
+    al_irpj = fields.Monetary('IRPJ', digits=(5, 2), currency_field='currency_aliquota_id')
+    al_csll = fields.Monetary('CSLL', digits=(5, 2), currency_field='currency_aliquota_id')
+    al_cofins = fields.Monetary('COFINS', digits=(5, 2), currency_field='currency_aliquota_id')
+    al_pis = fields.Monetary('PIS', digits=(5, 2), currency_field='currency_aliquota_id')
+    al_cpp = fields.Monetary('CPP', digits=(5, 2), currency_field='currency_aliquota_id')
+    al_icms = fields.Monetary('ICMS', digits=(5, 2), currency_field='currency_aliquota_id')
+    al_iss = fields.Monetary('ISS', digits=(5, 2), currency_field='currency_aliquota_id')

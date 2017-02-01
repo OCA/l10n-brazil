@@ -24,18 +24,19 @@ from ..constante_tributaria import *
 
 class AliquotaICMSST(models.Model):
     _description = 'Alíquota do ICMS ST'
+    _inherit = 'sped.base'
     _name = 'sped.aliquota.icms.st'
     _rec_name = 'descricao'
     _order = 'al_icms, md_icms, pr_icms, rd_icms, rd_mva'
 
-    al_icms = fields.Float('Alíquota', required=True, digits=(5, 2))
+    al_icms = fields.Monetary('Alíquota', required=True, digits=(5, 2), currency_field='currency_aliquota_id')
     md_icms = fields.Selection(MODALIDADE_BASE_ICMS_ST, 'Modalidade da base de cálculo', required=True,
                                default=MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO)
     pr_icms = fields.Float('Parâmetro da base de cálculo', required=True, digits=(18, 4),
                                 help='A margem de valor agregado, ou o valor da pauta/preço tabelado máximo/lista, '
                                      'de acordo com o definido na modalidade da base de cálculo.')
-    rd_icms = fields.Float('Percentual de redução da alíquota', digits=(5, 2))
-    rd_mva = fields.Float('Percentual de redução do MVA para o SIMPLES', digits=(5, 2))
+    rd_icms = fields.Monetary('Percentual de redução da alíquota', digits=(5, 2), currency_field='currency_aliquota_id')
+    rd_mva = fields.Monetary('Percentual de redução do MVA para o SIMPLES', digits=(5, 2), currency_field='currency_aliquota_id')
     descricao = fields.Char(string='Alíquota do ICMS ST', compute='_compute_descricao', store=False)
 
     @api.depends('al_icms', 'md_icms', 'pr_icms', 'rd_icms')

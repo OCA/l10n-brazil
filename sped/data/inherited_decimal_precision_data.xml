@@ -10,8 +10,13 @@
         <field name="digits">2</field>
     </record>
 
-    <record id="CASAS_DECIMAIS_QUANTIDADE" model="decimal.precision">
+    <record id="CASAS_DECIMAIS_UNITARIO" model="decimal.precision">
         <field name="name">SPED - Valor Unitário</field>
+        <field name="digits">2</field>
+    </record>
+
+    <record id="CASAS_DECIMAIS_PESO" model="decimal.precision">
+        <field name="name">SPED - Peso</field>
         <field name="digits">2</field>
     </record>
 
