@@ -17,6 +17,7 @@ try:
 except (ImportError, IOError) as err:
     _logger.debug(err)
 
+import json
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -68,6 +69,15 @@ class Unidade(models.Model):
     usa_meio = fields.Boolean(string='Usa meio?', default=False)
     usa_virgula = fields.Boolean(string='Usa vírgula?', default=True)
     subunidade_id = fields.Many2one('sped.unidade', string='Unidade decimal', ondelete='restrict')
+
+    #
+    # Campos para usar a unidade com o campo Monetary
+    #
+    symbol = fields.Char('Symbol', size=11, compute='_compute_symbol')
+    position = fields.Char('Position', compute='_compute_symbol')
+    rounding = fields.Float(string='Rounding Factor', digits=(12, 6), default=0.01, compute='_compute_symbol')
+    decimal_places = fields.Integer(compute='_compute_symbol')
+    active = fields.Boolean(compute='_compute_symbol')
 
     #
     # Exemplos do texto por extenso
@@ -297,3 +307,57 @@ class Unidade(models.Model):
         self.sync_to_uom()
 
         return res
+
+    #
+    # Para uso com o field.Monetary
+    #
+    @api.depends('codigo')
+    def _compute_symbol(self):
+        for unidade in self:
+            self.active = True
+            self.position = 'after'
+            self.symbol = ' ' + self.codigo
+
+            if self.tipo == self.TIPO_UNIDADE_UNIDADE or self.tipo == TIPO_UNIDADE_EMBALAGEM:
+                self.decimal_places = 0
+            else:
+                self.decimal_places = len(str(int(self.fator_relacao_decimal * (10 ** self.precisao_decimal))))
+
+            self.rounding = D(10) ** (self.decimal_places * -1)
+
+    @api.model
+    def get_format_currencies_js_function(self):
+        """ Returns a string that can be used to instanciate a javascript function that formats numbers as currencies.
+            That function expects the number as first parameter and the currency id as second parameter.
+            If the currency id parameter is false or undefined, the company currency is used.
+        """
+        function = ""
+        for unidade in self.search([]):
+            symbol = unidade.codigo
+            format_number_str = "openerp.web.format_value(arguments[0], {type: 'float', digits: [69,%s]}, 0.00)" % self.decimal_places
+            return_str = "return %s + '\\xA0' + %s;" % (json.dumps(symbol), format_number_str)
+            function += "if (arguments[1] === %s) { %s }" % (unidade.id, return_str)
+            if (unidade == self.env.ref('sped.UNIDADE_UNIDADE')):
+                company_currency_format = return_str
+        function = "if (arguments[1] === false || arguments[1] === undefined) {" + company_currency_format + " }" + function
+
+        print('function')
+        print(function)
+
+        return function
+
+    @api.multi
+    def round(self, amount):
+        #self.ensure_one()
+
+        amount = D(amount or 0)
+        print('vai arredondar', amount)
+
+        if self.tipo == self.TIPO_UNIDADE_UNIDADE or self.tipo == TIPO_UNIDADE_EMBALAGEM:
+            return amount.quantize(D(1))
+
+        amount = amount.quantize(D(10) * D(self.decimal_places * -1))
+
+        print('arredondou', amount)
+
+        return amount
