@@ -21,7 +21,7 @@ from ..constante_tributaria import *
 
 
 class DocumentoItem(models.Model):
-    _description = u'Item do Documento Fiscal'
+    _description = 'Item do Documento Fiscal'
     _inherit = 'sped.base'
     _name = 'sped.documento.item'
     # _order = 'emissao, modelo, data_emissao desc, serie, numero'

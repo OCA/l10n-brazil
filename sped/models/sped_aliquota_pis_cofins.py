@@ -20,54 +20,24 @@ from ..constante_tributaria import *
 
 
 class AliquotaPISCOFINS(models.Model):
-    _description = u'Alíquota do PIS-COFINS'
+    _description = 'Alíquota do PIS-COFINS'
     _inherit = 'sped.base'
     _name = 'sped.aliquota.pis.cofins'
     _rec_name = 'descricao'
     _order = 'al_pis, al_cofins'
 
-    al_pis = fields.Monetary(
-        string=u'Alíquota do PIS',
-        required=True,
-        digits=(5, 2),
-        currency_field='currency_aliquota_id',
-    )
-    al_cofins = fields.Monetary(
-        string=u'Alíquota da COFINS',
-        required=True,
-        digits=(5, 2),
-        currency_field='currency_aliquota_id',
-    )
-    md_pis_cofins = fields.Selection(
-        selection=MODALIDADE_BASE_PIS,
-        string=u'Modalidade da base de cálculo',
-        required=True,
-        default=MODALIDADE_BASE_PIS_ALIQUOTA,
-    )
-    cst_pis_cofins_entrada = fields.Selection(
-        selection=ST_PIS_ENTRADA,
-        string=u'Situação tributária nas entradas',
-        required=True,
-        default=ST_PIS_CRED_EXCL_TRIB_MERC_INTERNO,
-    )
-    cst_pis_cofins_saida = fields.Selection(
-        selection=ST_PIS_SAIDA,
-        string=u'Situação tributária nas saída',
-        required=True,
-        default=ST_PIS_TRIB_NORMAL,
-    )
-    codigo_justificativa = fields.Char(
-        string=u'Código da justificativa',
-        size=10,
-    )
-    descricao = fields.Char(
-        string=u'Alíquota do PIS-COFINS',
-        compute='_compute_descricao',
-        store=True,
-    )
+    al_pis = fields.Monetary('Alíquota do PIS', required=True, digits=(5, 2), currency_field='currency_aliquota_id')
+    al_cofins = fields.Monetary('Alíquota da COFINS', required=True, digits=(5, 2), currency_field='currency_aliquota_id')
+    md_pis_cofins = fields.Selection(MODALIDADE_BASE_PIS, 'Modalidade da base de cálculo', required=True,
+                                     default=MODALIDADE_BASE_PIS_ALIQUOTA)
+    cst_pis_cofins_entrada = fields.Selection(ST_PIS_ENTRADA, 'Situação tributária nas entradas', required=True,
+                                              default=ST_PIS_CRED_EXCL_TRIB_MERC_INTERNO)
+    cst_pis_cofins_saida = fields.Selection(ST_PIS_SAIDA, 'Situação tributária nas saída', required=True,
+                                            default=ST_PIS_TRIB_NORMAL)
+    codigo_justificativa = fields.Char('Código da justificativa', size=10)
+    descricao = fields.Char(string='Alíquota do PIS-COFINS', compute='_compute_descricao', store=True)
 
-    @api.depends('al_pis', 'al_cofins', 'md_pis_cofins',
-                 'cst_pis_cofins_entrada', 'cst_pis_cofins_saida',
+    @api.depends('al_pis', 'al_cofins', 'md_pis_cofins', 'cst_pis_cofins_entrada', 'cst_pis_cofins_saida',
                  'codigo_justificativa')
     def _compute_descricao(self):
         for al_pis_cofins in self:
