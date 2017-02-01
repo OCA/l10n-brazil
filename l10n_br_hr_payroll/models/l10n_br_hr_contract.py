@@ -2,18 +2,11 @@
 # Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-<<<<<<< HEAD
-from openerp import api, fields, models
-=======
 from openerp import api, fields, models, _
 from openerp.exceptions import Warning as UserError
 
 STATES = [('draft', 'Rascunho'),
           ('applied', 'Aplicada')]
-<<<<<<< HEAD
->>>>>>> adbf3fb... Alteracoes contratuais atualizando contrato atual e mantendo historico
-=======
->>>>>>> adbf3fb... Alteracoes contratuais atualizando contrato atual e mantendo historico
 
 
 class HrContractChangeReason(models.Model):
