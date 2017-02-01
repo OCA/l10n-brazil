@@ -96,15 +96,20 @@ class HrPayslip(models.Model):
                 self.env['resource.calendar'].get_quantidade_dias_ferias(
                     hr_contract.employee_id.id, date_from, date_to)
 
-            result += [self.get_attendances(u'Quantidade dias em Férias',
-                                            6, u'FERIAS',
-                                            quantidade_dias_ferias, 0.0,
-                                            contract_id)]
+            result += [
+                self.get_attendances(
+                    u'Quantidade dias em Férias', 6, u'FERIAS',
+                    quantidade_dias_ferias, 0.0, contract_id
+                )
+            ]
 
-            result += [self.get_attendances(u'Quantidade dias Abono Pecuniario',
-                                7, u'ABONO_PECUNIARIO',
-                                quantidade_dias_abono, 0.0,
-                                contract_id)]
+            result += [
+                self.get_attendances(
+                    u'Quantidade dias Abono Pecuniario', 7,
+                    u'ABONO_PECUNIARIO', quantidade_dias_abono,
+                    0.0, contract_id
+                )
+            ]
 
             # get Dias Trabalhados
             quantidade_dias_trabalhados = \

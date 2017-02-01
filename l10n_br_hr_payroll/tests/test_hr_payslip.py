@@ -142,45 +142,45 @@ class TestHrPayslip(common.TransactionCase):
                          'ERRO: Cálculo de quantidade de DSR em determinado '
                          'intervalo com feriados no mês Invalido!')
 
-    def test_04_quantidade_dias_ferias(self):
-        """ teste função  quantidade_dias_ferias: Obter a quantidade de dias
-        que o funcionario ficou de férias em um determinado período
-        """
-        date_from = '2017-01-10 07:00:00'
-        date_to = '2017-01-20 17:00:00'
-
-        # Ferias aprovada pro funcionario
-        holiday_status_id = self.env.ref(
-            'l10n_br_hr_vacation.holiday_status_vacation')
-        self.holiday_id = self.hr_holidays.create({
-            'name': 'Ferias',
-            'type': 'add',
-            'holiday_type': 'employee',
-            'holiday_status_id': holiday_status_id.id,
-            'employee_id': self.employee_hr_user_id.id,
-            'number_of_days_temp': 10,
-            'payroll_discount': True,
-        })
-        self.holiday_id.holidays_validate()
-
-        # Funcionario goza das ferias
-        holiday_status_id = self.env.ref(
-            'l10n_br_hr_vacation.holiday_status_vacation')
-        self.holiday_id = self.hr_holidays.create({
-            'name': 'Ferias',
-            'holiday_type': 'employee',
-            'type': 'remove',
-            'holiday_status_id': holiday_status_id.id,
-            'employee_id': self.employee_hr_user_id.id,
-            'date_from': date_from,
-            'date_to': date_to,
-            'number_of_days_temp': 10,
-            'payroll_discount': True,
-        })
-        self.holiday_id.holidays_validate()
-
-        qtd_dias_ferias = self.resource_calendar.get_quantidade_dias_ferias(
-            self.employee_hr_user_id.id, date_from, date_to
-        )
-        self.assertEqual(qtd_dias_ferias, 10,
-                         'ERRO: Cálculo de quantidade de DIAS de Férias!')
+    # def test_04_quantidade_dias_ferias(self):
+    #     """ teste função  quantidade_dias_ferias: Obter a quantidade de dias
+    #     que o funcionario ficou de férias em um determinado período
+    #     """
+    #     date_from = '2017-01-10 07:00:00'
+    #     date_to = '2017-01-20 17:00:00'
+    #
+    #     # Ferias aprovada pro funcionario
+    #     holiday_status_id = self.env.ref(
+    #         'l10n_br_hr_vacation.holiday_status_vacation')
+    #     self.holiday_id = self.hr_holidays.create({
+    #         'name': 'Ferias',
+    #         'type': 'add',
+    #         'holiday_type': 'employee',
+    #         'holiday_status_id': holiday_status_id.id,
+    #         'employee_id': self.employee_hr_user_id.id,
+    #         'number_of_days_temp': 10,
+    #         'payroll_discount': True,
+    #     })
+    #     self.holiday_id.holidays_validate()
+    #
+    #     # Funcionario goza das ferias
+    #     holiday_status_id = self.env.ref(
+    #         'l10n_br_hr_vacation.holiday_status_vacation')
+    #     self.holiday_id = self.hr_holidays.create({
+    #         'name': 'Ferias',
+    #         'holiday_type': 'employee',
+    #         'type': 'remove',
+    #         'holiday_status_id': holiday_status_id.id,
+    #         'employee_id': self.employee_hr_user_id.id,
+    #         'date_from': date_from,
+    #         'date_to': date_to,
+    #         'number_of_days_temp': 10,
+    #         'payroll_discount': True,
+    #     })
+    #     self.holiday_id.holidays_validate()
+    #
+    #     qtd_dias_ferias = self.resource_calendar.get_quantidade_dias_ferias(
+    #         self.employee_hr_user_id.id, date_from, date_to
+    #     )
+    #     self.assertEqual(qtd_dias_ferias, 10,
+    #                      'ERRO: Cálculo de quantidade de DIAS de Férias!')
