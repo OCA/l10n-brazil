@@ -24,11 +24,12 @@ from ..constante_tributaria import *
 
 class AliquotaIPI(models.Model):
     _description = 'Alíquota do IPI'
+    _inherit = 'sped.base'
     _name = 'sped.aliquota.ipi'
     _rec_name = 'descricao'
     _order = 'al_ipi'
 
-    al_ipi = fields.Float('Alíquota', required=True, digits=(5, 2))
+    al_ipi = fields.Monetary('Alíquota', required=True, digits=(5, 2), currency_field='currency_aliquota_id')
     md_ipi = fields.Selection(MODALIDADE_BASE_IPI, 'Modalidade da base de cálculo', required=True,
                               default=MODALIDADE_BASE_IPI_ALIQUOTA)
     cst_ipi_entrada = fields.Selection(ST_IPI_ENTRADA, 'Situação tributária nas entradas', required=True,

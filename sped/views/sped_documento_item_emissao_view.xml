@@ -21,6 +21,8 @@
                 <field name="protocolo_id" invisible="1"/>
                 <field name="operacao_item_id" invisible="1"/>
                 <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
                 <!--                <field name="empresa_id" invisible="0"/>
                 <field name="participante_id" invisible="0"/>
                 <field name="operacao_id" invisible="0"/> -->
@@ -110,7 +112,7 @@
                                     <field name="fator_conversao_unidade_tributacao" string="Fator de conversão" />
                                     <newline />
                                     <field name="quantidade_tributacao" string="Quantidade" />
-                                    <field name="unidade_tributacao_readonly_id" string="Unidade" options="{'no_open': True, 'no_create': True}" />
+<!--                                     <field name="unidade_tributacao_readonly_id" string="Unidade" options="{'no_open': True, 'no_create': True}" /> -->
                                     <newline />
                                     <field name="vr_unitario_tributacao" string="Valor unitário" />
                                     <field name="vr_produtos_tributacao_readonly" string="Valor do item" />
@@ -326,6 +328,9 @@
                 <field name="regime_tributario" invisible="1"/>
                 <field name="modelo" invisible="1"/>
                 <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="unidade_id" invisible="1"/>
                 <field name="produto_id"  />
                 <field name="cfop_id"  />
                 <field name="quantidade"  />

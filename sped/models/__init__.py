@@ -8,6 +8,16 @@
 from __future__ import division, print_function, unicode_literals
 
 #
+# Cópia de views
+#
+from inherited_ir_ui_view import *
+
+#
+# Model Base
+#
+from sped_base import *
+
+#
 # Tabelas Geográficas
 #
 from sped_pais import *
@@ -68,3 +78,5 @@ from sped_operacao_item import *
 from sped_veiculo import *
 from sped_documento import *
 from sped_documento_item import *
+from sped_documento_volume import *
+from sped_documento_duplicata import *

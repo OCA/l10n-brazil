@@ -25,6 +25,8 @@
                         <page string="Alíquotas por NCM">
                             <field name="ncm_ids" nolabel="1" colspan="4">
                                 <tree string="Alíquotas por NCM">
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="currency_aliquota_id" invisible="1"/>
                                     <field name="ncm_id" options="{'no_create': True, 'no_open': True}" />
                                     <field name="al_ibpt_nacional" />
                                     <field name="al_ibpt_internacional" />
@@ -35,6 +37,8 @@
                         <page string="Alíquotas por NBS">
                             <field name="nbs_ids" nolabel="1" colspan="4">
                                 <tree string="Alíquotas por NBS">
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="currency_aliquota_id" invisible="1"/>
                                     <field name="nbs_id" options="{'no_create': True, 'no_open': True}" />
                                     <field name="al_ibpt_nacional" />
                                     <field name="al_ibpt_internacional" />
@@ -45,6 +49,8 @@
                         <page string="Alíquotas por Serviço">
                             <field name="servico_ids" nolabel="1" colspan="4">
                                 <tree string="Alíquotas por Serviço">
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="currency_aliquota_id" invisible="1"/>
                                     <field name="servico_id" options="{'no_create': True, 'no_open': True}" />
                                     <field name="al_ibpt_nacional" />
                                     <field name="al_ibpt_internacional" />
