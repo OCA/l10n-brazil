@@ -24,6 +24,7 @@ from ..constante_tributaria import *
 
 class Documento(models.Model):
     _description = 'Documento Fiscal'
+    _inherit = ['sped.base', 'mail.thread']
     _name = 'sped.documento'
     _order = 'emissao, modelo, data_emissao desc, serie, numero'
     _rec_name = 'numero'
@@ -68,25 +69,18 @@ class Documento(models.Model):
     infcomplementar = fields.Text('Informações complementares')
     deduz_retencao = fields.Boolean('Deduz retenção do total da NF?', default=True)
     pis_cofins_retido = fields.Boolean('PIS-COFINS retidos?')
-    al_pis_retido = fields.Float('Alíquota do PIS', default=0.65, digits=(5, 2))
-    al_cofins_retido = fields.Float('Alíquota da COFINS', default=3, digits=(5, 2))
+    al_pis_retido = fields.Monetary('Alíquota do PIS', default=0.65, digits=(5, 2), currency_field='currency_aliquota_id')
+    al_cofins_retido = fields.Monetary('Alíquota da COFINS', default=3, digits=(5, 2), currency_field='currency_aliquota_id')
     csll_retido = fields.Boolean('CSLL retido?')
-    al_csll = fields.Float('Alíquota da CSLL', default=1, digits=(5, 2))
-
-    #
-    # Para todos os valores num documento fiscal, a moeda é SEMPRE o
-    # Real BRL
-    #
-    currency_id = fields.Many2one('res.currency', 'Moeda', default=lambda self: self.env.ref('base.BRL').id)
-
+    al_csll = fields.Monetary('Alíquota da CSLL', default=1, digits=(5, 2), currency_field='currency_aliquota_id')
     limite_retencao_pis_cofins_csll = fields.Monetary('Obedecer limite de faturamento para retenção de',
                                                       default=LIMITE_RETENCAO_PIS_COFINS_CSLL)
     irrf_retido = fields.Boolean('IR retido?')
     irrf_retido_ignora_limite = fields.Boolean('IR retido ignora limite de R$ 10,00?')
-    al_irrf = fields.Float('Alíquota do IR', default=1, digits=(5, 2))
+    al_irrf = fields.Monetary('Alíquota do IR', default=1, digits=(5, 2), currency_field='currency_aliquota_id')
     inss_retido = fields.Boolean('INSS retido?', index=True)
-    al_inss_retido = fields.Float('Alíquota do INSS', digits=(5, 2))
-    al_inss = fields.Float(u'Alíquota do INSS', digits=(5, 2))
+    al_inss_retido = fields.Monetary('Alíquota do INSS', digits=(5, 2), currency_field='currency_aliquota_id')
+    al_inss = fields.Monetary(u'Alíquota do INSS', digits=(5, 2), currency_field='currency_aliquota_id')
     cnae_id = fields.Many2one('sped.cnae', 'CNAE')
     natureza_tributacao_nfse = fields.Selection(NATUREZA_TRIBUTACAO_NFSE, 'Natureza da tributação')
     servico_id = fields.Many2one('sped.servico', 'Serviço')
@@ -125,15 +119,22 @@ class Documento(models.Model):
                                                  related='participante_id.contribuinte', readonly=True)
     participante_ie = fields.Char('Inscrição estadual', size=18, related='participante_id.ie', readonly=True)
 
+    participante_eh_orgao_publico = fields.Boolean('É órgão público?', related='participante_id.eh_orgao_publico', readonly=True)
+
     #
     # Chave e validação da chave
     #
     chave = fields.Char('Chave', size=44)
 
     #
+    # Duplicatas e pagamentos
+    #
+    duplicata_ids = fields.One2many('sped.documento.duplicata', 'documento_id', 'Duplicatas')
+
+    #
     # Transporte
     #
-    transportadora_id = fields.Many2one('res.partner', 'Transportadora', ondelete='restrict',
+    transportadora_id = fields.Many2one('sped.participante', 'Transportadora', ondelete='restrict',
                                         domain=[('cnpj_cpf', '!=', False)])
     veiculo_id = fields.Many2one('sped.veiculo', 'Veículo', ondelete='restrict')
     reboque_1_id = fields.Many2one('sped.veiculo', 'Reboque 1', ondelete='restrict')
@@ -141,6 +142,21 @@ class Documento(models.Model):
     reboque_3_id = fields.Many2one('sped.veiculo', 'Reboque 3', ondelete='restrict')
     reboque_4_id = fields.Many2one('sped.veiculo', 'Reboque 4', ondelete='restrict')
     reboque_5_id = fields.Many2one('sped.veiculo', 'Reboque 5', ondelete='restrict')
+
+    volume_ids = fields.One2many('sped.documento.volume', 'documento_id', 'Volumes')
+
+    #
+    # Exportação
+    #
+    exportacao_estado_embarque_id = fields.Many2one('sped.estado', 'Estado do embarque', ondelete='restrict')
+    exportacao_local_embarque = fields.Char('Local do embarque', size=60)
+
+    #
+    # Compras públicas
+    #
+    compra_nota_empenho = fields.Char('Identificação da nota de empenho (compra pública)', size=17)
+    compra_pedido = fields.Char('Pedido (compra pública)', size=60)
+    compra_contrato = fields.Char('Contrato (compra pública)', size=60)
 
     #
     # Totais dos itens
@@ -255,6 +271,11 @@ class Documento(models.Model):
             documento.data_entrada_saida = str(data_hora_entrada_saida)[:10]
             documento.hora_entrada_saida = str(data_hora_entrada_saida)[11:19]
 
+    def _compute_currency_id(self):
+        for documento in self:
+            documento.currency_id = self.env.ref('base.BRL').id
+            documento.currency_aliquota_id = self.env.ref('sped.SIMBOLO_ALIQUOTA').id
+
     #@api.depends(
             #'vr_produtos', 'vr_produtos_tributacao',
             #'vr_frete', 'vr_seguro', 'vr_desconto', 'vr_outras',
@@ -274,6 +295,7 @@ class Documento(models.Model):
             #'bc_inss_retido', 'vr_inss_retido',
             #'vr_custo_comercial'
         #)
+    @api.depends('item_ids')
     def _compute_soma_itens(self):
         CAMPOS_SOMA_ITENS = [
             'vr_produtos', 'vr_produtos_tributacao',
@@ -303,6 +325,7 @@ class Documento(models.Model):
                 for campo in CAMPOS_SOMA_ITENS:
                     dados[campo] += getattr(item, campo, D(0))
 
+            print(dados)
             documento.update(dados)
 
     @api.depends('item_ids')

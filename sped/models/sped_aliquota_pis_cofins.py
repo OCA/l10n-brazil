@@ -24,12 +24,13 @@ from ..constante_tributaria import *
 
 class AliquotaPISCOFINS(models.Model):
     _description = 'Alíquota do PIS-COFINS'
+    _inherit = 'sped.base'
     _name = 'sped.aliquota.pis.cofins'
     _rec_name = 'descricao'
     _order = 'al_pis, al_cofins'
 
-    al_pis = fields.Float('Alíquota do PIS', required=True, digits=(5, 2))
-    al_cofins = fields.Float('Alíquota da COFINS', required=True, digits=(5, 2))
+    al_pis = fields.Monetary('Alíquota do PIS', required=True, digits=(5, 2), currency_field='currency_aliquota_id')
+    al_cofins = fields.Monetary('Alíquota da COFINS', required=True, digits=(5, 2), currency_field='currency_aliquota_id')
     md_pis_cofins = fields.Selection(MODALIDADE_BASE_PIS, 'Modalidade da base de cálculo', required=True,
                                      default=MODALIDADE_BASE_PIS_ALIQUOTA)
     cst_pis_cofins_entrada = fields.Selection(ST_PIS_ENTRADA, 'Situação tributária nas entradas', required=True,

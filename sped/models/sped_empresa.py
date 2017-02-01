@@ -41,11 +41,11 @@ class Empresa(models.Model):
     # Para o faturamento
     #
     protocolo_id = fields.Many2one('sped.protocolo.icms', string='Protocolo padrão', ondelete='restrict', domain=[('tipo', '=', 'P')])
-    simples_anexo_id = fields.Many2one('sped.aliquota.simples.anexo', string='Anexo do SIMPLES', ondelete='restrict')
+    simples_anexo_id = fields.Many2one('sped.aliquota.simples.anexo', string='Anexo do SIMPLES (produtos)', ondelete='restrict')
     simples_teto_id = fields.Many2one('sped.aliquota.simples.teto', string='Teto do SIMPLES', ondelete='restrict')
-    simples_aliquota_id = fields.Many2one('sped.aliquota.simples.aliquota', string='Alíquotas do SIMPLES', ondelete='restrict', compute='_compute_simples_aliquota_id')
-    simples_anexo_servico_id = fields.Many2one('sped.aliquota.simples.anexo', string='Anexo do SIMPLES (produtos)', ondelete='restrict')
-    simples_aliquota_servico_id = fields.Many2one('sped.aliquota.simples.aliquota', string='Alíquotas do SIMPLES (serviços)', ondelete='restrict', compute='_compute_simples_aliquota_id')
+    simples_aliquota_id = fields.Many2one('sped.aliquota.simples.aliquota', string='Alíquota do SIMPLES (produtos)', ondelete='restrict', compute='_compute_simples_aliquota_id')
+    simples_anexo_servico_id = fields.Many2one('sped.aliquota.simples.anexo', string='Anexo do SIMPLES (serviços)', ondelete='restrict')
+    simples_aliquota_servico_id = fields.Many2one('sped.aliquota.simples.aliquota', string='Alíquota do SIMPLES (serviços)', ondelete='restrict', compute='_compute_simples_aliquota_id')
 
     al_pis_cofins_id = fields.Many2one('sped.aliquota.pis.cofins', 'Alíquota padrão do PIS-COFINS', ondelete='restrict')
     operacao_produto_id = fields.Many2one('sped.operacao', 'Operação padrão para venda', ondelete='restrict', domain=[('modelo', 'in', ('55', '65', '2D')), ('emissao', '=', '0')])
