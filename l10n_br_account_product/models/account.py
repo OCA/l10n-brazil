@@ -168,7 +168,7 @@ class AccountTax(models.Model):
         specific_ipi = [tx for tx in result['taxes'] if tx['domain'] == 'ipi']
 
         if id_dest == '3':
-            base_ipi = total_base + ii_value
+            base_ipi = total_base
         else:
             base_ipi = result['total']
 
@@ -186,7 +186,7 @@ class AccountTax(models.Model):
                            if tx['domain'] == 'cofins']
 
         if id_dest == '3':
-            base_pis_cofins = total_base
+            base_pis_cofins = total_base - ii_value
         else:
             base_pis_cofins = result['total']
 
