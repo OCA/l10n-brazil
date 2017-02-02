@@ -13,6 +13,9 @@
             <field name="holiday_status_id" position="before">
                 <field name="tipo" invisible="1"/>
             </field>
+            <field name="holiday_type" position="replace">
+                <field name="holiday_type" invisible="1"/>
+            </field>
             <field name="notes" position="before">
                 <field name="payroll_discount"  invisible="1" />
                 <h2><field name="message" readonly="1" /></h2>
@@ -27,7 +30,7 @@
             id="l10n_br_hr_holiday_action_ocorrencias"
             name="Ocorrências"
             res_model="hr.holidays"
-            view_mode="calendar"
+            view_mode="calendar,form"
             context="{'default_tipo':'ocorrencias', 'default_type': 'remove',
                 'search_default_my_leaves':1 }"/>
 
@@ -38,6 +41,10 @@
             parent="hr_holidays.menu_open_ask_holidays"
             groups="base.group_hr_manager"
             sequence="6"/>
+
+    <record id="hr_holidays.view_holiday_new_calendar" model="ir.ui.view">
+        <field name="name">Evento</field>
+    </record>
 
 </data>
 </openerp>
