@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-02 17:30+0000\n"
-"PO-Revision-Date: 2017-01-02 17:30+0000\n"
+"POT-Creation-Date: 2017-02-02 21:44+0000\n"
+"PO-Revision-Date: 2017-02-02 21:44+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -56,7 +56,7 @@ msgid "Alistamento Militar"
 msgstr "Alistamento Militar"
 
 #. module: l10n_br_hr_holiday
-#: code:addons/l10n_br_hr_holiday/models/hr_holidays.py:33
+#: code:addons/l10n_br_hr_holiday/models/hr_holidays.py:49
 #, python-format
 msgid "Atestado Obrigatório!"
 msgstr "Atestado Obrigatório!"
@@ -112,6 +112,12 @@ msgid "End of year recess"
 msgstr "Recesso de final de ano"
 
 #. module: l10n_br_hr_holiday
+#: selection:hr.holidays,tipo:0
+#: selection:hr.holidays.status,tipo:0
+msgid "Férias"
+msgstr "Férias"
+
+#. module: l10n_br_hr_holiday
 #: field:hr.holidays,attachment_ids:0
 msgid "Justification"
 msgstr "Comprovante"
@@ -124,7 +130,7 @@ msgstr "Folga"
 #. module: l10n_br_hr_holiday
 #: model:ir.model,name:l10n_br_hr_holiday.model_hr_holidays_status
 msgid "Leave Type"
-msgstr "Tipo de falta"
+msgstr "Tipo de evento"
 
 #. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_Legal_adoption
@@ -169,22 +175,51 @@ msgid "Need attachment"
 msgstr "Comprovante obrigatório"
 
 #. module: l10n_br_hr_holiday
-#: code:addons/l10n_br_hr_holiday/models/hr_holidays.py:42
-#: code:addons/l10n_br_hr_holiday/models/hr_holidays.py:46
+#: code:addons/l10n_br_hr_holiday/models/hr_holidays.py:58
+#: code:addons/l10n_br_hr_holiday/models/hr_holidays.py:62
 #, python-format
 msgid "Number of days exceeded!"
 msgstr "Quantidade de dias excedido!"
 
 #. module: l10n_br_hr_holiday
-#: code:addons/l10n_br_hr_holiday/models/hr_holidays.py:52
+#: code:addons/l10n_br_hr_holiday/models/hr_holidays.py:68
 #, python-format
 msgid "Number of hours exceeded!"
 msgstr "Quantidade de horas excedidas!"
 
 #. module: l10n_br_hr_holiday
+#: model:ir.ui.menu,name:l10n_br_hr_holiday.menu_ocorrencias
+msgid "Ocorrencias"
+msgstr "Evento"
+
+#. module: l10n_br_hr_holiday
+#: selection:hr.holidays,tipo:0
+#: selection:hr.holidays.status,tipo:0
+#: model:ir.actions.act_window,name:l10n_br_hr_holiday.l10n_br_hr_holiday_action_ocorrencias
+msgid "Ocorrências"
+msgstr "Evento"
+
+#. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_paternity_leave
 msgid "Paternity leave"
 msgstr "Licença paternidade"
+
+#. module: l10n_br_hr_holiday
+#: field:hr.holidays,payroll_discount:0
+#: field:hr.holidays.status,payroll_discount:0
+msgid "Payroll Discount"
+msgstr "Payroll Discount"
+
+#. module: l10n_br_hr_holiday
+#: model:ir.model,name:l10n_br_hr_holiday.model_resource_calendar
+msgid "Resource Calendar"
+msgstr "Calendário de Recursos"
+
+#. module: l10n_br_hr_holiday
+#: field:hr.holidays,tipo:0
+#: field:hr.holidays.status,tipo:0
+msgid "Tipo"
+msgstr "Tipo"
 
 #. module: l10n_br_hr_holiday
 #: field:hr.holidays.status,type_day:0
