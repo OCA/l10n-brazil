@@ -25,22 +25,22 @@ class HrContract(models.Model):
 
     @api.multi
     def _salario_dia(self, data_inicio, data_fim):
-        if data_inicio >= self.date_start and (
-                        data_fim <= self.date_end or not self.date_end):
+        if data_inicio >= self.date_start and \
+                (data_fim <= self.date_end or not self.date_end):
             return self._buscar_salario_vigente(data_inicio, data_fim)/30
 
     @api.multi
     def _salario_hora(self, data_inicio, data_fim):
-        if data_inicio >= self.date_start and (
-                        data_fim <= self.date_end or not self.date_end):
+        if data_inicio >= self.date_start and \
+                (data_fim <= self.date_end or not self.date_end):
             return self._buscar_salario_vigente(data_inicio, data_fim)/(
                 220 if not self.monthly_hours else self.monthly_hours
             )
 
     @api.multi
     def _salario_mes(self, data_inicio, data_fim):
-        if data_inicio >= self.date_start and (
-                        data_fim <= self.date_end or not self.date_end):
+        if data_inicio >= self.date_start and \
+                (data_fim <= self.date_end or not self.date_end):
             return self._buscar_salario_vigente(data_inicio, data_fim)
 
     specific_rule_ids = fields.One2many(

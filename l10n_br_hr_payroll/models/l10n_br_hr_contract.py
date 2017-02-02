@@ -2,7 +2,7 @@
 # Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models, _
+from openerp import api, fields, models
 from openerp.exceptions import Warning as UserError
 
 STATES = [('draft', 'Rascunho'),
@@ -180,7 +180,8 @@ class HrContractChange(models.Model):
                         'union': contract.union,
                         'union_cnpj': contract.union_cnpj,
                         'union_entity_code': contract.union_entity_code,
-                        'discount_union_contribution': contract.discount_union_contribution,
+                        'discount_union_contribution':
+                            contract.discount_union_contribution,
                         'month_base_date': contract.month_base_date,
                         'struct_id': change.struct_id.id,
                     }
