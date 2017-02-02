@@ -18,9 +18,11 @@ class HrContract(models.Model):
     @api.model
     def create(self, vals):
         inicio_aquisitivo = vals['date_start']
-        fim_aquisitivo = fields.Date.from_string(inicio_aquisitivo) + relativedelta(years=1) + relativedelta(days=-1)
+        fim_aquisitivo = fields.Date.from_string(inicio_aquisitivo) + \
+                         relativedelta(years=1) + relativedelta(days=-1)
         inicio_concessivo =  fim_aquisitivo + relativedelta(days=1)
-        fim_concessivo = inicio_concessivo + relativedelta(years=1) + relativedelta(days=-1)
+        fim_concessivo = inicio_concessivo + relativedelta(years=1) + \
+                         relativedelta(days=-1)
         controle_ferias = self.env['hr.vacation.control'].create({
             'inicio_aquisitivo' : inicio_aquisitivo,
             'fim_aquisitivo' : fim_aquisitivo,

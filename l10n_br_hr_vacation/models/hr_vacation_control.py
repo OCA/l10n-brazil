@@ -56,16 +56,17 @@ class HrVacationControl(models.Model):
 
     dias = fields.Integer(
         string=u'Dias',
-        default=0,
+        default=30,
     )
 
     saldo = fields.Float(
         string=u'Saldo',
+        compute='calcular_saldo_dias',
     )
 
     avos = fields.Integer(
         string=u'Avos',
-        default=0,
+        compute='calcular_avos',
     )
 
     proporcional = fields.Boolean(
@@ -82,7 +83,6 @@ class HrVacationControl(models.Model):
 
     dias_pagamento_dobro = fields.Integer(
         string=u'Dias Pagamento em Dobro',
-        default=0,
     )
 
     perdido_afastamento = fields.Boolean(
@@ -101,5 +101,14 @@ class HrVacationControl(models.Model):
         )
         self.faltas = leaves['quantidade_dias_faltas_nao_remuneradas']
 
-    def atualizar_controle_ferias(self):
-        pass
+    def calcular_saldo_dias(self):
+        employee_id = self.contract_id.employee_id.id
+        quantidade_dias_ferias, quantidade_dias_abono = \
+                self.env['resource.calendar'].get_quantidade_dias_ferias(
+                    employee_id, self.inicio_concessivo, self.fim_concessivo)
+        self.saldo = 30 - quantidade_dias_ferias - quantidade_dias_abono
+
+    def calcular_avos(self):
+        date_begin = fields.Datetime.from_string(self.inicio_aquisitivo)
+        date_end = fields.Datetime.from_string(fields.Date.today())
+        self.avos = (date_end - date_begin).days / 30

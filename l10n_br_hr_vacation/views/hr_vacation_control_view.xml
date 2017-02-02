@@ -9,24 +9,16 @@
                 <xpath expr="//page[@string='Work Permit']" position="after">
                     <page string="Controle de Férias">
                         <field name="vacation_control_ids">
-                            <tree string="Férias" create="false" edit="false" delete="false">
-                                <!--<field name="name"/>-->
+                            <tree string="Férias">
+                            <!--<tree string="Férias" create="false" edit="false" delete="false">-->
                                 <field name="inicio_aquisitivo" widget="date"/>
                                 <field name="fim_aquisitivo" widget="date"/>
                                 <field name="inicio_concessivo" widget="date"/>
                                 <field name="fim_concessivo" widget="date"/>
                                 <field name="inicio_gozo" widget="date"/>
                                 <field name="fim_gozo" widget="date"/>
-                                <!--<field name="date_from" widget="date" string="Inicio do Período de Gozo"/>-->
-                                <!--<field name="date_to" widget="date" string="Fim Do Período De Gozo"/>-->
-                                <!--<field name="vacations_days_temp" string="Dias de Gozo"/>-->
-                                <!--<field name="sold_vacations_days_temp" string="Dias de Abono Pecuniario"/>-->
-
-
-                                <!--<field name="limite_gozo"/>-->
-                                <!--<field name="limite_aviso"/>-->
-                                <!--<field name="number_of_days" widget="integer" string="Total de dias"/>-->
-                                <!--<field name="state" invisible="1" />-->
+                                <field name="faltas" />
+                                <field name="avos" />
                             </tree>
                         </field>
                     </page>
