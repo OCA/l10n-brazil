@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, models, fields
+from dateutil.relativedelta import relativedelta
 
 
 class HrVacationControl(models.Model):
@@ -79,10 +80,12 @@ class HrVacationControl(models.Model):
 
     pagamento_dobro = fields.Boolean(
         string=u'Pagamento em Dobro?',
+        compute='calcular_pagamento_dobro',
     )
 
     dias_pagamento_dobro = fields.Integer(
         string=u'Dias Pagamento em Dobro',
+        compute='calcular_dias_pagamento_dobro',
     )
 
     perdido_afastamento = fields.Boolean(
@@ -127,3 +130,17 @@ class HrVacationControl(models.Model):
 
     def calcular_dias(self):
         self.dias = self.dias_de_direito()
+
+    def calcular_dias_pagamento_dobro(self):
+        dias_pagamento_dobro = 0
+        if self.fim_gozo > self.fim_concessivo:
+            dias_pagamento_dobro = (fields.Date.from_string(self.fim_gozo) -
+                                    fields.Date.from_string(
+                                        self.fim_concessivo)).days
+        if dias_pagamento_dobro > 30:
+            dias_pagamento_dobro = 30
+        self.dias_pagamento_dobro = dias_pagamento_dobro
+
+    def calcular_pagamento_dobro(self):
+        pagamento_dobro = self.dias_pagamento_dobro > 0
+        self.pagamento_dobro = pagamento_dobro
