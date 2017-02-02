@@ -101,14 +101,23 @@ class HrVacationControl(models.Model):
         )
         self.faltas = leaves['quantidade_dias_faltas_nao_remuneradas']
 
-    def calcular_saldo_dias(self):
-        employee_id = self.contract_id.employee_id.id
-        quantidade_dias_ferias, quantidade_dias_abono = \
-                self.env['resource.calendar'].get_quantidade_dias_ferias(
-                    employee_id, self.inicio_concessivo, self.fim_concessivo)
-        self.saldo = 30 - quantidade_dias_ferias - quantidade_dias_abono
+    def dias_de_direito(self):
+        dias_de_direito = 30
+        if self.faltas > 5 : dias_de_direito = 24
+        if self.faltas > 14 : dias_de_direito = 18
+        if self.faltas > 23 : dias_de_direito = 12
+        return dias_de_direito
 
     def calcular_avos(self):
         date_begin = fields.Datetime.from_string(self.inicio_aquisitivo)
         date_end = fields.Datetime.from_string(fields.Date.today())
-        self.avos = (date_end - date_begin).days / 30
+        avos_decimal = (date_end - date_begin).days / 30.0
+        decimal = avos_decimal - int(avos_decimal)
+
+        if decimal > 0.5:
+            self.avos = int(avos_decimal) + 1
+        else:
+            self.avos = int(avos_decimal)
+
+    def calcular_saldo_dias(self):
+        self.saldo = self.dias_de_direito() / 12 * self.avos
