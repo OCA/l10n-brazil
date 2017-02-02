@@ -10,15 +10,25 @@
                     <page string="Controle de Férias">
                         <field name="vacation_control_ids">
                             <tree string="Férias">
-                            <!--<tree string="Férias" create="false" edit="false" delete="false">-->
                                 <field name="inicio_aquisitivo" widget="date"/>
                                 <field name="fim_aquisitivo" widget="date"/>
                                 <field name="inicio_concessivo" widget="date"/>
                                 <field name="fim_concessivo" widget="date"/>
                                 <field name="inicio_gozo" widget="date"/>
                                 <field name="fim_gozo" widget="date"/>
-                                <field name="faltas" />
-                                <field name="avos" />
+                                <field name="data_aviso" widget="date"/>
+                                <field name="limite_gozo" widget="date"/>
+                                <field name="limite_aviso" widget="date"/>
+                                <field name="faltas"/>
+                                <field name="afastamentos"/>
+                                <field name="dias"/>
+                                <field name="saldo"/>
+                                <field name="avos"/>
+                                <field name="proporcional"/>
+                                <field name="vencida"/>
+                                <field name="pagamento_dobro"/>
+                                <field name="dias_pagamento_dobro"/>
+                                <field name="perdido_afastamento"/>
                             </tree>
                         </field>
                     </page>

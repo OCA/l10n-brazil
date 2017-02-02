@@ -45,7 +45,7 @@ class HrVacationControl(models.Model):
     )
 
     faltas = fields.Integer(
-        string=u'FALTAS',
+        string=u'Faltas',
         compute='calcular_faltas',
     )
 
