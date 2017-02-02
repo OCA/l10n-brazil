@@ -8,21 +8,23 @@
             <field name="name">l10n_br_hr.contract.change.form (jornada)</field>
             <field name="model">l10n_br_hr.contract.change</field>
             <field name="arch" type="xml">
-                <header>
-                    <button name="apply_contract_changes" type="object" string="Aplicar Alterações" />
-                    <field name="state" widget="statusbar"/>
-                </header>
                 <form string="Alterações contratual: Jornada">
+                    <header>
+                        <button name="apply_contract_changes" type="object" string="Aplicar Alterações" />
+                        <field name="state" widget="statusbar"/>
+                    </header>
                     <group>
                         <field name="change_type" invisible="True" attrs="{'readonly': [('state', '=', 'applied')]}"/>
                         <field name="contract_id" required="True" attrs="{'readonly': [('state', '=', 'applied')]}"/>
                         <field name="change_date" attrs="{'readonly': [('state', '=', 'applied')]}"/>
                         <field name="change_reason_id" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="wage" attrs="{'invisible': [('state', 'in', ['draft','applied'])]}"/>
                         <field name="working_hours" attrs="{'readonly': [('state', '=', 'applied')]}"/>
                         <field name="schedule_pay" attrs="{'readonly': [('state', '=', 'applied')]}"/>
                         <field name="monthly_hours" attrs="{'readonly': [('state', '=', 'applied')]}"/>
                         <field name="weekly_hours" attrs="{'readonly': [('state', '=', 'applied')]}"/>
                         <field name="notes" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="user_id" attrs="{'readonly': [('state', '=', 'applied')], 'invisible': [('state', '=', 'draft')]}" />
                         <field name="change_history_ids">
                             <tree string="Histórico de Alterações de Jornada">
                                 <field name="contract_id" required="True"/>

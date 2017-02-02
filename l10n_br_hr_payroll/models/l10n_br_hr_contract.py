@@ -74,6 +74,10 @@ class HrContractChange(models.Model):
                               required=False)
     state = fields.Selection(string=u'Alteração aplicada', selection=STATES,
                              default='draft')
+    user_id = fields.Many2one(
+        comodel_name='res.users',
+        string='Alterado por',
+    )
 
     @api.onchange('contract_id')
     def _onchange_contract_id(self):
@@ -85,17 +89,20 @@ class HrContractChange(models.Model):
             self.salary_unit = contract.salary_unit
             self.struct_id = contract.struct_id
         elif self.change_type == 'jornada':
+            self.wage = contract.wage
             self.working_hours = contract.working_hours
             self.schedule_pay = contract.schedule_pay
             self.monthly_hours = contract.monthly_hours
             self.weekly_hours = contract.weekly_hours
         elif self.change_type == 'cargo-atividade':
+            self.wage = contract.wage
             self.job_id = contract.job_id
             self.type_id = contract.type_id
             self.admission_type_id = contract.admission_type_id
             self.labor_bond_type_id = contract.labor_bond_type_id
             self.labor_regime_id = contract.labor_regime_id
         elif self.change_type == 'filiacao-sindical':
+            self.wage = contract.wage
             self.union = contract.union
             self.union_cnpj = contract.union_cnpj
             self.union_entity_code = contract.union_entity_code
@@ -108,21 +115,76 @@ class HrContractChange(models.Model):
         for change in self:
             contract = change.contract_id
             if self.change_type == 'remuneracao':
+                if not self.env['l10n_br_hr.contract.change'].search(
+                        [('wage', '>', 0),
+                         ('change_date', '<', change.change_date)]):
+                    vals = {
+                        'contract_id': contract.id,
+                        'change_date': contract.date_start,
+                        'change_reason_id': change.change_reason_id.id,
+                        'wage': contract.wage,
+                        'struct_id': change.struct_id.id,
+                    }
+                    self.env['l10n_br_hr.contract.change'].create(vals)
                 contract.wage = self.wage
                 contract.salary_unit = self.salary_unit
                 contract.struct_id = self.struct_id
             elif self.change_type == 'jornada':
+                if not self.env['l10n_br_hr.contract.change'].search(
+                        [('working_hours', '!=', False),
+                         ('change_date', '<', change.change_date)]):
+                    vals = {
+                        'contract_id': contract.id,
+                        'change_date': contract.date_start,
+                        'change_reason_id': change.change_reason_id.id,
+                        'wage': contract.wage,
+                        'working_hours': contract.working_hours.id,
+                        'struct_id': change.struct_id.id,
+                    }
+                    self.env['l10n_br_hr.contract.change'].create(vals)
                 contract.working_hours = self.working_hours
                 contract.schedule_pay = self.schedule_pay
                 contract.monthly_hours = self.monthly_hours
                 contract.weekly_hours = self.weekly_hours
             elif self.change_type == 'cargo-atividade':
+                if not self.env['l10n_br_hr.contract.change'].search(
+                        [('job_id', '!=', False),
+                         ('change_date', '<', change.change_date)]):
+                    vals = {
+                        'contract_id': contract.id,
+                        'change_date': contract.date_start,
+                        'change_reason_id': change.change_reason_id.id,
+                        'wage': contract.wage,
+                        'job_id': contract.job_id.id,
+                        'type_id': contract.type_id.id,
+                        'adminission_type_id': contract.admission_type_id.id,
+                        'labor_bond_type_id': contract.labor_bond_type_id.id,
+                        'labor_regime_id': contract.labor_regime_id.id,
+                        'struct_id': change.struct_id.id,
+                    }
+                    self.env['l10n_br_hr.contract.change'].create(vals)
                 contract.job_id = self.job_id
                 contract.type_id = self.type_id
                 contract.admission_type_id = self.admission_type_id
                 contract.labor_bond_type_id = self.labor_bond_type_id
                 contract.labor_regime_id = self.labor_regime_id
             elif self.change_type == 'filiacao-sindical':
+                if not self.env['l10n_br_hr.contract.change'].search(
+                        [('union', '!=', False),
+                         ('change_date', '<', change.change_date)]):
+                    vals = {
+                        'contract_id': contract.id,
+                        'change_date': contract.date_start,
+                        'change_reason_id': change.change_reason_id.id,
+                        'wage': contract.wage,
+                        'union': contract.union,
+                        'union_cnpj': contract.union_cnpj,
+                        'union_entity_code': contract.union_entity_code,
+                        'discount_union_contribution': contract.discount_union_contribution,
+                        'month_base_date': contract.month_base_date,
+                        'struct_id': change.struct_id.id,
+                    }
+                    self.env['l10n_br_hr.contract.change'].create(vals)
                 contract.union = self.union
                 contract.union_cnpj = self.union_cnpj
                 contract.union_entity_code = self.union_entity_code
@@ -130,3 +192,8 @@ class HrContractChange(models.Model):
                     self.discount_union_contribution
                 contract.month_base_date = self.month_base_date
             self.state = 'applied'
+
+    @api.model
+    def create(self, vals):
+        vals.update({'user_id': self.env.user.id})
+        return super(HrContractChange, self).create(vals)

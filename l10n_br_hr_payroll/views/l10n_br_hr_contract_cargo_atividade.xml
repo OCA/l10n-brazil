@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+<data>
+
+    <record id="l10n_br_hr_contract_change_cargo_atividade_form" model="ir.ui.view">
+        <field name="name">l10n_br_hr.contract.change.form (cargo/atividade)</field>
+        <field name="model">l10n_br_hr.contract.change</field>
+        <field name="arch" type="xml">
+            <form string="Alterações contratual: Cargo/Atividade">
+                <header>
+                    <button name="apply_contract_changes" type="object" string="Aplicar Alterações" />
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <group>
+                <field name="change_type" invisible="True" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                <field name="contract_id" required="True" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                <field name="change_date" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                <field name="change_reason_id" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                <field name="job_id" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                <field name="type_id" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                <field name="wage" attrs="{'invisible': [('state', 'in', ['draft','applied'])]}" required="0"/>
+                <field name="admission_type_id" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                <field name="labor_bond_type_id" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                <field name="labor_regime_id" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                <field name="notes" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                <field name="user_id" attrs="{'readonly': [('state', '=', 'applied')], 'invisible': [('state', '=', 'draft')]}" />
+                <field name="change_history_ids">
+                    <tree string="Histórico de Alterações de Cargo/Atividade">
+                        <field name="contract_id" required="True"/>
+                        <field name="change_date"/>
+                        <field name="change_reason_id"/>
+                        <field name="job_id"/>
+                        <field name="type_id"/>
+                        <field name="admission_type_id"/>
+                        <field name="labor_bond_type_id"/>
+                        <field name="labor_regime_id"/>
+                    </tree>
+                </field>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_br_hr_contract_change_cargo_atividade_tree" model="ir.ui.view">
+        <field name="name">l10n_br_hr.contract.change.tree (cargo/atividade)</field>
+        <field name="model">l10n_br_hr.contract.change</field>
+        <field name="arch" type="xml">
+            <tree string="Alterações contratual: Cargo/Atividade">
+                <field name="contract_id" required="True"/>
+                <field name="change_date"/>
+                <field name="change_reason_id"/>
+                <field name="job_id"/>
+                <field name="type_id"/>
+                <field name="admission_type_id"/>
+                <field name="labor_bond_type_id"/>
+                <field name="labor_regime_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="l10n_br_hr_contract_change_cargo_atividade_action">
+        <field name="name">Cargo/Atividade</field>
+        <field name="res_model">l10n_br_hr.contract.change</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('change_type','=','cargo-atividade')]</field>
+        <field name="context">{'search_default_current':1, 'change_type': 'cargo-atividade'}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_hr_contract_change_cargo_atividade_menu">
+        <field name="name">Cargo/Atividade</field>
+        <field name="parent_id" ref="hr_contract_change_menu"/>
+        <field name="action" ref="l10n_br_hr_contract_change_cargo_atividade_action"/>
+        <field name="sequence" eval="3"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="l10n_br_hr_contract_change_cargo_atividade_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="act_window_id" ref="l10n_br_hr_contract_change_cargo_atividade_action"/>
+        <field name="view_id" ref="l10n_br_hr_contract_change_cargo_atividade_tree"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="l10n_br_hr_contract_change_cargo_atividade_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="act_window_id" ref="l10n_br_hr_contract_change_cargo_atividade_action"/>
+        <field name="view_id" ref="l10n_br_hr_contract_change_cargo_atividade_form"/>
+    </record>
+
+</data>
+</openerp>
