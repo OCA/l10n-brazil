@@ -56,7 +56,7 @@ class HrVacationControl(models.Model):
 
     dias = fields.Integer(
         string=u'Dias',
-        default=30,
+        compute='calcular_dias',
     )
 
     saldo = fields.Float(
@@ -103,14 +103,17 @@ class HrVacationControl(models.Model):
 
     def dias_de_direito(self):
         dias_de_direito = 30
-        if self.faltas > 5 : dias_de_direito = 24
-        if self.faltas > 14 : dias_de_direito = 18
         if self.faltas > 23 : dias_de_direito = 12
+        elif self.faltas > 14 : dias_de_direito = 18
+        elif self.faltas > 5 : dias_de_direito = 24
         return dias_de_direito
 
     def calcular_avos(self):
         date_begin = fields.Datetime.from_string(self.inicio_aquisitivo)
-        date_end = fields.Datetime.from_string(fields.Date.today())
+        if fields.Date.today() < self.fim_aquisitivo:
+            date_end = fields.Datetime.from_string(fields.Date.today())
+        else:
+            date_end = fields.Datetime.from_string(self.fim_aquisitivo)
         avos_decimal = (date_end - date_begin).days / 30.0
         decimal = avos_decimal - int(avos_decimal)
 
@@ -120,4 +123,7 @@ class HrVacationControl(models.Model):
             self.avos = int(avos_decimal)
 
     def calcular_saldo_dias(self):
-        self.saldo = self.dias_de_direito() / 12 * self.avos
+        self.saldo = self.avos * self.dias_de_direito() / 12.0
+
+    def calcular_dias(self):
+        self.dias = self.dias_de_direito()

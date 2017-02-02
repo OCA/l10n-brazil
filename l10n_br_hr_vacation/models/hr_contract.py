@@ -21,14 +21,21 @@ class HrContract(models.Model):
         inicio_aquisitivo = vals['date_start']
         fim_aquisitivo = fields.Date.from_string(inicio_aquisitivo) + \
                          relativedelta(years=1, days=-1)
+
         inicio_concessivo =  fim_aquisitivo + relativedelta(days=1)
         fim_concessivo = inicio_concessivo + \
                          relativedelta(years=1, days=-1)
+
+        limite_gozo = fim_concessivo + relativedelta(months=-1)
+        limite_aviso = limite_gozo + relativedelta(months=-1)
+
         controle_ferias = self.env['hr.vacation.control'].create({
             'inicio_aquisitivo' : inicio_aquisitivo,
             'fim_aquisitivo' : fim_aquisitivo,
             'inicio_concessivo': inicio_concessivo,
             'fim_concessivo': fim_concessivo,
+            'limite_gozo': limite_gozo,
+            'limite_aviso': limite_aviso,
         })
         hr_contract_id = super(HrContract, self).create(vals)
         hr_contract_id.vacation_control_ids = controle_ferias
