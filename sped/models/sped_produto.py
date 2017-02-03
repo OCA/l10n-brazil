@@ -11,10 +11,10 @@ from odoo.exceptions import ValidationError
 
 import logging
 from ..constante_tributaria import (
-    TIPO_PRODUTO_SERVICO_SERVICOS,
-    TIPO_PRODUTO_SERVICO,
     ORIGEM_MERCADORIA,
+    TIPO_PRODUTO_SERVICO,
     TIPO_PRODUTO_SERVICO_MATERIAL_USO_CONSUMO,
+    TIPO_PRODUTO_SERVICO_SERVICOS,
 )
 _logger = logging.getLogger(__name__)
 
