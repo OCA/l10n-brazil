@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -17,9 +18,9 @@
     'installable': True,
     'application': False,
     'data': [
-        #'data/inherited_product_uom_category_data.xml',
-        #'data/inherited_product_uom_data.xml',
-        #'data/inherited_sped_unidade_data.xml',
+        # 'data/inherited_product_uom_category_data.xml',
+        # 'data/inherited_product_uom_data.xml',
+        # 'data/inherited_sped_unidade_data.xml',
 
         'views/inherited_account_invoice_view.xml',
     ]
