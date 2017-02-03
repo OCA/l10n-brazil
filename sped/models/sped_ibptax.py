@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-
 import logging
+from odoo import api, fields, models
 _logger = logging.getLogger(__name__)
 
 try:
@@ -14,9 +15,6 @@ try:
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
-
-from odoo import api, fields, models
-import odoo.addons.decimal_precision as dp
 
 
 class IBPTax(models.Model):
@@ -41,14 +39,14 @@ class IBPTax(models.Model):
         sped_nbs = self.env['sped.nbs']
         sped_servico = self.env['sped.servico']
         sped_icms = self.env['sped.aliquota.icms.proprio']
-        sped_estado = self.env['sped.estado']
         ibptax_ncm = self.env['sped.ibptax.ncm']
         ibptax_nbs = self.env['sped.ibptax.nbs']
         ibptax_servico = self.env['sped.ibptax.servico']
 
         versao = '17.1.A'
-        arquivo = '/home/ari/tauga/odoo_br/sped/data/ibptax/TabelaIBPTax{uf}{versao}.csv'.format(
-            uf=self.estado_id.uf, versao=versao)
+        arquivo = '/home/ari/tauga/odoo_br/sped/data/ibptax/' \
+            'TabelaIBPTax{uf}{versao}.csv'.format(
+                uf=self.estado_id.uf, versao=versao)
 
         ncm_ids = ibptax_ncm.search([('ibptax_id', '=', self.id)])
         ncm_ids.unlink()
@@ -62,8 +60,9 @@ class IBPTax(models.Model):
         arq = open(arquivo, 'r')
 
         for linha in arq.readlines():
-            codigo, ex, tipo, descricao, nacionalfederal, importadosfederal, estadual, municipal, vigenciainicio, vigenciafim, chave, versao, fonte = linha.decode(
-                'iso-8859-1').split(';')
+            codigo, ex, tipo, descricao, nacionalfederal, importadosfederal, \
+                estadual, municipal, vigenciainicio, vigenciafim, chave, \
+                versao, fonte = linha.decode('iso-8859-1').split(';')
 
             if tipo == '0':
                 ncm_ids = sped_ncm.search(
@@ -141,12 +140,18 @@ class IBPTaxNCM(models.Model):
     estado_id = fields.Many2one(
         'sped.estado', 'Estado', related='ibptax_id.estado_id', store=True)
     ncm_id = fields.Many2one('sped.ncm', 'NCM')
-    al_ibpt_nacional = fields.Monetary('Nacional', digits=(
-        5, 2), currency_field='currency_aliquota_id')
+    al_ibpt_nacional = fields.Monetary(
+        'Nacional',
+        digits=(5, 2),
+        currency_field='currency_aliquota_id')
     al_ibpt_internacional = fields.Monetary(
-        'Internacional', digits=(5, 2), currency_field='currency_aliquota_id')
-    al_ibpt_estadual = fields.Monetary('Estadual', digits=(
-        5, 2), currency_field='currency_aliquota_id')
+        'Internacional',
+        digits=(5, 2),
+        currency_field='currency_aliquota_id')
+    al_ibpt_estadual = fields.Monetary(
+        'Estadual',
+        digits=(5, 2),
+        currency_field='currency_aliquota_id')
     al_icms_id = fields.Many2one('sped.aliquota.icms.proprio', 'Estadual')
 
 
@@ -159,12 +164,18 @@ class IBPTaxNBS(models.Model):
     estado_id = fields.Many2one(
         'sped.estado', 'Estado', related='ibptax_id.estado_id', store=True)
     nbs_id = fields.Many2one('sped.nbs', 'NBS')
-    al_ibpt_nacional = fields.Monetary('Nacional', digits=(
-        5, 2), currency_field='currency_aliquota_id')
+    al_ibpt_nacional = fields.Monetary(
+        'Nacional',
+        digits=(5, 2),
+        currency_field='currency_aliquota_id')
     al_ibpt_internacional = fields.Monetary(
-        'Internacional', digits=(5, 2), currency_field='currency_aliquota_id')
-    al_ibpt_municipal = fields.Monetary('Municipal', digits=(
-        5, 2), currency_field='currency_aliquota_id')
+        'Internacional',
+        digits=(5, 2),
+        currency_field='currency_aliquota_id')
+    al_ibpt_municipal = fields.Monetary(
+        'Municipal',
+        digits=(5, 2),
+        currency_field='currency_aliquota_id')
 
 
 class IBPTaxServico(models.Model):
@@ -176,9 +187,15 @@ class IBPTaxServico(models.Model):
     estado_id = fields.Many2one(
         'sped.estado', 'Estado', related='ibptax_id.estado_id', store=True)
     servico_id = fields.Many2one('sped.servico', 'Serviço')
-    al_ibpt_nacional = fields.Monetary('Nacional', digits=(
-        5, 2), currency_field='currency_aliquota_id')
+    al_ibpt_nacional = fields.Monetary(
+        'Nacional',
+        digits=(5, 2),
+        currency_field='currency_aliquota_id')
     al_ibpt_internacional = fields.Monetary(
-        'Internacional', digits=(5, 2), currency_field='currency_aliquota_id')
-    al_ibpt_municipal = fields.Monetary('Municipal', digits=(
-        5, 2), currency_field='currency_aliquota_id')
+        'Internacional',
+        digits=(5, 2),
+        currency_field='currency_aliquota_id')
+    al_ibpt_municipal = fields.Monetary(
+        'Municipal',
+        digits=(5, 2),
+        currency_field='currency_aliquota_id')
