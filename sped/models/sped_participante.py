@@ -1,11 +1,26 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
 
 import logging
+
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+from ..constante_tributaria import (
+        INDICADOR_IE_DESTINATARIO,
+        INDICADOR_IE_DESTINATARIO_ISENTO,
+        INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
+        REGIME_TRIBUTARIO,
+        REGIME_TRIBUTARIO_LUCRO_PRESUMIDO,
+        REGIME_TRIBUTARIO_LUCRO_REAL,
+        REGIME_TRIBUTARIO_SIMPLES,
+        REGIME_TRIBUTARIO_SIMPLES_EXCESSO,
+        TIPO_PESSOA_JURIDICA,
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -13,7 +28,8 @@ try:
     from email_validator import validate_email
 
     from pybrasil.base import mascara, primeira_maiuscula
-    from pybrasil.inscricao import (formata_cnpj, formata_cpf, limpa_formatacao,
+    from pybrasil.inscricao import (formata_cnpj, formata_cpf,
+                                    limpa_formatacao,
                                     formata_inscricao_estadual, valida_cnpj,
                                     valida_cpf, valida_inscricao_estadual)
     from pybrasil.telefone import (formata_fone, valida_fone_fixo,
@@ -22,10 +38,6 @@ try:
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
-
-from odoo import api, fields, models
-from odoo.exceptions import ValidationError
-from ..constante_tributaria import *
 
 
 class Participante(models.Model):
@@ -271,12 +283,14 @@ class Participante(models.Model):
     #
     # Para a contabilidade
     #
-    # sociedade_ids = fields.One2many('res.partner.sociedade', 'partner_id', 'Sociedade')
+    # sociedade_ids = fields.One2many(
+    #   'res.partner.sociedade', 'partner_id', 'Sociedade')
 
     #
     # Endereços e contatos
     #
-    # address_ids = fields.One2many('res.partner.address', 'partner_id', 'Contatos e endereços')
+    # address_ids = fields.One2many(
+    #   'res.partner.address', 'partner_id', 'Contatos e endereços')
 
     #
     # Para o faturamento
