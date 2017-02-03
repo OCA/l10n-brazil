@@ -2,12 +2,12 @@
 # Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, models, fields
-from dateutil.relativedelta import relativedelta
+from openerp import models, fields
 
 
 class HrVacationControl(models.Model):
     _name = 'hr.vacation.control'
+    _order = 'inicio_aquisitivo desc'
 
     inicio_aquisitivo = fields.Date(
         string=u'Início Período Aquisitivo',
@@ -93,54 +93,66 @@ class HrVacationControl(models.Model):
     )
 
     contract_id = fields.Many2one(
-        comodel_name ='hr.contract',
+        comodel_name='hr.contract',
         string=u'Contrato Vigente',
     )
 
     def calcular_faltas(self):
-        employee_id = self.contract_id.employee_id.id
-        leaves  = self.env['resource.calendar'].get_ocurrences(
-             employee_id, self.inicio_aquisitivo, self.fim_aquisitivo
-        )
-        self.faltas = leaves['quantidade_dias_faltas_nao_remuneradas']
+        for record in self:
+            employee_id = record.contract_id.employee_id.id
+            leaves = record.env['resource.calendar'].get_ocurrences(
+                employee_id,
+                record.inicio_aquisitivo,
+                record.fim_aquisitivo
+            )
+            record.faltas = leaves['quantidade_dias_faltas_nao_remuneradas']
 
     def dias_de_direito(self):
         dias_de_direito = 30
-        if self.faltas > 23 : dias_de_direito = 12
-        elif self.faltas > 14 : dias_de_direito = 18
-        elif self.faltas > 5 : dias_de_direito = 24
+        if self.faltas > 23:
+            dias_de_direito = 12
+        elif self.faltas > 14:
+            dias_de_direito = 18
+        elif self.faltas > 5:
+            dias_de_direito = 24
         return dias_de_direito
 
     def calcular_avos(self):
-        date_begin = fields.Datetime.from_string(self.inicio_aquisitivo)
-        if fields.Date.today() < self.fim_aquisitivo:
-            date_end = fields.Datetime.from_string(fields.Date.today())
-        else:
-            date_end = fields.Datetime.from_string(self.fim_aquisitivo)
-        avos_decimal = (date_end - date_begin).days / 30.0
-        decimal = avos_decimal - int(avos_decimal)
+        for record in self:
+            date_begin = fields.Datetime.from_string(record.inicio_aquisitivo)
+            if fields.Date.today() < record.fim_aquisitivo:
+                date_end = fields.Datetime.from_string(fields.Date.today())
+            else:
+                date_end = fields.Datetime.from_string(record.fim_aquisitivo)
+            avos_decimal = (date_end - date_begin).days / 30.0
+            decimal = avos_decimal - int(avos_decimal)
 
-        if decimal > 0.5:
-            self.avos = int(avos_decimal) + 1
-        else:
-            self.avos = int(avos_decimal)
+            if decimal > 0.5:
+                record.avos = int(avos_decimal) + 1
+            else:
+                record.avos = int(avos_decimal)
 
     def calcular_saldo_dias(self):
-        self.saldo = self.avos * self.dias_de_direito() / 12.0
+        for record in self:
+            record.saldo = record.avos * record.dias_de_direito() / 12.0
 
     def calcular_dias(self):
-        self.dias = self.dias_de_direito()
+        for record in self:
+            record.dias = record.dias_de_direito()
 
     def calcular_dias_pagamento_dobro(self):
-        dias_pagamento_dobro = 0
-        if self.fim_gozo > self.fim_concessivo:
-            dias_pagamento_dobro = (fields.Date.from_string(self.fim_gozo) -
-                                    fields.Date.from_string(
-                                        self.fim_concessivo)).days
-        if dias_pagamento_dobro > 30:
-            dias_pagamento_dobro = 30
-        self.dias_pagamento_dobro = dias_pagamento_dobro
+        for record in self:
+            dias_pagamento_dobro = 0
+            if record.fim_gozo > record.fim_concessivo:
+                dias_pagamento_dobro = (
+                    fields.Date.from_string(record.fim_gozo) -
+                    fields.Date.from_string(record.fim_concessivo)
+                ).days
+            if dias_pagamento_dobro > 30:
+                dias_pagamento_dobro = 30
+            record.dias_pagamento_dobro = dias_pagamento_dobro
 
     def calcular_pagamento_dobro(self):
-        pagamento_dobro = self.dias_pagamento_dobro > 0
-        self.pagamento_dobro = pagamento_dobro
+        for record in self:
+            pagamento_dobro = (record.dias_pagamento_dobro > 0)
+            record.pagamento_dobro = pagamento_dobro

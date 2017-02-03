@@ -18,18 +18,18 @@ class HrContract(models.Model):
 
     def create_controle_ferias(self, inicio_periodo_aquisitivo):
         fim_aquisitivo = fields.Date.from_string(inicio_periodo_aquisitivo) + \
-                         relativedelta(years=1, days=-1)
+            relativedelta(years=1, days=-1)
 
-        inicio_concessivo =  fim_aquisitivo + relativedelta(days=1)
+        inicio_concessivo = fim_aquisitivo + relativedelta(days=1)
         fim_concessivo = inicio_concessivo + \
-                         relativedelta(years=1, days=-1)
+            relativedelta(years=1, days=-1)
 
         limite_gozo = fim_concessivo + relativedelta(months=-1)
         limite_aviso = limite_gozo + relativedelta(months=-1)
 
         controle_ferias = self.env['hr.vacation.control'].create({
-            'inicio_aquisitivo' : inicio_periodo_aquisitivo,
-            'fim_aquisitivo' : fim_aquisitivo,
+            'inicio_aquisitivo': inicio_periodo_aquisitivo,
+            'fim_aquisitivo': fim_aquisitivo,
             'inicio_concessivo': inicio_concessivo,
             'fim_concessivo': fim_concessivo,
             'limite_gozo': limite_gozo,
@@ -39,9 +39,20 @@ class HrContract(models.Model):
 
     @api.model
     def create(self, vals):
-        controle_ferias = self.create_controle_ferias( vals['date_start'])
+        first = True
+        inicio = fields.Date.from_string(vals['date_start'])
         hr_contract_id = super(HrContract, self).create(vals)
-        hr_contract_id.vacation_control_ids = controle_ferias
+        lista_controle_ferias = []
+        while(True):
+            if(not first):
+                inicio = inicio + relativedelta(years=1)
+                today = fields.Date.from_string(fields.Date.today())
+                if(inicio > today):
+                    break
+            controle_ferias = self.create_controle_ferias(str(inicio))
+            lista_controle_ferias.append(controle_ferias.id)
+            first = False
+        hr_contract_id.vacation_control_ids = lista_controle_ferias
         return hr_contract_id
 
     def fields_view_get(self, cr, uid, view_id=None,
