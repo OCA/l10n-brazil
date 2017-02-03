@@ -1,13 +1,35 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
 
 from odoo import fields, models
-import odoo.addons.decimal_precision as dp
-from ..constante_tributaria import *
+from ..constante_tributaria import (
+    MODELO_FISCAL,
+    MODELO_FISCAL_NFE,
+    TIPO_EMISSAO,
+    TIPO_EMISSAO_PROPRIA,
+    ENTRADA_SAIDA,
+    ENTRADA_SAIDA_SAIDA,
+    REGIME_TRIBUTARIO,
+    REGIME_TRIBUTARIO_SIMPLES,
+    FORMA_PAGAMENTO,
+    FORMA_PAGAMENTO_A_VISTA,
+    FINALIDADE_NFE,
+    FINALIDADE_NFE_NORMAL,
+    MODALIDADE_FRETE,
+    MODALIDADE_FRETE_DESTINATARIO_PROPRIO,
+    LIMITE_RETENCAO_PIS_COFINS_CSLL,
+    NATUREZA_TRIBUTACAO_NFSE,
+    ST_ISS,
+    TIPO_CONSUMIDOR_FINAL,
+    TIPO_CONSUMIDOR_FINAL_NORMAL,
+    INDICADOR_PRESENCA_COMPRADOR,
+    INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
+)
 
 
 class OperacaoFiscal(models.Model):
@@ -114,7 +136,8 @@ class OperacaoFiscal(models.Model):
         digits=(5, 2)
     )
     #
-    # Para todos os valores de referência numa operação fiscal, a moeda é SEMPRE o
+    # Para todos os valores de referência numa operação fiscal,
+    # a moeda é SEMPRE o
     # Real BRL
     #
     currency_id = fields.Many2one(

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
 
 from odoo import api, fields, models
-import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
 
 
@@ -73,7 +73,7 @@ class AliquotaSIMPLESTeto(models.Model):
             if teto_ids:
                 raise ValidationError('Teto já existe na tabela!')
 
-        return res
+    return res
 
 
 class AliquotaSIMPLESAliquota(models.Model):
