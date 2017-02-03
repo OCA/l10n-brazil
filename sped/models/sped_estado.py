@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -29,7 +30,8 @@ class Estado(models.Model):
 
     # return retorno
 
-    # def _procura_descricao(self, cursor, user_id, obj, nome_campo, args, context=None):
+    # def _procura_descricao(
+    #   self, cursor, user_id, obj, nome_campo, args, context=None):
     # texto = args[0][2]
 
     # procura = [

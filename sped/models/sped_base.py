@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-from __future__ import division, print_function, unicode_literals
-
-from odoo import api, fields, models
-from odoo.exceptions import ValidationError
+from odoo import fields, models
 
 
 class Base(models.AbstractModel):
@@ -20,11 +18,23 @@ class Base(models.AbstractModel):
     # o currency_aliquota_id é para colocar o sinal de % depois dos percetuais
     #
     currency_id = fields.Many2one(
-        'res.currency', 'Moeda', compute='_compute_currency_id', default=lambda self: self.env.ref('base.BRL'))
+        comodel_name='res.currency',
+        string=u'Moeda',
+        compute='_compute_currency_id',
+        default=lambda self: self.env.ref('base.BRL')
+    )
     currency_aliquota_id = fields.Many2one(
-        'res.currency', 'Percentual', compute='_compute_currency_id', default=lambda self: self.env.ref('sped.SIMBOLO_ALIQUOTA'))
+        comodel_name='res.currency',
+        string=u'Percentual',
+        compute='_compute_currency_id',
+        default=lambda self: self.env.ref('sped.SIMBOLO_ALIQUOTA')
+    )
     currency_unitario_id = fields.Many2one(
-        'res.currency', 'Unitário', compute='_compute_currency_id', default=lambda self: self.env.ref('sped.SIMBOLO_VALOR_UNITARIO'))
+        comodel_name='res.currency',
+        string=u'Unitário',
+        compute='_compute_currency_id',
+        default=lambda self: self.env.ref('sped.SIMBOLO_VALOR_UNITARIO')
+    )
 
     def _compute_currency_id(self):
         for item in self:
