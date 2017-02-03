@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -10,12 +11,12 @@ from __future__ import division, print_function, unicode_literals
 #import logging
 #_logger = logging.getLogger(__name__)
 
-#try:
-    #from pybrasil.valor import valor_por_extenso_item
-    #from pybrasil.valor.decimal import Decimal as D
+# try:
+#from pybrasil.valor import valor_por_extenso_item
+#from pybrasil.valor.decimal import Decimal as D
 
-#except (ImportError, IOError) as err:
-    #_logger.debug(err)
+# except (ImportError, IOError) as err:
+#_logger.debug(err)
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
@@ -24,7 +25,8 @@ from odoo.exceptions import ValidationError
 class DocumentoItem(models.Model):
     _inherit = 'sped.documento.item'
 
-    account_invoice_line_id = fields.Many2one('account.invoice.line', 'Invoice line original', ondelete='restrict')
+    account_invoice_line_id = fields.Many2one(
+        'account.invoice.line', 'Invoice line original', ondelete='restrict')
 
     def prepare_sync_to_invoice_line(self):
         self.ensure_one()

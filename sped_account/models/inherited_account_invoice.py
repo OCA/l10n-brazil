@@ -10,12 +10,12 @@ from __future__ import division, print_function, unicode_literals
 #import logging
 #_logger = logging.getLogger(__name__)
 
-#try:
-    #from pybrasil.valor import valor_por_extenso_item
-    #from pybrasil.valor.decimal import Decimal as D
+# try:
+#from pybrasil.valor import valor_por_extenso_item
+#from pybrasil.valor.decimal import Decimal as D
 
-#except (ImportError, IOError) as err:
-    #_logger.debug(err)
+# except (ImportError, IOError) as err:
+#_logger.debug(err)
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
@@ -24,11 +24,14 @@ from odoo.exceptions import ValidationError
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    sped_documento_id = fields.Many2one('sped.documento', 'Documento Fiscal', ondelete='cascade')
-    is_brazilian_invoice = fields.Boolean('Is a Brazilian Invoice?', compute='_compute_is_brazilian_invoice')
+    sped_documento_id = fields.Many2one(
+        'sped.documento', 'Documento Fiscal', ondelete='cascade')
+    is_brazilian_invoice = fields.Boolean(
+        'Is a Brazilian Invoice?', compute='_compute_is_brazilian_invoice')
     sped_empresa_id = fields.Many2one('sped.empresa', 'Empresa')
     sped_operacao_id = fields.Many2one('sped.operacao', 'Operação')
-    sped_participante_id = fields.Many2one('sped.participante', 'Destinatário/Remetente')
+    sped_participante_id = fields.Many2one(
+        'sped.participante', 'Destinatário/Remetente')
 
     @api.onchange('company_id')
     def onchange_company_id(self):
@@ -71,15 +74,15 @@ class AccountInvoice(models.Model):
     @api.multi
     def _check_brazilian_invoice(self, operation):
         pass
-        #for invoice in self:
-            #if (invoice.is_brazilian_invoice
-                #and 'sped_documento_id' not in self._context):
-                #if operation == 'create':
-                    #raise ValidationError('This is a Brazilian Invoice! You should create it through the proper Brazilian Fiscal Document!')
-                #elif operation == 'write':
-                    #raise ValidationError('This is a Brazilian Invoice! You should change it through the proper Brazilian Fiscal Document!')
-                #elif operation == 'unlink':
-                    #raise ValidationError('This is a Brazilian Invoice! You should delete it through the proper Brazilian Fiscal Document!')
+        # for invoice in self:
+        # if (invoice.is_brazilian_invoice
+        # and 'sped_documento_id' not in self._context):
+        # if operation == 'create':
+        #raise ValidationError('This is a Brazilian Invoice! You should create it through the proper Brazilian Fiscal Document!')
+        # elif operation == 'write':
+        #raise ValidationError('This is a Brazilian Invoice! You should change it through the proper Brazilian Fiscal Document!')
+        # elif operation == 'unlink':
+        #raise ValidationError('This is a Brazilian Invoice! You should delete it through the proper Brazilian Fiscal Document!')
 
     @api.model
     def create(self, dados):
@@ -106,55 +109,53 @@ class AccountInvoice(models.Model):
                 super(AccountInvoice, self).action_move_create()
                 continue
 
-            #invoice.sped_documento_id.account_move_create()
+            # invoice.sped_documento_id.account_move_create()
 
         return True
 
     #@api.multi
-    #def compute_taxes(self):
-        #for invoice in self:
-            #if not invoice.is_brazilian_invoice:
-                #super(AccountInvoice, self).compute_taxes()
-                #continue
+    # def compute_taxes(self):
+        # for invoice in self:
+        # if not invoice.is_brazilian_invoice:
+        #super(AccountInvoice, self).compute_taxes()
+        # continue
 
         ##
-        ## Fazemos aqui a sincronia entre os impostos do sped_documento e o
-        ## account_invoice_tax
+        # Fazemos aqui a sincronia entre os impostos do sped_documento e o
+        # account_invoice_tax
         ##
         #account_tax = self.env['account.tax']
         #account_invoice_tax = self.env['account.invoice.tax']
 
         #ctx = dict(self._context)
-        #for invoice in self:
-            ## Delete non-manual tax lines
-            #self._cr.execute("DELETE FROM account_invoice_tax WHERE invoice_id=%s AND manual is False", (invoice.id,))
-            #self.invalidate_cache()
+        # for invoice in self:
+        # Delete non-manual tax lines
+        #self._cr.execute("DELETE FROM account_invoice_tax WHERE invoice_id=%s AND manual is False", (invoice.id,))
+        # self.invalidate_cache()
 
-            ## Generate one tax line per tax, however many invoice lines it's applied to
-            #tax_grouped = invoice.get_taxes_values()
+        # Generate one tax line per tax, however many invoice lines it's applied to
+        #tax_grouped = invoice.get_taxes_values()
 
-            ## Create new tax lines
-            #for tax in tax_grouped.values():
-                #account_invoice_tax.create(tax)
+        # Create new tax lines
+        # for tax in tax_grouped.values():
+        # account_invoice_tax.create(tax)
 
-        ## dummy write on self to trigger recomputations
-        #return self.with_context(ctx).write({'invoice_line_ids': []})
+        # dummy write on self to trigger recomputations
+        # return self.with_context(ctx).write({'invoice_line_ids': []})
 
     #@api.multi
-    #def get_taxes_values(self):
+    # def get_taxes_values(self):
         #tax_grouped = {}
-        #for line in self.invoice_line_ids:
-            #price_unit = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
-            #taxes = line.invoice_line_tax_ids.compute_all(price_unit, self.currency_id, line.quantity, line.product_id, self.partner_id)['taxes']
-            #for tax in taxes:
-                #val = self._prepare_tax_line_vals(line, tax)
-                #key = self.env['account.tax'].browse(tax['id']).get_grouping_key(val)
+        # for line in self.invoice_line_ids:
+        #price_unit = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+        #taxes = line.invoice_line_tax_ids.compute_all(price_unit, self.currency_id, line.quantity, line.product_id, self.partner_id)['taxes']
+        # for tax in taxes:
+        #val = self._prepare_tax_line_vals(line, tax)
+        #key = self.env['account.tax'].browse(tax['id']).get_grouping_key(val)
 
-                #if key not in tax_grouped:
-                    #tax_grouped[key] = val
-                #else:
-                    #tax_grouped[key]['amount'] += val['amount']
-                    #tax_grouped[key]['base'] += val['base']
-        #return tax_grouped
-
-
+        # if key not in tax_grouped:
+        #tax_grouped[key] = val
+        # else:
+        #tax_grouped[key]['amount'] += val['amount']
+        #tax_grouped[key]['base'] += val['base']
+        # return tax_grouped
