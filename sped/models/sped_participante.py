@@ -794,8 +794,6 @@ class Participante(models.Model):
 
         if 'tz' not in dados:
             dados['tz'] = 'America/Sao_Paulo'
-
-        print(dados)
         participante = super(Participante, self).create(dados)
         participante.sync_to_partner()
 

@@ -83,7 +83,6 @@ class Estado(models.Model):
 
     @api.model
     def name_search(self, name='', args=[], operator='ilike', limit=100):
-        print(args, operator)
         if name and operator in ('=', 'ilike', '=ilike', 'like'):
             name = name.strip()
             # if operator != '=':
