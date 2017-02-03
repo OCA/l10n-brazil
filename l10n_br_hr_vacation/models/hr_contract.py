@@ -16,10 +16,8 @@ class HrContract(models.Model):
         string='Periodos Aquisitivos Alocados'
     )
 
-    @api.model
-    def create(self, vals):
-        inicio_aquisitivo = vals['date_start']
-        fim_aquisitivo = fields.Date.from_string(inicio_aquisitivo) + \
+    def create_controle_ferias(self, inicio_periodo_aquisitivo):
+        fim_aquisitivo = fields.Date.from_string(inicio_periodo_aquisitivo) + \
                          relativedelta(years=1, days=-1)
 
         inicio_concessivo =  fim_aquisitivo + relativedelta(days=1)
@@ -30,13 +28,18 @@ class HrContract(models.Model):
         limite_aviso = limite_gozo + relativedelta(months=-1)
 
         controle_ferias = self.env['hr.vacation.control'].create({
-            'inicio_aquisitivo' : inicio_aquisitivo,
+            'inicio_aquisitivo' : inicio_periodo_aquisitivo,
             'fim_aquisitivo' : fim_aquisitivo,
             'inicio_concessivo': inicio_concessivo,
             'fim_concessivo': fim_concessivo,
             'limite_gozo': limite_gozo,
             'limite_aviso': limite_aviso,
         })
+        return controle_ferias
+
+    @api.model
+    def create(self, vals):
+        controle_ferias = self.create_controle_ferias( vals['date_start'])
         hr_contract_id = super(HrContract, self).create(vals)
         hr_contract_id.vacation_control_ids = controle_ferias
         return hr_contract_id
