@@ -16,11 +16,11 @@ from ..constante_tributaria import (
     ST_ICMS,
     ST_ICMS_INTEGRAL,
     ST_ICMS_SN,
+    ST_ICMS_SN_CALCULA_CREDITO,
     ST_ICMS_SN_TRIB_SEM_CREDITO,
     ST_IPI,
     ST_IPI_ENTRADA,
     ST_IPI_SAIDA,
-    ST_ICMS_SN_CALCULA_CREDITO,
 )
 
 
