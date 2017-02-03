@@ -31,6 +31,7 @@ install:
   - pip install http://xmlsoft.org/sources/python/libxml2-python-2.6.21.tar.gz
   - pip install https://github.com/odoo-brazil/pyxmlsec/archive/master.zip
   - pip install https://github.com/odoo-brazil/geraldo/archive/master.zip
+  - pip install https://github.com/aricaldeira/pybrasil/archive/master.zip
   - pip install https://github.com/odoo-brazil/PySPED/archive/8.0.zip --allow-external PyXMLSec --allow-insecure PyXMLSec
   - travis_install_nightly
   - pip install -r requirements.txt
