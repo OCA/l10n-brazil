@@ -1,11 +1,21 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia -
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from odoo import api, fields, models
+import odoo.addons.decimal_precision as dp
+from odoo.exceptions import ValidationError
 
 import logging
+from ..constante_tributaria import (
+    TIPO_PRODUTO_SERVICO_SERVICOS,
+    TIPO_PRODUTO_SERVICO,
+    ORIGEM_MERCADORIA,
+    TIPO_PRODUTO_SERVICO_MATERIAL_USO_CONSUMO,
+)
 _logger = logging.getLogger(__name__)
 
 try:
@@ -13,11 +23,6 @@ try:
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
-
-from odoo import api, fields, models
-import odoo.addons.decimal_precision as dp
-from odoo.exceptions import ValidationError
-from ..constante_tributaria import *
 
 
 class Produto(models.Model):
@@ -34,7 +39,8 @@ class Produto(models.Model):
         ondelete='restrict',
         required=True,
     )
-    #company_id = fields.Many2one('res.company', string=u'Empresa', ondelete='restrict')
+    # company_id = fields.Many2one(
+    # 'res.company', string=u'Empresa', ondelete='restrict')
     nome = fields.Char(
         string=u'Nome',
         size=120,
