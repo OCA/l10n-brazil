@@ -8,8 +8,7 @@
 {
     'name': u'SPED - Account',
     'version': '10.0.1.0.0',
-    'author': u'Ari Caldeira',
-    'maintainer': u'Taŭga Tecnologia',
+    'author': u'"Odoo Community Association (OCA), Ari Caldeira',
     'category': u'Base',
     'depends': [
         'sped',
@@ -17,6 +16,7 @@
     ],
     'installable': True,
     'application': False,
+    'license': 'AGPL-3',
     'data': [
         # 'data/inherited_product_uom_category_data.xml',
         # 'data/inherited_product_uom_data.xml',
