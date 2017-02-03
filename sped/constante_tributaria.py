@@ -4707,3 +4707,13 @@ TIPO_PESSOA_ESTRANGEIRO = 'E'
 TIPO_PESSOA_INDETERMINADO = 'I'
 
 LIMITE_RETENCAO_PIS_COFINS_CSLL = D('213.84')
+
+TIPO_UNIDADE = (
+    ('U', u'Unidade'),
+    ('P', u'Peso'),
+    ('V', u'Volume'),
+    ('C', u'Comprimento'),
+    ('A', u'Área'),
+    ('T', u'Tempo'),
+    ('E', u'Embalagem'),
+)
