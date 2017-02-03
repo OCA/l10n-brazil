@@ -10,11 +10,11 @@ from __future__ import division, print_function, unicode_literals
 #import logging
 #_logger = logging.getLogger(__name__)
 
-#try:
-    #from pybrasil.produto import valida_ean
+# try:
+#from pybrasil.produto import valida_ean
 
-#except (ImportError, IOError) as err:
-    #_logger.debug(err)
+# except (ImportError, IOError) as err:
+#_logger.debug(err)
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
@@ -23,7 +23,8 @@ from odoo.exceptions import ValidationError
 class Documento(models.Model):
     _inherit = 'sped.documento'
 
-    account_invoice_id = fields.Many2one('account.invoice', 'Invoice original', ondelete='restrict')
+    account_invoice_id = fields.Many2one(
+        'account.invoice', 'Invoice original', ondelete='restrict')
 
     def prepare_sync_to_invoice(self):
         self.ensure_one()
@@ -51,7 +52,6 @@ class Documento(models.Model):
         else:
             dados['type'] = 'product'
 
-
         return dados
 
     @api.multi
@@ -67,8 +67,8 @@ class Documento(models.Model):
                     or documento.eh_devolucao_compra):
                 continue
 
-            #if documento.state != 'autorizado' or documento.state != 'cancelado':
-                #continue
+            # if documento.state != 'autorizado' or documento.state != 'cancelado':
+                # continue
 
             dados = documento.prepare_sync_to_invoice()
 
@@ -81,20 +81,20 @@ class Documento(models.Model):
     @api.model
     def create(self, dados):
         documento = super(Documento, self).create(dados)
-        #documento.sync_to_invoice()
+        # documento.sync_to_invoice()
 
         return documento
 
     @api.multi
     def write(self, dados):
         res = super(Documento, self).write(dados)
-        #self.sync_to_invoice()
+        # self.sync_to_invoice()
 
         return res
 
     @api.multi
     def unlink(self):
         res = super(Documento, self).unlink()
-        #self.sync_to_invoice()
+        # self.sync_to_invoice()
 
         return res
