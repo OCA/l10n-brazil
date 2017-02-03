@@ -126,13 +126,13 @@ class DocumentoItem(models.Model):
         related='documento_id.operacao_id',
         readonly=True)
     contribuinte = fields.Selection(
-        IE_DESTINATARIO,
+        selection=IE_DESTINATARIO,
         string=u'Contribuinte',
         related='participante_id.contribuinte',
         readonly=True,
     )
     emissao = fields.Selection(
-        TIPO_EMISSAO,
+        selection=TIPO_EMISSAO,
         string=u'Tipo de emissão',
         related='documento_id.emissao',
         readonly=True,
@@ -143,13 +143,13 @@ class DocumentoItem(models.Model):
         readonly=True
     )
     entrada_saida = fields.Selection(
-        ENTRADA_SAIDA,
+        selection=ENTRADA_SAIDA,
         string=u'Entrada/saída',
         related='documento_id.entrada_saida',
         readonly=True,
     )
     consumidor_final = fields.Selection(
-        TIPO_CONSUMIDOR_FINAL,
+        selection=TIPO_CONSUMIDOR_FINAL,
         string=u'Tipo do consumidor',
         related='documento_id.consumidor_final',
         readonly=True,
@@ -161,7 +161,7 @@ class DocumentoItem(models.Model):
         index=True,
     )
     cfop_posicao = fields.Selection(
-        POSICAO_CFOP,
+        selection=POSICAO_CFOP,
         string=u'Posição da CFOP',
         related='cfop_id.posicao',
         readonly=True,
@@ -290,13 +290,13 @@ class DocumentoItem(models.Model):
     #
     # contribuinte = fields.related('participante_id', 'contribuinte', type='char', string=u'Contribuinte', store=False, index=True)
     org_icms = fields.Selection(
-        ORIGEM_MERCADORIA,
+        selection=ORIGEM_MERCADORIA,
         string=u'Origem da mercadoria',
         index=True,
         default=ORIGEM_MERCADORIA_NACIONAL,
     )
     cst_icms = fields.Selection(
-        ST_ICMS,
+        selection=ST_ICMS,
         string=u'CST ICMS',
         index=True,
     )
@@ -318,7 +318,7 @@ class DocumentoItem(models.Model):
         index=True,
     )
     md_icms_proprio = fields.Selection(
-        MODALIDADE_BASE_ICMS_PROPRIO,
+        selection=MODALIDADE_BASE_ICMS_PROPRIO,
         string=u'Modalidade da base de cálculo do ICMS próprio',
         default=MODALIDADE_BASE_ICMS_PROPRIO_VALOR_OPERACAO,
     )
@@ -350,7 +350,7 @@ class DocumentoItem(models.Model):
     # Parâmetros relativos ao ICMS Simples Nacional
     #
     cst_icms_sn = fields.Selection(
-        ST_ICMS_SN,
+        selection=ST_ICMS_SN,
         string=u'CST ICMS - SIMPLES',
         index=True,
     )
@@ -379,7 +379,7 @@ class DocumentoItem(models.Model):
     # ICMS ST
     #
     md_icms_st = fields.Selection(
-        MODALIDADE_BASE_ICMS_ST,
+        selection=MODALIDADE_BASE_ICMS_ST,
         string=u'Modalidade da base de cálculo do ICMS ST',
         default=MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO,
     )
@@ -412,7 +412,7 @@ class DocumentoItem(models.Model):
     # tributária na origem
     #
     md_icms_st_retido = fields.Selection(
-        MODALIDADE_BASE_ICMS_ST,
+        selection=MODALIDADE_BASE_ICMS_ST,
         string=u'Modalidade da base de cálculo',
         default=MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO,
     )
@@ -440,26 +440,26 @@ class DocumentoItem(models.Model):
     # IPI padrão
     #
     apuracao_ipi = fields.Selection(
-        APURACAO_IPI,
+        selection=APURACAO_IPI,
         string=u'Período de apuração do IPI',
         index=True,
         default=APURACAO_IPI_MENSAL,
     )
     cst_ipi = fields.Selection(
-        ST_IPI,
+        selection=ST_IPI,
         string=u'CST IPI',
         index=True,
     )
     cst_ipi_entrada = fields.Selection(
-        ST_IPI_ENTRADA,
+        selection=ST_IPI_ENTRADA,
         string=u'CST IPI',
     )
     cst_ipi_saida = fields.Selection(
-        ST_IPI_SAIDA,
+        selection=ST_IPI_SAIDA,
         string=u'CST IPI',
     )
     md_ipi = fields.Selection(
-        MODALIDADE_BASE_IPI,
+        selection=MODALIDADE_BASE_IPI,
         string=u'Modalidade BC do IPI',
         default=MODALIDADE_BASE_IPI_ALIQUOTA,
     )
@@ -504,20 +504,20 @@ class DocumentoItem(models.Model):
         index=True,
     )
     cst_pis = fields.Selection(
-        ST_PIS,
+        selection=ST_PIS,
         string=u'CST PIS',
         index=True,
     )
     cst_pis_entrada = fields.Selection(
-        ST_PIS_ENTRADA,
+        selection=ST_PIS_ENTRADA,
         string=u'CST PIS',
     )
     cst_pis_saida = fields.Selection(
-        ST_PIS_SAIDA,
+        selection=ST_PIS_SAIDA,
         string=u'CST PIS',
     )
     md_pis_proprio = fields.Selection(
-        MODALIDADE_BASE_PIS,
+        selection=MODALIDADE_BASE_PIS,
         string=u'Modalidade BC do PIS próprio',
         default=MODALIDADE_BASE_PIS_ALIQUOTA,
     )
@@ -537,20 +537,20 @@ class DocumentoItem(models.Model):
     # COFINS própria
     #
     cst_cofins = fields.Selection(
-        ST_COFINS,
+        selection=ST_COFINS,
         string=u'CST COFINS',
         index=True,
     )
     cst_cofins_entrada = fields.Selection(
-        ST_COFINS_ENTRADA,
+        selection=ST_COFINS_ENTRADA,
         string=u'CST COFINS',
     )
     cst_cofins_saida = fields.Selection(
-        ST_COFINS_SAIDA,
+        selection=ST_COFINS_SAIDA,
         string=u'CST COFINS',
     )
     md_cofins_proprio = fields.Selection(
-        MODALIDADE_BASE_COFINS,
+        selection=MODALIDADE_BASE_COFINS,
         string=u'Modalidade BC da COFINS própria',
         default=MODALIDADE_BASE_COFINS_ALIQUOTA,
     )
