@@ -1,9 +1,20 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+from ..constante_tributaria import (
+    MODALIDADE_BASE_ICMS_PROPRIO,
+    MODALIDADE_BASE_ICMS_PROPRIO_VALOR_OPERACAO,
+    MODALIDADE_BASE_ICMS_PROPRIO_MARGEM_VALOR_AGREGADO,
+    MODALIDADE_BASE_ICMS_PROPRIO_PAUTA,
+    MODALIDADE_BASE_ICMS_PROPRIO_PRECO_TABELADO_MAXIMO,
+
+)
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -13,11 +24,6 @@ try:
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
-
-from odoo import api, fields, models
-import odoo.addons.decimal_precision as dp
-from odoo.exceptions import ValidationError
-from ..constante_tributaria import *
 
 
 class AliquotaICMSProprio(models.Model):
@@ -31,7 +37,7 @@ class AliquotaICMSProprio(models.Model):
         string=u'Alíquota',
         required=True,
         digits=(5, 2),
-        currency_field='currency_aliquota_id'
+        currency_field='currency_aliquota_id',
     )
     md_icms = fields.Selection(
         selection=MODALIDADE_BASE_ICMS_PROPRIO,
@@ -69,18 +75,21 @@ class AliquotaICMSProprio(models.Model):
             else:
                 al_icms.descricao = formata_valor(al_icms.al_icms or 0) + '%'
 
-                if al_icms.md_icms != MODALIDADE_BASE_ICMS_PROPRIO_VALOR_OPERACAO:
-                    if al_icms.md_icms == MODALIDADE_BASE_ICMS_PROPRIO_MARGEM_VALOR_AGREGADO:
+                if (al_icms.md_icms !=
+                        MODALIDADE_BASE_ICMS_PROPRIO_VALOR_OPERACAO):
+                    if (al_icms.md_icms ==
+                            MODALIDADE_BASE_ICMS_PROPRIO_MARGEM_VALOR_AGREGADO):
                         al_icms.descricao += u', por MVA de ' + \
                             formata_valor(al_icms.pr_icms,
                                           casas_decimais=4) + '%'
                     elif al_icms.md_icms == MODALIDADE_BASE_ICMS_PROPRIO_PAUTA:
                         al_icms.descricao += u', por pauta de R$ ' + \
                             formata_valor(al_icms.pr_icms, casas_decimais=4)
-                    elif al_icms.md_icms == MODALIDADE_BASE_ICMS_PROPRIO_PRECO_TABELADO_MAXIMO:
+                    elif (al_icms.md_icms == MODALIDADE_BASE_ICMS_PROPRIO_PRECO_TABELADO_MAXIMO):
                         al_icms.descricao += u', por preço máximo de R$ ' + \
                                              formata_valor(
-                                                 al_icms.pr_icms, casas_decimais=4)
+                                                 al_icms.pr_icms,
+                                                 casas_decimais=4)
 
                 if al_icms.rd_icms != 0:
                     al_icms.descricao += u', com redução de ' + \

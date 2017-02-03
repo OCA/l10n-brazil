@@ -1,12 +1,31 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#    Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-
 from odoo import api, fields, models
-from ..constante_tributaria import *
+from ..constante_tributaria import (
+    ENTRADA_SAIDA,
+    ENTRADA_SAIDA_SAIDA,
+    POSICAO_CFOP,
+    CFOPS_COMPRA,
+    CFOPS_COMPRA_INDUSTRIALIZACAO,
+    CFOPS_COMPRA_COMERCIALIZACAO,
+    CFOPS_COMPRA_ATIVO,
+    CFOPS_USO_CONSUMO,
+    CFOPS_COMPRA_SERVICO,
+    CFOPS_COMPRA_CUSTO_VENDA,
+    CFOPS_VENDA_MERCADORIA,
+    CFOPS_VENDA_ATIVO,
+    CFOPS_VENDA_SERVICO,
+    CFOPS_DEVOLUCAO_COMPRA,
+    CFOPS_DEVOLUCAO_VENDA,
+    CFOPS_RETORNO_ENTRADA,
+    CFOPS_RETORNO_SAIDA,
+    CFOPS_CALCULA_SIMPLES_CSLL_IRPJ,
+)
 
 
 class CFOP(models.Model):
