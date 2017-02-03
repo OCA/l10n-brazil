@@ -1,9 +1,21 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+from ..constante_tributaria import (
+    MODALIDADE_BASE_IPI,
+    MODALIDADE_BASE_IPI_ALIQUOTA,
+    ST_IPI_ENTRADA,
+    ST_IPI_ENTRADA_RECUPERACAO_CREDITO,
+    ST_IPI_SAIDA,
+    ST_IPI_SAIDA_TRIBUTADA,
+    MODALIDADE_BASE_IPI_QUANTIDADE,
+)
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -13,11 +25,6 @@ try:
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
-
-from odoo import api, fields, models
-import odoo.addons.decimal_precision as dp
-from odoo.exceptions import ValidationError
-from ..constante_tributaria import *
 
 
 class AliquotaIPI(models.Model):
