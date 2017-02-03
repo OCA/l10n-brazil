@@ -5,6 +5,15 @@
 <openerp>
     <data>
 
+        <record id="ir_cron_scheduler_update_control_vacation" model="ir.cron">
+            <field name="name">Verify vacation scheduler</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="'hr.vacation.control'" name="model"/>
+            <field eval="'atualizar_controle_ferias'" name="function"/>
+        </record>
+
         <record id="ir_cron_scheduler_vacation_verify" model="ir.cron">
             <field name="name">Verify vacation scheduler</field>
             <field name="interval_number">1</field>

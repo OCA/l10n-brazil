@@ -47,9 +47,5 @@ class HrEmployee(models.Model):
                             'sold_vacations_days': 0,
                             'number_of_days_temp': 30,
                             'contract_id': employee.contract_ids.id,
-                            'periodo_concessivo_inicio': concessivo_inicio,
-                            'periodo_concessivo_fim': concessivo_fim,
-                            'limite_gozo': limite_gozo,
-                            'limite_aviso': limite_aviso,
                         })
                         employee.end_last_vacation = date_end

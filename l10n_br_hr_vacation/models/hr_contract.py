@@ -41,17 +41,18 @@ class HrContract(models.Model):
     def create(self, vals):
         first = True
         inicio = fields.Date.from_string(vals['date_start'])
+        hoje = fields.Date.from_string(fields.Date.today())
         hr_contract_id = super(HrContract, self).create(vals)
         lista_controle_ferias = []
-        while(True):
-            if(not first):
-                inicio = inicio + relativedelta(years=1)
-                today = fields.Date.from_string(fields.Date.today())
-                if(inicio > today):
-                    break
-            controle_ferias = self.create_controle_ferias(str(inicio))
+        controle_ferias_obj = self.env['hr.vacation.control']
+
+        while(inicio < hoje):
+            vals = controle_ferias_obj.calcular_datas_aquisitivo_concessivo(
+                str(inicio)
+            )
+            controle_ferias = controle_ferias_obj.create(vals)
+            inicio = inicio + relativedelta(years=1)
             lista_controle_ferias.append(controle_ferias.id)
-            first = False
         hr_contract_id.vacation_control_ids = lista_controle_ferias
         return hr_contract_id
 

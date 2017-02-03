@@ -46,6 +46,12 @@ class HrHolidays(models.Model):
         index=True,
     )
 
+    controle_ferias = fields.One2many(
+        inverse_name='hr_holiday_ids',
+        comodel_name='hr.vacation.control',
+        string=u'Controle de Férias',
+    )
+
     @api.depends('vacations_days', 'sold_vacations_days')
     def _compute_days_temp(self):
         for holiday_id in self:
