@@ -1,9 +1,21 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#    Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+from ..constante_tributaria import (
+    MODALIDADE_BASE_PIS,
+    MODALIDADE_BASE_PIS_ALIQUOTA,
+    ST_PIS_ENTRADA,
+    ST_PIS_CRED_EXCL_TRIB_MERC_INTERNO,
+    ST_PIS_SAIDA,
+    ST_PIS_TRIB_NORMAL,
+    MODALIDADE_BASE_PIS_QUANTIDADE,
+)
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -13,10 +25,6 @@ try:
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
-
-from odoo import api, fields, models
-from odoo.exceptions import ValidationError
-from ..constante_tributaria import *
 
 
 class AliquotaPISCOFINS(models.Model):
@@ -80,19 +88,28 @@ class AliquotaPISCOFINS(models.Model):
                     al_pis_cofins.descricao += u'; COFINS ' + \
                         formata_valor(al_pis_cofins.al_cofins or 0) + '%'
 
-                elif al_pis_cofins.md_pis_cofins == MODALIDADE_BASE_PIS_QUANTIDADE:
-                    al_pis_cofins.descricao = u'por quantidade, PIS a R$ ' + \
+                elif (al_pis_cofins.md_pis_cofins ==
+                      MODALIDADE_BASE_PIS_QUANTIDADE):
+                    al_pis_cofins.descricao = (
+                        u'por quantidade, PIS a R$ ' +
                         formata_valor(al_pis_cofins.al_pis)
-                    al_pis_cofins.descricao += u'; COFINS a R$ ' + \
+                    )
+                    al_pis_cofins.descricao += (
+                        u'; COFINS a R$ ' +
                         formata_valor(al_pis_cofins.al_cofins)
+                    )
 
-                al_pis_cofins.descricao += u' - CST ' + al_pis_cofins.cst_pis_cofins_entrada
-                al_pis_cofins.descricao += u' entrada, ' + al_pis_cofins.cst_pis_cofins_saida
+                al_pis_cofins.descricao += (
+                    u' - CST ' + al_pis_cofins.cst_pis_cofins_entrada)
+                al_pis_cofins.descricao += (
+                    u' entrada, ' + al_pis_cofins.cst_pis_cofins_saida)
                 al_pis_cofins.descricao += u' saída'
 
                 if al_pis_cofins.codigo_justificativa:
                     al_pis_cofins.descricao += u' - justificativa '
-                    al_pis_cofins.descricao += al_pis_cofins.codigo_justificativa
+                    al_pis_cofins.descricao += (
+                        al_pis_cofins.codigo_justificativa
+                    )
 
     @api.depends('al_pis', 'al_cofins', 'md_pis_cofins',
                  'cst_pis_cofins_entrada', 'cst_pis_cofins_saida',
@@ -105,8 +122,10 @@ class AliquotaPISCOFINS(models.Model):
                 ('md_pis_cofins', '=', al_pis_cofins.md_pis_cofins),
                 ('cst_pis_cofins_entrada', '=',
                  al_pis_cofins.cst_pis_cofins_entrada),
-                ('cst_pis_cofins_saida', '=', al_pis_cofins.cst_pis_cofins_saida),
-                ('codigo_justificativa', '=', al_pis_cofins.codigo_justificativa),
+                ('cst_pis_cofins_saida', '=',
+                 al_pis_cofins.cst_pis_cofins_saida),
+                ('codigo_justificativa', '=',
+                 al_pis_cofins.codigo_justificativa),
             ]
 
             if al_pis_cofins.id or al_pis_cofins._origin.id:
