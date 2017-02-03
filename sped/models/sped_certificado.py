@@ -5,7 +5,6 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-
 import logging
 from odoo import api, fields, models
 from ..constante_tributaria import (
@@ -93,8 +92,8 @@ class Certificado(models.Model):
             if certificado.cnpj_cpf:
                 certificado.descricao += u' - ' + certificado.cnpj_cpf
 
-            if (certificado.data_inicio_validade
-                    and certificado.data_fim_validade):
+            if (certificado.data_inicio_validade and
+                    certificado.data_fim_validade):
                 certificado.descricao += u', válido de '
                 certificado.descricao += formata_data(
                     certificado.data_inicio_validade)
