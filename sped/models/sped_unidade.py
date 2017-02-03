@@ -1,10 +1,18 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
 
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+from ..constante_tributaria import (
+    TIPO_UNIDADE,
+)
+
+import json
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -15,20 +23,6 @@ try:
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
-
-import json
-from odoo import api, fields, models
-from odoo.exceptions import ValidationError
-
-TIPO_UNIDADE = (
-    ('U', u'Unidade'),
-    ('P', u'Peso'),
-    ('V', u'Volume'),
-    ('C', u'Comprimento'),
-    ('A', u'Área'),
-    ('T', u'Tempo'),
-    ('E', u'Embalagem'),
-)
 
 
 class Unidade(models.Model):
@@ -129,8 +123,8 @@ class Unidade(models.Model):
     #
     symbol = fields.Char('Symbol', size=11, compute='_compute_symbol')
     position = fields.Char('Position', compute='_compute_symbol')
-    rounding = fields.Float(string='Rounding Factor', digits=(
-        12, 6), default=0.01, compute='_compute_symbol')
+    rounding = fields.Float(string='Rounding Factor', digits=(12, 6),
+                            default=0.01, compute='_compute_symbol')
     decimal_places = fields.Integer(compute='_compute_symbol')
     active = fields.Boolean(compute='_compute_symbol')
 
@@ -255,9 +249,15 @@ class Unidade(models.Model):
 
         return valor_por_extenso_unidade(**parametros)
 
-    @api.depends('nome_singular', 'nome_plural', 'genero_masculino', 'usa_meio',
-                 'subunidade_id', 'usa_virgula', 'fator_relacao_decimal',
-                 'precisao_decimal')
+    @api.depends(
+        'nome_singular',
+        'nome_plural',
+        'genero_masculino',
+        'usa_meio',
+        'subunidade_id',
+        'usa_virgula',
+        'fator_relacao_decimal',
+        'precisao_decimal')
     def _compute_extenso(self):
         for unidade in self:
             parametros = {
@@ -304,7 +304,9 @@ class Unidade(models.Model):
                 parametros['fator_relacao_decimal'] = 10
                 parametros['precisao_decimal'] = 2
 
-            if unidade.usa_meio or unidade.subunidade_id or unidade.usa_virgula:
+            if (unidade.usa_meio
+                    or unidade.subunidade_id
+                    or unidade.usa_virgula):
                 parametros['numero'] = D('1.5')
                 unidade.extenso_singular_meio = valor_por_extenso_unidade(
                     **parametros
@@ -428,7 +430,6 @@ class Unidade(models.Model):
 
         res = super(Unidade, self).write(dados)
         self.sync_to_uom()
-
         return res
 
     #
@@ -441,50 +442,49 @@ class Unidade(models.Model):
             self.position = 'after'
             self.symbol = ' ' + self.codigo
 
-            if self.tipo == self.TIPO_UNIDADE_UNIDADE or self.tipo == TIPO_UNIDADE_EMBALAGEM:
+            if (self.tipo == self.TIPO_UNIDADE_UNIDADE
+                    or self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
                 self.decimal_places = 0
             else:
                 self.decimal_places = len(
-                    str(int(self.fator_relacao_decimal * (10 ** self.precisao_decimal))))
+                    str(int(self.fator_relacao_decimal * (
+                        10 ** self.precisao_decimal))))
 
             self.rounding = D(10) ** (self.decimal_places * -1)
 
     @api.model
     def get_format_currencies_js_function(self):
-        """ Returns a string that can be used to instanciate a javascript function that formats numbers as currencies.
-            That function expects the number as first parameter and the currency id as second parameter.
-            If the currency id parameter is false or undefined, the company currency is used.
+        """ Returns a string that can be used to instanciate a javascript
+        function that formats numbers as currencies.
+            That function expects the number as first parameter and
+        the currency id as second parameter.
+            If the currency id parameter is false or undefined,
+        the company currency is used.
         """
         function = ""
         for unidade in self.search([]):
             symbol = unidade.codigo
-            format_number_str = "openerp.web.format_value(arguments[0], {type: 'float', digits: [69,%s]}, 0.00)" % self.decimal_places
+            format_number_str = "openerp.web.format_value(arguments[0], " \
+                                "{type: 'float', digits: [69,%s]}, 0.00)" \
+                                % self.decimal_places
             return_str = "return %s + '\\xA0' + %s;" % (
                 json.dumps(symbol), format_number_str)
             function += "if (arguments[1] === %s) { %s }" % (
                 unidade.id, return_str)
-            if (unidade == self.env.ref('sped.UNIDADE_UNIDADE')):
+            if unidade == self.env.ref('sped.UNIDADE_UNIDADE'):
                 company_currency_format = return_str
-        function = "if (arguments[1] === false || arguments[1] === undefined) {" + \
-            company_currency_format + " }" + function
-
-        print('function')
-        print(function)
+        function = "if (" \
+                   "arguments[1] === false || arguments[1] === undefined" \
+                   ") {" + company_currency_format + " }" + function
 
         return function
 
     @api.multi
     def round(self, amount):
         # self.ensure_one()
-
         amount = D(amount or 0)
-        print('vai arredondar', amount)
-
-        if self.tipo == self.TIPO_UNIDADE_UNIDADE or self.tipo == TIPO_UNIDADE_EMBALAGEM:
+        if (self.tipo == self.TIPO_UNIDADE_UNIDADE
+                or self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
             return amount.quantize(D(1))
-
         amount = amount.quantize(D(10) * D(self.decimal_places * -1))
-
-        print('arredondou', amount)
-
         return amount
