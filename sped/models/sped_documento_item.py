@@ -75,17 +75,23 @@ class DocumentoItem(models.Model):
         'sped.operacao.item', 'Item da operação fiscal', ondelete='restrict')
 
     #quantidade = fields.Monetary('Quantidade', default=1, digits=dp.get_precision('SPED - Quantidade'), currency_field='unidade_id')
-    quantidade = fields.Float('Quantidade', default=1, digits=dp.get_precision('SPED - Quantidade'))
-    unidade_id = fields.Many2one('sped.unidade', 'Unidade', ondelete='restrict')
-    vr_unitario = fields.Monetary('Valor unitário', currency_field='currency_unitario_id')
+    quantidade = fields.Float('Quantidade', default=1,
+                              digits=dp.get_precision('SPED - Quantidade'))
+    unidade_id = fields.Many2one(
+        'sped.unidade', 'Unidade', ondelete='restrict')
+    vr_unitario = fields.Monetary(
+        'Valor unitário', currency_field='currency_unitario_id')
 
     # Quantidade de tributação
     fator_conversao_unidade_tributacao = fields.Float('Fator de conversão entre as unidades', default=1,
-                                            digits = dp.get_precision('SPED - Quantidade'))
+                                                      digits=dp.get_precision('SPED - Quantidade'))
     #quantidade_tributacao = fields.Monetary('Quantidade para tributação', digits=(18, 4), currency_field='unidade_tributacao_id')
-    quantidade_tributacao = fields.Float('Quantidade para tributação', digits=(18, 4))
-    unidade_tributacao_id = fields.Many2one('sped.unidade', 'Unidade para tributação', ondelete='restrict')
-    vr_unitario_tributacao = fields.Float('Valor unitário para tributação', digits=(18, 10))
+    quantidade_tributacao = fields.Float(
+        'Quantidade para tributação', digits=(18, 4))
+    unidade_tributacao_id = fields.Many2one(
+        'sped.unidade', 'Unidade para tributação', ondelete='restrict')
+    vr_unitario_tributacao = fields.Float(
+        'Valor unitário para tributação', digits=(18, 10))
     exibe_tributacao = fields.Boolean('Exibe tributação à parte?')
 
     # Valor total dos produtos
@@ -110,26 +116,36 @@ class DocumentoItem(models.Model):
                                 default=ORIGEM_MERCADORIA_NACIONAL)
     cst_icms = fields.Selection(ST_ICMS, 'CST ICMS', index=True)
     partilha = fields.Boolean('Partilha de ICMS entre estados (CST 10 ou 90)?')
-    al_bc_icms_proprio_partilha = fields.Monetary('% da base de cálculo da operação própria', digits=(5, 2), currency_field='currency_aliquota_id')
-    estado_partilha_id = fields.Many2one('sped.estado', 'Estado para o qual é devido o ICMS ST', index=True)
-    repasse = fields.Boolean('Repasse de ICMS retido anteriosvente entre estados (CST 41)?', index=True)
+    al_bc_icms_proprio_partilha = fields.Monetary(
+        '% da base de cálculo da operação própria', digits=(5, 2), currency_field='currency_aliquota_id')
+    estado_partilha_id = fields.Many2one(
+        'sped.estado', 'Estado para o qual é devido o ICMS ST', index=True)
+    repasse = fields.Boolean(
+        'Repasse de ICMS retido anteriosvente entre estados (CST 41)?', index=True)
     md_icms_proprio = fields.Selection(MODALIDADE_BASE_ICMS_PROPRIO, 'Modalidade da base de cálculo do ICMS próprio',
                                        default=MODALIDADE_BASE_ICMS_PROPRIO_VALOR_OPERACAO)
     pr_icms_proprio = fields.Float('Parâmetro do ICMS próprio', digits=(18, 4))
-    rd_icms_proprio = fields.Monetary('% de redução da base de cálculo do ICMS próprio', digits=(5, 2), currency_field='currency_aliquota_id')
-    bc_icms_proprio_com_ipi = fields.Boolean('IPI integra a base do ICMS próprio?')
+    rd_icms_proprio = fields.Monetary('% de redução da base de cálculo do ICMS próprio', digits=(
+        5, 2), currency_field='currency_aliquota_id')
+    bc_icms_proprio_com_ipi = fields.Boolean(
+        'IPI integra a base do ICMS próprio?')
     bc_icms_proprio = fields.Monetary('Base do ICMS próprio')
-    al_icms_proprio = fields.Monetary('alíquota do ICMS próprio', digits=(5, 2), currency_field='currency_aliquota_id')
+    al_icms_proprio = fields.Monetary('alíquota do ICMS próprio', digits=(
+        5, 2), currency_field='currency_aliquota_id')
     vr_icms_proprio = fields.Monetary('valor do ICMS próprio')
 
     #
     # Parâmetros relativos ao ICMS Simples Nacional
     #
-    cst_icms_sn = fields.Selection(ST_ICMS_SN, 'CST ICMS - SIMPLES', index=True)
-    al_icms_sn = fields.Monetary('Alíquota do crédito de ICMS', digits=(5, 2), currency_field='currency_aliquota_id')
-    rd_icms_sn = fields.Monetary('% estadual de redução da alíquota de ICMS', digits=(5, 2), currency_field='currency_aliquota_id')
+    cst_icms_sn = fields.Selection(
+        ST_ICMS_SN, 'CST ICMS - SIMPLES', index=True)
+    al_icms_sn = fields.Monetary('Alíquota do crédito de ICMS', digits=(
+        5, 2), currency_field='currency_aliquota_id')
+    rd_icms_sn = fields.Monetary('% estadual de redução da alíquota de ICMS', digits=(
+        5, 2), currency_field='currency_aliquota_id')
     vr_icms_sn = fields.Monetary('valor do crédito de ICMS - SIMPLES')
-    al_simples = fields.Monetary('Alíquota do SIMPLES', digits=(5,2), currency_field='currency_aliquota_id')
+    al_simples = fields.Monetary('Alíquota do SIMPLES', digits=(
+        5, 2), currency_field='currency_aliquota_id')
     vr_simples = fields.Monetary('Valor do SIMPLES')
 
     #
@@ -138,10 +154,12 @@ class DocumentoItem(models.Model):
     md_icms_st = fields.Selection(MODALIDADE_BASE_ICMS_ST, 'Modalidade da base de cálculo do ICMS ST',
                                   default=MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO)
     pr_icms_st = fields.Float('Parâmetro do ICMS ST', digits=(18, 4))
-    rd_icms_st = fields.Monetary('% de redução da base de cálculo do ICMS ST', digits=(5, 2), currency_field='currency_aliquota_id')
+    rd_icms_st = fields.Monetary('% de redução da base de cálculo do ICMS ST', digits=(
+        5, 2), currency_field='currency_aliquota_id')
     bc_icms_st_com_ipi = fields.Boolean('IPI integra a base do ICMS ST?')
     bc_icms_st = fields.Monetary('Base do ICMS ST')
-    al_icms_st = fields.Monetary('Alíquota do ICMS ST', digits=(5, 2), currency_field='currency_aliquota_id')
+    al_icms_st = fields.Monetary('Alíquota do ICMS ST', digits=(
+        5, 2), currency_field='currency_aliquota_id')
     vr_icms_st = fields.Monetary('Valor do ICMS ST')
 
     #
@@ -155,7 +173,8 @@ class DocumentoItem(models.Model):
     rd_icms_st_retido = fields.Float(
         '% de redução da base de cálculo do ICMS retido', digits=(5, 2))
     bc_icms_st_retido = fields.Monetary('Base do ICMS ST retido na origem')
-    al_icms_st_retido = fields.Monetary('Alíquota do ICMS ST retido na origem', digits=(5, 2), currency_field='currency_aliquota_id')
+    al_icms_st_retido = fields.Monetary('Alíquota do ICMS ST retido na origem', digits=(
+        5, 2), currency_field='currency_aliquota_id')
     vr_icms_st_retido = fields.Monetary('Valor do ICMS ST retido na origem')
 
     #
@@ -169,7 +188,8 @@ class DocumentoItem(models.Model):
     md_ipi = fields.Selection(
         MODALIDADE_BASE_IPI, 'Modalidade BC do IPI', default=MODALIDADE_BASE_IPI_ALIQUOTA)
     bc_ipi = fields.Monetary('Base do IPI')
-    al_ipi = fields.Monetary('Alíquota do IPI', digits=(18, 2), currency_field='currency_aliquota_id')
+    al_ipi = fields.Monetary('Alíquota do IPI', digits=(
+        18, 2), currency_field='currency_aliquota_id')
     vr_ipi = fields.Monetary('Valor do IPI')
 
     #
@@ -192,7 +212,8 @@ class DocumentoItem(models.Model):
     md_pis_proprio = fields.Selection(MODALIDADE_BASE_PIS, 'Modalidade BC do PIS próprio',
                                       default=MODALIDADE_BASE_PIS_ALIQUOTA)
     bc_pis_proprio = fields.Monetary('Base do PIS próprio')
-    al_pis_proprio = fields.Monetary('Alíquota do PIS próprio', digits=(18, 2), currency_field='currency_aliquota_id')
+    al_pis_proprio = fields.Monetary('Alíquota do PIS próprio', digits=(
+        18, 2), currency_field='currency_aliquota_id')
     vr_pis_proprio = fields.Monetary('Valor do PIS próprio')
 
     #
@@ -204,7 +225,8 @@ class DocumentoItem(models.Model):
     md_cofins_proprio = fields.Selection(MODALIDADE_BASE_COFINS, 'Modalidade BC da COFINS própria',
                                          default=MODALIDADE_BASE_COFINS_ALIQUOTA)
     bc_cofins_proprio = fields.Monetary('Base do COFINS próprio')
-    al_cofins_proprio = fields.Monetary('Alíquota da COFINS própria', digits=(18, 2), currency_field='currency_aliquota_id')
+    al_cofins_proprio = fields.Monetary('Alíquota da COFINS própria', digits=(
+        18, 2), currency_field='currency_aliquota_id')
     vr_cofins_proprio = fields.Monetary('Valor do COFINS próprio')
 
     #
@@ -214,7 +236,8 @@ class DocumentoItem(models.Model):
     # ISS
     # cst_iss = fields.Selection(ST_ISS, 'CST ISS', index=True)
     bc_iss = fields.Monetary('Base do ISS')
-    al_iss = fields.Monetary('Alíquota do ISS', digits=(5, 2), currency_field='currency_aliquota_id')
+    al_iss = fields.Monetary('Alíquota do ISS', digits=(
+        5, 2), currency_field='currency_aliquota_id')
     vr_iss = fields.Monetary('Valor do ISS')
 
     #
@@ -223,13 +246,15 @@ class DocumentoItem(models.Model):
     vr_nf = fields.Monetary('Valor da NF')
     vr_fatura = fields.Monetary('Valor da fatura')
 
-    al_ibpt = fields.Monetary('Alíquota IBPT', digits=(5, 2), currency_field='currency_aliquota_id')
+    al_ibpt = fields.Monetary('Alíquota IBPT', digits=(
+        5, 2), currency_field='currency_aliquota_id')
     vr_ibpt = fields.Monetary('Valor IBPT')
 
     # Previdência social
     inss_retido = fields.Boolean('INSS retido?', index=True)
     bc_inss_retido = fields.Monetary('Base do INSS')
-    al_inss_retido = fields.Monetary('Alíquota do INSS', digits=(5, 2), currency_field='currency_aliquota_id')
+    al_inss_retido = fields.Monetary('Alíquota do INSS', digits=(
+        5, 2), currency_field='currency_aliquota_id')
     vr_inss_retido = fields.Monetary('Valor do INSS')
 
     # Informações adicionais
@@ -283,14 +308,17 @@ class DocumentoItem(models.Model):
     # Diferencial de alíquota
     #
     calcula_difal = fields.Boolean('Calcula diferencial de alíquota?')
-    al_interna_destino = fields.Monetary('Alíquota interna do estado destino', digits=(5, 2), currency_field='currency_aliquota_id')
-    al_difal = fields.Monetary('Alíquota diferencial ICMS próprio', digits=(5, 2), currency_field='currency_aliquota_id')
+    al_interna_destino = fields.Monetary('Alíquota interna do estado destino', digits=(
+        5, 2), currency_field='currency_aliquota_id')
+    al_difal = fields.Monetary('Alíquota diferencial ICMS próprio', digits=(
+        5, 2), currency_field='currency_aliquota_id')
     vr_difal = fields.Monetary('Valor do diferencial de alíquota ICMS próprio')
 
     #
     # Fundo de combate à pobreza
     #
-    al_fcp = fields.Monetary('Alíquota do fundo de combate à pobreza', digits=(5, 2), currency_field='currency_aliquota_id')
+    al_fcp = fields.Monetary('Alíquota do fundo de combate à pobreza', digits=(
+        5, 2), currency_field='currency_aliquota_id')
     vr_fcp = fields.Monetary('Valor do fundo de combate à pobreza')
 
     #
@@ -1125,7 +1153,8 @@ class DocumentoItem(models.Model):
 
         al_icms_sn = self.al_icms_sn
         print(type(al_icms_sn), al_icms_sn, 'al_icms_sn')
-        print(type(self.vr_operacao_tributacao), self.vr_operacao_tributacao, 'self.vr_operacao_tributacao')
+        print(type(self.vr_operacao_tributacao),
+              self.vr_operacao_tributacao, 'self.vr_operacao_tributacao')
 
         #
         # Aplica a redução da alíquota quando houver

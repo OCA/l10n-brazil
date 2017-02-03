@@ -13,7 +13,8 @@ from odoo import api, fields, models
 class IrUiView(models.Model):
     _inherit = 'ir.ui.view'
 
-    copy_id = fields.Many2one('ir.ui.view', string='Copied View', ondelete='restrict', index=True)
+    copy_id = fields.Many2one(
+        'ir.ui.view', string='Copied View', ondelete='restrict', index=True)
     #copy_id = fields.Many2one('ir.ui.view', string='Copied View', index=True)
     #inherit_id = fields.Many2one('ir.ui.view', string='Inherited View', index=True)
 

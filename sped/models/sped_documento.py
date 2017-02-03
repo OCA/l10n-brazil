@@ -386,7 +386,7 @@ class Documento(models.Model):
     # Duplicatas e pagamentos
     #
     duplicata_ids = fields.One2many(
-        comodel_name='sped.documento.duplicata', 
+        comodel_name='sped.documento.duplicata',
         inverse_name='documento_id',
         string=u'Duplicatas',
     )
@@ -466,7 +466,7 @@ class Documento(models.Model):
     compra_contrato = fields.Char(
         string=u'Contrato (compra pública)',
         size=60,
-   )
+    )
 
     #
     # Totais dos itens

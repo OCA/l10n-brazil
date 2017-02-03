@@ -19,12 +19,17 @@ class Base(models.AbstractModel):
     # Real BRL
     # o currency_aliquota_id é para colocar o sinal de % depois dos percetuais
     #
-    currency_id = fields.Many2one('res.currency', 'Moeda', compute='_compute_currency_id', default=lambda self: self.env.ref('base.BRL'))
-    currency_aliquota_id = fields.Many2one('res.currency', 'Percentual', compute='_compute_currency_id', default=lambda self: self.env.ref('sped.SIMBOLO_ALIQUOTA'))
-    currency_unitario_id = fields.Many2one('res.currency', 'Unitário', compute='_compute_currency_id', default=lambda self: self.env.ref('sped.SIMBOLO_VALOR_UNITARIO'))
+    currency_id = fields.Many2one(
+        'res.currency', 'Moeda', compute='_compute_currency_id', default=lambda self: self.env.ref('base.BRL'))
+    currency_aliquota_id = fields.Many2one(
+        'res.currency', 'Percentual', compute='_compute_currency_id', default=lambda self: self.env.ref('sped.SIMBOLO_ALIQUOTA'))
+    currency_unitario_id = fields.Many2one(
+        'res.currency', 'Unitário', compute='_compute_currency_id', default=lambda self: self.env.ref('sped.SIMBOLO_VALOR_UNITARIO'))
 
     def _compute_currency_id(self):
         for item in self:
             item.currency_id = self.env.ref('base.BRL').id
-            item.currency_aliquota_id = self.env.ref('sped.SIMBOLO_ALIQUOTA').id
-            item.currency_unitario_id = self.env.ref('sped.SIMBOLO_VALOR_UNITARIO').id
+            item.currency_aliquota_id = self.env.ref(
+                'sped.SIMBOLO_ALIQUOTA').id
+            item.currency_unitario_id = self.env.ref(
+                'sped.SIMBOLO_VALOR_UNITARIO').id
