@@ -5,6 +5,17 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+
+# import logging
+# _logger = logging.getLogger(__name__)
+
+# try:
+# from pybrasil.valor import valor_por_extenso_item
+# from pybrasil.valor.decimal import Decimal as D
+
+# except (ImportError, IOError) as err:
+# _logger.debug(err)
+
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
