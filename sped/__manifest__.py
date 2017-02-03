@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#    Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -26,8 +27,7 @@
         'data/inherited_res_currency_data.xml',
         'data/inherited_decimal_precision_data.xml',
         'data/inherited_product_uom_category_data.xml',
-        #'data/inherited_product_uom_data.xml',
-
+        # 'data/inherited_product_uom_data.xml',
         'data/sped_pais_data.xml',
         'data/sped_estado_data.xml',
         'data/sped_municipio_data.xml',
@@ -111,7 +111,6 @@
 
         'views/sped_documento_emissao_nfe_view.xml',
         'views/sped_documento_emissao_nfce_view.xml',
-
-        #'views/sped_documento_recebimento_nfe_view.xml',
+        # 'views/sped_documento_recebimento_nfe_view.xml',
     ]
 }
