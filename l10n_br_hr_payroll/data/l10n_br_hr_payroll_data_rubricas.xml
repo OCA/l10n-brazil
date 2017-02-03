@@ -38,6 +38,10 @@
             <field name="name">FGTS</field>
             <field name="code">FGTS</field>
         </record>
+        <record id="hr_payroll.SEFIP" model="hr.salary.rule.category">
+            <field name="name">SEFIP</field>
+            <field name="code">SEFIP</field>
+        </record>
 
         <!--REGRAS DE SALARIOS-->
         <record id="hr_salary_rule_BRUTO" model="hr.salary.rule">
@@ -129,6 +133,84 @@
             <field name="quantity">1.0</field>
             <field name="amount_percentage">8.00</field>
             <field name="sequence" eval="602" />
+        </record>
+
+        <!--INSS Empresa-->
+
+        <record id="hr_salary_rule_INSS_EMPRESA_BASE" model="hr.salary.rule">
+            <field name="code">INSS_EMPRESA_BASE</field>
+            <field name="name">INSS Empresa Base</field>
+            <field name="category_id" ref="hr_payroll.SEFIP" />
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=BASE_INSS
+                if 'BASE_INSS_13' in locals():
+                result+=BASE_INSS_13</field>
+            <field name="sequence" eval="701"/>
+        </record>
+
+        <record id="hr_salary_rule_INSS_DEDUCAO_PREVIDENCARIA" model="hr.salary.rule">
+            <field name="code">INSS_DEDUCAO_PREVIDENCIARIA</field>
+            <field name="name">INSS Dedução Previdenciária</field>
+            <field name="category_id" ref="hr_payroll.SEFIP" />
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=0
+                if 'SALARIO_FAMILIA' in locals():
+                result+=SALARIO_FAMILIA
+                if 'LICENCA_MATERNIDADE' in locals():
+                result+=LICENCA_MATERNIDADE</field>
+            <field name="sequence" eval="702"/>
+        </record>
+
+        <record id="hr_salary_rule_INSS_EMPRESA" model="hr.salary.rule">
+            <field name="code">INSS_EMPRESA</field>
+            <field name="name">INSS Empresa</field>
+            <field name="category_id" ref="hr_payroll.SEFIP" />
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=INSS_EMPRESA_BASE
+               result_rate=RAT_FAP.total_rate</field>
+            <field name="sequence" eval="703"/>
+        </record>
+
+         <record id="hr_salary_rule_INSS_OUTRAS_ENTIDADES" model="hr.salary.rule">
+            <field name="code">INSS_OUTRAS_ENTIDADES</field>
+            <field name="name">INSS Outras Entidades</field>
+            <field name="category_id" ref="hr_payroll.SEFIP" />
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=INSS_EMPRESA_BASE
+                result_rate=RAT_FAP.other_entities_rate</field>
+            <field name="sequence" eval="704"/>
+        </record>
+
+        <record id="hr_salary_rule_INSS_RAT_FAP" model="hr.salary.rule">
+            <field name="code">INSS_RAT_FAP</field>
+            <field name="name">INSS RAT/FAP</field>
+            <field name="category_id" ref="hr_payroll.SEFIP" />
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=INSS_EMPRESA_BASE
+                result_rate=RAT_FAP.rat_rate*RAT_FAP.fap_rate</field>
+            <field name="sequence" eval="705"/>
+        </record>
+
+        <record id="hr_salary_rule_INSS_EMPRESA_TOTAL" model="hr.salary.rule">
+            <field name="code">INSS_EMPRESA_TOTAL</field>
+            <field name="name">INSS Empresa Total</field>
+            <field name="category_id" ref="hr_payroll.SEFIP" />
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=INSS_EMPRESA
+                if 'INSS_RAT_FAP' in locals():
+                result+=INSS_RAT_FAP
+                if 'INSS_OUTRAS_ENTIDADES' in locals():
+                result+=INSS_OUTRAS_ENTIDADES</field>
+            <field name="sequence" eval="706"/>
+        </record>
+
+        <record id="hr_salary_rule_INSS_EMPRESA_LIQUIDO" model="hr.salary.rule">
+            <field name="code">INSS_EMPRESA_LIQUIDO</field>
+            <field name="name">INSS Empresa Líquido</field>
+            <field name="category_id" ref="hr_payroll.SEFIP" />
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=INSS_EMPRESA_TOTAL-INSS_DEDUCAO_PREVIDENCIARIA</field>
+            <field name="sequence" eval="707"/>
         </record>
 
         <!--Ferias-->
