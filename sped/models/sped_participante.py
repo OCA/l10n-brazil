@@ -528,7 +528,7 @@ class Participante(models.Model):
         res = {'value': valores}
 
         if self.suframa:
-            if not valida_inscricao_estadual(suframa, 'SUFRAMA'):
+            if not valida_inscricao_estadual(self.suframa, 'SUFRAMA'):
                 raise ValidationError('Inscrição na SUFRAMA inválida!')
 
             valores['suframa'] = formata_inscricao_estadual(self.suframa,
