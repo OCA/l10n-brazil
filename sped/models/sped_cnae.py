@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -64,4 +65,4 @@ class CNAE(models.Model):
                 cnae_ids = self.search([('codigo', '=', cnae.codigo)])
 
             if len(cnae_ids) > 0:
-                raise ValidationError('uCódigo CNAE já existe na tabela!')
+                raise ValidationError(u'Código CNAE já existe na tabela!')
