@@ -10,7 +10,7 @@ class HrContract(models.Model):
     _inherit = 'hr.contract'
 
     @api.multi
-    def _buscar_salario_vigente(self, data_inicio, data_fim):
+    def _buscar_salario_vigente_periodo(self, data_inicio, data_fim):
         contract_change_obj = self.env['l10n_br_hr.contract.change']
         change = contract_change_obj.search(
             [
@@ -27,13 +27,21 @@ class HrContract(models.Model):
     def _salario_dia(self, data_inicio, data_fim):
         if data_inicio >= self.date_start and \
                 (data_fim <= self.date_end or not self.date_end):
-            return self._buscar_salario_vigente(data_inicio, data_fim)/30
+            return self.wage/30
+        else:
+            return self._buscar_salario_vigente_periodo(
+                data_inicio, data_fim)/30
 
     @api.multi
     def _salario_hora(self, data_inicio, data_fim):
         if data_inicio >= self.date_start and \
                 (data_fim <= self.date_end or not self.date_end):
-            return self._buscar_salario_vigente(data_inicio, data_fim)/(
+            return self.wage/(
+                220 if not self.monthly_hours else self.monthly_hours
+            )
+        else:
+            return self._buscar_salario_vigente_periodo(
+                data_inicio, data_fim)/(
                 220 if not self.monthly_hours else self.monthly_hours
             )
 
@@ -41,7 +49,9 @@ class HrContract(models.Model):
     def _salario_mes(self, data_inicio, data_fim):
         if data_inicio >= self.date_start and \
                 (data_fim <= self.date_end or not self.date_end):
-            return self._buscar_salario_vigente(data_inicio, data_fim)
+            return self.wage
+        else:
+            return self._buscar_salario_vigente_periodo(data_inicio, data_fim)
 
     specific_rule_ids = fields.One2many(
         comodel_name='hr.contract.salary.rule',

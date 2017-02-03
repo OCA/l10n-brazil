@@ -242,7 +242,9 @@ class HrPayslip(models.Model):
     @api.multi
     def _get_rat_fap_period_values(self, year):
         rat_fap_obj = self.env['l10n_br.hr.rat.fap']
-        rat_fap = rat_fap_obj = rat_fap_obj.search([('year', '=', year)])
+        rat_fap = rat_fap_obj = rat_fap_obj.search(
+            [('year', '=', year), ('company_id', '=', self.company_id.id)]
+        )
         if rat_fap:
             return rat_fap
         else:
