@@ -1,30 +1,25 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-
-from __future__ import division, print_function, unicode_literals
-
-#import logging
-#_logger = logging.getLogger(__name__)
-
-# try:
-#from pybrasil.produto import valida_ean
-
-# except (ImportError, IOError) as err:
-#_logger.debug(err)
-
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.addons.sped.constante_tributaria import (
+    TIPO_PRODUTO_SERVICO_SERVICOS,
+    TIPO_PRODUTO_SERVICO_MATERIAL_USO_CONSUMO,
+)
 
 
 class Documento(models.Model):
     _inherit = 'sped.documento'
 
     account_invoice_id = fields.Many2one(
-        'account.invoice', 'Invoice original', ondelete='restrict')
+        comodel_name='account.invoice',
+        string=u'Invoice original',
+        ondelete='restrict',
+    )
 
     def prepare_sync_to_invoice(self):
         self.ensure_one()
@@ -67,7 +62,8 @@ class Documento(models.Model):
                     or documento.eh_devolucao_compra):
                 continue
 
-            # if documento.state != 'autorizado' or documento.state != 'cancelado':
+                # if documento.state !=
+                # 'autorizado' or documento.state != 'cancelado':
                 # continue
 
             dados = documento.prepare_sync_to_invoice()

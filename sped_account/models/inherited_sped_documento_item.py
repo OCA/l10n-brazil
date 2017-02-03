@@ -5,35 +5,24 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-
-from __future__ import division, print_function, unicode_literals
-
-#import logging
-#_logger = logging.getLogger(__name__)
-
-# try:
-#from pybrasil.valor import valor_por_extenso_item
-#from pybrasil.valor.decimal import Decimal as D
-
-# except (ImportError, IOError) as err:
-#_logger.debug(err)
-
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
 
 
 class DocumentoItem(models.Model):
     _inherit = 'sped.documento.item'
 
     account_invoice_line_id = fields.Many2one(
-        'account.invoice.line', 'Invoice line original', ondelete='restrict')
+        comodel_name='account.invoice.line',
+        string=u'Invoice line original',
+        ondelete='restrict',
+    )
 
     def prepare_sync_to_invoice_line(self):
         self.ensure_one()
 
         dados = {
             'name': self.codigo,
-            'categ_id': categ_id,
+            # 'categ_id': categ_id,
             'active': True,
         }
 
@@ -57,7 +46,8 @@ class DocumentoItem(models.Model):
                     or item.documento_id.eh_devolucao_compra):
                 continue
 
-            if item.documento_id.state != 'autorizado' or item.documento_id.state != 'cancelado':
+            if (item.documento_id.state != 'autorizado'
+                    or item.documento_id.state != 'cancelado'):
                 continue
 
             dados = item.prepare_sync_to_invoice_line()
