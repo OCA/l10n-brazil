@@ -423,7 +423,7 @@ class Empresa(models.Model):
         res = {'value': valores}
 
         if self.suframa:
-            if not valida_inscricao_estadual(suframa, 'SUFRAMA'):
+            if not valida_inscricao_estadual(self.suframa, 'SUFRAMA'):
                 raise ValidationError(u'Inscrição na SUFRAMA inválida!')
 
             valores.update(suframa=formata_inscricao_estadual(
@@ -635,7 +635,8 @@ class Empresa(models.Model):
                 empresa.company_id.write(dados)
 
             else:
-                company = self.env['res.company'].create(dados)
+                # FIXME: company = self.env['res.company'].create(dados)
+                self.env['res.company'].create(dados)
 
     @api.model
     def create(self, dados):

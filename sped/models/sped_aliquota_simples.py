@@ -39,8 +39,6 @@ class AliquotaSIMPLESAnexo(models.Model):
             if anexo_ids:
                 raise ValidationError(u'Anexo já existe na tabela!')
 
-        return res
-
 
 class AliquotaSIMPLESTeto(models.Model):
     _description = u'Teto do SIMPLES Nacional'
@@ -69,11 +67,8 @@ class AliquotaSIMPLESTeto(models.Model):
             else:
                 teto_ids = self.search(
                     [('valor', '=', teto.valor)])
-
             if teto_ids:
                 raise ValidationError('Teto já existe na tabela!')
-
-    return res
 
 
 class AliquotaSIMPLESAliquota(models.Model):
