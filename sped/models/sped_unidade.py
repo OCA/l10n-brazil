@@ -129,7 +129,8 @@ class Unidade(models.Model):
     #
     symbol = fields.Char('Symbol', size=11, compute='_compute_symbol')
     position = fields.Char('Position', compute='_compute_symbol')
-    rounding = fields.Float(string='Rounding Factor', digits=(12, 6), default=0.01, compute='_compute_symbol')
+    rounding = fields.Float(string='Rounding Factor', digits=(
+        12, 6), default=0.01, compute='_compute_symbol')
     decimal_places = fields.Integer(compute='_compute_symbol')
     active = fields.Boolean(compute='_compute_symbol')
 
@@ -443,7 +444,8 @@ class Unidade(models.Model):
             if self.tipo == self.TIPO_UNIDADE_UNIDADE or self.tipo == TIPO_UNIDADE_EMBALAGEM:
                 self.decimal_places = 0
             else:
-                self.decimal_places = len(str(int(self.fator_relacao_decimal * (10 ** self.precisao_decimal))))
+                self.decimal_places = len(
+                    str(int(self.fator_relacao_decimal * (10 ** self.precisao_decimal))))
 
             self.rounding = D(10) ** (self.decimal_places * -1)
 
@@ -457,11 +459,14 @@ class Unidade(models.Model):
         for unidade in self.search([]):
             symbol = unidade.codigo
             format_number_str = "openerp.web.format_value(arguments[0], {type: 'float', digits: [69,%s]}, 0.00)" % self.decimal_places
-            return_str = "return %s + '\\xA0' + %s;" % (json.dumps(symbol), format_number_str)
-            function += "if (arguments[1] === %s) { %s }" % (unidade.id, return_str)
+            return_str = "return %s + '\\xA0' + %s;" % (
+                json.dumps(symbol), format_number_str)
+            function += "if (arguments[1] === %s) { %s }" % (
+                unidade.id, return_str)
             if (unidade == self.env.ref('sped.UNIDADE_UNIDADE')):
                 company_currency_format = return_str
-        function = "if (arguments[1] === false || arguments[1] === undefined) {" + company_currency_format + " }" + function
+        function = "if (arguments[1] === false || arguments[1] === undefined) {" + \
+            company_currency_format + " }" + function
 
         print('function')
         print(function)
@@ -470,7 +475,7 @@ class Unidade(models.Model):
 
     @api.multi
     def round(self, amount):
-        #self.ensure_one()
+        # self.ensure_one()
 
         amount = D(amount or 0)
         print('vai arredondar', amount)

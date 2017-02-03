@@ -17,10 +17,14 @@ class DocumentoVolume(models.Model):
     # _order = 'emissao, modelo, data_emissao desc, serie, numero'
     # _rec_name = 'numero'
 
-    documento_id = fields.Many2one('sped.documento', 'Documento', ondelete='cascade', required=True)
+    documento_id = fields.Many2one(
+        'sped.documento', 'Documento', ondelete='cascade', required=True)
     especie = fields.Char('Espécie', size=60)
     marca = fields.Char('Marca', size=60)
     numero = fields.Char('Número', size=60)
-    quantidade = fields.Float('Quantidade', digits=dp.get_precision('SPED - Quantidade'))
-    peso_liquido = fields.Float('Peso líquido', digits=dp.get_precision('SPED - Peso'))
-    peso_bruto = fields.Float('Peso bruto', digits=dp.get_precision('SPED - Peso'))
+    quantidade = fields.Float(
+        'Quantidade', digits=dp.get_precision('SPED - Quantidade'))
+    peso_liquido = fields.Float(
+        'Peso líquido', digits=dp.get_precision('SPED - Peso'))
+    peso_bruto = fields.Float(
+        'Peso bruto', digits=dp.get_precision('SPED - Peso'))

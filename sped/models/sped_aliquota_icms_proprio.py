@@ -31,7 +31,7 @@ class AliquotaICMSProprio(models.Model):
         string=u'Alíquota',
         required=True,
         digits=(5, 2),
-	currency_field='currency_aliquota_id'
+        currency_field='currency_aliquota_id'
     )
     md_icms = fields.Selection(
         selection=MODALIDADE_BASE_ICMS_PROPRIO,

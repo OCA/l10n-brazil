@@ -466,7 +466,7 @@ class Documento(models.Model):
     compra_contrato = fields.Char(
         string=u'Contrato (compra pública)',
         size=60,
-   )
+    )
 
     #
     # Totais dos itens
