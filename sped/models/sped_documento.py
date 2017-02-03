@@ -1,12 +1,49 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
 
+from odoo import api, fields, models
+from ..constante_tributaria import (
+    TIPO_EMISSAO,
+    MODELO_FISCAL,
+    ENTRADA_SAIDA,
+    ENTRADA_SAIDA_SAIDA,
+    SITUACAO_FISCAL,
+    SITUACAO_FISCAL_REGULAR,
+    AMBIENTE_NFE,
+    AMBIENTE_NFE_HOMOLOGACAO,
+    TIPO_EMISSAO_NFE,
+    TIPO_EMISSAO_NFE_NORMAL,
+    REGIME_TRIBUTARIO,
+    REGIME_TRIBUTARIO_SIMPLES,
+    FORMA_PAGAMENTO,
+    FORMA_PAGAMENTO_A_VISTA,
+    FINALIDADE_NFE,
+    FINALIDADE_NFE_NORMAL,
+    TIPO_CONSUMIDOR_FINAL,
+    TIPO_CONSUMIDOR_FINAL_NORMAL,
+    INDICADOR_PRESENCA_COMPRADOR,
+    INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
+    MODALIDADE_FRETE,
+    MODALIDADE_FRETE_DESTINATARIO_PROPRIO,
+    LIMITE_RETENCAO_PIS_COFINS_CSLL,
+    NATUREZA_TRIBUTACAO_NFSE,
+    ST_ISS,
+    IE_DESTINATARIO,
+    ENTRADA_SAIDA_ENTRADA,
+    TIPO_EMISSAO_PROPRIA,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFCE,
+    MODELO_FISCAL_NFSE,
+    AMBIENTE_NFE_PRODUCAO,
+    INDICADOR_IE_DESTINATARIO,
+    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL,
+)
 import logging
-
 _logger = logging.getLogger(__name__)
 
 try:
@@ -15,10 +52,6 @@ try:
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
-
-from odoo import api, fields, models
-import odoo.addons.decimal_precision as dp
-from ..constante_tributaria import *
 
 
 class Documento(models.Model):
@@ -351,7 +384,7 @@ class Documento(models.Model):
         string=u'Email',
         size=60,
         related='participante_id.email',
-        readonly=True
+        readonly=True,
     )
     #
     # Inscrições e registros
@@ -467,7 +500,6 @@ class Documento(models.Model):
         string=u'Contrato (compra pública)',
         size=60,
     )
-
     #
     # Totais dos itens
     #
@@ -612,10 +644,14 @@ class Documento(models.Model):
         compute='_compute_soma_itens',
         store=True,
     )
-    # bc_pis_st = fields.Monetary('Base do PIS ST', compute='_compute_soma_itens', store=True)
-    # vr_pis_st = fields.Monetary('Valor do PIS ST', compute='_compute_soma_itens', store=True)
-    # bc_cofins_st = fields.Monetary('Base da COFINS ST', compute='_compute_soma_itens', store=True)
-    # vr_cofins_st = fields.Monetary('Valor do COFINS ST', compute='_compute_soma_itens', store=True)
+    # bc_pis_st = fields.Monetary(
+    # 'Base do PIS ST', compute='_compute_soma_itens', store=True)
+    # vr_pis_st = fields.Monetary(
+    # 'Valor do PIS ST', compute='_compute_soma_itens', store=True)
+    # bc_cofins_st = fields.Monetary(
+    # 'Base da COFINS ST', compute='_compute_soma_itens', store=True)
+    # vr_cofins_st = fields.Monetary(
+    # 'Valor do COFINS ST', compute='_compute_soma_itens', store=True)
     #
     # Totais dos itens (grupo ISS)
     #
@@ -675,7 +711,8 @@ class Documento(models.Model):
     ###
     # Retenções de tributos (órgãos públicos, substitutos tributários etc.)
     ###
-    # 'vr_operacao_pis_cofins_csll = CampoDinheiro(u'Base da retenção do PIS-COFINS e CSLL'),
+    # 'vr_operacao_pis_cofins_csll = CampoDinheiro(
+    # u'Base da retenção do PIS-COFINS e CSLL'),
 
     # PIS e COFINS
     # 'pis_cofins_retido = fields.boolean(u'PIS-COFINS retidos?'),
@@ -837,11 +874,13 @@ class Documento(models.Model):
 
             else:
                 if self.empresa_id.ambiente_nfe == AMBIENTE_NFE_PRODUCAO:
-                    valores[
-                        'serie'] = self.empresa_id.serie_nfe_contingencia_producao
+                    valores['serie'] = (
+                        self.empresa_id.serie_nfe_contingencia_producao
+                    )
                 else:
-                    valores[
-                        'serie'] = self.empresa_id.serie_nfe_contingencia_homologacao
+                    valores['serie'] = (
+                        self.empresa_id.serie_nfe_contingencia_homologacao
+                    )
 
         elif self.modelo == MODELO_FISCAL_NFCE:
             valores['ambiente_nfe'] = self.empresa_id.ambiente_nfce
@@ -855,11 +894,13 @@ class Documento(models.Model):
 
             else:
                 if self.empresa_id.ambiente_nfce == AMBIENTE_NFE_PRODUCAO:
-                    valores[
-                        'serie'] = self.empresa_id.serie_nfce_contingencia_producao
+                    valores['serie'] = (
+                        self.empresa_id.serie_nfce_contingencia_producao
+                    )
                 else:
-                    valores[
-                        'serie'] = self.empresa_id.serie_nfce_contingencia_homologacao
+                    valores['serie'] = (
+                        self.empresa_id.serie_nfce_contingencia_homologacao
+                    )
 
         elif self.modelo == MODELO_FISCAL_NFSE:
             valores['ambiente_nfe'] = self.empresa_id.ambiente_nfse
@@ -887,8 +928,9 @@ class Documento(models.Model):
 
         if self.emissao == TIPO_EMISSAO_PROPRIA:
             if self.operacao_id.natureza_operacao_id:
-                valores[
-                    'natureza_operacao_id'] = self.operacao_id.natureza_operacao_id.id
+                valores['natureza_operacao_id'] = (
+                    self.operacao_id.natureza_operacao_id.id
+                )
 
             if self.operacao_id.serie:
                 valores['serie'] = self.operacao_id.serie
@@ -906,11 +948,13 @@ class Documento(models.Model):
         valores['al_cofins_retido'] = self.operacao_id.al_cofins_retido
         valores['csll_retido'] = self.operacao_id.csll_retido
         valores['al_csll'] = self.operacao_id.al_csll
-        valores[
-            'limite_retencao_pis_cofins_csll'] = self.operacao_id.limite_retencao_pis_cofins_csll
+        valores['limite_retencao_pis_cofins_csll'] = (
+            self.operacao_id.limite_retencao_pis_cofins_csll
+        )
         valores['irrf_retido'] = self.operacao_id.irrf_retido
-        valores[
-            'irrf_retido_ignora_limite'] = self.operacao_id.irrf_retido_ignora_limite
+        valores['irrf_retido_ignora_limite'] = (
+            self.operacao_id.irrf_retido_ignora_limite
+        )
         valores['al_irrf'] = self.operacao_id.al_irrf
         valores['inss_retido'] = self.operacao_id.inss_retido
         valores['consumidor_final'] = self.operacao_id.consumidor_final
@@ -919,8 +963,9 @@ class Documento(models.Model):
         if self.operacao_id.cnae_id:
             valores['cnae_id'] = self.operacao_id.cnae_id.id
 
-        valores[
-            'natureza_tributacao_nfse'] = self.operacao_id.natureza_tributacao_nfse
+        valores['natureza_tributacao_nfse'] = (
+            self.operacao_id.natureza_tributacao_nfse
+        )
 
         if self.operacao_id.servico_id:
             valores['servico_id'] = self.operacao_id.servico_id.id
@@ -975,8 +1020,9 @@ class Documento(models.Model):
         #
         if self.consumidor_final == TIPO_CONSUMIDOR_FINAL_NORMAL:
             if self.participante_id.estado != 'EX':
-                if self.participante_id.contribuinte != INDICADOR_IE_DESTINATARIO:
-                    valores[
-                        'consumidor_final'] = TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL
-
+                if (self.participante_id.contribuinte !=
+                        INDICADOR_IE_DESTINATARIO):
+                    valores['consumidor_final'] = (
+                        TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL
+                    )
         return res
