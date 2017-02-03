@@ -10,11 +10,11 @@ from odoo.exceptions import ValidationError
 from ..constante_tributaria import (
     MODALIDADE_BASE_PIS,
     MODALIDADE_BASE_PIS_ALIQUOTA,
-    ST_PIS_ENTRADA,
+    MODALIDADE_BASE_PIS_QUANTIDADE,
     ST_PIS_CRED_EXCL_TRIB_MERC_INTERNO,
+    ST_PIS_ENTRADA,
     ST_PIS_SAIDA,
     ST_PIS_TRIB_NORMAL,
-    MODALIDADE_BASE_PIS_QUANTIDADE,
 )
 
 import logging
