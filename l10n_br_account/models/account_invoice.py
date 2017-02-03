@@ -53,8 +53,8 @@ class AccountInvoice(models.Model):
         lines = self.env['account.move.line']
         for line in self.move_id.line_ids:
             if (line.account_id.id == self.account_id.id and
-                    line.account_id.user_type_id.type in (
-                        'receivable', 'payable') and
+                line.account_id.user_type_id.type in
+                    ('receivable', 'payable') and
                     self.journal_id.revenue_expense):
                 lines |= line
         self.move_line_receivable_id = lines.sorted()
