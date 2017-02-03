@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
 
 from odoo import api, fields, models
-import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
-from ..constante_tributaria import *
+from ..constante_tributaria import (
+    ALIQUOTAS_ICMS,
+)
 
 
 class ProtocoloICMS(models.Model):
@@ -111,8 +113,8 @@ class ProtocoloICMS(models.Model):
     # aliquota_EX_ids = fields.One2many(
     # comodel_name='sped.protocolo.icms.aliquota',
     # inverse_name='protocolo_id',
-    #string=u'Alíquotas do Exterior',
-    ## domain=[('estado_origem_id.uf', '=', 'EX')]
+    # string=u'Alíquotas do Exterior',
+    # domain=[('estado_origem_id.uf', '=', 'EX')]
     aliquota_GO_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
@@ -289,8 +291,8 @@ class ProtocoloICMS(models.Model):
     def atualizar_tabela(self):
         self.ensure_one()
 
-        sped_estado = self.env['sped.estado']
-        sped_aliquota_icms = self.env['sped.aliquota.icms.proprio']
+        # sped_estado = self.env['sped.estado']
+        # sped_aliquota_icms = self.env['sped.aliquota.icms.proprio']
         sped_protocolo_icms_aliquota = self.env['sped.protocolo.icms.aliquota']
 
         self._cr.execute(
@@ -442,7 +444,7 @@ class ProtocoloICMS(models.Model):
 class ProtocoloICMSAliquota(models.Model):
     _description = u'Protocolo ICMS - alíquotas'
     _name = 'sped.protocolo.icms.aliquota'
-    #_rec_name = 'descricao'
+    # _rec_name = 'descricao'
     _order = 'protocolo_id, data_inicio desc, estado_origem_id, ' \
              'estado_destino_id'
 
@@ -499,7 +501,7 @@ class ProtocoloICMSAliquota(models.Model):
 class ProtocoloICMSNCM(models.Model):
     _description = u'Protocolo ICMS - NCM e MVA'
     _name = 'sped.protocolo.icms.ncm'
-    #_rec_name = 'descricao'
+    # _rec_name = 'descricao'
     _order = 'protocolo_id, ncm_id'
 
     protocolo_id = fields.Many2one(

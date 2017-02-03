@@ -1,8 +1,21 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
+
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+from ..constante_tributaria import (
+    MODALIDADE_BASE_ICMS_ST,
+    MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO,
+    MODALIDADE_BASE_ICMS_ST_PRECO_TABELADO_MAXIMO,
+    MODALIDADE_BASE_ICMS_ST_LISTA_NEGATIVA,
+    MODALIDADE_BASE_ICMS_ST_LISTA_NEUTRA,
+    MODALIDADE_BASE_ICMS_ST_PAUTA,
+    MODALIDADE_BASE_ICMS_ST_LISTA_POSITIVA,
+)
 
 
 import logging
@@ -13,11 +26,6 @@ try:
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
-
-from odoo import api, fields, models
-import odoo.addons.decimal_precision as dp
-from odoo.exceptions import ValidationError
-from ..constante_tributaria import *
 
 
 class AliquotaICMSST(models.Model):
@@ -71,7 +79,8 @@ class AliquotaICMSST(models.Model):
             else:
                 al_icms.descricao = formata_valor(al_icms.al_icms or 0) + '%'
 
-                if al_icms.md_icms == MODALIDADE_BASE_ICMS_ST_PRECO_TABELADO_MAXIMO:
+                if al_icms.md_icms == \
+                        MODALIDADE_BASE_ICMS_ST_PRECO_TABELADO_MAXIMO:
                     al_icms.descricao += u', por preço máximo'
                 elif al_icms.md_icms == MODALIDADE_BASE_ICMS_ST_LISTA_NEGATIVA:
                     al_icms.descricao += u', por lista negativa'
@@ -79,13 +88,15 @@ class AliquotaICMSST(models.Model):
                     al_icms.descricao += u', por lista positiva'
                 elif al_icms.md_icms == MODALIDADE_BASE_ICMS_ST_LISTA_NEUTRA:
                     al_icms.descricao += u', por lista neutra'
-                elif al_icms.md_icms == MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO:
+                elif al_icms.md_icms == \
+                        MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO:
                     al_icms.descricao += u', por MVA'
                 elif al_icms.md_icms == MODALIDADE_BASE_ICMS_ST_PAUTA:
                     al_icms.descricao += u', por pauta'
 
                 if al_icms.pr_icms:
-                    if al_icms.md_icms == MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO:
+                    if al_icms.md_icms == \
+                            MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO:
                         al_icms.descricao += u' de ' + \
                             formata_valor(al_icms.pr_icms,
                                           casas_decimais=4) + '%'
