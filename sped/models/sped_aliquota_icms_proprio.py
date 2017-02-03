@@ -77,15 +77,16 @@ class AliquotaICMSProprio(models.Model):
 
                 if (al_icms.md_icms !=
                         MODALIDADE_BASE_ICMS_PROPRIO_VALOR_OPERACAO):
-                    if (al_icms.md_icms ==
-                            MODALIDADE_BASE_ICMS_PROPRIO_MARGEM_VALOR_AGREGADO):
+                    if al_icms.md_icms == \
+                            MODALIDADE_BASE_ICMS_PROPRIO_MARGEM_VALOR_AGREGADO:
                         al_icms.descricao += u', por MVA de ' + \
                             formata_valor(al_icms.pr_icms,
                                           casas_decimais=4) + '%'
                     elif al_icms.md_icms == MODALIDADE_BASE_ICMS_PROPRIO_PAUTA:
                         al_icms.descricao += u', por pauta de R$ ' + \
                             formata_valor(al_icms.pr_icms, casas_decimais=4)
-                    elif (al_icms.md_icms == MODALIDADE_BASE_ICMS_PROPRIO_PRECO_TABELADO_MAXIMO):
+                    elif al_icms.md_icms == \
+                            MODALIDADE_BASE_ICMS_PROPRIO_PRECO_TABELADO_MAXIMO:
                         al_icms.descricao += u', por preço máximo de R$ ' + \
                                              formata_valor(
                                                  al_icms.pr_icms,
