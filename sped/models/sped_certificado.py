@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-
 import logging
+from odoo import api, fields, models
+from ..constante_tributaria import (
+    TIPO_CERTIFICADO,
+    TIPO_CERTIFICADO_A1,
+)
+from datetime import datetime
 _logger = logging.getLogger(__name__)
 
 try:
@@ -14,14 +20,8 @@ try:
     from pybrasil.data import formata_data
     from pybrasil.inscricao import (formata_cnpj, formata_cpf, valida_cnpj,
                                     valida_cpf)
-
 except (ImportError, IOError) as err:
     _logger.debug(err)
-
-from datetime import datetime
-
-from odoo import api, fields, models
-from ..constante_tributaria import *
 
 
 class Certificado(models.Model):
@@ -92,7 +92,8 @@ class Certificado(models.Model):
             if certificado.cnpj_cpf:
                 certificado.descricao += u' - ' + certificado.cnpj_cpf
 
-            if certificado.data_inicio_validade and certificado.data_fim_validade:
+            if (certificado.data_inicio_validade and
+                    certificado.data_fim_validade):
                 certificado.descricao += u', válido de '
                 certificado.descricao += formata_data(
                     certificado.data_inicio_validade)
