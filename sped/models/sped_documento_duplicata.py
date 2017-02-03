@@ -18,7 +18,8 @@ class DocumentoDuplicata(models.Model):
     _order = 'documento_id, data_vencimento'
     # _rec_name = 'numero'
 
-    documento_id = fields.Many2one('sped.documento', 'Documento', ondelete='cascade', required=True)
+    documento_id = fields.Many2one(
+        'sped.documento', 'Documento', ondelete='cascade', required=True)
     numero = fields.Char('Número', size=60, required=True)
     data_vencimento = fields.Date('Data de vencimento', required=True)
     valor = fields.Monetary('Valor', digits=(18, 2), required=True)
