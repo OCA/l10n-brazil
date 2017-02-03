@@ -29,32 +29,40 @@ class AccountMoveLine(orm.Model):
         elif isinstance(value, list):
             ids = value
         else:
-            ids = self.pool.get('payment.mode').search(cr,uid,[('id','=',value)], context=context)
+            ids = self.pool.get('payment.mode')\
+                .search(cr, uid, [('id', '=', value)], context=context)
         if ids:
-            cr.execute('SELECT l.move_line_id ' \
-                'FROM payment_line l ' \
+            cr.execute(
+                'SELECT l.move_line_id '
+                'FROM payment_line l '
                 'WHERE l.related_mode_id in (%s)' % (','.join(map(str, ids))))
             res = cr.fetchall()
             if len(res):
                 return [('id', 'in', [x[0] for x in res])]
-        return [('id','=','0')]
+        return [('id', '=', '0')]
 
     def _payment_mode_get(self, cr, uid, ids, field_name, arg, context={}):
         result = {}
         line_obj = self.pool.get('payment.line')
         for rec in self.browse(cr, uid, ids, context):
-            result[rec.id] = (0,0)
-            payment_line_id = line_obj.search(cr, uid, [('move_line_id', '=', rec.id)], context=context)
+            result[rec.id] = (0, 0)
+            payment_line_id = line_obj\
+                .search(cr, uid, [('move_line_id', '=', rec.id)],
+                        context=context)
             if payment_line_id:
                 line = line_obj.browse(cr, uid, payment_line_id[0], context)
                 if line.related_mode_id:
-                    result[rec.id] = (line.related_mode_id.id, self.pool.get('payment.mode').browse(cr, uid, line.related_mode_id.id, context).name)
+                    result[rec.id] = (
+                        line.related_mode_id.id,
+                        self.pool.get('payment.mode').browse(
+                            cr, uid, line.related_mode_id.id, context).name)
             else:
                 result[rec.id] = (0, 0)
         return result
 
     _columns = {
-        'related_mode_id': fields.function(_payment_mode_get, method=True,
-            fnct_search=_payment_mode_search, type="many2one",
-            relation="payment.mode", string="Payment Mode", readonly=True),
+        'related_mode_id': fields.function(
+                _payment_mode_get, method=True,
+                fnct_search=_payment_mode_search, type="many2one",
+                relation="payment.mode", string="Payment Mode", readonly=True),
     }
