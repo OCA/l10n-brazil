@@ -39,7 +39,6 @@ class HrContract(models.Model):
 
     @api.model
     def create(self, vals):
-        first = True
         inicio = fields.Date.from_string(vals['date_start'])
         hoje = fields.Date.from_string(fields.Date.today())
         hr_contract_id = super(HrContract, self).create(vals)
@@ -53,18 +52,17 @@ class HrContract(models.Model):
             controle_ferias = controle_ferias_obj.create(vals)
             inicio = inicio + relativedelta(years=1)
             lista_controle_ferias.append(controle_ferias.id)
+
         hr_contract_id.vacation_control_ids = lista_controle_ferias
         return hr_contract_id
 
-    def fields_view_get(self, cr, uid, view_id=None,
-                        view_type='form', context=None,
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form',
                         toolbar=False, submenu=False):
-        res = models.Model.fields_view_get(self, cr, uid,
-                                           view_id=view_id,
-                                           view_type=view_type,
-                                           context=context,
-                                           toolbar=toolbar,
-                                           submenu=submenu)
+        res = super(HrContract, self).fields_view_get(
+            view_id=view_id, view_type=view_type, toolbar=toolbar,
+            submenu=submenu
+        )
         if view_type == 'form':
             doc = etree.XML(res['arch'])
             for sheet in doc.xpath("//sheet"):
@@ -76,3 +74,46 @@ class HrContract(models.Model):
                 parent.remove(sheet)
             res['arch'] = etree.tostring(doc)
         return res
+
+    @api.multi
+    def atualizar_controle_ferias(self):
+        domain = [
+            '|',
+            ('date_end', '>', fields.Date.today()),
+            ('date_end', '=', False),
+        ]
+        contratos_ids = self.env['hr.contract'].search(domain)
+
+        for contrato in contratos_ids:
+            if contrato.vacation_control_ids:
+                ultimo_controle = contrato.vacation_control_ids[0]
+                if not ultimo_controle.hr_holiday_ids:
+                    controle_ferias = ultimo_controle
+                elif ultimo_controle.fim_aquisitivo < fields.Date.today():
+                    controle_ferias_obj = self.env['hr.vacation.control']
+
+                    vals = controle_ferias_obj.\
+                        calcular_datas_aquisitivo_concessivo(
+                            fields.Date.today()
+                        )
+                    controle_ferias = controle_ferias_obj.create(vals)
+                    contrato.vacation_control_ids.append(controle_ferias)
+                else:
+                    continue
+
+                vacation_id = self.env.ref(
+                    'l10n_br_hr_vacation.holiday_status_vacation').id
+                holiday_id = self.env['hr.holidays'].create({
+                    'name': 'Periodo Aquisitivo: %s ate %s'
+                            % (controle_ferias.inicio_aquisitivo,
+                               controle_ferias.fim_aquisitivo),
+                    'employee_id': contrato.employee_id.id,
+                    'holiday_status_id': vacation_id,
+                    'type': 'add',
+                    'holiday_type': 'employee',
+                    'vacations_days': 30,
+                    'sold_vacations_days': 0,
+                    'number_of_days_temp': 30,
+                    'contract_id': controle_ferias.contract_id.id,
+                })
+                controle_ferias.hr_holiday_ids = holiday_id

@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, fields
+from dateutil.relativedelta import relativedelta
 
 
 class HrVacationControl(models.Model):
@@ -104,16 +105,15 @@ class HrVacationControl(models.Model):
 
     def calcular_datas_aquisitivo_concessivo(self, inicio_periodo_aquisitivo):
         fim_aquisitivo = fields.Date.from_string(inicio_periodo_aquisitivo) + \
-                         relativedelta(years=1, days=-1)
-        inicio_concessivo =  fim_aquisitivo + relativedelta(days=1)
-        fim_concessivo = inicio_concessivo + \
-                         relativedelta(years=1, days=-1)
+            relativedelta(years=1, days=-1)
+        inicio_concessivo = fim_aquisitivo + relativedelta(days=1)
+        fim_concessivo = inicio_concessivo + relativedelta(years=1, days=-1)
         limite_gozo = fim_concessivo + relativedelta(months=-1)
         limite_aviso = limite_gozo + relativedelta(months=-1)
 
         return {
-            'inicio_aquisitivo' : inicio_periodo_aquisitivo,
-            'fim_aquisitivo' : fim_aquisitivo,
+            'inicio_aquisitivo': inicio_periodo_aquisitivo,
+            'fim_aquisitivo': fim_aquisitivo,
             'inicio_concessivo': inicio_concessivo,
             'fim_concessivo': fim_concessivo,
             'limite_gozo': limite_gozo,
@@ -179,35 +179,3 @@ class HrVacationControl(models.Model):
         for record in self:
             pagamento_dobro = (record.dias_pagamento_dobro > 0)
             record.pagamento_dobro = pagamento_dobro
-
-
-    def atualizar_controle_ferias(self):
-        domain = [
-            '|',
-            ('date_end', '>', fields.Date.today()),
-            ('date_end', '=', False),
-        ]
-        contratos_ids = self.env['hr.contract'].search(domain)
-
-        for contrato in contratos_ids:
-            if contrato.vacation_control_ids:
-                ultimo_controle = contrato.vacation_control_ids[-1]
-                if not ultimo_controle.hr_holiday_ids \
-                        or ultimo_controle.fim_aquisitivo < fields.Date.today():
-
-                    vacation_id = self.env.ref(
-                        'l10n_br_hr_vacation.holiday_status_vacation').id
-                    holiday_id = self.env['hr.holidays'].create({
-                        'name': 'Periodo Aquisitivo: %s ate %s'
-                                % (ultimo_controle.inicio_aquisitivo,
-                                   ultimo_controle.fim_aquisitivo),
-                        'employee_id': contrato.employee_id.id,
-                        'holiday_status_id': vacation_id,
-                        'type': 'add',
-                        'holiday_type': 'employee',
-                        'vacations_days': 30,
-                        'sold_vacations_days': 0,
-                        'number_of_days_temp': 30,
-                        'contract_id': ultimo_controle.contract_id.id,
-                    })
-                    ultimo_controle.hr_holiday_ids = holiday_id

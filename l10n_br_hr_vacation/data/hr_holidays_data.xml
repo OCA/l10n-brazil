@@ -14,15 +14,6 @@
             <field eval="'atualizar_controle_ferias'" name="function"/>
         </record>
 
-        <record id="ir_cron_scheduler_vacation_verify" model="ir.cron">
-            <field name="name">Verify vacation scheduler</field>
-            <field name="interval_number">1</field>
-            <field name="interval_type">days</field>
-            <field name="numbercall">-1</field>
-            <field eval="'hr.employee'" name="model"/>
-            <field eval="'function_vacation_verify'" name="function"/>
-        </record>
-
         <record model="hr.holidays.status" id="holiday_status_vacation">
             <field name="name">Vacation</field>
             <field name="color_name">lightgreen</field>
