@@ -1,11 +1,25 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+from ..constante_tributaria import (
+    AMBIENTE_NFE,
+    TIPO_EMISSAO_NFE,
+    REGIME_TRIBUTARIO_SIMPLES,
+    REGIME_TRIBUTARIO_SIMPLES_EXCESSO,
+    REGIME_TRIBUTARIO_LUCRO_PRESUMIDO,
+    REGIME_TRIBUTARIO_LUCRO_REAL,
+    INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
+)
 import logging
+
 _logger = logging.getLogger(__name__)
+
 
 try:
     from email_validator import validate_email
@@ -24,16 +38,12 @@ try:
 except (ImportError, IOError) as err:
     _logger.debug(err)
 
-from odoo import api, fields, models
-from odoo.exceptions import ValidationError
-from ..constante_tributaria import *
-
 
 class Empresa(models.Model):
     _description = u'Empresas e filiais'
     _inherits = {'sped.participante': 'participante_id'}
-    #_inherit = 'mail.thread'
-    #_inherits = 'res.partner'
+    # _inherit = 'mail.thread'
+    # _inherits = 'res.partner'
     _name = 'sped.empresa'
     _rec_name = 'nome'
     _order = 'nome, cnpj_cpf'
@@ -44,7 +54,8 @@ class Empresa(models.Model):
         ondelete='restrict',
         required=True
     )
-    #partner_id = fields.Many2one('res.partner', 'Partner original', ondelete='restrict', inherited=True)
+    # partner_id = fields.Many2one('res.partner', 'Partner original',
+    # ondelete='restrict', inherited=True)
 
     #
     # Para o faturamento
@@ -187,7 +198,7 @@ class Empresa(models.Model):
         selection=AMBIENTE_NFE,
         string=u'Ambiente NFS-e'
     )
-    #provedor_nfse = fields.Selection(PROVEDOR_NFSE, 'Provedor NFS-e')
+    # provedor_nfse = fields.Selection(PROVEDOR_NFSE, 'Provedor NFS-e')
     serie_rps_producao = fields.Char(
         string=u'Série em produção',
         size=3,
@@ -205,33 +216,35 @@ class Empresa(models.Model):
         string=u'Último lote de RPS'
     )
 
-    #@api.depends('nome', 'razao_social', 'fantasia', 'cnpj_cpf')
+    # @api.depends('nome', 'razao_social', 'fantasia', 'cnpj_cpf')
     # def name_get(self, cr, uid, ids, context={}):
     # if not len(ids):
     # return []
 
-    #res = []
+    # res = []
     # for partner_obj in self.browse(cr, uid, ids):
     # if hasattr(partner_obj, 'nome'):
-    #nome = partner_obj.nome or ''
+    # nome = partner_obj.nome or ''
 
     # if partner_obj.cnpj_cpf:
-    #nome += ' - ' + partner_obj.cnpj_cpf
+    # nome += ' - ' + partner_obj.cnpj_cpf
 
-    # if partner_obj.razao_social and partner_obj.razao_social.upper() != partner_obj.nome.upper():
-    #nome += ' [' + partner_obj.razao_social + ']'
+    # if partner_obj.razao_social and partner_obj.razao_social.upper()
+    # != partner_obj.nome.upper():
+    # nome += ' [' + partner_obj.razao_social + ']'
 
-    # if partner_obj.fantasia and partner_obj.fantasia.upper() != partner_obj.nome.upper():
+    # if partner_obj.fantasia and partner_obj.fantasia.upper()
+    # != partner_obj.nome.upper():
     # if partner_obj.razao_social:
     # if partner_obj.razao_social.upper() != partner_obj.fantasia.upper():
-    #nome += ' [' + partner_obj.fantasia + ']'
+    # nome += ' [' + partner_obj.fantasia + ']'
 
     # else:
-    #nome += ' [' + partner_obj.fantasia + ']'
+    # nome += ' [' + partner_obj.fantasia + ']'
 
-    #res.append((partner_obj.id, nome))
+    # res.append((partner_obj.id, nome))
     # else:
-    #res.append((partner_obj.id, ''))
+    # res.append((partner_obj.id, ''))
 
     # return res
 
@@ -505,8 +518,8 @@ class Empresa(models.Model):
     def onchange_email(self):
         return self._valida_email()
 
-    #@api.model
-    # def fields_view_get(self, view_id=None, view_type='form',
+        # @api.model
+        # def fields_view_get(self, view_id=None, view_type='form',
         #  toolbar=False, submenu=False):
         # if (not view_id) and (view_type == 'form') and
         #  self._context.get('force_email'):
@@ -665,6 +678,7 @@ class Empresa(models.Model):
             valores.update(eh_usuario=True)
         else:
             valores.update(eh_usuario=False)
+        return res
 
     @api.model
     @api.returns('self', lambda value: value.id if value else False)
