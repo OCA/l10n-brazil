@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -14,34 +15,34 @@ class Municipio(models.Model):
     _order = 'nome, estado'
 
     # def _descricao(self, cursor, user_id, ids, fields, arg, context=None):
-    #retorno = {}
+    # retorno = {}
 
     # for registro in self.browse(cursor, user_id, ids):
-    #retorno[registro.id] = ''
+    # retorno[registro.id] = ''
 
     # if registro.id != 0:
     # if registro.nome:
-    #retorno[registro.id] += registro.nome
+    # retorno[registro.id] += registro.nome
 
     # if registro.estado_id:
-    #retorno[registro.id] += ' - ' + registro.estado_id.uf
+    # retorno[registro.id] += ' - ' + registro.estado_id.uf
 
     # if registro.pais_id and registro.pais_id.nome != 'Brasil':
-    #retorno[registro.id] += ' - ' + registro.pais_id.nome
+    # retorno[registro.id] += ' - ' + registro.pais_id.nome
 
-    ##retorno[registro.id] += ' - ' + registro.codigo_ibge_formatado
+    # retorno[registro.id] += ' - ' + registro.codigo_ibge_formatado
 
     # return retorno
 
     # def _procura_descricao(
     # self, cursor, user_id, obj, nome_campo, args, context=None):
-    #texto = args[0][2]
+    # texto = args[0][2]
 
     # procura = [
-    #'|',
-    #('nome', 'ilike', texto),
-    #('codigo_ibge', 'ilike', texto),
-    #]
+    # '|',
+    # ('nome', 'ilike', texto),
+    # ('codigo_ibge', 'ilike', texto),
+    # ]
 
     # return procura
 
@@ -54,7 +55,7 @@ class Municipio(models.Model):
 
     # def _codigo_ibge_formatado(
     # self, cursor, user_id, ids, fields, arg, context=None):
-    #retorno = {}
+    # retorno = {}
 
     # for registro in self.browse(cursor, user_id, ids):
     # retorno[registro.id] =
@@ -116,7 +117,7 @@ class Municipio(models.Model):
     )
 
     _sql_constraints = [
-        #('codigo_ibge_unique', 'unique (codigo_ibge)',
+        # ('codigo_ibge_unique', 'unique (codigo_ibge)',
         # 'O código IBGE não pode se repetir!'),
         (
             'nome_estado_pais_unique',

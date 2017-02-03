@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
 
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError, ValidationError
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class Servico(models.Model):
@@ -27,7 +28,7 @@ class Servico(models.Model):
         required=True,
         index=True,
     )
-    #codigo_municipio = fields.Char('Código no município', size=9)
+    # codigo_municipio = fields.Char('Código no município', size=9)
     al_iss_ids = fields.One2many(
         comodel_name='sped.aliquota.iss',
         inverse_name='servico_id',

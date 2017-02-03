@@ -1,20 +1,34 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
 
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError, ValidationError
-from ..constante_tributaria import *
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+
+from ..constante_tributaria import (
+    ENTRADA_SAIDA,
+    IE_DESTINATARIO,
+    ORIGEM_MERCADORIA,
+    ST_ICMS,
+    ST_ICMS_INTEGRAL,
+    ST_ICMS_SN,
+    ST_ICMS_SN_TRIB_SEM_CREDITO,
+    ST_IPI,
+    ST_IPI_ENTRADA,
+    ST_IPI_SAIDA,
+    ST_ICMS_SN_CALCULA_CREDITO,
+)
 
 
 class OperacaoFiscalItem(models.Model):
     _description = u'Operações Fiscais - Itens'
     _name = 'sped.operacao.item'
     _order = 'operacao_id, protocolo_id, contribuinte, cfop_codigo'
-    #_rec_name = 'nome'
+    # _rec_name = 'nome'
 
     operacao_id = fields.Many2one(
         comodel_name='sped.operacao',
