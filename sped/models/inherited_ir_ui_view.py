@@ -13,9 +13,9 @@ class IrUiView(models.Model):
 
     copy_id = fields.Many2one(
         comodel_name='ir.ui.view',
-        string='Copied View',
+        string=u'Copied View',
         ondelete='restrict',
-        index=True
+        index=True,
     )
     # copy_id = fields.Many2one(
     # 'ir.ui.view', string='Copied View', index=True)
