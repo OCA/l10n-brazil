@@ -304,9 +304,9 @@ class Unidade(models.Model):
                 parametros['fator_relacao_decimal'] = 10
                 parametros['precisao_decimal'] = 2
 
-            if (unidade.usa_meio
-                    or unidade.subunidade_id
-                    or unidade.usa_virgula):
+            if (unidade.usa_meio or
+                    unidade.subunidade_id or
+                    unidade.usa_virgula):
                 parametros['numero'] = D('1.5')
                 unidade.extenso_singular_meio = valor_por_extenso_unidade(
                     **parametros
@@ -338,7 +338,8 @@ class Unidade(models.Model):
                 )
 
     @api.model
-    def name_search(self, name='', args=[], operator='ilike', limit=100):
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = args or []
         if name and operator in ('=', 'ilike', '=ilike', 'like', '=like'):
             name = name.replace(' ', ' ')
             name = name.replace('²', '2')
@@ -442,8 +443,8 @@ class Unidade(models.Model):
             self.position = 'after'
             self.symbol = ' ' + self.codigo
 
-            if (self.tipo == self.TIPO_UNIDADE_UNIDADE
-                    or self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
+            if (self.tipo == self.TIPO_UNIDADE_UNIDADE or
+                    self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
                 self.decimal_places = 0
             else:
                 self.decimal_places = len(
@@ -483,8 +484,8 @@ class Unidade(models.Model):
     def round(self, amount):
         # self.ensure_one()
         amount = D(amount or 0)
-        if (self.tipo == self.TIPO_UNIDADE_UNIDADE
-                or self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
+        if (self.tipo == self.TIPO_UNIDADE_UNIDADE or
+                self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
             return amount.quantize(D(1))
         amount = amount.quantize(D(10) * D(self.decimal_places * -1))
         return amount

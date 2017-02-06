@@ -11,15 +11,15 @@ import logging
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from ..constante_tributaria import (
-        INDICADOR_IE_DESTINATARIO,
-        INDICADOR_IE_DESTINATARIO_ISENTO,
-        INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
-        REGIME_TRIBUTARIO,
-        REGIME_TRIBUTARIO_LUCRO_PRESUMIDO,
-        REGIME_TRIBUTARIO_LUCRO_REAL,
-        REGIME_TRIBUTARIO_SIMPLES,
-        REGIME_TRIBUTARIO_SIMPLES_EXCESSO,
-        TIPO_PESSOA_JURIDICA,
+    INDICADOR_IE_DESTINATARIO,
+    INDICADOR_IE_DESTINATARIO_ISENTO,
+    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
+    REGIME_TRIBUTARIO,
+    REGIME_TRIBUTARIO_LUCRO_PRESUMIDO,
+    REGIME_TRIBUTARIO_LUCRO_REAL,
+    REGIME_TRIBUTARIO_SIMPLES,
+    REGIME_TRIBUTARIO_SIMPLES_EXCESSO,
+    TIPO_PESSOA_JURIDICA,
 )
 
 _logger = logging.getLogger(__name__)
@@ -384,7 +384,8 @@ class Participante(models.Model):
                 # return res
 
     @api.model
-    def name_search(self, name='', args=[], operator='ilike', limit=100):
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = args or []
         if name and operator in ('=', 'ilike', '=ilike', 'like'):
             if operator != '=':
                 name = name.strip().replace(' ', '%')
@@ -794,8 +795,6 @@ class Participante(models.Model):
 
         if 'tz' not in dados:
             dados['tz'] = 'America/Sao_Paulo'
-
-        print(dados)
         participante = super(Participante, self).create(dados)
         participante.sync_to_partner()
 

@@ -43,7 +43,8 @@ class CNAE(models.Model):
     )
 
     @api.model
-    def name_search(self, name='', args=[], operator='ilike', limit=100):
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = args or []
         if name and operator in ('=', 'ilike', '=ilike', 'like'):
             if operator != '=':
                 name = name.strip().replace(' ', '%')

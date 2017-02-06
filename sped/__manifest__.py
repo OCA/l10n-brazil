@@ -8,9 +8,9 @@
 {
     'name': u'SPED',
     'version': '10.0.1.0.0',
-    'author': u'Ari Caldeira',
-    'maintainer': u'Taŭga Tecnologia',
+    'author': u'Odoo Community Association (OCA), Ari Caldeira',
     'category': u'Base',
+    'license': 'AGPL-3',
     'depends': [
         'base',
         'document',
@@ -112,5 +112,8 @@
         'views/sped_documento_emissao_nfe_view.xml',
         'views/sped_documento_emissao_nfce_view.xml',
         # 'views/sped_documento_recebimento_nfe_view.xml',
-    ]
+    ],
+    'external_dependencies': {
+        'python': ['pybrasil'],
+    }
 }
