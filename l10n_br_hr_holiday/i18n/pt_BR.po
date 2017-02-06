@@ -109,7 +109,7 @@ msgstr "Disposicao TRE"
 #. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_end_of_year_recess
 msgid "End of year recess"
-msgstr "Recesso de final de ano"
+msgstr "Recesso"
 
 #. module: l10n_br_hr_holiday
 #: selection:hr.holidays,tipo:0
@@ -150,7 +150,7 @@ msgstr "Limite de Horas"
 #. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_marriage
 msgid "Marriage"
-msgstr "Casamento"
+msgstr "Licença Casamento"
 
 #. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_maternity_leave
@@ -229,4 +229,4 @@ msgstr "Tipo de Dia"
 #. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_yearly_leave_days
 msgid "Yearly Leave Days"
-msgstr "Abono Pecuniário"
+msgstr "Abono"
