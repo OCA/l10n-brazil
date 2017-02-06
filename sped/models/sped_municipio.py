@@ -63,7 +63,11 @@ class Municipio(models.Model):
     )
 
     _sql_constraints = [
-        ('nome_estado_pais_unique', 'unique (nome, estado_id, pais_id)', 'O nome, estado e país não podem se repetir!'),
+        (
+            'nome_estado_pais_unique',
+            'unique (nome, estado_id, pais_id)',
+            u'O nome, estado e país não podem se repetir!',
+        ),
     ]
 
     def name_get(self):
