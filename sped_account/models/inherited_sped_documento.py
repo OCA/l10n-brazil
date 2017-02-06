@@ -56,10 +56,10 @@ class Documento(models.Model):
         # quando necessário
         #
         for documento in self:
-            if not (documento.eh_venda
-                    or documento.eh_compra
-                    or documento.eh_devolucao_venda
-                    or documento.eh_devolucao_compra):
+            if not (documento.eh_venda or
+                    documento.eh_compra or
+                    documento.eh_devolucao_venda or
+                    documento.eh_devolucao_compra):
                 continue
 
                 # if documento.state !=

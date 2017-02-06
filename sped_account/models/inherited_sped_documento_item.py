@@ -40,14 +40,14 @@ class DocumentoItem(models.Model):
         # correspondente do invoice
         #
         for item in self:
-            if not (item.documento_id.eh_venda
-                    or item.documento_id.eh_compra
-                    or item.documento_id.eh_devolucao_venda
-                    or item.documento_id.eh_devolucao_compra):
+            if not (item.documento_id.eh_venda or
+                    item.documento_id.eh_compra or
+                    item.documento_id.eh_devolucao_venda or
+                    item.documento_id.eh_devolucao_compra):
                 continue
 
-            if (item.documento_id.state != 'autorizado'
-                    or item.documento_id.state != 'cancelado'):
+            if (item.documento_id.state != 'autorizado' or
+                    item.documento_id.state != 'cancelado'):
                 continue
 
             dados = item.prepare_sync_to_invoice_line()

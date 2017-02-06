@@ -6,8 +6,6 @@
 #
 
 
-from __future__ import division, print_function, unicode_literals
-
 # import logging
 # _logger = logging.getLogger(__name__)
 
@@ -28,16 +26,18 @@ class AccountInvoiceLine(models.Model):
     sped_documento_item_id = fields.Many2one(
         comodel_name='sped.documento.item',
         string=u'Item do Documento Fiscal',
-        ondelete='cascade'
+        ondelete='cascade',
     )
     is_brazilian_invoice = fields.Boolean(
-        'Is a Brazilian Invoice?', related='invoice_id.is_brazilian_invoice')
+        string=u'Is a Brazilian Invoice?',
+        related='invoice_id.is_brazilian_invoice',
+    )
 
     @api.multi
     def _check_brazilian_invoice(self, operation):
         for item in self:
-            if (item.is_brazilian_invoice
-                    and 'sped_documento_item_id' not in self._context):
+            if (item.is_brazilian_invoice and
+                    'sped_documento_item_id' not in self._context):
                 if operation == 'create':
                     raise ValidationError(
                         'This is a Brazilian Invoice! You should create it '

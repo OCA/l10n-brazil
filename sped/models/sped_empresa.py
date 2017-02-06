@@ -9,12 +9,12 @@ from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from ..constante_tributaria import (
     AMBIENTE_NFE,
-    TIPO_EMISSAO_NFE,
-    REGIME_TRIBUTARIO_SIMPLES,
-    REGIME_TRIBUTARIO_SIMPLES_EXCESSO,
+    INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
     REGIME_TRIBUTARIO_LUCRO_PRESUMIDO,
     REGIME_TRIBUTARIO_LUCRO_REAL,
-    INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
+    REGIME_TRIBUTARIO_SIMPLES,
+    REGIME_TRIBUTARIO_SIMPLES_EXCESSO,
+    TIPO_EMISSAO_NFE,
 )
 import logging
 
@@ -274,7 +274,8 @@ class Empresa(models.Model):
                 empresa.simples_aliquota_servico_id = False
 
     @api.model
-    def name_search(self, name='', args=[], operator='ilike', limit=100):
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = args or []
         if name and operator in ('=', 'ilike', '=ilike', 'like'):
             if operator != '=':
                 name = name.strip().replace(' ', '%')
