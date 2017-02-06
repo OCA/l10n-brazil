@@ -59,7 +59,7 @@ msgstr "Alistamento Militar"
 #: code:addons/l10n_br_hr_holiday/models/hr_holidays.py:49
 #, python-format
 msgid "Atestado Obrigatório!"
-msgstr "Atestado Obrigatório!"
+msgstr "Favor anexar documento comprobatório"
 
 #. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_blood_donation
