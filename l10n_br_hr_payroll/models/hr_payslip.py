@@ -360,10 +360,10 @@ class HrPayslip(models.Model):
         categories_obj = \
             BrowsableObject(payslip.employee_id.id, categories_dict)
 
-        salario_mes = self._buscar_valor_salario('SALARIO_MES')
-        salario_dia = self._buscar_valor_salario('SALARIO_DIA')
-        salario_hora = self._buscar_valor_salario('SALARIO_HORA')
-        rat_fap = self._get_rat_fap_period_values(self.ano)
+        salario_mes = payslip._buscar_valor_salario('SALARIO_MES')
+        salario_dia = payslip._buscar_valor_salario('SALARIO_DIA')
+        salario_hora = payslip._buscar_valor_salario('SALARIO_HORA')
+        rat_fap = payslip._get_rat_fap_period_values(payslip.ano)
         baselocaldict = {
             'CALCULAR': payslip, 'BASE_INSS': 0.0, 'BASE_FGTS': 0.0,
             'BASE_IR': 0.0, 'categories': categories_obj, 'rules': rules_obj,
@@ -472,11 +472,11 @@ class HrPayslip(models.Model):
             record.struct_id_readonly = record.struct_id
 
             ultimo_dia_do_mes = self.env['resource.calendar'].\
-                get_ultimo_dia_mes(self.mes_do_ano, self.ano)
+                get_ultimo_dia_mes(record.mes_do_ano, record.ano)
 
             primeiro_dia_do_mes = \
-                datetime.strptime(str(self.mes_do_ano) + '-' +
-                                  str(self.ano), '%m-%Y')
+                datetime.strptime(str(record.mes_do_ano) + '-' +
+                                  str(record.ano), '%m-%Y')
 
             if not record.contract_id.date_start:
                 continue
