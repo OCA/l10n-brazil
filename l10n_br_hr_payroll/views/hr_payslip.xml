@@ -135,6 +135,9 @@
                 </group>
             </xpath>
             <!--Deixando invisível-->
+            <xpath expr="//label[@for='date_from']" position="replace">
+                <label for="date_from" string="" invisible="1"/>
+            </xpath>
             <field name="date_from" position="replace">
                 <field name="date_from" invisible="1"/>
             </field>

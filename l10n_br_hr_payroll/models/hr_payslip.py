@@ -469,7 +469,6 @@ class HrPayslip(models.Model):
     def set_employee_id(self):
         for record in self:
             record.struct_id = record.contract_id.struct_id
-            record.employee_id_readonly = record.employee_id
             record.struct_id_readonly = record.struct_id
 
             ultimo_dia_do_mes = self.env['resource.calendar'].\
@@ -500,7 +499,7 @@ class HrPayslip(models.Model):
             else:
                 record.date_to = str(ultimo_dia_do_mes)
             record.employee_id = record.contract_id.employee_id
-            record.employee_id = record.contract_id.employee_id
+            record.employee_id_readonly = record.employee_id
 
     @api.multi
     def compute_sheet(self):
