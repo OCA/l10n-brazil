@@ -15,6 +15,7 @@
                 <field name="compoe_base_INSS"/>
                 <field name="compoe_base_IR"/>
                 <field name="compoe_base_FGTS"/>
+                <field name="tipo_media"/>
             </field>
         </field>
     </record>

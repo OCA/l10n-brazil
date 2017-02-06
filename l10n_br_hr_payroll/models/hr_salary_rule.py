@@ -94,3 +94,11 @@ class HrSalaryRule(models.Model):
         except:
             msg = _('Wrong python condition defined for salary rule %s (%s).')
             raise exceptions.UserError(msg % (rule.name, rule.code))
+
+    tipo_media = fields.Selection(
+        selection=[
+                ('valor', 'Valor'),
+                ('quantidade', 'Quantidade'),
+            ],
+        string='Tipo de Média da Rubrica',
+    )

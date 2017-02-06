@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Copyright 2016 Luis Felipe Mileo - KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="l10n_br_hr_payroll_hr_payroll_structure">
+        <field name="name">hr.payroll.structure.form (in l10n_br_hr_payroll)</field>
+        <field name="model">hr.payroll.structure</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_employee_grade_form"/>
+        <field name="arch" type="xml">
+            <field name="parent_id" position="after">
+                <field name="tipo_estrutura"/>
+                <field name="ferias"/>
+            </field>
+        </field>
+    </record>
+
+</data>
+</openerp>

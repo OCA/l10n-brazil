@@ -15,3 +15,6 @@ from . import l10n_br_hr_contract
 from . import hr_contract
 from . import hr_contract_salary_rule
 from . import hr_employee
+from . import hr_payroll_structure
+from . import l10n_br_hr_medias
+from . import l10n_br_hr_medias_lines
