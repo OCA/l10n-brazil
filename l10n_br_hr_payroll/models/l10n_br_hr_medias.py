@@ -30,6 +30,10 @@ class L10nBrHrMedias(models.Model):
         string=u'Contrato',
         comodel_name='hr.contract',
     )
+    holerite_id = fields.Many2one(
+        string=u'Contrato',
+        comodel_name='hr.payslip',
+    )
 
     data_inicio = fields.Date(
         string="Data Inicio",
@@ -92,10 +96,12 @@ class L10nBrHrMedias(models.Model):
             vals.update({'nome_rubrica' : nome_rubrica})
             vals.update({'parent_id' : self.id})
             vals.update({'meses' : len(medias[rubrica])})
+            vals.update({'holerite_id' : self.holerite_id.id})
 
             for mes in medias[rubrica]:
                 vals.update({
                     'mes_' + str(mes_cont) : str(mes['valor']),
                 })
                 mes_cont += 1
-            linha_obj.create(vals)
+            linha = linha_obj.create(vals)
+            print linha.holerite_id

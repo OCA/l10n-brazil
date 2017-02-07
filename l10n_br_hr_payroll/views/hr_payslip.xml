@@ -103,6 +103,33 @@
                             </form>
                         </field>
                     </page>
+
+                    <page string="Cálculo das Médias">
+                        <button string="Calcular Médias" name="gerar_media_dos_proventos" type="object" class="oe_highlight"/>
+                        <field name="medias_proventos_linhas" colspan="4"
+                               nolabel="1">
+                            <tree>
+                                <field name="nome_rubrica"/>
+                                <field name="mes_1"/>
+                                <field name="mes_2"/>
+                                <field name="mes_3"/>
+                                <field name="mes_4"/>
+                                <field name="mes_5"/>
+                                <field name="mes_6"/>
+                                <field name="mes_7"/>
+                                <field name="mes_8"/>
+                                <field name="mes_9"/>
+                                <field name="mes_10"/>
+                                <field name="mes_11"/>
+                                <field name="mes_12"/>
+                                <field name="soma"/>
+                                <field name="meses"/>
+                                <field name="media"/>
+                            </tree>
+
+                        </field>
+                    </page>
+
                 </notebook>
 			 </xpath>
 

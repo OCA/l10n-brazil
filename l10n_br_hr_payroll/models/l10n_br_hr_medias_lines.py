@@ -15,6 +15,10 @@ class L10nBrHrMediaslines(models.Model):
         comodel_name='l10n_br.hr.medias',
         string='Medias pai',
     )
+    holerite_id = fields.Many2one(
+        comodel_name='hr.payslip',
+        string='Medias pai',
+    )
 
     nome_rubrica = fields.Char(
         string=u'Nome da Rubrica',
