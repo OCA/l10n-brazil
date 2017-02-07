@@ -418,6 +418,11 @@ class Documento(models.Model):
     #
     # Duplicatas e pagamentos
     #
+    payment_term_id = fields.Many2one(
+        comodel_name='account.payment.term',
+        string=u'Condição de pagamento',
+        ondelete='restrict',
+    )
     duplicata_ids = fields.One2many(
         comodel_name='sped.documento.duplicata',
         inverse_name='documento_id',
@@ -1025,4 +1030,39 @@ class Documento(models.Model):
                     valores['consumidor_final'] = (
                         TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL
                     )
+        return res
+
+    @api.onchange('payment_term_id', 'vr_fatura', 'vr_nf', 'data_emissao', 'duplicata_ids')
+    def _onchange_payment_term(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        if not (self.payment_term_id and (self.vr_fatura or self.vr_nf) and
+            self.data_emissao):
+            return res
+
+        valor = D(self.vr_fatura or 0)
+        if not valor:
+            valor = D(self.vr_nf or 0)
+
+        lista_vencimentos = self.payment_term_id.compute(valor,
+                                                         self.data_emissao)
+
+        duplicata_ids = [
+            [5, False, {}],
+        ]
+
+        parcela = 1
+        for data_vencimento, valor in lista_vencimentos:
+            duplicata = {
+                'numero': str(parcela),
+                'data_vencimento': data_vencimento,
+                'valor': valor,
+            }
+            duplicata_ids.append([0, False, duplicata])
+            parcela += 1
+
+        valores['duplicata_ids'] = duplicata_ids
+
         return res

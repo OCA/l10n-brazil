@@ -59,13 +59,15 @@ from . import sped_ncm_protocolo
 #
 from . import sped_certificado
 #
+# Produtos e serviços
+#
 from . import sped_produto
 from . import inherited_product_template
 from . import inherited_product_product
+
 #
-# #
-# # Fiscal e faturamento
-# #
+# Fiscal e faturamento
+#
 from . import sped_natureza_operacao
 from . import sped_operacao
 from . import sped_operacao_item
@@ -74,3 +76,9 @@ from . import sped_documento
 from . import sped_documento_item
 from . import sped_documento_volume
 from . import sped_documento_duplicata
+#
+# Parcelamentos e pagamentos
+#
+from . import copied_account_payment_term
+from . import copied_account_payment_term_line
+from . import inherited_account_payment_term
