@@ -89,14 +89,14 @@ class HrPayslip(models.Model):
         return attendance
 
     @api.multi
-    def get_worked_day_lines(self, date_from, date_to):
+    def get_worked_day_lines(self, contract_id, date_from, date_to):
         """
         @param contract_ids: list of contract id
         @return: returns a list of dict containing the input that should
         be applied for the given contract between date_from and date_to
         """
         result = []
-        for contract_id in self:
+        for contract_id in self.env['hr.contract'].browse(contract_id):
 
             # get dias Base para cálculo do mês
             dias_mes = self.env['resource.calendar'].get_dias_base(
@@ -465,13 +465,70 @@ class HrPayslip(models.Model):
         return ano
 
     @api.multi
+    def onchange_employee_id(self, date_from, date_to, contract_id):
+        worked_days_obj = self.env['hr.payslip.worked_days']
+        input_obj = self.env['hr.payslip.input']
+
+        # delete old worked days lines
+        old_worked_days_ids = worked_days_obj.search(
+            [('payslip_id', '=', self.id)]
+        )
+        if old_worked_days_ids:
+            for worked_day_id in old_worked_days_ids:
+                worked_day_id.unlink()
+
+        # delete old input lines
+        old_input_ids = input_obj.search([('payslip_id', '=', self.id)])
+        if old_input_ids:
+            for input_id in old_input_ids:
+                input_id.unlink()
+
+        # defaults
+        res = {
+            'value': {
+                'line_ids': [],
+                'input_line_ids': [],
+                'worked_days_line_ids': [],
+                'name': '',
+            }
+        }
+        # computation of the salary input
+        worked_days_line_ids = self.get_worked_day_lines(
+            contract_id, date_from, date_to
+        )
+        input_line_ids = self.get_inputs(contract_id, date_from, date_to)
+        res['value'].update(
+            {
+                'worked_days_line_ids': worked_days_line_ids,
+                'input_line_ids': input_line_ids,
+            }
+        )
+        return res
+
+    @api.multi
     @api.onchange('contract_id')
     def set_employee_id(self):
         for record in self:
             record.struct_id = record.contract_id.struct_id
             record.struct_id_readonly = record.struct_id
+            self.set_dates()
+            if record.contract_id:
+                record.employee_id = record.contract_id.employee_id
+                record.employee_id_readonly = record.employee_id
 
-            ultimo_dia_do_mes = self.env['resource.calendar'].\
+    @api.multi
+    @api.onchange('mes_do_ano')
+    def buscar_datas_periodo(self):
+        for record in self:
+            record.set_dates()
+            if record.contract_id:
+                record.onchange_employee_id(
+                    record.date_from, record.date_to, record.contract_id.id
+                )
+
+    def set_dates(self):
+        for record in self:
+            ultimo_dia_do_mes = self.env['resource.calendar']. \
                 get_ultimo_dia_mes(record.mes_do_ano, record.ano)
 
             primeiro_dia_do_mes = \
@@ -498,8 +555,6 @@ class HrPayslip(models.Model):
                 record.date_to = record.contract_id.date_end
             else:
                 record.date_to = str(ultimo_dia_do_mes)
-            record.employee_id = record.contract_id.employee_id
-            record.employee_id_readonly = record.employee_id
 
     @api.multi
     def compute_sheet(self):
