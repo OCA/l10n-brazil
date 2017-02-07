@@ -30,6 +30,9 @@
                             <field name="data_hora_emissao" colspan="2" required="1" />
                             <field name="data_hora_entrada_saida" colspan="2" required="1" />
                             <newline />
+                            <field name="data_emissao" invisible="1" />
+                            <field name="data_entrada_saida" invisible="1" />
+                            <newline />
                             <field name="chave" colspan="4" />
                             <newline />
                             <field name="situacao_fiscal" required="1" colspan="2" />
@@ -301,7 +304,9 @@
                         <page string="Financeiro">
                             <group>
                                 <group colspan="4" col="4">
-                                    <field name="forma_pagamento" required="1" />
+                                    <field name="forma_pagamento" required="1" colspan="4" />
+                                    <newline />
+                                    <field name="payment_term_id" colspan="4" context="{'currency_id': currency_id, 'value': vr_fatura}" />
                                     <separator string="Vencimentos" colspan="4" />
                                     <field name="duplicata_ids" colspan="4" nolabel="1">
                                         <tree string="Duplicatas" editable="bottom">
