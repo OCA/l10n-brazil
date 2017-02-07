@@ -70,14 +70,8 @@ class HrPayslip(models.Model):
     )
 
     medias_proventos = fields.One2many(
-        string=u'Calculo das Medias dos proventos',
-        comodel_name='l10n_br.hr.medias',
-        inverse_name='contrato_id',
-    )
-
-    medias_proventos_linhas = fields.One2many(
         string=u'Linhas das medias dos proventos',
-        comodel_name='l10n_br.hr.medias.lines',
+        comodel_name='l10n_br.hr.medias',
         inverse_name='holerite_id',
     )
 
@@ -576,13 +570,9 @@ class HrPayslip(models.Model):
 
     @api.multi
     def gerar_media_dos_proventos(self):
-        medias = self.env['l10n_br.hr.medias'].create({
-            'data_inicio' : '2017-01-01',
-            'data_fim' : '2017-12-31',
-            'contrato_id' : self.contract_id.id,
-            'holerite_id' : self.id,
-        })
-        medias.gerar_media_dos_proventos()
+        medias_obj = self.env['l10n_br.hr.medias']
+        medias_obj.gerar_media_dos_proventos('2017-01-01', '2017-12-31', self)
+
 
 class HrPayslipeLine(models.Model):
     _inherit = "hr.payslip.line"

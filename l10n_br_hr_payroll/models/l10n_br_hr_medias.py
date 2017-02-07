@@ -2,22 +2,21 @@
 # Copyright (C) 2016 KMEE (http://www.kmee.com.br)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import api, fields, models, exceptions, _
-from datetime import datetime
+from openerp import api, fields, models
 
 MES_DO_ANO = [
-    (1, u'Jan'),
-    (2, u'Fev'),
-    (3, u'Mar'),
-    (4, u'Abr'),
-    (5, u'Mai'),
-    (6, u'Jun'),
-    (7, u'Jul'),
-    (8, u'Ago'),
-    (9, u'Set'),
-    (10, u'Out'),
-    (11, u'Nov'),
-    (12, u'Dez'),
+    (1, u'Janeiro'),
+    (2, u'Fevereiro'),
+    (3, u'Marco'),
+    (4, u'Abril'),
+    (5, u'Maio'),
+    (6, u'Junho'),
+    (7, u'Julho'),
+    (8, u'Agosto'),
+    (9, u'Setembro'),
+    (10, u'Outubro'),
+    (11, u'Novembro'),
+    (12, u'Dezembro'),
 ]
 
 
@@ -26,31 +25,90 @@ class L10nBrHrMedias(models.Model):
     _description = 'Brazilian HR - Medias dos Proventos'
     # _order = 'year desc'
 
-    contrato_id = fields.Many2one(
-        string=u'Contrato',
-        comodel_name='hr.contract',
-    )
     holerite_id = fields.Many2one(
-        string=u'Contrato',
+        string=u'Holerite',
         comodel_name='hr.payslip',
     )
-
-    data_inicio = fields.Date(
-        string="Data Inicio",
+    nome_rubrica = fields.Char(
+        string=u'Nome da Rubrica',
+    )
+    mes_1 = fields.Char(
+        string=u'1º Mes',
+    )
+    mes_2 = fields.Char(
+        string=u'2º Mes',
+    )
+    mes_3 = fields.Char(
+        string=u'3º Mes',
+    )
+    mes_4 = fields.Char(
+        string=u'4º Mes',
+    )
+    mes_5 = fields.Char(
+        string=u'5º Mes',
+    )
+    mes_6 = fields.Char(
+        string=u'6º Mes',
+    )
+    mes_7 = fields.Char(
+        string=u'7º Mes',
+    )
+    mes_8 = fields.Char(
+        string=u'8º Mes',
+    )
+    mes_9 = fields.Char(
+        string=u'9º Mes',
+    )
+    mes_10 = fields.Char(
+        string=u'10º Mes',
+    )
+    mes_11 = fields.Char(
+        string=u'11º Mes',
+    )
+    mes_12 = fields.Char(
+        string=u'12º Mes',
+    )
+    soma = fields.Float(
+        string=u'Total dos Meses',
+        compute='calcular_soma'
+    )
+    meses = fields.Float(
+        string=u'Meses do periodo',
+    )
+    media = fields.Float(
+        string=u'Média',
+        compute='calcular_media',
+    )
+    media_texto = fields.Char(
+        string=u'Média'
+    )
+    linha_de_titulo = fields.Boolean(
+        string=u'Linha do Titulo',
+        help='Indica se é a linha construida para compor o título',
+        default=False,
     )
 
-    data_fim = fields.Date(
-        string="Data Fim",
-    )
+    def calcular_soma(self):
+        for linha in self:
+            if not linha.linha_de_titulo:
+                linha.soma = \
+                    float(linha.mes_1) + float(linha.mes_2) + \
+                    float(linha.mes_3) + float(linha.mes_4) + \
+                    float(linha.mes_5) + float(linha.mes_6) + \
+                    float(linha.mes_7) + float(linha.mes_8) + \
+                    float(linha.mes_9) + float(linha.mes_10) + \
+                    float(linha.mes_11) + float(linha.mes_12)
 
-    lines_id = fields.One2many(
-        comodel_name='l10n_br.hr.medias.lines',
-        inverse_name='parent_id',
-        string='Linhas de médias',
-    )
+    def calcular_media(self):
+        for linha in self:
+            if not linha.linha_de_titulo:
+                if linha.meses == 0:
+                    linha.media = 123
+                else:
+                    linha.media = linha.soma/linha.meses
 
     @api.multi
-    def gerar_media_dos_proventos(self):
+    def gerar_media_dos_proventos(self, data_inicio, data_fim, holerite_id):
         """
         Recuperar os proventos do periodo e retornar média
         :param date_from:
@@ -58,14 +116,14 @@ class L10nBrHrMedias(models.Model):
         :param contract_id:
         :return:
         """
-        for linha in self.lines_id:
+        for linha in holerite_id.medias_proventos:
             linha.unlink()
 
         folha_obj = self.env['hr.payslip']
         domain = [
-            ('date_from', '>=', self.data_inicio),
-            ('date_to', '<=', self.data_fim),
-            ('contract_id', '=', self.contrato_id.id),
+            ('date_from', '>=', data_inicio),
+            ('date_to', '<=', data_fim),
+            ('contract_id', '=', holerite_id.contract_id.id),
         ]
         folhas_periodo = folha_obj.search(domain)
         medias = {}
@@ -73,35 +131,43 @@ class L10nBrHrMedias(models.Model):
             for linha in folha.line_ids:
                 if linha.salary_rule_id.category_id.code == "PROVENTO":
                     if not medias.get(linha.salary_rule_id.id):
-                        medias.update({linha.salary_rule_id.id:
-                            [{
-                                'mes': MES_DO_ANO[folha.mes_do_ano],
-                                'valor': linha.total,
-                            }]
+                        medias.update({
+                            linha.salary_rule_id.id:
+                                [{'mes': MES_DO_ANO[folha.mes_do_ano][1],
+                                  'valor': linha.total}]
                         })
                     else:
                         medias[linha.salary_rule_id.id].append({
-                            'mes': MES_DO_ANO[folha.mes_do_ano],
+                            'mes': MES_DO_ANO[folha.mes_do_ano][1],
                             'valor': linha.total,
                         })
-
-        linha_obj = self.env['l10n_br.hr.medias.lines']
+        linha_obj = self.env['l10n_br.hr.medias']
+        titulo = {}
+        titulo_feito = False
         for rubrica in medias:
             mes_cont = 1
             vals = {}
-
             nome_rubrica = self.env['hr.salary.rule'].\
                 browse(rubrica).display_name
-
-            vals.update({'nome_rubrica' : nome_rubrica})
-            vals.update({'parent_id' : self.id})
-            vals.update({'meses' : len(medias[rubrica])})
-            vals.update({'holerite_id' : self.holerite_id.id})
+            # definindo titulo da visao tree
+            titulo.update({'meses': len(medias[rubrica])})
+            titulo.update({'holerite_id': holerite_id.id})
+            titulo.update({'linha_de_titulo': True})
+            # definindo a linha
+            vals.update({'nome_rubrica': nome_rubrica})
+            vals.update({'meses': len(medias[rubrica])})
+            vals.update({'holerite_id': holerite_id.id})
 
             for mes in medias[rubrica]:
                 vals.update({
-                    'mes_' + str(mes_cont) : str(mes['valor']),
+                    'mes_' + str(mes_cont): str(mes['valor']),
+                })
+                titulo.update({
+                    'mes_' + str(mes_cont): str(mes['mes']),
                 })
                 mes_cont += 1
+
+            if not titulo_feito:
+                linha_obj.create(titulo)
+                titulo_feito = True
             linha = linha_obj.create(vals)
-            print linha.holerite_id

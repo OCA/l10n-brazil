@@ -39,7 +39,6 @@
         'views/hr_payslip.xml',
         'views/hr_salary_rule.xml',
         'views/hr_payroll_structure.xml',
-        'views/l10n_br_hr_media.xml',
     ],
     'installable': True,
     'auto_install': False,

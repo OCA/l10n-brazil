@@ -105,10 +105,10 @@
                     </page>
 
                     <page string="Cálculo das Médias">
-                        <button string="Calcular Médias" name="gerar_media_dos_proventos" type="object" class="oe_highlight"/>
-                        <field name="medias_proventos_linhas" colspan="4"
+                        <button string="Calcular Médias" name="gerar_media_dos_proventos" type="object" />
+                        <field name="medias_proventos" colspan="4"
                                nolabel="1">
-                            <tree>
+                            <tree edit="false" create="false">
                                 <field name="nome_rubrica"/>
                                 <field name="mes_1"/>
                                 <field name="mes_2"/>
