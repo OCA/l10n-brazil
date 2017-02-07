@@ -95,6 +95,12 @@
         'views/sped_unidade_servico_view.xml',
 
         #
+        # Parcelamentos e pagamentos
+        #
+        'views/sped_account_payment_term_line_view.xml',
+        'views/sped_account_payment_term_view.xml',
+
+        #
         # Fiscal
         #
         'views/sped_certificado_view.xml',
