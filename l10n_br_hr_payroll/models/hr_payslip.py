@@ -542,11 +542,23 @@ class HrPayslip(models.Model):
     @api.onchange('mes_do_ano')
     def buscar_datas_periodo(self):
         for record in self:
-            record.set_dates()
+            record.setar_datas_inicio_fim()
             if record.contract_id:
                 record.onchange_employee_id(
                     record.date_from, record.date_to, record.contract_id.id
                 )
+
+    def setar_datas_inicio_fim(self):
+        for record in self:
+            ultimo_dia_do_mes = self.env['resource.calendar']. \
+                get_ultimo_dia_mes(record.mes_do_ano, record.ano)
+
+            primeiro_dia_do_mes = \
+                datetime.strptime(str(record.mes_do_ano) + '-' +
+                                  str(record.ano), '%m-%Y')
+
+            record.date_from = primeiro_dia_do_mes
+            record.date_to = ultimo_dia_do_mes
 
     def set_dates(self):
         for record in self:

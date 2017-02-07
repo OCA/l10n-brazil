@@ -141,7 +141,7 @@
             <field name="contract_id" position="replace">
                 <field name="employee_id" invisible="1" on_change="onchange_employee_id(date_from, date_to, contract_id)"/>
                 <field name="employee_id_readonly" readonly="True"/>
-                <field name="tipo_de_folha"/>
+                <field name="tipo_de_folha" invisible="1"/>
             </field>
 
             <!--Redefinindo campo de Estrutura-->
