@@ -20,6 +20,16 @@ MES_DO_ANO = [
     (12, u'Dez'),
 ]
 
+TIPO_DE_FOLHA = [
+    ('normal', u'Folha normal'),
+    ('rescisao', u'Rescisão'),
+    ('ferias', u'Férias'),
+    ('decimo_terceiro', u'Décimo terceiro (13º)'),
+    ('licenca_maternidade', u'Licença maternidade'),
+    ('auxilio_doenca', u'Auxílio doença'),
+    ('auxílio_acidente_trabalho', u'Auxílio acidente de trabalho'),
+]
+
 
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
@@ -45,6 +55,12 @@ class HrPayslip(models.Model):
             if line.valor_provento or line.valor_deducao:
                 lines.append(line.id)
         self.line_resume_ids = lines
+
+    tipo_de_folha = fields.Selection(
+        selection=TIPO_DE_FOLHA,
+        string=u'Tipo de folha',
+        default='normal',
+    )
 
     struct_id_readonly = fields.Many2one(
         string=u'Estrutura de Salário',

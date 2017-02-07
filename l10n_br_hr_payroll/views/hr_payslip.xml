@@ -10,6 +10,7 @@
         <field name="model">hr.payslip</field>
         <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
         <field name="arch" type="xml">
+            <!-- Adiciona abas -->
             <xpath expr="//notebook" position="replace">
                 <notebook>
                     <page string="Holerite" >
@@ -104,7 +105,8 @@
                         </field>
                     </page>
 
-                    <page string="Cálculo das Médias">
+                    <page string="Cálculo das Médias"
+                          attrs="{'invisible': [('tipo_de_folha', '!=', 'ferias')]}">
                         <button string="Calcular Médias" name="gerar_media_dos_proventos" type="object" />
                         <field name="medias_proventos" colspan="4"
                                nolabel="1">
@@ -133,10 +135,13 @@
                 </notebook>
 			 </xpath>
 
+
+
             <!--Redefinindo campo Funcionario-->
             <field name="contract_id" position="replace">
                 <field name="employee_id" invisible="1" on_change="onchange_employee_id(date_from, date_to, contract_id)"/>
                 <field name="employee_id_readonly" readonly="True"/>
+                <field name="tipo_de_folha"/>
             </field>
 
             <!--Redefinindo campo de Estrutura-->
@@ -174,6 +179,20 @@
 
         </field>
     </record>
+
+    <record id="action_view_hr_calculo_medias_view_page" model="ir.actions.act_window">
+        <field name="name">Férias</field>
+        <field name="res_model">hr.payslip</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="hr_payslip_form_view"/>
+        <field name="search_view_id"
+               ref="hr_payroll.view_hr_payslip_filter"/>
+        <field name="context">{'default_tipo_de_folha': 'ferias'}</field>
+    </record>
+
+    <menuitem action="action_view_hr_calculo_medias_view_page"
+              id="menu_calculo_medias_page"
+              parent="hr_payroll.menu_hr_root_payroll"/>
 
     <!--<record model="ir.ui.view" id="hr_payslip_search_view">-->
         <!--<field name="name">hr.payslip.search (in l10n_br_hr_payroll)</field>-->
