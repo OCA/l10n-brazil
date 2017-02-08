@@ -124,8 +124,10 @@ class L10nBrHrMedias(models.Model):
             ('date_from', '>=', data_inicio),
             ('date_to', '<=', data_fim),
             ('contract_id', '=', holerite_id.contract_id.id),
+            ('state', '=', 'done'),
         ]
         folhas_periodo = folha_obj.search(domain)
+        folhas_periodo = folhas_periodo.sorted(key=lambda r: r.date_from)
         medias = {}
         for folha in folhas_periodo:
             for linha in folha.line_ids:
@@ -133,14 +135,15 @@ class L10nBrHrMedias(models.Model):
                     if not medias.get(linha.salary_rule_id.id):
                         medias.update({
                             linha.salary_rule_id.id:
-                                [{'mes': MES_DO_ANO[folha.mes_do_ano][1],
+                                [{'mes': MES_DO_ANO[folha.mes_do_ano-1][1],
                                   'valor': linha.total}]
                         })
                     else:
                         medias[linha.salary_rule_id.id].append({
-                            'mes': MES_DO_ANO[folha.mes_do_ano][1],
+                            'mes': MES_DO_ANO[folha.mes_do_ano-1][1],
                             'valor': linha.total,
                         })
+
         linha_obj = self.env['l10n_br.hr.medias']
         titulo = {}
         titulo_feito = False

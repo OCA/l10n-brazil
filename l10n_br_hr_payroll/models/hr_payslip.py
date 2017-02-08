@@ -577,9 +577,12 @@ class HrPayslip(models.Model):
     def gerar_media_dos_proventos(self):
         medias_obj = self.env['l10n_br.hr.medias']
         if self.tipo_de_folha == 'ferias':
+            periodo_aquisitivo = self.contract_id.vacation_control_ids[0]
             data_de_inicio = str(fields.Date.from_string(
-                self.date_from) + relativedelta(months=-11))
+                periodo_aquisitivo.inicio_aquisitivo))
+            data_final = str(fields.Date.from_string(
+                periodo_aquisitivo.fim_aquisitivo))
         elif self.tipo_de_folha == 'decimo_terceiro':
             data_de_inicio = '2017-01-01'
-        medias_obj.gerar_media_dos_proventos(data_de_inicio,
-                                             self.date_to, self)
+            data_final = '2017-12-31'
+        medias_obj.gerar_media_dos_proventos(data_de_inicio, data_final, self)
