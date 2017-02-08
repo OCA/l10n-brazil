@@ -3,7 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import fields, models
-from openerp.tools.safe_safe_eval import safe_safe_eval
+from openerp.tools.safe_eval import safe_eval
 from pybrasil.python_pt_BR import python_pt_BR
 from pybrasil.valor.decimal import Decimal
 
