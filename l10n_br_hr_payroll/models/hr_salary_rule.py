@@ -4,8 +4,15 @@
 
 from openerp import fields, models
 from openerp.tools.safe_eval import safe_eval
-from pybrasil.python_pt_BR import python_pt_BR
-from pybrasil.valor.decimal import Decimal
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from pybrasil.python_pt_BR import python_pt_BR
+    # from pybrasil.valor.decimal import Decimal
+
+except ImportError:
+    _logger.info('Cannot import pybrasil')
 
 
 CALCULO_FOLHA_PT_BR = {
