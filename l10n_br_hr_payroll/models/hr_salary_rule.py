@@ -4,7 +4,7 @@
 
 import logging
 
-from openerp import fields, models
+from openerp import fields, models, exceptions, _
 from openerp.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
@@ -73,7 +73,7 @@ class HrSalaryRule(models.Model):
             return result, result_qty, result_rate
 
         except:
-            raise osv.except_osv(_('Error!'),
+            raise exceptions.UserError(
                 _('Wrong python code defined for salary rule %s (%s).') % \
                 (rule.name, rule.code))
 
@@ -93,6 +93,6 @@ class HrSalaryRule(models.Model):
             return 'result' in localdict and localdict['result'] or False
 
         except:
-            raise osv.except_osv(_('Error!'),
+            raise exceptions.UserError(
                 _('Wrong python condition defined for salary rule %s (%s).') % \
                  (rule.name, rule.code))
