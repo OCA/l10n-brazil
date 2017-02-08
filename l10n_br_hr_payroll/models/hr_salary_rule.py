@@ -54,18 +54,6 @@ class HrSalaryRule(models.Model):
         codigo_python = python_pt_BR(rule.amount_python_compute or '',
                                      CALCULO_FOLHA_PT_BR)
 
-        '''
-        #
-        # Pega todos os float do localdict e converte para Decimal
-        #
-        localdict['Decimal'] = Decimal
-        localdict['D'] = Decimal
-
-        for item, valor in localdict.iteritems():
-            if isinstance(valor, float):
-                localdict[item] = Decimal(valor)
-        '''
-
         try:
             safe_eval(codigo_python, localdict, mode='exec', nocopy=True)
             result = localdict['result']
@@ -97,18 +85,6 @@ class HrSalaryRule(models.Model):
 
         codigo_python = python_pt_BR(rule.condition_python or '',
                                      CALCULO_FOLHA_PT_BR)
-
-        '''
-        #
-        # Pega todos os float do localdict e converte para Decimal
-        #
-        localdict['Decimal'] = Decimal
-        localdict['D'] = Decimal
-
-        for item, valor in localdict.iteritems():
-            if isinstance(valor, float):
-                localdict[item] = Decimal(valor)
-        '''
 
         try:
             safe_eval(codigo_python, localdict, mode='exec', nocopy=True)
