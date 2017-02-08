@@ -54,6 +54,7 @@ class HrContract(models.Model):
             lista_controle_ferias.append(controle_ferias.id)
 
         hr_contract_id.vacation_control_ids = lista_controle_ferias
+        hr_contract_id.atualizar_controle_ferias()
         return hr_contract_id
 
     @api.model
@@ -87,6 +88,8 @@ class HrContract(models.Model):
         for contrato in contratos_ids:
             if contrato.vacation_control_ids:
                 ultimo_controle = contrato.vacation_control_ids[0]
+                if ultimo_controle.fim_aquisitivo < fields.Date.today():
+                    ultimo_controle = contrato.vacation_control_ids[-1]
                 if not ultimo_controle.hr_holiday_ids:
                     controle_ferias = ultimo_controle
                 elif ultimo_controle.fim_aquisitivo < fields.Date.today():
