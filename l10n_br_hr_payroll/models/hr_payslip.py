@@ -483,10 +483,6 @@ class HrPayslip(models.Model):
             result = [value for code, value in result_dict.items()]
             return result
 
-    def _computar_ano(self):
-        ano = datetime.now().year
-        return ano
-
     @api.multi
     def onchange_employee_id(self, date_from, date_to, contract_id):
         worked_days_obj = self.env['hr.payslip.worked_days']
