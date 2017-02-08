@@ -35,7 +35,7 @@
         <record model="hr.contract" id="hr_contract_demo_1">
             <field name="name">Contract For Tony Stark</field>
             <field name="type_id" ref="hr_contract.hr_contract_type_emp"/>
-            <field name="date_start" eval="time.strftime('%Y-%m')+'-1'"/>
+            <field name="date_start" eval="'2016-10-01'"/>
             <field name="date_end" eval="time.strftime('%Y')+'-12-31'"/>
             <field name="struct_id" ref="l10n_br_hr_payroll.hr_salary_structure_FUNCAO_COMISSIONADA"/>
             <field name="employee_id" ref="hr_employee_payroll_demo01"/>
@@ -81,7 +81,7 @@
         <record model="hr.contract" id="hr_contract_demo_02">
             <field name="name">Contract For Bruce Banner</field>
             <field name="type_id" ref="hr_contract.hr_contract_type_emp"/>
-            <field name="date_start" eval="time.strftime('%Y-%m')+'-1'"/>
+            <field name="date_start" eval="'2016-01-01'"/>
            <field name="struct_id" ref="l10n_br_hr_payroll.hr_salary_structure_FUNCAO_COMISSIONADA"/>
             <field name="employee_id" ref="hr_employee_payroll_demo02"/>
             <field name="notes">This is Bruce Banner's contract</field>

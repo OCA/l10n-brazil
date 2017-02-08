@@ -168,18 +168,27 @@ class HrPayslip(models.Model):
             quantidade_dias_ferias, quantidade_dias_abono = \
                 self.env['resource.calendar'].get_quantidade_dias_ferias(
                     hr_contract.employee_id.id, date_from, date_to)
-
             result += [
                 self.get_attendances(
                     u'Quantidade dias em Férias', 6, u'FERIAS',
                     quantidade_dias_ferias, 0.0, contract_id
                 )
             ]
-
             result += [
                 self.get_attendances(
                     u'Quantidade dias Abono Pecuniario', 7,
                     u'ABONO_PECUNIARIO', quantidade_dias_abono,
+                    0.0, contract_id
+                )
+            ]
+            if hr_contract.vacation_control_ids[0].saldo:
+                saldo_ferias = hr_contract.vacation_control_ids[0].saldo
+            else:
+                saldo_ferias = 0
+            result += [
+                self.get_attendances(
+                    u'Saldo de dias máximo para Férias', 8,
+                    u'SALDO_FERIAS', saldo_ferias,
                     0.0, contract_id
                 )
             ]
@@ -292,6 +301,12 @@ class HrPayslip(models.Model):
                     'hr_salary_structure_SEGUNDA_PARCELA_13'
                 )
                 return estrutura_decimo_terceiro
+        elif self.tipo_de_folha == "ferias":
+            estrutura_decimo_terceiro = self.env.ref(
+                'l10n_br_hr_payroll.'
+                'hr_salary_structure_FERIAS'
+            )
+            return estrutura_decimo_terceiro
 
     @api.multi
     def get_payslip_lines(self, payslip_id):

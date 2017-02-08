@@ -410,7 +410,7 @@
         <!--Estrutura de salario para ferias-->
         <record id="hr_salary_structure_FERIAS" model="hr.payroll.structure">
             <field name="code">FERIAS</field>
-            <field name="name">Estrutura de Salario de Férias</field>
+            <field name="name">Férias</field>
             <field eval="[(6, 0, [ref('hr_salary_rule_FERIAS'), ref('hr_salary_rule_1/3_FERIAS')])]" name="rule_ids"/>
             <field name="company_id" ref="base.main_company"/>
             <field name="parent_id" eval="False" />
