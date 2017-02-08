@@ -4,6 +4,7 @@
 
 from openerp import api, fields, models, exceptions, _
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 MES_DO_ANO = [
     (1, u'Jan'),
@@ -533,7 +534,7 @@ class HrPayslip(models.Model):
         for record in self:
             record.struct_id = record.contract_id.struct_id
             record.struct_id_readonly = record.struct_id
-            self.set_dates()
+            record.set_dates()
             if record.contract_id:
                 record.employee_id = record.contract_id.employee_id
                 record.employee_id_readonly = record.employee_id
@@ -542,53 +543,33 @@ class HrPayslip(models.Model):
     @api.onchange('mes_do_ano')
     def buscar_datas_periodo(self):
         for record in self:
-            record.setar_datas_inicio_fim()
+            record.set_dates()
             if record.contract_id:
                 record.onchange_employee_id(
                     record.date_from, record.date_to, record.contract_id.id
                 )
 
-    def setar_datas_inicio_fim(self):
+    def set_dates(self):
         for record in self:
-            ultimo_dia_do_mes = self.env['resource.calendar']. \
-                get_ultimo_dia_mes(record.mes_do_ano, record.ano)
+            ultimo_dia_do_mes = str(
+                self.env['resource.calendar'].get_ultimo_dia_mes(
+                    record.mes_do_ano, record.ano))
 
-            primeiro_dia_do_mes = \
+            primeiro_dia_do_mes = str(
                 datetime.strptime(str(record.mes_do_ano) + '-' +
-                                  str(record.ano), '%m-%Y')
+                                  str(record.ano), '%m-%Y'))
 
             record.date_from = primeiro_dia_do_mes
             record.date_to = ultimo_dia_do_mes
 
-    def set_dates(self):
-        for record in self:
-            ultimo_dia_do_mes = self.env['resource.calendar']. \
-                get_ultimo_dia_mes(record.mes_do_ano, record.ano)
+            data_de_inicio = record.contract_id.date_start
+            data_final = record.contract_id.date_end
 
-            primeiro_dia_do_mes = \
-                datetime.strptime(str(record.mes_do_ano) + '-' +
-                                  str(record.ano), '%m-%Y')
+            if data_de_inicio and primeiro_dia_do_mes < data_de_inicio:
+                record.date_from = record.contract_id.date_start
 
-            if not record.contract_id.date_start:
-                continue
-
-            date_start = record.contract_id.date_start
-
-            if str(primeiro_dia_do_mes) < date_start:
-                date_from = record.contract_id.date_start
-            else:
-                date_from = str(primeiro_dia_do_mes)
-
-            record.date_from = date_from
-
-            date_end = record.contract_id.date_end
-
-            if not date_end:
-                record.date_to = str(ultimo_dia_do_mes)
-            elif str(ultimo_dia_do_mes) > record.contract_id.date_end:
+            if data_final and ultimo_dia_do_mes > data_final:
                 record.date_to = record.contract_id.date_end
-            else:
-                record.date_to = str(ultimo_dia_do_mes)
 
     @api.multi
     def compute_sheet(self):
@@ -599,7 +580,13 @@ class HrPayslip(models.Model):
     @api.multi
     def gerar_media_dos_proventos(self):
         medias_obj = self.env['l10n_br.hr.medias']
-        medias_obj.gerar_media_dos_proventos('2017-01-01', '2017-12-31', self)
+        if self.tipo_de_folha == 'ferias':
+            data_de_inicio = str(fields.Date.from_string(
+                self.date_from) + relativedelta(months=-11))
+        elif self.tipo_de_folha == 'decimo_terceiro':
+            data_de_inicio = '2017-01-01'
+        medias_obj.gerar_media_dos_proventos(data_de_inicio,
+                                             self.date_to, self)
 
 
 class HrPayslipeLine(models.Model):
