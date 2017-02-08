@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2016 KMEE - Luis Felipe Miléo <mileo@kmee.com.br>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <!--<data noupdate="1">-->
+    <data>
+
+        <!--RAT/FAP-->
+        <record id="l10n_br_hr_rat_fap" model="l10n_br.hr.rat.fap">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="year">2017</field>
+            <field name="rat_rate">1.5</field>
+            <field name="fap_rate">1.5</field>
+            <field name="other_entities_rate">3.0</field>
+            <field name="total_rate">6.0</field>
+        </record>
+
+        <!--Demo 01-->
+        <!-- Employee -->
+        <record id="hr_employee_payroll_demo01" model="hr.employee">
+            <field eval="0" name="manager"/>
+            <field eval="1.0" name="time_efficiency"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field eval="1" name="active"/>
+            <field name="name">Tony Stark</field>
+            <field name="resource_type">user</field>
+            <field name="work_location">Itajuba</field>
+            <field name="work_phone">+24242424</field>
+            <field name="image" type="base64"
+                   file="hr_payroll/static/img/hr_employee_payroll-image.jpg"/>
+        </record>
+
+        <!--Contract-->
+        <record model="hr.contract" id="hr_contract_demo_1">
+            <field name="name">Contract For Tony Stark</field>
+            <field name="type_id" ref="hr_contract.hr_contract_type_emp"/>
+            <field name="date_start" eval="time.strftime('%Y-%m')+'-1'"/>
+            <field name="date_end" eval="time.strftime('%Y')+'-12-31'"/>
+            <field name="struct_id" ref="l10n_br_hr_payroll.hr_salary_structure_FUNCAO_COMISSIONADA"/>
+            <field name="employee_id" ref="hr_employee_payroll_demo01"/>
+            <field name="notes">This is Tony Stark's contract</field>
+            <field eval="5000.0" name="wage"/>
+            <field name="working_hours" ref="resource.timesheet_group1"/>
+        </record>
+
+        <!--Payslip-->
+        <record model="hr.payslip" id="hr_payslip_demo_1">
+            <field name="contract_id" ref="hr_contract_demo_1"/>
+            <field name="ano">2017</field>
+            <field name="mes_do_ano" eval="2"></field>
+            <field name="employee_id" ref="hr_employee_payroll_demo01"/>
+        </record>
+
+
+        <!--Demo 02-->
+        <!-- Employee -->
+        <record id="hr_employee_payroll_demo02" model="hr.employee">
+            <field eval="0" name="manager"/>
+            <field eval="1.0" name="time_efficiency"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field eval="1" name="active"/>
+            <field name="name">Bruce Banner</field>
+            <field name="resource_type">user</field>
+            <field name="work_location">São Paulo</field>
+            <field name="work_phone">+71717171</field>
+            <field name="image" type="base64"
+                   file="hr_payroll/static/img/hr_employee_payroll-image.jpg"/>
+        </record>
+
+        <!--Rubricas especificas -->
+        <record id="l10n_br_hr_payroll_rubrica_especifica" model="hr.contract.salary.rule">
+            <field name="rule_id" ref="hr_salary_rule_REMBOLSO_PLANO_SAUDE"/>
+            <field name="date_start" eval="time.strftime('%Y-%m')+'-1'"/>
+            <field name="specific_quantity">1.0</field>
+            <field name="specific_percentual">100</field>
+            <field name="specific_amount">400.00</field>
+        </record>
+
+        <!--Contract-->
+        <record model="hr.contract" id="hr_contract_demo_02">
+            <field name="name">Contract For Bruce Banner</field>
+            <field name="type_id" ref="hr_contract.hr_contract_type_emp"/>
+            <field name="date_start" eval="time.strftime('%Y-%m')+'-1'"/>
+           <field name="struct_id" ref="l10n_br_hr_payroll.hr_salary_structure_FUNCAO_COMISSIONADA"/>
+            <field name="employee_id" ref="hr_employee_payroll_demo02"/>
+            <field name="notes">This is Bruce Banner's contract</field>
+            <field eval="3000.0" name="wage"/>
+            <field name="working_hours" ref="resource.timesheet_group1"/>
+            <field name="specific_rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll_rubrica_especifica')])]" />
+        </record>
+
+        <!--Payslip-->
+        <record model="hr.payslip" id="hr_payslip_demo_02">
+            <field name="contract_id" ref="hr_contract_demo_02"/>
+            <field name="ano">2017</field>
+            <field name="mes_do_ano" eval="2"></field>
+            <field name="employee_id" ref="hr_employee_payroll_demo02"/>
+        </record>
+        
+    </data>
+</openerp>

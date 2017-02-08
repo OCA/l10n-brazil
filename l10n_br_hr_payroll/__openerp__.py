@@ -19,6 +19,8 @@
     'data': [
         'data/l10n_br_hr_income_tax.xml',
         'data/l10n_br_hr_income_tax_deductable_amount_family.xml',
+        'data/l10n_br_hr_payroll_data_rubricas.xml',
+        'data/l10n_br_hr_payroll_data_tabela_INSS.xml',
         'views/hr_contract.xml',
         'security/l10n_br_hr_contract.xml',
         'views/l10n_br_hr_contract.xml',
@@ -27,8 +29,6 @@
         'views/l10n_br_hr_contract_jornada.xml',
         'views/l10n_br_hr_contract_lotacao_local.xml',
         'views/l10n_br_hr_contract_remuneracao.xml',
-        'data/l10n_br_hr_payroll_data_rubricas.xml',
-        'data/l10n_br_hr_payroll_data_tabela_INSS.xml',
         'security/ir.model.access.csv',
         'views/l10n_br_hr_child_benefit_view.xml',
         'views/l10n_br_hr_income_tax_view.xml',
@@ -39,6 +39,9 @@
         'views/hr_payslip.xml',
         'views/hr_salary_rule.xml',
         'views/hr_payroll_structure.xml',
+    ],
+    'demo': [
+        'demo/hr_contract.xml',
     ],
     'installable': True,
     'auto_install': False,
