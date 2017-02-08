@@ -81,9 +81,8 @@ class HrSalaryRule(models.Model):
         rule = self.browse(cr, uid, rule_id, context=context)
 
         if rule.condition_select != 'python':
-            return super(HrSalaryRule, self).satisfy_condition(cr, uid, rule_id,
-                                                               localdict,
-                                                               context=context)
+            return super(HrSalaryRule, self).satisfy_condition(cr, uid,
+                rule_id, localdict, context=context)
 
         codigo_python = python_pt_BR(rule.condition_python or '',
                                      CALCULO_FOLHA_PT_BR)
@@ -94,5 +93,5 @@ class HrSalaryRule(models.Model):
 
         except:
             raise exceptions.UserError(
-                _('Wrong python condition defined for salary rule %s (%s).') % \
+                _('Wrong python condition defined for salary rule %s (%s).') %\
                  (rule.name, rule.code))
