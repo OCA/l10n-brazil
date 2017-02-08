@@ -276,6 +276,24 @@ class HrPayslip(models.Model):
             )
 
     @api.multi
+    def buscar_estruturas_salario(self):
+        if self.tipo_de_folha == "normal":
+            return self.contract_id.struct_id
+        elif self.tipo_de_folha == "decimo_terceiro":
+            if self.mes_do_ano < 12:
+                estrutura_decimo_terceiro = self.env.ref(
+                    'l10n_br_hr_payroll.'
+                    'hr_salary_structure_PRIMEIRA_PARCELA_13'
+                )
+                return estrutura_decimo_terceiro
+            else:
+                estrutura_decimo_terceiro = self.env.ref(
+                    'l10n_br_hr_payroll.'
+                    'hr_salary_structure_SEGUNDA_PARCELA_13'
+                )
+                return estrutura_decimo_terceiro
+
+    @api.multi
     def get_payslip_lines(self, payslip_id):
         """
         get_payslip_lines(cr, uid, contract_ids, payslip.id, context=context)]
@@ -395,12 +413,18 @@ class HrPayslip(models.Model):
             'SALARIO_DIA': salario_dia, 'SALARIO_HORA': salario_hora,
             'RAT_FAP': rat_fap,
         }
+        if payslip.tipo_de_folha == "decimo_terceiro":
+            baselocaldict.update({
+                'MEDIA_RUBRICA': 0.0,
+                'TIPO_RUBRICA': 0.0,
+            })
 
         for contract_ids in self:
             # get the ids of the structures on the contracts
             # and their parent id as well
-            structure_ids = self.env['hr.contract'].browse(
-                contract_ids.ids).get_all_structures()
+            # structure_ids = self.env['hr.contract'].browse(
+            #     contract_ids.ids).get_all_structures()
+            structure_ids = payslip.struct_id._get_parent_structure()
 
             # get the rules of the structure and thier children
             rule_ids = self.env['hr.payroll.structure'].browse(
@@ -422,6 +446,10 @@ class HrPayslip(models.Model):
                     localdict['result_qty'] = 1.0
                     localdict['result_rate'] = 100
                     localdict['rubrica'] = rule
+                    if payslip.tipo_de_folha == "decimo_terceiro":
+                        localdict['MEDIA_RUBRICA'] = \
+                            payslip.buscar_media_rubrica(rule)
+                        localdict['TIPO_RUBRICA'] = rule.tipo_media
                     # check if the rule can be applied
                     if obj_rule.satisfy_condition(rule.id, localdict) \
                             and rule.id not in blacklist:
@@ -528,7 +556,7 @@ class HrPayslip(models.Model):
     @api.onchange('contract_id')
     def set_employee_id(self):
         for record in self:
-            record.struct_id = record.contract_id.struct_id
+            record.struct_id = record.buscar_estruturas_salario()
             record.struct_id_readonly = record.struct_id
             record.set_dates()
             if record.contract_id:
