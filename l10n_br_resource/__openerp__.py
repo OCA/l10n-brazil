@@ -25,7 +25,4 @@
         'views/menu_resource_calendar.xml',
         'wizard/workalendar_holiday_import.xml',
     ],
-    'demo': [
-        'demo/resource_calendar.xml',
-    ],
 }
