@@ -73,9 +73,8 @@ class HrSalaryRule(models.Model):
             return result, result_qty, result_rate
 
         except:
-            raise exceptions.UserError(
-                _('Wrong python code defined for salary rule %s (%s).') % \
-                (rule.name, rule.code))
+            msg = _('Wrong python code defined for salary rule %s (%s).')
+            raise exceptions.UserError(msg % (rule.name, rule.code))
 
     def satisfy_condition(self, cr, uid, rule_id, localdict, context=None):
         rule = self.browse(cr, uid, rule_id, context=context)
@@ -92,6 +91,5 @@ class HrSalaryRule(models.Model):
             return 'result' in localdict and localdict['result'] or False
 
         except:
-            raise exceptions.UserError(
-                _('Wrong python condition defined for salary rule %s (%s).') %\
-                 (rule.name, rule.code))
+            msg = _('Wrong python condition defined for salary rule %s (%s).')
+            raise exceptions.UserError(msg % (rule.name, rule.code))
