@@ -3,6 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from . import hr_payslip
+from . import hr_payslip_line
 from . import l10n_br_hr_child_benefit
 from . import l10n_br_hr_income_tax
 from . import l10n_br_hr_income_tax_deductable_amount_family
