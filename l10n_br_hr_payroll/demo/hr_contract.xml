@@ -6,10 +6,19 @@
     <!--<data noupdate="1">-->
     <data>
 
-        <!--RAT/FAP-->
+        <!--RAT/FAP 2017-->
         <record id="l10n_br_hr_rat_fap" model="l10n_br.hr.rat.fap">
             <field name="company_id" ref="base.main_company"/>
             <field name="year">2017</field>
+            <field name="rat_rate">1.5</field>
+            <field name="fap_rate">1.5</field>
+            <field name="other_entities_rate">3.0</field>
+            <field name="total_rate">6.0</field>
+        </record>
+        <!--RAT/FAP 2016-->
+        <record id="l10n_br_hr_rat_fap" model="l10n_br.hr.rat.fap">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="year">2016</field>
             <field name="rat_rate">1.5</field>
             <field name="fap_rate">1.5</field>
             <field name="other_entities_rate">3.0</field>
@@ -94,9 +103,22 @@
         <record model="hr.payslip" id="hr_payslip_demo_02">
             <field name="contract_id" ref="hr_contract_demo_02"/>
             <field name="ano">2017</field>
+            <field name="number">Holerite_01</field>
             <field name="mes_do_ano" eval="2"></field>
             <field name="employee_id" ref="hr_employee_payroll_demo02"/>
         </record>
-        
+
+        <!--Variaveis / worked days-->
+        <record model="hr.payslip.worked_days" id="hr_payslip_worked_days_demo_02">
+            <field name="payslip_id" ref="hr_payslip_demo_02"/>
+            <field name="name">Dias Base</field>
+            <field name="sequence">1</field>
+            <field name="code">DIAS_BASE</field>
+            <field name="number_of_hours">0.0</field>
+            <field name="number_of_days">30</field>
+            <field name="contract_id" ref="hr_contract_demo_02"/>
+        </record>
+
+
     </data>
 </openerp>
