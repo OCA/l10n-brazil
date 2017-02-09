@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+<data>
+    <record model="ir.ui.view" id="financial_move_tree_view">
+        <field name="name">financial.move.tree (in financial)</field>
+        <field name="model">financial.move</field>
+        <field name="arch" type="xml">
+            <tree>
+                <!-- TODO -->
+                <field name="business_due_date"/>
+                <field name="create_date"/>
+                <field name="expected_date"/>
+                <field name="partner_id"/>
+                <field name="name"/>
+                <field name="currency_id"/>
+                <field name="amount_document"/>
+                <button name="%(financial_cancel_act_window)d" type="action"
+                        class="oe_stat_button" icon="fa-money" string="Pay/Recieve"/>
+                <button name="%(financial_cancel_act_window)d" type="action"
+                        class="oe_stat_button" icon="fa-undo" string="Refund"
+                        confirm="Confirm the refund?"
+                />
+                <button name="%(financial_cancel_act_window)d" type="action"
+                        class="oe_stat_button" icon="fa-edit" string="Edit"/>
+                <button name="%(financial_cancel_act_window)d" type="action"
+                        class="oe_stat_button" icon="fa-ban" string="Cancel"
+                />
+                <button name="%(financial_cancel_act_window)d" type="action"
+                        class="oe_stat_button" icon="fa-print" string="Print"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="financial_move_form_view">
+        <field name="name">financial.move.form (in financial)</field>
+        <field name="model">financial.move</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" type="object" states="draft,budget" string="Validate" class="oe_highlight"/>
+                    <button name="%(financial_pay_revieve_act_window)d" type="action" states="open" string="Register Payment" class="oe_highlight"/>
+                    <!--<button name="action_cancel" type="object" states="draft,budget" string="Cancel Bill"/>-->
+                    <!--<button name="action_draft" states="cancel" string="Set to Draft" type="object"/>-->
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,paid" />
+                </header>
+                <!--<div class="alert alert-info" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('has_outstanding','=',False)]}">-->
+                    <!--You have <bold><a class="alert-link" href="#outstanding" role="button">outstanding debits</a></bold> for this supplier. You can allocate them to mark this bill as paid.-->
+                <!--</div>-->
+                <!--<field name="has_outstanding" invisible="1"/>-->
+                <sheet>
+                    <div>
+                        <label string="Draft Receivable" attrs="{'invisible': ['|',('state','&lt;&gt;','draft'), ('type','&lt;&gt;','r')]}"/>
+                        <label string="Draft Payable" attrs="{'invisible': ['|',('state','&lt;&gt;','draft'), ('type','&lt;&gt;','p')]}"/>
+                        <label string="Receivable " attrs="{'invisible': ['|',('state', '=', 'draft'), ('type','&lt;&gt;','r')]}"/>
+                        <label string="Payable " attrs="{'invisible': ['|',('state', '=', 'draft'), ('type','&lt;&gt;','p')]}"/>
+                        <h1 class="mt0">
+                            <field name="document_number" class="oe_inline"  attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                        </h1>
+                    </div>
+                    <field name="type" invisible="1"/>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(financial_cancel_act_window)d" type="action"
+                                class="oe_stat_button" icon="fa-money" string="Pay/Recieve"
+                                attrs="{'invisible': ['|',('state', '=', 'draft')]}"
+                        />
+
+                        <button name="%(financial_cancel_act_window)d" type="action"
+                                class="oe_stat_button" icon="fa-undo" string="Refund"
+                                confirm="Confirm the refund?"
+                                attrs="{'invisible': ['|',('state', '=', 'draft')]}"
+                        />
+
+                        <button name="%(financial_cancel_act_window)d" type="action"
+                                class="oe_stat_button" icon="fa-edit" string="Edit"
+                                attrs="{'invisible': ['|',('state', '=', 'draft')]}"
+                        />
+
+                        <!--<button name="%(financial_cancel_act_window)d" type="action"-->
+                                <!--class="oe_stat_button" icon="fa-trash-o" string="Delete"/>-->
+
+                        <button name="%(financial_cancel_act_window)d" type="action"
+                                class="oe_stat_button" icon="fa-ban" string="Cancel"
+                                attrs="{'invisible': ['|',('state', '=', 'draft')]}"
+                        />
+
+                        <button name="%(financial_cancel_act_window)d" type="action"
+                                class="oe_stat_button" icon="fa-print" string="Print"
+                                attrs="{'invisible': ['|',('state', '=', 'draft')]}"
+                        />
+
+                        <!--<button name="%(financial_cancel_act_window)d" type="action"-->
+                                <!--class="oe_stat_button" icon="fa-hand-peace-o" string="Negociate"/>-->
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="company_id"/>
+                            <field name="business_due_date"/>
+                            <field name="create_date"/>
+                            <field name="expected_date"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="name"/>
+                            <field name="currency_id"/>
+                            <field name="amount_document"/>
+                        </group>
+                    </group>
+                    <group>
+                        <notebook name="financial_notebook">
+                            <page name="pagamentos" string="Pagamentos">
+                                <field name="related_payment_ids">
+                                    <tree>
+                                        <field name="payment_date"/>
+                                        <field name="credit_debit_date"/>
+                                        <field name="amount_discount"/>
+                                        <field name="amount_interest"/>
+                                        <field name="amount_payment"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </group>
+                </sheet>
+                <div class="oe_chatter"></div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="financial_move_search_view">
+        <field name="name">financial.move.search (in financial)</field>
+        <field name="model">financial.move</field>
+        <field name="arch" type="xml">
+            <search>
+                <!-- TODO -->
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="financial_move_act_window">
+        <field name="name">Financial Move</field> <!-- TODO -->
+        <field name="res_model">financial.move</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="financial_recieve_menu">
+        <field name="name">Bills to receive</field>
+        <field name="parent_id" ref="financial_dashboard_menu"/>
+        <field name="action" ref="financial_move_act_window"/>
+        <field name="sequence" eval="16"/>
+    </record>
+
+    <record model="ir.ui.menu" id="financial_pay_menu">
+        <field name="name">Bills to pay</field>
+        <field name="parent_id" ref="financial_dashboard_menu"/>
+        <field name="action" ref="financial_move_act_window"/>
+        <field name="sequence" eval="16"/>
+    </record>
+
+</data>
+</odoo>
