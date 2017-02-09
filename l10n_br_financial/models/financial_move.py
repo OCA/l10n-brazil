@@ -45,6 +45,7 @@ class FinancialMove(models.Model):
         return (old_state, new_state) in allowed
 
 
+
     name = fields.Char()
     type = fields.Selection(
         selection=FINANCIAL_TYPE,
@@ -91,6 +92,9 @@ class FinancialMove(models.Model):
     # create_date = fields.Date()  # FIXME: Criação lançamento financeiro?
     # write_date = fields.Date() # Data de alteração
     amount_document = fields.Monetary()
+    balance = fields.Monetary(
+        compute='_compute_balance'
+    )
     historic = fields.One2many(
         comodel_name='financial.move.history',
         inverse_name='financial_move_id',
@@ -162,3 +166,16 @@ class FinancialMove(models.Model):
     def action_cancel(self):
         for record in self:
             record.change_state('cancel')
+
+    @api.multi
+    @api.depends('amount_discount', 'related_payment_ids')
+    def _compute_balance(self):
+        for record in self:
+            if record.type in ('p', 'r'):
+                balance = record.amount_document
+                for payment in record.related_payment_ids:
+                    balance -= payment.amount_document
+                record.balance = balance
+                if balance == 0:
+                    record.change_state('paid')
+

@@ -17,6 +17,7 @@
                 <field name="name"/>
                 <field name="currency_id"/>
                 <field name="amount_document"/>
+                <field name="balance"/>
                 <button name="%(financial_cancel_act_window)d" type="action"
                         class="oe_stat_button" icon="fa-money" string="Pay/Recieve"/>
                 <button name="%(financial_cancel_act_window)d" type="action"
@@ -97,7 +98,7 @@
                     </div>
                     <group>
                         <group>
-                            <field name="name"/>
+                            <field name="type"/>
                             <field name="company_id"/>
                             <field name="business_due_date"/>
                             <field name="create_date"/>
@@ -108,6 +109,7 @@
                             <field name="name"/>
                             <field name="currency_id"/>
                             <field name="amount_document"/>
+                            <field name="balance"/>
                         </group>
                     </group>
                     <group>
@@ -119,7 +121,7 @@
                                         <field name="credit_debit_date"/>
                                         <field name="amount_discount"/>
                                         <field name="amount_interest"/>
-                                        <field name="amount_payment"/>
+                                        <field name="amount_document"/>
                                     </tree>
                                 </field>
                             </page>
@@ -141,25 +143,34 @@
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="financial_move_act_window">
+    <record model="ir.actions.act_window" id="financial_recieve_act_window">
         <field name="name">Financial Move</field> <!-- TODO -->
         <field name="res_model">financial.move</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[]</field>
+        <field name="domain">[('type','=','r')]</field>
         <field name="context">{}</field>
     </record>
+
+    <record model="ir.actions.act_window" id="financial_pay_act_window">
+        <field name="name">Financial Move</field> <!-- TODO -->
+        <field name="res_model">financial.move</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('type','=','p')]</field>
+        <field name="context">{}</field>
+    </record>
+
 
     <record model="ir.ui.menu" id="financial_recieve_menu">
         <field name="name">Bills to receive</field>
         <field name="parent_id" ref="financial_dashboard_menu"/>
-        <field name="action" ref="financial_move_act_window"/>
+        <field name="action" ref="financial_recieve_act_window"/>
         <field name="sequence" eval="16"/>
     </record>
 
     <record model="ir.ui.menu" id="financial_pay_menu">
         <field name="name">Bills to pay</field>
         <field name="parent_id" ref="financial_dashboard_menu"/>
-        <field name="action" ref="financial_move_act_window"/>
+        <field name="action" ref="financial_pay_act_window"/>
         <field name="sequence" eval="16"/>
     </record>
 
