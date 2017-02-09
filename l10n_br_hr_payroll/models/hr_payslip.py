@@ -575,47 +575,6 @@ class HrPayslip(models.Model):
         return res
 
     @api.multi
-    def onchange_employee_id(self, date_from, date_to, contract_id):
-        worked_days_obj = self.env['hr.payslip.worked_days']
-        input_obj = self.env['hr.payslip.input']
-
-        # delete old worked days lines
-        old_worked_days_ids = worked_days_obj.search(
-            [('payslip_id', '=', self.id)]
-        )
-        if old_worked_days_ids:
-            for worked_day_id in old_worked_days_ids:
-                worked_day_id.unlink()
-
-        # delete old input lines
-        old_input_ids = input_obj.search([('payslip_id', '=', self.id)])
-        if old_input_ids:
-            for input_id in old_input_ids:
-                input_id.unlink()
-
-        # defaults
-        res = {
-            'value': {
-                'line_ids': [],
-                'input_line_ids': [],
-                'worked_days_line_ids': [],
-                'name': '',
-            }
-        }
-        # computation of the salary input
-        worked_days_line_ids = self.get_worked_day_lines(
-            contract_id, date_from, date_to
-        )
-        input_line_ids = self.get_inputs(contract_id, date_from, date_to)
-        res['value'].update(
-            {
-                'worked_days_line_ids': worked_days_line_ids,
-                'input_line_ids': input_line_ids,
-            }
-        )
-        return res
-
-    @api.multi
     @api.onchange('contract_id')
     def set_employee_id(self):
         for record in self:
@@ -682,36 +641,3 @@ class HrPayslip(models.Model):
                 data_de_inicio = str(self.ano) + '-01-01'
             data_final = self.date_to
         medias_obj.gerar_media_dos_proventos(data_de_inicio, data_final, self)
-
-
-class HrPayslipeLine(models.Model):
-    _inherit = "hr.payslip.line"
-
-    @api.model
-    def _valor_provento(self):
-        for record in self:
-            if record.salary_rule_id.category_id.code == "PROVENTO":
-                record.valor_provento = record.total
-            else:
-                record.valor_provento = 0.00
-
-    @api.model
-    def _valor_deducao(self):
-        for record in self:
-            if record.salary_rule_id.category_id.code in ["DEDUCAO"] \
-                    or record.salary_rule_id.code == "INSS" \
-                    or record.salary_rule_id.code == "IRPF":
-                record.valor_deducao = record.total
-            else:
-                record.valor_deducao = 0.00
-
-    valor_provento = fields.Float(
-        string="Provento",
-        compute=_valor_provento,
-        default=0.00,
-    )
-    valor_deducao = fields.Float(
-        string="Dedução",
-        compute=_valor_deducao,
-        default=0.00,
-    )
