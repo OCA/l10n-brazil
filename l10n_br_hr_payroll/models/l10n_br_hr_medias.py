@@ -111,9 +111,9 @@ class L10nBrHrMedias(models.Model):
     def gerar_media_dos_proventos(self, data_inicio, data_fim, holerite_id):
         """
         Recuperar os proventos do periodo e retornar média
-        :param date_from:
-        :param date_to:
-        :param contract_id:
+        :param data_inicio:
+        :param data_fim:
+        :param holerite_id:
         :return:
         """
         for linha in holerite_id.medias_proventos:

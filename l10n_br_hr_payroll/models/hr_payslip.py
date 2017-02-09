@@ -309,6 +309,13 @@ class HrPayslip(models.Model):
             return estrutura_decimo_terceiro
 
     @api.multi
+    def buscar_media_rubrica(self, rubrica_id):
+        rubrica = self.env['hr.salary.rule'].browse(rubrica_id)
+        for media in self.medias_proventos:
+            if rubrica.name == media.nome_rubrica:
+                return media.media
+
+    @api.multi
     def get_payslip_lines(self, payslip_id):
         """
         get_payslip_lines(cr, uid, contract_ids, payslip.id, context=context)]
@@ -428,11 +435,10 @@ class HrPayslip(models.Model):
             'SALARIO_DIA': salario_dia, 'SALARIO_HORA': salario_hora,
             'RAT_FAP': rat_fap,
         }
-        if payslip.tipo_de_folha == "decimo_terceiro":
-            baselocaldict.update({
-                'MEDIA_RUBRICA': 0.0,
-                'TIPO_RUBRICA': 0.0,
-            })
+        baselocaldict.update({
+            'MEDIA_RUBRICA': 0.0,
+            'TIPO_RUBRICA': 0.0,
+        })
 
         for contract_ids in self:
             # get the ids of the structures on the contracts
@@ -461,9 +467,9 @@ class HrPayslip(models.Model):
                     localdict['result_qty'] = 1.0
                     localdict['result_rate'] = 100
                     localdict['rubrica'] = rule
-                    if payslip.tipo_de_folha == "decimo_terceiro":
+                    if payslip.tipo_de_folha in ["decimo_terceiro", "ferias"]:
                         localdict['MEDIA_RUBRICA'] = \
-                            payslip.buscar_media_rubrica(rule)
+                            payslip.buscar_media_rubrica(rule.id)
                         localdict['TIPO_RUBRICA'] = rule.tipo_media
                     # check if the rule can be applied
                     if obj_rule.satisfy_condition(rule.id, localdict) \
@@ -495,7 +501,8 @@ class HrPayslip(models.Model):
                         result_dict[key] = {
                             'salary_rule_id': rule.id,
                             'contract_id': contract.id,
-                            'name': rule.name,
+                            'name': u"Média de " + rule.name
+                            if localdict['MEDIA_RUBRICA'] else rule.name,
                             'code': rule.code,
                             'category_id': rule.category_id.id,
                             'sequence': rule.sequence,
@@ -525,6 +532,47 @@ class HrPayslip(models.Model):
 
             result = [value for code, value in result_dict.items()]
             return result
+
+    @api.multi
+    def onchange_employee_id(self, date_from, date_to, contract_id):
+        worked_days_obj = self.env['hr.payslip.worked_days']
+        input_obj = self.env['hr.payslip.input']
+
+        # delete old worked days lines
+        old_worked_days_ids = worked_days_obj.search(
+            [('payslip_id', '=', self.id)]
+        )
+        if old_worked_days_ids:
+            for worked_day_id in old_worked_days_ids:
+                worked_day_id.unlink()
+
+        # delete old input lines
+        old_input_ids = input_obj.search([('payslip_id', '=', self.id)])
+        if old_input_ids:
+            for input_id in old_input_ids:
+                input_id.unlink()
+
+        # defaults
+        res = {
+            'value': {
+                'line_ids': [],
+                'input_line_ids': [],
+                'worked_days_line_ids': [],
+                'name': '',
+            }
+        }
+        # computation of the salary input
+        worked_days_line_ids = self.get_worked_day_lines(
+            contract_id, date_from, date_to
+        )
+        input_line_ids = self.get_inputs(contract_id, date_from, date_to)
+        res['value'].update(
+            {
+                'worked_days_line_ids': worked_days_line_ids,
+                'input_line_ids': input_line_ids,
+            }
+        )
+        return res
 
     @api.multi
     def onchange_employee_id(self, date_from, date_to, contract_id):
@@ -612,6 +660,8 @@ class HrPayslip(models.Model):
 
     @api.multi
     def compute_sheet(self):
+        if self.tipo_de_folha in ["decimo_terceiro", "ferias"]:
+            self.gerar_media_dos_proventos()
         super(HrPayslip, self).compute_sheet()
         self._valor_total_folha()
         return True
@@ -626,6 +676,42 @@ class HrPayslip(models.Model):
             data_final = str(fields.Date.from_string(
                 periodo_aquisitivo.fim_aquisitivo))
         elif self.tipo_de_folha == 'decimo_terceiro':
-            data_de_inicio = '2017-01-01'
-            data_final = '2017-12-31'
+            if self.contract_id.date_start > str(self.ano) + '-01-01':
+                data_de_inicio = self.contract_id.date_start
+            else:
+                data_de_inicio = str(self.ano) + '-01-01'
+            data_final = self.date_to
         medias_obj.gerar_media_dos_proventos(data_de_inicio, data_final, self)
+
+
+class HrPayslipeLine(models.Model):
+    _inherit = "hr.payslip.line"
+
+    @api.model
+    def _valor_provento(self):
+        for record in self:
+            if record.salary_rule_id.category_id.code == "PROVENTO":
+                record.valor_provento = record.total
+            else:
+                record.valor_provento = 0.00
+
+    @api.model
+    def _valor_deducao(self):
+        for record in self:
+            if record.salary_rule_id.category_id.code in ["DEDUCAO"] \
+                    or record.salary_rule_id.code == "INSS" \
+                    or record.salary_rule_id.code == "IRPF":
+                record.valor_deducao = record.total
+            else:
+                record.valor_deducao = 0.00
+
+    valor_provento = fields.Float(
+        string="Provento",
+        compute=_valor_provento,
+        default=0.00,
+    )
+    valor_deducao = fields.Float(
+        string="Dedução",
+        compute=_valor_deducao,
+        default=0.00,
+    )
