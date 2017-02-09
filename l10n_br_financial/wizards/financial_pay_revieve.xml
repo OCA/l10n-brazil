@@ -13,6 +13,7 @@
                 <!-- TODO -->
                 <group>
                     <field name="name"/>
+                    <field name="valor_pago"/>
                 </group>
                 <footer>
                     <button name='doit'
