@@ -357,14 +357,18 @@
             <field name="sequence" eval="601" />
         </record>
 
-
         <record id="hr_salary_rule_REMBOLSO_PLANO_SAUDE" model="hr.salary.rule">
             <field name="code">REMBOLSO_SAUDE</field>
             <field name="name">Reembolso Plano de Saude</field>
             <field name="category_id" ref="hr_payroll.PROVENTO"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="amount_python_compute">
+                if MEDIAS.REMBOLSO_SAUDE.media:
+                    result = MEDIAS.REMBOLSO_SAUDE.media
+                else:
+                    result = CALCULAR.get_specific_rubric_value(rubrica.id)
+            </field>
             <field name="sequence" eval="102"/>
         </record>
 
@@ -372,10 +376,12 @@
             <field name="code">ADIANTAMENTO_13</field>
             <field name="name">Adiantamento 13 Salario</field>
             <field name="category_id" ref="hr_payroll.DEDUCAO"/>
-            <field name="amount_select">percentage</field>
-            <field name="amount_percentage_base">contract.wage</field>
-            <field name="quantity">1.0</field>
-            <field name="amount_percentage">50.00</field>
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">
+                result = MEDIAS.SALARIO.media/12.0
+                result_qty = MEDIAS.SALARIO.meses
+            </field>
             <field name="sequence" eval="105"/>
             <field name="compoe_base_FGTS" eval="True"/>
         </record>
@@ -384,10 +390,12 @@
             <field name="code">PRIMEIRA_PARCELA_13</field>
             <field name="name">Primeira parcela 13 Salario</field>
             <field name="category_id" ref="hr_payroll.PROVENTO"/>
-            <field name="amount_select">percentage</field>
-            <field name="amount_percentage_base">contract.wage</field>
-            <field name="quantity">1.0</field>
-            <field name="amount_percentage">50.00</field>
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">
+                result = MEDIAS.SALARIO.media/12.0
+                result_qty = MEDIAS.SALARIO.meses
+            </field>
             <field name="sequence" eval="104"/>
             <field name="compoe_base_FGTS" eval="True"/>
         </record>
@@ -396,10 +404,12 @@
             <field name="code">SEGUNDA_PARCELA_13</field>
             <field name="name">Segunda parcela 13 Salário</field>
             <field name="category_id" ref="hr_payroll.PROVENTO"/>
-            <field name="amount_select">percentage</field>
-            <field name="amount_percentage_base">contract.wage</field>
-            <field name="quantity">1.0</field>
-            <field name="amount_percentage">50.00</field>
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">
+                result = MEDIAS.SALARIO.media/12.0
+                result_qty = MEDIAS.SALARIO.meses
+            </field>
             <field name="sequence" eval="105"/>
             <field name="compoe_base_INSS" eval="True"/>
             <field name="compoe_base_IR" eval="True"/>

@@ -415,11 +415,14 @@ class HrPayslip(models.Model):
         inputs = {}
         for input_line in payslip.input_line_ids:
             inputs[input_line.code] = input_line
-
+        medias = {}
+        for media in payslip.medias_proventos:
+            medias[media.rubrica_id.code] = media
         input_obj = InputLine(payslip.employee_id.id, inputs)
         worked_days_obj = WorkedDays(payslip.employee_id.id, worked_days)
         payslip_obj = Payslips(payslip.employee_id.id, payslip)
         rules_obj = BrowsableObject(payslip.employee_id.id, rules)
+        medias_obj = BrowsableObject(payslip.employee_id.id, medias)
         categories_obj = \
             BrowsableObject(payslip.employee_id.id, categories_dict)
 
@@ -433,12 +436,8 @@ class HrPayslip(models.Model):
             'payslip': payslip_obj, 'worked_days': worked_days_obj,
             'inputs': input_obj, 'rubrica': None, 'SALARIO_MES': salario_mes,
             'SALARIO_DIA': salario_dia, 'SALARIO_HORA': salario_hora,
-            'RAT_FAP': rat_fap,
+            'RAT_FAP': rat_fap, 'MEDIAS': medias_obj,
         }
-        baselocaldict.update({
-            'MEDIA_RUBRICA': 0.0,
-            'TIPO_RUBRICA': 0.0,
-        })
 
         for contract_ids in self:
             # get the ids of the structures on the contracts
@@ -467,11 +466,6 @@ class HrPayslip(models.Model):
                     localdict['result_qty'] = 1.0
                     localdict['result_rate'] = 100
                     localdict['rubrica'] = rule
-                    if payslip.tipo_de_folha in ["decimo_terceiro", "ferias"]:
-                        localdict['MEDIA_RUBRICA'] = \
-                            payslip.buscar_media_rubrica(rule.id)
-                        localdict['TIPO_RUBRICA'] = rule.tipo_media
-                    # check if the rule can be applied
                     if obj_rule.satisfy_condition(rule.id, localdict) \
                             and rule.id not in blacklist:
                         # compute the amount of the rule
@@ -501,8 +495,8 @@ class HrPayslip(models.Model):
                         result_dict[key] = {
                             'salary_rule_id': rule.id,
                             'contract_id': contract.id,
-                            'name': u"Média de " + rule.name
-                            if localdict['MEDIA_RUBRICA'] else rule.name,
+                            'name': u'Média de ' + rule.name
+                            if rule.code in medias_obj.dict else rule.name,
                             'code': rule.code,
                             'category_id': rule.category_id.id,
                             'sequence': rule.sequence,

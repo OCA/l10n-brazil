@@ -29,6 +29,10 @@ class L10nBrHrMedias(models.Model):
         string=u'Holerite',
         comodel_name='hr.payslip',
     )
+    rubrica_id = fields.Many2one(
+        comodel_name="hr.salary.rule",
+        string="Id da rubrica"
+    )
     nome_rubrica = fields.Char(
         string=u'Nome da Rubrica',
     )
@@ -135,13 +139,16 @@ class L10nBrHrMedias(models.Model):
                     if not medias.get(linha.salary_rule_id.id):
                         medias.update({
                             linha.salary_rule_id.id:
-                                [{'mes': MES_DO_ANO[folha.mes_do_ano-1][1],
-                                  'valor': linha.total}]
+                                [{
+                                    'mes': MES_DO_ANO[folha.mes_do_ano-1][1],
+                                    'valor': linha.total,
+                                }]
                         })
                     else:
                         medias[linha.salary_rule_id.id].append({
                             'mes': MES_DO_ANO[folha.mes_do_ano-1][1],
                             'valor': linha.total,
+                            'rubrica_id': linha.salary_rule_id.id,
                         })
 
         linha_obj = self.env['l10n_br.hr.medias']
@@ -160,6 +167,7 @@ class L10nBrHrMedias(models.Model):
             vals.update({'nome_rubrica': nome_rubrica})
             vals.update({'meses': len(medias[rubrica])})
             vals.update({'holerite_id': holerite_id.id})
+            vals.update({'rubrica_id': rubrica})
 
             for mes in medias[rubrica]:
                 vals.update({
@@ -173,4 +181,4 @@ class L10nBrHrMedias(models.Model):
             if not titulo_feito:
                 linha_obj.create(titulo)
                 titulo_feito = True
-            linha = linha_obj.create(vals)
+            linha_obj.create(vals)
