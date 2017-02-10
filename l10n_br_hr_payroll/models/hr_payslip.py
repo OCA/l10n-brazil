@@ -5,6 +5,7 @@
 from datetime import datetime
 
 from openerp import api, fields, models, exceptions, _
+from lxml import etree
 
 MES_DO_ANO = [
     (1, u'Jan'),
@@ -635,3 +636,22 @@ class HrPayslip(models.Model):
                 data_de_inicio = str(self.ano) + '-01-01'
             data_final = self.date_to
         medias_obj.gerar_media_dos_proventos(data_de_inicio, data_final, self)
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form',
+                        toolbar=False, submenu=False):
+        res = super(HrPayslip, self).fields_view_get(
+            view_id=view_id, view_type=view_type, toolbar=toolbar,
+            submenu=submenu
+        )
+        if view_type == 'form':
+            doc = etree.XML(res['arch'])
+            for sheet in doc.xpath("//sheet"):
+                parent = sheet.getparent()
+                index = parent.index(sheet)
+                for child in sheet:
+                    parent.insert(index, child)
+                    index += 1
+                parent.remove(sheet)
+            res['arch'] = etree.tostring(doc)
+        return res
