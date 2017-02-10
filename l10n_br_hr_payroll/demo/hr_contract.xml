@@ -7,7 +7,7 @@
     <data>
 
         <!--RAT/FAP 2017-->
-        <record id="l10n_br_hr_rat_fap" model="l10n_br.hr.rat.fap">
+        <record id="l10n_br_hr_rat_fap_2017" model="l10n_br.hr.rat.fap">
             <field name="company_id" ref="base.main_company"/>
             <field name="year">2017</field>
             <field name="rat_rate">1.5</field>
@@ -16,7 +16,7 @@
             <field name="total_rate">6.0</field>
         </record>
         <!--RAT/FAP 2016-->
-        <record id="l10n_br_hr_rat_fap" model="l10n_br.hr.rat.fap">
+        <record id="l10n_br_hr_rat_fap_2016" model="l10n_br.hr.rat.fap">
             <field name="company_id" ref="base.main_company"/>
             <field name="year">2016</field>
             <field name="rat_rate">1.5</field>
