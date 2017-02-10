@@ -32,15 +32,15 @@ class TestHrHoliday(common.TransactionCase):
         })
 
         self.job_id = self.hr_job.create({'name': 'Funcionario'})
-        self.hr_contract.create({
-            'name': "Contrato Test do funcionario",
-            'employee_id': self.employee_hruser_id.id,
-            'job_id': self.job_id.id,
-            'type_id': self.env.ref('hr_contract.hr_contract_type_emp').id,
-            'wage': 2000.00,
-            'date_start': '2017-01-01',
-            'struct_id': self.env.ref('hr_payroll.structure_base').id
-        })
+        # self.hr_contract.create({
+        #     'name': "Contrato Test do funcionario",
+        #     'employee_id': self.employee_hruser_id.id,
+        #     'job_id': self.job_id.id,
+        #     'type_id': self.env.ref('hr_contract.hr_contract_type_emp').id,
+        #     'wage': 2000.00,
+        #     'date_start': '2017-01-01',
+        #     'struct_id': self.env.ref('hr_payroll.structure_base').id
+        # })
 
         self.holiday_status_id = self.env.ref(
             'l10n_br_hr_vacation.holiday_status_vacation')
