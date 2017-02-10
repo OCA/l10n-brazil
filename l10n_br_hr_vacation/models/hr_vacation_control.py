@@ -98,8 +98,9 @@ class HrVacationControl(models.Model):
         string=u'Contrato Vigente',
     )
 
-    hr_holiday_ids = fields.Many2one(
+    hr_holiday_ids = fields.One2many(
         comodel_name='hr.holidays',
+        inverse_name='controle_ferias',
         string='Período Aquisitivo'
     )
 

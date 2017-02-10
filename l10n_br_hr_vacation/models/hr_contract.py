@@ -76,6 +76,24 @@ class HrContract(models.Model):
             res['arch'] = etree.tostring(doc)
         return res
 
+    def gerar_periodo_aquisitivo(self, controle_ferias, employee_id):
+        vacation_id = self.env.ref(
+                    'l10n_br_hr_vacation.holiday_status_vacation').id
+        holiday_id = self.env['hr.holidays'].create({
+            'name': 'Periodo Aquisitivo: %s ate %s'
+                    % (controle_ferias.inicio_aquisitivo,
+                       controle_ferias.fim_aquisitivo),
+            'employee_id': employee_id.id,
+            'holiday_status_id': vacation_id,
+            'type': 'add',
+            'holiday_type': 'employee',
+            'vacations_days': 30,
+            'sold_vacations_days': 0,
+            'number_of_days_temp': 30,
+            'controle_ferias': controle_ferias.id,
+        })
+        return holiday_id
+
     @api.multi
     def atualizar_controle_ferias(self):
         domain = [
@@ -90,8 +108,11 @@ class HrContract(models.Model):
                 ultimo_controle = contrato.vacation_control_ids[0]
                 if ultimo_controle.fim_aquisitivo < fields.Date.today():
                     ultimo_controle = contrato.vacation_control_ids[-1]
+
                 if not ultimo_controle.hr_holiday_ids:
-                    controle_ferias = ultimo_controle
+                    self.gerar_periodo_aquisitivo(ultimo_controle,
+                                                  contrato.employee_id)
+
                 elif ultimo_controle.fim_aquisitivo < fields.Date.today():
                     controle_ferias_obj = self.env['hr.vacation.control']
 
@@ -100,23 +121,7 @@ class HrContract(models.Model):
                             fields.Date.today()
                         )
                     controle_ferias = controle_ferias_obj.create(vals)
-                    contrato.vacation_control_ids.append(controle_ferias)
-                else:
-                    continue
+                    self.gerar_periodo_aquisitivo(controle_ferias,
+                                                  contrato.employee_id)
+                    controle_ferias.contract_id = contrato
 
-                vacation_id = self.env.ref(
-                    'l10n_br_hr_vacation.holiday_status_vacation').id
-                holiday_id = self.env['hr.holidays'].create({
-                    'name': 'Periodo Aquisitivo: %s ate %s'
-                            % (controle_ferias.inicio_aquisitivo,
-                               controle_ferias.fim_aquisitivo),
-                    'employee_id': contrato.employee_id.id,
-                    'holiday_status_id': vacation_id,
-                    'type': 'add',
-                    'holiday_type': 'employee',
-                    'vacations_days': 30,
-                    'sold_vacations_days': 0,
-                    'number_of_days_temp': 30,
-                    'contract_id': controle_ferias.contract_id.id,
-                })
-                controle_ferias.hr_holiday_ids = holiday_id

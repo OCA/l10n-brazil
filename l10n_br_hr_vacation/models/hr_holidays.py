@@ -45,9 +45,7 @@ class HrHolidays(models.Model):
         ondelete='restrict',
         index=True,
     )
-
-    controle_ferias = fields.One2many(
-        inverse_name='hr_holiday_ids',
+    controle_ferias = fields.Many2one(
         comodel_name='hr.vacation.control',
         string=u'Controle de Férias',
     )
@@ -93,5 +91,5 @@ class HrHolidays(models.Model):
     @api.onchange('parent_id')
     def _compute_contract(self):
         if self.parent_id:
-            self.contract_id = self.parent_id.contract_id
+            self.controle_ferias = self.parent_id.controle_ferias
             self.name = 'Férias'
