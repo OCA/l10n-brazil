@@ -363,11 +363,10 @@
             <field name="category_id" ref="hr_payroll.PROVENTO"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">
-                if MEDIAS.REMBOLSO_SAUDE.media:
-                    result = MEDIAS.REMBOLSO_SAUDE.media
-                else:
-                    result = CALCULAR.get_specific_rubric_value(rubrica.id)
+            <field name="amount_python_compute">if MEDIAS:
+result = MEDIAS.REMBOLSO_SAUDE.media
+else:
+result = CALCULAR.get_specific_rubric_value(rubrica.id)
             </field>
             <field name="sequence" eval="102"/>
         </record>
@@ -378,9 +377,7 @@
             <field name="category_id" ref="hr_payroll.DEDUCAO"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">
-                result = MEDIAS.SALARIO.media/12.0
-                result_qty = MEDIAS.SALARIO.meses
+            <field name="amount_python_compute">result = CALCULAR.BUSCAR_PRIMEIRA_PARCELA
             </field>
             <field name="sequence" eval="105"/>
             <field name="compoe_base_FGTS" eval="True"/>
@@ -392,9 +389,8 @@
             <field name="category_id" ref="hr_payroll.PROVENTO"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">
-                result = MEDIAS.SALARIO.media/12.0
-                result_qty = MEDIAS.SALARIO.meses
+            <field name="amount_python_compute">result = MEDIAS.SALARIO.media/12.0
+result_qty = MEDIAS.SALARIO.meses
             </field>
             <field name="sequence" eval="104"/>
             <field name="compoe_base_FGTS" eval="True"/>
@@ -406,9 +402,8 @@
             <field name="category_id" ref="hr_payroll.PROVENTO"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">
-                result = MEDIAS.SALARIO.media/12.0
-                result_qty = MEDIAS.SALARIO.meses
+            <field name="amount_python_compute">result = MEDIAS.SALARIO.media/12.0
+result_qty = MEDIAS.SALARIO.meses
             </field>
             <field name="sequence" eval="105"/>
             <field name="compoe_base_INSS" eval="True"/>

@@ -317,6 +317,30 @@ class HrPayslip(models.Model):
                 return media.media
 
     @api.multi
+    def BUSCAR_PRIMEIRA_PARCELA(self):
+        primeira_parcela_struct_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_structure_PRIMEIRA_PARCELA_13'
+        )
+        primeira_parcela_id = self.env.ref(
+            'l10n_br_hr_payroll.hr_salary_rule_PRIMEIRA_PARCELA_13'
+        )
+        payslip_id = self.env['hr.payslip'].search(
+            [
+                ('contract_id', '=', self.contract_id.id),
+                ('date_from', '>=', str(self.ano) + '-01-01'),
+                ('date_to', '<=', str(self.ano) + '-11-30'),
+                ('struct_id', '=', primeira_parcela_struct_id.id)
+            ]
+        )
+        if len(payslip_id) > 1:
+            raise exceptions.Warning(
+                _('Existe mais de um holerite da primeira parcela do 13º!')
+            )
+        for line in payslip_id.line_ids:
+            if line.salary_rule_id.id == primeira_parcela_id.id:
+                return line.total
+
+    @api.multi
     def get_payslip_lines(self, payslip_id):
         """
         get_payslip_lines(cr, uid, contract_ids, payslip.id, context=context)]
@@ -423,7 +447,9 @@ class HrPayslip(models.Model):
         worked_days_obj = WorkedDays(payslip.employee_id.id, worked_days)
         payslip_obj = Payslips(payslip.employee_id.id, payslip)
         rules_obj = BrowsableObject(payslip.employee_id.id, rules)
-        medias_obj = BrowsableObject(payslip.employee_id.id, medias)
+        medias_obj = BrowsableObject(payslip.employee_id.id, medias) \
+            if payslip.tipo_de_folha in ["ferias", "decimo_terceiro"] \
+            else False
         categories_obj = \
             BrowsableObject(payslip.employee_id.id, categories_dict)
 
@@ -497,7 +523,7 @@ class HrPayslip(models.Model):
                             'salary_rule_id': rule.id,
                             'contract_id': contract.id,
                             'name': u'Média de ' + rule.name
-                            if rule.code in medias_obj.dict else rule.name,
+                            if medias_obj else rule.name,
                             'code': rule.code,
                             'category_id': rule.category_id.id,
                             'sequence': rule.sequence,
