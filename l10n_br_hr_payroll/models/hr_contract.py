@@ -3,11 +3,43 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
+from datetime import datetime
 
 
 class HrContract(models.Model):
 
     _inherit = 'hr.contract'
+    _rec_name = 'nome_contrato'
+
+    @api.depends('employee_id', 'date_start')
+    def _nome_contrato(self):
+        for contrato in self:
+            nome = contrato.employee_id.name
+            inicio_contrato = contrato.date_start
+            fim_contrato = contrato.date_end
+
+            if inicio_contrato:
+                inicio_contrato = datetime.strptime(inicio_contrato,
+                                                    '%Y-%m-%d')
+                inicio_contrato = inicio_contrato.strftime('%d/%m/%y')
+
+            if fim_contrato:
+                fim_contrato = datetime.strptime(fim_contrato, '%Y-%m-%d')
+                fim_contrato = fim_contrato.strftime('%d/%m/%y')
+                if fim_contrato > fields.Date.today():
+                    fim_contrato = "- D. %s" % fim_contrato
+                else:
+                    fim_contrato = "- %s" % fim_contrato
+            else:
+                fim_contrato = ''
+            matricula = str(contrato.employee_id.id)
+            nome_contrato = '[%s] %s - %s %s' % (matricula,
+                                                 nome, inicio_contrato,
+                                                 fim_contrato)
+            contrato.nome_contrato = nome_contrato
+
+    nome_contrato = fields.Char(default="[mat] nome - inicio - fim",
+                                compute="_nome_contrato", store=True)
 
     @api.multi
     def _buscar_salario_vigente_periodo(self, data_inicio, data_fim):
