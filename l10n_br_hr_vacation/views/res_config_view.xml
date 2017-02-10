@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_hr_config_programacao_ferias" model="ir.ui.view">
+            <field name="name">view.hr.config.programacao_ferias</field>
+            <field name="model">hr.config.settings</field>
+            <field name="inherit_id" ref="hr.view_human_resources_configuration" />
+            <field name="arch" type="xml">
+                <xpath expr="//form/group" position="after">
+                    <group name="grupo_programacao_ferias">
+                        <label for="id" string="Programação de Férias"/>
+                        <div name="programacao_ferias">
+                            <div name="hr_recruitment">
+                                <field name="programacao_ferias_futuras" class="oe_inline"/>
+                                <label for="programacao_ferias_futuras"/>
+                            </div>
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

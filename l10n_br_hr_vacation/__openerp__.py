@@ -20,6 +20,7 @@
         'security/ir.model.access.csv',
         'views/hr_holidays_view.xml',
         'views/hr_vacation_control_view.xml',
+        'views/res_config_view.xml',
     ],
     'installable': True,
 }

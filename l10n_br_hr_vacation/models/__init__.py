@@ -5,3 +5,4 @@
 from . import hr_contract
 from . import hr_holidays
 from . import hr_vacation_control
+from . import res_config

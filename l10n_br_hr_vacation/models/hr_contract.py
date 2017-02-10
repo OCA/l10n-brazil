@@ -78,7 +78,7 @@ class HrContract(models.Model):
 
     def gerar_periodo_aquisitivo(self, controle_ferias, employee_id):
         vacation_id = self.env.ref(
-                    'l10n_br_hr_vacation.holiday_status_vacation').id
+            'l10n_br_hr_vacation.holiday_status_vacation').id
         holiday_id = self.env['hr.holidays'].create({
             'name': 'Periodo Aquisitivo: %s ate %s'
                     % (controle_ferias.inicio_aquisitivo,
@@ -125,3 +125,13 @@ class HrContract(models.Model):
                                                   contrato.employee_id)
                     controle_ferias.contract_id = contrato
 
+                programacao_ferias = self.env['ir.config_parameter'].get_param(
+                    'l10n_br_hr_vacation_programacao_ferias_futuras',
+                    default=False
+                )
+
+                if not programacao_ferias:
+                    for periodo_aquisitivo in ultimo_controle.hr_holiday_ids:
+                        if periodo_aquisitivo.type == 'add':
+                            periodo_aquisitivo.number_of_days_temp =\
+                                ultimo_controle.saldo
