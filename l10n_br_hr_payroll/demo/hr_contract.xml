@@ -3,8 +3,8 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <openerp>
-    <!--<data noupdate="1">-->
-    <data>
+    <data noupdate="1">
+    <!--<data>-->
 
         <!--RAT/FAP 2017-->
         <record id="l10n_br_hr_rat_fap_2017" model="l10n_br.hr.rat.fap">
@@ -28,13 +28,11 @@
         <!--Demo 01-->
         <!-- Employee -->
         <record id="hr_employee_payroll_demo01" model="hr.employee">
-            <field eval="0" name="manager"/>
             <field eval="1.0" name="time_efficiency"/>
             <field name="company_id" ref="base.main_company"/>
             <field eval="1" name="active"/>
             <field name="name">Tony Stark</field>
             <field name="resource_type">user</field>
-            <field name="work_location">Itajuba</field>
             <field name="work_phone">+24242424</field>
             <field name="image" type="base64"
                    file="hr_payroll/static/img/hr_employee_payroll-image.jpg"/>
@@ -65,13 +63,11 @@
         <!--Demo 02-->
         <!-- Employee -->
         <record id="hr_employee_payroll_demo02" model="hr.employee">
-            <field eval="0" name="manager"/>
             <field eval="1.0" name="time_efficiency"/>
             <field name="company_id" ref="base.main_company"/>
             <field eval="1" name="active"/>
             <field name="name">Bruce Banner</field>
             <field name="resource_type">user</field>
-            <field name="work_location">São Paulo</field>
             <field name="work_phone">+71717171</field>
             <field name="image" type="base64"
                    file="hr_payroll/static/img/hr_employee_payroll-image.jpg"/>
