@@ -39,6 +39,7 @@
         'views/hr_payslip.xml',
         'views/hr_salary_rule.xml',
         'views/hr_payroll_structure.xml',
+        'views/hr_payslip_run.xml',
     ],
     'demo': [
         'demo/hr_contract.xml',
