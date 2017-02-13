@@ -255,10 +255,8 @@ class HrPayslip(models.Model):
     def get_contract_specific_rubrics(self, contract_id, rule_ids):
         contract = self.env['hr.contract'].browse(contract_id.id)
         for rule in contract.specific_rule_ids:
-            if datetime.strftime(
-                    datetime.now(), '%Y-%m-%d') >= rule.date_start:
-                if not rule.date_stop or datetime.strftime(
-                        datetime.now(), '%Y-%m-%d') <= rule.date_stop:
+            if self.date_from >= rule.date_start:
+                if not rule.date_stop or self.date_to <= rule.date_stop:
                     rule_ids.append((rule.rule_id.id, rule.rule_id.sequence))
         return rule_ids
 
@@ -481,7 +479,7 @@ class HrPayslip(models.Model):
             # get the rules of the structure and thier children
             rule_ids = self.env['hr.payroll.structure'].browse(
                 structure_ids).get_all_rules()
-            rule_ids = self.get_contract_specific_rubrics(
+            rule_ids = payslip.get_contract_specific_rubrics(
                 contract_ids, rule_ids)
 
             # run the rules by sequence
