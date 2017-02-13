@@ -32,7 +32,7 @@ class HrContract(models.Model):
                     fim_contrato = "- %s" % fim_contrato
             else:
                 fim_contrato = ''
-            matricula = str(contrato.employee_id.id)
+            matricula = contrato.name
             nome_contrato = '[%s] %s - %s %s' % (matricula,
                                                  nome, inicio_contrato,
                                                  fim_contrato)
