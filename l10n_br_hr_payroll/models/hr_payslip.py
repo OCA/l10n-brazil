@@ -607,7 +607,7 @@ class HrPayslip(models.Model):
                 record.employee_id_readonly = record.employee_id
 
     @api.multi
-    @api.onchange('mes_do_ano')
+    @api.onchange('mes_do_ano', 'ano')
     def buscar_datas_periodo(self):
         for record in self:
             record.set_dates()
