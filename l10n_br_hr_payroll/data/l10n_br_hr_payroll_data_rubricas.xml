@@ -375,7 +375,7 @@ result_qty = MEDIAS.SALARIO.meses
             <field name="category_id" ref="hr_payroll.DEDUCAO"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = CALCULAR.BUSCAR_PRIMEIRA_PARCELA
+            <field name="amount_python_compute">result = CALCULAR.BUSCAR_PRIMEIRA_PARCELA()
             </field>
             <field name="sequence" eval="105"/>
             <field name="compoe_base_FGTS" eval="True"/>
