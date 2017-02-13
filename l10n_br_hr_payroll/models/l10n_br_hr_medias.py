@@ -152,6 +152,7 @@ class L10nBrHrMedias(models.Model):
                         })
 
         linha_obj = self.env['l10n_br.hr.medias']
+        hr_medias_ids = []
         titulo = {}
         titulo_feito = False
         for rubrica in medias:
@@ -181,4 +182,6 @@ class L10nBrHrMedias(models.Model):
             if not titulo_feito:
                 linha_obj.create(titulo)
                 titulo_feito = True
-            linha_obj.create(vals)
+            hr_medias_ids.append(linha_obj.create(vals))
+
+        return hr_medias_ids

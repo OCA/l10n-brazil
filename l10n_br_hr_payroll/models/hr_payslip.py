@@ -196,7 +196,7 @@ class HrPayslip(models.Model):
 
             # get Dias Trabalhados
             quantidade_dias_trabalhados = \
-                dias_mes - leaves['quantidade_dias_faltas_nao_remuneradas'] - \
+                30 - leaves['quantidade_dias_faltas_nao_remuneradas'] - \
                 quantity_DSR_discount - quantidade_dias_ferias
             result += [self.get_attendances(u'Dias Trabalhados', 34,
                                             u'DIAS_TRABALHADOS',
@@ -309,12 +309,12 @@ class HrPayslip(models.Model):
             )
             return estrutura_decimo_terceiro
 
-    @api.multi
-    def buscar_media_rubrica(self, rubrica_id):
-        rubrica = self.env['hr.salary.rule'].browse(rubrica_id)
-        for media in self.medias_proventos:
-            if rubrica.name == media.nome_rubrica:
-                return media.media
+    # @api.multi
+    # def buscar_media_rubrica(self, rubrica_id):
+    #     rubrica = self.env['hr.salary.rule'].browse(rubrica_id)
+    #     for media in self.medias_proventos:
+    #         if rubrica.name == media.nome_rubrica:
+    #             return media.media
 
     @api.multi
     def BUSCAR_PRIMEIRA_PARCELA(self):
@@ -641,7 +641,11 @@ class HrPayslip(models.Model):
     @api.multi
     def compute_sheet(self):
         if self.tipo_de_folha in ["decimo_terceiro", "ferias"]:
-            self.gerar_media_dos_proventos()
+            hr_medias_ids = self.gerar_media_dos_proventos()
+            if not hr_medias_ids:
+                raise exceptions.Warning(
+                    _('Nenhum Holerite encontrado para médias nesse período!')
+                )
         super(HrPayslip, self).compute_sheet()
         self._valor_total_folha()
         return True
@@ -661,7 +665,9 @@ class HrPayslip(models.Model):
             else:
                 data_de_inicio = str(self.ano) + '-01-01'
             data_final = self.date_to
-        medias_obj.gerar_media_dos_proventos(data_de_inicio, data_final, self)
+        hr_medias_ids = medias_obj.gerar_media_dos_proventos(
+            data_de_inicio, data_final, self)
+        return hr_medias_ids
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form',
