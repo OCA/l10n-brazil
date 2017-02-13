@@ -13,8 +13,7 @@
                 <field name="number"/>
                 <field name="employee_id"/>
                 <field name="name"/>
-                <field name="date_from"/>
-                <field name="date_to"/>
+                <field name="data_mes_ano"/>
                 <field name="state"/>
                 <field name="company_id" groups="base.group_multi_company" widget="selection"/>
                 <field name="payslip_run_id" invisible="1"/>

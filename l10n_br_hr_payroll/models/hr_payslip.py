@@ -8,18 +8,18 @@ from openerp import api, fields, models, exceptions, _
 from lxml import etree
 
 MES_DO_ANO = [
-    (1, u'Jan'),
-    (2, u'Fev'),
-    (3, u'Mar'),
-    (4, u'Abr'),
-    (5, u'Mai'),
-    (6, u'Jun'),
-    (7, u'Jul'),
-    (8, u'Ago'),
-    (9, u'Set'),
-    (10, u'Out'),
-    (11, u'Nov'),
-    (12, u'Dez'),
+    (1, u'Janeiro'),
+    (2, u'Fevereiro'),
+    (3, u'Marco'),
+    (4, u'Abril'),
+    (5, u'Maio'),
+    (6, u'Junho'),
+    (7, u'Julho'),
+    (8, u'Agosto'),
+    (9, u'Setembro'),
+    (10, u'Outubro'),
+    (11, u'Novembro'),
+    (12, u'Dezembro'),
 ]
 
 TIPO_DE_FOLHA = [
@@ -80,6 +80,11 @@ class HrPayslip(models.Model):
     ano = fields.Integer(
         string=u'Ano',
         default=datetime.now().year,
+    )
+
+    data_mes_ano = fields.Char(
+        string=u'Mês/Ano',
+        compute='computar_mes_ano',
     )
 
     total_folha = fields.Float(
@@ -623,6 +628,11 @@ class HrPayslip(models.Model):
                 record.onchange_employee_id(
                     record.date_from, record.date_to, record.contract_id.id
                 )
+
+    def computar_mes_ano(self):
+        for record in self:
+            record.data_mes_ano = MES_DO_ANO[record.mes_do_ano-1][1][:3] + \
+                '/' + str(record.ano)
 
     def set_dates(self):
         for record in self:
