@@ -498,6 +498,12 @@ class HrPayslip(models.Model):
                         # compute the amount of the rule
                         amount, qty, rate = \
                             obj_rule.compute_rule(rule.id, localdict)
+                        # se ja tiver sido calculado a media dessa rubrica,
+                        # utilizar valor da media e multiplicar pela reinciden.
+                        if medias.get(rule.code):
+                            amount = medias.get(rule.code).media/12
+                            qty = medias.get(rule.code).meses
+
                         # check if there is already a rule computed
                         # with that code
                         previous_amount = \
@@ -508,12 +514,14 @@ class HrPayslip(models.Model):
                         tot_rule = amount * qty * rate / 100.0
                         localdict[rule.code] = tot_rule
                         rules[rule.code] = rule
+
                         if rule.compoe_base_INSS:
                             localdict['BASE_INSS'] += tot_rule
                         if rule.compoe_base_IR:
                             localdict['BASE_IR'] += tot_rule
                         if rule.compoe_base_FGTS:
                             localdict['BASE_FGTS'] += tot_rule
+
                         # sum the amount for its salary category
                         localdict = _sum_salary_rule_category(
                             localdict, rule.category_id,
