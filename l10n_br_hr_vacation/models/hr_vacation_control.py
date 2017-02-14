@@ -115,7 +115,7 @@ class HrVacationControl(models.Model):
     def _compute_display_name(self):
         for controle_ferias in self:
             nome = str(controle_ferias.inicio_aquisitivo) + ' - ' + \
-                   str(controle_ferias.fim_aquisitivo)
+                str(controle_ferias.fim_aquisitivo)
             controle_ferias.display_name = nome
 
     def calcular_datas_aquisitivo_concessivo(self, inicio_periodo_aquisitivo):
