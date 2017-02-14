@@ -3,6 +3,8 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from datetime import datetime
+from pybrasil.valor import formata_valor
+from pybrasil.data import formata_data
 
 from dateutil.relativedelta import relativedelta
 from openerp import api, fields, models, exceptions, _
@@ -40,9 +42,51 @@ class HrPayslip(models.Model):
     @api.multi
     def _valor_total_folha(self):
         total = 0.00
+        total_proventos = 0.00
+        total_descontos = 0.00
+        base_inss = 0.00
+        base_irpf = 0.00
+        base_fgts = 0.00
+        fgts = 0.00
+        inss = 0.00
+        irpf = 0.00
         for line in self.line_ids:
             total += line.valor_provento - line.valor_deducao
-        self.write({'total_folha': total})
+            total_proventos += line.valor_provento
+            total_descontos += line.valor_deducao
+            if self.env.ref('l10n_br_hr_payroll.hr_salary_rule_BASE_FGTS').code:
+                base_fgts = line.total
+            elif self.env.ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS').code:
+                base_inss = line.total
+            elif self.env.ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF').code:
+                base_irpf = line.total
+            elif self.env.ref('l10n_br_hr_payroll.hr_salary_rule_FGTS').code:
+                fgts = line.total
+            elif self.env.ref('l10n_br_hr_payroll.hr_salary_rule_INSS').code:
+                inss = line.total
+            elif self.env.ref('l10n_br_hr_payroll.hr_salary_rule_IRPF').code:
+                irpf = line.total
+        self.total_folha = total
+        self.total_proventos = total_proventos
+        self.total_descontos = total_descontos
+        self.base_fgts = base_fgts
+        self.base_inss = base_inss
+        self.base_irpf = base_irpf
+        self.fgts = fgts
+        self.inss = inss
+        self.irpf = irpf
+        # Formato
+        self.data_admissao_fmt = formata_data(self.contract_id.date_start)
+        self.salario_base_fmt = formata_valor(self.contract_id.wage)
+        self.total_folha_fmt = formata_valor(self.total_folha)
+        self.total_proventos_fmt = formata_valor(self.total_proventos)
+        self.total_descontos_fmt = formata_valor(self.total_descontos)
+        self.base_fgts_fmt = formata_valor(self.base_fgts)
+        self.base_inss_fmt = formata_valor(self.base_inss)
+        self.base_irpf_fmt = formata_valor(self.base_irpf)
+        self.fgts_fmt = formata_valor(self.fgts)
+        self.inss_fmt = formata_valor(self.inss)
+        self.irpf_fmt = formata_valor(self.irpf)
 
     employee_id_readonly = fields.Many2one(
         string=u'Funcionário',
@@ -89,8 +133,123 @@ class HrPayslip(models.Model):
     )
 
     total_folha = fields.Float(
-        string="Total",
-        default=0.00
+        string=u'Total',
+        default=0.00,
+        compute='_valor_total_folha'
+    )
+
+    total_folha_fmt = fields.Char(
+        string=u'Total',
+        default='0',
+        compute='_valor_total_folha'
+    )
+
+    data_admissao_fmt = fields.Char(
+        string=u'Data de admissao',
+        default='0',
+        compute='_valor_total_folha'
+    )
+
+    salario_base_fmt = fields.Char(
+        string=u'Salario Base',
+        default='0',
+        compute='_valor_total_folha'
+    )
+
+    total_proventos = fields.Float(
+        string=u'Total Proventos',
+        default=0.00,
+        compute='_valor_total_folha'
+    )
+
+    total_proventos_fmt = fields.Char(
+        string=u'Total Proventos',
+        default='0',
+        compute='_valor_total_folha'
+    )
+
+    total_descontos = fields.Float(
+        string=u'Total Descontos',
+        default=0.00,
+        compute='_valor_total_folha'
+    )
+
+    total_descontos_fmt = fields.Char(
+        string=u'Total Descontos',
+        default='0',
+        compute='_valor_total_folha'
+    )
+
+    base_fgts = fields.Float(
+        string=u'Base do FGTS',
+        default=0.00,
+        compute='_valor_total_folha'
+    )
+
+    base_fgts_fmt = fields.Char(
+        string=u'Base do FGTS',
+        default='0',
+        compute='_valor_total_folha'
+    )
+
+    base_inss = fields.Float(
+        string=u'Base do INSS',
+        default=0.00,
+        compute='_valor_total_folha'
+    )
+
+    base_inss_fmt = fields.Char(
+        string=u'Base do INSS',
+        default='0',
+        compute='_valor_total_folha'
+    )
+
+    base_irpf = fields.Float(
+        string=u'Base do IRPF',
+        default=0.00,
+        compute='_valor_total_folha'
+    )
+
+    base_irpf_fmt = fields.Char(
+        string=u'Base do IRPF',
+        default='0',
+        compute='_valor_total_folha'
+    )
+
+    fgts = fields.Float(
+        string=u'FGTS',
+        default=0.00,
+        compute='_valor_total_folha'
+    )
+
+    fgts_fmt = fields.Char(
+        string=u'FGTS',
+        default='0',
+        compute='_valor_total_folha'
+    )
+
+    inss = fields.Float(
+        string=u'INSS',
+        default=0.00,
+        compute='_valor_total_folha'
+    )
+
+    inss_fmt = fields.Char(
+        string=u'INSS',
+        default='0',
+        compute='_valor_total_folha'
+    )
+
+    irpf = fields.Float(
+        string=u'IRPF',
+        default=0.00,
+        compute='_valor_total_folha'
+    )
+
+    irpf_fmt = fields.Char(
+        string=u'IRPF',
+        default='0',
+        compute='_valor_total_folha'
     )
 
     medias_proventos = fields.One2many(
@@ -103,7 +262,7 @@ class HrPayslip(models.Model):
         comodel_name='hr.payslip.line',
         inverse_name='slip_id',
         compute=_buscar_payslip_line,
-        string="Holerite Resumo",
+        string=u"Holerite Resumo",
     )
 
     @api.depends('contract_id')
