@@ -233,8 +233,7 @@ result_qty = MEDIAS.SALARIO.meses
             <field name="category_id" ref="hr_payroll.PROVENTO"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = MEDIAS.SALARIO.media/12.0
-result_qty = MEDIAS.SALARIO.meses
+            <field name="amount_python_compute">result = FERIAS / 3.0
             </field>
             <field name="sequence" eval="109"/>
             <field name="compoe_base_FGTS" eval="True"/>
