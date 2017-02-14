@@ -16,6 +16,9 @@
         'l10n_br_hr_contract',
         'hr_payroll',
     ],
+    'external_dependencies': {
+        'python': ['pybrasil'],
+    },
     'data': [
         'data/l10n_br_hr_income_tax.xml',
         'data/l10n_br_hr_income_tax_deductable_amount_family.xml',
@@ -46,7 +49,4 @@
     ],
     'installable': True,
     'auto_install': False,
-    'external_dependencies': {
-        'python': ['pybrasil'],
-    }
 }
