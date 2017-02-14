@@ -2,13 +2,14 @@
 # Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields
+from openerp import api, models, fields
 from dateutil.relativedelta import relativedelta
 
 
 class HrVacationControl(models.Model):
     _name = 'hr.vacation.control'
     _order = 'inicio_aquisitivo desc'
+    _rec_name = 'display_name'
 
     inicio_aquisitivo = fields.Date(
         string=u'Início Período Aquisitivo',
@@ -103,6 +104,19 @@ class HrVacationControl(models.Model):
         inverse_name='controle_ferias',
         string='Período Aquisitivo'
     )
+
+    display_name = fields.Char(
+        string=u'Display name',
+        compute='_compute_display_name',
+        store=True
+    )
+
+    @api.depends('inicio_aquisitivo', 'fim_aquisitivo')
+    def _compute_display_name(self):
+        for controle_ferias in self:
+            nome = str(controle_ferias.inicio_aquisitivo) + ' - ' + \
+                   str(controle_ferias.fim_aquisitivo)
+            controle_ferias.display_name = nome
 
     def calcular_datas_aquisitivo_concessivo(self, inicio_periodo_aquisitivo):
         fim_aquisitivo = fields.Date.from_string(inicio_periodo_aquisitivo) + \
