@@ -42,6 +42,10 @@
             <field name="name">SEFIP</field>
             <field name="code">SEFIP</field>
         </record>
+        <record id="hr_payroll.FERIAS" model="hr.salary.rule.category">
+            <field name="name">FERIAS</field>
+            <field name="code">FERIAS</field>
+        </record>
 
         <!--REGRAS DE SALARIOS-->
         <record id="hr_salary_rule_BRUTO" model="hr.salary.rule">
@@ -212,17 +216,31 @@
             <field name="sequence" eval="707"/>
         </record>
 
-        <!--Ferias-->
-        <record id="hr_salary_rule_FERIAS" model="hr.salary.rule">
-            <field name="code">FERIAS</field>
-            <field name="name">FERIAS</field>
-            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+        <!--Base para Ferias-->
+        <record id="hr_salary_rule_base_FERIAS" model="hr.salary.rule">
+            <field name="code">BASE_FERIAS</field>
+            <field name="name">Base FERIAS</field>
+            <field name="category_id" ref="hr_payroll.FERIAS"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
             <field name="amount_python_compute">result = MEDIAS.SALARIO.media/12.0
 result_qty = MEDIAS.SALARIO.meses
             </field>
             <field name="sequence" eval="108"/>
+            <field name="compoe_base_FGTS" eval="True"/>
+        </record>
+
+        <!--Ferias-->
+        <record id="hr_salary_rule_FERIAS" model="hr.salary.rule">
+            <field name="code">FERIAS</field>
+            <field name="name">FERIAS</field>
+            <field name="category_id" ref="hr_payroll.FERIAS"/>
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = BASE_FERIAS/30.00
+result_qty =  worked_days.FERIAS.number_of_days
+            </field>
+            <field name="sequence" eval="109"/>
             <field name="compoe_base_FGTS" eval="True"/>
         </record>
 
