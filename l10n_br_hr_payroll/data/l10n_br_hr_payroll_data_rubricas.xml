@@ -237,7 +237,7 @@ result_qty = MEDIAS.SALARIO.meses
             <field name="category_id" ref="hr_payroll.FERIAS"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = BASE_FERIAS/30.00
+            <field name="amount_python_compute">result = BASE_FERIAS / worked_days.SALDO_FERIAS.number_of_days
 result_qty =  worked_days.FERIAS.number_of_days
             </field>
             <field name="sequence" eval="109"/>
@@ -248,7 +248,7 @@ result_qty =  worked_days.FERIAS.number_of_days
         <record id="hr_salary_rule_1/3_FERIAS" model="hr.salary.rule">
             <field name="code">1/3_FERIAS</field>
             <field name="name">1/3 FERIAS</field>
-            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="category_id" ref="hr_payroll.FERIAS"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
             <field name="amount_python_compute">result = FERIAS / 3.0
@@ -433,7 +433,7 @@ result_qty = MEDIAS.SALARIO.meses
         <record id="hr_salary_structure_FERIAS" model="hr.payroll.structure">
             <field name="code">FERIAS</field>
             <field name="name">Férias</field>
-            <field eval="[(6, 0, [ref('hr_salary_rule_FERIAS'), ref('hr_salary_rule_1/3_FERIAS')])]" name="rule_ids"/>
+            <field eval="[(6, 0, [ref('hr_salary_rule_base_FERIAS'), ref('hr_salary_rule_FERIAS'), ref('hr_salary_rule_1/3_FERIAS')])]" name="rule_ids"/>
             <field name="company_id" ref="base.main_company"/>
             <field name="parent_id" eval="False" />
         </record>

@@ -4,6 +4,7 @@
 
 from datetime import datetime
 
+from dateutil.relativedelta import relativedelta
 from openerp import api, fields, models, exceptions, _
 from lxml import etree
 
@@ -673,14 +674,51 @@ class HrPayslip(models.Model):
     @api.multi
     def compute_sheet(self):
         if self.tipo_de_folha in ["decimo_terceiro", "ferias"]:
-            hr_medias_ids = self.gerar_media_dos_proventos()
+            hr_medias_ids, data_de_inicio, data_final = \
+                self.gerar_media_dos_proventos()
+
             if not hr_medias_ids:
                 raise exceptions.Warning(
                     _('Nenhum Holerite encontrado para médias nesse período!')
                 )
+
+            self.validacao_holerites_anteriores(
+                data_de_inicio, fields.Date.today(), self.contract_id)
         super(HrPayslip, self).compute_sheet()
         self._valor_total_folha()
         return True
+
+    def validacao_holerites_anteriores(self, data_inicio, data_fim, contrato):
+        """
+        VAlida se existe todos os holerites calculados e confirmados em
+        determinado período.
+        :param date_from:
+        :param date_to:
+        :return:
+        """
+        folha_obj = self.env['hr.payslip']
+        domain = [
+            ('date_from', '>=', data_inicio),
+            ('date_to', '<=', data_fim),
+            ('contract_id', '=', contrato.id),
+            ('state', '=', 'done'),
+        ]
+        folhas_periodo = folha_obj.search(domain)
+
+        folhas_sorted = folhas_periodo.sorted(key=lambda r: r.date_from)
+        mes = fields.Date.from_string(data_inicio)
+
+        for folha in folhas_sorted:
+            if folha.mes_do_ano != mes.month:
+                raise exceptions.ValidationError(_(
+                    "Não foi encontrado holerite confirmado do mês de %s"
+                ) % MES_DO_ANO[folha.mes_do_ano-1][1])
+            mes = mes + relativedelta(months=1)
+
+        if mes.month != fields.Date.from_string(data_fim).month:
+            raise exceptions.ValidationError(_(
+                "Não foi encontrado holerite confirmado do mês de %s"
+            ) % MES_DO_ANO[mes.month-1][1])
 
     @api.multi
     def gerar_media_dos_proventos(self):
@@ -699,7 +737,7 @@ class HrPayslip(models.Model):
             data_final = self.date_to
         hr_medias_ids = medias_obj.gerar_media_dos_proventos(
             data_de_inicio, data_final, self)
-        return hr_medias_ids
+        return hr_medias_ids, data_de_inicio, data_final
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form',
