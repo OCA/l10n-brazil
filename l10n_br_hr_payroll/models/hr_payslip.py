@@ -105,6 +105,21 @@ class HrPayslip(models.Model):
         string="Holerite Resumo",
     )
 
+    @api.depends('contract_id')
+    def _get_periodo_aquisitivo(self):
+        for holerite in self:
+            if holerite.contract_id:
+                controles_ferias = holerite.contract_id.vacation_control_ids
+                holerite.periodo_aquisitivo = controles_ferias[0]
+
+    periodo_aquisitivo = fields.Many2one(
+        comodel_name='hr.vacation.control',
+        default='_get_periodo_aquisitivo',
+        string="Período Aquisitivo",
+        domain="[('contract_id','=',contract_id)]",
+        store=True,
+    )
+
     def get_attendances(self, nome, sequence, code, number_of_days,
                         number_of_hours, contract_id):
         attendance = {
@@ -616,6 +631,7 @@ class HrPayslip(models.Model):
             if record.contract_id:
                 record.employee_id = record.contract_id.employee_id
                 record.employee_id_readonly = record.employee_id
+            record._get_periodo_aquisitivo()
 
     @api.multi
     @api.onchange('mes_do_ano', 'ano')
@@ -670,7 +686,7 @@ class HrPayslip(models.Model):
     def gerar_media_dos_proventos(self):
         medias_obj = self.env['l10n_br.hr.medias']
         if self.tipo_de_folha == 'ferias':
-            periodo_aquisitivo = self.contract_id.vacation_control_ids[0]
+            periodo_aquisitivo = self.periodo_aquisitivo
             data_de_inicio = str(fields.Date.from_string(
                 periodo_aquisitivo.inicio_aquisitivo))
             data_final = str(fields.Date.from_string(
