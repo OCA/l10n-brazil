@@ -130,3 +130,8 @@ class HrContract(models.Model):
             ('change_type', '=', 'filiacao-sindical')
         ],
     )
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        string='Empresa',
+        required=True,
+    )
