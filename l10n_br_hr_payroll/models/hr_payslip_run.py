@@ -23,12 +23,7 @@ MES_DO_ANO = [
 
 TIPO_DE_FOLHA = [
     ('normal', u'Folha normal'),
-    ('rescisao', u'Rescisão'),
-    ('ferias', u'Férias'),
     ('decimo_terceiro', u'Décimo terceiro (13º)'),
-    ('licenca_maternidade', u'Licença maternidade'),
-    ('auxilio_doenca', u'Auxílio doença'),
-    ('auxílio_acidente_trabalho', u'Auxílio acidente de trabalho'),
 ]
 
 
@@ -54,6 +49,18 @@ class HrPayslipRun(models.Model):
         comodel_name='hr.contract',
         string='Contratos',
     )
+    contract_id_readonly = fields.Many2many(
+        comodel_name='hr.contract',
+        string='Contratos',
+    )
+    departamento_id = fields.Many2one(
+        comodel_name='hr.department',
+        string='Departamento',
+    )
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        string='Empresa',
+    )
 
     @api.multi
     @api.onchange('mes_do_ano')
@@ -73,6 +80,42 @@ class HrPayslipRun(models.Model):
 
             record.date_start = primeiro_dia_do_mes
             record.date_end = ultimo_dia_do_mes
+
+    @api.multi
+    def verificar_holerites_gerados(self):
+        contract_id = self.env['hr.contract'].search(
+            [
+                ('company_id', '=', self.company_id.id)
+            ]
+        )
+        contratos = [contrato.id for contrato in contract_id]
+        payslip_obj = self.env['hr.payslip']
+        payslips = payslip_obj.search(
+            [
+                ('tipo_de_folha', '=', self.tipo_de_folha),
+                ('date_from', '>=', self.date_start),
+                ('date_to', '<=', self.date_end),
+                ('contract_id', 'in', contratos)
+            ]
+        )
+        contratos_holerites_gerados = []
+        for payslip in payslips:
+            if payslip.contract_id.id not in contratos_holerites_gerados:
+                contratos_holerites_gerados.append(payslip.contract_id.id)
+        contratos_sem_holerite = [
+            contrato.id for contrato in contract_id
+            if contrato.id not in contratos_holerites_gerados
+            ]
+        if self.id:
+            self.write(
+                {
+                    'contract_id': [(6, 0, contratos_sem_holerite)],
+                    'contract_id_readonly': [(6, 0, contratos_sem_holerite)],
+                }
+            )
+        else:
+            self.contract_id = contratos_sem_holerite
+            self.contract_id_readonly = contratos_sem_holerite
 
     @api.multi
     def gerar_holerites(self):
@@ -111,3 +154,4 @@ class HrPayslipRun(models.Model):
                 input_id.update({'payslip_id': payslip.id})
                 input_obj.create(input_id)
             payslip.compute_sheet()
+        self.verificar_holerites_gerados()

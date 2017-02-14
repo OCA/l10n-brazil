@@ -34,10 +34,19 @@
                 <group>
                     <field name="tipo_de_folha" />
                 </group>
+                <group>
+                    <group>
+                        <field name="company_id" />
+                    </group>
+                    <group>
+                        <button name="verificar_holerites_gerados" type="object" states="draft" string="Buscar Contratos" class="oe_highlight"/>
+                    </group>
+                </group>
             </xpath>
             <xpath expr="//separator[@string='Payslips']" position="before">
                 <separator string="Contratos"/>
-                <field name="contract_id"/>
+                <field name="contract_id" invisible="1"/>
+                <field name="contract_id_readonly" readonly="1"/>
             </xpath>
 
         </field>
