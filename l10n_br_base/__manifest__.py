@@ -14,6 +14,7 @@
         'base_setup',
     ],
     'data': [
+        'data/res.country.state.csv',
         'data/l10n_br_base.city.csv',
         'data/l10n_br_base_data.xml',
         'data/res.country.state.csv',
