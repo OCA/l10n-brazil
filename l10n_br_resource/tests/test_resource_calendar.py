@@ -23,8 +23,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
             'date_from': fields.Datetime.from_string('2016-03-21 00:00:00'),
             'date_to': fields.Datetime.from_string('2016-03-21 23:59:59'),
             'calendar_id': self.nacional_calendar_id.id,
-            'leave_type': 'F',
-            'abrangencia': 'N',
+            'leave_kind': 'F',
+            'leave_scope': 'N',
         })
         self.estadual_calendar_id = self.resource_calendar.create({
             'name': 'Calendario Estadual',
@@ -35,8 +35,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
             'date_from': fields.Datetime.from_string('2016-01-25 00:00:00'),
             'date_to': fields.Datetime.from_string('2016-01-25 23:59:59'),
             'calendar_id': self.estadual_calendar_id.id,
-            'leave_type': 'F',
-            'abrangencia': 'E',
+            'leave_kind': 'F',
+            'leave_scope': 'E',
         })
         self.municipal_calendar_id = self.resource_calendar.create({
             'name': 'Calendario Municipal',
@@ -47,8 +47,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
             'date_from': fields.Datetime.from_string('2016-08-25 00:00:00'),
             'date_to': fields.Datetime.from_string('2016-08-25 23:59:59'),
             'calendar_id': self.municipal_calendar_id.id,
-            'leave_type': 'F',
-            'abrangencia': 'M',
+            'leave_kind': 'F',
+            'leave_scope': 'M',
         })
 
     def test_00_add_leave_nacional(self):
@@ -58,8 +58,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
             'date_from': fields.Datetime.from_string('2016-12-24 00:00:00'),
             'date_to': fields.Datetime.from_string('2016-12-24 23:59:59'),
             'calendar_id': self.nacional_calendar_id.id,
-            'leave_type': 'F',
-            'abrangencia': 'N',
+            'leave_kind': 'F',
+            'leave_scope': 'N',
         })
         self.assertEqual(self.leave_nacional_02.name, 'Natal')
         self.assertEqual(self.leave_nacional_02.calendar_id,
@@ -73,8 +73,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
             'date_from': fields.Datetime.from_string('2016-07-16 00:00:00'),
             'date_to': fields.Datetime.from_string('2016-07-16 23:59:59'),
             'calendar_id': self.estadual_calendar_id.id,
-            'leave_type': 'F',
-            'abrangencia': 'E',
+            'leave_kind': 'F',
+            'leave_scope': 'E',
         })
         self.assertEqual(self.leave_estadual_02.name, 'Aniversario MG')
         self.assertEqual(self.leave_estadual_02.calendar_id,
@@ -88,8 +88,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
             'date_from': fields.Datetime.from_string('2016-03-19 00:00:00'),
             'date_to': fields.Datetime.from_string('2016-03-19 23:59:59'),
             'calendar_id': self.municipal_calendar_id.id,
-            'leave_type': 'F',
-            'abrangencia': 'M',
+            'leave_kind': 'F',
+            'leave_scope': 'M',
         })
         self.assertEqual(self.leave_municipal_02.name, 'Aniversario Itajuba')
         self.assertEqual(self.leave_municipal_02.calendar_id,
@@ -181,8 +181,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
             'date_from': fields.Datetime.from_string('2017-01-21 00:00:00'),
             'date_to': fields.Datetime.from_string('2017-01-21 23:59:59'),
             'calendar_id': self.nacional_calendar_id.id,
-            'leave_type': 'F',
-            'abrangencia': 'N',
+            'leave_kind': 'F',
+            'leave_scope': 'N',
         })
         feriado2 = fields.Datetime.from_string('2017-01-21 00:00:00')
         self.assertTrue(
@@ -218,8 +218,8 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
             'date_from': fields.Datetime.from_string('2017-01-13 00:00:00'),
             'date_to': fields.Datetime.from_string('2017-01-13 23:59:59'),
             'calendar_id': self.nacional_calendar_id.id,
-            'leave_type': 'B',
-            'abrangencia': 'N',
+            'leave_kind': 'B',
+            'leave_scope': 'N',
         })
         data = fields.Datetime.from_string('2017-01-13 01:02:03')
         data_eh_feriado_bancario = self.nacional_calendar_id.\

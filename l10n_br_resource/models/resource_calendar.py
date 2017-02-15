@@ -15,7 +15,7 @@ try:
         TIPO_FERIADO, ABRANGENCIA_FERIADO,
     )
 except ImportError:
-    _logger.info('Cannot import pybrasil')
+    _logger.warning('Cannot import pybrasil')
 
 
 class ResourceCalendar(models.Model):
@@ -129,7 +129,7 @@ class ResourceCalendar(models.Model):
                     "%Y-%m-%d %H:%M:%S"):
                 if leave.date_to >= data_referencia.\
                         strftime("%Y-%m-%d %H:%M:%S"):
-                    if leave.leave_type == 'F':
+                    if leave.leave_kind == 'F':
                         return True
         return False
 
@@ -203,7 +203,7 @@ class ResourceCalendar(models.Model):
         domain = [
             ('date_from', '<=', data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
             ('date_to', '>=', data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
-            ('leave_type', 'in', ['F', 'B']),
+            ('leave_kind', 'in', ['F', 'B']),
         ]
         leaves_count = \
             self.env['resource.calendar.leaves'].search_count(domain)
@@ -253,11 +253,11 @@ class ResourceCalendarLeave(models.Model):
         domain="[('state_id','=',state_id)]",
         readonly=True
     )
-    leave_type = fields.Selection(
-        string=u'Tipo',
-        selection=[item for item in TIPO_FERIADO.iteritems()],
+    leave_kind = fields.Selection(
+        string=u'Leave Kind',
+        selection=list(TIPO_FERIADO.iteritems()),
     )
-    abrangencia = fields.Selection(
-        string=u'Abrangencia',
-        selection=[item for item in ABRANGENCIA_FERIADO.iteritems()],
+    leave_scope = fields.Selection(
+        string=u'Leave Scope',
+        selection=list(ABRANGENCIA_FERIADO.iteritems()),
     )

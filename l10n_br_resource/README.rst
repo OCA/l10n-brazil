@@ -6,28 +6,22 @@
 L10n Br Resource
 ================
 
-This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
-
+Sets the Brazilian calendar and helper methods for calculation of working days, leaves of resources in non business day and etc.
 Installation
 ============
 
-To install this module, you need to:
-
-#. Do this ...
+To install this module, you need to do nothing
 
 Configuration
 =============
 
 To configure this module, you need to:
 
-#. Go to ...
+Go to Configuration > Resource
 
-Usage
-=====
+- Calendar, to define a new calendar leave;
+- Import Brazilian Holidays to import the next years hollidays.
 
-To use this module, you need to:
-
-#. Go to ...
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
@@ -40,6 +34,8 @@ Known issues / Roadmap
 ======================
 
 Issues are tracked on Known issues
+
+After one year of install this module you have to import more holidays.
 
 
 Bug Tracker
@@ -61,8 +57,9 @@ Images
 Contributors
 ------------
 
-* Firstname Lastname <email.address@example.org>
-* Second Person <second.person@example.org>
+* Luis Felipe Miléo <mileo@kmee.com.br>
+* Hendrix Costa <hendrix.costa@kmee.com.br>
+* Luiz Felipe do Divino <luiz.divino@kmee.com.br>
 
 Maintainer
 ----------

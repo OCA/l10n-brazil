@@ -23,7 +23,7 @@ def create_national_calendar(cr, registry):
         }
     )
     wizard_pybrasil.holiday_import()
-    _logger.info(
+    _logger.warning(
         """Create new Brazilian calendar.
         \n from {start_date} to {end_date} """.format(
             start_date=wizard_pybrasil.start_date,
