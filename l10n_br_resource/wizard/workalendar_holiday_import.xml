@@ -4,7 +4,7 @@
 
         <record id="view_workalendar_holiday_import" model="ir.ui.view">
             <field name="name">Import Holidays</field>
-            <field name="model">wizard.workalendar.holiday.import</field>
+            <field name="model">wizard.pybrasil.holiday.import</field>
             <field name="arch" type="xml">
                 <form string="Import Brazilian Holidays">
                     <div class="oe_title">
