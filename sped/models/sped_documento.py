@@ -7,42 +7,8 @@
 
 
 from odoo import api, fields, models
-from ..constante_tributaria import (
-    AMBIENTE_NFE,
-    AMBIENTE_NFE_HOMOLOGACAO,
-    AMBIENTE_NFE_PRODUCAO,
-    ENTRADA_SAIDA,
-    ENTRADA_SAIDA_ENTRADA,
-    ENTRADA_SAIDA_SAIDA,
-    FINALIDADE_NFE,
-    FINALIDADE_NFE_NORMAL,
-    FORMA_PAGAMENTO,
-    FORMA_PAGAMENTO_A_VISTA,
-    IE_DESTINATARIO,
-    INDICADOR_IE_DESTINATARIO,
-    INDICADOR_PRESENCA_COMPRADOR,
-    INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
-    LIMITE_RETENCAO_PIS_COFINS_CSLL,
-    MODALIDADE_FRETE,
-    MODALIDADE_FRETE_DESTINATARIO_PROPRIO,
-    MODELO_FISCAL,
-    MODELO_FISCAL_NFCE,
-    MODELO_FISCAL_NFE,
-    MODELO_FISCAL_NFSE,
-    NATUREZA_TRIBUTACAO_NFSE,
-    REGIME_TRIBUTARIO,
-    REGIME_TRIBUTARIO_SIMPLES,
-    SITUACAO_FISCAL,
-    SITUACAO_FISCAL_REGULAR,
-    ST_ISS,
-    TIPO_CONSUMIDOR_FINAL,
-    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL,
-    TIPO_CONSUMIDOR_FINAL_NORMAL,
-    TIPO_EMISSAO,
-    TIPO_EMISSAO_NFE,
-    TIPO_EMISSAO_NFE_NORMAL,
-    TIPO_EMISSAO_PROPRIA,
-)
+from odoo.exceptions import UserError, ValidationError
+from ..constante_tributaria import *
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -120,6 +86,7 @@ class Documento(models.Model):
     )
     serie = fields.Char(
         string=u'Série',
+        size=3,
         index=True,
     )
     numero = fields.Float(
@@ -274,7 +241,7 @@ class Documento(models.Model):
         string=u'Natureza da tributação',
     )
     servico_id = fields.Many2one(
-        selection='sped.servico',
+        comodel_name='sped.servico',
         string=u'Serviço',
     )
     cst_iss = fields.Selection(
@@ -461,7 +428,7 @@ class Documento(models.Model):
         ondelete='restrict',
     )
     reboque_4_id = fields.Many2one(
-        comdel_name='sped.veiculo',
+        comodel_name='sped.veiculo',
         string=u'Reboque 4',
         ondelete='restrict',
     )
@@ -753,6 +720,11 @@ class Documento(models.Model):
         inverse_name='documento_id',
         string=u'Itens',
     )
+    documento_referenciado_ids = fields.One2many(
+        comodel_name='sped.documento.referenciado',
+        inverse_name='documento_id',
+        string=u'Documentos Referenciados',
+    )
     #
     # Outras informações
     #
@@ -772,6 +744,15 @@ class Documento(models.Model):
         string=u'É devolução de venda?',
         compute='_compute_eh_compra_venda',
     )
+    permite_alteracao = fields.Boolean(
+        string=u'Permite alteração?',
+        compute='_compute_permite_alteracao',
+    )
+
+    @api.depends('modelo', 'emissao')
+    def _compute_permite_alteracao(self):
+        for documento in self:
+            documento.permite_alteracao = True
 
     @api.depends('data_hora_emissao', 'data_hora_entrada_saida')
     def _compute_data_hora_separadas(self):
@@ -1039,7 +1020,7 @@ class Documento(models.Model):
         res['value'] = valores
 
         if not (self.payment_term_id and (self.vr_fatura or self.vr_nf) and
-            self.data_emissao):
+                self.data_emissao):
             return res
 
         valor = D(self.vr_fatura or 0)
@@ -1066,3 +1047,26 @@ class Documento(models.Model):
         valores['duplicata_ids'] = duplicata_ids
 
         return res
+
+    def _check_permite_alteracao(self, operacao='create'):
+        for documento in self:
+            if not documento.permite_alteracao:
+                if operacao == 'unlink':
+                    mensagem = \
+                        u'Não é permitido excluir este documento fiscal!'
+                elif operacao == 'write':
+                    mensagem = \
+                        u'Não é permitido alterar este documento fiscal!'
+                elif operacao == 'create':
+                    mensagem = \
+                        u'Não é permitido criar este documento fiscal!'
+
+                raise ValidationError(mensagem)
+
+    def unlink(self):
+        self._check_permite_alteracao(operacao='unlink')
+        return super(Documento, self).unlink()
+
+    def write(self, dados):
+        self._check_permite_alteracao(operacao='write')
+        return super(Documento, self).write(dados)

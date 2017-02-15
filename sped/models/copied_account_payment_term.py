@@ -93,12 +93,20 @@ class AccountPaymentTerm(models.Model):
                 if line.option == 'day_after_invoice_date':
                     next_date += relativedelta(days=line.days)
                 elif line.option == 'fix_day_following_month':
-                    next_first_date = next_date + relativedelta(day=1, months=1)  # Getting 1st of next month
-                    next_date = next_first_date + relativedelta(days=line.days - 1)
+                    # Getting 1st of next month
+                    next_first_date = next_date + relativedelta(
+                        day=1,
+                        months=1,
+                    )
+                    next_date = next_first_date + relativedelta(
+                        days=line.days - 1
+                    )
                 elif line.option == 'last_day_following_month':
-                    next_date += relativedelta(day=31, months=1)  # Getting last day of next month
+                    # Getting last day of next month
+                    next_date += relativedelta(day=31, months=1)
                 elif line.option == 'last_day_current_month':
-                    next_date += relativedelta(day=31, months=0)  # Getting last day of next month
+                    # Getting last day of next month
+                    next_date += relativedelta(day=31, months=0)
                 result.append((fields.Date.to_string(next_date), amt))
                 amount -= amt
 
