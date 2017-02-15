@@ -290,6 +290,15 @@ class HrContract(models.Model):
     observacoes_processo = fields.Text(
         string="Observações do processo judicial"
     )
+
+    # Aba Cursos e treinamentos
+    curso_ids = fields.One2many(
+        comodel_name='hr.curso',
+        inverse_name='contract_id',
+        string="Cursos"
+    )
+
+
 class Exame(models.Model):
     _name = 'hr.exame.medico'
 
@@ -310,3 +319,30 @@ class Exame(models.Model):
     )
 
 
+class Curso(models.Model):
+    _name = 'hr.curso'
+
+    name = fields.Char(
+        string="Curso"
+    )
+
+    carga_horaria = fields.Integer(
+        string="Carga horária"
+    )
+
+    inicio_curso = fields.Date(
+        string="Início"
+    )
+
+    fim_curso = fields.Date(
+        string="Encerramento"
+    )
+
+    situacao = fields.Selection(
+        selection=[],
+        string="Situação"
+    )
+
+    contract_id = fields.Many2one(
+        comodel_name='hr.contract',
+    )

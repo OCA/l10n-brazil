@@ -128,6 +128,18 @@
                     <label for="observacoes_processo"/>
                     <field name="observacoes_processo"/>
                 </page>
+                <!--Aba Cursos e treinamentos-->
+                <page string="Cursos e treinamentos">
+                    <field name="curso_ids">
+                        <tree>
+                            <field name="name"/>
+                            <field name="carga_horaria"/>
+                            <field name="inicio_curso"/>
+                            <field name="fim_curso"/>
+                            <field name="situacao"/>
+                        </tree>
+                    </field>
+                </page>
             </xpath>
         </field>
     </record>
