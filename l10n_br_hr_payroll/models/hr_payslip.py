@@ -889,8 +889,8 @@ class HrPayslip(models.Model):
         for folha in folhas_sorted:
             if folha.mes_do_ano != mes.month:
                 raise exceptions.ValidationError(_(
-                    "Não foi encontrado holerite confirmado do mês de %s"
-                ) % MES_DO_ANO[folha.mes_do_ano-1][1])
+                    "Faltando Holerite confirmado do mês de %s"
+                ) % MES_DO_ANO[mes.month-1][1])
             mes = mes + relativedelta(months=1)
 
         if mes.month != fields.Date.from_string(data_fim).month:
