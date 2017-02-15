@@ -1,7 +1,10 @@
-unidecode==0.04.20
-suds==0.4
-num2words==0.5.4
--f http://xmlsoft.org/sources/python/libxml2-python-2.6.21.tar.gz#egg=libxml2-python
--e git+https://github.com/odoo-brazil/geraldo.git#egg=geraldo
--e git+https://github.com/odoo-brazil/PySPED.git#egg=pysped
--e git+https://github.com/odoo-brazil/pybrasil.git#egg=pybrasil 
+suds
+num2words
+pillow==3.4.2
+reportlab
+unidecode
+http://xmlsoft.org/sources/python/libxml2-python-2.6.21.tar.gz#egg=libxml2
+https://github.com/odoo-brazil/pybrasil/archive/master.zip#egg=pybrasil
+https://github.com/odoo-brazil/pyxmlsec/archive/master.zip#egg=pyxmlsec
+https://github.com/odoo-brazil/geraldo/archive/master.zip#egg=geraldo
+https://github.com/odoo-brazil/PySPED/archive/8.0.zip#egg=PySPED
