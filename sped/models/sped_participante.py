@@ -423,16 +423,22 @@ class Participante(models.Model):
 
         if len(cnpj_cpf) == 14:
             valores['cnpj_cpf'] = formata_cnpj(cnpj_cpf)
-            valores['tipo_pessoa'] = 'J'
-            valores['regime_tributario'] = '1'
+            valores['tipo_pessoa'] = TIPO_PESSOA_JURIDICA
+            valores['regime_tributario'] = REGIME_TRIBUTARIO_SIMPLES
+            valores['contribuinte'] = INDICADOR_IE_DESTINATARIO_ISENTO
+
         else:
             valores['cnpj_cpf'] = formata_cpf(cnpj_cpf)
-            valores['tipo_pessoa'] = 'F'
-            valores['regime_tributario'] = '3'
+            valores['tipo_pessoa'] = TIPO_PESSOA_FISICA
+            valores['regime_tributario'] = REGIME_TRIBUTARIO_LUCRO_PRESUMIDO
+            valores['contribuinte'] = \
+                INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
 
         if cnpj_cpf[:2] == 'EX':
-            valores['tipo_pessoa'] = 'E'
-            valores['regime_tributario'] = '3'
+            valores['tipo_pessoa'] = TIPO_PESSOA_ESTRANGEIRO
+            valores['regime_tributario'] = REGIME_TRIBUTARIO_LUCRO_PRESUMIDO
+            valores['contribuinte'] = \
+                INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
 
         if self.id:
             cnpj_ids = self.search(

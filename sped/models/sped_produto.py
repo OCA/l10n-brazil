@@ -102,7 +102,7 @@ class Produto(models.Model):
         string=u'CEST'
     )
     protocolo_id = fields.Many2one(
-        comodel_namel='sped.protocolo.icms',
+        comodel_name='sped.protocolo.icms',
         string=u'Protocolo/Convênio',
     )
     al_ipi_id = fields.Many2one(

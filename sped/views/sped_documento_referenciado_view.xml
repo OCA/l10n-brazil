@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_referenciado_form" >
+        <field name="name">sped.documento.referenciado.form</field>
+        <field name="model">sped.documento.referenciado</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Documento Referenciado">
+                <group>
+                    <group col="4" colspan="4">
+                        <field name="documento_referenciado_id" colspan="4"
+                               domain="[('empresa_id', '=', parent.empresa_id), ('data_emissao', '&lt;=', parent.data_emissao),('participante_id','=', parent.participante_id)]" />
+                        <newline />
+                        <field name="participante_id" colspan="4" required="1" />
+                        <field name="modelo" required="1" />
+                        <newline />
+                        <field name="serie" required="1" />
+                        <field name="numero" required="1" />
+                        <field name="data_emissao" required="1" />
+                        <field name="chave" attrs="{'required': [('modelo', 'in', ['55', '65', '57'])]}" colspan="4" />
+                        <field name="numero_ecf" attrs="{'required': [('modelo', 'in', ['2D'])]}" />
+                        <field name="numero_coo" attrs="{'required': [('modelo', 'in', ['2D'])]}" />
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_referenciado_tree">
+        <field name="name">sped.documento.referenciado.tree</field>
+        <field name="model">sped.documento.referenciado</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Documento Referenciado">
+                <field name="documento_referenciado_id" domain="[('empresa_id', '=', parent.empresa_id), ('data_emissao', '&lt;=', parent.data_emissao),('participante_id','=', parent.participante_id)]" />
+                <field name="participante_id" />
+                <field name="modelo" />
+                <field name="serie" />
+                <field name="numero" />
+                <field name="data_emissao" />
+                <field name="chave" />
+                <field name="numero_ecf" />
+                <field name="numero_coo" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>

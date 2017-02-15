@@ -57,8 +57,6 @@ from . import sped_aliquota_iss
 from . import sped_protocolo_icms
 from . import sped_ncm_protocolo
 #
-from . import sped_certificado
-#
 # Produtos e serviços
 #
 from . import sped_produto
@@ -73,9 +71,12 @@ from . import sped_operacao
 from . import sped_operacao_item
 from . import sped_veiculo
 from . import sped_documento
-from . import sped_documento_item
 from . import sped_documento_volume
 from . import sped_documento_duplicata
+from . import sped_documento_referenciado
+from . import sped_documento_item
+from . import sped_documento_item_declaracao_importacao
+from . import sped_documento_item_declaracao_importacao_adicao
 #
 # Parcelamentos e pagamentos
 #

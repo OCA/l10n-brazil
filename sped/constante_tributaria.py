@@ -400,8 +400,8 @@ SITUACAO_FISCAL = (
     ('01', u'Regular extemporâneo'),
     ('02', u'Cancelado'),
     ('03', u'Cancelado extemporâneo'),
-    ('04', u'Denegado - NF-e ou CT-e'),
-    ('05', u'Numeração inutilizada - NF-e ou CT-e'),
+    ('04', u'Denegado'),
+    ('05', u'Numeração inutilizada'),
     ('06', u'Complementar'),
     ('07', u'Complementar extemporâneo'),
     ('08', u'Regime especial ou norma específica'),
@@ -925,13 +925,21 @@ SITUACAO_NFE = (
     ('em_digitacao', u'Em digitação'),
     ('a_enviar', u'Aguardando envio'),
     ('enviada', u'Aguardando processamento'),
-    ('rejeitada', u'RejEitada'),
+    ('rejeitada', u'Rejeitada'),
     ('autorizada', u'Autorizada'),
     ('cancelada', u'Cancelada'),
     ('denegada', u'Denegada'),
     ('inutilizada', u'Inutilizada'),
 )
 SITUACAO_NFE_DICT = dict(SITUACAO_NFE)
+SITUACAO_NFE_EM_DIGITACAO = 'em_digitacao'
+SITUACAO_NFE_A_ENVIAR = 'a_enviar'
+SITUACAO_NFE_ENVIADA = 'enviada'
+SITUACAO_NFE_REJEITADA = 'rejeitada'
+SITUACAO_NFE_AUTORIZADA = 'autorizada'
+SITUACAO_NFE_CANCELADA = 'cancelada'
+SITUACAO_NFE_DENEGADA = 'denegada'
+SITUACAO_NFE_INUTILIZADA = 'inutilizada'
 
 
 NATUREZA_TRIBUTACAO_NFSE = (

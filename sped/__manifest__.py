@@ -103,7 +103,6 @@
         #
         # Fiscal
         #
-        'views/sped_certificado_view.xml',
         'views/sped_natureza_operacao_view.xml',
         'views/sped_veiculo_view.xml',
 
@@ -111,7 +110,10 @@
         'views/sped_operacao_emissao_nfe_view.xml',
         'views/sped_operacao_recebimento_nfe_view.xml',
 
+        'views/sped_documento_item_declaracao_importacao_view.xml',
         'views/sped_documento_item_emissao_view.xml',
+
+        'views/sped_documento_referenciado_view.xml',
 
         'views/sped_documento_base_view.xml',
 
