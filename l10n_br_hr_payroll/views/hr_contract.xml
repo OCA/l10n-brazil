@@ -77,6 +77,27 @@
                     <field name="jornada_sab"/>
                 </group>
             </xpath>
+            <xpath expr="//page[@string='Work Permit']" position="before">
+                <!--Aba Vínculos anteriores e cedentes-->
+                <page string="Vínculos anteriores e cedentes">
+                    <group>
+                        <group name="vinculo_anterior"
+                               string="Vínculo anterior">
+                            <field name="cnpj_empregador_anterior"/>
+                            <field name="matricula_anterior"/>
+                            <field name="data_admissao_anterior"/>
+                            <field name="observacoes_vinculo_anterior"/>
+                        </group>
+                        <group name="vinculo_cedente"
+                               string="Vínculo cedente">
+                            <field name="cnpj_empregador_cedente"/>
+                            <field name="matricula_cedente"/>
+                            <field name="data_admissao_cedente"/>
+                            <field name="onus_vinculo_cedente"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
         </field>
     </record>
 </data>

@@ -213,3 +213,39 @@ class HrContract(models.Model):
         string="Jornada no sábado"
     )
 
+    # Aba Vínculos Anteriores e cedentes
+    # Vínculo anterior
+    cnpj_empregador_anterior = fields.Char(
+        string="CNPJ do empregador anterior"
+    )
+
+    matricula_anterior = fields.Char(
+        string="Matrícula anterior"
+    )
+
+    data_admissao_anterior = fields.Date(
+        string="Data de admissão no vínculo anterior"
+    )
+
+    observacoes_vinculo_anterior = fields.Text(
+        string="Observações do vínculo anterior"
+    )
+
+    # Vínculo cedente
+    cnpj_empregador_cedente = fields.Char(
+        string="CNPJ do empregador cedente"
+    )
+
+    matricula_cedente = fields.Char(
+        string="Matrícula cedente"
+    )
+
+    data_admissao_cedente = fields.Date(
+        string="Data de admissão no vínculo cedente"
+    )
+
+    onus_vinculo_cedente = fields.Selection(
+        selection=[],
+        string="Ônus para o cedente"
+    )
+
