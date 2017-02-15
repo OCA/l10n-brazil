@@ -118,6 +118,16 @@
                         </tree>
                     </field>
                 </page>
+                <!--Aba Processo judicial-->
+                <page string="Processo judicial">
+                    <group>
+                        <field name="numero_processo"/>
+                        <field name="nome_advogado_autor"/>
+                        <field name="nome_advogado_empresa"/>
+                    </group>
+                    <label for="observacoes_processo"/>
+                    <field name="observacoes_processo"/>
+                </page>
             </xpath>
         </field>
     </record>

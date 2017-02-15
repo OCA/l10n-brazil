@@ -273,6 +273,23 @@ class HrContract(models.Model):
         inverse_name='contract_id',
         string="Exames"
     )
+
+    # Aba Processo judicial
+    numero_processo = fields.Integer(
+        string="Nº processo judicial"
+    )
+
+    nome_advogado_autor = fields.Char(
+        string="Advogado do autor do processo"
+    )
+
+    nome_advogado_empresa = fields.Char(
+        string="Advogado da empresa"
+    )
+
+    observacoes_processo = fields.Text(
+        string="Observações do processo judicial"
+    )
 class Exame(models.Model):
     _name = 'hr.exame.medico'
 
