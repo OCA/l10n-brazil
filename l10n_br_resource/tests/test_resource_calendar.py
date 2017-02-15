@@ -2,10 +2,8 @@
 # Copyright 2016 KMEE - Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import fields
+from odoo import fields
 import openerp.tests.common as test_common
-
-# from pybrasil import feriado
 
 
 class TestResourceCalendar(test_common.SingleTransactionCase):

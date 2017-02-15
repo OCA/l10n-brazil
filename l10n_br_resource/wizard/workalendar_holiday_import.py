@@ -5,7 +5,7 @@
 import logging
 import pytz
 from dateutil.relativedelta import relativedelta
-from openerp import api, fields, models
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -22,9 +22,9 @@ _INTERVALS = {
 }
 
 
-class WorkalendarHolidayImport(models.TransientModel):
+class PyBrasilHolidayImport(models.TransientModel):
 
-    _name = 'wizard.workalendar.holiday.import'
+    _name = 'wizard.pybrasil.holiday.import'
 
     @api.multi
     @api.depends('start_date', 'interval_number', 'interval_type')
