@@ -134,10 +134,6 @@ class Empresa(models.Model):
     #
     # Emissão de NF-e, NFC-e e NFS-e
     #
-    certificado_id = fields.Many2one(
-        comodel_name='sped.certificado',
-        string=u'Certificado digital',
-    )
     ambiente_nfe = fields.Selection(
         selection=AMBIENTE_NFE,
         string=u'Ambiente NF-e',
@@ -152,7 +148,7 @@ class Empresa(models.Model):
         default='1'
     )
     serie_nfe_homologacao = fields.Char(
-        string=u'Série em produção',
+        string=u'Série em homologação',
         size=3,
         default='100'
     )
@@ -162,7 +158,7 @@ class Empresa(models.Model):
         default='900'
     )
     serie_nfe_contingencia_homologacao = fields.Char(
-        string=u'Série em produção',
+        string=u'Série em homologação',
         size=3,
         default='999'
     )
@@ -180,12 +176,12 @@ class Empresa(models.Model):
         default='1'
     )
     serie_nfce_homologacao = fields.Char(
-        string=u'Série em produção',
+        string=u'Série em homologação',
         size=3,
         default='100'
     )
     serie_nfce_contingencia_producao = fields.Char(
-        string=u'Série em produção',
+        string=u'Série em homologação',
         size=3,
         default='900'
     )
@@ -216,40 +212,7 @@ class Empresa(models.Model):
         string=u'Último lote de RPS'
     )
 
-    # @api.depends('nome', 'razao_social', 'fantasia', 'cnpj_cpf')
-    # def name_get(self, cr, uid, ids, context={}):
-    # if not len(ids):
-    # return []
-
-    # res = []
-    # for partner_obj in self.browse(cr, uid, ids):
-    # if hasattr(partner_obj, 'nome'):
-    # nome = partner_obj.nome or ''
-
-    # if partner_obj.cnpj_cpf:
-    # nome += ' - ' + partner_obj.cnpj_cpf
-
-    # if partner_obj.razao_social and partner_obj.razao_social.upper()
-    # != partner_obj.nome.upper():
-    # nome += ' [' + partner_obj.razao_social + ']'
-
-    # if partner_obj.fantasia and partner_obj.fantasia.upper()
-    # != partner_obj.nome.upper():
-    # if partner_obj.razao_social:
-    # if partner_obj.razao_social.upper() != partner_obj.fantasia.upper():
-    # nome += ' [' + partner_obj.fantasia + ']'
-
-    # else:
-    # nome += ' [' + partner_obj.fantasia + ']'
-
-    # res.append((partner_obj.id, nome))
-    # else:
-    # res.append((partner_obj.id, ''))
-
-    # return res
-
-    @api.depends('simples_anexo_id', 'simples_anexo_servico_id',
-                 'simples_teto_id')
+    @api.depends('simples_anexo_id', 'simples_anexo_servico_id', 'simples_teto_id')
     def _compute_simples_aliquota_id(self):
         for empresa in self:
             simples_aliquota_ids = self.env[

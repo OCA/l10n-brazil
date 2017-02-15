@@ -25,7 +25,7 @@ class AccountPaymentTermLine(models.Model):
     OPTIONS = [
         ('day_after_invoice_date', 'Day(s) after the invoice date'),
         ('fix_day_following_month',
-             'Day(s) after the end of the invoice month (Net EOM)'),
+         'Day(s) after the end of the invoice month (Net EOM)'),
         ('last_day_following_month', 'Last day of following month'),
         ('last_day_current_month', 'Last day of current month'),
     ]
@@ -72,7 +72,8 @@ class AccountPaymentTermLine(models.Model):
         self.ensure_one()
 
         if (self.value == 'percent' and
-            (self.value_amount < 0.0 or self.value_amount > 100.0)):
+            (self.value_amount < 0.0 or
+             self.value_amount > 100.0)):
             raise ValidationError(_('Percentages for Payment Terms Line must '
                                     'be between 0 and 100.'))
 
