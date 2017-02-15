@@ -16,8 +16,8 @@
                 <field name="l10n_br_city_id"/>
             </field>
             <field name="name" position="after">
-                <field name="leave_type"/>
-                <field name="abrangencia"/>
+                <field name="leave_kind"/>
+                <field name="leave_scope"/>
             </field>
         </field>
     </record>
@@ -28,8 +28,8 @@
         <field name="inherit_id" ref="resource.view_resource_calendar_leaves_search"/>
         <field name="arch" type="xml">
             <field name="calendar_id" position="after">
-                <field name="leave_type"/>
-                <field name="abrangencia"/>
+                <field name="leave_kind"/>
+                <field name="leave_scope"/>
             </field>
         </field>
     </record>
@@ -40,8 +40,8 @@
         <field name="inherit_id" ref="resource.resource_calendar_leave_tree"/>
         <field name="arch" type="xml">
             <field name="calendar_id" position="after">
-                <field name="leave_type"/>
-                <field name="abrangencia"/>
+                <field name="leave_kind"/>
+                <field name="leave_scope"/>
             </field>
         </field>
     </record>

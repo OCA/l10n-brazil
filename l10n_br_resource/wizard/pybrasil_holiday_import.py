@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 try:
     from pybrasil import feriado
 except ImportError:
-    _logger.info('Cannot import pybrasil')
+    _logger.warning('Cannot import pybrasil')
 
 _INTERVALS = {
     'days': lambda interval: relativedelta(days=interval),
@@ -184,8 +184,8 @@ class PyBrasilHolidayImport(models.TransientModel):
                                 'calendar_id': work_time.id,
                                 'date_from': date_from,
                                 'date_to': date_to,
-                                'leave_type': holiday.tipo,
-                                'abrangencia': holiday.abrangencia,
+                                'leave_kind': holiday.tipo,
+                                'leave_scope': holiday.abrangencia,
                             })
                 date_reference += relativedelta(years=1)
         return True
