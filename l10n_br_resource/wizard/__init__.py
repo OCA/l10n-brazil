@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-from . import workalendar_holiday_import
+from . import pybrasil_holiday_import
