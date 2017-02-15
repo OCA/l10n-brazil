@@ -46,6 +46,37 @@
                         </notebook>
                     </page>
             </xpath>
+
+            <!-- Adiciona campos na criação do contrato -->
+            <!--Aba Informações-->
+            <xpath expr="//group[@name='union']" position="after">
+                <group name="admissao" string="Admissão">
+                    <field name="tipo_do_contrato"/>
+                    <field name="tipo_de_admissao"/>
+                    <field name="indicativo_de_admissao"/>
+                    <field name="contrato_transferido"
+                           attrs="{'invisible': [
+                           ('indicativo_de_admissao','!=','transferencia')]}"/>
+                    <field name="data_da_transferencia"
+                           attrs="{'invisible': [
+                           ('indicativo_de_admissao','!=','transferencia')]}"/>
+                    <field name="seguro_desemprego"/>
+                    <field name="primeiro_emprego"/>
+                    <field name="primeira_experiencia"/>
+                    <field name="data_primeira_experiencia"/>
+                    <field name="segunda_experiencia"/>
+                    <field name="data_segunda_experiencia"/>
+                </group>
+                <group name="lotacao" string="Lotação">
+                    <field name="departamento_lotacao"/>
+                    <field name="lotacao_cliente_fornecedor"/>
+                </group>
+                <group name="jornada" string="Jornada de trabalho">
+                    <field name="tipo_de_jornada"/>
+                    <field name="jornada_seg_sex"/>
+                    <field name="jornada_sab"/>
+                </group>
+            </xpath>
         </field>
     </record>
 </data>

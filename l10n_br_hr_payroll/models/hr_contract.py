@@ -135,3 +135,81 @@ class HrContract(models.Model):
         string='Empresa',
         required=True,
     )
+
+    # Admissão
+    tipo_do_contrato = fields.Selection(
+        selection=[],
+        string="Tipo do contrato"
+    )
+
+    tipo_de_admissao = fields.Selection(
+        selection=[],
+        string="Tipo de admissão"
+    )
+
+    indicativo_de_admissao = fields.Selection(
+        selection=[('transferencia', u'Trasferência'),
+                   ('normal', u'Normal')],
+        string="Indicativo da admissão"
+    )
+
+    contrato_transferido = fields.Selection(
+        selection=[],
+        string="Contrato transferido"
+    )
+
+    data_da_transferencia = fields.Date(
+        string="Data da transferencia"
+    )
+
+    seguro_desemprego = fields.Boolean(
+        string="Em Seguro Desemprego?"
+    )
+
+    primeiro_emprego = fields.Boolean(
+        string="Primeiro emprego?"
+    )
+
+    primeira_experiencia = fields.Integer(
+        string="Tempo em dias do 1º período de experiência"
+    )
+
+    data_primeira_experiencia = fields.Date(
+        string="Início da primeira experiência"
+    )
+
+    segunda_experiencia = fields.Integer(
+        string="Tempo em dias do 2º período de experiência"
+    )
+
+    data_segunda_experiencia = fields.Date(
+        string="Início da segunda experiência"
+    )
+
+    # Lotação
+    departamento_lotacao = fields.Selection(
+        selection=[],
+        string="Departamento/lotação"
+    )
+
+    lotacao_cliente_fornecedor = fields.Selection(
+        selection=[],
+        string="Lotação/cliente/fornecedor"
+    )
+
+    # Jornada
+    tipo_de_jornada = fields.Selection(
+        selection=[],
+        string="Tipo de jornada de trabalho"
+    )
+
+    jornada_seg_sex = fields.Selection(
+        selection=[],
+        string="Jornada padrão de segunda a sexta-feira"
+    )
+
+    jornada_sab = fields.Selection(
+        selection=[],
+        string="Jornada no sábado"
+    )
+
