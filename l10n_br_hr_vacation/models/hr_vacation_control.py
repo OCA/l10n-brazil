@@ -4,6 +4,7 @@
 
 from openerp import api, models, fields
 from dateutil.relativedelta import relativedelta
+from datetime import datetime
 
 
 class HrVacationControl(models.Model):
@@ -114,8 +115,16 @@ class HrVacationControl(models.Model):
     @api.depends('inicio_aquisitivo', 'fim_aquisitivo')
     def _compute_display_name(self):
         for controle_ferias in self:
-            nome = str(controle_ferias.inicio_aquisitivo) + ' - ' + \
-                str(controle_ferias.fim_aquisitivo)
+            inicio_aquisitivo = datetime.strptime(
+                controle_ferias.inicio_aquisitivo, '%Y-%m-%d'
+            )
+            fim_aquisitivo = datetime.strptime(
+                controle_ferias.fim_aquisitivo, '%Y-%m-%d'
+            )
+            nome = '%s - %s' % (
+                inicio_aquisitivo.strftime('%d/%m/%y'),
+                fim_aquisitivo.strftime('%d/%m/%y')
+            )
             controle_ferias.display_name = nome
 
     def calcular_datas_aquisitivo_concessivo(self, inicio_periodo_aquisitivo):
