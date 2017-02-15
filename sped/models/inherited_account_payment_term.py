@@ -30,9 +30,9 @@ class AccountPaymentTerm(models.Model):
     months = fields.Integer(
         string=u'Months',
     )
-    #postpone_date_holiday = fields.Boolean(
-        #string=u'Postpone dates to next work day when holiday?',
-    #)
+    # postpone_date_holiday = fields.Boolean(
+    #     string=u'Postpone dates to next work day when holiday?',
+    # )
     comercial_name = fields.Char(
         string=u'Payment Terms',
         compute='_compute_comercial_name',
@@ -100,9 +100,12 @@ class AccountPaymentTerm(models.Model):
                 next_date += relativedelta(months=i)
 
             else:
-                next_date += relativedelta(months=i+1)
+                next_date += relativedelta(months=i + 1)
 
-            installment = [fields.Date.to_string(next_date), installment_amount]
+            installment = [
+                fields.Date.to_string(next_date),
+                installment_amount,
+            ]
 
             if i == 0 and diff > 0:
                 installment[1] += diff

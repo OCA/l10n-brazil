@@ -9,73 +9,8 @@ import logging
 from odoo import api, fields, models
 import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
-from ..constante_tributaria import (
-    APURACAO_IPI,
-    APURACAO_IPI_MENSAL,
-    ENTRADA_SAIDA,
-    ENTRADA_SAIDA_ENTRADA,
-    ENTRADA_SAIDA_SAIDA,
-    IE_DESTINATARIO,
-    MODALIDADE_BASE_COFINS,
-    MODALIDADE_BASE_COFINS_ALIQUOTA,
-    MODALIDADE_BASE_COFINS_QUANTIDADE,
-    MODALIDADE_BASE_ICMS_PROPRIO,
-    MODALIDADE_BASE_ICMS_PROPRIO_MARGEM_VALOR_AGREGADO,
-    MODALIDADE_BASE_ICMS_PROPRIO_PAUTA,
-    MODALIDADE_BASE_ICMS_PROPRIO_PRECO_TABELADO_MAXIMO,
-    MODALIDADE_BASE_ICMS_PROPRIO_VALOR_OPERACAO,
-    MODALIDADE_BASE_ICMS_ST,
-    MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO,
-    MODALIDADE_BASE_IPI,
-    MODALIDADE_BASE_IPI_ALIQUOTA,
-    MODALIDADE_BASE_IPI_QUANTIDADE,
-    MODALIDADE_BASE_PIS,
-    MODALIDADE_BASE_PIS_ALIQUOTA,
-    MODALIDADE_BASE_PIS_QUANTIDADE,
-    MODELO_FISCAL,
-    MODELO_FISCAL_CONSUMIDOR_FINAL,
-    ORIGEM_MERCADORIA,
-    ORIGEM_MERCADORIA_ALIQUOTA_4,
-    ORIGEM_MERCADORIA_NACIONAL,
-    POSICAO_CFOP,
-    POSICAO_CFOP_ESTADUAL,
-    POSICAO_CFOP_ESTRANGEIRO,
-    POSICAO_CFOP_INTERESTADUAL,
-    REGIME_TRIBUTARIO,
-    REGIME_TRIBUTARIO_SIMPLES,
-    ST_COFINS,
-    ST_COFINS_ENTRADA,
-    ST_COFINS_SAIDA,
-    ST_ICMS,
-    ST_ICMS_CALCULA_PROPRIO,
-    ST_ICMS_CALCULA_ST,
-    ST_ICMS_COM_REDUCAO,
-    ST_ICMS_SN,
-    ST_ICMS_SN_ANTERIOR,
-    ST_ICMS_SN_CALCULA_CREDITO,
-    ST_ICMS_SN_CALCULA_PROPRIO,
-    ST_ICMS_SN_CALCULA_ST,
-    ST_ICMS_SN_OUTRAS,
-    ST_ICMS_ZERA_ICMS_PROPRIO,
-    ST_IPI,
-    ST_IPI_CALCULA,
-    ST_IPI_ENTRADA,
-    ST_IPI_SAIDA,
-    ST_PIS,
-    ST_PIS_AQUIS_SEM_CREDITO,
-    ST_PIS_CALCULA,
-    ST_PIS_CALCULA_ALIQUOTA,
-    ST_PIS_CALCULA_CREDITO,
-    ST_PIS_CALCULA_QUANTIDADE,
-    ST_PIS_ENTRADA,
-    ST_PIS_SAIDA,
-    TIPO_CONSUMIDOR_FINAL,
-    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL,
-    TIPO_EMISSAO,
-    TIPO_EMISSAO_PROPRIA,
-    TIPO_EMISSAO_TERCEIROS,
-    TIPO_PRODUTO_SERVICO_SERVICOS,
-)
+from ..constante_tributaria import *
+
 _logger = logging.getLogger(__name__)
 
 try:
@@ -840,6 +775,15 @@ class DocumentoItem(models.Model):
         string=u'Custo comercial',
         compute='_compute_readonly',
     )
+    permite_alteracao = fields.Boolean(
+        string=u'Permite alteração?',
+        compute='_compute_permite_alteracao',
+    )
+
+    @api.depends('modelo', 'emissao')
+    def _compute_permite_alteracao(self):
+        for item in self:
+            item.permite_alteracao = True
 
     #
     # Funções para manter a sincronia entre as CSTs do PIS e COFINS para
@@ -1130,15 +1074,15 @@ class DocumentoItem(models.Model):
         if len(operacao_item_ids) == 0 or len(operacao_item_ids) > 1:
             if len(operacao_item_ids) == 0:
                 mensagem_erro = \
-                    'Não há nenhum item genérico na operação, ' \
-                    'nem específico para o protocolo ' \
-                    '“{protocolo}”, configurado para operações {estado}!'
+                    u'Não há nenhum item genérico na operação, ' \
+                    u'nem específico para o protocolo ' \
+                    u'“{protocolo}”, configurado para operações {estado}!'
             else:
                 mensagem_erro = \
-                    'Há mais de um item genérico na operação, ' \
-                    'ou mais de um item específico para ' \
-                    'o protocolo “{protocolo}”, ' \
-                    'configurado para operações {estado}!'
+                    u'Há mais de um item genérico na operação, ' \
+                    u'ou mais de um item específico para ' \
+                    u'o protocolo “{protocolo}”, ' \
+                    u'configurado para operações {estado}!'
 
             if posicao_cfop == POSICAO_CFOP_ESTADUAL:
                 mensagem_erro = mensagem_erro.format(

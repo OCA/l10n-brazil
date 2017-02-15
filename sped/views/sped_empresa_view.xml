@@ -118,56 +118,71 @@
                                         <field name="cnae_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
                                         <newline />
                                         <field name="protocolo_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
-                                        <newline />
-                                        <field name="certificado_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
                                     </group>
                                 </group>
                             </page>
-                            <page string="NF-e/NFC-e - Produtos">
+                            <page string="Operações Fiscais Padrão">
                                 <group col="4">
-                                    <separator string="NF-e" colspan="4" />
-                                    <field name="ambiente_nfe" />
-                                    <field name="tipo_emissao_nfe" />
-                                    <newline />
-                                    <field name="serie_nfe_producao" />
-                                    <field name="serie_nfe_homologacao" />
-                                    <newline />
-                                    <field name="serie_nfe_contingencia_producao" />
-                                    <field name="serie_nfe_contingencia_homologacao" />
-                                    <newline />
-                                    <separator string="NC-e" colspan="4" />
-                                    <field name="ambiente_nfce" />
-                                    <field name="tipo_emissao_nfce" />
-                                    <newline />
-                                    <field name="serie_nfce_producao" />
-                                    <field name="serie_nfce_homologacao" />
-                                    <newline />
-                                    <field name="serie_nfce_contingencia_producao" />
-                                    <field name="serie_nfce_contingencia_homologacao" />
-                                    <newline />
-                                    <separator string="Operações Fiscais padrão" colspan="4" />
+                                    <separator string="Operações Fiscais padrão para produtos" colspan="4" />
                                     <field name="operacao_produto_id" string="Venda" colspan="4" options="{'no_open': True, 'no_create': True}" />
                                     <field name="operacao_produto_pessoa_fisica_id" string="Venda pessoa física" colspan="4" options="{'no_open': True, 'no_create': True}" />
                                     <field name="operacao_produto_ids" string="Outras operações permitidas" colspan="4" widget="many2many_tags" />
 <!--                                     <field name="operacao_produto_ids" colspan="4" widget="many2many_tags" options="{'no_open': True, 'no_create': True}" /> -->
-
+                                    <separator string="Operações Fiscais padrão para serviços" colspan="4" />
+                                    <field name="operacao_servico_id" string="Venda" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                                    <field name="operacao_servico_ids" sring="Outras operações permitidas" colspan="4" widget="many2many_tags" />
+                                </group>
+                            </page>
+                            <page string="NF-e - Produtos">
+                                <group col="4">
+                                    <field name="ambiente_nfe" string="Ambiente" />
+                                    <field name="tipo_emissao_nfe" string="Tipo de emissão" />
+                                    <newline />
+                                    <separator string="Emissão normal" colspan="4" />
+                                    <separator string="Produção" colspan="2" />
+                                    <separator string="Homologação" colspan="2" />
+                                    <field name="serie_nfe_producao" string="Série" />
+                                    <field name="serie_nfe_homologacao" string="Série" />
+                                    <newline />
+                                    <separator string="Emissão em contingência" colspan="4" />
+                                    <separator string="Produção" colspan="2" />
+                                    <separator string="Homologação" colspan="2" />
+                                    <field name="serie_nfe_contingencia_producao" string="Série" />
+                                    <field name="serie_nfe_contingencia_homologacao" string="Série" />
+                                </group>
+                            </page>
+                            <page string="NFC-e - Produtos">
+                                <group col="4">
+                                    <field name="ambiente_nfce" string="Ambiente" />
+                                    <field name="tipo_emissao_nfce" string="Tipo de emissão" />
+                                    <newline />
+                                    <separator string="Emissão normal" colspan="4" />
+                                    <separator string="Produção" colspan="2" />
+                                    <separator string="Homologação" colspan="2" />
+                                    <field name="serie_nfce_producao" string="Série" />
+                                    <field name="serie_nfce_homologacao" string="Série" />
+                                    <newline />
+                                    <separator string="Emissão em contingência" colspan="4" />
+                                    <separator string="Produção" colspan="2" />
+                                    <separator string="Homologação" colspan="2" />
+                                    <field name="serie_nfce_contingencia_producao" string="Série" />
+                                    <field name="serie_nfce_contingencia_homologacao" string="Série" />
                                 </group>
                             </page>
                             <page string="NFS-e - Serviços">
                                 <group col="4">
                                     <separator string="NS-e" colspan="4" />
-                                    <field name="ambiente_nfse" />
+                                    <field name="ambiente_nfse" string="Ambiente" />
 <!--                                     <field name="provedor_nfse" /> -->
                                     <newline />
-                                    <field name="serie_rps_producao" />
-                                    <field name="serie_rps_homologacao" />
+                                    <separator string="Emissão normal" colspan="4" />
+                                    <separator string="Produção" colspan="2" />
+                                    <separator string="Homologação" colspan="2" />
+                                    <field name="serie_rps_producao" string="Série" />
+                                    <field name="serie_rps_homologacao" string="Série" />
                                     <newline />
                                     <field name="ultimo_rps" />
                                     <field name="ultimo_lote_rps" />
-                                    <newline />
-                                    <separator string="Operações Fiscais padrão" colspan="4" />
-                                    <field name="operacao_servico_id" string="Venda" colspan="4" options="{'no_open': True, 'no_create': True}" />
-                                    <field name="operacao_servico_ids" sring="Outras operações permitidas" colspan="4" widget="many2many_tags" />
                                 </group>
                             </page>
                         </notebook>

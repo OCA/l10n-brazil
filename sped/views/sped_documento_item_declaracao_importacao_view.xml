@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_item_declaracao_importacao_form" >
+        <field name="name">sped.documento.item.declaracao.importacao.form</field>
+        <field name="model">sped.documento.item.declaracao.importacao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Declaração de Importação">
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <group>
+                    <group col="4" colspan="4">
+                        <field name="numero_documento" required="1"/>
+                        <field name="data_registro" required="1"/>
+                        <field name="local_desembaraco" required="1" />
+                        <field name="uf_desembaraco_id" required="1" />
+                        <field name="data_desembaraco" required="1"/>
+                        <field name="via_trans_internacional" required="1" />
+                        <field name="vr_afrmm" />
+                        <field name="forma_importacao" required="1" />
+                        <field name="participante_id" required="1" colspan="4" domain="[('estado', '!=', False), ('estado', '!=', 'EX'), ('cnpj_cpf', '!=', False)]" options="{'no_create': True, 'no_open': True}" />
+                        <separator string="Adição" colspan="4" />
+                        <field name="numero_adicao" required="1" />
+                        <field name="sequencial" required="1" />
+                        <field name="vr_desconto" />
+                        <field name="numero_drawback" />
+                        <separator string="Mais adições" colspan="4" />
+                        <field name="adicao_ids" nolabel="1" colspan="4">
+                            <tree editable="top" >
+                                <field name="currency_id" invisible="1"/>
+                                <field name="numero_adicao" required="1" />
+                                <field name="sequencial" required="1" />
+                                <field name="vr_desconto" />
+                                <field name="numero_drawback" />
+                            </tree>
+                        </field>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_item_declaracao_importacao_tree">
+        <field name="name">sped.documento.item.declaracao.importacao.tree</field>
+        <field name="model">sped.documento.item.declaracao.importacao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Declaração de Importação">
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="numero_documento" />
+                <field name="data_registro" />
+                <field name="participante_id"  />
+                <field name="vr_afrmm" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>
