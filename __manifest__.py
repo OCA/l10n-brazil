@@ -8,7 +8,8 @@
         This module extend core resource to create important brazilian
         informations. Define a Brazilian calendar and some tools to compute
         dates used in financial and payroll modules""",
-    'version': '8.0.1.0.0',
+    'version': '10.0.1.0.0',
+    'category': 'Hidden',
     'license': 'AGPL-3',
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'www.odoobrasil.org.br',
@@ -17,7 +18,9 @@
         'resource',
     ],
     'external_dependencies': {
-        'python': ['pybrasil'],
+        'python': [
+            'pybrasil'
+        ],
     },
     'data': [
         'views/resource_calendar.xml',
