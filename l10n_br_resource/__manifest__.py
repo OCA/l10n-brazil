@@ -26,9 +26,11 @@
         'views/resource_calendar.xml',
         'views/resource_calendar_leaves.xml',
         'views/menu_resource_calendar.xml',
-        'wizard/workalendar_holiday_import.xml',
+        'wizard/pybrasil_holiday_import.xml',
     ],
     'demo': [
         'demo/resource_calendar.xml',
     ],
+    'post_init_hook':
+        'create_national_calendar',
 }
