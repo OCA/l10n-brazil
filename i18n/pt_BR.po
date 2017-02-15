@@ -16,14 +16,14 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_resource
-#: field:resource.calendar.leaves,abrangencia:0
-msgid "Abrangencia"
-msgstr "Abrangencia"
+#: field:resource.calendar.leaves,leave_scope:0
+msgid "Leave scope"
+msgstr "Abrangência"
 
 #. module: l10n_br_resource
 #: view:wizard.workalendar.holiday.import:l10n_br_resource.view_workalendar_holiday_import
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "Cancelar"
 
 #. module: l10n_br_resource
 #: field:resource.calendar,child_ids:0
@@ -41,7 +41,7 @@ msgid "Created on"
 msgstr "Criado em"
 
 #. module: l10n_br_resource
-#: selection:resource.calendar.leaves,leave_type:0
+#: selection:resource.calendar.leaves,leave_kind:0
 msgid "Data comemorativa"
 msgstr "Data comemorativa"
 
@@ -73,17 +73,17 @@ msgid "Estado"
 msgstr "Estado"
 
 #. module: l10n_br_resource
-#: selection:resource.calendar.leaves,abrangencia:0
+#: selection:resource.calendar.leaves,leave_scope:0
 msgid "Estadual"
 msgstr "Estadual"
 
 #. module: l10n_br_resource
-#: selection:resource.calendar.leaves,leave_type:0
+#: selection:resource.calendar.leaves,leave_kind:0
 msgid "Feriado"
 msgstr "Feriado"
 
 #. module: l10n_br_resource
-#: selection:resource.calendar.leaves,leave_type:0
+#: selection:resource.calendar.leaves,leave_kind:0
 msgid "Feriado bancário"
 msgstr "Feriado bancário"
 
@@ -145,7 +145,7 @@ msgid "Month(s)"
 msgstr "Mês(es)"
 
 #. module: l10n_br_resource
-#: selection:resource.calendar.leaves,abrangencia:0
+#: selection:resource.calendar.leaves,leave_scope:0
 msgid "Municipal"
 msgstr "Municipal"
 
@@ -156,7 +156,7 @@ msgid "Municipio"
 msgstr "Municipio"
 
 #. module: l10n_br_resource
-#: selection:resource.calendar.leaves,abrangencia:0
+#: selection:resource.calendar.leaves,leave_scope:0
 msgid "Nacional"
 msgstr "Nacional"
 
@@ -197,7 +197,7 @@ msgid "Start Date"
 msgstr "Data Inicial"
 
 #. module: l10n_br_resource
-#: field:resource.calendar.leaves,leave_type:0
+#: field:resource.calendar.leaves,leave_kind:0
 msgid "Tipo"
 msgstr "Tipo"
 

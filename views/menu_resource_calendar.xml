@@ -18,7 +18,7 @@
         <menuitem
                 action="action_pybrasil_holiday_import"
                 id="menu_pybrasil_holiday_import"
-                name="Import Brazilian Holidays "
+                name="Import Brazilian Holidays"
                 parent="resource.menu_resource_config"
                 sequence="11"/>
 
