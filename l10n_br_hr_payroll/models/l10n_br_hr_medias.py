@@ -142,6 +142,7 @@ class L10nBrHrMedias(models.Model):
                                 [{
                                     'mes': MES_DO_ANO[folha.mes_do_ano-1][1],
                                     'valor': linha.total,
+                                    'rubrica_id': linha.salary_rule_id.id,
                                 }]
                         })
                     else:
@@ -154,34 +155,42 @@ class L10nBrHrMedias(models.Model):
         linha_obj = self.env['l10n_br.hr.medias']
         hr_medias_ids = []
         titulo = {}
-        titulo_feito = False
+        meses_titulos = []
+
+        # definindo titulo da visao tree
+        for rubrica in medias:
+            mes_cont = 1
+            titulo.update({'meses': len(medias[rubrica])})
+            titulo.update({'holerite_id': holerite_id.id})
+            titulo.update({'linha_de_titulo': True})
+            for mes in medias[rubrica]:
+                titulo.update({'mes_' + str(mes_cont): str(mes['mes']),})
+                meses_titulos.append(str(mes['mes']))
+                mes_cont += 1
+            linha_obj.create(titulo)
+            break
+
+        # definindo a linha
         for rubrica in medias:
             mes_cont = 1
             vals = {}
             nome_rubrica = self.env['hr.salary.rule'].\
                 browse(rubrica).display_name
-            # definindo titulo da visao tree
-            titulo.update({'meses': len(medias[rubrica])})
-            titulo.update({'holerite_id': holerite_id.id})
-            titulo.update({'linha_de_titulo': True})
-            # definindo a linha
             vals.update({'nome_rubrica': nome_rubrica})
             vals.update({'meses': len(medias[rubrica])})
             vals.update({'holerite_id': holerite_id.id})
             vals.update({'rubrica_id': rubrica})
 
             for mes in medias[rubrica]:
-                vals.update({
-                    'mes_' + str(mes_cont): str(mes['valor']),
-                })
-                titulo.update({
-                    'mes_' + str(mes_cont): str(mes['mes']),
-                })
-                mes_cont += 1
-
-            if not titulo_feito:
-                linha_obj.create(titulo)
-                titulo_feito = True
+                mes_cont = 1
+                for mes_titulo in meses_titulos:
+                # se o mes em questão for igual mes do titulo
+                    if mes_titulo == mes['mes']:
+                        vals.update({
+                            'mes_' + str(mes_cont): str(mes['valor']),
+                        })
+                        break
+                    mes_cont += 1
             hr_medias_ids.append(linha_obj.create(vals))
 
         return hr_medias_ids
