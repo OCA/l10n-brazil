@@ -77,7 +77,7 @@ class PyBrasilHolidayImport(models.TransientModel):
         if not self.env['resource.calendar'].search_count(
                 [('country_id', '=', country.id)]):
             calendar = self.env['resource.calendar'].create({
-                'name': 'Calendar ' + country.name,
+                'name': u'Calendário ' + country.name,
                 'country_id': country.id
                 # '':u'N',
             })
@@ -93,7 +93,7 @@ class PyBrasilHolidayImport(models.TransientModel):
                 [('state_id', '=', state.id)]):
             parent_id = self.get_calendar_for_country()
             calendar_id = self.env['resource.calendar'].create({
-                'name': 'Calendar ' + state.name,
+                'name': u'Calendário ' + state.name,
                 'state_id': state.id,
                 'country_id': self.get_country_from_calendar(holiday).id,
                 'parent_id': parent_id.id,
@@ -121,7 +121,7 @@ class PyBrasilHolidayImport(models.TransientModel):
             parent_id = self.get_calendar_for_state(holiday)
 
             calendar_id = self.env['resource.calendar'].create({
-                'name': 'Calendar ' + holiday.municipio.nome,
+                'name': u'Calendário ' + holiday.municipio.nome,
                 'l10n_br_city_id': city_id.id,
                 'parent_id': parent_id.id,
                 'state_id': self.get_state_from_calendar(holiday).id,
