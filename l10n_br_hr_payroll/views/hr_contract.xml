@@ -97,6 +97,27 @@
                         </group>
                     </group>
                 </page>
+                <!--Aba Saúde ocupacional-->
+                <page string="Saúde ocupacional">
+                    <group>
+                        <group>
+                            <field name="data_atestado_saude"/>
+                            <field name="numero_crm"/>
+                        </group>
+                        <group>
+                            <field name="nome_medico_encarregado"/>
+                            <field name="estado_crm"/>
+                        </group>
+                    </group>
+                    <label for="exame_ids"/>
+                    <field name="exame_ids">
+                        <tree name="exames_tree">
+                            <field name="name"/>
+                            <field name="data_do_exame"/>
+                            <field name="data_de_validade"/>
+                        </tree>
+                    </field>
+                </page>
             </xpath>
         </field>
     </record>

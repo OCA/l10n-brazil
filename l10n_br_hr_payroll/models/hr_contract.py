@@ -249,3 +249,47 @@ class HrContract(models.Model):
         string="Ônus para o cedente"
     )
 
+    # Aba Saúde ocupacional
+    data_atestado_saude = fields.Date(
+        string="Data do atestado de saúde ocupacional"
+    )
+
+    numero_crm = fields.Integer(
+        string="CRM nº"
+    )
+
+    nome_medico_encarregado = fields.Char(
+        string="Nome do médico encarregado"
+    )
+
+    estado_crm = fields.Selection(
+        selection=[],
+        string="Estado do CRM"
+    )
+
+    # Tree Exames
+    exame_ids = fields.One2many(
+        comodel_name='hr.exame.medico',
+        inverse_name='contract_id',
+        string="Exames"
+    )
+class Exame(models.Model):
+    _name = 'hr.exame.medico'
+
+    name = fields.Char(
+        string="Exame"
+    )
+
+    data_do_exame = fields.Date(
+        string="Data do exame"
+    )
+
+    data_de_validade = fields.Date(
+        string="Data de validade"
+    )
+
+    contract_id = fields.Many2one(
+        comodel_name='hr.contract',
+    )
+
+
