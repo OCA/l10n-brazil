@@ -102,7 +102,7 @@
         id="menu_sped_certificado"
         sequence="2"
         name="Certificados"
-        parent="menu_sped_configuracao"
+        parent="sped.menu_sped_configuracao"
         action="sped_certificado_acao"
         />
 

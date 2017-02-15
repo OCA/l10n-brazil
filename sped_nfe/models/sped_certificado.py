@@ -7,8 +7,9 @@
 
 
 import logging
+import tempfile
 from odoo import api, fields, models
-from ..constante_tributaria import (
+from ...sped.constante_tributaria import (
     TIPO_CERTIFICADO,
     TIPO_CERTIFICADO_A1,
 )
@@ -114,14 +115,7 @@ class Certificado(models.Model):
             if certificado.tipo != TIPO_CERTIFICADO_A1:
                 continue
 
-            open('/tmp/cert.pfx', 'w').write(certificado.arquivo.decode(
-                'base64')
-            )
-            cert = pysped.xml_sped.certificado.Certificado()
-            cert.arquivo = '/tmp/cert.pfx'
-            cert.senha = certificado.senha
-
-            cert.prepara_certificado_arquivo_pfx()
+            cert = certificado.certificado_nfe()
 
             certificado.numero_serie = str(cert.numero_serie)
             certificado.data_inicio_validade = str(cert.data_inicio_validade)
@@ -134,3 +128,19 @@ class Certificado(models.Model):
                 certificado.cnpj_cpf = formata_cnpj(cert.proprietario_cnpj)
             else:
                 certificado.cnpj_cpf = cert.proprietario_cnpj
+
+    def certificado_nfe(self):
+        self.ensure_one()
+
+        arq = tempfile.NamedTemporaryFile(delete=False)
+        arq.seek(0)
+        arq.write(self.arquivo.decode('base64'))
+        arq.flush()
+
+        cert = pysped.xml_sped.certificado.Certificado()
+        cert.arquivo = arq.name
+        cert.senha = self.senha
+
+        cert.prepara_certificado_arquivo_pfx()
+
+        return cert
