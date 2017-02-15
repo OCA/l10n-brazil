@@ -5,6 +5,8 @@
 <openerp>
 <data>
 
+    <menuitem id="menu_hr_root_payroll_simulacao" parent="hr.menu_hr_root" name="Simulações" sequence="35"/>
+
     <record id="view_hr_payslip_tree" model="ir.ui.view">
         <field name="name">hr.payslip.tree</field>
         <field name="model">hr.payslip</field>
@@ -166,7 +168,7 @@
             <field name="contract_id" position="replace">
                 <field name="employee_id" invisible="1" on_change="onchange_employee_id(date_from, date_to, contract_id)"/>
                 <field name="employee_id_readonly" readonly="True"/>
-                <field name="tipo_de_folha" invisible="1"/>
+                <field name="tipo_de_folha"/>
             </field>
 
             <!--Redefinindo campo de Estrutura-->
@@ -204,6 +206,8 @@
 
             <!--Adicionando campod o periodo-->
             <field name="credit_note" position="before">
+                <field name="dias_aviso_previo" attrs="{'invisible': [('tipo_de_folha', '!=', 'aviso_previo')]}" />
+                <field name="is_simulacao" eval="True"/>
                 <field name="periodo_aquisitivo" attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
             </field>
 
@@ -272,6 +276,36 @@
     <menuitem action="action_view_hr_decimo_terceiro_view_page"
               id="menu_decimo_terceiro_page"
               parent="hr_payroll.menu_hr_root_payroll"/>
+
+    <!--13º Salário-->
+    <record id="view_hr_aviso_previo_tree" model="ir.ui.view">
+        <field name="name">hr.aviso.previo.tree</field>
+        <field name="model">hr.payslip</field>
+        <field name="arch" type="xml">
+            <tree string="Payslips">
+                <field name="number"/>
+                <field name="employee_id"/>
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="state"/>
+                <field name="payslip_run_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_view_hr_aviso_previo_view_page" model="ir.actions.act_window">
+        <field name="name">Aviso Prévio</field>
+        <field name="res_model">hr.payslip</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_hr_aviso_previo_tree"/>
+        <field name="context">{'default_tipo_de_folha': 'aviso_previo', 'is_simulacao':True}</field>
+        <field name="domain">[('tipo_de_folha','=','aviso_previo'),('is_simulacao','=',True)]</field>
+    </record>
+
+    <menuitem action="action_view_hr_aviso_previo_view_page"
+              id="menu_aviso_previo_page"
+              parent="l10n_br_hr_payroll.menu_hr_root_payroll_simulacao"/>
     <!--<record model="ir.ui.view" id="hr_payslip_search_view">-->
         <!--<field name="name">hr.payslip.search (in l10n_br_hr_payroll)</field>-->
         <!--<field name="model">hr.payslip</field>-->

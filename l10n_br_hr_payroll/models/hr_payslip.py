@@ -35,6 +35,7 @@ TIPO_DE_FOLHA = [
     ('rescisao', u'Rescisão'),
     ('ferias', u'Férias'),
     ('decimo_terceiro', u'Décimo terceiro (13º)'),
+    ('aviso_previo', u'Aviso Prévio'),
     ('licenca_maternidade', u'Licença maternidade'),
     ('auxilio_doenca', u'Auxílio doença'),
     ('auxílio_acidente_trabalho', u'Auxílio acidente de trabalho'),
@@ -43,6 +44,20 @@ TIPO_DE_FOLHA = [
 
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
+
+    @api.multi
+    def _buscar_dias_aviso_previo(self):
+        for payslip in self:
+            periodos_aquisitivos = self.env['hr.vacation.control'].search(
+                [
+                    ('contract_id', '=', payslip.contract_id.id),
+                    ('fim_aquisitivo', '<', payslip.date_to)
+                ]
+            )
+            if periodos_aquisitivos:
+                payslip.dias_aviso_previo = 30 + len(periodos_aquisitivos) * 3
+            else:
+                payslip.dias_aviso_previo = 30
 
     @api.multi
     def _valor_total_folha(self):
@@ -111,7 +126,14 @@ class HrPayslip(models.Model):
         comodel_name='hr.employee',
         compute='set_employee_id',
     )
-
+    is_simulacao = fields.Boolean(
+        string=u"Simulação",
+        default=False,
+    )
+    dias_aviso_previo = fields.Integer(
+        string="Dias de Aviso Prévio",
+        compute=_buscar_dias_aviso_previo
+    )
     @api.depends('line_ids')
     @api.model
     def _buscar_payslip_line(self):
