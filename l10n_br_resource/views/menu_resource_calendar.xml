@@ -6,9 +6,9 @@
 <data>
 
         <act_window
-            id="action_workalendar_holiday_import"
+            id="action_pybrasil_holiday_import"
             name="Action Import Brazilian Holidays"
-            res_model="wizard.workalendar.holiday.import"
+            res_model="wizard.pybrasil.holiday.import"
             src_model="resource.calendar"
             view_type="form"
             view_mode="form"
@@ -16,8 +16,8 @@
         />
 
         <menuitem
-                action="action_workalendar_holiday_import"
-                id="sub_menu_impotigrt_holidays"
+                action="action_pybrasil_holiday_import"
+                id="menu_pybrasil_holiday_import"
                 name="Import Brazilian Holidays "
                 parent="resource.menu_resource_config"
                 sequence="11"/>
