@@ -101,7 +101,10 @@ class FinancialMove(models.Model):
     document_date = fields.Date()  # FIXME: Data do documento ou
     # create_date = fields.Date()  # FIXME: Criação lançamento financeiro?
     # write_date = fields.Date() # Data de alteração
-    amount_document = fields.Monetary()
+    amount_document = fields.Monetary(
+        string=u"Amount document",
+        required=True,
+    )
     balance = fields.Monetary(
         compute='_compute_balance'
     )
@@ -155,6 +158,14 @@ class FinancialMove(models.Model):
         inverse_name='payment_id',
         readonly=True,
     )
+
+    @api.multi
+    @api.constrains('amount_document')
+    def _check_amount_document(self):
+        for record in self:
+            if record.amount_document <= 0:
+                raise UserError(_(
+                    "The amount document must be higher then ZERO!"))
 
     @api.multi
     def change_state(self, new_state):
