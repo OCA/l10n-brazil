@@ -8,14 +8,34 @@ from odoo import api, fields, models, _
 class FinancialPay_revieve(models.TransientModel):
 
     _name = 'financial.pay_revieve'
-    valor_pago = fields.Float()
+    ammount_paid = fields.Monetary(
+        required=True
+    )
 
-    name = fields.Char()
+    ref = fields.Char()
+    payment_date = fields.Date(
+        required=True
+    )
+    credit_debit_date = fields.Date(
+        readonly=True
+    )
+    payment_mode = fields.Many2one(
+        comodel_name='payment.mode',
+        #required=True
+    )
+    desconto = fields.Monetary()
+    juros = fields.Monetary()
+    multa = fields.Monetary()
+    currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Currency',
+        required=True,
+    )
 
     @api.multi
     def doit(self):
         for wizard in self:
-            # TODO
+            #TODO
 
             active_id = self._context['active_id']
             account_financial = self.env['financial.move']
@@ -30,9 +50,15 @@ class FinancialPay_revieve(models.TransientModel):
 
 
             account_financial.create({
-                'currency_id': 1,
                 'company_id': 1,
-                'amount_document': wizard.valor_pago,
+                'amount_document': wizard.ammount_paid,
+                'ref': wizard.ref,
+                'credit_debit_date': wizard.credit_debit_date,
+                'payment_mode': wizard.payment_mode,
+                'amount_discount': wizard.desconto,
+                'amount_delay_fee': wizard.multa,
+                'amount_interest': wizard.juros,
+                'currency_id': wizard.currency_id.id,
                 'payment_id': active_id,
                 'type': payment_type,
             })
