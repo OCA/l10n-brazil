@@ -48,16 +48,18 @@ class HrPayslip(models.Model):
     @api.multi
     def _buscar_dias_aviso_previo(self):
         for payslip in self:
-            periodos_aquisitivos = self.env['hr.vacation.control'].search(
-                [
-                    ('contract_id', '=', payslip.contract_id.id),
-                    ('fim_aquisitivo', '<', payslip.date_to)
-                ]
-            )
-            if periodos_aquisitivos:
-                payslip.dias_aviso_previo = 30 + len(periodos_aquisitivos) * 3
-            else:
-                payslip.dias_aviso_previo = 30
+            if payslip.tipo_de_folha == 'aviso_previo':
+                periodos_aquisitivos = self.env['hr.vacation.control'].search(
+                    [
+                        ('contract_id', '=', payslip.contract_id.id),
+                        ('fim_aquisitivo', '<', payslip.date_to)
+                    ]
+                )
+                if periodos_aquisitivos:
+                    payslip.dias_aviso_previo = 30 + len(
+                        periodos_aquisitivos) * 3
+                else:
+                    payslip.dias_aviso_previo = 30
 
     @api.multi
     def _valor_total_folha(self):
@@ -128,12 +130,13 @@ class HrPayslip(models.Model):
     )
     is_simulacao = fields.Boolean(
         string=u"Simulação",
-        default=False,
     )
     dias_aviso_previo = fields.Integer(
         string="Dias de Aviso Prévio",
-        compute=_buscar_dias_aviso_previo
+        required=True,
+        # compute=_buscar_dias_aviso_previo
     )
+
     @api.depends('line_ids')
     @api.model
     def _buscar_payslip_line(self):
@@ -507,7 +510,8 @@ class HrPayslip(models.Model):
 
     @api.multi
     def buscar_estruturas_salario(self):
-        if self.tipo_de_folha == "normal":
+        if self.tipo_de_folha == "normal" \
+                or self.tipo_de_folha == "aviso_previo":
             return self.contract_id.struct_id
         elif self.tipo_de_folha == "decimo_terceiro":
             if self.mes_do_ano < 12:
@@ -656,7 +660,12 @@ class HrPayslip(models.Model):
         payslip = payslip_obj.browse(payslip_id)
         worked_days = {}
         for worked_days_line in payslip.worked_days_line_ids:
-            worked_days[worked_days_line.code] = worked_days_line
+            if payslip.tipo_de_folha == "aviso_previo" \
+                    and worked_days_line.code == u'DIAS_TRABALHADOS':
+                worked_days_line.number_of_days = payslip.dias_aviso_previo
+                worked_days[worked_days_line.code] = worked_days_line
+            else:
+                worked_days[worked_days_line.code] = worked_days_line
         inputs = {}
         for input_line in payslip.input_line_ids:
             inputs[input_line.code] = input_line

@@ -207,7 +207,7 @@
             <!--Adicionando campod o periodo-->
             <field name="credit_note" position="before">
                 <field name="dias_aviso_previo" attrs="{'invisible': [('tipo_de_folha', '!=', 'aviso_previo')]}" />
-                <field name="is_simulacao" eval="True"/>
+                <field name="is_simulacao" invisible="1"/>
                 <field name="periodo_aquisitivo" attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
             </field>
 
@@ -299,7 +299,7 @@
         <field name="res_model">hr.payslip</field>
         <field name="view_type">form</field>
         <field name="view_id" ref="view_hr_aviso_previo_tree"/>
-        <field name="context">{'default_tipo_de_folha': 'aviso_previo', 'is_simulacao':True}</field>
+        <field name="context">{'default_tipo_de_folha': 'aviso_previo', 'default_is_simulacao':True}</field>
         <field name="domain">[('tipo_de_folha','=','aviso_previo'),('is_simulacao','=',True)]</field>
     </record>
 
