@@ -17,7 +17,6 @@ FINANCIAL_TYPE = [
 
 FINANCIAL_STATE = [
     ('draft', u'Draft'),
-    ('budget', u'Budget'),
     ('open', u'Open'),
     ('paid', u'Paid'),
     ('cancel', u'Cancel'),
@@ -34,13 +33,9 @@ class FinancialMove(models.Model):
     @api.model
     def _avaliable_transition(self, old_state, new_state):
         allowed = [
-            ('draft', 'budget'),
-            ('budget', 'open'),
             ('draft', 'open'),
             ('open', 'paid'),
-            ('budget', 'paid'),
-            ('budget', 'cancel'),  # TODO:
-            ('open', 'cancel'),  # TODO:
+            ('open', 'cancel'),
         ]
         return (old_state, new_state) in allowed
 
