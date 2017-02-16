@@ -53,7 +53,6 @@ class FinancialMove(models.Model):
                     'resource.calendar'].proximo_dia_util(
                     fields.Date.from_string(record.due_date))
 
-
     ref = fields.Char()
     move_type = fields.Selection(
         selection=FINANCIAL_TYPE,
@@ -82,7 +81,7 @@ class FinancialMove(models.Model):
         required=True,
     )
     payment_mode = fields.Many2one(
-       comodel_name='payment.mode'
+        comodel_name='payment.mode'
     )
     analytic_account_id = fields.Char()  # FIXME .Many2one(
     #
@@ -208,10 +207,11 @@ class FinancialMove(models.Model):
             if record.move_type in ('p', 'r'):
                 balance = record.amount_document
                 for payment in record.related_payment_ids:
-                    balance -= (payment.amount_document + payment.amount_discount -
-                                payment.amount_interest - payment.amount_delay_fee)
-                    #conferir variaveis
+                    balance -= (payment.amount_document +
+                                payment.amount_discount -
+                                payment.amount_interest -
+                                payment.amount_delay_fee)
+                    # conferir variaveis
                 record.balance = balance
                 # if balance <= 0:
                 #     record.change_state('paid')
-

@@ -2,7 +2,7 @@
 # Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models
 
 
 class FinancialPay_revieve(models.TransientModel):
@@ -21,7 +21,7 @@ class FinancialPay_revieve(models.TransientModel):
     )
     payment_mode = fields.Many2one(
         comodel_name='payment.mode',
-        #required=True
+        # required=True
     )
     desconto = fields.Monetary()
     juros = fields.Monetary()
@@ -35,7 +35,7 @@ class FinancialPay_revieve(models.TransientModel):
     @api.multi
     def doit(self):
         for wizard in self:
-            #TODO
+            # TODO
 
             active_id = self._context['active_id']
             account_financial = self.env['financial.move']
@@ -46,8 +46,6 @@ class FinancialPay_revieve(models.TransientModel):
                 payment_type = 'pp'
             else:
                 payment_type = 'rr'
-
-
 
             account_financial.create({
                 'company_id': 1,
@@ -72,6 +70,3 @@ class FinancialPay_revieve(models.TransientModel):
         # }
         # return action
         return True
-
-
-
