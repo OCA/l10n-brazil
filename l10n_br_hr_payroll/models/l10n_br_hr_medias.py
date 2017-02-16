@@ -164,7 +164,7 @@ class L10nBrHrMedias(models.Model):
             titulo.update({'holerite_id': holerite_id.id})
             titulo.update({'linha_de_titulo': True})
             for mes in medias[rubrica]:
-                titulo.update({'mes_' + str(mes_cont): str(mes['mes']),})
+                titulo.update({'mes_' + str(mes_cont): str(mes['mes']), })
                 meses_titulos.append(str(mes['mes']))
                 mes_cont += 1
             linha_obj.create(titulo)
@@ -184,7 +184,7 @@ class L10nBrHrMedias(models.Model):
             for mes in medias[rubrica]:
                 mes_cont = 1
                 for mes_titulo in meses_titulos:
-                # se o mes em questão for igual mes do titulo
+                    # se o mes em questão for igual mes do titulo
                     if mes_titulo == mes['mes']:
                         vals.update({
                             'mes_' + str(mes_cont): str(mes['valor']),
