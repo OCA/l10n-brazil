@@ -291,7 +291,10 @@ result_qty =  worked_days.FERIAS.number_of_days
             <field name="category_id" ref="hr_payroll.DEDUCAO"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="amount_python_compute">if MEDIAS:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id, MEDIAS)
+else:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
             <field name="sequence" eval="103"/>
         </record>
 
@@ -381,7 +384,10 @@ result_qty =  worked_days.FERIAS.number_of_days
             <field name="category_id" ref="hr_payroll.PROVENTO"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)
+            <field name="amount_python_compute">if MEDIAS:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id, MEDIAS)
+else:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id)
             </field>
             <field name="sequence" eval="102"/>
         </record>

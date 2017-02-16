@@ -479,9 +479,12 @@ class HrPayslip(models.Model):
         return rule_ids
 
     @api.model
-    def get_specific_rubric_value(self, rubrica_id):
+    def get_specific_rubric_value(self, rubrica_id, medias_obj=False):
         for rubrica in self.contract_id.specific_rule_ids:
             if rubrica.rule_id.id == rubrica_id:
+                if medias_obj:
+                    if rubrica.rule_id.code not in medias_obj.dict.keys():
+                        return 0
                 return rubrica.specific_quantity * \
                     rubrica.specific_percentual/100 * \
                     rubrica.specific_amount
