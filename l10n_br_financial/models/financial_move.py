@@ -28,7 +28,9 @@ class FinancialMove(models.Model):
     _name = 'financial.move'
     _description = 'Financial Move'  # TODO
     _inherit = ['mail.thread']
-    _order = "business_due_date desc, document_number desc, id desc"  # TODO:
+    _order = "business_due_date desc, " \
+             "ref desc, ref_item desc, document_number, id desc"  # TODO:
+    _rec_name = 'ref'
 
     @api.model
     def _avaliable_transition(self, old_state, new_state):
@@ -48,6 +50,33 @@ class FinancialMove(models.Model):
                     'resource.calendar'].proximo_dia_util(
                     fields.Date.from_string(record.due_date))
 
+    display_name = fields.Char(
+        string='Financial Reference',
+        compute='_compute_display_name',
+    )
+
+    @api.multi
+    @api.depends('ref', 'ref_item')
+    def _compute_display_name(self):
+        self.ensure_one()
+        if self.ref_item:
+            self.display_name = self.ref + '/' + self.ref_item
+        else:
+            self.display_name = self.ref
+
+    ref = fields.Char(
+        string='Ref',
+        required=True,
+        copy=False,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        index=True,
+        default=lambda self: _('New')
+    )
+    ref_item = fields.Char(
+        string=u"ref item",
+        required=True,
+    )
     move_type = fields.Selection(
         selection=FINANCIAL_TYPE,
     )
@@ -95,16 +124,12 @@ class FinancialMove(models.Model):
         string=u"Document Nº",
         required=True,
     )
-    document_item = fields.Char(
-        string=u"Document item",
-        required=True,
-    )
     document_date = fields.Date(
         string=u"Data Emissão",
         required=True,
     )  # FIXME: Data do documento ou
     amount_document = fields.Monetary(
-        string=u"Amount document",
+        string=u"Document amount",
         required=True,
     )
     balance = fields.Monetary(
@@ -124,7 +149,6 @@ class FinancialMove(models.Model):
         compute='_compute_business_due_date',
         store=True,
         index=True,
-        required=True,
     )
     payment_date = fields.Date()
     credit_debit_date = fields.Date()
@@ -216,3 +240,22 @@ class FinancialMove(models.Model):
                 record.balance = balance
                 # if balance <= 0:
                 #     record.change_state('paid')
+
+    @api.model
+    def create(self, vals):
+        if vals.get('name', 'New') == 'New':
+            if vals.get('move_type') == 'r':
+                vals['ref'] = self.env['ir.sequence'].next_by_code(
+                    'financial.move.receivable') or 'New'
+                if not vals.get('ref_item'):
+                    vals['ref_item'] = '1'
+            elif vals.get('move_type') == 'p':
+                vals['ref'] = self.env['ir.sequence'].next_by_code(
+                    'financial.move.payable') or 'New'
+                if not vals.get('ref_item'):
+                    vals['ref_item'] = '1'
+            else:
+                pass
+                # FIXME: For rr and pp
+        result = super(FinancialMove, self).create(vals)
+        return result

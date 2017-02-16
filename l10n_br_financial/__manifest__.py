@@ -15,6 +15,7 @@
         'mail',
     ],
     'data': [
+        'data/ir_sequence_data.xml',
         'views/financial_menu.xml',
         'security/financial_move_history.xml',
         'views/financial_move_history.xml',

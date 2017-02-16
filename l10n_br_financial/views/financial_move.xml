@@ -58,7 +58,7 @@
                         <label string="Receivable " attrs="{'invisible': ['|',('state', '=', 'draft'), ('move_type','&lt;&gt;','r')]}"/>
                         <label string="Payable " attrs="{'invisible': ['|',('state', '=', 'draft'), ('move_type','&lt;&gt;','p')]}"/>
                         <h1 class="mt0">
-                            <field name="document_number" class="oe_inline"  attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                            <field name="display_name" class="oe_inline"  attrs="{'invisible': [('state', '=', 'draft')]}"/>
                         </h1>
                     </div>
                     <field name="move_type" invisible="1"/>
@@ -107,7 +107,6 @@
                         <group>
                             <field name="currency_id"/>
                             <field name="document_number"/>
-                            <field name="document_item"/>
                             <field name="due_date"/>
                             <field name="business_due_date"/>
                         </group>
