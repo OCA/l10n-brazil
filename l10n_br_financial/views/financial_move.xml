@@ -101,6 +101,7 @@
                             <field name="type"/>
                             <field name="company_id"/>
                             <field name="business_due_date"/>
+                            <field name="due_date"/>
                             <field name="create_date"/>
                             <field name="expected_date"/>
                         </group>
