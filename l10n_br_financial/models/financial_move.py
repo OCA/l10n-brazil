@@ -6,10 +6,10 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
 FINANCIAL_TYPE = [
-    ('r', u'Receivable'),
-    ('p', u'Pay'),
-    ('rr', u'Recieved'),
-    ('pp', u'Paid'),
+    ('r', u'Account Receivable'),
+    ('rr', u'Receipt'),
+    ('p', u'Account Payable'),
+    ('pp', u'Payment'),
     # ('in', u'Money in'),
     # ('out', u'Recieve'),
     # ('trans', u'Transfer'),
@@ -53,8 +53,9 @@ class FinancialMove(models.Model):
                     'resource.calendar'].proximo_dia_util(
                     fields.Date.from_string(record.due_date))
 
-    name = fields.Char()
-    type = fields.Selection(
+
+    ref = fields.Char()
+    move_type = fields.Selection(
         selection=FINANCIAL_TYPE,
     )
     state = fields.Selection(
@@ -80,7 +81,9 @@ class FinancialMove(models.Model):
         string='Currency',
         required=True,
     )
-    payment_mode = fields.Char()  # FIXME
+    payment_mode = fields.Many2one(
+       comodel_name='payment.mode'
+    )
     analytic_account_id = fields.Char()  # FIXME .Many2one(
     #
     # )
@@ -90,10 +93,10 @@ class FinancialMove(models.Model):
     partner_id = fields.Many2one(
         comodel_name='res.partner',
     )
-    partner_bank_id = fields.Many2one(
-        comodel_name='res.partner.bank',
-    )
-    move_type = fields.Char()  # FIXME:
+    # partner_bank_id = fields.Many2one(
+    #     comodel_name='res.partner.bank',
+    # )
+    # move_type = fields.Char()  # FIXME:
     document_number = fields.Char()  # FIXME:
     document_date = fields.Date()  # FIXME: Data do documento ou
     # create_date = fields.Date()  # FIXME: Criação lançamento financeiro?
@@ -102,6 +105,7 @@ class FinancialMove(models.Model):
     balance = fields.Monetary(
         compute='_compute_balance'
     )
+    account = fields.Char()
     historic = fields.One2many(
         comodel_name='financial.move.history',
         inverse_name='financial_move_id',
@@ -120,6 +124,7 @@ class FinancialMove(models.Model):
     amount_interest = fields.Monetary()
     # percent_discount = fields.Float() #  TODO:
     amount_discount = fields.Monetary()
+    amount_delay_fee = fields.Monetary()
     amount_residual = fields.Monetary()
     expected_date = fields.Date()  # TODO: Data prevista
     storno = fields.Boolean(
@@ -183,11 +188,13 @@ class FinancialMove(models.Model):
     @api.depends('amount_discount', 'related_payment_ids')
     def _compute_balance(self):
         for record in self:
-            if record.type in ('p', 'r'):
+            if record.move_type in ('p', 'r'):
                 balance = record.amount_document
                 for payment in record.related_payment_ids:
-                    balance -= payment.amount_document
+                    balance -= (payment.amount_document + payment.amount_discount -
+                                payment.amount_interest - payment.amount_delay_fee)
+                    #conferir variaveis
                 record.balance = balance
-                # if balance == 0:
-                #     record.change_state('paid')
+                if balance <= 0:
+                    record.change_state('paid')
 

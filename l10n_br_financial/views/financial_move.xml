@@ -14,7 +14,7 @@
                 <field name="create_date"/>
                 <field name="expected_date"/>
                 <field name="partner_id"/>
-                <field name="name"/>
+                <field name="ref"/>
                 <field name="currency_id"/>
                 <field name="amount_document"/>
                 <field name="balance"/>
@@ -53,15 +53,16 @@
                 <!--<field name="has_outstanding" invisible="1"/>-->
                 <sheet>
                     <div>
-                        <label string="Draft Receivable" attrs="{'invisible': ['|',('state','&lt;&gt;','draft'), ('type','&lt;&gt;','r')]}"/>
-                        <label string="Draft Payable" attrs="{'invisible': ['|',('state','&lt;&gt;','draft'), ('type','&lt;&gt;','p')]}"/>
-                        <label string="Receivable " attrs="{'invisible': ['|',('state', '=', 'draft'), ('type','&lt;&gt;','r')]}"/>
-                        <label string="Payable " attrs="{'invisible': ['|',('state', '=', 'draft'), ('type','&lt;&gt;','p')]}"/>
+                        <label string="Draft Receivable"
+                               attrs="{'invisible': ['|',('state','&lt;&gt;','draft'), ('move_type','&lt;&gt;','r')]}"/>
+                        <label string="Draft Payable" attrs="{'invisible': ['|',('state','&lt;&gt;','draft'), ('move_type','&lt;&gt;','p')]}"/>
+                        <label string="Receivable " attrs="{'invisible': ['|',('state', '=', 'draft'), ('move_type','&lt;&gt;','r')]}"/>
+                        <label string="Payable " attrs="{'invisible': ['|',('state', '=', 'draft'), ('move_type','&lt;&gt;','p')]}"/>
                         <h1 class="mt0">
                             <field name="document_number" class="oe_inline"  attrs="{'invisible': [('state', '=', 'draft')]}"/>
                         </h1>
                     </div>
-                    <field name="type" invisible="1"/>
+                    <field name="move_type" invisible="1"/>
 
                     <div class="oe_button_box" name="button_box">
                         <button name="%(financial_cancel_act_window)d" type="action"
@@ -98,7 +99,7 @@
                     </div>
                     <group>
                         <group>
-                            <field name="type"/>
+                            <field name="move_type"/>
                             <field name="company_id"/>
                             <field name="business_due_date"/>
                             <field name="due_date"/>
@@ -107,7 +108,7 @@
                         </group>
                         <group>
                             <field name="partner_id"/>
-                            <field name="name"/>
+                            <field name="ref"/>
                             <field name="currency_id"/>
                             <field name="amount_document"/>
                             <field name="balance"/>
@@ -144,35 +145,65 @@
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="financial_recieve_act_window">
-        <field name="name">Financial Move</field> <!-- TODO -->
+    <record model="ir.actions.act_window" id="financial_receivable_act_window">
+        <field name="name">Financial Move (Account Receivable)</field> <!-- TODO-->
         <field name="res_model">financial.move</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('type','=','r')]</field>
-        <field name="context">{}</field>
+        <field name="domain">[('move_type','=','r')]</field>
+        <field name="context" >{'default_move_type': 'r'}</field>
     </record>
 
-    <record model="ir.actions.act_window" id="financial_pay_act_window">
-        <field name="name">Financial Move</field> <!-- TODO -->
+    <record model="ir.actions.act_window" id="financial_payable_act_window">
+        <field name="name">Financial Move (Account Payable)</field> <!-- TODO-->
         <field name="res_model">financial.move</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('type','=','p')]</field>
-        <field name="context">{}</field>
+        <field name="domain">[('move_type','=','p')]</field>
+        <field name="context">{'default_move_type': 'p'} </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="financial_payment_act_window">
+        <field name="name">Financial Move (Payment)</field> <!-- TODO -->
+        <field name="res_model">financial.move</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[('move_type','=','pp')]</field>
+        <field name="context">{'default_move_type': 'pp'}</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="financial_receipt_act_window">
+        <field name="name">Financial Move (Receipt)</field> <!-- TODO -->
+        <field name="res_model">financial.move</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[('move_type','=','rr')]</field>
+        <field name="context" >{'default_move_type': 'rr'}</field>
     </record>
 
 
     <record model="ir.ui.menu" id="financial_recieve_menu">
-        <field name="name">Bills to receive</field>
+        <field name="name">Accounts Receivable</field>
         <field name="parent_id" ref="financial_dashboard_menu"/>
-        <field name="action" ref="financial_recieve_act_window"/>
+        <field name="action" ref="financial_receivable_act_window"/>
         <field name="sequence" eval="16"/>
     </record>
 
     <record model="ir.ui.menu" id="financial_pay_menu">
-        <field name="name">Bills to pay</field>
+        <field name="name">Receipts</field>
         <field name="parent_id" ref="financial_dashboard_menu"/>
-        <field name="action" ref="financial_pay_act_window"/>
-        <field name="sequence" eval="16"/>
+        <field name="action" ref="financial_receipt_act_window"/>
+        <field name="sequence" eval="30"/>
+    </record>
+
+    <record model="ir.ui.menu" id="financial_pay2_menu">
+        <field name="name">Accounts Payable</field>
+        <field name="parent_id" ref="financial_dashboard_menu"/>
+        <field name="action" ref="financial_payable_act_window"/>
+        <field name="sequence" eval="40"/>
+    </record>
+
+    <record model="ir.ui.menu" id="financial_pay3_menu">
+        <field name="name">Payments</field>
+        <field name="parent_id" ref="financial_dashboard_menu"/>
+        <field name="action" ref="financial_payment_act_window"/>
+        <field name="sequence" eval="50"/>
     </record>
 
 </data>

@@ -12,8 +12,19 @@
             <form string="Financial Pay_revieve">
                 <!-- TODO -->
                 <group>
-                    <field name="name"/>
-                    <field name="valor_pago"/>
+                    <group>
+                        <field name="ammount_paid" string="Ammount Paid"/>
+                        <field name="desconto" string="Discount"/>
+                        <field name="multa" string="Delay Fee"/>
+                        <field name="juros" string="Interest"/>
+                    </group>
+
+                    <group>
+                        <field name="currency_id" string="Currency id"/>
+                        <field name="payment_mode" string="Payment Mode"/>
+                        <field name="payment_date" string="Payment Date"/>
+                        <field name="credit_debit_date" string="Credit Debit Date"/>
+                    </group>
                 </group>
                 <footer>
                     <button name='doit'
