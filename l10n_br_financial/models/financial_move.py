@@ -153,7 +153,7 @@ class FinancialMove(models.Model):
     related_payment_ids = fields.One2many(
         comodel_name='financial.move',
         inverse_name='payment_id',
-        readonly=False,
+        readonly=True,
     )
 
     @api.multi
