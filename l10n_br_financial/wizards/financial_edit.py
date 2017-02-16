@@ -11,17 +11,44 @@ class FinancialEdit(models.TransientModel):
 
     name = fields.Char()
 
-    @api.multi
+    currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Currency',
+        required=True,
+    )
+    amount_document = fields.Monetary(
+        string=u"Document amount",
+        required=True,
+    )
+    due_date = fields.Date(
+        string=u"Due date",
+        required=True,
+    )
+
+    @api.model
+    def default_get(self, fields):
+        res = super(FinancialEdit, self).default_get(fields)
+        active_id = self.env.context.get('active_id')
+        if (self.env.context.get('active_model') == 'financial.move' and
+                active_id):
+            fm = self.env['financial.move'].browse(active_id)
+            res['currency_id'] = fm.currency_id.id
+            res['amount_document'] = fm.amount_document
+            res['due_date'] = fm.due_date
+        return res
+
     def doit(self):
-        result_ids = []
         for wizard in self:
-            # TODO
-            pass
-        action = {
-            'type': 'ir.actions.act_window',
-            'name': 'Action Name',  # TODO
-            'res_model': 'result.model',  # TODO
-            'domain': [('id', '=', result_ids)],  # TODO
-            'view_mode': 'form,tree',
-        }
-        return action
+            active_id = self._context['active_id']
+            account_financial = self.env['financial.move']
+
+            if (self.env.context.get('active_model') == 'financial.move' and
+                    active_id):
+                fm = self.env['financial.move'].browse(active_id)
+                fm.write({
+                    'currency_id': wizard.currency_id.id,
+                    'amount_document': wizard.amount_document,
+                    'due_date': wizard.due_date,
+                })
+        return True
+

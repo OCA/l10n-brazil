@@ -12,7 +12,9 @@
             <form string="Financial Edit">
                 <!-- TODO -->
                 <group>
-                    <field name="name"/>
+                    <field name="currency_id"/>
+                    <field name="amount_document"/>
+                    <field name="due_date"/>
                 </group>
                 <footer>
                     <button name='doit'
@@ -29,7 +31,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="financial_edit_act_window">
-        <field name="name">Financial Edit</field> <!-- TODO -->
+        <field name="name">Financial Edit</field>
         <field name="res_model">financial.edit</field>
         <field name="view_mode">form</field>
         <field name="context">{}</field>
