@@ -44,7 +44,14 @@ class FinancialMove(models.Model):
         ]
         return (old_state, new_state) in allowed
 
-
+    @api.multi
+    @api.depends('due_date')
+    def _compute_business_due_date(self):
+        for record in self:
+            if record.due_date:
+                record.business_due_date = self.env[
+                    'resource.calendar'].proximo_dia_util(
+                    fields.Date.from_string(record.due_date))
 
     name = fields.Char()
     type = fields.Selection(
@@ -100,7 +107,12 @@ class FinancialMove(models.Model):
         inverse_name='financial_move_id',
     )
     due_date = fields.Date()
-    business_due_date = fields.Date()
+    business_due_date = fields.Date(
+        string='Business due date',
+        compute='_compute_business_due_date',
+        store=True,
+        index=True,
+    )
     payment_date = fields.Date()
     credit_debit_date = fields.Date()
     amount_payment = fields.Monetary()
@@ -176,6 +188,6 @@ class FinancialMove(models.Model):
                 for payment in record.related_payment_ids:
                     balance -= payment.amount_document
                 record.balance = balance
-                if balance == 0:
-                    record.change_state('paid')
+                # if balance == 0:
+                #     record.change_state('paid')
 
