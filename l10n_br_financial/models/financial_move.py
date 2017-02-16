@@ -76,6 +76,8 @@ class FinancialMove(models.Model):
     ref_item = fields.Char(
         string=u"ref item",
         required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     move_type = fields.Selection(
         selection=FINANCIAL_TYPE,
@@ -97,11 +99,15 @@ class FinancialMove(models.Model):
         comodel_name='res.company',
         string=u'Company',
         required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     currency_id = fields.Many2one(
         comodel_name='res.currency',
         string='Currency',
         required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     payment_mode = fields.Many2one(
         comodel_name='payment.mode'
@@ -115,6 +121,8 @@ class FinancialMove(models.Model):
     partner_id = fields.Many2one(
         comodel_name='res.partner',
         required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     # partner_bank_id = fields.Many2one(
     #     comodel_name='res.partner.bank',
@@ -123,14 +131,20 @@ class FinancialMove(models.Model):
     document_number = fields.Char(
         string=u"Document Nº",
         required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     document_date = fields.Date(
         string=u"Data Emissão",
         required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )  # FIXME: Data do documento ou
     amount_document = fields.Monetary(
         string=u"Document amount",
         required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     balance = fields.Monetary(
         compute='_compute_balance'
@@ -143,6 +157,8 @@ class FinancialMove(models.Model):
     due_date = fields.Date(
         string=u"Due date",
         required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     business_due_date = fields.Date(
         string='Business due date',
