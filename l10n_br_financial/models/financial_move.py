@@ -85,6 +85,7 @@ class FinancialMove(models.Model):
     # )
     partner_id = fields.Many2one(
         comodel_name='res.partner',
+        required=True,
     )
     # partner_bank_id = fields.Many2one(
     #     comodel_name='res.partner.bank',
@@ -114,12 +115,16 @@ class FinancialMove(models.Model):
         comodel_name='financial.move.history',
         inverse_name='financial_move_id',
     )
-    due_date = fields.Date()
+    due_date = fields.Date(
+        string=u"Due date",
+        required=True,
+    )
     business_due_date = fields.Date(
         string='Business due date',
         compute='_compute_business_due_date',
         store=True,
         index=True,
+        required=True,
     )
     payment_date = fields.Date()
     credit_debit_date = fields.Date()
