@@ -206,7 +206,7 @@
 
             <!--Adicionando campod o periodo-->
             <field name="credit_note" position="before">
-                <field name="dias_aviso_previo" attrs="{'invisible': [('tipo_de_folha', '!=', 'aviso_previo')]}" />
+                <field name="dias_aviso_previo" attrs="{'invisible': [('tipo_de_folha', '!=', 'aviso_previo')],'required': [('tipo_de_folha', '=', 'aviso_previo')]}" />
                 <field name="is_simulacao" invisible="1"/>
                 <field name="periodo_aquisitivo" attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
             </field>

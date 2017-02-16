@@ -133,8 +133,6 @@ class HrPayslip(models.Model):
     )
     dias_aviso_previo = fields.Integer(
         string="Dias de Aviso Prévio",
-        required=True,
-        # compute=_buscar_dias_aviso_previo
     )
 
     @api.depends('line_ids')
