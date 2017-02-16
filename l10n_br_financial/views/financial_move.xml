@@ -8,8 +8,8 @@
         <field name="name">financial.move.tree (in financial)</field>
         <field name="model">financial.move</field>
         <field name="arch" type="xml">
+            <!--<tree create="false" edit="false">-->
             <tree>
-                <!-- TODO -->
                 <field name="business_due_date"/>
                 <field name="create_date"/>
                 <field name="expected_date"/>
@@ -23,13 +23,14 @@
                         class="oe_stat_button" icon="fa-undo" string="Refund"
                         confirm="Confirm the refund?"
                 />
-                <button name="%(financial_cancel_act_window)d" type="action"
+                <button name="%(financial_edit_act_window)d" type="action"
                         class="oe_stat_button" icon="fa-edit" string="Edit"/>
                 <button name="%(financial_cancel_act_window)d" type="action"
                         class="oe_stat_button" icon="fa-ban" string="Cancel"
                 />
                 <button name="%(financial_cancel_act_window)d" type="action"
                         class="oe_stat_button" icon="fa-print" string="Print"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -38,7 +39,8 @@
         <field name="name">financial.move.form (in financial)</field>
         <field name="model">financial.move</field>
         <field name="arch" type="xml">
-            <form>
+            <!--<form create="false" edit="false">-->
+            <form create="false" edit="false">
                 <header>
                     <button name="action_confirm" type="object" states="draft,budget" string="Validate" class="oe_highlight"/>
                     <button name="%(financial_pay_revieve_act_window)d" type="action" states="open" string="Register Payment" class="oe_highlight"/>
@@ -75,7 +77,7 @@
                                 attrs="{'invisible': ['|',('state', '=', 'draft')]}"
                         />
 
-                        <button name="%(financial_cancel_act_window)d" type="action"
+                        <button name="%(financial_edit_act_window)d" type="action"
                                 class="oe_stat_button" icon="fa-edit" string="Edit"
                                 attrs="{'invisible': ['|',('state', '=', 'draft')]}"
                         />
@@ -127,7 +129,10 @@
                         </notebook>
                     </group>
                 </sheet>
-                <div class="oe_chatter"></div>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
             </form>
         </field>
     </record>
