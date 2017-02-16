@@ -42,7 +42,7 @@ class FinancialPay_revieve(models.TransientModel):
 
             financial_to_pay = account_financial.browse(active_id)
 
-            if financial_to_pay.type == 'p':
+            if financial_to_pay.move_type == 'p':
                 payment_type = 'pp'
             else:
                 payment_type = 'rr'
@@ -60,7 +60,7 @@ class FinancialPay_revieve(models.TransientModel):
                 'amount_interest': wizard.juros,
                 'currency_id': wizard.currency_id.id,
                 'payment_id': active_id,
-                'type': payment_type,
+                'move_type': payment_type,
             })
 
         # action = {

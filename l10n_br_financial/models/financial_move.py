@@ -195,6 +195,6 @@ class FinancialMove(models.Model):
                                 payment.amount_interest - payment.amount_delay_fee)
                     #conferir variaveis
                 record.balance = balance
-                if balance <= 0:
-                    record.change_state('paid')
+                # if balance <= 0:
+                #     record.change_state('paid')
 
