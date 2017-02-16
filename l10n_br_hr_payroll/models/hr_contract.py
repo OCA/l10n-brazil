@@ -298,6 +298,13 @@ class HrContract(models.Model):
         string="Cursos"
     )
 
+    # Aba Afastamentos
+    afastamento_ids = fields.One2many(
+        comodel_name='hr.holidays',
+        inverse_name='contrato_id',
+        string="Afastamentos"
+    )
+
 
 class Exame(models.Model):
     _name = 'hr.exame.medico'
@@ -344,6 +351,26 @@ class Curso(models.Model):
     )
 
     contract_id = fields.Many2one(
+        comodel_name='hr.contract',
+    )
+
+
+class HrHoliday(models.Model):
+    _inherit = 'hr.holidays'
+
+    rubrica = fields.Char(
+        string="Rubrica"
+    )
+
+    periodo = fields.Char(
+        string="Data de afastamento"
+    )
+
+    valor_inss = fields.Float(
+        string="Valor INSS"
+    )
+
+    contrato_id = fields.Many2one(
         comodel_name='hr.contract',
     )
 

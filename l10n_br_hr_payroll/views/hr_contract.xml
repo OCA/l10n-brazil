@@ -140,6 +140,17 @@
                         </tree>
                     </field>
                 </page>
+                <!--Aba Afastamentos-->
+                <page string="Afastamentos">
+                    <field name="afastamento_ids">
+                        <tree>
+                            <field name="contrato_id" string="Contrato"/>
+                            <field name="rubrica"/>
+                            <field name="periodo"/>
+                            <field name="valor_inss"/>
+                        </tree>
+                    </field>
+                </page>
             </xpath>
         </field>
     </record>
