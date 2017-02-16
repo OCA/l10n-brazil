@@ -123,6 +123,7 @@
                                         <field name="amount_discount"/>
                                         <field name="amount_interest"/>
                                         <field name="amount_document"/>
+                                        <field name="state" invisible="1"/>
                                     </tree>
                                 </field>
                             </page>

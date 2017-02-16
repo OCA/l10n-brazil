@@ -58,11 +58,11 @@ class FinancialMove(models.Model):
     @api.multi
     @api.depends('ref', 'ref_item')
     def _compute_display_name(self):
-        self.ensure_one()
-        if self.ref_item:
-            self.display_name = self.ref + '/' + self.ref_item
-        else:
-            self.display_name = self.ref
+        for record in self:
+            if record.ref_item:
+                record.display_name = record.ref + '/' + record.ref_item
+            else:
+                record.display_name = record.ref or ''
 
     ref = fields.Char(
         string='Ref',
@@ -166,7 +166,7 @@ class FinancialMove(models.Model):
     )
     due_date = fields.Date(
         string=u"Due date",
-        required=True,
+        # required=True,
         readonly=True,
         states={'draft': [('readonly', False)]},
         track_visibility='onchange',
@@ -215,6 +215,10 @@ class FinancialMove(models.Model):
         comodel_name='financial.move',
         inverse_name='payment_id',
         readonly=True,
+    )
+    change_reason = fields.Text(
+        string="Change reason",
+        track_visibility='onchange',
     )
 
     @api.multi
