@@ -346,3 +346,31 @@ class Curso(models.Model):
     contract_id = fields.Many2one(
         comodel_name='hr.contract',
     )
+
+
+class HrContractSalaryUnit(models.Model):
+    _inherit = 'hr.contract.salary.unit'
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record['name']
+            if name == 'Monthly':
+                name = 'Por mês'
+            elif name == 'Biweekly':
+                name = 'Por 15 dias'
+            elif name == 'Weekly':
+                name = 'Por semana'
+            elif name == 'Daily':
+                name = 'Por dia'
+            elif name == 'Hourly':
+                name = 'Por hora'
+            elif name == 'Task':
+                name = 'Por tarefa'
+            elif name == 'Others':
+                name = 'Outros'
+            elif record['code']:
+                name = record['code'] + ' - ' + name
+            result.append((record['id'], name))
+        return result
