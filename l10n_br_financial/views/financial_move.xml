@@ -14,7 +14,6 @@
                 <field name="create_date"/>
                 <field name="expected_date"/>
                 <field name="partner_id"/>
-                <field name="ref"/>
                 <field name="currency_id"/>
                 <field name="amount_document"/>
                 <field name="balance"/>
@@ -98,20 +97,19 @@
                                 <!--class="oe_stat_button" icon="fa-hand-peace-o" string="Negociate"/>-->
                     </div>
                     <group>
+                        <field name="move_type" invisible="1"/>
                         <group>
-                            <field name="move_type"/>
                             <field name="company_id"/>
-                            <field name="business_due_date"/>
-                            <field name="due_date"/>
-                            <field name="create_date"/>
-                            <field name="expected_date"/>
+                            <field name="partner_id"/>
+                            <field name="document_date"/>
+                            <field name="amount_document"/>
                         </group>
                         <group>
-                            <field name="partner_id"/>
-                            <field name="ref"/>
                             <field name="currency_id"/>
-                            <field name="amount_document"/>
-                            <field name="balance"/>
+                            <field name="document_number"/>
+                            <field name="document_item"/>
+                            <field name="due_date"/>
+                            <field name="business_due_date"/>
                         </group>
                     </group>
                     <group>

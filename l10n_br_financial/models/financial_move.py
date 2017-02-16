@@ -53,7 +53,6 @@ class FinancialMove(models.Model):
                     'resource.calendar'].proximo_dia_util(
                     fields.Date.from_string(record.due_date))
 
-    ref = fields.Char()
     move_type = fields.Selection(
         selection=FINANCIAL_TYPE,
     )
@@ -99,13 +98,15 @@ class FinancialMove(models.Model):
     document_number = fields.Char(
         string=u"Document Nº",
         required=True,
-    )  # FIXME:
+    )
+    document_item = fields.Char(
+        string=u"Document item",
+        required=True,
+    )
     document_date = fields.Date(
         string=u"Data Emissão",
         required=True,
     )  # FIXME: Data do documento ou
-    # create_date = fields.Date()  # FIXME: Criação lançamento financeiro?
-    # write_date = fields.Date() # Data de alteração
     amount_document = fields.Monetary(
         string=u"Amount document",
         required=True,
