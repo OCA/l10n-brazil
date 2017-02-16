@@ -97,8 +97,14 @@ class FinancialMove(models.Model):
     #     comodel_name='res.partner.bank',
     # )
     # move_type = fields.Char()  # FIXME:
-    document_number = fields.Char()  # FIXME:
-    document_date = fields.Date()  # FIXME: Data do documento ou
+    document_number = fields.Char(
+        string=u"Document Nº",
+        required=True,
+    )  # FIXME:
+    document_date = fields.Date(
+        string=u"Data Emissão",
+        required=True,
+    )  # FIXME: Data do documento ou
     # create_date = fields.Date()  # FIXME: Criação lançamento financeiro?
     # write_date = fields.Date() # Data de alteração
     amount_document = fields.Monetary(
