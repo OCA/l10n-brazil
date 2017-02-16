@@ -13,6 +13,17 @@ class TestFinancialMove(TransactionCase):
         self.currency_euro = self.env.ref('base.EUR')
         self.financial_move = self.env['financial.move']
 
+    def create_receivable_100(self):
+        cr_4 = self.financial_move.create(
+            dict(
+                move_type='r',
+                company_id=self.main_company.id,
+                currency_id=self.currency_euro.id,
+                amount_document=100.00,
+            )
+        )
+        return cr_4
+
     def test_1(self):
         """ DADO a data de vencimento de 27/02/2017
         QUANDO criado um lançamento de contas a receber
@@ -48,4 +59,22 @@ class TestFinancialMove(TransactionCase):
                      )
             )
 
-
+    def test_3(self):
+        """DADO que existe uma parcela de 100 reais em aberto
+        QUANDO for recebido/pago 100 reais
+        ENTÃO o valor do balanço da parcela deve ser 0
+        E o status da parcela deve mudar para pago."""
+        cr_4 = self.create_receivable_100()
+        cr_4.action_confirm()
+        pay = self.financial_move.create(
+            dict(
+                move_type='rr',
+                company_id=self.main_company.id,
+                currency_id=self.currency_euro.id,
+                amount_document=100.00,
+                payment_id=cr_4.id
+                )
+            )
+        pay.action_confirm()
+        self.assertEqual(0.00, cr_4.balance)
+        self.assertEqual('paid', cr_4.state)
