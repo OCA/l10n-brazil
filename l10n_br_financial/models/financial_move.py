@@ -94,6 +94,7 @@ class FinancialMove(models.Model):
     active = fields.Boolean(
         string=u'Active',
         default=True,
+        track_visibility='onchange',
     )
     company_id = fields.Many2one(
         comodel_name='res.company',
@@ -101,6 +102,7 @@ class FinancialMove(models.Model):
         required=True,
         readonly=True,
         states={'draft': [('readonly', False)]},
+        track_visibility='onchange',
     )
     currency_id = fields.Many2one(
         comodel_name='res.currency',
@@ -108,9 +110,11 @@ class FinancialMove(models.Model):
         required=True,
         readonly=True,
         states={'draft': [('readonly', False)]},
+        track_visibility='onchange',
     )
     payment_mode = fields.Many2one(
-        comodel_name='payment.mode'
+        comodel_name='payment.mode',
+        track_visibility='onchange',
     )
     analytic_account_id = fields.Char()  # FIXME .Many2one(
     #
@@ -123,6 +127,7 @@ class FinancialMove(models.Model):
         required=True,
         readonly=True,
         states={'draft': [('readonly', False)]},
+        track_visibility='onchange',
     )
     # partner_bank_id = fields.Many2one(
     #     comodel_name='res.partner.bank',
@@ -133,38 +138,45 @@ class FinancialMove(models.Model):
         required=True,
         readonly=True,
         states={'draft': [('readonly', False)]},
+        track_visibility='onchange',
     )
     document_date = fields.Date(
         string=u"Data Emissão",
         required=True,
         readonly=True,
         states={'draft': [('readonly', False)]},
+        track_visibility='onchange',
     )  # FIXME: Data do documento ou
     amount_document = fields.Monetary(
         string=u"Document amount",
         required=True,
         readonly=True,
         states={'draft': [('readonly', False)]},
+        track_visibility='onchange',
     )
     balance = fields.Monetary(
-        compute='_compute_balance'
+        compute='_compute_balance',
+        track_visibility='onchange',
     )
     account = fields.Char()
     historic = fields.One2many(
         comodel_name='financial.move.history',
         inverse_name='financial_move_id',
+        track_visibility='onchange',
     )
     due_date = fields.Date(
         string=u"Due date",
         required=True,
         readonly=True,
         states={'draft': [('readonly', False)]},
+        track_visibility='onchange',
     )
     business_due_date = fields.Date(
         string='Business due date',
         compute='_compute_business_due_date',
         store=True,
         index=True,
+        track_visibility='onchange',
     )
     payment_date = fields.Date()
     credit_debit_date = fields.Date()
