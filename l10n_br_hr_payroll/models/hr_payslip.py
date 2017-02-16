@@ -880,11 +880,12 @@ class HrPayslip(models.Model):
 
     @api.multi
     def compute_sheet(self):
-        if self.tipo_de_folha in ["decimo_terceiro", "ferias"]:
+        if self.tipo_de_folha in ["decimo_terceiro", "ferias", "aviso_previo"]:
             hr_medias_ids, data_de_inicio, data_final = \
                 self.gerar_media_dos_proventos()
 
-            if not hr_medias_ids:
+            if not hr_medias_ids \
+                    and self.tipo_de_folha in ["decimo_terceiro", "ferias"]:
                 raise exceptions.Warning(
                     _('Nenhum Holerite encontrado para médias nesse período!')
                 )
@@ -930,7 +931,8 @@ class HrPayslip(models.Model):
     @api.multi
     def gerar_media_dos_proventos(self):
         medias_obj = self.env['l10n_br.hr.medias']
-        if self.tipo_de_folha == 'ferias':
+        if self.tipo_de_folha == 'ferias' \
+                or self.tipo_de_folha == 'aviso_previo':
             periodo_aquisitivo = self.periodo_aquisitivo
             data_de_inicio = str(fields.Date.from_string(
                 periodo_aquisitivo.inicio_aquisitivo))

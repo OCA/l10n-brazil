@@ -135,7 +135,7 @@
                     </page>
 
                     <page string="Cálculo das Médias"
-                          attrs="{'invisible': [('tipo_de_folha', '!=', 'ferias'),('tipo_de_folha', '!=', 'decimo_terceiro')]}">
+                          attrs="{'invisible': [('tipo_de_folha', 'not in', ['ferias', 'decimo_terceiro', 'aviso_previo'])]}">
                         <button string="Gerar Médias Disponíveis" name="gerar_media_dos_proventos" type="object" />
                         <field name="medias_proventos" colspan="4"
                                nolabel="1">

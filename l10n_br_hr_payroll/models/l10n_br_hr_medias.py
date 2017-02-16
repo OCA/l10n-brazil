@@ -135,7 +135,8 @@ class L10nBrHrMedias(models.Model):
         medias = {}
         for folha in folhas_periodo:
             for linha in folha.line_ids:
-                if linha.salary_rule_id.category_id.code == "PROVENTO":
+                if linha.salary_rule_id.category_id.code == "PROVENTO" \
+                        and linha.salary_rule_id.tipo_media:
                     if not medias.get(linha.salary_rule_id.id):
                         medias.update({
                             linha.salary_rule_id.id:
