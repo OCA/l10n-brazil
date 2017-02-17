@@ -75,17 +75,23 @@ class HrPayslip(models.Model):
             irpf = 0.00
             codigo = {}
             codigo['BASE_FGTS'] = \
-                holerite.env.ref('l10n_br_hr_payroll.hr_salary_rule_BASE_FGTS').code
+                holerite.env\
+                .ref('l10n_br_hr_payroll.hr_salary_rule_BASE_FGTS').code
             codigo['BASE_INSS'] = \
-                holerite.env.ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS').code
+                holerite.env\
+                .ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS').code
             codigo['BASE_IRPF'] = \
-                holerite.env.ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF').code
+                holerite.env\
+                .ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF').code
             codigo['FGTS'] = \
-                holerite.env.ref('l10n_br_hr_payroll.hr_salary_rule_FGTS').code
+                holerite.env\
+                .ref('l10n_br_hr_payroll.hr_salary_rule_FGTS').code
             codigo['INSS'] = \
-                holerite.env.ref('l10n_br_hr_payroll.hr_salary_rule_INSS').code
+                holerite.env\
+                .ref('l10n_br_hr_payroll.hr_salary_rule_INSS').code
             codigo['IRPF'] = \
-                holerite.env.ref('l10n_br_hr_payroll.hr_salary_rule_IRPF').code
+                holerite.env\
+                .ref('l10n_br_hr_payroll.hr_salary_rule_IRPF').code
             for line in holerite.line_ids:
                 total += line.valor_provento - line.valor_deducao
                 total_proventos += line.valor_provento
@@ -112,11 +118,16 @@ class HrPayslip(models.Model):
             holerite.inss = inss
             holerite.irpf = irpf
             # Formato
-            holerite.data_admissao_fmt = data.formata_data(holerite.contract_id.date_start)
-            holerite.salario_base_fmt = valor.formata_valor(holerite.contract_id.wage)
-            holerite.total_folha_fmt = valor.formata_valor(holerite.total_folha)
-            holerite.total_proventos_fmt = valor.formata_valor(holerite.total_proventos)
-            holerite.total_descontos_fmt = valor.formata_valor(holerite.total_descontos)
+            holerite.data_admissao_fmt =\
+                data.formata_data(holerite.contract_id.date_start)
+            holerite.salario_base_fmt =\
+                valor.formata_valor(holerite.contract_id.wage)
+            holerite.total_folha_fmt =\
+                valor.formata_valor(holerite.total_folha)
+            holerite.total_proventos_fmt =\
+                valor.formata_valor(holerite.total_proventos)
+            holerite.total_descontos_fmt =\
+                valor.formata_valor(holerite.total_descontos)
             holerite.base_fgts_fmt = valor.formata_valor(holerite.base_fgts)
             holerite.base_inss_fmt = valor.formata_valor(holerite.base_inss)
             holerite.base_irpf_fmt = valor.formata_valor(holerite.base_irpf)
