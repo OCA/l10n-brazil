@@ -8,7 +8,8 @@
         <field name="name">financial.move.tree (in financial)</field>
         <field name="model">financial.move</field>
         <field name="arch" type="xml">
-            <tree create="false" edit="false">
+            <tree>
+            <!--<tree create="false" edit="false">-->
                 <field name="business_due_date"/>
                 <field name="create_date"/>
                 <field name="expected_date"/>
@@ -38,7 +39,8 @@
         <field name="name">financial.move.form (in financial)</field>
         <field name="model">financial.move</field>
         <field name="arch" type="xml">
-            <form create="false" edit="false">
+            <form>
+            <!--<form create="false" edit="false">-->
                 <header>
                     <button name="action_confirm" type="object" states="draft,budget" string="Validate" class="oe_highlight"/>
                     <button name="%(financial_pay_revieve_act_window)d" type="action" states="open" string="Register Payment" class="oe_highlight"/>
@@ -100,15 +102,23 @@
                         <field name="move_type" invisible="1"/>
                         <group>
                             <field name="company_id"/>
+                            <field name="currency_id"/>
                             <field name="partner_id"/>
-                            <field name="document_date"/>
-                            <field name="amount_document"/>
                         </group>
                         <group>
-                            <field name="currency_id"/>
                             <field name="document_number"/>
+                            <field name="document_date"/>
                             <field name="due_date"/>
                             <field name="business_due_date"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="payment_mode"/>
+                            <field name="payment_term"/>
+                        </group>
+                        <group>
+                            <field name="amount_document"/>
                         </group>
                     </group>
                     <group>

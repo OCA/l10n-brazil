@@ -11,6 +11,8 @@
         <field name="arch" type="xml">
             <form string="Financial_create">
                 <group>
+
+                    <field name="state" invisible="1"/>
                         <group>
                             <field name="company_id"/>
                             <field name="currency_id"/>
@@ -18,9 +20,14 @@
                             <field name="partner_id"/>
                         </group>
                         <group>
-                            <field name="state" invisible="1"/>
                             <field name="document_number"/>
                             <field name="document_date"/>
+                        </group>
+                        <group>
+                            <field name="payment_mode"/>
+                            <field name="payment_term"/>
+                        </group>
+                        <group>
                             <field name="amount_document"/>
                         </group>
                         <field nolabel="1" name="line_ids">
