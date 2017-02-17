@@ -5,6 +5,7 @@
 
 import logging
 from odoo import api, fields, models, _
+from odoo.exceptions import AccessError
 from datetime import datetime, timedelta
 from odoo import tools
 
@@ -19,7 +20,6 @@ except ImportError:
 
 
 class ResourceCalendar(models.Model):
-
     _inherit = 'resource.calendar'
 
     def _compute_recursive_leaves(self, calendar):
@@ -92,7 +92,7 @@ class ResourceCalendar(models.Model):
         leaves = []
         for leave in self.leave_ids:
             if leave.resource_id and resource_id:
-                if leave.resource_id and not resource_id == leave.\
+                if leave.resource_id and not resource_id == leave. \
                         resource_id.id:
                     continue
             elif leave.resource_id and not resource_id:
@@ -124,12 +124,16 @@ class ResourceCalendar(models.Model):
         :return boolean True se a data referencia for feriado
                         False se a data referencia nao for feriado
         """
+        if not self.leave_ids:
+            raise AccessError(
+                "Você esta tentando calcular dadas e/ou ausencias de recursos "
+                "sem especificar um calendário de referência!")
         for leave in self.leave_ids:
             if leave.date_from <= data_referencia.strftime(
                     "%Y-%m-%d %H:%M:%S"):
-                if leave.date_to >= data_referencia.\
+                if leave.date_to >= data_referencia. \
                         strftime("%Y-%m-%d %H:%M:%S"):
-                    if leave.leave_kind == 'F':
+                    if leave.leave_kind in ('F', 'B'):
                         return True
         return False
 
@@ -142,6 +146,20 @@ class ResourceCalendar(models.Model):
                         False: Se Não for dia útil
         """
         return not self.data_eh_feriado(data) and data.weekday() <= 4 or False
+
+    @api.multi
+    def data_eh_dia_util_bancario(self, data=datetime.now()):
+        """Verificar se data é dia util.
+        :param datetime data: Se nenhuma data referencia for passada
+                              verifique o dia de hoje.
+        :return boolean True: Se for dia útil
+                        False: Se Não for dia útil
+        """
+        if data.weekday() > 4:
+            return False
+        elif self.data_eh_feriado_bancario(data):
+            return False
+        return True
 
     @api.multi
     def quantidade_dias_uteis(
@@ -168,11 +186,22 @@ class ResourceCalendar(models.Model):
                                    verifique se amanha é dia útil.
         :return datetime Proximo dia util apartir da data referencia
         """
-        data_referencia += timedelta(days=1)
         while data_referencia:
             if self.data_eh_dia_util(data_referencia):
                 return data_referencia
             data_referencia += timedelta(days=1)
+
+    @api.multi
+    def proximo_dia_util_bancario(self, data_referencia=datetime.now()):
+        """Retornar o próximo dia util.
+        :param datetime data_referencia: Se nenhuma data referencia for passada
+                                   verifique se amanha é dia útil.
+        :return datetime Proximo dia util apartir da data referencia
+        """
+        if self.data_eh_dia_util_bancario(data_referencia):
+            return data_referencia
+        data_referencia += timedelta(days=1)
+        return self.proximo_dia_util_bancario(data_referencia)
 
     @api.multi
     def get_dias_base(self, data_from=datetime.now(), data_to=datetime.now()):
@@ -200,14 +229,17 @@ class ResourceCalendar(models.Model):
         :return int leaves_count: +1 se for feriado bancário
                                    0 se a data nao for feriado bancário
         """
-        domain = [
-            ('date_from', '<=', data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
-            ('date_to', '>=', data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
-            ('leave_kind', 'in', ['F', 'B']),
-        ]
-        leaves_count = \
-            self.env['resource.calendar.leaves'].search_count(domain)
-        return leaves_count
+        if not self.leave_ids:
+            raise AccessError(
+                "Você esta tentando calcular dadas e/ou ausencias de recursos "
+                "sem especificar um calendário de referência!")
+        if self.leave_ids.filtered(
+                lambda record: data_referencia.strftime("%Y-%m-%d 00:00:00") <=
+                record.date_from <=
+                data_referencia.strftime("%Y-%m-%d 23:59:59") and
+                record.leave_kind == 'B'):
+            return True
+        return False
 
     @api.multi
     def data_eh_feriado_emendado(self, data_referencia=datetime.now()):
@@ -234,7 +266,6 @@ class ResourceCalendar(models.Model):
 
 
 class ResourceCalendarLeave(models.Model):
-
     _inherit = 'resource.calendar.leaves'
 
     country_id = fields.Many2one(
