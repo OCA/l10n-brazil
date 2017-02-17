@@ -44,7 +44,6 @@ class FinancialPayRevieve(models.TransientModel):
             res['payment_date'] = fields.Date.today()
         return res
 
-
     @api.multi
     def doit(self):
         for wizard in self:
@@ -75,7 +74,7 @@ class FinancialPayRevieve(models.TransientModel):
                 'payment_id': active_id,
                 'move_type': payment_type,
                 'partner_id': financial_to_pay.partner_id.id,
-                'document_number': financial_to_pay.document_number,    
+                'document_number': financial_to_pay.document_number,
             })
 
         return True

@@ -2,7 +2,7 @@
 # Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models
 from odoo.addons.l10n_br_financial.models.financial_move_model import (
     FINANCIAL_MOVE
 )
@@ -18,7 +18,6 @@ class FinancialMoveCreate(models.TransientModel):
             'draft': [('readonly', False)],
             'computed': [('readonly', False)],
         }
-
 
     move_type = fields.Selection(
         selection=FINANCIAL_MOVE
@@ -45,8 +44,7 @@ class FinancialMoveCreate(models.TransientModel):
     @api.multi
     def doit(self):
         for wizard in self:
-            fm = self.env['financial.move']
-
+            # fm = self.env['financial.move']
             # TODO
             pass
 
