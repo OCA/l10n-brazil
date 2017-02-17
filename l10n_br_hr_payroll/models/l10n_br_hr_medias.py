@@ -166,14 +166,14 @@ class L10nBrHrMedias(models.Model):
             titulo.update({'linha_de_titulo': True})
             for mes in medias[rubrica]:
                 titulo.update({'mes_' + str(mes_cont): str(mes['mes']), })
+                if str(mes['mes']) in meses_titulos:
+                    meses_titulos.remove(str(mes['mes']))
                 meses_titulos.append(str(mes['mes']))
                 mes_cont += 1
-            linha_obj.create(titulo)
-            break
+        linha_obj.create(titulo)
 
         # definindo a linha
         for rubrica in medias:
-            mes_cont = 1
             vals = {}
             nome_rubrica = self.env['hr.salary.rule'].\
                 browse(rubrica).display_name
