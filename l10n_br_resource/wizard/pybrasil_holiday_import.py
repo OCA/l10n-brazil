@@ -81,6 +81,9 @@ class PyBrasilHolidayImport(models.TransientModel):
                 'country_id': country.id
                 # '':u'N',
             })
+            self.env['ir.config_parameter'].set_param(
+                'l10n_br_resource.br_calendar',
+                calendar.id)
             return calendar
         else:
             return self.env['resource.calendar'].search(
