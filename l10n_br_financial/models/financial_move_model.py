@@ -101,7 +101,7 @@ class FinancialMoveModel(models.AbstractModel):
     )
     due_date = fields.Date(
         string=u"Due date",
-        # required=True,
+        required=True,
         readonly=True,
         states=_readonly_state,
         track_visibility='onchange',
