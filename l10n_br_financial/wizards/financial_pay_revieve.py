@@ -5,7 +5,7 @@
 from odoo import api, fields, models
 
 
-class FinancialPay_revieve(models.TransientModel):
+class FinancialPayRevieve(models.TransientModel):
 
     _name = 'financial.pay_revieve'
     ammount_paid = fields.Monetary(
@@ -32,6 +32,19 @@ class FinancialPay_revieve(models.TransientModel):
         required=True,
     )
 
+    @api.model
+    def default_get(self, vals):
+        res = super(FinancialPayRevieve, self).default_get(vals)
+        active_id = self.env.context.get('active_id')
+        if (self.env.context.get('active_model') == 'financial.move' and
+                active_id):
+            fm = self.env['financial.move'].browse(active_id)
+            res['currency_id'] = fm.currency_id.id
+            res['ammount_paid'] = fm.amount_residual
+            res['payment_date'] = fields.Date.today()
+        return res
+
+
     @api.multi
     def doit(self):
         for wizard in self:
@@ -50,23 +63,19 @@ class FinancialPay_revieve(models.TransientModel):
             account_financial.create({
                 'company_id': 1,
                 'amount_document': wizard.ammount_paid,
-                'ref': wizard.ref,
+                'ref': financial_to_pay.ref,
+                'ref_item': financial_to_pay.ref_item,
                 'credit_debit_date': wizard.credit_debit_date,
                 'payment_mode': wizard.payment_mode,
                 'amount_discount': wizard.desconto,
                 'amount_delay_fee': wizard.multa,
                 'amount_interest': wizard.juros,
                 'currency_id': wizard.currency_id.id,
+                'document_date': fields.Date.today(),
                 'payment_id': active_id,
                 'move_type': payment_type,
+                'partner_id': financial_to_pay.partner_id.id,
+                'document_number': financial_to_pay.document_number,    
             })
 
-        # action = {
-        #     'type': 'ir.actions.act_window',
-        #     'name': 'Action Name',  # TODO
-        #     'res_model': 'result.model',  # TODO
-        #     'domain': [('id', '=', result_ids)],  # TODO
-        #     'view_mode': 'form,tree',
-        # }
-        # return action
         return True
