@@ -119,7 +119,7 @@ class FinancialMove(models.Model):
     def change_state(self, new_state):
         for record in self:
             if record._avaliable_transition(record.state, new_state):
-                record.state = new_state
+                record.write({'state': new_state})
             else:
                 raise UserError(_("This state transition is not allowed"))
 
