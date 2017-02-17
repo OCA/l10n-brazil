@@ -184,7 +184,7 @@
 
             <!--adicionando ANO e MES -->
             <xpath expr="//h1" position="after">
-                <group>
+                <group attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}">
                     <group>
                         <field name="mes_do_ano" attrs="{'invisible' : [('tipo_de_folha', '=', 'ferias')]}"/>
                     </group>
@@ -198,10 +198,10 @@
                 <label for="date_from" string="" attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
             </xpath>
             <field name="date_from" position="replace">
-                <field name="date_from"  attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
+                <field name="date_from" attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
             </field>
             <field name="date_to" position="replace">
-                <field name="date_to"  attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
+                <field name="date_to" attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
             </field>
 
             <!--Adicionando campod o periodo-->

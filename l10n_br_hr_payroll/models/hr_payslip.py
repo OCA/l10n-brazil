@@ -135,6 +135,9 @@ class HrPayslip(models.Model):
             holerite.inss_fmt = valor.formata_valor(holerite.inss)
             holerite.irpf_fmt = valor.formata_valor(holerite.irpf)
 
+        self.data_extenso = data.data_por_extenso(fields.Date.today())
+
+
     employee_id_readonly = fields.Many2one(
         string=u'Funcionário',
         comodel_name='hr.employee',
@@ -303,6 +306,11 @@ class HrPayslip(models.Model):
     irpf_fmt = fields.Char(
         string=u'IRPF',
         default='0',
+        compute='_valor_total_folha'
+    )
+
+    data_extenso = fields.Char(
+        string=u'Data por Extenso',
         compute='_valor_total_folha'
     )
 
