@@ -15,7 +15,7 @@ _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil.python_pt_BR import python_pt_BR
-    # from pybrasil.valor.decimal import Decimal
+    from pybrasil.valor.decimal import Decimal
 
 except ImportError:
     _logger.info('Cannot import pybrasil')
@@ -36,6 +36,9 @@ CALCULO_FOLHA_PT_BR = {
 class HrSalaryRule(models.Model):
     _inherit = 'hr.salary.rule'
 
+    sequence = fields.Float(
+        string=u'Sequence',
+    )
     compoe_base_INSS = fields.Boolean(
         string=u'Compõe Base INSS',
     )
@@ -99,7 +102,7 @@ class HrSalaryRule(models.Model):
                     CALCULO_FOLHA_PT_BR)
             elif rule.custom_amount_select == 'fix':
                 try:
-                    return rule.custom_amount_fix, float(
+                    return rule.custom_amount_fix, Decimal(
                         safe_eval(rule.custom_quantity, localdict)), 100.0
                 except:
                     raise osv.except_osv(_('Error!'), _(
@@ -108,7 +111,7 @@ class HrSalaryRule(models.Model):
             elif rule.custom_amount_select == 'percentage':
                 try:
                     return (
-                        float(safe_eval(rule.custom_amount_percentage_base,
+                        Decimal(safe_eval(rule.custom_amount_percentage_base,
                                         localdict)), float(safe_eval(
                                             rule.custom_quantity, localdict)),
                         rule.custom_amount_percentage)
@@ -119,7 +122,10 @@ class HrSalaryRule(models.Model):
                             rule.name, rule.code))
 
         if codigo_python:
-            try:
+            if True: #try:
+                for variavel in localdict:
+                    if isinstance(localdict[variavel], float):
+                       localdict[variavel] = Decimal(localdict[variavel] or 0)
                 safe_eval(codigo_python, localdict, mode='exec', nocopy=True)
                 result = localdict['result']
 
@@ -135,9 +141,9 @@ class HrSalaryRule(models.Model):
 
                 return result, result_qty, result_rate
 
-            except:
-                msg = _('Wrong python code defined for salary rule %s (%s).')
-                raise ValidationError(msg % (rule.name, rule.code))
+           # except:
+           #     msg = _('Wrong python code defined for salary rule %s (%s).')
+           #     raise ValidationError(msg % (rule.name, rule.code))
 
     @api.multi
     def satisfy_condition(self, rule_id, localdict):

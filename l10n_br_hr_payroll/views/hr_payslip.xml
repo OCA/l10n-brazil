@@ -52,8 +52,8 @@
                                       editable="bottom"
                                       colors="blue:valor_provento > 0;red:valor_deducao > 0">
                                     <field name="name"/>
-                                    <field name="valor_provento"/>
-                                    <field name="valor_deducao"/>
+                                    <field name="valor_provento" sum="valor_provento"/>
+                                    <field name="valor_deducao" sum="valor_deducao" />
                                 </tree>
                                 <form string="Payslip Line">
                                     <group col="4">
@@ -78,11 +78,10 @@
                                     <field name="code"/>
                                     <field name="category_id"/>
                                     <field name="sequence" invisible="1"/>
-                                    <field name="quantity"/>
-                                    <field name="rate" />
-                                    <field name="round_amount" />
-                                    <field name="round_total"/>
-                                    <field name="total" invisible="1"/>
+                                    <field name="quantity" digits="(18,2)" />
+                                    <field name="rate" digits="(18,4)" />
+                                    <field name="amount" digits="(18,2)" />
+                                    <field name="total"/>
                                 </tree>
                                 <form string="Payslip Line">
                                     <group col="4">

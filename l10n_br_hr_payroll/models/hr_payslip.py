@@ -14,6 +14,8 @@ _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil import valor, data
+    from pybrasil.valor.decimal import Decimal
+
 except ImportError:
     _logger.info('Cannot import pybrasil')
 
@@ -687,10 +689,10 @@ class HrPayslip(models.Model):
             [('year', '=', ano)], order='create_date DESC', limit=1
         )
         dependent_values = 0
-        if self.employee_id.have_dependent:
-            dependent_values = deducao_dependente_value.amount * len(
-                self.employee_id.dependent_ids
-            )
+        for dependente in self.employee_id.dependent_ids:
+            if dependente.dependent_verification:
+                dependent_values += deducao_dependente_value.amount
+
         return TOTAL_IRRF - INSS - dependent_values
 
     def IRRF(self, BASE_IRRF, INSS):
@@ -709,7 +711,8 @@ class HrPayslip(models.Model):
         for rule in contract.specific_rule_ids:
             if self.date_from >= rule.date_start:
                 if not rule.date_stop or self.date_to <= rule.date_stop:
-                    rule_ids.append((rule.rule_id.id, rule.rule_id.sequence))
+                    if rule.rule_id.id not in dict(rule_ids):
+                        rule_ids.append((rule.rule_id.id, rule.rule_id.sequence))
         return rule_ids
 
     def get_ferias_rubricas(self, payslip, rule_ids):
@@ -1225,6 +1228,8 @@ class HrPayslip(models.Model):
             'DIAS_AVISO_PREVIO': payslip.dias_aviso_previo,
             'locals': locals,
             'globals': locals,
+            'Decimal': Decimal,
+            'D': Decimal,
         }
 
         for contract_ids in self:
@@ -1285,28 +1290,8 @@ class HrPayslip(models.Model):
                         else:
                             qty *= proporcao_ferias
 
-                    # Cria ajuste de INSS (Provento) proporcional às ferias
-                    # Como ja foi pago o INSS no aviso de ferias, É criado
-                    # uma rubrica de provento para devolver ao funcionario
-                    # o valor descontado nas ferias proporcionalmente a
-                    #  competencia corrente.
-                    if line.code == 'INSS':
-                        line.copy({
-                            'slip_id': payslip.id,
-                            'name': line.name + ' (ferias)',
-                            'code': line.code + '_FERIAS',
-                        })
-
-                        name = 'Ajuste INSS Ferias'
-                        category_id = \
-                            self.env.ref('hr_payroll.PROVENTO')
-                        # Ajuste do INSS compoe base do IR
-                        # mas nao compoe base do INSS
-                        baselocaldict['BASE_INSS'] -= line.total
-                        baselocaldict['BASE_IR'] += line.total
-
-                    if line.code == 'IRPF':
-                        name += ' (Ferias)'
+                    if 'FERIAS' not in line.code:
+                        name += u' (Férias)'
 
                     result_dict[key] = {
                         'salary_rule_id': line.salary_rule_id.id,
@@ -1314,7 +1299,7 @@ class HrPayslip(models.Model):
                         'name': name,
                         'code': line.code + '_FERIAS',
                         'category_id': category_id.id,
-                        'sequence': line.sequence,
+                        'sequence': line.sequence - 0.01,
                         'appears_on_payslip': line.appears_on_payslip,
                         'condition_select': line.condition_select,
                         'condition_python': line.condition_python,
@@ -1334,21 +1319,43 @@ class HrPayslip(models.Model):
                         'quantity': qty,
                         'rate': line.rate,
                     }
+                    baselocaldict[line.code + '_FERIAS'] = line.total
 
-                    if line.category_id.code == 'DEDUCAO':
-                        if line.salary_rule_id.compoe_base_INSS:
-                            baselocaldict['BASE_INSS'] -= line.total
-                        if line.salary_rule_id.compoe_base_IR:
-                            baselocaldict['BASE_IR'] -= line.total
-                        if line.salary_rule_id.compoe_base_FGTS:
-                            baselocaldict['BASE_FGTS'] -= line.total
-                    else:
-                        if line.salary_rule_id.compoe_base_INSS:
-                            baselocaldict['BASE_INSS'] += line.total
-                        # if line.salary_rule_id.compoe_base_IR:
-                        #     baselocaldict['BASE_IR'] += line.total
-                        if line.salary_rule_id.compoe_base_FGTS:
-                            baselocaldict['BASE_FGTS'] += line.total
+                    #if line.category_id.code == 'DEDUCAO':
+                    #    if line.salary_rule_id.compoe_base_INSS:
+                    #        baselocaldict['BASE_INSS'] -= line.total
+                    #    if line.salary_rule_id.compoe_base_IR:
+                    #        baselocaldict['BASE_IR'] -= line.total
+                    #    if line.salary_rule_id.compoe_base_FGTS:
+                    #        baselocaldict['BASE_FGTS'] -= line.total
+                    #else:
+                    #    if line.salary_rule_id.compoe_base_INSS:
+                    #        baselocaldict['BASE_INSS'] += line.total
+                    #    if line.salary_rule_id.compoe_base_IR:
+                    #        baselocaldict['BASE_IR'] += line.total
+                    #    if line.salary_rule_id.compoe_base_FGTS:
+                    #        baselocaldict['BASE_FGTS'] += line.total
+
+                    # Cria ajuste de INSS (Provento) proporcional às ferias
+                    # Como ja foi pago o INSS no aviso de ferias, É criado
+                    # uma rubrica de provento para devolver ao funcionario
+                    # o valor descontado nas ferias proporcionalmente a
+                    #  competencia corrente.
+                    #if line.code == 'INSS':
+                    #    line.copy({
+                    #        'slip_id': payslip.id,
+                    #        'name': line.name + ' (ferias)',
+                    #        'code': 'AJUSTE_' + line.code + '_FERIAS',
+                    #        'sequence': 199,
+                    #    })
+                    #    name = u'Ajuste INSS Férias'
+                    #    category_id = \
+                    #        self.env.ref('hr_payroll.PROVENTO')
+                    #    # Ajuste do INSS compoe base do IR
+                    #    # mas nao compoe base do INSS
+                    #    baselocaldict['BASE_INSS'] -= line.total
+                    #    baselocaldict['BASE_IR'] += line.total
+
 
             # organizando as regras pela sequencia de execução definida
             sorted_rule_ids = \
@@ -1393,9 +1400,11 @@ class HrPayslip(models.Model):
                         previous_amount = \
                             rule.code in localdict and \
                             localdict[rule.code] or 0.0
+                        #previous_amount = 0
                         # set/overwrite the amount computed
                         # for this rule in the localdict
-                        tot_rule = amount * qty * rate / 100.0
+                        tot_rule = Decimal(amount or 0) * Decimal(qty or 0) * Decimal(rate or 0) / 100.0
+                        tot_rule = tot_rule.quantize(Decimal('0.01'))
                         localdict[rule.code] = tot_rule
                         rules[rule.code] = rule
                         if rule.compoe_base_INSS:

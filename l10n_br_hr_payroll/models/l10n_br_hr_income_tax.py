@@ -2,8 +2,18 @@
 # (c) 2014 Kmee - Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import logging
+
 from openerp import api, fields, models, _
 from openerp.exceptions import Warning as UserError
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from pybrasil.valor.decimal import Decimal, ROUND_HALP_UP
+
+except ImportError:
+    _logger.info('Cannot import pybrasil')
 
 
 class L10nBrHrIncomeTax(models.Model):
