@@ -119,6 +119,7 @@
                         </group>
                         <group>
                             <field name="amount_document"/>
+                            <field name="balance"/>
                         </group>
                     </group>
                     <group>
