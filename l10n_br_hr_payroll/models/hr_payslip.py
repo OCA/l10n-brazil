@@ -856,7 +856,9 @@ class HrPayslip(models.Model):
             if record.contract_id:
                 record.employee_id = record.contract_id.employee_id
                 record.employee_id_readonly = record.employee_id
-            record._get_periodo_aquisitivo()
+            record.periodo_aquisitivo = record._get_periodo_aquisitivo()
+            if record.contract_id and record.tipo_de_folha == 'ferias':
+                record.buscar_periodo_de_ferias()
 
     @api.multi
     @api.onchange('mes_do_ano', 'ano')
@@ -894,6 +896,16 @@ class HrPayslip(models.Model):
 
             if data_final and ultimo_dia_do_mes > data_final:
                 record.date_to = record.contract_id.date_end
+
+    def buscar_periodo_de_ferias(self):
+        holiday = self.env['hr.holidays'].search([
+            ('parent_id.controle_ferias.id', '=',
+             self.periodo_aquisitivo.id)
+        ])
+        date_from = fields.Datetime.from_string(holiday.date_from)
+        self.date_from = datetime.strftime(date_from, '%Y-%m-%d')
+        date_to = fields.Datetime.from_string(holiday.date_to)
+        self.date_to = datetime.strftime(date_from, '%Y-%m-%d')
 
     @api.multi
     def compute_sheet(self):
