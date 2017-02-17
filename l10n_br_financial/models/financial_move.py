@@ -159,11 +159,6 @@ class FinancialMove(models.Model):
         track_visibility='onchange',
     )
     account = fields.Char()
-    historic = fields.One2many(
-        comodel_name='financial.move.history',
-        inverse_name='financial_move_id',
-        track_visibility='onchange',
-    )
     due_date = fields.Date(
         string=u"Due date",
         # required=True,
