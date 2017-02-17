@@ -8,8 +8,7 @@
         <field name="name">financial.move.tree (in financial)</field>
         <field name="model">financial.move</field>
         <field name="arch" type="xml">
-            <!--<tree create="false" edit="false">-->
-            <tree>
+            <tree create="false" edit="false">
                 <field name="business_due_date"/>
                 <field name="create_date"/>
                 <field name="expected_date"/>
@@ -39,7 +38,6 @@
         <field name="name">financial.move.form (in financial)</field>
         <field name="model">financial.move</field>
         <field name="arch" type="xml">
-            <!--<form create="false" edit="false">-->
             <form create="false" edit="false">
                 <header>
                     <button name="action_confirm" type="object" states="draft,budget" string="Validate" class="oe_highlight"/>
@@ -164,34 +162,32 @@
         <field name="context">{'default_move_type': 'p'} </field>
     </record>
 
-    <record model="ir.actions.act_window" id="financial_payment_act_window">
-        <field name="name">Financial Move (Payment)</field> <!-- TODO -->
+    <!--<record model="ir.actions.act_window" id="financial_payment_act_window">-->
+        <!--<field name="name">Financial Move (Payment)</field> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--<field name="res_model">financial.move</field>-->
+        <!--<field name="view_mode">tree</field>-->
+        <!--<field name="domain">[('move_type','=','pp')]</field>-->
+        <!--<field name="context">{'default_move_type': 'pp'}</field>-->
+    <!--</record>-->
+
+    <!--<record model="ir.actions.act_window" id="financial_receipt_act_window">-->
+        <!--<field name="name">Financial Move (Receipt)</field> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--<field name="res_model">financial.move</field>-->
+        <!--<field name="view_mode">tree</field>-->
+        <!--<field name="domain">[('move_type','=','rr')]</field>-->
+        <!--<field name="context" >{'default_move_type': 'rr'}</field>-->
+    <!--</record>-->
+
+    <record model="ir.actions.act_window" id="financial_cash_flow_act_window">
+        <field name="name">Financial Cash Flow</field> <!-- TODO -->
         <field name="res_model">financial.move</field>
         <field name="view_mode">tree</field>
-        <field name="domain">[('move_type','=','pp')]</field>
-        <field name="context">{'default_move_type': 'pp'}</field>
     </record>
-
-    <record model="ir.actions.act_window" id="financial_receipt_act_window">
-        <field name="name">Financial Move (Receipt)</field> <!-- TODO -->
-        <field name="res_model">financial.move</field>
-        <field name="view_mode">tree</field>
-        <field name="domain">[('move_type','=','rr')]</field>
-        <field name="context" >{'default_move_type': 'rr'}</field>
-    </record>
-
 
     <record model="ir.ui.menu" id="financial_recieve_menu">
         <field name="name">Accounts Receivable</field>
         <field name="parent_id" ref="financial_dashboard_menu"/>
         <field name="action" ref="financial_receivable_act_window"/>
-        <field name="sequence" eval="16"/>
-    </record>
-
-    <record model="ir.ui.menu" id="financial_pay_menu">
-        <field name="name">Receipts</field>
-        <field name="parent_id" ref="financial_dashboard_menu"/>
-        <field name="action" ref="financial_receipt_act_window"/>
         <field name="sequence" eval="30"/>
     </record>
 
@@ -202,10 +198,10 @@
         <field name="sequence" eval="40"/>
     </record>
 
-    <record model="ir.ui.menu" id="financial_pay3_menu">
-        <field name="name">Payments</field>
+    <record model="ir.ui.menu" id="financial_cash_flow_menu">
+        <field name="name">Cash Flow</field>
         <field name="parent_id" ref="financial_dashboard_menu"/>
-        <field name="action" ref="financial_payment_act_window"/>
+        <field name="action" ref="financial_cash_flow_act_window"/>
         <field name="sequence" eval="50"/>
     </record>
 

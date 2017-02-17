@@ -18,6 +18,7 @@
         'data/ir_sequence_data.xml',
         'views/financial_menu.xml',
         'security/financial_move_history.xml',
+        'wizards/financial_create.xml',
         'wizards/financial_renegociate.xml',
         'wizards/financial_edit.xml',
         'wizards/financial_pay_revieve.xml',
