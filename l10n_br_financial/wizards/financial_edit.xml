@@ -15,6 +15,7 @@
                     <field name="currency_id"/>
                     <field name="amount_document"/>
                     <field name="due_date"/>
+                    <field name="change_reason"/>
                 </group>
                 <footer>
                     <button name='doit'

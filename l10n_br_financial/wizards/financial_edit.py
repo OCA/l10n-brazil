@@ -24,6 +24,11 @@ class FinancialEdit(models.TransientModel):
         string=u"Due date",
         required=True,
     )
+    change_reason = fields.Text(
+        string="Change reason",
+        track_visibility='onchange',
+        required=True,
+    )
 
     @api.model
     def default_get(self, fields):
@@ -49,6 +54,7 @@ class FinancialEdit(models.TransientModel):
                     'currency_id': wizard.currency_id.id,
                     'amount_document': wizard.amount_document,
                     'due_date': wizard.due_date,
+                    'change_reason': wizard.change_reason,
                 })
         return True
 
