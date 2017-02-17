@@ -144,7 +144,7 @@ class FinancialMove(models.Model):
             record.change_state('cancel')
 
     @api.multi
-    @api.depends('amount_discount', 'related_payment_ids')
+    @api.depends('related_payment_ids', 'amount_document')
     def _compute_balance(self):
         for record in self:
             if record.move_type in ('p', 'r'):
@@ -154,10 +154,10 @@ class FinancialMove(models.Model):
                                 payment.amount_discount -
                                 payment.amount_interest -
                                 payment.amount_delay_fee)
-                    # conferir variaveis
                 record.balance = balance
-                # if balance <= 0:
-                #     record.change_state('paid')
+            if record.balance <= 0 and record.related_payment_ids \
+                    and record.state == 'open':
+                record.change_state('paid')
 
     @api.model
     def create(self, vals):

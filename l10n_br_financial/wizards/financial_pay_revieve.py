@@ -8,10 +8,10 @@ from odoo import api, fields, models
 class FinancialPayRevieve(models.TransientModel):
 
     _name = 'financial.pay_revieve'
+
     ammount_paid = fields.Monetary(
         required=True
     )
-
     ref = fields.Char()
     payment_date = fields.Date(
         required=True
@@ -76,5 +76,7 @@ class FinancialPayRevieve(models.TransientModel):
                 'partner_id': financial_to_pay.partner_id.id,
                 'document_number': financial_to_pay.document_number,
             })
-
-        return True
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload',
+        }
