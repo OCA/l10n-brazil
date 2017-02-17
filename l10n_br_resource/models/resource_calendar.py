@@ -22,6 +22,19 @@ except ImportError:
 class ResourceCalendar(models.Model):
     _inherit = 'resource.calendar'
 
+    def _get_brazilian_calendar(self):
+
+        br_calendar_id = self.env['ir.config_parameter'].search(
+            [('key', '=', 'l10n_br_resource.br_calendar')]).value
+
+        if not br_calendar_id:
+            raise AccessError(
+                u"Calendário Brasileiro não encontrado, favor importa-lo "
+                u"manualmente"
+            )
+            #  TODO: Importar o calendário
+        return self.browse(int(br_calendar_id))
+
     def _compute_recursive_leaves(self, calendar):
         res = self.env['resource.calendar.leaves']
         res |= self.env['resource.calendar.leaves'].search([
@@ -125,9 +138,7 @@ class ResourceCalendar(models.Model):
                         False se a data referencia nao for feriado
         """
         if not self.leave_ids:
-            raise AccessError(
-                "Você esta tentando calcular dadas e/ou ausencias de recursos "
-                "sem especificar um calendário de referência!")
+            self = self.with_context(self._context)._get_brazilian_calendar()
         for leave in self.leave_ids:
             if leave.date_from <= data_referencia.strftime(
                     "%Y-%m-%d %H:%M:%S"):
@@ -230,9 +241,7 @@ class ResourceCalendar(models.Model):
                                    0 se a data nao for feriado bancário
         """
         if not self.leave_ids:
-            raise AccessError(
-                "Você esta tentando calcular dadas e/ou ausencias de recursos "
-                "sem especificar um calendário de referência!")
+            self = self.with_context(self._context)._get_brazilian_calendar()
         if self.leave_ids.filtered(
                 lambda record: data_referencia.strftime("%Y-%m-%d 00:00:00") <=
                 record.date_from <=
