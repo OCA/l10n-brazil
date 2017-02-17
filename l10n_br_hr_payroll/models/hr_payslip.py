@@ -63,65 +63,66 @@ class HrPayslip(models.Model):
 
     @api.multi
     def _valor_total_folha(self):
-        total = 0.00
-        total_proventos = 0.00
-        total_descontos = 0.00
-        base_inss = 0.00
-        base_irpf = 0.00
-        base_fgts = 0.00
-        fgts = 0.00
-        inss = 0.00
-        irpf = 0.00
-        codigo = {}
-        codigo['BASE_FGTS'] = \
-            self.env.ref('l10n_br_hr_payroll.hr_salary_rule_BASE_FGTS').code
-        codigo['BASE_INSS'] = \
-            self.env.ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS').code
-        codigo['BASE_IRPF'] = \
-            self.env.ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF').code
-        codigo['FGTS'] = \
-            self.env.ref('l10n_br_hr_payroll.hr_salary_rule_FGTS').code
-        codigo['INSS'] = \
-            self.env.ref('l10n_br_hr_payroll.hr_salary_rule_INSS').code
-        codigo['IRPF'] = \
-            self.env.ref('l10n_br_hr_payroll.hr_salary_rule_IRPF').code
-        for line in self.line_ids:
-            total += line.valor_provento - line.valor_deducao
-            total_proventos += line.valor_provento
-            total_descontos += line.valor_deducao
-            if codigo['BASE_FGTS']:
-                base_fgts = line.total
-            elif codigo['BASE_INSS']:
-                base_inss = line.total
-            elif codigo('BASE_IRPF'):
-                base_irpf = line.total
-            elif codigo['FGTS']:
-                fgts = line.total
-            elif codigo['INSS']:
-                inss = line.total
-            elif codigo['IRPF']:
-                irpf = line.total
-        self.total_folha = total
-        self.total_proventos = total_proventos
-        self.total_descontos = total_descontos
-        self.base_fgts = base_fgts
-        self.base_inss = base_inss
-        self.base_irpf = base_irpf
-        self.fgts = fgts
-        self.inss = inss
-        self.irpf = irpf
-        # Formato
-        self.data_admissao_fmt = data.formata_data(self.contract_id.date_start)
-        self.salario_base_fmt = valor.formata_valor(self.contract_id.wage)
-        self.total_folha_fmt = valor.formata_valor(self.total_folha)
-        self.total_proventos_fmt = valor.formata_valor(self.total_proventos)
-        self.total_descontos_fmt = valor.formata_valor(self.total_descontos)
-        self.base_fgts_fmt = valor.formata_valor(self.base_fgts)
-        self.base_inss_fmt = valor.formata_valor(self.base_inss)
-        self.base_irpf_fmt = valor.formata_valor(self.base_irpf)
-        self.fgts_fmt = valor.formata_valor(self.fgts)
-        self.inss_fmt = valor.formata_valor(self.inss)
-        self.irpf_fmt = valor.formata_valor(self.irpf)
+        for holerite in self:
+            total = 0.00
+            total_proventos = 0.00
+            total_descontos = 0.00
+            base_inss = 0.00
+            base_irpf = 0.00
+            base_fgts = 0.00
+            fgts = 0.00
+            inss = 0.00
+            irpf = 0.00
+            codigo = {}
+            codigo['BASE_FGTS'] = \
+                holerite.env.ref('l10n_br_hr_payroll.hr_salary_rule_BASE_FGTS').code
+            codigo['BASE_INSS'] = \
+                holerite.env.ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS').code
+            codigo['BASE_IRPF'] = \
+                holerite.env.ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF').code
+            codigo['FGTS'] = \
+                holerite.env.ref('l10n_br_hr_payroll.hr_salary_rule_FGTS').code
+            codigo['INSS'] = \
+                holerite.env.ref('l10n_br_hr_payroll.hr_salary_rule_INSS').code
+            codigo['IRPF'] = \
+                holerite.env.ref('l10n_br_hr_payroll.hr_salary_rule_IRPF').code
+            for line in holerite.line_ids:
+                total += line.valor_provento - line.valor_deducao
+                total_proventos += line.valor_provento
+                total_descontos += line.valor_deducao
+                if codigo['BASE_FGTS']:
+                    base_fgts = line.total
+                elif codigo['BASE_INSS']:
+                    base_inss = line.total
+                elif codigo('BASE_IRPF'):
+                    base_irpf = line.total
+                elif codigo['FGTS']:
+                    fgts = line.total
+                elif codigo['INSS']:
+                    inss = line.total
+                elif codigo['IRPF']:
+                    irpf = line.total
+            holerite.total_folha = total
+            holerite.total_proventos = total_proventos
+            holerite.total_descontos = total_descontos
+            holerite.base_fgts = base_fgts
+            holerite.base_inss = base_inss
+            holerite.base_irpf = base_irpf
+            holerite.fgts = fgts
+            holerite.inss = inss
+            holerite.irpf = irpf
+            # Formato
+            holerite.data_admissao_fmt = data.formata_data(holerite.contract_id.date_start)
+            holerite.salario_base_fmt = valor.formata_valor(holerite.contract_id.wage)
+            holerite.total_folha_fmt = valor.formata_valor(holerite.total_folha)
+            holerite.total_proventos_fmt = valor.formata_valor(holerite.total_proventos)
+            holerite.total_descontos_fmt = valor.formata_valor(holerite.total_descontos)
+            holerite.base_fgts_fmt = valor.formata_valor(holerite.base_fgts)
+            holerite.base_inss_fmt = valor.formata_valor(holerite.base_inss)
+            holerite.base_irpf_fmt = valor.formata_valor(holerite.base_irpf)
+            holerite.fgts_fmt = valor.formata_valor(holerite.fgts)
+            holerite.inss_fmt = valor.formata_valor(holerite.inss)
+            holerite.irpf_fmt = valor.formata_valor(holerite.irpf)
 
     employee_id_readonly = fields.Many2one(
         string=u'Funcionário',
@@ -138,11 +139,12 @@ class HrPayslip(models.Model):
     @api.depends('line_ids')
     @api.model
     def _buscar_payslip_line(self):
-        lines = []
-        for line in self.line_ids:
-            if line.valor_provento or line.valor_deducao:
-                lines.append(line.id)
-        self.line_resume_ids = lines
+        for holerite in self:
+            lines = []
+            for line in holerite.line_ids:
+                if line.valor_provento or line.valor_deducao:
+                    lines.append(line.id)
+            holerite.line_resume_ids = lines
 
     tipo_de_folha = fields.Selection(
         selection=TIPO_DE_FOLHA,
@@ -307,11 +309,12 @@ class HrPayslip(models.Model):
     )
 
     @api.depends('contract_id')
+    @api.model
     def _get_periodo_aquisitivo(self):
-        for holerite in self:
-            if holerite.contract_id:
-                controles_ferias = holerite.contract_id.vacation_control_ids
-                holerite.periodo_aquisitivo = controles_ferias[0]
+        if self.contract_id:
+            controles_ferias = self.contract_id.vacation_control_ids
+            if controles_ferias:
+                return controles_ferias[0]
 
     periodo_aquisitivo = fields.Many2one(
         comodel_name='hr.vacation.control',
