@@ -5,55 +5,15 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
-FINANCIAL_TYPE = [
-    ('r', u'Account Receivable'),
-    ('rr', u'Receipt'),
-    ('p', u'Account Payable'),
-    ('pp', u'Payment'),
-    # ('in', u'Money in'),
-    # ('out', u'Recieve'),
-    # ('trans', u'Transfer'),
-]
-
-FINANCIAL_STATE = [
-    ('draft', u'Draft'),
-    ('open', u'Open'),
-    ('paid', u'Paid'),
-    ('cancel', u'Cancel'),
-]
-
 
 class FinancialMove(models.Model):
 
     _name = 'financial.move'
-    _description = 'Financial Move'  # TODO
-    _inherit = ['mail.thread']
+    _description = 'Financial Move'
+    _inherit = ['mail.thread', 'financial.move.model']
     _order = "business_due_date desc, " \
-             "ref desc, ref_item desc, document_number, id desc"  # TODO:
+             "ref desc, ref_item desc, document_number, id desc"
     _rec_name = 'ref'
-
-    @api.model
-    def _avaliable_transition(self, old_state, new_state):
-        allowed = [
-            ('draft', 'open'),
-            ('open', 'paid'),
-            ('open', 'cancel'),
-        ]
-        return (old_state, new_state) in allowed
-
-    @api.multi
-    @api.depends('due_date')
-    def _compute_business_due_date(self):
-        for record in self:
-            if record.due_date:
-                record.business_due_date = self.env[
-                    'resource.calendar'].proximo_dia_util(
-                    fields.Date.from_string(record.due_date))
-
-    display_name = fields.Char(
-        string='Financial Reference',
-        compute='_compute_display_name',
-    )
 
     @api.multi
     @api.depends('ref', 'ref_item')
@@ -63,6 +23,15 @@ class FinancialMove(models.Model):
                 record.display_name = record.ref + '/' + record.ref_item
             else:
                 record.display_name = record.ref or ''
+
+    @api.model
+    def _avaliable_transition(self, old_state, new_state):
+        allowed = [
+            ('draft', 'open'),
+            ('open', 'paid'),
+            ('open', 'cancel'),
+        ]
+        return (old_state, new_state) in allowed
 
     ref = fields.Char(
         string='Ref',
@@ -79,37 +48,13 @@ class FinancialMove(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]},
     )
-    move_type = fields.Selection(
-        selection=FINANCIAL_TYPE,
-    )
-    state = fields.Selection(
-        selection=FINANCIAL_STATE,
-        string='Status',
-        index=True,
-        readonly=True,
-        default='draft',
-        track_visibility='onchange',
-        copy=False,
+    display_name = fields.Char(
+        string='Financial Reference',
+        compute='_compute_display_name',
     )
     active = fields.Boolean(
         string=u'Active',
         default=True,
-        track_visibility='onchange',
-    )
-    company_id = fields.Many2one(
-        comodel_name='res.company',
-        string=u'Company',
-        required=True,
-        readonly=True,
-        states={'draft': [('readonly', False)]},
-        track_visibility='onchange',
-    )
-    currency_id = fields.Many2one(
-        comodel_name='res.currency',
-        string='Currency',
-        required=True,
-        readonly=True,
-        states={'draft': [('readonly', False)]},
         track_visibility='onchange',
     )
     payment_mode = fields.Many2one(
@@ -122,57 +67,11 @@ class FinancialMove(models.Model):
     account_account_id = fields.Char()  # FIXME .Many2one(
     #
     # )
-    partner_id = fields.Many2one(
-        comodel_name='res.partner',
-        required=True,
-        readonly=True,
-        states={'draft': [('readonly', False)]},
-        track_visibility='onchange',
-    )
-    # partner_bank_id = fields.Many2one(
-    #     comodel_name='res.partner.bank',
-    # )
-    # move_type = fields.Char()  # FIXME:
-    document_number = fields.Char(
-        string=u"Document Nº",
-        required=True,
-        readonly=True,
-        states={'draft': [('readonly', False)]},
-        track_visibility='onchange',
-    )
-    document_date = fields.Date(
-        string=u"Data Emissão",
-        required=True,
-        readonly=True,
-        states={'draft': [('readonly', False)]},
-        track_visibility='onchange',
-    )  # FIXME: Data do documento ou
-    amount_document = fields.Monetary(
-        string=u"Document amount",
-        required=True,
-        readonly=True,
-        states={'draft': [('readonly', False)]},
-        track_visibility='onchange',
-    )
     balance = fields.Monetary(
         compute='_compute_balance',
         track_visibility='onchange',
     )
     account = fields.Char()
-    due_date = fields.Date(
-        string=u"Due date",
-        # required=True,
-        readonly=True,
-        states={'draft': [('readonly', False)]},
-        track_visibility='onchange',
-    )
-    business_due_date = fields.Date(
-        string='Business due date',
-        compute='_compute_business_due_date',
-        store=True,
-        index=True,
-        track_visibility='onchange',
-    )
     payment_date = fields.Date()
     credit_debit_date = fields.Date()
     amount_payment = fields.Monetary()
@@ -215,14 +114,10 @@ class FinancialMove(models.Model):
         string="Change reason",
         track_visibility='onchange',
     )
-
-    @api.multi
-    @api.constrains('amount_document')
-    def _check_amount_document(self):
-        for record in self:
-            if record.amount_document <= 0:
-                raise UserError(_(
-                    "The amount document must be higher then ZERO!"))
+    # partner_bank_id = fields.Many2one(
+    #     comodel_name='res.partner.bank',
+    # )
+    # move_type = fields.Char()  # FIXME:
 
     @api.multi
     def change_state(self, new_state):

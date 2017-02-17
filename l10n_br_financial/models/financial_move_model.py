@@ -29,6 +29,17 @@ class FinancialMoveModel(models.AbstractModel):
 
     _name = 'financial.move.model'
 
+    def _readonly_state(self):
+        return {'draft': [('readonly', False)]}
+
+    @api.model
+    def _default_currency(self):
+        # FIXME: Ao implementar o journal pegar a moeda do mesmo
+        # journal = self._default_journal()
+        # return journal.currency_id or journal.company_id.currency_id
+        return self.env['res.company']._company_default_get(
+            'financial.move').currency_id
+
     state = fields.Selection(
         selection=FINANCIAL_STATE,
         string='Status',
@@ -43,54 +54,61 @@ class FinancialMoveModel(models.AbstractModel):
         string=u'Company',
         required=True,
         readonly=True,
-        states={'draft': [('readonly', False)]},
+        states=_readonly_state,
         track_visibility='onchange',
+        default=lambda self: self.env['res.company']._company_default_get(
+            'financial.move'),
     )
     currency_id = fields.Many2one(
         comodel_name='res.currency',
         string='Currency',
         required=True,
         readonly=True,
-        states={'draft': [('readonly', False)]},
+        states=_readonly_state,
         track_visibility='onchange',
+        default=_default_currency,
     )
     partner_id = fields.Many2one(
         comodel_name='res.partner',
         required=True,
         readonly=True,
-        states={'draft': [('readonly', False)]},
+        states=_readonly_state,
         track_visibility='onchange',
     )
     document_number = fields.Char(
         string=u"Document Nº",
         required=True,
         readonly=True,
-        states={'draft': [('readonly', False)]},
+        states=_readonly_state,
         track_visibility='onchange',
     )
+    document_item = fields.Char(
+        string=u"Document item",
+    )
     document_date = fields.Date(
-        string=u"Data Emissão",
+        string=u"Document date",
         required=True,
         readonly=True,
-        states={'draft': [('readonly', False)]},
+        states=_readonly_state,
         track_visibility='onchange',
     )
     amount_document = fields.Monetary(
         string=u"Document amount",
         required=True,
         readonly=True,
-        states={'draft': [('readonly', False)]},
+        states=_readonly_state,
         track_visibility='onchange',
     )
     due_date = fields.Date(
         string=u"Due date",
         # required=True,
         readonly=True,
-        states={'draft': [('readonly', False)]},
+        states=_readonly_state,
         track_visibility='onchange',
     )
     move_type = fields.Selection(
         selection=FINANCIAL_TYPE,
+        required=True,
     )
     business_due_date = fields.Date(
         string='Business due date',
@@ -99,6 +117,8 @@ class FinancialMoveModel(models.AbstractModel):
         index=True,
         track_visibility='onchange',
     )
+
+
 
     @api.multi
     @api.constrains('amount_document')
@@ -129,18 +149,3 @@ class FinancialMoveModel(models.AbstractModel):
                                 partner_id, document_number, document_date,
                                 amount_document, due_date):
         return {}
-
-
-
-
-
-
-
-
-
-
-
-@api.model
-def _default_currency(self):
-    journal = self._default_journal()
-    return journal.currency_id or journal.company_id.currency_id
