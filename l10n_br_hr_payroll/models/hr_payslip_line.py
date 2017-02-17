@@ -18,31 +18,6 @@ except ImportError:
 class HrPayslipeLine(models.Model):
     _inherit = "hr.payslip.line"
 
-    @api.model
-    def _valores(self):
-        for linha in self:
-            linha.quantity_fmt = valor.formata_valor(linha.quantity)
-            if linha.salary_rule_id.category_id.code == "PROVENTO":
-                linha.valor_provento = linha.total
-                linha.valor_provento_fmt = \
-                    valor.formata_valor(linha.valor_provento)
-            else:
-                linha.valor_provento = 0.00
-                linha.valor_provento_fmt = ''
-
-    @api.model
-    def '_compute_valores'(self):
-        for linha in self:
-            if linha.salary_rule_id.category_id.code in ["DEDUCAO"] \
-                    or linha.salary_rule_id.code == "INSS" \
-                    or linha.salary_rule_id.code == "IRPF":
-                linha.valor_deducao = linha.total
-                linha.valor_deducao_fmt = \
-                    valor.formata_valor(linha.valor_deducao)
-            else:
-                linha.valor_deducao = 0.00
-                linha.valor_deducao_fmt = ''
-
     quantity_fmt = fields.Char(
         string=u'Quantidade',
         compute='_compute_valores',
@@ -97,7 +72,7 @@ class HrPayslipeLine(models.Model):
     )
 
     @api.model
-    def _compute_valore(self):
+    def _compute_valores(self):
         for linha in self:
             linha.quantidade = D(linha.quantity or 0)
             linha.base = D(linha.amount or 0)
