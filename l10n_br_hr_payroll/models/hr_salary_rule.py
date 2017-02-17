@@ -11,7 +11,7 @@ _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil.python_pt_BR import python_pt_BR
-    # from pybrasil.valor.decimal import Decimal
+    from pybrasil.valor.decimal import Decimal as D
 
 except ImportError:
     _logger.info('Cannot import pybrasil')
@@ -20,6 +20,8 @@ except ImportError:
 CALCULO_FOLHA_PT_BR = {
     u'resultado': 'result',
     u'valor': 'result',
+    u'percentual': 'result_rate',
+    u'porcentagem': 'result_rate',
     u'taxa': 'result_rate',
     u'aliquota': 'result_rate',
     u'alíquota': 'result_rate',
@@ -45,6 +47,13 @@ class HrSalaryRule(models.Model):
         string=u'Compõe Base FGTS',
     )
 
+    def _converte_decimal(self, localdict):
+        for chave in localdict:
+            if isinstance(localdict[chave], float):
+                localdict[chave] = D(localdict[chave] or 0)
+            if isinstance(localdict[chave], int):
+                localdict[chave] = D(localdict[chave] or 0)
+
     def compute_rule(self, cr, uid, rule_id, localdict, context=None):
         rule = self.browse(cr, uid, rule_id, context=context)
 
@@ -55,6 +64,8 @@ class HrSalaryRule(models.Model):
 
         codigo_python = python_pt_BR(rule.amount_python_compute or '',
                                      CALCULO_FOLHA_PT_BR)
+
+        self._converte_decimal(localdict)
 
         try:
             safe_eval(codigo_python, localdict, mode='exec', nocopy=True)
@@ -70,7 +81,7 @@ class HrSalaryRule(models.Model):
             else:
                 result_rate = 100
 
-            return result, result_qty, result_rate
+            return D(result or 0), D(result_qty or 0), D(result_rate or 0)
 
         except:
             msg = _('Wrong python code defined for salary rule %s (%s).')
@@ -86,6 +97,8 @@ class HrSalaryRule(models.Model):
 
         codigo_python = python_pt_BR(rule.condition_python or '',
                                      CALCULO_FOLHA_PT_BR)
+
+        self._converte_decimal(localdict)
 
         try:
             safe_eval(codigo_python, localdict, mode='exec', nocopy=True)

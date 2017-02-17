@@ -12,6 +12,8 @@ _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil import valor, data
+    from pybrasil.valor.decimal import Decimal as D, ROUND_DOWN
+
 except ImportError:
     _logger.info('Cannot import pybrasil')
 
@@ -756,7 +758,21 @@ class HrPayslip(models.Model):
                             localdict[rule.code] or 0.0
                         # set/overwrite the amount computed
                         # for this rule in the localdict
-                        tot_rule = amount * qty * rate / 100.0
+
+                        tot_rule = D(amount or 0) * D(qty or 0)
+                        tot_rule *= D(rate or 0) / D(100)
+
+                        #
+                        # O arredondamento do INSS e do FGTS é para baixo
+                        #
+                        if 'INSS' in rule.code or 'FGTS' in rule.code:
+                            tot_rule = tot_rule.quantize(
+                                D('0.01'),
+                                rounding=ROUND_DOWN
+                            )
+                        else:
+                            tot_rule = tot_rule.quantize(D('0.01'))
+
                         localdict[rule.code] = tot_rule
                         rules[rule.code] = rule
                         if rule.compoe_base_INSS:
@@ -792,10 +808,10 @@ class HrPayslip(models.Model):
                             'amount_percentage_base':
                                 rule.amount_percentage_base,
                             'register_id': rule.register_id.id,
-                            'amount': amount,
+                            'amount': D(amount or 0),
                             'employee_id': contract.employee_id.id,
-                            'quantity': qty,
-                            'rate': rate,
+                            'quantity': D(qty or 0),
+                            'rate': D(rate or 0),
                         }
                     else:
                         rules_seq = rule._model._recursive_search_of_rules(
