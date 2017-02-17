@@ -117,8 +117,14 @@ class FinancialMoveModel(models.AbstractModel):
         index=True,
         track_visibility='onchange',
     )
-
-
+    payment_mode = fields.Many2one(
+        comodel_name='payment.mode',  # FIXME:
+        track_visibility='onchange',
+    )
+    payment_term = fields.Many2one(
+        comodel_name='payment.term',  # FIXME:
+        track_visibility='onchange',
+    )
 
     @api.multi
     @api.constrains('amount_document')

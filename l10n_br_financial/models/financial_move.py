@@ -57,10 +57,6 @@ class FinancialMove(models.Model):
         default=True,
         track_visibility='onchange',
     )
-    payment_mode = fields.Many2one(
-        comodel_name='payment.mode',
-        track_visibility='onchange',
-    )
     analytic_account_id = fields.Char()  # FIXME .Many2one(
     #
     # )
