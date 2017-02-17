@@ -45,8 +45,6 @@ class FinancialEdit(models.TransientModel):
     def doit(self):
         for wizard in self:
             active_id = self._context['active_id']
-            account_financial = self.env['financial.move']
-
             if (self.env.context.get('active_model') == 'financial.move' and
                     active_id):
                 fm = self.env['financial.move'].browse(active_id)
@@ -57,4 +55,3 @@ class FinancialEdit(models.TransientModel):
                     'change_reason': wizard.change_reason,
                 })
         return True
-

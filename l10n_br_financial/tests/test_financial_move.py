@@ -5,6 +5,7 @@
 from odoo.tests.common import TransactionCase
 from odoo.exceptions import ValidationError
 
+
 class TestFinancialMove(TransactionCase):
 
     def setUp(self):
@@ -43,7 +44,7 @@ class TestFinancialMove(TransactionCase):
             maior que zero
         E impedir lançamento"""
         with self.assertRaises(ValidationError):
-            cr_2 = self.financial_move.create(
+            self.financial_move.create(
                 dict(due_date='2017-02-27',
                      company_id=self.main_company.id,
                      currency_id=self.currency_euro.id,
@@ -51,7 +52,7 @@ class TestFinancialMove(TransactionCase):
                      )
             )
 
-            cr_3 = self.financial_move.create(
+            self.financial_move.create(
                 dict(due_date='2017-02-27',
                      company_id=self.main_company.id,
                      currency_id=self.currency_euro.id,
@@ -73,8 +74,8 @@ class TestFinancialMove(TransactionCase):
                 currency_id=self.currency_euro.id,
                 amount_document=100.00,
                 payment_id=cr_4.id
-                )
             )
+        )
         pay.action_confirm()
         self.assertEqual(0.00, cr_4.balance)
         self.assertEqual('paid', cr_4.state)
