@@ -240,7 +240,7 @@ class MisReportKpiStyle(models.Model):
             return AccountingNone, '', style_r
 
     @api.model
-    def to_xlsx_style(self, props):
+    def to_xlsx_style(self, props, no_indent=False):
         num_format = '0'
         if props.dp:
             num_format += '.'
@@ -256,21 +256,25 @@ class MisReportKpiStyle(models.Model):
             ('size', self._font_size_to_xlsx_size.get(props.font_size, 11)),
             ('font_color', props.color),
             ('bg_color', props.background_color),
-            ('indent', props.indent_level),
             ('num_format', num_format),
         ]
+        if props.indent_level is not None and not no_indent:
+            xlsx_attributes.append(
+                ('indent', props.indent_level))
         return dict([a for a in xlsx_attributes
                      if a[1] is not None])
 
     @api.model
-    def to_css_style(self, props):
+    def to_css_style(self, props, no_indent=False):
         css_attributes = [
             ('font-style', props.font_style),
             ('font-weight', props.font_weight),
             ('font-size',  props.font_size),
             ('color', props.color),
             ('background-color', props.background_color),
-            ('indent-level', props.indent_level)
         ]
+        if props.indent_level is not None and not no_indent:
+            css_attributes.append(
+                ('text-indent', '{}em'.format(props.indent_level)))
         return '; '.join(['%s: %s' % a for a in css_attributes
                           if a[1] is not None]) or None
