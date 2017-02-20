@@ -5,9 +5,9 @@
 from odoo import api, fields, models
 
 
-class FinancialPayRevieve(models.TransientModel):
+class FinancialPayreceive(models.TransientModel):
 
-    _name = 'financial.pay_revieve'
+    _name = 'financial.pay_receive'
 
     ammount_paid = fields.Monetary(
         required=True
@@ -34,7 +34,7 @@ class FinancialPayRevieve(models.TransientModel):
 
     @api.model
     def default_get(self, vals):
-        res = super(FinancialPayRevieve, self).default_get(vals)
+        res = super(FinancialPayreceive, self).default_get(vals)
         active_id = self.env.context.get('active_id')
         if (self.env.context.get('active_model') == 'financial.move' and
                 active_id):
@@ -75,6 +75,8 @@ class FinancialPayRevieve(models.TransientModel):
                 'move_type': payment_type,
                 'partner_id': financial_to_pay.partner_id.id,
                 'document_number': financial_to_pay.document_number,
+                'due_date': fields.Date.today()
+
             })
         return {
             'type': 'ir.actions.client',

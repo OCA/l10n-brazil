@@ -43,7 +43,7 @@
             <!--<form create="false" edit="false">-->
                 <header>
                     <button name="action_confirm" type="object" states="draft,budget" string="Validate" class="oe_highlight"/>
-                    <button name="%(financial_pay_revieve_act_window)d" type="action" states="open" string="Register Payment" class="oe_highlight"/>
+                    <button name="%(financial_pay_receive_act_window)d" type="action" states="open" string="Register Payment" class="oe_highlight"/>
                     <!--<button name="action_cancel" type="object" states="draft,budget" string="Cancel Bill"/>-->
                     <!--<button name="action_draft" states="cancel" string="Set to Draft" type="object"/>-->
                     <field name="state" widget="statusbar" statusbar_visible="draft,open,paid" />
