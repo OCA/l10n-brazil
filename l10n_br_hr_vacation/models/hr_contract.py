@@ -52,9 +52,7 @@ class HrContract(models.Model):
             controle_ferias = controle_ferias_obj.create(vals)
             inicio = inicio + relativedelta(years=1)
             lista_controle_ferias.append(controle_ferias.id)
-
         hr_contract_id.vacation_control_ids = lista_controle_ferias
-        hr_contract_id.atualizar_controle_ferias()
         return hr_contract_id
 
     @api.model

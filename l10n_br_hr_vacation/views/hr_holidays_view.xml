@@ -34,6 +34,7 @@
 
                 <field name="notes" position="before">
                     <group attrs="{'invisible': ['|',('type','=','add'),('holiday_status_id', '!=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]}">
+                        <field name="controle_ferias"  invisible="1"/>
                         <field name="sell_vacation"/>
                         <field name="sold_vacations_days"
                                attrs="{'invisible': [('sell_vacation', '=', False)]}"/>
