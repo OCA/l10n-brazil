@@ -20,17 +20,7 @@ class TestFinancialMove(TransactionCase):
         self.partner_agrolait = self.env.ref("base.res_partner_2")
         self.partner_axelor = self.env.ref("base.res_partner_2")
 
-
-
-
-    # """ US1 # Como um operador de cobrança, eu gostaria de cadastrar uma conta
-    #  a receber/pagar para manter controle sobre o fluxo de caixa.
-    # """
-    # def test_us_1_ac_1(self):
-    #     """ DADO a data de vencimento de 27/02/2017
-    #     QUANDO criado um lançamento de contas a receber
-    #     ENTÃO a data de vencimento útil deve ser de 01/03/2017"""
-        cr_1 = self.financial_move.create(dict(
+        self.cr_1 = self.financial_move.create(dict(
             due_date='2017-02-23',
             company_id=self.main_company.id,
             currency_id=self.currency_euro.id,
@@ -40,81 +30,89 @@ class TestFinancialMove(TransactionCase):
             document_number='1111',
             move_type='r',
         ))
-    #     self.assertEqual(cr_1.business_due_date, '2017-02-27')
-    #
-        return cr_1
-    #
-    # def test_us_1_ac_2(self):
-    #     """DADO uma conta a pagar ou receber
-    #     QUANDO o valor for igual a zero
-    #     ENTÃO apresentar uma mensagem solicitando preenchimento de valor
-    #         maior que zero
-    #     E impedir lançamento"""
-    #     with self.assertRaises(ValidationError):
-    #         self.financial_move.create(dict(
-    #             due_date='2017-02-27',
-    #             company_id=self.main_company.id,
-    #             currency_id=self.currency_euro.id,
-    #             amount_document=0.00,
-    #             partner_id=self.partner_agrolait.id,
-    #             document_date=time.strftime('%Y') + '-01-02',
-    #             document_number='2222',
-    #             move_type='r',
-    #         ))
-    #
-    #         self.financial_move.create(dict(
-    #             due_date='2017-02-27',
-    #             company_id=self.main_company.id,
-    #             currency_id=self.currency_euro.id,
-    #             amount_document=-10.00,
-    #             partner_id=self.partner_agrolait.id,
-    #             document_date=time.strftime('%Y') + '-01-03',
-    #             document_number='3333',
-    #             move_type='r',
-    #         ))
 
-    # def test_us1_ac_3(self):
-    #     """ DADO a criação de uma nova parcela
-    #     QUANDO confirmada
-    #     ENTÃO esta parcela deve ter um número sequencial único chamado
-    #      de código da parcela
-    #     :return:
-    #     """
-    #     cr_1 = self.financial_move.create(dict(
-    #         due_date=time.strftime('%Y') + '-01-10',
-    #         company_id=self.main_company.id,
-    #         currency_id=self.currency_euro.id,
-    #         amount_document=100.00,
-    #         partner_id=self.partner_agrolait.id,
-    #         document_date=time.strftime('%Y') + '-01-04',
-    #         document_number='4444',
-    #         move_type='r',
-    #     ))
 
-    # def test_us1_ac_4(self):
-    #     """ DADO a criação de uma nova parcela
-    #     QUANDO confirmada
-    #     ENTÃO os seus campos não poderão mais ser alterados pela
-    #     interface de cadastro
-    #     :return:
-    #     """
-    #     pass
-    #
-    # """ Como um operador de cobrança, eu gostaria de alterar o vencimento ou
-    # valor de uma conta a receber/pagar para auditar as alterações do fluxo
-    # de caixa."""
-    #
-    # def test_us2_ac_1(self):
-    #     """ DADO a alteração de uma parcela via assistente
-    #     QUANDO solicitada a alteração do vencimento
-    #     OU valor
-    #     ENTÃO deve ser registrado o histórico no
-    #         histórico da alteração o motivo
-    #     E a alteração dos campos
-    #
-    #     :return:
-    #     """
-    #     pass
+    """ US1 # Como um operador de cobrança, eu gostaria de cadastrar uma conta
+     a receber/pagar para manter controle sobre o fluxo de caixa.
+    """
+    def test_us_1_ac_1(self):
+        """ DADO a data de vencimento de 27/02/2017
+        QUANDO criado um lançamento de contas a receber
+        ENTÃO a data de vencimento útil deve ser de 01/03/2017"""
+
+        self.assertEqual(self.cr_1.business_due_date, '2017-02-27')
+
+    def test_us_1_ac_2(self):
+        """DADO uma conta a pagar ou receber
+        QUANDO o valor for igual a zero
+        ENTÃO apresentar uma mensagem solicitando preenchimento de valor
+            maior que zero
+        E impedir lançamento"""
+        with self.assertRaises(ValidationError):
+            self.financial_move.create(dict(
+                due_date='2017-02-27',
+                company_id=self.main_company.id,
+                currency_id=self.currency_euro.id,
+                amount_document=0.00,
+                partner_id=self.partner_agrolait.id,
+                document_date=time.strftime('%Y') + '-01-02',
+                document_number='2222',
+                move_type='r',
+            ))
+
+            self.financial_move.create(dict(
+                due_date='2017-02-27',
+                company_id=self.main_company.id,
+                currency_id=self.currency_euro.id,
+                amount_document=-10.00,
+                partner_id=self.partner_agrolait.id,
+                document_date=time.strftime('%Y') + '-01-03',
+                document_number='3333',
+                move_type='r',
+            ))
+
+    def test_us1_ac_3(self):
+        """ DADO a criação de uma nova parcela
+        QUANDO confirmada
+        ENTÃO esta parcela deve ter um número sequencial único chamado
+         de código da parcela
+        :return:
+        """
+        cr_1 = self.financial_move.create(dict(
+            due_date=time.strftime('%Y') + '-01-10',
+            company_id=self.main_company.id,
+            currency_id=self.currency_euro.id,
+            amount_document=100.00,
+            partner_id=self.partner_agrolait.id,
+            document_date=time.strftime('%Y') + '-01-04',
+            document_number='4444',
+            move_type='r',
+        ))
+
+    def test_us1_ac_4(self):
+        """ DADO a criação de uma nova parcela
+        QUANDO confirmada
+        ENTÃO os seus campos não poderão mais ser alterados pela
+        interface de cadastro
+        :return:
+        """
+        pass
+
+    """ Como um operador de cobrança, eu gostaria de alterar o vencimento ou
+    valor de uma conta a receber/pagar para auditar as alterações do fluxo
+    de caixa."""
+
+    def test_us2_ac_1(self):
+        """ DADO a alteração de uma parcela via assistente
+        QUANDO solicitada a alteração do vencimento
+        OU valor
+        ENTÃO deve ser registrado o histórico no
+            histórico da alteração o motivo
+        E a alteração dos campos
+
+        :return:
+        """
+        pass
 
     """Como um operador de cobrança, eu preciso registrar um pagamento para
     atualizar o fluxo de caixa e os saldos dos clientes, fornecedores, contas
@@ -186,9 +184,9 @@ class TestFinancialMove(TransactionCase):
         E o parceiro deve ficar com um crédito de 50 reais"""
         cr_1 = self.test_us_1_ac_1()
         ctx = cr_1._context.copy()
-        ctx['active_id'] = cr_1.id
-        ctx['active_ids'] = [cr_1.id]
-        ctx['active_model'] = cr_1._model
+        ctx['active_id'] = self.cr_1.id
+        ctx['active_ids'] = [self.cr_1.id]
+        ctx['active_model'] = self.cr_1._model
 
         fr = self.financial_pay_receive.with_context(ctx).default_get()
         pay = fr.create(
