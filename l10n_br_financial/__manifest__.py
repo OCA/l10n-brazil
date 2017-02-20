@@ -21,7 +21,7 @@
         'wizards/financial_create.xml',
         'wizards/financial_renegociate.xml',
         'wizards/financial_edit.xml',
-        'wizards/financial_pay_revieve.xml',
+        'wizards/financial_pay_receive.xml',
         'wizards/financial_cancel.xml',
         'security/financial_move.xml',
         'views/financial_move.xml',
