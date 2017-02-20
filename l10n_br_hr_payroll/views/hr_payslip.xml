@@ -184,24 +184,34 @@
 
             <!--adicionando ANO e MES -->
             <xpath expr="//h1" position="after">
-                <group attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}">
+                <group attrs="{'invisible' : [('tipo_de_folha', '=', 'ferias')]}">
                     <group>
-                        <field name="mes_do_ano" attrs="{'invisible' : [('tipo_de_folha', '=', 'ferias')]}"/>
+                        <field name="mes_do_ano" />
                     </group>
                     <group>
-                        <field name="ano" attrs="{'invisible' : [('tipo_de_folha', '=', 'ferias')]}"/>
+                        <field name="ano"/>
                     </group>
                 </group>
             </xpath>
+
+            <!--adicionando Período de Férias -->
+            <xpath expr="//h1" position="after">
+                <group attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}">
+                    <group>
+                        <field name="holidays_ferias" />
+                    </group>
+                </group>
+            </xpath>
+
             <!--Deixando invisível-->
             <xpath expr="//label[@for='date_from']" position="replace">
-                <label for="date_from" string="" attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
+                <label for="date_from" string="" />
             </xpath>
             <field name="date_from" position="replace">
-                <field name="date_from" attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
+                <field name="date_from" />  até
             </field>
             <field name="date_to" position="replace">
-                <field name="date_to" attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
+                <field name="date_to" />
             </field>
 
             <!--Adicionando campod o periodo-->
