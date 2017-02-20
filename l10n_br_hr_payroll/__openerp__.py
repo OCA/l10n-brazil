@@ -43,7 +43,6 @@
         'views/hr_salary_rule.xml',
         'views/hr_payroll_structure.xml',
         'views/hr_payslip_run.xml',
-        'reports/reports.xml',
     ],
     'demo': [
         'demo/hr_contract.xml',
