@@ -133,7 +133,11 @@ class L10nBrHrMedias(models.Model):
         folhas_periodo = folha_obj.search(domain)
         folhas_periodo = folhas_periodo.sorted(key=lambda r: r.date_from)
         medias = {}
+        mes_anterior = ''
         for folha in folhas_periodo:
+            if mes_anterior and mes_anterior == folha.mes_do_ano:
+                continue
+            mes_anterior = folha.mes_do_ano
             for linha in folha.line_ids:
                 if linha.salary_rule_id.category_id.code == "PROVENTO" \
                         and linha.salary_rule_id.tipo_media:
