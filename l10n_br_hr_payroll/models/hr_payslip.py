@@ -987,6 +987,36 @@ class HrPayslip(models.Model):
                 raise exceptions.Warning(
                     _('Nenhum Holerite encontrado para médias nesse período!')
                 )
+            if not self.holidays_ferias:
+                raise exceptions.Warning(
+                    _('Nenhum Pedido de Ferias encontrado!')
+                )
+            else:
+                if self.holidays_ferias.number_of_days_temp > \
+                        self.periodo_aquisitivo.saldo:
+                    raise exceptions.Warning(
+                        _('Saldo de dias de ferias menor do que o '
+                          'periodo selecionado!')
+                    )
+                else:
+                    self.periodo_aquisitivo.inicio_gozo = \
+                        self.holidays_ferias.date_from
+                    self.periodo_aquisitivo.fim_gozo = \
+                        self.holidays_ferias.date_to
+
+                if self.periodo_aquisitivo.saldo > 0:
+                    controle_ferias_obj = self.env['hr.vacation.control']
+                    vals = {
+                        'inicio_aquisitivo':
+                            self.periodo_aquisitivo.inicio_aquisitivo,
+                        'fim_aquisitivo':
+                            self.periodo_aquisitivo.fim_aquisitivo,
+                        'contract_id':
+                            self.periodo_aquisitivo.contract_id.id,
+                        'hr_holiday_ids':
+                            [(6, 0, self.periodo_aquisitivo.hr_holiday_ids.ids)],
+                    }
+                    controle_ferias_obj.create(vals)
 
             self.validacao_holerites_anteriores(
                 data_de_inicio, data_final, self.contract_id)
