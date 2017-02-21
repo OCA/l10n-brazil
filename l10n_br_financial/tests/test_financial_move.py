@@ -90,17 +90,41 @@ class TestFinancialMove(TransactionCase):
     valor de uma conta a receber/pagar para auditar as alterações do fluxo
     de caixa."""
 
-    # def test_us2_ac_1(self):
-    #     """ DADO a alteração de uma parcela via assistente
-    #     QUANDO solicitada a alteração do vencimento
-    #     OU valor
-    #     ENTÃO deve ser registrado o histórico no
-    #         histórico da alteração o motivo
-    #     E a alteração dos campos
-    #
-    #     :return:
-    #     """
-    #     pass
+    def test_us2_ac_1(self):
+        """ DADO a alteração de uma parcela via assistente
+        QUANDO solicitada a alteração do vencimento
+        OU valor
+        ENTÃO deve ser registrado o histórico no
+            histórico da alteração o motivo
+        E a alteração dos campos
+
+        :return:
+        """
+        cr_1 = self.cr_1
+        ctx = cr_1._context.copy()
+        ctx['active_id'] = cr_1.id
+        ctx['active_ids'] = [cr_1.id]
+        ctx['active_model'] = 'financial.move'
+        cr_1.action_confirm()
+
+        fr = self.financial_edit.with_context(ctx)
+        vals = self.financial_edit.with_context(ctx).default_get([u'due_date', u'amount_document', u'currency_id', u'change_reason'])
+        vals['change_reason'] = 'qualquer coisa'
+        mt = self.mail_thread.with_context(ctx)
+        mm = self.mail_message.with_context(ctx)
+        message_number_before = len(self.env['financial.move'].browse(cr_1.id).message_ids.ids)
+
+        edit = fr.create(vals)
+        edit.write(dict(
+            due_date=time.strftime('%Y') + '-01-10',
+            currency_id=self.currency_euro.id,
+            amount_document=50.00,
+            change_reason='qualquer coisa',
+        ))
+        edit.doit()
+        message_number_after = len(self.env['financial.move'].browse(cr_1.id).message_ids.ids)
+        self.assertEqual(50.00, cr_1.amount_document)
+        self.assertEqual(message_number_before + 1, message_number_after)
 
     """Como um operador de cobrança, eu preciso registrar um pagamento para
     atualizar o fluxo de caixa e os saldos dos clientes, fornecedores, contas
