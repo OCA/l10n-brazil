@@ -4,7 +4,7 @@
 
 from odoo.tests.common import TransactionCase
 from odoo.exceptions import ValidationError
-import time, datetime
+import time
 
 
 class TestFinancialMove(TransactionCase):
@@ -31,7 +31,6 @@ class TestFinancialMove(TransactionCase):
             move_type='r',
         ))
 
-
     """ US1 # Como um operador de cobrança, eu gostaria de cadastrar uma conta
      a receber/pagar para manter controle sobre o fluxo de caixa.
     """
@@ -40,7 +39,7 @@ class TestFinancialMove(TransactionCase):
         QUANDO criado um lançamento de contas a receber
         ENTÃO a data de vencimento útil deve ser de 01/03/2017"""
 
-        self.assertEqual(self.cr_1.business_due_date, '2017-02-01')
+        self.assertEqual(self.cr_1.business_due_date, '2017-03-01')
 
     def test_us_1_ac_2(self):
         """DADO uma conta a pagar ou receber
@@ -70,21 +69,48 @@ class TestFinancialMove(TransactionCase):
                 move_type='r',
             ))
 
-    # def test_us1_ac_3(self):
-    #     """ DADO a criação de uma nova parcela
-    #     QUANDO confirmada
-    #     ENTÃO esta parcela deve ter um número sequencial único chamado
-    #      de código da parcela
-    #     :return:
-
-    def test_us1_ac_4(self):
+    def test_us1_ac_3(self):
         """ DADO a criação de uma nova parcela
         QUANDO confirmada
-        ENTÃO os seus campos não poderão mais ser alterados pela
-        interface de cadastro
-        :return:
-        """
-        pass
+        ENTÃO esta parcela deve ter um número sequencial único chamado
+         de código da parcela"""
+
+        cr_1 = self.cr_1
+        ctx = cr_1._context.copy()
+        ctx['active_id'] = cr_1.id
+        ctx['active_ids'] = [cr_1.id]
+        ctx['active_model'] = cr_1._module
+
+        cr_1.action_confirm()
+
+        cr_2 = self.financial_move.create(dict(
+            due_date='2017-02-27',
+            company_id=self.main_company.id,
+            currency_id=self.currency_euro.id,
+            amount_document=100.00,
+            partner_id=self.partner_agrolait.id,
+            document_date=time.strftime('%Y') + '-01-01',
+            document_number='2222',
+            move_type='r',
+        ))
+
+        cty = cr_2._context.copy()
+        cty['active_id'] = cr_2.id
+        cty['active_ids'] = [cr_2.id]
+        cty['active_model'] = cr_2._module
+
+        cr_2.action_confirm()
+
+        self.assertNotEqual(cr_1.display_name, cr_2.display_name)
+
+    # def test_us1_ac_4(self):
+    #     """ DADO a criação de uma nova parcela
+    #     QUANDO confirmada
+    #     ENTÃO os seus campos não poderão mais ser alterados pela
+    #     interface de cadastro
+    #     :return:
+    #     """
+    #     TODO: implementar teste quando for possivel pelo framework
 
     """ Como um operador de cobrança, eu gostaria de alterar o vencimento ou
     valor de uma conta a receber/pagar para auditar as alterações do fluxo
@@ -108,11 +134,15 @@ class TestFinancialMove(TransactionCase):
         cr_1.action_confirm()
 
         fr = self.financial_edit.with_context(ctx)
-        vals = self.financial_edit.with_context(ctx).default_get([u'due_date', u'amount_document', u'currency_id', u'change_reason'])
+        vals = self.financial_edit.with_context(ctx).\
+            default_get([u'due_date',
+                         u'amount_document',
+                         u'currency_id',
+                         u'change_reason'
+                         ])
         vals['change_reason'] = 'qualquer coisa'
-        mt = self.mail_thread.with_context(ctx)
-        mm = self.mail_message.with_context(ctx)
-        message_number_before = len(self.env['financial.move'].browse(cr_1.id).message_ids.ids)
+        message_number_before = len(self.env['financial.move'].browse(cr_1.id).
+                                    message_ids.ids)
 
         edit = fr.create(vals)
         edit.write(dict(
@@ -122,7 +152,8 @@ class TestFinancialMove(TransactionCase):
             change_reason='qualquer coisa',
         ))
         edit.doit()
-        message_number_after = len(self.env['financial.move'].browse(cr_1.id).message_ids.ids)
+        message_number_after = len(self.env['financial.move'].browse(cr_1.id)
+                                   .message_ids.ids)
         self.assertEqual(50.00, cr_1.amount_document)
         self.assertEqual(message_number_before + 1, message_number_after)
 

@@ -54,5 +54,5 @@ class FinancialEdit(models.TransientModel):
                     'due_date': wizard.due_date,
                     'change_reason': wizard.change_reason,
                 })
-        #return True
+        # return True
         return {'type': 'ir.actions.act_window_close', }
