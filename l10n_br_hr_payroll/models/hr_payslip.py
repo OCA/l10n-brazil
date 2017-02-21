@@ -908,7 +908,7 @@ class HrPayslip(models.Model):
                 )
 
             self.validacao_holerites_anteriores(
-                data_de_inicio, fields.Date.today(), self.contract_id)
+                data_de_inicio, data_final, self.contract_id)
         super(HrPayslip, self).compute_sheet()
         self._valor_total_folha()
         return True
@@ -931,14 +931,14 @@ class HrPayslip(models.Model):
         folhas_periodo = folha_obj.search(domain)
 
         folhas_sorted = folhas_periodo.sorted(key=lambda r: r.date_from)
-        mes = fields.Date.from_string(data_inicio)
+        mes = fields.Date.from_string(data_inicio) + relativedelta(months=-1)
 
         for folha in folhas_sorted:
+            mes = mes + relativedelta(months=1)
             if folha.mes_do_ano != mes.month:
                 raise exceptions.ValidationError(_(
                     "Faltando Holerite confirmado do mês de %s"
                 ) % MES_DO_ANO[mes.month-1][1])
-            mes = mes + relativedelta(months=1)
 
         if mes.month != fields.Date.from_string(data_fim).month:
             raise exceptions.ValidationError(_(
