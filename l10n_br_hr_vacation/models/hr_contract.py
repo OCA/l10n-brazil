@@ -53,6 +53,11 @@ class HrContract(models.Model):
             inicio = inicio + relativedelta(years=1)
             lista_controle_ferias.append(controle_ferias.id)
         hr_contract_id.vacation_control_ids = lista_controle_ferias
+
+        # gerar automaticamente as ferias (holidays) dos 2 ultimos controles
+        ultimos_controles = hr_contract_id.vacation_control_ids[-2:]
+        for controle_ferias in ultimos_controles:
+            controle_ferias.gerar_holidays_ferias()
         return hr_contract_id
 
     @api.model
@@ -74,26 +79,15 @@ class HrContract(models.Model):
             res['arch'] = etree.tostring(doc)
         return res
 
-    def gerar_periodo_aquisitivo(self, controle_ferias, employee_id):
-        vacation_id = self.env.ref(
-            'l10n_br_hr_vacation.holiday_status_vacation').id
-        holiday_id = self.env['hr.holidays'].create({
-            'name': 'Periodo Aquisitivo: %s ate %s'
-                    % (controle_ferias.inicio_aquisitivo,
-                       controle_ferias.fim_aquisitivo),
-            'employee_id': employee_id.id,
-            'holiday_status_id': vacation_id,
-            'type': 'add',
-            'holiday_type': 'employee',
-            'vacations_days': 30,
-            'sold_vacations_days': 0,
-            'number_of_days_temp': 30,
-            'controle_ferias': controle_ferias.id,
-        })
-        return holiday_id
-
     @api.multi
     def atualizar_controle_ferias(self):
+        """
+        Função disparada por botão na view do contrato e/ou pelo cron que
+        dispara diarimente.
+        Atualiza o controle de férias, verificando por periodos
+        aquisitivos que se encerraram ontem, para criar novas linhas de
+        controle de ferias.
+        """
         domain = [
             '|',
             ('date_end', '>', fields.Date.today()),
@@ -103,33 +97,14 @@ class HrContract(models.Model):
 
         for contrato in contratos_ids:
             if contrato.vacation_control_ids:
-                ultimo_controle = contrato.vacation_control_ids[0]
-                if ultimo_controle.fim_aquisitivo < fields.Date.today():
-                    ultimo_controle = contrato.vacation_control_ids[-1]
-
-                if not ultimo_controle.hr_holiday_ids:
-                    self.gerar_periodo_aquisitivo(ultimo_controle,
-                                                  contrato.employee_id)
-
-                elif ultimo_controle.fim_aquisitivo < fields.Date.today():
-                    controle_ferias_obj = self.env['hr.vacation.control']
-
-                    vals = controle_ferias_obj.\
-                        calcular_datas_aquisitivo_concessivo(
+                ultimo_controles = contrato.vacation_control_ids[0]
+                for ultimo_controle in ultimo_controles:
+                    if ultimo_controle.fim_aquisitivo < fields.Date.today():
+                        controle_ferias_obj = self.env['hr.vacation.control']
+                        vals = controle_ferias_obj.\
+                            calcular_datas_aquisitivo_concessivo(
                             fields.Date.today()
                         )
-                    controle_ferias = controle_ferias_obj.create(vals)
-                    self.gerar_periodo_aquisitivo(controle_ferias,
-                                                  contrato.employee_id)
-                    controle_ferias.contract_id = contrato
-
-                programacao_ferias = self.env['ir.config_parameter'].get_param(
-                    'l10n_br_hr_vacation_programacao_ferias_futuras',
-                    default=False
-                )
-
-                if not programacao_ferias:
-                    for periodo_aquisitivo in ultimo_controle.hr_holiday_ids:
-                        if periodo_aquisitivo.type == 'add':
-                            periodo_aquisitivo.number_of_days_temp =\
-                                ultimo_controle.saldo
+                        novo_controle_ferias = controle_ferias_obj.create(vals)
+                        novo_controle_ferias.gerar_holidays_ferias()
+                        novo_controle_ferias.contract_id = contrato

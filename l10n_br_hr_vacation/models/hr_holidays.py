@@ -92,4 +92,4 @@ class HrHolidays(models.Model):
     def _compute_contract(self):
         if self.parent_id:
             self.controle_ferias = self.parent_id.controle_ferias
-            self.name = 'Férias'
+            self.name = 'Férias para ' + str(self.employee_id.name)

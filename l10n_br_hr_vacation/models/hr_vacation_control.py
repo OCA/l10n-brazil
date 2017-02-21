@@ -59,13 +59,24 @@ class HrVacationControl(models.Model):
     )
 
     dias = fields.Integer(
-        string=u'Dias',
+        string=u'Dias de Direito',
+        help=u'Dias que o funcionario tera direito a tirar ferias. '
+             u'De acordo com a quantidade de faltas em seu perido aquisitivo',
         compute='calcular_dias',
     )
 
     saldo = fields.Float(
         string=u'Saldo',
+        help=u'Saldo dos dias de direitos proporcionalmente aos avos ja '
+             u'trabalhados no periodo aquisitivo',
         compute='calcular_saldo_dias',
+    )
+
+    dias_gozados = fields.Float(
+        string=u'Dias Gozados',
+        help=u'Quantidade de dias de ferias do periodo aquisitivo que ja foram '
+             u'gozados pelo funcionario em outro periodo de ferias',
+        default=0,
     )
 
     avos = fields.Integer(
@@ -181,7 +192,8 @@ class HrVacationControl(models.Model):
 
     def calcular_saldo_dias(self):
         for record in self:
-            record.saldo = record.avos * record.dias_de_direito() / 12.0
+            record.saldo = (record.avos * record.dias_de_direito() / 12.0) - \
+                           record.dias_gozados
 
     def calcular_dias(self):
         for record in self:
@@ -203,3 +215,25 @@ class HrVacationControl(models.Model):
         for record in self:
             pagamento_dobro = (record.dias_pagamento_dobro > 0)
             record.pagamento_dobro = pagamento_dobro
+
+    def gerar_holidays_ferias(self):
+        """
+        Gera novos pedidos de férias (holidays do tipo 'add') de acordo com as
+        informaçoes do controle de férias em questão.
+        """
+        vacation_id = self.env.ref(
+            'l10n_br_hr_vacation.holiday_status_vacation').id
+        holiday_id = self.env['hr.holidays'].create({
+            'name': 'Periodo Aquisitivo: %s ate %s'
+                    % (self.inicio_aquisitivo,
+                       self.fim_aquisitivo),
+            'employee_id': self.contract_id.employee_id.id,
+            'holiday_status_id': vacation_id,
+            'type': 'add',
+            'holiday_type': 'employee',
+            'vacations_days': 30,
+            'sold_vacations_days': 0,
+            'number_of_days_temp': 30,
+            'controle_ferias': self.id,
+        })
+        return holiday_id
