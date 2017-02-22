@@ -6,6 +6,7 @@ from odoo import api, fields, models
 from odoo.addons.l10n_br_financial.models.financial_move_model import (
     FINANCIAL_MOVE
 )
+#from odoo.addons.account_payment_mode.models.account_payment_mode import payment_mode
 
 
 class FinancialMoveCreate(models.TransientModel):
@@ -47,14 +48,17 @@ class FinancialMoveCreate(models.TransientModel):
     move_type = fields.Selection(
         selection=FINANCIAL_MOVE
     )
+
     payment_mode = fields.Many2one(
         comodel_name='account.payment.mode',  # FIXME:
-        # track_visibility='onchange',
+        #track_visibility='onchange',
     )
+
     payment_term = fields.Many2one(
         comodel_name='account.payment.term',  # FIXME:
-        # track_visibility='onchange',
+        #track_visibility='onchange',
     )
+
     line_ids = fields.One2many(
         comodel_name='financial.move.line.create',
         inverse_name='financial_move_id',
