@@ -111,9 +111,11 @@ class HrVacationControl(models.Model):
         string=u'Contrato Vigente',
     )
 
-    hr_holiday_ids = fields.One2many(
+    hr_holiday_ids = fields.Many2many(
         comodel_name='hr.holidays',
-        inverse_name='controle_ferias',
+        relation='vacation_control_holidays_rel',
+        column1='hr_vacation_control_id',
+        column2='holiday_id',
         string='Período Aquisitivo'
     )
 
@@ -190,9 +192,10 @@ class HrVacationControl(models.Model):
             else:
                 record.avos = int(avos_decimal)
 
+    @api.depends('dias_gozados')
     def calcular_saldo_dias(self):
         for record in self:
-            record.saldo = (record.avos * record.dias_de_direito() / 12.0) - \
+            record.saldo = (record.dias_de_direito() * record.avos/ 12.0) - \
                            record.dias_gozados
 
     def calcular_dias(self):
@@ -202,14 +205,14 @@ class HrVacationControl(models.Model):
     def calcular_dias_pagamento_dobro(self):
         for record in self:
             dias_pagamento_dobro = 0
-            if record.fim_gozo > record.fim_concessivo:
-                dias_pagamento_dobro = (
-                    fields.Date.from_string(record.fim_gozo) -
-                    fields.Date.from_string(record.fim_concessivo)
-                ).days
-            if dias_pagamento_dobro > 30:
-                dias_pagamento_dobro = 30
-            record.dias_pagamento_dobro = dias_pagamento_dobro
+            # if record.fim_gozo > record.fim_concessivo:
+            #     dias_pagamento_dobro = (
+            #         fields.Date.from_string(record.fim_gozo) -
+            #         fields.Date.from_string(record.fim_concessivo)
+            #     ).days
+            # if dias_pagamento_dobro > 30:
+            #     dias_pagamento_dobro = 30
+            # record.dias_pagamento_dobro = dias_pagamento_dobro
 
     def calcular_pagamento_dobro(self):
         for record in self:
@@ -234,6 +237,6 @@ class HrVacationControl(models.Model):
             'vacations_days': 30,
             'sold_vacations_days': 0,
             'number_of_days_temp': 30,
-            'controle_ferias': self.id,
+            'controle_ferias': [(6, 0, [self.id])],
         })
         return holiday_id

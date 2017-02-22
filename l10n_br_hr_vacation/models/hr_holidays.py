@@ -2,7 +2,15 @@
 # Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
 from openerp import api, models, fields
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from pybrasil import data
+except ImportError:
+    _logger.info('Cannot import pybrasil')
 
 
 class HrHolidays(models.Model):
@@ -45,8 +53,11 @@ class HrHolidays(models.Model):
         ondelete='restrict',
         index=True,
     )
-    controle_ferias = fields.Many2one(
+    controle_ferias = fields.Many2many(
         comodel_name='hr.vacation.control',
+        relation='vacation_control_holidays_rel',
+        column1='holiday_id',
+        column2='hr_vacation_control_id',
         string=u'Controle de Férias',
     )
 
@@ -92,4 +103,8 @@ class HrHolidays(models.Model):
     def _compute_contract(self):
         if self.parent_id:
             self.controle_ferias = self.parent_id.controle_ferias
-            self.name = 'Férias para ' + str(self.employee_id.name)
+            date_from = data.formata_data(self.date_from)
+            date_to = data.formata_data(self.date_to)
+            self.name =  \
+                self.holiday_status_id.name + \
+                ' [' + date_from + '-' + date_to + ']'
