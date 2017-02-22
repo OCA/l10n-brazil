@@ -146,6 +146,7 @@ class L10nBrHrMedias(models.Model):
                             linha.salary_rule_id.id:
                                 [{
                                     'mes': MES_DO_ANO[folha.mes_do_ano-1][1],
+                                    'ano': folha.ano,
                                     'valor': linha.total,
                                     'rubrica_id': linha.salary_rule_id.id,
                                 }]
@@ -153,6 +154,7 @@ class L10nBrHrMedias(models.Model):
                     else:
                         medias[linha.salary_rule_id.id].append({
                             'mes': MES_DO_ANO[folha.mes_do_ano-1][1],
+                            'ano': folha.ano,
                             'valor': linha.total,
                             'rubrica_id': linha.salary_rule_id.id,
                         })
@@ -169,14 +171,16 @@ class L10nBrHrMedias(models.Model):
             titulo.update({'holerite_id': holerite_id.id})
             titulo.update({'linha_de_titulo': True})
             for mes in medias[rubrica]:
-                titulo.update({'mes_' + str(mes_cont): str(mes['mes']), })
+                titulo.update({'mes_' + str(mes_cont):
+                                   str(mes['mes'])[:3] +
+                                   '/' + str(mes['ano']), })
                 if str(mes['mes']) in meses_titulos:
                     meses_titulos.remove(str(mes['mes']))
                 meses_titulos.append(str(mes['mes']))
                 mes_cont += 1
         linha_obj.create(titulo)
 
-        # definindo a linha
+        # definindo a linhay
         for rubrica in medias:
             vals = {}
             nome_rubrica = self.env['hr.salary.rule'].\
