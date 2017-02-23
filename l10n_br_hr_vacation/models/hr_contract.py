@@ -45,7 +45,7 @@ class HrContract(models.Model):
         lista_controle_ferias = []
         controle_ferias_obj = self.env['hr.vacation.control']
 
-        while(inicio < hoje):
+        while(inicio <= hoje):
             vals = controle_ferias_obj.calcular_datas_aquisitivo_concessivo(
                 str(inicio)
             )
