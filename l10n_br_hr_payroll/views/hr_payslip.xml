@@ -198,7 +198,18 @@
             <xpath expr="//h1" position="after">
                 <group attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}">
                     <group>
-                        <field name="holidays_ferias" />
+                        <field name="holidays_ferias"
+                               domain="[('employee_id', '=', employee_id), ('type', '=', 'remove'), ('holiday_status_id', '=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]"
+                               attrs="{'readonly': False, 'required': [('tipo_de_folha', '=', 'ferias')]}" />
+
+                        <field name="periodo_aquisitivo" invisible="1"/>
+                        <field name="periodo_aquisitivo_readonly"
+                               attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"
+                               readonly="True"/>
+
+                        <field name="saldo_periodo_aquisitivo"
+                               attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
+
                     </group>
                 </group>
             </xpath>
@@ -218,7 +229,6 @@
             <field name="credit_note" position="before">
                 <field name="dias_aviso_previo" attrs="{'invisible': [('tipo_de_folha', '!=', 'aviso_previo')],'required': [('tipo_de_folha', '=', 'aviso_previo')]}" />
                 <field name="is_simulacao" invisible="1"/>
-                <field name="periodo_aquisitivo" attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
             </field>
 
         </field>

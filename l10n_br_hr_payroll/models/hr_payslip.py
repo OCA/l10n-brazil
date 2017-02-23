@@ -380,39 +380,50 @@ class HrPayslip(models.Model):
         string=u"Holerite Resumo",
     )
 
-    @api.depends('periodo_aquisitivo')
-    @api.model
-    def _get_periodo_ferias(self):
-        for holerite in self:
-            # if not holerite.periodo_aquisitivo.inicio_gozo:
-            holidays = holerite.periodo_aquisitivo.hr_holiday_ids
-            for holiday in holidays:
-                if holiday.type == 'remove':
-                    holerite.holidays_ferias = holiday
-                    holerite.date_from = holiday.date_from
-                    holerite.date_to = holiday.date_to
+    @api.onchange('holidays_ferias')
+    def _set_holidays_ferias(self):
+        if self.holidays_ferias:
+            self.periodo_aquisitivo = self.holidays_ferias.controle_ferias[0]
+            self.date_from = self.holidays_ferias.date_from
+            self.date_to = self.holidays_ferias.date_to
 
     holidays_ferias = fields.Many2one(
         comodel_name='hr.holidays',
-        compute=_get_periodo_ferias,
         string=u'Solicitação de Férias',
         help=u'Período de férias apontado pelo funcionário em '
              u'Pedidos de Férias',
     )
 
-    @api.depends('contract_id')
-    @api.model
-    def _get_periodo_aquisitivo(self):
-        if self.contract_id:
-            controles_ferias = self.contract_id.vacation_control_ids
-            if controles_ferias:
-                return controles_ferias[0]
-
     periodo_aquisitivo = fields.Many2one(
         comodel_name='hr.vacation.control',
-        default='_get_periodo_aquisitivo',
         string="Período Aquisitivo",
         domain="[('contract_id','=',contract_id)]",
+    )
+
+    @api.depends('periodo_aquisitivo')
+    def _set_periodo_aquisitivo_readonly(self):
+        for holerite in self:
+            holerite.periodo_aquisitivo_readonly = holerite.periodo_aquisitivo
+
+    periodo_aquisitivo_readonly = fields.Many2one(
+        comodel_name='hr.vacation.control',
+        string="Período Aquisitivo",
+        compute='_set_periodo_aquisitivo_readonly',
+    )
+
+    @api.depends('periodo_aquisitivo')
+    @api.model
+    def _get_saldo_periodo_aquisitivo(self):
+        for holerite in self:
+            if holerite.periodo_aquisitivo:
+                holerite.saldo_periodo_aquisitivo = \
+                    holerite.periodo_aquisitivo.saldo
+
+    saldo_periodo_aquisitivo = fields.Integer(
+        string="Saldo de dias do Periodo Aquisitivo",
+        compute='_get_saldo_periodo_aquisitivo',
+        help=u'Saldo de dias do funcionaŕio, de acordo com número de faltas'
+             u'dentro do período aquisitivo selecionado.',
         store=True,
     )
 
@@ -500,17 +511,16 @@ class HrPayslip(models.Model):
                     0.0, contract_id
                 )
             ]
-            if hr_contract.vacation_control_ids[0].saldo:
-                saldo_ferias = hr_contract.vacation_control_ids[0].saldo
-            else:
-                saldo_ferias = 0
-            result += [
-                self.get_attendances(
-                    u'Saldo de dias máximo para Férias', 8,
-                    u'SALDO_FERIAS', saldo_ferias,
-                    0.0, contract_id
-                )
-            ]
+            # se o periodo aquisitivo ja estiver definido, pega o saldo de dias
+            if self.periodo_aquisitivo:
+                saldo_ferias = self.periodo_aquisitivo.saldo
+                result += [
+                    self.get_attendances(
+                        u'Saldo de dias máximo para Férias', 8,
+                        u'SALDO_FERIAS', saldo_ferias,
+                        0.0, contract_id
+                    )
+                ]
 
             # get Dias Trabalhados
             quantidade_dias_trabalhados = \
@@ -991,35 +1001,36 @@ class HrPayslip(models.Model):
                 raise exceptions.Warning(
                     _('Nenhum Pedido de Ferias encontrado!')
                 )
-            else:
-                if self.holidays_ferias.number_of_days_temp > \
-                        self.periodo_aquisitivo.saldo:
-                    raise exceptions.Warning(
-                        _('Saldo de dias de ferias menor do que o '
-                          'periodo selecionado!')
+            if self.holidays_ferias.number_of_days_temp > \
+                    self.saldo_periodo_aquisitivo:
+                raise exceptions.Warning(
+                    _('Selecionado mais dias de ferias do que o saldo do '
+                      'periodo aquisitivo selecionado!')
+                )
+
+            # Atualizar o controle de férias com informacao de quantos dias
+            # o funcionario gozara
+            self.periodo_aquisitivo.dias_gozados += \
+                self.holidays_ferias.number_of_days_temp
+
+            # Caso o funcionario opte por dividir as férias em dois períodos, e
+            # ainda tenha saldo para tal, uma nova linha de controle de féria
+            # é criada com base na linha atual
+            if self.periodo_aquisitivo.saldo > 0:
+                novo_controle_ferias = self.periodo_aquisitivo.copy()
+                novas_datas = \
+                    novo_controle_ferias.calcular_datas_aquisitivo_concessivo(
+                        novo_controle_ferias.inicio_aquisitivo
                     )
-                else:
-                    self.periodo_aquisitivo.inicio_gozo = \
-                        self.holidays_ferias.date_from
-                    self.periodo_aquisitivo.fim_gozo = \
-                        self.holidays_ferias.date_to
+                novo_controle_ferias.write(novas_datas)
 
-                if self.periodo_aquisitivo.saldo > 0:
-                    controle_ferias_obj = self.env['hr.vacation.control']
-                    vals = {
-                        'inicio_aquisitivo':
-                            self.periodo_aquisitivo.inicio_aquisitivo,
-                        'fim_aquisitivo':
-                            self.periodo_aquisitivo.fim_aquisitivo,
-                        'contract_id':
-                            self.periodo_aquisitivo.contract_id.id,
-                        'hr_holiday_ids':
-                            [(6, 0, self.periodo_aquisitivo.hr_holiday_ids.ids)],
-                    }
-                    controle_ferias_obj.create(vals)
+            # Atualizar o controle de férias com informacoes dos dias gozados
+            # pelo funcionario de acordo com a payslip de férias
+            self.periodo_aquisitivo.inicio_gozo = \
+                self.holidays_ferias.date_from
+            self.periodo_aquisitivo.fim_gozo = \
+                self.holidays_ferias.date_to
 
-            self.validacao_holerites_anteriores(
-                data_de_inicio, data_final, self.contract_id)
         super(HrPayslip, self).compute_sheet()
         self._valor_total_folha()
         return True
