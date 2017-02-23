@@ -101,10 +101,9 @@ class HrContract(models.Model):
                 for ultimo_controle in ultimo_controles:
                     if ultimo_controle.fim_aquisitivo < fields.Date.today():
                         controle_ferias_obj = self.env['hr.vacation.control']
+                        hoje = fields.Date.today()
                         vals = controle_ferias_obj.\
-                            calcular_datas_aquisitivo_concessivo(
-                            fields.Date.today()
-                        )
+                            calcular_datas_aquisitivo_concessivo(hoje)
                         novo_controle_ferias = controle_ferias_obj.create(vals)
                         novo_controle_ferias.gerar_holidays_ferias()
                         novo_controle_ferias.contract_id = contrato

@@ -74,7 +74,7 @@ class HrVacationControl(models.Model):
 
     dias_gozados = fields.Float(
         string=u'Dias Gozados',
-        help=u'Quantidade de dias de ferias do periodo aquisitivo que ja foram '
+        help=u'Quantidade de dias de ferias do periodo aquisitivo que ja foram'
              u'gozados pelo funcionario em outro periodo de ferias',
         default=0,
     )
@@ -195,8 +195,8 @@ class HrVacationControl(models.Model):
     @api.depends('dias_gozados')
     def calcular_saldo_dias(self):
         for record in self:
-            record.saldo = (record.dias_de_direito() * record.avos/ 12.0) - \
-                           record.dias_gozados
+            saldo = record.dias_de_direito() * record.avos / 12.0
+            record.saldo = saldo - record.dias_gozados
 
     def calcular_dias(self):
         for record in self:
@@ -204,7 +204,8 @@ class HrVacationControl(models.Model):
 
     def calcular_dias_pagamento_dobro(self):
         for record in self:
-            dias_pagamento_dobro = 0
+            pass
+            # dias_pagamento_dobro = 0
             # if record.fim_gozo > record.fim_concessivo:
             #     dias_pagamento_dobro = (
             #         fields.Date.from_string(record.fim_gozo) -
