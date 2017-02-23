@@ -896,6 +896,44 @@ class HrPayslip(models.Model):
             result = [value for code, value in result_dict.items()]
             return result
 
+    def atualizar_worked_days_inputs(self):
+        """
+        Atualizar os campos worked_days_line_ids e input_line_ids do holerite.
+        Com os campos de contrato, employee, date_from e date_to do holerite
+        ja setados, esse metodo exclui as variaveis base para calculo do
+        holerite e os instancia novamente atualizando os valore.
+        :return: Campos atualizados
+        """
+        hr_payslip_worked_days_obj = self.env['hr.payslip.worked_days']
+        hr_payslip_input_obj = self.env['hr.payslip.input']
+
+        for holerite in self:
+            # delete old worked days lines
+            if holerite.worked_days_line_ids:
+                for worked_day_id in holerite.worked_days_line_ids:
+                    worked_day_id.unlink()
+            # get dict com valores do worked_days_lines
+            worked_days_line_ids = self.get_worked_day_lines(
+                holerite.contract_id.id, holerite.date_from, holerite.date_to
+            )
+            # Atrelar o worked_days a payslip atual e instanciar o objeto
+            for wd_line in worked_days_line_ids:
+                wd_line['payslip_id'] = self.id
+                hr_payslip_worked_days_obj.create(wd_line)
+
+            # delete old input lines
+            if holerite.input_line_ids:
+                for input_id in holerite.input_line_ids:
+                    input_id.unlink()
+            # get dict com valores do Inputs_lines
+            input_line_ids = self.get_inputs(
+                holerite.contract_id.id, holerite.date_from, holerite.date_to
+            )
+            # Atrelar o Inputs_line a payslip atual e instanciar o objeto
+            for input_line in input_line_ids:
+                input_line['payslip_id'] = self.id
+                hr_payslip_input_obj.create(input_line)
+
     @api.multi
     def onchange_employee_id(self, date_from, date_to, contract_id):
         worked_days_obj = self.env['hr.payslip.worked_days']
