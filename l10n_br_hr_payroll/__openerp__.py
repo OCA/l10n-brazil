@@ -11,7 +11,11 @@
     'website': 'http://www.kmee.com.br',
     'version': '8.0.0.0.1',
     'depends': [
-        'l10n_br_hr_falta_abonada',
+        'l10n_br_hr_holiday',
+        'l10n_br_resource',
+        'l10n_br_hr_contract',
+        'hr_payroll',
+        'l10n_br_hr_allowance',
     ],
     'external_dependencies': {
         'python': ['pybrasil'],
