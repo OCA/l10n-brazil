@@ -985,7 +985,6 @@ class HrPayslip(models.Model):
             if record.contract_id:
                 record.employee_id = record.contract_id.employee_id
                 record.employee_id_readonly = record.employee_id
-            record.periodo_aquisitivo = record._get_periodo_aquisitivo()
 
     @api.multi
     @api.onchange('mes_do_ano', 'ano')
@@ -1030,6 +1029,11 @@ class HrPayslip(models.Model):
             hr_medias_ids, data_de_inicio, data_final = \
                 self.gerar_media_dos_proventos()
 
+            # Metodo pra validar se ja foram processadors todos os holerites
+            #  usados no calculo das medias
+            self.validacao_holerites_anteriores(
+                data_de_inicio, data_final, self.contract_id)
+
             if not hr_medias_ids \
                     and self.tipo_de_folha in ["decimo_terceiro", "ferias"]:
                 raise exceptions.Warning(
@@ -1069,6 +1073,7 @@ class HrPayslip(models.Model):
             self.periodo_aquisitivo.fim_gozo = \
                 self.holidays_ferias.date_to
 
+            self.atualizar_worked_days_inputs()
         super(HrPayslip, self).compute_sheet()
         self._valor_total_folha()
         return True
@@ -1093,17 +1098,22 @@ class HrPayslip(models.Model):
         folhas_sorted = folhas_periodo.sorted(key=lambda r: r.date_from)
         mes = fields.Date.from_string(data_inicio) + relativedelta(months=-1)
 
+        mes_anterior = ''
         for folha in folhas_sorted:
+            if mes_anterior and mes_anterior == folha.mes_do_ano:
+                continue
+            mes_anterior = folha.mes_do_ano
             mes = mes + relativedelta(months=1)
             if folha.mes_do_ano != mes.month:
-                raise exceptions.ValidationError(_(
-                    "Faltando Holerite confirmado do mês de %s"
-                ) % MES_DO_ANO[mes.month-1][1])
-
-        if mes.month != fields.Date.from_string(data_fim).month:
-            raise exceptions.ValidationError(_(
-                "Não foi encontrado holerite confirmado do mês de %s"
-            ) % MES_DO_ANO[mes.month-1][1])
+                raise exceptions.ValidationError(
+                    _("Faltando Holerite confirmado do mês de %s de %s") %
+                    (MES_DO_ANO[mes.month-1][1], mes.year))
+        mes_final = fields.Date.from_string(data_fim)
+        if mes.month != mes_final.month:
+            raise exceptions.ValidationError(
+                _("Não foi encontrado o último holerite do periodo "
+                  "aquisitivo, \nreferente ao mês  de %s de %s") %
+                (MES_DO_ANO[mes_final.month-1][1], mes_final.year))
 
     @api.multi
     def gerar_media_dos_proventos(self):
