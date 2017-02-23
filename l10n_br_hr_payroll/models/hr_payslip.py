@@ -1034,12 +1034,6 @@ class HrPayslip(models.Model):
             self.validacao_holerites_anteriores(
                 data_de_inicio, data_final, self.contract_id)
 
-            if not hr_medias_ids \
-                    and self.tipo_de_folha in ["decimo_terceiro", "ferias"]:
-                raise exceptions.Warning(
-                    _('Nenhum Holerite encontrado para médias nesse período!')
-                )
-
             if self.tipo_de_folha == 'ferias':
                 if not self.holidays_ferias:
                     raise exceptions.Warning(
@@ -1057,19 +1051,19 @@ class HrPayslip(models.Model):
                 self.periodo_aquisitivo.dias_gozados += \
                     self.holidays_ferias.number_of_days_temp
 
-                # Caso o funcionario opte por dividir as férias em dois períodos, e
-                # ainda tenha saldo para tal, uma nova linha de controle de féria
-                # é criada com base na linha atual
+                # Caso o funcionario opte por dividir as férias em dois
+                # períodos, e ainda tenha saldo para tal, uma nova linha de
+                # controle de féria é criada com base na linha atual
                 if self.periodo_aquisitivo.saldo > 0:
                     novo_controle_ferias = self.periodo_aquisitivo.copy()
-                    novas_datas = \
-                        novo_controle_ferias.calcular_datas_aquisitivo_concessivo(
+                    novas_datas = novo_controle_ferias.\
+                        calcular_datas_aquisitivo_concessivo(
                             novo_controle_ferias.inicio_aquisitivo
                         )
                     novo_controle_ferias.write(novas_datas)
 
-                # Atualizar o controle de férias com informacoes dos dias gozados
-                # pelo funcionario de acordo com a payslip de férias
+                # Atualizar o controle de férias com informacoes dos dias
+                # gozados pelo funcionario de acordo com a payslip de férias
                 self.periodo_aquisitivo.inicio_gozo = \
                     self.holidays_ferias.date_from
                 self.periodo_aquisitivo.fim_gozo = \
@@ -1091,7 +1085,7 @@ class HrPayslip(models.Model):
         folha_obj = self.env['hr.payslip']
         domain = [
             ('date_from', '>=', data_inicio),
-            ('date_to', '<=', data_fim),
+            ('date_from', '<=', data_fim),
             ('contract_id', '=', contrato.id),
             ('state', '=', 'done'),
         ]

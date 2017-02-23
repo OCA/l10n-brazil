@@ -305,6 +305,7 @@ else:
             <field name="condition_select">none</field>
             <field name="amount_python_compute">result = worked_days.DIAS_TRABALHADOS.number_of_days * contract.wage/30</field>
             <field name="sequence" eval="101" />
+            <field name="tipo_media">valor</field>
         </record>
 
         <record id="hr_salary_rule_HONORARIO_PRESIDENTE" model="hr.salary.rule">

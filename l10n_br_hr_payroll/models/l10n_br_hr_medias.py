@@ -126,7 +126,7 @@ class L10nBrHrMedias(models.Model):
         folha_obj = self.env['hr.payslip']
         domain = [
             ('date_from', '>=', data_inicio),
-            ('date_to', '<=', data_fim),
+            ('date_from', '<=', data_fim),
             ('contract_id', '=', holerite_id.contract_id.id),
             ('state', '=', 'done'),
         ]
@@ -136,6 +136,10 @@ class L10nBrHrMedias(models.Model):
         mes_anterior = ''
         for folha in folhas_periodo:
             if mes_anterior and mes_anterior == folha.mes_do_ano:
+                continue
+            primeiro_dia = fields.Date.from_string(folha.date_from)
+            ultimo_dia = fields.Date.from_string(folha.date_to)
+            if (ultimo_dia - primeiro_dia).days < 15:
                 continue
             mes_anterior = folha.mes_do_ano
             for linha in folha.line_ids:
