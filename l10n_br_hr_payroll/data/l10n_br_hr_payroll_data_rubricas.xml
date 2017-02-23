@@ -223,8 +223,7 @@
             <field name="category_id" ref="hr_payroll.FERIAS"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = MEDIAS.SALARIO.media/12.0
-result_qty = MEDIAS.SALARIO.meses
+            <field name="amount_python_compute">result = MEDIAS.SALARIO.media
             </field>
             <field name="sequence" eval="108"/>
             <field name="compoe_base_FGTS" eval="True"/>
@@ -237,7 +236,7 @@ result_qty = MEDIAS.SALARIO.meses
             <field name="category_id" ref="hr_payroll.FERIAS"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = BASE_FERIAS / worked_days.SALDO_FERIAS.number_of_days
+            <field name="amount_python_compute">result = BASE_FERIAS / 30
 result_qty =  worked_days.FERIAS.number_of_days
             </field>
             <field name="sequence" eval="109"/>

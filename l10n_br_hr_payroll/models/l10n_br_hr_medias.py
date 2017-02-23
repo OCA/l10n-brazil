@@ -171,9 +171,12 @@ class L10nBrHrMedias(models.Model):
             titulo.update({'holerite_id': holerite_id.id})
             titulo.update({'linha_de_titulo': True})
             for mes in medias[rubrica]:
-                titulo.update({'mes_' + str(mes_cont):
-                                   str(mes['mes'])[:3] +
-                                   '/' + str(mes['ano']), })
+                titulo.update(
+                    {
+                        'mes_' + str(mes_cont):
+                            str(mes['mes'])[:3] + '/' + str(mes['ano']),
+                    }
+                )
                 if str(mes['mes']) in meses_titulos:
                     meses_titulos.remove(str(mes['mes']))
                 meses_titulos.append(str(mes['mes']))
