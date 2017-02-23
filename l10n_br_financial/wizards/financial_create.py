@@ -48,17 +48,14 @@ class FinancialMoveCreate(models.TransientModel):
     move_type = fields.Selection(
         selection=FINANCIAL_MOVE
     )
-
     payment_mode = fields.Many2one(
         comodel_name='account.payment.mode',  # FIXME:
         #track_visibility='onchange',
     )
-
     payment_term = fields.Many2one(
         comodel_name='account.payment.term',  # FIXME:
         #track_visibility='onchange',
     )
-
     line_ids = fields.One2many(
         comodel_name='financial.move.line.create',
         inverse_name='financial_move_id',
@@ -77,65 +74,41 @@ class FinancialMoveCreate(models.TransientModel):
         copy=False,
     )
 
-    @api.onchange('payment_term', 'document_number',
-                  'document_date', 'amount_document')
+    @api.onchange('payment_term', 'document_number', 'document_date', 'amount_document')
     def onchange_fields(self):
+    #def oncompute(self):
         res = {}
+
         if not (self.payment_term and self.document_number and
                 self.document_date and self.amount_document > 0.00):
             return res
 
-        computations = \
-            self.payment_term.compute(self.amount_document, self.document_date)
-
-        payment_ids = []
+        payment_line = self.env['financial.move.line.create']
+        computations = self.payment_term.compute(self.amount_document, self.document_date)
+        payments = []
         for idx, item in enumerate(computations[0]):
             payment = dict(
+                # company_id=self.company_id,
+                # currency_id=self.currency_id,
+                # move_type=self.move_type,
+                # partner_id=self.partner_id,
+                # document_number=self.document_number,
+                # document_date=self.document_date,
+                # payment_mode=self.payment_mode,
+                # payment_term=self.payment_term,
+
                 document_item=self.document_number + '/' + str(idx + 1),
                 due_date=item[0],
                 amount_document=item[1],
             )
-            payment_ids.append((0, False, payment))
-        self.line_ids = payment_ids
+            payment_line.create(payment)
+            #payments += payment.id
+            #self.line = (6, 0, payments)
 
-    @api.multi
-    def compute(self):
-        financial_move = self.env['financial.move']
-        for record in self:
-            moves = []
-            for move in record.line_ids:
-                move_id = financial_move.create(dict(
-                    company_id=self.company_id.id,
-                    currency_id=self.currency_id.id,
-                    move_type=self.move_type,
-                    partner_id=self.partner_id.id,
-                    document_number=self.document_number,
-                    document_date=self.document_date,
-                    payment_mode=self.payment_mode.id,
-                    payment_term=self.payment_term.id,
-                    document_item=move.document_item,
-                    due_date=move.due_date,
-                    amount_document=move.amount_document,
-                ))
-                moves.append(move_id.id)
-
-        if record.move_type == 'r':
-            name = 'Receivable'
-        else:
-            name = 'Payable'
-        action = {
-            'name': name,
-            'type': 'ir.actions.act_window',
-            'res_model': 'financial.move',
-            'domain': [('id', 'in', moves)],
-            'view_mode': 'tree',
-            'views': [(self.env.ref(
-                'l10n_br_financial.financial_move_tree_view').id, 'list')],
-            'view_type': 'list',
-            'view_mode': 'list',
-            'target': 'current'
-        }
-        return action
+    # def compute(self):
+    #     # no financial.move
+    #     for item in result:
+    #         data = dict(
 
     @api.multi
     def doit(self):
@@ -161,10 +134,16 @@ class FinancialMoveCreate(models.TransientModel):
 class FinancialMoveLineCreate(models.TransientModel):
 
     _name = 'financial.move.line.create'
+    #_inherit = ['financial.move.model']
 
     currency_id = fields.Many2one(
         comodel_name='res.currency',
         string='Currency',
+        #required=True,
+        #readonly=True,
+        #states=_readonly_state,
+        #track_visibility='onchange',
+        #default=_default_currency,
     )
 
     document_item = fields.Char(
@@ -173,14 +152,26 @@ class FinancialMoveLineCreate(models.TransientModel):
 
     document_date = fields.Date(
         string=u"Document date",
+        #required=True,
+        #readonly=True,
+        #states=_readonly_state,
+        #track_visibility='onchange',
     )
 
     due_date = fields.Date(
         string=u"Due date",
+        #required=True,
+        #readonly=True,
+        #states=_readonly_state,
+        #track_visibility='onchange',
     )
 
     amount_document = fields.Monetary(
         string=u"Document amount",
+        #required=True,
+        #readonly=True,
+        #states=_readonly_state,
+        #track_visibility='onchange',
     )
 
     financial_move_id = fields.Many2one(
