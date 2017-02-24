@@ -991,10 +991,6 @@ class HrPayslip(models.Model):
     def buscar_datas_periodo(self):
         for record in self:
             record.set_dates()
-            if record.contract_id:
-                record.onchange_employee_id(
-                    record.date_from, record.date_to, record.contract_id.id
-                )
 
     def computar_mes_ano(self):
         for record in self:

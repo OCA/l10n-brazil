@@ -222,7 +222,7 @@
                 <field name="date_from" />  até
             </field>
             <field name="date_to" position="replace">
-                <field name="date_to" />
+                <field name="date_to" on_change="onchange_employee_id(date_from, date_to, contract_id)"/>
             </field>
 
             <!--Adicionando campod o periodo-->
