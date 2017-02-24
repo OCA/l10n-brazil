@@ -6,7 +6,6 @@ from odoo import api, fields, models
 from odoo.addons.l10n_br_financial.models.financial_move_model import (
     FINANCIAL_MOVE
 )
-#from odoo.addons.account_payment_mode.models.account_payment_mode import payment_mode
 
 
 class FinancialMoveCreate(models.TransientModel):
@@ -59,7 +58,7 @@ class FinancialMoveCreate(models.TransientModel):
     line_ids = fields.One2many(
         comodel_name='financial.move.line.create',
         inverse_name='financial_move_id',
-        # readonly=True,
+        #readonly=True,
     )
     state = fields.Selection(
         selection=[
@@ -76,7 +75,6 @@ class FinancialMoveCreate(models.TransientModel):
 
     @api.onchange('payment_term', 'document_number', 'document_date', 'amount_document')
     def onchange_fields(self):
-    #def oncompute(self):
         res = {}
 
         if not (self.payment_term and self.document_number and
@@ -85,30 +83,66 @@ class FinancialMoveCreate(models.TransientModel):
 
         payment_line = self.env['financial.move.line.create']
         computations = self.payment_term.compute(self.amount_document, self.document_date)
-        payments = []
+
+        #payment_ids = [
+        #    [5, False, {}],
+        #]
+        payment_ids = []
         for idx, item in enumerate(computations[0]):
             payment = dict(
-                # company_id=self.company_id,
-                # currency_id=self.currency_id,
-                # move_type=self.move_type,
-                # partner_id=self.partner_id,
-                # document_number=self.document_number,
-                # document_date=self.document_date,
-                # payment_mode=self.payment_mode,
-                # payment_term=self.payment_term,
-
                 document_item=self.document_number + '/' + str(idx + 1),
                 due_date=item[0],
                 amount_document=item[1],
+                #financial_move_id=self.id,
             )
-            payment_line.create(payment)
-            #payments += payment.id
-            #self.line = (6, 0, payments)
+            import wdb; wdb.set_trace() # BREAKPOINT
+            payment_ids.append((0, False, payment))
+            #payment_line.create(payment)
+        #self.lines = payment_ids
+        #res['value'] = {'line_ids': payment_ids}
+        self.line_ids = payment_ids
+        #return res
 
-    # def compute(self):
-    #     # no financial.move
-    #     for item in result:
-    #         data = dict(
+    @api.multi
+    def compute(self):
+        #import wdb; wdb.set_trace() # BREAKPOINT
+        financial_move = self.env['financial.move']
+        for record in self:
+            #financial_move_lines = self.env['financial.move.line.create']
+            #lines = self.line_ids
+            #lines = self.lines
+            #lines = financial_move_lines.search([('financial_move_id', '=', self.id)])
+            #no financial.move
+            moves = []
+            for move in record.line_ids:
+                import wdb; wdb.set_trace() # BREAKPOINT
+                financial_move.create(dict(
+                    company_id=self.company_id.id,
+                    currency_id=self.currency_id.id,
+                    move_type=self.move_type,
+                    partner_id=self.partner_id.id,
+                    document_number=self.document_number,
+                    document_date=self.document_date,
+                    payment_mode=self.payment_mode.id,
+                    payment_term=self.payment_term.id,
+                    document_item=record.document_item,
+                    due_date=record.due_date,
+                    amount_document=record.amount_document,
+                ))
+                moves.append(move)
+
+        if record.move_type == 'r':
+            action = 'financial_receivable_act_window'
+        else:
+            action = 'financial_payable_act_window'
+        action = {
+            'type': 'ir.actions.act_window',
+            'name': action,
+            'res_model': 'financial.move',
+            'domain': [('id', '=', moves)],
+            'view_mode': 'tree,form',
+        }
+        return action
 
     @api.multi
     def doit(self):
