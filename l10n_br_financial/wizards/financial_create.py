@@ -95,7 +95,6 @@ class FinancialMoveCreate(models.TransientModel):
                 amount_document=item[1],
                 #financial_move_id=self.id,
             )
-            import wdb; wdb.set_trace() # BREAKPOINT
             payment_ids.append((0, False, payment))
             #payment_line.create(payment)
         #self.lines = payment_ids
@@ -115,8 +114,7 @@ class FinancialMoveCreate(models.TransientModel):
             #no financial.move
             moves = []
             for move in record.line_ids:
-                import wdb; wdb.set_trace() # BREAKPOINT
-                financial_move.create(dict(
+                move_id = financial_move.create(dict(
                     company_id=self.company_id.id,
                     currency_id=self.currency_id.id,
                     move_type=self.move_type,
@@ -125,11 +123,11 @@ class FinancialMoveCreate(models.TransientModel):
                     document_date=self.document_date,
                     payment_mode=self.payment_mode.id,
                     payment_term=self.payment_term.id,
-                    document_item=record.document_item,
-                    due_date=record.due_date,
-                    amount_document=record.amount_document,
+                    document_item=move.document_item,
+                    due_date=move.due_date,
+                    amount_document=move.amount_document,
                 ))
-                moves.append(move)
+                moves.append(move_id.id)
 
         if record.move_type == 'r':
             action = 'financial_receivable_act_window'
