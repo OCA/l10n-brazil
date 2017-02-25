@@ -20,7 +20,8 @@ class HrPayslipeLine(models.Model):
     def _valor_provento(self):
         for record in self:
             record.quantity_fmt = valor.formata_valor(record.quantity)
-            if record.salary_rule_id.category_id.code == "PROVENTO":
+            if record.salary_rule_id.category_id.code \
+                    in ['PROVENTO', 'FERIAS']:
                 record.valor_provento = record.total
                 record.valor_provento_fmt = \
                     valor.formata_valor(record.valor_provento)
