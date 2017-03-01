@@ -72,6 +72,7 @@ from . import sped_operacao_item
 from . import sped_veiculo
 from . import sped_documento
 from . import sped_documento_volume
+from . import sped_documento_pagamento
 from . import sped_documento_duplicata
 from . import sped_documento_referenciado
 from . import sped_documento_item

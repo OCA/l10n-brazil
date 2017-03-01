@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_pagamento_form" >
+        <field name="name">sped.documento.pagamento.form</field>
+        <field name="model">sped.documento.pagamento</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Pagamento">
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="forma_pagamento" invisible="1"/>
+                <field name="bandeira_cartao" invisible="1"/>
+                <field name="integracao_cartao" invisible="1"/>
+                <field name="participante_id" invisible="1"/>
+                <field name="cnpj_cpf" invisible="1"/>
+                <group col="4" colspan="4">
+                    <group col="4" colspan="4">
+                        <field name="valor" required="1" />
+                        <field name="troco" />
+                        <newline />
+                        <field name="payment_term_id" colspan="4" context="{'currency_id': currency_id, 'value': valor}" />
+                        <newline />
+                        <separator string="Vencimentos" colspan="4" />
+                        <field name="duplicata_ids" colspan="4" nolabel="1" >
+                            <tree string="Duplicatas" editable="bottom">
+                                <field name="currency_id" invisible="1" />
+                                <field name="numero" />
+                                <field name="data_vencimento" />
+                                <field name="valor" />
+                            </tree>
+                        </field>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_pagamento_tree">
+        <field name="name">sped.documento.pagamento.tree</field>
+        <field name="model">sped.documento.pagamento</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Pagamentos">
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="sequence" widget="handle"/>
+                <field name="payment_term_id" />
+                <field name="valor" sum="valor" />
+                <field name="troco" sum="valor" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>
