@@ -7,29 +7,7 @@
 
 
 from odoo import fields, models
-from ..constante_tributaria import (
-    ENTRADA_SAIDA,
-    ENTRADA_SAIDA_SAIDA,
-    FINALIDADE_NFE,
-    FINALIDADE_NFE_NORMAL,
-    FORMA_PAGAMENTO,
-    FORMA_PAGAMENTO_A_VISTA,
-    INDICADOR_PRESENCA_COMPRADOR,
-    INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
-    LIMITE_RETENCAO_PIS_COFINS_CSLL,
-    MODALIDADE_FRETE,
-    MODALIDADE_FRETE_DESTINATARIO_PROPRIO,
-    MODELO_FISCAL,
-    MODELO_FISCAL_NFE,
-    NATUREZA_TRIBUTACAO_NFSE,
-    REGIME_TRIBUTARIO,
-    REGIME_TRIBUTARIO_SIMPLES,
-    ST_ISS,
-    TIPO_CONSUMIDOR_FINAL,
-    TIPO_CONSUMIDOR_FINAL_NORMAL,
-    TIPO_EMISSAO,
-    TIPO_EMISSAO_PROPRIA,
-)
+from ..constante_tributaria import *
 
 
 class OperacaoFiscal(models.Model):
@@ -81,10 +59,10 @@ class OperacaoFiscal(models.Model):
         string=u'Regime tributário',
         default=REGIME_TRIBUTARIO_SIMPLES
     )
-    forma_pagamento = fields.Selection(
-        selection=FORMA_PAGAMENTO,
-        string=u'Forma de pagamento',
-        default=FORMA_PAGAMENTO_A_VISTA
+    ind_forma_pagamento = fields.Selection(
+        selection=IND_FORMA_PAGAMENTO,
+        string=u'Tipo de pagamento',
+        default=IND_FORMA_PAGAMENTO_A_VISTA
     )
     finalidade_nfe = fields.Selection(
         selection=FINALIDADE_NFE,
