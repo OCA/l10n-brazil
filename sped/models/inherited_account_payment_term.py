@@ -10,6 +10,7 @@ from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from dateutil.relativedelta import relativedelta
 from pybrasil.valor.decimal import Decimal as D
+from ..constante_tributaria import *
 
 
 class AccountPaymentTerm(models.Model):
@@ -33,10 +34,28 @@ class AccountPaymentTerm(models.Model):
     # postpone_date_holiday = fields.Boolean(
     #     string=u'Postpone dates to next work day when holiday?',
     # )
+    forma_pagamento = fields.Selection(
+        selection=FORMA_PAGAMENTO,
+        string=u'Forma de pagamento',
+    )
+    bandeira_cartao = fields.Selection(
+        selection=BANDEIRA_CARTAO,
+        string=u'Bandeira do cartão',
+    )
+    integracao_cartao = fields.Selection(
+        selection=INTEGRACAO_CARTAO,
+        string=u'Integração do cartão',
+        default=INTEGRACAO_CARTAO_NAO_INTEGRADO,
+    )
+    participante_id = fields.Many2one(
+        string=u'Operadora do cartão',
+        ondelete='restrict',
+    )
     comercial_name = fields.Char(
         string=u'Payment Terms',
         compute='_compute_comercial_name',
     )
+
 
     @api.multi
     def _compute_comercial_name(self):
@@ -56,10 +75,29 @@ class AccountPaymentTerm(models.Model):
         value = D(self.env.context.get('value') or 0)
 
         for payment_term in self:
-            comercial_name = payment_term.name
+            comercial_name = u''
+            if payment_term.forma_pagamento in FORMA_PAGAMENTO_CARTOES:
+                if payment_term.forma_pagamento == \
+                    FORMA_PAGAMENTO_CARTAO_CREDITO:
+                    comercial_name += u'[Crédito '
+                elif payment_term.forma_pagamento == \
+                    FORMA_PAGAMENTO_CARTAO_DEBITO:
+                    comercial_name += u'[Débito '
+
+                comercial_name += \
+                    BANDEIRA_CARTAO_DICT[payment_term.bandeira_cartao]
+                comercial_name += u'] '
+
+            elif payment_term.forma_pagamento:
+                comercial_name += u'['
+                comercial_name += \
+                    FORMA_PAGAMENTO_DICT[payment_term.forma_pagamento]
+                comercial_name += u'] '
+
+            comercial_name += payment_term.name
 
             if payment_term.is_installment_plan and value > 0:
-                comercial_name += ' of '
+                comercial_name += ' de '
                 comercial_name += currency.symbol
                 comercial_name += u' '
                 installment_amount = value / D(payment_term.months or 1)

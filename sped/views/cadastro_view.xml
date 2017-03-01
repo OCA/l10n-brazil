@@ -8,6 +8,7 @@
     <menuitem id="menu_cadastro"
         name="Cadastro"
         sequence="-100"
+        web_icon="sped,static/description/icon.png"
         />
 
     <menuitem id="menu_cadastro_participante"

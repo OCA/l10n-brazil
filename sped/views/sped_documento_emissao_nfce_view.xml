@@ -42,11 +42,20 @@
                 <attribute name="string">Emissão de NFC-e</attribute>
             </xpath>
             <page name="participante" position="attributes">
-                <attribute name="string">Destinatário</attribute>
+                <attribute name="string">Consumidor</attribute>
             </page>
             <page name="empenho" position="replace" />
             <page name="retencoes" position="replace" />
             <page name="transporte" position="replace" />
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="domain">[('forma_pagamento', '!=', False)]</attribute>
+            </xpath>
+            <xpath expr="//separator[@name='vencimentos']" position="attributes">
+                <attribute name="attrs">{'invisible': [('payment_term_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='pagamento_ids']" position="attributes">
+                <attribute name="attrs">{'invisible': [('payment_term_id', '!=', False)]}</attribute>
+            </xpath>
         </field>
     </record>
 
@@ -60,7 +69,7 @@
                 <attribute name="string">Emissão de NFC-e</attribute>
             </xpath>
             <field name="participante_id" position="attributes">
-                <attribute name="string">Destinatário</attribute>
+                <attribute name="string">Consumidor</attribute>
             </field>
             <field name="data_entrada_saida" position="attributes">
                 <attribute name="invisible">1</attribute>

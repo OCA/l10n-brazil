@@ -41,6 +41,11 @@
             <xpath expr="//form[1]" position="attributes">
                 <attribute name="string">Emissão de NF-e</attribute>
             </xpath>
+            <xpath expr="//separator[@name='pagamentos']" position="replace" />
+            <xpath expr="//field[@name='pagamento_ids']" position="replace" />
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="domain">[('forma_pagamento', '!=', False)]</attribute>
+            </xpath>
         </field>
     </record>
 

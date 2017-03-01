@@ -9,6 +9,7 @@
         sequence="-98"
         id="menu_sped"
         name="Fiscal"
+        web_icon="sped,static/description/icon.png"
         />
 
     <menuitem

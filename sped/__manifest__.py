@@ -107,13 +107,18 @@
         'views/sped_veiculo_view.xml',
 
         'views/sped_operacao_item_view.xml',
+
+        'views/sped_operacao_base_view.xml',
+
         'views/sped_operacao_emissao_nfe_view.xml',
-        'views/sped_operacao_recebimento_nfe_view.xml',
+        'views/sped_operacao_emissao_nfce_view.xml',
+        #'views/sped_operacao_recebimento_nfe_view.xml',
 
         'views/sped_documento_item_declaracao_importacao_view.xml',
         'views/sped_documento_item_emissao_view.xml',
 
         'views/sped_documento_referenciado_view.xml',
+        'views/sped_documento_pagamento_view.xml',
 
         'views/sped_documento_base_view.xml',
 
