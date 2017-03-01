@@ -15,18 +15,44 @@
                 <header>
                     <button name="envia_nfe" string="Enviar NF-e" type="object" class="btn-primary"
                         attrs="{'invisible': [('state_nfe', 'not in', ['em_digitacao', 'rejeitada'])]}" />
+                    <button name="envia_email" string="Enviar email" type="object" class="btn-primary" />
                 </header>
             </xpath>
             <xpath expr="//field[@name='empresa_id']" position="before">
-                <field name="state_nfe" readonly="1" colspan="4" string="Situação" />
+                <field name="state_nfe" readonly="1" colspan="4" string="Situação"
+                       decoration-warning="state_nfe == 'denegada' or situacao_fiscal == '04'"
+                       decoration-danger="state_nfe == 'rejeitada'"
+                       />
+                <field name="mensagem_nfe" readonly="1" colspan="4" attrs="{'invisible': [('state_nfe', '!=', 'rejeitada')]}"
+                       decoration-warning="state_nfe == 'denegada' or situacao_fiscal == '04'"
+                       decoration-danger="state_nfe == 'rejeitada'"
+                       />
             </xpath>
             <page name="financeiro" position="after">
+                <page name="detalhe_nfe" string="NF-e">
+                    <field name="permite_cancelamento" invisible="1" />
+                    <group col="4" attrs="{'invisible': [('permite_cancelamento', '=', False), ('state_nfe', '!=', 'cancelada')]}">
+                        <separator string="Cancelamento" colspan="4" />
+                        <field name="justificativa" colspan="4" attrs="{'readonly': [('state_nfe', '=', 'cancelada')]}" />
+                        <button name="cancela_nfe" string="Cancelar NF-e" type="object" class="btn-primary"
+                            attrs="{'invisible': ['|', ('permite_cancelamento', '=', 'False'), ('state_nfe', '=', 'cancelada')]}" />
+                    </group>
+                </page>
                 <page name="suporte" string="Suporte">
                     <group col="4">
-                        <separator string="XML" colspan="4" />
+                        <separator string="Autorização" colspan="4" />
+                        <field name="data_hora_autorizacao" />
+                        <field name="protocolo_autorizacao" />
                         <field name="arquivo_xml_id" colspan="4" string="NF-e" />
                         <field name="arquivo_xml_autorizacao_id" colspan="4" string="Processo" />
                         <field name="arquivo_pdf_id" colspan="4" string="DANFE" />
+                    </group>
+                    <group col="4" attrs="{'invisible': [('state_nfe', '!=', 'cancelada')]}">
+                        <separator string="Cancelamento" colspan="4" />
+                        <field name="data_hora_cancelamento" />
+                        <field name="protocolo_cancelamento" />
+                        <field name="arquivo_xml_cancelamento_id" colspan="4" string="Cancelamento" />
+                        <field name="arquivo_xml_autorizacao_cancelamento_id" colspan="4" string="Autorização" />
                     </group>
                 </page>
             </page>

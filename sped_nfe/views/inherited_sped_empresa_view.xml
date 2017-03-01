@@ -19,11 +19,23 @@
                 <newline />
                 <separator string="DANFE" colspan="4" />
                 <field name="logo_danfe" colspan="4" />
+                <newline />
+                <separator string="Modelos de email" colspan="4" />
+                <field name="mail_template_nfe_autorizada_id" colspan="4" string="Autorização" />
+                <field name="mail_template_nfe_cancelada_id" colspan="4" string="Cancelamento" />
+                <field name="mail_template_nfe_denegada_id" colspan="4" string="Denegação" />
+                <field name="mail_template_nfe_cce_id" colspan="4" string="Carta de correção" />
             </field>
             <field name="serie_nfce_contingencia_homologacao" position="after">
                 <newline />
                 <separator string="DANFCE" colspan="4" />
                 <field name="logo_danfce" colspan="4" />
+                <newline />
+                <separator string="Modelos de email" colspan="4" />
+                <field name="mail_template_nfce_autorizada_id" colspan="4" string="Autorização" />
+                <field name="mail_template_nfce_cancelada_id" colspan="4" string="Cancelamento" />
+                <field name="mail_template_nfce_denegada_id" colspan="4" string="Denegação" />
+                <field name="mail_template_nfce_cce_id" colspan="4" string="Carta de correção" />
             </field>
         </field>
     </record>

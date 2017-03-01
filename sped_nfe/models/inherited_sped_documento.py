@@ -8,6 +8,7 @@
 import os
 import logging
 from odoo import api, fields, models
+from odoo.exceptions import UserError, ValidationError
 from ...sped.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
@@ -17,7 +18,8 @@ try:
     from pysped.nfe.webservices_flags import *
     from pysped.nfe.leiaute import *
     from pybrasil.inscricao import limpa_formatacao
-    from pybrasil.data import parse_datetime, UTC, data_hora_horario_brasilia
+    from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
+                               agora)
     from pybrasil.valor import formata_valor
 
 except (ImportError, IOError) as err:
@@ -63,7 +65,7 @@ class Documento(models.Model):
         copy=False,
     )
     mensagem_nfe = fields.Text(
-        string=u'Mensagem NF-e',
+        string=u'Mensagem',
         copy=False,
     )
     state_nfe = fields.Selection(
@@ -75,7 +77,6 @@ class Documento(models.Model):
     data_hora_autorizacao = fields.Datetime(
         string=u'Data de autorização',
         index=True,
-        default=fields.Datetime.now,
     )
     data_autorizacao = fields.Date(
         string=u'Data de autorização',
@@ -86,13 +87,28 @@ class Documento(models.Model):
     data_hora_cancelamento = fields.Datetime(
         string=u'Data de cancelamento',
         index=True,
-        default=fields.Datetime.now,
     )
     data_cancelamento = fields.Date(
         string=u'Data de cancelamento',
         compute='_compute_data_hora_separadas',
         store=True,
         index=True,
+    )
+    justificativa = fields.Char(
+        string=u'Justificativa',
+        size=60,
+    )
+    recibo = fields.Char(
+        string=u'Recibo de transmissão',
+        size=60,
+    )
+    protocolo_autorizacao = fields.Char(
+        string=u'Protocolo de autorização',
+        size=60,
+    )
+    protocolo_cancelamento = fields.Char(
+        string=u'Protocolo de cancelamento',
+        size=60,
     )
 
     @api.depends('data_hora_emissao', 'data_hora_entrada_saida',
@@ -131,21 +147,98 @@ class Documento(models.Model):
                 documento.state_nfe in (SITUACAO_NFE_EM_DIGITACAO,
                                         SITUACAO_NFE_REJEITADA)
 
+    def _check_permite_alteracao(self, operacao='create', dados={}):
+        CAMPOS_PERMITIDOS = [
+            'justificativa',
+            'arquivo_xml_cancelamento_id',
+            'arquivo_xml_autorizacao_cancelamento_id',
+            'data_hora_cancelamento',
+            'protocolo_cancelamento',
+            'arquivo_pdf_id',
+            'situacao_fiscal',
+            'state_nfe',
+        ]
+        for documento in self:
+            if documento.modelo not in (MODELO_FISCAL_NFE,
+                                        MODELO_FISCAL_NFCE):
+                super(Documento, documento)._check_permite_alteracao(
+                    operacao,
+                    dados,
+                )
+                continue
+
+            if documento.emissao != TIPO_EMISSAO_PROPRIA:
+                super(Documento, documento)._check_permite_alteracao(
+                    operacao,
+                    dados,
+                )
+                continue
+
+            if documento.permite_alteracao:
+                continue
+
+            permite_alteracao = False
+            #
+            # Trata alguns campos que é permitido alterar depois da nota
+            # autorizada
+            #
+            if documento.state_nfe == SITUACAO_NFE_AUTORIZADA:
+                for campo in CAMPOS_PERMITIDOS:
+                    if campo in dados:
+                        permite_alteracao = True
+                        break
+
+            if permite_alteracao:
+                continue
+
+            super(Documento, documento)._check_permite_alteracao(
+                operacao,
+                dados,
+            )
+
+    @api.depends('data_hora_autorizacao', 'modelo', 'emissao', 'justificativa',
+                 'state_nfe')
+    def _compute_permite_cancelamento(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para verificar
+        # regras de negócio que proíbam o cancelamento de um documento fiscal,
+        # como por exemplo, a existência de boletos emitidos no financeiro,
+        # que precisariam ser cancelados antes, caso tenham sido enviados
+        # para o banco, a verificação de movimentações de estoque confirmadas,
+        # a contabilização definitiva do documento etc.
+        #
+        for documento in self:
+            if documento.modelo not in (MODELO_FISCAL_NFE,
+                                        MODELO_FISCAL_NFCE):
+                super(Documento, documento)._compute_permite_cancelamento()
+                continue
+
+            if documento.emissao != TIPO_EMISSAO_PROPRIA:
+                super(Documento, documento)._compute_permite_cancelamento()
+                continue
+
+            self.permite_cancelamento = False
+
+            if self.data_hora_autorizacao:
+                tempo_autorizado = UTC.normalize(agora())
+                tempo_autorizado -= \
+                    parse_datetime(self.data_hora_autorizacao + ' GMT')
+
+                if self.state_nfe == SITUACAO_NFE_AUTORIZADA and \
+                    tempo_autorizado.days < 1:
+                    self.permite_cancelamento = True
+
     def processador_nfe(self):
         self.ensure_one()
 
         if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
-            raise
+            raise UserError(u'Tentando processar um documento que não é uma'
+                            'NF-e nem uma NFC-e!')
 
-        processador = ProcessadorNFe()
-        processador.estado = self.empresa_id.estado
+        processador = self.empresa_id.processador_nfe()
         processador.ambiente = int(self.ambiente_nfe or
                                    AMBIENTE_NFE_HOMOLOGACAO)
         processador.modelo = self.modelo
-
-        if self.empresa_id.certificado_id:
-            processador.certificado = \
-                self.empresa_id.certificado_id.certificado_nfe()
 
         if self.modelo == MODELO_FISCAL_NFE:
             if self.empresa_id.logo_danfe:
@@ -214,137 +307,19 @@ class Documento(models.Model):
         self.arquivo_xml_autorizacao_id = \
             self._grava_anexo(nome_arquivo, conteudo).id
 
-    def grava_xml_cancelamento(self, nfe):
-        nome_arquivo = nfe.chave + '-01-can.xml'
-        conteudo = nfe.xml.encode('utf-8')
+    def grava_xml_cancelamento(self, chave, canc):
+        nome_arquivo = chave + '-01-can.xml'
+        conteudo = canc.xml.encode('utf-8')
         self.arquivo_xml_cancelamento_id = False
         self.arquivo_xml_cancelamento_id = \
             self._grava_anexo(nome_arquivo, conteudo).id
 
-    def grava_xml_cancelamento(self, nfe):
-        nome_arquivo = nfe.chave + '-01-proc-can.xml'
-        conteudo = nfe.xml.encode('utf-8')
+    def grava_xml_autorizacao_cancelamento(self, chave, canc):
+        nome_arquivo = chave + '-01-proc-can.xml'
+        conteudo = canc.xml.encode('utf-8')
         self.arquivo_xml_autorizacao_cancelamento_id = False
         self.arquivo_xml_autorizacao_cancelamento_id = \
             self._grava_anexo(nome_arquivo, conteudo).id
-
-    def envia_nfe(self):
-        self.ensure_one()
-
-        processador = self.processador_nfe()
-
-        #
-        # A NFC-e deve ter data de emissão no máx. 5 minutos antes
-        # da transmissão; por isso, definimos a hora de emissão aqui no
-        # envio
-        #
-        if self.modelo == MODELO_FISCAL_NFCE:
-            self.data_hora_emissao = fields.Datetime.now()
-            self.data_hora_entrada_saida = self.data_hora_emissao
-
-        nfe = self.monta_nfe(processador)
-
-        self.grava_xml(nfe)
-
-        if self.modelo == MODELO_FISCAL_NFE:
-            processador.danfe.NFe = nfe
-            processador.danfe.salvar_arquivo = False
-            processador.danfe.gerar_danfe()
-            self.grava_pdf(nfe, processador.danfe.conteudo_pdf)
-        elif self.modelo == MODELO_FISCAL_NFCE:
-            processador.danfce.NFe = nfe
-            processador.danfce.salvar_arquivo = False
-            processador.danfce.gerar_danfce()
-            self.grava_pdf(nfe, processador.danfce.conteudo_pdf)
-
-        #
-        # Envia a nota
-        #
-        processo = None
-        for p in processador.processar_notas([nfe]):
-            processo = p
-
-        self.grava_xml(nfe)
-
-        #
-        # Se o último processo foi a consulta do status do serviço, significa
-        # que ele não está online...
-        #
-        if processo.webservice == WS_NFE_SITUACAO:
-            self.state_nfe = SITUACAO_NFE_EM_DIGITACAO
-        #
-        # Se o último processo foi a consulta da nota, significa que ela já
-        # está emitida
-        #
-        elif processo.webservice == WS_NFE_CONSULTA:
-            if processo.resposta.cStat.valor in ('100', '150'):
-                self.state_nfe = SITUACAO_NFE_AUTORIZADA
-            elif processo.resposta.cStat.valor in ('110', '301', '302'):
-                self.state_nfe = SITUACAO_NFE_DENEGADA
-            else:
-                self.state_nfe = SITUACAO_NFE_EM_DIGITACAO
-
-        #
-        # Se o último processo foi o envio do lote, significa que a consulta
-        # falhou, mas o envio não
-        #
-        elif processo.webservice == WS_NFE_ENVIO_LOTE:
-            self.state_nfe = SITUACAO_NFE_EM_DIGITACAO
-        #
-        # Se o último processo foi o retorno do recibo, a nota foi rejeitada,
-        # denegada, autorizada, ou ainda não tem resposta
-        #
-        elif processo.webservice == WS_NFE_CONSULTA_RECIBO:
-            #
-            # Consulta ainda sem resposta, a nota ainda não foi processada
-            #
-            if processo.resposta.cStat.valor == '105':
-                self.state_nfe = SITUACAO_NFE_ENVIADA
-            #
-            # Lote processado
-            #
-            elif processo.resposta.cStat.valor == '104':
-                protNFe = processo.resposta.protNFe[0]
-
-                #
-                # Autorizada ou denegada
-                #
-                if protNFe.infProt.cStat.valor in ('100', '150', '110', '301',
-                                                   '302'):
-                    procNFe = processo.resposta.dic_procNFe[nfe.chave]
-                    self.grava_xml_autorizacao(procNFe)
-
-                    if self.modelo == MODELO_FISCAL_NFE:
-                        self.grava_pdf(nfe, procNFe.danfe_pdf)
-                    elif self.modelo == MODELO_FISCAL_NFCE:
-                        self.grava_pdf(nfe, procNFe.danfce_pdf)
-
-                    data_autorizacao = protNFe.infProt.dhRecbto.valor
-                    data_autorizacao = UTC.normalize(data_autorizacao)
-
-                    self.data_hora_autorizacao = data_autorizacao
-
-                    if protNFe.infProt.cStat.valor in ('100', '150'):
-                        self.state_nfe = SITUACAO_NFE_AUTORIZADA
-                    else:
-                        self.state_nfe = SITUACAO_NFE_DENEGADA
-                else:
-                    mensagem = u'Código de retorno: ' + \
-                               protNFe.infProt.cStat.valor
-                    mensagem += '\nMensagem: ' + \
-                                protNFe.infProt.xMotivo.valor
-                    self.mensagem_nfe = mensagem
-                    self.state_nfe = SITUACAO_NFE_REJEITADA
-            else:
-                #
-                # Rejeitada por outros motivos, falha no schema etc. etc.
-                #
-                mensagem = u'Código de retorno: ' + \
-                           processo.resposta.cStat.valor
-                mensagem += '\nMensagem: ' + \
-                            processo.resposta.xMotivo.valor
-                self.mensagem_nfe = mensagem
-                self.state_nfe = SITUACAO_NFE_REJEITADA
 
     def monta_nfe(self, processador=None):
         self.ensure_one()
@@ -413,8 +388,6 @@ class Documento(models.Model):
             certificado = self.empresa_id.certificado_id.certificado_nfe()
             certificado.assina_xmlnfe(nfe)
 
-        print(nfe.xml)
-
         return nfe
 
     def _monta_nfe_identificacao(self, ide):
@@ -425,7 +398,7 @@ class Documento(models.Model):
         ide.tpNF.valor = int(self.entrada_saida)
         ide.cUF.valor = UF_CODIGO[empresa.estado]
         ide.natOp.valor = self.natureza_operacao_id.nome
-        ide.indPag.valor = int(self.forma_pagamento)
+        ide.indPag.valor = int(self.ind_forma_pagamento)
         ide.serie.valor = self.serie
         ide.nNF.valor = str(D(self.numero).quantize(D('1')))
 
@@ -483,7 +456,7 @@ class Documento(models.Model):
         dados['ambiente_nfe'] = str(ide.tpAmb.valor)
         dados['entrada_saida'] = ide.tpNF.valor
         dados['natureza_operacao_original'] = ide.natOp.valor
-        dados['forma_pagamento'] = str(ide.indPag.valor)
+        dados['ind_forma_pagamento'] = str(ide.indPag.valor)
         dados['serie'] = ide.serie.valor
         dados['numero'] = ide.nNF.valor
         dados['data_hora_emissao'] = ide.dhEmi.valor
@@ -728,8 +701,8 @@ class Documento(models.Model):
             transp.vol.append(volume.monta_nfe())
 
     def _monta_nfe_cobranca(self, cobr):
-        if self.forma_pagamento not in \
-                (FORMA_PAGAMENTO_A_VISTA, FORMA_PAGAMENTO_A_PRAZO):
+        if self.ind_forma_pagamento not in \
+                (IND_FORMA_PAGAMENTO_A_VISTA, IND_FORMA_PAGAMENTO_A_PRAZO):
             return
         cobr.fat.nFat.valor = formata_valor(self.numero, casas_decimais=0)
         cobr.fat.vOrig.valor = str(D(self.vr_operacao))
@@ -759,3 +732,378 @@ class Documento(models.Model):
         total.ICMSTot.vOutro.valor = str(D(self.vr_outras))
         total.ICMSTot.vNF.valor = str(D(self.vr_nf))
         total.ICMSTot.vTotTrib.valor = str(D(self.vr_ibpt or 0))
+
+    def envia_nfe(self):
+        self.ensure_one()
+
+        processador = self.processador_nfe()
+
+        #
+        # A NFC-e deve ter data de emissão no máx. 5 minutos antes
+        # da transmissão; por isso, definimos a hora de emissão aqui no
+        # envio
+        #
+        if self.modelo == MODELO_FISCAL_NFCE:
+            self.data_hora_emissao = fields.Datetime.now()
+            self.data_hora_entrada_saida = self.data_hora_emissao
+
+        nfe = self.monta_nfe(processador)
+
+        if self.modelo == MODELO_FISCAL_NFE:
+            processador.danfe.NFe = nfe
+            processador.danfe.salvar_arquivo = False
+            processador.danfe.gerar_danfe()
+            self.grava_pdf(nfe, processador.danfe.conteudo_pdf)
+        elif self.modelo == MODELO_FISCAL_NFCE:
+            processador.danfce.NFe = nfe
+            processador.danfce.salvar_arquivo = False
+            processador.danfce.gerar_danfce()
+            self.grava_pdf(nfe, processador.danfce.conteudo_pdf)
+
+        #
+        # Envia a nota
+        #
+        processo = None
+        for p in processador.processar_notas([nfe]):
+            processo = p
+
+        #
+        # Se o último processo foi a consulta do status do serviço, significa
+        # que ele não está online...
+        #
+        if processo.webservice == WS_NFE_SITUACAO:
+            self.state_nfe = SITUACAO_NFE_EM_DIGITACAO
+        #
+        # Se o último processo foi a consulta da nota, significa que ela já
+        # está emitida
+        #
+        elif processo.webservice == WS_NFE_CONSULTA:
+            if processo.resposta.cStat.valor in ('100', '150'):
+                self.chave = processo.resposta.chNFe.valor
+                self.executa_antes_autorizar()
+                self.state_nfe = SITUACAO_NFE_AUTORIZADA
+                self.executa_depois_autorizar()
+            elif processo.resposta.cStat.valor in ('110', '301', '302'):
+                self.chave = processo.resposta.chNFe.valor
+                self.executa_antes_denegar()
+                self.situacao_fiscal = SITUACAO_FISCAL_DENEGADO
+                self.state_nfe = SITUACAO_NFE_DENEGADA
+                self.executa_depois_denegar()
+            else:
+                self.state_nfe = SITUACAO_NFE_EM_DIGITACAO
+
+        #
+        # Se o último processo foi o envio do lote, significa que a consulta
+        # falhou, mas o envio não
+        #
+        elif processo.webservice == WS_NFE_ENVIO_LOTE:
+            #
+            # Lote recebido, vamos guardar o recibo
+            #
+            if processo.resposta.cStat.valor == '103':
+                self.recibo = processo.resposta.infRec.nRec.valor
+            else:
+                mensagem = u'Código de retorno: ' + \
+                           processo.resposta.cStat.valor
+                mensagem += '\nMensagem: ' + \
+                            processo.resposta.xMotivo.valor
+                self.mensagem_nfe = mensagem
+                self.state_nfe = SITUACAO_NFE_REJEITADA
+        #
+        # Se o último processo foi o retorno do recibo, a nota foi rejeitada,
+        # denegada, autorizada, ou ainda não tem resposta
+        #
+        elif processo.webservice == WS_NFE_CONSULTA_RECIBO:
+            #
+            # Consulta ainda sem resposta, a nota ainda não foi processada
+            #
+            if processo.resposta.cStat.valor == '105':
+                self.state_nfe = SITUACAO_NFE_ENVIADA
+            #
+            # Lote processado
+            #
+            elif processo.resposta.cStat.valor == '104':
+                protNFe = processo.resposta.protNFe[0]
+
+                #
+                # Autorizada ou denegada
+                #
+                if protNFe.infProt.cStat.valor in ('100', '150', '110', '301',
+                                                   '302'):
+                    procNFe = processo.resposta.dic_procNFe[nfe.chave]
+                    self.grava_xml(procNFe.NFe)
+                    self.grava_xml_autorizacao(procNFe)
+
+                    if self.modelo == MODELO_FISCAL_NFE:
+                        self.grava_pdf(nfe, procNFe.danfe_pdf)
+                    elif self.modelo == MODELO_FISCAL_NFCE:
+                        self.grava_pdf(nfe, procNFe.danfce_pdf)
+
+                    data_autorizacao = protNFe.infProt.dhRecbto.valor
+                    data_autorizacao = UTC.normalize(data_autorizacao)
+
+                    self.data_hora_autorizacao = data_autorizacao
+                    self.protocolo_autorizacao = protNFe.infProt.nProt.valor
+                    self.chave = protNFe.infProt.chNFe.valor
+
+                    if protNFe.infProt.cStat.valor in ('100', '150'):
+                        self.executa_antes_autorizar()
+                        self.state_nfe = SITUACAO_NFE_AUTORIZADA
+                        self.executa_depois_autorizar()
+                    else:
+                        self.executa_antes_denegar()
+                        self.situacao_fiscal = SITUACAO_FISCAL_DENEGADO
+                        self.state_nfe = SITUACAO_NFE_DENEGADA
+                        self.executa_depois_denegar()
+
+                else:
+                    mensagem = u'Código de retorno: ' + \
+                               protNFe.infProt.cStat.valor
+                    mensagem += '\nMensagem: ' + \
+                                protNFe.infProt.xMotivo.valor
+                    self.mensagem_nfe = mensagem
+                    self.state_nfe = SITUACAO_NFE_REJEITADA
+            else:
+                #
+                # Rejeitada por outros motivos, falha no schema etc. etc.
+                #
+                mensagem = u'Código de retorno: ' + \
+                           processo.resposta.cStat.valor
+                mensagem += '\nMensagem: ' + \
+                            processo.resposta.xMotivo.valor
+                self.mensagem_nfe = mensagem
+                self.state_nfe = SITUACAO_NFE_REJEITADA
+
+    def cancela_nfe(self):
+        self.ensure_one()
+
+        processador = self.processador_nfe()
+
+        xml = self.arquivo_xml_autorizacao_id.datas.decode('base64')
+        xml = xml.decode('utf-8')
+
+        procNFe = ProcNFe_310()
+
+        procNFe.xml = xml
+        procNFe.NFe.monta_chave()
+
+        evento = EventoCancNFe_100()
+        evento.infEvento.tpAmb.valor = procNFe.NFe.infNFe.ide.tpAmb.valor
+        evento.infEvento.cOrgao.valor = procNFe.NFe.chave[:2]
+        evento.infEvento.CNPJ.valor = procNFe.NFe.infNFe.emit.CNPJ.valor
+        evento.infEvento.chNFe.valor = procNFe.NFe.chave
+        evento.infEvento.dhEvento.valor = agora()
+        evento.infEvento.detEvento.nProt.valor = \
+            procNFe.protNFe.infProt.nProt.valor
+        evento.infEvento.detEvento.xJust.valor = self.justificativa or ''
+
+        if processador.certificado:
+            processador.certificado.assina_xmlnfe(evento)
+
+        processador.salvar_arquivo = True
+        processo = processador.enviar_lote_cancelamento(lista_eventos=[evento])
+
+        #
+        # O cancelamento foi aceito e vinculado à NF-e
+        #
+        if self.chave in processo.resposta.dic_procEvento:
+            procevento = processo.resposta.dic_procEvento[self.chave]
+            retevento = procevento.retEvento
+
+            if retevento.infEvento.cStat.valor not in ('155', '135'):
+                mensagem = u'Erro no cancelamento'
+                mensagem += u'\nCódigo: ' + retevento.infEvento.cStat.valor
+                mensagem += u'\nMotivo: ' + \
+                    retevento.infEvento.xMotivo.valor
+                raise UserError(mensagem)
+
+            #
+            # Grava o protocolo de cancelamento
+            #
+            self.grava_xml_cancelamento(self.chave, evento)
+            self.grava_xml_autorizacao_cancelamento(self.chave, procevento)
+
+            #
+            # Regera o DANFE com a tarja de cancelamento
+            #
+            if self.modelo == MODELO_FISCAL_NFE:
+                processador.danfe.NFe = procNFe.NFe
+                processador.danfe.protNFe = procNFe.protNFe
+                processador.danfe.procEventoCancNFe = procevento
+                processador.danfe.salvar_arquivo = False
+                processador.danfe.gerar_danfe()
+                self.grava_pdf(procNFe.NFe, processador.danfe.conteudo_pdf)
+                processador.danfe.NFe = NFe_310()
+                processador.danfe.protNFe = None
+                processador.danfe.procEventoCancNFe = None
+            elif self.modelo == MODELO_FISCAL_NFCE:
+                processador.danfce.NFe = procNFe.NFe
+                processador.danfce.protNFe = procNFe.protNFe
+                processador.danfce.procEventoCancNFe = procevento
+                processador.danfce.salvar_arquivo = False
+                processador.danfce.gerar_danfce()
+                self.grava_pdf(procNFe.NFe, processador.danfce.conteudo_pdf)
+                processador.danfce.NFe = NFCe_310()
+                processador.danfce.protNFe = None
+                processador.danfce.procEventoCancNFe = None
+
+            data_cancelamento = retevento.infEvento.dhRegEvento.valor
+            data_cancelamento = UTC.normalize(data_cancelamento)
+
+            self.data_hora_cancelamento = data_cancelamento
+            self.protocolo_cancelamento = \
+                procevento.retEvento.infEvento.nProt.valor
+
+            #
+            # Cancelamento extemporâneo
+            #
+            self.executa_antes_cancelar()
+
+            if procevento.retEvento.infEvento.cStat.valor == '155':
+                self.situacao_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
+                self.state_nfe = SITUACAO_NFE_CANCELADA
+            elif procevento.retEvento.infEvento.cStat.valor == '135':
+                self.situacao_fiscal = SITUACAO_FISCAL_CANCELADO
+                self.state_nfe = SITUACAO_NFE_CANCELADA
+
+            self.executa_depois_cancelar()
+
+    def executa_antes_autorizar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias antes de autorizar uma NF-e
+        #
+        pass
+
+    def executa_depois_autorizar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias depois de autorizar uma NF-e,
+        # por exemplo, criar lançamentos financeiros, movimentações de
+        # estoque etc.
+        #
+        for documento in self:
+            if documento.modelo not in (MODELO_FISCAL_NFE,
+                                        MODELO_FISCAL_NFCE):
+                super(Documento, documento)._compute_permite_cancelamento()
+                continue
+
+            if documento.emissao != TIPO_EMISSAO_PROPRIA:
+                super(Documento, documento)._compute_permite_cancelamento()
+                continue
+
+            #
+            # Envia o email da nota para o cliente
+            #
+            mail_template = None
+            if documento.operacao_id.mail_template_id:
+                mail_template = documento.operacao_id.mail_template_id
+            else:
+                if documento.modelo == MODELO_FISCAL_NFE and \
+                    documento.empresa_id.mail_template_nfe_autorizada_id:
+                    mail_template = \
+                        documento.empresa_id.mail_template_nfe_autorizada_id
+                elif documento.modelo == MODELO_FISCAL_NFCE and \
+                    documento.empresa_id.mail_template_nfce_autorizada_id:
+                    mail_template = \
+                        documento.empresa_id.mail_template_nfce_autorizada_id
+
+            if mail_template is None:
+                continue
+
+            documento.envia_email(mail_template)
+
+    def executa_antes_cancelar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias antes de autorizar uma NF-e;
+        # não confundir com o método _compute_permite_cancelamento, que indica
+        # se o botão de cancelamento vai estar disponível para o usuário na
+        # interface
+        #
+        pass
+
+    def executa_depois_cancelar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias depois de cancelar uma NF-e,
+        # por exemplo, excluir lançamentos financeiros, movimentações de
+        # estoque etc.
+        #
+        for documento in self:
+            if documento.modelo not in (MODELO_FISCAL_NFE,
+                                        MODELO_FISCAL_NFCE):
+                super(Documento, documento)._compute_permite_cancelamento()
+                continue
+
+            if documento.emissao != TIPO_EMISSAO_PROPRIA:
+                super(Documento, documento)._compute_permite_cancelamento()
+                continue
+
+            #
+            # Envia o email da nota para o cliente
+            #
+            mail_template = None
+            if documento.modelo == MODELO_FISCAL_NFE and \
+                documento.empresa_id.mail_template_nfe_cancelada_id:
+                mail_template = \
+                    documento.empresa_id.mail_template_nfe_cancelada_id
+            elif documento.modelo == MODELO_FISCAL_NFCE and \
+                documento.empresa_id.mail_template_nfce_cancelada_id:
+                mail_template = \
+                    documento.empresa_id.mail_template_nfce_cancelada_id
+
+            if mail_template is None:
+                continue
+
+            documento.envia_email(mail_template)
+
+    def executa_antes_denegar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias antes de denegar uma NF-e
+        #
+        pass
+
+    def executa_depois_denegar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias depois de denegar uma NF-e,
+        # por exemplo, invalidar pedidos de venda e movimentações de estoque
+        # etc.
+        #
+        for documento in self:
+            if documento.modelo not in (MODELO_FISCAL_NFE,
+                                        MODELO_FISCAL_NFCE):
+                super(Documento, documento)._compute_permite_cancelamento()
+                continue
+
+            if documento.emissao != TIPO_EMISSAO_PROPRIA:
+                super(Documento, documento)._compute_permite_cancelamento()
+                continue
+
+            #
+            # Envia o email da nota para o cliente
+            #
+            mail_template = None
+            if documento.modelo == MODELO_FISCAL_NFE and \
+                documento.empresa_id.mail_template_nfe_denegada_id:
+                mail_template = \
+                    documento.empresa_id.mail_template_nfe_denegada_id
+            elif documento.modelo == MODELO_FISCAL_NFCE and \
+                documento.empresa_id.mail_template_nfce_denegada_id:
+                mail_template = \
+                    documento.empresa_id.mail_template_nfce_denegada_id
+
+            if mail_template is None:
+                continue
+
+            documento.envia_email(mail_template)
+
+    def envia_email(self, mail_template):
+        self.ensure_one()
+        import ipdb; ipdb.set_trace();
+        print(mail_template)
+
+        dados = mail_template.generate_email([documento.id])
+        print(dados)
