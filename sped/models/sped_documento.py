@@ -13,8 +13,10 @@ import logging
 _logger = logging.getLogger(__name__)
 
 try:
-    from pybrasil.data import parse_datetime, data_hora_horario_brasilia
-    from pybrasil.valor.decimal import Decimal as D
+    from pybrasil.data import parse_datetime, data_hora_horario_brasilia, \
+        formata_data
+    from pybrasil.valor.decimal import Decimal
+    from pybrasil.valor import formata_valor
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -24,9 +26,13 @@ class Documento(models.Model):
     _description = u'Documento Fiscal'
     _inherit = ['sped.base', 'mail.thread']
     _name = 'sped.documento'
-    _order = 'emissao, modelo, data_emissao desc, serie, numero'
-    _rec_name = 'numero'
+    _order = 'emissao, modelo, data_emissao desc, serie, numero desc'
+    _rec_name = 'descricao'
 
+    descricao = fields.Char(
+        string=u'Documento Fiscal',
+        compute='_compute_descricao',
+    )
     empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
         string=u'Empresa',
@@ -138,10 +144,10 @@ class Documento(models.Model):
         string=u'Regime tributário',
         default=REGIME_TRIBUTARIO_SIMPLES,
     )
-    forma_pagamento = fields.Selection(
-        selection=FORMA_PAGAMENTO,
-        string=u'Forma de pagamento',
-        default=FORMA_PAGAMENTO_A_VISTA,
+    ind_forma_pagamento = fields.Selection(
+        selection=IND_FORMA_PAGAMENTO,
+        string=u'Tipo de pagamento',
+        default=IND_FORMA_PAGAMENTO_A_VISTA,
     )
     finalidade_nfe = fields.Selection(
         selection=FINALIDADE_NFE,
@@ -354,7 +360,7 @@ class Documento(models.Model):
         readonly=True,
     )
     #
-    # Inscrições e registros
+    # Inscrições e documentos
     #
     participante_contribuinte = fields.Selection(
         selection=IE_DESTINATARIO,
@@ -387,13 +393,18 @@ class Documento(models.Model):
     #
     payment_term_id = fields.Many2one(
         comodel_name='account.payment.term',
-        string=u'Condição de pagamento',
+        string=u'Forma de pagamento',
         ondelete='restrict',
     )
     duplicata_ids = fields.One2many(
         comodel_name='sped.documento.duplicata',
         inverse_name='documento_id',
         string=u'Duplicatas',
+    )
+    pagamento_ids = fields.One2many(
+        comodel_name='sped.documento.pagamento',
+        inverse_name='documento_id',
+        string=u'Pagamentos',
     )
 
     #
@@ -748,11 +759,46 @@ class Documento(models.Model):
         string=u'Permite alteração?',
         compute='_compute_permite_alteracao',
     )
+    permite_cancelamento = fields.Boolean(
+        string=u'Permite cancelamento?',
+        compute='_compute_permite_cancelamento',
+    )
+
+    @api.depends('emissao', 'entrada_saida', 'modelo', 'serie', 'numero',
+                 'data_emissao', 'participante_id')
+    def _compute_descricao(self):
+        for documento in self:
+            txt = TIPO_EMISSAO_DICT[documento.emissao]
+
+            if documento.emissao == TIPO_EMISSAO_PROPRIA:
+                txt += ' - ' + ENTRADA_SAIDA_DICT[documento.entrada_saida]
+
+            txt += ' - ' + documento.modelo
+            txt += ' - ' + (documento.serie or '')
+            txt += ' - ' + formata_valor(documento.numero, casas_decimais=0)
+            txt += ' - ' + formata_data(documento.data_emissao)
+
+            if not documento.participante_id.cnpj_cpf:
+                txt += ' - Consumidor não identificado'
+
+            elif documento.participante_id.razao_social:
+                txt += ' - ' + documento.participante_id.razao_social
+                txt += ' - ' + documento.participante_id.cnpj_cpf
+            else:
+                txt += ' - ' + documento.participante_id.nome
+                txt += ' - ' + documento.participante_id.cnpj_cpf
+
+            documento.descricao = txt
 
     @api.depends('modelo', 'emissao')
     def _compute_permite_alteracao(self):
         for documento in self:
             documento.permite_alteracao = True
+
+    @api.depends('modelo', 'emissao')
+    def _compute_permite_cancelamento(self):
+        for documento in self:
+            documento.permite_cancelamento = True
 
     @api.depends('data_hora_emissao', 'data_hora_entrada_saida')
     def _compute_data_hora_separadas(self):
@@ -791,11 +837,11 @@ class Documento(models.Model):
         for documento in self:
             dados = {}
             for campo in CAMPOS_SOMA_ITENS:
-                dados[campo] = D(0)
+                dados[campo] = Decimal(0)
 
             for item in documento.item_ids:
                 for campo in CAMPOS_SOMA_ITENS:
-                    dados[campo] += getattr(item, campo, D(0))
+                    dados[campo] += getattr(item, campo, Decimal(0))
 
             documento.update(dados)
 
@@ -922,7 +968,7 @@ class Documento(models.Model):
                 valores['serie'] = self.operacao_id.serie
 
             valores['regime_tributario'] = self.operacao_id.regime_tributario
-            valores['forma_pagamento'] = self.operacao_id.forma_pagamento
+            valores['ind_forma_pagamento'] = self.operacao_id.ind_forma_pagamento
             valores['finalidade_nfe'] = self.operacao_id.finalidade_nfe
             valores['modalidade_frete'] = self.operacao_id.modalidade_frete
             valores['infadfisco'] = self.operacao_id.infadfisco
@@ -1023,9 +1069,9 @@ class Documento(models.Model):
                 self.data_emissao):
             return res
 
-        valor = D(self.vr_fatura or 0)
+        valor = Decimal(self.vr_fatura or 0)
         if not valor:
-            valor = D(self.vr_nf or 0)
+            valor = Decimal(self.vr_nf or 0)
 
         lista_vencimentos = self.payment_term_id.compute(valor,
                                                          self.data_emissao)
@@ -1048,25 +1094,44 @@ class Documento(models.Model):
 
         return res
 
-    def _check_permite_alteracao(self, operacao='create'):
+    def _check_permite_alteracao(self, operacao='create', dados={}):
+        CAMPOS_PERMITIDOS = [
+            'message_follower_ids',
+        ]
         for documento in self:
-            if not documento.permite_alteracao:
-                if operacao == 'unlink':
-                    mensagem = \
-                        u'Não é permitido excluir este documento fiscal!'
-                elif operacao == 'write':
-                    mensagem = \
-                        u'Não é permitido alterar este documento fiscal!'
-                elif operacao == 'create':
-                    mensagem = \
-                        u'Não é permitido criar este documento fiscal!'
+            if documento.permite_alteracao:
+                continue
 
-                raise ValidationError(mensagem)
+            permite_alteracao = False
+            #
+            # Trata alguns campos que é permitido alterar depois da nota
+            # autorizada
+            #
+            if documento.state_nfe == SITUACAO_NFE_AUTORIZADA:
+                for campo in CAMPOS_PERMITIDOS:
+                    if campo in dados:
+                        permite_alteracao = True
+                        break
+
+            if permite_alteracao:
+                continue
+
+            if operacao == 'unlink':
+                mensagem = \
+                    u'Não é permitido excluir este documento fiscal!'
+            elif operacao == 'write':
+                mensagem = \
+                    u'Não é permitido alterar este documento fiscal!'
+            elif operacao == 'create':
+                mensagem = \
+                    u'Não é permitido criar este documento fiscal!'
+
+            raise ValidationError(mensagem)
 
     def unlink(self):
         self._check_permite_alteracao(operacao='unlink')
         return super(Documento, self).unlink()
 
     def write(self, dados):
-        self._check_permite_alteracao(operacao='write')
+        self._check_permite_alteracao(operacao='write', dados=dados)
         return super(Documento, self).write(dados)
