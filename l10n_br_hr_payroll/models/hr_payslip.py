@@ -1079,6 +1079,7 @@ class HrPayslip(models.Model):
         :return:
         """
         folha_obj = self.env['hr.payslip']
+        data_inicio = fields.Date.from_string(data_inicio).strftime('%Y-%m-01')
         domain = [
             ('date_from', '>=', data_inicio),
             ('date_from', '<=', data_fim),
