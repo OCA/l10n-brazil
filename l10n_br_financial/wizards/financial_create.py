@@ -114,8 +114,7 @@ class FinancialMoveCreate(models.TransientModel):
             #no financial.move
             moves = []
             for move in record.line_ids:
-                # Error while validating constraint
-                # The finacial move must have a due date!
+                import wdb; wdb.set_trace() # BREAKPOINT
                 financial_move.create(dict(
                     company_id=self.company_id.id,
                     currency_id=self.currency_id.id,
@@ -125,6 +124,7 @@ class FinancialMoveCreate(models.TransientModel):
                     document_date=self.document_date,
                     payment_mode=self.payment_mode.id,
                     payment_term=self.payment_term.id,
+
                     document_item=move.document_item,
                     due_date=move.due_date,
                     amount_document=move.amount_document,
