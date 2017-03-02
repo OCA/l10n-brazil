@@ -104,19 +104,11 @@ class FinancialMoveCreate(models.TransientModel):
 
     @api.multi
     def compute(self):
-        #import wdb; wdb.set_trace() # BREAKPOINT
         financial_move = self.env['financial.move']
         for record in self:
-            #financial_move_lines = self.env['financial.move.line.create']
-            #lines = self.line_ids
-            #lines = self.lines
-            #lines = financial_move_lines.search([('financial_move_id', '=', self.id)])
-            #no financial.move
             moves = []
             for move in record.line_ids:
-                # Error while validating constraint
-                # The finacial move must have a due date!
-                financial_move.create(dict(
+                move_id = financial_move.create(dict(
                     company_id=self.company_id.id,
                     currency_id=self.currency_id.id,
                     move_type=self.move_type,
@@ -129,20 +121,22 @@ class FinancialMoveCreate(models.TransientModel):
                     due_date=move.due_date,
                     amount_document=move.amount_document,
                 ))
-                moves.append(move.id)
-
-        import ipdb; ipdb.set_trace() # BREAKPOINT
+                moves.append(move_id.id)
 
         if record.move_type == 'r':
-            action = 'financial_receivable_act_window'
+            name = 'Receivable'
         else:
-            action = 'financial_payable_act_window'
+            name = 'Payable'
         action = {
+            'name': name,
             'type': 'ir.actions.act_window',
-            'name': action,
             'res_model': 'financial.move',
-            'domain': [('id', '=', moves)],
-            'view_mode': 'tree,form',
+            'domain': [('id', 'in', moves)],
+            'view_mode': 'tree',
+            'views': [(self.env.ref('l10n_br_financial.financial_move_tree_view').id, 'list')],
+            'view_type': 'list',
+            'view_mode': 'list',
+            'target': 'current'
         }
         return action
 
