@@ -60,6 +60,19 @@ class HrHolidays(models.Model):
         column2='hr_vacation_control_id',
         string=u'Controle de Férias',
     )
+    saldo_disponivel = fields.Float(
+        string='Saldo de dias de férias',
+        related='parent_id.number_of_days_temp',
+        help='Indica o total de dias que o funcionario poderá selecionar em '
+             'sua programação de férias.',
+    )
+    saldo_final = fields.Float(
+        string='Saldo final de dias de férias',
+        help=u'Saldo de dias de ferias de acordo com a fórmula: \n'
+             u'saldo_disponivel - dias selecionados.\n Se o resultado for '
+             u'positivo, o pedido de férias é regular e ja poderá ser gozado.',
+        compute='verificar_regularidade',
+    )
     regular = fields.Boolean(
         string=u'Regular',
         compute='verificar_regularidade',
@@ -72,10 +85,12 @@ class HrHolidays(models.Model):
                 continue
             dias_de_direito = holiday.parent_id.number_of_days_temp
             dias_selecionados = holiday.number_of_days_temp
-            if dias_de_direito < dias_selecionados:
-                holiday.regular = False
-            else:
+            holiday.saldo_final = dias_de_direito - dias_selecionados
+            if holiday.saldo_final >= 0 and holiday.date_from >= \
+                    holiday.controle_ferias[0].inicio_concessivo:
                 holiday.regular = True
+            else:
+                holiday.regular = False
 
     @api.depends('vacations_days', 'sold_vacations_days')
     def _compute_days_temp(self):

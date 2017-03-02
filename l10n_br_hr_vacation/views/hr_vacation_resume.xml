@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_l10n_br_hr_vacation_resume_tree_simple" model="ir.ui.view">
+            <field name="name">l10n_br_hr_vacation.holiday.tree.simple</field>
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.view_holiday_simple"/>
+            <field name="arch" type="xml">
+                <field name="type" position="replace">
+                    <field name="type" invisible="1"/>
+                </field>
+                <field name="name" position="replace">
+                    <field name="name" invisible="1"/>
+                </field>
+                <field name="holiday_status_id" position="replace">
+                    <field name="name" invisible="1"/>
+                </field>
+                <field name="number_of_days" position="after">
+                    <field name="saldo_disponivel" />
+                    <field name="saldo_final" />
+                    <field name="regular" />
+                </field>
+                <tree string="Leaves Summary" position="attributes">
+                    <attribute name="colors">red:regular==False;green:regular==True;</attribute>
+                    <!--<attribute name="colors">red:date_maturity&lt;current_date;green:payment_type=='payable';blue:payment_type=='receivable'</attribute>-->
+                    <!--<attribute name="fonts">bold:date_maturity==current_date)</attribute>-->
+                    <!--<attribute name="default_order">date_maturity</attribute>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="l10n_br_hr_vacation_resume_action" model="ir.actions.act_window">
+            <field name="name">Vacation Resume</field>
+            <field name="res_model">hr.holidays</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="view_l10n_br_hr_vacation_resume_tree_simple"/>
+            <field name="context">{'search_default_group_date_from': 1}</field>
+            <field name="domain" eval="[('state', '!=', 'refuse'), ('type', '=', 'remove'), ('holiday_status_id','=',ref('holiday_status_vacation'))]"/>
+            <field name="search_view_id" ref="hr_holidays.view_hr_holidays_filter"/>
+        </record>
+
+        <menuitem
+            action="l10n_br_hr_vacation_resume_action"
+            id="menu_l10n_br_hr_vacation_resume"
+            name="Resumo de Férias"
+            parent="hr_holidays.menu_open_ask_holidays"
+            sequence="144"
+            />
+
+    </data>
+</openerp>
