@@ -60,6 +60,22 @@ class HrHolidays(models.Model):
         column2='hr_vacation_control_id',
         string=u'Controle de Férias',
     )
+    regular = fields.Boolean(
+        string=u'Regular',
+        compute='verificar_regularidade',
+    )
+
+    @api.depends('parent_id')
+    def verificar_regularidade(self):
+        for holiday in self:
+            if not holiday.parent_id:
+                continue
+            dias_de_direito = holiday.parent_id.number_of_days_temp
+            dias_selecionados = holiday.number_of_days_temp
+            if dias_de_direito < dias_selecionados:
+                holiday.regular = False
+            else:
+                holiday.regular = True
 
     @api.depends('vacations_days', 'sold_vacations_days')
     def _compute_days_temp(self):

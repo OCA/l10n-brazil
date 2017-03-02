@@ -107,3 +107,17 @@ class HrContract(models.Model):
                         novo_controle_ferias = controle_ferias_obj.create(vals)
                         novo_controle_ferias.gerar_holidays_ferias()
                         novo_controle_ferias.contract_id = contrato
+
+                programacao_ferias = self.env['ir.config_parameter'].get_param(
+                    'l10n_br_hr_vacation_programacao_ferias_futuras',
+                    default=False
+                )
+
+                if programacao_ferias:
+                    dias = ultimo_controle.dias
+                else:
+                    dias = ultimo_controle.saldo
+
+                for periodo_aquisitivo in ultimo_controle.hr_holiday_ids:
+                    if periodo_aquisitivo.type == 'add':
+                        periodo_aquisitivo.number_of_days_temp = dias

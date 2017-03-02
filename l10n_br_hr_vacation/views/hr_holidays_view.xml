@@ -29,6 +29,7 @@
                     <group attrs="{'invisible':[('type', '=', 'remove'),('holiday_status_id', '!=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]}">
                         <field name="vacations_days" class="oe_inline" nolabel="1"
                                string='Dias de férias'/>
+                        <field name="regular"/>
                     </group>
                 </field>
 
