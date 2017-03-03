@@ -4,7 +4,6 @@
 
 from odoo.tests.common import TransactionCase
 from odoo.exceptions import ValidationError
-from operator import attrgetter
 import time
 import datetime
 
@@ -39,19 +38,6 @@ class TestFinancialMove(TransactionCase):
         self.payment_mode_1 = self.account_payment_mode.browse(1)
         self.account_payment_term = self.env['account.payment.term']
         self.payment_term_30_70 = self.account_payment_term.browse(5)
-
-#        self.cr_2 = self.financial_move.create(dict(
-#            due_date='2017-02-27',
-#            company_id=self.main_company.id,
-#            currency_id=self.currency_euro.id,
-#            amount_document=1000.00,
-#            partner_id=self.partner_agrolait.id,
-#            document_date=time.strftime('%Y') + '-01-01',
-#            document_number='2222',
-#            move_type='r',
-#            payment_term_id=self.payment_term_30_70.id,
-#            #payment_mode_id=self,
-#        ))
 
     """ US1 # Como um operador de cobrança, eu gostaria de cadastrar uma conta
      a receber/pagar para manter controle sobre o fluxo de caixa.
@@ -268,7 +254,6 @@ class TestFinancialMove(TransactionCase):
     """
 
     def test_usX_ac_Y(self):
-#    def test_us99_ac_99(self):
         """
         DADO o lancamento de uma parcela via assistente
         QUANDO especificado algum termo de pagamento
@@ -332,4 +317,3 @@ class TestFinancialMove(TransactionCase):
         # Amounts verification
         self.assertEqual(fm_1.amount_document, expected_1[1])
         self.assertEqual(fm_2.amount_document, expected_2[1])
-        import ipdb; ipdb.set_trace() # BREAKPOINT
