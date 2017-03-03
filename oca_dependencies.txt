@@ -3,3 +3,4 @@
 server-tools
 account-fiscal-rule
 reporting-engine
+bank-payment
