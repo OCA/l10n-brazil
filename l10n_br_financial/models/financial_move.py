@@ -130,7 +130,6 @@ class FinancialMove(models.Model):
     @api.depends('account_move_line_id')
     def _compute_payment_receivable_ids(self):
         for record in self:
-            # print "account_move_line_id"
             ids = []
             aml = record.account_move_line_id
             ids.extend([r.debit_move_id.id for r in
