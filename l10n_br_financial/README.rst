@@ -63,8 +63,9 @@ Images
 Contributors
 ------------
 
-* Firstname Lastname <email.address@example.org>
-* Second Person <second.person@example.org>
+* Luis Felipe Mileo <mileo@kmee.com.br>
+* Bruna Braga <bruna.braga@kmee.com.br>
+* Albert De La Fuente <albert.fuente@kmee.com.br>
 
 Maintainer
 ----------
