@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
-from odoo.addons.l10n_br_financial.models.financial_move_model import (
+from ..models.financial_move_model import (
     FINANCIAL_MOVE
 )
 
