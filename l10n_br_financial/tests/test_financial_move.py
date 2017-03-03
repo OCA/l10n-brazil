@@ -40,9 +40,9 @@ class TestFinancialMove(TransactionCase):
         self.account_payment_term = self.env['account.payment.term']
         self.payment_term_30_70 = self.account_payment_term.browse(5)
 
-    """ US1 # Como um operador de cobrança, eu gostaria de cadastrar uma conta
-     a receber/pagar para manter controle sobre o fluxo de caixa.
-    """
+    # """ US1 # Como um operador de cobrança, eu gostaria de cadastrar uma conta
+    #  a receber/pagar para manter controle sobre o fluxo de caixa.
+    # """
     def test_us_1_ac_1(self):
         """ DADO a data de vencimento de 27/02/2017
         QUANDO criado um lançamento de contas a receber
@@ -121,9 +121,9 @@ class TestFinancialMove(TransactionCase):
     #     """
     #     TODO: implementar teste quando for possivel pelo framework
 
-    """ Como um operador de cobrança, eu gostaria de alterar o vencimento ou
-    valor de uma conta a receber/pagar para auditar as alterações do fluxo
-    de caixa."""
+    # """ Como um operador de cobrança, eu gostaria de alterar o vencimento ou
+    # valor de uma conta a receber/pagar para auditar as alterações do fluxo
+    # de caixa."""
 
     def test_us2_ac_1(self):
         """ DADO a alteração de uma parcela via assistente
@@ -166,9 +166,9 @@ class TestFinancialMove(TransactionCase):
         self.assertEqual(50.00, cr_1.amount_document)
         self.assertEqual(message_number_before + 1, message_number_after)
 
-    """Como um operador de cobrança, eu preciso registrar um pagamento para
-    atualizar o fluxo de caixa e os saldos dos clientes, fornecedores, contas
-    bancárias. """
+    # """Como um operador de cobrança, eu preciso registrar um pagamento para
+    # atualizar o fluxo de caixa e os saldos dos clientes, fornecedores, contas
+    # bancárias. """
 
     def test_us_3_cr_3(self):
         """DADO que existe uma parcela de 100 reais em aberto
@@ -249,10 +249,10 @@ class TestFinancialMove(TransactionCase):
         self.assertEqual(-50.00, cr_1.balance)
         self.assertEqual('paid', cr_1.state)
 
-    """
-    Como um operador de cobrança, eu gostaria de criar multiplas contas a
-    receber/pagar de forma automatica dependendo do termo de pagamento.
-    """
+    # """
+    # Como um operador de cobrança, eu gostaria de criar multiplas contas a
+    # receber/pagar de forma automatica dependendo do termo de pagamento.
+    # """
 
     def test_usX_ac_Y(self):
         """
