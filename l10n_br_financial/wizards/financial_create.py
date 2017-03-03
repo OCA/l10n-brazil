@@ -124,7 +124,6 @@ class FinancialMoveCreate(models.TransientModel):
             'type': 'ir.actions.act_window',
             'res_model': 'financial.move',
             'domain': [('id', 'in', moves)],
-            'view_mode': 'tree',
             'views': [(self.env.ref(
                 'l10n_br_financial.financial_move_tree_view').id, 'list')],
             'view_type': 'list',

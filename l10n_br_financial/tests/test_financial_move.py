@@ -17,7 +17,8 @@ class TestFinancialMove(TransactionCase):
 
         self.financial_move = self.env['financial.move']
         self.financial_move_create = self.env['financial.move.create']
-        self.financial_move_line_create = self.env['financial.move.line.create']
+        self.financial_move_line_create = \
+            self.env['financial.move.line.create']
         self.financial_pay_receive = self.env['financial.pay_receive']
         self.financial_edit = self.env['financial.edit']
         self.partner_agrolait = self.env.ref("base.res_partner_2")
