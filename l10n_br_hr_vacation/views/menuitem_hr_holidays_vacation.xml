@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="hr_holidays.open_ask_holidays" model="ir.actions.act_window">
+            <field name="context" eval="{'default_type': 'remove', 'search_default_my_leaves':1, 'default_holiday_status_id': ref('l10n_br_hr_vacation.holiday_status_vacation')}"/>
+        </record>
+
+    </data>
+</openerp>
