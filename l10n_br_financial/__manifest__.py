@@ -28,6 +28,7 @@
         'wizards/financial_cancel.xml',
         'security/financial_move.xml',
         'views/financial_move.xml',
+        'report/financial_cashflow.xml',
     ],
     'demo': [
         'demo/financial_move_history.xml',
