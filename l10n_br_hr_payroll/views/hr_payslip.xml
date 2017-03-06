@@ -199,7 +199,7 @@
                 <group attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}">
                     <group>
                         <field name="holidays_ferias"
-                               domain="[('employee_id', '=', employee_id), ('type', '=', 'remove'), ('holiday_status_id', '=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]"
+                               domain="[('contrato_id', '=', contract_id), ('type', '=', 'remove'), ('holiday_status_id', '=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]"
                                attrs="{'readonly': False, 'required': [('tipo_de_folha', '=', 'ferias')]}" />
 
                         <field name="periodo_aquisitivo" invisible="1"/>
