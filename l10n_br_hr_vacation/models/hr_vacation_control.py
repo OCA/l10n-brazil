@@ -125,6 +125,21 @@ class HrVacationControl(models.Model):
         store=True
     )
 
+    @api.depends('hr_holiday_ids')
+    @api.multi
+    def _compute_have_holidays(self):
+        for controle in self:
+            if controle.hr_holiday_ids:
+                for holiday in controle.hr_holiday_ids:
+                    if holiday.type == 'add':
+                        controle.have_holidays = True
+
+    have_holidays = fields.Boolean(
+        string=u'Have Holidays?',
+        compute='_compute_have_holidays',
+        default=False,
+    )
+
     @api.depends('inicio_aquisitivo', 'fim_aquisitivo')
     def _compute_display_name(self):
         for controle_ferias in self:
@@ -239,5 +254,15 @@ class HrVacationControl(models.Model):
             'sold_vacations_days': 0,
             'number_of_days_temp': 30,
             'controle_ferias': [(6, 0, [self.id])],
+            'contrato_id': self.contract_id.id,
         })
         return holiday_id
+
+    @api.multi
+    def action_create_periodo_aquisitivo(self):
+        """
+        Acção disparada na linha da visão tree do controle de férias
+        :return:
+        """
+        for controle in self:
+            controle.gerar_holidays_ferias()

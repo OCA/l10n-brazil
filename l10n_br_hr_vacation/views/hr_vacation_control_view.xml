@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+
         <record id="view_l10n_br_hr_vacation_contract_form" model="ir.ui.view">
             <field name="name">l10n_br_hr_vacation.contract.form</field>
             <field name="model">hr.contract</field>
@@ -29,6 +30,13 @@
                                 <field name="pagamento_dobro"/>
                                 <field name="dias_pagamento_dobro"/>
                                 <field name="perdido_afastamento"/>
+                                <field name="have_holidays" invisible="1" />
+                                <button name="action_create_periodo_aquisitivo"
+                                        string="Criar Período Aquisitivo"
+                                        help="Criar holiday desse período aquisitivo"
+                                        type="object" icon="gtk-add"
+                                        attrs="{'invisible': [('have_holidays','=',True)]}"
+                                />
                             </tree>
                         </field>
                         <button name="atualizar_controle_ferias"
