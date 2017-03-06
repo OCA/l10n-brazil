@@ -25,7 +25,7 @@ class TestFinancialMove(TransactionCase):
         self.partner_axelor = self.env.ref("base.res_partner_2")
 
         self.cr_1 = self.financial_move.create(dict(
-            due_date='2017-02-18',
+            due_date='2017-02-27',
             company_id=self.main_company.id,
             currency_id=self.currency_euro.id,
             amount_document=100.00,
@@ -43,7 +43,7 @@ class TestFinancialMove(TransactionCase):
         QUANDO criado um lançamento de contas a receber
         ENTÃO a data de vencimento útil deve ser de 01/03/2017"""
 
-        self.assertEqual(self.cr_1.business_due_date, '2017-02-20')
+        self.assertEqual(self.cr_1.business_due_date, '2017-03-01')
 
     def test_us_1_ac_2(self):
         """DADO uma conta a pagar ou receber
