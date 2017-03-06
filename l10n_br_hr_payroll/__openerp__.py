@@ -25,6 +25,7 @@
         'data/l10n_br_hr_income_tax_deductable_amount_family.xml',
         'data/l10n_br_hr_payroll_data_rubricas.xml',
         'data/l10n_br_hr_payroll_data_tabela_INSS.xml',
+        'data/l10n_br_hr_contract_data.xml',
         'views/hr_contract.xml',
         'security/l10n_br_hr_contract.xml',
         'views/l10n_br_hr_contract.xml',

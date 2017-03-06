@@ -11,6 +11,19 @@ class HrContract(models.Model):
     _inherit = 'hr.contract'
     _rec_name = 'nome_contrato'
 
+    codigo_contrato = fields.Char(
+        string='Codigo de Identificacao',
+        required=True,
+        default="/",
+        readonly=True
+    )
+
+    @api.model
+    def create(self, vals):
+        if vals.get('codigo_contrato', '/') == '/':
+            vals['codigo_contrato'] = self.env['ir.sequence'].get(self._name)
+            return super(HrContract, self).create(vals)
+
     @api.depends('employee_id', 'date_start')
     def _nome_contrato(self):
         for contrato in self:
@@ -32,11 +45,11 @@ class HrContract(models.Model):
                     fim_contrato = "- %s" % fim_contrato
             else:
                 fim_contrato = ''
-            matricula = contrato.name
+            matricula = contrato.codigo_contrato
             nome_contrato = '[%s] %s - %s %s' % (matricula,
                                                  nome, inicio_contrato,
                                                  fim_contrato)
-            contrato.nome_contrato = nome_contrato
+            contrato.nome_contrato = nome_contrato if nome else ''
 
     nome_contrato = fields.Char(default="[mat] nome - inicio - fim",
                                 compute="_nome_contrato", store=True)
@@ -369,10 +382,6 @@ class HrHoliday(models.Model):
 
     valor_inss = fields.Float(
         string="Valor INSS"
-    )
-
-    contrato_id = fields.Many2one(
-        comodel_name='hr.contract',
     )
 
 

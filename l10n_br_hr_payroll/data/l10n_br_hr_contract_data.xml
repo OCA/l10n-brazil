@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 - KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="sequence_type_hr_contract" model="ir.sequence.type">
+            <field name="name">Hr Contract code type</field>
+            <field name="code">hr.contract</field>
+        </record>
+
+        <record id="sequence_hr_contract" model="ir.sequence">
+            <field name="name">>Hr Contract code</field>
+            <field name="code">hr.contract</field>
+            <field eval="4" name="padding" />
+            <!--<field name="suffix">.%(year)s</field>-->
+        </record>
+
+    </data>
+</openerp>
