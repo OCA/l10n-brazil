@@ -38,5 +38,59 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="view_l10n_br_hr_vacation_control_form" model="ir.ui.view">
+            <field name="name">l10n_br_hr_vacation.control.form</field>
+            <field name="model">hr.vacation.control</field>
+            <field name="arch" type="xml">
+                <form string="Controle de Férias">
+                    <h1>
+                        Controle de férias - <field name="contract_id" />
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="inicio_aquisitivo" widget="date"/>
+                            <field name="fim_aquisitivo" widget="date"/>
+                        </group>
+                        <group>
+                            <field name="inicio_concessivo" widget="date"/>
+                            <field name="fim_concessivo" widget="date"/>
+                        </group>
+                        <group>
+                            <field name="inicio_gozo" widget="date"/>
+                            <field name="fim_gozo" widget="date"/>
+                            <field name="limite_gozo" widget="date"/>
+                        </group>
+                        <group>
+                            <field name="data_aviso" widget="date"/>
+                            <field name="limite_aviso" widget="date"/>
+                        </group>
+                        <group>
+                            <field name="faltas"/>
+                            <field name="afastamentos"/>
+                            <field name="dias"/>
+                            <field name="saldo"/>
+                            <field name="avos"/>
+                        </group>
+                        <group>
+                            <field name="proporcional"/>
+                            <field name="vencida"/>
+                            <field name="pagamento_dobro"/>
+                            <field name="dias_pagamento_dobro"/>
+                            <field name="perdido_afastamento"/>
+                        </group>
+                        <field name="have_holidays" invisible="1" />
+                    </group>
+                    <field name="hr_holiday_ids" widget="one2many_list"/>
+                    <button name="action_create_periodo_aquisitivo"
+                            string="Criar Período Aquisitivo"
+                            help="Criar holiday desse período aquisitivo"
+                            type="object" icon="gtk-add"
+                            attrs="{'invisible': [('have_holidays','=',True)]}"
+                    />
+                </form>
+            </field>
+        </record>
+
     </data>
 </openerp>
