@@ -78,6 +78,12 @@ class HrHolidays(models.Model):
         compute='verificar_regularidade',
     )
 
+    name = fields.Char(
+        string='Leave Type',
+        translate=True,
+        compute='_compute_name_holiday',
+    )
+
     @api.depends('parent_id')
     def verificar_regularidade(self):
         for holiday in self:
@@ -134,8 +140,15 @@ class HrHolidays(models.Model):
     def _compute_contract(self):
         if self.parent_id:
             self.controle_ferias = self.parent_id.controle_ferias
-            date_from = data.formata_data(self.date_from)
-            date_to = data.formata_data(self.date_to)
-            self.name =  \
-                self.holiday_status_id.name + \
-                ' [' + date_from + '-' + date_to + ']'
+
+    @api.depends('date_from', 'date_to', 'holiday_status_id', 'employee_id')
+    def _compute_name_holiday(self):
+        for holiday in self:
+            if holiday.date_from and holiday.date_to and \
+                    holiday.holiday_status_id and holiday.employee_id:
+                date_from = data.formata_data(holiday.date_from)
+                date_to = data.formata_data(holiday.date_to)
+                holiday.name = \
+                    '['+holiday.employee_id.name+'] ' + \
+                    holiday.holiday_status_id.name[:30] + \
+                    ' (' + date_from + '-' + date_to + ')'
