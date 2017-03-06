@@ -3,26 +3,23 @@
     <data>
 
         <record id="view_l10n_br_hr_vacation_resume_tree_simple" model="ir.ui.view">
-            <field name="name">l10n_br_hr_vacation.holiday.tree.simple</field>
+            <field name="name">l10n_br_hr_vacation.resume.tree.simple</field>
             <field name="model">hr.holidays</field>
-            <field name="inherit_id" ref="hr_holidays.view_holiday_simple"/>
+            <field name="priority">120</field>
             <field name="arch" type="xml">
-                <field name="type" position="replace">
-                    <field name="type" invisible="1"/>
-                </field>
-                <field name="name" position="replace">
-                    <field name="name" invisible="1"/>
-                </field>
-                <field name="holiday_status_id" position="replace">
-                    <field name="name" invisible="1"/>
-                </field>
-                <field name="number_of_days" position="after">
+                <tree colors="red:regular == False;green:regular == True;" string="Leaves Summary" >
+                    <field name="employee_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="state"/>
+                    <field name="vacations_days_temp" string="Dias de Gozo" class="oe_inline"/>
+                    <field name="sold_vacations_days_temp" string="Sold Vacations Days" class="oe_inline"/>
+                    <field name="number_of_days" string="Total Vacation Days"/>
+                    <field name="manager_id" invisible="1"/>
+                    <field name="user_id" invisible="1"/>
                     <field name="saldo_disponivel" />
                     <field name="saldo_final" />
                     <field name="regular" />
-                </field>
-                <tree string="Leaves Summary" position="attributes">
-                    <attribute name="colors">red:regular==False;green:regular==True;</attribute>
                     <!--<attribute name="colors">red:date_maturity&lt;current_date;green:payment_type=='payable';blue:payment_type=='receivable'</attribute>-->
                     <!--<attribute name="fonts">bold:date_maturity==current_date)</attribute>-->
                     <!--<attribute name="default_order">date_maturity</attribute>-->
