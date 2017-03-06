@@ -113,7 +113,8 @@ class FinancialMove(models.Model):
     move_id = fields.Many2one('account.move', string='Journal Entry',
                               readonly=True, index=True, ondelete='restrict',
                               copy=False,
-                              help="Link to the automatically generated Journal Items.")
+                              help="Link to the automatically generated "
+                                   "Journal Items.")
 
     account_move_line_id = fields.Many2one(
         comodel_name='account.move.line',
@@ -129,7 +130,7 @@ class FinancialMove(models.Model):
     @api.depends('account_move_line_id')
     def _compute_payment_receivable_ids(self):
         for record in self:
-            print "account_move_line_id"
+            # print "account_move_line_id"
             record.payment_receivable_ids |= record.account_move_line_id
             # line.filtered(lambda r: r.account_id.internal_type in (
             #     'payable', 'receivable'))

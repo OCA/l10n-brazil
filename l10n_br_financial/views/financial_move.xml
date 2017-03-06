@@ -136,6 +136,10 @@
                                     </tree>
                                 </field>
                             </page>
+                            <page name="account" string="Contabilidade">
+                                <field name="account_move_line_id"/>
+                                <field name="payment_receivable_ids"/>
+                            </page>
                         </notebook>
                     </group>
                 </sheet>
