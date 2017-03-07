@@ -13,7 +13,6 @@ from ..models.financial_move_model import (
 class FinancialCashflow(models.Model):
 
     _name = 'financial.cashflow'
-    #_inherit = 'financial.move.model'
     _auto = False
 
     cumulative_sum = fields.Monetary(
@@ -67,20 +66,67 @@ class FinancialCashflow(models.Model):
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
         self.env.cr.execute("""
-            CREATE OR REPLACE VIEW financial_cashflow as (
-SELECT
-                    create_date, id, document_number, document_item, move_type,
-                    state,
-                    business_due_date,
-                    document_date,
-                    payment_mode,
-                    payment_term,
-                    due_date, partner_id, currency_id, amount_document,
-                    sum as cumulative_sum
+            CREATE OR REPLACE VIEW financial_cashflow_credit_type_r as (
+                SELECT * FROM (
+                    SELECT
+                        financial_move.create_date,
+                        financial_move.id,
+                        financial_move.document_number,
+                        financial_move.document_item,
+                        financial_move.move_type,
 
-FROM (
+                        financial_move.state,
+                        financial_move.business_due_date,
+                        financial_move.document_date,
+                        financial_move.payment_mode,
+                        financial_move.payment_term,
 
+                        financial_move.due_date,
+                        financial_move.partner_id,
+                        financial_move.currency_id,
+                        financial_move.amount_document AS amount_document,
+                        financial_move.amount_document AS credit_value,
+                        0 AS debit_value
+                    FROM
+                        public.financial_move
+                    WHERE
+                        financial_move.move_type = 'r'
+                ) r
+            )
+        """)
 
+        self.env.cr.execute("""
+            CREATE OR REPLACE VIEW financial_cashflow_debit_type_p as (
+                SELECT * FROM (
+                    SELECT
+                        financial_move.create_date,
+                        financial_move.id,
+                        financial_move.document_number,
+                        financial_move.document_item,
+                        financial_move.move_type,
+
+                        financial_move.state,
+                        financial_move.business_due_date,
+                        financial_move.document_date,
+                        financial_move.payment_mode,
+                        financial_move.payment_term,
+
+                        financial_move.due_date,
+                        financial_move.partner_id,
+                        financial_move.currency_id,
+                        (-1) * financial_move.amount_document AS amount_document,
+                        0 AS credit_value,
+                        (-1) * financial_move.amount_document AS debit_value
+                    FROM
+                        public.financial_move
+                    WHERE
+                        financial_move.move_type = 'p'
+                ) r
+            )
+        """)
+
+        self.env.cr.execute("""
+            CREATE OR REPLACE VIEW financial_cashflow_main_view AS (
                 SELECT
                     create_date, id, document_number, document_item, move_type,
                     state,
@@ -89,61 +135,15 @@ FROM (
                     payment_mode,
                     payment_term,
                     due_date, partner_id, currency_id, amount_document,
-                    SUM(amount_document)
-                OVER (ORDER BY id)
+                    SUM(credit_value),
+                    SUM(debit_value)
+                OVER (ORDER BY business_due_date)
 
                 FROM (
-
-                    SELECT * FROM (
-
-                        SELECT
-                        financial_move.create_date,
-                        financial_move.id,
-                        financial_move.document_number,
-                        financial_move.document_item,
-                        financial_move.move_type,
-
-                        financial_move.state,
-                        financial_move.business_due_date,
-                        financial_move.document_date,
-                        financial_move.payment_mode,
-                        financial_move.payment_term,
-
-                        financial_move.due_date,
-                        financial_move.partner_id,
-                        financial_move.currency_id,
-                        financial_move.amount_document
-                        FROM
-                        public.financial_move
-                        WHERE
-                        financial_move.move_type = 'r'
-                        ) r
-
-                    UNION (
-
-                        SELECT
-                        financial_move.create_date,
-                        financial_move.id,
-                        financial_move.document_number,
-                        financial_move.document_item,
-                        financial_move.move_type,
-
-                        financial_move.state,
-                        financial_move.business_due_date,
-                        financial_move.document_date,
-                        financial_move.payment_mode,
-                        financial_move.payment_term,
-
-                        financial_move.due_date,
-                        financial_move.partner_id,
-                        financial_move.currency_id,
-                        (-1) * financial_move.amount_document as amount_document
-                        FROM
-                        public.financial_move
-                        WHERE
-                        financial_move.move_type = 'p'
-                        )
-
+                    SELECT * FROM financial_cashflow_credit_type_r
+                    UNION
+                    SELECT * FROM financial_cashflow_debit_type_p
+                    ORDER BY business_due_date
                 ) AS subq
 
                 GROUP BY (create_date, id, document_number,
@@ -153,6 +153,28 @@ FROM (
                     document_date,
                     payment_mode,
                     payment_term,
-                    due_date, partner_id, currency_id, amount_document)
-            ) as out
-        )""")
+                    due_date, partner_id, currency_id,
+                    amount_document,
+                    credit_value,
+                    debit_value
+		)
+            )
+        """)
+
+        self.env.cr.execute("""
+            CREATE OR REPLACE VIEW financial_cashflow AS (
+                SELECT
+                    create_date, id, document_number, document_item, move_type,
+                    state,
+                    business_due_date,
+                    document_date,
+                    payment_mode,
+                    payment_term,
+                    due_date, partner_id, currency_id, amount_document,
+                    sum AS cumulative_sum
+
+                    FROM (
+                        SELECT * FROM financial_cashflow_main_view
+                    ) AS out_format
+            )
+        """)
