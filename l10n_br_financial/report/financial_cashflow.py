@@ -87,10 +87,13 @@ class FinancialCashflow(models.Model):
                     financial_move.due_date,
                     financial_move.partner_id,
                     financial_move.currency_id,
-                    coalesce(financial_move.amount_document, 0) AS amount_document,
-                    coalesce(financial_move.amount_document, 0) AS amount_credit,
+                    coalesce(financial_move.amount_document, 0)
+                        AS amount_document,
+                    coalesce(financial_move.amount_document, 0)
+                        AS amount_credit,
                     0 AS amount_debit,
-                    coalesce(financial_move.amount_document, 0) AS amount_balance
+                    coalesce(financial_move.amount_document, 0)
+                        AS amount_balance
                 FROM
                     public.financial_move
                 WHERE
@@ -115,10 +118,13 @@ class FinancialCashflow(models.Model):
                     financial_move.due_date,
                     financial_move.partner_id,
                     financial_move.currency_id,
-                    coalesce(financial_move.amount_document, 0) AS amount_document,
+                    coalesce(financial_move.amount_document, 0)
+                        AS amount_document,
                     0 AS amount_credit,
-                    (-1) * coalesce(financial_move.amount_document, 0) AS amount_debit,
-                    (-1) * coalesce(financial_move.amount_document, 0) AS amount_balance
+                    (-1) * coalesce(financial_move.amount_document, 0)
+                        AS amount_debit,
+                    (-1) * coalesce(financial_move.amount_document, 0)
+                        AS amount_balance
                 FROM
                     public.financial_move
                 WHERE
@@ -190,7 +196,8 @@ class FinancialCashflow(models.Model):
                     b.amount_debit,
                     b.amount_balance,
                     SUM(b.amount_balance)
-                    OVER (order by b.due_date, b.id) AS amount_cumulative_balance
+                    OVER (order by b.due_date, b.id)
+                        AS amount_cumulative_balance
                     -- aqui deveria haver um campo balance_date ou algo assim
                     -- que seria a data de crédito/débito efetivo na conta
                     -- pois boletos e cheques tem data de crédito d+1 ou d+2
