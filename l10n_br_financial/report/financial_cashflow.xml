@@ -43,7 +43,9 @@
                 <field name="amount_document"/>
                 <!-- <field name="balance"/> -->
                 <field name="state"/>
-                <field name="cumulative_sum"/>
+                <field name="amount_credit"/>
+                <field name="amount_debit"/>
+                <field name="amount_cumulative_balance"/>
             </tree>
         </field>
     </record>
