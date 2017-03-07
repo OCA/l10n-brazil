@@ -13,6 +13,8 @@ from ..models.financial_move_model import (
 class FinancialCashflow(models.Model):
     _name = 'financial.cashflow'
     _auto = False
+    # _order = 'amount_cumulative_balance'
+    _order = 'business_due_date, id'
 
     amount_cumulative_balance = fields.Monetary(
         string=u"Balance",
@@ -196,7 +198,7 @@ class FinancialCashflow(models.Model):
                     b.amount_debit,
                     b.amount_balance,
                     SUM(b.amount_balance)
-                    OVER (order by b.due_date, b.id)
+                    OVER (order by b.business_due_date, b.id)
                         AS amount_cumulative_balance
                     -- aqui deveria haver um campo balance_date ou algo assim
                     -- que seria a data de crédito/débito efetivo na conta
