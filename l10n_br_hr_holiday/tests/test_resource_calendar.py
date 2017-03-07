@@ -61,8 +61,10 @@ class TestHrHoliday(common.TransactionCase):
             quantidade_faltas, 1,
             'ERRO: Nao foi possivel obter faltas do Funcionario!')
         self.assertEqual(
-            faltas['faltas_nao_remuneradas'][0].name, u'Falta Injusticada',
-            'ERRO: Nao foi possivel obter faltas do Funcionario!')
+            faltas['faltas_nao_remuneradas'][0].name,
+            u'[Employee Luiza] Absence unjustified (10/01/2017-10/01/2017)',
+            'ERRO: Nao foi possivel obter faltas do Funcionario!'
+        )
 
     def test_02_get_ocurrences(self):
         """ teste da funcao que obtem a quantidade de faltas de determinado
@@ -96,5 +98,6 @@ class TestHrHoliday(common.TransactionCase):
             'ERRO: Nao foi possivel obter faltas do Funcionario!')
         self.assertEqual(
             faltas['faltas_nao_remuneradas'][0].name,
-            u'Falta Injusticada de 3 dias',
-            'ERRO: Nao foi possivel obter faltas do Funcionario!')
+            u'[Employee Luiza] Absence unjustified (10/01/2017-12/01/2017)',
+            'ERRO: Nao foi possivel obter faltas do Funcionario!'
+        )
