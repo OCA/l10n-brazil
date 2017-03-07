@@ -150,7 +150,33 @@
             </form>
         </field>
     </record>
-
+    <record id="view_move_line_tree" model="ir.ui.view">
+        <field name="name">account.move.line.tree</field>
+        <field name="model">account.move.line</field>
+        <field eval="1" name="priority"/>
+        <field name="arch" type="xml">
+            <tree string="Journal Items" create="false">
+                <field name="date"/>
+                <field name="move_id" required="0"/>
+                <field name="journal_id" options='{"no_open":True}'/>
+                <field name="name"/>
+                <field name="ref"/>
+                <field name="statement_id" invisible="1"/>
+                <field name="partner_id"/>
+                <field name="account_id" options='{"no_open":True}' domain="[('company_id', '=', company_id)]"/>
+                <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+                <field name="reconciled" invisible="1"/>
+                <field name="full_reconcile_id"/>
+                <field name="debit" sum="Total Debit"/>
+                <field name="credit" sum="Total Credit"/>
+                <field name="amount_currency" readonly="True" groups="base.group_multi_currency"/>
+                <field name="currency_id" readonly="True" invisible="1" />
+                <field name="date_maturity"/>
+                <field name="company_currency_id" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
     <record model="ir.ui.view" id="financial_move_search_view">
         <field name="name">financial.move.search (in financial)</field>
         <field name="model">financial.move</field>
