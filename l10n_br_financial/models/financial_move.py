@@ -131,12 +131,14 @@ class FinancialMove(models.Model):
     def _compute_payment_receivable_ids(self):
         for record in self:
             # print "account_move_line_id"
+            ids = []
+            aml = record.account_move_line_id
+            ids.extend([r.debit_move_id.id for r in
+                        aml.matched_debit_ids] if
+                       aml.credit > 0 else [r.credit_move_id.id for r in
+                                            aml.matched_credit_ids])
+            record.payment_receivable_ids = ids
             record.payment_receivable_ids |= record.account_move_line_id
-            # line.filtered(lambda r: r.account_id.internal_type in (
-            #     'payable', 'receivable'))
-            # record.account_move_line_ids = line
-            # record.due_date = record.account_move_line_ids.date_maturity
-            # print record.due_date
 
     # partner_bank_id = fields.Many2one(
     #     comodel_name='res.partner.bank',
