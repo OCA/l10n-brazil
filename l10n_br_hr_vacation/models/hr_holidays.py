@@ -50,7 +50,7 @@ class HrHolidays(models.Model):
     parent_id = fields.Many2one(
         comodel_name='hr.holidays',
         string=u'Worked Period',
-        ondelete='restrict',
+        ondelete='cascade',
         index=True,
     )
     controle_ferias = fields.Many2many(

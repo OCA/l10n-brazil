@@ -7,7 +7,9 @@
             <field name="model">hr.holidays</field>
             <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
             <field name="arch" type="xml">
-                <field name="holiday_status_id" position="after">
+                <field name="holiday_status_id" position="replace">
+                    <field name="holiday_status_id"
+                           attrs="{'invisible': [('holiday_status_id', '=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]}"/>
                     <field name="parent_id" string="Período Aquisitivo"
                            options="{'no_create': true, 'create_edit': false}"
                            attrs="{'invisible': ['|',('type','=','add'),('holiday_status_id', '!=', %(l10n_br_hr_vacation.holiday_status_vacation)d)], 'required':  [('date_from','!=',False),('holiday_status_id', '=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]}"
