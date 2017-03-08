@@ -9,11 +9,11 @@
             <field name="arch" type="xml">
                 <field name="holiday_status_id" position="replace">
                     <field name="holiday_status_id"
-                           attrs="{'invisible': [('holiday_status_id', '=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]}"/>
+                           attrs="{'invisible': [('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}"/>
                     <field name="parent_id" string="Período Aquisitivo"
                            options="{'no_create': true, 'create_edit': false}"
-                           attrs="{'invisible': ['|',('type','=','add'),('holiday_status_id', '!=', %(l10n_br_hr_vacation.holiday_status_vacation)d)], 'required':  [('date_from','!=',False),('holiday_status_id', '=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]}"
-                           domain="[('type', '=', 'add'), ('holiday_status_id', '=', %(l10n_br_hr_vacation.holiday_status_vacation)d), ('contrato_id', '=' , contrato_id)]}"/>
+                           attrs="{'invisible': ['|',('type','=','add'),('holiday_status_id', '!=', %(l10n_br_hr_holiday.holiday_status_vacation)d)], 'required':  [('date_from','!=',False),('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}"
+                           domain="[('type', '=', 'add'), ('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d), ('contrato_id', '=' , contrato_id)]}"/>
                 </field>
                 <field name="date_from" position="replace">
                     <field name="date_from" nolabel="1"
@@ -28,14 +28,14 @@
                            class="oe_inline"/>
                 </field>
                 <field name="number_of_days_temp" position="replace">
-                    <group attrs="{'invisible':[('type', '=', 'remove'),('holiday_status_id', '!=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]}">
+                    <group attrs="{'invisible':[('type', '=', 'remove'),('holiday_status_id', '!=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}">
                         <field name="vacations_days" class="oe_inline" nolabel="1"
                                string='Dias de férias'/>
                     </group>
                 </field>
 
                 <field name="notes" position="before">
-                    <group attrs="{'invisible': ['|',('type','=','add'),('holiday_status_id', '!=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]}">
+                    <group attrs="{'invisible': ['|',('type','=','add'),('holiday_status_id', '!=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}">
                         <field name="controle_ferias"  invisible="1"/>
                         <field name="sell_vacation"/>
                         <field name="sold_vacations_days"

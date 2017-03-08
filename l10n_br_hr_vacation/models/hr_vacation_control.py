@@ -241,7 +241,7 @@ class HrVacationControl(models.Model):
         informaçoes do controle de férias em questão.
         """
         vacation_id = self.env.ref(
-            'l10n_br_hr_vacation.holiday_status_vacation').id
+            'l10n_br_hr_holiday.holiday_status_vacation').id
         holiday_id = self.env['hr.holidays'].create({
             'name': 'Periodo Aquisitivo: %s ate %s'
                     % (self.inicio_aquisitivo,

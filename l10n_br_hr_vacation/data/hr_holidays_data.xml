@@ -14,19 +14,13 @@
             <field eval="'atualizar_controle_ferias'" name="function"/>
         </record>
 
-        <record model="hr.holidays.status" id="holiday_status_vacation">
-            <field name="name">Vacation</field>
-            <field name="color_name">lightgreen</field>
-            <field name="limit" eval="True"/>
-        </record>
-
         <record model="ir.actions.server" id="vacation_register_number">
             <field name="name">Número de pedidos de férias</field>
             <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
             <field name="state">code</field>
             <field name="condition">True</field>
             <field name="sequence">1</field>
-            <field name="code">ferias_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'l10n_br_hr_vacation', 'holiday_status_vacation')[1]
+            <field name="code">ferias_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'l10n_br_hr_holiday', 'holiday_status_vacation')[1]
 pedidos = self.search(cr, uid, [('employee_id', '=', obj.employee_id.id),('parent_id','=', obj.parent_id.id ),('holiday_status_id.id', '=', ferias_id),('type', '=', 'remove')], context=context)
 if len(pedidos) == 3:
     raise Warning("Você não pode registar mais de 2 pedidos de ferias por período aquisitivo, você ja registrou %s" %  (len(pedidos) - 1))
@@ -39,7 +33,7 @@ if len(pedidos) == 3:
             <field name="state">code</field>
             <field name="condition">True</field>
             <field name="sequence">6</field>
-            <field name="code">ferias_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'l10n_br_hr_vacation', 'holiday_status_vacation')[1]
+            <field name="code">ferias_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'l10n_br_hr_holiday', 'holiday_status_vacation')[1]
 pedidos_ids = self.search(cr, uid, [('employee_id', '=', obj.employee_id.id),('parent_id','=', obj.parent_id.id ),('holiday_status_id.id', '=', ferias_id),('type', '!=', 'add')], context=context)
 pedidos = self.browse(cr, uid, pedidos_ids, context=context)
 dias_totais = 0
@@ -55,7 +49,7 @@ if dias_totais > obj.parent_id.number_of_days_temp:
             <field name="state">code</field>
             <field name="condition">True</field>
             <field name="sequence">3</field>
-            <field name="code">ferias_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'l10n_br_hr_vacation', 'holiday_status_vacation')[1]
+            <field name="code">ferias_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'l10n_br_hr_holiday', 'holiday_status_vacation')[1]
 pedidos_ids = self.search(cr, uid, [('employee_id', '=', obj.employee_id.id),('parent_id','=', obj.parent_id.id ),('holiday_status_id.id', '=', ferias_id),('type', '!=', 'add')], context=context)
 pedidos = self.browse(cr, uid, pedidos_ids, context=context)
 dias_totais_abono = 0
@@ -71,7 +65,7 @@ if dias_totais_abono > 10:
             <field name="state">code</field>
             <field name="condition">True</field>
             <field name="sequence">4</field>
-            <field name="code">ferias_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'l10n_br_hr_vacation', 'holiday_status_vacation')[1]
+            <field name="code">ferias_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'l10n_br_hr_holiday', 'holiday_status_vacation')[1]
 if obj.vacations_days &lt;	10 and obj.holiday_status_id.id == ferias_id:
     raise Warning("Um período de férias não pode ter menos de 10 dias!")
             </field>

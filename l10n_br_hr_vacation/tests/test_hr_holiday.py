@@ -43,7 +43,7 @@ class TestHrHoliday(common.TransactionCase):
         # })
 
         self.holiday_status_id = self.env.ref(
-            'l10n_br_hr_vacation.holiday_status_vacation')
+            'l10n_br_hr_holiday.holiday_status_vacation')
 
     # def atribuir_ferias(self, employee_id):
     #     """
