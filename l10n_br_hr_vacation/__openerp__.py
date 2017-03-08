@@ -12,7 +12,7 @@
     "license": "AGPL-3",
     'depends': [
         'l10n_br_hr_holiday',
-        'l10n_br_hr_payroll',
+        'l10n_br_hr_contract',
     ],
     'data': [
         'data/hr_holidays_data.xml',
