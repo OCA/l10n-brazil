@@ -479,7 +479,7 @@ class HrPayslip(models.Model):
             # get faltas
             leaves = {}
             hr_contract = self.env['hr.contract'].browse(contract_id.id)
-            leaves = self.env['resource.calendar'].get_ocurrences(
+            leaves = self.env['hr.holidays'].get_ocurrences(
                 hr_contract.employee_id.id, date_from, date_to)
             if leaves.get('faltas_nao_remuneradas'):
                 qtd_leaves = leaves['quantidade_dias_faltas_nao_remuneradas']

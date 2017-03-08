@@ -79,7 +79,7 @@ class TestHrPayslip(common.TransactionCase):
         date_to = '2017-01-31 23:59:59'
         self.criar_falta_nao_remunerada()
 
-        leaves = self.env['resource.calendar'].get_ocurrences(
+        leaves = self.env['hr.holidays'].get_ocurrences(
             self.employee_hr_user_id.id, date_from, date_to)
 
         quantity_DSR_discount = self.resource_calendar.\
@@ -109,7 +109,7 @@ class TestHrPayslip(common.TransactionCase):
 
         date_from = '2017-01-01 00:00:01'
         date_to = '2017-01-31 23:59:59'
-        leaves = self.env['resource.calendar'].get_ocurrences(
+        leaves = self.env['hr.holidays'].get_ocurrences(
             self.employee_hr_user_id.id, date_from, date_to)
         quantity_DSR_discount = self.resource_calendar.\
             get_quantity_discount_DSR(leaves['faltas_nao_remuneradas'],
