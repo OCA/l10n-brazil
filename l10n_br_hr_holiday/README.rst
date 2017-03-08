@@ -2,12 +2,13 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-==========================================================
-Controle de folgas/atrasos com particularidades brasileira
-==========================================================
+====================================================================
+Controle de folgas/atrasos e férias com particularidades brasileiras
+====================================================================
 
 Este módulo extende a funcionalidade de requisição de faltas (hr_holidays),
-e permite que vocễ registre novos tipos de faltas com algumas validaçoes extras:
+permitindo a solicitação de férias e registro de novos tipos de faltas com
+algumas validaçoes extras:
 
   - Validação de anexo para justificativa de faltas
   - limite de dias por tipo de falta (holiday.status)

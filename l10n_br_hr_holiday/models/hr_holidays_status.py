@@ -43,5 +43,6 @@ class HrHolidaysStatus(models.Model):
 
     tipo = fields.Selection(
         string=u'Tipo',
-        selection=OCORRENCIA_TIPO
+        selection=OCORRENCIA_TIPO,
+        default='ocorrencias',
     )

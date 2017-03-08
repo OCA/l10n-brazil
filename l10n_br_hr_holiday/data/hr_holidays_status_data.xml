@@ -188,8 +188,11 @@
             <field name="tipo">ocorrencias</field>
         </record>
 
-        <record model="hr.holidays.status" id="l10n_br_hr_vacation.holiday_status_vacation">
+        <record model="hr.holidays.status" id="holiday_status_vacation">
+            <field name="name">Férias</field>
+            <field name="color_name">lightgreen</field>
             <field name="tipo">ferias</field>
+            <field name="limit" eval="True"/>
         </record>
 
     </data>
