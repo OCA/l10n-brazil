@@ -53,7 +53,7 @@ class TestHrHoliday(common.TransactionCase):
         data_inicio = '2017-01-01 00:00:01'
         data_final = '2017-01-31 23:59:59'
 
-        faltas = self.resource_calendar.get_ocurrences(
+        faltas = self.hr_holidays.get_ocurrences(
             self.employee_hruser_id.id, data_inicio, data_final)
         quantidade_faltas = faltas['quantidade_dias_faltas_nao_remuneradas']
 
@@ -89,7 +89,7 @@ class TestHrHoliday(common.TransactionCase):
         data_inicio = '2017-01-01 00:00:01'
         data_final = '2017-01-31 23:59:59'
 
-        faltas = self.resource_calendar.get_ocurrences(
+        faltas = self.hr_holidays.get_ocurrences(
             self.employee_hruser_id.id, data_inicio, data_final)
         quantidade_faltas = faltas['quantidade_dias_faltas_nao_remuneradas']
 
