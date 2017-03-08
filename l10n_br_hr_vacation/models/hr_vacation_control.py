@@ -175,7 +175,7 @@ class HrVacationControl(models.Model):
     def calcular_faltas(self):
         for record in self:
             employee_id = record.contract_id.employee_id.id
-            leaves = record.env['resource.calendar'].get_ocurrences(
+            leaves = self.env['hr.holidays'].get_ocurrences(
                 employee_id,
                 record.inicio_aquisitivo,
                 record.fim_aquisitivo
