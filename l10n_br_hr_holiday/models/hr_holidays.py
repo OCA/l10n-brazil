@@ -39,6 +39,16 @@ class HrHolidays(models.Model):
     holiday_status_id = fields.Many2one(
         domain="[('tipo', '=', tipo)]",
     )
+    contrato_id = fields.Many2one(
+        comodel_name='hr.contract',
+        string=u'Contrato associado',
+        required=True,
+    )
+
+    @api.onchange('contrato_id')
+    def onchange_contrato(self):
+        for holiday in self:
+            holiday.employee_id = holiday.contrato_id.employee_id
 
     @api.constrains('attachment_ids', 'holiday_status_id', 'date_from',
                     'date_to', 'number_of_days_temp')
