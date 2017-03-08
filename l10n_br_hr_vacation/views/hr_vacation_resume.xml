@@ -5,9 +5,9 @@
         <record id="view_l10n_br_hr_vacation_resume_tree_simple" model="ir.ui.view">
             <field name="name">l10n_br_hr_vacation.resume.tree.simple</field>
             <field name="model">hr.holidays</field>
-            <field name="priority">120</field>
+            <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree colors="red:regular == False;green:regular == True;" string="Leaves Summary" >
+                <tree string="Resumo Férias" colors="red:regular == False;green:regular == True">
                     <field name="employee_id"/>
                     <field name="date_from"/>
                     <field name="date_to"/>
