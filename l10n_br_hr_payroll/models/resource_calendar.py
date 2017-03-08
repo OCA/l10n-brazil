@@ -101,7 +101,7 @@ class ResourceCalendar(models.Model):
         quantidade_dias_ferias = 0
         quantidade_dias_abono = 0
         holiday_status_id = \
-            self.env.ref('l10n_br_hr_vacation.holiday_status_vacation')
+            self.env.ref('l10n_br_hr_holiday.holiday_status_vacation')
         domain = [
             ('state', '=', 'validate'),
             ('employee_id', '=', employee_id),
