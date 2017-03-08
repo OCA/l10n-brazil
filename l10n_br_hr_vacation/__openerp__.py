@@ -11,9 +11,8 @@
     'author': "KMEE, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     'depends': [
-        'hr_contract',
-        'hr_holidays',
-        'hr_payroll',
+        'l10n_br_hr_holiday',
+        'l10n_br_hr_payroll',
     ],
     'data': [
         'data/hr_holidays_data.xml',
