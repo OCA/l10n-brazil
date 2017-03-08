@@ -42,9 +42,7 @@
             groups="base.group_hr_manager"
             sequence="6"/>
 
-    <record id="hr_holidays.view_holiday_new_calendar" model="ir.ui.view">
-        <field name="name">Evento</field>
-    </record>
+
 
 </data>
 </openerp>
