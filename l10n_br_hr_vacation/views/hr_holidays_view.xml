@@ -15,16 +15,27 @@
                            attrs="{'invisible': ['|',('type','=','add'),('holiday_status_id', '!=', %(l10n_br_hr_holiday.holiday_status_vacation)d)], 'required':  [('date_from','!=',False),('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}"
                            domain="[('type', '=', 'add'), ('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d), ('contrato_id', '=' , contrato_id)]}"/>
                 </field>
+                <label string="-" position="replace">
+                    <label string="-" class="oe_inline" attrs="{'invisible': [('holiday_status_id', '=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]}"/>
+                </label>
+                <label string="Duration"
+                       position="replace">
+                    <label for="date_from" string="Duração"/>
+                </label>
                 <field name="date_from" position="replace">
                     <field name="date_from" nolabel="1"
                            on_change="onchange_date_from(date_to, date_from, sold_vacations_days)"
-                           attrs="{'required':[('type', '=', 'remove')]}"
+                           attrs="{'required':[('type', '=', 'remove')], 'invisible': [('holiday_status_id', '=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]}"
                            class="oe_inline"/>
+                    <field name="data_inicio" nolabel="1"
+                           attrs="{'required':[('type', '=', 'remove')], 'invisible': [('holiday_status_id', '!=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]}"/>
                 </field>
                 <field name="date_to" position="replace">
+                    <field name="data_fim" nolabel="1"
+                           attrs="{'required':[('type', '=', 'remove')], 'invisible': [('holiday_status_id', '!=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]}"/>
                     <field name="date_to" nolabel="1"
                            on_change="onchange_date_to(date_to, date_from, sold_vacations_days)"
-                           attrs="{'required':[('type', '=', 'remove')]}"
+                           attrs="{'required':[('type', '=', 'remove')], 'invisible': [('holiday_status_id', '=', %(l10n_br_hr_vacation.holiday_status_vacation)d)]}"
                            class="oe_inline"/>
                 </field>
                 <field name="number_of_days_temp" position="replace">

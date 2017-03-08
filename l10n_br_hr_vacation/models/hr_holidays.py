@@ -9,6 +9,7 @@ _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil import data
+    from pybrasil.data import data_hora_horario_brasilia, parse_datetime, UTC
 except ImportError:
     _logger.info('Cannot import pybrasil')
 
@@ -84,6 +85,14 @@ class HrHolidays(models.Model):
         compute='_compute_name_holiday',
     )
 
+    data_inicio = fields.Date(
+        string=u'Início',
+    )
+
+    data_fim = fields.Date(
+        string=u'Fim',
+    )
+
     @api.depends('parent_id')
     def _compute_verificar_regularidade(self):
         for holiday in self:
@@ -152,3 +161,19 @@ class HrHolidays(models.Model):
                     '['+holiday.employee_id.name+'] ' + \
                     holiday.holiday_status_id.name[:30] + \
                     ' (' + date_from + '-' + date_to + ')'
+
+    @api.onchange('data_inicio', 'data_fim', 'date_from', 'date_to')
+    def setar_datas_core(self):
+        for holiday in self:
+            if holiday.data_inicio and holiday.data_fim:
+                data_inicio = data_hora_horario_brasilia(
+                    parse_datetime(holiday.data_inicio + ' 00:00:00'))
+                holiday.date_from = str(UTC.normalize(data_inicio))[:19]
+                data_fim = data_hora_horario_brasilia(
+                    parse_datetime(holiday.data_fim + ' 23:59:59'))
+                holiday.date_to = str(UTC.normalize(data_fim))[:19]
+            if holiday.date_from and holiday.date_to:
+                holiday.data_inicio = fields.Date.from_string(
+                    holiday.date_from
+                )
+                holiday.data_fim = fields.Date.from_string(holiday.date_to)
