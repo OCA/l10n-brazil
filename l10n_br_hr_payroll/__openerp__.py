@@ -15,7 +15,6 @@
         'l10n_br_resource',
         'l10n_br_hr_contract',
         'hr_payroll',
-        'l10n_br_hr_allowance',
     ],
     'external_dependencies': {
         'python': ['pybrasil'],
