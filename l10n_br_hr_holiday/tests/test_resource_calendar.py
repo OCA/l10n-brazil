@@ -62,7 +62,8 @@ class TestHrHoliday(common.TransactionCase):
             'ERRO: Nao foi possivel obter faltas do Funcionario!')
         self.assertEqual(
             faltas['faltas_nao_remuneradas'][0].name,
-            u'[Employee Luiza] Absence unjustified (10/01/2017-10/01/2017)',
+            # u'[Employee Luiza] Absence unjustified (10/01/2017-10/01/2017)',
+            u'Falta Injusticada',
             'ERRO: Nao foi possivel obter faltas do Funcionario!'
         )
 
@@ -98,6 +99,7 @@ class TestHrHoliday(common.TransactionCase):
             'ERRO: Nao foi possivel obter faltas do Funcionario!')
         self.assertEqual(
             faltas['faltas_nao_remuneradas'][0].name,
-            u'[Employee Luiza] Absence unjustified (10/01/2017-12/01/2017)',
+            # u'[Employee Luiza] Absence unjustified (10/01/2017-12/01/2017)',
+            u'Falta Injusticada de 3 dias',
             'ERRO: Nao foi possivel obter faltas do Funcionario!'
         )
