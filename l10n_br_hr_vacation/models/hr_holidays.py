@@ -71,11 +71,11 @@ class HrHolidays(models.Model):
         help=u'Saldo de dias de ferias de acordo com a fórmula: \n'
              u'saldo_disponivel - dias selecionados.\n Se o resultado for '
              u'positivo, o pedido de férias é regular e ja poderá ser gozado.',
-        compute='verificar_regularidade',
+        compute='_compute_verificar_regularidade',
     )
     regular = fields.Boolean(
         string=u'Regular',
-        compute='verificar_regularidade',
+        compute='_compute_verificar_regularidade',
     )
 
     name = fields.Char(
@@ -85,7 +85,7 @@ class HrHolidays(models.Model):
     )
 
     @api.depends('parent_id')
-    def verificar_regularidade(self):
+    def _compute_verificar_regularidade(self):
         for holiday in self:
             if not holiday.parent_id:
                 continue

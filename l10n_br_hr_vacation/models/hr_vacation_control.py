@@ -50,7 +50,7 @@ class HrVacationControl(models.Model):
 
     faltas = fields.Integer(
         string=u'Faltas',
-        compute='calcular_faltas',
+        compute='_compute_calcular_faltas',
     )
 
     afastamentos = fields.Integer(
@@ -62,14 +62,14 @@ class HrVacationControl(models.Model):
         string=u'Dias de Direito',
         help=u'Dias que o funcionario tera direito a tirar ferias. '
              u'De acordo com a quantidade de faltas em seu perido aquisitivo',
-        compute='calcular_dias',
+        compute='_compute_calcular_dias',
     )
 
     saldo = fields.Float(
         string=u'Saldo',
         help=u'Saldo dos dias de direitos proporcionalmente aos avos ja '
              u'trabalhados no periodo aquisitivo',
-        compute='calcular_saldo_dias',
+        compute='_compute_calcular_saldo_dias',
     )
 
     dias_gozados = fields.Float(
@@ -81,7 +81,7 @@ class HrVacationControl(models.Model):
 
     avos = fields.Integer(
         string=u'Avos',
-        compute='calcular_avos',
+        compute='_compute_calcular_avos',
     )
 
     proporcional = fields.Boolean(
@@ -94,12 +94,12 @@ class HrVacationControl(models.Model):
 
     pagamento_dobro = fields.Boolean(
         string=u'Pagamento em Dobro?',
-        compute='calcular_pagamento_dobro',
+        compute='_compute_calcular_pagamento_dobro',
     )
 
     dias_pagamento_dobro = fields.Integer(
         string=u'Dias Pagamento em Dobro',
-        compute='calcular_dias_pagamento_dobro',
+        compute='_compute_calcular_dias_pagamento_dobro',
     )
 
     perdido_afastamento = fields.Boolean(
@@ -172,7 +172,7 @@ class HrVacationControl(models.Model):
             'limite_aviso': limite_aviso,
         }
 
-    def calcular_faltas(self):
+    def _compute_calcular_faltas(self):
         for record in self:
             employee_id = record.contract_id.employee_id.id
             leaves = self.env['hr.holidays'].get_ocurrences(
@@ -192,7 +192,7 @@ class HrVacationControl(models.Model):
             dias_de_direito = 24
         return dias_de_direito
 
-    def calcular_avos(self):
+    def _compute_calcular_avos(self):
         for record in self:
             date_begin = fields.Datetime.from_string(record.inicio_aquisitivo)
             if fields.Date.today() < record.fim_aquisitivo:
@@ -208,16 +208,16 @@ class HrVacationControl(models.Model):
                 record.avos = int(avos_decimal)
 
     @api.depends('dias_gozados')
-    def calcular_saldo_dias(self):
+    def _compute_calcular_saldo_dias(self):
         for record in self:
             saldo = record.dias_de_direito() * record.avos / 12.0
             record.saldo = saldo - record.dias_gozados
 
-    def calcular_dias(self):
+    def _compute_calcular_dias(self):
         for record in self:
             record.dias = record.dias_de_direito()
 
-    def calcular_dias_pagamento_dobro(self):
+    def _compute_calcular_dias_pagamento_dobro(self):
         for record in self:
             pass
             # dias_pagamento_dobro = 0
@@ -230,7 +230,7 @@ class HrVacationControl(models.Model):
             #     dias_pagamento_dobro = 30
             # record.dias_pagamento_dobro = dias_pagamento_dobro
 
-    def calcular_pagamento_dobro(self):
+    def _compute_calcular_pagamento_dobro(self):
         for record in self:
             pagamento_dobro = (record.dias_pagamento_dobro > 0)
             record.pagamento_dobro = pagamento_dobro
