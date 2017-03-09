@@ -101,7 +101,6 @@ class FinancialMoveModel(models.AbstractModel):
     )
     due_date = fields.Date(
         string=u"Due date",
-        # required=True,
         readonly=True,
         states=_readonly_state,
         track_visibility='onchange',
@@ -148,7 +147,7 @@ class FinancialMoveModel(models.AbstractModel):
         for record in self:
             if record.due_date:
                 record.business_due_date = self.env[
-                    'resource.calendar'].browse(2).proximo_dia_util_bancario(
+                    'resource.calendar'].proximo_dia_util_bancario(
                     fields.Date.from_string(record.due_date))
 
     def _prepare_financial_move(self, ref, ref_item, company_id, currency_id,
