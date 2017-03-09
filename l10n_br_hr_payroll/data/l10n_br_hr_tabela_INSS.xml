@@ -46,5 +46,25 @@
             <field name="rate">11</field>
         </record>
 
+        <!--Tabela para Empregado, Empregado Doméstico e Trabalhador Avulso 2015-->
+        <record id="l10n_br_hr_payroll_INSS1_2015" model="l10n_br.hr.social.security.tax">
+            <field name="year">2015</field>
+            <field name="min_wage">0</field>
+            <field name="max_wage">1399.12</field>
+            <field name="rate">8</field>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS2_2015" model="l10n_br.hr.social.security.tax">
+            <field name="year">2015</field>
+            <field name="min_wage">1399.13</field>
+            <field name="max_wage">2331.88</field>
+            <field name="rate">9</field>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS3_2015" model="l10n_br.hr.social.security.tax">
+            <field name="year">2015</field>
+            <field name="min_wage">2331.89</field>
+            <field name="max_wage">4663.75</field>
+            <field name="rate">11</field>
+        </record>
+
     </data>
 </openerp>
