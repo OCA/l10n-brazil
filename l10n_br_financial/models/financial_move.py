@@ -59,9 +59,14 @@ class FinancialMove(models.Model):
     analytic_account_id = fields.Char()  # FIXME .Many2one(
     #
     # )
-    account_account_id = fields.Char()  # FIXME .Many2one(
-    #
-    # )
+    account_id = fields.Many2one(
+        comodel_name='account.account',
+        string='Account',
+        required=True,
+        readonly=True, states={'draft': [('readonly', False)]},
+        domain=[('deprecated', '=', False)],
+        help="The partner account used for this invoice."
+    )
     balance = fields.Monetary(
         compute='_compute_balance',
         track_visibility='onchange',
@@ -98,7 +103,7 @@ class FinancialMove(models.Model):
         inverse_name='regociated_id',
     )
     payment_id = fields.Many2one(
-        comodel_name='financial.move',
+        'financial.move',
     )
     related_payment_ids = fields.One2many(
         comodel_name='financial.move',
@@ -119,7 +124,6 @@ class FinancialMove(models.Model):
     account_move_line_id = fields.Many2one(
         comodel_name='account.move.line',
         # compute='_compute_account_move_line_ids',
-        store=True
     )
     payment_receivable_ids = fields.One2many(
         comodel_name='account.move.line',
@@ -190,8 +194,10 @@ class FinancialMove(models.Model):
                     and record.state == 'open':
                 record.change_state('paid')
 
-    @api.model
-    def create(self, vals):
+    def executa_antes_create(self,vals):
+        #
+        # função de sobreescrita
+        #
         if vals.get('name', 'New') == 'New':
             if vals.get('move_type') == 'r':
                 vals['ref'] = self.env['ir.sequence'].next_by_code(
@@ -208,5 +214,57 @@ class FinancialMove(models.Model):
                     'financial.move.receipt') or 'New'
                 if not vals.get('ref_item'):
                     vals['ref_item'] = '1'
+        pass
+
+    def executa_depois_create(self,res):
+        #
+        # função de sobreescrita
+        #
+        # TODO: integração contabil
+        if res and res.account_id.internal_type in ('receivable', 'payable'):
+            res.sync_aml_lancamento_from_financeiro()
+
+        pass
+
+    @api.model
+    def create(self, vals):
+        self.executa_antes_create(vals)
         result = super(FinancialMove, self).create(vals)
+        self.executa_depois_create(result)
         return result
+
+    def _prepare_aml(self):
+        # partner_id = self.account_id = self.partner_id.property_account_receivable_id \
+        #             if self.voucher_type == 'sale' else self.partner_id.property_account_payable_id
+        credit = 0
+        debit = 0
+        if(self.move_type == 'receivable'):
+            debit = self.amount_document
+        else:
+            credit = self.amount_document
+        return dict(  # FIXME: change to account parameters
+            name=self.display_name,
+            date_maturity=self.date_due,
+            date=self.document_date,
+            company_id=self.company_id and self.company_id.id,
+            currency_id=self.currency_id and self.currency_id.id,
+            debit=debit,
+            credit=credit,
+            partner_id=self.partner_id and self.partner_id.id or False,
+            internal_type=self.move_type,
+            move_id=self.move_id,
+            financial_move_id=self.id,
+            account_id=self.account_id,
+        )
+
+    @api.multi
+    def sync_aml_lancamento_from_financeiro(self):
+        # Se existir um financial que já tenha uma aml, atualizar o mesmo
+
+        # self, date_maturity, partner_id, internal_type,
+        # company_id, currency_id, debit = 0, credit = 0, ** kwargs):
+
+        aml_obj = self.env['account.move.line'].create(
+            self._prepare_aml())
+        aml_obj.action_invoice_open()
+        return True

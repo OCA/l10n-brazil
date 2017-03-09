@@ -15,6 +15,7 @@
 	'account_payment_mode',
 	'account',
         'mail',
+        'account',
     ],
     'data': [
         'data/ir_sequence_data.xml',

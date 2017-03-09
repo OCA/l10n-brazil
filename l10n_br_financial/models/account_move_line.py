@@ -15,7 +15,7 @@ FINANCIAL_TYPE_AML = {
     }
 }
 
-
+# financial_move_id= ???  FIXME
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
@@ -56,16 +56,44 @@ class AccountMoveLine(models.Model):
 
         financial_obj = self.env['financial.move'].create(
             self._prepare_financial_move())
+        # if(financial_obj.move_type in ('rr', 'pp')):
+        #     financial_obj.payment_id = self.env.context.get('active_id')
         financial_obj.action_confirm()
         return True
 
     def create(self, values):
+        self.executa_antes_create(values)
         res = super(AccountMoveLine, self).create(values)
-        if res and res.account_id.internal_type in ('receivable', 'payable'):
-            res.sync_financeiro_lancamento_from_aml()
+        self.executa_depois_create(res)
         return res
 
     def write(self, values):
+        self.executa_antes_write()
         res = super(AccountMoveLine, self).write(values)
+        self.executa_depois_write()
         # compute and inverse
         return res
+
+    def executa_depois_create(self, res):
+        #
+        # função de sobreescrita
+        #
+        if res and res.account_id.internal_type in ('receivable', 'payable'):
+            res.sync_financeiro_lancamento_from_aml()
+        pass
+
+    def executa_antes_create(self, values):
+        #
+        # função de sobreescrita
+        #
+        pass
+    def executa_antes_write(self):
+        #
+        # função de sobreescrita
+        #
+        pass
+    def executa_depois_write(self):
+        #
+        # função de sobreescrita
+        #
+        pass
