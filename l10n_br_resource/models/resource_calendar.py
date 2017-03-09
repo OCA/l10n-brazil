@@ -3,19 +3,9 @@
 # Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import logging
 from openerp import api, fields, models, _
 from datetime import datetime, timedelta
 from openerp import tools
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from pybrasil.feriado.constantes import (
-        TIPO_FERIADO, ABRANGENCIA_FERIADO,
-    )
-except ImportError:
-    _logger.info('Cannot import pybrasil')
 
 
 class ResourceCalendar(models.Model):
