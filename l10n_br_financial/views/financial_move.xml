@@ -104,6 +104,7 @@
                             <field name="company_id"/>
                             <field name="currency_id"/>
                             <field name="partner_id"/>
+                            <field name="account_id"/>
                         </group>
                         <group>
                             <field name="document_number"/>

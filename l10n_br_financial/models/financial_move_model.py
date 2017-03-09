@@ -139,7 +139,7 @@ class FinancialMoveModel(models.AbstractModel):
         for record in self:
             if not record.due_date and record.move_type in ('p', 'r'):
                 raise UserError(_(
-                    "The finacial move must have a due date!"))
+                    "The financial move must have a due date!"))
 
     @api.multi
     @api.depends('due_date')
