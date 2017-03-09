@@ -6,25 +6,6 @@
     <data noupdate="1">
     <!--<data>-->
 
-        <!--RAT/FAP 2017-->
-        <record id="l10n_br_hr_rat_fap_2017" model="l10n_br.hr.rat.fap">
-            <field name="company_id" ref="base.main_company"/>
-            <field name="year">2017</field>
-            <field name="rat_rate">1.5</field>
-            <field name="fap_rate">1.5</field>
-            <field name="other_entities_rate">3.0</field>
-            <field name="total_rate">6.0</field>
-        </record>
-        <!--RAT/FAP 2016-->
-        <record id="l10n_br_hr_rat_fap_2016" model="l10n_br.hr.rat.fap">
-            <field name="company_id" ref="base.main_company"/>
-            <field name="year">2016</field>
-            <field name="rat_rate">1.5</field>
-            <field name="fap_rate">1.5</field>
-            <field name="other_entities_rate">3.0</field>
-            <field name="total_rate">6.0</field>
-        </record>
-
         <!--Demo 01-->
         <!-- Employee -->
         <record id="hr_employee_payroll_demo01" model="hr.employee">
