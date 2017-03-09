@@ -2,9 +2,9 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-=============================
+=========================================
 Cadastro de dados e normas dos sindicatos
-=============================
+=========================================
 
 This module extends the functionality of ... to support ...
 and to allow you to ...

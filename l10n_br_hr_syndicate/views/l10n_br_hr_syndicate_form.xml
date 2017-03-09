@@ -46,21 +46,6 @@
             </field>
         </record>
 
-        <record  model="ir.ui.view" id="l10n_br_hr_job_minimum_wage_tree">
-            <field name="name">l10n.br.hr.job.minimum.wage.tree</field>
-            <field name="model">l10n.br.hr.job.minimum.wage</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <tree string="Job Minimum Wage">
-                    <field name="job_id" />
-                    <field name="date_beginning"/>
-                    <field name="preferential_workload"/>
-                    <field name="month_minimum_wage"/>
-                    <field name="hour_minimum_wage"/>
-                </tree>
-            </field>
-        </record>
-
         <record  model="ir.ui.view" id="l10n_br_hr_job_rubric_tree">
             <field name="name">l10n.br.hr.job.rubric.tree</field>
             <field name="model">l10n.br.hr.job.rubric</field>
