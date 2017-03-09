@@ -25,7 +25,7 @@ class HrContract(models.Model):
             return super(HrContract, self).create(vals)
 
     @api.depends('employee_id', 'date_start')
-    def _nome_contrato(self):
+    def _compute_nome_contrato(self):
         for contrato in self:
             nome = contrato.employee_id.name
             inicio_contrato = contrato.date_start
@@ -51,8 +51,11 @@ class HrContract(models.Model):
                                                  fim_contrato)
             contrato.nome_contrato = nome_contrato if nome else ''
 
-    nome_contrato = fields.Char(default="[mat] nome - inicio - fim",
-                                compute="_nome_contrato", store=True)
+    nome_contrato = fields.Char(
+        default="[mat] nome - inicio - fim",
+        compute="_compute_nome_contrato",
+        store=True
+    )
 
     @api.multi
     def _buscar_salario_vigente_periodo(self, data_inicio, data_fim):

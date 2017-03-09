@@ -3,7 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import api, fields, models, _
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning as UserError
 
 
 class L10nBrHrIncomeTax(models.Model):

@@ -74,14 +74,14 @@ class L10nBrHrMedias(models.Model):
     )
     soma = fields.Float(
         string=u'Total dos Meses',
-        compute='calcular_soma'
+        compute='_compute_calcular_soma'
     )
     meses = fields.Float(
         string=u'Meses do periodo',
     )
     media = fields.Float(
         string=u'Média',
-        compute='calcular_media',
+        compute='_compute_calcular_media',
     )
     media_texto = fields.Char(
         string=u'Média'
@@ -92,7 +92,7 @@ class L10nBrHrMedias(models.Model):
         default=False,
     )
 
-    def calcular_soma(self):
+    def _compute_calcular_soma(self):
         for linha in self:
             if not linha.linha_de_titulo:
                 linha.soma = \
@@ -103,7 +103,7 @@ class L10nBrHrMedias(models.Model):
                     float(linha.mes_9) + float(linha.mes_10) + \
                     float(linha.mes_11) + float(linha.mes_12)
 
-    def calcular_media(self):
+    def _compute_calcular_media(self):
         for linha in self:
             if not linha.linha_de_titulo:
                 if linha.meses == 0:

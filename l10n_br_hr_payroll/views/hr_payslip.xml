@@ -3,368 +3,396 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <openerp>
-<data>
+    <data>
 
-    <menuitem id="menu_hr_root_payroll_simulacao" parent="hr.menu_hr_root" name="Simulações" sequence="35"/>
+        <menuitem id="menu_hr_root_payroll_simulacao" parent="hr.menu_hr_root"
+                  name="Simulações" sequence="35"/>
 
-    <record id="view_hr_payslip_tree" model="ir.ui.view">
-        <field name="name">hr.payslip.tree</field>
-        <field name="model">hr.payslip</field>
-        <field name="arch" type="xml">
-            <tree colors="blue:state in ('confirm','hr_check','accont_check');black:state == 'new';gray:state == 'cancel'" string="Payslips">
-                <field name="number"/>
-                <field name="employee_id"/>
-                <field name="name"/>
-                <field name="data_mes_ano"/>
-                <field name="state"/>
-                <field name="company_id" groups="base.group_multi_company" widget="selection"/>
-                <field name="payslip_run_id" invisible="1"/>
-            </tree>
-        </field>
-    </record>
+        <record id="view_hr_payslip_tree" model="ir.ui.view">
+            <field name="name">hr.payslip.tree</field>
+            <field name="model">hr.payslip</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state in ('confirm','hr_check','accont_check');black:state == 'new';gray:state == 'cancel'"
+                      string="Payslips">
+                    <field name="number"/>
+                    <field name="employee_id"/>
+                    <field name="name"/>
+                    <field name="data_mes_ano"/>
+                    <field name="state"/>
+                    <field name="company_id" groups="base.group_multi_company"
+                           widget="selection"/>
+                    <field name="payslip_run_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
 
-    <record id="hr_payroll.action_view_hr_payslip_form"
-            model="ir.actions.act_window">
-        <field name="name">Holerites do Funcionário</field>
-        <field name="res_model">hr.payslip</field>
-        <field name="view_type">form</field>
-        <field name="view_id" ref="view_hr_payslip_tree"/>
-        <field name="search_view_id" ref="hr_payroll.view_hr_payslip_filter"/>
-        <field name="context">{'default_tipo_de_folha': 'normal'}</field>
-        <field name="domain">[('tipo_de_folha','=','normal')]</field>
-    </record>
+        <record id="hr_payroll.action_view_hr_payslip_form" model="ir.actions.act_window">
+            <field name="name">Holerites do Funcionário</field>
+            <field name="res_model">hr.payslip</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_hr_payslip_tree"/>
+            <field name="search_view_id" ref="hr_payroll.view_hr_payslip_filter"/>
+            <field name="context">{'default_tipo_de_folha': 'normal'}</field>
+            <field name="domain">[('tipo_de_folha','=','normal')]</field>
+            <field name="priority" eval="105"/>
+        </record>
 
-    <record model="ir.ui.view" id="hr_payslip_form_view">
-        <field name="name">hr.payslip.form (in l10n_br_hr_payroll)</field>
-        <field name="model">hr.payslip</field>
-        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
-        <field name="arch" type="xml">
-            <!-- Adiciona abas -->
-            <xpath expr="//notebook" position="replace">
-                <notebook>
-                    <page string="Holerite" >
-                        <field name="line_resume_ids" colspan="4" nolabel="1">
-                            <tree string="Salary Structure" editable="bottom" colors="blue:valor_provento > 0;red:valor_deducao > 0">
-                                <field name="name"/>
-                                <field name="valor_provento"/>
-                                <field name="valor_deducao"/>
-                            </tree>
-                            <form string="Payslip Line">
-                                <group col="4">
+        <record model="ir.ui.view" id="hr_payslip_form_view">
+            <field name="name">hr.payslip.form (in l10n_br_hr_payroll)</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="priority" eval="105"/>
+            <field name="arch" type="xml">
+                <!-- Adiciona abas -->
+                <xpath expr="//notebook" position="replace">
+                    <notebook>
+                        <page string="Holerite">
+                            <field name="line_resume_ids" colspan="4"
+                                   nolabel="1">
+                                <tree string="Salary Structure"
+                                      editable="bottom"
+                                      colors="blue:valor_provento > 0;red:valor_deducao > 0">
                                     <field name="name"/>
                                     <field name="valor_provento"/>
                                     <field name="valor_deducao"/>
-                                </group>
-                            </form>
-                        </field>
-                        <group class="oe_subtotal_footer oe_right" colspan="2">
-                            <field name="total_folha" />
-                        </group>
-                        <div class="oe_clear"/>
-                    </page>
-                    <page string="Salary Computation" >
-                        <field name="line_ids" colspan="4" nolabel="1">
-                            <tree string="Salary Structure" editable="bottom" colors="orange:total == 0">
-                                <field name="name"/>
-                                <field name="code"/>
-                                <field name="category_id"/>
-                                <field name="sequence" invisible="1"/>
-                                <field name="quantity"/>
-                                <field name="rate"/>
-                                <field name="amount"/>
-                                <field name="total"/>
-                            </tree>
-                            <form string="Payslip Line">
-                                <group col="4">
+                                </tree>
+                                <form string="Payslip Line">
+                                    <group col="4">
+                                        <field name="name"/>
+                                        <field name="valor_provento"/>
+                                        <field name="valor_deducao"/>
+                                    </group>
+                                </form>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right"
+                                   colspan="2">
+                                <field name="total_folha"/>
+                            </group>
+                            <div class="oe_clear"/>
+                        </page>
+                        <page string="Salary Computation">
+                            <field name="line_ids" colspan="4" nolabel="1">
+                                <tree string="Salary Structure"
+                                      editable="bottom"
+                                      colors="orange:total == 0">
                                     <field name="name"/>
                                     <field name="code"/>
                                     <field name="category_id"/>
-                                    <field name="sequence"/>
+                                    <field name="sequence" invisible="1"/>
                                     <field name="quantity"/>
                                     <field name="rate"/>
                                     <field name="amount"/>
                                     <field name="total"/>
-                                    <field name="salary_rule_id"/>
-                                </group>
-                            </form>
-                        </field>
-                    </page>
-                    <page string="Variáveis">
-                        <separator string="Worked Days"/>
-                        <field name="worked_days_line_ids">
-                            <tree string="Worked Days" editable="bottom">
-                                <field name="name"/>
-                                <field name="code"/>
-                                <field name="number_of_days" sum="Total Working Days"/>
-                                <field name="number_of_hours"/>
-                                <field name="contract_id"/>
-                                <field name="sequence" invisible="True"/>
-                            </tree>
-                            <form string="Worked Day">
-                                <group col="4">
+                                </tree>
+                                <form string="Payslip Line">
+                                    <group col="4">
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <field name="category_id"/>
+                                        <field name="sequence"/>
+                                        <field name="quantity"/>
+                                        <field name="rate"/>
+                                        <field name="amount"/>
+                                        <field name="total"/>
+                                        <field name="salary_rule_id"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Variáveis">
+                            <separator string="Worked Days"/>
+                            <field name="worked_days_line_ids">
+                                <tree string="Worked Days" editable="bottom">
                                     <field name="name"/>
                                     <field name="code"/>
-                                    <field name="payslip_id"/>
-                                    <field name="sequence"/>
-                                    <field name="number_of_days"/>
+                                    <field name="number_of_days"
+                                           sum="Total Working Days"/>
                                     <field name="number_of_hours"/>
                                     <field name="contract_id"/>
-                                </group>
-                            </form>
-                        </field>
-                        <separator string="Other Inputs"/>
-                        <field name="input_line_ids" colspan="4" nolabel="1">
-                            <tree string="Input Data" editable="bottom">
-                                <field name="name"/>
-                                <field name="code"/>
-                                <field name="amount"/>
-                                <field name="contract_id"/>
-                                <field name="sequence" invisible="True"/>
-                            </tree>
-                            <form string="Payslip Line">
-                                <group col="4">
+                                    <field name="sequence" invisible="True"/>
+                                </tree>
+                                <form string="Worked Day">
+                                    <group col="4">
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <field name="payslip_id"/>
+                                        <field name="sequence"/>
+                                        <field name="number_of_days"/>
+                                        <field name="number_of_hours"/>
+                                        <field name="contract_id"/>
+                                    </group>
+                                </form>
+                            </field>
+                            <separator string="Other Inputs"/>
+                            <field name="input_line_ids" colspan="4"
+                                   nolabel="1">
+                                <tree string="Input Data" editable="bottom">
                                     <field name="name"/>
                                     <field name="code"/>
-                                    <field name="payslip_id"/>
-                                    <field name="sequence"/>
                                     <field name="amount"/>
                                     <field name="contract_id"/>
-                                </group>
-                            </form>
-                        </field>
-                    </page>
+                                    <field name="sequence" invisible="True"/>
+                                </tree>
+                                <form string="Payslip Line">
+                                    <group col="4">
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <field name="payslip_id"/>
+                                        <field name="sequence"/>
+                                        <field name="amount"/>
+                                        <field name="contract_id"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
 
-                    <page string="Cálculo das Médias"
-                          attrs="{'invisible': [('tipo_de_folha', 'not in', ['ferias', 'decimo_terceiro', 'aviso_previo'])]}">
-                        <button string="Gerar Médias Disponíveis" name="gerar_media_dos_proventos" type="object" />
-                        <field name="medias_proventos" colspan="4"
-                               nolabel="1">
-                            <tree edit="false" create="false">
-                                <field name="nome_rubrica"/>
-                                <field name="mes_1"/>
-                                <field name="mes_2"/>
-                                <field name="mes_3"/>
-                                <field name="mes_4"/>
-                                <field name="mes_5"/>
-                                <field name="mes_6"/>
-                                <field name="mes_7"/>
-                                <field name="mes_8"/>
-                                <field name="mes_9"/>
-                                <field name="mes_10"/>
-                                <field name="mes_11"/>
-                                <field name="mes_12"/>
-                                <field name="soma"/>
-                                <field name="meses"/>
-                                <field name="media"/>
-                            </tree>
+                        <page string="Cálculo das Médias"
+                              attrs="{'invisible': [('tipo_de_folha', 'not in', ['ferias', 'decimo_terceiro', 'aviso_previo'])]}">
+                            <button string="Calcular Médias"
+                                    name="gerar_media_dos_proventos"
+                                    type="object"/>
+                            <field name="medias_proventos" colspan="4"
+                                   nolabel="1">
+                                <tree edit="false" create="false">
+                                    <field name="nome_rubrica"/>
+                                    <field name="mes_1"/>
+                                    <field name="mes_2"/>
+                                    <field name="mes_3"/>
+                                    <field name="mes_4"/>
+                                    <field name="mes_5"/>
+                                    <field name="mes_6"/>
+                                    <field name="mes_7"/>
+                                    <field name="mes_8"/>
+                                    <field name="mes_9"/>
+                                    <field name="mes_10"/>
+                                    <field name="mes_11"/>
+                                    <field name="mes_12"/>
+                                    <field name="soma"/>
+                                    <field name="meses"/>
+                                    <field name="media"/>
+                                </tree>
 
-                        </field>
-                    </page>
+                            </field>
+                        </page>
 
-                </notebook>
-			 </xpath>
+                    </notebook>
+                </xpath>
 
-            <!--Redefinindo campo Funcionario-->
-            <field name="contract_id" position="replace">
-                <field name="employee_id" invisible="1" on_change="onchange_employee_id(date_from, date_to, contract_id)"/>
-                <field name="employee_id_readonly" readonly="True"/>
-                <field name="tipo_de_folha" invisible="1"/>
-            </field>
+                <!--Redefinindo campo Funcionario-->
+                <field name="contract_id" position="replace">
+                    <field name="employee_id" invisible="1"
+                           on_change="onchange_employee_id(date_from, date_to, contract_id)"/>
+                    <field name="employee_id_readonly" readonly="True"/>
+                    <field name="tipo_de_folha" invisible="1"/>
+                </field>
 
-            <!--Redefinindo campo de Estrutura-->
-            <field name="struct_id" position="replace">
-                <field name="struct_id" invisible="1"/>
-                <field name="struct_id_readonly" readonly="True"/>
-            </field>
+                <!--Redefinindo campo de Estrutura-->
+                <field name="struct_id" position="replace">
+                    <field name="struct_id" invisible="1"/>
+                    <field name="struct_id_readonly" readonly="True"/>
+                </field>
 
-            <xpath expr="//div[@class='oe_title']" position="replace">
-                <label for="contract_id" class="oe_edit_only"/>
-                <h1><field name="contract_id"/></h1>
-            </xpath>
+                <xpath expr="//div[@class='oe_title']" position="replace">
+                    <label for="contract_id" class="oe_edit_only"/>
+                    <h1>
+                        <field name="contract_id"/>
+                    </h1>
+                </xpath>
 
-            <!--adicionando ANO e MES -->
-            <xpath expr="//h1" position="after">
-                <group attrs="{'invisible' : [('tipo_de_folha', '=', 'ferias')]}">
-                    <group>
-                        <field name="mes_do_ano" />
+                <!--adicionando ANO e MES -->
+                <xpath expr="//h1" position="after">
+                    <group attrs="{'invisible' : [('tipo_de_folha', '=', 'ferias')]}">
+                        <group>
+                            <field name="mes_do_ano"/>
+                        </group>
+                        <group>
+                            <field name="ano"/>
+                        </group>
                     </group>
-                    <group>
-                        <field name="ano"/>
+                </xpath>
+
+                <!--adicionando Período de Férias -->
+                <xpath expr="//h1" position="after">
+                    <group attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}">
+                        <group>
+                            <field name="holidays_ferias"
+                                   domain="[('contrato_id', '=', contract_id), ('type', '=', 'remove'), ('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]"
+                                   attrs="{'readonly': False, 'required': [('tipo_de_folha', '=', 'ferias')]}"/>
+
+                            <field name="periodo_aquisitivo" invisible="1"/>
+                            <field name="periodo_aquisitivo_readonly"
+                                   attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"
+                                   readonly="True"/>
+
+                            <field name="saldo_periodo_aquisitivo"
+                                   attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
+
+                        </group>
                     </group>
-                </group>
-            </xpath>
+                </xpath>
 
-            <!--adicionando Período de Férias -->
-            <xpath expr="//h1" position="after">
-                <group attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}">
-                    <group>
-                        <field name="holidays_ferias"
-                               domain="[('contrato_id', '=', contract_id), ('type', '=', 'remove'), ('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]"
-                               attrs="{'readonly': False, 'required': [('tipo_de_folha', '=', 'ferias')]}" />
+                <!--Deixando invisível-->
+                <xpath expr="//label[@for='date_from']" position="replace">
+                    <label for="date_from" string=""/>
+                </xpath>
+                <field name="date_from" position="replace">
+                    <field name="date_from"/>
+                    até
+                </field>
+                <field name="date_to" position="replace">
+                    <field name="date_to"
+                           on_change="onchange_employee_id(date_from, date_to, contract_id)"/>
+                </field>
 
-                        <field name="periodo_aquisitivo" invisible="1"/>
-                        <field name="periodo_aquisitivo_readonly"
-                               attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"
-                               readonly="True"/>
+                <!--Adicionando campod o periodo-->
+                <field name="credit_note" position="before">
+                    <field name="dias_aviso_previo"
+                           attrs="{'invisible': [('tipo_de_folha', '!=', 'aviso_previo')],'required': [('tipo_de_folha', '=', 'aviso_previo')]}"/>
+                    <field name="is_simulacao" invisible="1"/>
+                </field>
 
-                        <field name="saldo_periodo_aquisitivo"
-                               attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
-
-                    </group>
-                </group>
-            </xpath>
-
-            <!--Deixando invisível-->
-            <xpath expr="//label[@for='date_from']" position="replace">
-                <label for="date_from" string="" />
-            </xpath>
-            <field name="date_from" position="replace">
-                <field name="date_from" />  até
             </field>
-            <field name="date_to" position="replace">
-                <field name="date_to" on_change="onchange_employee_id(date_from, date_to, contract_id)"/>
+        </record>
+
+        <!--Férias-->
+        <record id="view_hr_ferias_tree" model="ir.ui.view">
+            <field name="name">hr.ferias.tree</field>
+            <field name="model">hr.payslip</field>
+            <field name="arch" type="xml">
+                <tree string="Payslips">
+                    <field name="number"/>
+                    <field name="employee_id"/>
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="state"/>
+                    <field name="payslip_run_id" invisible="1"/>
+                </tree>
             </field>
+        </record>
 
-            <!--Adicionando campod o periodo-->
-            <field name="credit_note" position="before">
-                <field name="dias_aviso_previo" attrs="{'invisible': [('tipo_de_folha', '!=', 'aviso_previo')],'required': [('tipo_de_folha', '=', 'aviso_previo')]}" />
-                <field name="is_simulacao" invisible="1"/>
+        <record id="action_view_hr_calculo_medias_view_tree"
+                model="ir.actions.act_window">
+            <field name="name">Férias</field>
+            <field name="res_model">hr.payslip</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_hr_ferias_tree"/>
+            <field name="search_view_id"
+                   ref="hr_payroll.view_hr_payslip_filter"/>
+            <field name="context">{'default_tipo_de_folha': 'ferias'}</field>
+            <field name="domain">[('tipo_de_folha','=','ferias')]</field>
+        </record>
+
+        <menuitem action="action_view_hr_calculo_medias_view_tree"
+                  id="menu_calculo_medias_page"
+                  parent="hr_payroll.menu_hr_root_payroll"/>
+
+        <!--13º Salário-->
+        <record id="view_hr_decimo_terceiro_tree" model="ir.ui.view">
+            <field name="name">hr.decimo.terceiro.tree</field>
+            <field name="model">hr.payslip</field>
+            <field name="arch" type="xml">
+                <tree string="Payslips">
+                    <field name="number"/>
+                    <field name="employee_id"/>
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="state"/>
+                    <field name="payslip_run_id" invisible="1"/>
+                </tree>
             </field>
+        </record>
 
-        </field>
-    </record>
+        <record id="action_view_hr_decimo_terceiro_view_page"
+                model="ir.actions.act_window">
+            <field name="name">13º Salário</field>
+            <field name="res_model">hr.payslip</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_hr_decimo_terceiro_tree"/>
+            <field name="context">{'default_tipo_de_folha': 'decimo_terceiro'}
+            </field>
+            <field name="domain">[('tipo_de_folha','=','decimo_terceiro')]
+            </field>
+        </record>
 
-    <!--Férias-->
-    <record id="view_hr_ferias_tree" model="ir.ui.view">
-        <field name="name">hr.ferias.tree</field>
-        <field name="model">hr.payslip</field>
-        <field name="arch" type="xml">
-            <tree string="Payslips">
-                <field name="number"/>
-                <field name="employee_id"/>
-                <field name="name"/>
-                <field name="date_from"/>
-                <field name="date_to"/>
-                <field name="state"/>
-                <field name="payslip_run_id" invisible="1"/>
-            </tree>
-        </field>
-    </record>
+        <menuitem action="action_view_hr_decimo_terceiro_view_page"
+                  id="menu_decimo_terceiro_page"
+                  parent="hr_payroll.menu_hr_root_payroll"/>
 
-    <record id="action_view_hr_calculo_medias_view_tree"
-            model="ir.actions.act_window">
-        <field name="name">Férias</field>
-        <field name="res_model">hr.payslip</field>
-        <field name="view_type">form</field>
-        <field name="view_id" ref="view_hr_ferias_tree"/>
-        <field name="search_view_id"
-               ref="hr_payroll.view_hr_payslip_filter"/>
-        <field name="context">{'default_tipo_de_folha': 'ferias'}</field>
-        <field name="domain">[('tipo_de_folha','=','ferias')]</field>
-    </record>
+        <!--13º Salário-->
+        <record id="view_hr_aviso_previo_tree" model="ir.ui.view">
+            <field name="name">hr.aviso.previo.tree</field>
+            <field name="model">hr.payslip</field>
+            <field name="arch" type="xml">
+                <tree string="Payslips">
+                    <field name="number"/>
+                    <field name="employee_id"/>
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="state"/>
+                    <field name="payslip_run_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
 
-    <menuitem action="action_view_hr_calculo_medias_view_tree"
-              id="menu_calculo_medias_page"
-              parent="hr_payroll.menu_hr_root_payroll"/>
+        <record id="action_view_hr_aviso_previo_view_page"
+                model="ir.actions.act_window">
+            <field name="name">Aviso Prévio</field>
+            <field name="res_model">hr.payslip</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_hr_aviso_previo_tree"/>
+            <field name="context">{'default_tipo_de_folha': 'aviso_previo',
+                'default_is_simulacao':True}
+            </field>
+            <field name="domain">
+                [('tipo_de_folha','=','aviso_previo'),('is_simulacao','=',True)]
+            </field>
+        </record>
 
-    <!--13º Salário-->
-    <record id="view_hr_decimo_terceiro_tree" model="ir.ui.view">
-        <field name="name">hr.decimo.terceiro.tree</field>
-        <field name="model">hr.payslip</field>
-        <field name="arch" type="xml">
-            <tree string="Payslips">
-                <field name="number"/>
-                <field name="employee_id"/>
-                <field name="name"/>
-                <field name="date_from"/>
-                <field name="date_to"/>
-                <field name="state"/>
-                <field name="payslip_run_id" invisible="1"/>
-            </tree>
-        </field>
-    </record>
-
-    <record id="action_view_hr_decimo_terceiro_view_page" model="ir.actions.act_window">
-        <field name="name">13º Salário</field>
-        <field name="res_model">hr.payslip</field>
-        <field name="view_type">form</field>
-        <field name="view_id" ref="view_hr_decimo_terceiro_tree"/>
-        <field name="context">{'default_tipo_de_folha': 'decimo_terceiro'}</field>
-        <field name="domain">[('tipo_de_folha','=','decimo_terceiro')]</field>
-    </record>
-
-    <menuitem action="action_view_hr_decimo_terceiro_view_page"
-              id="menu_decimo_terceiro_page"
-              parent="hr_payroll.menu_hr_root_payroll"/>
-
-    <!--13º Salário-->
-    <record id="view_hr_aviso_previo_tree" model="ir.ui.view">
-        <field name="name">hr.aviso.previo.tree</field>
-        <field name="model">hr.payslip</field>
-        <field name="arch" type="xml">
-            <tree string="Payslips">
-                <field name="number"/>
-                <field name="employee_id"/>
-                <field name="name"/>
-                <field name="date_from"/>
-                <field name="date_to"/>
-                <field name="state"/>
-                <field name="payslip_run_id" invisible="1"/>
-            </tree>
-        </field>
-    </record>
-
-    <record id="action_view_hr_aviso_previo_view_page" model="ir.actions.act_window">
-        <field name="name">Aviso Prévio</field>
-        <field name="res_model">hr.payslip</field>
-        <field name="view_type">form</field>
-        <field name="view_id" ref="view_hr_aviso_previo_tree"/>
-        <field name="context">{'default_tipo_de_folha': 'aviso_previo', 'default_is_simulacao':True}</field>
-        <field name="domain">[('tipo_de_folha','=','aviso_previo'),('is_simulacao','=',True)]</field>
-    </record>
-
-    <menuitem action="action_view_hr_aviso_previo_view_page"
-              id="menu_aviso_previo_page"
-              parent="l10n_br_hr_payroll.menu_hr_root_payroll_simulacao"/>
-    <!--<record model="ir.ui.view" id="hr_payslip_search_view">-->
+        <menuitem action="action_view_hr_aviso_previo_view_page"
+                  id="menu_aviso_previo_page"
+                  parent="l10n_br_hr_payroll.menu_hr_root_payroll_simulacao"/>
+        <!--<record model="ir.ui.view" id="hr_payslip_search_view">-->
         <!--<field name="name">hr.payslip.search (in l10n_br_hr_payroll)</field>-->
         <!--<field name="model">hr.payslip</field>-->
         <!--<field name="inherit_id" ref="hr_payroll.view_hr_payslip_filter"/>-->
         <!--<field name="arch" type="xml">-->
-            <!--<field name="date_from" position="after">-->
-                <!--<field name="tipo_de_folha"/>-->
-            <!--</field>-->
-            <!--<filter name="employee_id" position="after">-->
-                <!--<filter string="Tipo" icon="terp-personal" name="tipo_de_folha" context="{'group_by':'tipo_de_folha'}"/>-->
-            <!--</filter>-->
+        <!--<field name="date_from" position="after">-->
+        <!--<field name="tipo_de_folha"/>-->
         <!--</field>-->
-    <!--</record>-->
+        <!--<filter name="employee_id" position="after">-->
+        <!--<filter string="Tipo" icon="terp-personal" name="tipo_de_folha" context="{'group_by':'tipo_de_folha'}"/>-->
+        <!--</filter>-->
+        <!--</field>-->
+        <!--</record>-->
 
-    <!--<record model="ir.ui.view" id="hr_payslip_tree_view">-->
+        <!--<record model="ir.ui.view" id="hr_payslip_tree_view">-->
         <!--<field name="name">hr.payslip.tree (in l10n_br_hr_payroll)</field>-->
         <!--<field name="model">hr.payslip</field>-->
         <!--<field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>-->
         <!--<field name="arch" type="xml">-->
-            <!--<field name="state" position="before">-->
-                <!--<field name="tipo_de_folha"/>-->
-            <!--</field>-->
+        <!--<field name="state" position="before">-->
+        <!--<field name="tipo_de_folha"/>-->
         <!--</field>-->
-    <!--</record>-->
+        <!--</field>-->
+        <!--</record>-->
 
-    <!--<record model="ir.actions.act_window" id="hr_payslip_act_window">-->
+        <!--<record model="ir.actions.act_window" id="hr_payslip_act_window">-->
         <!--<field name="name">Hr Payslip</field> &lt;!&ndash; TODO &ndash;&gt;-->
         <!--<field name="res_model">hr.payslip</field>-->
         <!--<field name="view_mode">tree,form</field>-->
         <!--<field name="domain">[]</field>-->
         <!--<field name="context">{}</field>-->
-    <!--</record>-->
+        <!--</record>-->
 
-    <!--<record model="ir.ui.menu" id="hr_payslip_menu">-->
+        <!--<record model="ir.ui.menu" id="hr_payslip_menu">-->
         <!--<field name="name">Hr Payslip</field>-->
         <!--<field name="parent_id" ref="xmlid of parent menu"/> &lt;!&ndash; TODO &ndash;&gt;-->
         <!--<field name="action" ref="hr_payslip_act_window"/>-->
         <!--<field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
-    <!--</record>-->
+        <!--</record>-->
 
-</data>
+    </data>
 </openerp>

@@ -3,54 +3,55 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <openerp>
-<data>
+    <data>
 
-    <record model="ir.ui.view" id="hr_payslip_run_form_view">
-        <field name="name">hr.payslip.run.form</field>
-        <field name="model">hr.payslip.run</field>
-        <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//button[@string='Generate Payslips']" position="replace">
-                <button name="gerar_holerites" type="object" states="draft" string="Generate Payslips" class="oe_highlight"/>
-            </xpath>
-            <xpath expr="//label[@string='Period']" position="replace">
-                <label for="date_start" string="Period" invisible="1"/>
-			 </xpath>
-            <field name="date_start" position="replace">
-                <field name="date_start" class="oe_inline" invisible="1"/>
+        <record model="ir.ui.view" id="hr_payslip_run_form_view">
+            <field name="name">hr.payslip.run.form</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="priority" eval="105"/>
+            <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@string='Generate Payslips']" position="replace">
+                    <button name="gerar_holerites" type="object" states="draft" string="Generate Payslips" class="oe_highlight"/>
+                </xpath>
+                <xpath expr="//label[@string='Period']" position="replace">
+                    <label for="date_start" string="Period" invisible="1"/>
+                </xpath>
+                <field name="date_start" position="replace">
+                    <field name="date_start" class="oe_inline" invisible="1"/>
+                </field>
+                <field name="date_end" position="replace">
+                    <field name="date_end" class="oe_inline" invisible="1"/>
+                </field>
+                <xpath expr="//h1" position="after">
+                    <group>
+                        <group>
+                            <field name="mes_do_ano"/>
+                        </group>
+                        <group>
+                            <field name="ano"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="tipo_de_folha" />
+                    </group>
+                    <group>
+                        <group>
+                            <field name="company_id" />
+                        </group>
+                        <group>
+                            <button name="verificar_holerites_gerados" type="object" states="draft" string="Buscar Contratos" class="oe_highlight"/>
+                        </group>
+                    </group>
+                </xpath>
+                <xpath expr="//separator[@string='Payslips']" position="before">
+                    <separator string="Contratos"/>
+                    <field name="contract_id" invisible="1"/>
+                    <field name="contract_id_readonly" readonly="1"/>
+                </xpath>
+
             </field>
-            <field name="date_end" position="replace">
-                <field name="date_end" class="oe_inline" invisible="1"/>
-            </field>
-            <xpath expr="//h1" position="after">
-                <group>
-                    <group>
-                        <field name="mes_do_ano"/>
-                    </group>
-                    <group>
-                        <field name="ano"/>
-                    </group>
-                </group>
-                <group>
-                    <field name="tipo_de_folha" />
-                </group>
-                <group>
-                    <group>
-                        <field name="company_id" />
-                    </group>
-                    <group>
-                        <button name="verificar_holerites_gerados" type="object" states="draft" string="Buscar Contratos" class="oe_highlight"/>
-                    </group>
-                </group>
-            </xpath>
-            <xpath expr="//separator[@string='Payslips']" position="before">
-                <separator string="Contratos"/>
-                <field name="contract_id" invisible="1"/>
-                <field name="contract_id_readonly" readonly="1"/>
-            </xpath>
+        </record>
 
-        </field>
-    </record>
-
-</data>
+    </data>
 </openerp>

@@ -62,7 +62,7 @@ class HrPayslip(models.Model):
                     payslip.dias_aviso_previo = 30
 
     @api.multi
-    def _valor_total_folha(self):
+    def _compute_valor_total_folha(self):
         for holerite in self:
             total = 0.00
             total_proventos = 0.00
@@ -167,7 +167,7 @@ class HrPayslip(models.Model):
     employee_id_readonly = fields.Many2one(
         string=u'Funcionário',
         comodel_name='hr.employee',
-        compute='set_employee_id',
+        compute='_compute_set_employee_id',
     )
     is_simulacao = fields.Boolean(
         string=u"Simulação",
@@ -195,7 +195,7 @@ class HrPayslip(models.Model):
     struct_id_readonly = fields.Many2one(
         string=u'Estrutura de Salário',
         comodel_name='hr.payroll.structure',
-        compute='set_employee_id',
+        compute='_compute_set_employee_id',
     )
 
     mes_do_ano = fields.Selection(
@@ -212,159 +212,159 @@ class HrPayslip(models.Model):
 
     data_mes_ano = fields.Char(
         string=u'Mês/Ano',
-        compute='computar_mes_ano',
+        compute='_compute_mes_ano',
     )
 
     total_folha = fields.Float(
         string=u'Total',
         default=0.00,
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     total_folha_fmt = fields.Char(
         string=u'Total',
         default='0',
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     data_admissao_fmt = fields.Char(
         string=u'Data de admissao',
         default='0',
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     salario_base_fmt = fields.Char(
         string=u'Salario Base',
         default='0',
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     total_proventos = fields.Float(
         string=u'Total Proventos',
         default=0.00,
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     total_proventos_fmt = fields.Char(
         string=u'Total Proventos',
         default='0',
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     total_descontos = fields.Float(
         string=u'Total Descontos',
         default=0.00,
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     total_descontos_fmt = fields.Char(
         string=u'Total Descontos',
         default='0',
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     base_fgts = fields.Float(
         string=u'Base do FGTS',
         default=0.00,
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     base_fgts_fmt = fields.Char(
         string=u'Base do FGTS',
         default='0',
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     base_inss = fields.Float(
         string=u'Base do INSS',
         default=0.00,
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     base_inss_fmt = fields.Char(
         string=u'Base do INSS',
         default='0',
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     base_irpf = fields.Float(
         string=u'Base do IRPF',
         default=0.00,
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     base_irpf_fmt = fields.Char(
         string=u'Base do IRPF',
         default='0',
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     fgts = fields.Float(
         string=u'FGTS',
         default=0.00,
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     fgts_fmt = fields.Char(
         string=u'FGTS',
         default='0',
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     inss = fields.Float(
         string=u'INSS',
         default=0.00,
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     inss_fmt = fields.Char(
         string=u'INSS',
         default='0',
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     irpf = fields.Float(
         string=u'IRPF',
         default=0.00,
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     irpf_fmt = fields.Char(
         string=u'IRPF',
         default='0',
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     data_extenso = fields.Char(
         string=u'Data por Extenso',
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     data_retorno = fields.Char(
         string=u'Data de Retorno',
-        compute='_valor_total_folha'
+        compute='_compute_valor_total_folha'
     )
 
     data_pagamento = fields.Char(
         string=u'Data de Pagamento de férias',
-        compute='_valor_total_folha',
+        compute='_compute_valor_total_folha',
     )
 
     inicio_aquisitivo_fmt = fields.Char(
         string=u'Inicio do Período Aquisitivo Formatado',
-        compute='_valor_total_folha',
+        compute='_compute_valor_total_folha',
     )
     fim_aquisitivo_fmt = fields.Char(
         string=u'Fim do Período Aquisitivo Formatado',
-        compute='_valor_total_folha',
+        compute='_compute_valor_total_folha',
     )
     inicio_gozo_fmt = fields.Char(
         string=u'Inicio do Período de Gozo Formatado',
-        compute='_valor_total_folha',
+        compute='_compute_valor_total_folha',
     )
     fim_gozo_fmt = fields.Char(
         string=u'Fom do Período de Gozo Formatado',
-        compute='_valor_total_folha',
+        compute='_compute_valor_total_folha',
     )
 
     medias_proventos = fields.One2many(
@@ -401,19 +401,19 @@ class HrPayslip(models.Model):
     )
 
     @api.depends('periodo_aquisitivo')
-    def _set_periodo_aquisitivo_readonly(self):
+    def _compute_periodo_aquisitivo_readonly(self):
         for holerite in self:
             holerite.periodo_aquisitivo_readonly = holerite.periodo_aquisitivo
 
     periodo_aquisitivo_readonly = fields.Many2one(
         comodel_name='hr.vacation.control',
         string="Período Aquisitivo",
-        compute='_set_periodo_aquisitivo_readonly',
+        compute='_compute_periodo_aquisitivo_readonly',
     )
 
     @api.depends('periodo_aquisitivo')
     @api.model
-    def _get_saldo_periodo_aquisitivo(self):
+    def _compute_saldo_periodo_aquisitivo(self):
         for holerite in self:
             if holerite.periodo_aquisitivo:
                 holerite.saldo_periodo_aquisitivo = \
@@ -421,7 +421,7 @@ class HrPayslip(models.Model):
 
     saldo_periodo_aquisitivo = fields.Integer(
         string="Saldo de dias do Periodo Aquisitivo",
-        compute='_get_saldo_periodo_aquisitivo',
+        compute='_compute_saldo_periodo_aquisitivo',
         help=u'Saldo de dias do funcionaŕio, de acordo com número de faltas'
              u'dentro do período aquisitivo selecionado.',
         store=True,
@@ -989,7 +989,7 @@ class HrPayslip(models.Model):
 
     @api.multi
     @api.onchange('contract_id')
-    def set_employee_id(self):
+    def _compute_set_employee_id(self):
         for record in self:
             record.struct_id = record.buscar_estruturas_salario()
             record.struct_id_readonly = record.struct_id
@@ -1004,7 +1004,7 @@ class HrPayslip(models.Model):
         for record in self:
             record.set_dates()
 
-    def computar_mes_ano(self):
+    def _compute_mes_ano(self):
         for record in self:
             record.data_mes_ano = MES_DO_ANO[record.mes_do_ano-1][1][:3] + \
                 '/' + str(record.ano)
@@ -1079,7 +1079,7 @@ class HrPayslip(models.Model):
 
             self.atualizar_worked_days_inputs()
         super(HrPayslip, self).compute_sheet()
-        self._valor_total_folha()
+        self._compute_valor_total_folha()
         return True
 
     def validacao_holerites_anteriores(self, data_inicio, data_fim, contrato):
