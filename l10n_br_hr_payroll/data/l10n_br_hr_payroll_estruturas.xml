@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 - KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <!--ESTRUTURAS DE SALARIOS-->
+
+        <!--Estrutura de salario para ferias-->
+        <record id="hr_salary_structure_FERIAS" model="hr.payroll.structure">
+            <field name="code">FERIAS</field>
+            <field name="name">Férias</field>
+            <field eval="[(6, 0, [ref('hr_salary_rule_base_FERIAS'), ref('hr_salary_rule_FERIAS'), ref('hr_salary_rule_1/3_FERIAS')])]" name="rule_ids"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="parent_id" eval="False" />
+        </record>
+
+        <record id="hr_salary_structure_BASE_INSS_IRPF" model="hr.payroll.structure">
+            <field name="code">BASE_INSS_IRPF</field>
+            <field name="name">Base para INSS e IRPF</field>
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_BASE_INSS'), ref('hr_salary_rule_BASE_IRPF'), ref('hr_salary_rule_INSS'), ref('hr_salary_rule_IRPF'), ref('hr_salary_rule_TOTAL_DESCONTOS'), ref('hr_salary_rule_BRUTO'), ref('hr_salary_rule_LIQUIDO')])]" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="parent_id" eval="False" />
+        </record>
+
+        <record id="hr_salary_structure_BASE_FGTS" model="hr.payroll.structure">
+            <field name="code">BASE_FGTS</field>
+            <field name="name">Base para FGTS</field>
+            <field name="parent_id" eval="ref('hr_salary_structure_BASE_INSS_IRPF')" />
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_BASE_FGTS'), ref('hr_salary_rule_FGTS')])]" />
+            <field name="company_id" ref="base.main_company" />
+        </record>
+
+        <record id="hr_salary_structure_BASE_INSS_IRPF_13" model="hr.payroll.structure">
+            <field name="code">BASE_INSS_IRPF_13</field>
+            <field name="name">Base para INSS e IRPF de 13</field>
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_BASE_INSS_13'), ref('hr_salary_rule_BASE_IRPF_13'), ref('hr_salary_rule_INSS'), ref('hr_salary_rule_IRPF'), ref('hr_salary_rule_TOTAL_DESCONTOS'), ref('hr_salary_rule_BRUTO'), ref('hr_salary_rule_LIQUIDO')])]" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="parent_id" eval="False" />
+        </record>
+
+        <record id="hr_salary_structure_BASE_FGTS_13" model="hr.payroll.structure">
+            <field name="code">BASE_FGTS_13</field>
+            <field name="name">Base para FGTS de 13</field>
+            <field name="parent_id" eval="ref('hr_salary_structure_BASE_INSS_IRPF_13')" />
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_BASE_FGTS_13'), ref('hr_salary_rule_FGTS')])]" />
+            <field name="company_id" ref="base.main_company" />
+        </record>
+
+        <record id="hr_salary_structure_FUNCAO_COMISSIONADA" model="hr.payroll.structure">
+            <field name="code">FUNCAO_COMISSIONADA</field>
+            <field name="name">Função Comissionada</field>
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_FUNCAO_COMISSIONADA')])]" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
+        </record>
+
+        <record id="hr_salary_structure_HONORARIO_PRESIDENTE" model="hr.payroll.structure">
+            <field name="code">HONORARIO_PRESIDENTE</field>
+            <field name="name">Honorario Presidente</field>
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_HONORARIO_PRESIDENTE')])]" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
+        </record>
+
+        <record id="hr_salary_structure_HONORARIO_DIRETORIA" model="hr.payroll.structure">
+            <field name="code">HONORARIO_DIRETORIA</field>
+            <field name="name">Honorario Diretoria</field>
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_HONORARIO_DIRETORIA')])]" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="parent_id" eval="ref('hr_salary_structure_BASE_INSS_IRPF')" />
+        </record>
+
+        <record id="hr_salary_structure_HONORARIO_CONSELHO" model="hr.payroll.structure">
+            <field name="code">HONORARIO_CONSELHO</field>
+            <field name="name">Honorario Conselho</field>
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_HONORARIO_CONSELHO')])]" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="parent_id" eval="ref('hr_salary_structure_BASE_INSS_IRPF')" />
+        </record>
+
+        <record id="hr_salary_structure_PRIMEIRA_PARCELA_13" model="hr.payroll.structure">
+            <field name="code">PRIMEIRA_PARCELA_13</field>
+            <field name="name">Primeira Parcela 13 Salário</field>
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_PRIMEIRA_PARCELA_13')])]" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS_13')" />
+        </record>
+
+        <record id="hr_salary_structure_SEGUNDA_PARCELA_13" model="hr.payroll.structure">
+            <field name="code">SEGUNDA_PARCELA_13</field>
+            <field name="name">Segunda Parcela 13 Salário</field>
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_ADIANTAMENTO_13'), ref('hr_salary_rule_SEGUNDA_PARCELA_13')])]" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS_13')" />
+        </record>
+
+    </data>
+</openerp>
