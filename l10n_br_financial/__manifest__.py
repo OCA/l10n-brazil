@@ -12,10 +12,9 @@
     'website': 'www.kmee.com.br',
     'depends': [
         'l10n_br_resource',
-	'account_payment_mode',
-	'account',
-        'mail',
+        'account_payment_mode',
         'account',
+        'mail',
     ],
     'data': [
         'data/ir_sequence_data.xml',
