@@ -220,7 +220,7 @@
     <!--</record>-->
 
     <record model="ir.actions.act_window" id="financial_cash_flow_act_window">
-        <field name="name">Financial Cash Flow</field> <!-- TODO -->
+        <field name="name">Cash Flow</field>
         <field name="res_model">financial.move</field>
         <field name="view_mode">tree</field>
     </record>
@@ -237,13 +237,6 @@
         <field name="parent_id" ref="financial_dashboard_menu"/>
         <field name="action" ref="financial_payable_act_window"/>
         <field name="sequence" eval="40"/>
-    </record>
-
-    <record model="ir.ui.menu" id="financial_cash_flow_menu">
-        <field name="name">Cash Flow</field>
-        <field name="parent_id" ref="financial_dashboard_menu"/>
-        <field name="action" ref="financial_cash_flow_act_window"/>
-        <field name="sequence" eval="50"/>
     </record>
 
 </data>
