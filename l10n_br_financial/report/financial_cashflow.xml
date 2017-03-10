@@ -39,6 +39,8 @@
                 <!-- <field name="create_date"/> -->
                 <!-- <field name="expected_date"/> -->
                 <field name="partner_id"/>
+                <field name="payment_method_id"/>
+                <field name="payment_term_id"/>
                 <field name="account_id"/>
                 <field name="account_analytic_id"/>
                 <field name="currency_id"/>
@@ -64,7 +66,7 @@
         <field name="name">Financial Cashflow</field>
         <field name="parent_id" ref="financial_dashboard_menu"/>
         <field name="action" ref="financial_cashflow_act_window"/>
-        <field name="sequence" eval="16"/> <!-- TODO -->
+        <field name="sequence" eval="16"/>
     </record>
 
 </data>

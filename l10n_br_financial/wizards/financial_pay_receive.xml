@@ -41,7 +41,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="financial_pay_receive_act_window">
-        <field name="name">Financial Pay_receive</field> <!-- TODO -->
+        <field name="name">Financial Pay_receive</field>
         <field name="res_model">financial.pay_receive</field>
         <field name="view_mode">form</field>
         <field name="context">{}</field>
