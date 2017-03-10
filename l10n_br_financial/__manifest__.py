@@ -11,8 +11,10 @@
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'www.kmee.com.br',
     'depends': [
-        'l10n_br_resource',
         'mail',
+        'account_payment_mode',
+        'l10n_br_resource',
+        'l10n_br_account',
     ],
     'data': [
         'data/ir_sequence_data.xml',
@@ -24,6 +26,7 @@
         'wizards/financial_cancel.xml',
         'security/financial_move.xml',
         'views/financial_move.xml',
+        'report/financial_cashflow.xml',
     ],
     'demo': [
         'demo/financial_move_history.xml',

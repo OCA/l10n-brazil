@@ -5,6 +5,7 @@
 from odoo.tests.common import TransactionCase
 from odoo.exceptions import ValidationError
 import time
+import datetime
 
 
 class TestFinancialMove(TransactionCase):
@@ -15,13 +16,16 @@ class TestFinancialMove(TransactionCase):
         self.currency_euro = self.env.ref('base.EUR')
 
         self.financial_move = self.env['financial.move']
+        self.financial_move_create = self.env['financial.move.create']
+        self.financial_move_line_create = \
+            self.env['financial.move.line.create']
         self.financial_pay_receive = self.env['financial.pay_receive']
         self.financial_edit = self.env['financial.edit']
         self.partner_agrolait = self.env.ref("base.res_partner_2")
         self.partner_axelor = self.env.ref("base.res_partner_2")
 
         self.cr_1 = self.financial_move.create(dict(
-            due_date='2017-02-27',
+            due_date='2017-02-18',
             company_id=self.main_company.id,
             currency_id=self.currency_euro.id,
             amount_document=100.00,
@@ -31,7 +35,7 @@ class TestFinancialMove(TransactionCase):
             move_type='r',
         ))
 
-    # """US1 # Como um operador de cobrança, eu gostaria de cadastrar uma conta
+    # """ US1 # Como um operador de cobrança, eu gostaria de cadastrar uma conta
     #  a receber/pagar para manter controle sobre o fluxo de caixa.
     # """
     def test_us_1_ac_1(self):
@@ -39,7 +43,7 @@ class TestFinancialMove(TransactionCase):
         QUANDO criado um lançamento de contas a receber
         ENTÃO a data de vencimento útil deve ser de 01/03/2017"""
 
-        self.assertEqual(self.cr_1.business_due_date, '2017-03-01')
+        self.assertEqual(self.cr_1.business_due_date, '2017-02-20')
 
     def test_us_1_ac_2(self):
         """DADO uma conta a pagar ou receber
@@ -238,3 +242,73 @@ class TestFinancialMove(TransactionCase):
 
         self.assertEqual(-50.00, cr_1.balance)
         self.assertEqual('paid', cr_1.state)
+
+    # """
+    # Como um operador de cobrança, eu gostaria de criar multiplas contas a
+    # receber/pagar de forma automatica dependendo do termo de pagamento.
+    # """
+
+    def test_usX_ac_Y(self):
+        """
+        DADO o lancamento de uma parcela via assistente
+        QUANDO especificado algum termo de pagamento
+        ENTÃO devem ser registradas uma ou mais parcelas em funcao do termo de
+            pagamento
+
+        :return:
+        """
+        date_today_iso = datetime.date.today().isoformat()
+        amount = 1000.00
+        doc_number = '2222'
+
+        fm = self.financial_move_create
+        cr_1 = fm.create(
+            dict(
+                company_id=self.main_company.id,
+                currency_id=self.currency_euro.id,
+                move_type='r',
+                partner_id=self.partner_agrolait.id,
+                document_number=doc_number,
+                document_date=date_today_iso,
+                payment_mode=self.payment_mode_1.id,
+                payment_term=self.payment_term_30_70.id,
+                amount_document=amount,
+            )
+        )
+        ctx = cr_1._context.copy()
+        ctx['active_id'] = cr_1.id
+        ctx['active_ids'] = [cr_1.id]
+        ctx['active_model'] = cr_1._module
+
+        items_before = self.financial_move.search([])
+        count_before = len(items_before)
+
+        cr_1.onchange_fields()
+        cr_1.compute()
+
+        items_after = self.financial_move.search([])
+        count_after = len(items_after)
+
+        sorted_items = list(items_after)
+        sorted_items.sort(key=lambda x: x.id)
+        fm_1 = sorted_items[-2]
+        fm_2 = sorted_items[-1]
+        computations = \
+            self.payment_term_30_70.compute(amount, date_today_iso)
+        expected_1 = computations[0][0]
+        expected_2 = computations[0][1]
+
+        # Count verification
+        self.assertTrue(count_before < count_after)
+
+        # Ids verification
+        self.assertEqual(fm_1.document_item, doc_number + '/1')
+        self.assertEqual(fm_2.document_item, doc_number + '/2')
+
+        # Dates verification
+        self.assertEqual(fm_1.due_date, date_today_iso)
+        self.assertEqual(fm_2.due_date, expected_2[0])
+
+        # Amounts verification
+        self.assertEqual(fm_1.amount_document, expected_1[1])
+        self.assertEqual(fm_2.amount_document, expected_2[1])
