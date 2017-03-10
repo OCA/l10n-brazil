@@ -119,7 +119,7 @@ class FinancialMoveModel(models.AbstractModel):
     payment_method_id = fields.Many2one(
         'account.payment.method',
         string='Payment Method Type',
-        required=True,
+        # required=True,
         oldname="payment_method"
     )
     payment_term_id = fields.Many2one(
