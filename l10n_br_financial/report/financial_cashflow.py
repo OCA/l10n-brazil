@@ -61,11 +61,16 @@ class FinancialCashflow(models.Model):
     business_due_date = fields.Date(
         string='Business due date',
     )
-    payment_mode = fields.Many2one(
-        comodel_name='payment.mode',  # FIXME:
+    payment_method_id = fields.Many2one(
+        'account.payment.method',
+        string='Payment Method Type',
+        required=True,
+        oldname="payment_method"
     )
-    payment_term = fields.Many2one(
-        comodel_name='payment.term',  # FIXME:
+    payment_term_id = fields.Many2one(
+        comodel_name='account.payment.term',
+        track_visibility='onchange',
+    )
     account_analytic_id = fields.Many2one(
         comodel_name='account.analytic.account',
         string='Analytic account'
@@ -96,8 +101,8 @@ class FinancialCashflow(models.Model):
                     financial_move.state,
                     financial_move.business_due_date,
                     financial_move.document_date,
-                    financial_move.payment_mode,
-                    financial_move.payment_term,
+                    financial_move.payment_method_id,
+                    financial_move.payment_term_id,
 
                     financial_move.due_date,
                     financial_move.partner_id,
@@ -131,8 +136,8 @@ class FinancialCashflow(models.Model):
                     financial_move.state,
                     financial_move.business_due_date,
                     financial_move.document_date,
-                    financial_move.payment_mode,
-                    financial_move.payment_term,
+                    financial_move.payment_method_id,
+                    financial_move.payment_term_id,
 
                     financial_move.due_date,
                     financial_move.partner_id,
@@ -164,8 +169,8 @@ class FinancialCashflow(models.Model):
                     c.state,
                     c.business_due_date,
                     c.document_date,
-                    c.payment_mode,
-                    c.payment_term,
+                    c.payment_method_id,
+                    c.payment_term_id,
                     c.due_date,
                     c.partner_id,
                     c.currency_id,
@@ -188,8 +193,8 @@ class FinancialCashflow(models.Model):
                     d.state,
                     d.business_due_date,
                     d.document_date,
-                    d.payment_mode,
-                    d.payment_term,
+                    d.payment_method_id,
+                    d.payment_term_id,
                     d.due_date,
                     d.partner_id,
                     d.currency_id,
@@ -213,8 +218,8 @@ class FinancialCashflow(models.Model):
                     b.state,
                     b.business_due_date,
                     b.document_date,
-                    b.payment_mode,
-                    b.payment_term,
+                    b.payment_method_id,
+                    b.payment_term_id,
                     b.due_date,
                     b.partner_id,
                     b.currency_id,

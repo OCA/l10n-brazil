@@ -116,8 +116,8 @@
                     </group>
                     <group>
                         <group>
-                            <field name="payment_mode"/>
-                            <field name="payment_term"/>
+                            <field name="payment_method_id"/>
+                            <field name="payment_term_id"/>
                         </group>
                         <group>
                             <field name="amount_document"/>

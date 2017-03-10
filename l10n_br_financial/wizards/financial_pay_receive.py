@@ -19,9 +19,11 @@ class FinancialPayreceive(models.TransientModel):
     credit_debit_date = fields.Date(
         readonly=True
     )
-    payment_mode = fields.Many2one(
-        comodel_name='payment.mode',
-        # required=True
+    payment_method_id = fields.Many2one(
+        'account.payment.method',
+        string='Payment Method Type',
+        required=True,
+        oldname="payment_method"
     )
     desconto = fields.Monetary()
     juros = fields.Monetary()
@@ -65,7 +67,7 @@ class FinancialPayreceive(models.TransientModel):
                 'ref': financial_to_pay.ref,
                 'ref_item': financial_to_pay.ref_item,
                 'credit_debit_date': wizard.credit_debit_date,
-                'payment_mode': wizard.payment_mode,
+                'payment_method_id': wizard.payment_method_id,
                 'amount_discount': wizard.desconto,
                 'amount_delay_fee': wizard.multa,
                 'amount_interest': wizard.juros,
