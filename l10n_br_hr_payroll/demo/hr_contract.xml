@@ -16,7 +16,7 @@
             <field name="resource_type">user</field>
             <field name="work_phone">+24242424</field>
             <field name="image" type="base64"
-                   file="hr_payroll/static/img/hr_employee_payroll-image.jpg"/>
+                   file="l10n_br_hr_payroll/static/img/hr_employee_payroll_tony-image.jpg"/>
         </record>
 
         <!--Contract-->
