@@ -7,7 +7,6 @@ from odoo.exceptions import UserError
 
 
 class FinancialMove(models.Model):
-
     _name = 'financial.move'
     _description = 'Financial Move'
     _inherit = ['mail.thread', 'financial.move.model']
@@ -110,6 +109,37 @@ class FinancialMove(models.Model):
         string="Change reason",
         track_visibility='onchange',
     )
+
+    move_id = fields.Many2one('account.move', string='Journal Entry',
+                              readonly=True, index=True, ondelete='restrict',
+                              copy=False,
+                              help="Link to the automatically generated "
+                                   "Journal Items.")
+
+    account_move_line_id = fields.Many2one(
+        comodel_name='account.move.line',
+        # compute='_compute_account_move_line_ids',
+        store=True
+    )
+    payment_receivable_ids = fields.One2many(
+        comodel_name='account.move.line',
+        compute='_compute_payment_receivable_ids',
+    )
+
+    @api.multi
+    @api.depends('account_move_line_id')
+    def _compute_payment_receivable_ids(self):
+        for record in self:
+            # print "account_move_line_id"
+            ids = []
+            aml = record.account_move_line_id
+            ids.extend([r.debit_move_id.id for r in
+                        aml.matched_debit_ids] if
+                       aml.credit > 0 else [r.credit_move_id.id for r in
+                                            aml.matched_credit_ids])
+            record.payment_receivable_ids = ids
+            record.payment_receivable_ids |= record.account_move_line_id
+
     # partner_bank_id = fields.Many2one(
     #     comodel_name='res.partner.bank',
     # )
@@ -144,9 +174,11 @@ class FinancialMove(models.Model):
             record.change_state('cancel')
 
     @api.multi
-    @api.depends('related_payment_ids', 'amount_document')
+    @api.depends('related_payment_ids', 'amount_document',
+                 'move_id.line_ids.date_maturity')
     def _compute_balance(self):
         for record in self:
+
             if record.move_type in ('p', 'r'):
                 balance = record.amount_document
                 for payment in record.related_payment_ids:
@@ -173,7 +205,9 @@ class FinancialMove(models.Model):
                 if not vals.get('ref_item'):
                     vals['ref_item'] = '1'
             else:
-                pass
-                # FIXME: For rr and pp
+                vals['ref'] = self.env['ir.sequence'].next_by_code(
+                    'financial.move.receipt') or 'New'
+                if not vals.get('ref_item'):
+                    vals['ref_item'] = '1'
         result = super(FinancialMove, self).create(vals)
         return result
