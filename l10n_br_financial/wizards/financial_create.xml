@@ -24,6 +24,8 @@
                             <field name="document_date"/>
                         </group>
                         <group>
+                            <field name="account_id"/>
+                            <field name="account_analytic_id"/>
                             <field name="payment_mode"/>
                             <field name="payment_term"/>
                         </group>
