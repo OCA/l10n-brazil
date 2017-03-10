@@ -72,6 +72,14 @@ class FinancialMoveCreate(models.TransientModel):
         track_visibility='onchange',
         copy=False,
     )
+    account_analytic_id = fields.Many2one(
+        comodel_name='account.analytic.account',
+        string='Analytic account'
+    )
+    account_id = fields.Many2one(
+        comodel_name='account.account',
+        string='Account',
+    )
 
     @api.onchange('payment_term', 'document_number',
                   'document_date', 'amount_document')
@@ -111,7 +119,8 @@ class FinancialMoveCreate(models.TransientModel):
                     payment_term=self.payment_term.id,
                     document_item=move.document_item,
                     due_date=move.due_date,
-                    amount_document=move.amount_document,
+                    account_analytic_id=move.account_analytic_id,
+                    account_id=move.account_id,
                 ))
                 moves.append(move_id.id)
 

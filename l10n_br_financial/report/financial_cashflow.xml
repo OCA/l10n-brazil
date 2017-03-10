@@ -39,6 +39,8 @@
                 <!-- <field name="create_date"/> -->
                 <!-- <field name="expected_date"/> -->
                 <field name="partner_id"/>
+                <field name="account_id"/>
+                <field name="account_analytic_id"/>
                 <field name="currency_id"/>
                 <field name="amount_document"/>
                 <!-- <field name="balance"/> -->

@@ -66,6 +66,13 @@ class FinancialCashflow(models.Model):
     )
     payment_term = fields.Many2one(
         comodel_name='payment.term',  # FIXME:
+    account_analytic_id = fields.Many2one(
+        comodel_name='account.analytic.account',
+        string='Analytic account'
+    )
+    account_id = fields.Many2one(
+        comodel_name='account.account',
+        string='Account',
     )
 
     @api.model
@@ -95,6 +102,10 @@ class FinancialCashflow(models.Model):
                     financial_move.due_date,
                     financial_move.partner_id,
                     financial_move.currency_id,
+
+                    financial_move.account_id,
+                    financial_move.account_analytic_id,
+
                     coalesce(financial_move.amount_document, 0)
                         AS amount_document,
                     coalesce(financial_move.amount_document, 0)
@@ -126,6 +137,10 @@ class FinancialCashflow(models.Model):
                     financial_move.due_date,
                     financial_move.partner_id,
                     financial_move.currency_id,
+
+                    financial_move.account_id,
+                    financial_move.account_analytic_id,
+
                     coalesce(financial_move.amount_document, 0)
                         AS amount_document,
                     0 AS amount_credit,
@@ -154,6 +169,8 @@ class FinancialCashflow(models.Model):
                     c.due_date,
                     c.partner_id,
                     c.currency_id,
+                    c.account_id,
+                    c.account_analytic_id,
                     c.amount_document,
                     c.amount_credit,
                     c.amount_debit,
@@ -176,6 +193,8 @@ class FinancialCashflow(models.Model):
                     d.due_date,
                     d.partner_id,
                     d.currency_id,
+                    d.account_id,
+                    d.account_analytic_id,
                     d.amount_document,
                     d.amount_credit,
                     d.amount_debit,
@@ -199,6 +218,8 @@ class FinancialCashflow(models.Model):
                     b.due_date,
                     b.partner_id,
                     b.currency_id,
+                    b.account_id,
+                    b.account_analytic_id,
                     b.amount_document,
                     b.amount_credit,
                     b.amount_debit,
