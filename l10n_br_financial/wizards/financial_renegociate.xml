@@ -10,7 +10,6 @@
         <field name="model">financial.renegociate</field>
         <field name="arch" type="xml">
             <form string="Financial Renegociate">
-                <!-- TODO -->
                 <group>
                     <field name="name"/>
                 </group>
@@ -29,7 +28,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="financial_renegociate_act_window">
-        <field name="name">Financial Renegociate</field> <!-- TODO -->
+        <field name="name">Financial Renegociate</field>
         <field name="res_model">financial.renegociate</field>
         <field name="view_mode">form</field>
         <field name="context">{}</field>
