@@ -195,7 +195,7 @@ class FinancialMove(models.Model):
                     and record.state == 'open':
                 record.change_state('paid')
 
-    def executa_antes_create(self,vals):
+    def executa_antes_create(self, vals):
         #
         # função de sobreescrita
         #
@@ -217,7 +217,7 @@ class FinancialMove(models.Model):
                     vals['ref_item'] = '1'
         pass
 
-    def executa_depois_create(self,res):
+    def executa_depois_create(self, res):
         #
         # função de sobreescrita
         #
@@ -236,7 +236,8 @@ class FinancialMove(models.Model):
 
     def _prepare_aml(self):
         # partner_id = self.account_id = self.partner_id.property_account_receivable_id \
-        #             if self.voucher_type == 'sale' else self.partner_id.property_account_payable_id
+        # if self.voucher_type == 'sale' else
+        # self.partner_id.property_account_payable_id
         credit = 0
         debit = 0
         if(self.move_type == 'receivable'):
