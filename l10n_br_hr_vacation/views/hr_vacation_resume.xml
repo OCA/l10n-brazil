@@ -7,7 +7,8 @@
             <field name="model">hr.holidays</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Resumo Férias" colors="red:regular == False;green:regular == True">
+                <tree>
+                <!--<tree string="Resumo Férias" colors="red:regular == False;green:regular == True">-->
                     <field name="employee_id"/>
                     <field name="date_from"/>
                     <field name="date_to"/>
