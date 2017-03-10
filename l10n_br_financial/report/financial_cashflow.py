@@ -68,6 +68,12 @@ class FinancialCashflow(models.Model):
         comodel_name='payment.term',  # FIXME:
     )
 
+    @api.model
+    def search_read(self, domain=None, fields=None, offset=0, limit=None,
+                    order=None):
+        return super(FinancialCashflow, self).search_read(
+            domain, fields, offset, limit, order=False)
+
     @api.model_cr
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
