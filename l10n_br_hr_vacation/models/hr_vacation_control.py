@@ -247,6 +247,7 @@ class HrVacationControl(models.Model):
                     % (self.inicio_aquisitivo,
                        self.fim_aquisitivo),
             'employee_id': self.contract_id.employee_id.id,
+            'contrato_id': self.contract_id.id,
             'holiday_status_id': vacation_id,
             'type': 'add',
             'holiday_type': 'employee',
