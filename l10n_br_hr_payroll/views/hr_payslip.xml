@@ -5,8 +5,8 @@
 <openerp>
     <data>
 
-        <menuitem id="menu_hr_root_payroll_simulacao" parent="hr.menu_hr_root"
-                  name="Simulações" sequence="35"/>
+        <menuitem id="menu_hr_root_payroll_simulacao" parent="hr.menu_hr_root" name="Simulações" sequence="35"/>
+        <menuitem id="menu_hr_root_payroll_provisao" parent="hr.menu_hr_root" name="Provisão" sequence="45"/>
 
         <record id="view_hr_payslip_tree" model="ir.ui.view">
             <field name="name">hr.payslip.tree</field>
@@ -350,6 +350,36 @@
         <menuitem action="action_view_hr_aviso_previo_view_page"
                   id="menu_aviso_previo_page"
                   parent="l10n_br_hr_payroll.menu_hr_root_payroll_simulacao"/>
+
+        <!--Provisão Férias-->
+        <record id="view_hr_provisao_ferias_tree" model="ir.ui.view">
+            <field name="name">hr.provisao.ferias.tree</field>
+            <field name="model">hr.payslip</field>
+            <field name="arch" type="xml">
+                <tree string="Payslips">
+                    <field name="number"/>
+                    <field name="employee_id"/>
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="state"/>
+                    <field name="payslip_run_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_view_hr_provisao_ferias_page" model="ir.actions.act_window">
+            <field name="name">Provisão Férias</field>
+            <field name="res_model">hr.payslip</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_hr_provisao_ferias_tree"/>
+            <field name="context">{'default_tipo_de_folha': 'provisao_ferias'}</field>
+            <field name="domain">[('tipo_de_folha','=','provisao_ferias')]</field>
+        </record>
+
+        <menuitem action="action_view_hr_provisao_ferias_page"
+                  id="menu_previsao_ferias_page"
+                  parent="l10n_br_hr_payroll.menu_hr_root_payroll_provisao"/>
         <!--<record model="ir.ui.view" id="hr_payslip_search_view">-->
         <!--<field name="name">hr.payslip.search (in l10n_br_hr_payroll)</field>-->
         <!--<field name="model">hr.payslip</field>-->
