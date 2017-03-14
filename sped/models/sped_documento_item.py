@@ -79,11 +79,11 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
 
 _logger = logging.getLogger(__name__)
 
-try:
-    from pybrasil.valor.decimal import Decimal as D
+#try:
+from pybrasil.valor.decimal import Decimal as D
 
-except (ImportError, IOError) as err:
-    _logger.debug(err)
+#except (ImportError, IOError) as err:
+#    _logger.debug(err)
 
 
 class DocumentoItem(models.Model):
@@ -2139,7 +2139,7 @@ class DocumentoItem(models.Model):
             valores['vr_icms_estado_destino'] = vr_icms_estado_destino
             valores['vr_icms_estado_origem'] = vr_icms_estado_origem
 
-            vr_fcp = self.vr_operacao_tributacao * D(self.al_fcp) / 100
+            vr_fcp = D(self.vr_operacao_tributacao) * D(self.al_fcp) / 100
             vr_fcp = vr_fcp.quantize(D('0.01'))
             valores['vr_fcp'] = vr_fcp
 
