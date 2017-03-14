@@ -44,7 +44,7 @@ class IBPTax(models.Model):
         ibptax_servico = self.env['sped.ibptax.servico']
 
         versao = '17.1.A'
-        arquivo = '/home/ari/tauga/odoo_br/sped/data/ibptax/' \
+        arquivo = '/home/ari/tauga/tauga_addons/sped/data/ibptax/' \
             'TabelaIBPTax{uf}{versao}.csv'.format(
                 uf=self.estado_id.uf, versao=versao)
 
