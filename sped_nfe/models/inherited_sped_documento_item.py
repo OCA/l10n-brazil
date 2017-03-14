@@ -30,7 +30,7 @@ try:
     from pybrasil.inscricao import limpa_formatacao
     from pybrasil.data import parse_datetime, UTC, formata_data
     from pybrasil.valor import formata_valor
-    from pybrasil.template import TemplateBrasil
+    from mako.template import Template
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -207,46 +207,20 @@ class DocumentoItem(models.Model):
         # Prepara a observação do item
         #
         infcomplementar = self.infcomplementar or ''
-
         dados_infcomplementar = {
             'nf': self.documento_id,
             'item': self,
         }
 
         #
-        # Crédito de ICMS do SIMPLES
-        #
-        if self.documento_id.regime_tributario == REGIME_TRIBUTARIO_SIMPLES \
-            and self.cst_icms_sn in ST_ICMS_SN_CALCULA_CREDITO:
-            if len(infcomplementar) > 0:
-                infcomplementar += '\n'
-
-            infcomplementar += u'Permite o aproveitamento de crédito de ' + \
-                u'ICMS no valor de R$ ${formata_valor(item.vr_icms_sn)},' + \
-                u' correspondente à alíquota de ' + \
-                u'${formata_valor(item.al_icms_sn)}%, nos termos do art. 23'+ \
-                u' da LC 123/2006;'
-
-        #
-        # Valor do IBPT
-        #
-        if self.vr_ibpt:
-            if len(infcomplementar) > 0:
-                infcomplementar += '\n'
-
-            infcomplementar += u'Valor aproximado dos tributos: ' + \
-                u'R$ ${formata_valor(item.vr_ibpt)} (' + \
-                u'${formata_valor(item.al_ibpt)}%) - fonte: IBPT;'
-
-        #
         # ICMS para UF de destino
         #
         if nfe.infNFe.ide.idDest.valor == \
-                IDENTIFICACAO_DESTINO_INTERESTADUAL and \
-                nfe.infNFe.ide.indFinal.valor == \
-                TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and \
-                nfe.infNFe.dest.indIEDest.valor == \
-                INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE:
+            IDENTIFICACAO_DESTINO_INTERESTADUAL and \
+            nfe.infNFe.ide.indFinal.valor == \
+            TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and \
+            nfe.infNFe.dest.indIEDest.valor == \
+            INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE:
 
             det.imposto.ICMSUFDest.vBCUFDest.valor = \
                 det.imposto.ICMS.vBC.valor
@@ -277,7 +251,7 @@ class DocumentoItem(models.Model):
                 u'R$ ${formata_valor(item.vr_icms_estado_origem)} para o ' + \
                 u'estado de ${nf.empresa_id.estado}; Valor do diferencial ' + \
                 u'de alíquota (${formata_valor(item.al_difal)}%): ' + \
-                u'R$ ${formata_valor(item.vr_difal)};'
+                u'R$ ${formata_valor(item.vr_difal)} ;'
 
             if self.vr_fcp:
                 infcomplementar += u' Fundo de combate à pobreza: R$ ' + \
@@ -286,7 +260,36 @@ class DocumentoItem(models.Model):
         #
         # Aplica um template na observação do item
         #
-        template = TemplateBrasil(infcomplementar.encode('utf-8'))
+        template_imports = [
+            'import pybrasil',
+            'import math',
+            'from pybrasil.base import (tira_acentos, primeira_maiuscula)',
+            'from pybrasil.data import (DIA_DA_SEMANA,',
+            '   DIA_DA_SEMANA_ABREVIADO, MES, MES_ABREVIADO,',
+            '   data_por_extenso, dia_da_semana_por_extenso,',
+            '   dia_da_semana_por_extenso_abreviado, mes_por_extenso,',
+            '   mes_por_extenso_abreviado, seculo, seculo_por_extenso,',
+            '   hora_por_extenso, hora_por_extenso_aproximada, formata_data,',
+            '   ParserInfoBrasil, parse_datetime, UTC, HB,',
+            '   fuso_horario_sistema, data_hora_horario_brasilia, agora,',
+            '   hoje, ontem, amanha, mes_passado, mes_que_vem, ano_passado,',
+            '   ano_que_vem, semana_passada, semana_que_vem,',
+            '   primeiro_dia_mes, ultimo_dia_mes, idade)',
+            'from pybrasil.valor import (numero_por_extenso,',
+            '   numero_por_extenso_ordinal, numero_por_extenso_unidade,',
+            '   valor_por_extenso, valor_por_extenso_ordinal,',
+            '   valor_por_extenso_unidade, formata_valor)',
+            'from pybrasil.valor.decimal import Decimal as D',
+            'from pybrasil.valor.decimal import Decimal',
+        ]
+
+        template = Template(
+            infcomplementar.encode('utf-8'),
+            imports=template_imports,
+            input_encoding='utf-8',
+            output_encoding='utf-8',
+            strict_undefined=True,
+        )
         infcomplementar = template.render(**dados_infcomplementar)
         det.infAdProd.valor = infcomplementar.decode('utf-8')
 
