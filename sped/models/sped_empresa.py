@@ -20,8 +20,8 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-
-try:
+if True:
+#try:
     from email_validator import validate_email
 
     from pybrasil.base import mascara, primeira_maiuscula
@@ -35,8 +35,8 @@ try:
         valida_fone_internacional
     )
 
-except (ImportError, IOError) as err:
-    _logger.debug(err)
+#except (ImportError, IOError) as err:
+#    _logger.debug(err)
 
 
 class Empresa(models.Model):

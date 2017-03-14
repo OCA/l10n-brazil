@@ -686,6 +686,16 @@ class Documento(models.Model):
         compute='_compute_soma_itens',
         store=True,
     )
+    vr_icms_estado_origem = fields.Monetary(
+        string=u'Valor do ICMS para o estado origem',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_icms_estado_destino = fields.Monetary(
+        string=u'Valor do ICMS para o estado destino',
+        compute='_compute_soma_itens',
+        store=True,
+    )
     vr_fcp = fields.Monetary(
         string=u'Valor do fundo de combate à pobreza',
         compute='_compute_soma_itens',
@@ -820,7 +830,8 @@ class Documento(models.Model):
             'vr_frete', 'vr_seguro', 'vr_desconto', 'vr_outras',
             'vr_operacao', 'vr_operacao_tributacao',
             'bc_icms_proprio', 'vr_icms_proprio',
-            'vr_difal', 'vr_fcp',
+            'vr_difal', 'vr_icms_estado_origem', 'vr_icms_estado_destino',
+            'vr_fcp',
             'vr_icms_sn', 'vr_simples',
             'bc_icms_st', 'vr_icms_st',
             'bc_icms_st_retido', 'vr_icms_st_retido',

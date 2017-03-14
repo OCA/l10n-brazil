@@ -363,7 +363,7 @@ class Documento(models.Model):
         #
         i = 1
         for item in self.item_ids:
-            nfe.infNFe.det.append(item.monta_nfe(i))
+            nfe.infNFe.det.append(item.monta_nfe(i, nfe))
             i += 1
 
         #
@@ -716,9 +716,9 @@ class Documento(models.Model):
         total.ICMSTot.vBC.valor = str(D(self.bc_icms_proprio))
         total.ICMSTot.vICMS.valor = str(D(self.vr_icms_proprio))
         total.ICMSTot.vICMSDeson.valor = str(D('0'))
-        total.ICMSTot.vFCPUFDest.valor = str(D('0'))
-        total.ICMSTot.vICMSUFDest.valor = str(D('0'))
-        total.ICMSTot.vICMSUFRemet.valor = str(D('0'))
+        total.ICMSTot.vFCPUFDest.valor = str(D(self.vr_fcp))
+        total.ICMSTot.vICMSUFDest.valor = str(D(self.vr_icms_estado_destino))
+        total.ICMSTot.vICMSUFRemet.valor = str(D(self.vr_icms_estado_origem))
         total.ICMSTot.vBCST.valor = str(D(self.bc_icms_st))
         total.ICMSTot.vST.valor = str(D(self.vr_icms_st))
         total.ICMSTot.vProd.valor = str(D(self.vr_produtos))
