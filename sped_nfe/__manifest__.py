@@ -25,6 +25,6 @@
         'views/sped_consulta_dfe_view.xml',
     ],
     'external_dependencies': {
-        'python': ['pybrasil', 'pysped'],
+        'python': ['pybrasil', 'pysped', 'mako'],
     }
 }
