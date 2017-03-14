@@ -12,12 +12,13 @@ from odoo.tools import config
 
 _logger = logging.getLogger(__name__)
 
-try:
+#try:
+if True:
     from pysped.nfe import ProcessadorNFe
     from pybrasil.inscricao import limpa_formatacao
 
-except (ImportError, IOError) as err:
-    _logger.debug(err)
+#except (ImportError, IOError) as err:
+#    _logger.debug(err)
 
 
 class Empresa(models.Model):
