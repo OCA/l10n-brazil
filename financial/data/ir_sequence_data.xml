@@ -27,5 +27,13 @@
             <field name="company_id" eval=""/>
         </record>
 
+        <record id="seq_financial_move_payment" model="ir.sequence">
+            <field name="name">Financial Payment</field>
+            <field name="code">financial.move.payment</field>
+            <field name="prefix">PP/</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval=""/>
+        </record>
+
     </data>
 </odoo>

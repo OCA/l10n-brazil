@@ -152,7 +152,3 @@ class FinancialMoveModel(models.AbstractModel):
                     'resource.calendar'].proximo_dia_util_bancario(
                         fields.Date.from_string(record.due_date))
 
-    def _prepare_financial_move(self, ref, ref_item, company_id, currency_id,
-                                partner_id, document_number, document_date,
-                                amount_document, due_date):
-        return {}
