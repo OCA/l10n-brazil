@@ -24,7 +24,8 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
 
 _logger = logging.getLogger(__name__)
 
-try:
+#try:
+if True:
     from email_validator import validate_email
 
     from pybrasil.base import mascara, primeira_maiuscula
@@ -36,8 +37,8 @@ try:
                                    valida_fone_celular,
                                    valida_fone_internacional)
 
-except (ImportError, IOError) as err:
-    _logger.debug(err)
+#except (ImportError, IOError) as err:
+#    _logger.debug(err)
 
 
 class Participante(models.Model):

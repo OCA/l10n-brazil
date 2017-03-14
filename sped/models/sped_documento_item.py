@@ -13,11 +13,11 @@ from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 
-try:
-    from pybrasil.valor.decimal import Decimal as D
+#try:
+from pybrasil.valor.decimal import Decimal as D
 
-except (ImportError, IOError) as err:
-    _logger.debug(err)
+#except (ImportError, IOError) as err:
+#    _logger.debug(err)
 
 
 class DocumentoItem(models.Model):
@@ -257,7 +257,7 @@ class DocumentoItem(models.Model):
         index=True,
     )
     repasse = fields.Boolean(
-        string=u'Repasse de ICMS retido anteriosvente entre estados (CST 41)?',
+        string=u'Repasse de ICMS retido anteriormente entre estados (CST 41)?',
         index=True,
     )
     md_icms_proprio = fields.Selection(
@@ -705,6 +705,16 @@ class DocumentoItem(models.Model):
     )
     vr_difal = fields.Monetary(
         string=u'Valor do diferencial de alíquota ICMS próprio',
+    )
+    al_partilha_estado_destino = fields.Monetary(
+        string=u'Alíquota de partilha para o estado destino',
+        currency_field='currency_aliquota_id',
+    )
+    vr_icms_estado_origem = fields.Monetary(
+        string=u'Valor do ICMS para o estado origem',
+    )
+    vr_icms_estado_destino = fields.Monetary(
+        string=u'Valor do ICMS para o estado origem',
     )
 
     #
@@ -1282,6 +1292,13 @@ class DocumentoItem(models.Model):
                 if self.cfop_id.posicao == POSICAO_CFOP_INTERESTADUAL:
                     valores['calcula_difal'] = True
 
+                    if '2016-' in self.documento_id.data_emissao:
+                        valores['al_partilha_estado_destino'] = 40
+                    elif '2017-' in self.documento_id.data_emissao:
+                        valores['al_partilha_estado_destino'] = 60
+                    else:
+                        valores['al_partilha_estado_destino'] = 100
+
                 valores['bc_icms_proprio_com_ipi'] = True
                 valores['bc_icms_st_com_ipi'] = True
 
@@ -1553,7 +1570,7 @@ class DocumentoItem(models.Model):
         #
         # Calcula o valor dos produtos
         #
-        vr_produtos = self.quantidade * self.vr_unitario
+        vr_produtos = D(self.quantidade) * D(self.vr_unitario)
         vr_produtos = vr_produtos.quantize(D('0.01'))
 
         #
@@ -1913,7 +1930,8 @@ class DocumentoItem(models.Model):
             valores['vr_icms_proprio'] = 0
 
     @api.onchange('vr_operacao_tributacao', 'calcula_difal',
-                  'al_icms_proprio', 'al_interna_destino', 'al_fcp')
+                  'al_icms_proprio', 'al_interna_destino', 'al_fcp',
+                  'al_partilha_estado_destino')
     def _onchange_calcula_difal(self):
         self.ensure_one()
 
@@ -1926,13 +1944,29 @@ class DocumentoItem(models.Model):
 
         valores['al_difal'] = 0
         valores['vr_difal'] = 0
+        valores['vr_icms_estado_origem'] = 0
+        valores['vr_icms_estado_destino'] = 0
+        valores['vr_fcp'] = 0
 
         if self.calcula_difal:
-            al_difal = self.al_interna_destino - self.al_icms_proprio
-            vr_difal = self.vr_operacao_tributacao * al_difal / 100
+            al_difal = D(self.al_interna_destino) - D(self.al_icms_proprio)
+            vr_difal = D(self.vr_operacao_tributacao) * al_difal / 100
             vr_difal = vr_difal.quantize(D('0.01'))
             valores['al_difal'] = al_difal
             valores['vr_difal'] = vr_difal
+
+            vr_icms = D(self.vr_operacao_tributacao)
+            vr_icms *= D(self.al_interna_destino)
+            vr_icms /= 100
+            vr_icms = vr_icms.quantize(D('0.01'))
+            vr_icms_estado_destino = vr_icms * \
+                D(self.al_partilha_estado_destino) / 100
+            vr_icms_estado_destino = vr_icms_estado_destino.quantize(D('0.01'))
+            vr_icms_estado_origem = vr_icms - \
+                vr_icms_estado_destino
+
+            valores['vr_icms_estado_destino'] = vr_icms_estado_destino
+            valores['vr_icms_estado_origem'] = vr_icms_estado_origem
 
             vr_fcp = self.vr_operacao_tributacao * self.al_fcp / 100
             vr_fcp = vr_fcp.quantize(D('0.01'))

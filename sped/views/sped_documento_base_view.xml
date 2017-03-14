@@ -20,7 +20,7 @@
                     <field name="currency_aliquota_id" invisible="1"/>
                     <group>
                         <group col="4" colspan="4">
-                            <field name="empresa_id" colspan="4" options="{'no_create': True, 'no_open': True}" required="1" attrs="{'readonly': ['|', ('id', '!=', False), ('permite_alteracao', '=', False)]}" />
+                            <field name="empresa_id" colspan="4" options="{'no_create': True, 'no_open': True}" required="1" attrs="{'readonly': ['|', ('id', '!=', False), ('permite_alteracao', '=', False)]}" domain="[('contribuinte', '=', '1')]" />
                             <field name="empresa_cnpj_cpf" colspan="2" readonly="1" />
                             <newline />
                             <field name="operacao_id" colspan="4" domain="[('modelo', '=', modelo), ('emissao', '=', emissao), '|', ('empresa_id', '=', False), ('empresa_id', '=', empresa_id)]" options="{'no_create': True, 'no_open': True}" required="1" attrs="{'readonly': ['|', ('id', '!=', False), ('permite_alteracao', '=', False)]}" />
