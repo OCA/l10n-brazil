@@ -21,7 +21,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 if True:
-    # try:
+#try:
     from email_validator import validate_email
 
     from pybrasil.base import mascara, primeira_maiuscula
@@ -35,7 +35,7 @@ if True:
         valida_fone_internacional
     )
 
-# except (ImportError, IOError) as err:
+#except (ImportError, IOError) as err:
 #    _logger.debug(err)
 
 
