@@ -6,7 +6,6 @@ from odoo import api, fields, models
 
 
 class FinancialEdit(models.TransientModel):
-
     _name = 'financial.edit'
 
     name = fields.Char()
@@ -16,17 +15,20 @@ class FinancialEdit(models.TransientModel):
         string='Currency',
         required=True,
     )
-    amount_document = fields.Monetary(
+    amount = fields.Monetary(
         string=u"Document amount",
         required=True,
     )
-    due_date = fields.Date(
-        string=u"Due date",
+    amount_discount = fields.Monetary(
+        string=u'Discount',
+        # required=True
+    )
+    date_maturity = fields.Date(
+        string=u"Date maturity",
         required=True,
     )
-    change_reason = fields.Text(
+    note = fields.Text(
         string="Change reason",
-        track_visibility='onchange',
         required=True,
     )
 
@@ -38,8 +40,9 @@ class FinancialEdit(models.TransientModel):
                 active_id):
             fm = self.env['financial.move'].browse(active_id)
             res['currency_id'] = fm.currency_id.id
-            res['amount_document'] = fm.amount_document
-            res['due_date'] = fm.due_date
+            res['amount'] = fm.amount
+            res['amount_discount'] = fm.amount_discount
+            res['date_maturity'] = fm.date_maturity
         return res
 
     def doit(self):
@@ -50,9 +53,9 @@ class FinancialEdit(models.TransientModel):
                 fm = self.env['financial.move'].browse(active_id)
                 fm.write({
                     'currency_id': wizard.currency_id.id,
-                    'amount_document': wizard.amount_document,
-                    'due_date': wizard.due_date,
-                    'change_reason': wizard.change_reason,
+                    'amount': wizard.amount,
+                    'amount_discount': wizard.amount_discount,
+                    'date_maturity': wizard.date_maturity,
+                    'note': wizard.note,
                 })
-        # return True
         return {'type': 'ir.actions.act_window_close', }

@@ -3,35 +3,47 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
+from ..models.financial_move import (
+    FINANCIAL_IN_OUT,
+)
 
 
 class FinancialPayreceive(models.TransientModel):
 
     _name = 'financial.pay_receive'
+    _inherit = ['account.abstract.payment']
 
-    ammount_paid = fields.Monetary(
+    @api.multi
+    @api.depends('financial_type')
+    def _compute_payment_type(self):
+        for record in self:
+            if record.financial_type in ('r', 'rr'):
+                record.payment_type = 'inbound'
+            elif record.financial_type in ('p', 'pp'):
+                record.payment_type = 'outbound'
+
+    financial_type = fields.Selection(
+        selection=FINANCIAL_IN_OUT,
+        required=True,
+    )
+    amount_paid = fields.Monetary(
         required=True
     )
     ref = fields.Char()
-    payment_date = fields.Date(
-        required=True
-    )
-    credit_debit_date = fields.Date(
-        readonly=True
-    )
-    payment_method_id = fields.Many2one(
-        'account.payment.method',
-        string='Payment Method Type',
+    date_payment = fields.Date(
         required=True,
-        oldname="payment_method"
+        default=fields.Date.context_today
     )
-    desconto = fields.Monetary()
-    juros = fields.Monetary()
-    multa = fields.Monetary()
-    currency_id = fields.Many2one(
-        comodel_name='res.currency',
-        string='Currency',
-        required=True,
+    date_credit_debit = fields.Date(
+        readonly=True,
+        # TODO: compute bussiness date
+    )
+    amount_discount = fields.Monetary(
+        string=u'Discount',
+    )
+    amount_interest = fields.Monetary(
+        string=u'Interest',
+        readonly=True,
     )
 
     @api.model
@@ -43,14 +55,12 @@ class FinancialPayreceive(models.TransientModel):
             fm = self.env['financial.move'].browse(active_id)
             res['currency_id'] = fm.currency_id.id
             res['ammount_paid'] = fm.amount_residual
-            res['payment_date'] = fields.Date.today()
+            res['company_id'] = fm.company_id.id
         return res
 
     @api.multi
     def doit(self):
         for wizard in self:
-            # TODO
-
             active_id = self._context['active_id']
             account_financial = self.env['financial.move']
 
@@ -62,23 +72,22 @@ class FinancialPayreceive(models.TransientModel):
                 payment_type = 'rr'
 
             account_financial.create({
-                'company_id': 1,
+                'journal_id': wizard.journal_id.id,
+                'company_id': wizard.company_id.id,
                 'amount_document': wizard.ammount_paid,
                 'ref': financial_to_pay.ref,
                 'ref_item': financial_to_pay.ref_item,
-                'credit_debit_date': wizard.credit_debit_date,
-                'payment_method_id': wizard.payment_method_id,
-                'amount_discount': wizard.desconto,
-                'amount_delay_fee': wizard.multa,
-                'amount_interest': wizard.juros,
+                'date_credit_debit': wizard.date_credit_debit,
+                'payment_method_id': wizard.payment_method_id.id,
+                'amount_discount': wizard.amount_discount,
+                'amount_interest': wizard.amount_interest,
                 'currency_id': wizard.currency_id.id,
-                'document_date': fields.Date.today(),
+                'date_payment': wizard.date_payment,
                 'payment_id': active_id,
                 'move_type': payment_type,
                 'partner_id': financial_to_pay.partner_id.id,
                 'document_number': financial_to_pay.document_number,
-                'due_date': fields.Date.today()
-
+                'date_maturity': financial_to_pay.date_maturity,
             })
         return {
             'type': 'ir.actions.client',
