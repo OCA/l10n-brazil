@@ -165,13 +165,9 @@
       [('amount_to_pay', '>', 0), ('id', '=', payment_line.move_line_id.id)])) == 0, \
       "No payment order found for this move line"
 -
-  After making all payments, I finish the payment order.
+  I generate the .REM file and compare it with a test file
 -
   !python {model: payment.order, id: cobranca}: |
-    def change(string, start, end, what):
-      length = end - start
-      if len(what)<length: what = what + " "*(length-len(what))
-      return string[0:start]+what[0:length]+string[end:]
     import base64
     import time
     assert self.mode.type.ir_model_id.model == 'payment.cnab', "Modelo de wizard errado, deveria ser payment.cnab porem o selecionado foi: %s" %self.mode.type.ir_model_id.model
@@ -180,16 +176,29 @@
     generated_file = base64.b64decode(str(wizard.cnab_file))
 
     # fixing dates to have the same date as the test_file
-    generated_file = change(generated_file, 143, 151, '13032017')
-    generated_file = change(generated_file, 241+192, 241+199, '13032017')
-    generated_file = change(generated_file, 483+110, 483+117, '13032017')
+    def change(string, interval, what):
+      start = interval[0]
+      end = interval[1]
+      length = end - start
+      if len(what)<length: what = what + " "*(length-len(what))
+      return string[0:start]+what[0:length]+string[end:]
 
-    generated_file = change(generated_file, 151, 157, '120000')
+    position_data_geracao_arquivo = (143, 151)
+    position_hora_geracao_arquivo = (151, 157)
+    position_data_emissao_titulo = (593, 600)
+    position_data_gravacao_remessa_retorno = (433, 440)
+    new_date = '13032017'
+    new_hour = '120000'
+    generated_file = change(generated_file, position_data_geracao_arquivo, new_date)
+    generated_file = change(generated_file, position_hora_geracao_arquivo, new_hour)
+    generated_file = change(generated_file, position_data_emissao_titulo, new_date)
+    generated_file = change(generated_file, position_data_gravacao_remessa_retorno, new_date)
 
+    # compare generated file with test file
     file_path = openerp.modules.get_module_resource('l10n_br_account_banking_payment_cnab', 'tests', 'test_remessa.REM')
     with open(file_path, 'rb') as test_file:
       readed_test_file = test_file.read()
-      assert generated_file == readed_test_file, "O arquivo de remessa gerado \n\n%s \n\ne diferente do arquivo de testes \n\n%s" % (generated_file, readed_test_file)
+      assert generated_file == readed_test_file, "O arquivo gerado \n\n%s \n\ne diferente do arquivo de testes \n\n%s" % (generated_file, readed_test_file)
 -
   I check that payment order is now "Done".
 -
@@ -201,47 +210,3 @@
   !python {model: payment.order}: |
     payment = self.browse(cr, uid, ref("cobranca"))
     assert payment.date_done, "Date is not created."
-#-
-#  I check tax values ICMS
-#-
-#  !assert {model: account.invoice, id: account_invoice_customer_sp_sp_banking}:
-#    - invoice_line[0].icms_cst_id.code == '00'
-#    - invoice_line[0].icms_base == 2400.00
-#    - invoice_line[0].icms_base_other == 0.00
-#    - invoice_line[0].icms_value == 432.00
-#    - invoice_line[0].icms_percent == 18.00
-#    - invoice_line[0].icms_percent_reduction == 0.00
-#-
-#  I check tax values ICMS ST
-#-
-#  !assert {model: account.invoice, id: account_invoice_customer_sp_sp_banking}:
-#    - invoice_line[0].icms_st_base == 0.00
-#    - invoice_line[0].icms_st_base_other == 0.00
-#    - invoice_line[0].icms_st_value == 0.00
-#    - invoice_line[0].icms_st_percent == 0.00
-#    - invoice_line[0].icms_st_percent_reduction == 0.00
-#-
-#  I check tax values IPI
-#-
-#  !assert {model: account.invoice, id: account_invoice_customer_sp_sp_banking}:
-#    - invoice_line[0].ipi_cst_id.code == '50'
-#    - invoice_line[0].ipi_base == 2400.00
-#    - invoice_line[0].ipi_base_other == 0.00
-#    - invoice_line[0].ipi_value == 240.00
-#    - invoice_line[0].ipi_percent == 10.00
-#-
-#  I check tax values PIS
-#-
-#  !assert {model: account.invoice, id: account_invoice_customer_sp_sp_banking}:
-#    - invoice_line[0].pis_cst_id.code == '01'
-#    - invoice_line[0].pis_base == 2400.00
-#    - invoice_line[0].pis_value == 15.60
-#    - invoice_line[0].pis_percent == 0.65
-#-
-#  I check tax values COFINS
-#-
-#  !assert {model: account.invoice, id: account_invoice_customer_sp_sp_banking}:
-#    - invoice_line[0].cofins_cst_id.code == '01'
-#    - invoice_line[0].cofins_base == 2400.00
-#    - invoice_line[0].cofins_value == 72.00
-#    - invoice_line[0].cofins_percent == 3.00
