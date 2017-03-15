@@ -35,6 +35,7 @@
     'depends': [
         'l10n_br_account_payment_boleto',
         'l10n_br_account_payment_mode',
+        'l10n_br_account_product',
         'account_banking_payment_export',
     ],
     'data': [
