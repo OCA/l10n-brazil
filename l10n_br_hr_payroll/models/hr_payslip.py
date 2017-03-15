@@ -212,7 +212,7 @@ class HrPayslip(models.Model):
 
     data_mes_ano = fields.Char(
         string=u'Mês/Ano',
-        compute='_compute_mes_ano',
+        compute='_compute_data_mes_ano',
     )
 
     total_folha = fields.Float(
@@ -378,6 +378,16 @@ class HrPayslip(models.Model):
         inverse_name='slip_id',
         compute=_buscar_payslip_line,
         string=u"Holerite Resumo",
+    )
+
+    date_from = fields.Date(
+        'Date From', readonly=True, states={'draft': [('readonly', False)]},
+        required=True, compute='_compute_set_dates', store=True
+    )
+
+    date_to = fields.Date(
+        'Date To', readonly=True, states={'draft': [('readonly', False)]},
+        required=True, compute='_compute_set_dates', store=True
     )
 
     @api.onchange('holidays_ferias')
@@ -916,38 +926,6 @@ class HrPayslip(models.Model):
         holerite e os instancia novamente atualizando os valore.
         :return: Campos atualizados
         """
-        hr_payslip_worked_days_obj = self.env['hr.payslip.worked_days']
-        hr_payslip_input_obj = self.env['hr.payslip.input']
-
-        for holerite in self:
-            # delete old worked days lines
-            if holerite.worked_days_line_ids:
-                for worked_day_id in holerite.worked_days_line_ids:
-                    worked_day_id.unlink()
-            # get dict com valores do worked_days_lines
-            worked_days_line_ids = self.get_worked_day_lines(
-                holerite.contract_id.id, holerite.date_from, holerite.date_to
-            )
-            # Atrelar o worked_days a payslip atual e instanciar o objeto
-            for wd_line in worked_days_line_ids:
-                wd_line['payslip_id'] = self.id
-                hr_payslip_worked_days_obj.create(wd_line)
-
-            # delete old input lines
-            if holerite.input_line_ids:
-                for input_id in holerite.input_line_ids:
-                    input_id.unlink()
-            # get dict com valores do Inputs_lines
-            input_line_ids = self.get_inputs(
-                holerite.contract_id.id, holerite.date_from, holerite.date_to
-            )
-            # Atrelar o Inputs_line a payslip atual e instanciar o objeto
-            for input_line in input_line_ids:
-                input_line['payslip_id'] = self.id
-                hr_payslip_input_obj.create(input_line)
-
-    @api.multi
-    def onchange_employee_id(self, date_from, date_to, contract_id):
         worked_days_obj = self.env['hr.payslip.worked_days']
         input_obj = self.env['hr.payslip.input']
 
@@ -964,52 +942,32 @@ class HrPayslip(models.Model):
         if old_input_ids:
             for input_id in old_input_ids:
                 input_id.unlink()
-
-        # defaults
-        res = {
-            'value': {
-                'line_ids': [],
-                'input_line_ids': [],
-                'worked_days_line_ids': [],
-                'name': '',
-            }
-        }
         # computation of the salary input
-        worked_days_line_ids = self.get_worked_day_lines(
-            contract_id, date_from, date_to
+        self.worked_days_line_ids = self.get_worked_day_lines(
+            self.contract_id.id, self.date_from, self.date_to
         )
-        input_line_ids = self.get_inputs(contract_id, date_from, date_to)
-        res['value'].update(
-            {
-                'worked_days_line_ids': worked_days_line_ids,
-                'input_line_ids': input_line_ids,
-            }
+        self.input_line_ids = self.get_inputs(
+            self.contract_id.id, self.date_from, self.date_to
         )
-        return res
 
     @api.multi
-    @api.onchange('contract_id')
+    @api.depends('contract_id')
     def _compute_set_employee_id(self):
         for record in self:
             record.struct_id = record.buscar_estruturas_salario()
             record.struct_id_readonly = record.struct_id
-            record.set_dates()
             if record.contract_id:
                 record.employee_id = record.contract_id.employee_id
                 record.employee_id_readonly = record.employee_id
 
-    @api.multi
-    @api.onchange('mes_do_ano', 'ano')
-    def buscar_datas_periodo(self):
-        for record in self:
-            record.set_dates()
-
-    def _compute_mes_ano(self):
+    def _compute_data_mes_ano(self):
         for record in self:
             record.data_mes_ano = MES_DO_ANO[record.mes_do_ano-1][1][:3] + \
                 '/' + str(record.ano)
 
-    def set_dates(self):
+    @api.multi
+    @api.depends('mes_do_ano', 'ano')
+    def _compute_set_dates(self):
         for record in self:
             ultimo_dia_do_mes = str(
                 self.env['resource.calendar'].get_ultimo_dia_mes(
@@ -1033,6 +991,7 @@ class HrPayslip(models.Model):
 
     @api.multi
     def compute_sheet(self):
+        self.atualizar_worked_days_inputs()
         if self.tipo_de_folha in ["decimo_terceiro", "ferias", "aviso_previo"]:
             hr_medias_ids, data_de_inicio, data_final = \
                 self.gerar_media_dos_proventos()
@@ -1076,8 +1035,6 @@ class HrPayslip(models.Model):
                     self.holidays_ferias.date_from
                 self.periodo_aquisitivo.fim_gozo = \
                     self.holidays_ferias.date_to
-
-            self.atualizar_worked_days_inputs()
         super(HrPayslip, self).compute_sheet()
         self._compute_valor_total_folha()
         return True
