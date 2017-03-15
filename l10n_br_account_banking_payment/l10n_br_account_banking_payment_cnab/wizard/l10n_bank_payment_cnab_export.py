@@ -48,7 +48,7 @@ class L10nPaymentCnab(models.TransientModel):
 
             order = self.env['payment.order'].browse(order_id)
             cnab = Cnab.get_cnab(order.mode.bank_id.bank_bic,
-                                 order.mode_type.code)()
+                                 order.mode.type.code)()
             remessa = cnab.remessa(order)
             suf_arquivo = order.get_next_sufixo()
 
