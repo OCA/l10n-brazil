@@ -265,8 +265,8 @@ class Documento(models.Model):
                 tempo_autorizado -= \
                     parse_datetime(documento.data_hora_autorizacao + ' GMT')
 
-                if (documento.state_nfe == SITUACAO_NFE_AUTORIZADA and
-                        tempo_autorizado.days < 1):
+                if documento.state_nfe == SITUACAO_NFE_AUTORIZADA and \
+                    tempo_autorizado.days < 1:
                     documento.permite_cancelamento = True
 
     def processador_nfe(self):
