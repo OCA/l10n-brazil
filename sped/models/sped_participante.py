@@ -10,17 +10,7 @@ import logging
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
-from odoo.addons.l10n_br_base.constante_tributaria import (
-    INDICADOR_IE_DESTINATARIO,
-    INDICADOR_IE_DESTINATARIO_ISENTO,
-    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
-    REGIME_TRIBUTARIO,
-    REGIME_TRIBUTARIO_LUCRO_PRESUMIDO,
-    REGIME_TRIBUTARIO_LUCRO_REAL,
-    REGIME_TRIBUTARIO_SIMPLES,
-    REGIME_TRIBUTARIO_SIMPLES_EXCESSO,
-    TIPO_PESSOA_JURIDICA,
-)
+from ..constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 
