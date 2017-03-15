@@ -127,9 +127,6 @@
         # 'views/sped_documento_recebimento_nfe_view.xml',
     ],
     'external_dependencies': {
-        'python': [
-            'pybrasil',
-            'email_validator',
-        ],
+        'python': ['pybrasil', 'email-validator'],
     }
 }
