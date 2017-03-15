@@ -4,38 +4,12 @@
 
 <odoo>
 <data>
-
-  <!-- <record model="ir.ui.view" id="financial_cashflow_form_view">
-        <field name="name">financial.cashflow.form (in l10n_br_financial)</field>
-        <field name="model">financial.cashflow</field>
-        <field name="arch" type="xml">
-            <field name="business_due_date"/>
-            <field name="create_date"/>
-            <field name="expected_date"/>
-            <field name="partner_id"/>
-            <field name="currency_id"/>
-            <field name="amount_document"/>
-            <field name="balance"/>
-            <field name="state"/>
-            <field name="cummulative_sum"/>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="financial_cashflow_search_view">
-        <field name="name">financial.cashflow.search (in l10n_br_financial)</field>
-        <field name="model">financial.cashflow</field>
-        <field name="arch" type="xml">
-            <field name="business_due_date"/>
-        </field>
-    </record>
-    -->
-
     <record model="ir.ui.view" id="financial_cashflow_tree_view">
-        <field name="name">financial.cashflow.tree (in l10n_br_financial)</field>
+        <field name="name">financial.cashflow.tree (in financial)</field>
         <field name="model">financial.cashflow</field>
         <field name="arch" type="xml">
             <tree string="Stock Value At Date" create="0" delete="0">
-                <field name="business_due_date"/>
+                <field name="date_business_maturity"/>
                 <!-- <field name="create_date"/> -->
                 <!-- <field name="expected_date"/> -->
                 <field name="partner_id"/>
@@ -44,7 +18,7 @@
                 <field name="account_id"/>
                 <field name="account_analytic_id"/>
                 <field name="currency_id"/>
-                <field name="amount_document"/>
+                <field name="amount_total"/>
                 <!-- <field name="balance"/> -->
                 <field name="state"/>
                 <field name="amount_credit"/>
@@ -68,6 +42,5 @@
         <field name="action" ref="financial_cashflow_act_window"/>
         <field name="sequence" eval="16"/>
     </record>
-
 </data>
 </odoo>
