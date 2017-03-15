@@ -163,11 +163,13 @@ class HrPayslip(models.Model):
             holerite.fim_gozo_fmt = data.formata_data(
                 holerite.date_to
             )
-
-    employee_id_readonly = fields.Many2one(
+    employee_id = fields.Many2one(
         string=u'Funcionário',
         comodel_name='hr.employee',
         compute='_compute_set_employee_id',
+        store=True,
+        required=False,
+        states={'draft': [('readonly', False)]}
     )
     is_simulacao = fields.Boolean(
         string=u"Simulação",
@@ -192,10 +194,17 @@ class HrPayslip(models.Model):
         default='normal',
     )
 
-    struct_id_readonly = fields.Many2one(
+    struct_id = fields.Many2one(
         string=u'Estrutura de Salário',
         comodel_name='hr.payroll.structure',
         compute='_compute_set_employee_id',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        help=u'Defines the rules that have to be applied to this payslip, '
+             u'accordingly to the contract chosen. If you let empty the field '
+             u'contract, this field isn\'t mandatory anymore and thus the '
+             u'rules applied will be all the rules set on the structure of all'
+             u' contracts of the employee valid for the chosen period'
     )
 
     mes_do_ano = fields.Selection(
@@ -408,17 +417,6 @@ class HrPayslip(models.Model):
         comodel_name='hr.vacation.control',
         string="Período Aquisitivo",
         domain="[('contract_id','=',contract_id)]",
-    )
-
-    @api.depends('periodo_aquisitivo')
-    def _compute_periodo_aquisitivo_readonly(self):
-        for holerite in self:
-            holerite.periodo_aquisitivo_readonly = holerite.periodo_aquisitivo
-
-    periodo_aquisitivo_readonly = fields.Many2one(
-        comodel_name='hr.vacation.control',
-        string="Período Aquisitivo",
-        compute='_compute_periodo_aquisitivo_readonly',
     )
 
     @api.depends('periodo_aquisitivo')
@@ -955,10 +953,8 @@ class HrPayslip(models.Model):
     def _compute_set_employee_id(self):
         for record in self:
             record.struct_id = record.buscar_estruturas_salario()
-            record.struct_id_readonly = record.struct_id
             if record.contract_id:
                 record.employee_id = record.contract_id.employee_id
-                record.employee_id_readonly = record.employee_id
 
     def _compute_data_mes_ano(self):
         for record in self:
