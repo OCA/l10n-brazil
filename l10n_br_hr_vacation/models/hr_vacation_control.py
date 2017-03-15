@@ -255,7 +255,6 @@ class HrVacationControl(models.Model):
             'sold_vacations_days': 0,
             'number_of_days_temp': 30,
             'controle_ferias': [(6, 0, [self.id])],
-            'contrato_id': self.contract_id.id,
         })
         return holiday_id
 
