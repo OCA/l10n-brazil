@@ -46,17 +46,17 @@ class NaturezaOperacao(models.Model):
     @api.depends('codigo')
     def _compute_codigo_unico(self):
         for natureza_operacao in self:
-            codigo_unico = natureza_operacao.codigo or ''
+            codigo_unico = natureza_operacao.codigo or u''
             codigo_unico = codigo_unico.lower().strip()
-            codigo_unico = codigo_unico.replace(' ', ' ')
+            codigo_unico = codigo_unico.replace(u' ', u' ')
             natureza_operacao.codigo_unico = codigo_unico
 
     @api.depends('nome')
     def _compute_nome_unico(self):
         for natureza_operacao in self:
-            nome_unico = natureza_operacao.nome or ''
+            nome_unico = natureza_operacao.nome or u''
             nome_unico = nome_unico.lower().strip()
-            nome_unico = nome_unico.replace(' ', ' ')
+            nome_unico = nome_unico.replace(u' ', u' ')
             natureza_operacao.nome_unico = nome_unico
 
     @api.depends('codigo')

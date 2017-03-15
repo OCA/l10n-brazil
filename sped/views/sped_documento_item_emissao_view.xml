@@ -184,6 +184,12 @@
                                             <newline />
                                             <field name="vr_difal" string="Valor DIFAL" attrs="{'invisible': [('calcula_difal', '=', False)]}" />
                                             <newline />
+                                            <field name="al_partilha_estado_destino" string="Partilha" attrs="{'invisible': [('calcula_difal', '=', False)]}" />
+                                            <newline />
+                                            <field name="vr_icms_estado_origem" string="ICMS origem" attrs="{'invisible': [('calcula_difal', '=', False)]}" />
+                                            <newline />
+                                            <field name="vr_icms_estado_destino" string="ICMS destino" attrs="{'invisible': [('calcula_difal', '=', False)]}" />
+                                            <newline />
                                             <separator string="Fundo de combate à pobreza" attrs="{'invisible': [('calcula_difal', '=', False)]}" colspan="2" />
                                             <newline />
                                             <field name="al_fcp" string="Alíquota FCP" attrs="{'invisible': [('calcula_difal', '=', False)]}" />
