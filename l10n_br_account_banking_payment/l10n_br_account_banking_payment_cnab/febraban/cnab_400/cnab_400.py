@@ -66,7 +66,10 @@ ESPECIE_DE_TITULO = [
     ('99', u'Outros'),
 ]
 
-# Essas instruções deverão ser enviadas no Arquivo-Remessa, quando da entrada, desde que código de ocorrência na posição 109 a 110 do registro de transação, seja “01”, para as instruções de protesto/negativação, o CNPJ / CPF e o endereço do Pagador deverão ser informados corretamente
+# Essas instruções deverão ser enviadas no Arquivo-Remessa, quando da
+# entrada, desde que código de ocorrência na posição 109 a 110 do registro
+# de transação, seja “01”, para as instruções de protesto/negativação, o
+# CNPJ / CPF e o endereço do Pagador deverão ser informados corretamente
 LISTA_PRIMEIRA_INSTRUCAO = [
     ('05', u'Protesto Falimentar'),
     ('06', u'Protestar'),
@@ -82,7 +85,6 @@ LISTA_PRIMEIRA_INSTRUCAO = [
     ('14', u'Cobrar encargos após o 15o dia do vencimento'),
     ('15', u'Conceder desconto mesmo se pago após o vencimento'),
 ]
-
 
 
 class Cnab400(Cnab):
@@ -194,7 +196,6 @@ class Cnab400(Cnab):
 
         sacado_endereco = self.retorna_endereco(line.partner_id.id)
 
-
         # Código agencia do cedente
         # cedente_agencia = cedente_agencia
 
@@ -250,9 +251,8 @@ class Cnab400(Cnab):
                 line.ml_maturity_date),
 
             # 'juros_mora_taxa_dia': Decimal('0.20'),
-            'juros_mora_taxa_dia':
-                self.calcula_valor_juros_dia(
-                    line.amount_currency, line.percent_interest),
+            'juros_mora_taxa_dia': self.calcula_valor_juros_dia(
+                line.amount_currency, line.percent_interest),
 
             'valor_abatimento': Decimal('0.00'),
             'sacado_inscricao_tipo': int(
@@ -277,12 +277,12 @@ class Cnab400(Cnab):
             'cobranca_carteira': int(self.order.mode.boleto_carteira),
 
             'primeira_mensagem': u'',
-
-            'identificacao_ocorrencia': 1, # Trazer da nova tela do payment_mode
+            # Trazer da nova tela do payment_mode
+            'identificacao_ocorrencia': 1,
 
             # numero fatura esta copiando para communication
-            'numero_documento':
-                self.adiciona_digitos_num_doc(line.communication),
+            'numero_documento': self.adiciona_digitos_num_doc(
+                line.communication),
             # 'numero_documento': str(line.move_line_id.invoice.number),
 
         }
@@ -293,8 +293,6 @@ class Cnab400(Cnab):
         :param order:
         :return:
         """
-        cobrancasimples_valor_titulos = 0
-
         self.order = order
         self.arquivo = ArquivoCobranca400(self.bank, **self._prepare_header())
         for line in order.line_ids:
@@ -338,7 +336,8 @@ class Cnab400(Cnab):
             )
             str_endereco = self.monta_endereco(res_partner_end_cobranca)
             # Essa abordagem substitui caracteres especiais por '?'
-            # str_endereco = unicode(str_endereco.encode("ascii", errors="replace"))
+            # str_endereco = /
+            # unicode(str_endereco.encode("ascii", errors="replace"))
 
         # Substitui sinal de grau por espaço
         str_endereco = str_endereco.replace(u"\xb0", u" ")
@@ -353,21 +352,21 @@ class Cnab400(Cnab):
         distrito = self.check_address_item_filled(partner_item.district)
 
         str_endereco = (
-            street
-            + ' ' +
-            number
-            + ' ' +
-            complemento
-            + ' ' +
+            street +
+            ' ' +
+            number +
+            ' ' +
+            complemento +
+            ' ' +
             distrito
             # + ' ' +
-            # partner_item.l10n_br_city_id.name + \
+            # partner_item.l10n_br_city_id.name +
             # '  ' + partner_item.state_id.name
         )
         return str_endereco
 
     def check_address_item_filled(self, item):
-        if item == False:
+        if not item:
             return ('')
         else:
             return item

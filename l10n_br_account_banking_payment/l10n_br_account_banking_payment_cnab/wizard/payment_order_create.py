@@ -56,7 +56,8 @@ class PaymentOrderCreate(models.TransientModel):
                     ('payment_mode_id', '=', payment_order.mode.id),
                     '&',
                     ('invoice.state', '=', 'open'),
-                    ('invoice.fiscal_category_id.property_journal.revenue_expense', '=', True)
+                    ('invoice.fiscal_category_id.'
+                     'property_journal.revenue_expense', '=', True)
                 ]
             # TODO: Refactory this
             # TODO: domain do state da move_line.
@@ -67,7 +68,6 @@ class PaymentOrderCreate(models.TransientModel):
             # del domain[index - 1]
             # domain.remove(('date_maturity', '=', False))
             # domain.remove(('date_maturity', '<=', self.duedate))
-
 
         elif payment_order.mode.type.code == '500':
             if payment_order.mode.payment_order_type == 'payment':

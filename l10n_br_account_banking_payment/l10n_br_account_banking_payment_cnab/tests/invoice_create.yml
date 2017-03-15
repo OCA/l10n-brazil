@@ -58,11 +58,6 @@
   !record {model: res.partner.bank, id: l10n_br_account_payment_mode.main_company_bank_bradesco}:
     bra_acc_dig: '0'
 -
-  I set the bank journal to revenue expenses
--
-  !record {model: account.journal, id: account.bank_journal}:
-    revenue_expense: True
--
   I create the payment mode for pagamento
 -
   !record {model: payment.mode, id: payment_mode_pagamento}:

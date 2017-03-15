@@ -145,6 +145,7 @@ FINALIDADE_DOC_TED = [
     ('99', u'Outros'),
 ]
 
+
 class PagFor500(Cnab):
     """
 
@@ -249,11 +250,7 @@ class PagFor500(Cnab):
         # TODO this zip code
         prefixo, sulfixo = self.cep(line.partner_id.zip)
 
-        aceite = u'N'
-        if not self.order.mode.boleto_aceite == 'S':
-            aceite = u'A'
-
-        segmento =  {
+        segmento = {
             'conta_complementar': int(self.order.mode.bank_id.acc_number),
             # 'especie_titulo': 8,
 
@@ -271,8 +268,9 @@ class PagFor500(Cnab):
             'cep_forn': int(prefixo),
             'cep_complemento_forn': int(sulfixo),
 
-
-            # 'nosso_numero': 11,  # FIXME # TODO quando banco é 237, deve-se extrair da linha digitável. Do contrário, zeros.
+            # TODO quando banco é 237, deve-se extrair da linha
+            #  digitável. Do contrário, zeros.
+            # 'nosso_numero': 11,  # FIXME
 
             # 'numero_documento': line.name,
             # 'vencimento_titulo': self.format_date_ano_mes_dia(
@@ -295,13 +293,16 @@ class PagFor500(Cnab):
             'valor_acrescimo': Decimal('0.00'),
 
             # FIXME
-            'tipo_documento': 2, # NF, Fatura, Duplicata...
+            'tipo_documento': 2,  # NF, Fatura, Duplicata...
             # NF_Fatura_01/Fatura_02/NF_03/Duplicata_04/Outros_05
             'numero_nf': int(line.ml_inv_ref.internal_number),
 
-            'modalidade_pagamento': int(line.order_id.mode.type_purchase_payment),
+            'modalidade_pagamento': int(
+                line.order_id.mode.type_purchase_payment),
 
-            'data_para_efetivacao_pag': 0,  # Quando não informada o sistema assume a data constante do campo Vencimento
+            # Quando não informada o sistema assume a data constante do campo
+            # Vencimento
+            'data_para_efetivacao_pag': 0,
 
             'tipo_movimento': 0,
             # TODO Tipo de Movimento.
@@ -311,9 +312,8 @@ class PagFor500(Cnab):
 
             'codigo_movimento': 0,  # Autoriza agendamento
 
-            # 'horario_consulta_saldo': u'5',  # Quando não informado consulta em todos processamentos
-
-
+            # Quando não informado consulta em todos processamentos
+            # 'horario_consulta_saldo': u'5',
 
             'codigo_area_empresa': 0,
 
@@ -411,8 +411,8 @@ class PagFor500(Cnab):
             'conta_corrente_forn': int(line.bank_id.acc_number),
             'digito_conta_forn_transacao': line.bank_id.acc_number_dig,
 
-            'numero_pagamento':
-                self.adiciona_digitos_num_pag(line.communication),
+            'numero_pagamento': self.adiciona_digitos_num_pag(
+                line.communication),
 
             'carteira': int(self.order.mode.boleto_carteira),
 
@@ -426,12 +426,11 @@ class PagFor500(Cnab):
 
         return self._prepare_segmento(line, vals)
 
-
     def lancamento_ted(self, line):
         # TODO:
         # modalidade 08.
 
-        vals =  {
+        vals = {
             'conta_complementar': int(self.order.mode.bank_id.acc_number),
             'especie_titulo': line.order_id.mode.type_purchase_payment,
 
@@ -447,8 +446,8 @@ class PagFor500(Cnab):
             # pagamento por parte desse, exceto para a modalidade 30 -
             # Títulos em Cobrança Bradesco
             # communication
-            'numero_pagamento':
-                self.adiciona_digitos_num_pag(line.communication),
+            'numero_pagamento': self.adiciona_digitos_num_pag(
+                line.communication),
 
             'carteira': 0,
 
@@ -482,7 +481,7 @@ class PagFor500(Cnab):
     def lancamento_doc(self):
         # TODO:
 
-        vals =  {}
+        vals = {}
 
         return self._prepare_segmento(vals)
 
@@ -499,11 +498,11 @@ class PagFor500(Cnab):
             # extrair do código de barras
             'codigo_banco_forn': res_cods_ag_cc['codigo_banco_forn'],
             'codigo_agencia_forn': res_cods_ag_cc['codigo_agencia_forn'],
-            'digito_agencia_forn_transacao':
-                res_cods_ag_cc['digito_agencia_forn_transacao'],
+            'digito_agencia_forn_transacao': res_cods_ag_cc[
+                'digito_agencia_forn_transacao'],
             'conta_corrente_forn': res_cods_ag_cc['conta_corrente_forn'],
-            'digito_conta_forn_transacao':
-                res_cods_ag_cc['digito_conta_forn_transacao'],
+            'digito_conta_forn_transacao': res_cods_ag_cc[
+                'digito_conta_forn_transacao'],
 
             'carteira': res_cods_ag_cc['carteira']
 
@@ -520,17 +519,16 @@ class PagFor500(Cnab):
     def montar_info_comple_ted(self):
         tipo_doc_compe = TIPO_DOC[0][0]
         num_doc_ted = '000000'
-        finalidade_doc_compe = FINALIDADE_DOC_TED[2][0] # pagamento duplicatas. Ou será 01?
+        # pagamento duplicatas. Ou será 01?
+        finalidade_doc_compe = FINALIDADE_DOC_TED[2][0]
         tipo_conta_doc_ted = '01'
         codigo_identif_transf = '0000000000000000000000000'
         fim_do_campo = '    '
         info_comple = tipo_doc_compe + num_doc_ted + finalidade_doc_compe + \
-                      tipo_conta_doc_ted + codigo_identif_transf + fim_do_campo
+            tipo_conta_doc_ted + codigo_identif_transf + fim_do_campo
         return (info_comple.encode('utf-8'))
 
     def ler_linha_digitavel_codigos_ag_cc(self, linha_digitavel):
-        linha_completa = linha_digitavel
-
         codigo_banco_fornecedor = linha_digitavel[:3]
         res = {}
 
@@ -539,9 +537,11 @@ class PagFor500(Cnab):
             res = {
                 'codigo_banco_forn': int(codigo_banco_fornecedor),
                 'codigo_agencia_forn': int(linha_digitavel[4:8]),
-                'digito_agencia_forn_transacao': u'',  # Calcular usando modulo 11 base 7
+                # Calcular usando modulo 11 base 7
+                'digito_agencia_forn_transacao': u'',
                 'conta_corrente_forn': int(linha_digitavel[23:30]),
-                'digito_conta_forn_transacao': u'',  # Calcular usando modulo 11 base 7
+                # Calcular usando modulo 11 base 7
+                'digito_conta_forn_transacao': u'',
 
                 'carteira': int(linha_digitavel[8:10]),
 
