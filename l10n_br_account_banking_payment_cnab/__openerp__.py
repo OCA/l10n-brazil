@@ -24,13 +24,14 @@
 
 {
     'name': 'Account Payment CNAB',
-    'version': '0.1',
+    'version': '8.0.1.0.0',
     'category': 'Banking addons',
     'license': 'AGPL-3',
-    'author': 'KMEE',
+    'author': 'KMEE, Odoo Community Association (OCA)',
     'website': 'http://www.kmee.com.br',
     'external_dependencies': {
-        'python': ['cnab240'],
+        'python': ['cnab240',
+                   'pyboleto'],
     },
     'depends': [
         'l10n_br_account_payment_boleto',
@@ -53,7 +54,6 @@
     'test': [
         'tests/invoice_create.yml'
     ],
-    'active': False,
     "installable": True,
     "auto_install": False,
 }

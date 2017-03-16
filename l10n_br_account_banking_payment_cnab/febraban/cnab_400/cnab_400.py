@@ -20,15 +20,19 @@
 ##############################################################################
 
 from ..cnab import Cnab
-from cnab240.tipos import ArquivoCobranca400
 from decimal import Decimal
-from openerp import api, models, fields, _
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 import datetime
 import re
 import string
 import unicodedata
 import time
+import logging
+_logger = logging.getLogger(__name__)
+try:
+    from cnab240.tipos import ArquivoCobranca400
+except ImportError as err:
+    _logger.debug = (err)
 
 IDENTIFICACAO_DA_OCORRENCIA = [
     ('01', u'Remessa'),
