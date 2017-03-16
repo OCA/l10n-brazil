@@ -13,17 +13,16 @@
                 <!-- TODO -->
                 <group>
                     <group>
-                        <field name="ammount_paid" string="Ammount Paid"/>
-                        <field name="desconto" string="Discount"/>
-                        <field name="multa" string="Delay Fee"/>
-                        <field name="juros" string="Interest"/>
+                        <field name="amount" string="Ammount Paid"/>
+                        <field name="amount_discount"/>
+                        <field name="amount_interest"/>
                     </group>
 
                     <group>
-                        <field name="currency_id" string="Currency id"/>
-                        <field name="payment_mode" string="Payment Mode"/>
-                        <field name="payment_date" string="Payment Date"/>
-                        <field name="credit_debit_date" string="Credit Debit Date"/>
+                        <field name="journal_id"/>
+                        <field name="currency_id"/>
+                        <field name="date_payment"/>
+                        <field name="date_credit_debit"/>
                     </group>
                 </group>
                 <footer>
@@ -41,7 +40,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="financial_pay_receive_act_window">
-        <field name="name">Financial Pay_receive</field> <!-- TODO -->
+        <field name="name">Financial Pay_receive</field>
         <field name="res_model">financial.pay_receive</field>
         <field name="view_mode">form</field>
         <field name="context">{}</field>

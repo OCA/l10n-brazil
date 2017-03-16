@@ -25,7 +25,7 @@ class TestFinancialMove(TransactionCase):
         self.partner_axelor = self.env.ref("base.res_partner_2")
 
         self.cr_1 = self.financial_move.create(dict(
-            due_date='2017-02-18',
+            due_date='2017-02-27',
             company_id=self.main_company.id,
             currency_id=self.currency_euro.id,
             amount_document=100.00,
@@ -35,12 +35,7 @@ class TestFinancialMove(TransactionCase):
             move_type='r',
         ))
 
-        self.account_payment_mode = self.env['account.payment.mode']
-        self.payment_mode_1 = self.account_payment_mode.browse(1)
-        self.account_payment_term = self.env['account.payment.term']
-        self.payment_term_30_70 = self.account_payment_term.browse(5)
-
-    # """ US1 # Como um operador de cobrança, eu gostaria de cadastrar uma conta
+    # """US1 # Como um operador de cobrança, eu gostaria de cadastrar uma conta
     #  a receber/pagar para manter controle sobre o fluxo de caixa.
     # """
     def test_us_1_ac_1(self):
@@ -48,7 +43,7 @@ class TestFinancialMove(TransactionCase):
         QUANDO criado um lançamento de contas a receber
         ENTÃO a data de vencimento útil deve ser de 01/03/2017"""
 
-        self.assertEqual(self.cr_1.business_due_date, '2017-02-20')
+        self.assertEqual(self.cr_1.business_due_date, '2017-03-01')
 
     def test_us_1_ac_2(self):
         """DADO uma conta a pagar ou receber
@@ -147,8 +142,7 @@ class TestFinancialMove(TransactionCase):
             default_get([u'due_date',
                          u'amount_document',
                          u'currency_id',
-                         u'change_reason'
-                         ])
+                         u'change_reason'])
         vals['change_reason'] = 'qualquer coisa'
         message_number_before = len(self.env['financial.move'].browse(cr_1.id).
                                     message_ids.ids)
