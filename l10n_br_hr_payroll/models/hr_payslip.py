@@ -824,11 +824,11 @@ class HrPayslip(models.Model):
         if payslip.holidays_ferias:
             if payslip.holidays_ferias.vacations_days:
                 dias_abono_ferias.update(
-                    {'DIAS_FERIAS':payslip.holidays_ferias.vacations_days }
+                    {'DIAS_FERIAS': payslip.holidays_ferias.vacations_days}
                 )
             if payslip.holidays_ferias.sold_vacations_days:
                 dias_abono_ferias.update(
-                    {'DIAS_ABONO':payslip.holidays_ferias.sold_vacations_days }
+                    {'DIAS_ABONO': payslip.holidays_ferias.sold_vacations_days}
                 )
         ferias_abono = InputLine(payslip.employee_id.id, dias_abono_ferias)
 
@@ -1110,7 +1110,8 @@ class HrPayslip(models.Model):
             data_de_inicio = fields.Date.from_string(
                 periodo_aquisitivo.inicio_aquisitivo)
 
-            data_inicio_mes = fields.Date.from_string(periodo_aquisitivo.inicio_aquisitivo).replace(day=1)
+            data_inicio_mes = fields.Date.from_string(
+                periodo_aquisitivo.inicio_aquisitivo).replace(day=1)
 
             # Se trabalhou mais do que 15 dias, contabilizar o mes corrente
             if (data_de_inicio - data_inicio_mes).days < 15:

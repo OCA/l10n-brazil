@@ -16,7 +16,6 @@ except ImportError:
 class HrPayslipeLine(models.Model):
     _inherit = "hr.payslip.line"
 
-
     round_amount = fields.Float(
         string=u'Valor',
         store=True,

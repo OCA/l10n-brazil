@@ -137,8 +137,6 @@ class L10nBrHrMedias(models.Model):
         for folha in folhas_periodo:
             if mes_anterior and mes_anterior == folha.mes_do_ano:
                 continue
-            primeiro_dia = fields.Date.from_string(folha.date_from)
-            ultimo_dia = fields.Date.from_string(folha.date_to)
             mes_anterior = folha.mes_do_ano
             for linha in folha.line_ids:
                 if linha.salary_rule_id.category_id.code == "PROVENTO" \
