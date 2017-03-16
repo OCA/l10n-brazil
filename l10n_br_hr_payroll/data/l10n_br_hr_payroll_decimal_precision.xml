@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 - KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+       <!-- Decimal Precision -->
+        <record id="hr_payroll.decimal_payroll" model="decimal.precision">
+            <field name="name">Payroll</field>
+            <field name="digits">4</field>
+        </record>
+
+    </data>
+</openerp>

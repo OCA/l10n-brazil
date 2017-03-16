@@ -29,6 +29,7 @@
         'data/l10n_br_hr_tabela_IR.xml',
         'data/l10n_br_hr_tabela_IR_dependente.xml',
         'data/l10n_br_hr_tabela_RAT_FAP.xml',
+        'data/l10n_br_hr_payroll_decimal_precision.xml',
         'security/l10n_br_hr_contract.xml',
         'security/ir.model.access.csv',
         'views/hr_contract.xml',
