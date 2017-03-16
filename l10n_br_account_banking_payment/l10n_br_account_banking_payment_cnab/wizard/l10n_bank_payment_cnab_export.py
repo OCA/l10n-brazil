@@ -21,10 +21,13 @@
 #
 ##############################################################################
 
-from openerp import models, api, workflow, fields
 import base64
 import time
+
+from openerp import models, api, workflow, fields
+
 from ..febraban.cnab import Cnab
+
 
 # TODO Server action para a cada dia retornar o sufixo do arquivo para zero
 

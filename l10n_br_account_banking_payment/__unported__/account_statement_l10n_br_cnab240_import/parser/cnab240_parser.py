@@ -19,11 +19,12 @@
 #
 ##############################################################################
 
-import tempfile
 import datetime
-from openerp.tools.translate import _
+import tempfile
+
 from openerp.addons.account_statement_base_import.parser import \
     BankStatementImportParser
+from openerp.tools.translate import _
 
 try:
     import cnab240

@@ -21,9 +21,9 @@
 ##############################################################################
 
 
-from openerp import fields, models, api
 from datetime import datetime, timedelta
-from openerp.addons import decimal_precision as dp
+
+from openerp import models, api
 
 
 class PaymentOrderCreate(models.TransientModel):

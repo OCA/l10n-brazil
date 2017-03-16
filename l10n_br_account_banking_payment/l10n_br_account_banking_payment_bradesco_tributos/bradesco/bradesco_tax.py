@@ -20,10 +20,10 @@
 #
 ##############################################################################
 
+import unicodedata
+
 from fixedwidth.fixedwidth import FixedWidth
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
-from decimal import Decimal
-import unicodedata
 
 
 def strip_accents(s):

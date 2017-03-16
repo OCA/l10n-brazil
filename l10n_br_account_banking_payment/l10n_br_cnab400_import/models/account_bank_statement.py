@@ -18,9 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from decimal import Decimal
 from openerp import models, api, _
-from openerp.tools.float_utils import float_repr
 from openerp.exceptions import Warning as UserError
 
 

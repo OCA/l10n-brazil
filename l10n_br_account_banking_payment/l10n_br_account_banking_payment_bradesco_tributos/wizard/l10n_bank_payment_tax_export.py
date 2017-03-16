@@ -20,8 +20,10 @@
 #
 ##############################################################################
 
-from openerp import models, api, workflow, fields
 import base64
+
+from openerp import models, api, workflow, fields
+
 from ..bradesco.bradesco_tax import BradescoGnre
 
 

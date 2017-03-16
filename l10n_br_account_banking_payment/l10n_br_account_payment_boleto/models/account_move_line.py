@@ -21,8 +21,10 @@
 ##############################################################################
 
 import logging
-from openerp import models, fields, api
 from datetime import date
+
+from openerp import models, fields, api
+
 from ..boleto.document import Boleto
 from ..boleto.document import BoletoException
 

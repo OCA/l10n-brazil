@@ -18,8 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.tools.translate import _
 from openerp.osv import orm
+from openerp.tools.translate import _
 
 
 class AccountStatementProfil(orm.Model):

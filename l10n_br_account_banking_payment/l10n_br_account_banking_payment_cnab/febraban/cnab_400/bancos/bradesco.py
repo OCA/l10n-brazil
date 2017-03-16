@@ -22,10 +22,11 @@
 ##############################################################################
 
 
-from ..cnab_400 import Cnab400
 import re
 import string
 from decimal import Decimal
+
+from ..cnab_400 import Cnab400
 
 
 class Bradesco400(Cnab400):

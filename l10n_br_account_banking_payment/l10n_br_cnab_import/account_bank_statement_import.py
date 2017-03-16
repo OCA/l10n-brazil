@@ -18,11 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import logging
 import StringIO
-from openerp import api, models, fields
-from .file_cnab240_parser import Cnab240Parser as cnabparser
+import logging
 
+from openerp import api, models, fields
+
+from .file_cnab240_parser import Cnab240Parser as cnabparser
 
 _logger = logging.getLogger(__name__)
 

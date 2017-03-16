@@ -20,11 +20,11 @@
 ##############################################################################
 import logging
 import tempfile
-import StringIO
-from openerp import api, models, fields
-from openerp.tools.translate import _
-from openerp.exceptions import Warning as UserError
 from contextlib import contextmanager
+
+from openerp import api, models
+from openerp.exceptions import Warning as UserError
+from openerp.tools.translate import _
 
 try:
     import cnab240
