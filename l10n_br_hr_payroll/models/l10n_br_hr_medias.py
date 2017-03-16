@@ -126,7 +126,7 @@ class L10nBrHrMedias(models.Model):
         folha_obj = self.env['hr.payslip']
         domain = [
             ('date_from', '>=', data_inicio),
-            ('date_from', '<=', data_fim),
+            ('date_from', '<', data_fim),
             ('contract_id', '=', holerite_id.contract_id.id),
             ('state', '=', 'done'),
         ]
@@ -139,8 +139,6 @@ class L10nBrHrMedias(models.Model):
                 continue
             primeiro_dia = fields.Date.from_string(folha.date_from)
             ultimo_dia = fields.Date.from_string(folha.date_to)
-            if (ultimo_dia - primeiro_dia).days < 15:
-                continue
             mes_anterior = folha.mes_do_ano
             for linha in folha.line_ids:
                 if linha.salary_rule_id.category_id.code == "PROVENTO" \
@@ -187,7 +185,7 @@ class L10nBrHrMedias(models.Model):
                 mes_cont += 1
         linha_obj.create(titulo)
 
-        # definindo a linhay
+        # definindo a linha
         for rubrica in medias:
             vals = {}
             nome_rubrica = self.env['hr.salary.rule'].\

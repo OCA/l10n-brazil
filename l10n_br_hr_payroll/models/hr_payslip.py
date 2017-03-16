@@ -1004,8 +1004,10 @@ class HrPayslip(models.Model):
             hr_medias_ids, data_de_inicio, data_final = \
                 self.gerar_media_dos_proventos()
 
-            # Metodo pra validar se ja foram processadors todos os holerites
-            #  usados no calculo das medias
+            # Metodo pra validar se ja foram processados todos os holerites
+            # usados no calculo das medias, utilizando as datas ja atualizadas
+            # (datas do periodo aquisitivo para ferias ou data do inicio/fim
+            # do ano para 13º salaraio).
             self.validacao_holerites_anteriores(
                 data_de_inicio, data_final, self.contract_id)
 
@@ -1056,7 +1058,6 @@ class HrPayslip(models.Model):
         :return:
         """
         folha_obj = self.env['hr.payslip']
-        data_inicio = fields.Date.from_string(data_inicio).strftime('%Y-%m-01')
         domain = [
             ('date_from', '>=', data_inicio),
             ('date_from', '<=', data_fim),
@@ -1066,8 +1067,7 @@ class HrPayslip(models.Model):
         folhas_periodo = folha_obj.search(domain)
 
         folhas_sorted = folhas_periodo.sorted(key=lambda r: r.date_from)
-        mes = fields.Date.from_string(data_inicio) + relativedelta(months=-1)
-
+        mes = data_inicio + relativedelta(months=-1)
         mes_anterior = ''
         for folha in folhas_sorted:
             if mes_anterior and mes_anterior == folha.mes_do_ano:
@@ -1078,12 +1078,11 @@ class HrPayslip(models.Model):
                 raise exceptions.ValidationError(
                     _("Faltando Holerite confirmado do mês de %s de %s") %
                     (MES_DO_ANO[mes.month-1][1], mes.year))
-        mes_final = fields.Date.from_string(data_fim)
-        if mes.month != mes_final.month:
+        if mes.month != data_fim.month:
             raise exceptions.ValidationError(
                 _("Não foi encontrado o último holerite do periodo "
                   "aquisitivo, \nreferente ao mês  de %s de %s") %
-                (MES_DO_ANO[mes_final.month-1][1], mes_final.year))
+                (MES_DO_ANO[data_fim.month-1][1], data_fim.year))
 
     @api.multi
     def gerar_media_dos_proventos(self):
@@ -1091,10 +1090,20 @@ class HrPayslip(models.Model):
         if self.tipo_de_folha == 'ferias' \
                 or self.tipo_de_folha == 'aviso_previo':
             periodo_aquisitivo = self.periodo_aquisitivo
-            data_de_inicio = str(fields.Date.from_string(
-                periodo_aquisitivo.inicio_aquisitivo))
-            data_final = str(fields.Date.from_string(
-                periodo_aquisitivo.fim_aquisitivo))
+
+            data_de_inicio = fields.Date.from_string(
+                periodo_aquisitivo.inicio_aquisitivo)
+
+            data_inicio_mes = fields.Date.from_string(periodo_aquisitivo.inicio_aquisitivo).replace(day=1)
+
+            # Se trabalhou mais do que 15 dias, contabilizar o mes corrente
+            if (data_de_inicio - data_inicio_mes).days < 15:
+                data_de_inicio = data_inicio_mes
+                # Senão começar contabilizar medias apartir do mes seguinte.
+            else:
+                data_de_inicio = data_inicio_mes + relativedelta(months=1)
+            data_final = data_inicio_mes + relativedelta(months=12)
+
         elif self.tipo_de_folha == 'decimo_terceiro':
             if self.contract_id.date_start > str(self.ano) + '-01-01':
                 data_de_inicio = self.contract_id.date_start
