@@ -21,16 +21,25 @@
 ##############################################################################
 
 from ..cnab import Cnab
-from cnab240.tipos import Arquivo
 from decimal import Decimal
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
-from pyboleto.data import BoletoData
 import datetime
 import re
 import string
 import unicodedata
 import time
+from openerp import _
 from openerp.exceptions import Warning as UserError
+import logging
+_logger = logging.getLogger(__name__)
+try:
+    from cnab240.tipos import Arquivo
+except ImportError as err:
+    _logger.debug = (err)
+try:
+    from pyboleto.data import BoletoData
+except ImportError as err:
+    _logger.debug = (err)
 
 TIPO_CONTA_FORNECEDOR = [
     ('1', u'Conta corrente'),
@@ -384,19 +393,19 @@ class PagFor500(Cnab):
         if mode in ('01'):
             return self.lancamento_credito_bradesco(line)
         elif mode in ('02'):
-            raise UserError('Operação não suportada')
+            raise UserError(_(u'Operação não suportada'))
         elif mode in ('03'):
             return self.lancamento_doc(line)
         elif mode in ('05'):
-            raise UserError('Operação não suportada')
+            raise UserError(_(u'Operação não suportada'))
         elif mode in ('08'):
             return self.lancamento_ted(line)
         elif mode in ('30'):
-            raise UserError('Operação não suportada')
+            raise UserError(_(u'Operação não suportada'))
         elif mode in ('31'):
             # titulos de terceiros
             return self.lancamento_titulos_terceiros(line)
-        raise UserError('Operação não suportada')
+        raise UserError(_(u'Operação não suportada'))
 
     def lancamento_credito_bradesco(self, line):
         # TODO:

@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import api, models, fields
 
 # TODO: funcao a ser chamada por ação automatizada para resetar o sufixo
 #     diariamente
@@ -38,33 +38,27 @@ class PaymentOrder(models.Model):
     serie_sufixo_arquivo = fields.Many2one(
         'l10n_br_cnab_file_sufix.sequence', u'Série do Sufixo do arquivo')
 
-    def get_next_number(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        for ord in self.browse(cr, uid, ids):
-            sequence = self.pool.get('ir.sequence')
+    @api.multi
+    def get_next_number(self):
+        for ord in self:
+            sequence = self.env['ir.sequence']
             # sequence_read = sequence.read(
             #     cr, uid, ord.serie_id.internal_sequence_id.id,
             #     ['number_next'])
-            seq_no = sequence.get_id(cr, uid,
-                                     ord.serie_id.internal_sequence_id.id,
-                                     context=context)
-            self.write(cr, uid, ord.id, {'file_number': seq_no})
+            seq_no = sequence.get_id(ord.serie_id.internal_sequence_id.id)
+            ord.write({'file_number': seq_no})
         return seq_no
 
-    def get_next_sufixo(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        for ord in self.browse(cr, uid, ids):
-            sequence = self.pool.get('ir.sequence')
+    @api.multi
+    def get_next_sufixo(self):
+        for ord in self:
+            sequence = self.env['ir.sequence']
             # sequence_read = sequence.read(
             #     cr, uid, ord.serie_id.internal_sequence_id.id,
             #     ['number_next'])
             seq_no = sequence.get_id(
-                cr, uid,
-                ord.serie_sufixo_arquivo.internal_sequence_id.id,
-                context=context)
-            self.write(cr, uid, ord.id, {'sufixo_arquivo': seq_no})
+                ord.serie_sufixo_arquivo.internal_sequence_id.id)
+            ord.write({'sufixo_arquivo': seq_no})
         return seq_no
 
     # @api.multi
