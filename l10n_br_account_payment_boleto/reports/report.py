@@ -28,7 +28,8 @@ from ..boleto.document import Boleto
 from openerp.osv import osv
 
 
-class external_pdf(render):
+class ExternalPdf(render):
+
     def __init__(self, pdf):
         render.__init__(self)
         self.pdf = pdf
@@ -38,7 +39,7 @@ class external_pdf(render):
         return self.pdf
 
 
-class report_custom(report_int):
+class ReportCustom(report_int):
     """
         Custom report for return boletos
     """
@@ -70,9 +71,9 @@ class report_custom(report_int):
                             'Certifique-se que a fatura esteja confirmada e o '
                             'forma de pagamento seja duplicatas'))
         pdf_string = Boleto.get_pdfs(boleto_list)
-        self.obj = external_pdf(pdf_string)
+        self.obj = ExternalPdf(pdf_string)
         self.obj.render()
         return self.obj.pdf, 'pdf'
 
 
-report_custom('report.l10n_br_account_payment_boleto.report')
+ReportCustom('report.l10n_br_account_payment_boleto.report')
