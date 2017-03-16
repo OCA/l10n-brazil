@@ -12,6 +12,7 @@
             <field name="numbercall">-1</field>
             <field eval="'hr.contract'" name="model"/>
             <field eval="'atualizar_controle_ferias'" name="function"/>
+            <field eval="'()'" name="args"/>
         </record>
 
         <record model="ir.actions.server" id="vacation_register_number">
