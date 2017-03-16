@@ -199,6 +199,8 @@ result_qty =  PEDIDO_FERIAS.DIAS_FERIAS
             </field>
             <field name="sequence" eval="109"/>
             <field name="compoe_base_FGTS" eval="True"/>
+            <field name="compoe_base_INSS" eval="True"/>
+            <field name="compoe_base_IR" eval="True"/>
         </record>
 
         <!--1/3 das ferias-->
@@ -212,6 +214,8 @@ result_qty =  PEDIDO_FERIAS.DIAS_FERIAS
             </field>
             <field name="sequence" eval="110"/>
             <field name="compoe_base_FGTS" eval="True"/>
+            <field name="compoe_base_INSS" eval="True"/>
+            <field name="compoe_base_IR" eval="True"/>
         </record>
 
         <!--Abono Pecuniário-->
@@ -225,8 +229,9 @@ result_qty =  PEDIDO_FERIAS.DIAS_FERIAS
             <field name="amount_python_compute">result =  contract.wage / 30
 result_qty =  PEDIDO_FERIAS.DIAS_ABONO
             </field>
-            <field name="sequence" eval="109"/>
+            <field name="sequence" eval="111"/>
             <field name="compoe_base_FGTS" eval="True"/>
+            <field name="compoe_base_INSS" eval="True"/>
         </record>
 
         <!-- 1/3 Abono Pecuniário-->
@@ -239,8 +244,9 @@ result_qty =  PEDIDO_FERIAS.DIAS_ABONO
             <field name="condition_python">result = PEDIDO_FERIAS.DIAS_ABONO > 0 </field>
             <field name="amount_python_compute">result = ABONO_PECUNIARIO / 3.0
             </field>
-            <field name="sequence" eval="109"/>
+            <field name="sequence" eval="112"/>
             <field name="compoe_base_FGTS" eval="True"/>
+            <field name="compoe_base_INSS" eval="True"/>
         </record>
 
         <!--Vale alimentação / vale refeição-->
