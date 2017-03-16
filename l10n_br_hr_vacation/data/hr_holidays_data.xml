@@ -44,7 +44,7 @@ if dias_totais > obj.parent_id.number_of_days_temp:
             </field>
         </record>
         <record model="ir.actions.server" id="maximum_abono_days">
-            <field name="name">Validação dias abano pecuriário até 10 dias</field>
+            <field name="name">Validação dias abono pecuriário até 10 dias</field>
             <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
             <field name="state">code</field>
             <field name="condition">True</field>
@@ -63,7 +63,7 @@ if dias_totais_abono > 10:
             <field name="name">Validação dias período de Férias Mínimo 10 Dias</field>
             <field name="model_id" ref="hr_holidays.model_hr_holidays"/>
             <field name="state">code</field>
-            <field name="condition">True</field>
+            <field name="condition" eval="'False'"/>
             <field name="sequence">4</field>
             <field name="code">ferias_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'l10n_br_hr_holiday', 'holiday_status_vacation')[1]
 if obj.vacations_days &lt;	10 and obj.holiday_status_id.id == ferias_id:
