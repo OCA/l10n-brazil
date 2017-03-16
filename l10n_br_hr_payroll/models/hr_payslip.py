@@ -817,6 +817,21 @@ class HrPayslip(models.Model):
         salario_dia = payslip._buscar_valor_salario('SALARIO_DIA')
         salario_hora = payslip._buscar_valor_salario('SALARIO_HORA')
         rat_fap = payslip._get_rat_fap_period_values(payslip.ano)
+
+        # Construir um browsableObject para informações das ferias na payslip\
+        #     payslip.holidays_ferias
+        dias_abono_ferias = {}
+        if payslip.holidays_ferias:
+            if payslip.holidays_ferias.vacations_days:
+                dias_abono_ferias.update(
+                    {'DIAS_FERIAS':payslip.holidays_ferias.vacations_days }
+                )
+            if payslip.holidays_ferias.sold_vacations_days:
+                dias_abono_ferias.update(
+                    {'DIAS_ABONO':payslip.holidays_ferias.sold_vacations_days }
+                )
+        ferias_abono = InputLine(payslip.employee_id.id, dias_abono_ferias)
+
         baselocaldict = {
             'CALCULAR': payslip, 'BASE_INSS': 0.0, 'BASE_FGTS': 0.0,
             'BASE_IR': 0.0, 'categories': categories_obj, 'rules': rules_obj,
@@ -824,6 +839,7 @@ class HrPayslip(models.Model):
             'inputs': input_obj, 'rubrica': None, 'SALARIO_MES': salario_mes,
             'SALARIO_DIA': salario_dia, 'SALARIO_HORA': salario_hora,
             'RAT_FAP': rat_fap, 'MEDIAS': medias_obj,
+            'PEDIDO_FERIAS': ferias_abono,
         }
 
         for contract_ids in self:
