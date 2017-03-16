@@ -137,7 +137,8 @@ class PaymentOrderCreate(models.TransientModel):
 
     @api.multi
     def _prepare_payment_line(self, payment, line):
-        res = super(PaymentOrderCreate, self)._prepare_payment_line(payment, line)
+        res = super(PaymentOrderCreate, self)._prepare_payment_line(
+            payment, line)
         if line.invoice:
             if line.invoice.type in ('in_invoice', 'in_refund'):
                 if line.invoice.reference_type == 'structured':
