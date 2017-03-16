@@ -390,21 +390,22 @@ class HrPayslip(models.Model):
     )
 
     date_from = fields.Date(
-        'Date From', readonly=True, states={'draft': [('readonly', False)]},
-        required=True, compute='_compute_set_dates', store=True
+        string='Date From',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        required=True,
+        compute='_compute_set_dates',
+        store=True,
     )
 
     date_to = fields.Date(
-        'Date To', readonly=True, states={'draft': [('readonly', False)]},
-        required=True, compute='_compute_set_dates', store=True
+        string='Date To',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        required=True,
+        compute='_compute_set_dates',
+        store=True,
     )
-
-    @api.onchange('holidays_ferias')
-    def _set_holidays_ferias(self):
-        if self.holidays_ferias:
-            self.periodo_aquisitivo = self.holidays_ferias.controle_ferias[0]
-            self.date_from = self.holidays_ferias.date_from
-            self.date_to = self.holidays_ferias.date_to
 
     holidays_ferias = fields.Many2one(
         comodel_name='hr.holidays',
@@ -417,6 +418,8 @@ class HrPayslip(models.Model):
         comodel_name='hr.vacation.control',
         string="Período Aquisitivo",
         domain="[('contract_id','=',contract_id)]",
+        compute='_compute_set_dates',
+        store=True,
     )
 
     @api.depends('periodo_aquisitivo')
@@ -793,12 +796,14 @@ class HrPayslip(models.Model):
             else:
                 worked_days[worked_days_line.code] = worked_days_line
         inputs = {}
+
         for input_line in payslip.input_line_ids:
             inputs[input_line.code] = input_line
         medias = {}
         for media in payslip.medias_proventos:
             medias[media.rubrica_id.code] = media
         input_obj = InputLine(payslip.employee_id.id, inputs)
+
         worked_days_obj = WorkedDays(payslip.employee_id.id, worked_days)
         payslip_obj = Payslips(payslip.employee_id.id, payslip)
         rules_obj = BrowsableObject(payslip.employee_id.id, rules)
@@ -962,9 +967,16 @@ class HrPayslip(models.Model):
                 '/' + str(record.ano)
 
     @api.multi
-    @api.depends('mes_do_ano', 'ano')
+    @api.depends('mes_do_ano', 'ano', 'holidays_ferias')
     def _compute_set_dates(self):
         for record in self:
+            if record.tipo_de_folha == 'ferias' and record.holidays_ferias:
+                record.periodo_aquisitivo =\
+                    record.holidays_ferias.controle_ferias[0]
+                record.date_from = record.holidays_ferias.date_from
+                record.date_to = record.holidays_ferias.date_to
+                continue
+
             ultimo_dia_do_mes = str(
                 self.env['resource.calendar'].get_ultimo_dia_mes(
                     record.mes_do_ano, record.ano))
