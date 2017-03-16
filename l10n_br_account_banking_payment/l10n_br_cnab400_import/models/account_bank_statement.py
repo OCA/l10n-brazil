@@ -31,10 +31,9 @@ class AccountBankStatementLine(models.Model):
     def get_reconcile_lines_from_cnab_move(self, this, excluded_ids=None):
         """return move.line to reconcile with statement line"""
         move_lines = self.env['account.move.line'].search(
-                [('transaction_ref', '=', this.name),
-                 ('name', '=', this.ref),
-                 ('company_id', '=', self.env.user.company_id.id)
-                 ])
+            [('transaction_ref', '=', this.name),
+             ('name', '=', this.ref)
+             ])
         try:
             assert len(move_lines) <= 1
         except Exception, e:
@@ -42,8 +41,7 @@ class AccountBankStatementLine(models.Model):
             e.message2 = str(move_lines[1].move_id.name)
             raise UserError(_(
                 "Erro!\n "
-                "O número bancário está duplicado nos lançamentos %s e %s.\n "
-                "Remova o lançamento errado e prossiga com a reconciliação." % (e.message, e.message2)
+                "Nosso numero duplicado"
             ))
         return self.env['account.move.line']\
             .prepare_move_lines_for_reconciliation_widget(move_lines)
@@ -61,4 +59,4 @@ class AccountBankStatementLine(models.Model):
             return []
         else:
             return super(AccountBankStatementLine, self)\
-              .get_reconciliation_proposition(this, excluded_ids=excluded_ids)
+                .get_reconciliation_proposition(this, excluded_ids=excluded_ids)

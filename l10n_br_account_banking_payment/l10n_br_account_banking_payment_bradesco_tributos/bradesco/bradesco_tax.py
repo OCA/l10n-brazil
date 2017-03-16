@@ -25,11 +25,14 @@ from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 from decimal import Decimal
 import unicodedata
 
+
 def strip_accents(s):
-   return ''.join(c for c in unicodedata.normalize('NFD', s)
-                  if unicodedata.category(c) != 'Mn')
+    return ''.join(c for c in unicodedata.normalize('NFD', s)
+                   if unicodedata.category(c) != 'Mn')
+
 
 class BradescoTax(object):
+
     def __init__(self):
         pass
 
@@ -346,7 +349,6 @@ class BradescoGnre(BradescoTaxLine):
             },
         }
 
-
     def remessa(self, order):
         result = ''
         for line in order.line_ids:
@@ -370,7 +372,7 @@ class BradescoGnre(BradescoTaxLine):
                 'telefone_cliente': str(punctuation_rm(line.partner_id.phone)),
                 'numero_inscricao': str(
                     punctuation_rm(line.partner_id.cnpj_cpf)
-                                        ),
+                ),
                 'valor_do_principal': punctuation_rm(str(line.amount_currency)),
                 'data_pagamento_tributo': punctuation_rm(line.date),
                 'data_vencimento_tributo': punctuation_rm(line.date),

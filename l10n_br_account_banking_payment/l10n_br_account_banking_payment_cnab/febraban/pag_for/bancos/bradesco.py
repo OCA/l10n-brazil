@@ -27,6 +27,7 @@ import string
 
 
 class BradescoPagFor(PagFor500):
+
     def __init__(self):
         super(PagFor500, self).__init__()
         from cnab240.bancos import bradescoPagFor

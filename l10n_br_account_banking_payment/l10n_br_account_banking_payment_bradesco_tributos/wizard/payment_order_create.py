@@ -116,8 +116,6 @@ class PaymentOrderCreate(models.TransientModel):
     #     return True
 
 
-
-
 #
 #
 # class AccountInvoiceSeparetedTaxes(models.Model):
