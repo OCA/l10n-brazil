@@ -21,8 +21,9 @@
 ##############################################################################
 
 from openerp import models, fields, api
-from ..boleto.document import getBoletoSelection
 from openerp.exceptions import ValidationError
+
+from ..boleto.document import getBoletoSelection
 
 selection = getBoletoSelection()
 
