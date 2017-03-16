@@ -21,6 +21,7 @@
 ##############################################################################
 
 from datetime import datetime, date
+
 from pyboleto import bank
 
 try:

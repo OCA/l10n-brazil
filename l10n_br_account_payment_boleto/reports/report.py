@@ -21,11 +21,13 @@
 ##############################################################################
 
 from __future__ import with_statement
-from openerp.report.render import render
-from openerp.report.interface import report_int
+
 from openerp import pooler
-from ..boleto.document import Boleto
 from openerp.osv import osv
+from openerp.report.interface import report_int
+from openerp.report.render import render
+
+from ..boleto.document import Boleto
 
 
 class ExternalPdf(render):
