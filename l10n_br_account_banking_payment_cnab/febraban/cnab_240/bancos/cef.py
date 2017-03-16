@@ -28,6 +28,7 @@ from decimal import Decimal
 
 
 class Cef240(Cnab240):
+
     def __init__(self):
         super(Cnab240, self).__init__()
         from cnab240.bancos import cef
