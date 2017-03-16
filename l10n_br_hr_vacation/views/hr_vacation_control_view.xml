@@ -24,6 +24,7 @@
                                 <field name="afastamentos"/>
                                 <field name="dias"/>
                                 <field name="saldo"/>
+                                <field name="dias_gozados"/>
                                 <field name="avos"/>
                                 <field name="proporcional"/>
                                 <field name="vencida"/>
@@ -78,6 +79,7 @@
                             <field name="afastamentos"/>
                             <field name="dias"/>
                             <field name="saldo"/>
+                            <field name="dias_gozados"/>
                             <field name="avos"/>
                         </group>
                         <group>
