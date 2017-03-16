@@ -21,9 +21,10 @@
 ##############################################################################
 
 
-from ..pag_for500 import PagFor500
 import re
 import string
+
+from ..pag_for500 import PagFor500
 
 
 class BradescoPagFor(PagFor500):

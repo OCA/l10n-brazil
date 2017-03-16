@@ -21,9 +21,10 @@
 #
 ##############################################################################
 
-from ..cnab_240 import Cnab240
 import re
 import string
+
+from ..cnab_240 import Cnab240
 
 
 class Itau240(Cnab240):

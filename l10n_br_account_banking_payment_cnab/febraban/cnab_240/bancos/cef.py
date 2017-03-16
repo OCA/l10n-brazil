@@ -21,10 +21,11 @@
 #
 ##############################################################################
 
-from ..cnab_240 import Cnab240
 import re
 import string
 from decimal import Decimal
+
+from ..cnab_240 import Cnab240
 
 
 class Cef240(Cnab240):
