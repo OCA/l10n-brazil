@@ -135,7 +135,7 @@ class HrPayslipRun(models.Model):
                         'payslip_run_id': self.id,
                     }
                 )
-                payslip.set_employee_id()
+                payslip._compute_set_employee_id()
                 payslip.onchange_employee_id(
                     self.date_start,
                     self.date_end,
