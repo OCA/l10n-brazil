@@ -47,8 +47,7 @@
                 <xpath expr="//notebook" position="replace">
                     <notebook>
                         <page string="Holerite">
-                            <field name="line_resume_ids" colspan="4"
-                                   nolabel="1">
+                            <field name="line_resume_ids" colspan="4" nolabel="1">
                                 <tree string="Salary Structure"
                                       editable="bottom"
                                       colors="blue:valor_provento > 0;red:valor_deducao > 0">
@@ -64,12 +63,12 @@
                                     </group>
                                 </form>
                             </field>
-                            <group class="oe_subtotal_footer oe_right"
-                                   colspan="2">
+                            <group class="oe_subtotal_footer oe_right" colspan="2">
                                 <field name="total_folha"/>
                             </group>
                             <div class="oe_clear"/>
                         </page>
+
                         <page string="Salary Computation">
                             <field name="line_ids" colspan="4" nolabel="1">
                                 <tree string="Salary Structure"
@@ -80,9 +79,10 @@
                                     <field name="category_id"/>
                                     <field name="sequence" invisible="1"/>
                                     <field name="quantity"/>
-                                    <field name="rate"/>
-                                    <field name="amount"/>
-                                    <field name="total"/>
+                                    <field name="rate" />
+                                    <field name="round_amount" />
+                                    <field name="round_total"/>
+                                    <field name="total" invisible="1"/>
                                 </tree>
                                 <form string="Payslip Line">
                                     <group col="4">
@@ -99,6 +99,7 @@
                                 </form>
                             </field>
                         </page>
+
                         <page string="Variáveis">
                             <separator string="Worked Days"/>
                             <field name="worked_days_line_ids">

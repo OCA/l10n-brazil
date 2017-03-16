@@ -16,6 +16,27 @@ except ImportError:
 class HrPayslipeLine(models.Model):
     _inherit = "hr.payslip.line"
 
+
+    round_amount = fields.Float(
+        string=u'Valor',
+        store=True,
+        digits=(10, 2),
+        compute='_compute_arredondamento'
+    )
+
+    round_total = fields.Float(
+        string=u'Total',
+        store=True,
+        digits=(10, 2),
+        compute='_compute_arredondamento'
+    )
+
+    @api.depends('total')
+    def _compute_arredondamento(self):
+        for linha in self:
+            linha.round_amount = linha.amount
+            linha.round_total = linha.total
+
     @api.model
     def _valor_provento(self):
         for record in self:
