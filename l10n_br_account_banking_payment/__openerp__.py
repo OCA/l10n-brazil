@@ -24,7 +24,7 @@
 ##############################################################################
 
 {
-    'name': 'Brazilian Account Banking - Debit and Payments Export Infrastructure',
+    'name': 'Brazilian Banking - Debit and Payments Export Infrastructure',
     'version': '8.0.0.0.0',
     'license': 'AGPL-3',
     'author': "KMEE, "
