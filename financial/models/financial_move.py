@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+from datetime import datetime
 
 from odoo import api, fields, models, _
 from odoo.tools import float_is_zero, float_compare
@@ -404,6 +405,21 @@ class FinancialMove(models.Model):
             action = {'type': 'ir.actions.act_window_close'}
         return action
 
+    # @api.onchange(payment_method_id)
+    # def _compute_interest(self):
+    #     for record in self:
+    #         if self.env['resource.calendar'].data_eh_dia_util(datetime.today())\
+    #                 and record.state == 'open' and \
+    #                 (datetime.today() > record.date_maturity):
+    #             days = (datetime.today() - record.date_maturity)
+    #             interest = record.amount(
+    #                 1 + record.payment_mode.interest/100) ** days
+    #             record.amount_interest = interest + \
+    #                                      record.payment_mode.delay_fee
+    #             # conferir como a mora será inclusa
+    #     print "cron_test"
+    #     pass
+
     # # percent_interest = fields.Float() #  TODO:
     # # percent_discount = fields.Float() #  TODO:
     # storno = fields.Boolean(
@@ -467,74 +483,145 @@ class FinancialMove(models.Model):
     #                             payment.amount_delay_fee)
     #             record.balance = balance
 
+        # payment_id = fields.Many2one(
+        #     'financial.move',
+        # )
+        # related_payment_ids = fields.One2many(
+        #     comodel_name='financial.move',
+        #     inverse_name='payment_id',
+        #     readonly=True,
+        # )
 
-    # def executa_antes_create(self, values):
-    #     #
-    #     # função de sobreescrita
-    #     #
-    #     if values.get('name', 'New') == 'New':
-    #         if values.get('move_type') == 'r':
-    #             values['ref'] = self.env['ir.sequence'].next_by_code(
-    #                 'financial.move.receivable') or 'New'
-    #             if not values.get('ref_item'):
-    #                 values['ref_item'] = '1'
-    #         elif values.get('move_type') == 'p':
-    #             values['ref'] = self.env['ir.sequence'].next_by_code(
-    #                 'financial.move.payable') or 'New'
-    #             if not values.get('ref_item'):
-    #                 values['ref_item'] = '1'
-    #         else:
-    #             values['ref'] = self.env['ir.sequence'].next_by_code(
-    #                 'financial.move.receipt') or 'New'
-    #             if not values.get('ref_item'):
-    #                 values['ref_item'] = '1'
-    #     pass
-    #
-    # def executa_depois_create(self, res):
-    #     #
-    #     # função de sobreescrita
-    #     #
-    #     # TODO: integração contabil
-    #     if res and res.account_id.internal_type in ('receivable', 'payable'):
-    #         res.sync_aml_lancamento_from_financeiro()
-    #
-    #     pass
+        # storno = fields.Boolean(
+        #     string=u'Storno',
+        #     readonly=True
+        # )
+        # printed = fields.Boolean(
+        #     string=u'Printed',
+        #     readonly=True
+        # )
+        # sent = fields.Boolean(
+        #     string=u'Sent',
+        #     readonly=True
+        # )
+        # regociated = fields.Boolean()
+        # regociated_id = fields.Many2one(
+        #     comodel_name='financial.move',
+        # )
+        # related_regociated_ids = fields.One2many(
+        #     comodel_name='financial.move',
+        #     inverse_name='regociated_id',
+        # )
+        # move_id = fields.Many2one('account.move', string=u'Journal Entry',
+        #                       readonly=True, index=True, ondelete='restrict',
+        #                           copy=False,
+        #                           help="Link to the automatically generated "
+        #                                "Journal Items.")
+        # account_move_line_id = fields.Many2one(
+        #     comodel_name='account.move.line',
+        # )
+        # payment_receivable_ids = fields.One2many(
+        #     comodel_name='account.move.line',
+        #     compute='_compute_payment_receivable_ids',
+        # )
+        #
+        # @api.multi
+        # @api.depends('account_move_line_id')
+        # def _compute_payment_receivable_ids(self):
+        #     for record in self:
+        #         ids = []
+        #         aml = record.account_move_line_id
+        #         ids.extend([r.debit_move_id.id for r in
+        #                     aml.matched_debit_ids] if
+        #                    aml.credit > 0 else [r.credit_move_id.id for r in
+        #                                         aml.matched_credit_ids])
+        #         record.payment_receivable_ids = ids
+        #         record.payment_receivable_ids |= record.account_move_line_id
+        #
+        #
+        # @api.multi
+        # @api.depends('related_payment_ids', 'amount_document')
+        # def _compute_balance(self):
+        #     for record in self:
+        #
+        #         if record.move_type in ('p', 'r'):
+        #             balance = record.amount_document
+        #             for payment in record.related_payment_ids:
+        #                 balance -= (payment.amount_document +
+        #                             payment.amount_discount -
+        #                             payment.amount_interest -
+        #                             payment.amount_delay_fee)
+        #             record.balance = balance
+        #         if record.balance <= 0 and record.related_payment_ids \
+        #                 and record.state == 'open':
+        #             record.change_state('paid')
 
+        # def executa_antes_create(self, values):
+        #     #
+        #     # função de sobreescrita
+        #     #
+        #     if values.get('name', 'New') == 'New':
+        #         if values.get('move_type') == 'r':
+        #             values['ref'] = self.env['ir.sequence'].next_by_code(
+        #                 'financial.move.receivable') or 'New'
+        #             if not values.get('ref_item'):
+        #                 values['ref_item'] = '1'
+        #         elif values.get('move_type') == 'p':
+        #             values['ref'] = self.env['ir.sequence'].next_by_code(
+        #                 'financial.move.payable') or 'New'
+        #             if not values.get('ref_item'):
+        #                 values['ref_item'] = '1'
+        #         else:
+        #             values['ref'] = self.env['ir.sequence'].next_by_code(
+        #                 'financial.move.receipt') or 'New'
+        #             if not values.get('ref_item'):
+        #                 values['ref_item'] = '1'
+        #     pass
+        #
+        # def executa_depois_create(self, res):
+        #     #
+        #     # função de sobreescrita
+        #     #
+        #     # TODO: integração contabil
+        # if res and res.account_id.internal_type in ('receivable', 'payable'):
+        #         res.sync_aml_lancamento_from_financeiro()
+        #
+        #     pass
 
-
-    # def _prepare_aml(self):
-    #     # partner_id = self.account_id = self.partner_id.property_account_receivable_id \
-    #     # if self.voucher_type == 'sale' else
-    #     # self.partner_id.property_account_payable_id
-    #     credit = 0
-    #     debit = 0
-    #     if(self.move_type == 'receivable'):
-    #         debit = self.amount_document
-    #     else:
-    #         credit = self.amount_document
-    #     return dict(  # FIXME: change to account parameters
-    #         name=self.display_name,
-    #         date_maturity=self.date_due,
-    #         date=self.document_date,
-    #         company_id=self.company_id and self.company_id.id,
-    #         currency_id=self.currency_id and self.currency_id.id,
-    #         debit=debit,
-    #         credit=credit,
-    #         partner_id=self.partner_id and self.partner_id.id or False,
-    #         internal_type=self.move_type,
-    #         move_id=self.move_id,
-    #         financial_move_id=self.id,
-    #         account_id=self.account_id,
-    #     )
-    #
-    # @api.multi
-    # def sync_aml_lancamento_from_financeiro(self):
-    #     # Se existir um financial que já tenha uma aml, atualizar o mesmo
-    #
-    #     # self, date_maturity, partner_id, internal_type,
-    #     # company_id, currency_id, debit = 0, credit = 0, ** kwargs):
-    #
-    #     aml_obj = self.env['account.move.line'].create(
-    #         self._prepare_aml())
-    #     aml_obj.action_invoice_open()
-    #     return True
+        # def _prepare_aml(self):
+        # partner_id = self.account_id = self.partner_id.
+        # property_account_receivable_id \
+        # if self.voucher_type == 'sale' else
+        # self.partner_id.property_account_payable_id
+        #     credit = 0
+        #     debit = 0
+        #     if(self.move_type == 'receivable'):
+        #         debit = self.amount_document
+        #     else:
+        #         credit = self.amount_document
+        #     return dict(  # FIXME: change to account parameters
+        #         name=self.display_name,
+        #         date_maturity=self.date_due,
+        #         date=self.document_date,
+        #         company_id=self.company_id and self.company_id.id,
+        #         currency_id=self.currency_id and self.currency_id.id,
+        #         debit=debit,
+        #         credit=credit,
+        #         partner_id=self.partner_id and self.partner_id.id or False,
+        #         internal_type=self.move_type,
+        #         move_id=self.move_id,
+        #         financial_move_id=self.id,
+        #         account_id=self.account_id,
+        #     )
+        #
+        # @api.multi
+        # def sync_aml_lancamento_from_financeiro(self):
+        #     # Se existir um financial que já tenha uma aml, atualizar o mesmo
+        #
+        #     # self, date_maturity, partner_id, internal_type,
+        #     # company_id, currency_id, debit = 0, credit = 0, ** kwargs):
+        #
+        #     aml_obj = self.env['account.move.line'].create(
+        #         self._prepare_aml())
+        #     aml_obj.action_invoice_open()
+        #     return True

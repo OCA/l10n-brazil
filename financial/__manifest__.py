@@ -18,12 +18,14 @@
     ],
     'data': [
         'data/ir_sequence_data.xml',
+        'data/financial_move_data.xml',
         'views/financial_menu.xml',
         'wizards/financial_cancel.xml',
         'wizards/financial_edit.xml',
         'wizards/financial_create.xml',
         'wizards/financial_pay_receive.xml',
         'views/financial_move.xml',
+        'views/payment_mode.xml',
         'report/financial_cashflow.xml',
     ],
     'demo': [
