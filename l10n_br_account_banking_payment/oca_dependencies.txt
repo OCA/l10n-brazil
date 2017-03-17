@@ -15,6 +15,7 @@
 # sale-workflow https://github.com/OCA/sale-workflow branchname
 account-payment
 bank-statement-reconcile
+bank-statement-import
 bank-payment
 l10n-brazil
 
