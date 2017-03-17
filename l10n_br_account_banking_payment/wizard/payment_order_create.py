@@ -46,7 +46,7 @@ class PaymentOrderCreate(models.TransientModel):
         self.ensure_one()
 
         # Search for all posted moves
-        if self.all_posted_moves == True:
+        if self.all_posted_moves:
             index = domain.index(('date_maturity', '<=', self.duedate))
             domain[index + 1] = ('date_maturity', '>', self.duedate)
 
@@ -142,19 +142,17 @@ class PaymentOrderCreate(models.TransientModel):
         if line.invoice:
             if line.invoice.type in ('in_invoice', 'in_refund'):
                 if line.invoice.reference_type == 'structured':
-                    state = 'structured'
                     res['communication'] = line.invoice.reference
                 else:
                     if line.invoice.reference:
                         res['communication'] = line.invoice.reference
                     elif line.invoice.supplier_invoice_number:
-                        res['communication'] = line.invoice.supplier_invoice_number
+                        res['communication'] = \
+                            line.invoice.supplier_invoice_number
             else:
                 # Make sure that the communication includes the
                 # customer invoice number (in the case of debit order)
                 res['communication'] = line.name
-                state = 'structured'
-
         return res
 
     @api.multi
