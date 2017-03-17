@@ -1097,9 +1097,11 @@ class HrPayslip(models.Model):
             # (datas do periodo aquisitivo para ferias ou data do inicio/fim
             # do ano para 13º salaraio).
             if self.tipo_de_folha in [
-                "decimo_terceiro", "ferias", "aviso_previo"]:
+                "decimo_terceiro", "ferias", "aviso_previo"
+            ]:
                 self.validacao_holerites_anteriores(
-                    data_de_inicio, data_final, self.contract_id)
+                    data_de_inicio, data_final, self.contract_id
+                )
 
             if self.tipo_de_folha == 'ferias':
                 if not self.holidays_ferias:
