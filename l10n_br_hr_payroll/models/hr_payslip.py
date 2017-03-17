@@ -37,6 +37,7 @@ TIPO_DE_FOLHA = [
     ('decimo_terceiro', u'Décimo terceiro (13º)'),
     ('aviso_previo', u'Aviso Prévio'),
     ('provisao_ferias', u'Provisão de Férias'),
+    ('provisao_decimo_terceiro', u'Provisão de Décimo terceiro (13º)'),
     ('licenca_maternidade', u'Licença maternidade'),
     ('auxilio_doenca', u'Auxílio doença'),
     ('auxílio_acidente_trabalho', u'Auxílio acidente de trabalho'),
@@ -667,6 +668,11 @@ class HrPayslip(models.Model):
                 'l10n_br_hr_payroll.hr_salary_structure_PROVISAO_FERIAS'
             )
             return estrutura_provisao_ferias
+        elif self.tipo_de_folha == "provisao_decimo_terceiro":
+            estrutura_provisao_decimo_terceiro = self.env.ref(
+                'l10n_br_hr_payroll.hr_salary_structure_PROVISAO_13'
+            )
+            return estrutura_provisao_decimo_terceiro
 
     # @api.multi
     # def buscar_media_rubrica(self, rubrica_id):
@@ -1080,7 +1086,8 @@ class HrPayslip(models.Model):
     def compute_sheet(self):
         self.atualizar_worked_days_inputs()
         if self.tipo_de_folha in [
-            "decimo_terceiro", "ferias", "aviso_previo", "provisao_ferias"
+            "decimo_terceiro", "ferias", "aviso_previo",
+            "provisao_ferias", "provisao_decimo_terceiro"
         ]:
             hr_medias_ids, data_de_inicio, data_final = \
                 self.gerar_media_dos_proventos()
@@ -1192,7 +1199,9 @@ class HrPayslip(models.Model):
                 data_final = self.date_to
             else:
                 data_final = data_inicio_mes + relativedelta(months=12)
-        elif self.tipo_de_folha == 'decimo_terceiro':
+        elif self.tipo_de_folha in [
+            'decimo_terceiro', 'provisao_decimo_terceiro'
+        ]:
             if self.contract_id.date_start > str(self.ano) + '-01-01':
                 data_de_inicio = self.contract_id.date_start
             else:

@@ -524,6 +524,13 @@ result_qty = MEDIAS.SALARIO.meses
             <field name="company_id" ref="base.main_company" />
             <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
         </record>
->>>>>>> Stashed changes:l10n_br_hr_payroll/data/l10n_br_hr_payroll_data_rubricas.xml
+
+        <record id="hr_salary_structure_PROVISAO_13" model="hr.payroll.structure">
+            <field name="code">PROVISAO_DECIMO_TERCEIRO</field>
+            <field name="name">Provisão de Décimo Terceiro (13º)</field>
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_FUNCAO_COMISSIONADA')])]" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
+        </record>
     </data>
 </openerp>
