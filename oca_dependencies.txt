@@ -4,3 +4,4 @@ server-tools
 account-fiscal-rule
 reporting-engine
 bank-payment
+addons-steigend https://github.com/steigendit/addons-steigend 10.0
