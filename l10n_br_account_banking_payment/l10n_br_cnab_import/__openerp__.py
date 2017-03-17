@@ -38,7 +38,7 @@
         'view/cnab_import_view.xml',
     ],
     'active': False,
-    "installable": True,
+    "installable": False,
     "auto_install": False,
     'description': """
     Allows to import CNAB (Centro Nacional de Automação Bancária) statement
