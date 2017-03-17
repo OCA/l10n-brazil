@@ -21,9 +21,16 @@
 ##############################################################################
 
 import unicodedata
+import logging
 
-from fixedwidth.fixedwidth import FixedWidth
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from fixedwidth.fixedwidth import FixedWidth
+except ImportError as err:
+    _logger.debug = err
 
 
 def strip_accents(s):
