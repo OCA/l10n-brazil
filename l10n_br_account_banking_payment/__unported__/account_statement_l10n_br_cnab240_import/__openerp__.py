@@ -20,7 +20,7 @@
 ##############################################################################
 
 {'name': "Bank statement CNAB 240 import",
- 'version': '1.0.0',
+ 'version': '7.0.1.0.0',
  'author': 'KMEE',
  'maintainer': 'Luis Felipe Mileo',
  'category': 'Finance',
@@ -42,7 +42,7 @@
  'website': 'http://www.kmee.com.br',
  'data': [],
  'test': [],
- 'installable': True,
+ 'installable': False,
  'images': [],
  'auto_install': False,
  'license': 'AGPL-3',

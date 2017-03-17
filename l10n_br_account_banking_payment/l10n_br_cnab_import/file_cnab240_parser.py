@@ -23,14 +23,13 @@
 import datetime
 import tempfile
 
-from openerp.tools.translate import _
+from openerp import _
 
 try:
-    import cnab240
     from cnab240.tipos import Arquivo
     import codecs
 except:
-    raise Exception(_('Please install python lib cnab240'))
+    raise Exception(_('Please install python lib PyCNAB'))
 
 
 class Cnab240Parser(object):

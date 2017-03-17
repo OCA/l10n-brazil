@@ -22,7 +22,7 @@
 
 {
     'name': 'Import CNAB 400 Bank Statement',
-    'version': '0.1',
+    'version': '8.0.1.0.0',
     'category': 'Banking addons',
     'license': 'AGPL-3',
     'author': 'KMEE',

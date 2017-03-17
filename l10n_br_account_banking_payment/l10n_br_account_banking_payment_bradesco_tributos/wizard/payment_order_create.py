@@ -124,7 +124,8 @@ class PaymentOrderCreate(models.TransientModel):
 #     icms_st_value_total = fields.Float(
 #         'Total de Subsituição Tributária antecipada em nome do cliente',
 #         digits=dp.get_precision('Account'), default=0.00)
-#     gerar_gnre = fields.Boolean("Gerar GNRE", related='partner_id.gerar_gnre',
+#     gerar_gnre = fields.Boolean(
+#           "Gerar GNRE", related='partner_id.gerar_gnre',
 #                                 store=True)
 
 #     @api.multi

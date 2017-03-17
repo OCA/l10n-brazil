@@ -57,4 +57,5 @@ class AccountBankStatementLine(models.Model):
             return []
         else:
             return super(AccountBankStatementLine, self)\
-                .get_reconciliation_proposition(this, excluded_ids=excluded_ids)
+                .get_reconciliation_proposition(
+                this, excluded_ids=excluded_ids)
