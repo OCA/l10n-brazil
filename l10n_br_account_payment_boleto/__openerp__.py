@@ -46,4 +46,9 @@
         'demo/payment_demo.xml',
     ],
     'active': False,
+    'external_dependencies': {
+        'python': [
+            'pyboleto',
+        ],
+    },
 }
