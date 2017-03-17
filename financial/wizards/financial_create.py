@@ -49,7 +49,7 @@ class FinancialMoveCreate(models.TransientModel):
         comodel_name='account.account',
         string=u'Account',
         required=True,
-        domain=[('internal_type', 'in', ('receivable', 'payable'))],
+        domain=[('internal_type', '=', 'other')],
         help="The partner account used for this invoice."
     )
     document_number = fields.Char(
@@ -96,6 +96,7 @@ class FinancialMoveCreate(models.TransientModel):
     @api.multi
     def compute(self):
         financial_move = self.env['financial.move']
+        financial_type = False
         for record in self:
             for move in record.line_ids:
                 vals = financial_move._prepare_payment(
@@ -117,7 +118,9 @@ class FinancialMoveCreate(models.TransientModel):
                 financial = financial_move.create(vals)
                 financial.action_confirm()
                 financial_move |= financial
-        return financial_move.action_view_financial(record.financial_type)
+                financial_type = record.financial_type
+
+        return financial_move.action_view_financial(financial_type)
 
 
 class FinancialMoveLineCreate(models.TransientModel):
