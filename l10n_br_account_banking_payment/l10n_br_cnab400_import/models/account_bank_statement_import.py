@@ -21,6 +21,7 @@
 import logging
 import tempfile
 from contextlib import contextmanager
+import codecs
 
 from openerp import api, models
 from openerp.exceptions import Warning as UserError
@@ -28,13 +29,22 @@ from openerp.tools.translate import _
 
 try:
     import cnab240
-    from cnab240.tipos import ArquivoCobranca400 as cnab_parser
-    from cnab240.bancos import bradesco_cobranca_retorno_400 as bradesco
-    from cnab240.ocorrencias import retorna_ocorrencia, \
-        retorna_motivios_ocorrencia
-    import codecs
 except:
     raise Exception(_('Please install python lib PyCNAB'))
+try:
+    from cnab240.tipos import ArquivoCobranca400 as cnab_parser
+except:
+    raise Exception(_('Can\'t import ArquivoCobranca400'))
+try:
+    from cnab240.bancos import bradesco_cobranca_retorno_400 as bradesco
+except:
+    raise Exception(_('Can\'t import bradesco_cobranca_retorno_400'))
+try:
+    from cnab240.ocorrencias import retorna_ocorrencia, \
+        retorna_motivios_ocorrencia
+except:
+    raise Exception(_('Can\'t import retorna_ocorrencia '
+                      'ou retorna_motivios_ocorrencia'))
 
 
 _logger = logging.getLogger(__name__)
