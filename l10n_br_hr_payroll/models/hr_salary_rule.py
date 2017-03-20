@@ -4,8 +4,10 @@
 
 import logging
 
-from openerp import fields, models, exceptions, _
+from openerp import fields, models, _
 from openerp.tools.safe_eval import safe_eval
+from openerp.exceptions import ValidationError, Warning as UserError
+
 
 _logger = logging.getLogger(__name__)
 
@@ -74,7 +76,7 @@ class HrSalaryRule(models.Model):
 
         except:
             msg = _('Wrong python code defined for salary rule %s (%s).')
-            raise exceptions.ValidationError(msg % (rule.name, rule.code))
+            raise ValidationError(msg % (rule.name, rule.code))
 
     def satisfy_condition(self, cr, uid, rule_id, localdict, context=None):
         rule = self.browse(cr, uid, rule_id, context=context)
@@ -93,7 +95,7 @@ class HrSalaryRule(models.Model):
 
         except:
             msg = _('Wrong python condition defined for salary rule %s (%s).')
-            raise exceptions.UserError(msg % (rule.name, rule.code))
+            raise UserError(msg % (rule.name, rule.code))
 
     tipo_media = fields.Selection(
         selection=[
