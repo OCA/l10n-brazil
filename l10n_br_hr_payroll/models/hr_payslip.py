@@ -693,6 +693,33 @@ class HrPayslip(models.Model):
             if line.salary_rule_id.id == primeira_parcela_id.id:
                 return line.total
 
+    def rubrica_anterior(self, code, mes=-1, tipo_de_folha='normal'):
+        '''Metodo para recuperar uma rubrica de um mes anterior
+        :param code:  string -   Code de identificação da rubrica
+        :param meses: int [1-12] Identificar um mes especifico
+                            -1   Selecionar o ultimo payslip calculado
+        :param tipo_de_folha:
+        :return:
+        '''
+        domain = [
+            ('tipo_de_folha', '=', tipo_de_folha),
+            ('contract_id', '=', self.contract_id.id),
+            ('state', '=', 'done')
+        ]
+        if mes and mes > 0:
+            domain.append(('mes_do_ano', '=', mes))
+        print(domain)
+
+        holerite_anterior = self.search(
+            domain, order='create_date DESC', limit=1)
+
+        if holerite_anterior:
+            for line in holerite_anterior.line_ids:
+                if line.code == code:
+                    return line
+        else:
+            return False
+
     @api.multi
     def get_payslip_lines(self, payslip_id):
         """
@@ -905,8 +932,7 @@ class HrPayslip(models.Model):
                         result_dict[key] = {
                             'salary_rule_id': rule.id,
                             'contract_id': contract.id,
-                            'name': u'Média de ' + rule.name
-                            if medias_obj else rule.name,
+                            'name': rule.name,
                             'code': rule.code,
                             'category_id': rule.category_id.id,
                             'sequence': rule.sequence,
@@ -1013,6 +1039,38 @@ class HrPayslip(models.Model):
             if data_final and ultimo_dia_do_mes > data_final:
                 record.date_to = record.contract_id.date_end
 
+    def buscar_informacoes_ferias(self):
+        if self.tipo_de_folha == 'normal':
+            # Verificar se no período do holerite computado teve férias
+            quantidade_dias_ferias, quantidade_dias_abono = \
+                self.env['resource.calendar'].get_quantidade_dias_ferias(
+                    self.contract_id.employee_id.id,
+                    self.date_from, self.date_to
+                )
+            # Se identificar férias no período, recuperar a payslip de férias
+            if quantidade_dias_ferias > 0:
+                holerite_ferias = self.search([
+                    ('tipo_de_folha', '=', 'ferias'),
+                    ('date_from', '>=', self.date_from),
+                    ('date_from', '<=', self.date_to),
+                    ('contract_id', '=', self.contract_id.id),
+                    ('state', '=', 'done')
+                ])
+                # Copiar linhas do holerite de férias para o holerite corrente
+                if holerite_ferias:
+                    for linha_ferias in holerite_ferias.line_ids:
+                        linha_ferias_para_holerite = linha_ferias.copy()
+                        linha_ferias_para_holerite.slip_id = self.id
+                        linha_ferias_para_holerite.name += u' (Ferias)'
+
+                        if linha_ferias.code in ['INSS', 'IRPF']:
+                            linha = linha_ferias.copy()
+                            linha.slip_id = self.id
+                            linha.category_id = self.env.ref(
+                                'hr_payroll.PROVENTO'
+                            )
+                            linha.name = u'(Ajuste Férias)  ' + linha.name
+
     @api.multi
     def compute_sheet(self):
         self.atualizar_worked_days_inputs()
@@ -1063,6 +1121,7 @@ class HrPayslip(models.Model):
                     self.holidays_ferias.date_to
         super(HrPayslip, self).compute_sheet()
         self._compute_valor_total_folha()
+        self.buscar_informacoes_ferias()
         return True
 
     def validacao_holerites_anteriores(self, data_inicio, data_fim, contrato):
