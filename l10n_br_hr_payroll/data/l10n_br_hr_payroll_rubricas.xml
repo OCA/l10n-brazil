@@ -49,7 +49,7 @@
         <record id="hr_salary_rule_BASE_INSS" model="hr.salary.rule">
             <field name="code">BASE_INSS</field>
             <field name="name">Base INSS</field>
-            <field name="category_id" ref="hr_payroll.INSS" />
+            <field name="category_id" ref="hr_payroll.REFERENCIA" />
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
             <field name="amount_python_compute">result = BASE_INSS</field>
@@ -59,7 +59,7 @@
         <record id="hr_salary_rule_BASE_IRPF" model="hr.salary.rule">
             <field name="code">BASE_IRPF</field>
             <field name="name">Base IRRF</field>
-            <field name="category_id" ref="hr_payroll.IRPF" />
+            <field name="category_id" ref="hr_payroll.REFERENCIA" />
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
             <field name="amount_python_compute">result = BASE_IR</field>
@@ -79,7 +79,7 @@
         <record id="hr_salary_rule_BASE_FGTS" model="hr.salary.rule">
             <field name="code">BASE_FGTS</field>
             <field name="name">Base FGTS</field>
-            <field name="category_id" ref="hr_payroll.FGTS" />
+            <field name="category_id" ref="hr_payroll.REFERENCIA" />
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
             <field name="amount_python_compute">result = BASE_FGTS</field>
