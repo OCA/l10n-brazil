@@ -20,6 +20,7 @@
         'data/sped_pais_data.xml',
         'data/sped_estado_data.xml',
         'data/sped_municipio_data.xml',
+        'data/sped_cnae_data.xml',
 #        'views/res_bank_view.xml',
 #        'views/res_country_view.xml',
 #        'views/res_partner_view.xml',
@@ -27,6 +28,7 @@
         'views/sped_pais_view.xml',
         'views/sped_estado_view.xml',
         'views/sped_municipio_view.xml',
+        'views/sped_cnae_view.xml',
 #        'security/ir.model.access.csv',
     ],
     'demo': [
