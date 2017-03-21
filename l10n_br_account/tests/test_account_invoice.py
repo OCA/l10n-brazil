@@ -6,6 +6,7 @@ from odoo import tools
 from odoo.tests.common import TransactionCase
 from odoo.modules.module import get_resource_path
 
+
 class InvoiceTestCommon(TransactionCase):
 
     def _load(self, module, *args):
