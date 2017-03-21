@@ -16,17 +16,9 @@ from . import inherited_ir_ui_view
 from . import sped_base
 
 #
-# Tabelas Geográficas
-#
-from . import sped_pais
-from . import sped_estado
-from . import sped_municipio
-#
 # Cadastros básicos
 #
-from . import sped_participante
 from . import sped_empresa
-from . import inherited_res_partner
 #
 # Unidade é requisito para NCM e produtos
 #
@@ -45,7 +37,6 @@ from . import sped_aliquota_simples
 #
 from . import sped_cest
 from . import sped_cfop
-from . import sped_cnae
 from . import sped_ncm
 from . import sped_servico
 from . import sped_nbs
