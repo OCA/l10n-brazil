@@ -84,7 +84,7 @@ msgstr "Compensação - 2 horas"
 #. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_death_of_relatives
 msgid "Death of relatives"
-msgstr "Falecimento de parentes"
+msgstr "Luto"
 
 #. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_dental_treatment
@@ -160,7 +160,7 @@ msgstr "Licença maternidade"
 #. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_medical_certificate
 msgid "Medical Certificate"
-msgstr "Atestado médico"
+msgstr "Licença Médica"
 
 #. module: l10n_br_hr_holiday
 #: field:hr.holidays,message:0
