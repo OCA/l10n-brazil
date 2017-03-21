@@ -8,7 +8,7 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
-from ..constante_tributaria import *
+from odoo.addons.l10n_br_base.constante_tributaria import *
 import logging
 _logger = logging.getLogger(__name__)
 
