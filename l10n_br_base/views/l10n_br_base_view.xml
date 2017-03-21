@@ -11,18 +11,37 @@
     <menuitem
         parent="menu_fiscal"
         sequence="100"
-        id="menu_sped_configuracao"
+        id="menu_fiscal_configuracao"
         name="Configuração"
         />
 
 
     <menuitem
-        parent="menu_sped_configuracao"
+        parent="menu_fiscal_configuracao"
         sequence="6"
         id="menu_sped_tabela"
         name="Tabelas"
         />
 
+    <menuitem id="menu_cadastro"
+        parent="menu_fiscal"
+        name="Cadastro"
+        sequence="-100"
+        web_icon="sped,static/description/icon.png"
+        />
+
+    <menuitem id="menu_cadastro_participante"
+        name="Pessoas e empresas"
+        sequence="1"
+        parent="menu_cadastro"
+        />
+
+    <menuitem
+        parent="menu_fiscal_configuracao"
+        sequence="100"
+        id="menu_cadastro_vinculo"
+        name="Vínculos"
+        />
 
         <!-- TODO move elsewhere! -->
         <!--
