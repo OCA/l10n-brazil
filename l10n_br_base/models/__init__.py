@@ -9,10 +9,21 @@
 # from . import l10n_br_base
 # from . import res_config
 
+#
+# Tabelas Geográficas
+#
 from . import sped_pais
 from . import sped_estado
 from . import sped_municipio
+
+#
+# Tabelas Fiscais
+#
 from . import sped_cnae
+
+#
+# Cadastros básicos
+#
 from . import sped_participante
 from . import inherited_res_company
 from . import inherited_res_partner
