@@ -8,13 +8,13 @@
     <menuitem id="menu_cadastro_produto"
         name="Produtos"
         sequence="2"
-        parent="menu_cadastro"
+        parent="l10n_br_base.menu_cadastro"
         />
 
     <menuitem id="menu_cadastro_servico"
         name="Serviços"
         sequence="3"
-        parent="menu_cadastro"
+        parent="l10n_br_base.menu_cadastro"
         />
 
 </odoo>

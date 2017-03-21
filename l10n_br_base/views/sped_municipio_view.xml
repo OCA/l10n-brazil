@@ -88,7 +88,7 @@
     </record>
 
     <menuitem
-        parent="menu_sped_tabela"
+        parent="l10n_br_base.menu_sped_tabela"
         sequence="6"
         id="menu_sped_municipio"
         name="Município"
