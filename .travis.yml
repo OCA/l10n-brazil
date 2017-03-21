@@ -16,7 +16,7 @@ addons:
 
 env:
   - VERSION="10.0" ODOO_REPO="odoo-brazil/odoo" LINT_CHECK="0" TESTS=1
-  - VERSION="10.0" LINT_CHECK="1" 
+  - VERSION="10.0" LINT_CHECK="1"
 
 virtualenv:
   system_site_packages: true
@@ -24,7 +24,14 @@ virtualenv:
 install:
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
-  - pip install -r requirements.txt
+  - pip install pillow==3.4.2
+  - pip install reportlab
+  - pip install unidecode
+  - pip install suds
+  - pip install http://xmlsoft.org/sources/python/libxml2-python-2.6.21.tar.gz
+  - pip install https://github.com/odoo-brazil/pyxmlsec/archive/master.zip
+  - pip install https://github.com/odoo-brazil/geraldo/archive/master.zip
+  - pip install https://github.com/odoo-brazil/PySPED/archive/8.0.zip --allow-external PyXMLSec --allow-insecure PyXMLSec
   - travis_install_nightly
   - pip install -r requirements.txt
 
