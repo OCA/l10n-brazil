@@ -5,32 +5,19 @@
 -->
 <odoo>
 
-    <menuitem
-        sequence="-98"
-        id="menu_sped"
-        name="Fiscal"
-        web_icon="sped,static/description/icon.png"
-        />
 
     <menuitem
-        parent="menu_sped"
+        parent="l10n_br_base.menu_fiscal"
         sequence="1"
         id="menu_sped_documento_emissao"
         name="Emissão"
         />
 
     <menuitem
-        parent="menu_sped"
+        parent="l10n_br_base.menu_fiscal"
         sequence="2"
         id="menu_sped_documento_recebimento"
         name="Recebimento"
-        />
-
-    <menuitem
-        parent="menu_sped"
-        sequence="100"
-        id="menu_sped_configuracao"
-        name="Configuração"
         />
 
     <menuitem
@@ -55,24 +42,17 @@
         />
 
     <menuitem
-        parent="menu_sped_configuracao"
+        parent="l10n_br_base.menu_sped_configuracao"
         sequence="3"
         id="menu_sped_operacao_emissao"
         name="Operações de emissão"
         />
 
     <menuitem
-        parent="menu_sped_configuracao"
+        parent="l10n_br_base.menu_sped_configuracao"
         sequence="4"
         id="menu_sped_operacao_recebimento"
         name="Operações de recebimento"
-        />
-
-    <menuitem
-        parent="menu_sped_configuracao"
-        sequence="6"
-        id="menu_sped_tabela"
-        name="Tabelas"
         />
 
 </odoo>
