@@ -21,7 +21,7 @@
         />
 
     <menuitem
-        parent="menu_sped_configuracao"
+        parent="l10n_br_base.menu_fiscal_configuracao"
         sequence="1"
         id="menu_sped_aliquota"
         name="Alíquotas"
@@ -42,14 +42,14 @@
         />
 
     <menuitem
-        parent="l10n_br_base.menu_sped_configuracao"
+        parent="l10n_br_base.menu_fiscal_configuracao"
         sequence="3"
         id="menu_sped_operacao_emissao"
         name="Operações de emissão"
         />
 
     <menuitem
-        parent="l10n_br_base.menu_sped_configuracao"
+        parent="l10n_br_base.menu_fiscal_configuracao"
         sequence="4"
         id="menu_sped_operacao_recebimento"
         name="Operações de recebimento"
