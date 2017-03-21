@@ -32,7 +32,7 @@
             <field name="category_id" ref="hr_payroll.INSS"/>
             <field name="condition_select">none</field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = CALCULAR.INSS(BASE_INSS)</field>
+            <field name="amount_python_compute">result = CALCULAR.INSS(BASE_INSS) - CALCULAR.rubrica_anterior_total(code='INSS', tipo_de_folha='ferias')</field>
             <field name="sequence" eval="402"/>
         </record>
 
@@ -269,7 +269,7 @@ result_qty =  PEDIDO_FERIAS.DIAS_ABONO
             <field name="condition_select">python</field>
             <field name="condition_python">result = worked_days.FERIAS.number_of_days > 0 </field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = CALCULAR.rubrica_anterior(code='FERIAS_LIQUIDA', tipo_de_folha='ferias').total
+            <field name="amount_python_compute">result = CALCULAR.rubrica_anterior_total(code='FERIAS_LIQUIDA', tipo_de_folha='ferias')
             </field>
             <field name="sequence" eval="10"/>
             <field name="compoe_base_FGTS" eval="False"/>

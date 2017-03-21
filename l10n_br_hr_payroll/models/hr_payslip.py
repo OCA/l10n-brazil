@@ -923,7 +923,7 @@ class HrPayslip(models.Model):
                 return line.total
         return 0
 
-    def rubrica_anterior(self, code, mes=-1, tipo_de_folha='normal'):
+    def rubrica_anterior_total(self, code, mes=-1, tipo_de_folha='normal'):
         '''Metodo para recuperar uma rubrica de um mes anterior
         :param code:  string -   Code de identificação da rubrica
         :param meses: int [1-12] Identificar um mes especifico
@@ -945,9 +945,9 @@ class HrPayslip(models.Model):
         if holerite_anterior:
             for line in holerite_anterior.line_ids:
                 if line.code == code:
-                    return line
+                    return line.total
         else:
-            return False
+            return 0
 
     @api.multi
     def get_payslip_lines(self, payslip_id):
@@ -1302,15 +1302,9 @@ class HrPayslip(models.Model):
                     for linha_ferias in holerite_ferias.line_ids:
                         linha_ferias_para_holerite = linha_ferias.copy()
                         linha_ferias_para_holerite.slip_id = self.id
-                        linha_ferias_para_holerite.name += u' (Ferias)'
-
-                        if linha_ferias.code in ['INSS', 'IRPF']:
-                            linha = linha_ferias.copy()
-                            linha.slip_id = self.id
-                            linha.category_id = self.env.ref(
-                                'hr_payroll.PROVENTO'
-                            )
-                            linha.name = u'(Ajuste Férias)  ' + linha.name
+                        if 'INSS' in linha_ferias.code or \
+                                        'IRPF' in linha_ferias.code:
+                            linha_ferias_para_holerite.name += u' (Ferias)'
 
     @api.multi
     def compute_sheet(self):
