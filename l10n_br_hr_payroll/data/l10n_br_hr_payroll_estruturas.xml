@@ -11,7 +11,7 @@
         <record id="hr_salary_structure_FERIAS" model="hr.payroll.structure">
             <field name="code">FERIAS</field>
             <field name="name">Férias</field>
-            <field eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_base_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_1/3_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_ABONO_PECUNIARIO'), ref('l10n_br_hr_payroll.hr_salary_rule_1/3_ABONO_PECUNIARIO'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF')])]" name="rule_ids"/>
+            <field eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_base_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_1/3_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_ABONO_PECUNIARIO'), ref('l10n_br_hr_payroll.hr_salary_rule_1/3_ABONO_PECUNIARIO'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_liquido_ferias')])]" name="rule_ids"/>
             <field name="company_id" ref="base.main_company"/>
             <field name="parent_id" eval="False" />
         </record>
@@ -51,7 +51,7 @@
         <record id="hr_salary_structure_FUNCAO_COMISSIONADA" model="hr.payroll.structure">
             <field name="code">FUNCAO_COMISSIONADA</field>
             <field name="name">Função Comissionada</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_FUNCAO_COMISSIONADA')])]" />
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_FUNCAO_COMISSIONADA'), ref('hr_salary_rule_pagamento_ferias') ])]" />
             <field name="company_id" ref="base.main_company" />
             <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
         </record>

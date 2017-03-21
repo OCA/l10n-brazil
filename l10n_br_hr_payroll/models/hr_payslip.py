@@ -708,7 +708,6 @@ class HrPayslip(models.Model):
         ]
         if mes and mes > 0:
             domain.append(('mes_do_ano', '=', mes))
-        print(domain)
 
         holerite_anterior = self.search(
             domain, order='create_date DESC', limit=1)

@@ -249,6 +249,34 @@ result_qty =  PEDIDO_FERIAS.DIAS_ABONO
             <field name="compoe_base_INSS" eval="True"/>
         </record>
 
+        <!-- Liquido Férias-->
+        <record id="hr_salary_rule_liquido_ferias" model="hr.salary.rule">
+            <field name="code">LIQUIDO_FERIAS</field>
+            <field name="name">Liquido Férias</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories.FERIAS - INSS - IRPF
+            </field>
+            <field name="sequence" eval="700"/>
+            <field name="compoe_base_FGTS" eval="False"/>
+            <field name="compoe_base_INSS" eval="False"/>
+        </record>
+
+        <!-- Pagamento de férias no Holerite Mensal-->
+        <record id="hr_salary_rule_pagamento_ferias" model="hr.salary.rule">
+            <field name="code">PAGAMENTO_FERIAS</field>
+            <field name="name">Pagamento Antecipado de Férias</field>
+            <field name="category_id" ref="hr_payroll.DEDUCAO"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = worked_days.FERIAS.number_of_days > 0 </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = CALCULAR.rubrica_anterior(code='FERIAS_LIQUIDA', tipo_de_folha='ferias').total
+            </field>
+            <field name="sequence" eval="10"/>
+            <field name="compoe_base_FGTS" eval="False"/>
+            <field name="compoe_base_INSS" eval="False"/>
+        </record>
+
         <!--Vale alimentação / vale refeição-->
         <record id="hr_salary_rule_VA_VR" model="hr.salary.rule">
             <field name="code">VA/VR</field>
