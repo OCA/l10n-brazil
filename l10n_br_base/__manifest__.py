@@ -18,11 +18,13 @@
 #        'data/l10n_br_base_data.xml',
         'views/l10n_br_base_view.xml',
         'data/sped_pais_data.xml',
+        'data/sped_estado_data.xml',
 #        'views/res_bank_view.xml',
 #        'views/res_country_view.xml',
 #        'views/res_partner_view.xml',
 #        'views/res_company_view.xml',
         'views/sped_pais_view.xml',
+        'views/sped_estado_view.xml',
 #        'security/ir.model.access.csv',
     ],
     'demo': [

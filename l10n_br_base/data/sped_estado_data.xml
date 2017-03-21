@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="1">
+    <!-- A ordem aqui é importante, não é a alfabética, é a do código do IBGE, favor não mudar -->
+
+    <record id="ESTADO_RO" model="sped.estado">
+        <field name="codigo_ibge">11</field>
+        <field name="nome">Rondônia</field>
+        <field name="uf">RO</field>
+        <field name="fuso_horario">America/Porto_Velho</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_ro" />
+    </record>
+
+    <record id="ESTADO_AC" model="sped.estado">
+        <field name="codigo_ibge">12</field>
+        <field name="nome">Acre</field>
+        <field name="uf">AC</field>
+        <field name="fuso_horario">America/Rio_Branco</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_ac" />
+    </record>
+
+    <record id="ESTADO_AM" model="sped.estado">
+        <field name="codigo_ibge">13</field>
+        <field name="nome">Amazonas</field>
+        <field name="uf">AM</field>
+        <field name="fuso_horario">America/Manaus</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_am" />
+    </record>
+
+    <record id="ESTADO_RR" model="sped.estado">
+        <field name="codigo_ibge">14</field>
+        <field name="nome">Roraima</field>
+        <field name="uf">RR</field>
+        <field name="fuso_horario">America/Boa_Vista</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_rr" />
+    </record>
+
+    <record id="ESTADO_PA" model="sped.estado">
+        <field name="codigo_ibge">15</field>
+        <field name="nome">Pará</field>
+        <field name="uf">PA</field>
+        <field name="fuso_horario">America/Belem</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_pa" />
+    </record>
+
+    <record id="ESTADO_AP" model="sped.estado">
+        <field name="codigo_ibge">16</field>
+        <field name="nome">Amapá</field>
+        <field name="uf">AP</field>
+        <field name="fuso_horario">America/Belem</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_ap" />
+    </record>
+
+    <record id="ESTADO_TO" model="sped.estado">
+        <field name="codigo_ibge">17</field>
+        <field name="nome">Tocantins</field>
+        <field name="uf">TO</field>
+        <field name="fuso_horario">America/Araguaina</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_to" />
+    </record>
+
+    <record id="ESTADO_MA" model="sped.estado">
+        <field name="codigo_ibge">21</field>
+        <field name="nome">Maranhão</field>
+        <field name="uf">MA</field>
+        <field name="fuso_horario">America/Belem</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_ma" />
+    </record>
+
+    <record id="ESTADO_PI" model="sped.estado">
+        <field name="codigo_ibge">22</field>
+        <field name="nome">Piauí</field>
+        <field name="uf">PI</field>
+        <field name="fuso_horario">America/Fortaleza</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_pi" />
+    </record>
+
+    <record id="ESTADO_CE" model="sped.estado">
+        <field name="codigo_ibge">23</field>
+        <field name="nome">Ceará</field>
+        <field name="uf">CE</field>
+        <field name="fuso_horario">America/Fortaleza</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_ce" />
+    </record>
+
+    <record id="ESTADO_RN" model="sped.estado">
+        <field name="codigo_ibge">24</field>
+        <field name="nome">Rio Grande do Norte</field>
+        <field name="uf">RN</field>
+        <field name="fuso_horario">America/Recife</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_rn" />
+    </record>
+
+    <record id="ESTADO_PB" model="sped.estado">
+        <field name="codigo_ibge">25</field>
+        <field name="nome">Paraíba</field>
+        <field name="uf">PB</field>
+        <field name="fuso_horario">America/Recife</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_pb" />
+    </record>
+
+    <record id="ESTADO_PE" model="sped.estado">
+        <field name="codigo_ibge">26</field>
+        <field name="nome">Pernambuco</field>
+        <field name="uf">PE</field>
+        <field name="fuso_horario">America/Recife</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_pe" />
+    </record>
+
+    <record id="ESTADO_AL" model="sped.estado">
+        <field name="codigo_ibge">27</field>
+        <field name="nome">Alagoas</field>
+        <field name="uf">AL</field>
+        <field name="fuso_horario">America/Maceio</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_al" />
+    </record>
+
+    <record id="ESTADO_SE" model="sped.estado">
+        <field name="codigo_ibge">28</field>
+        <field name="nome">Sergipe</field>
+        <field name="uf">SE</field>
+        <field name="fuso_horario">America/Maceio</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_se" />
+    </record>
+
+    <record id="ESTADO_BA" model="sped.estado">
+        <field name="codigo_ibge">29</field>
+        <field name="nome">Bahia</field>
+        <field name="uf">BA</field>
+        <field name="fuso_horario">America/Bahia</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_ba" />
+    </record>
+
+    <record id="ESTADO_MG" model="sped.estado">
+        <field name="codigo_ibge">31</field>
+        <field name="nome">Minas Gerais</field>
+        <field name="uf">MG</field>
+        <field name="fuso_horario">America/Sao_Paulo</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_mg" />
+    </record>
+
+    <record id="ESTADO_ES" model="sped.estado">
+        <field name="codigo_ibge">32</field>
+        <field name="nome">Espírito Santo</field>
+        <field name="uf">ES</field>
+        <field name="fuso_horario">America/Sao_Paulo</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_es" />
+    </record>
+
+    <record id="ESTADO_RJ" model="sped.estado">
+        <field name="codigo_ibge">33</field>
+        <field name="nome">Rio de Janeiro</field>
+        <field name="uf">RJ</field>
+        <field name="fuso_horario">America/Sao_Paulo</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_rj" />
+    </record>
+
+    <record id="ESTADO_SP" model="sped.estado">
+        <field name="codigo_ibge">35</field>
+        <field name="nome">São Paulo</field>
+        <field name="uf">SP</field>
+        <field name="fuso_horario">America/Sao_Paulo</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_sp" />
+    </record>
+
+    <record id="ESTADO_PR" model="sped.estado">
+        <field name="codigo_ibge">41</field>
+        <field name="nome">Paraná</field>
+        <field name="uf">PR</field>
+        <field name="fuso_horario">America/Sao_Paulo</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_pr" />
+    </record>
+
+    <record id="ESTADO_SC" model="sped.estado">
+        <field name="codigo_ibge">42</field>
+        <field name="nome">Santa Catarina</field>
+        <field name="uf">SC</field>
+        <field name="fuso_horario">America/Sao_Paulo</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_sc" />
+    </record>
+
+    <record id="ESTADO_RS" model="sped.estado">
+        <field name="codigo_ibge">43</field>
+        <field name="nome">Rio Grande do Sul</field>
+        <field name="uf">RS</field>
+        <field name="fuso_horario">America/Sao_Paulo</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_rs" />
+    </record>
+
+    <record id="ESTADO_MS" model="sped.estado">
+        <field name="codigo_ibge">50</field>
+        <field name="nome">Mato Grosso do Sul</field>
+        <field name="uf">MS</field>
+        <field name="fuso_horario">America/Campo_Grande</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_ms" />
+    </record>
+
+    <record id="ESTADO_MT" model="sped.estado">
+        <field name="codigo_ibge">51</field>
+        <field name="nome">Mato Grosso</field>
+        <field name="uf">MT</field>
+        <field name="fuso_horario">America/Cuiaba</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_mt" />
+    </record>
+
+    <record id="ESTADO_GO" model="sped.estado">
+        <field name="codigo_ibge">52</field>
+        <field name="nome">Goiás</field>
+        <field name="uf">GO</field>
+        <field name="fuso_horario">America/Sao_Paulo</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_go" />
+    </record>
+
+    <record id="ESTADO_DF" model="sped.estado">
+        <field name="codigo_ibge">53</field>
+        <field name="nome">Distrito Federal</field>
+        <field name="uf">DF</field>
+        <field name="fuso_horario">America/Sao_Paulo</field>
+        <field name="pais_id" ref="PAIS_BR" />
+        <field name="state_id" ref="base.state_br_df" />
+    </record>
+
+    <!--<record id="ESTADO_EX" model="sped.estado">-->
+        <!--<field name="codigo_ibge">99</field>-->
+        <!--<field name="nome">Exterior</field>-->
+        <!--<field name="uf">EX</field>-->
+        <!--<field name="fuso_horario">UTC</field>-->
+        <!--<field name="pais_id" eval="False" />-->
+        <!--<field name="state_id" ref="base.state_br_ex" />-->
+    <!--</record>-->
+
+</odoo>
