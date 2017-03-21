@@ -40,7 +40,6 @@
         'data/sped_unidade_data.xml',
         'data/sped_ncm_data.xml',
         'data/sped_cest_data.xml',
-        'data/sped_cnae_data.xml',
         'data/sped_cfop_data.xml',
         'data/sped_cfop_equivalente_data.xml',
         'data/sped_servico_data.xml',
