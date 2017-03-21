@@ -7,7 +7,7 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
-from ..constante_tributaria import (
+from odoo.addons.l10n_br_base.constante_tributaria import (
     MODALIDADE_BASE_PIS,
     MODALIDADE_BASE_PIS_ALIQUOTA,
     MODALIDADE_BASE_PIS_QUANTIDADE,
