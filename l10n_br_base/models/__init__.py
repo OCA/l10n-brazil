@@ -10,3 +10,4 @@
 # from . import res_config
 
 from . import sped_pais
+from . import sped_estado
