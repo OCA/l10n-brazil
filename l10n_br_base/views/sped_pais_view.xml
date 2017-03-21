@@ -80,6 +80,6 @@
         sequence="9"
         id="menu_sped_pais"
         name="País"
-        action="sped_pais_acao" />
+        action="sped_pais_acao"/>
 
 </odoo>

@@ -8,3 +8,5 @@
 # from . import res_company
 # from . import l10n_br_base
 # from . import res_config
+
+from . import sped_pais
