@@ -628,7 +628,7 @@ class HrPayslip(models.Model):
         inss = tabela_inss_obj._compute_inss(BASE_INSS, self.date_from)
         return inss
 
-    def IRRF(self, BASE_IR, BASE_INSS):
+    def IRRF(self, BASE_IR, INSS):
         tabela_irrf_obj = self.env['l10n_br.hr.income.tax']
         inss = self.INSS(BASE_INSS)
         irrf = tabela_irrf_obj._compute_irrf(

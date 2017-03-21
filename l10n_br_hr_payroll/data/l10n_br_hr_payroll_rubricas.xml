@@ -42,7 +42,7 @@
             <field name="category_id" ref="hr_payroll.IRPF"/>
             <field name="condition_select">none</field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = CALCULAR.IRRF(BASE_IR, BASE_INSS)</field>
+            <field name="amount_python_compute">result = CALCULAR.IRRF(BASE_IR, INSS)</field>
             <field name="sequence" eval="502"/>
         </record>
 
