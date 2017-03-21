@@ -13,3 +13,6 @@ from . import sped_pais
 from . import sped_estado
 from . import sped_municipio
 from . import sped_cnae
+from . import sped_participante
+from . import inherited_res_company
+from . import inherited_res_partner

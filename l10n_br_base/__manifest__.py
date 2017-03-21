@@ -11,6 +11,7 @@
     'version': '10.0.1.0.0',
     'depends': [
         'base',
+        'mail',
         'base_setup',
     ],
     'data': [
@@ -29,6 +30,9 @@
         'views/sped_estado_view.xml',
         'views/sped_municipio_view.xml',
         'views/sped_cnae_view.xml',
+        'views/sped_participante_cliente_view.xml',
+        'views/sped_participante_fornecedor_view.xml',
+        'views/sped_participante_vincula_partner_view.xml',
 #        'security/ir.model.access.csv',
     ],
     'demo': [
@@ -44,6 +48,6 @@
     'installable': True,
     'auto_install': False,
     'external_dependencies': {
-        'python': ['num2words'],
+        'python': ['num2words', 'pybrasil', 'email_validator'],
     }
 }

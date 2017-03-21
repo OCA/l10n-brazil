@@ -12,9 +12,8 @@
     'category': u'Base',
     'license': 'AGPL-3',
     'depends': [
-        'base',
+        'l10n_br_base',
         'document',
-        'mail',
         'decimal_precision',
         'product',
     ],
@@ -125,8 +124,5 @@
         'views/sped_documento_emissao_nfe_view.xml',
         'views/sped_documento_emissao_nfce_view.xml',
         # 'views/sped_documento_recebimento_nfe_view.xml',
-    ],
-    'external_dependencies': {
-        'python': ['pybrasil', 'email-validator'],
-    }
+    ]
 }
