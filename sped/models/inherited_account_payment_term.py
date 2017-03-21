@@ -10,7 +10,7 @@ from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from dateutil.relativedelta import relativedelta
 from pybrasil.valor.decimal import Decimal as D
-from ..constante_tributaria import *
+from odoo.addons.l10n_br_base.constante_tributaria import *
 
 
 class AccountPaymentTerm(models.Model):

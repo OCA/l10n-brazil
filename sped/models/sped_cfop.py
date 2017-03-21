@@ -6,7 +6,7 @@
 #
 
 from odoo import api, fields, models
-from ..constante_tributaria import (
+from odoo.addons.l10n_br_base.constante_tributaria import (
     CFOPS_CALCULA_SIMPLES_CSLL_IRPJ,
     CFOPS_COMPRA,
     CFOPS_COMPRA_ATIVO,
