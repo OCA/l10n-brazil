@@ -9,7 +9,7 @@ import logging
 from odoo import api, fields, models
 import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
-from ..constante_tributaria import *
+from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 

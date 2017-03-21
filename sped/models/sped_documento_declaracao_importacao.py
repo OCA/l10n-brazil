@@ -6,7 +6,7 @@
 #
 
 from odoo import api, fields, models
-from ..constante_tributaria import *
+from odoo.addons.l10n_br_base.constante_tributaria import *
 
 
 class DocumentoItemDeclaracaoImportacao(models.Model):

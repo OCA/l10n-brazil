@@ -9,7 +9,7 @@
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
-from ..constante_tributaria import (
+from odoo.addons.l10n_br_base.constante_tributaria import (
     ENTRADA_SAIDA,
     IE_DESTINATARIO,
     ORIGEM_MERCADORIA,
