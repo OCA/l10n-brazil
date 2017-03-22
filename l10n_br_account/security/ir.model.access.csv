@@ -29,7 +29,7 @@
 "account_tax_computation_manager","account.tax.computation","model_account_tax_computation","account.group_account_manager",1,1,1,1
 "l10n_br_account_invoice_cancel_user","l10n_br_account_invoice.cancel","model_l10n_br_account_invoice_cancel","account.group_account_invoice",1,0,0,0
 "l10n_br_account_invoice_cancel_manager","l10n_br_account_invoice.cancel","model_l10n_br_account_invoice_cancel","account.group_account_manager",1,1,1,1
-"l10n_br_account_document_event_user","l10n_br_account.document_event","model_l10n_br_account_document_event","account.group_account_invoice",1,0,0,0
+"l10n_br_account_document_event_user","l10n_br_account.document_event","model_l10n_br_account_document_event","account.group_account_invoice",1,1,1,0
 "l10n_br_account_document_event_manager","l10n_br_account.document_event","model_l10n_br_account_document_event","account.group_account_manager",1,1,1,1
 "l10n_br_account_invoice_cce_manager","l10n_br_account_invoice_cce","model_l10n_br_account_invoice_cce","account.group_account_manager",1,1,1,1
 "access_account_tax_code_user","access_account_tax_code_user","account.model_account_tax_code","base.group_user",1,0,0,0
