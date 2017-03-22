@@ -25,8 +25,10 @@
         'wizards/financial_create.xml',
         'wizards/financial_pay_receive.xml',
         'views/financial_move.xml',
+        'views/res_partner_bank.xml',
         'report/financial_cashflow.xml',
         'report/financial_statement_report.xml',
+        'report/report_financial.xml',
     ],
     'demo': [
         'demo/financial_move.xml',

@@ -42,7 +42,7 @@ class FinancialMoveCreate(models.TransientModel):
         string='Payment Term',
         comodel_name='account.payment.term',
     )
-    account_analytic_id = fields.Many2one(
+    analytic_account_id = fields.Many2one(
         comodel_name='account.analytic.account',
         string=u'Analytic account',
     )
@@ -57,7 +57,7 @@ class FinancialMoveCreate(models.TransientModel):
         string=u"Document Nº",
         required=True,
     )
-    date_issue = fields.Date(
+    date = fields.Date(
         string=u'Financial date',
         default=fields.Date.context_today,
     )
@@ -72,17 +72,24 @@ class FinancialMoveCreate(models.TransientModel):
     note = fields.Text(
         string="Note",
     )
+    journal_id = fields.Many2one(
+        required=False,
+    )
+    bank_id = fields.Many2one(
+        'res.partner.bank',
+        string=u'Bank Account',
+    )
 
     @api.onchange('payment_term_id', 'document_number',
-                  'date_issue', 'amount')
+                  'date', 'amount')
     def onchange_fields(self):
         res = {}
         if not (self.payment_term_id and self.document_number and
-                self.date_issue and self.amount > 0.00):
+                self.date and self.amount > 0.00):
             return res
 
         computations = \
-            self.payment_term_id.compute(self.amount, self.date_issue)
+            self.payment_term_id.compute(self.amount, self.date)
 
         payment_ids = []
         for idx, item in enumerate(computations[0]):
@@ -101,18 +108,17 @@ class FinancialMoveCreate(models.TransientModel):
         for record in self:
             for move in record.line_ids:
                 vals = financial_move._prepare_payment(
-                    journal_id=self.journal_id.id,
+                    bank_id=self.bank_id.id,
                     company_id=self.company_id.id,
                     currency_id=self.currency_id.id,
                     financial_type=self.financial_type,
                     partner_id=self.partner_id.id,
-                    document_number=self.document_number,
-                    date_issue=self.date_issue,
+                    document_number=move.document_item,
+                    date=self.date,
                     payment_mode_id=self.payment_mode_id.id,
                     payment_term_id=self.payment_term_id.id,
-                    account_analytic_id=self.account_analytic_id.id,
+                    analytic_account_id=self.analytic_account_id.id,
                     account_id=self.account_id.id,
-                    document_item=move.document_item,
                     date_maturity=move.date_maturity,
                     amount=move.amount,
                 )
@@ -137,7 +143,7 @@ class FinancialMoveLineCreate(models.TransientModel):
         string=u"Document item",
     )
 
-    date_issue = fields.Date(
+    date = fields.Date(
         string=u"Document date",
     )
 
