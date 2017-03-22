@@ -187,7 +187,16 @@
 
                 <!--Redefinindo campo de Estrutura-->
                 <field name="struct_id" position="replace">
+<<<<<<< HEAD
                     <field name="struct_id" readonly="True"/>
+=======
+                    <field name="struct_id"
+                           attrs="{'invisible': [('tipo_de_folha', '!=', 'rescisao')]}"
+                           domain="[('tipo_estrutura', '=', tipo_de_folha)]"/>
+                    <field name="struct_id_readonly"
+                           attrs="{'invisible': [('tipo_de_folha', '=', 'rescisao')]}"
+                           readonly="True"/>
+>>>>>>> cc6e245... [ADD] Filtro ao campo estrutura de salário do holerite de rescisão
                 </field>
 
                 <xpath expr="//div[@class='oe_title']" position="replace">
