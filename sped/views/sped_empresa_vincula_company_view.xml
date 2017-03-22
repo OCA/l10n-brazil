@@ -263,7 +263,7 @@
         id="menu_sped_empresa_vincula_company"
         sequence="1"
         name="Empresa - Company"
-        parent="menu_cadastro_vinculo"
+        parent="l10n_br_base.menu_cadastro_vinculo"
         action="sped_empresa_vincula_company_acao"
         />
 
