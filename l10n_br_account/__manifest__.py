@@ -34,8 +34,8 @@
         'demo/base_demo.xml',
     ],
     'test': [
-        'test/account_customer_invoice.yml',
-        'test/account_supplier_invoice.yml',
+        # 'test/account_customer_invoice.yml',
+        # 'test/account_supplier_invoice.yml',
         'test/generate_fiscal_rules.yml',
     ],
     'installable': True,
