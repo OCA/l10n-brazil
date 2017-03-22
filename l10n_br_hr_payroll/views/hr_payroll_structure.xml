@@ -15,6 +15,21 @@
                 <field name="tipo_estrutura"/>
                 <field name="ferias"/>
             </field>
+            <xpath expr="//page[@string='Salary Rules']" position="after">
+                <page string="Rescisão"
+                      attrs="{'invisible': [('tipo_estrutura', '!=', 'rescisao')]}">
+                    <group>
+                        <group>
+                            <field name="afastamento_imediato"/>
+                            <field name="dispensado_empregador"/>
+                            <field name="tipo_afastamento_sefip"/>
+                            <field name="tipo_afastamento_cef"/>
+                            <field name="tipo_saque"/>
+                            <field name="tipo_desligamento_rais"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
         </field>
     </record>
 

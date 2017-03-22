@@ -96,5 +96,24 @@
             <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS_13')" />
         </record>
 
+        <!--Estrutura de salario para rescisão-->
+        <record id="hr_salary_structure_JUSTA_CAUSA" model="hr.payroll.structure">
+            <field name="code">JUSTA_CAUSA</field>
+            <field name="name">Rescisão dispensa com justa causa</field>
+            <field name="rule_ids" eval="False" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="tipo_estrutura">rescisao</field>
+            <field name="parent_id" eval="False" />
+        </record>
+        <record id="hr_salary_structure_COMPLEMENTO_JUSTA_CAUSA" model="hr.payroll.structure">
+            <field name="code">COMPLEMENTO_JUSTA_CAUSA</field>
+            <field name="name">Rescisão Complementar (dispensa com justa causa)</field>
+            <field name="rule_ids" eval="False" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="tipo_estrutura">rescisao</field>
+            <field name="parent_id" eval="ref('hr_salary_structure_JUSTA_CAUSA')" />
+        </record>
+
+
     </data>
 </openerp>
