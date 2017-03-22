@@ -318,7 +318,7 @@
         id="menu_sped_empresa"
         sequence="1"
         name="Empresas"
-        parent="menu_cadastro_configuracao"
+        parent="l10n_br_base.menu_cadastro"
         action="sped_empresa_acao"
         />
 

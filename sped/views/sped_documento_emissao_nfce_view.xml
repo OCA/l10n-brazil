@@ -11,7 +11,7 @@
         <field name="priority">1</field>
         <field name="type">form</field>
         <field name="copy_id" ref="sped.sped_documento_base_form" />
-        <field name="arch" eval="False" />
+        <!-- <field name="arch" eval="False" /> -->
     </record>
 
     <record model="ir.ui.view" id="sped_documento_emissao_nfce_tree">
@@ -20,7 +20,7 @@
         <field name="priority">1</field>
         <field name="type">tree</field>
         <field name="copy_id" ref="sped.sped_documento_base_tree" />
-        <field name="arch" eval="False" />
+        <!-- <field name="arch" eval="False" /> -->
     </record>
 
     <record model="ir.ui.view" id="sped_documento_emissao_nfce_search">
@@ -29,7 +29,7 @@
         <field name="priority">1</field>
         <field name="type">search</field>
         <field name="copy_id" ref="sped.sped_documento_base_search" />
-        <field name="arch" eval="False" />
+        <!-- <field name="arch" eval="False" /> -->
     </record>
 
     <record model="ir.ui.view" id="sped_documento_emissao_nfce_inherited_form">

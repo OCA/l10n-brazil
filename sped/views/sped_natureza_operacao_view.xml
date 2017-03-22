@@ -78,7 +78,7 @@
         id="menu_sped_natureza_operacao"
         sequence="5"
         name="Naturezas de operação"
-        parent="menu_sped_configuracao"
+        parent="l10n_br_base.menu_fiscal_configuracao"
         action="sped_natureza_operacao_acao" />
 
 </odoo>
