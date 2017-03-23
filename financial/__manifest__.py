@@ -27,6 +27,13 @@
         'views/financial_move.xml',
         'views/payment_mode.xml',
         'report/financial_cashflow.xml',
+<<<<<<< HEAD
+=======
+        'report/financial_statement_report.xml',
+        'report/report_financial.xml',
+        # 'views/res_partner.xml',
+        'views/payment_mode.xml',
+>>>>>>> 1b06f36... [FIX] manifest/init para juros e multa
     ],
     'demo': [
         'demo/financial_move_history.xml',
