@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <openerp>
 <record id="account_payment_mode_form" model="ir.ui.view">
     <field name="name">account.payment.mode.form</field>
@@ -15,6 +16,8 @@
 </record>
 </openerp>
 =======
+=======
+>>>>>>> ff4702d... [ADD] interest and delay_fee
 <odoo>
     <record id="account_payment_mode_financial_form" model="ir.ui.view">
         <field name="name">account.payment.mode.form</field>
@@ -29,5 +32,9 @@
             </field>
         </field>
     </record>
+<<<<<<< HEAD
 </odoo>
 >>>>>>> c50b855... [ADD] interest and delay_fee
+=======
+</odoo>
+>>>>>>> ff4702d... [ADD] interest and delay_fee
