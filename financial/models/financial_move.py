@@ -271,6 +271,24 @@ class FinancialMove(models.Model):
         compute='_compute_residual',
     )
 
+    journal_id = fields.Many2one(
+        required=False,
+    )
+    bank_id = fields.Many2one(
+        'res.partner.bank',
+        string=u'Bank Account',
+    )
+
+    @api.multi
+    def action_number(self):
+        for record in self:
+
+            if record.ref == _('New'):
+                record.ref = self.env['ir.sequence'].next_by_code(
+                    FINANCIAL_SEQUENCE[record.financial_type]) or _('New')
+            if not record.ref_item:
+                record.ref_item = '1'
+
     def _before_create(self, values):
         # TODO: call this method in action_confirm to avoid sequence gaps
         if values.get('name', 'New') == 'New':
