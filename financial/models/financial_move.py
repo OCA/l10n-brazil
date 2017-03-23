@@ -234,7 +234,11 @@ class FinancialMove(models.Model):
     amount_interest = fields.Monetary(
         string=u'Interest',
         readonly=True,
+<<<<<<< HEAD
         # required=True
+=======
+        compute='compute_interest',
+>>>>>>> 3dcb47a... [FIX] interest/ delay_fee
     )
     amount_refund = fields.Monetary(
         string=u'Refund',
@@ -423,6 +427,7 @@ class FinancialMove(models.Model):
             action = {'type': 'ir.actions.act_window_close'}
         return action
 
+<<<<<<< HEAD
     # @api.onchange(payment_method_id)
     # def _compute_interest(self):
     #     for record in self:
@@ -643,3 +648,31 @@ class FinancialMove(models.Model):
         #         self._prepare_aml())
         #     aml_obj.action_invoice_open()
         #     return True
+=======
+    def cron_interest(self):
+        if self.env['resource.calendar'].data_eh_dia_util_bancario(datetime.today()):
+            record = self.search([
+                ('state', '=', 'open'),
+                ('date_business_maturity', '<', datetime.today())])
+            record.compute_interest()
+
+    @api.depends('payment_mode_id', 'amount', 'date_business_maturity')
+    def compute_interest(self):
+        for record in self:
+            if self.env['resource.calendar']. \
+                    data_eh_dia_util_bancario(datetime.today()) and record. \
+                    state == 'open' and \
+                    (datetime.today() > datetime.strptime
+                        (record.date_business_maturity, '%Y-%m-%d')):
+                day = (
+                    datetime.today() - datetime.strptime(
+                        record.date_maturity,
+                        '%Y-%m-%d'))
+                interest = record.amount * (record.payment_mode_id.
+                                            interest_percent * day.days) / 100
+
+                delay_fee = (record.payment_mode_id.
+                             delay_fee_percent / 100) * record.amount
+                record.amount_interest = interest + delay_fee
+        pass
+>>>>>>> 3dcb47a... [FIX] interest/ delay_fee
