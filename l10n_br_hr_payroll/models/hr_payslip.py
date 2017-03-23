@@ -645,18 +645,25 @@ class HrPayslip(models.Model):
                 or self.tipo_de_folha == "aviso_previo":
             return self.contract_id.struct_id
         elif self.tipo_de_folha == "decimo_terceiro":
-            if self.mes_do_ano < 12:
-                estrutura_decimo_terceiro = self.env.ref(
-                    'l10n_br_hr_payroll.'
-                    'hr_salary_structure_PRIMEIRA_PARCELA_13'
-                )
-                return estrutura_decimo_terceiro
-            else:
+            if self.is_simulacao:
                 estrutura_decimo_terceiro = self.env.ref(
                     'l10n_br_hr_payroll.'
                     'hr_salary_structure_SEGUNDA_PARCELA_13'
                 )
                 return estrutura_decimo_terceiro
+            else:
+                if self.mes_do_ano < 12:
+                    estrutura_decimo_terceiro = self.env.ref(
+                        'l10n_br_hr_payroll.'
+                        'hr_salary_structure_PRIMEIRA_PARCELA_13'
+                    )
+                    return estrutura_decimo_terceiro
+                else:
+                    estrutura_decimo_terceiro = self.env.ref(
+                        'l10n_br_hr_payroll.'
+                        'hr_salary_structure_SEGUNDA_PARCELA_13'
+                    )
+                    return estrutura_decimo_terceiro
         elif self.tipo_de_folha == "ferias":
             estrutura_ferias = self.env.ref(
                 'l10n_br_hr_payroll.'
@@ -673,6 +680,78 @@ class HrPayslip(models.Model):
                 'l10n_br_hr_payroll.hr_salary_structure_PROVISAO_13'
             )
             return estrutura_provisao_decimo_terceiro
+
+    @api.multi
+    def gerar_simulacao(self, tipo_simulacao):
+        hr_payslip_obj = self.env['hr.payslip']
+        vals = {
+            'contract_id': self.contract_id.id,
+            'tipo_de_folha': tipo_simulacao,
+            'is_simulacao': True,
+            'mes_do_ano': self.mes_do_ano,
+            'ano': self.ano,
+            'date_from': self.date_from,
+            'date_to': self.date_to,
+            'employee_id': self.contract_id.employee_id.id
+        }
+        payslip_simulacao_criada = hr_payslip_obj.create(vals)
+        payslip_simulacao_criada._compute_set_employee_id()
+        payslip_simulacao_criada.onchange_employee_id(
+            self.date_from,
+            self.date_to,
+            self.contract_id.id
+        )
+        worked_days_line_ids = \
+            payslip_simulacao_criada.get_worked_day_lines(
+                self.contract_id.id, self.date_from, self.date_to
+            )
+        input_line_ids = payslip_simulacao_criada.get_inputs(
+            self.contract_id.id, self.date_from, self.date_to
+        )
+        worked_days_obj = self.env['hr.payslip.worked_days']
+        input_obj = self.env['hr.payslip.input']
+        for worked_day in worked_days_line_ids:
+            worked_day.update({'payslip_id': payslip_simulacao_criada.id})
+            worked_days_obj.create(worked_day)
+        for input_id in input_line_ids:
+            input_id.update({'payslip_id': payslip_simulacao_criada.id})
+            input_obj.create(input_id)
+            payslip_simulacao_criada.compute_sheet()
+        payslip_simulacao_criada.write({'paid': True, 'state': 'done'})
+        return payslip_simulacao_criada
+
+    @api.multi
+    def _buscar_valor_bruto_simulacao(self, payslip_simulacao):
+        categoria_bruto = self.env.ref(
+            'hr_payroll.BRUTO'
+        )
+        for line in payslip_simulacao.line_ids:
+            if line.salary_rule_id.category_id.id == categoria_bruto.id:
+                return line.total
+
+    @api.multi
+    def BUSCAR_VALOR_PROPORCIONAL(self, tipo_simulacao):
+        payslip_simulacao = self.env['hr.payslip'].search(
+            [
+                ('tipo_de_folha', '=', tipo_simulacao),
+                ('is_simulacao', '=', True),
+                ('mes_do_ano', '=', self.mes_do_ano),
+                ('ano', '=', self.ano),
+                ('state', '=', 'done'),
+            ]
+        )
+        if len(payslip_simulacao) > 1:
+            raise exceptions.Warning(
+                _(
+                    'Existem duas simulações '
+                    'para %s neste período' % tipo_simulacao
+                )
+            )
+        elif len(payslip_simulacao) == 0:
+            payslip_simulacao_criada = self.gerar_simulacao(tipo_simulacao)
+            return self._buscar_valor_bruto_simulacao(payslip_simulacao_criada)
+        else:
+            return self._buscar_valor_bruto_simulacao(payslip_simulacao)
 
     # @api.multi
     # def buscar_media_rubrica(self, rubrica_id):
@@ -704,6 +783,7 @@ class HrPayslip(models.Model):
         for line in payslip_id.line_ids:
             if line.salary_rule_id.id == primeira_parcela_id.id:
                 return line.total
+        return 0
 
     def rubrica_anterior(self, code, mes=-1, tipo_de_folha='normal'):
         '''Metodo para recuperar uma rubrica de um mes anterior

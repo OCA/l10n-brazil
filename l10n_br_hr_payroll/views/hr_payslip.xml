@@ -325,7 +325,7 @@
                   id="menu_decimo_terceiro_page"
                   parent="hr_payroll.menu_hr_root_payroll"/>
 
-        <!--13º Salário-->
+        <!--Aviso Prévio-->
         <record id="view_hr_aviso_previo_tree" model="ir.ui.view">
             <field name="name">hr.aviso.previo.tree</field>
             <field name="model">hr.payslip</field>
@@ -360,9 +360,15 @@
                   id="menu_aviso_previo_page"
                   parent="l10n_br_hr_payroll.menu_hr_root_payroll_simulacao"/>
 
+<<<<<<< HEAD
         <!--Provisão Férias-->
         <record id="view_hr_provisao_ferias_tree" model="ir.ui.view">
             <field name="name">hr.provisao.ferias.tree</field>
+=======
+        <!--Férias Simulação-->
+        <record id="view_hr_ferias_simulacao_tree" model="ir.ui.view">
+            <field name="name">hr.ferias.simulacao.tree</field>
+>>>>>>> 74ac4e2... [ADD] Simulacoes de valores proporcionais de ferias e decimo terceiro salario que vao ser agregados ao holerite de rescisao
             <field name="model">hr.payslip</field>
             <field name="arch" type="xml">
                 <tree string="Payslips">
@@ -377,6 +383,7 @@
             </field>
         </record>
 
+<<<<<<< HEAD
         <record id="action_view_hr_provisao_ferias_page" model="ir.actions.act_window">
             <field name="name">Provisão Férias</field>
             <field name="res_model">hr.payslip</field>
@@ -393,6 +400,24 @@
         <!--Provisão Décimo Terceiro-->
         <record id="view_hr_provisao_decimo_terceiro_tree" model="ir.ui.view">
             <field name="name">hr.provisao.decimo.terceiro.tree</field>
+=======
+         <record id="action_view_hr_ferias_simulacao_view_page" model="ir.actions.act_window">
+            <field name="name">Férias</field>
+            <field name="res_model">hr.payslip</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_hr_ferias_simulacao_tree"/>
+            <field name="context">{'default_tipo_de_folha': 'ferias','default_is_simulacao':True}</field>
+            <field name="domain">[('tipo_de_folha','=','ferias'),('is_simulacao','=',True)]</field>
+        </record>
+
+        <menuitem action="action_view_hr_ferias_simulacao_view_page"
+                  id="menu_ferias_simulacao_page"
+                  parent="l10n_br_hr_payroll.menu_hr_root_payroll_simulacao"/>
+
+        <!--Décimo Terceiro Simulação-->
+        <record id="view_hr_decimo_terceiro_simulacao_tree" model="ir.ui.view">
+            <field name="name">hr.decimo.terceiro.simulacao.tree</field>
+>>>>>>> 74ac4e2... [ADD] Simulacoes de valores proporcionais de ferias e decimo terceiro salario que vao ser agregados ao holerite de rescisao
             <field name="model">hr.payslip</field>
             <field name="arch" type="xml">
                 <tree string="Payslips">
@@ -407,6 +432,7 @@
             </field>
         </record>
 
+<<<<<<< HEAD
         <record id="action_view_hr_provisao_decimo_terceiro_page" model="ir.actions.act_window">
             <field name="name">Provisão Décimo Terceiro</field>
             <field name="res_model">hr.payslip</field>
@@ -419,6 +445,20 @@
         <menuitem action="action_view_hr_provisao_decimo_terceiro_page"
                   id="menu_previsao_decimo_terceiro_page"
                   parent="l10n_br_hr_payroll.menu_hr_root_payroll_provisao"/>
+=======
+        <record id="action_view_hr_decimo_terceiro_simulacao_view_page" model="ir.actions.act_window">
+            <field name="name">13º Terceiro</field>
+            <field name="res_model">hr.payslip</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_hr_decimo_terceiro_simulacao_tree"/>
+            <field name="context">{'default_tipo_de_folha': 'decimo_terceiro','default_is_simulacao':True}</field>
+            <field name="domain">[('tipo_de_folha','=','decimo_terceiro'),('is_simulacao','=',True)]</field>
+        </record>
+
+        <menuitem action="action_view_hr_decimo_terceiro_simulacao_view_page"
+                  id="menu_decimo_terceiro_simulacao_page"
+                  parent="l10n_br_hr_payroll.menu_hr_root_payroll_simulacao"/>
+>>>>>>> 74ac4e2... [ADD] Simulacoes de valores proporcionais de ferias e decimo terceiro salario que vao ser agregados ao holerite de rescisao
 
         <!--Rescisão-->
         <record id="view_hr_rescisao_tree" model="ir.ui.view">

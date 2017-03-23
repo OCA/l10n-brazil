@@ -100,18 +100,19 @@
         <record id="hr_salary_structure_JUSTA_CAUSA" model="hr.payroll.structure">
             <field name="code">JUSTA_CAUSA</field>
             <field name="name">Rescisão dispensa com justa causa</field>
-            <field name="rule_ids" eval="False" />
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_PROPORCIONAL_13')])]" />
             <field name="company_id" ref="base.main_company" />
             <field name="tipo_estrutura">rescisao</field>
-            <field name="parent_id" eval="False" />
+            <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
         </record>
+        
         <record id="hr_salary_structure_COMPLEMENTO_JUSTA_CAUSA" model="hr.payroll.structure">
             <field name="code">COMPLEMENTO_JUSTA_CAUSA</field>
             <field name="name">Rescisão Complementar (dispensa com justa causa)</field>
-            <field name="rule_ids" eval="False" />
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_PROPORCIONAL_13')])]" />
             <field name="company_id" ref="base.main_company" />
             <field name="tipo_estrutura">rescisao</field>
-            <field name="parent_id" eval="ref('hr_salary_structure_JUSTA_CAUSA')" />
+            <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
         </record>
 
 
