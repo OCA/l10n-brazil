@@ -209,6 +209,19 @@ class HrPayslip(models.Model):
              u' contracts of the employee valid for the chosen period'
     )
 
+    struct_id_readonly = fields.Many2one(
+        string=u'Estrutura de Salário',
+        comodel_name='hr.payroll.structure',
+        compute='_compute_set_employee_id',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        help=u'Defines the rules that have to be applied to this payslip, '
+             u'accordingly to the contract chosen. If you let empty the field '
+             u'contract, this field isn\'t mandatory anymore and thus the '
+             u'rules applied will be all the rules set on the structure of all'
+             u' contracts of the employee valid for the chosen period'
+    )
+
     mes_do_ano = fields.Selection(
         selection=MES_DO_ANO,
         string=u'Mês',
@@ -958,6 +971,7 @@ class HrPayslip(models.Model):
             'SALARIO_DIA': salario_dia, 'SALARIO_HORA': salario_hora,
             'RAT_FAP': rat_fap, 'MEDIAS': medias_obj,
             'PEDIDO_FERIAS': ferias_abono,
+            'DIAS_AVISO_PREVIO': payslip.dias_aviso_previo,
         }
 
         for contract_ids in self:
@@ -1172,16 +1186,11 @@ class HrPayslip(models.Model):
             hr_medias_ids, data_de_inicio, data_final = \
                 self.gerar_media_dos_proventos()
 
-            # Metodo pra validar se ja foram processados todos os holerites
-            # usados no calculo das medias, utilizando as datas ja atualizadas
-            # (datas do periodo aquisitivo para ferias ou data do inicio/fim
-            # do ano para 13º salaraio).
-            if self.tipo_de_folha in [
-                "decimo_terceiro", "ferias", "aviso_previo"
-            ]:
+            # Metodo pra validar se ja foram processadors todos os holerites
+            #  usados no calculo das medias
+            if self.tipo_de_folha in ["decimo_terceiro", "ferias"]:
                 self.validacao_holerites_anteriores(
-                    data_de_inicio, data_final, self.contract_id
-                )
+                    data_de_inicio, data_final, self.contract_id)
 
             if self.tipo_de_folha == 'ferias':
                 if not self.holidays_ferias:
@@ -1292,6 +1301,20 @@ class HrPayslip(models.Model):
         hr_medias_ids = medias_obj.gerar_media_dos_proventos(
             data_de_inicio, data_final, self)
         return hr_medias_ids, data_de_inicio, data_final
+
+    @api.model
+    def BUSCAR_VALOR_MEDIA_PROVENTO(self, tipo_simulacao):
+        payslip_simulacao = self.env['hr.payslip'].search(
+            [
+                ('tipo_de_folha', '=', tipo_simulacao),
+                ('is_simulacao', '=', True),
+                ('mes_do_ano', '=', self.mes_do_ano),
+                ('ano', '=', self.ano),
+                ('state', '=', 'done'),
+            ]
+        )
+        media_id = payslip_simulacao.medias_proventos[-1]
+        return media_id.media/media_id.meses
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form',
