@@ -72,6 +72,7 @@ lista de discussão: [https://groups.google.com/forum/#!forum/openerp-brasil](ht
 
 
 [//]: # (addons)
+
 Available addons
 ----------------
 addon | version | summary
