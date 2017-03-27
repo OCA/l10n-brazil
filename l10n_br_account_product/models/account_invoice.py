@@ -111,6 +111,7 @@ class AccountInvoice(models.Model):
         result = self.env['l10n_br_account.document.serie']
         if self.env.context.get('fiscal_document_code'):
             company = self.env['res.company'].browse(
+                self.env.context.get('force_company') or
                 self.env.user.company_id.id)
             fiscal_document_series = [doc_serie for doc_serie in
                                       company.document_serie_product_ids if
