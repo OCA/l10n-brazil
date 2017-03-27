@@ -121,19 +121,19 @@ class L10nBrTaxEstimateModel(models.AbstractModel):
 
     federal_taxes_national = fields.Float(
         'Impostos Federais Nacional', default=0.00,
-        digits_compute=dp.get_precision('Account'))
+        digits=dp.get_precision('Account'))
 
     federal_taxes_import = fields.Float(
         'Impostos Federais Importado', default=0.00,
-        digits_compute=dp.get_precision('Account'))
+        digits=dp.get_precision('Account'))
 
     state_taxes = fields.Float(
         'Impostos Estaduais Nacional', default=0.00,
-        digits_compute=dp.get_precision('Account'))
+        digits=dp.get_precision('Account'))
 
     municipal_taxes = fields.Float(
         'Impostos Municipais Nacional', default=0.00,
-        digits_compute=dp.get_precision('Account'))
+        digits=dp.get_precision('Account'))
 
     create_date = fields.Datetime(
         u'Data de Criação', readonly=True)
