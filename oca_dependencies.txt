@@ -4,3 +4,5 @@ server-tools
 account-fiscal-rule
 reporting-engine
 bank-payment
+# account-parent
+addons-steigend https://github.com/steigendit/addons-steigend 10.0

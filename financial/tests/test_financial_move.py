@@ -2,10 +2,11 @@
 # Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests.common import TransactionCase
-from odoo.exceptions import ValidationError
-import time
 import datetime
+import time
+
+from odoo.exceptions import ValidationError
+from odoo.tests.common import TransactionCase
 
 
 class TestFinancialMove(TransactionCase):
@@ -23,33 +24,37 @@ class TestFinancialMove(TransactionCase):
         self.financial_edit = self.env['financial.edit']
         self.partner_agrolait = self.env.ref("base.res_partner_2")
         self.partner_axelor = self.env.ref("base.res_partner_2")
-        # self.financial_move.create = self.env['financial.move.create.']
+        self.payment_term_id_30_70 = self.env.\
+            ref("account.account_payment_term_advance")
+        self.payment_mode_1 = self.env.\
+            ref("account_payment_mode.payment_mode_outbound_ct1")
+        self.bank_journal_id = self.env['account.journal'].search(
+            [
+                ('type', '=', 'bank')
+            ])[0]
 
-        print "oaisdoam"
-    # """US1 # Como um operador de cobrança, eu gostaria de cadastrar uma conta
-    #  a receber/pagar para manter controle sobre o fluxo de caixa.
-    # """
-    def test_us_1_ac_1(self):
-        """ DADO a data de vencimento de 27/02/2017
-        QUANDO criado um lançamento de contas a receber
-        ENTÃO a data de vencimento útil deve ser de 01/03/2017"""
-        self.cr_1 = self.financial_move_create.create(dict(
-            date_maturity='2017-02-27',
+        self.cr_1 = self.financial_move.create(dict(
+            journal_id=self.bank_journal_id.id,
+            date_maturity='2018-02-12',
             company_id=self.main_company.id,
             currency_id=self.currency_euro.id,
             amount=100.00,
             partner_id=self.partner_agrolait.id,
             document_date=time.strftime('%Y') + '-01-01',
             document_number='1111',
-            move_type='r',
-            account_id=44,
             financial_type='r',
-            journal_id=6,
-
+            account_id=44,
         ))
-        self.cr_1.compute()
-        self.assertEqual(self.financial_move_line_create.date_maturity,
-                         '2017-03-01')
+
+    # """US1 # Como um operador de cobrança, eu gostaria de cadastrar uma conta
+    #  a receber/pagar para manter controle sobre o fluxo de caixa.
+    # """
+    def test_us_1_ac_1(self):
+        """ DADO a data de vencimento de 12/02/2017
+        QUANDO criado um lançamento de contas a receber
+        ENTÃO a data de vencimento útil deve ser de 14/03/2017"""
+
+        self.assertEqual(self.cr_1.date_business_maturity, '2018-02-14')
 
     def test_us_1_ac_2(self):
         """DADO uma conta a pagar ou receber
@@ -59,24 +64,30 @@ class TestFinancialMove(TransactionCase):
         E impedir lançamento"""
         with self.assertRaises(ValidationError):
             self.financial_move.create(dict(
-                due_date='2017-02-27',
+                journal_id=self.bank_journal_id.id,
+                date_maturity='2017-02-27',
                 company_id=self.main_company.id,
                 currency_id=self.currency_euro.id,
-                amount_document=0.00,
+                amount=0.00,
                 partner_id=self.partner_agrolait.id,
                 document_date=time.strftime('%Y') + '-01-02',
                 document_number='2222',
-                move_type='r',
+                financial_type='r',
+                account_id=44,
+                note="!",
             ))
             self.financial_move.create(dict(
-                due_date='2017-02-27',
+                journal_id=self.bank_journal_id.id,
+                date_maturity='2017-02-27',
                 company_id=self.main_company.id,
                 currency_id=self.currency_euro.id,
-                amount_document=-10.00,
+                amount=-10.00,
                 partner_id=self.partner_agrolait.id,
                 document_date=time.strftime('%Y') + '-01-03',
                 document_number='3333',
-                move_type='r',
+                financial_type='r',
+                account_id=44,
+                note="!",
             ))
 
     def test_us1_ac_3(self):
@@ -94,14 +105,16 @@ class TestFinancialMove(TransactionCase):
         cr_1.action_confirm()
 
         cr_2 = self.financial_move.create(dict(
-            due_date='2017-02-27',
+            journal_id=self.bank_journal_id.id,
+            date_maturity='2017-02-27',
             company_id=self.main_company.id,
             currency_id=self.currency_euro.id,
-            amount_document=100.00,
+            amount=100.00,
             partner_id=self.partner_agrolait.id,
             document_date=time.strftime('%Y') + '-01-01',
             document_number='2222',
-            move_type='r',
+            financial_type='r',
+            account_id=45,
         ))
 
         cty = cr_2._context.copy()
@@ -133,7 +146,6 @@ class TestFinancialMove(TransactionCase):
         ENTÃO deve ser registrado o histórico no
             histórico da alteração o motivo
         E a alteração dos campos
-
         :return:
         """
         cr_1 = self.cr_1
@@ -145,25 +157,26 @@ class TestFinancialMove(TransactionCase):
 
         fr = self.financial_edit.with_context(ctx)
         vals = self.financial_edit.with_context(ctx).\
-            default_get([u'due_date',
-                         u'amount_document',
+            default_get([u'date_maturity',
+                         u'amount',
                          u'currency_id',
                          u'change_reason'])
         vals['change_reason'] = 'qualquer coisa'
+        vals['note'] = '!'
         message_number_before = len(self.env['financial.move'].browse(cr_1.id).
                                     message_ids.ids)
 
         edit = fr.create(vals)
         edit.write(dict(
-            due_date=time.strftime('%Y') + '-01-10',
+            date_maturity=time.strftime('%Y') + '-01-10',
             currency_id=self.currency_euro.id,
-            amount_document=50.00,
+            amount=50.00,
             change_reason='qualquer coisa',
         ))
         edit.doit()
         message_number_after = len(self.env['financial.move'].browse(cr_1.id)
                                    .message_ids.ids)
-        self.assertEqual(50.00, cr_1.amount_document)
+        self.assertEqual(50.00, cr_1.amount)
         self.assertEqual(message_number_before + 1, message_number_after)
 
     # """Como um operador de cobrança, eu preciso registrar um pagamento para
@@ -185,15 +198,17 @@ class TestFinancialMove(TransactionCase):
         fr = self.financial_pay_receive.with_context(ctx)
         pay = fr.create(
             dict(
-                ammount_paid=50.00,
-                payment_date=time.strftime('%Y') + '-01-10',
-                move_type='rr',
+                journal_id=self.bank_journal_id.id,
+                amount=50.00,
+                date_payment=time.strftime('%Y') + '-01-10',
+                financial_type='rr',
                 currency_id=self.currency_euro.id,
+                account_id=44,
             )
         )
         pay.doit()
 
-        self.assertEqual(50.00, cr_1.balance)
+        self.assertEqual(50.00, cr_1.amount_residual)
         self.assertEqual('open', cr_1.state)
 
     def test_us_3_cr_4(self):
@@ -211,15 +226,17 @@ class TestFinancialMove(TransactionCase):
         fr = self.financial_pay_receive.with_context(ctx)
         pay = fr.create(
             dict(
-                ammount_paid=100.00,
-                payment_date=time.strftime('%Y') + '-01-10',
-                move_type='rr',
+                journal_id=self.bank_journal_id.id,
+                amount=100.00,
+                date_payment=time.strftime('%Y') + '-01-10',
+                financial_type='rr',
                 currency_id=self.currency_euro.id,
+                account_id=40,
             )
         )
         pay.doit()
 
-        self.assertEqual(0.00, cr_1.balance)
+        self.assertEqual(0.00, cr_1.amount_residual)
         self.assertEqual('paid', cr_1.state)
 
     def test_us_3_cr_5(self):
@@ -238,15 +255,16 @@ class TestFinancialMove(TransactionCase):
         fr = self.financial_pay_receive.with_context(ctx)
         pay = fr.create(
             dict(
-                ammount_paid=150.00,
-                payment_date=time.strftime('%Y') + '-01-10',
-                move_type='rr',
+                journal_id=self.bank_journal_id.id,
+                amount=150.00,
+                date_payment=time.strftime('%Y') + '-01-10',
+                financial_type='rr',
                 currency_id=self.currency_euro.id,
             )
         )
         pay.doit()
 
-        self.assertEqual(-50.00, cr_1.balance)
+        self.assertEqual(-50.00, cr_1.amount_residual)
         self.assertEqual('paid', cr_1.state)
 
     # """
@@ -254,13 +272,12 @@ class TestFinancialMove(TransactionCase):
     # receber/pagar de forma automatica dependendo do termo de pagamento.
     # """
 
-    def test_usX_ac_Y(self):
+    def test_usx_ac_y(self):
         """
         DADO o lancamento de uma parcela via assistente
         QUANDO especificado algum termo de pagamento
         ENTÃO devem ser registradas uma ou mais parcelas em funcao do termo de
             pagamento
-
         :return:
         """
         date_today_iso = datetime.date.today().isoformat()
@@ -270,15 +287,17 @@ class TestFinancialMove(TransactionCase):
         fm = self.financial_move_create
         cr_1 = fm.create(
             dict(
+                journal_id=self.bank_journal_id.id,
                 company_id=self.main_company.id,
                 currency_id=self.currency_euro.id,
-                move_type='r',
+                financial_type='r',
                 partner_id=self.partner_agrolait.id,
                 document_number=doc_number,
                 document_date=date_today_iso,
-                payment_mode=self.payment_mode_1.id,
-                payment_term=self.payment_term_30_70.id,
-                amount_document=amount,
+                payment_mode_id=self.payment_mode_1.id,
+                payment_term_id=self.payment_term_id_30_70.id,
+                amount=amount,
+                account_id=44,
             )
         )
         ctx = cr_1._context.copy()
@@ -300,21 +319,18 @@ class TestFinancialMove(TransactionCase):
         fm_1 = sorted_items[-2]
         fm_2 = sorted_items[-1]
         computations = \
-            self.payment_term_30_70.compute(amount, date_today_iso)
+            self.payment_term_id_30_70.compute(amount, date_today_iso)
         expected_1 = computations[0][0]
         expected_2 = computations[0][1]
 
         # Count verification
         self.assertTrue(count_before < count_after)
 
-        # Ids verification
-        self.assertEqual(fm_1.document_item, doc_number + '/1')
-        self.assertEqual(fm_2.document_item, doc_number + '/2')
-
         # Dates verification
-        self.assertEqual(fm_1.due_date, date_today_iso)
-        self.assertEqual(fm_2.due_date, expected_2[0])
+        self.assertEqual(fm_1.date_maturity, date_today_iso)
+        self.assertEqual(fm_2.date_maturity, expected_2[0])
 
         # Amounts verification
-        self.assertEqual(fm_1.amount_document, expected_1[1])
-        self.assertEqual(fm_2.amount_document, expected_2[1])
+        self.assertEqual(fm_1.amount, expected_1[1])
+        self.assertEqual(fm_2.amount, expected_2[1])
+ 

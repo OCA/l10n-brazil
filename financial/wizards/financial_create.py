@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
+
 from ..models.financial_move import (
     FINANCIAL_MOVE,
 )
@@ -41,7 +42,7 @@ class FinancialMoveCreate(models.TransientModel):
         string='Payment Term',
         comodel_name='account.payment.term',
     )
-    account_analytic_id = fields.Many2one(
+    analytic_account_id = fields.Many2one(
         comodel_name='account.analytic.account',
         string=u'Analytic account',
     )
@@ -49,14 +50,14 @@ class FinancialMoveCreate(models.TransientModel):
         comodel_name='account.account',
         string=u'Account',
         required=True,
-        domain=[('internal_type', 'in', ('receivable', 'payable'))],
+        domain=[('internal_type', '=', 'other')],
         help="The partner account used for this invoice."
     )
     document_number = fields.Char(
         string=u"Document Nº",
         required=True,
     )
-    date_issue = fields.Date(
+    date = fields.Date(
         string=u'Financial date',
         default=fields.Date.context_today,
     )
@@ -71,17 +72,24 @@ class FinancialMoveCreate(models.TransientModel):
     note = fields.Text(
         string="Note",
     )
+    journal_id = fields.Many2one(
+        required=False,
+    )
+    bank_id = fields.Many2one(
+        'res.partner.bank',
+        string=u'Bank Account',
+    )
 
     @api.onchange('payment_term_id', 'document_number',
-                  'date_issue', 'amount')
+                  'date', 'amount')
     def onchange_fields(self):
         res = {}
         if not (self.payment_term_id and self.document_number and
-                self.date_issue and self.amount > 0.00):
+                self.date and self.amount > 0.00):
             return res
 
         computations = \
-            self.payment_term_id.compute(self.amount, self.date_issue)
+            self.payment_term_id.compute(self.amount, self.date)
 
         payment_ids = []
         for idx, item in enumerate(computations[0]):
@@ -96,28 +104,30 @@ class FinancialMoveCreate(models.TransientModel):
     @api.multi
     def compute(self):
         financial_move = self.env['financial.move']
+        financial_type = False
         for record in self:
             for move in record.line_ids:
                 vals = financial_move._prepare_payment(
-                    journal_id=self.journal_id.id,
+                    bank_id=self.bank_id.id,
                     company_id=self.company_id.id,
                     currency_id=self.currency_id.id,
                     financial_type=self.financial_type,
                     partner_id=self.partner_id.id,
-                    document_number=self.document_number,
-                    date_issue=self.date_issue,
+                    document_number=move.document_item,
+                    date=self.date,
                     payment_mode_id=self.payment_mode_id.id,
                     payment_term_id=self.payment_term_id.id,
-                    account_analytic_id=self.account_analytic_id.id,
+                    analytic_account_id=self.analytic_account_id.id,
                     account_id=self.account_id.id,
-                    document_item=move.document_item,
                     date_maturity=move.date_maturity,
                     amount=move.amount,
                 )
                 financial = financial_move.create(vals)
                 financial.action_confirm()
                 financial_move |= financial
-        return financial_move.action_view_financial(record.financial_type)
+                financial_type = record.financial_type
+
+        return financial_move.action_view_financial(financial_type)
 
 
 class FinancialMoveLineCreate(models.TransientModel):
@@ -133,7 +143,7 @@ class FinancialMoveLineCreate(models.TransientModel):
         string=u"Document item",
     )
 
-    date_issue = fields.Date(
+    date = fields.Date(
         string=u"Document date",
     )
 

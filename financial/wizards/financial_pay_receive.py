@@ -3,9 +3,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
-from ..models.financial_move import (
-    FINANCIAL_IN_OUT,
-)
 
 
 class FinancialPayreceive(models.TransientModel):
@@ -35,6 +32,13 @@ class FinancialPayreceive(models.TransientModel):
         string=u'Interest',
         readonly=True,
     )
+    journal_id = fields.Many2one(
+        required=False,
+    )
+    bank_id = fields.Many2one(
+        'res.partner.bank',
+        string=u'Bank Account',
+    )
 
     @api.model
     def default_get(self, vals):
@@ -50,7 +54,6 @@ class FinancialPayreceive(models.TransientModel):
 
     @api.multi
     def doit(self):
-        print "hetreas"
         for wizard in self:
             active_id = self._context['active_id']
             account_financial = self.env['financial.move']
@@ -63,17 +66,16 @@ class FinancialPayreceive(models.TransientModel):
                 financial_type = 'rr'
 
             vals = account_financial._prepare_payment(
-                journal_id=wizard.journal_id.id,
+                bank_id=wizard.bank_id.id,
                 company_id=wizard.company_id.id,
                 currency_id=wizard.currency_id.id,
                 financial_type=financial_type,
                 partner_id=financial_to_pay.partner_id.id,
+                date=wizard.date_payment,
                 document_number=financial_to_pay.document_number,
-                date_issue=wizard.date_payment,
-                # payment_mode_id=wizard.payment_mode_id.id,
-                document_item=financial_to_pay.document_item,
                 date_maturity=financial_to_pay.date_maturity,
                 amount=wizard.amount,
+                account_id=financial_to_pay.account_id.id,
             )
 
             vals['financial_payment_id'] = active_id
