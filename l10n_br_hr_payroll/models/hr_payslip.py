@@ -1265,15 +1265,21 @@ class HrPayslip(models.Model):
     def gerar_media_dos_proventos(self):
         medias_obj = self.env['l10n_br.hr.medias']
         if self.tipo_de_folha in ['ferias', 'aviso_previo', 'provisao_ferias']:
-            if self.tipo_de_folha in ['provisao_ferias']:
-                periodo_aquisitivo = self.contract_id.vacation_control_ids[-1]
+            if self.tipo_de_folha in ['provisao_ferias', 'aviso_previo']:
+                periodo_aquisitivo = self.contract_id.vacation_control_ids[0]
             else:
                 periodo_aquisitivo = self.periodo_aquisitivo
-            data_de_inicio = fields.Date.from_string(
-                periodo_aquisitivo.inicio_aquisitivo)
 
-            data_inicio_mes = fields.Date.from_string(
-                periodo_aquisitivo.inicio_aquisitivo).replace(day=1)
+            if self.tipo_de_folha in ['aviso_previo']:
+                data_de_inicio = fields.Date.from_string(
+                    self.date_from) - relativedelta(months=12)
+                data_inicio_mes = fields.Date.from_string(
+                    self.date_from).replace(day=1) - relativedelta(months=12)
+            else:
+                data_de_inicio = fields.Date.from_string(
+                    periodo_aquisitivo.inicio_aquisitivo)
+                data_inicio_mes = fields.Date.from_string(
+                    periodo_aquisitivo.inicio_aquisitivo).replace(day=1)
 
             # Se trabalhou mais do que 15 dias, contabilizar o mes corrente
             if (data_de_inicio - data_inicio_mes).days < 15:
