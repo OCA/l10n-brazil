@@ -188,11 +188,8 @@
                 <!--Redefinindo campo de Estrutura-->
                 <field name="struct_id" position="replace">
                     <field name="struct_id"
-                           attrs="{'invisible': [('tipo_de_folha', '!=', 'rescisao')]}"
-                           domain="[('tipo_estrutura', '=', tipo_de_folha)]"/>
-                    <field name="struct_id_readonly"
-                           attrs="{'invisible': [('tipo_de_folha', '=', 'rescisao')]}"
-                           readonly="True"/>
+                           attrs="{'readonly': [('tipo_de_folha', '!=', 'rescisao')]}"
+                           domain="[('tipo_estrutura', '=', tipo_de_folha)]" />
                 </field>
 
                 <xpath expr="//div[@class='oe_title']" position="replace">
@@ -220,11 +217,10 @@
                         <group>
                             <field name="holidays_ferias"
                                    domain="[('contrato_id', '=', contract_id), ('type', '=', 'remove'), ('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]"
-                                   attrs="{'readonly': False, 'required': [('tipo_de_folha', '=', 'ferias')]}"/>
+                                   attrs="{'readonly': False, 'required': [('tipo_de_folha', '=', 'ferias'), ('is_simulacao', '=', False)]}"/>
 
                             <field name="periodo_aquisitivo"
-                                   attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"
-                                   readonly="True"/>
+                                   attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')], 'readonly': [('is_simulacao', '=', False)]}" />
 
                             <field name="saldo_periodo_aquisitivo"
                                    attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
@@ -238,11 +234,11 @@
                     <label for="date_from" string=""/>
                 </xpath>
                 <field name="date_from" position="replace">
-                    <field name="date_from" readonly="1"/>
+                    <field name="date_from" attrs="{'readonly': [('is_simulacao', '=', False)]}"/>
                     até
                 </field>
                 <field name="date_to" position="replace">
-                    <field name="date_to" readonly="1"/>
+                    <field name="date_to" attrs="{'readonly': [('is_simulacao', '=', False)]}" />
                 </field>
 
                 <!--Adicionando campod o periodo-->

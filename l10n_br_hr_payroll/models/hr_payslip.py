@@ -209,19 +209,6 @@ class HrPayslip(models.Model):
              u' contracts of the employee valid for the chosen period'
     )
 
-    struct_id_readonly = fields.Many2one(
-        string=u'Estrutura de Salário',
-        comodel_name='hr.payroll.structure',
-        compute='_compute_set_employee_id',
-        readonly=True,
-        states={'draft': [('readonly', False)]},
-        help=u'Defines the rules that have to be applied to this payslip, '
-             u'accordingly to the contract chosen. If you let empty the field '
-             u'contract, this field isn\'t mandatory anymore and thus the '
-             u'rules applied will be all the rules set on the structure of all'
-             u' contracts of the employee valid for the chosen period'
-    )
-
     mes_do_ano = fields.Selection(
         selection=MES_DO_ANO,
         string=u'Mês',
@@ -450,7 +437,6 @@ class HrPayslip(models.Model):
         compute='_compute_saldo_periodo_aquisitivo',
         help=u'Saldo de dias do funcionaŕio, de acordo com número de faltas'
              u'dentro do período aquisitivo selecionado.',
-        store=True,
     )
 
     def get_attendances(self, nome, sequence, code, number_of_days,
@@ -952,7 +938,7 @@ class HrPayslip(models.Model):
         # Construir um browsableObject para informações das ferias na payslip\
         #     payslip.holidays_ferias
         dias_abono_ferias = {}
-        if payslip.holidays_ferias:
+        if payslip.holidays_ferias and not payslip.is_simulacao:
             if payslip.holidays_ferias.vacations_days:
                 dias_abono_ferias.update(
                     {'DIAS_FERIAS': payslip.holidays_ferias.vacations_days}
@@ -961,6 +947,10 @@ class HrPayslip(models.Model):
                 dias_abono_ferias.update(
                     {'DIAS_ABONO': payslip.holidays_ferias.sold_vacations_days}
                 )
+        else:
+            dias_abono_ferias.update(
+                {'DIAS_FERIAS': payslip.saldo_periodo_aquisitivo}
+            )
         ferias_abono = InputLine(payslip.employee_id.id, dias_abono_ferias)
 
         baselocaldict = {
@@ -1188,12 +1178,13 @@ class HrPayslip(models.Model):
 
             # Metodo pra validar se ja foram processadors todos os holerites
             #  usados no calculo das medias
-            if self.tipo_de_folha in ["decimo_terceiro", "ferias"]:
+            if self.tipo_de_folha in ["decimo_terceiro", "ferias"] and \
+                    not self.is_simulacao:
                 self.validacao_holerites_anteriores(
                     data_de_inicio, data_final, self.contract_id)
 
             if self.tipo_de_folha == 'ferias':
-                if not self.holidays_ferias:
+                if not self.holidays_ferias and not self.is_simulacao:
                     raise exceptions.Warning(
                         _('Nenhum Pedido de Ferias encontrado!')
                     )
@@ -1222,10 +1213,14 @@ class HrPayslip(models.Model):
 
                 # Atualizar o controle de férias com informacoes dos dias
                 # gozados pelo funcionario de acordo com a payslip de férias
-                self.periodo_aquisitivo.inicio_gozo = \
-                    self.holidays_ferias.date_from
-                self.periodo_aquisitivo.fim_gozo = \
-                    self.holidays_ferias.date_to
+                if not self.is_simulacao:
+                    self.periodo_aquisitivo.inicio_gozo = \
+                        self.holidays_ferias.date_from
+                    self.periodo_aquisitivo.fim_gozo = \
+                        self.holidays_ferias.date_to
+                else:
+                    self.periodo_aquisitivo.inicio_gozo = self.date_from
+                    self.periodo_aquisitivo.fim_gozo = self.date_to
         super(HrPayslip, self).compute_sheet()
         self._compute_valor_total_folha()
         self.buscar_informacoes_ferias()
