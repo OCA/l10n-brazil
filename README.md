@@ -81,6 +81,7 @@ addon | version | summary
 [l10n_br_crm](l10n_br_crm/) | 9.0.1.0.0 | Brazilian Localization CRM
 [l10n_br_zip](l10n_br_zip/) | 9.0.1.0.0 | Brazilian Localisation ZIP Codes
 
+
 Unported addons
 ---------------
 addon | version | summary
