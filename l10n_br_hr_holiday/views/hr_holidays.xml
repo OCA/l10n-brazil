@@ -46,6 +46,28 @@
             groups="base.group_hr_manager"
             sequence="6"/>
 
+    <record model="ir.actions.act_window" id="hr_holidays.open_ask_holidays">
+            <field name="name">Pedido de Férias</field>
+            <field name="res_model">hr.holidays</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="hr_holidays.edit_holiday_new"/>
+            <field name="context">{ 'default_tipo': 'ferias',
+                                    'default_type': 'remove',
+                                    'search_default_my_leaves':1}</field>
+            <field name="domain">[('type', '=', 'remove'),
+                                  ('tipo', '=', 'ferias')]</field>
+            <field name="search_view_id"
+                   ref="hr_holidays.view_hr_holidays_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Clique para criar um novo pedido de férias.
+              </p><p>
+                Uma vez criado o pedido de férias, ele será enviado ao
+                gerente para a aprovação. Verifique se foi selecionado
+                corretamente o número de dias e o período aquisitivo.
+              </p>
+            </field>
+        </record>
 
 
 </data>
