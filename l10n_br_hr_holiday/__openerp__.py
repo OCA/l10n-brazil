@@ -10,6 +10,7 @@
     'website': 'www.kmee.com.br',
     'depends': [
         'hr_holidays',
+        'l10n_br_resource',
     ],
     'data': [
         'views/hr_holidays.xml',
