@@ -102,6 +102,7 @@ addon | version | summary
 [l10n_br_zip](l10n_br_zip/) | 8.0.1.0.1 | Brazilian Localisation ZIP Codes
 [l10n_br_zip_correios](l10n_br_zip_correios/) | 8.0.1.0.0 | Address from Brazilian Localization ZIP by Correios
 
+
 Unported addons
 ---------------
 addon | version | summary
