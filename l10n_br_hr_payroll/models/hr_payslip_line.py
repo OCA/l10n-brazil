@@ -37,7 +37,7 @@ class HrPayslipeLine(models.Model):
             linha.round_total = linha.total
 
     @api.multi
-    @api.depends('category_id')
+    @api.depends('category_id', 'total', 'amount')
     def _compute_valor_provento(self):
         for line in self:
             line.quantity_fmt = valor.formata_valor(line.quantity)
@@ -50,7 +50,7 @@ class HrPayslipeLine(models.Model):
                 line.valor_provento_fmt = ''
 
     @api.multi
-    @api.depends('category_id')
+    @api.depends('category_id', 'total', 'amount')
     def _compute_valor_deducao(self):
         for line in self:
             if line.category_id.code in ['DEDUCAO', 'INSS', 'IRPF']:
