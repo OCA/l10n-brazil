@@ -49,7 +49,7 @@
         </record>
 
         <record model="ir.actions.act_window" id="l10n_br_hr_income_tax_action">
-            <field name="name">Income Tax</field>
+            <field name="name">Imposto de Renda</field>
             <field name="res_model">l10n_br.hr.income.tax</field>
             <field name="view_type">form</field>
             <field name="view_id" ref="l10n_br_hr_income_tax_tree"/>
@@ -59,7 +59,7 @@
         <menuitem
             action="l10n_br_hr_income_tax_action"
             id="menu_l10n_br_hr_income_tax"
-            name="Income Tax"
+            name="Imposto de Renda"
             parent="hr.menu_hr_configuration"
             sequence="41"
             />

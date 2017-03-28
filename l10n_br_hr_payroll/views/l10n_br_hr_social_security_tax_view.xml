@@ -50,7 +50,7 @@
         </record>
 
         <record model="ir.actions.act_window" id="l10n_br_hr_social_security_tax_action">
-            <field name="name">Social Security Tax</field>
+            <field name="name">Taxa de Seguridade Social</field>
             <field name="res_model">l10n_br.hr.social.security.tax</field>
             <field name="view_type">form</field>
             <field name="view_id" ref="l10n_br_hr_social_security_tax_tree"/>
@@ -60,7 +60,7 @@
         <menuitem
             action="l10n_br_hr_social_security_tax_action"
             id="menu_l10n_br_hr_social_security_tax"
-            name="Social Security Tax"
+            name="Taxa de Seguridade Social"
             parent="hr.menu_hr_configuration"
             sequence="45"
             />

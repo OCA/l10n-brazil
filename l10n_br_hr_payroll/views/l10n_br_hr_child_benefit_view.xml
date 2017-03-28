@@ -46,7 +46,7 @@
         </record>
 
         <record model="ir.actions.act_window" id="l10n_br_hr_child_benefit_action">
-            <field name="name">Child Benefit</field>
+            <field name="name">Auxílio Babá</field>
             <field name="res_model">l10n_br.hr.child.benefit</field>
             <field name="view_type">form</field>
             <field name="view_id" ref="l10n_br_hr_child_benefit_tree"/>
@@ -56,7 +56,7 @@
         <menuitem
             action="l10n_br_hr_child_benefit_action"
             id="menu_l10n_br_hr_child_benefit"
-            name="Child Benefit"
+            name="Auxílio Babá"
             parent="hr.menu_hr_configuration"
             sequence="40"
             />
