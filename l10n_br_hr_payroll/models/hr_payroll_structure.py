@@ -165,7 +165,7 @@ class HrPayrollStructure(models.Model):
     tipo_estrutura = fields.Selection(
         selection=[
             ('normal', 'Folha Normal'),
-            ('ferias', 'Fériass'),
+            ('ferias', 'Férias'),
             ('adiantamento_13', 'Adiantamento do 13º'),
             ('segunda_parcela_13', 'Segunda Parcela do 13º'),
             ('rescisao', 'Rescisão'),
