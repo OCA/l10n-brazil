@@ -34,7 +34,7 @@ class HrHolidays(models.Model):
     tipo = fields.Selection(
         selection=OCORRENCIA_TIPO,
         string="Tipo",
-        default='ferias',
+        default='ocorrencias',
     )
     holiday_status_id = fields.Many2one(
         domain="[('tipo', '=', tipo)]",
