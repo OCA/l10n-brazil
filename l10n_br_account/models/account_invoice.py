@@ -53,8 +53,8 @@ class AccountInvoice(models.Model):
         lines = self.env['account.move.line']
         for line in self.move_id.line_ids:
             if (line.account_id.id == self.account_id.id and
-                line.account_id.user_type_id.type in
-                    ('receivable', 'payable') and
+                    line.account_id.user_type_id.type in (
+                        'receivable', 'payable') and
                     self.journal_id.revenue_expense):
                 lines |= line
         self.move_line_receivable_id = lines.sorted()
@@ -246,7 +246,7 @@ class AccountInvoiceLine(models.Model):
         self.price_subtotal_signed = price_subtotal_signed * sign
 
     fiscal_category_id = fields.Many2one(
-        codmodel_name='l10n_br_account.fiscal.category',
+        comodel_name='l10n_br_account.fiscal.category',
         string='Categoria Fiscal'
     )
 
