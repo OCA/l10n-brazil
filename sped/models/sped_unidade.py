@@ -343,18 +343,8 @@ class Unidade(models.Model):
             name = name.replace(u' ', u' ')
             name = name.replace(u'²', u'2')
             name = name.replace(u'³', u'3')
-
-            args += [
-                '|',
-                ['codigo', '=', name],
-                '|',
-                ['codigo_unico', '=', name.lower()],
-                '|',
-                ['nome', operator, name],
-                ['nome_unico', operator, name.lower()],
-            ]
-            unidades = self.search(args, limit=limit)
-            return unidades.name_get()
+            args += ['|', ['codigo_unico', operator, name],
+                     ['nome_unico', operator, name]]
 
         return super(Unidade, self).name_search(name=name, args=args,
                                                 operator=operator, limit=limit)
@@ -477,3 +467,60 @@ class Unidade(models.Model):
         self.sync_to_uom()
         self.sync_to_currency()
         return res
+
+    #
+    # Para uso com o field.Monetary
+    #
+    @api.depends('codigo')
+    def _compute_symbol(self):
+        for unidade in self:
+            self.active = True
+            self.position = 'after'
+            self.symbol = u' ' + self.codigo
+
+            if (self.tipo == self.TIPO_UNIDADE_UNIDADE or
+                    self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
+                self.decimal_places = 0
+            else:
+                self.decimal_places = len(
+                    str(int(self.fator_relacao_decimal * (
+                        10 ** self.precisao_decimal))))
+
+            self.rounding = D(10) ** (self.decimal_places * -1)
+
+    @api.model
+    def get_format_currencies_js_function(self):
+        """ Returns a string that can be used to instanciate a javascript
+        function that formats numbers as currencies.
+            That function expects the number as first parameter and
+        the currency id as second parameter.
+            If the currency id parameter is false or undefined,
+        the company currency is used.
+        """
+        function = ""
+        for unidade in self.search([]):
+            symbol = unidade.codigo
+            format_number_str = "openerp.web.format_value(arguments[0], " \
+                                "{type: 'float', digits: [69,%s]}, 0.00)" \
+                                % self.decimal_places
+            return_str = "return %s + '\\xA0' + %s;" % (
+                json.dumps(symbol), format_number_str)
+            function += "if (arguments[1] === %s) { %s }" % (
+                unidade.id, return_str)
+            if unidade == self.env.ref('sped.UNIDADE_UNIDADE'):
+                company_currency_format = return_str
+        function = "if (" \
+                   "arguments[1] === false || arguments[1] === undefined" \
+                   ") {" + company_currency_format + " }" + function
+
+        return function
+
+    @api.multi
+    def round(self, amount):
+        # self.ensure_one()
+        amount = D(amount or 0)
+        if (self.tipo == self.TIPO_UNIDADE_UNIDADE or
+                self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
+            return amount.quantize(D(1))
+        amount = amount.quantize(D(10) * D(self.decimal_places * -1))
+        return amount
