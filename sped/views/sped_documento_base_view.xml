@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_base_form" >
+        <field name="name">sped.documento.base.form</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">9999</field>
+        <field name="arch" type="xml">
+            <form string="Emissão de NF-e">
+                <sheet>
+                    <field name="permite_alteracao" invisible="1" />
+                    <field name="emissao" invisible="1" />
+                    <field name="modelo" invisible="1" />
+                    <field name="id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="currency_aliquota_id" invisible="1"/>
+                    <group>
+                        <group col="4" colspan="4">
+                            <field name="empresa_id" colspan="4" options="{'no_create': True, 'no_open': True}" required="1" attrs="{'readonly': ['|', ('id', '!=', False), ('permite_alteracao', '=', False)]}" />
+                            <field name="empresa_cnpj_cpf" colspan="2" readonly="1" />
+                            <newline />
+                            <field name="operacao_id" colspan="4" domain="[('modelo', '=', modelo), ('emissao', '=', emissao), '|', ('empresa_id', '=', False), ('empresa_id', '=', empresa_id)]" options="{'no_create': True, 'no_open': True}" required="1" attrs="{'readonly': ['|', ('id', '!=', False), ('permite_alteracao', '=', False)]}" />
+                            <newline />
+                            <field name="numero" required="1" colspan="2" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                            <field name="serie" required="1" colspan="2" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                            <newline />
+                            <field name="data_hora_emissao" colspan="2" required="1" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                            <field name="data_hora_entrada_saida" colspan="2" required="1" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                            <newline />
+                            <field name="data_emissao" invisible="1" />
+                            <field name="data_entrada_saida" invisible="1" />
+                            <newline />
+                            <field name="chave" colspan="4" attrs="{'readonly': [('permite_alteracao', '=', False)]}"/>
+                            <newline />
+                            <field name="situacao_fiscal" required="1" colspan="2" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="participante" string="Destinatário/Remetente">
+                            <group>
+                                <group colspan="6" col="6">
+                                    <separator string="Destinatário" colspan="6" attrs="{'invisible': [('entrada_saida', '=', '0')]}" />
+                                    <separator string="Remetente" colspan="6" attrs="{'invisible': [('entrada_saida', '=', '1')]}" />
+                                    <field name="participante_id" nolabel= "1" colspan="6" required="1" options="{'no_open': True, 'no_create': True}" domain="[('cnpj_cpf', '!=', empresa_cnpj_cpf), ('cnpj_cpf', '!=', False)]" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <newline />
+                                    <field name="participante_razao_social" string="Nome completo Razão Social" colspan="6" />
+                                    <newline />
+                                    <field name="participante_fantasia" colspan="6" attrs="{'invisible': [('participante_tipo_pessoa', '!=', 'J')]}" />
+                                    <newline />
+                                    <field name="participante_tipo_pessoa" invisible="1" />
+                                    <newline />
+                                    <field name="participante_cnpj_cpf" colspan="2" />
+                                    <field name="participante_contribuinte" colspan="2" />
+                                    <field name="participante_ie" colspan="2" attrs="{'invisible': [('participante_contribuinte', '!=', '1')]}" />
+                                    <newline />
+                                    <separator string="Contato" colspan="6" />
+                                    <newline />
+                                    <field name="participante_fone" />
+                                    <field name="participante_celular" />
+                                    <field name="participante_fone_comercial" />
+                                    <newline />
+                                    <field name="participante_email" colspan="6" />
+                                    <newline />
+                                    <separator string="Endereço" colspan="6" />
+                                    <newline />
+                                    <field name="participante_endereco" colspan="6"/>
+                                    <newline />
+                                    <field name="participante_numero" />
+                                    <field name="participante_complemento" colspan="4" />
+                                    <newline />
+                                    <field name="participante_bairro" colspan="6" />
+                                    <newline />
+                                    <field name="participante_municipio_id" options="{'no_open': True, 'no_create': True}" colspan="6" />
+                                    <newline />
+                                    <field name="participante_cep" />
+                                    <newline />
+                                    <field name="participante_estado" invisible="1" />
+                                    <field name="participante_eh_orgao_publico" invisible="1" />
+                                </group>
+                            </group>
+                        </page>
+                        <page name="itens" string="Itens">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <field name="item_ids" nolabel="1" colspan="4" context="{'form_view_ref' : 'sped.sped_documento_item_emissao_form', 'tree_view_ref' : 'sped.sped_documento_item_emissao_tree'}" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                </group>
+                            </group>
+                        </page>
+                        <page name="retencoes" string="Retenções">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <separator string="IR" colspan="2" />
+                                    <separator string="CSLL" colspan="2" />
+                                    <newline />
+                                    <field name="irrf_retido" string="Retém IR?" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <field name="csll_retido" string="Retém CSLL?" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <newline />
+                                    <field name="irrf_retido_ignora_limite" string="Ignora limite de R$ 10,00?" attrs="{'invisible': [('irrf_retido', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <newline />
+                                    <field name="al_irrf" attrs="{'invisible': [('irrf_retido', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <field name="al_csll" attrs="{'invisible': [('csll_retido', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <newline />
+                                    <separator string="PIS e COFINS" colspan="4" />
+                                    <newline />
+                                    <field name="pis_cofins_retido" string="Retém PIS e COFINS?" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <field name="limite_retencao_pis_cofins_csll" attrs="{'invisible': [('csll_retido', '=', False), ('pis_cofins_retido', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <newline />
+                                    <separator string="PIS retido" colspan="2" attrs="{'invisible': [('pis_cofins_retido', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <separator string="COFINS retida" colspan="2" attrs="{'invisible': [('pis_cofins_retido', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <newline />
+                                    <field name="al_pis_retido" attrs="{'invisible': [('pis_cofins_retido', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <field name="al_cofins_retido" attrs="{'invisible': [('pis_cofins_retido', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <newline />
+                                    <separator string="Geral" colspan="2" />
+                                    <newline />
+                                    <field name="deduz_retencao" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                </group>
+                            </group>
+                        </page>
+                        <page name="totais" string="Totais">
+                            <notebook>
+                                <page string="Valores">
+                                    <group>
+                                        <group colspan="4" col="4">
+                                            <group colspan="4" col="4" string="Valores principais">
+                                                <field name="vr_produtos" colspan="2" string="Produtos/serviços" />
+                                                <field name="vr_nf" colspan="2" string="Total da NF" />
+                                                <newline />
+                                                <field name="vr_frete" colspan="2" string="Frete" />
+                                                <field name="vr_fatura" colspan="2" string="Total da fatura" />
+                                                <newline />
+                                                <field name="vr_seguro" colspan="2" string="Seguro" />
+                                                <newline />
+                                                <field name="vr_outras" colspan="2" string="Outras" />
+                                                <newline />
+                                                <field name="vr_desconto" colspan="2" string="Desconto" />
+                                                <newline />
+                                                <field name="vr_operacao" colspan="2" string="Operação" />
+                                            </group>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Impostos">
+                                    <notebook>
+                                        <page string="Imposto de importação" attrs="{'invisible': [('entrada_saida', '!=', '0')]}">
+                                            <group string="Imposto de importação">
+                                                <field name="bc_ii" string="Base de cáculo" />
+                                                <newline />
+                                                <field name="vr_ii" string="Valor" />
+                                                <newline />
+                                                <field name="vr_despesas_aduaneiras" string="Despesas aduaneiras" />
+                                                <newline />
+                                                <field name="vr_iof" string="IOF" />
+                                            </group>
+                                        </page>
+                                        <page string="ICMS" attrs="{'invisible': [('modelo', 'in', ('SE', 'RL'))]}">
+                                            <group colspan="4" col="4">
+                                                <group string="Crédito de ICMS SIMPLES" attrs="{'invisible': [('regime_tributario', '!=', '1')]}" colspan="2">
+                                                    <field name="vr_icms_sn" string="Valor" />
+                                                </group>
+                                                <newline />
+                                                <group string="ICMS" colspan="2">
+                                                    <field name="bc_icms_proprio" string="Base de cálculo" />
+                                                    <newline />
+                                                    <field name="vr_icms_proprio" string="Valor" />
+                                                    <newline />
+                                                    <separator string="Diferencial de alíquota" colspan="2"  />
+                                                    <newline />
+                                                    <field name="vr_difal" string="Valor DIFAL" />
+                                                    <newline />
+                                                    <separator string="Fundo de combate à pobreza" colspan="2" />
+                                                    <newline />
+                                                    <field name="vr_fcp" string="Valor FCP" />
+                                                    <newline />
+                                                </group>
+                                                <group string="ICMS ST" colspan="2">
+                                                    <field name="bc_icms_st" string="Base de cálculo" />
+                                                    <newline />
+                                                    <field name="vr_icms_st" string="Valor" />
+                                                </group>
+                                            </group>
+                                        </page>
+                                        <page string="IPI" attrs="{'invisible': [('modelo', 'in', ('SE', 'RL'))]}">
+                                            <group colspan="4" col="4">
+                                                <group string="IPI" colspan="2">
+                                                    <field name="bc_ipi" string="Base de cálculo" />
+                                                    <newline />
+                                                    <field name="vr_ipi" string="Valor" />
+                                                </group>
+                                            </group>
+                                        </page>
+                                        <page string="ISS" attrs="{'invisible': ['!',('modelo', 'in', ('SE', 'RL'))]}">
+                                            <group string="ISS" colspan="2">
+                                                <field name="bc_iss" />
+                                                <newline />
+                                                <field name="vr_iss" />
+                                                <newline />
+                                            </group>
+                                        </page>
+                                        <page string="PIS-COFINS">
+                                            <group colspan="4" col="4">
+                                                <group string="PIS" colspan="2">
+                                                    <field name="bc_pis_proprio" string="Base de cálculo" />
+                                                    <newline />
+                                                    <field name="vr_pis_proprio" string="Valor" />
+                                                </group>
+                                                <group string="COFINS" colspan="2">
+                                                    <field name="bc_cofins_proprio" string="Base de cálculo" />
+                                                    <newline />
+                                                    <field name="vr_cofins_proprio" string="Valor" />
+                                                </group>
+                                            </group>
+                                        </page>
+                                        <page string="SIMPLES Nacional" attrs="{'invisible': [('regime_tributario', '!=', '1')]}">
+                                            <group string="SIMPLES Nacional">
+                                                <field name="vr_simples" />
+                                                <newline />
+                                            </group>
+                                        </page>
+                                        <page string="IBPT" >
+                                            <group string="Valor aproximado dos tributos">
+                                                <field name="vr_ibpt" />
+                                                <newline />
+                                            </group>
+                                        </page>
+                                    </notebook>
+                                </page>
+                            </notebook>
+                        </page>
+                        <page name="transporte" string="Transporte">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <separator string="Frete e transporte" colspan="4" />
+                                    <field name="modalidade_frete" attrs="{'required': '1', 'readonly': [('permite_alteracao', '=', False)]}" colspan="2" />
+                                    <newline />
+                                    <field name="transportadora_id" colspan="4" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': ['!', ('modalidade_frete', 'in', ['0', '1', '2'])], 'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <newline />
+                                    <field name="veiculo_id" colspan="2" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <field name="reboque_1_id" colspan="2" attrs="{'invisible': [('veiculo_id', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id])]" />
+                                    <newline />
+                                    <field name="reboque_2_id" colspan="2" attrs="{'invisible': [('reboque_1_id', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id])]" />
+                                    <field name="reboque_3_id" colspan="2" attrs="{'invisible': [('reboque_2_id', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id])]" />
+                                    <newline />
+                                    <field name="reboque_4_id" colspan="2" attrs="{'invisible': [('reboque_3_id', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id, reboque_3_id])]" />
+                                    <field name="reboque_5_id" colspan="2" attrs="{'invisible': [('reboque_4_id', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id, reboque_3_id, reboque_4_id])]" />
+                                    <newline />
+                                    <separator string="Volumes" colspan="4" />
+                                    <field name="volume_ids" colspan="4" nolabel="1" attrs="{'readonly': [('permite_alteracao', '=', False)]}">
+                                        <tree string="Volumes" editable="bottom">
+                                            <field name="quantidade" />
+                                            <field name="especie" />
+                                            <field name="marca" />
+                                            <field name="numero" />
+                                            <field name="peso_liquido" />
+                                            <field name="peso_bruto" />
+                                        </tree>
+                                    </field>
+                                    <group name="Exportação" colspan="4" col="4" attrs="{'invisible': ['|', ('entrada_saida', '!=', '1'), ('participante_estado', '!=', 'EX')]}">
+                                        <separator string="Exportação" colspan="4" />
+                                        <field name="exportacao_estado_embarque_id" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                        <newline />
+                                        <field name="exportacao_local_embarque" colspan="4" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                    </group>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="empenho" string="Empenho - órgãos públicos" attrs="{'invisible': [('participante_eh_orgao_publico', '=', False)]}">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <field name="compra_nota_empenho" string="Identificação da NF de empenho" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <newline />
+                                    <field name="compra_pedido" string="Pedido" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <newline />
+                                    <field name="compra_contrato" string="Contrato" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                </group>
+                            </group>
+                        </page>
+                        <page name="outras" string="Outras informações">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <field name="finalidade_nfe" attrs="{'required': '1', 'readonly': [('permite_alteracao', '=', False)]}" colspan="2" string="Finalidade" />
+                                    <field name="tipo_emissao_nfe" attrs="{'required': '1', 'readonly': [('permite_alteracao', '=', False)]}" colspan="2" string="Tipo de emissão" />
+                                    <newline />
+                                    <field name="consumidor_final" attrs="{'required': '1', 'readonly': [('permite_alteracao', '=', False)]}" colspan="2" />
+                                    <field name="presenca_comprador" attrs="{'required': '1', 'readonly': [('permite_alteracao', '=', False)]}" colspan="2" />
+                                    <newline />
+                                    <field name="ambiente_nfe" attrs="{'required': '1', 'readonly': [('permite_alteracao', '=', False)]}" colspan="2" string="Ambiente" />
+                                    <newline />
+                                    <field name="entrada_saida" attrs="{'required': '1', 'readonly': ['|', ('id', '!=', False),('permite_alteracao', '=', False)]}" colspan="2" />
+                                    <field name="regime_tributario" attrs="{'required': '1', 'readonly': ['|', ('id', '!=', False), ('permite_alteracao', '=', False)]}" colspan="2" />
+                                    <newline />
+                                    <field name="natureza_operacao_id" colspan="4" required="1" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <newline />
+                                    <separator string="Informações complementares" colspan="4" />
+                                    <field name="infcomplementar" colspan="4" nolabel="1" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <separator string="Informações adicionais de interesse do fisco" colspan="4" />
+                                    <field name="infadfisco" colspan="4" nolabel="1" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <newline />
+                                    <separator string="Documentos Referenciados" colspan="4" />
+                                    <field name="documento_referenciado_ids" nolabel="1" colspan="4" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                </group>
+                            </group>
+                        </page>
+                        <page name="financeiro" string="Financeiro">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <field name="ind_forma_pagamento" required="1" colspan="4" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <newline />
+                                    <field name="payment_term_id" colspan="4" context="{'currency_id': currency_id, 'value': vr_fatura}" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <separator name="vencimentos" string="Vencimentos" colspan="4" />
+                                    <field name="duplicata_ids" colspan="4" nolabel="1" attrs="{'readonly': [('permite_alteracao', '=', False)]}">
+                                        <tree string="Duplicatas" editable="bottom">
+                                            <field name="currency_id" invisible="1" />
+                                            <field name="numero" />
+                                            <field name="data_vencimento" />
+                                            <field name="valor" />
+                                        </tree>
+                                    </field>
+                                    <newline />
+                                    <separator name="pagamentos" string="Pagamentos" colspan="4" />
+                                    <field name="pagamento_ids" colspan="4" nolabel="1" attrs="{'readonly': [('permite_alteracao', '=', False)]}" context="{'default_valor': vr_fatura}" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_base_tree">
+        <field name="name">sped.documento.base.tree</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">9999</field>
+        <field name="arch" type="xml">
+            <tree string="Emissão de NF-e">
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="situacao_fiscal" />
+                <field name="empresa_id" />
+                <field name="operacao_id" />
+                <field name="serie" />
+                <field name="numero" />
+                <field name="data_emissao" />
+                <field name="data_entrada_saida" />
+                <field name="participante_id" />
+                <field name="vr_nf" sum="vr_nf" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_base_search">
+        <field name="name">sped.documento.base.search</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">9999</field>
+        <field name="arch" type="xml">
+            <search string="Emissão de NF-e">
+                <field name="empresa_id" />
+                <field name="operacao_id" />
+                <field name="numero" />
+                <field name="participante_id" />
+            </search>
+        </field>
+    </record>
+
+</odoo>

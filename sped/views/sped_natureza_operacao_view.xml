@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_natureza_operacao_form" >
+        <field name="name">sped.natureza.operacao.form</field>
+        <field name="model">sped.natureza.operacao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+<!--             <form string="Natureza de operação fiscal" delete="false" create="false" edit="false"> -->
+            <form string="Natureza de operação fiscal">
+                <sheet>
+                    <group>
+                        <group colspan="4" col="4">
+                            <field name="codigo" attrs="{'required': True}" default_focus="1" />
+                            <newline />
+                            <field name="nome" required="1" colspan="4" />
+                            <newline />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_natureza_operacao_tree">
+        <field name="name">sped.natureza.operacao.tree</field>
+        <field name="model">sped.natureza.operacao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+<!--             <tree string="Natureza de operação fiscal" delete="false" create="false" edit="false"> -->
+            <tree string="Natureza de operação fiscal">
+                <field name="codigo" />
+                <field name="nome" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_natureza_operacao_search">
+        <field name="name">sped.natureza.operacao.search</field>
+        <field name="model">sped.natureza.operacao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Natureza de operação fiscal">
+                <field name="codigo" />
+                <field name="nome" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_natureza_operacao_acao">
+        <field name="name">Natureza de operação fiscal</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="res_model">sped.natureza.operacao</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_natureza_operacao_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_natureza_operacao_form"/>
+        <field name="act_window_id" ref="sped_natureza_operacao_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_natureza_operacao_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_natureza_operacao_tree"/>
+        <field name="act_window_id" ref="sped_natureza_operacao_acao"/>
+    </record>
+
+    <menuitem
+        id="menu_sped_natureza_operacao"
+        sequence="5"
+        name="Naturezas de operação"
+        parent="menu_sped_configuracao"
+        action="sped_natureza_operacao_acao" />
+
+</odoo>

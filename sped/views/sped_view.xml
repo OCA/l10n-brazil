@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <menuitem
+        sequence="-98"
+        id="menu_sped"
+        name="Fiscal"
+        web_icon="sped,static/description/icon.png"
+        />
+
+    <menuitem
+        parent="menu_sped"
+        sequence="1"
+        id="menu_sped_documento_emissao"
+        name="Emissão"
+        />
+
+    <menuitem
+        parent="menu_sped"
+        sequence="2"
+        id="menu_sped_documento_recebimento"
+        name="Recebimento"
+        />
+
+    <menuitem
+        parent="menu_sped"
+        sequence="100"
+        id="menu_sped_configuracao"
+        name="Configuração"
+        />
+
+    <menuitem
+        parent="menu_sped_configuracao"
+        sequence="1"
+        id="menu_sped_aliquota"
+        name="Alíquotas"
+        />
+
+    <menuitem
+        parent="menu_sped_aliquota"
+        sequence="2"
+        id="menu_sped_aliquota_icms_proprio"
+        name="ICMS próprio"
+        />
+
+    <menuitem
+        parent="menu_sped_aliquota"
+        sequence="3"
+        id="menu_sped_aliquota_icms_st"
+        name="ICMS ST"
+        />
+
+    <menuitem
+        parent="menu_sped_configuracao"
+        sequence="3"
+        id="menu_sped_operacao_emissao"
+        name="Operações de emissão"
+        />
+
+    <menuitem
+        parent="menu_sped_configuracao"
+        sequence="4"
+        id="menu_sped_operacao_recebimento"
+        name="Operações de recebimento"
+        />
+
+    <menuitem
+        parent="menu_sped_configuracao"
+        sequence="6"
+        id="menu_sped_tabela"
+        name="Tabelas"
+        />
+
+</odoo>

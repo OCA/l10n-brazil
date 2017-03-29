@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="0">
+
+    <record id="base.BRL" model="res.currency">
+        <field name="name">BRL</field>
+        <field name="symbol">R$</field>
+        <field name="rounding">0.01</field>
+        <field name="active" eval="True"/>
+        <field name="position">before</field>
+    </record>
+
+    <record id="base.EUR" model="res.currency">
+        <field name="name">EUR</field>
+        <field name="symbol">€</field>
+        <field name="rounding">0.01</field>
+        <field name="active" eval="True"/>
+        <field name="position">before</field>
+    </record>
+
+    <record id="base.USD" model="res.currency">
+        <field name="name">USD</field>
+        <field name="symbol">US$</field>
+        <field name="rounding">0.01</field>
+        <field name="active" eval="True"/>
+        <field name="position">before</field>
+    </record>
+
+    <record id="SIMBOLO_ALIQUOTA" model="res.currency">
+        <field name="name">ALIQUOTA</field>
+        <field name="symbol">%</field>
+        <field name="rounding">0.01</field>
+        <field name="active" eval="True"/>
+        <field name="position">after</field>
+    </record>
+
+    <record id="SIMBOLO_VALOR_UNITARIO" model="res.currency">
+        <field name="name">UNITARIO</field>
+        <field name="symbol">R$</field>
+        <field name="rounding">0.01</field>
+        <field name="active" eval="True"/>
+        <field name="position">before</field>
+    </record>
+
+</odoo>

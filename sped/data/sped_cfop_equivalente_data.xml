@@ -1,0 +1,3326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="True">
+
+    <record id="CFOP_1101" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1101" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2101" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3101" />
+    </record>
+
+    <record id="CFOP_1102" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1102" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2102" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3102" />
+    </record>
+
+    <record id="CFOP_1111" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1111" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2111" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1113" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1113" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2113" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1116" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1116" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2116" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1117" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1117" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2117" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1118" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1118" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2118" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1120" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1120" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2120" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1121" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1121" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2121" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1122" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1122" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2122" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1124" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1124" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2124" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1125" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1125" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2125" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1126" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1126" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2126" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3126" />
+    </record>
+
+    <record id="CFOP_1128" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1128" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2128" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3128" />
+    </record>
+
+    <record id="CFOP_1151" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1151" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2151" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1152" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1152" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2152" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1153" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1153" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2153" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1154" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1154" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2154" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1201" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1201" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2201" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3201" />
+    </record>
+
+    <record id="CFOP_1202" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1202" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2202" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3202" />
+    </record>
+
+    <record id="CFOP_1203" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1203" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2203" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1204" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1204" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2204" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1205" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1205" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2205" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3205" />
+    </record>
+
+    <record id="CFOP_1206" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1206" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2206" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3206" />
+    </record>
+
+    <record id="CFOP_1207" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1207" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2207" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3207" />
+    </record>
+
+    <record id="CFOP_1208" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1208" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2208" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1209" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1209" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2209" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1251" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1251" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2251" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3251" />
+    </record>
+
+    <record id="CFOP_1252" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1252" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2252" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1253" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1253" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2253" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1254" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1254" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2254" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1255" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1255" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2255" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1256" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1256" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2256" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1257" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1257" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2257" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1301" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1301" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2301" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3301" />
+    </record>
+
+    <record id="CFOP_1302" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1302" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2302" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1303" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1303" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2303" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1304" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1304" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2304" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1305" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1305" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2305" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1306" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1306" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2306" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1351" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1351" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2351" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3351" />
+    </record>
+
+    <record id="CFOP_1352" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1352" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2352" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3352" />
+    </record>
+
+    <record id="CFOP_1353" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1353" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2353" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3353" />
+    </record>
+
+    <record id="CFOP_1354" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1354" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2354" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3354" />
+    </record>
+
+    <record id="CFOP_1355" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1355" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2355" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3355" />
+    </record>
+
+    <record id="CFOP_1356" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1356" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2356" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3356" />
+    </record>
+
+    <record id="CFOP_1360" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1360" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1401" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1401" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2401" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1403" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1403" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2403" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1406" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1406" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2406" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1407" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1407" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2407" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1408" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1408" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2408" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1409" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1409" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2409" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1410" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1410" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2410" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1411" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1411" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2411" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1414" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1414" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2414" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1415" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1415" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2415" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1451" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1451" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1452" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1452" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1501" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1501" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2501" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1503" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1503" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2503" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3503" />
+    </record>
+
+    <record id="CFOP_1504" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1504" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2504" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1505" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1505" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2505" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1506" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1506" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2506" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1551" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1551" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2551" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3551" />
+    </record>
+
+    <record id="CFOP_1552" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1552" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2552" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1553" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1553" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2553" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3553" />
+    </record>
+
+    <record id="CFOP_1554" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1554" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2554" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1555" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1555" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2555" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1556" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1556" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2556" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3556" />
+    </record>
+
+    <record id="CFOP_1557" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1557" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2557" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1601" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1601" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1602" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1602" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1603" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1603" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2603" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1604" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1604" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1605" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1605" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1651" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1651" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2651" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3651" />
+    </record>
+
+    <record id="CFOP_1652" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1652" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2652" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3652" />
+    </record>
+
+    <record id="CFOP_1653" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1653" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2653" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3653" />
+    </record>
+
+    <record id="CFOP_1658" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1658" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2658" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1659" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1659" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2659" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1660" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1660" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2660" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1661" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1661" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2661" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1662" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1662" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2662" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1663" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1663" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2663" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1664" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1664" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2664" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1901" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1901" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2901" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1902" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1902" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2902" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1903" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1903" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2903" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1904" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1904" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2904" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1905" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1905" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2905" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1906" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1906" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2906" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1907" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1907" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2907" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1908" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1908" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2908" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1909" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1909" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2909" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1910" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1910" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2910" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1911" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1911" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2911" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1912" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1912" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2912" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1913" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1913" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2913" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1914" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1914" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2914" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1915" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1915" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2915" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1916" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1916" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2916" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1917" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1917" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2917" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1918" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1918" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2918" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1919" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1919" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2919" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1920" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1920" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2920" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1921" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1921" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2921" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1922" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1922" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2922" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1923" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1923" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2923" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1924" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1924" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2924" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1925" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1925" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2925" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1926" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1926" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1931" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1931" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2931" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1932" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1932" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2932" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1933" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1933" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2933" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1934" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1934" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2934" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_1949" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1949" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2949" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3949" />
+    </record>
+
+    <record id="CFOP_2101" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1101" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2101" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3101" />
+    </record>
+
+    <record id="CFOP_2102" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1102" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2102" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3102" />
+    </record>
+
+    <record id="CFOP_2111" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1111" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2111" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2113" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1113" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2113" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2116" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1116" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2116" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2117" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1117" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2117" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2118" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1118" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2118" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2120" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1120" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2120" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2121" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1121" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2121" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2122" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1122" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2122" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2124" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1124" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2124" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2125" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1125" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2125" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2126" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1126" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2126" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3126" />
+    </record>
+
+    <record id="CFOP_2128" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1128" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2128" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3128" />
+    </record>
+
+    <record id="CFOP_2151" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1151" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2151" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2152" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1152" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2152" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2153" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1153" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2153" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2154" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1154" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2154" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2201" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1201" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2201" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3201" />
+    </record>
+
+    <record id="CFOP_2202" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1202" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2202" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3202" />
+    </record>
+
+    <record id="CFOP_2203" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1203" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2203" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2204" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1204" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2204" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2205" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1205" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2205" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3205" />
+    </record>
+
+    <record id="CFOP_2206" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1206" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2206" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3206" />
+    </record>
+
+    <record id="CFOP_2207" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1207" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2207" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3207" />
+    </record>
+
+    <record id="CFOP_2208" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1208" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2208" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2209" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1209" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2209" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2251" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1251" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2251" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3251" />
+    </record>
+
+    <record id="CFOP_2252" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1252" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2252" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2253" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1253" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2253" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2254" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1254" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2254" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2255" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1255" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2255" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2256" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1256" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2256" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2257" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1257" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2257" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2301" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1301" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2301" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3301" />
+    </record>
+
+    <record id="CFOP_2302" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1302" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2302" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2303" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1303" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2303" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2304" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1304" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2304" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2305" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1305" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2305" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2306" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1306" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2306" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2351" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1351" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2351" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3351" />
+    </record>
+
+    <record id="CFOP_2352" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1352" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2352" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3352" />
+    </record>
+
+    <record id="CFOP_2353" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1353" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2353" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3353" />
+    </record>
+
+    <record id="CFOP_2354" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1354" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2354" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3354" />
+    </record>
+
+    <record id="CFOP_2355" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1355" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2355" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3355" />
+    </record>
+
+    <record id="CFOP_2356" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1356" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2356" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3356" />
+    </record>
+
+    <record id="CFOP_2401" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1401" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2401" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2403" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1403" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2403" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2406" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1406" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2406" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2407" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1407" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2407" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2408" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1408" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2408" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2409" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1409" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2409" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2410" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1410" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2410" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2411" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1411" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2411" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2414" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1414" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2414" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2415" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1415" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2415" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2501" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1501" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2501" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2503" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1503" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2503" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3503" />
+    </record>
+
+    <record id="CFOP_2504" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1504" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2504" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2505" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1505" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2505" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2506" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1506" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2506" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2551" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1551" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2551" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3551" />
+    </record>
+
+    <record id="CFOP_2552" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1552" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2552" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2553" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1553" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2553" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3553" />
+    </record>
+
+    <record id="CFOP_2554" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1554" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2554" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2555" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1555" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2555" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2556" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1556" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2556" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3556" />
+    </record>
+
+    <record id="CFOP_2557" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1557" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2557" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2603" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1603" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2603" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2651" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1651" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2651" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3651" />
+    </record>
+
+    <record id="CFOP_2652" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1652" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2652" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3652" />
+    </record>
+
+    <record id="CFOP_2653" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1653" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2653" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3653" />
+    </record>
+
+    <record id="CFOP_2658" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1658" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2658" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2659" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1659" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2659" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2660" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1660" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2660" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2661" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1661" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2661" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2662" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1662" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2662" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2663" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1663" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2663" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2664" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1664" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2664" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2901" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1901" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2901" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2902" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1902" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2902" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2903" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1903" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2903" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2904" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1904" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2904" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2905" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1905" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2905" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2906" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1906" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2906" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2907" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1907" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2907" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2908" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1908" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2908" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2909" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1909" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2909" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2910" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1910" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2910" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2911" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1911" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2911" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2912" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1912" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2912" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2913" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1913" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2913" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2914" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1914" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2914" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2915" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1915" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2915" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2916" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1916" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2916" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2917" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1917" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2917" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2918" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1918" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2918" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2919" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1919" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2919" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2920" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1920" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2920" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2921" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1921" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2921" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2922" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1922" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2922" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2923" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1923" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2923" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2924" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1924" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2924" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2925" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1925" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2925" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2931" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1931" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2931" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2932" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1932" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2932" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2933" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1933" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2933" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2934" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1934" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2934" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_2949" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1949" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2949" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3949" />
+    </record>
+
+    <record id="CFOP_3101" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1101" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2101" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3101" />
+    </record>
+
+    <record id="CFOP_3102" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1102" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2102" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3102" />
+    </record>
+
+    <record id="CFOP_3126" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1126" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2126" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3126" />
+    </record>
+
+    <record id="CFOP_3127" model="sped.cfop">
+<!--        <field name="cfop_dentro_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+        <field name="cfop_fora_pais_id" ref="CFOP_3127" />
+    </record>
+
+    <record id="CFOP_3128" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1128" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2128" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3128" />
+    </record>
+
+    <record id="CFOP_3201" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1201" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2201" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3201" />
+    </record>
+
+    <record id="CFOP_3202" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1202" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2202" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3202" />
+    </record>
+
+    <record id="CFOP_3205" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1205" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2205" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3205" />
+    </record>
+
+    <record id="CFOP_3206" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1206" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2206" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3206" />
+    </record>
+
+    <record id="CFOP_3207" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1207" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2207" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3207" />
+    </record>
+
+    <record id="CFOP_3211" model="sped.cfop">
+<!--        <field name="cfop_dentro_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+        <field name="cfop_fora_pais_id" ref="CFOP_3211" />
+    </record>
+
+    <record id="CFOP_3217" model="sped.cfop">
+<!--        <field name="cfop_dentro_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+        <field name="cfop_fora_pais_id" ref="CFOP_3217" />
+    </record>
+
+    <record id="CFOP_3251" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1251" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2251" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3251" />
+    </record>
+
+    <record id="CFOP_3301" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1301" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2301" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3301" />
+    </record>
+
+    <record id="CFOP_3351" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1351" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2351" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3351" />
+    </record>
+
+    <record id="CFOP_3352" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1352" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2352" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3352" />
+    </record>
+
+    <record id="CFOP_3353" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1353" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2353" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3353" />
+    </record>
+
+    <record id="CFOP_3354" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1354" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2354" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3354" />
+    </record>
+
+    <record id="CFOP_3355" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1355" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2355" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3355" />
+    </record>
+
+    <record id="CFOP_3356" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1356" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2356" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3356" />
+    </record>
+
+    <record id="CFOP_3503" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1503" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2503" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3503" />
+    </record>
+
+    <record id="CFOP_3551" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1551" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2551" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3551" />
+    </record>
+
+    <record id="CFOP_3553" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1553" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2553" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3553" />
+    </record>
+
+    <record id="CFOP_3556" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1556" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2556" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3556" />
+    </record>
+
+    <record id="CFOP_3651" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1651" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2651" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3651" />
+    </record>
+
+    <record id="CFOP_3652" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1652" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2652" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3652" />
+    </record>
+
+    <record id="CFOP_3653" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1653" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2653" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3653" />
+    </record>
+
+    <record id="CFOP_3930" model="sped.cfop">
+<!--        <field name="cfop_dentro_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+        <field name="cfop_fora_pais_id" ref="CFOP_3930" />
+    </record>
+
+    <record id="CFOP_3949" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_1949" />
+        <field name="cfop_fora_estado_id" ref="CFOP_2949" />
+        <field name="cfop_fora_pais_id" ref="CFOP_3949" />
+    </record>
+
+    <record id="CFOP_5101" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5101" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6101" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7101" />
+    </record>
+
+    <record id="CFOP_5102" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5102" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6102" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7102" />
+    </record>
+
+    <record id="CFOP_5103" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5103" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6103" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5104" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5104" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6104" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5105" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5105" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6105" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7105" />
+    </record>
+
+    <record id="CFOP_5106" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5106" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6106" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7106" />
+    </record>
+
+    <record id="CFOP_5109" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5109" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6109" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5110" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5110" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6110" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5111" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5111" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6111" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5112" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5112" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6112" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5113" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5113" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6113" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5114" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5114" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6114" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5115" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5115" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6115" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5116" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5116" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6116" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5117" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5117" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6117" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5118" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5118" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6118" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5119" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5119" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6119" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5120" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5120" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6120" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5122" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5122" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6122" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5123" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5123" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6123" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5124" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5124" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6124" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5125" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5125" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6125" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5151" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5151" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6151" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5152" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5152" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6152" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5153" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5153" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6153" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5155" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5155" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6155" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5156" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5156" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6156" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5201" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5201" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6201" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7201" />
+    </record>
+
+    <record id="CFOP_5202" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5202" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6202" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7202" />
+    </record>
+
+    <record id="CFOP_5205" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5205" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6205" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7205" />
+    </record>
+
+    <record id="CFOP_5206" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5206" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6206" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7206" />
+    </record>
+
+    <record id="CFOP_5207" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5207" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6207" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7207" />
+    </record>
+
+    <record id="CFOP_5208" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5208" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6208" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5209" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5209" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6209" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5210" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5210" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6210" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7210" />
+    </record>
+
+    <record id="CFOP_5251" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5251" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6251" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7251" />
+    </record>
+
+    <record id="CFOP_5252" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5252" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6252" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5253" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5253" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6253" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5254" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5254" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6254" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5255" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5255" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6255" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5256" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5256" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6256" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5257" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5257" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6257" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5258" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5258" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6258" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5301" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5301" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6301" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7301" />
+    </record>
+
+    <record id="CFOP_5302" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5302" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6302" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5303" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5303" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6303" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5304" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5304" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6304" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5305" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5305" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6305" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5306" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5306" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6306" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5307" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5307" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6307" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5351" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5351" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6351" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5352" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5352" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6352" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5353" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5353" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6353" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5354" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5354" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6354" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5355" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5355" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6355" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5356" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5356" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6356" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5357" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5357" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6357" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5359" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5359" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6359" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5360" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5360" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6360" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5401" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5401" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6401" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5402" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5402" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6402" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5403" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5403" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6403" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5405" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5405" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5408" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5408" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6408" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5409" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5409" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6409" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5410" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5410" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6410" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5411" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5411" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6411" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5412" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5412" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6412" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5413" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5413" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6413" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5414" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5414" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6414" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5415" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5415" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6415" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5451" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5451" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5501" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5501" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6501" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7501" />
+    </record>
+
+    <record id="CFOP_5502" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5502" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6502" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5503" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5503" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6503" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5504" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5504" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6504" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5505" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5505" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6505" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5551" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5551" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6551" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7551" />
+    </record>
+
+    <record id="CFOP_5552" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5552" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6552" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5553" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5553" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6553" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7553" />
+    </record>
+
+    <record id="CFOP_5554" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5554" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6554" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5555" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5555" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6555" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5556" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5556" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6556" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7556" />
+    </record>
+
+    <record id="CFOP_5557" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5557" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6557" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5601" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5601" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5602" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5602" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5603" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5603" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6603" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5605" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5605" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--            <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5606" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5606" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5651" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5651" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6651" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7651" />
+    </record>
+
+    <record id="CFOP_5652" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5652" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6652" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5653" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5653" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6653" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5654" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5654" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6654" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7654" />
+    </record>
+
+    <record id="CFOP_5655" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5655" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6655" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5656" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5656" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6656" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5657" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5657" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6657" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5658" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5658" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6658" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5659" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5659" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6659" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5660" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5660" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6660" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5661" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5661" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6661" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5662" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5662" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6662" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5663" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5663" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6663" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5664" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5664" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6664" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5665" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5665" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6665" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5666" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5666" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6666" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5667" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5667" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6667" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7667" />
+    </record>
+
+    <record id="CFOP_5901" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5901" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6901" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5902" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5902" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6902" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5903" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5903" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6903" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5904" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5904" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6904" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5905" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5905" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6905" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5906" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5906" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6906" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5907" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5907" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6907" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5908" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5908" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6908" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5909" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5909" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6909" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5910" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5910" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6910" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5911" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5911" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6911" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5912" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5912" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6912" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5913" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5913" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6913" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5914" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5914" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6914" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5915" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5915" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6915" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5916" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5916" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6916" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5917" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5917" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6917" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5918" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5918" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6918" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5919" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5919" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6919" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5920" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5920" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6920" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5921" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5921" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6921" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5922" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5922" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6922" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5923" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5923" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6923" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5924" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5924" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6924" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5925" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5925" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6925" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5926" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5926" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5927" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5927" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5928" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5928" />
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5929" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5929" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6929" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5931" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5931" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6931" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5932" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5932" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6932" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5933" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5933" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6933" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5934" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5934" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6934" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_5949" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5949" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6949" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7949" />
+    </record>
+
+    <record id="CFOP_6101" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5101" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6101" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7101" />
+    </record>
+
+    <record id="CFOP_6102" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5102" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6102" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7102" />
+    </record>
+
+    <record id="CFOP_6103" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5103" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6103" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6104" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5104" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6104" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6105" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5105" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6105" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7105" />
+    </record>
+
+    <record id="CFOP_6106" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5106" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6106" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7106" />
+    </record>
+
+    <record id="CFOP_6107" model="sped.cfop">
+<!--        <field name="cfop_dentro_estado_id" eval="False" /> -->
+        <field name="cfop_fora_estado_id" ref="CFOP_6107" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7127" />
+    </record>
+
+    <record id="CFOP_6108" model="sped.cfop">
+<!--        <field name="cfop_dentro_estado_id" eval="False" /> -->
+        <field name="cfop_fora_estado_id" ref="CFOP_6108" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6109" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5109" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6109" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6110" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5110" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6110" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6111" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5111" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6111" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6112" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5112" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6112" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6113" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5113" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6113" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6114" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5114" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6114" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6115" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5115" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6115" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6116" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5116" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6116" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6117" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5117" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6117" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6118" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5118" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6118" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6119" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5119" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6119" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6120" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5120" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6120" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6122" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5122" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6122" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6123" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5123" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6123" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6124" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5124" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6124" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6125" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5125" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6125" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6151" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5151" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6151" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6152" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5152" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6152" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6153" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5153" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6153" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6155" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5155" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6155" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6156" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5156" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6156" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6201" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5201" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6201" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7201" />
+    </record>
+
+    <record id="CFOP_6202" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5202" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6202" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7202" />
+    </record>
+
+    <record id="CFOP_6205" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5205" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6205" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7205" />
+    </record>
+
+    <record id="CFOP_6206" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5206" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6206" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7206" />
+    </record>
+
+    <record id="CFOP_6207" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5207" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6207" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7207" />
+    </record>
+
+    <record id="CFOP_6208" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5208" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6208" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6209" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5209" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6209" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6210" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5210" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6210" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7210" />
+    </record>
+
+    <record id="CFOP_6251" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5251" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6251" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7251" />
+    </record>
+
+    <record id="CFOP_6252" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5252" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6252" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6253" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5253" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6253" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6254" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5254" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6254" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6255" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5255" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6255" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6256" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5256" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6256" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6257" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5257" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6257" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6258" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5258" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6258" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6301" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5301" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6301" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7301" />
+    </record>
+
+    <record id="CFOP_6302" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5302" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6302" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6303" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5303" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6303" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6304" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5304" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6304" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6305" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5305" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6305" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6306" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5306" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6306" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6307" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5307" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6307" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6351" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5351" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6351" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6352" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5352" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6352" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6353" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5353" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6353" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6354" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5354" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6354" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6355" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5355" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6355" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6356" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5356" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6356" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6357" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5357" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6357" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6359" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5359" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6359" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6360" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5360" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6360" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6401" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5401" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6401" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6402" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5402" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6402" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6403" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5403" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6403" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6404" model="sped.cfop">
+<!--        <field name="cfop_dentro_estado_id" eval="False" /> -->
+        <field name="cfop_fora_estado_id" ref="CFOP_6404" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6408" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5408" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6408" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6409" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5409" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6409" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6410" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5410" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6410" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6411" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5411" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6411" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6412" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5412" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6412" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6413" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5413" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6413" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6414" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5414" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6414" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6415" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5415" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6415" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6501" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5501" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6501" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7501" />
+    </record>
+
+    <record id="CFOP_6502" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5502" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6502" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6503" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5503" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6503" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6504" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5504" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6504" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6505" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5505" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6505" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6551" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5551" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6551" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7551" />
+    </record>
+
+    <record id="CFOP_6552" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5552" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6552" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6553" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5553" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6553" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7553" />
+    </record>
+
+    <record id="CFOP_6554" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5554" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6554" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6555" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5555" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6555" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6556" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5556" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6556" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7556" />
+    </record>
+
+    <record id="CFOP_6557" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5557" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6557" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6603" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5603" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6603" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6651" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5651" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6651" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7651" />
+    </record>
+
+    <record id="CFOP_6652" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5652" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6652" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6653" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5653" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6653" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6654" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5654" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6654" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7654" />
+    </record>
+
+    <record id="CFOP_6655" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5655" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6655" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6656" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5656" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6656" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6657" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5657" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6657" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6658" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5658" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6658" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6659" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5659" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6659" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6660" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5660" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6660" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6661" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5661" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6661" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6662" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5662" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6662" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6663" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5663" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6663" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6664" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5664" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6664" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6665" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5665" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6665" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6666" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5666" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6666" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6667" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5667" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6667" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7667" />
+    </record>
+
+    <record id="CFOP_6901" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5901" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6901" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6902" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5902" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6902" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6903" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5903" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6903" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6904" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5904" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6904" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6905" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5905" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6905" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6906" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5906" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6906" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6907" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5907" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6907" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6908" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5908" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6908" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6909" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5909" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6909" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6910" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5910" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6910" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6911" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5911" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6911" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6912" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5912" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6912" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6913" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5913" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6913" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6914" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5914" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6914" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6915" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5915" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6915" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6916" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5916" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6916" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6917" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5917" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6917" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6918" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5918" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6918" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6919" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5919" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6919" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6920" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5920" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6920" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6921" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5921" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6921" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6922" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5922" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6922" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6923" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5923" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6923" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6924" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5924" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6924" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6925" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5925" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6925" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6929" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5929" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6929" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6931" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5931" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6931" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6932" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5932" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6932" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6933" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5933" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6933" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6934" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5934" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6934" />
+<!--        <field name="cfop_fora_pais_id" eval="False" /> -->
+    </record>
+
+    <record id="CFOP_6949" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5949" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6949" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7949" />
+    </record>
+
+    <record id="CFOP_7101" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5101" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6101" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7101" />
+    </record>
+
+    <record id="CFOP_7102" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5102" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6102" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7102" />
+    </record>
+
+    <record id="CFOP_7105" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5105" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6105" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7105" />
+    </record>
+
+    <record id="CFOP_7106" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5106" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6106" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7106" />
+    </record>
+
+    <record id="CFOP_7127" model="sped.cfop">
+<!--        <field name="cfop_dentro_estado_id" eval="False" /> -->
+        <field name="cfop_fora_estado_id" ref="CFOP_6107" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7127" />
+    </record>
+
+    <record id="CFOP_7201" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5201" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6201" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7201" />
+    </record>
+
+    <record id="CFOP_7202" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5202" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6202" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7202" />
+    </record>
+
+    <record id="CFOP_7205" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5205" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6205" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7205" />
+    </record>
+
+    <record id="CFOP_7206" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5206" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6206" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7206" />
+    </record>
+
+    <record id="CFOP_7207" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5207" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6207" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7207" />
+    </record>
+
+    <record id="CFOP_7210" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5210" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6210" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7210" />
+    </record>
+
+    <record id="CFOP_7211" model="sped.cfop">
+<!--        <field name="cfop_dentro_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+        <field name="cfop_fora_pais_id" ref="CFOP_7211" />
+    </record>
+
+    <record id="CFOP_7251" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5251" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6251" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7251" />
+    </record>
+
+    <record id="CFOP_7301" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5301" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6301" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7301" />
+    </record>
+
+    <record id="CFOP_7358" model="sped.cfop">
+<!--        <field name="cfop_dentro_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+        <field name="cfop_fora_pais_id" ref="CFOP_7358" />
+    </record>
+
+    <record id="CFOP_7501" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5501" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6501" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7501" />
+    </record>
+
+    <record id="CFOP_7551" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5551" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6551" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7551" />
+    </record>
+
+    <record id="CFOP_7553" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5553" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6553" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7553" />
+    </record>
+
+    <record id="CFOP_7556" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5556" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6556" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7556" />
+    </record>
+
+    <record id="CFOP_7651" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5651" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6651" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7651" />
+    </record>
+
+    <record id="CFOP_7654" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5654" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6654" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7654" />
+    </record>
+
+    <record id="CFOP_7667" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5667" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6667" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7667" />
+    </record>
+
+    <record id="CFOP_7930" model="sped.cfop">
+<!--        <field name="cfop_dentro_estado_id" eval="False" /> -->
+<!--        <field name="cfop_fora_estado_id" eval="False" /> -->
+        <field name="cfop_fora_pais_id" ref="CFOP_7930" />
+    </record>
+
+    <record id="CFOP_7949" model="sped.cfop">
+        <field name="cfop_dentro_estado_id" ref="CFOP_5949" />
+        <field name="cfop_fora_estado_id" ref="CFOP_6949" />
+        <field name="cfop_fora_pais_id" ref="CFOP_7949" />
+    </record>
+
+</odoo>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_carta_correcao_form" >
+        <field name="name">sped.documento.carta.correcao.form</field>
+        <field name="model">sped.documento.carta.correcao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Carta de Correção">
+                <field name="permite_alteracao" invisible="1" />
+            <sheet>
+<!--                <div class="oe_title">
+                    <label for="tipo" class="oe_edit_only"/>
+                    <h1>
+                        <field name="tipo" default_focus="1" required="1" />
+                    </h1>
+                    <label for="login" class="oe_edit_only"/>
+                    <h2>
+                        <field name="login" required="1" />
+                    </h2>
+                </div>-->
+<!--                 <separator string="Contato" /> -->
+                <group>
+                    <group col="4" colspan="4">
+                        <field name="documento_id" required="1" domain="[('emissao', '=', '0'), ('modelo', 'in', ('55', '65', '57')), ('state_nfe', '=', 'autorizada'), ('situacao_fiscal', 'not in', ('02', '03', '04', '05', 'NC', 'MR'))]}" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                        <newline />
+                        <field name="sequencia" required="1" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                        <newline />
+                        <separator string="Correção" colspan="4" />
+                        <field name="correcao" nolabel="1" colspan="4" attrs="{'readonly': [('permite_alteracao', '=', False)], 'required': [('permite_alteracao', '!=', False)]}" />
+                        <button name="envia_cce" string="Enviar CC-e" type="object" class="btn-primary"
+                            attrs="{'invisible': [('data_hora_autorizacao', '!=', False)]}" />
+
+                    </group>
+                    <group col="4" colspan="4" name="suporte">
+                        <separator string="Autorização" colspan="4" />
+                        <field name="data_hora_autorizacao" />
+                        <field name="protocolo_autorizacao" />
+                        <field name="arquivo_xml_id" colspan="4" string="NF-e" />
+                        <field name="arquivo_xml_autorizacao_id" colspan="4" string="Processo" />
+                        <field name="arquivo_pdf_id" colspan="4" string="DANFE" />
+                    </group>
+                </group>
+            </sheet>
+<!--            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+            </div>-->
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_carta_correcao_tree">
+        <field name="name">sped.documento.carta.correcao.tree</field>
+        <field name="model">sped.documento.carta.correcao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Cartas de Correção">
+                <field name="documento_id" />
+                <field name="sequencia" />
+                <field name="correcao" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_carta_correcao_search">
+        <field name="name">sped.documento.carta.correcao.search</field>
+        <field name="model">sped.documento.carta.correcao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Cartas de Correção">
+                <field name="documento_id" />
+                <field name="sequencia" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_documento_carta_correcao_acao">
+        <field name="name">Cartas de Correção</field>
+        <field name="res_model">sped.documento.carta.correcao</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_documento_carta_correcao_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_documento_carta_correcao_form"/>
+        <field name="act_window_id" ref="sped_documento_carta_correcao_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_documento_carta_correcao_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_documento_carta_correcao_tree"/>
+        <field name="act_window_id" ref="sped_documento_carta_correcao_acao"/>
+    </record>
+
+    <menuitem
+        id="menu_sped_documento_carta_correcao"
+        sequence="20"
+        name="Cartas de Correção"
+        parent="sped.menu_sped_documento_emissao"
+        action="sped_documento_carta_correcao_acao"
+        />
+
+</odoo>
