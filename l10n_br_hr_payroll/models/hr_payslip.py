@@ -669,6 +669,12 @@ class HrPayslip(models.Model):
                 'hr_salary_structure_FERIAS'
             )
             return estrutura_ferias
+        elif self.tipo_de_folha == "rescisao":
+            estrutura_rescisao = self.env.ref(
+                'l10n_br_hr_payroll.'
+                'hr_salary_structure_RESCISAO'
+            )
+            return estrutura_rescisao
         elif self.tipo_de_folha == "provisao_ferias":
             estrutura_provisao_ferias = self.env.ref(
                 'l10n_br_hr_payroll.hr_salary_structure_PROVISAO_FERIAS'

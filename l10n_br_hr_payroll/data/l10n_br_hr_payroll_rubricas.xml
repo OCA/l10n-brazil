@@ -439,5 +439,19 @@ result_qty = MEDIAS.SALARIO.meses
             <field name="compoe_base_FGTS" eval="True"/>
         </record>
 
+        <!-- Pagamento de férias no Holerite Mensal-->
+        <record id="hr_salary_rule_PAGAMENTO_MES_ANTERIOR" model="hr.salary.rule">
+            <field name="code">PAGAMENTO_MES_ANTERIOR</field>
+            <field name="name">Pagamento bruto do mês anterior</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = CALCULAR.rubrica_anterior(code='BRUTO', mes=payslip.mes_do_ano-1, tipo_de_folha='normal').total
+            </field>
+            <field name="sequence" eval="801"/>
+            <field name="compoe_base_FGTS" eval="False"/>
+            <field name="compoe_base_INSS" eval="False"/>
+        </record>
+
     </data>
 </openerp>

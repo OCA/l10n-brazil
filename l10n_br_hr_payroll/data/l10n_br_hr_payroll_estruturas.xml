@@ -105,6 +105,15 @@
             <field name="tipo_estrutura">rescisao</field>
             <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
         </record>
+
+        <record id="hr_salary_structure_RESCISAO" model="hr.payroll.structure">
+            <field name="code">RESCISAO</field>
+            <field name="name">Rescisão</field>
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_PAGAMENTO_MES_ANTERIOR')])]" />
+            <field name="company_id" ref="base.main_company" />
+            <field name="tipo_estrutura">rescisao</field>
+            <field name="parent_id" eval="False" />
+        </record>
         
         <record id="hr_salary_structure_COMPLEMENTO_JUSTA_CAUSA" model="hr.payroll.structure">
             <field name="code">COMPLEMENTO_JUSTA_CAUSA</field>
