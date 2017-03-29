@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="0">
+
+    <record id="CASAS_DECIMAIS_QUANTIDADE" model="decimal.precision">
+        <field name="name">SPED - Quantidade</field>
+        <field name="digits">2</field>
+    </record>
+
+    <record id="CASAS_DECIMAIS_UNITARIO" model="decimal.precision">
+        <field name="name">SPED - Valor Unitário</field>
+        <field name="digits">2</field>
+    </record>
+
+    <record id="CASAS_DECIMAIS_PESO" model="decimal.precision">
+        <field name="name">SPED - Peso</field>
+        <field name="digits">2</field>
+    </record>
+
+</odoo>

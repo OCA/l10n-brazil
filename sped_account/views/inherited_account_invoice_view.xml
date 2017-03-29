@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record id="account_invoice_form" model="ir.ui.view">
+        <field name="name">account.invoice.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <field name="has_outstanding" position="after">
+                <field name="is_brazilian_invoice" invisible="1"/>
+                <field name="sped_documento_id" invisible="0"/>
+            </field>
+            <field name="partner_id" position="attributes">
+                <attribute name="invisible">[('is_brazilian_invoice', '=',
+                    True)]
+                </attribute>
+            </field>
+            <field name="partner_id" position="after">
+                <field name="sped_participante_id" string="Customer"
+                       domain="[('eh_cliente', '=', True)]"
+                       attrs="{'required': [('is_brazilian_invoice', '=', True)], 'invisible': [('is_brazilian_invoice', '!=', True)]}"/>
+            </field>
+            <!--            <field name="company_id" position="attributes">
+                            <attribute name="invisible">[('is_brazilian_invoice', '=', True)]</attribute>
+                        </field>-->
+            <xpath expr="//page[@name='other_info']/group/group/field[@name='company_id']"
+                   position="after">
+                <field name="sped_empresa_id" string="Company"
+                       attrs="{'required': [('is_brazilian_invoice', '=', True)], 'invisible': [('is_brazilian_invoice', '!=', True)]}"/>
+            </xpath>
+            <field name="fiscal_position_id" position="attributes">
+                <attribute name="invisible">[('is_brazilian_invoice', '=',
+                    True)]
+                </attribute>
+            </field>
+            <field name="fiscal_position_id" position="after">
+                <field name="sped_operacao_id" domain="[('emissao', '=', '0')]"
+                       attrs="{'required': [('is_brazilian_invoice', '=', True)], 'invisible': [('is_brazilian_invoice', '!=', True)]}"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_ncm_form" >
+        <field name="name">sped.ncm.form</field>
+        <field name="model">sped.ncm</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="NCM" delete="false" create="false" edit="true">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="ncm" />
+                        </h1>
+                    </div>
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="width:20%;"><label for="codigo" /></td>
+                            <td style="width:20%;"><field name="codigo" required="1" readonly="1" /></td>
+                            <td style="width:60%;"></td>
+                        </tr>
+                        <tr>
+                            <td style="width:20%;"><label for="ex" /></td>
+                            <td style="width:20%;"><field name="ex" readonly="1" /></td>
+                            <td style="width:60%;"></td>
+                        </tr>
+                        <tr>
+                            <td style="width:20%;"><label for="descricao" /></td>
+                            <td style="width:80%;" colspan="2"><field name="descricao" required="1" readonly="1" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width:20%;"><label for="unidade_id" /></td>
+                            <td style="width:80%;" colspan="2"><field name="unidade_id" required="1" options="{'no_create': True, 'no_open': True}" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width:20%;"><label for="al_ipi_id" /></td>
+                            <td style="width:80%;" colspan="2"><field name="al_ipi_id" required="1" options="{'no_create': True, 'no_open': True}" /></td>
+                        </tr>
+                    </table>
+                    <notebook>
+                        <page string="Códigos CEST">
+                        <separator string="Códigos CEST" />
+                        <field name="cest_ids" nolabel="1" colspan="4">
+                            <tree string="Códigos CEST">
+                                <field name="codigo_formatado" />
+                                <field name="descricao" />
+                            </tree>
+                        </field>
+                        </page>
+                        <page string="Protocolos e MVAs">
+                            <separator string="Protocolos e MVAs" />
+                            <field name="protocolo_ids" nolabel="1" readonly="1">
+                                <tree>
+                                    <field name="protocolo_id" />
+                                    <field name="mva" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="IBPT">
+                            <separator string="Alíquotas IBPT" />
+                            <field name="ibptax_ids" nolabel="1" readonly="1">
+                                <tree string="Alíquotas IBPT">
+                                    <field name="ibptax_id" options="{'no_create': True, 'no_open': True}" />
+                                    <field name="estado_id" options="{'no_create': True, 'no_open': True}" />
+                                    <field name="al_ibpt_nacional" />
+                                    <field name="al_ibpt_internacional" />
+                                    <field name="al_icms_id" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_ncm_tree">
+        <field name="name">sped.ncm.tree</field>
+        <field name="model">sped.ncm</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="NCM" delete="false" create="false" edit="true">
+<!--                 <field name="ncm" /> -->
+                <field name="codigo_formatado" />
+                <field name="ex" />
+                <field name="descricao" />
+                <field name="unidade_id" />
+                <field name="al_ipi_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_ncm_search">
+        <field name="name">sped.ncm.search</field>
+        <field name="model">sped.ncm</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="NCM">
+                <field name="codigo" />
+                <field name="ex" />
+                <field name="descricao" />
+                <field name="unidade_id" />
+                <field name="al_ipi_id" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_ncm_acao">
+        <field name="name">NCM</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="res_model">sped.ncm</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_ncm_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_ncm_form"/>
+        <field name="act_window_id" ref="sped_ncm_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_ncm_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_ncm_tree"/>
+        <field name="act_window_id" ref="sped_ncm_acao"/>
+    </record>
+
+    <menuitem
+        parent="menu_sped_tabela"
+        sequence="8"
+        id="menu_sped_ncm"
+        name="NCM"
+        action="sped_ncm_acao" />
+
+</odoo>

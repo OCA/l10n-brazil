@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_produto_produto_form" >
+        <field name="name">sped.produto.produto.form</field>
+        <field name="model">sped.produto</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Produto">
+            <sheet>
+<!--                    <div class="oe_button_box" name="button_box">
+                    <button name="toggle_active" type="object"
+                            class="oe_stat_button" icon="fa-archive">
+                    </button>
+                </div>-->
+                <field name="image_medium" widget="image" class="oe_avatar"/>
+                <div class="oe_title">
+                    <h1>
+                        <field name="nome" placeholder="Nome do produto" required="1" />
+                    </h1>
+                    <h2>
+                        <field name="codigo" placeholder="Código" required="1" />
+                    </h2>
+                </div>
+                <table style="width:100%;">
+                    <tr>
+                        <td style="width:32%;"><label for="unidade_id" /></td>
+                        <td style="width:1%;"></td>
+                        <td style="width:32%;"><label for="ncm_id" /></td>
+                        <td style="width:1%;"></td>
+                        <td style="width:32%;"><label for="cest_id" attrs="{'invisible': [('cest_ids', '=', False)]}" /></td>
+                        <td style="width:1%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width:32%;"><field name="unidade_id" required="1" domain="[('tipo', '!=', 'T')]" options="{'no_create': True, 'no_open': True}" /></td>
+                        <td style="width:1%;"></td>
+                        <td style="width:32%;"><field name="ncm_id" required="1" options="{'no_create': True, 'no_open': False}" /></td>
+                        <td style="width:1%;"></td>
+                        <td style="width:32%;">
+                            <field name="cest_ids" readonly="1" invisible="1" />
+                            <field name="exige_cest" invisible="1" />
+                            <field name="cest_id" domain="[('id', 'in', cest_ids[0][2])]" attrs="{'invisible': [('exige_cest', '=', False)], 'required': [('exige_cest', '=', True)]}" options="{'no_create': True, 'no_open': False}" />
+                        </td>
+                        <td style="width:1%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width:32%;"><label for="unidade_tributacao_id" /></td>
+                        <td style="width:1%;"></td>
+                        <td style="width:32%;"><label for="fator_conversao_unidade_tributacao" /></td>
+                        <td style="width:1%;"></td>
+                        <td style="width:32%;"></td>
+                        <td style="width:1%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width:32%;"><field name="unidade_tributacao_ncm_id" options="{'no_create': True, 'no_open': True}" /></td>
+                        <td style="width:1%;"></td>
+                        <td style="width:32%;">
+                            <field name="exige_fator_conversao_unidade_tributacao_ncm" invisible="1" />
+                            <field name="fator_conversao_unidade_tributacao_ncm" attrs="{'required': [('exige_fator_conversao_unidade_tributacao_ncm', '!=', False)]}" />
+                        </td>
+                        <td style="width:1%;"></td>
+                        <td style="width:32%;"></td>
+                        <td style="width:1%;"></td>
+                    </tr>
+                </table>
+                <notebook>
+                    <page string="Comercial">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:32%;"><label for="codigo_barras" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"><label for="marca" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"></td>
+                                <td style="width:1%;"></td>
+                            </tr>
+                            <tr>
+                                <td style="width:32%;"><field name="codigo_barras" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"><field name="marca" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"></td>
+                                <td style="width:1%;"></td>
+                            </tr>
+                            <tr>
+                                <td style="width:32%;"><label for="preco_venda" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"><label for="preco_custo" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"></td>
+                                <td style="width:1%;"></td>
+                            </tr>
+                            <tr>
+                                <td style="width:32%;"><field name="preco_venda" digits="(18, 2)" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"><field name="preco_custo" digits="(18, 2)" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"></td>
+                                <td style="width:1%;"></td>
+                            </tr>
+                            <tr>
+                                <td style="width:32%;"><label for="peso_bruto" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"><label for="peso_liquido" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"></td>
+                                <td style="width:1%;"></td>
+                            </tr>
+                            <tr>
+                                <td style="width:32%;"><field name="peso_bruto" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"><field name="peso_liquido" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"></td>
+                                <td style="width:1%;"></td>
+                            </tr>
+                        </table>
+                    </page>
+                    <page string="Fiscal">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:32%;"><label for="org_icms" string="Origem" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"><label for="tipo" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"></td>
+                                <td style="width:1%;"></td>
+                            </tr>
+                            <tr>
+                                <td style="width:32%;"><field name="org_icms" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"><field name="tipo" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"></td>
+                                <td style="width:1%;"></td>
+                            </tr>
+                            <tr>
+                                <td style="width:32%;"><label for="protocolo_id" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"><label for="al_ipi_id" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"><label for="al_pis_cofins_id" /></td>
+                                <td style="width:1%;"></td>
+                            </tr>
+                            <tr>
+                                <td style="width:32%;"><field name="protocolo_id" options="{'no_create': True, 'no_open': False}" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"><field name="al_ipi_id" options="{'no_create': True, 'no_open': False}" /></td>
+                                <td style="width:1%;"></td>
+                                <td style="width:32%;"><field name="al_pis_cofins_id" options="{'no_create': True, 'no_open': False}" /></td>
+                                <td style="width:1%;"></td>
+                            </tr>
+                        </table>
+                    </page>
+                </notebook>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_produto_produto_tree">
+        <field name="name">sped.produto.produto.tree</field>
+        <field name="model">sped.produto</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Produtos">
+                <field name="tipo" invisible="1" />
+                <field name="nome" />
+                <field name="codigo" />
+                <field name="codigo_barras" />
+                <field name="preco_venda" />
+<!--                 <field name="marca" /> -->
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_produto_produto_search">
+        <field name="name">sped.produto.produto.search</field>
+        <field name="model">sped.produto</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Produtos">
+                <!--                 <field name="nome" filter_domain="['|', '|', ('nome','ilike',self), ('codigo','ilike',self), ('codigo_barras','ilike',self)]" /> -->
+                <field name="codigo" />
+                <field name="nome" />
+                <field name="codigo_barras" />
+                <field name="marca" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_produto_produto_acao">
+        <field name="name">Produtos</field>
+        <field name="domain">[('tipo', '!=', '09')]</field>
+        <field name="context">{'default_tipo': '00', 'default_ref_unidade_id': 'sped.UNIDADE_UNIDADE'}</field>
+        <field name="res_model">sped.produto</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_produto_produto_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_produto_produto_form"/>
+        <field name="act_window_id" ref="sped_produto_produto_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_produto_produto_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_produto_produto_tree"/>
+        <field name="act_window_id" ref="sped_produto_produto_acao"/>
+    </record>
+
+    <menuitem
+        id="menu_sped_produto_produto"
+        sequence="1"
+        name="Produto"
+        parent="menu_cadastro_produto"
+        action="sped_produto_produto_acao"
+        />
+
+</odoo>

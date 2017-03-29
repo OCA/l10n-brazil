@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_participante_vincula_partner_form" >
+        <field name="name">sped.participante.vincula.partner.form</field>
+        <field name="model">sped.participante</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Cliente">
+            <sheet>
+<!--                    <div class="oe_button_box" name="button_box">
+                    <button name="toggle_active" type="object"
+                            class="oe_stat_button" icon="fa-archive">
+                    </button>
+                </div>-->
+<!--                 <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/> -->
+                <field name="id" invisible="1" />
+                <div class="oe_title">
+                    <h1>
+                        <field name="partner_id" placeholder="Partner original" required="1" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('id', '!=', False)]}" domain="[('sped_participante_id', '=', False), ('original_company_id', '=', False)]" />
+                    </h1>
+                    <h1>
+                        <field name="nome" default_focus="1" placeholder="Nome (uso interno)" required="1" />
+                    </h1>
+                    <h2>
+                        <field name="cnpj_cpf" placeholder="CNPJ ou CPF" required="1" />
+                        <field name="tipo_pessoa" invisible="1" />
+                    </h2>
+                </div>
+                <group>
+                    <field name="razao_social" required="1" string="Nome completo Razão Social" />
+                    <field name="fantasia" attrs="{'invisible': [('tipo_pessoa', '=', 'F')]}" />
+                </group>
+                <separator string="Contato" />
+                <group col="6">
+                    <field name="fone" widget="phone" placeholder="(99) 9999-9999" />
+                    <field name="celular" widget="phone" placeholder="(99) 999-999-999" />
+                    <field name="fone_comercial" widget="phone" placeholder="(99) 9999-9999" />
+                    <field name="email" colspan="6" />
+                    <field name="site" colspan="6" />
+                </group>
+                <separator string="Endereço" />
+                <group col="6">
+                    <field name="endereco" colspan="6" required="1" />
+                    <field name="numero" required="1" />
+                    <field name="complemento" colspan="4" />
+                    <field name="bairro" colspan="6" required="1" />
+                    <field name="municipio_id" options="{'no_open': True, 'no_create': True}" colspan="6" required="1" />
+                    <field name="cep" placeholder="99999-999" required="1" />
+                </group>
+
+                <notebook>
+                    <page string="Inscrições e registros">
+                        <group col="4">
+                            <group col="4" colspan="4">
+                                <separator string="Inscrição Estadual" colspan="4" />
+                                <field name="contribuinte" colspan="2" />
+                                <field name="ie" attrs="{'invisible': [('contribuinte', '!=', '1')]}" colspan="2" />
+                            </group>
+                            <newline />
+                            <group col="6" colspan="4" attrs="{'invisible': [('tipo_pessoa', '!=', 'F')]}">
+                                <separator string="RG" colspan="6"  />
+                                <field name="rg_numero" string="Número" colspan="2" />
+                                <field name="rg_orgao_emissor" string="Órgão emissor" colspan="2" />
+                                <field name="rg_data_expedicao" string="Data de emissão" colspan="2" />
+                            </group>
+                            <newline />
+                            <group col="4" colspan="4" attrs="{'invisible': [('tipo_pessoa', '=', 'F')]}" >
+                                <separator string="Outras inscrições" colspan="6" />
+                                <separator string="Inscrição Municipal" colspan="2" />
+                                <separator string="CEI" colspan="2" />
+                                <field name="im" colspan="2" nolabel="1" />
+                                <field name="cei" colspan="2" nolabel="1" />
+                                <separator string="SUFRAMA" colspan="2" />
+                                <separator string="RNTRC" colspan="2" />
+                                <field name="suframa" colspan="2" nolabel="1" />
+                                <field name="rntrc" colspan="2" nolabel="1" />
+                                <separator string="CRC" />
+                                <newline />
+                                <field name="crc" colspan="2" />
+                                <field name="crc_uf" colspan="2" options="{'no_open': True, 'no_create': True}" />
+                            </group>
+                        </group>
+                    </page>
+                    <!--                    <page string="Contatos e endereços" autofocus="autofocus">
+                        <field name="address_ids"
+                                context="{'default_endereco': endereco, 'default_numero': numero, 'default_complemento': complemento, 'default_bairro': bairro, 'default_municipio_id': municipio_id, 'default_cep': cep}" />
+                    </page>-->
+<!--                        <page name='internal_notes' string="Anotações internas">
+                        <field name="comment" placeholder="Anotações internas..."/>
+                    </page>-->
+                    <page string="Comercial">
+                        <group>
+                            <group string="Vendas" name="vendas">
+                                <field name="eh_cliente" />
+                            </group>
+                            <group string="Compras" name="compras">
+                                <field name="eh_fornecedor" />
+                            </group>
+                            <group string="Outras informações" colspan="4" col="4">
+                                <field name="codigo" colspan="2" />
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Fiscal">
+                        <group col="4">
+                            <field name="regime_tributario" />
+                            <newline />
+                            <field name="eh_consumidor_final" />
+                            <field name="eh_orgao_publico" />
+                            <field name="eh_transportadora" />
+                            <field name="eh_funcionario" />
+                            <field name="eh_empresa" invisible="1" />
+                            <field name="eh_usuario" invisible="1" />
+                            <field name="cnae_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                        </group>
+                        <!--                        <field name="eh_cooperativa" />
+                        <field name="eh_convenio" />
+                        <field name="eh_sindicato" />-->
+                    </page>
+                </notebook>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+            </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_participante_vincula_partner_tree">
+        <field name="name">sped.participante.vincula.partner.tree</field>
+        <field name="model">sped.participante</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Vínculos Participante - Partner">
+                <field name="partner_id" />
+                <field name="nome" />
+                <field name="cnpj_cpf" />
+                <field name="fone" />
+                <field name="celular" />
+                <field name="email" />
+                <field name="site" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_participante_vincula_partner_search">
+        <field name="name">sped.participante.vincula.partner.search</field>
+        <field name="model">sped.participante</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Vínculos Participante - Partner">
+                <field name="nome" filter_domain="['|', '|', '|', ('nome','ilike',self), ('razao_social','ilike',self), ('fantasia','ilike',self), ('cnpj_cpf','ilike',self)]" />
+            </search>
+        </field>
+    </record>
+
+<!--    <record model="ir.ui.view" id="sped_participante_vincula_partner_kanban">
+        <field name="name">sped.participante.vincula.partner.kanban</field>
+        <field name="model">sped.participante</field>
+        <field name="arch" type="xml">
+            <kanban class="o_sped_participante_kanban">
+                <field name="color"/>
+                <field name="name"/>
+                <field name="cnpj_cpf"/>
+                <field name="tipo_pessoa"/>
+                <field name="endereco"/>
+                <field name="numero"/>
+                <field name="complemento"/>
+                <field name="bairro"/>
+                <field name="municipio_id"/>
+                <field name="cep"/>
+                <field name="fone"/>
+                <field name="celular"/>
+                <field name="email"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_sped_participante_kanban">
+                            <div class="o_kanban_tags_section oe_kanban_partner_categories"/>
+                            <div class="o_kanban_image">
+                                <t t-if="record.image_small.raw_value">
+                                    <img t-att-src="kanban_image('sped.participante', 'image_small', record.id.value)"/>
+                                </t>
+                                <t t-if="!record.image_small.raw_value">
+                                    <t t-if="record.tipo_pessoa.raw_value === 'F'">
+                                        <img t-att-src='_s + "/base/static/src/img/avatar.png"'/>
+                                    </t>
+                                    <t t-if="record.tipo_pessoa.raw_value != 'F'">
+                                        <img t-att-src='_s + "/base/static/src/img/company_image.png"'/>
+                                    </t>
+                                </t>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <t t-if="record.cnpj_cpf.raw_value">
+                                    <strong class="o_text_overflow"><field name="name" /> – <field name="cnpj_cpf"/></strong>
+                                </t>
+                                <t t-if="!record.cnpj_cpf.raw_value">
+                                    <strong class="oe_partner_heading"><field name="name"/></strong>
+                                </t>
+                                <ul>
+                                    <li t-if="record.cnpj_cpf.raw_value" class="o_text_overflow"><field name="cnpj_cpf"/></li>
+                                    <li t-if="record.fone.raw_value" class="o_text_overflow"><field name="fone"/></li>
+                                    <li t-if="record.celular.raw_value" class="o_text_overflow"><field name="celular"/></li>
+                                    <li t-if="record.email.raw_value" class="o_text_overflow"><field name="email"/></li>
+                                    <li t-if="record.municipio_id.raw_value"><field name="municipio_id"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>-->
+
+    <record model="ir.actions.act_window" id="sped_participante_vincula_partner_acao">
+        <field name="name">Vínculos Participante - Partner</field>
+        <field name="res_model">sped.participante</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_participante_vincula_partner_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_participante_vincula_partner_form"/>
+        <field name="act_window_id" ref="sped_participante_vincula_partner_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_participante_vincula_partner_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_participante_vincula_partner_tree"/>
+        <field name="act_window_id" ref="sped_participante_vincula_partner_acao"/>
+    </record>
+
+<!--    <record model="ir.actions.act_window.view" id="sped_participante_vincula_partner_kanban_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="sped_participante_vincula_partner_kanban"/>
+        <field name="act_window_id" ref="sped_participante_vincula_partner_acao"/>
+    </record>-->
+
+    <menuitem
+        id="menu_sped_participante_vincula_partner"
+        sequence="2"
+        name="Participante - Partner"
+        parent="menu_cadastro_vinculo"
+        action="sped_participante_vincula_partner_acao"
+        />
+
+</odoo>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="1">
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01" model="sped.aliquota.simples.anexo">
+        <field name="nome">Anexo 1 - Comércio</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02" model="sped.aliquota.simples.anexo">
+        <field name="nome">Anexo 2 - Indústria</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03" model="sped.aliquota.simples.anexo">
+        <field name="nome">Anexo 3 - Serviços</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04" model="sped.aliquota.simples.anexo">
+        <field name="nome">Anexo 4 - Serviços</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06" model="sped.aliquota.simples.anexo">
+        <field name="nome">Anexo 6 - Serviços</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" model="sped.aliquota.simples.anexo">
+        <field name="nome">Anexo 5 - Serviços - Folha &lt;10%</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" model="sped.aliquota.simples.anexo">
+        <field name="nome">Anexo 5 - Serviços - Folha &lt;15%</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" model="sped.aliquota.simples.anexo">
+        <field name="nome">Anexo 5 - Serviços - Folha &lt;20%</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" model="sped.aliquota.simples.anexo">
+        <field name="nome">Anexo 5 - Serviços - Folha &lt;25%</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" model="sped.aliquota.simples.anexo">
+        <field name="nome">Anexo 5 - Serviços - Folha &lt;30%</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" model="sped.aliquota.simples.anexo">
+        <field name="nome">Anexo 5 - Serviços - Folha &lt;35%</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" model="sped.aliquota.simples.anexo">
+        <field name="nome">Anexo 5 - Serviços - Folha &lt;40%</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" model="sped.aliquota.simples.anexo">
+        <field name="nome">Anexo 5 - Serviços - Folha &gt;= 40%</field>
+    </record>
+
+</odoo>
