@@ -20,12 +20,12 @@
                     <table style="width:100%;">
                         <tr>
                             <td style="width:30%;"><label for="al_icms" /></td>
-                            <td style="width:20%;"><field name="al_icms" attrs="{'readonly': ['|', ('importado', '==', True), ('md_icms', '==', '3'), ('al_icms', 'in', (7, 12, 17, 17.5, 18, 4))]}" /></td>
+                            <td style="width:20%;"><field name="al_icms" attrs="{'readonly': [('importado', '==', True)]}" /></td>
                             <td style="width:50%;"></td>
                         </tr>
                         <tr>
                             <td style="width:30%;"><label for="md_icms" /></td>
-                            <td style="width:70%;" colspan="2"><field name="md_icms" attrs="{'readonly': ['|', ('importado', '==', True), ('md_icms', '==', '3'), ('al_icms', 'in', (7, 12, 17, 17.5, 18, 4))]}" /></td>
+                            <td style="width:70%;" colspan="2"><field name="md_icms" attrs="{'readonly': [('importado', '==', True)]}" /></td>
                         </tr>
                         <tr>
                             <td style="width:30%;">
@@ -38,7 +38,7 @@
                         </tr>
                         <tr>
                             <td style="width:30%;"><label for="rd_icms" /></td>
-                            <td style="width:20%;"><field name="rd_icms" attrs="{'readonly': ['|', ('importado', '==', True), ('md_icms', '==', '3'), ('al_icms', 'in', (7, 12, 17, 17.5, 18, 4))]}" /></td>
+                            <td style="width:20%;"><field name="rd_icms" attrs="{'readonly': [('importado', '==', True)]}" /></td>
                             <td style="width:50%;"></td>
                         </tr>
                         <tr>
