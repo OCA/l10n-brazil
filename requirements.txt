@@ -7,4 +7,4 @@ http://xmlsoft.org/sources/python/libxml2-python-2.6.21.tar.gz#egg=libxml2
 https://github.com/odoo-brazil/pybrasil/archive/master.zip#egg=pybrasil
 https://github.com/odoo-brazil/pyxmlsec/archive/master.zip#egg=pyxmlsec
 https://github.com/odoo-brazil/geraldo/archive/master.zip#egg=geraldo
-https://github.com/odoo-brazil/PySPED/archive/8.0.zip#egg=PySPED
+https://github.com/odoo-brazil/PySPED/archive/10.0.zip#egg=PySPED
