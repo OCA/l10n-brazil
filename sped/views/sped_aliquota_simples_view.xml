@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_aliquota_simples_form" >
+        <field name="name">sped.aliquota.simples.st.form</field>
+        <field name="model">sped.aliquota.simples.anexo</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Alíquota do SIMPLES Nacional" delete="false" create="false" edit="false">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="nome" />
+                        </h1>
+                    </div>
+                    <separator string="Alíquotas por faixa de faturamento" />
+                    <field name="aliquota_ids" nolabel="1" colspan="4">
+                        <tree editable="bottom" string="Alíquota do SIMPLES Nacional">
+                            <field name="teto_id" />
+                            <field name="al_simples" />
+                            <field name="al_irpj" />
+                            <field name="al_csll" />
+                            <field name="al_pis" />
+                            <field name="al_cofins" />
+                            <field name="al_cpp" />
+                            <field name="al_icms" />
+                            <field name="al_iss" />
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_aliquota_simples_tree">
+        <field name="name">sped.aliquota.simples.st.tree</field>
+        <field name="model">sped.aliquota.simples.anexo</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Alíquota do SIMPLES Nacional" delete="false" create="false" edit="false">
+                <field name="nome" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_aliquota_simples_search">
+        <field name="name">sped.aliquota.simples.st.search</field>
+        <field name="model">sped.aliquota.simples.anexo</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Alíquota do SIMPLES Nacional">
+                <field name="nome" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_aliquota_simples_acao">
+        <field name="name">Alíquota do SIMPLES Nacional</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="res_model">sped.aliquota.simples.anexo</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_aliquota_simples_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_aliquota_simples_form"/>
+        <field name="act_window_id" ref="sped_aliquota_simples_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_aliquota_simples_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_aliquota_simples_tree"/>
+        <field name="act_window_id" ref="sped_aliquota_simples_acao"/>
+    </record>
+
+    <menuitem
+        parent="menu_sped_aliquota"
+        sequence="1"
+        id="menu_sped_aliquota_simples"
+        name="SIMPLES Nacional"
+        action="sped_aliquota_simples_acao" />
+
+</odoo>

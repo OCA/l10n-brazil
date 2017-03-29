@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_item_emissao_form" >
+        <field name="name">sped.documento.item.emissao.form</field>
+        <field name="model">sped.documento.item</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Item do documento">
+                <field name="documento_id" required="0" invisible="1"/>
+                <field name="regime_tributario" invisible="1"/>
+                <field name="modelo" invisible="1"/>
+                <field name="emissao" invisible="1"/>
+                <field name="entrada_saida" invisible="1"/>
+                <field name="contribuinte" invisible="1"/>
+                <field name="consumidor_final" invisible="1"/>
+                <field name="protocolo_id" invisible="1"/>
+                <field name="operacao_item_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <!--                <field name="empresa_id" invisible="0"/>
+                <field name="participante_id" invisible="0"/>
+                <field name="operacao_id" invisible="0"/> -->
+
+                <field name="compoe_total" invisible="1"/>
+                <field name="movimentacao_fisica" invisible="1"/>
+                <field name="quantidade_tributacao" invisible="1"/>
+                <field name="partilha" invisible="1"/>
+                <field name="al_bc_icms_proprio_partilha" invisible="1"/>
+                <!--                     <field name="uf_partilha_id" invisible="1"/> -->
+                <field name="repasse" invisible="1"/>
+                <field name="md_icms_st_retido" invisible="1"/>
+                <field name="pr_icms_st_retido" invisible="1"/>
+                <field name="rd_icms_st_retido" invisible="1"/>
+                <field name="bc_icms_st_retido" invisible="1"/>
+                <field name="al_icms_st_retido" invisible="1"/>
+                <field name="vr_icms_st_retido" invisible="1"/>
+                <field name="apuracao_ipi" invisible="1"/>
+                <!--                    <field name="md_pis_st" invisible="1"/>
+                <field name="bc_pis_st" invisible="1"/>
+                <field name="al_pis_st" invisible="1"/>
+                <field name="vr_pis_st" invisible="1"/>
+                <field name="md_cofins_st" invisible="1"/>
+                <field name="bc_cofins_st" invisible="1"/>
+                <field name="al_cofins_st" invisible="1"/>
+                <field name="vr_cofins_st" invisible="1"/>-->
+                <field name="inss_retido" invisible="1"/>
+                <field name="bc_inss_retido" invisible="1"/>
+                <field name="al_inss_retido" invisible="1"/>
+                <field name="vr_inss_retido" invisible="1"/>
+<!--                <field name="forca_recalculo_st_compra" invisible="1"/>
+                <field name="md_icms_st_compra" invisible="1"/>
+                <field name="pr_icms_st_compra" invisible="1"/>
+                <field name="rd_icms_st_compra" invisible="1"/>
+                <field name="bc_icms_st_compra" invisible="1"/>
+                <field name="al_icms_st_compra" invisible="1"/>
+                <field name="vr_icms_st_compra" invisible="1"/>-->
+                <field name="unidade_id" options="{'no_open': True, 'no_create': True}" invisible="1" />
+                <field name="vr_nf" string="Item na NF" invisible="1"/>
+                <field name="vr_produtos" string="Valor do item" invisible="1" />
+                <field name="vr_fatura" string="Item na fatura" invisible="1"/>
+                <field name="cfop_posicao" invisible="1" />
+                <field name="cfop_eh_venda" invisible="1" />
+                <field name="cfop_eh_devolucao_compra" invisible="1" />
+                <field name="cfop_eh_retorno_saida" invisible="1" />
+                <field name="vr_operacao" colspan="2" string="Operação" invisible="1" />
+                <field name="unidade_tributacao_id" string="Unidade" options="{'no_open': True, 'no_create': True}" invisible="1" />
+                <field name="vr_produtos_tributacao" string="Valor do item" invisible="1" />
+                <field name="vr_operacao_tributacao" string="Operação" invisible="1" />
+                <field name="vr_unitario_custo_comercial" invisible="1" />
+                <field name="vr_custo_comercial" invisible="1" />
+
+                <group colspan="4" col="4">
+<!--                     options="{'no_open': True, 'no_create': True}" -->
+                    <field name="produto_id" colspan="4" options="{'no_create': True}" />
+                    <newline />
+                    <field name="produto_descricao" colspan="4" string="Descrição alternativa" />
+                    <newline />
+                    <field name="cfop_id" colspan="4" domain="[('entrada_saida', '=', parent.entrada_saida)]" options="{'no_create': True}" />
+                    <newline />
+                    <field name="quantidade" />
+                    <field name="unidade_readonly_id" options="{'no_open': True, 'no_create': True}" />
+                    <newline />
+                    <field name="vr_unitario" />
+                    <field name="vr_nf_readonly" string="Item na NF"/>
+                    <newline />
+                    <field name="vr_produtos_readonly" string="Valor do item" />
+                    <field name="vr_fatura_readonly" string="Item na fatura"/>
+                    <newline />
+                    <notebook colspan="4">
+                        <page string="Valores">
+                            <group colspan="4" col="4">
+                                <group colspan="2" col="2" string="Valores principais">
+                                    <newline />
+                                    <field name="vr_frete" colspan="2" string="Frete" />
+                                    <newline />
+                                    <field name="vr_seguro" colspan="2" string="Seguro" />
+                                    <newline />
+                                    <field name="vr_outras" colspan="2" string="Outras" />
+                                    <newline />
+                                    <field name="vr_desconto" colspan="2" string="Desconto" />
+                                    <newline />
+                                    <field name="vr_operacao_readonly" colspan="2" string="Operação" />
+                                </group>
+                                <field name="exibe_tributacao" invisible="1" />
+                                <group colspan="2" col="2" string="Valores para tributação" attrs="{'invisible': [('exibe_tributacao', '=', False)]}">
+                                    <field name="fator_conversao_unidade_tributacao" string="Fator de conversão" />
+                                    <newline />
+                                    <field name="quantidade_tributacao" string="Quantidade" />
+<!--                                     <field name="unidade_tributacao_readonly_id" string="Unidade" options="{'no_open': True, 'no_create': True}" /> -->
+                                    <newline />
+                                    <field name="vr_unitario_tributacao" string="Valor unitário" />
+                                    <field name="vr_produtos_tributacao_readonly" string="Valor do item" />
+                                    <newline />
+                                    <field name="vr_operacao_tributacao_readonly" string="Operação" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Impostos">
+                            <notebook>
+                                <page string="Imposto de importação" attrs="{'invisible': ['|', ('cfop_posicao', '!=', 'X'), ('entrada_saida', '!=', '0')]}">
+                                    <group string="Imposto de importação">
+                                        <field name="bc_ii" string="Base de cáculo" attrs="{'required': [('cfop_posicao', '=', 'X'), ('entrada_saida', '=', '0')]}" />
+                                        <newline />
+                                        <field name="vr_ii" string="Valor" attrs="{'required': [('cfop_posicao', '=', 'X'), ('entrada_saida', '=', '0')]}" />
+                                        <newline />
+                                        <field name="vr_despesas_aduaneiras" string="Despesas aduaneiras" />
+                                        <newline />
+                                        <field name="vr_iof" string="IOF" />
+                                        <newline />
+                                        <field name="numero_fci" />
+                                        <newline />
+                                    </group>
+                                    <newline />
+                                    <group colspan="4">
+                                        <separator string="Declaração de importação" colspan="4" />
+                                        <field name="declaracao_ids" colspan="4" nolabel="1" />
+                                    </group>
+                                </page>
+                                <page string="ICMS" attrs="{'invisible': [('modelo', 'in', ('SE', 'RL'))]}">
+                                    <group colspan="4" col="4">
+                                        <group colspan="4">
+                                            <field name="org_icms" />
+                                            <newline />
+                                            <field name="cst_icms" string="CST" attrs="{'invisible': [('regime_tributario', '=', '1')]}" />
+                                            <newline />
+                                            <field name="cst_icms_sn" string="CSOSN" attrs="{'invisible': [('regime_tributario', '!=', '1')]}" />
+                                        </group>
+                                        <group string="Crédito de ICMS SIMPLES" attrs="{'invisible': ['|', ('regime_tributario', '!=', '1'), '!', ('cst_icms_sn', 'in', ('101', '201', '900'))]}" colspan="2">
+                                            <newline />
+                                            <field name="al_icms_sn" string="Alíquota" />
+                                            <newline />
+                                            <field name="rd_icms_sn" string="% de redução da alíquota" />
+                                            <newline />
+                                            <field name="vr_icms_sn" string="Valor" />
+                                            <newline />
+                                        </group>
+                                        <newline />
+                                        <field name="calcula_difal" invisible="1" />
+                                        <group string="ICMS" attrs="{'invisible': [('regime_tributario', '=', '1'), '!', ('cst_icms_sn', 'in', ('900', '201', '202'))]}" colspan="2">
+                                            <field name="md_icms_proprio" string="Modalidade" />
+                                            <newline />
+                                            <field name="pr_icms_proprio" string="Parâmetro" attrs="{'readonly': [('md_icms_proprio', '=', '3')]}" />
+                                            <newline />
+                                            <field name="rd_icms_proprio" string="% redução BC" attrs="{'invisible': ['!', ('cst_icms', 'in', ('20', '70', '90'))], 'required': [('cst_icms', 'in', ('20', '70'))]}" />
+                                            <newline />
+                                            <field name="bc_icms_proprio_com_ipi" invisible="1" />
+                                            <newline />
+                                            <field name="bc_icms_proprio" string="Base de cálculo" />
+                                            <newline />
+                                            <field name="al_icms_proprio" string="Alíquota" />
+                                            <newline />
+                                            <field name="vr_icms_proprio" string="Valor" />
+                                            <newline />
+                                            <separator string="Diferencial de alíquota" attrs="{'invisible': [('calcula_difal', '=', False)]}" colspan="2" />
+                                            <newline />
+                                            <field name="al_interna_destino" invisible="1" />
+                                            <field name="al_difal" string="Alíquota DIFAL" attrs="{'invisible': [('calcula_difal', '=', False)]}" />
+                                            <newline />
+                                            <field name="vr_difal" string="Valor DIFAL" attrs="{'invisible': [('calcula_difal', '=', False)]}" />
+                                            <newline />
+                                            <separator string="Fundo de combate à pobreza" attrs="{'invisible': [('calcula_difal', '=', False)]}" colspan="2" />
+                                            <newline />
+                                            <field name="al_fcp" string="Alíquota FCP" attrs="{'invisible': [('calcula_difal', '=', False)]}" />
+                                            <newline />
+                                            <field name="vr_fcp" string="Valor FCP" attrs="{'invisible': [('calcula_difal', '=', False)]}" />
+                                            <newline />
+                                        </group>
+                                        <group string="ICMS ST" attrs="{'invisible': ['!', '|', ('cst_icms', 'in', ('10', '30', '70', '90')), ('cst_icms_sn', 'in', ('201', '202', '900'))]}" colspan="2">
+                                            <field name="md_icms_st" string="Modalidade" />
+                                            <newline />
+                                            <field name="pr_icms_st" string="Parâmetro" />
+                                            <newline />
+                                            <field name="rd_icms_st" string="% redução BC" attrs="{'invisible': ['!', ('cst_icms', 'in', ('70', '90'))], 'required': [('cst_icms', '=', '70')]}" />
+                                            <newline />
+                                            <field name="bc_icms_st_com_ipi" invisible="1" />
+                                            <newline />
+                                            <field name="bc_icms_st" string="Base de cálculo" />
+                                            <newline />
+                                            <field name="al_icms_st" string="Alíquota" />
+                                            <newline />
+                                            <field name="vr_icms_st" string="Valor" />
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="IPI" attrs="{'invisible': [(
+                                    'cfop_eh_devolucao_compra', '=', False), ('cfop_eh_retorno_saida', '=',  False), '|', '&amp;', ('regime_tributario', '=', '1'), ('cst_icms_sn', '!=', '900'), ('modelo', 'in', ('SE', 'RL'))]}">
+                                    <group colspan="4" col="4">
+                                        <group colspan="4">
+                                            <field name="cst_ipi" invisible="1" />
+                                            <field name="cst_ipi_entrada" colspan="2" string="CST" attrs="{'invisible': [('entrada_saida', '!=', '0')]}" />
+                                            <field name="cst_ipi_saida" colspan="2" string="CST" attrs="{'invisible': [('entrada_saida', '!=', '1')]}" />
+                                        </group>
+                                        <group string="IPI" colspan="2">
+                                            <field name="md_ipi" string="Modalidade" />
+                                            <newline />
+                                            <field name="bc_ipi" string="Base de cálculo" />
+                                            <newline />
+                                            <field name="al_ipi" string="Alíquota" />
+                                            <newline />
+                                            <field name="vr_ipi" string="Valor" />
+                                        </group>
+                                        <group colspan="2">
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="ISS" attrs="{'invisible': ['!',('modelo', 'in', ('SE', 'RL'))]}">
+                                    <group string="ISS" colspan="2">
+                                        <field name="bc_iss" />
+                                        <newline />
+                                        <field name="al_iss" />
+                                        <newline />
+                                        <field name="vr_iss" />
+                                        <newline />
+                                    </group>
+                                </page>
+                                <page string="PIS-COFINS" attrs="{'invisible': [('regime_tributario', '=', '1'), ('cst_icms_sn', '!=', '900')]}">
+                                    <group colspan="4" col="4">
+                                        <group colspan="4">
+                                            <field name="al_pis_cofins_id" colspan="2" options="{'no_create': True}" string="Alíquota e CST" />
+                                        </group>
+                                        <group string="PIS" colspan="2">
+                                            <field name="cst_pis" invisible="1" />
+                                            <field name="cst_pis_entrada" colspan="2" string="CST" attrs="{'invisible': [('entrada_saida', '!=', '0')]}" />
+                                            <field name="cst_pis_saida" colspan="2" string="CST" attrs="{'invisible': [('entrada_saida', '!=', '1')]}" />
+                                            <newline />
+                                            <field name="md_pis_proprio" string="Modalidade" />
+                                            <newline />
+                                            <field name="bc_pis_proprio" string="Base de cálculo" />
+                                            <newline />
+                                            <field name="al_pis_proprio" string="Alíquota" />
+                                            <newline />
+                                            <field name="vr_pis_proprio" string="Valor" />
+                                            <newline />
+                                        </group>
+                                        <group string="COFINS" colspan="2">
+                                            <field name="cst_cofins" invisible="1" />
+                                            <field name="cst_cofins_entrada" colspan="2" string="CST" attrs="{'invisible': [('entrada_saida', '!=', '0')]}" />
+                                            <field name="cst_cofins_saida" colspan="2" string="CST" attrs="{'invisible': [('entrada_saida', '!=', '1')]}" />
+                                            <newline />
+                                            <field name="md_cofins_proprio" string="Modalidade" />
+                                            <newline />
+                                            <field name="bc_cofins_proprio" string="Base de cálculo" />
+                                            <newline />
+                                            <field name="al_cofins_proprio" string="Alíquota" />
+                                            <newline />
+                                            <field name="vr_cofins_proprio" string="Valor" />
+                                            <newline />
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="SIMPLES Nacional" attrs="{'invisible': [('regime_tributario', '!=', '1')]}">
+                                    <group string="SIMPLES Nacional">
+                                        <field name="al_simples" />
+                                        <newline />
+                                        <field name="vr_simples" />
+                                        <newline />
+                                    </group>
+                                </page>
+                                <page string="IBPT" >
+                                    <group string="Valor aproximado dos tributos">
+                                        <field name="al_ibpt" />
+                                        <newline />
+                                        <field name="vr_ibpt" />
+                                        <newline />
+                                    </group>
+                                </page>
+                            </notebook>
+                        </page>
+                        <page string="Informações adicionais">
+                            <field name="infcomplementar" colspan="4" />
+                            <newline/>
+                            <group string="B2B" colspan="4">
+                                <field name="numero_pedido" />
+                                <field name="numero_item_pedido" />
+                            </group>
+                        </page>
+                        <page string="Custo">
+                            <group colspan="4" col="4">
+                                <group colspan="2" string="Custo comercial">
+                                    <field name="vr_unitario_custo_comercial_readonly" />
+                                    <newline />
+                                    <field name="vr_custo_comercial_readonly" />
+                                </group>
+                                <!-- <group colspan="2" string="Rateio">
+                                    <field name="vr_frete_rateio" />
+                                    <newline />
+                                    <field name="vr_seguro_rateio" />
+                                    <newline />
+                                    <field name="vr_outras_rateio" />
+                                    <newline />
+                                    <field name="vr_desconto_rateio" />
+                                </group> -->
+                            </group>
+                        </page>
+                    </notebook>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_item_emissao_tree">
+        <field name="name">sped.documento.item.emissao.tree</field>
+        <field name="model">sped.documento.item</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="regime_tributario" invisible="1"/>
+                <field name="modelo" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="unidade_id" invisible="1"/>
+                <field name="produto_id"  />
+                <field name="cfop_id"  />
+                <field name="quantidade"  />
+                <field name="vr_unitario"  />
+                <field name="vr_produtos" sum="vr_produtos"/>
+                <field name="org_icms" invisible="[('modelo', 'in', ('SE', 'RL'))]"/>
+                <field name="cst_icms" invisible="['|',('regime_tributario', '=', '1'),('modelo', 'in', ('SE', 'RL'))]" />
+                <field name="vr_icms_proprio" sum="vr_icms_proprio" invisible="['|',('regime_tributario', '=', '1'),('modelo', 'in', ('SE', 'RL'))]" />
+                <field name="cst_icms_sn" invisible="['|',('regime_tributario', '!=', '1'),('modelo', 'in', ('SE', 'RL'))]" />
+                <field name="vr_icms_sn" sum="vr_icms_sn" invisible="['|',('regime_tributario', '!=', '1'),('modelo', 'in', ('SE', 'RL'))]"/>
+                <field name="vr_icms_st" sum="vr_icms_st" invisible="[('modelo', 'in', ('SE', 'RL'))]" />
+                <field name="cst_ipi" invisible="['|',('regime_tributario', '=', '1'),('modelo', 'in', ('SE', 'RL'))]" />
+                <field name="vr_ipi" sum="vr_ipi" invisible="['|',('regime_tributario', '=', '1'),('modelo', 'in', ('SE', 'RL'))]"/>
+                <field name="vr_iss" sum="vr_iss" invisible="['!', ('modelo', 'in', ('SE', 'RL'))]"/>
+                <field name="cst_pis" string="Situação tributária do PIS-COFINS" invisible="[('regime_tributario', '=', '1'), '!', ('modelo', 'in', ('SE', 'RL'))]" />
+                <field name="vr_pis_proprio" invisible="[('regime_tributario', '=', '1'), '!', ('modelo', 'in', ('SE', 'RL'))]"/>
+                <field name="vr_cofins_proprio" invisible="[('regime_tributario', '=', '1'), '!', ('modelo', 'in', ('SE', 'RL'))]"/>
+                <field name="vr_nf" sum="vr_nf" string="Valor item" />
+            </tree>
+        </field>
+    </record>
+
+<!--    <record model="ir.ui.view" id="sped_documento_emissao_nfe_search">
+        <field name="name">sped.documento.emissao.nfe.search</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Emissão de NF-e">
+                <field name="empresa_id" />
+                <field name="operacao_id" />
+                <field name="numero" />
+                <field name="participante_id" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_documento_emissao_nfe_acao">
+        <field name="name">Emissão de NF-e</field>
+        <field name="domain">[('emissao', '=', '0'), ('modelo', '=', '55')]</field>
+        <field name="context">{'default_emissao': '0', 'default_modelo': '55'}</field>
+        <field name="res_model">sped.documento</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_documento_emissao_nfe_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_documento_emissao_nfe_form"/>
+        <field name="act_window_id" ref="sped_documento_emissao_nfe_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_documento_emissao_nfe_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_documento_emissao_nfe_tree"/>
+        <field name="act_window_id" ref="sped_documento_emissao_nfe_acao"/>
+    </record>
+
+    <menuitem
+        id="menu_sped_documento_emissao_nfe"
+        sequence="1"
+        name="NF-e"
+        parent="menu_sped_documento_emissao"
+        action="sped_documento_emissao_nfe_acao" />-->
+
+</odoo>

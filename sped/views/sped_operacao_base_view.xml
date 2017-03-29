@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_operacao_base_form" >
+        <field name="name">sped.operacao.base.form</field>
+        <field name="model">sped.operacao</field>
+        <field name="priority">9999</field>
+        <field name="arch" type="xml">
+            <form string="Operação Fiscal - Emissão de NF-e">
+                <sheet>
+                    <field name="emissao" invisible="1" />
+                    <field name="modelo" invisible="1" />
+                    <field name="id" invisible="1"/>
+                    <div class="oe_title">
+                        <label for="nome" class="oe_edit_only"/>
+                        <h1>
+                            <field name="nome" default_focus="1" placeholder="Nome" required="1" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group colspan="4" col="4">
+                            <field name="empresa_id" colspan="4" options="{'no_create': True, 'no_open': True}" />
+                            <newline />
+                            <field name="entrada_saida" attrs="{'required': '1', 'readonly': [('id', '!=', False)]}" colspan="2" />
+                            <field name="regime_tributario" attrs="{'required': '1', 'readonly': [('id', '!=', False)]}" colspan="2" />
+                            <newline />
+                            <field name="natureza_operacao_id" colspan="4" required="1" options="{'no_create': True, 'no_open': True}" />
+                            <newline />
+<!--                             <field name="preco_automatico" /> -->
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Configuração para produtos sem ST">
+                            <field name="item_sem_st_ids" attrs="{'invisible': [('regime_tributario', '=', '1')]}" nolabel="1" context="{'default_tipo_protocolo': 'P', 'tree_view_ref': 'sped.sped_operacao_item_tree', 'form_view_ref': 'sped.sped_operacao_item_form'}" />
+                            <field name="item_simples_sem_st_ids" attrs="{'invisible': [('regime_tributario', '!=', '1')]}" nolabel="1" context="{'default_tipo_protocolo': 'P', 'default_cst_icms': '41', 'tree_view_ref': 'sped.sped_operacao_item_simples_tree', 'form_view_ref': 'sped.sped_operacao_item_simples_form'}" />
+                        </page>
+                        <page string="Configuração para produtos com ST">
+                            <field name="item_com_st_ids" attrs="{'invisible': [('regime_tributario', '=', '1')]}" nolabel="1" context="{'default_tipo_protocolo': 'S', 'tree_view_ref': 'sped.sped_operacao_item_tree', 'form_view_ref': 'sped.sped_operacao_item_form'}" />
+                            <field name="item_simples_com_st_ids" attrs="{'invisible': [('regime_tributario', '!=', '1')]}" nolabel="1" context="{'default_tipo_protocolo': 'S', 'default_cst_icms': '41', 'tree_view_ref': 'sped.sped_operacao_item_simples_tree', 'form_view_ref': 'sped.sped_operacao_item_simples_form'}" />
+                        </page>
+                        <page name="retencoes" string="Retenção de tributos">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <separator string="IR" colspan="2" />
+                                    <newline />
+                                    <field name="irrf_retido" string="Retém IR?" />
+                                    <newline />
+                                    <field name="irrf_retido_ignora_limite" string="Ignora limite de R$ 10,00?"/>
+                                    <newline />
+                                    <field name="al_irrf" />
+                                    <newline />
+                                    <separator string="PIS e COFINS" colspan="2" />
+                                    <separator string="CSLL" colspan="2" />
+                                    <newline />
+                                    <field name="pis_cofins_retido" string="Retém PIS e COFINS?" />
+                                    <field name="csll_retido" string="Retém CSLL?" />
+                                    <newline />
+                                    <field name="al_pis_retido" />
+                                    <field name="al_csll" />
+                                    <newline />
+                                    <field name="al_cofins_retido" />
+                                    <newline />
+                                    <field name="limite_retencao_pis_cofins_csll" />
+                                    <newline />
+                                    <field name="deduz_retencao" invisible="1" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Informações complementares">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <field name="finalidade_nfe" attrs="{'required': '1'}" colspan="2" />
+                                    <field name="modalidade_frete" attrs="{'required': '1'}" colspan="2" />
+                                    <newline />
+                                    <field name="consumidor_final" attrs="{'required': '1'}" colspan="2" />
+                                    <field name="presenca_comprador" attrs="{'required': '1'}" colspan="2" />
+                                    <newline />
+                                    <field name="serie" colspan="2" />
+                                    <newline />
+                                    <separator string="Informações complementares" colspan="4" />
+                                    <field name="infcomplementar" colspan="4" nolabel="1" />
+                                    <separator string="Informações adicionais de interesse do fisco" colspan="4" />
+                                    <field name="infadfisco" colspan="4" nolabel="1" />
+                                </group>
+                            </group>
+                        </page>
+                        <page name="financeiro" string="Financeiro">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <field name="ind_forma_pagamento" required="1" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_operacao_base_tree">
+        <field name="name">sped.operacao.base.tree</field>
+        <field name="model">sped.operacao</field>
+        <field name="priority">9999</field>
+        <field name="arch" type="xml">
+            <tree string="Operação Fiscal - Emissão de NF-e">
+                <field name="nome" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_operacao_base_search">
+        <field name="name">sped.operacao.base.search</field>
+        <field name="model">sped.operacao</field>
+        <field name="priority">9999</field>
+        <field name="arch" type="xml">
+            <search string="Operação Fiscal - Emissão de NF-e">
+                <field name="nome" />
+            </search>
+        </field>
+    </record>
+
+</odoo>

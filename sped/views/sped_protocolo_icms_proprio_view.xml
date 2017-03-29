@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_protocolo_icms_proprio_aliquota_tree" >
+        <field name="name">sped.protocolo.icms.proprio.aliquota.tree</field>
+        <field name="model">sped.protocolo.icms.aliquota</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Alíquotas" editable="top">
+                <field name="data_inicio" required="1" />
+                <field name="estado_origem_id" options="{'no_create': True, 'no_open': True}" invisible="1" />
+                <field name="estado_destino_id" options="{'no_create': True, 'no_open': True}" required="1" />
+                <field name="al_icms_proprio_id" options="{'no_create': True, 'no_open': True}" required="1" />
+                <field name="al_icms_st_id" options="{'no_create': True, 'no_open': True}" invisible="1" />
+                <field name="al_fcp" />
+                <field name="infadic" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_protocolo_icms_proprio_form" >
+        <field name="name">sped.protocolo.icms.proprio.form</field>
+        <field name="model">sped.protocolo.icms</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Protocolo/Convênio ICMS" delete="true" create="true" edit="true">
+                <sheet>
+                    <field name="tipo" invisible="1" />
+                    <div class="oe_title">
+                        <h1>
+                            <field name="descricao" required="1"/>
+                        </h1>
+                    </div>
+                    <button type="object" name="atualizar_tabela" string="Preencher tabela com as alíquotas padrão" />
+                    <notebook>
+                        <page string="Estados para validade">
+                            <field name="estado_ids">
+                                <tree editable="top">
+                                    <field name="uf" />
+                                    <field name="nome" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Alíquotas">
+                            <notebook>
+                                <page string="Região Sul" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_PR)d, %(sped.ESTADO_RS)d, %(sped.ESTADO_SC)d])]}">
+                                    <notebook>
+                                        <page string="Paraná" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_PR)d])]}">
+                                            <field name="aliquota_PR_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_PR)d}" />
+                                        </page>
+                                        <page string="Rio Grande do Sul" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_RS)d])]}">
+                                            <field name="aliquota_RS_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_RS)d}" />
+                                        </page>
+                                        <page string="Santa Catarina" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_SC)d])]}">
+                                            <field name="aliquota_SC_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_SC)d}" />
+                                        </page>
+                                    </notebook>
+                                </page>
+                                <page string="Região Sudeste" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ['estado_ids', 'child_of', [%(sped.ESTADO_ES)d, %(sped.ESTADO_MG)d, %(sped.ESTADO_RJ)d, %(sped.ESTADO_SP)d]]]}">
+                                    <notebook>
+                                        <page string="Espírito Santo" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_ES)d])]}">
+                                            <field name="aliquota_ES_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_ES)d}" />
+                                        </page>
+                                        <page string="Minas Gerais" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_MG)d])]}">
+                                            <field name="aliquota_MG_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_MG)d}" />
+                                        </page>
+                                        <page string="Rio de Janeiro" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_RJ)d])]}">
+                                            <field name="aliquota_RJ_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_RJ)d}" />
+                                        </page>
+                                        <page string="São Paulo" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_SP)d])]}">
+                                            <field name="aliquota_SP_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_SP)d}" />
+                                        </page>
+                                    </notebook>
+                                </page>
+                                <page string="Região Centro-Oeste" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ['estado_ids', 'child_of', [%(sped.ESTADO_DF)d, %(sped.ESTADO_GO)d, %(sped.ESTADO_MT)d, %(sped.ESTADO_MS)d]]]}">
+                                    <notebook>
+                                        <page string="Distrito Federal" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_DF)d])]}">
+                                            <field name="aliquota_DF_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_DF)d}" />
+                                        </page>
+                                        <page string="Goiás" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_GO)d])]}">
+                                            <field name="aliquota_GO_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_GO)d}" />
+                                        </page>
+                                        <page string="Mato Grosso" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_MT)d])]}">
+                                            <field name="aliquota_MT_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_MT)d}" />
+                                        </page>
+                                        <page string="Mato Grosso do Sul" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_MS)d])]}">
+                                            <field name="aliquota_MS_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_MS)d}" />
+                                        </page>
+                                    </notebook>
+                                </page>
+                                <page string="Região Nordeste" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ['estado_ids', 'child_of', [%(sped.ESTADO_AL)d, %(sped.ESTADO_BA)d, %(sped.ESTADO_CE)d, %(sped.ESTADO_MA)d, %(sped.ESTADO_PB)d, %(sped.ESTADO_PE)d, %(sped.ESTADO_PI)d, %(sped.ESTADO_RN)d, %(sped.ESTADO_SE)d]]]}">
+                                    <notebook>
+                                        <page string="Alagoas" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_AL)d])]}">
+                                            <field name="aliquota_AL_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_AL)d}" />
+                                        </page>
+                                        <page string="Bahia" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_BA)d])]}">
+                                            <field name="aliquota_BA_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_BA)d}" />
+                                        </page>
+                                        <page string="Ceará" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_CE)d])]}">
+                                            <field name="aliquota_CE_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_CE)d}" />
+                                        </page>
+                                        <page string="Maranhão" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_MA)d])]}">
+                                            <field name="aliquota_MA_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_MA)d}" />
+                                        </page>
+                                        <page string="Paraíba" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_PB)d])]}">
+                                            <field name="aliquota_PB_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_PB)d}" />
+                                        </page>
+                                        <page string="Pernambuco" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_PE)d])]}">
+                                            <field name="aliquota_PE_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_PE)d}" />
+                                        </page>
+                                        <page string="Piauí" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_PI)d])]}">
+                                            <field name="aliquota_PI_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_PI)d}" />
+                                        </page>
+                                        <page string="Rio Grande do Norte" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_RN)d])]}">
+                                            <field name="aliquota_RN_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_RN)d}" />
+                                        </page>
+                                        <page string="Sergipe" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_SE)d])]}">
+                                            <field name="aliquota_SE_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_SE)d}" />
+                                        </page>
+                                    </notebook>
+                                </page>
+                                <page string="Região Norte" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ['estado_ids', 'child_of', [%(sped.ESTADO_AC)d, %(sped.ESTADO_AP)d, %(sped.ESTADO_AM)d, %(sped.ESTADO_PA)d, %(sped.ESTADO_RO)d, %(sped.ESTADO_RR)d, %(sped.ESTADO_TO)d]]]}">
+                                    <notebook>
+                                        <page string="Acre" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_AC)d])]}">
+                                            <field name="aliquota_AC_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_AC)d}" />
+                                        </page>
+                                        <page string="Amapá" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_AP)d])]}">
+                                            <field name="aliquota_AP_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_AP)d}" />
+                                        </page>
+                                        <page string="Amazonas" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_AM)d])]}">
+                                            <field name="aliquota_AM_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_AM)d}" />
+                                        </page>
+                                        <page string="Pará" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_PA)d])]}">
+                                            <field name="aliquota_PA_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_PA)d}" />
+                                        </page>
+                                        <page string="Rondônia" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_RO)d])]}">
+                                            <field name="aliquota_RO_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_RO)d}" />
+                                        </page>
+                                        <page string="Roraima" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_RR)d])]}">
+                                            <field name="aliquota_RR_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_RR)d}" />
+                                        </page>
+                                        <page string="Tocantins" attrs="{'invisible': ['!', ['estado_ids', 'child_of', []], '!', ('estado_ids', 'child_of', [%(sped.ESTADO_TO)d])]}">
+                                            <field name="aliquota_TO_ids" nolabel="1" colspan="4" context="{'tree_view_ref': 'sped.sped_protocolo_icms_proprio_aliquota_tree', 'default_estado_origem_id': %(sped.ESTADO_TO)d}" />
+                                        </page>
+                                    </notebook>
+                                </page>
+                            </notebook>
+                        </page>
+                        <page string="NCMs">
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="width:19%;"><label for="ncm" /></td>
+                                    <td style="width:1%;"></td>
+                                    <td style="width:19%;"><label for="ex" /></td>
+                                    <td style="width:1%;"></td>
+                                    <td style="width:19%;"></td>
+                                    <td style="width:1%;"></td>
+                                    <td style="width:19%;"></td>
+                                    <td style="width:1%;"></td>
+                                    <td style="width:20%;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:19%;"><field name="ncm" /></td>
+                                    <td style="width:1%;"></td>
+                                    <td style="width:19%;"><field name="ex" /></td>
+                                    <td style="width:1%;"></td>
+                                    <td style="width:19%;"></td>
+                                    <td style="width:1%;"></td>
+                                    <td style="width:19%;"><button type="object" name="insere_ncm" string="Incluir NCMs" attrs="{'invisible': [('ncm', '=', False)]}" /></td>
+                                    <td style="width:1%;"></td>
+                                    <td style="width:20%;"><button type="object" name="exclui_ncm" string="Excluir NCMs" attrs="{'invisible': [('ncm', '=', False)]}" /></td>
+                                </tr>
+                            </table>
+                            <separator string="NCMs" />
+                            <field name="ncm_ids" nolabel="1" readonly="1">
+                                <tree>
+                                    <field name="ncm_id" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_protocolo_icms_proprio_tree">
+        <field name="name">sped.protocolo.icms.proprio.tree</field>
+        <field name="model">sped.protocolo.icms</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Protocolo/Convênio ICMS" delete="true" create="true" edit="true">
+                <field name="tipo" invisible="1" />
+                <field name="descricao" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_protocolo_icms_proprio_search">
+        <field name="name">sped.protocolo.icms.proprio.search</field>
+        <field name="model">sped.protocolo.icms</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Protocolo/Convênio ICMS">
+                <field name="descricao" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_protocolo_icms_proprio_acao">
+        <field name="name">Protocolo/Convênio ICMS</field>
+        <field name="domain">[('tipo', '=', 'P')]</field>
+        <field name="context">{'default_tipo': 'P'}</field>
+        <field name="res_model">sped.protocolo.icms</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_protocolo_icms_proprio_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_protocolo_icms_proprio_form"/>
+        <field name="act_window_id" ref="sped_protocolo_icms_proprio_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_protocolo_icms_proprio_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_protocolo_icms_proprio_tree"/>
+        <field name="act_window_id" ref="sped_protocolo_icms_proprio_acao"/>
+    </record>
+
+    <menuitem
+        parent="menu_sped_aliquota_icms_proprio"
+        sequence="1"
+        id="menu_sped_protocolo_icms_proprio"
+        name="Protocolo/Convênio"
+        action="sped_protocolo_icms_proprio_acao" />
+
+</odoo>

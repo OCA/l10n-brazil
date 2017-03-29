@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_account_payment_term_line_form" >
+        <field name="name">sped.account.payment.term.line.form</field>
+        <field name="model">account.payment.term.line</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Condição de pagamento">
+                <group>
+                    <group string="Term Type">
+                        <field name="value" widget="radio"/>
+                        <label for="value_amount" attrs="{'invisible':[('value','=', 'balance')]}"/>
+                        <div attrs="{'invisible':[('value','=', 'balance')]}">
+                            <field name="value_amount" class="oe_inline"/>
+                            <label string="%" class="oe_inline" attrs="{'invisible':[('value','!=','percent')]}"/>
+                        </div>
+                        <field name="sequence" invisible="1"/>
+                    </group>
+                    <group string="Cálculo da data de vencimento">
+                        <label for="days"/>
+                        <div>
+                            <field name="option" widget="radio"/>
+                            <div class="o_row" attrs="{'invisible': [('option', 'in', ['last_day_following_month', 'last_day_current_month'])]}">
+                                <field name="days"/>
+                                days
+                            </div>
+                        </div>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_account_payment_term_line_tree">
+        <field name="name">sped.account.payment.term.line.tree</field>
+        <field name="model">account.payment.term.line</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Condições de pagamento">
+                <field name="sequence" widget="handle"/>
+                <field name="value" string="Due Type"/>
+                <field name="value_amount" attrs="{'readonly':[('value','=','balance')]}"/>
+                <field name="days"/>
+                <field name="option" string=""/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>
