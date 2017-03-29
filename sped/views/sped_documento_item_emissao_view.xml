@@ -18,8 +18,6 @@
                 <field name="entrada_saida" invisible="1"/>
                 <field name="contribuinte" invisible="1"/>
                 <field name="consumidor_final" invisible="1"/>
-                <field name="protocolo_id" invisible="1"/>
-                <field name="operacao_item_id" invisible="1"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
                 <field name="currency_unitario_id" invisible="1"/>
@@ -322,6 +320,17 @@
                                     <newline />
                                     <field name="vr_desconto_rateio" />
                                 </group> -->
+                            </group>
+                        </page>
+                        <page name="suporte" string="Suporte">
+                            <group col="4">
+                                <separator string="Configuração da emissão" colspan="4" />
+                                <field name="protocolo_id" colspan="4" />
+                                <field name="operacao_item_id" colspan="4" />
+                                <field name="compoe_total" />
+                                <newline />
+                                <separator string="Configuração da apuração" colspan="4" />
+                                <field name="movimentacao_fisica" />
                             </group>
                         </page>
                     </notebook>
