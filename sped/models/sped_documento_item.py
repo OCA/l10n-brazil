@@ -2137,7 +2137,7 @@ class DocumentoItem(models.Model):
             valores['vr_icms_estado_destino'] = vr_icms_estado_destino
             valores['vr_icms_estado_origem'] = vr_icms_estado_origem
 
-            vr_fcp = self.vr_operacao_tributacao * self.al_fcp / 100
+            vr_fcp = self.vr_operacao_tributacao * D(self.al_fcp) / 100
             vr_fcp = vr_fcp.quantize(D('0.01'))
             valores['vr_fcp'] = vr_fcp
 
