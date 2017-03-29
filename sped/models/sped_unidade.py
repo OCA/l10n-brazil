@@ -341,9 +341,9 @@ class Unidade(models.Model):
     def name_search(self, name='', args=None, operator='ilike', limit=100):
         args = args or []
         if name and operator in ('=', 'ilike', '=ilike', 'like', '=like'):
-            name = name.replace(' ', ' ')
-            name = name.replace('²', '2')
-            name = name.replace('³', '3')
+            name = name.replace(u' ', u' ')
+            name = name.replace(u'²', u'2')
+            name = name.replace(u'³', u'3')
             args += ['|', ['codigo_unico', operator, name],
                      ['nome_unico', operator, name]]
 
@@ -441,7 +441,7 @@ class Unidade(models.Model):
         for unidade in self:
             self.active = True
             self.position = 'after'
-            self.symbol = ' ' + self.codigo
+            self.symbol = u' ' + self.codigo
 
             if (self.tipo == self.TIPO_UNIDADE_UNIDADE or
                     self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
