@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_aliquota_ipi_form" >
+        <field name="name">sped.aliquota.ipi.st.form</field>
+        <field name="model">sped.aliquota.ipi</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Alíquota de IPI" delete="true" create="true" edit="true">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="descricao" placeholder="Descrição"/>
+                        </h1>
+                    </div>
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="width:30%;"><label for="al_ipi" /></td>
+                            <td style="width:20%;"><field name="al_ipi" /></td>
+                            <td style="width:50%;"></td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%;"><label for="md_ipi" /></td>
+                            <td style="width:70%;" colspan="2"><field name="md_ipi" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%;"><label for="cst_ipi_entrada" /></td>
+                            <td style="width:70%;" colspan="2"><field name="cst_ipi_entrada" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%;"><label for="cst_ipi_saida" /></td>
+                            <td style="width:70%;" colspan="2"><field name="cst_ipi_saida" /></td>
+                        </tr>
+                    </table>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_aliquota_ipi_tree">
+        <field name="name">sped.aliquota.ipi.st.tree</field>
+        <field name="model">sped.aliquota.ipi</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Alíquota de IPI" delete="true" create="true" edit="true">
+                <field name="descricao" />
+<!--                <field name="al_ipi" />
+                <field name="md_ipi" />
+                <field name="cst_ipi_entrada" />
+                <field name="cst_ipi_saida" />-->
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_aliquota_ipi_search">
+        <field name="name">sped.aliquota.ipi.st.search</field>
+        <field name="model">sped.aliquota.ipi</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Alíquota de IPI">
+                <field name="al_ipi" />
+                <field name="md_ipi" />
+                <field name="cst_ipi_entrada" />
+                <field name="cst_ipi_saida" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_aliquota_ipi_acao">
+        <field name="name">Alíquota de IPI</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="res_model">sped.aliquota.ipi</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_aliquota_ipi_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_aliquota_ipi_form"/>
+        <field name="act_window_id" ref="sped_aliquota_ipi_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_aliquota_ipi_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_aliquota_ipi_tree"/>
+        <field name="act_window_id" ref="sped_aliquota_ipi_acao"/>
+    </record>
+
+    <menuitem
+        parent="menu_sped_aliquota"
+        sequence="3"
+        id="menu_sped_aliquota_ipi"
+        name="IPI"
+        action="sped_aliquota_ipi_acao" />
+
+</odoo>

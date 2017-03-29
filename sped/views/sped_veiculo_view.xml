@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_veiculo_form" >
+        <field name="name">sped.veiculo.form</field>
+        <field name="model">sped.veiculo</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Veículo" delete="false" create="false" edit="true">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="placa" class="oe_edit_only"/>
+                        <h1>
+                            <field name="placa" default_focus="1" placeholder="AAA-9999" required="1"  />
+                        </h1>
+                    </div>
+                    <group>
+                        <group colspan="4" col="4">
+                            <field name="estado_id" colspan="2" options="{'no_create': True, 'no_open': True}" required="1" />
+                            <field name="rntrc" colspan="2" />
+                            <newline />
+                            <field name="transportadora_id" colspan="4" options="{'no_create': True, 'no_open': True}" />
+                            <newline />
+                            <field name="motorista_id" colspan="4" options="{'no_create': True, 'no_open': True}" />
+                            <newline />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_veiculo_tree">
+        <field name="name">sped.veiculo.tree</field>
+        <field name="model">sped.veiculo</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+<!--             <tree string="Veículo" delete="false" create="false" edit="true"> -->
+            <tree string="Veículo">
+                <field name="placa" />
+                <field name="estado_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_veiculo_search">
+        <field name="name">sped.veiculo.search</field>
+        <field name="model">sped.veiculo</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Veículo">
+                <field name="placa" />
+                <field name="estado_id" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_veiculo_acao">
+        <field name="name">Veículo</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="res_model">sped.veiculo</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_veiculo_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_veiculo_form"/>
+        <field name="act_window_id" ref="sped_veiculo_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_veiculo_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_veiculo_tree"/>
+        <field name="act_window_id" ref="sped_veiculo_acao"/>
+    </record>
+
+    <menuitem
+        parent="menu_sped_configuracao"
+        sequence="10"
+        id="menu_sped_veiculo"
+        name="Veículo"
+        action="sped_veiculo_acao" />
+
+</odoo>

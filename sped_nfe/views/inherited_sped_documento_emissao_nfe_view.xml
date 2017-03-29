@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_nfe_inherited_form" >
+        <field name="name">sped.documento.emissao.nfe.inherited.form</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="sped.sped_documento_emissao_nfe_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet[1]" position="before">
+                <header>
+                    <button name="envia_nfe" string="Enviar NF-e" type="object" class="btn-primary"
+                        attrs="{'invisible': [('state_nfe', 'not in', ['em_digitacao', 'rejeitada'])]}" />
+                    <button name="envia_email" string="Enviar email" type="object" class="btn-primary" />
+                </header>
+            </xpath>
+            <xpath expr="//field[@name='empresa_id']" position="before">
+                <field name="state_nfe" readonly="1" colspan="4" string="Situação"
+                       decoration-warning="state_nfe == 'denegada' or situacao_fiscal == '04'"
+                       decoration-danger="state_nfe == 'rejeitada'"
+                       />
+                <field name="mensagem_nfe" readonly="1" colspan="4" attrs="{'invisible': [('state_nfe', '!=', 'rejeitada')]}"
+                       decoration-warning="state_nfe == 'denegada' or situacao_fiscal == '04'"
+                       decoration-danger="state_nfe == 'rejeitada'"
+                       />
+            </xpath>
+            <page name="financeiro" position="after">
+                <page name="detalhe_nfe" string="NF-e">
+                    <field name="permite_cancelamento" invisible="1" />
+                    <group col="4" attrs="{'invisible': [('permite_cancelamento', '=', False), ('state_nfe', '!=', 'cancelada')]}">
+                        <separator string="Cancelamento" colspan="4" />
+                        <field name="justificativa" colspan="4" attrs="{'readonly': [('state_nfe', '=', 'cancelada')]}" />
+                        <button name="cancela_nfe" string="Cancelar NF-e" type="object" class="btn-primary"
+                            attrs="{'invisible': ['|', ('permite_cancelamento', '=', 'False'), ('state_nfe', '=', 'cancelada')]}" />
+                    </group>
+                </page>
+                <page name="suporte" string="Suporte">
+                    <group col="4">
+                        <separator string="Autorização" colspan="4" />
+                        <field name="data_hora_autorizacao" />
+                        <field name="protocolo_autorizacao" />
+                        <field name="arquivo_xml_id" colspan="4" string="NF-e" />
+                        <field name="arquivo_xml_autorizacao_id" colspan="4" string="Processo" />
+                        <field name="arquivo_pdf_id" colspan="4" string="DANFE" />
+                    </group>
+                    <group col="4" attrs="{'invisible': [('state_nfe', '!=', 'cancelada')]}">
+                        <separator string="Cancelamento" colspan="4" />
+                        <field name="data_hora_cancelamento" />
+                        <field name="protocolo_cancelamento" />
+                        <field name="arquivo_xml_cancelamento_id" colspan="4" string="Cancelamento" />
+                        <field name="arquivo_xml_autorizacao_cancelamento_id" colspan="4" string="Autorização" />
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_nfe_inherited_tree" >
+        <field name="name">sped.documento.emissao.nfe.inherited.tree</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="sped.sped_documento_emissao_nfe_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree[1]" position="attributes">
+                <!-- Muda a cor para:
+                        muted (cinza): cancelada ou inutilizada, ou mercadoria não circulou ou não recebida
+                        warning (marrom cocô): denegada
+                        info (azul petróleo): aguardando envio para SEFAZ
+                        primary (lilás/roxinho): aguardando resposta da SEFAZ
+                        danger (vermelho): rejeitada
+                        success (verde):
+                -->
+                <attribute name="decoration-warning">state_nfe == 'denegada' or situacao_fiscal == '04'</attribute>
+                <attribute name="decoration-muted">state_nfe in ('cancelada', 'inutilizada') or situacao_fiscal in ('02', '03', '05', 'NC', 'MR')</attribute>
+                <attribute name="decoration-info">state_nfe == 'a_enviar'</attribute>
+                <attribute name="decoration-primary">state_nfe == 'enviada'</attribute>
+                <attribute name="decoration-danger">state_nfe == 'rejeitada'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='empresa_id']" position="before">
+                <field name="state_nfe" string="Situação" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

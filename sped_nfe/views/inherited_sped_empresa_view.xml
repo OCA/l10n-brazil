@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_empresa_inherited_form" >
+        <field name="name">sped.empresa.inherited.form</field>
+        <field name="model">sped.empresa</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="sped.sped_empresa_form" />
+        <field name="arch" type="xml">
+            <field name="protocolo_id" position="after">
+                <newline />
+                <field name="certificado_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
+            </field>
+            <field name="serie_nfe_contingencia_homologacao" position="after">
+                <newline />
+                <separator string="DANFE" colspan="4" />
+                <field name="logo_danfe" colspan="4" />
+                <newline />
+                <separator string="Modelos de email" colspan="4" />
+                <field name="mail_template_nfe_autorizada_id" colspan="4" string="Autorização" />
+                <field name="mail_template_nfe_cancelada_id" colspan="4" string="Cancelamento" />
+                <field name="mail_template_nfe_denegada_id" colspan="4" string="Denegação" />
+                <field name="mail_template_nfe_cce_id" colspan="4" string="Carta de correção" />
+            </field>
+            <field name="serie_nfce_contingencia_homologacao" position="after">
+                <newline />
+                <separator string="DANFCE" colspan="4" />
+                <field name="logo_danfce" colspan="4" />
+                <newline />
+                <separator string="Modelos de email" colspan="4" />
+                <field name="mail_template_nfce_autorizada_id" colspan="4" string="Autorização" />
+                <field name="mail_template_nfce_cancelada_id" colspan="4" string="Cancelamento" />
+                <field name="mail_template_nfce_denegada_id" colspan="4" string="Denegação" />
+                <field name="mail_template_nfce_cce_id" colspan="4" string="Carta de correção" />
+            </field>
+        </field>
+    </record>
+
+</odoo>
