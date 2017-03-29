@@ -1129,20 +1129,20 @@ class DocumentoItem(models.Model):
                 else:
                     if self.produto_id.ncm_id:
                         mensagem_erro = \
-                            u'Não há protocolo padrão para a empresa, ' \
-                            u'e o protocolo “{protocolo}” não pode ' \
-                            u'ser usado para o estado “{estado}” ' \
-                            u'(produto “{produto}”, NCM “{ncm}”)!' \
+                            'Não há protocolo padrão para a empresa, ' \
+                            'e o protocolo “{protocolo}” não pode ' \
+                            'ser usado para o estado “{estado}” ' \
+                            '(produto “{produto}”, NCM “{ncm}”)!' \
                             .format(protocolo=protocolo.descricao,
                                     estado=estado_destino,
                                     produto=self.produto_id.nome,
                                     ncm=self.produto_id.ncm_id.codigo_formatado)
                     else:
                         mensagem_erro = \
-                            u'Não há protocolo padrão para a empresa, ' \
-                            u'e o protocolo “{protocolo}” não pode ' \
-                            u'ser usado para o estado “{estado}” ' \
-                            u'(produto “{produto}”)!'\
+                            'Não há protocolo padrão para a empresa, ' \
+                            'e o protocolo “{protocolo}” não pode ' \
+                            'ser usado para o estado “{estado}” ' \
+                            '(produto “{produto}”)!'\
                             .format(protocolo=protocolo.descricao,
                                     estado=estado_destino,
                                     produto=self.produto_id.nome)
@@ -1292,8 +1292,6 @@ class DocumentoItem(models.Model):
         else:
             valores['cst_ipi_saida'] = self.operacao_item_id.cst_ipi_saida
             valores['cst_ipi'] = self.operacao_item_id.cst_ipi_saida
-
-        valores['enquadramento_ipi'] = self.operacao_item_id.enquadramento_ipi
 
         #
         # Busca agora as alíquotas do PIS e COFINS
