@@ -454,7 +454,7 @@ ST_ICMS = (
     ('51', u'51 - Diferimento'),
     ('60', u'60 - ICMS cobrado anteriormente por ST'),
     ('70', u'70 - Com redução da BC e cobrança do ICMS por ST'),
-    ('90', u'9u0 - Outras'),
+    ('90', u'90 - Outras'),
 )
 ST_ICMS_DICT = dict(ST_ICMS)
 
