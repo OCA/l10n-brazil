@@ -719,8 +719,21 @@ class HrPayslip(models.Model):
             return estrutura_provisao_decimo_terceiro
 
     @api.multi
+    def _verificar_ferias_vencidas(self):
+        periodo_ferias_vencida = self.env['hr.vacation.control'].search(
+            [
+                ('contract_id', '=', self.contract_id.id),
+                ('fim_aquisitivo', '<', self.date_from),
+                ('inicio_gozo', '=', False),
+            ]
+        )
+        return periodo_ferias_vencida
+
+    @api.multi
     def gerar_simulacao(
-            self, tipo_simulacao, mes_do_ano, ano, data_inicio, data_fim):
+            self, tipo_simulacao, mes_do_ano, ano, data_inicio, data_fim,
+            ferias_vencida=None
+    ):
         hr_payslip_obj = self.env['hr.payslip']
         vals = {
             'contract_id': self.contract_id.id,
@@ -734,10 +747,14 @@ class HrPayslip(models.Model):
         }
         payslip_simulacao_criada = hr_payslip_obj.create(vals)
         if tipo_simulacao == "ferias":
+            if ferias_vencida:
+                periodo_ferias_vencida = self._verificar_ferias_vencidas()
             payslip_simulacao_criada.write(
                 {
                     'periodo_aquisitivo':
-                        self.contract_id.vacation_control_ids[0].id
+                        self.contract_id.vacation_control_ids[0].id if
+                        not periodo_ferias_vencida else
+                        periodo_ferias_vencida.id
                 }
             )
             payslip_simulacao_criada._compute_saldo_periodo_aquisitivo()
@@ -793,20 +810,68 @@ class HrPayslip(models.Model):
         return mes_do_ano, ano, data_inicio, data_fim
 
     @api.multi
-    def BUSCAR_VALOR_PROPORCIONAL(self, tipo_simulacao, um_terco_ferias=None):
+    def BUSCAR_VALOR_PROPORCIONAL(
+            self, tipo_simulacao, um_terco_ferias=None, ferias_vencida=None):
         mes_verificacao, ano_verificacao, data_inicio, data_fim = \
             self._checar_datas_gerar_simulacoes(
                 self.mes_do_ano, self.ano
             )
-        payslip_simulacao = self.env['hr.payslip'].search(
-            [
-                ('tipo_de_folha', '=', tipo_simulacao),
-                ('is_simulacao', '=', True),
-                ('mes_do_ano', '=', mes_verificacao),
-                ('ano', '=', ano_verificacao),
-                ('state', '=', 'done'),
-            ]
-        )
+        payslip_simulacao = self.env['hr.payslip']
+        if not ferias_vencida:
+            if not tipo_simulacao == "ferias":
+                payslip_simulacao = self.env['hr.payslip'].search(
+                    [
+                        ('tipo_de_folha', '=', tipo_simulacao),
+                        ('is_simulacao', '=', True),
+                        ('mes_do_ano', '=', mes_verificacao),
+                        ('ano', '=', ano_verificacao),
+                        ('state', '=', 'done'),
+                    ]
+                )
+            else:
+                periodos_ferias_simulacao = \
+                    self.env['hr.vacation.control'].search(
+                        [
+                            ('contract_id', '=', self.contract_id.id),
+                            ('inicio_gozo', '=', data_inicio),
+                            ('fim_gozo', '=', data_fim)
+                        ]
+                    )
+                payslip_simulacao = self.env['hr.payslip'].search(
+                    [
+                        ('tipo_de_folha', '=', tipo_simulacao),
+                        ('is_simulacao', '=', True),
+                        ('mes_do_ano', '=', mes_verificacao),
+                        ('ano', '=', ano_verificacao),
+                        ('periodo_aquisitivo', '=',
+                         periodos_ferias_simulacao[0].id if
+                         not ferias_vencida else
+                         periodos_ferias_simulacao[1].id),
+                        ('state', '=', 'done'),
+                    ]
+                )
+        else:
+            periodos_ferias_simulacao = \
+                self.env['hr.vacation.control'].search(
+                    [
+                        ('contract_id', '=', self.contract_id.id),
+                        ('inicio_gozo', '=', data_inicio),
+                        ('fim_gozo', '=', data_fim)
+                    ]
+                )
+            payslip_simulacao = self.env['hr.payslip'].search(
+                [
+                    ('tipo_de_folha', '=', tipo_simulacao),
+                    ('is_simulacao', '=', True),
+                    ('mes_do_ano', '=', mes_verificacao),
+                    ('ano', '=', ano_verificacao),
+                    ('periodo_aquisitivo', '=',
+                     periodos_ferias_simulacao[0].id if
+                     not ferias_vencida else
+                     periodos_ferias_simulacao[1].id),
+                    ('state', '=', 'done'),
+                ]
+            )
         if len(payslip_simulacao) > 1:
             raise exceptions.Warning(
                 _(
@@ -817,7 +882,8 @@ class HrPayslip(models.Model):
         elif len(payslip_simulacao) == 0:
             payslip_simulacao_criada = self.gerar_simulacao(
                 tipo_simulacao, mes_verificacao,
-                ano_verificacao, data_inicio, data_fim
+                ano_verificacao, data_inicio,
+                data_fim, ferias_vencida=ferias_vencida
             )
             return self._buscar_valor_bruto_simulacao(
                 payslip_simulacao_criada, um_terco_ferias)
@@ -1058,24 +1124,30 @@ class HrPayslip(models.Model):
                 employee = contract.employee_id
                 localdict = dict(
                     baselocaldict, employee=employee, contract=contract)
+                ferias_vencida = payslip._verificar_ferias_vencidas()
                 for rule in obj_rule.browse(sorted_rule_ids):
-                    key = rule.code + '-' + str(contract.id)
-                    localdict['result'] = None
-                    localdict['result_qty'] = 1.0
-                    localdict['result_rate'] = 100
-                    localdict['rubrica'] = rule
-                    # check if the rule can be applied
-                    if obj_rule.satisfy_condition(rule.id, localdict) \
-                            and rule.id not in blacklist:
-                        # compute the amount of the rule
-                        amount, qty, rate = \
-                            obj_rule.compute_rule(rule.id, localdict)
-                        # se ja tiver sido calculado a media dessa rubrica,
-                        # utilizar valor da media e multiplicar pela reinciden.
-                        if medias.get(rule.code) and \
-                                not payslip.tipo_de_folha == 'aviso_previo':
-                            amount = medias.get(rule.code).media/12
-                            qty = medias.get(rule.code).meses
+                    if not rule.code == "FERIAS_VENCIDAS" or \
+                            (rule.code == "FERIAS_VENCIDAS" and ferias_vencida
+                             ):
+                        key = rule.code + '-' + str(contract.id)
+                        localdict['result'] = None
+                        localdict['result_qty'] = 1.0
+                        localdict['result_rate'] = 100
+                        localdict['rubrica'] = rule
+                        # check if the rule can be applied
+                        if obj_rule.satisfy_condition(rule.id, localdict) \
+                                and rule.id not in blacklist:
+                            # compute the amount of the rule
+                            amount, qty, rate = \
+                                obj_rule.compute_rule(rule.id, localdict)
+                            # se ja tiver sido calculado a media dessa rubrica,
+                            # utilizar valor da media e multiplicar
+                            # pela reinciden.
+                            if medias.get(rule.code) and \
+                                    not payslip.tipo_de_folha == 'aviso' \
+                                                                 '_previo':
+                                amount = medias.get(rule.code).media/12
+                                qty = medias.get(rule.code).meses
 
                         # check if there is already a rule computed
                         # with that code
