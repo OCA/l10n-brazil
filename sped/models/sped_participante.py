@@ -14,8 +14,7 @@ from ..constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 
-#try:
-if True:
+try:
     from email_validator import validate_email
 
     from pybrasil.base import mascara, primeira_maiuscula
@@ -27,8 +26,8 @@ if True:
                                    valida_fone_celular,
                                    valida_fone_internacional)
 
-#except (ImportError, IOError) as err:
-#    _logger.debug(err)
+except (ImportError, IOError) as err:
+    _logger.debug(err)
 
 
 class Participante(models.Model):
