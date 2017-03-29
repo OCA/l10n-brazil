@@ -994,30 +994,32 @@ class DocumentoItem(models.Model):
             # O estado de destino não pertence ao protocolo, usamos então o
             # protocolo padrão da empresa
             #
-            if len(estado_ids) == 0 and not self.empresa_id.protocolo_id:
-                if self.produto_id.ncm_id:
-                    mensagem_erro = \
-                        'Não há protocolo padrão para a empresa, ' \
-                        'e o protocolo “{protocolo}” não pode ' \
-                        'ser usado para o estado “{estado}” ' \
-                        '(produto “{produto}”, NCM “{ncm}”)!' \
-                        .format(protocolo=protocolo.descricao,
-                                estado=estado_destino,
-                                produto=self.produto_id.nome,
-                                ncm=self.produto_id.ncm_id.codigo_formatado)
+            if len(estado_ids) == 0:
+                if self.empresa_id.protocolo_id:
+                    protocolo = self.empresa_id.protocolo_id
+
                 else:
-                    mensagem_erro = \
-                        'Não há protocolo padrão para a empresa, ' \
-                        'e o protocolo “{protocolo}” não pode ' \
-                        'ser usado para o estado “{estado}” ' \
-                        '(produto “{produto}”)!'\
-                        .format(protocolo=protocolo.descricao,
-                                estado=estado_destino,
-                                produto=self.produto_id.nome)
+                    if self.produto_id.ncm_id:
+                        mensagem_erro = \
+                            'Não há protocolo padrão para a empresa, ' \
+                            'e o protocolo “{protocolo}” não pode ' \
+                            'ser usado para o estado “{estado}” ' \
+                            '(produto “{produto}”, NCM “{ncm}”)!' \
+                            .format(protocolo=protocolo.descricao,
+                                    estado=estado_destino,
+                                    produto=self.produto_id.nome,
+                                    ncm=self.produto_id.ncm_id.codigo_formatado)
+                    else:
+                        mensagem_erro = \
+                            'Não há protocolo padrão para a empresa, ' \
+                            'e o protocolo “{protocolo}” não pode ' \
+                            'ser usado para o estado “{estado}” ' \
+                            '(produto “{produto}”)!'\
+                            .format(protocolo=protocolo.descricao,
+                                    estado=estado_destino,
+                                    produto=self.produto_id.nome)
 
-                raise ValidationError(mensagem_erro)
-
-            protocolo = self.empresa_id.protocolo_id
+                    raise ValidationError(mensagem_erro)
 
         #
         # Determinamos agora qual linha da operação será seguida
@@ -1156,7 +1158,12 @@ class DocumentoItem(models.Model):
             valores['cst_icms'] = self.operacao_item_id.cst_icms
             valores['cst_icms_sn'] = False
 
-        valores['cst_ipi'] = self.operacao_item_id.cst_ipi
+        if self.documento_id.entrada_saida == ENTRADA_SAIDA_ENTRADA:
+            valores['cst_ipi_entrada'] = self.operacao_item_id.cst_ipi_entrada
+            valores['cst_ipi'] = self.operacao_item_id.cst_ipi_entrada
+        else:
+            valores['cst_ipi_saida'] = self.operacao_item_id.cst_ipi_saida
+            valores['cst_ipi'] = self.operacao_item_id.cst_ipi_saida
 
         #
         # Busca agora as alíquotas do PIS e COFINS
