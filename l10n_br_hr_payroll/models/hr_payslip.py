@@ -7,6 +7,7 @@ from openerp import api, fields, models, exceptions, _
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from lxml import etree
+from calendar import monthrange
 
 _logger = logging.getLogger(__name__)
 
@@ -176,8 +177,36 @@ class HrPayslip(models.Model):
     is_simulacao = fields.Boolean(
         string=u"Simulação",
     )
+
+    @api.depends('contract_id', 'dias_aviso_previo_trabalhados')
+    @api.multi
+    def _calcular_dias_aviso_previo(self):
+        for payslip in self:
+            if payslip.contract_id:
+                periodos_aquisitivos = self.env['hr.vacation.control'].search(
+                    [
+                        ('contract_id', '=', payslip.contract_id.id)
+                    ]
+                )[1:]
+                tempo_trabalhado = []
+                tempo_trabalhado = [
+                    ano.inicio_aquisitivo for ano in periodos_aquisitivos if
+                    ano.inicio_aquisitivo not in tempo_trabalhado
+                    ]
+
+                payslip.dias_aviso_previo = \
+                    30 + (len(tempo_trabalhado) * 3) - \
+                    payslip.dias_aviso_previo_trabalhados
+            else:
+                payslip.dias_aviso_previo = 0
+
     dias_aviso_previo = fields.Integer(
         string="Dias de Aviso Prévio",
+        compute=_calcular_dias_aviso_previo
+    )
+    dias_aviso_previo_trabalhados = fields.Integer(
+        string="Dias de Aviso Prévio Trabalhados",
+        default=0,
     )
 
     @api.depends('line_ids')
@@ -565,19 +594,22 @@ class HrPayslip(models.Model):
         salario_mes_dic = {
             'name': 'Salário Mês',
             'code': 'SALARIO_MES',
-            'amount': contract._salario_mes(date_from, date_to),
+            'amount': contract._salario_mes(date_from, date_to) if
+            not self.medias_proventos else self.medias_proventos[1].media,
             'contract_id': contract.id,
         }
         salario_dia_dic = {
             'name': 'Salário Dia',
             'code': 'SALARIO_DIA',
-            'amount': contract._salario_dia(date_from, date_to),
+            'amount': contract._salario_dia(date_from, date_to)if
+            not self.medias_proventos else self.medias_proventos[1].media/30,
             'contract_id': contract.id,
         }
         salario_hora_dic = {
             'name': 'Salário Hora',
             'code': 'SALARIO_HORA',
-            'amount': contract._salario_hora(date_from, date_to),
+            'amount': contract._salario_hora(date_from, date_to)if
+            not self.medias_proventos else self.medias_proventos[1].media/220,
             'contract_id': contract.id,
         }
         res += [salario_mes_dic]
@@ -687,61 +719,91 @@ class HrPayslip(models.Model):
             return estrutura_provisao_decimo_terceiro
 
     @api.multi
-    def gerar_simulacao(self, tipo_simulacao):
+    def gerar_simulacao(
+            self, tipo_simulacao, mes_do_ano, ano, data_inicio, data_fim):
         hr_payslip_obj = self.env['hr.payslip']
         vals = {
             'contract_id': self.contract_id.id,
             'tipo_de_folha': tipo_simulacao,
             'is_simulacao': True,
-            'mes_do_ano': self.mes_do_ano,
-            'ano': self.ano,
-            'date_from': self.date_from,
-            'date_to': self.date_to,
+            'mes_do_ano': mes_do_ano,
+            'ano': ano,
+            'date_from': data_inicio,
+            'date_to': data_fim,
             'employee_id': self.contract_id.employee_id.id
         }
         payslip_simulacao_criada = hr_payslip_obj.create(vals)
-        payslip_simulacao_criada._compute_set_employee_id()
-        payslip_simulacao_criada.onchange_employee_id(
-            self.date_from,
-            self.date_to,
-            self.contract_id.id
-        )
-        worked_days_line_ids = \
-            payslip_simulacao_criada.get_worked_day_lines(
-                self.contract_id.id, self.date_from, self.date_to
+        if tipo_simulacao == "ferias":
+            payslip_simulacao_criada.write(
+                {
+                    'periodo_aquisitivo':
+                        self.contract_id.vacation_control_ids[0].id
+                }
             )
-        input_line_ids = payslip_simulacao_criada.get_inputs(
-            self.contract_id.id, self.date_from, self.date_to
-        )
-        worked_days_obj = self.env['hr.payslip.worked_days']
-        input_obj = self.env['hr.payslip.input']
-        for worked_day in worked_days_line_ids:
-            worked_day.update({'payslip_id': payslip_simulacao_criada.id})
-            worked_days_obj.create(worked_day)
-        for input_id in input_line_ids:
-            input_id.update({'payslip_id': payslip_simulacao_criada.id})
-            input_obj.create(input_id)
-            payslip_simulacao_criada.compute_sheet()
+            payslip_simulacao_criada._compute_saldo_periodo_aquisitivo()
+        payslip_simulacao_criada._compute_set_employee_id()
+        # worked_days_line_ids = \
+        #     payslip_simulacao_criada.get_worked_day_lines(
+        #         self.contract_id.id, data_inicio, data_fim
+        #     )
+        # input_line_ids = payslip_simulacao_criada.get_inputs(
+        #     self.contract_id.id, data_inicio, data_fim
+        # )
+        # worked_days_obj = self.env['hr.payslip.worked_days']
+        # input_obj = self.env['hr.payslip.input']
+        # for worked_day in worked_days_line_ids:
+        #     worked_day.update({'payslip_id': payslip_simulacao_criada.id})
+        #     worked_days_obj.create(worked_day)
+        # for input_id in input_line_ids:
+        #     input_id.update({'payslip_id': payslip_simulacao_criada.id})
+        #     input_obj.create(input_id)
+        payslip_simulacao_criada.atualizar_worked_days_inputs()
+        payslip_simulacao_criada.compute_sheet()
         payslip_simulacao_criada.write({'paid': True, 'state': 'done'})
         return payslip_simulacao_criada
 
     @api.multi
-    def _buscar_valor_bruto_simulacao(self, payslip_simulacao):
+    def _buscar_valor_bruto_simulacao(
+            self, payslip_simulacao, um_terco_ferias=None):
         categoria_bruto = self.env.ref(
             'hr_payroll.BRUTO'
         )
         for line in payslip_simulacao.line_ids:
-            if line.salary_rule_id.category_id.id == categoria_bruto.id:
-                return line.total
+            if payslip_simulacao.tipo_de_folha == "ferias":
+                if line.salary_rule_id.code == "FERIAS" and \
+                        not um_terco_ferias:
+                    return line.total
+                elif line.salary_rule_id.code == "1/3_FERIAS" and \
+                        um_terco_ferias:
+                    return line.total
+            else:
+                if line.salary_rule_id.category_id.id == categoria_bruto.id:
+                    return line.total
 
     @api.multi
-    def BUSCAR_VALOR_PROPORCIONAL(self, tipo_simulacao):
+    def _checar_datas_gerar_simulacoes(self, mes_do_ano, ano):
+        if mes_do_ano > 1:
+            mes_do_ano -= 1
+        else:
+            mes_do_ano = 12
+            ano -= 1
+        dias_no_mes = monthrange(ano, mes_do_ano)
+        data_inicio = str(ano) + "-" + str(mes_do_ano) + "-" + "01"
+        data_fim = str(ano) + "-" + str(mes_do_ano) + "-" + str(dias_no_mes[1])
+        return mes_do_ano, ano, data_inicio, data_fim
+
+    @api.multi
+    def BUSCAR_VALOR_PROPORCIONAL(self, tipo_simulacao, um_terco_ferias=None):
+        mes_verificacao, ano_verificacao, data_inicio, data_fim = \
+            self._checar_datas_gerar_simulacoes(
+                self.mes_do_ano, self.ano
+            )
         payslip_simulacao = self.env['hr.payslip'].search(
             [
                 ('tipo_de_folha', '=', tipo_simulacao),
                 ('is_simulacao', '=', True),
-                ('mes_do_ano', '=', self.mes_do_ano),
-                ('ano', '=', self.ano),
+                ('mes_do_ano', '=', mes_verificacao),
+                ('ano', '=', ano_verificacao),
                 ('state', '=', 'done'),
             ]
         )
@@ -753,10 +815,15 @@ class HrPayslip(models.Model):
                 )
             )
         elif len(payslip_simulacao) == 0:
-            payslip_simulacao_criada = self.gerar_simulacao(tipo_simulacao)
-            return self._buscar_valor_bruto_simulacao(payslip_simulacao_criada)
+            payslip_simulacao_criada = self.gerar_simulacao(
+                tipo_simulacao, mes_verificacao,
+                ano_verificacao, data_inicio, data_fim
+            )
+            return self._buscar_valor_bruto_simulacao(
+                payslip_simulacao_criada, um_terco_ferias)
         else:
-            return self._buscar_valor_bruto_simulacao(payslip_simulacao)
+            return self._buscar_valor_bruto_simulacao(
+                payslip_simulacao, um_terco_ferias)
 
     # @api.multi
     # def buscar_media_rubrica(self, rubrica_id):
@@ -1005,7 +1072,8 @@ class HrPayslip(models.Model):
                             obj_rule.compute_rule(rule.id, localdict)
                         # se ja tiver sido calculado a media dessa rubrica,
                         # utilizar valor da media e multiplicar pela reinciden.
-                        if medias.get(rule.code):
+                        if medias.get(rule.code) and \
+                                not payslip.tipo_de_folha == 'aviso_previo':
                             amount = medias.get(rule.code).media/12
                             qty = medias.get(rule.code).meses
 
@@ -1311,12 +1379,16 @@ class HrPayslip(models.Model):
 
     @api.model
     def BUSCAR_VALOR_MEDIA_PROVENTO(self, tipo_simulacao):
+        mes_verificacao, ano_verificacao, data_inicio, data_fim = \
+            self._checar_datas_gerar_simulacoes(
+                self.mes_do_ano, self.ano
+            )
         payslip_simulacao = self.env['hr.payslip'].search(
             [
                 ('tipo_de_folha', '=', tipo_simulacao),
                 ('is_simulacao', '=', True),
-                ('mes_do_ano', '=', self.mes_do_ano),
-                ('ano', '=', self.ano),
+                ('mes_do_ano', '=', mes_verificacao),
+                ('ano', '=', ano_verificacao),
                 ('state', '=', 'done'),
             ]
         )

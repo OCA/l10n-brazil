@@ -201,7 +201,7 @@
 
                 <!--adicionando ANO e MES -->
                 <xpath expr="//h1" position="after">
-                    <group attrs="{'invisible' : [('tipo_de_folha', '=', 'ferias')]}">
+                    <group attrs="{'invisible' : [('tipo_de_folha', '=', 'ferias'), ('is_simulacao', '=', False)]}">
                         <group>
                             <field name="mes_do_ano"/>
                         </group>
@@ -244,6 +244,8 @@
                 <!--Adicionando campod o periodo-->
                 <field name="credit_note" position="before">
                     <field name="dias_aviso_previo"
+                           attrs="{'invisible': [('tipo_de_folha', 'not in', ['aviso_previo', 'rescisao'])]}"/>
+                    <field name="dias_aviso_previo_trabalhados"
                            attrs="{'invisible': [('tipo_de_folha', 'not in', ['aviso_previo', 'rescisao'])],'required': [('tipo_de_folha', 'in', ['aviso_previo','rescisao'])]}"/>
                     <field name="is_simulacao" invisible="1"/>
                 </field>

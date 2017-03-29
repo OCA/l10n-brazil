@@ -100,7 +100,7 @@
         <record id="hr_salary_structure_JUSTA_CAUSA" model="hr.payroll.structure">
             <field name="code">JUSTA_CAUSA</field>
             <field name="name">Rescisão dispensa com justa causa</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_PROPORCIONAL_13')])]" />
+            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_PROPORCIONAL_13'), ref('hr_salary_rule_PROPORCIONAL_FERIAS'), ref('hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS'), ref('hr_salary_rule_AVISO_PREVIO_INDENIZADO'), ref('hr_salary_rule_PROPORCIONAL_13_AVISO_PREVIO_INDENIZADO')])]" />
             <field name="company_id" ref="base.main_company" />
             <field name="tipo_estrutura">rescisao</field>
             <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
