@@ -1642,12 +1642,12 @@ class DocumentoItem(models.Model):
         vr_ipi = D(0)
 
         if self.md_ipi == MODALIDADE_BASE_IPI_ALIQUOTA:
-            bc_ipi = self.vr_operacao_tributacao
-            vr_ipi = bc_ipi * self.al_ipi / 100
+            bc_ipi = D(self.vr_operacao_tributacao)
+            vr_ipi = bc_ipi * D(self.al_ipi) / 100
 
         elif self.md_ipi == MODALIDADE_BASE_IPI_QUANTIDADE:
             bc_ipi = 0
-            vr_ipi = self.quantidade_tributacao * self.al_ipi
+            vr_ipi = D(self.quantidade_tributacao) * D(self.al_ipi)
 
         vr_ipi = vr_ipi.quantize(D('0.01'))
 
@@ -1682,16 +1682,16 @@ class DocumentoItem(models.Model):
             valores['al_icms_sn'] = 0
             return res
 
-        al_icms_sn = self.al_icms_sn
+        al_icms_sn = D(self.al_icms_sn)
 
         #
         # Aplica a redução da alíquota quando houver
         #
         if self.rd_icms_sn:
-            al_icms_sn = al_icms_sn - (al_icms_sn * self.rd_icms_sn / 100)
+            al_icms_sn = al_icms_sn - (al_icms_sn * D(self.rd_icms_sn) / 100)
             al_icms_sn = al_icms_sn.quantize(D('0.01'))
 
-        vr_icms_sn = self.vr_operacao_tributacao * al_icms_sn / 100
+        vr_icms_sn = D(self.vr_operacao_tributacao) * al_icms_sn / 100
         vr_icms_sn = vr_icms_sn.quantize(D('0.01'))
 
         valores['vr_icms_sn'] = vr_icms_sn
@@ -1727,24 +1727,25 @@ class DocumentoItem(models.Model):
                  self.emissao == TIPO_EMISSAO_PROPRIA)):
             if self.cst_pis in ST_PIS_CALCULA_ALIQUOTA:
                 md_pis_proprio = MODALIDADE_BASE_PIS_ALIQUOTA
-                bc_pis_proprio = self.vr_operacao_tributacao
-                vr_pis_proprio = bc_pis_proprio * (self.al_pis_proprio / 100)
+                bc_pis_proprio = D(self.vr_operacao_tributacao)
+                vr_pis_proprio = bc_pis_proprio * \
+                    D(self.al_pis_proprio) / 100
 
                 md_cofins_proprio = MODALIDADE_BASE_COFINS_ALIQUOTA
-                bc_cofins_proprio = self.vr_operacao_tributacao
+                bc_cofins_proprio = D(self.vr_operacao_tributacao)
                 vr_cofins_proprio = bc_cofins_proprio * \
-                    (self.al_cofins_proprio / 100)
+                    D(self.al_cofins_proprio) / 100
 
             else:
                 md_pis_proprio = MODALIDADE_BASE_PIS_QUANTIDADE
                 bc_pis_proprio = 0
                 vr_pis_proprio = \
-                    self.quantidade_tributacao * self.al_pis_proprio
+                    D(self.quantidade_tributacao) * D(self.al_pis_proprio)
 
                 md_cofins_proprio = MODALIDADE_BASE_COFINS_QUANTIDADE
                 bc_cofins_proprio = 0
                 vr_cofins_proprio = \
-                    self.quantidade_tributacao * self.al_cofins_proprio
+                    D(self.quantidade_tributacao) * D(self.al_cofins_proprio)
 
             vr_pis_proprio = vr_pis_proprio.quantize(D('0.01'))
             vr_cofins_proprio = vr_cofins_proprio.quantize(D('0.01'))
@@ -1810,18 +1811,19 @@ class DocumentoItem(models.Model):
         if self.md_icms_proprio in \
                 (MODALIDADE_BASE_ICMS_PROPRIO_PAUTA,
                  MODALIDADE_BASE_ICMS_PROPRIO_PRECO_TABELADO_MAXIMO):
-            bc_icms_proprio = self.quantidade_tributacao * self.pr_icms_proprio
+            bc_icms_proprio = D(self.quantidade_tributacao) * \
+                D(self.pr_icms_proprio)
 
         else:
-            bc_icms_proprio = self.vr_operacao_tributacao
+            bc_icms_proprio = D(self.vr_operacao_tributacao)
 
         #
         # Nas notas de importação o ICMS é "por fora"
         #
         if (self.cfop_id.posicao == POSICAO_CFOP_ESTRANGEIRO and
                 self.entrada_saida == ENTRADA_SAIDA_ENTRADA):
-            bc_icms_proprio = bc_icms_proprio / \
-                D(1 - self.al_icms_proprio / D(100))
+            bc_icms_proprio = D(bc_icms_proprio) / \
+                D(1 - D(self.al_icms_proprio) / 100)
 
         #
         # Nas devoluções de compra de empresa que não destaca IPI, o valor do
@@ -1832,10 +1834,10 @@ class DocumentoItem(models.Model):
         if self.cfop_id.eh_devolucao_compra or self.cfop_id.eh_retorno_saida:
             if not self.bc_icms_proprio_com_ipi:
                 if (not self.vr_ipi) and self.vr_outras:
-                    bc_icms_proprio -= self.vr_outras
+                    bc_icms_proprio -= D(self.vr_outras)
 
         elif self.bc_icms_proprio_com_ipi:
-            bc_icms_proprio += self.vr_ipi
+            bc_icms_proprio += D(self.vr_ipi)
 
         #
         # Agora que temos a base final, aplicamos a margem caso necessário
@@ -1843,7 +1845,7 @@ class DocumentoItem(models.Model):
         if (self.md_icms_proprio ==
                 MODALIDADE_BASE_ICMS_PROPRIO_MARGEM_VALOR_AGREGADO):
             bc_icms_proprio = bc_icms_proprio * \
-                (1 + (self.pr_icms_proprio / 100))
+                D(1 + (D(self.pr_icms_proprio) / 100))
 
         #
         # Vai haver redução da base de cálculo?
@@ -1854,11 +1856,11 @@ class DocumentoItem(models.Model):
                 self.cst_icms_sn in ST_ICMS_SN_CALCULA_ST):
             bc_icms_proprio = bc_icms_proprio.quantize(D('0.01'))
             bc_icms_proprio = bc_icms_proprio * \
-                (1 - (self.rd_icms_proprio / 100))
+                D(1 - (D(self.rd_icms_proprio) / 100))
 
         bc_icms_proprio = D(bc_icms_proprio).quantize(D('0.01'))
 
-        vr_icms_proprio = bc_icms_proprio * (self.al_icms_proprio / 100)
+        vr_icms_proprio = bc_icms_proprio * D(self.al_icms_proprio) / 100
         vr_icms_proprio = vr_icms_proprio.quantize(D('0.01'))
 
         valores['bc_icms_proprio'] = bc_icms_proprio
@@ -1870,8 +1872,8 @@ class DocumentoItem(models.Model):
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return
 
-        valores['bc_icms_st'] = D(0)
-        valores['vr_icms_st'] = D(0)
+        valores['bc_icms_st'] = 0
+        valores['vr_icms_st'] = 0
 
         #
         # Baseado no valor da situação tributária, calcular o ICMS ST
@@ -1888,10 +1890,10 @@ class DocumentoItem(models.Model):
             return
 
         if self.md_icms_st == MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO:
-            bc_icms_st = self.vr_operacao_tributacao
+            bc_icms_st = D(self.vr_operacao_tributacao)
 
         else:
-            bc_icms_st = self.vr_operacao_tributacao
+            bc_icms_st = D(self.quantidade) * D(self.pr_icms_st)
 
         #
         # Nas devoluções de compra de empresa que não destaca IPI, o valor do
@@ -1902,29 +1904,29 @@ class DocumentoItem(models.Model):
         if self.cfop_id.eh_devolucao_compra:
             if not self.bc_icms_st_com_ipi:
                 if (not self.vr_ipi) and self.vr_outras:
-                    bc_icms_st -= self.vr_outras
+                    bc_icms_st -= D(self.vr_outras)
 
         elif self.bc_icms_st_com_ipi:
-            bc_icms_st += self.vr_ipi
+            bc_icms_st += D(self.vr_ipi)
 
         #
         # Agora que temos a base final, aplicamos a margem caso necessário
         #
         if self.md_icms_st == MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO:
-            bc_icms_st = bc_icms_st * (1 + (self.pr_icms_st / 100))
+            bc_icms_st = bc_icms_st * (1 + (D(self.pr_icms_st) / 100))
 
         #
         # Vai haver redução da base de cálculo?
         #
         if self.rd_icms_st:
             bc_icms_st = bc_icms_st.quantize(D('0.01'))
-            bc_icms_st = bc_icms_st * (1 - (self.rd_icms_st / 100))
+            bc_icms_st = bc_icms_st * (1 - (D(self.rd_icms_st) / 100))
 
         bc_icms_st = bc_icms_st.quantize(D('0.01'))
 
-        vr_icms_st = bc_icms_st * (self.al_icms_st / 100)
+        vr_icms_st = bc_icms_st * (D(self.al_icms_st) / 100)
         vr_icms_st = vr_icms_st.quantize(D('0.01'))
-        vr_icms_st -= self.vr_icms_proprio
+        vr_icms_st -= D(self.vr_icms_proprio)
 
         valores['bc_icms_st'] = bc_icms_st
         valores['vr_icms_st'] = vr_icms_st
@@ -1975,7 +1977,7 @@ class DocumentoItem(models.Model):
             valores['vr_icms_estado_destino'] = vr_icms_estado_destino
             valores['vr_icms_estado_origem'] = vr_icms_estado_origem
 
-            vr_fcp = self.vr_operacao_tributacao * self.al_fcp / 100
+            vr_fcp = self.vr_operacao_tributacao * D(self.al_fcp) / 100
             vr_fcp = vr_fcp.quantize(D('0.01'))
             valores['vr_fcp'] = vr_fcp
 
@@ -1993,7 +1995,7 @@ class DocumentoItem(models.Model):
             return res
 
         if self.al_simples:
-            vr_simples = self.vr_fatura * self.al_simples / 100
+            vr_simples = D(self.vr_fatura) * D(self.al_simples) / 100
             vr_simples = vr_simples.quantize(D('0.01'))
             valores['vr_simples'] = vr_simples
 
@@ -2011,7 +2013,7 @@ class DocumentoItem(models.Model):
             return res
 
         if self.al_ibpt:
-            vr_ibpt = self.vr_operacao_tributacao * self.al_ibpt / 100
+            vr_ibpt = D(self.vr_operacao_tributacao) * D(self.al_ibpt) / 100
             vr_ibpt = vr_ibpt.quantize(D('0.01'))
             valores['vr_ibpt'] = vr_ibpt
 
