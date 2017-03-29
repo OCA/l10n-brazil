@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+<data>
+
+    <record model="ir.ui.view" id="account_invoice_form_view">
+        <field name="name">account.invoice.form (in financial_account)</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='other_info']" position="before">
+                <page string="Financial" name="financial_page">
+                    <field name="financial_ids"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="account_invoice_supplier_form_view">
+        <field name="name">account.invoice.supplier.form (in financial_account)</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Financial" name="financial_page">
+                    <field name="financial_ids"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</data>
+</odoo>
