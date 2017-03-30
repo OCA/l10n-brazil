@@ -7,7 +7,11 @@
 "access_l10n_br_hr_social_security_tax","access_l10n_br_hr_social_security_tax","model_l10n_br_hr_social_security_tax","",1,0,0,0
 "access_l10n_br_hr_contract_change_reason","access_l10n_br_hr_contract_change_reason","model_l10n_br_hr_contract_change_reason","",1,0,0,0
 "access_l10n_br_hr_contract_change","access_l10n_br_hr_contract_change","model_l10n_br_hr_contract_change","",1,0,0,0
+"create_l10n_br_hr_contract_change","create_l10n_br_hr_contract_change","model_l10n_br_hr_contract_change","base.group_hr_manager",1,1,1,1
 "access_hr_contract_salary_rule","access_hr_contract_salary_rule","model_hr_contract_salary_rule","",1,0,0,0
+"create_hr_contract_salary_rule","create_hr_contract_salary_rule","model_hr_contract_salary_rule","base.group_hr_manager",1,1,1,1
 "access_l10n_br_hr_medias","access_l10n_br_hr_medias","model_l10n_br_hr_medias","",1,0,0,0
 "access_hr_exame_medico","access_hr_exame_medico","model_hr_exame_medico","",1,0,0,0
+"create_hr_exame_medico","create_hr_exame_medico","model_hr_exame_medico","base.group_hr_manager",1,1,1,1
 "access_hr_curso","access_hr_curso","model_hr_curso","",1,0,0,0
+"create_hr_curso","create_hr_curso","model_hr_curso","base.group_hr_manager",1,1,1,1
