@@ -2,7 +2,7 @@
 # Copyright (C) 2017 - Daniel Sadamo - KMEE INFORMATICA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from openerp import api, fields, models
 
 OPERATION_NATURE = [
     ('venda', u'Venda'),
@@ -87,7 +87,7 @@ class AccountMoveTemplate(models.Model):
                                                 u'debito'
     )
 
-    # def _map_line_tax_domain(self, **kwargs):
+    # def _map_tax_domain(self, **kwargs):
     #     domain = []
     #     for key, value in kwargs.iteritems():
     #         domain.append((str(key), '=', str(value)))
@@ -100,7 +100,7 @@ class AccountMoveTemplate(models.Model):
             move_line.get('invoice_id'))
         company_id = invoice.company_id.id
         fiscal_document_id = invoice.fiscal_document_id.id
-        account_type = invoice.account_id.account_type.id
+        account_type = invoice.account_id.user_type.id
         # operation_nature
         # operation_position
         # product_type
@@ -119,7 +119,7 @@ class AccountMoveTemplate(models.Model):
         """
         if move_line.get('invl_id'):
             domain = self._map_invoice_domain(move_line)
-        elif move_line.get('invoice_tax_line_id'):
+        elif move_line.get('tax_code'):
             domain = self._map_tax_domain(move_line)
         else:
             return move_line
