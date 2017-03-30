@@ -32,6 +32,15 @@
             <field name="other_entities_rate">3.0</field>
             <field name="total_rate">6.0</field>
         </record>
+        <!--RAT/FAP 2014-->
+        <record id="l10n_br_hr_rat_fap_2014" model="l10n_br.hr.rat.fap">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="year">2014</field>
+            <field name="rat_rate">1.5</field>
+            <field name="fap_rate">1.5</field>
+            <field name="other_entities_rate">3.0</field>
+            <field name="total_rate">6.0</field>
+        </record>
 
     </data>
 </openerp>

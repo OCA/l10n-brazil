@@ -19,6 +19,11 @@
             <field name="year">2015</field>
             <field name="amount">189.59</field>
         </record>
+
+        <record id="l10n_br_hr_income_tax_deductable_amount_family_2014" model="l10n_br.hr.income.tax.deductable.amount.family">
+            <field name="year">2014</field>
+            <field name="amount">179.71</field>
+        </record>
         
     </data>
 </openerp>

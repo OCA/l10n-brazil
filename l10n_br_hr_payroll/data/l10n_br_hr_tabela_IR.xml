@@ -4,6 +4,41 @@
 
 <openerp>
     <data>
+
+        <record id="l10n_br_hr_income_tax_2014_rate_1" model="l10n_br.hr.income.tax">
+            <field name="year">2014</field>
+            <field name="max_wage">0</field>
+            <field name="rate">0</field>
+            <field name="deductable">0</field>
+        </record>
+
+        <record id="l10n_br_hr_income_tax_2014_rate_2" model="l10n_br.hr.income.tax">
+            <field name="year">2014</field>
+            <field name="max_wage">1787.78</field>
+            <field name="rate">7.5</field>
+            <field name="deductable">134.80</field>
+        </record>
+
+        <record id="l10n_br_hr_income_tax_2014_rate_3" model="l10n_br.hr.income.tax">
+            <field name="year">2014</field>
+            <field name="max_wage">2679.30</field>
+            <field name="rate">15.00</field>
+            <field name="deductable">335.03</field>
+        </record>
+
+        <record id="l10n_br_hr_income_tax_2014_rate_4" model="l10n_br.hr.income.tax">
+            <field name="year">2014</field>
+            <field name="max_wage">3572.44</field>
+            <field name="rate">22.50</field>
+            <field name="deductable">602.96</field>
+        </record>
+
+        <record id="l10n_br_hr_income_tax_2014_rate_5" model="l10n_br.hr.income.tax">
+            <field name="year">2014</field>
+            <field name="max_wage">4463.81</field>
+            <field name="rate">27.5</field>
+            <field name="deductable">82615</field>
+        </record>
         
         <record id="l10n_br_hr_income_tax_2015_rate_1" model="l10n_br.hr.income.tax">
             <field name="year">2015</field>

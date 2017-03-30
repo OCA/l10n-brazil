@@ -66,5 +66,25 @@
             <field name="rate">11</field>
         </record>
 
+       <!--Tabela para Empregado, Empregado Doméstico e Trabalhador Avulso 2014-->
+        <record id="l10n_br_hr_payroll_INSS1_2014" model="l10n_br.hr.social.security.tax">
+            <field name="year">2014</field>
+            <field name="min_wage">0</field>
+            <field name="max_wage">1317.07</field>
+            <field name="rate">8</field>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS2_2014" model="l10n_br.hr.social.security.tax">
+            <field name="year">2014</field>
+            <field name="min_wage">1317.08</field>
+            <field name="max_wage">2195.12</field>
+            <field name="rate">9</field>
+        </record>
+        <record id="l10n_br_hr_payroll_INSS3_2014" model="l10n_br.hr.social.security.tax">
+            <field name="year">2014</field>
+            <field name="min_wage">2195.13</field>
+            <field name="max_wage">4390.24</field>
+            <field name="rate">11</field>
+        </record>
+
     </data>
 </openerp>
