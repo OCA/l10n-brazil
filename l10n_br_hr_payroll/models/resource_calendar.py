@@ -104,23 +104,25 @@ class ResourceCalendar(models.Model):
             ('state', '=', 'validate'),
             ('employee_id', '=', employee_id),
             ('type', '=', 'remove'),
-            ('date_from', '>=', date_from),
-            ('date_from', '<=', date_to),
             ('holiday_status_id', '=', holiday_status_id.id),
         ]
         ferias_holidays_ids = self.env['hr.holidays'].search(domain)
+        ferias_atuais = ferias_holidays_ids.filtered(
+            lambda holiday:
+            (holiday.date_from >= date_from and holiday.date_from <= date_to) or
+            (holiday.date_to >= date_from and holiday.date_to <=date_to))
 
-        for holiday in ferias_holidays_ids:
+        for holiday in ferias_atuais:
             data_inicio_holiday = fields.Date.from_string(holiday.date_from)
-            data_final = fields.Date.from_string(date_to)
-            while data_inicio_holiday <= data_final:
-                if str(data_inicio_holiday) >= date_from:
+            data_final_holiday = fields.Date.from_string(holiday.date_to)
+            while data_inicio_holiday <= data_final_holiday:
+                if date_from <= str(data_inicio_holiday) <= date_to:
                     quantidade_dias_ferias += 1
-                    data_inicio_holiday += timedelta(days=1)
+                data_inicio_holiday += timedelta(days=1)
 
             if holiday.sold_vacations_days:
                 data_inicial_abono = data_inicio_holiday - timedelta(days=1)
-                if date_from <= str(data_inicial_abono) >= date_to:
+                if date_from <= str(data_inicial_abono) <= date_to:
                     quantidade_dias_abono = holiday.sold_vacations_days
 
         return quantidade_dias_ferias, quantidade_dias_abono
