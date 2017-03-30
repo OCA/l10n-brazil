@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="l10n_br_account_move_template_view_account_config_settings" model="ir.ui.view">
+            <field name="name">l10n_br_account_move_template.account.settings</field>
+            <field name="model">account.config.settings</field>
+            <field name="inherit_id" ref="account.view_account_config_settings"/>
+            <field name="arch" type="xml">
+                <field name="use_anglo_saxon" position="before">
+                    <field name="use_move_template_accounting"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>
