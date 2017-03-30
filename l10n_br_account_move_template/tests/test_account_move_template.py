@@ -2,8 +2,7 @@
 # Copyright 2017 KMEE - Daniel Sadamo <daniel.sadamo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests.common import TransactionCase
-from odoo.addons.sped.constante_tributaria import *
+from openerp.tests.common import TransactionCase
 
 class TestAccountMoveTemplate(TransactionCase):
 

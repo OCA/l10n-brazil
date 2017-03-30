@@ -6,12 +6,12 @@
     'name': 'L10n Br Account Move Template',
     'summary': """
         Modulo temporario pra facilitar o desenvolvimento dos roteiros contabeis""",
-    'version': '10.0.1.0.0',
+    'version': '8.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'www.kmee.com.br',
     'depends': [
-        'l10n_br_account',
+        'l10n_br_account_product',
         # 'sped'
     ],
     'data': [
