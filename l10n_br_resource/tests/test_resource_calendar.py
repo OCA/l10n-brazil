@@ -148,7 +148,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         data_final = fields.Datetime.from_string('2017-02-28 23:59:59')
 
         total = self.resource_calendar.get_dias_base(data_inicio, data_final)
-        self.assertEqual(total, 28,
+        self.assertEqual(total, 30,
                          'Calculo de Dias Base de Fev incorreto')
 
     def test_08_data_eh_dia_util(self):
