@@ -109,8 +109,9 @@ class ResourceCalendar(models.Model):
         ferias_holidays_ids = self.env['hr.holidays'].search(domain)
         ferias_atuais = ferias_holidays_ids.filtered(
             lambda holiday:
-            (holiday.date_from >= date_from and holiday.date_from <= date_to) or
-            (holiday.date_to >= date_from and holiday.date_to <=date_to))
+            (date_from <= holiday.date_from <= date_to) or
+            (date_to <= holiday.date_to <= date_to)
+        )
 
         for holiday in ferias_atuais:
             data_inicio_holiday = fields.Date.from_string(holiday.date_from)
