@@ -220,8 +220,9 @@ class ResourceCalendar(models.Model):
                datetime data_end: Data final do intervalo
         :return int : quantidade de dias que devem ser remunerada
        """
-        quantidade_dias = (data_to - data_from).days + 1
-        if quantidade_dias > 30:
-            return 30
-        else:
-            return quantidade_dias
+        return 30
+        # quantidade_dias = (data_to - data_from).days + 1
+        # if quantidade_dias > 30:
+        #     return 30
+        # else:
+        #     return quantidade_dias
