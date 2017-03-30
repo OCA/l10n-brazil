@@ -478,6 +478,32 @@ result_qty = MEDIAS.SALARIO.meses
             <field name="compoe_base_FGTS" eval="True"/>
         </record>
 
+        <record id="hr_salary_rule_FERIAS_VENCIDAS" model="hr.salary.rule">
+            <field name="code">FERIAS_VENCIDAS</field>
+            <field name="name">Férias Vencidas</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = CALCULAR.BUSCAR_VALOR_PROPORCIONAL('ferias', ferias_vencida=True)</field>
+            <field name="sequence" eval="184"/>
+            <field name="compoe_base_INSS" eval="True"/>
+            <field name="compoe_base_IR" eval="True"/>
+            <field name="compoe_base_FGTS" eval="True"/>
+        </record>
+
+        <record id="hr_salary_rule_FERIAS_VENCIDAS_UM_TERCO" model="hr.salary.rule">
+            <field name="code">FERIAS_VENCIDAS_1/3</field>
+            <field name="name">Férias Vencidas 1/3</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = CALCULAR.BUSCAR_VALOR_PROPORCIONAL('ferias', True, ferias_vencida=True)</field>
+            <field name="sequence" eval="185"/>
+            <field name="compoe_base_INSS" eval="True"/>
+            <field name="compoe_base_IR" eval="True"/>
+            <field name="compoe_base_FGTS" eval="True"/>
+        </record>
+
         <record id="hr_salary_rule_AVISO_PREVIO_INDENIZADO" model="hr.salary.rule">
             <field name="code">AVISO_PREV_IND</field>
             <field name="name">Aviso Prévio Indenizado</field>
@@ -485,7 +511,7 @@ result_qty = MEDIAS.SALARIO.meses
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
             <field name="amount_python_compute">result = CALCULAR.BUSCAR_VALOR_PROPORCIONAL('aviso_previo')</field>
-            <field name="sequence" eval="184"/>
+            <field name="sequence" eval="186"/>
             <field name="compoe_base_INSS" eval="True"/>
             <field name="compoe_base_IR" eval="True"/>
             <field name="compoe_base_FGTS" eval="True"/>
@@ -499,7 +525,34 @@ result_qty = MEDIAS.SALARIO.meses
             <field name="condition_select">none</field>
             <field name="amount_python_compute">result = CALCULAR.BUSCAR_VALOR_MEDIA_PROVENTO('decimo_terceiro')
 result_qty = round(DIAS_AVISO_PREVIO/30.0)</field>
-            <field name="sequence" eval="185"/>
+            <field name="sequence" eval="187"/>
+            <field name="compoe_base_INSS" eval="True"/>
+            <field name="compoe_base_IR" eval="True"/>
+            <field name="compoe_base_FGTS" eval="True"/>
+        </record>
+
+        <record id="hr_salary_rule_PROPORCIONAL_FERIAS_AVISO_PREVIO_INDENIZADO" model="hr.salary.rule">
+            <field name="code">PROP_FERIAS_AVISO_PREVIO</field>
+            <field name="name">Proporcional Férias Aviso Prévio</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = CALCULAR.BUSCAR_VALOR_MEDIA_PROVENTO('ferias')
+result_qty = round(DIAS_AVISO_PREVIO/30.0)</field>
+            <field name="sequence" eval="188"/>
+            <field name="compoe_base_INSS" eval="True"/>
+            <field name="compoe_base_IR" eval="True"/>
+            <field name="compoe_base_FGTS" eval="True"/>
+        </record>
+
+        <record id="hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS_AVISO_PREVIO_INDENIZADO" model="hr.salary.rule">
+            <field name="code">PROP_1/3_FERIAS_AVISO_PREVIO</field>
+            <field name="name">Proporcional 1/3 Férias Aviso Prévio</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = PROP_FERIAS_AVISO_PREVIO/3</field>
+            <field name="sequence" eval="189"/>
             <field name="compoe_base_INSS" eval="True"/>
             <field name="compoe_base_IR" eval="True"/>
             <field name="compoe_base_FGTS" eval="True"/>

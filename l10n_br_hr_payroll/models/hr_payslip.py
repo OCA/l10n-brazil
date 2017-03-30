@@ -1455,17 +1455,38 @@ class HrPayslip(models.Model):
             self._checar_datas_gerar_simulacoes(
                 self.mes_do_ano, self.ano
             )
-        payslip_simulacao = self.env['hr.payslip'].search(
-            [
-                ('tipo_de_folha', '=', tipo_simulacao),
-                ('is_simulacao', '=', True),
-                ('mes_do_ano', '=', mes_verificacao),
-                ('ano', '=', ano_verificacao),
-                ('state', '=', 'done'),
-            ]
-        )
+        if not tipo_simulacao == "ferias":
+            payslip_simulacao = self.env['hr.payslip'].search(
+                [
+                    ('tipo_de_folha', '=', tipo_simulacao),
+                    ('is_simulacao', '=', True),
+                    ('mes_do_ano', '=', mes_verificacao),
+                    ('ano', '=', ano_verificacao),
+                    ('state', '=', 'done'),
+                ]
+            )
+        else:
+            periodos_ferias_simulacao = \
+                self.env['hr.vacation.control'].search(
+                    [
+                        ('contract_id', '=', self.contract_id.id),
+                        ('inicio_gozo', '=', data_inicio),
+                        ('fim_gozo', '=', data_fim)
+                    ]
+                )
+            payslip_simulacao = self.env['hr.payslip'].search(
+                [
+                    ('tipo_de_folha', '=', tipo_simulacao),
+                    ('is_simulacao', '=', True),
+                    ('mes_do_ano', '=', mes_verificacao),
+                    ('ano', '=', ano_verificacao),
+                    ('periodo_aquisitivo', '=',
+                     periodos_ferias_simulacao[0].id),
+                    ('state', '=', 'done'),
+                ]
+            )
         media_id = payslip_simulacao.medias_proventos[-1]
-        return media_id.media/media_id.meses
+        return media_id.media/12
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form',
