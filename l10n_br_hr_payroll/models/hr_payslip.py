@@ -47,6 +47,7 @@ TIPO_DE_FOLHA = [
 
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
+    _order = 'employee_id asc, number desc'
 
     @api.multi
     def _buscar_dias_aviso_previo(self):
@@ -490,7 +491,7 @@ class HrPayslip(models.Model):
                           'draft or cancelled or permission!')
                     )
             payslip.cancel_sheet()
-            return super(HrPayslip, payslip).unlink()
+        return super(HrPayslip, self).unlink()
 
     @api.multi
     def get_worked_day_lines(self, contract_id, date_from, date_to):
@@ -668,8 +669,7 @@ class HrPayslip(models.Model):
             for line in holerite_ferias.line_ids:
                 lines.append(line)
         else:
-            raise exceptions.ValidationError(
-                _("Não encontrado Holerite de férias Aprovado."))
+            return False, False
         return lines, holerite_ferias.holidays_ferias
 
     @api.model
@@ -1188,110 +1188,109 @@ class HrPayslip(models.Model):
             rule_ids = payslip.get_contract_specific_rubrics(
                 contract_ids, rule_ids)
 
+
+            lines, holidays_ferias = self.get_line_ferias(payslip)
+
             # Recuperar informações da payslip de ferias, e se encontrar
             # calcular proporcionalmente
-            if worked_days_obj.FERIAS.number_of_days > 0 and \
-                            payslip.tipo_de_folha == 'normal':
-                lines, holidays_ferias = self.get_line_ferias(payslip)
+            if holidays_ferias and worked_days_obj.FERIAS.number_of_days > 0:
+                ferias_proporcionais = \
+                    self.env['ir.config_parameter'].get_param(
+                        'l10n_br_hr_payroll_ferias_proporcionais',
+                        default=False)
 
-                dias_gozados = holidays_ferias.vacations_days + \
-                               holidays_ferias.sold_vacations_days
-                dias_gozados_periodo = \
-                    worked_days_obj.FERIAS.number_of_days + \
-                    worked_days_obj.ABONO_PECUNIARIO.number_of_days
+                if ferias_proporcionais:
+                    proporcao_ferias = \
+                        worked_days_obj.FERIAS.number_of_days / \
+                        holidays_ferias.vacations_days
+
+                    if holidays_ferias.sold_vacations_days == 0:
+                        proporcao_abono = 0
+                    else:
+                        proporcao_abono = \
+                            worked_days_obj.ABONO_PECUNIARIO.number_of_days / \
+                            holidays_ferias.sold_vacations_days
 
                 total_ferias = 0
                 total_abono_pecuniario = 0
 
-                if lines:
-                    for line in lines:
-                        key = line.code + '_ANTERIOR'
-                        qty = line.quantity
-                        amount = line.amount
-                        category_id = line.category_id
-                        name = line.name
+                for line in lines:
+                    key = line.code + '_ANTERIOR'
+                    amount = line.amount
+                    qty = line.quantity
+                    category_id = line.category_id
+                    name = line.name
 
-                        if line.code == 'FERIAS':
-                            qty = worked_days_obj.FERIAS.number_of_days
-                            total_ferias = line.amount * qty
-
-                        if line.code == '1/3_FERIAS':
-                            amount = total_ferias / 3
-
-                        if line.code == 'ABONO_PECUNIARIO':
-                            qty = \
-                                worked_days_obj.ABONO_PECUNIARIO.number_of_days
-                            total_abono_pecuniario = line.amount * qty
-
-                        if line.code == '1/3_ABONO_PECUNIARIO':
-                            amount = total_abono_pecuniario / 3
-
-                        # Cria ajuste de INSS (Provento) proporcional às ferias
-                        # Como ja foi pago o INSS no aviso de ferias, É criado
-                        # uma rubrica de provento para devolver ao funcionario
-                        # o valor descontado nas ferias proporcionalmente a
-                        #  competencia corrente.
-                        if line.code == 'INSS':
-                            line.copy({
-                                'slip_id': payslip.id,
-                                'name': line.name + ' (ferias)',
-                                'code': line.code + '_ANTERIOR',
-                            })
-                            INSS_Proporcional = \
-                                (line.total / dias_gozados) * \
-                                dias_gozados_periodo
-                            amount = INSS_Proporcional
-                            name = 'Ajuste INSS Ferias'
-                            category_id = \
-                                self.env.ref('hr_payroll.PROVENTO')
-                            # "Ajuste" compoe base do IR
-                            # mas nao compoe base do INSS
-                            baselocaldict['BASE_INSS'] -= line.total
-                            baselocaldict['BASE_IR'] += line.total
-
-                        if line.code == 'IRPF':
-                            name += ' (Ferias)'
-
-                        result_dict[key] = {
-                            'salary_rule_id': line.salary_rule_id.id,
-                            'contract_id': payslip.contract_id.id,
-                            'name': name,
-                            'code': line.code + '_ANTERIOR',
-                            'category_id': category_id.id,
-                            'sequence': line.sequence,
-                            'appears_on_payslip': line.appears_on_payslip,
-                            'condition_select': line.condition_select,
-                            'condition_python': line.condition_python,
-                            'condition_range': line.condition_range,
-                            'condition_range_min': line.condition_range_min,
-                            'condition_range_max': line.condition_range_max,
-                            'amount_select': line.amount_select,
-                            'amount_fix': line.amount_fix,
-                            'amount_python_compute':
-                                line.amount_python_compute,
-                            'amount_percentage': line.amount_percentage,
-                            'amount_percentage_base':
-                                line.amount_percentage_base,
-                            'register_id': line.register_id.id,
-                            'amount': amount,
-                            'employee_id': payslip.employee_id.id,
-                            'quantity': qty,
-                            'rate': line.rate,
-                        }
-                        if line.category_id.code == 'DEDUCAO':
-                            if line.salary_rule_id.compoe_base_INSS:
-                                baselocaldict['BASE_INSS'] -= line.total
-                            if line.salary_rule_id.compoe_base_IR:
-                                baselocaldict['BASE_IR'] -= line.total
-                            if line.salary_rule_id.compoe_base_FGTS:
-                                baselocaldict['BASE_FGTS'] -= line.total
+                    if ferias_proporcionais:
+                        if line.code in \
+                                ['ABONO_PECUNIARIO', '1/3_ABONO_PECUNIARIO']:
+                            qty *= proporcao_abono
                         else:
-                            if line.salary_rule_id.compoe_base_INSS:
-                                baselocaldict['BASE_INSS'] += line.total
-                            # if line.salary_rule_id.compoe_base_IR:
-                            #     baselocaldict['BASE_IR'] += line.total
-                            if line.salary_rule_id.compoe_base_FGTS:
-                                baselocaldict['BASE_FGTS'] += line.total
+                            qty *= proporcao_ferias
+
+                    # Cria ajuste de INSS (Provento) proporcional às ferias
+                    # Como ja foi pago o INSS no aviso de ferias, É criado
+                    # uma rubrica de provento para devolver ao funcionario
+                    # o valor descontado nas ferias proporcionalmente a
+                    #  competencia corrente.
+                    if line.code == 'INSS':
+                        line.copy({
+                            'slip_id': payslip.id,
+                            'name': line.name + ' (ferias)',
+                            'code': line.code + '_ANTERIOR',
+                        })
+
+                        name = 'Ajuste INSS Ferias'
+                        category_id = \
+                            self.env.ref('hr_payroll.PROVENTO')
+                        # "Ajuste" compoe base do IR
+                        # mas nao compoe base do INSS
+                        baselocaldict['BASE_INSS'] -= line.total
+                        baselocaldict['BASE_IR'] += line.total
+
+                    if line.code == 'IRPF':
+                        name += ' (Ferias)'
+
+                    result_dict[key] = {
+                        'salary_rule_id': line.salary_rule_id.id,
+                        'contract_id': payslip.contract_id.id,
+                        'name': name,
+                        'code': line.code + '_ANTERIOR',
+                        'category_id': category_id.id,
+                        'sequence': line.sequence,
+                        'appears_on_payslip': line.appears_on_payslip,
+                        'condition_select': line.condition_select,
+                        'condition_python': line.condition_python,
+                        'condition_range': line.condition_range,
+                        'condition_range_min': line.condition_range_min,
+                        'condition_range_max': line.condition_range_max,
+                        'amount_select': line.amount_select,
+                        'amount_fix': line.amount_fix,
+                        'amount_python_compute':
+                            line.amount_python_compute,
+                        'amount_percentage': line.amount_percentage,
+                        'amount_percentage_base':
+                            line.amount_percentage_base,
+                        'register_id': line.register_id.id,
+                        'amount': amount,
+                        'employee_id': payslip.employee_id.id,
+                        'quantity': qty,
+                        'rate': line.rate,
+                    }
+                    if line.category_id.code == 'DEDUCAO':
+                        if line.salary_rule_id.compoe_base_INSS:
+                            baselocaldict['BASE_INSS'] -= line.total
+                        if line.salary_rule_id.compoe_base_IR:
+                            baselocaldict['BASE_IR'] -= line.total
+                        if line.salary_rule_id.compoe_base_FGTS:
+                            baselocaldict['BASE_FGTS'] -= line.total
+                    else:
+                        if line.salary_rule_id.compoe_base_INSS:
+                            baselocaldict['BASE_INSS'] += line.total
+                        # if line.salary_rule_id.compoe_base_IR:
+                        #     baselocaldict['BASE_IR'] += line.total
+                        if line.salary_rule_id.compoe_base_FGTS:
+                            baselocaldict['BASE_FGTS'] += line.total
 
             # organizando as regras pela sequencia de execução definida
             sorted_rule_ids = \

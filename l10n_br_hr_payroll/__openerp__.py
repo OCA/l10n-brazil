@@ -49,6 +49,7 @@
         'views/l10n_br_hr_minimum_wage_view.xml',
         'views/l10n_br_hr_rat_fap_view.xml',
         'views/l10n_br_hr_social_security_tax_view.xml',
+        'views/res_config_view.xml',
     ],
     'demo': [
         'demo/hr_contract.xml',

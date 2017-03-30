@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_hr_config_ferias_proporcionais" model="ir.ui.view">
+            <field name="name">view.hr.config.ferias_proporcionais</field>
+            <field name="model">hr.config.settings</field>
+            <field name="inherit_id" ref="hr.view_human_resources_configuration" />
+            <field name="arch" type="xml">
+                <xpath expr="//form/group" position="after">
+                    <group name="grupo_ferias_proporcionais">
+                        <label for="id" string="Férias Proporcionais"/>
+                        <div name="ferias_proporcionais">
+                            <div name="hr_recruitment">
+                                <field name="ferias_proporcionais" class="oe_inline"/>
+                                <label for="ferias_proporcionais"/>
+                            </div>
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

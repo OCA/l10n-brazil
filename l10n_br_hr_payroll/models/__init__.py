@@ -19,3 +19,4 @@ from . import hr_employee
 from . import hr_payroll_structure
 from . import l10n_br_hr_medias
 from . import hr_payslip_run
+from . import res_config
