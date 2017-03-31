@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
+import datetime
 
 
 class FinancialPayreceive(models.TransientModel):
@@ -22,8 +23,7 @@ class FinancialPayreceive(models.TransientModel):
         default=fields.Date.context_today
     )
     date_credit_debit = fields.Date(
-        readonly=True,
-        # TODO: compute bussiness date
+        compute='_compute_date_credit_debit'
     )
     amount_discount = fields.Monetary(
         string=u'Discount',
@@ -40,6 +40,17 @@ class FinancialPayreceive(models.TransientModel):
         string=u'Bank Account',
         required=True,
     )
+    payment_mode_id = fields.Many2one(
+        comodel_name='account.payment.mode',
+        string=u'Payment mode',
+    )
+
+    @api.onchange('payment_mode_id', 'date_payment')
+    def _compute_date_credit_debit(self):
+        date_payment = datetime.datetime.strptime(self.date_payment,
+                                                  "%Y-%m-%d")
+        self.date_credit_debit = date_payment + datetime.timedelta(
+            days=self.payment_mode_id.compensation_days)
 
     @api.model
     def default_get(self, vals):
@@ -49,7 +60,8 @@ class FinancialPayreceive(models.TransientModel):
                 active_id):
             fm = self.env['financial.move'].browse(active_id)
             res['currency_id'] = fm.currency_id.id
-            res['amount'] = fm.amount_residual
+            res['amount'] = fm.amount
+            res['payment_mode_id'] = fm.payment_mode_id.id
             res['company_id'] = fm.company_id.id
             res['bank_id'] = fm.bank_id.id
         return res
@@ -79,6 +91,7 @@ class FinancialPayreceive(models.TransientModel):
                 amount=wizard.amount,
                 account_id=financial_to_pay.account_id.id,
                 financial_payment_id=active_id,
+                date_credit_debit=wizard.date_credit_debit,
             )
             financial = account_financial.create(values)
             financial.action_confirm()

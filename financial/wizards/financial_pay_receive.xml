@@ -13,7 +13,8 @@
                 <!-- TODO -->
                 <group>
                     <group>
-                        <field name="amount" string="Amount Paid"/>
+                        <field name="amount" string="Ammount Paid"/>
+                        <field name="payment_mode_id" string="Payment Mode"/>
                         <field name="amount_discount"/>
                         <field name="amount_interest"/>
                     </group>
