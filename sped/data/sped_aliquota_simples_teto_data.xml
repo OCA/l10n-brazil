@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="1">
+
+    <record id="ALIQUOTA_SIMPLES_TETO_01" model="sped.aliquota.simples.teto">
+        <field name="valor">180000.00</field>
+        <field name="nome">De R$ 0,00 a R$ 180.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_02" model="sped.aliquota.simples.teto">
+        <field name="valor">360000.00</field>
+        <field name="nome">De R$ 180.000,01 a R$ 360.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_03" model="sped.aliquota.simples.teto">
+        <field name="valor">540000.00</field>
+        <field name="nome">De R$ 360.000,01 a R$ 540.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_04" model="sped.aliquota.simples.teto">
+        <field name="valor">720000.00</field>
+        <field name="nome">De R$ 540.000,01 a R$ 720.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_05" model="sped.aliquota.simples.teto">
+        <field name="valor">900000.00</field>
+        <field name="nome">De R$ 720.000,01 a R$ 900.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_06" model="sped.aliquota.simples.teto">
+        <field name="valor">1080000.00</field>
+        <field name="nome">De R$ 900.000,01 a R$ 1.080.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_07" model="sped.aliquota.simples.teto">
+        <field name="valor">1260000.00</field>
+        <field name="nome">De R$ 1.080.000,01 a R$ 1.260.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_08" model="sped.aliquota.simples.teto">
+        <field name="valor">1440000.00</field>
+        <field name="nome">De R$ 1.260.000,01 a R$ 1.440.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_09" model="sped.aliquota.simples.teto">
+        <field name="valor">1620000.00</field>
+        <field name="nome">De R$ 1.440.000,01 a R$ 1.620.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_10" model="sped.aliquota.simples.teto">
+        <field name="valor">1800000.00</field>
+        <field name="nome">De R$ 1.620.000,01 a R$ 1.800.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_11" model="sped.aliquota.simples.teto">
+        <field name="valor">1980000.00</field>
+        <field name="nome">De R$ 1.800.000,01 a R$ 1.980.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_12" model="sped.aliquota.simples.teto">
+        <field name="valor">2610000.00</field>
+        <field name="nome">De R$ 1.980.000,01 a R$ 2.160.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_13" model="sped.aliquota.simples.teto">
+        <field name="valor">2340000.00</field>
+        <field name="nome">De R$ 2.160.000,01 a R$ 2.340.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_14" model="sped.aliquota.simples.teto">
+        <field name="valor">2520000.00</field>
+        <field name="nome">De R$ 2.340.000,01 a R$ 2.520.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_15" model="sped.aliquota.simples.teto">
+        <field name="valor">2700000.00</field>
+        <field name="nome">De R$ 2.520.000,01 a R$ 2.700.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_16" model="sped.aliquota.simples.teto">
+        <field name="valor">2880000.00</field>
+        <field name="nome">De R$ 2.700.000,01 a R$ 2.880.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_17" model="sped.aliquota.simples.teto">
+        <field name="valor">3060000.00</field>
+        <field name="nome">De R$ 2.880.000,01 a R$ 3.060.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_18" model="sped.aliquota.simples.teto">
+        <field name="valor">3240000.00</field>
+        <field name="nome">De R$ 3.060.000,01 a R$ 3.240.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_19" model="sped.aliquota.simples.teto">
+        <field name="valor">3420000.00</field>
+        <field name="nome">De R$ 3.240.000,01 a R$ 3.420.000,00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_TETO_20" model="sped.aliquota.simples.teto">
+        <field name="valor">3600000.00</field>
+        <field name="nome">De R$ 3.420.000,01 a R$ 3.600.000,00</field>
+    </record>
+
+</odoo>

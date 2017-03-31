@@ -1,0 +1,1084 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="1">
+
+    <!-- Unidade; a mais comum -->
+
+    <record id="UNIDADE_UNIDADE" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">unid</field>
+        <field name="nome">Unidade</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">unidade</field>
+        <field name="nome_plural">unidades</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+        <field name="uom_id" ref="product.product_uom_unit" />
+    </record>
+
+    <!-- Peso e massa -->
+
+    <record id="UNIDADE_GRAMA" model="sped.unidade">
+        <field name="tipo">P</field>
+        <field name="codigo">gramas</field>
+        <field name="nome">Grama</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">grama</field>
+        <field name="nome_plural">gramas</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="False" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+        <field name="uom_id" ref="product.product_uom_gram" />
+    </record>
+
+    <record id="UNIDADE_QUILOGRAMA" model="sped.unidade">
+        <field name="tipo">P</field>
+        <field name="codigo">kg</field>
+        <field name="nome">Quilograma</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">quilograma</field>
+        <field name="nome_plural">quilogramas</field>
+        <field name="usa_virgula" eval="False" />
+        <field name="usa_meio" eval="False" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">3.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_GRAMA" />
+        <field name="uom_id" ref="product.product_uom_kgm" />
+    </record>
+
+    <record id="UNIDADE_TONELADA" model="sped.unidade">
+        <field name="tipo">P</field>
+        <field name="codigo">ton</field>
+        <field name="nome">Tonelada</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">tonelada</field>
+        <field name="nome_plural">toneladas</field>
+        <field name="usa_virgula" eval="False" />
+        <field name="usa_meio" eval="False" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">3.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_QUILOGRAMA" />
+        <field name="uom_id" ref="product.product_uom_ton" />
+    </record>
+
+    <!-- Comprimento -->
+
+    <record id="UNIDADE_CENTIMETRO" model="sped.unidade">
+        <field name="tipo">C</field>
+        <field name="codigo">cm</field>
+        <field name="nome">Centímetro</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">centímetro</field>
+        <field name="nome_plural">centímetros</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="False" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+        <field name="uom_id" ref="product.product_uom_cm" />
+    </record>
+
+    <record id="UNIDADE_METRO" model="sped.unidade">
+        <field name="tipo">C</field>
+        <field name="codigo">m</field>
+        <field name="nome">Metro</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">metro</field>
+        <field name="nome_plural">metros</field>
+        <field name="usa_virgula" eval="False" />
+        <field name="usa_meio" eval="False" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_CENTIMETRO" />
+        <field name="uom_id" ref="product.product_uom_meter" />
+    </record>
+
+    <!-- Área -->
+
+    <record id="UNIDADE_CENTIMETRO_QUADRADO" model="sped.unidade">
+        <field name="tipo">A</field>
+        <field name="codigo">cm²</field>
+        <field name="nome">Centímetro Quadrado</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">centímetro quadrado</field>
+        <field name="nome_plural">centímetros quadrados</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="False" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_METRO_QUADRADO" model="sped.unidade">
+        <field name="tipo">A</field>
+        <field name="codigo">m²</field>
+        <field name="nome">Metro Quadrado</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">metro quadrado</field>
+        <field name="nome_plural">metros quadrados</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="False" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">4.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_CENTIMETRO_QUADRADO" />
+    </record>
+
+    <!-- Volume -->
+
+    <record id="UNIDADE_MILILITRO" model="sped.unidade">
+        <field name="tipo">V</field>
+        <field name="codigo">mL</field>
+        <field name="nome">Miliitro</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">mililitro</field>
+        <field name="nome_plural">mililitros</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="False" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_LITRO" model="sped.unidade">
+        <field name="tipo">V</field>
+        <field name="codigo">litro</field>
+        <field name="nome">Litro</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">litro</field>
+        <field name="nome_plural">litros</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="False" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">3.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref = "UNIDADE_MILILITRO" />
+        <field name="uom_id" ref="product.product_uom_litre" />
+    </record>
+
+    <record id="UNIDADE_METRO_CUBICO" model="sped.unidade">
+        <field name="tipo">V</field>
+        <field name="codigo">m³</field>
+        <field name="nome">Metro Cúbico</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">metro cúbico</field>
+        <field name="nome_plural">metros cúbicos</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="False" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">3.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_LITRO" />
+    </record>
+
+    <!-- Tempo e serviços -->
+
+    <record id="UNIDADE_SERVICO" model="sped.unidade">
+        <field name="tipo">T</field>
+        <field name="codigo">serviço</field>
+        <field name="nome">Serviço</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">serviço</field>
+        <field name="nome_plural">serviços</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="False" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_HORA" model="sped.unidade">
+        <field name="tipo">T</field>
+        <field name="codigo">hora</field>
+        <field name="nome">Hora</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">hora</field>
+        <field name="nome_plural">horas</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="False" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+        <field name="uom_id" ref="product.product_uom_hour" />
+    </record>
+
+    <record id="UNIDADE_DIA" model="sped.unidade">
+        <field name="tipo">T</field>
+        <field name="codigo">dia</field>
+        <field name="nome">Dia (de trabalho)</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">dia</field>
+        <field name="nome_plural">dias</field>
+        <field name="usa_virgula" eval="False" />
+        <field name="usa_meio" eval="False" />
+        <field name="fator_relacao_decimal">8.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_HORA" />
+        <field name="uom_id" ref="product.product_uom_day" />
+    </record>
+
+    <!-- Embalagens -->
+
+    <record id="UNIDADE_AMPOLA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">ampola</field>
+        <field name="nome">Ampola</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">ampola</field>
+        <field name="nome_plural">ampolas</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_BALDE" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">balde</field>
+        <field name="nome">Balde</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">balde</field>
+        <field name="nome_plural">baldes</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_BANDEJA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">bandej</field>
+        <field name="nome">Bandeja</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">bandeja</field>
+        <field name="nome_plural">bandejas</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_BARRA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">barra</field>
+        <field name="nome">Barra</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">barra</field>
+        <field name="nome_plural">barras</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_BISNAGA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">bisnag</field>
+        <field name="nome">Bisnaga</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">bisnaga</field>
+        <field name="nome_plural">bisnagas</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_BLOCO" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">bloco</field>
+        <field name="nome">Bloco</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">bloco</field>
+        <field name="nome_plural">blocos</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_BOBINA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">bobina</field>
+        <field name="nome">Bobina</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">bobina</field>
+        <field name="nome_plural">bobinas</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_BOMBONA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">bomb</field>
+        <field name="nome">Bombona</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">bombona</field>
+        <field name="nome_plural">bombonas</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_CAPSULA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">caps</field>
+        <field name="nome">Cápsula</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">cápsula</field>
+        <field name="nome_plural">cápsulas</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_CARTELA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cart</field>
+        <field name="nome">Cartela</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">cartela</field>
+        <field name="nome_plural">cartelas</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_CENTO" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cento</field>
+        <field name="nome">Cento</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">cento</field>
+        <field name="nome_plural">centos</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">100.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>
+
+    <record id="UNIDADE_CONJUNTO" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cj</field>
+        <field name="nome">Conjunto</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">conjunto</field>
+        <field name="nome_plural">conjuntos</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <!-- Embalagens - caixas com quantidades definidas -->
+
+    <record id="UNIDADE_CAIXA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cx</field>
+        <field name="nome">Caixa</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">caixa</field>
+        <field name="nome_plural">caixas</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_CAIXA_2" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cx2</field>
+        <field name="nome">Caixa com 2 unidades</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">caixa com 2 unidades</field>
+        <field name="nome_plural">caixas com 2 unidades</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">2.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>
+
+    <record id="UNIDADE_CAIXA_3" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cx3</field>
+        <field name="nome">Caixa com 3 unidades</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">caixa com 3 unidades</field>
+        <field name="nome_plural">caixas com 3 unidades</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">3.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>
+
+<!--    <record id="UNIDADE_CAIXA_4" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cx4</field>
+        <field name="nome">Caixa com 4 unidades</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">caixa com 4 unidades</field>
+        <field name="nome_plural">caixas com 4 unidades</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">4.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>-->
+
+    <record id="UNIDADE_CAIXA_5" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cx5</field>
+        <field name="nome">Caixa com 5 unidades</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">caixa com 5 unidades</field>
+        <field name="nome_plural">caixas com 5 unidades</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">5.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>
+
+<!--    <record id="UNIDADE_CAIXA_6" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cx6</field>
+        <field name="nome">Caixa com 6 unidades</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">caixa com 6 unidades</field>
+        <field name="nome_plural">caixas com 6 unidades</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">6.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>-->
+
+<!--    <record id="UNIDADE_CAIXA_8" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cx8</field>
+        <field name="nome">Caixa com 8 unidades</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">caixa com 8 unidades</field>
+        <field name="nome_plural">caixas com 8 unidades</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">8.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>-->
+
+    <record id="UNIDADE_CAIXA_10" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cx10</field>
+        <field name="nome">Caixa com 10 unidades</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">caixa com 10 unidades</field>
+        <field name="nome_plural">caixas com 10 unidades</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>
+
+<!--    <record id="UNIDADE_CAIXA_12" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cx12</field>
+        <field name="nome">Caixa com 12 unidades</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">caixa com 12 unidades</field>
+        <field name="nome_plural">caixas com 12 unidades</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">12.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>-->
+
+    <record id="UNIDADE_CAIXA_15" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cx15</field>
+        <field name="nome">Caixa com 15 unidades</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">caixa com 15 unidades</field>
+        <field name="nome_plural">caixas com 15 unidades</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">15.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>
+
+<!--    <record id="UNIDADE_CAIXA_18" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cx18</field>
+        <field name="nome">Caixa com 18 unidades</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">caixa com 18 unidades</field>
+        <field name="nome_plural">caixas com 18 unidades</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">18.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>-->
+
+    <record id="UNIDADE_CAIXA_20" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cx20</field>
+        <field name="nome">Caixa com 20 unidades</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">caixa com 20 unidades</field>
+        <field name="nome_plural">caixas com 20 unidades</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">20.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>
+
+<!--    <record id="UNIDADE_CAIXA_24" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cx24</field>
+        <field name="nome">Caixa com 24 unidades</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">caixa com 24 unidades</field>
+        <field name="nome_plural">caixas com 24 unidades</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">24.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>-->
+
+    <record id="UNIDADE_CAIXA_25" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cx25</field>
+        <field name="nome">Caixa com 25 unidades</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">caixa com 25 unidades</field>
+        <field name="nome_plural">caixas com 25 unidades</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">25.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>
+
+    <record id="UNIDADE_CAIXA_50" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cx50</field>
+        <field name="nome">Caixa com 50 unidades</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">caixa com 50 unidades</field>
+        <field name="nome_plural">caixas com 50 unidades</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">50.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>
+
+    <record id="UNIDADE_CAIXA_100" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">cx100</field>
+        <field name="nome">Caixa com 100 unidades</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">caixa com 100 unidades</field>
+        <field name="nome_plural">caixas com 100 unidades</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">100.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>
+
+    <record id="UNIDADE_DISPLAY" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">disp</field>
+        <field name="nome">Display</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">display</field>
+        <field name="nome_plural">displays</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_DUZIA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">dúzia</field>
+        <field name="nome">Dúzia</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">dúzia</field>
+        <field name="nome_plural">dúzias</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">12.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+        <field name="uom_id" ref="product.product_uom_day" />
+    </record>
+
+    <record id="UNIDADE_EMBALAGEM" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">embal</field>
+        <field name="nome">Embalagem</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">embalagem</field>
+        <field name="nome_plural">embalagens</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_FARDO" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">fardo</field>
+        <field name="nome">Fardo</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">fardo</field>
+        <field name="nome_plural">fardos</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_FOLHA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">folha</field>
+        <field name="nome">Folha</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">folha</field>
+        <field name="nome_plural">folhas</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_FRASCO" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">frasco</field>
+        <field name="nome">Frasco</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">frasco</field>
+        <field name="nome_plural">frascos</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_GALAO" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">galão</field>
+        <field name="nome">Galão</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">galão</field>
+        <field name="nome_plural">galões</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_GARRAFA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">gf</field>
+        <field name="nome">Garrafa</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">garrafa</field>
+        <field name="nome_plural">garrafas</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_JOGO" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">jogo</field>
+        <field name="nome">Jogo</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">jogo</field>
+        <field name="nome_plural">jogos</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_KIT" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">kit</field>
+        <field name="nome">Kit</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">kit</field>
+        <field name="nome_plural">kits</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_LATA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">lata</field>
+        <field name="nome">lata</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">lata</field>
+        <field name="nome_plural">latas</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_MILHEIRO" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">milhei</field>
+        <field name="nome">Milheiro</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">milheiro</field>
+        <field name="nome_plural">milheiros</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">1000.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>
+
+    <record id="UNIDADE_MEGAWATT_HORA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">MW/h</field>
+        <field name="nome">Megawatts por Hora</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">megawatt por hora</field>
+        <field name="nome_plural">megawatts por hora</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_PACOTE" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">pacote</field>
+        <field name="nome">Pacote</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">pacote</field>
+        <field name="nome_plural">pacotes</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_PALETE" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">palete</field>
+        <field name="nome">Palete</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">palete</field>
+        <field name="nome_plural">paletes</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_PAR" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">pares</field>
+        <field name="nome">Par</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">par</field>
+        <field name="nome_plural">pares</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">2.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>
+
+    <record id="UNIDADE_PECA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">pc</field>
+        <field name="nome">Peça</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">peça</field>
+        <field name="nome_plural">peças</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_POTE" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">pote</field>
+        <field name="nome">Pote</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">pote</field>
+        <field name="nome_plural">potes</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_QUILATE" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">K</field>
+        <field name="nome">Quilate</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">quilate</field>
+        <field name="nome_plural">quilates</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_RESMA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">resma</field>
+        <field name="nome">Resma</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">resma</field>
+        <field name="nome_plural">resmas</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">500.000000</field>
+        <field name="precisao_decimal">1.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" ref="UNIDADE_UNIDADE" />
+    </record>
+
+    <record id="UNIDADE_ROLO" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">rolo</field>
+        <field name="nome">Rolo</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">rolo</field>
+        <field name="nome_plural">rolos</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_SACO" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">saco</field>
+        <field name="nome">Saco</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">saco</field>
+        <field name="nome_plural">sacos</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_SACOLA" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">sacola</field>
+        <field name="nome">Sacola</field>
+        <field name="genero_masculino" eval="False" />
+        <field name="nome_singular">sacola</field>
+        <field name="nome_plural">sacolas</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_TAMBOR" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">tambor</field>
+        <field name="nome">Tambor</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">tambor</field>
+        <field name="nome_plural">tambores</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_TANQUE" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">tanque</field>
+        <field name="nome">Tanque</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">tanque</field>
+        <field name="nome_plural">tanques</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_TUBO" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">tubo</field>
+        <field name="nome">Tubo</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">tubo</field>
+        <field name="nome_plural">tubos</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_VASILHAME" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">vasil</field>
+        <field name="nome">Vasilhame</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">vasilhame</field>
+        <field name="nome_plural">vasilhames</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+    <record id="UNIDADE_VIDRO" model="sped.unidade">
+        <field name="tipo">U</field>
+        <field name="codigo">vidro</field>
+        <field name="nome">Vidro</field>
+        <field name="genero_masculino" eval="True" />
+        <field name="nome_singular">vidro</field>
+        <field name="nome_plural">vidros</field>
+        <field name="usa_virgula" eval="True" />
+        <field name="usa_meio" eval="True" />
+        <field name="fator_relacao_decimal">10.000000</field>
+        <field name="precisao_decimal">2.000000</field>
+        <field name="arredondamento">0</field>
+        <field name="subunidade_id" />
+    </record>
+
+</odoo>

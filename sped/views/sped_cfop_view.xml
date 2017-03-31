@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_cfop_form" >
+        <field name="name">sped.cfop.form</field>
+        <field name="model">sped.cfop</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="CFOP" delete="false" create="false" edit="true">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="codigo" readonly="1" />
+                        </h1>
+                        <h2>
+                            <field name="descricao" readonly="1" />
+                            <field name="entrada_saida" invisible="1" readonly="1" />
+                            <field name="posicao" invisible="1" readonly="1" />
+                            <div attrs="{'invisible': [('entrada_saida', '!=', '0')]}">
+                                <label string="Entrada de" />
+                                <label string="dentro do estado" attrs="{'invisible': [('posicao', '!=', 'E')]}" />
+                                <label string="fora do estado" attrs="{'invisible': [('posicao', '!=', 'I')]}" />
+                                <label string="fora do país" attrs="{'invisible': [('posicao', '!=', 'X')]}" />
+                            </div>
+                            <div attrs="{'invisible': [('entrada_saida', '!=', '1')]}">
+                                <label string="Saída para" />
+                                <label string="dentro do estado" attrs="{'invisible': [('posicao', '!=', 'E')]}" />
+                                <label string="fora do estado" attrs="{'invisible': [('posicao', '!=', 'I')]}" />
+                                <label string="fora do país" attrs="{'invisible': [('posicao', '!=', 'X')]}" />
+                            </div>
+                        </h2>
+                    </div>
+                    <separator string="Configuração do ICMS" />
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="width:60%;"><label for="gera_icms_proprio"/></td>
+                            <td style="width:40%;"><field name="gera_icms_proprio"/></td>
+                        </tr>
+                        <tr>
+                            <td style="width:60%;">
+                                <label for="gera_icms_st" string="Gera crédito de ICMS ST?" attrs="{'invisible': [('entrada_saida', '!=', '0')]}"/>
+                                <label for="gera_icms_st" string="Recolhe ICMS ST" attrs="{'invisible': [('entrada_saida', '!=', '1')]}"/>
+                            </td>
+                            <td style="width:40%;"><field name="gera_icms_st"/></td>
+                        </tr>
+                        <tr>
+                            <td style="width:60%;"><label for="gera_icms_sn" attrs="{'invisible': [('entrada_saida', '!=', '1')]}" /></td>
+                            <td style="width:40%;"><field name="gera_icms_sn" attrs="{'invisible': [('entrada_saida', '!=', '1')]}" /></td>
+                        </tr>
+                    </table>
+                    <separator string="Configuração do PIS-COFINS" />
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="width:60%;"><label for="gera_pis_cofins"/></td>
+                            <td style="width:40%;"><field name="gera_pis_cofins"/></td>
+                        </tr>
+                        <tr>
+                            <td style="width:60%;"><label for="natureza_bc_credito_pis_cofins"/></td>
+                            <td style="width:40%;"><field name="natureza_bc_credito_pis_cofins"/></td>
+                        </tr>
+                    </table>
+                    <separator string="Configuração do IPI" />
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="width:60%;"><label for="gera_ipi"/></td>
+                            <td style="width:40%;"><field name="gera_ipi"/></td>
+                        </tr>
+                    </table>
+                    <separator string="Equivalências" attrs="{'invisible': [('entrada_saida', '==', '0')]}" />
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="width:60%;"><label for="cfop_entrada_id" attrs="{'invisible': [('entrada_saida', '==', '0')], 'domain': [('entrada_saida', '==', '1')]}" /></td>
+                            <td style="width:40%;"><field name="cfop_entrada_id" options="{'no_open': True, 'no_create': True}" attrs="{'invisible': [('entrada_saida', '==', '0')], 'domain': [('entrada_saida', '==', '1')]}" /></td>
+                        </tr>
+<!--                        <tr>
+                            <td style="width:60%;"><label for="cfop_dentro_estado_id"/></td>
+                            <td style="width:40%;"><field name="cfop_dentro_estado_id" readonly="1" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width:60%;"><label for="cfop_fora_estado_id"/></td>
+                            <td style="width:40%;"><field name="cfop_fora_estado_id" readonly="1" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width:60%;"><label for="cfop_fora_pais_id"/></td>
+                            <td style="width:40%;"><field name="cfop_fora_pais_id" readonly="1" /></td>
+                        </tr>-->
+                    </table>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_cfop_tree">
+        <field name="name">sped.cfop.tree</field>
+        <field name="model">sped.cfop</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="CFOPs" delete="false" create="false" edit="true">
+                <field name="codigo"/>
+                <field name="descricao"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_cfop_search">
+        <field name="name">sped.cfop.search</field>
+        <field name="model">sped.cfop</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="CFOPs">
+                <filter name="entrada" string="Entrada" domain="[('entrada_saida','=','0')]"/>
+                <filter name="saida" string="Saída" domain="[('entrada_saida','=','1')]"/>
+                <separator orientation="vertical" />
+                <filter name="dentro_estado" string="Dentro do estado" domain="[('posicao','=', 'E')]"/>
+                <filter name="fora_estado" string="Fora do estado" domain="[('posicao','=', 'I')]"/>
+                <filter name="fora_pais" string="Fora do país" domain="[('posicao','=', 'X')]"/>
+                <separator orientation="vertical"/>
+                <field name="codigo"/>
+                <field name="descricao"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_cfop_acao">
+        <field name="name">CFOP</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="res_model">sped.cfop</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_cfop_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_cfop_form"/>
+        <field name="act_window_id" ref="sped_cfop_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_cfop_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_cfop_tree"/>
+        <field name="act_window_id" ref="sped_cfop_acao"/>
+    </record>
+
+    <menuitem
+        parent="menu_sped_tabela"
+        sequence="2"
+        id="menu_sped_cfop"
+        name="CFOP"
+        action="sped_cfop_acao" />
+
+</odoo>

@@ -1,0 +1,2424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="True">
+
+    <!--
+
+    Municípios padrão para notas de importação/exportação
+
+    -->
+
+    <!--<record id="MUNICIPIO_99999990132"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990132</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Afeganistão</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_AF" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997560"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997560</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">África do Sul</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_ZA" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990175"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990175</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Albânia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_AL" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990230"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990230</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Alemanha</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_DE" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990370"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990370</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Andorra</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_AD" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990400"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990400</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Angola</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_AO" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990418"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990418</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Anguila</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_AI" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990434"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990434</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Antígua e Barbuda</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_AG" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990531"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990531</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Arábia Saudita</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SA" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990590"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990590</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Argélia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_DZ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990639"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990639</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Argentina</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_AR" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990647"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990647</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Armênia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_AM" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990655"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990655</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Aruba</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_AW" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990698"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990698</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Austrália</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_AU" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990728"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990728</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Áustria</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_AT" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990736"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990736</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Azerbaijão</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_AZ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990779"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990779</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Bahamas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BS" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990817"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990817</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Bangladeche</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BD" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990833"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990833</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Barbados</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BB" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990809"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990809</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Barêin</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BH" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990876"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990876</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Bélgica</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BE" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990884"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990884</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Belize</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BZ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992291"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992291</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Benin</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BJ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990906"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990906</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Bermudas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BM" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990850"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990850</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Bielorrússia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BY" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990973"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990973</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Bolívia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BO" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990981"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990981</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Bósnia Herzegóvina</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BA" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991015"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991015</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Botsuana</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BW" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991082"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991082</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Brunei</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BN" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991112"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991112</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Bulgária</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BG" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990310"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990310</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Burquina Fasso</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BF" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991155"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991155</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Burúndi</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BI" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991198"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991198</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Butão</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BT" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991279"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991279</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Cabo Verde</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CV" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991376"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991376</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Caimã, Ilhas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_KY" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991457"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991457</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Camarões</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CM" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991414"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991414</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Camboja</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_KH" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991490"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991490</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Canadá</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CA" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991511"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991511</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Canárias, Ilhas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_ES" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991546"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991546</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Catar</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_QA" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991538"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991538</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Cazaquistão</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_KZ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997889"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997889</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Chade</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_TD" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991589"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991589</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Chile</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CL" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991600"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991600</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">China</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CN" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991635"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991635</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Chipre</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CY" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995118"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995118</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Christmas, Ilha</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CX" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991651"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991651</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Cocos (Keeling), Ilhas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CC" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991694"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991694</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Colômbia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CO" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991732"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991732</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Comores</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_KM" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991775"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991775</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Congo Brazavile</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CG" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998885"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998885</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Congo Quinxassa</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CD" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991830"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991830</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Cook, Ilhas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CK" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991872"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991872</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Coreia do Norte</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_KR" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991902"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991902</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Coreia do Sul</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_KP" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991937"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991937</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Costa do Marfim</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CI" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991961"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991961</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Costa Rica</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CR" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991953"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991953</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Croácia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_HR" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991996"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991996</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Cuba</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CU" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990477"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990477</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Curaçao</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CW" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990477_1"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990477</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Bonaire, Santo Eustáquio e Saba</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BQ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990477_2"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990477</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">São Martinho (parte neerlandesa)</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SX" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992321"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992321</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Dinamarca</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_DK" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997838"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997838</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Djibúti</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_DJ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992356"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992356</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Dominica</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_DM" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992402"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992402</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Egito</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_EG" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996874"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996874</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">El Salvador</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SV" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992445"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992445</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Emirados Árabes Unidos</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_AE" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992399"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992399</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Equador</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_EC" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992437"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992437</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Eritreia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_ER" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992470"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992470</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Eslováquia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SK" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992461"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992461</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Eslovênia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SI" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992496"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992496</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Estados Unidos</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_US" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992518"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992518</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Estônia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_EE" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992534"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992534</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Etiópia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_ET" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992550"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992550</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Falkland, Ilhas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_FK" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992593"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992593</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Faroe, Ilhas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_FO" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998702"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998702</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Fiji</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_FJ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992674"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992674</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Filipinas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_PH" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992712"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992712</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Finlândia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_FI" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992755"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992755</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">França</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_FR" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992755_1"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992755</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">São Bartolomeu</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_BL" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992755_2"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992755</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">São Martinho (parte francesa)</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MF" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992755_3"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992755</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Wallis e Futuna</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_WF" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992810"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992810</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Gabão</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GA" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992852"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992852</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Gâmbia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GM" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992895"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992895</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Gana</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GH" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992917"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992917</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Geórgia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GE" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992933"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992933</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Gibraltar</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GI" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999992976"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999992976</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Granada</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GD" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993018"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993018</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Grécia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GR" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993050"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993050</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Groenlândia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GL" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993093"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993093</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Guadalupe</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GP" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993131"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993131</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Guam</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GU" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993174"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993174</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Guatemala</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GT" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991504"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991504</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Guérnesei</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GG" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993379"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993379</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Guiana</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GY" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993255"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993255</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Guiana Francesa</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GF" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993298"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993298</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Guiné</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GN" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993310"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993310</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Guiné Equatorial</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GQ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993344"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993344</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Guiné-Bissau</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GW" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993417"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993417</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Haiti</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_HT" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993450"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993450</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Honduras</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_HN" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993514"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993514</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Hong Kong</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_HK" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993557"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993557</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Hungria</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_HU" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993573"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993573</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Iêmen</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_YE" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993611"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993611</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Índia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_IN" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993654"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993654</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Indonésia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_ID" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993727"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993727</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Irã</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_IR" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993697"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993697</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Iraque</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_IQ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993751"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993751</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Irlanda</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_IE" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993794"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993794</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Islândia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_IS" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993832"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993832</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Israel</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_IL" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993867"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993867</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Itália</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_IT" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993913"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993913</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Jamaica</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_JM" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993999"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993999</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Japão</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_JP" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991508"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991508</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Jérsei</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_JE" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993964"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993964</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Johnston, Ilhas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_UM" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994030"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994030</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Jordânia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_JO" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991988"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991988</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Kuwait</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_KW" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994200"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994200</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Laos</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_LA" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994260"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994260</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Lesoto</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_LS" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994278"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994278</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Letônia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_LV" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994316"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994316</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Líbano</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_LB" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994340"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994340</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Libéria</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_LR" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994383"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994383</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Líbia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_LY" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994405"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994405</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Liechtenstein</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_LI" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994421"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994421</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Lituânia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_LT" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994456"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994456</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Luxemburgo</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_LU" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994472"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994472</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Macau</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MO" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994499"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994499</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Macedônia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MK" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994502"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994502</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Madagascar</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MG" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994525"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994525</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Madeira, Ilha da</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_PT" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994553"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994553</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Malásia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MY" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994588"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994588</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Malawi</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MW" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994618"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994618</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Maldivas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MV" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994642"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994642</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Máli</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_ML" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994677"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994677</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Malta</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MT" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999993595"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999993595</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Man, Ilha de</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_IM" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994723"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994723</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Marianas do Norte, Ilhas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MP" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994740"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994740</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Marrocos</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MA" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994766"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994766</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Marshall, Ilhas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MH" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994774"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994774</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Martinica</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MQ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994855"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994855</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Maurício</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MU" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994880"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994880</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Mauritânia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MR" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994885"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994885</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Mayotte</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_YT" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994936"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994936</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">México</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MX" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999990930"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999990930</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Mianmar</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MM" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994995"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994995</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Micronésia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_FM" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995053"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995053</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Moçambique</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MZ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994944"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994944</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Moldávia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MD" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994952"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994952</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Mônaco</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MC" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994979"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994979</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Mongólia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MN" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994985"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994985</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Montenegro</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_ME" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995010"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995010</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Montserrat</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_MS" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995070"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995070</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Namíbia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_NA" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995088"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995088</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Nauru</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_NR" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995177"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995177</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Nepal</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_NP" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995215"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995215</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Nicarágua</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_NI" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995258"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995258</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Níger</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_NE" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995282"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995282</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Nigéria</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_NG" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995312"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995312</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Niue</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_NU" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995355"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995355</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Norfolk, Ilha</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_NF" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995380"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995380</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Noruega</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_NO" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995428"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995428</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Nova Caledônia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_NC" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995487"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995487</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Nova Zelândia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_NZ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995568"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995568</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Omã</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_OM" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995738"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995738</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Países Baixos (Holanda)</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_NL" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995754"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995754</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Palau</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_PW" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995780"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995780</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Palestina</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_PS" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995800"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995800</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Panamá</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_PA" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995452"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995452</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Papua Nova Guiné</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_PG" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995762"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995762</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Paquistão</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_PK" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995860"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995860</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Paraguai</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_PY" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995894"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995894</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Peru</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_PE" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995932"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995932</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Pitcairn</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_PN" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995991"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995991</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Polinésia Francesa</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_PF" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996033"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996033</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Polônia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_PL" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996114"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996114</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Porto Rico</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_PR" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996238"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996238</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Quênia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_KE" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996254"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996254</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Quirguistão</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_KG" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999994111"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999994111</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Quiribati</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_KI" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996289"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996289</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Reino Unido</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_GB" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996408"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996408</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">República Centro-Africana</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CF" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996475"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996475</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">República Dominicana</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_DO" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997919"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997919</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">República Tcheca</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CZ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996602"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996602</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Reunião</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_RE" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996700"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996700</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Romênia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_RO" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996750"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996750</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Ruanda</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_RW" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996769"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996769</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Rússia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_RU" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996858"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996858</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Saara Ocidental</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_EH" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996777"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996777</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Salomão, Ilhas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SB" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996904"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996904</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Samoa</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_WS" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996912"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996912</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Samoa Americana</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_AS" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996971"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996971</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">San Marino</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SM" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997102"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997102</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Santa Helena, Ascensão e Tristão da Cunha</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SH" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997153"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997153</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Santa Lúcia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_LC" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998486"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998486</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Santa Sé (Estado da Cidade do Vaticano)</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_VA" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996955"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996955</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">São Cristóvão e Neves, Ilhas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_KN" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997005"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997005</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">São Pedro e Miquelon</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_PM" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997200"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997200</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">São Tomé e Príncipe, Ilhas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_ST" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997056"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997056</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">São Vicente e Granadinas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_VC" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997285"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997285</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Senegal</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SN" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997358"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997358</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Serra Leoa</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SL" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997370"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997370</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Sérvia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_RS" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997315"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997315</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Seychelles</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SC" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997412"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997412</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Singapura</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SG" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997447"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997447</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Síria</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SY" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997480"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997480</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Somália</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SO" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997501"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997501</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Sri Lanka</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_LK" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997544"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997544</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Suazilândia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SZ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997595"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997595</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Sudão</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SD" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997600"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997600</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Sudão do Sul</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SS" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997641"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997641</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Suécia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SE" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997676"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997676</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Suíça</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_CH" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997706"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997706</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Suriname</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_SR" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997765"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997765</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Tailândia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_TH" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999991619"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999991619</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Taiwan</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_TW" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997722"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997722</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Tajiquistão</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_TJ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997803"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997803</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Tanzânia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_TZ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997820"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997820</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Território Britânico no Oceano Índico</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_IO" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999997951"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999997951</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Timor Leste</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_TL" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998001"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998001</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Togo</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_TG" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998109"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998109</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Tonga</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_TO" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998052"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998052</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Toquelau</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_TK" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998150"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998150</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Trinidade e Tobago</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_TT" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998206"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998206</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Tunísia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_TN" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998230"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998230</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Turcas e Caicos, Ilhas</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_TC" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998249"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998249</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Turcomenistão</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_TM" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998273"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998273</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Turquia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_TR" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998281"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998281</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Tuvalu</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_TV" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998311"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998311</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Ucrânia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_UA" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998338"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998338</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Uganda</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_UG" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998451"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998451</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Uruguai</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_UY" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998478"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998478</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Usbequistão</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_UZ" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999995517"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999995517</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Vanuatu</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_VU" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998508"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998508</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Venezuela</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_VE" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998583"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998583</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Vietnã</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_VN" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998630"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998630</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Virgens, Ilhas (Britânicas)</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_VG" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998664"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998664</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Virgens, Ilhas (EUA)</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_VI" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999998907"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999998907</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Zâmbia</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_ZM" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+    <!--<record id="MUNICIPIO_99999996653"  model="sped.municipio">-->
+        <!--<field name="codigo_ibge">99999996653</field>-->
+        <!--<field name="codigo_siafi" eval="False" />-->
+        <!--<field name="codigo_anp" eval="False" />-->
+        <!--<field name="nome">Zimbábue</field>-->
+        <!--<field name="estado_id" ref="ESTADO_EX" />-->
+        <!--<field name="pais_id" ref="PAIS_ZW" />-->
+        <!--<field name="cep_unico">99999-999</field>-->
+    <!--</record>-->
+
+</odoo>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_nfce_form">
+        <field name="name">sped.documento.emissao.nfce.form</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">1</field>
+        <field name="type">form</field>
+        <field name="copy_id" ref="sped.sped_documento_base_form" />
+        <field name="arch" eval="False" />
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_nfce_tree">
+        <field name="name">sped.documento.emissao.nfce.tree</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">1</field>
+        <field name="type">tree</field>
+        <field name="copy_id" ref="sped.sped_documento_base_tree" />
+        <field name="arch" eval="False" />
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_nfce_search">
+        <field name="name">sped.documento.emissao.nfce.search</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">1</field>
+        <field name="type">search</field>
+        <field name="copy_id" ref="sped.sped_documento_base_search" />
+        <field name="arch" eval="False" />
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_nfce_inherited_form">
+        <field name="name">sped.documento.emissao.nfce.inherited.form</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="sped.sped_documento_emissao_nfce_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form[1]" position="attributes">
+                <attribute name="string">Emissão de NFC-e</attribute>
+            </xpath>
+            <page name="participante" position="attributes">
+                <attribute name="string">Consumidor</attribute>
+            </page>
+            <page name="empenho" position="replace" />
+            <page name="retencoes" position="replace" />
+            <page name="transporte" position="replace" />
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="domain">[('forma_pagamento', '!=', False)]</attribute>
+            </xpath>
+            <xpath expr="//separator[@name='vencimentos']" position="attributes">
+                <attribute name="attrs">{'invisible': [('payment_term_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='pagamento_ids']" position="attributes">
+                <attribute name="attrs">{'invisible': [('payment_term_id', '!=', False)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_nfce_inherited_tree">
+        <field name="name">sped.documento.emissao.nfce.inherited.tree</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="sped.sped_documento_emissao_nfce_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree[1]" position="attributes">
+                <attribute name="string">Emissão de NFC-e</attribute>
+            </xpath>
+            <field name="participante_id" position="attributes">
+                <attribute name="string">Consumidor</attribute>
+            </field>
+            <field name="data_entrada_saida" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_nfce_inherited_search">
+        <field name="name">sped.documento.emissao.nfce.inherited.search</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="sped.sped_documento_emissao_nfce_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//search[1]" position="attributes">
+                <attribute name="string">Emissão de NFC-e</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_documento_emissao_nfce_acao">
+        <field name="name">Emissão de NFC-e</field>
+        <field name="domain">[('emissao', '=', '0'), ('modelo', '=', '65')]</field>
+        <field name="context">{'default_emissao': '0', 'default_modelo': '65'}</field>
+        <field name="res_model">sped.documento</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="sped.sped_documento_emissao_nfce_search" />
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_documento_emissao_nfce_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_documento_emissao_nfce_tree"/>
+        <field name="act_window_id" ref="sped_documento_emissao_nfce_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_documento_emissao_nfce_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_documento_emissao_nfce_form"/>
+        <field name="act_window_id" ref="sped_documento_emissao_nfce_acao"/>
+    </record>
+
+    <menuitem
+        id="menu_sped_documento_emissao_nfce"
+        sequence="2"
+        name="NFC-e"
+        parent="menu_sped_documento_emissao"
+        action="sped_documento_emissao_nfce_acao" />
+
+</odoo>

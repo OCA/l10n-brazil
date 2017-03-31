@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_cest_form" >
+        <field name="name">sped.cest.form</field>
+        <field name="model">sped.cest</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+<!--             <form string="CEST" delete="false" create="false" edit="false"> -->
+            <form string="CEST">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="cest" />
+                        </h1>
+                    </div>
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="width:30%;"><label for="codigo" /></td>
+                            <td style="width:20%;"><field name="codigo" required="1" /></td>
+                            <td style="width:50%;"></td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%;"><label for="descricao" /></td>
+                            <td style="width:70%;" colspan="2"><field name="descricao" required="1" /></td>
+                        </tr>
+                    </table>
+                    <separator string="NCMs" />
+                    <field name="ncm_permitido" colspan="4" />
+                    <field name="ncm_ids" nolabel="1" colspan="4">
+                        <tree string="NCMs">
+                            <field name="codigo_formatado" />
+                            <field name="ex" />
+                            <field name="descricao" />
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_cest_tree">
+        <field name="name">sped.cest.tree</field>
+        <field name="model">sped.cest</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+<!--             <tree string="CEST" delete="false" create="false" edit="false"> -->
+            <tree string="CEST">
+<!--                 <field name="cest" /> -->
+                <field name="codigo_formatado" />
+                <field name="descricao" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_cest_search">
+        <field name="name">sped.cest.search</field>
+        <field name="model">sped.cest</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="CEST">
+                <field name="codigo" />
+                <field name="descricao" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_cest_acao">
+        <field name="name">CEST</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="res_model">sped.cest</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_cest_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_cest_form"/>
+        <field name="act_window_id" ref="sped_cest_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_cest_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_cest_tree"/>
+        <field name="act_window_id" ref="sped_cest_acao"/>
+    </record>
+
+    <menuitem
+        parent="menu_sped_tabela"
+        sequence="1"
+        id="menu_sped_cest"
+        name="CEST"
+        action="sped_cest_acao" />
+
+</odoo>

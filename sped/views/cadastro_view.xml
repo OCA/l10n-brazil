@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <menuitem id="menu_cadastro"
+        name="Cadastro"
+        sequence="-100"
+        web_icon="sped,static/description/icon.png"
+        />
+
+    <menuitem id="menu_cadastro_participante"
+        name="Pessoas e empresas"
+        sequence="1"
+        parent="menu_cadastro"
+        />
+
+    <menuitem id="menu_cadastro_produto"
+        name="Produtos"
+        sequence="2"
+        parent="menu_cadastro"
+        />
+
+    <menuitem id="menu_cadastro_servico"
+        name="Serviços"
+        sequence="3"
+        parent="menu_cadastro"
+        />
+
+    <menuitem
+        parent="menu_cadastro"
+        sequence="100"
+        id="menu_cadastro_configuracao"
+        name="Configuração"
+        />
+
+    <menuitem
+        parent="menu_cadastro_configuracao"
+        sequence="100"
+        id="menu_cadastro_vinculo"
+        name="Vínculos"
+        />
+
+</odoo>
