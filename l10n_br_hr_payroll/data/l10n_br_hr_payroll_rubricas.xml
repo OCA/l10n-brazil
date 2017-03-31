@@ -385,6 +385,20 @@ else:
             <field name="sequence" eval="102"/>
         </record>
 
+        <record id="hr_salary_rule_REMBOLSO_AUXILIO_CRECHE" model="hr.salary.rule">
+            <field name="code">REMBOLSO_AUXILIO_CRECHE</field>
+            <field name="name">Reembolso Auxilio Creche</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">if MEDIAS:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id, MEDIAS)
+else:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id)
+            </field>
+            <field name="sequence" eval="102"/>
+        </record>
+
         <record id="hr_salary_rule_ADIANTAMENTO_13" model="hr.salary.rule">
             <field name="code">ADIANTAMENTO_13</field>
             <field name="name">Adiantamento 13 Salario</field>
