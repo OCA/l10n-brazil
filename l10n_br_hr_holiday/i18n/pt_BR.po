@@ -104,7 +104,7 @@ msgstr "Dias úteis Consecutivos"
 #. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_disposicao_TRE
 msgid "Disposicao TRE"
-msgstr "Disposicao TRE"
+msgstr "Disposição TRE"
 
 #. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_end_of_year_recess
@@ -155,7 +155,7 @@ msgstr "Licença Casamento"
 #. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_maternity_leave
 msgid "Maternity leave"
-msgstr "Licença maternidade"
+msgstr "Licença Maternidade"
 
 #. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_medical_certificate
@@ -202,7 +202,7 @@ msgstr "Evento"
 #. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_paternity_leave
 msgid "Paternity leave"
-msgstr "Licença paternidade"
+msgstr "Licença Paternidade"
 
 #. module: l10n_br_hr_holiday
 #: field:hr.holidays,payroll_discount:0
