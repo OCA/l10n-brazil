@@ -41,7 +41,7 @@ class HrHolidays(models.Model):
     )
     contrato_id = fields.Many2one(
         comodel_name='hr.contract',
-        string=u'Contrato associado',
+        string=u'Funcionário',
     )
 
     @api.onchange('contrato_id')
