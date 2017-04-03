@@ -3,13 +3,14 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <openerp>
-<data>
+    <data>
 
-    <record model="ir.ui.menu" id="hr_contract_change_menu">
-        <field name="name">Alterações contratuais</field>
-        <field name="parent_id" ref="hr.menu_hr_main"/>
-        <field name="sequence" eval="5"/>
-    </record>
+        <record model="ir.ui.menu" id="hr_contract_change_menu">
+            <field name="name">Alterações contratuais</field>
+            <field name="parent_id" ref="hr.menu_hr_main"/>
+            <field name="sequence" eval="5"/>
+            <field eval="[(4, ref('base.group_hr_manager'))]" name="groups_id"/>
+        </record>
 
-</data>
+    </data>
 </openerp>

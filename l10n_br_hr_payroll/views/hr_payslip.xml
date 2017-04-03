@@ -5,8 +5,9 @@
 <openerp>
     <data>
 
-        <menuitem id="menu_hr_root_payroll_simulacao" parent="hr.menu_hr_root" name="Simulações" sequence="35"/>
-        <menuitem id="menu_hr_root_payroll_provisao" parent="hr.menu_hr_root" name="Provisão" sequence="45"/>
+        <menuitem id="hr_payroll.menu_hr_root_payroll" groups="base.group_hr_manager" />
+        <menuitem id="menu_hr_root_payroll_simulacao" parent="hr.menu_hr_root" name="Simulações" sequence="35" groups="base.group_hr_manager"/>
+        <menuitem id="menu_hr_root_payroll_provisao" parent="hr.menu_hr_root" name="Provisão" sequence="45" groups="base.group_hr_manager"/>
 
         <record id="view_hr_payslip_tree" model="ir.ui.view">
             <field name="name">hr.payslip.tree</field>
