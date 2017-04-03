@@ -6,7 +6,7 @@
         <field name="name">account.move.template.tree.view</field>
         <field name="model">account.move.template</field>
         <field name="arch" type="xml">
-            <tree string="Move Template" editable="top" create="true" delete="true">   <!--decoration-info="state == 'draft'" decoration-muted="state == 'cancel'"-->
+            <tree string="Move Template" editable="top">   <!--decoration-info="state == 'draft'" decoration-muted="state == 'cancel'"-->
                 <field name="company_id"/>
                 <field name="fiscal_document_id"/>
                 <field name="account_type"/>
@@ -24,36 +24,36 @@
         </field>
     </record>
 
-    <!--<record id="account_move_template_form_view" model="ir.ui.view">-->
-        <!--<field name="name">account.move.template.form.view</field>-->
-        <!--<field name="model">account.move.template.rule</field>-->
-        <!--<field name="arch" type="xml">-->
-            <!--<form>&lt;!&ndash;decoration-info="state == 'draft'" decoration-muted="state == 'cancel'"&ndash;&gt;-->
-                <!--<group>-->
-                    <!--<field name="document_type_id"/>-->
-                    <!--<field name="account_type"/>-->
-                    <!--<field name="operation_nature"/>-->
-                    <!--<field name="operation_position"/>-->
-                    <!--<field name="product_type"/>-->
-                    <!--<field name="product_origin"/>-->
-                    <!--<field name="term"/>-->
+    <record id="account_move_template_form_view" model="ir.ui.view">
+        <field name="name">account.move.template.form.view</field>
+        <field name="model">account.move.template</field>
+        <field name="arch" type="xml">
+            <form><!--decoration-info="state == 'draft'" decoration-muted="state == 'cancel'"-->
+                <group>
+                    <field name="fiscal_document_id"/>
+                    <field name="account_type"/>
+                    <field name="operation_nature"/>
+                    <field name="operation_position"/>
+                    <field name="product_type"/>
+                    <field name="product_origin"/>
+                    <field name="term"/>
                     <!--<field name="operation_purpose"/>-->
-                    <!--<field name="account_move_type"/>-->
-                    <!--<field name="credit_account_id"/>-->
-                    <!--<field name="debit_account_id"/>-->
-                    <!--<field name="debit_compensation_account_id"/>-->
-                <!--</group>-->
-            <!--</form>-->
-        <!--</field>-->
-    <!--</record>-->
+                    <field name="account_move_type"/>
+                    <field name="credit_account_id"/>
+                    <field name="debit_account_id"/>
+                    <field name="debit_compensation_account_id"/>
+                </group>
+            </form>
+        </field>
+    </record>
 
 
     <record id="action_account_move_template" model="ir.actions.act_window">
             <field name="name">Move Templates</field>
             <field name="res_model">account.move.template</field>
-            <field name="view_type">tree</field>
-            <field name="view_mode">tree</field>
-            <!--<field name="view_id" ref="account_move_template_tree_view"/>-->
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="account_move_template_tree_view"/>
             <field name="context">{}</field>
             <!--<field name="search_view_id" ref="view_account_invoice_filter"/>-->
         </record>
