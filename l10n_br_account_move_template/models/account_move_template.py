@@ -43,10 +43,10 @@ TERM = [
     ('longo', 'Longo prazo')
 ]
 
-OPERATION_PURPOSE = [
-    ('operacional', u'Operacional'),
-    ('financeiro', u'Financeiro'),
-]
+# OPERATION_PURPOSE = [
+#     ('operacional', u'Operacional'),
+#     ('financeiro', u'Financeiro'),
+# ]
 
 MOVE_TYPE = [
     ('receita', 'Receita'),
@@ -94,17 +94,28 @@ class AccountMoveTemplate(models.Model):
     #     return domain
 
     def _map_invoice_domain(self, move_line):
-        domain = []
-        #
-        invoice = self.env['account.invoice'].browse(
-            move_line.get('invoice_id'))
-        company_id = invoice.company_id.id
-        fiscal_document_id = invoice.fiscal_document_id.id
-        account_type = invoice.account_id.user_type.id
+        values_dict = {}
+        domain = ['&']
+        line = self.env['account.invoice.line'].browse(
+            move_line.get('invl_id'))
+        invoice =line.invoice_id
+        values_dict.update(
+            dict(
+                company_id=invoice.company_id.id,
+                fiscal_document_id=invoice.fiscal_document_id.id,
+                account_type=invoice.account_id.user_type.id,
+                product_origin=line.product_id.origin,
+
+            )
+        )
+        for key, value in values_dict.iteritems():
+            domain.append('|')
+            domain.append((key, '=', value))
+            domain.append((key, '=', False))
+
         # operation_nature
         # operation_position
         # product_type
-        # product_origin
         # term
         # account_move_type
         return domain
@@ -124,11 +135,9 @@ class AccountMoveTemplate(models.Model):
         else:
             return move_line
 
-        # rule = self.search(domain)
-        rule = False
+        rule = self.search(domain, limit=1)
 
         if rule:
-            return move_line.update({'account_id': rule.debit_account_id.id or
+            move_line.update({'account_id': rule.debit_account_id.id or
                                                    rule.credit_account_id.id})
-        else:
-            return move_line
+        return move_line
