@@ -88,6 +88,7 @@
     ],
     'demo': [
         'demo/sped_empresa_demo.xml',
+        'demo/l10n_br_base_demo.xml',
     ],
     'test': [
         'test/sped_participante_test.yml',
