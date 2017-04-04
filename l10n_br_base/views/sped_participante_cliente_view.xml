@@ -10,7 +10,7 @@
         <field name="model">sped.participante</field>
         <field name="priority">1</field>
         <field name="type">form</field>
-        <field name="copy_id" ref="l10n_br_base.sped_participante_base_form" />
+        <field name="copy_id" ref="sped.sped_participante_base_form" />
         <field name="arch" eval="False" />
     </record>
 
@@ -19,7 +19,7 @@
         <field name="model">sped.participante</field>
         <field name="priority">1</field>
         <field name="type">tree</field>
-        <field name="copy_id" ref="l10n_br_base.sped_participante_base_tree" />
+        <field name="copy_id" ref="sped.sped_participante_base_tree" />
         <field name="arch" eval="False" />
     </record>
 
@@ -28,7 +28,7 @@
         <field name="model">sped.participante</field>
         <field name="priority">1</field>
         <field name="type">search</field>
-        <field name="copy_id" ref="l10n_br_base.sped_participante_base_search" />
+        <field name="copy_id" ref="sped.sped_participante_base_search" />
         <field name="arch" eval="False" />
     </record>
 
@@ -36,7 +36,7 @@
         <field name="name">sped.participante.cliente.inherited.form</field>
         <field name="model">sped.participante</field>
         <field name="priority">2</field>
-        <field name="inherit_id" ref="l10n_br_base.sped_participante_cliente_form" />
+        <field name="inherit_id" ref="sped.sped_participante_cliente_form" />
         <field name="arch" type="xml">
             <xpath expr="//form[1]" position="attributes">
                 <attribute name="string">Cliente</attribute>
@@ -48,7 +48,7 @@
         <field name="name">sped.participante.cliente.inherited.tree</field>
         <field name="model">sped.participante</field>
         <field name="priority">2</field>
-        <field name="inherit_id" ref="l10n_br_base.sped_participante_cliente_tree" />
+        <field name="inherit_id" ref="sped.sped_participante_cliente_tree" />
         <field name="arch" type="xml">
             <xpath expr="//tree[1]" position="attributes">
                 <attribute name="string">Cliente</attribute>
@@ -60,7 +60,7 @@
         <field name="name">sped.participante.cliente.inherited.search</field>
         <field name="model">sped.participante</field>
         <field name="priority">2</field>
-        <field name="inherit_id" ref="l10n_br_base.sped_participante_cliente_search" />
+        <field name="inherit_id" ref="sped.sped_participante_cliente_search" />
         <field name="arch" type="xml">
             <xpath expr="//search[1]" position="attributes">
                 <attribute name="string">Cliente</attribute>
