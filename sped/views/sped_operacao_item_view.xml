@@ -59,6 +59,9 @@
                     <field name="enquadramento_ipi" string="Enquadramento legal" attrs="{'required': [('cst_ipi', 'in', ('52', '54', '55', '02', '04', '05'))]}" />
     <!--                <field name="bc_icms_proprio_com_ipi" />
                     <field name="bc_icms_st_com_ipi" invisible="1" />-->
+                    <field name="protocolo_alternativo_id" options="{'no_create': True, 'no_open': True}" colspan="4" />
+                    <!--                <field name="bc_icms_proprio_com_ipi" />
+                                    <field name="bc_icms_st_com_ipi" invisible="1" />-->
                     <newline />
                     <separator string="Filtro do item" colspan="4" />
                     <field name="protocolo_id" options="{'no_create': True, 'no_open': True}" domain="[('tipo', '=', tipo_protocolo)]" colspan="4" />
@@ -128,6 +131,10 @@
                     <field name="enquadramento_ipi" string="Enquadramento legal" attrs="{'required': [('cst_ipi', 'in', ('52', '54', '55', '02', '04', '05'))]}" />
     <!--                <field name="bc_icms_proprio_com_ipi" attrs="{'invisible': [('cst_icms_sn', '!=', '900')]}" />
                     <field name="bc_icms_st_com_ipi" invisible="1" />-->
+                    <field name="protocolo_alternativo_id" options="{'no_create': True, 'no_open': True}" colspan="4" />
+                    <!--                <field name="bc_icms_proprio_com_ipi" attrs="{'invisible': [('cst_icms_sn', '!=', '900')]}" />
+                                    <field name="bc_icms_st_com_ipi" invisible="1" />-->
+                    <newline />
                     <separator string="Filtro do item" colspan="4" />
                     <field name="protocolo_id" options="{'no_create': True, 'no_open': True}" domain="[('tipo', '=', tipo_protocolo)]" colspan="4" />
                     <newline />
