@@ -13,11 +13,11 @@ from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 
-#try:
-from pybrasil.valor.decimal import Decimal as D
+try:
+    from pybrasil.valor.decimal import Decimal as D
 
-#except (ImportError, IOError) as err:
-#    _logger.debug(err)
+except (ImportError, IOError) as err:
+    _logger.debug(err)
 
 
 class DocumentoItem(models.Model):
@@ -413,6 +413,10 @@ class DocumentoItem(models.Model):
     )
     vr_ipi = fields.Monetary(
         string=u'Valor do IPI',
+    )
+    enquadramento_ipi = fields.Char(
+        string=u'Enquadramento legal do IPI',
+        size=3
     )
 
     #
@@ -1156,6 +1160,8 @@ class DocumentoItem(models.Model):
             valores['cst_ipi_saida'] = self.operacao_item_id.cst_ipi_saida
             valores['cst_ipi'] = self.operacao_item_id.cst_ipi_saida
 
+        valores['enquadramento_ipi'] = self.operacao_item_id.enquadramento_ipi
+
         #
         # Busca agora as alíquotas do PIS e COFINS
         #
@@ -1657,7 +1663,8 @@ class DocumentoItem(models.Model):
         return res
 
     @api.onchange('vr_operacao_tributacao', 'rd_icms_sn',
-                  'cst_icms_sn', 'al_icms_sn', 'vr_icms_sn')
+                  'cst_icms_sn', 'al_icms_sn', 'vr_icms_sn',
+                  'bc_icms_proprio_com_ipi')
     def _onchange_calcula_icms_sn(self):
         res = {}
         valores = {}

@@ -167,7 +167,7 @@
                                             <newline />
                                             <field name="rd_icms_proprio" string="% redução BC" attrs="{'invisible': ['!', ('cst_icms', 'in', ('20', '70', '90'))], 'required': [('cst_icms', 'in', ('20', '70'))]}" />
                                             <newline />
-                                            <field name="bc_icms_proprio_com_ipi" invisible="1" />
+<!--                                             <field name="bc_icms_proprio_com_ipi" invisible="1" /> -->
                                             <newline />
                                             <field name="bc_icms_proprio" string="Base de cálculo" />
                                             <newline />
@@ -202,7 +202,7 @@
                                             <newline />
                                             <field name="rd_icms_st" string="% redução BC" attrs="{'invisible': ['!', ('cst_icms', 'in', ('70', '90'))], 'required': [('cst_icms', '=', '70')]}" />
                                             <newline />
-                                            <field name="bc_icms_st_com_ipi" invisible="1" />
+<!--                                             <field name="bc_icms_st_com_ipi" invisible="1" /> -->
                                             <newline />
                                             <field name="bc_icms_st" string="Base de cálculo" />
                                             <newline />
@@ -219,6 +219,8 @@
                                             <field name="cst_ipi" invisible="1" />
                                             <field name="cst_ipi_entrada" colspan="2" string="CST" attrs="{'invisible': [('entrada_saida', '!=', '0')]}" />
                                             <field name="cst_ipi_saida" colspan="2" string="CST" attrs="{'invisible': [('entrada_saida', '!=', '1')]}" />
+                                            <newline />
+                                            <field name="enquadramento_ipi" string="Enquadramento legal" attrs="{'required': [('cst_ipi', 'in', ('52', '54', '55', '02', '04', '05'))]}" />
                                         </group>
                                         <group string="IPI" colspan="2">
                                             <field name="md_ipi" string="Modalidade" />
@@ -327,8 +329,12 @@
                                 <separator string="Configuração da emissão" colspan="4" />
                                 <field name="protocolo_id" colspan="4" />
                                 <field name="operacao_item_id" colspan="4" />
+                                <separator string="Configuração dos cálculos" colspan="4" />
                                 <field name="compoe_total" />
                                 <newline />
+                                <field name="bc_icms_proprio_com_ipi" />
+                                <newline />
+                                <field name="bc_icms_st_com_ipi" />
                                 <separator string="Configuração da apuração" colspan="4" />
                                 <field name="movimentacao_fisica" />
                             </group>
