@@ -653,26 +653,26 @@ class Participante(models.Model):
         valores = {}
         res['value'] = valores
 
-        if self.nome:
-            valores['nome'] = primeira_maiuscula(self.nome)
+        #if self.nome:
+            #valores['nome'] = primeira_maiuscula(self.nome)
 
-        if self.razao_social:
-            valores['razao_social'] = primeira_maiuscula(self.razao_social)
+        #if self.razao_social:
+            #valores['razao_social'] = primeira_maiuscula(self.razao_social)
 
-        if self.fantasia:
-            valores['fantasia'] = primeira_maiuscula(self.fantasia)
+        #if self.fantasia:
+            #valores['fantasia'] = primeira_maiuscula(self.fantasia)
 
-        if self.endereco:
-            valores['endereco'] = primeira_maiuscula(self.endereco)
+        #if self.endereco:
+            #valores['endereco'] = primeira_maiuscula(self.endereco)
 
-        if self.bairro:
-            valores['bairro'] = primeira_maiuscula(self.bairro)
+        #if self.bairro:
+            #valores['bairro'] = primeira_maiuscula(self.bairro)
 
-        if self.cidade:
-            valores['cidade'] = primeira_maiuscula(self.cidade)
+        #if self.cidade:
+            #valores['cidade'] = primeira_maiuscula(self.cidade)
 
-        if self.profissao:
-            valores['profissao'] = primeira_maiuscula(self.profissao)
+        #if self.profissao:
+            #valores['profissao'] = primeira_maiuscula(self.profissao)
 
         return res
 
