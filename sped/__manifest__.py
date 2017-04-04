@@ -23,6 +23,9 @@
         #
         # Valores padrão
         #
+        'data/inherited_res_currency_simbolo_data.xml',
+        'data/inherited_res_currency_data.xml',
+        'data/inherited_decimal_precision_data.xml',
         'data/inherited_product_uom_category_data.xml',
         # 'data/inherited_product_uom_data.xml',
 
@@ -67,6 +70,8 @@
         #
         # Módulo Cadastro: participantes, produtos etc.
         #
+        'views/sped_participante_base_view.xml',
+
         'views/sped_empresa_view.xml',
         'views/sped_empresa_vincula_company_view.xml',
 
