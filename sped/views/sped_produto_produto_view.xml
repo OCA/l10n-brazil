@@ -95,9 +95,9 @@
                                 <td style="width:1%;"></td>
                             </tr>
                             <tr>
-                                <td style="width:32%;"><field name="preco_venda" digits="(18, 2)" /></td>
+                                <td style="width:32%;"><field name="preco_venda" /></td>
                                 <td style="width:1%;"></td>
-                                <td style="width:32%;"><field name="preco_custo" digits="(18, 2)" /></td>
+                                <td style="width:32%;"><field name="preco_custo" /></td>
                                 <td style="width:1%;"></td>
                                 <td style="width:32%;"></td>
                                 <td style="width:1%;"></td>
