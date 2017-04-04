@@ -111,6 +111,10 @@ class OperacaoFiscalItem(models.Model):
     bc_icms_st_com_ipi = fields.Boolean(
         string=u'IPI integra a BC do ICMS ST?'
     )
+    enquadramento_ipi = fields.Char(
+        string=u'Enquadramento legal do IPI',
+        size=3
+    )
     al_pis_cofins_id = fields.Many2one(
         comodel_name='sped.aliquota.pis.cofins',
         string=u'CST PIS-COFINS'
