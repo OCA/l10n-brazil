@@ -351,8 +351,12 @@
                                 <separator string="Configuração da emissão" colspan="4" />
                                 <field name="protocolo_id" colspan="4" />
                                 <field name="operacao_item_id" colspan="4" />
+                                <separator string="Configuração dos cálculos" colspan="4" />
                                 <field name="compoe_total" />
                                 <newline />
+                                <field name="bc_icms_proprio_com_ipi" />
+                                <newline />
+                                <field name="bc_icms_st_com_ipi" />
                                 <separator string="Configuração da apuração" colspan="4" />
                                 <field name="movimentacao_fisica" />
                             </group>

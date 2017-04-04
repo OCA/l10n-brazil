@@ -79,11 +79,11 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
 
 _logger = logging.getLogger(__name__)
 
-#try:
-from pybrasil.valor.decimal import Decimal as D
+try:
+    from pybrasil.valor.decimal import Decimal as D
 
-#except (ImportError, IOError) as err:
-#    _logger.debug(err)
+except (ImportError, IOError) as err:
+    _logger.debug(err)
 
 
 class DocumentoItem(models.Model):
@@ -1292,6 +1292,8 @@ class DocumentoItem(models.Model):
         else:
             valores['cst_ipi_saida'] = self.operacao_item_id.cst_ipi_saida
             valores['cst_ipi'] = self.operacao_item_id.cst_ipi_saida
+
+        valores['enquadramento_ipi'] = self.operacao_item_id.enquadramento_ipi
 
         #
         # Busca agora as alíquotas do PIS e COFINS

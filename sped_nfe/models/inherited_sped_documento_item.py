@@ -170,9 +170,8 @@ class DocumentoItem(models.Model):
         #
         # IPI
         #
-        if self.cst_ipi and self.documento_id.regime_tributario != \
-                REGIME_TRIBUTARIO_SIMPLES:
-
+        if ((self.documento_id.regime_tributario != REGIME_TRIBUTARIO_SIMPLES)
+                and self.cst_ipi):
             det.imposto.IPI.cEnq.valor = self.enquadramento_ipi or '999'
             det.imposto.IPI.CST.valor = self.cst_ipi or ''
             det.imposto.IPI.vBC.valor = str(D(self.bc_ipi))
