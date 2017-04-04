@@ -17,6 +17,7 @@
         'security/inherited_res_groups_data.xml',
         'security/ir.model.access.csv',
         'data/inherited_res_country_state_data.xml',
+        'data/inherited_decimal_precision_data.xml',
         'data/ir_config_paramater.xml',
         'data/l10n_br_base.city.csv',
         'data/l10n_br_base_data.xml',
