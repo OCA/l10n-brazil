@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2016 KMEE - Luis Felipe Miléo <mileo@kmee.com.br>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+        <act_window
+            id="action_pybrasil_holiday_import"
+            name="Action Import Brazilian Holidays"
+            res_model="wizard.pybrasil.holiday.import"
+            src_model="resource.calendar"
+            view_type="form"
+            view_mode="form"
+            target="new"
+        />
+
+        <menuitem
+                action="action_pybrasil_holiday_import"
+                id="menu_pybrasil_holiday_import"
+                name="Import Brazilian Holidays"
+                parent="resource.menu_resource_config"
+                sequence="11"/>
+
+</data>
+</openerp>
