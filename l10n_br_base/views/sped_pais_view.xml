@@ -76,10 +76,10 @@
     </record>
 
     <menuitem
-        parent="menu_sped_tabela"
+        parent="l10n_br_base.menu_sped_tabela"
         sequence="9"
         id="menu_sped_pais"
         name="País"
-        action="sped_pais_acao" />
+        action="sped_pais_acao"/>
 
 </odoo>

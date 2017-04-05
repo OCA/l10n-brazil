@@ -12,9 +12,8 @@
     'category': u'Base',
     'license': 'AGPL-3',
     'depends': [
-        'base',
+        'l10n_br_base',
         'document',
-        'mail',
         'decimal_precision',
         'product',
     ],
@@ -28,10 +27,7 @@
         'data/inherited_decimal_precision_data.xml',
         'data/inherited_product_uom_category_data.xml',
         # 'data/inherited_product_uom_data.xml',
-        'data/sped_pais_data.xml',
-        'data/sped_estado_data.xml',
-        'data/sped_municipio_data.xml',
-        'data/sped_municipio_exterior_data.xml',
+        'data/sped_municipio_exterior_data.xml', # TODO REMOVE
 
         'data/sped_aliquota_icms_proprio_data.xml',
         'data/sped_aliquota_icms_st_data.xml',
@@ -44,7 +40,6 @@
         'data/sped_unidade_data.xml',
         'data/sped_ncm_data.xml',
         'data/sped_cest_data.xml',
-        'data/sped_cnae_data.xml',
         'data/sped_cfop_data.xml',
         'data/sped_cfop_equivalente_data.xml',
         'data/sped_servico_data.xml',
@@ -72,21 +67,11 @@
         'views/sped_ncm_view.xml',
         'views/sped_servico_view.xml',
         'views/sped_ibptax_view.xml',
-        'views/sped_cnae_view.xml',
-
-        'views/sped_pais_view.xml',
-        'views/sped_estado_view.xml',
-        'views/sped_municipio_view.xml',
-
         #
         # Módulo Cadastro: participantes, produtos etc.
         #
         'views/sped_empresa_view.xml',
         'views/sped_empresa_vincula_company_view.xml',
-
-        'views/sped_participante_cliente_view.xml',
-        'views/sped_participante_fornecedor_view.xml',
-        'views/sped_participante_vincula_partner_view.xml',
 
         'views/sped_produto_produto_view.xml',
         'views/sped_unidade_produto_view.xml',
@@ -125,8 +110,5 @@
         'views/sped_documento_emissao_nfe_view.xml',
         'views/sped_documento_emissao_nfce_view.xml',
         # 'views/sped_documento_recebimento_nfe_view.xml',
-    ],
-    'external_dependencies': {
-        'python': ['pybrasil'],
-    }
+    ]
 }

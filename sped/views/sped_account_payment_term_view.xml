@@ -99,7 +99,7 @@
     </record>
 
     <menuitem
-        parent="menu_sped_configuracao"
+        parent="l10n_br_base.menu_fiscal_configuracao"
         sequence="2"
         id="menu_sped_account_payment_term"
         name="Cond. pagamento"
