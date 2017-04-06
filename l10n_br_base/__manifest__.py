@@ -33,9 +33,11 @@
         'views/sped_participante_cliente_view.xml',
         'views/sped_participante_fornecedor_view.xml',
         'views/sped_participante_vincula_partner_view.xml',
+        'views/sped_empresa.xml',
 #        'security/ir.model.access.csv',
     ],
     'demo': [
+        'demo/sped_empresa.xml',
 #        'demo/l10n_br_base_demo.xml',
 #        'demo/res_partner_demo.xml',
     ],
