@@ -47,7 +47,7 @@
                     <field name="cep" placeholder="99999-999" required="1" />
                 </group>
 
-                <notebook>
+                <notebook name="sped_empresa_principal_notebook">
                     <page string="Inscrições e registros">
                         <group col="4">
                             <group col="4" colspan="4">
