@@ -13,7 +13,7 @@
             <field name="manager" position="after">
                 <field name="country_id"/>
                 <field name="state_id"/>
-                <field name="l10n_br_city_id"/>
+                <field name="municipio_id"/>
                 <field name="parent_id"/>
             </field>
         </field>
@@ -27,7 +27,7 @@
             <field name="manager" position="after">
                 <field name="country_id"/>
                 <field name="state_id"/>
-                <field name="l10n_br_city_id"/>
+                <field name="municipio_id"/>
             </field>
         </field>
     </record>
@@ -40,7 +40,7 @@
             <field name="manager" position="after">
                 <field name="country_id"/>
                 <field name="state_id"/>
-                <field name="l10n_br_city_id"/>
+                <field name="municipio_id"/>
                 <field name="parent_id"/>
             </field>
         </field>
