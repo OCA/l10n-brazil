@@ -26,6 +26,9 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
+CERTIFICADOS = {}
+
+
 class Certificado(models.Model):
     _description = u'Certificado Digital'
     _name = 'sped.certificado'
@@ -132,6 +135,9 @@ class Certificado(models.Model):
     def certificado_nfe(self):
         self.ensure_one()
 
+        if self.id in CERTIFICADOS:
+            return CERTIFICADOS[self.id]
+
         arq = tempfile.NamedTemporaryFile(delete=False)
         arq.seek(0)
         arq.write(self.arquivo.decode('base64'))
@@ -142,5 +148,7 @@ class Certificado(models.Model):
         cert.senha = self.senha
 
         cert.prepara_certificado_arquivo_pfx()
+
+        CERTIFICADOS[self.id] = cert
 
         return cert

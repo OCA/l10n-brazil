@@ -23,11 +23,8 @@
         #
         # Valores padrão
         #
-        'data/inherited_res_currency_data.xml',
-        'data/inherited_decimal_precision_data.xml',
         'data/inherited_product_uom_category_data.xml',
         # 'data/inherited_product_uom_data.xml',
-        'data/sped_municipio_exterior_data.xml', # TODO REMOVE
 
         'data/sped_aliquota_icms_proprio_data.xml',
         'data/sped_aliquota_icms_st_data.xml',
@@ -80,12 +77,6 @@
         'views/sped_unidade_servico_view.xml',
 
         #
-        # Parcelamentos e pagamentos
-        #
-        'views/sped_account_payment_term_line_view.xml',
-        'views/sped_account_payment_term_view.xml',
-
-        #
         # Fiscal
         #
         'views/sped_natureza_operacao_view.xml',
@@ -110,5 +101,11 @@
         'views/sped_documento_emissao_nfe_view.xml',
         'views/sped_documento_emissao_nfce_view.xml',
         # 'views/sped_documento_recebimento_nfe_view.xml',
-    ]
+    ],
+    'external_dependencies': {
+        'python': [
+            'pybrasil',
+            'email_validator',
+        ],
+    }
 }

@@ -6,24 +6,16 @@
 #
 
 #
-# Cópia de views
-#
-from . import inherited_ir_ui_view
-
-#
-# Model Base
-#
-from . import sped_base
-
-#
 # Cadastros básicos
 #
 from . import sped_empresa
+
 #
 # Unidade é requisito para NCM e produtos
 #
 from . import sped_unidade
 from . import inherited_product_uom
+
 #
 # Alíquotas
 #
@@ -32,6 +24,7 @@ from . import sped_aliquota_icms_st
 from . import sped_aliquota_ipi
 from . import sped_aliquota_pis_cofins
 from . import sped_aliquota_simples
+
 #
 # Tabelas Fiscais
 #
@@ -43,10 +36,12 @@ from . import sped_nbs
 from . import sped_ibptax
 from . import sped_ncm_cest
 from . import sped_ncm_ibptax
+from . import sped_ncm_ipi
 
 from . import sped_aliquota_iss
 from . import sped_protocolo_icms
 from . import sped_ncm_protocolo
+
 #
 # Produtos e serviços
 #
@@ -69,9 +64,3 @@ from . import sped_documento_referenciado
 from . import sped_documento_item
 from . import sped_documento_item_declaracao_importacao
 from . import sped_documento_item_declaracao_importacao_adicao
-#
-# Parcelamentos e pagamentos
-#
-from . import copied_account_payment_term
-from . import copied_account_payment_term_line
-from . import inherited_account_payment_term

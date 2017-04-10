@@ -18,8 +18,6 @@
                 <field name="entrada_saida" invisible="1"/>
                 <field name="contribuinte" invisible="1"/>
                 <field name="consumidor_final" invisible="1"/>
-                <field name="protocolo_id" invisible="1"/>
-                <field name="operacao_item_id" invisible="1"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
                 <field name="currency_unitario_id" invisible="1"/>
@@ -169,7 +167,7 @@
                                             <newline />
                                             <field name="rd_icms_proprio" string="% redução BC" attrs="{'invisible': ['!', ('cst_icms', 'in', ('20', '70', '90'))], 'required': [('cst_icms', 'in', ('20', '70'))]}" />
                                             <newline />
-                                            <field name="bc_icms_proprio_com_ipi" invisible="1" />
+<!--                                             <field name="bc_icms_proprio_com_ipi" invisible="1" /> -->
                                             <newline />
                                             <field name="bc_icms_proprio" string="Base de cálculo" />
                                             <newline />
@@ -183,6 +181,12 @@
                                             <field name="al_difal" string="Alíquota DIFAL" attrs="{'invisible': [('calcula_difal', '=', False)]}" />
                                             <newline />
                                             <field name="vr_difal" string="Valor DIFAL" attrs="{'invisible': [('calcula_difal', '=', False)]}" />
+                                            <newline />
+                                            <field name="al_partilha_estado_destino" string="Partilha" attrs="{'invisible': [('calcula_difal', '=', False)]}" />
+                                            <newline />
+                                            <field name="vr_icms_estado_origem" string="ICMS origem" attrs="{'invisible': [('calcula_difal', '=', False)]}" />
+                                            <newline />
+                                            <field name="vr_icms_estado_destino" string="ICMS destino" attrs="{'invisible': [('calcula_difal', '=', False)]}" />
                                             <newline />
                                             <separator string="Fundo de combate à pobreza" attrs="{'invisible': [('calcula_difal', '=', False)]}" colspan="2" />
                                             <newline />
@@ -198,7 +202,7 @@
                                             <newline />
                                             <field name="rd_icms_st" string="% redução BC" attrs="{'invisible': ['!', ('cst_icms', 'in', ('70', '90'))], 'required': [('cst_icms', '=', '70')]}" />
                                             <newline />
-                                            <field name="bc_icms_st_com_ipi" invisible="1" />
+<!--                                             <field name="bc_icms_st_com_ipi" invisible="1" /> -->
                                             <newline />
                                             <field name="bc_icms_st" string="Base de cálculo" />
                                             <newline />
@@ -215,6 +219,8 @@
                                             <field name="cst_ipi" invisible="1" />
                                             <field name="cst_ipi_entrada" colspan="2" string="CST" attrs="{'invisible': [('entrada_saida', '!=', '0')]}" />
                                             <field name="cst_ipi_saida" colspan="2" string="CST" attrs="{'invisible': [('entrada_saida', '!=', '1')]}" />
+                                            <newline />
+                                            <field name="enquadramento_ipi" string="Enquadramento legal" attrs="{'required': [('cst_ipi', 'in', ('52', '54', '55', '02', '04', '05'))]}" />
                                         </group>
                                         <group string="IPI" colspan="2">
                                             <field name="md_ipi" string="Modalidade" />
@@ -316,6 +322,21 @@
                                     <newline />
                                     <field name="vr_desconto_rateio" />
                                 </group> -->
+                            </group>
+                        </page>
+                        <page name="suporte" string="Suporte">
+                            <group col="4">
+                                <separator string="Configuração da emissão" colspan="4" />
+                                <field name="protocolo_id" colspan="4" />
+                                <field name="operacao_item_id" colspan="4" />
+                                <separator string="Configuração dos cálculos" colspan="4" />
+                                <field name="compoe_total" />
+                                <newline />
+                                <field name="bc_icms_proprio_com_ipi" />
+                                <newline />
+                                <field name="bc_icms_st_com_ipi" />
+                                <separator string="Configuração da apuração" colspan="4" />
+                                <field name="movimentacao_fisica" />
                             </group>
                         </page>
                     </notebook>

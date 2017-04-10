@@ -21,6 +21,7 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     ST_IPI,
     ST_IPI_ENTRADA,
     ST_IPI_SAIDA,
+    TIPO_PRODUTO_SERVICO
 )
 
 
@@ -41,6 +42,10 @@ class OperacaoFiscalItem(models.Model):
         related='operacao_id.entrada_saida',
         readonly=True,
     )
+
+    #
+    # Filtro
+    #
     tipo_protocolo = fields.Selection([
         ('P', u'Próprio'),
         ('S', u'ST')
@@ -52,6 +57,20 @@ class OperacaoFiscalItem(models.Model):
         comodel_name='sped.protocolo.icms',
         string=u'Protocolo',
     )
+    contribuinte = fields.Selection(
+        selection=IE_DESTINATARIO,
+        string=u'Contribuinte',
+        index=True,
+    )
+    tipo_produto_servico = fields.Selection(
+        selection=TIPO_PRODUTO_SERVICO,
+        string=u'Tipo do produto/serviço',
+        index=True
+    )
+
+    #
+    # Configuração do item
+    #
     cfop_id = fields.Many2one(
         comodel_name='sped.cfop',
         string=u'CFOP',
@@ -72,11 +91,6 @@ class OperacaoFiscalItem(models.Model):
     movimentacao_fisica = fields.Boolean(
         string=u'Há movimentação física do produto?',
         default=True,
-    )
-    contribuinte = fields.Selection(
-        selection=IE_DESTINATARIO,
-        string=u'Contribuinte',
-        index=True,
     )
     org_icms = fields.Selection(
         selection=ORIGEM_MERCADORIA,
@@ -110,6 +124,10 @@ class OperacaoFiscalItem(models.Model):
     )
     bc_icms_st_com_ipi = fields.Boolean(
         string=u'IPI integra a BC do ICMS ST?'
+    )
+    enquadramento_ipi = fields.Char(
+        string=u'Enquadramento legal do IPI',
+        size=3
     )
     al_pis_cofins_id = fields.Many2one(
         comodel_name='sped.aliquota.pis.cofins',

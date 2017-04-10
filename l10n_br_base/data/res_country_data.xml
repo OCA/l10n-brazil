@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="True">
+
+    <record id="base.tp" model="res.country">
+        <field name="name">East Timor (use TL instead)</field>
+        <field name="code">tp</field>
+        <field file="base/static/img/country_flags/tp.png" name="image" type="base64" />
+        <field name="currency_id" ref="base.USD" />
+        <field eval="0" name="phone_code" />
+    </record>
+
+    <record id="base.tl" model="res.country">
+        <field name="name">East Timor</field>
+        <field name="code">tl</field>
+        <field file="base/static/img/country_flags/tl.png" name="image" type="base64" />
+        <field name="currency_id" ref="base.USD" />
+        <field eval="670" name="phone_code" />
+    </record>
+
+</odoo>

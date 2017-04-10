@@ -217,16 +217,16 @@ class Documento(models.Model):
                 super(Documento, documento)._compute_permite_cancelamento()
                 continue
 
-            self.permite_cancelamento = False
+            documento.permite_cancelamento = False
 
-            if self.data_hora_autorizacao:
+            if documento.data_hora_autorizacao:
                 tempo_autorizado = UTC.normalize(agora())
                 tempo_autorizado -= \
-                    parse_datetime(self.data_hora_autorizacao + ' GMT')
+                    parse_datetime(documento.data_hora_autorizacao + ' GMT')
 
-                if self.state_nfe == SITUACAO_NFE_AUTORIZADA and \
+                if documento.state_nfe == SITUACAO_NFE_AUTORIZADA and \
                     tempo_autorizado.days < 1:
-                    self.permite_cancelamento = True
+                    documento.permite_cancelamento = True
 
     def processador_nfe(self):
         self.ensure_one()
@@ -363,7 +363,7 @@ class Documento(models.Model):
         #
         i = 1
         for item in self.item_ids:
-            nfe.infNFe.det.append(item.monta_nfe(i))
+            nfe.infNFe.det.append(item.monta_nfe(i, nfe))
             i += 1
 
         #
@@ -716,9 +716,9 @@ class Documento(models.Model):
         total.ICMSTot.vBC.valor = str(D(self.bc_icms_proprio))
         total.ICMSTot.vICMS.valor = str(D(self.vr_icms_proprio))
         total.ICMSTot.vICMSDeson.valor = str(D('0'))
-        total.ICMSTot.vFCPUFDest.valor = str(D('0'))
-        total.ICMSTot.vICMSUFDest.valor = str(D('0'))
-        total.ICMSTot.vICMSUFRemet.valor = str(D('0'))
+        total.ICMSTot.vFCPUFDest.valor = str(D(self.vr_fcp))
+        total.ICMSTot.vICMSUFDest.valor = str(D(self.vr_icms_estado_destino))
+        total.ICMSTot.vICMSUFRemet.valor = str(D(self.vr_icms_estado_origem))
         total.ICMSTot.vBCST.valor = str(D(self.bc_icms_st))
         total.ICMSTot.vST.valor = str(D(self.vr_icms_st))
         total.ICMSTot.vProd.valor = str(D(self.vr_produtos))
