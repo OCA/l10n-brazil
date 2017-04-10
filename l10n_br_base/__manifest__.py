@@ -65,6 +65,12 @@
         'views/sped_account_payment_term_line_view.xml',
         'views/sped_account_payment_term_view.xml',
 
+        #
+        # Parcelamentos e pagamentos; bancos e contas bancárias
+        #
+        'views/sped_account_payment_term_line_view.xml',
+        'views/sped_account_payment_term_view.xml',
+
 #        'security/ir.model.access.csv',
     ],
     'demo': [

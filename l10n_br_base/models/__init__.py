@@ -36,3 +36,10 @@ from . import sped_participante
 from . import inherited_res_company
 from . import inherited_res_partner
 from . import sped_empresa
+
+#
+# Parcelamentos e pagamentos; bancos e contas bancárias
+#
+from . import copied_account_payment_term
+from . import copied_account_payment_term_line
+from . import inherited_account_payment_term
