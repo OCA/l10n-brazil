@@ -33,20 +33,7 @@ class Base(models.AbstractModel):
         comodel_name='res.currency',
         string=u'Unitário',
         compute='_compute_currency_id',
-        default=lambda self: self.env.ref(
-            'l10n_br_base.SIMBOLO_VALOR_UNITARIO')
-    )
-    currency_peso_id = fields.Many2one(
-        comodel_name='res.currency',
-        string=u'Peso',
-        compute='_compute_currency_id',
-        default=lambda self: self.env.ref('l10n_br_base.SIMBOLO_PESO')
-    )
-    currency_peso_id = fields.Many2one(
-        comodel_name='res.currency',
-        string=u'Peso',
-        compute='_compute_currency_id',
-        default=lambda self: self.env.ref('l10n_br_base.SIMBOLO_PESO')
+        default=lambda self: self.env.ref('l10n_br_base.SIMBOLO_VALOR_UNITARIO')
     )
 
     def _compute_currency_id(self):
@@ -56,5 +43,3 @@ class Base(models.AbstractModel):
                 'l10n_br_base.SIMBOLO_ALIQUOTA').id
             item.currency_unitario_id = self.env.ref(
                 'l10n_br_base.SIMBOLO_VALOR_UNITARIO').id
-            item.currency_peso_id = self.env.ref(
-                'l10n_br_base.SIMBOLO_PESO').id
