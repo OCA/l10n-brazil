@@ -6,7 +6,7 @@
     'name': 'Brazilian Localization Base',
     'category': 'Localisation',
     'license': 'AGPL-3',
-    'author': 'Akretion, Odoo Community Association (OCA)',
+    'author': 'Odoo Community Association (OCA), Akretion',
     'website': 'http://odoo-brasil.org',
     'version': '10.0.1.0.0',
     'depends': [
@@ -17,23 +17,31 @@
     'data': [
 #        'data/l10n_br_base.city.csv',
 #        'data/l10n_br_base_data.xml',
-        'views/l10n_br_base_view.xml',
         'data/sped_pais_data.xml',
         'data/sped_estado_data.xml',
         'data/sped_municipio_data.xml',
+        'data/sped_municipio_exterior_data.xml',
         'data/sped_cnae_data.xml',
+
 #        'views/res_bank_view.xml',
 #        'views/res_country_view.xml',
 #        'views/res_partner_view.xml',
 #        'views/res_company_view.xml',
+
+        'views/l10n_br_base_menus_view.xml',
+
         'views/sped_pais_view.xml',
         'views/sped_estado_view.xml',
         'views/sped_municipio_view.xml',
         'views/sped_cnae_view.xml',
+
+        'views/sped_participante_base_view.xml',
+
         'views/sped_participante_cliente_view.xml',
         'views/sped_participante_fornecedor_view.xml',
         'views/sped_participante_vincula_partner_view.xml',
         'views/sped_empresa.xml',
+
 #        'security/ir.model.access.csv',
     ],
     'demo': [
@@ -50,6 +58,10 @@
     'installable': True,
     'auto_install': False,
     'external_dependencies': {
-        'python': ['num2words', 'pybrasil', 'email_validator'],
+        'python': [
+            'pybrasil',
+            'email_validator',
+            'num2words',
+        ],
     }
 }
