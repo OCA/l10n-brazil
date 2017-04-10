@@ -23,12 +23,8 @@
         #
         # Valores padrão
         #
-        'data/inherited_res_currency_simbolo_data.xml',
-        'data/inherited_res_currency_data.xml',
-        'data/inherited_decimal_precision_data.xml',
         'data/inherited_product_uom_category_data.xml',
         # 'data/inherited_product_uom_data.xml',
-        'data/sped_municipio_exterior_data.xml', # TODO REMOVE
 
         'data/sped_aliquota_icms_proprio_data.xml',
         'data/sped_aliquota_icms_st_data.xml',
@@ -71,8 +67,6 @@
         #
         # Módulo Cadastro: participantes, produtos etc.
         #
-        'views/sped_participante_base_view.xml',
-
         'views/sped_empresa_view.xml',
         'views/sped_empresa_vincula_company_view.xml',
 
@@ -81,12 +75,6 @@
 
         'views/sped_produto_servico_view.xml',
         'views/sped_unidade_servico_view.xml',
-
-        #
-        # Parcelamentos e pagamentos
-        #
-        'views/sped_account_payment_term_line_view.xml',
-        'views/sped_account_payment_term_view.xml',
 
         #
         # Fiscal
