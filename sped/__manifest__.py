@@ -14,8 +14,8 @@
     'depends': [
         'l10n_br_base',
         'document',
-        'decimal_precision',
         'product',
+        'copy_views',
     ],
     'installable': True,
     'application': True,
