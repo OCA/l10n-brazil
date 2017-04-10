@@ -36,6 +36,9 @@
                             <td style="width:70%;" colspan="2"><field name="cst_ipi_saida" /></td>
                         </tr>
                     </table>
+                    <newline />
+                    <separator string="NCMs" colspan="4" />
+                    <field name="ncm_ids" colspan="4" readonly="1" />
                 </sheet>
             </form>
         </field>
