@@ -2227,19 +2227,24 @@ CFOPS_CALCULA_SIMPLES_CSLL_IRPJ = CFOPS_VENDA_MERCADORIA + \
 # Tabelas do SIMPLES
 #
 SIMPLES_NACIONAL_ANEXOS = (
-    ('1', 'Anexo 1 - Comércio'),
-    ('2', 'Anexo 2 - Indústria'),
-    ('3', 'Anexo 3 - Serviços'),
-    ('4', 'Anexo 4 - Serviços'),
-    ('6', 'Anexo 6 - Serviços'),
-    ('5_ate_10', 'Anexo 5 - Serviços - Folha < 10%'),
-    ('5_ate_15', 'Anexo 5 - Serviços - Folha < 15%'),
-    ('5_ate_20', 'Anexo 5 - Serviços - Folha < 20%'),
-    ('5_ate_25', 'Anexo 5 - Serviços - Folha < 25%'),
-    ('5_ate_30', 'Anexo 5 - Serviços - Folha < 30%'),
-    ('5_ate_35', 'Anexo 5 - Serviços - Folha < 35%'),
-    ('5_ate_40', 'Anexo 5 - Serviços - Folha < 40%'),
-    ('5_mais_40', u'Anexo 5 - Serviços - Folha >= 40%'),
+    ('1', 'Anexo 1 - Comércio (até 31/12/2017)'),
+    ('2', 'Anexo 2 - Indústria (até 31/12/2017)'),
+    ('3', 'Anexo 3 - Serviços (até 31/12/2017)'),
+    ('4', 'Anexo 4 - Serviços (até 31/12/2017)'),
+    ('6', 'Anexo 6 - Serviços (até 31/12/2017)'),
+    ('5_ate_10', 'Anexo 5 - Serviços - Folha < 10% (até 31/12/2017)'),
+    ('5_ate_15', 'Anexo 5 - Serviços - Folha < 15% (até 31/12/2017)'),
+    ('5_ate_20', 'Anexo 5 - Serviços - Folha < 20% (até 31/12/2017)'),
+    ('5_ate_25', 'Anexo 5 - Serviços - Folha < 25% (até 31/12/2017)'),
+    ('5_ate_30', 'Anexo 5 - Serviços - Folha < 30% (até 31/12/2017)'),
+    ('5_ate_35', 'Anexo 5 - Serviços - Folha < 35% (até 31/12/2017)'),
+    ('5_ate_40', 'Anexo 5 - Serviços - Folha < 40% (até 31/12/2017)'),
+    ('5_mais_40', u'Anexo 5 - Serviços - Folha >= 40% (até 31/12/2017)'),
+    ('1_2018', 'Anexo 1 - Comércio (a partir de 01/01/2018)'),
+    ('2_2018', 'Anexo 2 - Indústria (a partir de 01/01/2018)'),
+    ('3_2018', 'Anexo 3 - Serviços (a partir de 01/01/2018)'),
+    ('4_2018', 'Anexo 4 - Serviços (a partir de 01/01/2018)'),
+    ('5_2018', 'Anexo 5 - Serviços (a partir de 01/01/2018)'),
 )
 
 SIMPLES_NACIONAL_TETO_01 = '180000'
@@ -2263,6 +2268,12 @@ SIMPLES_NACIONAL_TETO_18 = '3240000'
 SIMPLES_NACIONAL_TETO_19 = '3420000'
 SIMPLES_NACIONAL_TETO_20 = '3600000'
 
+SIMPLES_NACIONAL_TETO_01_2018 = '180000'
+SIMPLES_NACIONAL_TETO_02_2018 = '360000'
+SIMPLES_NACIONAL_TETO_03_2018 = '720000'
+SIMPLES_NACIONAL_TETO_04_2018 = '1800000'
+SIMPLES_NACIONAL_TETO_05_2018 = '3600000'
+SIMPLES_NACIONAL_TETO_06_2018 = '4800000'
 
 SIMPLES_NACIONAL_TETOS = (
     (SIMPLES_NACIONAL_TETO_01, 'De R$ 0,00 a R$ 180.000,00'),
@@ -2285,6 +2296,15 @@ SIMPLES_NACIONAL_TETOS = (
     (SIMPLES_NACIONAL_TETO_18, 'De R$ 3.060.000,01 a R$ 3.240.000,00'),
     (SIMPLES_NACIONAL_TETO_19, 'De R$ 3.240.000,01 a R$ 3.420.000,00'),
     (SIMPLES_NACIONAL_TETO_20, 'De R$ 3.420.000,01 a R$ 3.600.000,00'),
+)
+
+SIMPLES_NACIONAL_TETOS_2018 = (
+    (SIMPLES_NACIONAL_TETO_01_2018, 'De R$ 0,00 a R$ 180.000,00'),
+    (SIMPLES_NACIONAL_TETO_02_2018, 'De R$ 180.000,01 a R$ 360.000,00'),
+    (SIMPLES_NACIONAL_TETO_03_2018, 'De R$ 360.000,01 a R$ 720.000,00'),
+    (SIMPLES_NACIONAL_TETO_04_2018, 'De R$ 720.000,01 a R$ 1.800.000,00'),
+    (SIMPLES_NACIONAL_TETO_05_2018, 'De R$ 1.080.000,01 a R$ 3.600.000,00'),
+    (SIMPLES_NACIONAL_TETO_06_2018, 'De R$ 3.600.000,01 a R$ 4.800.000,00'),
 )
 
 SIMPLES_NACIONAL_ANEXO_01 = {
@@ -4666,6 +4686,75 @@ SIMPLES_NACIONAL_ANEXO_05_MAIS_40 = {
         'al_iss': D('0.00')},
 }
 
+SIMPLES_NACIONAL_ANEXO_01_2018 = {
+    SIMPLES_NACIONAL_TETO_01_2018: {
+        'al_simples': D('4.00'),
+        'valor_a_deduzir': D('0.00'),
+        'al_irpj': D('5.5'),
+        'al_csll': D('3.5'),
+        'al_cofins': D('12.74'),
+        'al_pis': D('2.76'),
+        'al_cpp': D('41.50'),
+        'al_icms': D('34.00'),
+        'al_iss': D('0.00'),
+    },
+    SIMPLES_NACIONAL_TETO_02_2018: {
+        'al_simples': D('7.30'),
+        'valor_a_deduzir': D('5940.00'),
+        'al_irpj': D('5.5'),
+        'al_csll': D('3.5'),
+        'al_cofins': D('12.74'),
+        'al_pis': D('2.76'),
+        'al_cpp': D('41.50'),
+        'al_icms': D('34.00'),
+        'al_iss': D('0.00'),
+    },
+    SIMPLES_NACIONAL_TETO_03_2018: {
+        'al_simples': D('9.50'),
+        'valor_a_deduzir': D('13860.00'),
+        'al_irpj': D('5.5'),
+        'al_csll': D('3.5'),
+        'al_cofins': D('12.74'),
+        'al_pis': D('2.76'),
+        'al_cpp': D('42.00'),
+        'al_icms': D('33.50'),
+        'al_iss': D('0.00'),
+    },
+    SIMPLES_NACIONAL_TETO_04_2018: {
+        'al_simples': D('10.70'),
+        'valor_a_deduzir': D('22500.00'),
+        'al_irpj': D('5.5'),
+        'al_csll': D('3.5'),
+        'al_cofins': D('12.74'),
+        'al_pis': D('2.76'),
+        'al_cpp': D('42.00'),
+        'al_icms': D('33.50'),
+        'al_iss': D('0.00'),
+    },
+    SIMPLES_NACIONAL_TETO_05_2018: {
+        'al_simples': D('14.30'),
+        'valor_a_deduzir': D('87300.00'),
+        'al_irpj': D('5.5'),
+        'al_csll': D('3.5'),
+        'al_cofins': D('12.74'),
+        'al_pis': D('2.76'),
+        'al_cpp': D('42.00'),
+        'al_icms': D('33.50'),
+        'al_iss': D('0.00'),
+    },
+    SIMPLES_NACIONAL_TETO_06_2018: {
+        'al_simples': D('19.00'),
+        'valor_a_deduzir': D('378000.00'),
+        'al_irpj': D('13.50'),
+        'al_csll': D('10.00'),
+        'al_cofins': D('28.27'),
+        'al_pis': D('6.13'),
+        'al_cpp': D('42.10'),
+        'al_icms': D('0.00'),
+        'al_iss': D('0.00'),
+    },
+}
+
 SIMPLES_NACIONAL_TABELAS = {
     '1': SIMPLES_NACIONAL_ANEXO_01,
     '2': SIMPLES_NACIONAL_ANEXO_02,
@@ -4680,6 +4769,12 @@ SIMPLES_NACIONAL_TABELAS = {
     '5_ate_35': SIMPLES_NACIONAL_ANEXO_05_ATE_35,
     '5_ate_40': SIMPLES_NACIONAL_ANEXO_05_ATE_40,
     '5_mais_40': SIMPLES_NACIONAL_ANEXO_05_MAIS_40,
+    '1_2018': SIMPLES_NACIONAL_ANEXO_01_2018,
+    '2_2018': SIMPLES_NACIONAL_ANEXO_01_2018,
+    '3_2018': SIMPLES_NACIONAL_ANEXO_01_2018,
+    '4_2018': SIMPLES_NACIONAL_ANEXO_01_2018,
+    '5_2018': SIMPLES_NACIONAL_ANEXO_01_2018,
+    '6_2018': SIMPLES_NACIONAL_ANEXO_01_2018,
 }
 
 
