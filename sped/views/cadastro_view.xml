@@ -5,42 +5,16 @@
 -->
 <odoo>
 
-    <menuitem id="menu_cadastro"
-        name="Cadastro"
-        sequence="-100"
-        web_icon="sped,static/description/icon.png"
-        />
-
-    <menuitem id="menu_cadastro_participante"
-        name="Pessoas e empresas"
-        sequence="1"
-        parent="menu_cadastro"
-        />
-
     <menuitem id="menu_cadastro_produto"
         name="Produtos"
         sequence="2"
-        parent="menu_cadastro"
+        parent="l10n_br_base.menu_cadastro"
         />
 
     <menuitem id="menu_cadastro_servico"
         name="Serviços"
         sequence="3"
-        parent="menu_cadastro"
-        />
-
-    <menuitem
-        parent="menu_cadastro"
-        sequence="100"
-        id="menu_cadastro_configuracao"
-        name="Configuração"
-        />
-
-    <menuitem
-        parent="menu_cadastro_configuracao"
-        sequence="100"
-        id="menu_cadastro_vinculo"
-        name="Vínculos"
+        parent="l10n_br_base.menu_cadastro"
         />
 
 </odoo>
