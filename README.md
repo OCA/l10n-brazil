@@ -72,6 +72,7 @@ lista de discussão: [https://groups.google.com/forum/#!forum/openerp-brasil](ht
 
 
 [//]: # (addons)
+
 Available addons
 ----------------
 addon | version | summary
@@ -82,6 +83,7 @@ addon | version | summary
 [l10n_br_data_base](l10n_br_data_base/) | 10.0.1.0.0 | Brazilian Localisation Data Extension for Base
 [l10n_br_zip](l10n_br_zip/) | 10.0.1.0.0 | Brazilian Localisation ZIP Codes
 [l10n_br_zip_correios](l10n_br_zip_correios/) | 10.0.1.0.0 | Address from Brazilian Localization ZIP by Correios
+
 
 Unported addons
 ---------------
