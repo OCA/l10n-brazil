@@ -106,8 +106,6 @@
                             <group string="Outras informações" colspan="4" col="4">
                                 <field name="codigo" colspan="2" />
                                 <field name="comment" />
-                                <field name="transportadora_id" colspan="4" col="4" />
-                                <field name="payment_term_id" colspan="4" col="4" />
                             </group>
                         </group>
                     </page>
