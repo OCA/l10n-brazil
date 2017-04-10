@@ -35,6 +35,7 @@ from . import sped_cnae
 from . import sped_participante
 from . import inherited_res_company
 from . import inherited_res_partner
+from . import sped_empresa
 
 #
 # Parcelamentos e pagamentos; bancos e contas bancárias
