@@ -249,13 +249,13 @@
         <field name="state_id" ref="base.state_br_df" />
     </record>
 
-    <!--<record id="ESTADO_EX" model="sped.estado">-->
-        <!--<field name="codigo_ibge">99</field>-->
-        <!--<field name="nome">Exterior</field>-->
-        <!--<field name="uf">EX</field>-->
-        <!--<field name="fuso_horario">UTC</field>-->
-        <!--<field name="pais_id" eval="False" />-->
-        <!--<field name="state_id" ref="base.state_br_ex" />-->
-    <!--</record>-->
+    <record id="ESTADO_EX" model="sped.estado">
+        <field name="codigo_ibge">99</field>
+        <field name="nome">Exterior</field>
+        <field name="uf">EX</field>
+        <field name="fuso_horario">UTC</field>
+        <field name="pais_id" eval="False" />
+        <field name="state_id" ref="base.state_br_ex" />
+    </record>
 
 </odoo>
