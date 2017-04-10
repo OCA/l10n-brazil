@@ -75,11 +75,11 @@ class Produto(models.Model):
     )
     preco_venda = fields.Monetary(
         string=u'Preço de venda',
-        currency_field='currency_unitario_id',
+        digits=dp.get_precision(u'SPED - Valor Unitário')
     )
     preco_custo = fields.Monetary(
         string=u'Preço de custo',
-        currency_field='currency_unitario_id',
+        digits=dp.get_precision(u'SPED - Valor Unitário')
     )
     peso_bruto = fields.Monetary(
         string=u'Peso bruto',
