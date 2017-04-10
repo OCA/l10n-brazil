@@ -77,4 +77,3 @@ class IrUiView(models.Model):
             super(IrUiView, view)._check_xml()
 
         return True
-

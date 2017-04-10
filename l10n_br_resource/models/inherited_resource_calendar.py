@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
+#
 # Copyright 2016 KMEE - Luis Felipe Miléo <mileo@kmee.com.br>
 # Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
+# Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+#
 
 import logging
 from odoo import api, fields, models, _
@@ -23,7 +26,6 @@ class ResourceCalendar(models.Model):
     _inherit = 'resource.calendar'
 
     def _get_brazilian_calendar(self):
-
         br_calendar_id = self.env['ir.config_parameter'].search(
             [('key', '=', 'l10n_br_resource.br_calendar')]).value
 
@@ -51,15 +53,15 @@ class ResourceCalendar(models.Model):
             calendar.leave_ids = self._compute_recursive_leaves(calendar)
 
     parent_id = fields.Many2one(
-        'resource.calendar',
+        comodel_name='resource.calendar',
         string='Parent Calendar',
         ondelete='restrict',
         index=True)
     child_ids = fields.One2many(
-        'resource.calendar', 'parent_id',
+        'resource.calendar',
+        'parent_id',
         string='Child Calendar')
     _parent_store = True
-
     parent_left = fields.Integer(index=True)
     parent_right = fields.Integer(index=True)
 
@@ -67,9 +69,11 @@ class ResourceCalendar(models.Model):
     state_id = fields.Many2one(
         'res.country.state', u'Estado',
         domain="[('country_id','=',country_id)]")
-    l10n_br_city_id = fields.Many2one(
-        'l10n_br_base.city', u'Municipio',
-        domain="[('state_id','=',state_id)]")
+    municipio_id = fields.Many2one(
+        comodel_name='sped.municipio',
+        string=u'Municipio',
+        domain="[('estado_id.state_id', '=', state_id)]"
+    )
     leave_ids = fields.Many2many(
         comodel_name='resource.calendar.leaves',
         compute='_compute_leave_ids'
@@ -272,32 +276,3 @@ class ResourceCalendar(models.Model):
                 dia_depois) else False
 
         return dia_antes_eh_util or dia_depois_eh_util
-
-
-class ResourceCalendarLeave(models.Model):
-    _inherit = 'resource.calendar.leaves'
-
-    country_id = fields.Many2one(
-        'res.country', string=u'País',
-        related='calendar_id.country_id',
-    )
-    state_id = fields.Many2one(
-        'res.country.state', u'Estado',
-        related='calendar_id.state_id',
-        domain="[('country_id','=',country_id)]",
-        readonly=True
-    )
-    l10n_br_city_id = fields.Many2one(
-        'l10n_br_base.city', u'Municipio',
-        related='calendar_id.l10n_br_city_id',
-        domain="[('state_id','=',state_id)]",
-        readonly=True
-    )
-    leave_kind = fields.Selection(
-        string=u'Leave Kind',
-        selection=list(TIPO_FERIADO.iteritems()),
-    )
-    leave_scope = fields.Selection(
-        string=u'Leave Scope',
-        selection=list(ABRANGENCIA_FERIADO.iteritems()),
-    )

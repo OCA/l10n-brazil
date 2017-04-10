@@ -7,11 +7,6 @@
 #
 
 #
-# Cópia de views
-#
-from . import inherited_ir_ui_view
-
-#
 # Sincronização de casas decimais
 #
 from . import inherited_decimal_precision
