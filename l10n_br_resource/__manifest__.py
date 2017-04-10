@@ -14,8 +14,8 @@
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'www.odoobrasil.org.br',
     'depends': [
-        'l10n_br_base',
         'resource',
+        'l10n_br_base',
     ],
     'external_dependencies': {
         'python': [
@@ -23,8 +23,8 @@
         ],
     },
     'data': [
-        'views/resource_calendar.xml',
-        'views/resource_calendar_leaves.xml',
+        'views/inherited_resource_calendar_view.xml',
+        'views/inherited_resource_calendar_leaves_view.xml',
         'views/menu_resource_calendar.xml',
         'wizard/pybrasil_holiday_import.xml',
     ],
