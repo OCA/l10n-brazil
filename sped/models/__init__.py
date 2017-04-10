@@ -59,6 +59,7 @@ from . import sped_nbs
 from . import sped_ibptax
 from . import sped_ncm_cest
 from . import sped_ncm_ibptax
+from . import sped_ncm_ipi
 
 from . import sped_aliquota_iss
 from . import sped_protocolo_icms
