@@ -26,7 +26,7 @@ class ResCompany(models.Model):
         "('fiscal_type','=','service')]")
     annual_revenue = fields.Float(
         'Faturamento Anual', required=True,
-        digits_compute=dp.get_precision('Account'), default=0.00,
+        digits=dp.get_precision('Account'), default=0.00,
         help="Faturamento Bruto dos últimos 12 meses")
     fiscal_type = fields.Selection(
         COMPANY_FISCAL_TYPE, 'Regime Tributário', required=True,
