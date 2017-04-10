@@ -302,12 +302,12 @@ class ProtocoloICMS(models.Model):
 
         for estado_origem in ALIQUOTAS_ICMS:
             sped_estado_origem = self.env.ref(
-                'sped.ESTADO_' + estado_origem
+                'l10n_br_base.ESTADO_' + estado_origem
             )
 
             for estado_destino in ALIQUOTAS_ICMS[estado_origem]:
                 sped_estado_destino = self.env.ref(
-                    'sped.ESTADO_' + estado_destino
+                    'l10n_br_base.ESTADO_' + estado_destino
                 )
 
                 aliquota = ALIQUOTAS_ICMS[estado_origem][estado_destino]
