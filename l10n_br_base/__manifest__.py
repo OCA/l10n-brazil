@@ -13,33 +13,52 @@
         'base',
         'mail',
         'base_setup',
+        'decimal_precision',
     ],
     'data': [
-#        'data/l10n_br_base.city.csv',
-#        'data/l10n_br_base_data.xml',
+        #
+        # Valores padrão
+        #
+        'data/inherited_res_currency_simbolo_data.xml',
+        'data/inherited_res_currency_data.xml',
+        'data/inherited_decimal_precision_data.xml',
+
         'data/sped_pais_data.xml',
         'data/sped_estado_data.xml',
         'data/sped_municipio_data.xml',
         'data/sped_municipio_exterior_data.xml',
+
         'data/sped_cnae_data.xml',
 
 #        'views/res_bank_view.xml',
-#        'views/res_country_view.xml',
-#        'views/res_partner_view.xml',
-#        'views/res_company_view.xml',
 
+        #
+        # Menus principais
+        #
         'views/l10n_br_base_menus_view.xml',
 
+        #
+        # Cadastros de localização
+        #
         'views/sped_pais_view.xml',
         'views/sped_estado_view.xml',
         'views/sped_municipio_view.xml',
+
         'views/sped_cnae_view.xml',
 
+        #
+        # Módulo Cadastro: participantes, produtos etc.
+        #
         'views/sped_participante_base_view.xml',
-
         'views/sped_participante_cliente_view.xml',
         'views/sped_participante_fornecedor_view.xml',
         'views/sped_participante_vincula_partner_view.xml',
+
+        #
+        # Parcelamentos e pagamentos; bancos e contas bancárias
+        #
+        'views/sped_account_payment_term_line_view.xml',
+        'views/sped_account_payment_term_view.xml',
 
 #        'security/ir.model.access.csv',
     ],
