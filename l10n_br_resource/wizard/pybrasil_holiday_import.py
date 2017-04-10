@@ -62,8 +62,10 @@ class PyBrasilHolidayImport(models.TransientModel):
 
     @api.multi
     def get_state_from_calendar(self, holiday):
+        country = self.env.ref("base.br")
         state = self.env['res.country.state'].search(
-            [('ibge_code', '=', holiday.estado.codigo_ibge)])
+            [('country_id', '=', country.id),
+            ('code', '=', holiday.estado.uf)])
         return state or False
 
     @api.multi
@@ -91,9 +93,11 @@ class PyBrasilHolidayImport(models.TransientModel):
 
     @api.multi
     def get_calendar_for_state(self, holiday):
+        country = self.env.ref("base.br")
         state = self.get_state_from_calendar(holiday)
         if not self.env['resource.calendar'].search_count(
-                [('state_id', '=', state.id)]):
+                [('country_id', '=', country.id),
+                ('state_id', '=', state.id)]):
             parent_id = self.get_calendar_for_country()
             calendar_id = self.env['resource.calendar'].create({
                 'name': u'Calendário ' + state.name,
@@ -108,24 +112,16 @@ class PyBrasilHolidayImport(models.TransientModel):
 
     @api.multi
     def get_calendar_for_city(self, holiday):
-        if not self.env['l10n_br_base.city'].search_count(
-                [('ibge_code', '=', holiday.municipio.codigo_ibge)]):
-            city_id = self.env['l10n_br_base.city'].create({
-                'name': holiday.municipio.nome,
-                'state_id': self.get_state_from_calendar(holiday).id,
-                'ibge_code': holiday.municipio.codigo_ibge,
-            })
-        else:
-            city_id = self.env['l10n_br_base.city'].search(
-                [('ibge_code', '=', holiday.municipio.codigo_ibge)])
+        municipio = self.env['sped.municipio'].search(
+            [('codigo_ibge', '=', holiday.municipio.codigo_ibge + '0000')])
 
         if not self.env['resource.calendar'].search_count(
-                [('l10n_br_city_id', '=', city_id.id)]):
+                [('municipio_id', '=', municipio.id)]):
             parent_id = self.get_calendar_for_state(holiday)
 
             calendar_id = self.env['resource.calendar'].create({
                 'name': u'Calendário ' + holiday.municipio.nome,
-                'l10n_br_city_id': city_id.id,
+                'municipio_id': municipio.id,
                 'parent_id': parent_id.id,
                 'state_id': self.get_state_from_calendar(holiday).id,
                 'country_id': self.get_country_from_calendar(holiday).id,
@@ -133,7 +129,7 @@ class PyBrasilHolidayImport(models.TransientModel):
             return calendar_id
         else:
             return self.env['resource.calendar'].search(
-                [('l10n_br_city_id', '=', city_id.id)])[0]
+                [('municipio_id', '=', municipio.id)])[0]
 
     @api.multi
     def holiday_import(self):
