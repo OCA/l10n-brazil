@@ -23,6 +23,9 @@
         'data/inherited_res_currency_data.xml',
         'data/inherited_decimal_precision_data.xml',
 
+        'data/res_country_data.xml',
+        'data/res_country_state_data.xml',
+
         'data/sped_pais_data.xml',
         'data/sped_estado_data.xml',
         'data/sped_municipio_data.xml',
