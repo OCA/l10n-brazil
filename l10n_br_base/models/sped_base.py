@@ -27,19 +27,19 @@ class Base(models.AbstractModel):
         comodel_name='res.currency',
         string=u'Percentual',
         compute='_compute_currency_id',
-        default=lambda self: self.env.ref('sped.SIMBOLO_ALIQUOTA')
+        default=lambda self: self.env.ref('l10n_br_base.SIMBOLO_ALIQUOTA')
     )
     currency_unitario_id = fields.Many2one(
         comodel_name='res.currency',
         string=u'Unitário',
         compute='_compute_currency_id',
-        default=lambda self: self.env.ref('sped.SIMBOLO_VALOR_UNITARIO')
+        default=lambda self: self.env.ref('l10n_br_base.SIMBOLO_VALOR_UNITARIO')
     )
 
     def _compute_currency_id(self):
         for item in self:
             item.currency_id = self.env.ref('base.BRL').id
             item.currency_aliquota_id = self.env.ref(
-                'sped.SIMBOLO_ALIQUOTA').id
+                'l10n_br_base.SIMBOLO_ALIQUOTA').id
             item.currency_unitario_id = self.env.ref(
-                'sped.SIMBOLO_VALOR_UNITARIO').id
+                'l10n_br_base.SIMBOLO_VALOR_UNITARIO').id
