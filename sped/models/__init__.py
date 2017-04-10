@@ -6,28 +6,6 @@
 #
 
 #
-# Cópia de views
-#
-from . import inherited_ir_ui_view
-
-#
-# Sincronização de casas decimais
-#
-from . import inherited_decimal_precision
-
-#
-# Model Base
-#
-from . import sped_base
-
-#
-# Tabelas Geográficas
-#
-from . import sped_pais
-from . import sped_estado
-from . import sped_municipio
-
-#
 # Cadastros básicos
 #
 from . import sped_empresa
@@ -87,10 +65,3 @@ from . import sped_documento_referenciado
 from . import sped_documento_item
 from . import sped_documento_item_declaracao_importacao
 from . import sped_documento_item_declaracao_importacao_adicao
-
-#
-# Parcelamentos e pagamentos
-#
-from . import copied_account_payment_term
-from . import copied_account_payment_term_line
-from . import inherited_account_payment_term
