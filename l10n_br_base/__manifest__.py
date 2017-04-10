@@ -14,6 +14,7 @@
         'mail',
         'base_setup',
         'decimal_precision',
+        'copy_views',
     ],
     'data': [
         #
