@@ -146,16 +146,10 @@ class DocumentoItem(models.Model):
         string=u'Item da operação fiscal',
         ondelete='restrict',
     )
-
-    # quantidade = fields.Monetary(
-    #     'Quantidade',
-    #     default=1,
-    #     digits=dp.get_precision('SPED - Quantidade'),
-    #     currency_field='unidade_id')
     quantidade = fields.Float(
         string=u'Quantidade',
         default=1,
-        digits=dp.get_precision('SPED - Quantidade'),
+        digits=dp.get_precision(u'SPED - Quantidade'),
     )
     unidade_id = fields.Many2one(
         comodel_name='sped.unidade',
@@ -171,12 +165,8 @@ class DocumentoItem(models.Model):
     fator_conversao_unidade_tributacao = fields.Float(
         string=u'Fator de conversão entre as unidades',
         default=1,
-        digits=dp.get_precision('SPED - Quantidade'),
+        digits=dp.get_precision(u'SPED - Quantidade'),
     )
-    # quantidade_tributacao = fields.Monetary(
-    #     'Quantidade para tributação',
-    #     digits=(18, 4),
-    #     currency_field='unidade_tributacao_id')
     quantidade_tributacao = fields.Float(
         string=u'Quantidade para tributação',
         digits=(18, 4),
@@ -691,7 +681,7 @@ class DocumentoItem(models.Model):
         string=u'Custo unitário comercial',
         compute='_compute_custo_comercial',
         store=True,
-        digits=dp.get_precision('SPED - Valor Unitário'),
+        digits=dp.get_precision(u'SPED - Valor Unitário'),
     )
     vr_custo_comercial = fields.Monetary(
         string=u'Custo comercial',
@@ -783,7 +773,7 @@ class DocumentoItem(models.Model):
     vr_unitario_custo_comercial_readonly = fields.Float(
         string=u'Custo unitário comercial',
         compute='_compute_readonly',
-        digits=dp.get_precision('SPED - Valor Unitário'),
+        digits=dp.get_precision(u'SPED - Valor Unitário'),
     )
     vr_custo_comercial_readonly = fields.Monetary(
         string=u'Custo comercial',

@@ -62,11 +62,11 @@ class Produto(models.Model):
     )
     preco_venda = fields.Float(
         string=u'Preço de venda',
-        digits=dp.get_precision('SPED - Valor Unitário')
+        digits=dp.get_precision(u'SPED - Valor Unitário')
     )
     preco_custo = fields.Float(
         string=u'Preço de custo',
-        digits=dp.get_precision('SPED - Valor Unitário')
+        digits=dp.get_precision(u'SPED - Valor Unitário')
     )
     peso_bruto = fields.Float(
         string=u'Peso bruto',
