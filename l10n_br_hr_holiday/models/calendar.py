@@ -17,6 +17,12 @@ class L10nBrHrCalendar(models.Model):
     )
 
     @api.model
+    def _get_recurrent_fields(self):
+        res = super(L10nBrHrCalendar, self)._get_recurrent_fields()
+        res.append('models_id')
+        return res
+
+    @api.model
     def fields_view_get(self, view_id=None, view_type='form',
                         toolbar=False, submenu=False):
         res = super(L10nBrHrCalendar, self).fields_view_get(
