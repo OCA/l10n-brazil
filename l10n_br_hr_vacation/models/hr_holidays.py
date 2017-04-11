@@ -172,7 +172,7 @@ class HrHolidays(models.Model):
                 data_fim = data_hora_horario_brasilia(
                     parse_datetime(holiday.data_fim + ' 23:59:59'))
                 holiday.date_to = str(UTC.normalize(data_fim))[:19]
-            if holiday.date_from and holiday.date_to:
+            elif holiday.date_from and holiday.date_to:
                 holiday.data_inicio = fields.Date.from_string(
                     holiday.date_from
                 )
