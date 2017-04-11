@@ -128,5 +128,10 @@ class HrHolidays(models.Model):
     def holidays_validate(self):
         super(HrHolidays, self).holidays_validate()
         model_obj_id = self.env.ref("hr_holidays.model_hr_holidays").id
-        self.meeting_id.write({'models_id': model_obj_id})
+        self.meeting_id.write(
+            {
+                'models_id': model_obj_id,
+                'class': 'private',
+            }
+        )
         return True
