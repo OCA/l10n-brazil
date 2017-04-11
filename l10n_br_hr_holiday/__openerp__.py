@@ -17,6 +17,7 @@
         'views/hr_holidays_status.xml',
         'data/hr_holidays_status_data.xml',
         'security/hr_holidays_status.xml',
+        'views/calendar_event_view.xml',
     ],
     'demo': [
     ],

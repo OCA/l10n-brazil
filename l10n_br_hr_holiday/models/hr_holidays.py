@@ -123,3 +123,10 @@ class HrHolidays(models.Model):
                 faltas['quantidade_dias_faltas_remuneradas'] += \
                     leave.number_of_days_temp
         return faltas
+
+    @api.multi
+    def holidays_validate(self):
+        super(HrHolidays, self).holidays_validate()
+        model_obj_id = self.env.ref("hr_holidays.model_hr_holidays").id
+        self.meeting_id.write({'models_id': model_obj_id})
+        return True
