@@ -15,7 +15,6 @@ class DecimalPrecision(models.Model):
 
     def write(self, dados):
         res = super(DecimalPrecision, self).write(dados)
-        import ipdb; ipdb.set_trace();
 
         for dp in self:
             #
