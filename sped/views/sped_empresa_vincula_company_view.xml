@@ -19,7 +19,7 @@
                     <field name="id" invisible="1" />
                     <div class="oe_title">
                         <h1>
-                            <field name="partner_id" placeholder="Partner original" required="1" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('id', '!=', False)]}" domain="[('sped_participante_id', '=', False), ('original_company_id', '!=', False)]" />
+                            <field name="partner_id" placeholder="Partner original" required="1" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('id', '!=', False)]}" />
                         </h1>
                         <h1>
                             <field name="nome" default_focus="1" placeholder="Nome (uso interno)" required="1" />
