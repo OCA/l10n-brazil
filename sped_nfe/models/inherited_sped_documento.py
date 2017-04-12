@@ -63,9 +63,6 @@ try:
     from pybrasil.valor import formata_valor
     from pybrasil.template import TemplateBrasil
 
-    from pybrasil.valor import Decimal as D
-
-
 except (ImportError, IOError) as err:
     _logger.debug(err)
 
@@ -1229,4 +1226,70 @@ class Documento(models.Model):
 
     def envia_email(self, mail_template):
         self.ensure_one()
-        mail_template.generate_email([self.id])
+        import ipdb; ipdb.set_trace();
+        print(mail_template)
+
+        dados = mail_template.generate_email([documento.id])
+        print(dados)
+
+    def gera_pdf(self):
+        self.ensure_one()
+
+        if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            return
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            return
+
+        processador = self.processador_nfe()
+
+        procNFe = ProcNFe_310()
+        import ipdb; ipdb.set_trace();
+        if self.arquivo_xml_autorizacao_id:
+            procNFe.xml = \
+                self.arquivo_xml_autorizacao_id.datas.decode('base64')
+        else:
+            procNFe.NFe = self.monta_nfe()
+            procNFe.NFe.gera_nova_chave()
+
+        procNFe.NFe.monta_chave()
+
+        procevento = ProcEventoCancNFe_100()
+        if self.arquivo_xml_autorizacao_cancelamento_id:
+            procevento.xml = \
+                self.arquivo_xml_autorizacao_cancelamento_id.datas.decode('base64')
+
+        #
+        # Gera o DANFE, com a tarja de cancelamento quando necessário
+        #
+        if self.modelo == MODELO_FISCAL_NFE:
+            processador.danfe.NFe = procNFe.NFe
+
+            if self.arquivo_xml_autorizacao_id:
+                processador.danfe.protNFe = procNFe.protNFe
+
+            if self.arquivo_xml_autorizacao_cancelamento_id:
+                processador.danfe.procEventoCancNFe = procevento
+
+            processador.danfe.salvar_arquivo = False
+            processador.danfe.gerar_danfe()
+            self.grava_pdf(procNFe.NFe, processador.danfe.conteudo_pdf)
+            processador.danfe.NFe = NFe_310()
+            processador.danfe.protNFe = None
+            processador.danfe.procEventoCancNFe = None
+
+        elif self.modelo == MODELO_FISCAL_NFCE:
+            processador.danfce.NFe = procNFe.NFe
+
+            if self.arquivo_xml_autorizacao_id:
+                processador.danfce.protNFe = procNFe.protNFe
+
+            if self.arquivo_xml_autorizacao_cancelamento_id:
+                processador.danfce.procEventoCancNFe = procevento
+
+            processador.danfce.salvar_arquivo = False
+            processador.danfce.gerar_danfce()
+            self.grava_pdf(procNFe.NFe, processador.danfce.conteudo_pdf)
+            processador.danfce.NFe = NFCe_310()
+            processador.danfce.protNFe = None
+            processador.danfce.procEventoCancNFe = None

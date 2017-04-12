@@ -24,9 +24,13 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe.leiaute import Det_310
-    from pybrasil.valor import Decimal as D
-    from mako.template import Template
+    from pysped.nfe import ProcessadorNFe
+    from pysped.nfe.webservices_flags import *
+    from pysped.nfe.leiaute import *
+    from pybrasil.inscricao import limpa_formatacao
+    from pybrasil.data import parse_datetime, UTC, formata_data
+    from pybrasil.valor import formata_valor
+    from pybrasil.template import TemplateBrasil
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
