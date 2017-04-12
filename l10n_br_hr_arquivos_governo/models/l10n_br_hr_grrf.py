@@ -3,6 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import re
+from pybrasil.base import tira_acentos
 
 
 class Grrf(object):
@@ -30,9 +31,10 @@ class Grrf(object):
         :return:
         """
         if not word:
-            word = ''
+            word = u''
 
         if tipo == 'A':         # Alfabetico
+            word = tira_acentos(word)
             # tirar tudo que nao for letra do alfabeto
             word = re.sub('[^a-zA-Z]', ' ', word)
             # Retirar 2 espaços seguidos
@@ -53,11 +55,13 @@ class Grrf(object):
 
         elif tipo == 'N':       # Numerico
             # Preenche com zeros a esquerda
-
+            word = re.sub('[^0-9]', '', str(word))
             word = str(word).zfill(tam)
             return word[:tam]
 
         elif tipo == 'AN':      # Alfanumerico
+            # Tira acentos da palavras
+            word = tira_acentos(word)
             # Preenche com espaço vazio a esquerda
             return unicode.ljust(unicode(word), tam)[:tam]
 
