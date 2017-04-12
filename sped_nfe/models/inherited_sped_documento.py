@@ -21,6 +21,7 @@ try:
     from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
                                agora)
     from pybrasil.valor import formata_valor
+    from pybrasil.template import TemplateBrasil
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -381,6 +382,12 @@ class Documento(models.Model):
         #
         self._monta_nfe_total(nfe.infNFe.total)
 
+        #
+        # Informações adicionais
+        #
+        self._monta_nfe_informacao_complementar(nfe)
+        self._monta_nfe_informacao_fisco(nfe)
+
         nfe.gera_nova_chave()
         nfe.monta_chave()
 
@@ -732,6 +739,84 @@ class Documento(models.Model):
         total.ICMSTot.vOutro.valor = str(D(self.vr_outras))
         total.ICMSTot.vNF.valor = str(D(self.vr_nf))
         total.ICMSTot.vTotTrib.valor = str(D(self.vr_ibpt or 0))
+
+    def _monta_nfe_informacao_complementar(self, nfe):
+        infcomplementar = self.infcomplementar or u''
+
+        dados_infcomplementar = {
+            'nf': self,
+        }
+
+        #
+        # Crédito de ICMS do SIMPLES
+        #
+        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES and \
+            self.vr_icms_sn:
+            if len(infcomplementar) > 0:
+                infcomplementar += '\n'
+
+            infcomplementar += u'Permite o aproveitamento de crédito de ' + \
+                u'ICMS no valor de R$ ${formata_valor(nf.vr_icms_sn)},' + \
+                u' nos termos do art. 23 da LC 123/2006;'
+
+        #
+        # Valor do IBPT
+        #
+        if self.vr_ibpt:
+            if len(infcomplementar) > 0:
+                infcomplementar += '\n'
+
+            infcomplementar += u'Valor aproximado dos tributos: ' + \
+                u'R$ ${formata_valor(nf.vr_ibpt)} - fonte: IBPT;'
+
+        #
+        # ICMS para UF de destino
+        #
+        if nfe.infNFe.ide.idDest.valor == \
+            IDENTIFICACAO_DESTINO_INTERESTADUAL and \
+            nfe.infNFe.ide.indFinal.valor == \
+            TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and \
+            nfe.infNFe.dest.indIEDest.valor == \
+            INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE:
+
+            if len(infcomplementar) > 0:
+                infcomplementar += '\n'
+
+            infcomplementar += \
+                u'Partilha do ICMS de R$ ' + \
+                u'${formata_valor(nf.vr_icms_proprio)}% recolhida ' + \
+                u'conf. EC 87/2015: ' + \
+                u'R$ ${formata_valor(nf.vr_icms_estado_destino)} para o ' + \
+                u'estado de ${nf.participante_id.estado} e ' + \
+                u'R$ ${formata_valor(nf.vr_icms_estado_origem)} para o ' + \
+                u'estado de ${nf.empresa_id.estado}; Valor do diferencial ' + \
+                u'de alíquota: ' + \
+                u'R$ ${formata_valor(nf.vr_difal)};'
+
+            if self.vr_fcp:
+                infcomplementar += u' Fundo de combate à pobreza: R$ ' + \
+                    u'${formata_valor(nf.vr_fcp)}'
+
+        #
+        # Aplica um template na observação
+        #
+        template = TemplateBrasil(infcomplementar.encode('utf-8'))
+        infcomplementar = template.render(**dados_infcomplementar)
+        nfe.infNFe.infAdic.infCpl.valor = infcomplementar.decode('utf-8')
+
+    def _monta_nfe_informacao_fisco(self, nfe):
+        infadfisco = self.infadfisco or u''
+
+        dados_infadfisco = {
+            'nf': self,
+        }
+
+        #
+        # Aplica um template na observação
+        #
+        template = TemplateBrasil(infadfisco.encode('utf-8'))
+        infadfisco = template.render(**dados_infadfisco)
+        nfe.infNFe.infAdic.infAdFisco.valor = infadfisco.decode('utf-8')
 
     def envia_nfe(self):
         self.ensure_one()
@@ -1107,3 +1192,65 @@ class Documento(models.Model):
 
         dados = mail_template.generate_email([documento.id])
         print(dados)
+
+    def gera_pdf(self):
+        self.ensure_one()
+
+        if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            return
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            return
+
+        processador = self.processador_nfe()
+
+        procNFe = ProcNFe_310()
+        import ipdb; ipdb.set_trace();
+        if self.arquivo_xml_autorizacao_id:
+            procNFe.xml = \
+                self.arquivo_xml_autorizacao_id.datas.decode('base64')
+        else:
+            procNFe.NFe = self.monta_nfe()
+            procNFe.NFe.gera_nova_chave()
+
+        procNFe.NFe.monta_chave()
+
+        procevento = ProcEventoCancNFe_100()
+        if self.arquivo_xml_autorizacao_cancelamento_id:
+            procevento.xml = \
+                self.arquivo_xml_autorizacao_cancelamento_id.datas.decode('base64')
+
+        #
+        # Gera o DANFE, com a tarja de cancelamento quando necessário
+        #
+        if self.modelo == MODELO_FISCAL_NFE:
+            processador.danfe.NFe = procNFe.NFe
+
+            if self.arquivo_xml_autorizacao_id:
+                processador.danfe.protNFe = procNFe.protNFe
+
+            if self.arquivo_xml_autorizacao_cancelamento_id:
+                processador.danfe.procEventoCancNFe = procevento
+
+            processador.danfe.salvar_arquivo = False
+            processador.danfe.gerar_danfe()
+            self.grava_pdf(procNFe.NFe, processador.danfe.conteudo_pdf)
+            processador.danfe.NFe = NFe_310()
+            processador.danfe.protNFe = None
+            processador.danfe.procEventoCancNFe = None
+
+        elif self.modelo == MODELO_FISCAL_NFCE:
+            processador.danfce.NFe = procNFe.NFe
+
+            if self.arquivo_xml_autorizacao_id:
+                processador.danfce.protNFe = procNFe.protNFe
+
+            if self.arquivo_xml_autorizacao_cancelamento_id:
+                processador.danfce.procEventoCancNFe = procevento
+
+            processador.danfce.salvar_arquivo = False
+            processador.danfce.gerar_danfce()
+            self.grava_pdf(procNFe.NFe, processador.danfce.conteudo_pdf)
+            processador.danfce.NFe = NFCe_310()
+            processador.danfce.protNFe = None
+            processador.danfce.procEventoCancNFe = None
