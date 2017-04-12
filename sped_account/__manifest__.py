@@ -23,5 +23,6 @@
         # 'data/inherited_sped_unidade_data.xml',
 
         'views/inherited_account_invoice_view.xml',
-    ]
+    ],
+    'installable': False,
 }
