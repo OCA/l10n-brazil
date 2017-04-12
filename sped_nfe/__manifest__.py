@@ -11,6 +11,7 @@
     'author': u'"Odoo Community Association (OCA), Ari Caldeira',
     'category': u'Base',
     'depends': [
+        'l10n_br_base',
         'sped',
     ],
     'installable': True,
