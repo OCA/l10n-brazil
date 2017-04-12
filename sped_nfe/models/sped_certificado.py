@@ -9,7 +9,7 @@
 import logging
 import tempfile
 from odoo import api, fields, models
-from ...sped.constante_tributaria import (
+from odoo.addons.l10n_br_base.constante_tributaria import (
     TIPO_CERTIFICADO,
     TIPO_CERTIFICADO_A1,
 )
