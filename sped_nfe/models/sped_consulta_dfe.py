@@ -8,11 +8,8 @@
 
 import logging
 from odoo import api, fields, models
-from odoo.addons.l10n_br_base.contrante_tributaria import (
-    AMBIENTE_NFE_PRODUCAO,
-    CONS_NFE_TODAS,
-    CONS_NFE_EMISSAO_TODOS_EMITENTES,
-)
+from odoo.exceptions import UserError, ValidationError
+from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 

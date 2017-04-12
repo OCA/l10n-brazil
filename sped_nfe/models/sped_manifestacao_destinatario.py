@@ -7,7 +7,9 @@
 
 
 import logging
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.exceptions import UserError, ValidationError
+from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 

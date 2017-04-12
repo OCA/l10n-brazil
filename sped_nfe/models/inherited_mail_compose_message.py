@@ -6,15 +6,9 @@
 #
 
 import logging
-from odoo import api, models
-from odoo.addons.l10n_br_base.contrante_tributaria import (
-    MODELO_FISCAL_NFE,
-    MODELO_FISCAL_NFCE,
-    TIPO_EMISSAO_PROPRIA,
-    SITUACAO_NFE_AUTORIZADA,
-    SITUACAO_NFE_CANCELADA,
-    SITUACAO_NFE_DENEGADA,
-)
+from odoo import api, fields, models
+from odoo.exceptions import UserError, ValidationError
+from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 

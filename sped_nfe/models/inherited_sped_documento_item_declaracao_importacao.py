@@ -6,11 +6,8 @@
 #
 
 import logging
-from odoo import api, models
-from odoo.addons.l10n_br_base.constante_tributaria import (
-    MODELO_FISCAL_NFCE,
-    MODELO_FISCAL_NFE,
-)
+from odoo import api, fields, models
+from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 

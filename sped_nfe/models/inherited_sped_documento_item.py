@@ -6,20 +6,8 @@
 #
 
 import logging
-
-from odoo import models
-from odoo.addons.l10n_br_base.constante_tributaria import (
-    ST_ICMS_SN_CALCULA_PROPRIO,
-    REGIME_TRIBUTARIO_SIMPLES,
-    ST_ICMS_CALCULA_PROPRIO,
-    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL,
-    IDENTIFICACAO_DESTINO_INTERESTADUAL,
-    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
-    ST_ICMS_CODIGO_CEST,
-    AMBIENTE_NFE_HOMOLOGACAO,
-    MODELO_FISCAL_NFE,
-    MODELO_FISCAL_NFCE,
-)
+from odoo import api, fields, models
+from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 
