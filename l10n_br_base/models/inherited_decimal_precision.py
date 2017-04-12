@@ -16,6 +16,32 @@ class DecimalPrecision(models.Model):
 
     @api.multi
     def write(self, dados):
+        #
+        # Validação do número máximo de casas decimais
+        #
+        if 'digits' in dados:
+            for dp in self:
+                if dp.id == self.env.ref('sped.CASAS_DECIMAIS_QUANTIDADE').id:
+                    if dados['digits'] > 4:
+                        raise ValidationError(
+                            u'O número máximo de casas decimais para os ' +
+                            u'campos de quantidade é 4!'
+                        )
+
+                elif dp.id == self.env.ref('sped.CASAS_DECIMAIS_UNITARIO').id:
+                    if dados['digits'] > 11:
+                        raise ValidationError(
+                            u'O número máximo de casas decimais para os ' +
+                            u'campos de valor unitário é 11!'
+                        )
+
+                elif dp.id == self.env.ref('sped.CASAS_DECIMAIS_PESO').id:
+                    if dados['digits'] > 4:
+                        raise ValidationError(
+                            u'O número máximo de casas decimais para os ' +
+                            u'campos de peso é 4!'
+                        )
+
         res = super(DecimalPrecision, self).write(dados)
         for dp in self:
             #
