@@ -4,16 +4,15 @@
 
 {
     'name': 'l10n br hr Arquivos Governo',
-    'description': """
-        Modulo que gera os arquivos txt da folha de pagamento brasileira""",
-    'version': '8.0.0.1',
+    'version': '8.0.0.0.1',
     'license': 'AGPL-3',
-    'author': 'Hendrix Costa',
-    'website': 'www.kmee.com.br',
+    'author': 'KMEE, Odoo Community Association (OCA)',
+    'maintainer': 'KMEE',
+    'website': 'http://www.kmee.com.br',
     'depends': [
         'document',
         'l10n_br_hr_payroll',
-        'l10n_br_account', # Por causa do Cnae primario
+        'l10n_br_account',
     ],
     'data': [
         'security/hr_payslip.xml',

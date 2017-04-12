@@ -2,8 +2,16 @@
 # (c) 2014 Kmee - Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import logging
 import re
-from pybrasil.base import tira_acentos
+
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from pybrasil import tira_acentos
+except ImportError:
+    _logger.info('Cannot import pybrasil')
 
 
 class Grrf(object):
@@ -64,9 +72,6 @@ class Grrf(object):
             word = tira_acentos(word)
             # Preenche com espaço vazio a esquerda
             return unicode.ljust(unicode(word), tam)[:tam]
-
-        else:
-            print 'Tipo invalido. Tipo ==' + tipo
 
     # Informações do Responsavel
     def _registro_00(self):
