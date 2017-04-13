@@ -118,15 +118,6 @@ class Unidade(models.Model):
         string=u'Unidade decimal',
         ondelete='restrict',
     )
-    #
-    # Campos para usar a unidade com o campo Monetary
-    #
-    symbol = fields.Char('Symbol', size=11, compute='_compute_symbol')
-    position = fields.Char('Position', compute='_compute_symbol')
-    rounding = fields.Float(string='Rounding Factor', digits=(12, 6),
-                            default=0.01, compute='_compute_symbol')
-    decimal_places = fields.Integer(compute='_compute_symbol')
-    active = fields.Boolean(compute='_compute_symbol')
 
     #
     # Exemplos do texto por extenso
@@ -158,6 +149,11 @@ class Unidade(models.Model):
     extenso_plural_decimal = fields.Char(
         string=u'Ex. 1.234.567,89',
         compute='_compute_extenso',
+    )
+    currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string=u'Símbolo para campos monetary',
+        ondelete='restrict',
     )
 
     # @api.depends('codigo')
@@ -392,6 +388,40 @@ class Unidade(models.Model):
             dados = unidade.prepare_sync_to_uom()
             unidade.uom_id.write(dados)
 
+    def prepare_sync_to_currency(self):
+        self.ensure_one()
+
+        dados = {
+            'name': self.nome + u' - UNIDADE',
+            'symbol': self.codigo,
+            'is_uom': True,
+            'active': True,
+            'position': 'after',
+        }
+
+        if self.fator_relacao_decimal == 10:
+            casas_decimais = self.precisao_decimal
+        else:
+            casas_decimais = \
+                self.env.ref('l10n_br_base.CASAS_DECIMAIS_QUANTIDADE').digits
+
+        casas_decimais = D(casas_decimais or 0)
+
+        dados['rounding'] = D(10) ** (casas_decimais * -1)
+
+        return dados
+
+    @api.multi
+    def sync_to_currency(self):
+        for unidade in self:
+            dados = unidade.prepare_sync_to_currency()
+
+            if not unidade.currency_id:
+                currency = self.env['res.currency'].sudo().create(dados)
+                unidade.currency_id = currency.id
+            else:
+                unidade.currency_id.sudo().write(dados)
+
     @api.model
     def create(self, dados):
         dados['name'] = dados['codigo']
@@ -421,6 +451,7 @@ class Unidade(models.Model):
 
         unidade = super(Unidade, self).create(dados)
         unidade.sync_to_uom()
+        unidade.sync_to_currency()
 
         return unidade
 
@@ -431,61 +462,5 @@ class Unidade(models.Model):
 
         res = super(Unidade, self).write(dados)
         self.sync_to_uom()
+        self.sync_to_currency()
         return res
-
-    #
-    # Para uso com o field.Monetary
-    #
-    @api.depends('codigo')
-    def _compute_symbol(self):
-        for unidade in self:
-            self.active = True
-            self.position = 'after'
-            self.symbol = u' ' + self.codigo
-
-            if (self.tipo == self.TIPO_UNIDADE_UNIDADE or
-                    self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
-                self.decimal_places = 0
-            else:
-                self.decimal_places = len(
-                    str(int(self.fator_relacao_decimal * (
-                        10 ** self.precisao_decimal))))
-
-            self.rounding = D(10) ** (self.decimal_places * -1)
-
-    @api.model
-    def get_format_currencies_js_function(self):
-        """ Returns a string that can be used to instanciate a javascript
-        function that formats numbers as currencies.
-            That function expects the number as first parameter and
-        the currency id as second parameter.
-            If the currency id parameter is false or undefined,
-        the company currency is used.
-        """
-        function = ""
-        for unidade in self.search([]):
-            symbol = unidade.codigo
-            format_number_str = "openerp.web.format_value(arguments[0], " \
-                                "{type: 'float', digits: [69,%s]}, 0.00)" \
-                                % self.decimal_places
-            return_str = "return %s + '\\xA0' + %s;" % (
-                json.dumps(symbol), format_number_str)
-            function += "if (arguments[1] === %s) { %s }" % (
-                unidade.id, return_str)
-            if unidade == self.env.ref('sped.UNIDADE_UNIDADE'):
-                company_currency_format = return_str
-        function = "if (" \
-                   "arguments[1] === false || arguments[1] === undefined" \
-                   ") {" + company_currency_format + " }" + function
-
-        return function
-
-    @api.multi
-    def round(self, amount):
-        # self.ensure_one()
-        amount = D(amount or 0)
-        if (self.tipo == self.TIPO_UNIDADE_UNIDADE or
-                self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
-            return amount.quantize(D(1))
-        amount = amount.quantize(D(10) * D(self.decimal_places * -1))
-        return amount
