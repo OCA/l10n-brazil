@@ -9,15 +9,20 @@
 import logging
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
-from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe.leiaute import *
-    from pybrasil.inscricao import limpa_formatacao
-    from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
-                               agora)
+    from pysped.nfe.leiaute import (
+        EventoCCe_100,
+        ProcNFe_310,
+    )
+    from pybrasil.data import (
+        parse_datetime,
+        UTC,
+        data_hora_horario_brasilia,
+        agora
+    )
     from pybrasil.valor import formata_valor
 
 except (ImportError, IOError) as err:
@@ -186,7 +191,8 @@ class CartaCorrecao(models.Model):
 
         processador = self.documento_id.processador_nfe()
 
-        xml = self.documento_id.arquivo_xml_autorizacao_id.datas.decode('base64')
+        xml = self.documento_id.arquivo_xml_autorizacao_id.datas.decode(
+            'base64')
         xml = xml.decode('utf-8')
 
         procNFe = ProcNFe_310()
@@ -201,12 +207,12 @@ class CartaCorrecao(models.Model):
         evento.infEvento.chNFe.valor = procNFe.NFe.chave
         evento.infEvento.dhEvento.valor = agora()
 
-        #self.correcao =
+        # self.correcao =
         ##
-        ## Correção ASP - Cláudia copiou e colou e veio esse caracter esquisito
+        # Correção ASP - Cláudia copiou e colou e veio esse caracter esquisito
         ##
-        #if self.correcao:
-            #self.correcao = self.correcao.replace(u'\u200b', ' ')
+        # if self.correcao:
+        # self.correcao = self.correcao.replace(u'\u200b', ' ')
 
         evento.infEvento.detEvento.xCorrecao.valor = self.correcao or ''
         evento.infEvento.nSeqEvento.valor = self.sequencia or 1
@@ -220,19 +226,17 @@ class CartaCorrecao(models.Model):
         #
         # A CC-e foi aceita e vinculada à NF-e
         #
-        import ipdb; ipdb.set_trace();
         if self.documento_id.chave in processo.resposta.dic_procEvento:
             procevento = \
                 processo.resposta.dic_procEvento[self.documento_id.chave]
 
             retevento = procevento.retEvento
 
-            import ipdb; ipdb.set_trace();
             if retevento.infEvento.cStat.valor not in ('135', '136'):
                 mensagem = u'Erro na carta de correção'
                 mensagem += u'\nCódigo: ' + retevento.infEvento.cStat.valor
                 mensagem += u'\nMotivo: ' + \
-                    retevento.infEvento.xMotivo.valor
+                            retevento.infEvento.xMotivo.valor
                 raise UserError(mensagem)
 
             self.grava_xml(procNFe.NFe, evento)
