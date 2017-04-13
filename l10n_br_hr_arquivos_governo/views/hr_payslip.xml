@@ -16,7 +16,16 @@
                         <button string="Gerar GRRF"
                                 name="compute_grrf"
                                 type="object"/>
-                        <field name="grrf" colspan="4"
+                        <field name="grrf_txt" colspan="4"
+                               nolabel="1">
+                        </field>
+                    </page>
+                    <page string="Seguro Desemprego"
+                          attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])]}">
+                        <button string="Gerar Seguro Desemprego"
+                                name="compute_seguro_desemprego"
+                                type="object"/>
+                        <field name="seguro_desemprego_txt" colspan="4"
                                nolabel="1">
                         </field>
                     </page>

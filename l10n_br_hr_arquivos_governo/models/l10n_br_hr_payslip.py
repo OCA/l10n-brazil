@@ -6,7 +6,8 @@ import base64
 
 from openerp import api, fields, exceptions, models, _
 
-from l10n_br_hr_grrf import Grrf
+from arquivo_grrf import Grrf
+from arquivo_seguro_desemprego import SeguroDesemprego
 
 
 class HrPayslip(models.Model):
@@ -21,24 +22,99 @@ class HrPayslip(models.Model):
         string=u'Attachments'
     )
 
-    grrf = fields.Text(
+    grrf_txt = fields.Text(
         string='GRRF',
     )
 
+    seguro_desemprego_txt = fields.Text(
+        string='Seguro Desemprego',
+    )
+
     @api.multi
-    def compute_grrf(self):
+    def compute_seguro_desemprego(self):
         """
         Método que inicia o processo para gerar novo GRRF. Disparado na view.
         :return:
         """
         for holerite in self:
+            # Instancia a classe do seguro desemprego
+            seguro_desemprego = SeguroDesemprego()
+            # preenche o objeto com informações do holerite de rescisao
+            self._preencher_seguro_desemprego(holerite, seguro_desemprego)
+            # Gera o campo texto e atribui ao campo da payslip
+            holerite.seguro_desemprego_txt = \
+                seguro_desemprego._gerar_arquivo_seguro_desemprego()
+            # Gera um arquivo temporário com o texto do seguro Desemprego
+            path_arquivo = seguro_desemprego._gerar_arquivo_temp(
+                holerite.seguro_desemprego_txt, 'SEGURO_DESEMPREGO')
+            # Gera anexo da payslip
+            self._gerar_anexo('DESLIGAMENTOS.SD', path_arquivo)
+
+    @api.multi
+    def compute_grrf(self):
+        """
+        Método que inicia o processo para gerar novo TXt do Seguro Desemprego.
+        Disparado na view.
+        :return:
+        """
+        for holerite in self:
             grrf = Grrf()
-            self._compute_grrf(holerite, grrf)
-            holerite.grrf = grrf._gerar_grrf()
-            path_arquivo = grrf._gerar_arquivo_temp(holerite.grrf, 'GRRF')
+            self._preencher_grrf(holerite, grrf)
+            holerite.grrf_txt = grrf._gerar_grrf()
+            path_arquivo = grrf._gerar_arquivo_temp(holerite.grrf_txt, 'GRRF')
             self._gerar_anexo('grrf.re', path_arquivo)
 
-    def _compute_grrf(self, holerite, grrf):
+    def _preencher_seguro_desemprego(self, holerite, seguro_desemprego):
+        """
+        Dado um holerite de rescisao preencher os campos do objeto de GRRF
+        :param holerite:
+        :param seguro_desemprego:
+        :return:
+        """
+        # HEADER
+        seguro_desemprego.tipo_de_inscricao_empresa = 1  # 1 (CNPJ) ou 2 (CEI)
+        seguro_desemprego.cnpj_empresa = self.company_id.cnpj_cpf
+
+        # REQUERIMENTO
+        funcionario = holerite.contract_id.employee_id
+        seguro_desemprego.cpf = funcionario.cpf
+        seguro_desemprego.nome = funcionario.name
+        seguro_desemprego.endereco = funcionario.address_home_id.street
+        seguro_desemprego.complemento = funcionario.address_home_id.street2
+        seguro_desemprego.cep = funcionario.address_home_id.zip
+        seguro_desemprego.uf = funcionario.address_home_id.state_id.code
+        seguro_desemprego.telefone = funcionario.address_home_id.phone
+        seguro_desemprego.nome_mae = funcionario.mother_name
+        seguro_desemprego.pis = funcionario.pis_pasep
+        seguro_desemprego.carteira_trabalho_numero = funcionario.ctps
+        seguro_desemprego.carteira_trabalho_estado = \
+            funcionario.ctps_uf_id.code
+        seguro_desemprego.CBO = holerite.contract_id.job_id.cbo_id.code
+        seguro_desemprego.data_admissao = holerite.contract_id.date_start
+        seguro_desemprego.data_demissao = holerite.contract_id.date_end
+        seguro_desemprego.sexo = funcionario.gender
+        seguro_desemprego.grau_instrucao = \
+            funcionario.educational_attainment.code
+        seguro_desemprego.data_nascimento = funcionario.birthday
+        seguro_desemprego.horas_trabalhadas_semana = \
+            holerite.contract_id.weekly_hours
+        remuneracao_mes_rescisao = 0
+        for line in holerite.line_ids:
+            if line.code == 'BASE_FGTS':
+                remuneracao_mes_rescisao = line.total
+        # Get Rubrica do BASE_FGTS
+        seguro_desemprego.ultimo_salario = remuneracao_mes_rescisao
+        # self.numero_meses_trabalhados = '00'
+        # self.recebeu_6_salario = '0'
+        # self.aviso_previo_indenizado = '1'
+        self.codigo_banco = ''
+        self.codigo_agencia = ''
+        self.codigo_agencia_digito = ''
+
+        # TRAILLER
+        seguro_desemprego.sequencia = 1
+
+    def _preencher_grrf(self, holerite, grrf):
         """
         Dado um holerite de rescisao preencher os campos do objeto de GRRF
         :param holerite:
@@ -61,7 +137,7 @@ class HrPayslip(models.Model):
         grrf.inscricao_da_empresa = self.company_id.cnpj_cpf
         grrf.razao_social_empresa = self.company_id.legal_name
         grrf.endereco_empresa = \
-            self.company_id.street or '' + self.company_id.number or ''
+            (self.company_id.street or '') + (self.company_id.number or '')
         grrf.bairro_empresa = self.company_id.street2
         grrf.cep_empresa = self.company_id.zip
         grrf.cidade_empresa = self.company_id.l10n_br_city_id.name
@@ -88,7 +164,6 @@ class HrPayslip(models.Model):
         grrf.sexo = funcionario.gender
         grrf.grau_de_instrucao = funcionario.educational_attainment.code
         grrf.data_nascimento = funcionario.birthday
-        grrf.qtd_horas_trabalhadas_semana = holerite.contract_id.weekly_hours
         grrf.CBO = holerite.contract_id.job_id.cbo_id.code
         # Data admissao
         grrf.data_opcao = holerite.contract_id.date_start
@@ -119,7 +194,9 @@ class HrPayslip(models.Model):
         grrf.agencia_trabalhador = ''
         grrf.conta_trabalhador = ''
         # saldo do FGTS consulta manual na caixa
-        grrf.saldo_para_fins_rescisorios = holerite.saldo_para_fins_rescisorios
+        grrf.saldo_para_fins_rescisorios = \
+            holerite.saldo_para_fins_rescisorios \
+            if holerite.saldo_para_fins_rescisorios else ''
 
     def _gerar_anexo(self, nome_do_arquivo, path_arquivo_temp):
         """
