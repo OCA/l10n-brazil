@@ -3,7 +3,7 @@
     Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
-<odoo noupdate="1">
+<odoo noupdate="True">
 
     <!-- Unidade; a mais comum -->
 
@@ -131,7 +131,7 @@
         <field name="genero_masculino" eval="True" />
         <field name="nome_singular">metro quadrado</field>
         <field name="nome_plural">metros quadrados</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="False" />
         <field name="fator_relacao_decimal">10.000000</field>
         <field name="precisao_decimal">4.000000</field>
@@ -163,7 +163,7 @@
         <field name="genero_masculino" eval="True" />
         <field name="nome_singular">litro</field>
         <field name="nome_plural">litros</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="False" />
         <field name="fator_relacao_decimal">10.000000</field>
         <field name="precisao_decimal">3.000000</field>
@@ -179,7 +179,7 @@
         <field name="genero_masculino" eval="True" />
         <field name="nome_singular">metro cúbico</field>
         <field name="nome_plural">metros cúbicos</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="False" />
         <field name="fator_relacao_decimal">10.000000</field>
         <field name="precisao_decimal">3.000000</field>
@@ -395,7 +395,7 @@
         <field name="genero_masculino" eval="True" />
         <field name="nome_singular">cento</field>
         <field name="nome_plural">centos</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">100.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -442,7 +442,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">caixa com 2 unidades</field>
         <field name="nome_plural">caixas com 2 unidades</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">2.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -457,7 +457,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">caixa com 3 unidades</field>
         <field name="nome_plural">caixas com 3 unidades</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">3.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -472,7 +472,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">caixa com 4 unidades</field>
         <field name="nome_plural">caixas com 4 unidades</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">4.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -487,7 +487,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">caixa com 5 unidades</field>
         <field name="nome_plural">caixas com 5 unidades</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">5.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -502,7 +502,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">caixa com 6 unidades</field>
         <field name="nome_plural">caixas com 6 unidades</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">6.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -517,7 +517,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">caixa com 8 unidades</field>
         <field name="nome_plural">caixas com 8 unidades</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">8.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -532,7 +532,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">caixa com 10 unidades</field>
         <field name="nome_plural">caixas com 10 unidades</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">10.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -547,7 +547,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">caixa com 12 unidades</field>
         <field name="nome_plural">caixas com 12 unidades</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">12.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -562,7 +562,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">caixa com 15 unidades</field>
         <field name="nome_plural">caixas com 15 unidades</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">15.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -577,7 +577,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">caixa com 18 unidades</field>
         <field name="nome_plural">caixas com 18 unidades</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">18.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -592,7 +592,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">caixa com 20 unidades</field>
         <field name="nome_plural">caixas com 20 unidades</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">20.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -607,7 +607,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">caixa com 24 unidades</field>
         <field name="nome_plural">caixas com 24 unidades</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">24.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -622,7 +622,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">caixa com 25 unidades</field>
         <field name="nome_plural">caixas com 25 unidades</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">25.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -637,7 +637,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">caixa com 50 unidades</field>
         <field name="nome_plural">caixas com 50 unidades</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">50.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -652,7 +652,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">caixa com 100 unidades</field>
         <field name="nome_plural">caixas com 100 unidades</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">100.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -682,7 +682,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">dúzia</field>
         <field name="nome_plural">dúzias</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">12.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -833,7 +833,7 @@
         <field name="genero_masculino" eval="True" />
         <field name="nome_singular">milheiro</field>
         <field name="nome_plural">milheiros</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">1000.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -893,7 +893,7 @@
         <field name="genero_masculino" eval="True" />
         <field name="nome_singular">par</field>
         <field name="nome_plural">pares</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">2.000000</field>
         <field name="precisao_decimal">1.000000</field>
@@ -953,7 +953,7 @@
         <field name="genero_masculino" eval="False" />
         <field name="nome_singular">resma</field>
         <field name="nome_plural">resmas</field>
-        <field name="usa_virgula" eval="True" />
+        <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">500.000000</field>
         <field name="precisao_decimal">1.000000</field>

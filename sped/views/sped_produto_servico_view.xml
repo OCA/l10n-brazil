@@ -11,6 +11,10 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <form string="Produto">
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
             <sheet>
 <!--                    <div class="oe_button_box" name="button_box">
                     <button name="toggle_active" type="object"
@@ -133,6 +137,10 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <tree string="Serviços">
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
                 <field name="tipo" invisible="1" />
                 <field name="nome" />
                 <field name="codigo" />
