@@ -157,17 +157,6 @@ class Unidade(models.Model):
         ondelete='restrict',
     )
 
-    @api.depends('codigo')
-    def _compute_codigo_unico(self):
-        for unidade in self:
-            codigo_unico = unidade.codigo or ''
-            codigo_unico = codigo_unico.lower().strip()
-            codigo_unico = codigo_unico.replace(u' ', u' ')
-            codigo_unico = codigo_unico.replace(u'²', u'2')
-            codigo_unico = codigo_unico.replace(u'³', u'3')
-            codigo_unico = tira_acentos(codigo_unico)
-            unidade.codigo_unico = codigo_unico
-
     @api.depends('nome')
     def _compute_nome_unico(self):
         for unidade in self:
