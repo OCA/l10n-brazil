@@ -6,7 +6,7 @@
 <odoo noupdate="0">
 
     <record id="base.BRL" model="res.currency">
-        <field name="name">BRL</field>
+        <field name="name">Real</field>
         <field name="symbol">R$</field>
         <field name="rounding">0.01</field>
         <field name="active" eval="True"/>
@@ -14,7 +14,7 @@
     </record>
 
     <record id="base.EUR" model="res.currency">
-        <field name="name">EUR</field>
+        <field name="name">Euro</field>
         <field name="symbol">€</field>
         <field name="rounding">0.01</field>
         <field name="active" eval="True"/>
@@ -22,7 +22,7 @@
     </record>
 
     <record id="base.USD" model="res.currency">
-        <field name="name">USD</field>
+        <field name="name">Dólar</field>
         <field name="symbol">US$</field>
         <field name="rounding">0.01</field>
         <field name="active" eval="True"/>
