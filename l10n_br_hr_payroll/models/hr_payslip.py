@@ -9,6 +9,7 @@ from dateutil.relativedelta import relativedelta
 from lxml import etree
 from calendar import monthrange
 
+
 _logger = logging.getLogger(__name__)
 
 try:
@@ -437,6 +438,10 @@ class HrPayslip(models.Model):
         required=True,
         compute='_compute_set_dates',
         store=True,
+    )
+
+    saldo_para_fins_rescisorios = fields.Float(
+        string='Saldo para fins Rescisorios',
     )
 
     holidays_ferias = fields.Many2one(
