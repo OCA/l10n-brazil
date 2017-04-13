@@ -215,7 +215,7 @@
                                                 </group>
                                             </group>
                                         </page>
-                                        <page string="SIMPLES Nacional" attrs="{'invisible': [('regime_tributario', '!=', '1')]}">
+                                        <page string="SIMPLES" attrs="{'invisible': [('regime_tributario', '!=', '1')]}">
                                             <group string="SIMPLES Nacional">
                                                 <field name="vr_simples" />
                                                 <newline />
