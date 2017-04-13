@@ -929,20 +929,20 @@ class DocumentoItem(models.Model):
     )
     peso_bruto = fields.Monetary(
         string=u'Peso bruto',
-        currency_field='currency_peso_id',
+        currency_field='currency_unitario_id',
     )
     peso_liquido = fields.Monetary(
         string=u'Peso líquido',
-        currency_field='currency_peso_id',
+        currency_field='currency_unitario_id',
     )
     peso_bruto_readonly = fields.Monetary(
         string=u'Peso bruto',
-        currency_field='currency_peso_id',
+        currency_field='currency_unitario_id',
         compute='_compute_readonly',
     )
     peso_liquido_readonly = fields.Monetary(
         string=u'Peso líquido',
-        currency_field='currency_peso_id',
+        currency_field='currency_unitario_id',
         compute='_compute_readonly',
     )
     especie = fields.Char(
