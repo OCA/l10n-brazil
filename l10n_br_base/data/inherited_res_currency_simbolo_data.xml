@@ -6,19 +6,30 @@
 <odoo noupdate="1">
 
     <record id="SIMBOLO_ALIQUOTA" model="res.currency">
-        <field name="name">ALIQUOTA</field>
+        <field name="name">ALIQUOTA - SIMBOLO</field>
         <field name="symbol">%</field>
         <field name="rounding">0.01</field>
         <field name="active" eval="True"/>
         <field name="position">after</field>
+        <field name="is_symbol" eval="True" />
     </record>
 
     <record id="SIMBOLO_VALOR_UNITARIO" model="res.currency">
-        <field name="name">UNITARIO</field>
+        <field name="name">UNITARIO - SIMBOLO</field>
         <field name="symbol">R$</field>
         <field name="rounding">0.01</field>
         <field name="active" eval="True"/>
         <field name="position">before</field>
+        <field name="is_symbol" eval="True" />
+    </record>
+
+    <record id="SIMBOLO_PESO" model="res.currency">
+        <field name="name">PESO - SIMBOLO</field>
+        <field name="symbol">kg</field>
+        <field name="rounding">0.01</field>
+        <field name="active" eval="True"/>
+        <field name="position">after</field>
+        <field name="is_symbol" eval="True" />
     </record>
 
 </odoo>

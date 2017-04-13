@@ -28,7 +28,7 @@ except (ImportError, IOError) as err:
 class Produto(models.Model):
     _description = u'Produtos e serviços'
     _inherits = {'product.product': 'product_id'}
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'sped.base']
     _name = 'sped.produto'
     _order = 'codigo, nome'
     _rec_name = 'nome'
@@ -60,21 +60,21 @@ class Produto(models.Model):
         string=u'Marca',
         size=60
     )
-    preco_venda = fields.Float(
+    preco_venda = fields.Monetary(
         string=u'Preço de venda',
-        digits=dp.get_precision(u'SPED - Valor Unitário')
+        currency_field='currency_unitario_id',
     )
-    preco_custo = fields.Float(
+    preco_custo = fields.Monetary(
         string=u'Preço de custo',
-        digits=dp.get_precision(u'SPED - Valor Unitário')
+        currency_field='currency_unitario_id',
     )
-    peso_bruto = fields.Float(
+    peso_bruto = fields.Monetary(
         string=u'Peso bruto',
-        digits=(18, 4)
+        currency_field='currency_peso_id',
     )
-    peso_liquido = fields.Float(
+    peso_liquido = fields.Monetary(
         string=u'Peso líquido',
-        digits=(18, 4)
+        currency_field='currency_peso_id',
     )
     tipo = fields.Selection(
         selection=TIPO_PRODUTO_SERVICO,
@@ -138,6 +138,17 @@ class Produto(models.Model):
     exige_fator_conversao_unidade_tributacao_ncm = fields.Boolean(
         string=u'Exige fator de conversão entre as unidades?',
         compute='_compute_exige_fator_conversao_ncm',
+    )
+    #
+    # Para a automação dos volumes na NF-e
+    #
+    especie = fields.Char(
+        string=u'Espécie/embalagem',
+        size=60,
+    )
+    fator_quantidade_especie = fields.Float(
+        string=u'Quantidade por espécie/embalagem',
+        digits=dp.get_precision(u'SPED - Quantidade'),
     )
 
     @api.depends('ncm_id', 'unidade_id')
