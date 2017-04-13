@@ -7,21 +7,9 @@
 
 
 import logging
-from odoo import api, fields, models
-from odoo.exceptions import UserError, ValidationError
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
-
-try:
-    from pysped.nfe.leiaute import *
-    from pybrasil.inscricao import limpa_formatacao
-    from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
-                               agora)
-    from pybrasil.valor import formata_valor
-
-except (ImportError, IOError) as err:
-    _logger.debug(err)
 
 
 class ManifestacaoDestinatario(models.Model):
@@ -122,13 +110,20 @@ class ManifestacaoDestinatario(models.Model):
         size=60,
     )
 
-
-
-   #'nsu': fields.char(u'NSU', size=25, select=True),
-   #'situacao_dfe': fields.selection(SITUACAO_DFE, u'Situacação DF-e', select=True),
-   #'situacao_manifestacao': fields.selection(SITUACAO_MANIFESTACAO, u'Situacação DF-e', select=True),
-   #'data_manifestacao': fields.datetime(u'Data da manifestação'),
-   #'justificativa': fields.char(u'Justificativa', size=255),
-   #'xml_autorizacao': fields.text(u'XML de autorização'),
-   ##'xml_cancelamento': fields.text(u'XML de cancelamento'),
-   #'documento_original_id': fields.many2one('sped.documento', u'Documento de remessa/transferência/venda original'),
+    # 'nsu': fields.char(
+    # u'NSU', size=25, select=True),
+    # 'situacao_dfe': fields.selection(
+    #   SITUACAO_DFE, u'Situacação DF-e', select=True),
+    # 'situacao_manifestacao': fields.selection(
+    #   SITUACAO_MANIFESTACAO, u'Situacação DF-e', select=True),
+    # 'data_manifestacao': fields.datetime(
+    #   u'Data da manifestação'),
+    # 'justificativa': fields.char(
+    #   u'Justificativa', size=255),
+    # 'xml_autorizacao': fields.text(
+    #   u'XML de autorização'),
+    # 'xml_cancelamento': fields.text(
+    #   u'XML de cancelamento'),
+    # 'documento_original_id': fields.many2one(
+    #   'sped.documento',
+    #   u'Documento de remessa/transferência/venda original'),

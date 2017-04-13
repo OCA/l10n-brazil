@@ -6,19 +6,27 @@
 #
 
 import logging
-from odoo import api, fields, models
-from odoo.addons.l10n_br_base.constante_tributaria import *
+
+from odoo import models
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    ST_ICMS_SN_CALCULA_PROPRIO,
+    REGIME_TRIBUTARIO_SIMPLES,
+    ST_ICMS_CALCULA_PROPRIO,
+    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL,
+    IDENTIFICACAO_DESTINO_INTERESTADUAL,
+    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
+    ST_ICMS_CODIGO_CEST,
+    AMBIENTE_NFE_HOMOLOGACAO,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFCE,
+)
 
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe import ProcessadorNFe
-    from pysped.nfe.webservices_flags import *
-    from pysped.nfe.leiaute import *
-    from pybrasil.inscricao import limpa_formatacao
-    from pybrasil.data import parse_datetime, UTC, formata_data
-    from pybrasil.valor import formata_valor
-    from pybrasil.template import TemplateBrasil
+    from pysped.nfe.leiaute import Det_310
+    from pybrasil.valor import Decimal as D
+    from mako.template import Template
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -158,8 +166,9 @@ class DocumentoItem(models.Model):
         #
         # IPI
         #
-        if ((self.documento_id.regime_tributario != REGIME_TRIBUTARIO_SIMPLES)
-                and self.cst_ipi):
+        if self.cst_ipi and self.documento_id.regime_tributario != \
+                REGIME_TRIBUTARIO_SIMPLES:
+
             det.imposto.IPI.cEnq.valor = self.enquadramento_ipi or '999'
             det.imposto.IPI.CST.valor = self.cst_ipi or ''
             det.imposto.IPI.vBC.valor = str(D(self.bc_ipi))
@@ -229,11 +238,11 @@ class DocumentoItem(models.Model):
         # ICMS para UF de destino
         #
         if nfe.infNFe.ide.idDest.valor == \
-            IDENTIFICACAO_DESTINO_INTERESTADUAL and \
-            nfe.infNFe.ide.indFinal.valor == \
-            TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and \
-            nfe.infNFe.dest.indIEDest.valor == \
-            INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE:
+                IDENTIFICACAO_DESTINO_INTERESTADUAL and \
+                nfe.infNFe.ide.indFinal.valor == \
+                TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and \
+                nfe.infNFe.dest.indIEDest.valor == \
+                INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE:
 
             det.imposto.ICMSUFDest.vBCUFDest.valor = \
                 det.imposto.ICMS.vBC.valor

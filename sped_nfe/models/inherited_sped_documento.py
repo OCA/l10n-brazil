@@ -5,23 +5,66 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-import os
 import logging
+import os
+
 from odoo import api, fields, models
-from odoo.exceptions import UserError, ValidationError
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL,
+    TIPO_EMISSAO_PROPRIA,
+    MODALIDADE_FRETE_DESTINATARIO_PROPRIO,
+    IND_FORMA_PAGAMENTO_A_VISTA,
+    MODALIDADE_FRETE_REMETENTE_PROPRIO,
+    SITUACAO_NFE,
+    SITUACAO_NFE_EM_DIGITACAO,
+    SITUACAO_NFE_ENVIADA,
+    SITUACAO_NFE_REJEITADA,
+    SITUACAO_NFE_AUTORIZADA,
+    SITUACAO_NFE_CANCELADA,
+    SITUACAO_NFE_DENEGADA,
+    SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
+    SITUACAO_FISCAL_CANCELADO,
+    SITUACAO_FISCAL_DENEGADO,
+    IDENTIFICACAO_DESTINO_EXTERIOR,
+    IDENTIFICACAO_DESTINO_INTERNO,
+    INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
+    MODALIDADE_FRETE_REMETENTE_CIF,
+    MODALIDADE_FRETE_DESTINATARIO_FOB,
+    MODALIDADE_FRETE_SEM_FRETE,
+    IND_FORMA_PAGAMENTO_A_PRAZO,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFCE,
+    AMBIENTE_NFE_HOMOLOGACAO,
+    IDENTIFICACAO_DESTINO_INTERESTADUAL,
+    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
+)
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe import ProcessadorNFe
-    from pysped.nfe.webservices_flags import *
-    from pysped.nfe.leiaute import *
+    from pysped.nfe.webservices_flags import (
+        WS_NFE_ENVIO_LOTE,
+        WS_NFE_CONSULTA_RECIBO,
+        WS_NFE_CONSULTA,
+        WS_NFE_SITUACAO,
+        UF_CODIGO,
+    )
+    from pysped.nfe.leiaute import (
+        NFe_310,
+        NFCe_310,
+        EventoCancNFe_100,
+        ProcNFe_310,
+        Reboque_310,
+    )
     from pybrasil.inscricao import limpa_formatacao
     from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
                                agora)
     from pybrasil.valor import formata_valor
     from pybrasil.template import TemplateBrasil
+
+    from pybrasil.valor import Decimal as D
+
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -225,8 +268,8 @@ class Documento(models.Model):
                 tempo_autorizado -= \
                     parse_datetime(documento.data_hora_autorizacao + ' GMT')
 
-                if documento.state_nfe == SITUACAO_NFE_AUTORIZADA and \
-                    tempo_autorizado.days < 1:
+                if (documento.state_nfe == SITUACAO_NFE_AUTORIZADA and
+                        tempo_autorizado.days < 1):
                     documento.permite_cancelamento = True
 
     def processador_nfe(self):
@@ -341,7 +384,7 @@ class Documento(models.Model):
         # Notas referenciadas
         #
         for doc_ref in self.documento_referenciado_ids:
-            nfe.infNFe.ide.NFref.append(docref.monta_nfe())
+            nfe.infNFe.ide.NFref.append(doc_ref.monta_nfe())
 
         #
         # Emitente
@@ -422,7 +465,7 @@ class Documento(models.Model):
                 parse_datetime(self.data_hora_entrada_saida + ' GMT')
             )
         else:
-            nfe.infNFe.ide.dhSaiEnt.valor = data_hora_horario_brasilia(
+            self.infNFe.ide.dhSaiEnt.valor = data_hora_horario_brasilia(
                 parse_datetime(self.data_hora_emissao + ' GMT')
             )
 
@@ -453,8 +496,7 @@ class Documento(models.Model):
             else:
                 ide.idDest.valor = IDENTIFICACAO_DESTINO_INTERESTADUAL
 
-            if (self.consumidor_final) or \
-                (participante.contribuinte ==
+            if (self.consumidor_final or participante.contribuinte ==
                     INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE):
                 ide.indFinal.valor = TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL
 
@@ -999,7 +1041,7 @@ class Documento(models.Model):
                 mensagem = u'Erro no cancelamento'
                 mensagem += u'\nCódigo: ' + retevento.infEvento.cStat.valor
                 mensagem += u'\nMotivo: ' + \
-                    retevento.infEvento.xMotivo.valor
+                            retevento.infEvento.xMotivo.valor
                 raise UserError(mensagem)
 
             #
@@ -1085,11 +1127,11 @@ class Documento(models.Model):
                 mail_template = documento.operacao_id.mail_template_id
             else:
                 if documento.modelo == MODELO_FISCAL_NFE and \
-                    documento.empresa_id.mail_template_nfe_autorizada_id:
+                        documento.empresa_id.mail_template_nfe_autorizada_id:
                     mail_template = \
                         documento.empresa_id.mail_template_nfe_autorizada_id
                 elif documento.modelo == MODELO_FISCAL_NFCE and \
-                    documento.empresa_id.mail_template_nfce_autorizada_id:
+                        documento.empresa_id.mail_template_nfce_autorizada_id:
                     mail_template = \
                         documento.empresa_id.mail_template_nfce_autorizada_id
 
@@ -1130,11 +1172,11 @@ class Documento(models.Model):
             #
             mail_template = None
             if documento.modelo == MODELO_FISCAL_NFE and \
-                documento.empresa_id.mail_template_nfe_cancelada_id:
+                    documento.empresa_id.mail_template_nfe_cancelada_id:
                 mail_template = \
                     documento.empresa_id.mail_template_nfe_cancelada_id
             elif documento.modelo == MODELO_FISCAL_NFCE and \
-                documento.empresa_id.mail_template_nfce_cancelada_id:
+                    documento.empresa_id.mail_template_nfce_cancelada_id:
                 mail_template = \
                     documento.empresa_id.mail_template_nfce_cancelada_id
 
@@ -1172,11 +1214,11 @@ class Documento(models.Model):
             #
             mail_template = None
             if documento.modelo == MODELO_FISCAL_NFE and \
-                documento.empresa_id.mail_template_nfe_denegada_id:
+                    documento.empresa_id.mail_template_nfe_denegada_id:
                 mail_template = \
                     documento.empresa_id.mail_template_nfe_denegada_id
             elif documento.modelo == MODELO_FISCAL_NFCE and \
-                documento.empresa_id.mail_template_nfce_denegada_id:
+                    documento.empresa_id.mail_template_nfce_denegada_id:
                 mail_template = \
                     documento.empresa_id.mail_template_nfce_denegada_id
 
@@ -1187,70 +1229,4 @@ class Documento(models.Model):
 
     def envia_email(self, mail_template):
         self.ensure_one()
-        import ipdb; ipdb.set_trace();
-        print(mail_template)
-
-        dados = mail_template.generate_email([documento.id])
-        print(dados)
-
-    def gera_pdf(self):
-        self.ensure_one()
-
-        if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
-            return
-
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
-            return
-
-        processador = self.processador_nfe()
-
-        procNFe = ProcNFe_310()
-        import ipdb; ipdb.set_trace();
-        if self.arquivo_xml_autorizacao_id:
-            procNFe.xml = \
-                self.arquivo_xml_autorizacao_id.datas.decode('base64')
-        else:
-            procNFe.NFe = self.monta_nfe()
-            procNFe.NFe.gera_nova_chave()
-
-        procNFe.NFe.monta_chave()
-
-        procevento = ProcEventoCancNFe_100()
-        if self.arquivo_xml_autorizacao_cancelamento_id:
-            procevento.xml = \
-                self.arquivo_xml_autorizacao_cancelamento_id.datas.decode('base64')
-
-        #
-        # Gera o DANFE, com a tarja de cancelamento quando necessário
-        #
-        if self.modelo == MODELO_FISCAL_NFE:
-            processador.danfe.NFe = procNFe.NFe
-
-            if self.arquivo_xml_autorizacao_id:
-                processador.danfe.protNFe = procNFe.protNFe
-
-            if self.arquivo_xml_autorizacao_cancelamento_id:
-                processador.danfe.procEventoCancNFe = procevento
-
-            processador.danfe.salvar_arquivo = False
-            processador.danfe.gerar_danfe()
-            self.grava_pdf(procNFe.NFe, processador.danfe.conteudo_pdf)
-            processador.danfe.NFe = NFe_310()
-            processador.danfe.protNFe = None
-            processador.danfe.procEventoCancNFe = None
-
-        elif self.modelo == MODELO_FISCAL_NFCE:
-            processador.danfce.NFe = procNFe.NFe
-
-            if self.arquivo_xml_autorizacao_id:
-                processador.danfce.protNFe = procNFe.protNFe
-
-            if self.arquivo_xml_autorizacao_cancelamento_id:
-                processador.danfce.procEventoCancNFe = procevento
-
-            processador.danfce.salvar_arquivo = False
-            processador.danfce.gerar_danfce()
-            self.grava_pdf(procNFe.NFe, processador.danfce.conteudo_pdf)
-            processador.danfce.NFe = NFCe_310()
-            processador.danfce.protNFe = None
-            processador.danfce.procEventoCancNFe = None
+        mail_template.generate_email([self.id])
