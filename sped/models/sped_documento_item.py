@@ -212,11 +212,11 @@ class DocumentoItem(models.Model):
         string=u'Item da operação fiscal',
         ondelete='restrict',
     )
-    quantidade = fields.Float(
-        string=u'Quantidade',
-        default=1,
-        digits=dp.get_precision(u'SPED - Quantidade'),
-    )
+    #quantidade = fields.Float(
+        #string=u'Quantidade',
+        #default=1,
+        #digits=dp.get_precision(u'SPED - Quantidade'),
+    #)
     unidade_id = fields.Many2one(
         comodel_name='sped.unidade',
         string=u'Unidade',
@@ -929,20 +929,20 @@ class DocumentoItem(models.Model):
     )
     peso_bruto = fields.Monetary(
         string=u'Peso bruto',
-        currency_field='currency_peso_id',
+        currency_field='currency_unitario_id',
     )
     peso_liquido = fields.Monetary(
         string=u'Peso líquido',
-        currency_field='currency_peso_id',
+        currency_field='currency_unitario_id',
     )
     peso_bruto_readonly = fields.Monetary(
         string=u'Peso bruto',
-        currency_field='currency_peso_id',
+        currency_field='currency_unitario_id',
         compute='_compute_readonly',
     )
     peso_liquido_readonly = fields.Monetary(
         string=u'Peso líquido',
-        currency_field='currency_peso_id',
+        currency_field='currency_unitario_id',
         compute='_compute_readonly',
     )
     especie = fields.Char(
