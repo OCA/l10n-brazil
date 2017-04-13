@@ -10,6 +10,7 @@
 # Sincronização de casas decimais
 #
 from . import inherited_decimal_precision
+from . import inherited_res_currency
 
 #
 # Model Base
