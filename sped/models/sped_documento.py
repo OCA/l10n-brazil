@@ -7,8 +7,47 @@
 
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError, ValidationError
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo.exceptions import ValidationError
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    TIPO_EMISSAO_NFE,
+    TIPO_EMISSAO,
+    MODELO_FISCAL,
+    ENTRADA_SAIDA,
+    ENTRADA_SAIDA_SAIDA,
+    SITUACAO_FISCAL,
+    SITUACAO_FISCAL_REGULAR,
+    AMBIENTE_NFE,
+    AMBIENTE_NFE_HOMOLOGACAO,
+    SITUACAO_NFE_AUTORIZADA,
+    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL,
+    INDICADOR_IE_DESTINATARIO,
+    TIPO_CONSUMIDOR_FINAL_NORMAL,
+    MODELO_FISCAL_NFCE,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFSE,
+    TIPO_EMISSAO_PROPRIA,
+    AMBIENTE_NFE_PRODUCAO,
+    TIPO_EMISSAO_NFE_NORMAL,
+    ENTRADA_SAIDA_ENTRADA,
+    ENTRADA_SAIDA_DICT,
+    TIPO_EMISSAO_DICT,
+    IE_DESTINATARIO,
+    ST_ISS,
+    NATUREZA_TRIBUTACAO_NFSE,
+    LIMITE_RETENCAO_PIS_COFINS_CSLL,
+    MODALIDADE_FRETE_DESTINATARIO_PROPRIO,
+    MODALIDADE_FRETE,
+    INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
+    INDICADOR_PRESENCA_COMPRADOR,
+    TIPO_CONSUMIDOR_FINAL,
+    FINALIDADE_NFE_NORMAL,
+    FINALIDADE_NFE,
+    IND_FORMA_PAGAMENTO,
+    IND_FORMA_PAGAMENTO_A_VISTA,
+    REGIME_TRIBUTARIO,
+    REGIME_TRIBUTARIO_SIMPLES,
+)
+
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -979,7 +1018,9 @@ class Documento(models.Model):
                 valores['serie'] = self.operacao_id.serie
 
             valores['regime_tributario'] = self.operacao_id.regime_tributario
-            valores['ind_forma_pagamento'] = self.operacao_id.ind_forma_pagamento
+            valores['ind_forma_pagamento'] = (
+                self.operacao_id.ind_forma_pagamento
+            )
             valores['finalidade_nfe'] = self.operacao_id.finalidade_nfe
             valores['modalidade_frete'] = self.operacao_id.modalidade_frete
             valores['infadfisco'] = self.operacao_id.infadfisco
@@ -1070,7 +1111,8 @@ class Documento(models.Model):
                     )
         return res
 
-    @api.onchange('payment_term_id', 'vr_fatura', 'vr_nf', 'data_emissao', 'duplicata_ids')
+    @api.onchange('payment_term_id', 'vr_fatura', 'vr_nf', 'data_emissao',
+                  'duplicata_ids')
     def _onchange_payment_term(self):
         res = {}
         valores = {}

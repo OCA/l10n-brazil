@@ -6,7 +6,7 @@
 #
 
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class AliquotaIPI(models.Model):

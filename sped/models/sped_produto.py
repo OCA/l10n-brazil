@@ -5,17 +5,18 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-from odoo import api, fields, models
-import odoo.addons.decimal_precision as dp
-from odoo.exceptions import ValidationError
-
 import logging
+
+import odoo.addons.decimal_precision as dp
+from odoo import api, fields, models
 from odoo.addons.l10n_br_base.constante_tributaria import (
     ORIGEM_MERCADORIA,
     TIPO_PRODUTO_SERVICO,
     TIPO_PRODUTO_SERVICO_MATERIAL_USO_CONSUMO,
     TIPO_PRODUTO_SERVICO_SERVICOS,
 )
+from odoo.exceptions import ValidationError
+
 _logger = logging.getLogger(__name__)
 
 try:
