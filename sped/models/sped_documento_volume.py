@@ -13,6 +13,7 @@ import odoo.addons.decimal_precision as dp
 class DocumentoVolume(models.Model):
     _description = 'Volume do Documento Fiscal'
     _name = 'sped.documento.volume'
+    _inherit = 'sped.base'
     # _order = 'emissao, modelo, data_emissao desc, serie, numero'
     # _rec_name = 'numero'
 
@@ -37,11 +38,11 @@ class DocumentoVolume(models.Model):
         string=u'Quantidade',
         digits=dp.get_precision('SPED - Quantidade')
     )
-    peso_liquido = fields.Float(
+    peso_liquido = fields.Monetary(
         string=u'Peso líquido',
-        digits=dp.get_precision('SPED - Peso')
+        currency_field='currency_peso_id',
     )
-    peso_bruto = fields.Float(
+    peso_bruto = fields.Monetary(
         string=u'Peso bruto',
-        digits=dp.get_precision('SPED - Peso')
+        currency_field='currency_peso_id',
     )
