@@ -5,8 +5,11 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-from odoo import api, fields, models
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo import fields, models
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    FORMA_IMPORTACAO,
+    VIA_TRANSPORTE_IMPORTACAO,
+)
 
 
 class DocumentoItemDeclaracaoImportacao(models.Model):

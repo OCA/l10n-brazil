@@ -49,6 +49,6 @@ class DocumentoDuplicata(models.Model):
                     duplicata.documento_id = \
                         duplicata.pagamento_id.documento_id.id
                 elif duplicata.documento_id.id != \
-                    duplicata.pagamento_id.documento_id.id:
+                        duplicata.pagamento_id.documento_id.id:
                     duplicata.documento_id = \
                         duplicata.pagamento_id.documento_id.id
