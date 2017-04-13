@@ -146,15 +146,26 @@ class DocumentoItem(models.Model):
         string=u'Item da operação fiscal',
         ondelete='restrict',
     )
-    quantidade = fields.Float(
-        string=u'Quantidade',
-        default=1,
-        digits=dp.get_precision(u'SPED - Quantidade'),
-    )
+    #quantidade = fields.Float(
+        #string=u'Quantidade',
+        #default=1,
+        #digits=dp.get_precision(u'SPED - Quantidade'),
+    #)
     unidade_id = fields.Many2one(
         comodel_name='sped.unidade',
         string=u'Unidade',
         ondelete='restrict',
+    )
+    currency_unidade_id = fields.Many2one(
+        comodel_name='res.currency',
+        string=u'Unidade',
+        related='unidade_id.currency_id',
+        readonly=True,
+    )
+    quantidade = fields.Monetary(
+        string=u'Quantidade',
+        default=1,
+        currency_field='currency_unidade_id',
     )
     vr_unitario = fields.Monetary(
         string=u'Valor unitário',
@@ -839,6 +850,57 @@ class DocumentoItem(models.Model):
             'cst_pis_saida': self.cst_cofins_saida
         }}
 
+    #
+    # Automatização do preenchimento dos volumes
+    #
+    peso_bruto_unitario = fields.Monetary(
+        string=u'Peso bruto unitário',
+        currency_field='currency_peso_id',
+    )
+    peso_liquido_unitario = fields.Monetary(
+        string=u'Peso líquido unitário',
+        currency_field='currency_peso_id',
+    )
+    peso_bruto = fields.Monetary(
+        string=u'Peso bruto',
+        currency_field='currency_unitario_id',
+    )
+    peso_liquido = fields.Monetary(
+        string=u'Peso líquido',
+        currency_field='currency_unitario_id',
+    )
+    peso_bruto_readonly = fields.Monetary(
+        string=u'Peso bruto',
+        currency_field='currency_unitario_id',
+        compute='_compute_readonly',
+    )
+    peso_liquido_readonly = fields.Monetary(
+        string=u'Peso líquido',
+        currency_field='currency_unitario_id',
+        compute='_compute_readonly',
+    )
+    especie = fields.Char(
+        string=u'Espécie/embalagem',
+        size=60,
+    )
+    marca = fields.Char(
+        string=u'Marca',
+        size=60
+    )
+    fator_quantidade_especie = fields.Float(
+        string=u'Quantidade por espécie/embalagem',
+        digits=dp.get_precision(u'SPED - Quantidade'),
+    )
+    quantidade_especie = fields.Float(
+        string=u'Quantidade por espécie/embalagem',
+        digits=dp.get_precision(u'SPED - Quantidade'),
+    )
+    quantidade_especie_readonly = fields.Float(
+        string=u'Quantidade por espécie/embalagem',
+        digits=dp.get_precision(u'SPED - Quantidade'),
+        compute='_compute_readonly',
+    )
+
     def _estado_origem_estado_destino_destinatario(self):
         self.ensure_one()
 
@@ -936,6 +998,12 @@ class DocumentoItem(models.Model):
 
         elif self.operacao_id.preco_automatico == 'C':
             valores['vr_unitario'] = self.produto_id.preco_custo
+
+        valores['peso_bruto_unitario'] = self.produto_id.peso_bruto
+        valores['peso_liquido_unitario'] = self.produto_id.peso_liquido
+        valores['especie'] = self.produto_id.especie
+        valores['fator_quantidade_especie'] = \
+            self.produto_id.fator_quantidade_especie
 
         estado_origem, estado_destino, destinatario = \
             self._estado_origem_estado_destino_destinatario()
@@ -1557,7 +1625,9 @@ class DocumentoItem(models.Model):
     @api.onchange('vr_unitario', 'quantidade', 'vr_unitario_tributacao',
                   'quantidade_tributacao', 'vr_frete',
                   'vr_seguro', 'vr_desconto', 'vr_outras', 'vr_ii',
-                  'fator_conversao_unidade_tributacao')
+                  'fator_conversao_unidade_tributacao',
+                  'peso_bruto_unitario', 'peso_liquido_unitario',
+                  'especie', 'fator_quantidade_especie')
     def _onchange_calcula_valor_operacao(self):
         self.ensure_one()
 
@@ -1614,6 +1684,26 @@ class DocumentoItem(models.Model):
         valores['vr_produtos_tributacao'] = vr_produtos_tributacao
         valores['vr_operacao'] = vr_operacao
         valores['vr_operacao_tributacao'] = vr_operacao_tributacao
+
+        #
+        # Preenchimento automático de volumes
+        #
+        peso_bruto = D(self.quantidade) * D(self.peso_bruto_unitario)
+        peso_bruto = peso_bruto.quantize(D('0.0001'))
+        peso_liquido = D(self.quantidade) * D(self.peso_liquido_unitario)
+        peso_liquido = peso_liquido.quantize(D('0.0001'))
+
+        if self.fator_quantidade_especie > 0 and self.especie:
+            quantidade_especie = D(self.quantidade) / \
+                D(self.fator_quantidade_especie)
+            quantidade_especie = quantidade_especie.quantize(D('0.0001'))
+
+        else:
+            quantidade_especie = 0
+
+        valores['peso_bruto'] = peso_bruto
+        valores['peso_liquido'] = peso_liquido
+        valores['quantidade_especie'] = quantidade_especie
 
         return res
 
@@ -2128,3 +2218,6 @@ class DocumentoItem(models.Model):
             item.vr_unitario_custo_comercial_readonly = \
                 item.vr_unitario_custo_comercial
             item.vr_custo_comercial_readonly = item.vr_custo_comercial
+            item.peso_bruto_readonly = item.peso_bruto
+            item.peso_liquido_readonly = item.peso_liquido
+            item.quantidade_especie_readonly = item.quantidade_especie
