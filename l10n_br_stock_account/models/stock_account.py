@@ -12,6 +12,13 @@ class StockPicking(models.Model):
     def _default_fiscal_category(self):
         return self.env.user.company_id.stock_fiscal_category_id
 
+    @api.multi
+    @api.depends('invoice_id.nfe_access_key')
+    def _get_fiscal_document_access_key(self):
+        for picking in self:
+            picking.fiscal_document_access_key = \
+                picking.invoice_id.nfe_access_key if picking.invoice_id else ''
+
     fiscal_category_id = fields.Many2one(
         'l10n_br_account.fiscal.category', 'Categoria Fiscal',
         readonly=True, domain="[('state', '=', 'approved')]",
@@ -21,6 +28,9 @@ class StockPicking(models.Model):
         'account.fiscal.position', u'Posição Fiscal',
         domain="[('fiscal_category_id','=',fiscal_category_id)]",
         readonly=True, states={'draft': [('readonly', False)]})
+    fiscal_document_access_key = fields.Char(
+        u'Chave de acesso do Documento',
+        compute=_get_fiscal_document_access_key, store=True)
 
     def _fiscal_position_map(self, result, **kwargs):
         ctx = dict(self.env.context)
@@ -56,6 +66,18 @@ class StockPicking(models.Model):
             comment += picking.sale_id.note or ''
         if picking.note:
             comment += ' - ' + picking.note
+
+        fiscal_doc_ref = self._context.get('fiscal_doc_ref', False)
+        if vals.get('type', False) == 'out_refund' and fiscal_doc_ref \
+                and fiscal_doc_ref._name == 'account.invoice':
+            result['fiscal_document_related_ids'] = [
+                (0, False,
+                 {'invoice_related_id': fiscal_doc_ref.id,
+                  'document_type': 'nfe',
+                  'access_key': fiscal_doc_ref.nfe_access_key})]
+
+        if picking.fiscal_category_id.purpose:
+            result['nfe_purpose'] = picking.fiscal_category_id.purpose
 
         result['partner_shipping_id'] = picking.partner_id.id
 

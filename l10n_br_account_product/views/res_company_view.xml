@@ -7,6 +7,11 @@
             <field name="model">res.company</field>
             <field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_company_form"/>
             <field name="arch" type="xml">
+                <field name="fiscal_type" position="after">
+                    <field name="ret"/>
+                    <field name="issqn_exigibilidade"/>
+                    <field name="issqn_suspension_process" attrs="{'invisible':[('issqn_exigibilidade','not in',['6','7'])]}"/>
+                </field>
                 <page string="Certificados" position="inside">
                     <group col="2" string="NFe">
                         <field name="nfe_a1_file"/>
@@ -36,8 +41,10 @@
                                 </group>
                             </page>
                             <page string="Impostos">
-                                <separator colspan="4" string="Impostos sobre Produtos" />
+                                <separator colspan="4" string="Impostos sobre Produtos na Venda" />
                                 <field colspan="2" nolabel="1" widget="one2many_list"   name="product_tax_definition_line" />
+                                <separator colspan="4" string="Impostos sobre Produtos na Compra" />
+                                <field colspan="2" nolabel="1" widget="one2many_list"   name="purchase_product_tax_definition_line" />
                             </page>
                             <page string="NFe">
                                 <group>
@@ -60,6 +67,25 @@
                                 </group>
                             </page>
                         </notebook>
+                    </page>
+                    <page string="Retenções">
+                        <group>
+                            <group col="2" string="Retenção Impostos sobre serviços:">
+                                <group>
+                                    <field name="issqn_wh"/>
+                                    <field name="irrf_wh"/>
+                                    <field name="irrf_wh_base"/>
+                                    <field name="inss_wh"/>
+                                    <field name="inss_wh_base"/>
+                                </group>
+                                <group>
+                                    <field name="cofins_csll_pis_wh_base"/>
+                                    <field name="pis_wh"/>
+                                    <field name="cofins_wh"/>
+                                    <field name="csll_wh"/>
+                                </group>
+                            </group>
+                        </group>
                     </page>
                 </page>
             </field>
@@ -85,6 +111,34 @@
             <field name="arch" type="xml">
                 <tree string="Definição de Impostos" editable="bottom">
                     <field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]" select="1"/>
+                    <field name="tax_domain" invisible="1"/>
+                    <field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
+                    <field name="tax_ipi_guideline_id"/>
+                    <field name="tax_icms_relief_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="l10n_br_tax_definition_company_purchase_product_form" model="ir.ui.view">
+            <field name="name">l10n_br_tax.definition.company.purchase_product.form</field>
+            <field name="model">l10n_br_tax.definition.company.purchase_product</field>
+            <field name="arch" type="xml">
+                <form string="Definição de Impostos">
+                    <field name="tax_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1"/>
+                    <field name="tax_domain" invisible="1"/>
+                    <field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
+                    <field name="tax_ipi_guideline_id"/>
+                    <field name="tax_icms_relief_id"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="l10n_br_tax_definition_company_purchase_product_tree" model="ir.ui.view">
+            <field name="name">l10n_br_tax.definition.company.purchase_product.tree</field>
+            <field name="model">l10n_br_tax.definition.company.purchase_product</field>
+            <field name="arch" type="xml">
+                <tree string="Definição de Impostos" editable="bottom">
+                    <field name="tax_id" domain="[('type_tax_use', 'in', ('purchase', 'all'))]" select="1"/>
                     <field name="tax_domain" invisible="1"/>
                     <field name="tax_code_id" domain="[('domain', '=', tax_domain)]" select="1"/>
                     <field name="tax_ipi_guideline_id"/>

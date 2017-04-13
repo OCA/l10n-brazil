@@ -49,6 +49,8 @@
                     <field name="origin"/>
                     <field name="amount_untaxed" sum="Untaxed Amount"/>
                     <field name="amount_total" sum="Total Amount"/>
+                    <field name="amount_wh" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                           <!--attrs="{'invisible': [('fiscal_type', '!=', 'service')]}"-->
                     <field name="state"/>
                     <field name="type" invisible="context.get('type',True)"/>
                 </tree>
@@ -342,6 +344,31 @@
                                 <field name="fiscal_comment" nolabel="1"/>
                             </group>
                         </page>
+                        <page string="Retenções">
+                            <group string="Retenção Impostos sobre serviços:" >
+                                <group>
+                                    <field name="issqn_wh" />
+                                    <field name="pis_wh" />
+                                    <field name="cofins_wh" />
+                                    <field name="csll_wh" />
+                                    <field name="irrf_wh" />
+                                    <field name="inss_wh" />
+                                </group>
+                                <group>
+                                    <field name="amount_pis_cofins_csll" invisible="1"/>
+                                    <field name="issqn_value_wh" />
+                                    <field name="pis_value_wh" />
+                                    <field name="cofins_value_wh" />
+                                    <field name="csll_value_wh" />
+                                    <field name="irrf_base_wh" />
+                                    <field name="irrf_value_wh" />
+                                    <field name="inss_base_wh" />
+                                    <field name="inss_value_wh" />
+                                    <newline/>
+                                    <field name="amount_wh" />
+                                </group>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
@@ -392,6 +419,7 @@
                                 <field name="name"/>
                         </page>
                         <page position="inside" string="Impostos">
+                            <field name="inss_wh_value" invisible="1"/>
                             <group>
                                 <field name="total_taxes"/>
                             </group>
@@ -430,11 +458,15 @@
                                 <page string="ISSQN" attrs="{'invisible': [('product_type','!=', 'service')]}">
                                     <group>
                                         <field name="issqn_manual" invisible="True"/>
-                                        <field name="issqn_type"/>
                                         <field name="issqn_base"/>
                                         <field name="issqn_percent"/>
                                         <field name="service_type_id" attrs="{'required': [('product_type','=', 'service')]}" domain="[('internal_type','=','normal')]"/>
+                                        <field name="issqn_exigibilidade"/>
+                                        <field name="issqn_suspension_process"
+                                               attrs="{'invisible': [('issqn_exigibilidade','not in', ['6','7'])]}"/>
                                         <field name="issqn_value"/>
+                                        <field name="issqn_wh_value" invisible="1"/>
+
                                     </group>
                                 </page>
                                 <page string="IPI" attrs="{'invisible': [('product_type','=', 'service')]}">
@@ -464,6 +496,7 @@
                                         <group>
                                             <field name="pis_percent"/>
                                             <field name="pis_value"/>
+                                            <field name="pis_wh_value" invisible="1"/>
                                         </group>
                                     </group>
                                     <group string="Detalhes do PIS ST">
@@ -484,6 +517,7 @@
                                             <field name="cofins_cst_id" attrs="{'required': [('product_type','in', ('product', 'service'))]}"/>
                                             <field name="cofins_type"/>
                                             <field name="cofins_base"/>
+                                            <field name="cofins_wh_value" invisible="1"/>
                                         </group>
                                         <group>
                                             <field name="cofins_percent"/>
@@ -507,6 +541,22 @@
                                         <field name="ii_customhouse_charges"/>
                                         <field name="ii_iof"/>
                                         <field name="ii_value"/>
+                                    </group>
+                                </page>
+                                <page string="CSLL">
+                                    <group>
+                                        <field name="csll_base"/>
+                                        <field name="csll_percent"/>
+                                        <field name="csll_value"/>
+                                        <field name="csll_wh_value" invisible="1"/>
+                                    </group>
+                                </page>
+                                <page string="IR">
+                                    <group>
+                                        <field name="ir_base"/>
+                                        <field name="ir_percent"/>
+                                        <field name="ir_value"/>
+                                        <field name="ir_wh_value" invisible="1"/>
                                     </group>
                                 </page>
                             </notebook>
