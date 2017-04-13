@@ -17,7 +17,7 @@
 
     <record id="CASAS_DECIMAIS_PESO" model="decimal.precision">
         <field name="name">SPED - Peso</field>
-        <field name="digits">2</field>
+        <field name="digits">3</field>
     </record>
 
 </odoo>
