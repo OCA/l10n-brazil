@@ -33,7 +33,8 @@ class Base(models.AbstractModel):
         comodel_name='res.currency',
         string=u'Unitário',
         compute='_compute_currency_id',
-        default=lambda self: self.env.ref('l10n_br_base.SIMBOLO_VALOR_UNITARIO')
+        default=lambda self: self.env.ref(
+            'l10n_br_base.SIMBOLO_VALOR_UNITARIO')
     )
     currency_peso_id = fields.Many2one(
         comodel_name='res.currency',
