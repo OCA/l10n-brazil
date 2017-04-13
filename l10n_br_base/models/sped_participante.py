@@ -9,17 +9,17 @@
 import logging
 
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exeptions import ValidationError
 from ..constante_tributaria import (
     INDICADOR_IE_DESTINATARIO,
     INDICADOR_IE_DESTINATARIO_ISENTO,
     INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
     REGIME_TRIBUTARIO,
     REGIME_TRIBUTARIO_LUCRO_PRESUMIDO,
-    REGIME_TRIBUTARIO_LUCRO_REAL,
     REGIME_TRIBUTARIO_SIMPLES,
-    REGIME_TRIBUTARIO_SIMPLES_EXCESSO,
     TIPO_PESSOA_JURIDICA,
+    TIPO_PESSOA_FISICA,
+    TIPO_PESSOA_ESTRANGEIRO,
 )
 
 _logger = logging.getLogger(__name__)
@@ -29,12 +29,12 @@ try:
 
     from pybrasil.base import mascara, primeira_maiuscula
     from pybrasil.inscricao import (formata_cnpj, formata_cpf,
-                                limpa_formatacao,
-                                formata_inscricao_estadual, valida_cnpj,
-                                valida_cpf, valida_inscricao_estadual)
+                                    limpa_formatacao,
+                                    formata_inscricao_estadual, valida_cnpj,
+                                    valida_cpf, valida_inscricao_estadual)
     from pybrasil.telefone import (formata_fone, valida_fone_fixo,
-                               valida_fone_celular,
-                               valida_fone_internacional)
+                                   valida_fone_celular,
+                                   valida_fone_internacional)
 
 except (ImportError, IOError) as err:
     _logger.debug(err)

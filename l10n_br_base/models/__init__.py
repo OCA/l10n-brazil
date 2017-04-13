@@ -41,4 +41,3 @@ from . import inherited_res_partner
 from . import copied_account_payment_term
 from . import copied_account_payment_term_line
 from . import inherited_account_payment_term
-

@@ -6,17 +6,16 @@
 #
 
 
-from odoo import api, fields, models
+from odoo import api, models
 from pybrasil.valor.decimal import Decimal as D
 
 
 class DecimalPrecision(models.Model):
     _inherit = 'decimal.precision'
 
+    @api.multi
     def write(self, dados):
         res = super(DecimalPrecision, self).write(dados)
-        import ipdb; ipdb.set_trace();
-
         for dp in self:
             #
             # Mantém a sincronia entre as casas decimais dos campos float
@@ -26,5 +25,4 @@ class DecimalPrecision(models.Model):
                 simbolo = self.env.ref('sped.SIMBOLO_VALOR_UNITARIO')
                 arredondamento = D(10) ** (D(dp.digits or 0) * -1)
                 simbolo.rounding = arredondamento
-
         return res
