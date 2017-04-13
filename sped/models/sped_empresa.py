@@ -16,6 +16,27 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     REGIME_TRIBUTARIO_SIMPLES_EXCESSO,
     TIPO_EMISSAO_NFE,
 )
+import logging
+
+_logger = logging.getLogger(__name__)
+
+if True:
+    # try:
+    from email_validator import validate_email
+
+    from pybrasil.base import mascara, primeira_maiuscula
+    from pybrasil.inscricao import (
+        formata_cnpj, formata_cpf, limpa_formatacao,
+        formata_inscricao_estadual, valida_cnpj, valida_cpf,
+        valida_inscricao_estadual
+    )
+    from pybrasil.telefone import (
+        formata_fone, valida_fone_fixo, valida_fone_celular,
+        valida_fone_internacional
+    )
+
+# except (ImportError, IOError) as err:
+#    _logger.debug(err)
 
 
 class Empresa(models.Model):
@@ -174,7 +195,8 @@ class Empresa(models.Model):
         string=u'Último lote de RPS'
     )
 
-    @api.depends('simples_anexo_id', 'simples_anexo_servico_id', 'simples_teto_id')
+    @api.depends('simples_anexo_id', 'simples_anexo_servico_id',
+                 'simples_teto_id')
     def _compute_simples_aliquota_id(self):
         for empresa in self:
             simples_aliquota_ids = self.env[
