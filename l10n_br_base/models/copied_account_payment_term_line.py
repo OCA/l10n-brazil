@@ -6,7 +6,7 @@
 #
 
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 import odoo.addons.decimal_precision as dp
 
@@ -17,54 +17,54 @@ class AccountPaymentTermLine(models.Model):
     _order = 'sequence, id'
 
     TYPE = [
-        ('balance', 'Balance'),
-        ('percent', 'Percent'),
-        ('fixed', 'Fixed Amount'),
+        ('balance', u'Balance'),
+        ('percent', u'Percent'),
+        ('fixed', u'Fixed Amount'),
     ]
 
     OPTIONS = [
-        ('day_after_invoice_date', 'Day(s) after the invoice date'),
+        ('day_after_invoice_date', u'Day(s) after the invoice date'),
         ('fix_day_following_month',
-         'Day(s) after the end of the invoice month (Net EOM)'),
-        ('last_day_following_month', 'Last day of following month'),
-        ('last_day_current_month', 'Last day of current month'),
+         u'Day(s) after the end of the invoice month (Net EOM)'),
+        ('last_day_following_month', u'Last day of following month'),
+        ('last_day_current_month', u'Last day of current month'),
     ]
 
     value = fields.Selection(
         selection=TYPE,
-        string='Type',
+        string=u'Type',
         required=True,
         default='balance',
-        help='Select here the kind of valuation related to this payment term '
-             'line.',
+        help=u'Select here the kind of valuation related to this payment term '
+             u'line.',
     )
     value_amount = fields.Float(
-        string='Value',
+        string=u'Value',
         digits=dp.get_precision('Payment Terms'),
-        help='For percent enter a ratio between 0-100.',
+        help=u'For percent enter a ratio between 0-100.',
     )
     days = fields.Integer(
-        string='Number of Days',
+        string=u'Number of Days',
         required=True,
         default=0,
     )
     option = fields.Selection(
         selection=OPTIONS,
-        string='Options',
+        string=u'Options',
         default='day_after_invoice_date',
         required=True,
     )
     payment_id = fields.Many2one(
         comodel_name='account.payment.term',
-        string='Payment Terms',
+        string=u'Payment Terms',
         required=True,
         index=True,
         ondelete='cascade',
     )
     sequence = fields.Integer(
         default=10,
-        help='Gives the sequence order when displaying a list of payment term '
-             'lines.',
+        help=u'Gives the sequence order when displaying a list of payment '
+             u'term lines.',
     )
 
     @api.constrains('value', 'value_amount')

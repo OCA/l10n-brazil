@@ -7,10 +7,19 @@
 
 
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
 from dateutil.relativedelta import relativedelta
 from pybrasil.valor.decimal import Decimal as D
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    FORMA_PAGAMENTO,
+    BANDEIRA_CARTAO,
+    INTEGRACAO_CARTAO,
+    INTEGRACAO_CARTAO_NAO_INTEGRADO,
+    FORMA_PAGAMENTO_CARTOES,
+    FORMA_PAGAMENTO_CARTAO_CREDITO,
+    FORMA_PAGAMENTO_CARTAO_DEBITO,
+    FORMA_PAGAMENTO_DICT,
+    BANDEIRA_CARTAO_DICT,
+)
 
 
 class AccountPaymentTerm(models.Model):
@@ -56,7 +65,6 @@ class AccountPaymentTerm(models.Model):
         compute='_compute_comercial_name',
     )
 
-
     @api.multi
     def _compute_comercial_name(self):
         if self.env.context.get('currency_id'):
@@ -78,10 +86,10 @@ class AccountPaymentTerm(models.Model):
             comercial_name = u''
             if payment_term.forma_pagamento in FORMA_PAGAMENTO_CARTOES:
                 if payment_term.forma_pagamento == \
-                    FORMA_PAGAMENTO_CARTAO_CREDITO:
+                        FORMA_PAGAMENTO_CARTAO_CREDITO:
                     comercial_name += u'[Crédito '
                 elif payment_term.forma_pagamento == \
-                    FORMA_PAGAMENTO_CARTAO_DEBITO:
+                        FORMA_PAGAMENTO_CARTAO_DEBITO:
                     comercial_name += u'[Débito '
 
                 comercial_name += \
