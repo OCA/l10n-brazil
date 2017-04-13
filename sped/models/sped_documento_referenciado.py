@@ -7,7 +7,10 @@
 
 
 from odoo import fields, models
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    MODELO_FISCAL_REFERENCIADO_FILTRO,
+    MODELO_FISCAL_REFERENCIADO,
+)
 
 
 class DocumentoReferenciado(models.Model):

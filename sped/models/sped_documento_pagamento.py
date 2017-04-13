@@ -7,7 +7,12 @@
 
 
 from odoo import api, fields, models
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    FORMA_PAGAMENTO,
+    BANDEIRA_CARTAO,
+    INTEGRACAO_CARTAO,
+    INTEGRACAO_CARTAO_NAO_INTEGRADO,
+)
 import logging
 _logger = logging.getLogger(__name__)
 

@@ -21,7 +21,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 if True:
-#try:
+    # try:
     from email_validator import validate_email
 
     from pybrasil.base import mascara, primeira_maiuscula
@@ -35,7 +35,7 @@ if True:
         valida_fone_internacional
     )
 
-#except (ImportError, IOError) as err:
+# except (ImportError, IOError) as err:
 #    _logger.debug(err)
 
 
@@ -212,7 +212,8 @@ class Empresa(models.Model):
         string=u'Último lote de RPS'
     )
 
-    @api.depends('simples_anexo_id', 'simples_anexo_servico_id', 'simples_teto_id')
+    @api.depends('simples_anexo_id', 'simples_anexo_servico_id',
+                 'simples_teto_id')
     def _compute_simples_aliquota_id(self):
         for empresa in self:
             simples_aliquota_ids = self.env[

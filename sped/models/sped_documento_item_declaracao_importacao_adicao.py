@@ -5,14 +5,15 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class DocumentoItemDeclaracaoImportacaoAdicao(models.Model):
-    _description = u'Adição da Declaração de Importação do Item do Documento' \
-                    ' Fiscal'
-    _inherit = 'sped.base'
+
     _name = 'sped.documento.item.declaracao.importacao.adicao'
+    _inherit = 'sped.base'
+    _description = """Adição da Declaração de Importação do Item do
+        Documento Fiscal"""
 
     declaracao_id = fields.Many2one(
         comodel_name='sped.documento.item.declaracao.importacao',
