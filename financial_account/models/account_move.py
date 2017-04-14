@@ -28,9 +28,11 @@ class AccountMove(models.Model):
 
     @api.multi
     def assert_balanced(self):
-        if super(AccountMove, self).assert_balanced():
+        res = super(AccountMove, self).assert_balanced()
+        if res:
             financial_to_sync = self.filter_financial_integration()
             financial_to_sync.action_sync_account_with_financial()
+        return res
 
     @api.multi
     def post(self):
