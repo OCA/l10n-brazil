@@ -5,11 +5,7 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-from __future__ import division, print_function, unicode_literals
-
-import logging
-
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODALIDADE_BASE_ICMS_PROPRIO,
@@ -117,4 +113,6 @@ class SpedAliquotaICMSProprio(models.Model):
             al_icms_ids = self.search(busca)
 
             if al_icms_ids:
-                raise ValidationError('Alíquota de ICMS já existe!')
+                raise ValidationError(
+                    _(u'Alíquota de ICMS já existe!')
+                )

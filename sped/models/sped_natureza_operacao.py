@@ -7,7 +7,7 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
 
