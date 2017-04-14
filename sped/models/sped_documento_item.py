@@ -6,7 +6,7 @@
 #
 
 import logging
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
 from odoo.addons.l10n_br_base.constante_tributaria import (
@@ -959,14 +959,17 @@ class DocumentoItem(models.Model):
         # Validamos alguns dos M2O necessários, vindos do documento
         #
         if not self.empresa_id:
-            raise ValidationError('A empresa ativa não foi definida!')
+            raise ValidationError(
+                _(u'A empresa ativa não foi definida!')
+            )
 
         if not self.participante_id:
             raise ValidationError(
-                'O destinatário/remetente não foi informado!')
+                _(u'O destinatário/remetente não foi informado!')
+            )
 
         if not self.operacao_id:
-            raise ValidationError('A operação fiscal não foi informada!')
+            raise ValidationError(_(u'A operação fiscal não foi informada!'))
 
         #
         # Se já ocorreu o preenchimento da descrição, não sobrepõe
@@ -1030,7 +1033,9 @@ class DocumentoItem(models.Model):
             protocolo = self.empresa_id.protocolo_id
 
         if (not protocolo) or (protocolo is None):
-            raise ValidationError('O protocolo não foi definido!')
+            raise ValidationError(
+                _(u'O protocolo não foi definido!')
+            )
 
         #
         # Tratando protocolos que só valem para determinados estados
@@ -1072,7 +1077,7 @@ class DocumentoItem(models.Model):
                                     estado=estado_destino,
                                     produto=self.produto_id.nome)
 
-                    raise ValidationError(mensagem_erro)
+                    raise ValidationError(_(mensagem_erro))
 
         #
         # Determinamos agora qual linha da operação será seguida
@@ -1161,7 +1166,7 @@ class DocumentoItem(models.Model):
                 mensagem_erro = mensagem_erro.format(
                     protocolo=protocolo.descricao, estado='internacionais')
 
-            raise ValidationError(mensagem_erro)
+            raise ValidationError(_(mensagem_erro))
 
         #
         # Agora que temos o item da operação, definimos os valores do item
