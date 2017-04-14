@@ -6,7 +6,7 @@
 
 import re
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.addons.l10n_br_base.tools import fiscal
 from odoo.exceptions import ValidationError
 
@@ -97,12 +97,12 @@ class ResPartner(models.Model):
                     for partner in record.env['res.partner'].search(domain):
                         if (partner.inscr_est == record.inscr_est and
                                 not record.inscr_est):
-                            raise ValidationError(
+                            raise ValidationError(_(
                                 u'Já existe um parceiro cadastrado com esta '
-                                u'Inscrição Estadual !')
+                                u'Inscrição Estadual !'))
                 else:
-                    raise ValidationError(
-                        u'Já existe um parceiro cadastrado com este CNPJ !')
+                    raise ValidationError(_(
+                        u'Já existe um parceiro cadastrado com este CNPJ !'))
 
     @api.multi
     @api.constrains('cnpj_cpf', 'country_id')
@@ -119,7 +119,7 @@ class ResPartner(models.Model):
                     result = False
                     document = u'CPF'
             if not result:
-                raise ValidationError(u"{} Invalido!".format(document))
+                raise ValidationError(_(u"{} Invalido!".format(document)))
 
     @api.multi
     @api.constrains('inscr_est', 'state_id')
@@ -138,7 +138,7 @@ class ResPartner(models.Model):
                 uf = state_code.lower()
                 result = fiscal.validate_ie(uf, record.inscr_est)
             if not result:
-                raise ValidationError(u"Inscrição Estadual Invalida!")
+                raise ValidationError(_(u"Inscrição Estadual Invalida!"))
 
     @api.onchange('cnpj_cpf', 'country_id')
     def _onchange_cnpj_cpf(self):
