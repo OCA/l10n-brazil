@@ -135,8 +135,9 @@ class FinancialMove(models.Model):
 
     def _confirm(self):
         to_confirm = self.filtered(lambda f: f.state in 'draft')
-        super(FinancialMove, to_confirm).action_confirm()
+        res = super(FinancialMove, to_confirm).action_confirm()
         self.action_move_create()
+        return res
 
     @api.multi
     def action_confirm(self):
