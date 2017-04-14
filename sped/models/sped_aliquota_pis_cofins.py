@@ -5,11 +5,7 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-from __future__ import division, print_function, unicode_literals
-
-import logging
-
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODALIDADE_BASE_PIS,
@@ -138,4 +134,6 @@ class SpedAliquotaPISCOFINS(models.Model):
             al_pis_cofins_ids = self.search(busca)
 
             if al_pis_cofins_ids:
-                raise ValidationError('Alíquotas de PIS e COFINS já existem!')
+                raise ValidationError(
+                    _(u'Alíquotas de PIS e COFINS já existem!')
+                )

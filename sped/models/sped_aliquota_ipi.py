@@ -5,11 +5,7 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-from __future__ import division, print_function, unicode_literals
-
-import logging
-
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODALIDADE_BASE_IPI,
@@ -99,4 +95,4 @@ class SpedAliquotaIPI(models.Model):
             al_ipi_ids = self.search(busca)
 
             if al_ipi_ids:
-                raise ValidationError('Alíquota de IPI já existe!')
+                raise ValidationError(_(u'Alíquota de IPI já existe!'))
