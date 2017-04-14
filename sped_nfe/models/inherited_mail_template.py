@@ -5,15 +5,16 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-from ...mail.models.mail_template import (
+from odoo import api, fields, models, tools, _
+from odoo.exceptions import UserError
+
+from odoo.addons.mail.models.mail_template import (
     mako_safe_template_env,
     mako_template_env,
     format_date,
     format_tz,
 )
 import logging
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
