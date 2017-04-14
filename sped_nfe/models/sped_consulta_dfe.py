@@ -57,9 +57,10 @@ class ConsultaDFe(models.Model):
                 tipo_emissao=CONS_NFE_EMISSAO_TODOS_EMITENTES,
             )
 
-            print(processo.envio.xml.encode('utf-8'))
-            print('resposta')
-            print(processo.resposta.original.encode('utf-8'))
+            _logger.info("ConsultaDFe")
+            _logger.info(processo.envio.xml.encode('utf-8'))
+            _logger.info('resposta')
+            _logger.info(processo.resposta.original.encode('utf-8'))
 
             ##
             # Nenhum documento encontrado

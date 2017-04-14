@@ -5,9 +5,10 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-from __future__ import division, print_function, unicode_literals
+from odoo import api, fields, models, tools, _
+from odoo.exceptions import UserError
 
-from ...mail.models.mail_template import (
+from odoo.addons.mail.models.mail_template import (
     mako_safe_template_env,
     mako_template_env,
     format_date,
@@ -15,10 +16,6 @@ from ...mail.models.mail_template import (
 )
 
 import logging
-
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError, ValidationError
-from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 
