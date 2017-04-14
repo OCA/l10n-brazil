@@ -75,8 +75,8 @@ class AccountPaymentTermLine(models.Model):
         if (self.value == 'percent' and
             (self.value_amount < 0.0 or
              self.value_amount > 100.0)):
-            raise ValidationError(_('Percentages for Payment Terms Line must '
-                                    'be between 0 and 100.'))
+            raise ValidationError(_(u"""Percentages for Payment Terms Line
+            must be between 0 and 100."""))
 
     @api.onchange('option')
     def _onchange_option(self):
