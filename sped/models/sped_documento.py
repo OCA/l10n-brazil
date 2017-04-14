@@ -6,7 +6,7 @@
 #
 
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.addons.l10n_br_base.constante_tributaria import (
     TIPO_EMISSAO_NFE,
@@ -1179,7 +1179,7 @@ class Documento(models.Model):
                 mensagem = \
                     u'Não é permitido criar este documento fiscal!'
 
-            raise ValidationError(mensagem)
+            raise ValidationError(_(mensagem))
 
     def unlink(self):
         self._check_permite_alteracao(operacao='unlink')

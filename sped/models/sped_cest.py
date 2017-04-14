@@ -5,7 +5,7 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 
@@ -57,4 +57,4 @@ class CEST(models.Model):
                 cest_ids = self.search([('codigo', '=', cest.codigo)])
 
             if len(cest_ids) > 0:
-                raise ValidationError(u'Código CEST já existe na tabela!')
+                raise ValidationError(_(u'Código CEST já existe na tabela!'))

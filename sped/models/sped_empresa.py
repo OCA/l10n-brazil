@@ -5,7 +5,7 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.addons.l10n_br_base.constante_tributaria import (
     AMBIENTE_NFE,
@@ -273,7 +273,7 @@ class Empresa(models.Model):
 
         if cnpj_cpf[:2] != 'EX':
             if not valida_cnpj(cnpj_cpf) and not valida_cpf(cnpj_cpf):
-                raise ValidationError('CNPJ/CPF inválido')
+                raise ValidationError(_(u'CNPJ/CPF inválido'))
 
         if len(cnpj_cpf) == 14:
             valores.update(cnpj_cpf=formata_cnpj(cnpj_cpf))
@@ -303,8 +303,7 @@ class Empresa(models.Model):
             ])
 
         if len(cnpj_ids) > 0:
-            raise ValidationError(u'CNPJ/CPF já existe no cadastro!')
-
+            raise ValidationError(_(u'CNPJ/CPF já existe no cadastro!'))
         return res
 
     @api.constrains('cnpj_cpf')
@@ -325,7 +324,7 @@ class Empresa(models.Model):
         if self.fone:
             if (not valida_fone_internacional(self.fone)) and (
                     not valida_fone_fixo(self.fone)):
-                raise ValidationError(u'Telefone fixo inválido!')
+                raise ValidationError(_(u'Telefone fixo inválido!'))
 
             valores.update(fone=formata_fone(self.fone))
 
@@ -333,14 +332,14 @@ class Empresa(models.Model):
             if (not valida_fone_internacional(self.fone_comercial)) and (
                     not valida_fone_fixo(self.fone_comercial)) and (
                     not valida_fone_celular(self.fone_comercial)):
-                raise ValidationError(u'Telefone comercial inválido!')
+                raise ValidationError(_(u'Telefone comercial inválido!'))
 
             valores.update(fone_comercial=formata_fone(self.fone_comercial))
 
         if self.celular:
             if (not valida_fone_internacional(self.celular)) and (
                     not valida_fone_celular(self.celular)):
-                raise ValidationError(u'Celular inválido!')
+                raise ValidationError(_(u'Celular inválido!'))
 
             valores.update(celular=formata_fone(self.celular))
 
@@ -366,7 +365,7 @@ class Empresa(models.Model):
 
         cep = limpa_formatacao(self.cep)
         if (not cep.isdigit()) or len(cep) != 8:
-            raise ValidationError(u'CEP inválido!')
+            raise ValidationError(_(u'CEP inválido!'))
 
         valores.update(cep=cep[:5] + '-' + cep[5:])
 
@@ -389,7 +388,7 @@ class Empresa(models.Model):
 
         if self.suframa:
             if not valida_inscricao_estadual(self.suframa, 'SUFRAMA'):
-                raise ValidationError(u'Inscrição na SUFRAMA inválida!')
+                raise ValidationError(_(u'Inscrição na SUFRAMA inválida!'))
 
             valores.update(suframa=formata_inscricao_estadual(
                 self.suframa, 'SUFRAMA'))
@@ -400,18 +399,18 @@ class Empresa(models.Model):
 
             else:
                 if not self.municipio_id:
-                    raise ValidationError(
+                    raise ValidationError(_(
                         u"""Para validação da inscrição estadual é preciso
-                        informar o município!""")
+                        informar o município!"""))
 
                 if (self.ie.strip().upper()[:6] == 'ISENTO' or
                         self.ie.strip().upper()[:6] == 'ISENTA'):
-                    raise ValidationError(
-                        u'Inscrição estadual inválida para contribuinte!')
+                    raise ValidationError(_(
+                        u'Inscrição estadual inválida para contribuinte!'))
 
                 if not valida_inscricao_estadual(
                         self.ie, self.municipio_id.estado_id.uf):
-                    raise ValidationError(u'Inscrição estadual inválida!')
+                    raise ValidationError(_(u'Inscrição estadual inválida!'))
 
                 valores.update(
                     ie=formata_inscricao_estadual(
@@ -449,7 +448,7 @@ class Empresa(models.Model):
                     valido = validate_email(e.strip())
                     emails_validos.append(valido['email'])
                 except:
-                    raise ValidationError(u'Email %s inválido!' % e.strip())
+                    raise ValidationError(_(u'Email %s inválido!' % e.strip()))
 
             valores.update(email=','.join(emails_validos))
 
@@ -468,7 +467,9 @@ class Empresa(models.Model):
                     valido = validate_email(e.strip())
                     emails_validos.append(valido['email'])
                 except:
-                    raise ValidationError(u'Email %s inválido!' % e.strip())
+                    raise ValidationError(
+                        _(u'Email %s inválido!' % e.strip())
+                    )
 
             valores.update(email_nfe=','.join(emails_validos))
 

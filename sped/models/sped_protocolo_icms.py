@@ -6,7 +6,7 @@
 #
 
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.addons.l10n_br_base.constante_tributaria import (
     ALIQUOTAS_ICMS,
@@ -274,7 +274,7 @@ class ProtocoloICMS(models.Model):
             jah_existe = self.env.cr.fetchall()
 
             if jah_existe:
-                raise ValidationError('Protocolo já existe!')
+                raise ValidationError(_('Protocolo já existe!'))
 
         return res
 

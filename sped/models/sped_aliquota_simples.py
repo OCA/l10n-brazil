@@ -6,7 +6,7 @@
 #
 
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 
@@ -37,7 +37,9 @@ class AliquotaSIMPLESAnexo(models.Model):
                 anexo_ids = self.search([('nome', '=', anexo.nome)])
 
             if anexo_ids:
-                raise ValidationError(u'Anexo já existe na tabela!')
+                raise ValidationError(
+                    _(u'Anexo já existe na tabela!')
+                )
 
 
 class AliquotaSIMPLESTeto(models.Model):
@@ -68,7 +70,7 @@ class AliquotaSIMPLESTeto(models.Model):
                 teto_ids = self.search(
                     [('valor', '=', teto.valor)])
             if teto_ids:
-                raise ValidationError('Teto já existe na tabela!')
+                raise ValidationError(_(u'Teto já existe na tabela!'))
 
 
 class AliquotaSIMPLESAliquota(models.Model):
