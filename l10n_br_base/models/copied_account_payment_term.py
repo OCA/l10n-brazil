@@ -60,14 +60,14 @@ class AccountPaymentTerm(models.Model):
         payment_term_lines = self.line_ids.sorted()
 
         if payment_term_lines and payment_term_lines[-1].value != 'balance':
-            raise ValidationError(_('A Payment Term should have its last line '
-                                    'of type Balance.'))
+            raise ValidationError(_(u"""A Payment Term should have its last
+            line 'of type Balance."""))
 
         lines = self.line_ids.filtered(lambda r: r.value == 'balance')
 
         if len(lines) > 1:
-            raise ValidationError(_('A Payment Term should have only one line '
-                                    'of type Balance.'))
+            raise ValidationError(_(u"""A Payment Term should have only one
+            line of type Balance."""))
 
     @api.one
     def compute(self, value, date_ref=False):

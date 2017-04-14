@@ -66,4 +66,4 @@ class CNAE(models.Model):
                 cnae_ids = self.search([('codigo', '=', cnae.codigo)])
 
             if len(cnae_ids) > 0:
-                raise ValidationError(u'Código CNAE já existe na tabela!')
+                raise ValidationError(_(u'Código CNAE já existe na tabela!'))
