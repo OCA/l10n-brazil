@@ -1,0 +1,4 @@
+---Fields in module 'l10n_br_purchase'---
+---XML records in module 'l10n_br_purchase'---
+DEL ir.model.access: l10n_br_purchase.l10n_br_tax_definition_template_user
+DEL ir.model.access: l10n_br_purchase.l10n_br_tax_definition_user

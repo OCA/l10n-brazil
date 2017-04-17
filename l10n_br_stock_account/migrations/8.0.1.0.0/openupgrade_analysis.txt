@@ -1,0 +1,19 @@
+---Fields in module 'l10n_br_stock_account'---
+---XML records in module 'l10n_br_stock_account'---
+NEW ir.model.access: l10n_br_stock_account.l10n_br_account_cnae
+NEW ir.model.access: l10n_br_stock_account.l10n_br_account_document_serie
+NEW ir.model.access: l10n_br_stock_account.l10n_br_account_fiscal_category
+NEW ir.model.access: l10n_br_stock_account.l10n_br_account_fiscal_document
+NEW ir.model.access: l10n_br_stock_account.l10n_br_account_product_category
+NEW ir.model.access: l10n_br_stock_account.l10n_br_account_product_cfop
+NEW ir.model.access: l10n_br_stock_account.l10n_br_tax_definition_company_product_user
+NEW ir.model.access: l10n_br_stock_account.l10n_br_tax_definition_purchase_template_user
+NEW ir.model.access: l10n_br_stock_account.l10n_br_tax_definition_purchase_user
+NEW ir.model.access: l10n_br_stock_account.l10n_br_tax_definition_sale_template_user
+NEW ir.model.access: l10n_br_stock_account.l10n_br_tax_definition_sale_user
+NEW ir.ui.view: l10n_br_stock_account.l10n_br_stock_move_form
+NEW ir.ui.view: l10n_br_stock_account.l10n_br_view_move_picking_tree
+NEW ir.ui.view: l10n_br_stock_account.l10n_br_view_picking_form1
+NEW ir.ui.view: l10n_br_stock_account.view_l10n_br_stock_company_form
+NEW ir.ui.view: l10n_br_stock_account.view_l10n_br_stock_invoice_onshipping
+NEW res.company: base.main_company
