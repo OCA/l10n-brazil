@@ -3,6 +3,7 @@ Core da localização Brasileira do Odoo (novo OpenERP)
  
 [![Build Status](https://travis-ci.org/OCA/l10n-brazil.svg?branch=8.0)](https://travis-ci.org/OCA/l10n-brazil)
 [![Coverage Status](https://coveralls.io/repos/OCA/l10n-brazil/badge.png?branch=8.0)](https://coveralls.io/r/OCA/l10n-brazil?branch=8.0)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/odoo-brazil/odoo-brazil?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
  
  
 Escopo desse repo
