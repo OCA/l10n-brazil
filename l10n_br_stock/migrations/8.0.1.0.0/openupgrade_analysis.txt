@@ -1,0 +1,31 @@
+---Fields in module 'l10n_br_stock'---
+l10n_br_stock / res.company              / stock_fiscal_category_id (many2one): module is now 'l10n_br_stock_account' ('l10n_br_stock')
+l10n_br_stock / res.company              / stock_in_fiscal_category_id (many2one): module is now 'l10n_br_stock_account' ('l10n_br_stock')
+l10n_br_stock / res.company              / stock_out_fiscal_category_id (many2one): module is now 'l10n_br_stock_account' ('l10n_br_stock')
+l10n_br_stock / stock.move               / fiscal_category_id (many2one) : module is now 'l10n_br_stock_account' ('l10n_br_stock')
+l10n_br_stock / stock.move               / fiscal_position (many2one)    : module is now 'l10n_br_stock_account' ('l10n_br_stock')
+l10n_br_stock / stock.picking            / fiscal_category_id (many2one) : module is now 'l10n_br_stock_account' ('l10n_br_stock')
+l10n_br_stock / stock.picking            / ind_pres (selection)          : DEL selection_keys: ['0', '1', '2', '3', '4', '9']
+---XML records in module 'l10n_br_stock'---
+DEL ir.model.access: l10n_br_stock.l10n_br_account_cnae
+DEL ir.model.access: l10n_br_stock.l10n_br_account_document_serie
+DEL ir.model.access: l10n_br_stock.l10n_br_account_fiscal_category
+DEL ir.model.access: l10n_br_stock.l10n_br_account_fiscal_document
+DEL ir.model.access: l10n_br_stock.l10n_br_account_product_category
+DEL ir.model.access: l10n_br_stock.l10n_br_account_product_cfop
+DEL ir.model.access: l10n_br_stock.l10n_br_tax_definition_company_product_user
+DEL ir.model.access: l10n_br_stock.l10n_br_tax_definition_purchase_template_user
+DEL ir.model.access: l10n_br_stock.l10n_br_tax_definition_purchase_user
+DEL ir.model.access: l10n_br_stock.l10n_br_tax_definition_sale_template_user
+DEL ir.model.access: l10n_br_stock.l10n_br_tax_definition_sale_user
+DEL ir.model.access: l10n_br_stock.l10n_br_tax_definition_template_user
+DEL ir.model.access: l10n_br_stock.l10n_br_tax_definition_user
+DEL ir.ui.view: l10n_br_stock.l10n_br_view_move_picking_tree
+DEL ir.ui.view: l10n_br_stock.l10n_br_view_picking_form
+DEL ir.ui.view: l10n_br_stock.l10n_br_view_picking_form1
+DEL ir.ui.view: l10n_br_stock.view_l10n_br_stock_company_form
+DEL ir.ui.view: l10n_br_stock.view_l10n_br_stock_invoice_onshipping
+DEL res.company: base.main_company
+
+
+
