@@ -1,0 +1,12 @@
+---Fields in module 'l10n_br_sale_product'---
+l10n_br_sale_product / res.company              / account_freight_id (many2one) : NEW relation: account.account
+l10n_br_sale_product / res.company              / account_insurance_id (many2one): NEW relation: account.account
+l10n_br_sale_product / res.company              / account_other_costs (many2one): NEW relation: account.account
+l10n_br_sale_product / res.company              / default_ind_pres (selection)  : NEW selection_keys: ['0', '1', '2', '3', '4', '9']
+l10n_br_sale_product / sale.order               / amount_costs (float)          : not a function anymore
+l10n_br_sale_product / sale.order               / amount_freight (float)        : not a function anymore
+l10n_br_sale_product / sale.order               / amount_insurance (float)      : not a function anymore
+---XML records in module 'l10n_br_sale_product'---
+NEW ir.ui.view: l10n_br_sale_product.l10n_br_sale_company_form
+NEW ir.ui.view: l10n_br_sale_product.l10n_br_sale_product_company_form
+NEW res.company: base.main_company
