@@ -2,9 +2,15 @@
 # (c) 2014 Kmee - Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from pybrasil.data import hoje
+import logging
+from .abstract_arquivos_governo import AbstractArquivosGoverno
 
-from abstract_arquivos_governo import AbstractArquivosGoverno
+_logger = logging.getLogger(__name__)
+
+try:
+    from pybrasil.data import hoje
+except ImportError:
+    _logger.info('Cannot import pybrasil')
 
 
 class SeguroDesemprego(AbstractArquivosGoverno):

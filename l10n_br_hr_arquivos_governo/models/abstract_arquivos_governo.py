@@ -69,7 +69,6 @@ class AbstractArquivosGoverno(object):
 
         elif tipo == 'AN':      # Alfanumerico
             # Tira acentos da palavras
-            print (word)
             word = tira_acentos(word)
             # Preenche com espaço vazio a esquerda
             return unicode.ljust(unicode(word), tam)[:tam]

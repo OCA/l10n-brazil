@@ -14,6 +14,9 @@
         'l10n_br_hr_payroll',
         'l10n_br_account',
     ],
+    'external_dependencies': {
+        'python': ['pybrasil'],
+    },
     'data': [
         'security/hr_payslip.xml',
         'views/hr_payslip.xml',

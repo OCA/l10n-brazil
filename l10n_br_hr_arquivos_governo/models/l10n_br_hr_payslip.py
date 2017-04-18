@@ -6,8 +6,8 @@ import base64
 
 from openerp import api, fields, exceptions, models, _
 
-from arquivo_grrf import Grrf
-from arquivo_seguro_desemprego import SeguroDesemprego
+from .arquivo_grrf import Grrf
+from .arquivo_seguro_desemprego import SeguroDesemprego
 
 
 class HrPayslip(models.Model):
