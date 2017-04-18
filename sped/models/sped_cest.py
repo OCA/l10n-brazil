@@ -5,8 +5,18 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+import logging
+
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from pybrasil.base import mascara
+
+except (ImportError, IOError) as err:
+    _logger.debug(err)
 
 
 class CEST(models.Model):
@@ -58,3 +68,21 @@ class CEST(models.Model):
 
             if len(cest_ids) > 0:
                 raise ValidationError(u'Código CEST já existe na tabela!')
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        if name and operator in ('=', 'ilike', '=ilike', 'like', 'ilike'):
+            args = list(args or [])
+            args = [
+                '|',
+                ('codigo', '=', name),
+                '|',
+                ('codigo_formatado', '=', mascara(name, u'  .   .  ')),
+                ('descricao', operator, name),
+            ] + args
+
+            cest_ids = self.search(args, limit=limit)
+            return cest_ids.name_get()
+
+        return super(CEST, self).name_search(
+            name=name, args=args, operator=operator, limit=limit)

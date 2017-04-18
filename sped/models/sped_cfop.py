@@ -181,9 +181,7 @@ class CFOP(models.Model):
             ] + args
 
             cfop_ids = self.search(args, limit=limit)
-
-            if cfop_ids:
-                return cfop_ids.name_get()
+            return cfop_ids.name_get()
 
         return super(CFOP, self).name_search(
             name=name, args=args, operator=operator, limit=limit)

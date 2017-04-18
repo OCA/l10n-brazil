@@ -22,25 +22,6 @@ class Estado(models.Model):
         required=True
     )
 
-    # def _descricao(self, cursor, user_id, ids, fields, arg, context=None):
-    # retorno = {}
-
-    # for registro in self.browse(cursor, user_id, ids):
-    # retorno[registro.id] = registro.uf + ' - ' + registro.nome
-
-    # return retorno
-
-    # def _procura_descricao(
-    #   self, cursor, user_id, obj, nome_campo, args, context=None):
-    # texto = args[0][2]
-
-    # procura = [
-    # '|', # Isto define o OR para os dois parâmetros seguintes
-    # ('uf', '=', texto.upper()),
-    # ('nome', 'ilike', texto),
-    # ]
-    # return procura
-
     uf = fields.Char(
         string=u'UF',
         size=2,
@@ -86,8 +67,6 @@ class Estado(models.Model):
         args = args or []
         if name and operator in ('=', 'ilike', '=ilike', 'like'):
             name = name.strip()
-            # if operator != '=':
-            # name = name.strip().replace(' ', '%')
 
             if len(name) <= 2:
                 args += ['|', ('uf', '=', name.upper()),
@@ -96,5 +75,8 @@ class Estado(models.Model):
                 args += ['|', ('uf', '=', name.upper()),
                          ('nome', 'ilike', name)]
 
-        return super(Estado, self).name_search(
-            name=name, args=args, operator=operator, limit=limit)
+            estados = self.search(args, limit=limit)
+            return estados.name_get()
+
+        return super(Estado, self).name_search(name=name, args=args,
+                                               operator=operator, limit=limit)
