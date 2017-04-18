@@ -1129,20 +1129,20 @@ class DocumentoItem(models.Model):
                 else:
                     if self.produto_id.ncm_id:
                         mensagem_erro = \
-                            'Não há protocolo padrão para a empresa, ' \
-                            'e o protocolo “{protocolo}” não pode ' \
-                            'ser usado para o estado “{estado}” ' \
-                            '(produto “{produto}”, NCM “{ncm}”)!' \
+                            u'Não há protocolo padrão para a empresa, ' \
+                            u'e o protocolo “{protocolo}” não pode ' \
+                            u'ser usado para o estado “{estado}” ' \
+                            u'(produto “{produto}”, NCM “{ncm}”)!' \
                             .format(protocolo=protocolo.descricao,
                                     estado=estado_destino,
                                     produto=self.produto_id.nome,
                                     ncm=self.produto_id.ncm_id.codigo_formatado)
                     else:
                         mensagem_erro = \
-                            'Não há protocolo padrão para a empresa, ' \
-                            'e o protocolo “{protocolo}” não pode ' \
-                            'ser usado para o estado “{estado}” ' \
-                            '(produto “{produto}”)!'\
+                            u'Não há protocolo padrão para a empresa, ' \
+                            u'e o protocolo “{protocolo}” não pode ' \
+                            u'ser usado para o estado “{estado}” ' \
+                            u'(produto “{produto}”)!'\
                             .format(protocolo=protocolo.descricao,
                                     estado=estado_destino,
                                     produto=self.produto_id.nome)
