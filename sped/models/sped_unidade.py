@@ -18,6 +18,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 try:
+    from pybrasil.base import tira_acentos
     from pybrasil.valor import valor_por_extenso_unidade
     from pybrasil.valor.decimal import Decimal as D
 
@@ -61,7 +62,7 @@ class Unidade(models.Model):
         string=u'Código',
         size=10,
         index=True,
-        # compute='_compute_codigo_unico',
+        compute='_compute_codigo_unico',
         store=True
     )
     nome = fields.Char(
@@ -73,7 +74,7 @@ class Unidade(models.Model):
         string=u'Nome',
         size=60,
         index=True,
-        # compute='_compute_nome_unico',
+        compute='_compute_nome_unico',
         store=True,
     )
     #
@@ -156,25 +157,27 @@ class Unidade(models.Model):
         ondelete='restrict',
     )
 
-    # @api.depends('codigo')
-    # def _compute_codigo_unico(self):
-    #     for unidade in self:
-    #         codigo_unico = unidade.codigo or ''
-    #         codigo_unico = codigo_unico.lower().strip()
-    #         codigo_unico = codigo_unico.replace(' ', ' ')
-    #         codigo_unico = codigo_unico.replace('²', '2')
-    #         codigo_unico = codigo_unico.replace('³', '3')
-    #         unidade.codigo_unico = codigo_unico
+    @api.depends('codigo')
+    def _compute_codigo_unico(self):
+        for unidade in self:
+            codigo_unico = unidade.codigo or ''
+            codigo_unico = codigo_unico.lower().strip()
+            codigo_unico = codigo_unico.replace(u' ', u' ')
+            codigo_unico = codigo_unico.replace(u'²', u'2')
+            codigo_unico = codigo_unico.replace(u'³', u'3')
+            codigo_unico = tira_acentos(codigo_unico)
+            unidade.codigo_unico = codigo_unico
 
-    # @api.depends('nome')
-    # def _compute_nome_unico(self):
-    #     for unidade in self:
-    #         nome_unico = unidade.nome or ''
-    #         nome_unico = nome_unico.lower().strip()
-    #         # nome_unico = nome_unico.replace(' ', ' ')
-    #         nome_unico = nome_unico.replace('²', '2')
-    #         nome_unico = nome_unico.replace('³', '3')
-    #         unidade.nome_unico = nome_unico
+    @api.depends('nome')
+    def _compute_nome_unico(self):
+        for unidade in self:
+            nome_unico = unidade.nome or ''
+            nome_unico = nome_unico.lower().strip()
+            nome_unico = nome_unico.replace(u' ', u' ')
+            nome_unico = nome_unico.replace(u'²', u'2')
+            nome_unico = nome_unico.replace(u'³', u'3')
+            nome_unico = tira_acentos(nome_unico)
+            unidade.nome_unico = nome_unico
 
     @api.depends('codigo')
     def _check_codigo(self):
@@ -340,8 +343,18 @@ class Unidade(models.Model):
             name = name.replace(u' ', u' ')
             name = name.replace(u'²', u'2')
             name = name.replace(u'³', u'3')
-            args += ['|', ['codigo_unico', operator, name],
-                     ['nome_unico', operator, name]]
+
+            args += [
+                '|',
+                ['codigo', '=', name],
+                '|',
+                ['codigo_unico', '=', name.lower()],
+                '|',
+                ['nome', operator, name],
+                ['nome_unico', operator, name.lower()],
+            ]
+            unidades = self.search(args, limit=limit)
+            return unidades.name_get()
 
         return super(Unidade, self).name_search(name=name, args=args,
                                                 operator=operator, limit=limit)
