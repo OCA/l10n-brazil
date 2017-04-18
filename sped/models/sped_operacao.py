@@ -196,10 +196,10 @@ class OperacaoFiscal(models.Model):
         string=u'Presença do comprador',
         default=INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA
     )
-
-    preco_automatico = fields.Selection([
-        ('V', 'Venda'),
-        ('C', 'Custo')
-    ],
+    preco_automatico = fields.Selection(
+        selection=[
+            ('V', 'Venda'),
+            ('C', 'Custo')
+        ],
         string=u'Traz preço automático?',
     )

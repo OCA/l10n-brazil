@@ -1018,9 +1018,8 @@ class Documento(models.Model):
                 valores['serie'] = self.operacao_id.serie
 
             valores['regime_tributario'] = self.operacao_id.regime_tributario
-            valores['ind_forma_pagamento'] = (
+            valores['ind_forma_pagamento'] = \
                 self.operacao_id.ind_forma_pagamento
-            )
             valores['finalidade_nfe'] = self.operacao_id.finalidade_nfe
             valores['modalidade_frete'] = self.operacao_id.modalidade_frete
             valores['infadfisco'] = self.operacao_id.infadfisco
@@ -1090,7 +1089,6 @@ class Documento(models.Model):
 
         return res
 
-    @api.depends('consumidor_final')
     @api.onchange('participante_id')
     def onchange_participante_id(self):
         res = {}
@@ -1104,11 +1102,20 @@ class Documento(models.Model):
         #
         if self.consumidor_final == TIPO_CONSUMIDOR_FINAL_NORMAL:
             if self.participante_id.estado != 'EX':
-                if (self.participante_id.contribuinte !=
-                        INDICADOR_IE_DESTINATARIO):
-                    valores['consumidor_final'] = (
+                if self.participante_id.contribuinte == \
+                        INDICADOR_IE_DESTINATARIO_CONTRIBUINTE:
+                    valores['consumidor_final'] = \
                         TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL
-                    )
+
+        if self.operacao_id and self.operacao_id.preco_automatico == 'V':
+            if self.participante_id.transportadora_id:
+                valores['transportadora_id'] = \
+                    self.participante_id.transportadora_id.id
+
+            if self.participante_id.payment_term_id:
+                valores['payment_term_id'] = \
+                    self.participante_id.payment_term_id.id
+
         return res
 
     @api.onchange('payment_term_id', 'vr_fatura', 'vr_nf', 'data_emissao',

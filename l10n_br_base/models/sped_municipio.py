@@ -147,7 +147,14 @@ class Municipio(models.Model):
             if operator != '=':
                 name = name.strip().replace(' ', '%')
 
-            args += ['|', ('nome', 'ilike', name), ('estado', 'ilike', name)]
+            args += [
+                '|',
+                ('nome', 'ilike', name),
+                ('estado', 'ilike', name)
+            ]
+            municipios = self.search(args, limit=limit)
+            return municipios.name_get()
 
-        return super(Municipio, self).name_search(
-            name=name, args=args, operator=operator, limit=limit)
+        return super(Municipio, self).name_search(name=name, args=args,
+                                                  operator=operator,
+                                                  limit=limit)
