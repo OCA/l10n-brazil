@@ -103,8 +103,9 @@
             <field name="category_id" ref="hr_payroll.SEFIP" />
             <field name="amount_select">code</field>
             <field name="amount_python_compute">result=BASE_INSS
-                if 'BASE_INSS_13' in locals():
-                result+=BASE_INSS_13</field>
+if 'BASE_INSS_13' in locals():
+    result+=BASE_INSS_13
+            </field>
             <field name="sequence" eval="701"/>
         </record>
 
@@ -114,10 +115,11 @@
             <field name="category_id" ref="hr_payroll.SEFIP" />
             <field name="amount_select">code</field>
             <field name="amount_python_compute">result=0
-                if 'SALARIO_FAMILIA' in locals():
-                result+=SALARIO_FAMILIA
-                if 'LICENCA_MATERNIDADE' in locals():
-                result+=LICENCA_MATERNIDADE</field>
+if 'SALARIO_FAMILIA' in locals():
+    result+=SALARIO_FAMILIA
+if 'LICENCA_MATERNIDADE' in locals():
+    result+=LICENCA_MATERNIDADE
+            </field>
             <field name="sequence" eval="702"/>
         </record>
 
@@ -127,7 +129,8 @@
             <field name="category_id" ref="hr_payroll.SEFIP" />
             <field name="amount_select">code</field>
             <field name="amount_python_compute">result=INSS_EMPRESA_BASE
-               result_rate=RAT_FAP.total_rate</field>
+result_rate=RAT_FAP.total_rate
+            </field>
             <field name="sequence" eval="703"/>
         </record>
 
@@ -137,7 +140,8 @@
             <field name="category_id" ref="hr_payroll.SEFIP" />
             <field name="amount_select">code</field>
             <field name="amount_python_compute">result=INSS_EMPRESA_BASE
-                result_rate=RAT_FAP.other_entities_rate</field>
+result_rate=RAT_FAP.other_entities_rate
+            </field>
             <field name="sequence" eval="704"/>
         </record>
 
@@ -147,7 +151,8 @@
             <field name="category_id" ref="hr_payroll.SEFIP" />
             <field name="amount_select">code</field>
             <field name="amount_python_compute">result=INSS_EMPRESA_BASE
-                result_rate=RAT_FAP.rat_rate*RAT_FAP.fap_rate</field>
+result_rate=RAT_FAP.rat_rate*RAT_FAP.fap_rate
+            </field>
             <field name="sequence" eval="705"/>
         </record>
 
@@ -157,10 +162,11 @@
             <field name="category_id" ref="hr_payroll.SEFIP" />
             <field name="amount_select">code</field>
             <field name="amount_python_compute">result=INSS_EMPRESA
-                if 'INSS_RAT_FAP' in locals():
-                result+=INSS_RAT_FAP
-                if 'INSS_OUTRAS_ENTIDADES' in locals():
-                result+=INSS_OUTRAS_ENTIDADES</field>
+if 'INSS_RAT_FAP' in locals():
+    result+=INSS_RAT_FAP
+if 'INSS_OUTRAS_ENTIDADES' in locals():
+    result+=INSS_OUTRAS_ENTIDADES
+            </field>
             <field name="sequence" eval="706"/>
         </record>
 
@@ -169,7 +175,8 @@
             <field name="name">INSS Empresa Líquido</field>
             <field name="category_id" ref="hr_payroll.SEFIP" />
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result=INSS_EMPRESA_TOTAL-INSS_DEDUCAO_PREVIDENCIARIA</field>
+            <field name="amount_python_compute">result=INSS_EMPRESA_TOTAL-INSS_DEDUCAO_PREVIDENCIARIA
+            </field>
             <field name="sequence" eval="707"/>
         </record>
 
