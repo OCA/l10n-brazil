@@ -1030,14 +1030,14 @@ class DocumentoItem(models.Model):
         # Validamos alguns dos M2O necessários, vindos do documento
         #
         if not self.empresa_id:
-            raise ValidationError('A empresa ativa não foi definida!')
+            raise ValidationError(u'A empresa ativa não foi definida!')
 
         if not self.participante_id:
             raise ValidationError(
-                'O destinatário/remetente não foi informado!')
+                u'O destinatário/remetente não foi informado!')
 
         if not self.operacao_id:
-            raise ValidationError('A operação fiscal não foi informada!')
+            raise ValidationError(u'A operação fiscal não foi informada!')
 
         #
         # Se já ocorreu o preenchimento da descrição, não sobrepõe
@@ -1107,7 +1107,7 @@ class DocumentoItem(models.Model):
             protocolo = self.empresa_id.protocolo_id
 
         if (not protocolo) or (protocolo is None):
-            raise ValidationError('O protocolo não foi definido!')
+            raise ValidationError(u'O protocolo não foi definido!')
 
         #
         # Tratando protocolos que só valem para determinados estados
@@ -1129,22 +1129,20 @@ class DocumentoItem(models.Model):
                 else:
                     if self.produto_id.ncm_id:
                         mensagem_erro = \
-                            'Não há protocolo padrão para a empresa, ' \
-                            'e o protocolo “{protocolo}” não pode ' \
-                            'ser usado para o estado “{estado}” ' \
-                            '(produto “{produto}”, NCM “{ncm}”)!' \
-                            .format(
-                                protocolo=protocolo.descricao,
-                                estado=estado_destino,
-                                produto=self.produto_id.nome,
-                                ncm=self.produto_id.ncm_id.codigo_formatado
-                            )
+                            u'Não há protocolo padrão para a empresa, ' \
+                            u'e o protocolo “{protocolo}” não pode ' \
+                            u'ser usado para o estado “{estado}” ' \
+                            u'(produto “{produto}”, NCM “{ncm}”)!' \
+                            .format(protocolo=protocolo.descricao,
+                                    estado=estado_destino,
+                                    produto=self.produto_id.nome,
+                                    ncm=self.produto_id.ncm_id.codigo_formatado)
                     else:
                         mensagem_erro = \
-                            'Não há protocolo padrão para a empresa, ' \
-                            'e o protocolo “{protocolo}” não pode ' \
-                            'ser usado para o estado “{estado}” ' \
-                            '(produto “{produto}”)!'\
+                            u'Não há protocolo padrão para a empresa, ' \
+                            u'e o protocolo “{protocolo}” não pode ' \
+                            u'ser usado para o estado “{estado}” ' \
+                            u'(produto “{produto}”)!'\
                             .format(protocolo=protocolo.descricao,
                                     estado=estado_destino,
                                     produto=self.produto_id.nome)
