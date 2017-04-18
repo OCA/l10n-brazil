@@ -343,8 +343,18 @@ class Unidade(models.Model):
             name = name.replace(u' ', u' ')
             name = name.replace(u'²', u'2')
             name = name.replace(u'³', u'3')
-            args += ['|', ['codigo_unico', operator, name],
-                     ['nome_unico', operator, name]]
+
+            args += [
+                '|',
+                ['codigo', '=', name],
+                '|',
+                ['codigo_unico', '=', name.lower()],
+                '|',
+                ['nome', operator, name],
+                ['nome_unico', operator, name.lower()],
+            ]
+            unidades = self.search(args, limit=limit)
+            return unidades.name_get()
 
         return super(Unidade, self).name_search(name=name, args=args,
                                                 operator=operator, limit=limit)
