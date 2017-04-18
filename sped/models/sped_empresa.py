@@ -272,7 +272,7 @@ class Empresa(models.Model):
 
         if cnpj_cpf[:2] != 'EX':
             if not valida_cnpj(cnpj_cpf) and not valida_cpf(cnpj_cpf):
-                raise ValidationError('CNPJ/CPF inválido')
+                raise ValidationError(u'CNPJ/CPF inválido')
 
         if len(cnpj_cpf) == 14:
             valores.update(cnpj_cpf=formata_cnpj(cnpj_cpf))
