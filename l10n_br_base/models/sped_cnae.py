@@ -50,9 +50,11 @@ class CNAE(models.Model):
                 name = name.strip().replace(' ', '%')
 
             args += ['|', ('codigo', '=', name), ('descricao', 'ilike', name)]
+            cnaes = self.search(args, limit=limit)
+            return cnaes.name_get()
 
-        return super(CNAE, self).name_search(
-            name=name, args=args, operator=operator, limit=limit)
+        return super(CNAE, self).name_search(name=name, args=args,
+                                             operator=operator, limit=limit)
 
     @api.depends('codigo')
     def _check_codigo(self):
