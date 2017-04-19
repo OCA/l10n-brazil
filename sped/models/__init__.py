@@ -9,7 +9,6 @@
 # Cadastros básicos
 #
 from . import sped_empresa
-from . import inherited_res_partner
 
 #
 # Unidade é requisito para NCM e produtos
