@@ -1,0 +1,84 @@
+-
+  Create remittance entrie journal
+-
+  !record {model: account.journal, id: jounal_remittance_entrie}:
+    code: EREM
+    name: Diario de Entrada de Remessa
+    type: bank
+    update_posted: True
+    revenue_expense: False
+    automatic_conciliation: False
+    default_credit_account_id: account.bnk
+    default_debit_account_id: account.bnk
+-
+  Create remittance sale journal
+-
+  !record {model: account.journal, id: jounal_remittance}:
+    code: DREM
+    name: Diario de Remessa
+    type: sale
+    update_posted: True
+    revenue_expense: False
+    automatic_conciliation: True
+    conciliation_journal: jounal_remittance_entrie
+    default_credit_account_id: account.bnk
+    default_debit_account_id: account.bnk
+-
+  Create fiscal category
+-
+  !record {model: l10n_br_account.fiscal.category, id: fiscal_category_remittance}:
+    code: Remessa em Bonificação
+    name: Remessa em Bonificação
+    type: output
+    journal_type: sale
+    property_journal: jounal_remittance
+    state: approved
+-
+  Create Fiscal Position
+-
+  !record {model: account.fiscal.position, id: fiscal_position_remittance}:
+    name: Remessa Bonificação
+    type: output
+    company_id: base.main_company
+    fiscal_category_id: fiscal_category_remittance
+-
+  Create Fiscal Position Rule
+-
+  !record {model: account.fiscal.position.rule, id: fiscal_position_rule_remittance}:
+    name: Remessa Bonificação
+    description: Remessa Bonificação
+    company_id: base.main_company
+    from_country: base.br
+    fiscal_category_id: fiscal_category_remittance
+    fiscal_position_id: fiscal_position_remittance
+    use_sale: true
+    use_invoice: true
+    use_picking: true
+-
+  Create a customer invoice
+-
+  !record {model: account.invoice, id: account_invoice_customer_remittance, view: l10n_br_account.view_l10n_br_account_invoice_form}:
+    partner_id: l10n_br_base.res_partner_akretion
+    fiscal_category_id: fiscal_category_remittance
+    fiscal_position: fiscal_position_remittance
+    journal_id: jounal_remittance
+    reference_type: none
+    name: 'Remittance'
+    invoice_line:
+      - product_id: product.product_product_5
+        quantity: 10.0
+-
+  Check that initially customer invoice is in the "Draft" state
+-
+  !assert {model: account.invoice, id: account_invoice_customer_remittance}:
+    - state == 'draft'
+    - fiscal_position.id == ref('fiscal_position_remittance')
+-
+  Confirm the invoice
+-
+  !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_customer_remittance}
+-
+  Check if invoice will be in paid state at the end
+-
+  !assert {model: account.invoice, id: account_invoice_customer_remittance}:
+    - state == 'paid'
