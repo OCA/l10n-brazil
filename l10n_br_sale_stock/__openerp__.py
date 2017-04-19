@@ -22,7 +22,7 @@
         'demo/l10n_br_sale_stock_demo.xml'
     ],
     'test': [
-        # 'test/sale_order_demo.yml'
+        'test/sale_order_demo.yml'
     ],
     'installable': True,
     'auto_install': True,
