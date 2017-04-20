@@ -101,7 +101,7 @@ class HrSalaryRule(models.Model):
             elif rule.custom_amount_select == 'fix':
                 try:
                     return rule.custom_amount_fix, float(
-                        eval(rule.custom_quantity, localdict)), 100.0
+                        safe_eval(rule.custom_quantity, localdict)), 100.0
                 except:
                     raise osv.except_osv(_('Error!'), _(
                         'Wrong quantity defined for salary rule %s (%s).') % (
@@ -109,9 +109,9 @@ class HrSalaryRule(models.Model):
             elif rule.custom_amount_select == 'percentage':
                 try:
                     return (
-                        float(eval(rule.custom_amount_percentage_base,
-                                   localdict)), float(eval(
-                                       rule.custom_quantity, localdict)),
+                        float(safe_eval(rule.custom_amount_percentage_base,
+                                        localdict)), float(safe_eval(
+                                            rule.custom_quantity, localdict)),
                         rule.custom_amount_percentage)
                 except:
                     raise osv.except_osv(_('Error!'), _(
