@@ -7,6 +7,7 @@ import logging
 from openerp import fields, models, _
 from openerp.tools.safe_eval import safe_eval
 from openerp.exceptions import ValidationError, Warning as UserError
+import openerp.addons.decimal_precision as dp
 
 
 _logger = logging.getLogger(__name__)
@@ -45,6 +46,40 @@ class HrSalaryRule(models.Model):
 
     compoe_base_FGTS = fields.Boolean(
         string=u'Compõe Base FGTS',
+    )
+
+    calculo_nao_padrao = fields.Boolean(
+        string=u'Usar Cálculo Não Padrão'
+    )
+
+    custom_amount_select = fields.Selection(
+        selection=[('percentage', 'Percentage (%)'),
+                   ('fix', 'Fixed Amount'),
+                   ('code', 'Python Code')],
+        default='code'
+    )
+
+    custom_amount_fix = fields.Float(
+        digits_compute=dp.get_precision('Payroll'),
+    )
+
+    custom_amount_percentage = fields.Float(
+        digits_compute=dp.get_precision('Payroll Rate'),
+        help='For example, enter 50.0 to apply a percentage of 50%'
+    )
+    custom_quantity = fields.Char(
+        help="It is used in computation for percentage and fixed amount."
+             "For e.g. A rule for Meal Voucher having fixed amount of 1€ per "
+             "worked day can have its quantity defined in expression like "
+             "worked_days.WORK100.number_of_days."
+    )
+
+    custom_amount_python_compute = fields.Text('Python Code')
+
+    custom_amount_percentage_base = fields.Char(
+        required=False,
+        readonly=False,
+        help='result will be affected to a variable'
     )
 
     def compute_rule(self, cr, uid, rule_id, localdict, context=None):

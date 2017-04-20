@@ -11,11 +11,53 @@
         <field name="model">hr.salary.rule</field>
         <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
         <field name="arch" type="xml">
+
             <field name="appears_on_payslip" position="after">
                 <field name="compoe_base_INSS"/>
                 <field name="compoe_base_IR"/>
                 <field name="compoe_base_FGTS"/>
                 <field name="tipo_media"/>
+            </field>
+
+            <field name="amount_select" position="after">
+                <field name="calculo_nao_padrao"/>
+                <field name="custom_amount_select"
+                        attrs="{'invisible':[('calculo_nao_padrao','=',False)]}"/>
+                <field name="custom_amount_percentage_base"
+                       attrs="{'invisible':['|',('custom_amount_select','&lt;&gt;','percentage'),('calculo_nao_padrao','=',False)], 'required': [('custom_amount_select','=','percentage')]}"/><newline/>
+                <field name="custom_quantity"
+                       attrs="{'invisible':['|',('custom_amount_select','=','code'),('calculo_nao_padrao','=',False)], 'required':[('custom_amount_select','!=','code')]}"/><newline/>
+                <field name="custom_amount_fix"
+                       attrs="{'invisible':['|',('custom_amount_select','&lt;&gt;','fix'),('calculo_nao_padrao','=',False)], 'required':[('custom_amount_select','=','fix')]}"/><newline/>
+                <field colspan="4" name="custom_amount_python_compute"
+                       attrs="{'invisible':['|',('custom_amount_select','&lt;&gt;','code'),('calculo_nao_padrao','=',False)], 'required':[('custom_amount_select','=','code')]}"/>
+                <field name="custom_amount_percentage"
+                       attrs="{'invisible':['|',('custom_amount_select','&lt;&gt;','percentage'),('calculo_nao_padrao','=',False)], 'required':[('custom_amount_select','=','percentage')]}"/>
+            </field>
+
+            <field name="amount_select" position="replace">
+                <field name="amount_select" readonly="1"
+                       attrs="{'invisible':[('calculo_nao_padrao','=',True)]}"/>
+            </field>
+            <field name="amount_percentage_base" position="replace">
+                <field name="amount_percentage_base" readonly="1"
+                       attrs="{'invisible':['|',('amount_select','&lt;&gt;','percentage'),('calculo_nao_padrao','=',True)], 'required': [('amount_select','=','percentage')]}"/>
+            </field>
+            <field name="quantity" position="replace">
+                <field name="quantity" readonly="1"
+                       attrs="{'invisible':['|',('amount_select','=','code'),('calculo_nao_padrao','=',True)], 'required':[('amount_select','!=','code')]}"/>
+            </field>
+            <field name="amount_fix" position="replace">
+                <field name="amount_fix" readonly="1"
+                       attrs="{'invisible':['|',('amount_select','&lt;&gt;','fix'),('calculo_nao_padrao','=',True)], 'required':[('amount_select','=','fix')]}"/>
+            </field>
+            <field name="amount_percentage" position="replace">
+                <field name="amount_percentage" readonly="1"
+                       attrs="{'invisible':['|',('amount_select','&lt;&gt;','percentage'),('calculo_nao_padrao','=',True)], 'required':[('amount_select','=','percentage')]}"/>
+            </field>
+            <field name="amount_python_compute" position="replace">
+                <field colspan="4" name="amount_python_compute" readonly="1"
+                       attrs="{'invisible':['|',('amount_select','&lt;&gt;','code'),('calculo_nao_padrao','=',True)], 'required':[('amount_select','=','code')]}"/>
             </field>
         </field>
     </record>
