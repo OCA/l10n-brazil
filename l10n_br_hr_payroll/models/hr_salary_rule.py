@@ -10,7 +10,6 @@ from openerp.exceptions import ValidationError, Warning as UserError
 import openerp.addons.decimal_precision as dp
 from openerp.osv import osv
 
-
 _logger = logging.getLogger(__name__)
 
 try:
@@ -19,7 +18,6 @@ try:
 
 except ImportError:
     _logger.info('Cannot import pybrasil')
-
 
 CALCULO_FOLHA_PT_BR = {
     u'resultado': 'result',
@@ -95,9 +93,9 @@ class HrSalaryRule(models.Model):
                                          CALCULO_FOLHA_PT_BR)
         else:
             if rule.custom_amount_select == 'code':
-                codigo_python = python_pt_BR(rule.custom_amount_python_compute
-                                             or '',
-                                             CALCULO_FOLHA_PT_BR)
+                codigo_python = python_pt_BR(
+                    rule.custom_amount_python_compute or '',
+                    CALCULO_FOLHA_PT_BR)
             elif rule.custom_amount_select == 'fix':
                 try:
                     return rule.custom_amount_fix, float(
@@ -105,16 +103,19 @@ class HrSalaryRule(models.Model):
                 except:
                     raise osv.except_osv(_('Error!'), _(
                         'Wrong quantity defined for salary rule %s (%s).') % (
-                                         rule.name, rule.code))
+                            rule.name, rule.code))
             elif rule.custom_amount_select == 'percentage':
                 try:
-                    return (float(eval(rule.custom_amount_percentage_base, localdict)),
-                            float(eval(rule.custom_quantity, localdict)),
-                            rule.custom_amount_percentage)
+                    return (
+                        float(eval(rule.custom_amount_percentage_base,
+                                   localdict)), float(eval(
+                                       rule.custom_quantity, localdict)),
+                        rule.custom_amount_percentage)
                 except:
                     raise osv.except_osv(_('Error!'), _(
-                        'Wrong percentage base or quantity defined for salary rule %s (%s).') % (
-                                         rule.name, rule.code))
+                        'Wrong percentage base or quantity '
+                        'defined for salary rule %s (%s).') % (
+                            rule.name, rule.code))
 
         if codigo_python:
             try:
@@ -136,7 +137,6 @@ class HrSalaryRule(models.Model):
             except:
                 msg = _('Wrong python code defined for salary rule %s (%s).')
                 raise ValidationError(msg % (rule.name, rule.code))
-
 
     def satisfy_condition(self, cr, uid, rule_id, localdict, context=None):
         rule = self.browse(cr, uid, rule_id, context=context)
