@@ -144,10 +144,13 @@ class CrmLead(models.Model):
             value.update({
                 'legal_name': lead.legal_name,
                 'cnpj_cpf': lead.cnpj,
-                'inscr_est': lead.inscr_est,
                 'inscr_mun': lead.inscr_mun,
                 'suframa': lead.suframa,
             })
+
+            if not lead.state_id or lead.inscr_est:
+                value.update({'inscr_est': lead.inscr_est})
+
         else:
             value.update({
                 'legal_name': lead.name_surname,
