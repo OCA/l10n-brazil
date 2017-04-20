@@ -9,6 +9,7 @@ from openerp.tools.safe_eval import safe_eval
 from openerp.exceptions import ValidationError, Warning as UserError
 import openerp.addons.decimal_precision as dp
 from openerp.osv import osv
+from openerp import api
 
 _logger = logging.getLogger(__name__)
 
@@ -81,11 +82,12 @@ class HrSalaryRule(models.Model):
         help='result will be affected to a variable'
     )
 
-    def compute_rule(self, cr, uid, rule_id, localdict, context=None):
-        rule = self.browse(cr, uid, rule_id, context=context)
+    @api.multi
+    def compute_rule(self, rule_id, localdict, context=None):
+        rule = self.browse(rule_id, context=context)
         if not rule.calculo_nao_padrao:
             if rule.amount_select != 'code':
-                return super(HrSalaryRule, self).compute_rule(cr, uid, rule_id,
+                return super(HrSalaryRule, self).compute_rule(rule_id,
                                                               localdict,
                                                               context=context)
 
@@ -138,13 +140,14 @@ class HrSalaryRule(models.Model):
                 msg = _('Wrong python code defined for salary rule %s (%s).')
                 raise ValidationError(msg % (rule.name, rule.code))
 
-    def satisfy_condition(self, cr, uid, rule_id, localdict, context=None):
-        rule = self.browse(cr, uid, rule_id, context=context)
+    @api.multi
+    def satisfy_condition(self, rule_id, localdict, context=None):
+        rule = self.browse(rule_id, context=context)
 
         if rule.condition_select != 'python':
-            return super(HrSalaryRule, self).satisfy_condition(
-                cr, uid, rule_id, localdict, context=context
-            )
+            return super(HrSalaryRule, self).satisfy_condition(rule_id,
+                                                               localdict,
+                                                               context=context)
 
         codigo_python = python_pt_BR(rule.condition_python or '',
                                      CALCULO_FOLHA_PT_BR)
