@@ -19,7 +19,7 @@
                 <field name="tipo_media"/>
             </field>
 
-            <field name="amount_select" position="after">
+            <field name="amount_percentage" position="after">
                 <field name="calculo_nao_padrao"/>
                 <field name="custom_amount_select"
                         attrs="{'invisible':[('calculo_nao_padrao','=',False)]}"/>

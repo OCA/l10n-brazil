@@ -8,6 +8,7 @@ from openerp import fields, models, _
 from openerp.tools.safe_eval import safe_eval
 from openerp.exceptions import ValidationError, Warning as UserError
 import openerp.addons.decimal_precision as dp
+from openerp.osv import osv
 
 
 _logger = logging.getLogger(__name__)
@@ -84,34 +85,58 @@ class HrSalaryRule(models.Model):
 
     def compute_rule(self, cr, uid, rule_id, localdict, context=None):
         rule = self.browse(cr, uid, rule_id, context=context)
+        if not rule.calculo_nao_padrao:
+            if rule.amount_select != 'code':
+                return super(HrSalaryRule, self).compute_rule(cr, uid, rule_id,
+                                                              localdict,
+                                                              context=context)
 
-        if rule.amount_select != 'code':
-            return super(HrSalaryRule, self).compute_rule(cr, uid, rule_id,
-                                                          localdict,
-                                                          context=context)
+            codigo_python = python_pt_BR(rule.amount_python_compute or '',
+                                         CALCULO_FOLHA_PT_BR)
+        else:
+            if rule.custom_amount_select == 'code':
+                codigo_python = python_pt_BR(rule.custom_amount_python_compute
+                                             or '',
+                                             CALCULO_FOLHA_PT_BR)
+            elif rule.custom_amount_select == 'fix':
+                try:
+                    return rule.custom_amount_fix, float(
+                        eval(rule.custom_quantity, localdict)), 100.0
+                except:
+                    raise osv.except_osv(_('Error!'), _(
+                        'Wrong quantity defined for salary rule %s (%s).') % (
+                                         rule.name, rule.code))
+            elif rule.custom_amount_select == 'percentage':
+                try:
+                    return (float(eval(rule.custom_amount_percentage_base, localdict)),
+                            float(eval(rule.custom_quantity, localdict)),
+                            rule.custom_amount_percentage)
+                except:
+                    raise osv.except_osv(_('Error!'), _(
+                        'Wrong percentage base or quantity defined for salary rule %s (%s).') % (
+                                         rule.name, rule.code))
 
-        codigo_python = python_pt_BR(rule.amount_python_compute or '',
-                                     CALCULO_FOLHA_PT_BR)
+        if codigo_python:
+            try:
+                safe_eval(codigo_python, localdict, mode='exec', nocopy=True)
+                result = localdict['result']
 
-        try:
-            safe_eval(codigo_python, localdict, mode='exec', nocopy=True)
-            result = localdict['result']
+                if 'result_qty' in localdict:
+                    result_qty = localdict['result_qty']
+                else:
+                    result_qty = 1
 
-            if 'result_qty' in localdict:
-                result_qty = localdict['result_qty']
-            else:
-                result_qty = 1
+                if 'result_rate' in localdict:
+                    result_rate = localdict['result_rate']
+                else:
+                    result_rate = 100
 
-            if 'result_rate' in localdict:
-                result_rate = localdict['result_rate']
-            else:
-                result_rate = 100
+                return result, result_qty, result_rate
 
-            return result, result_qty, result_rate
+            except:
+                msg = _('Wrong python code defined for salary rule %s (%s).')
+                raise ValidationError(msg % (rule.name, rule.code))
 
-        except:
-            msg = _('Wrong python code defined for salary rule %s (%s).')
-            raise ValidationError(msg % (rule.name, rule.code))
 
     def satisfy_condition(self, cr, uid, rule_id, localdict, context=None):
         rule = self.browse(cr, uid, rule_id, context=context)
