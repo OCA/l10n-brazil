@@ -545,6 +545,7 @@
         assert tax.base_amount == 2950.00 , "Base de cofins incorreta"
         assert tax.tax_amount == 88.50  , "Total do cofins incorreto"
 -
+
   I prepare tunneling extra args in the context for account.invoice.line
 -
   !python {model: account.invoice.line}: |
@@ -580,6 +581,7 @@
     - invoice_line[0].icms_value == 288.00
     - invoice_line[0].icms_percent == 12.00
     - invoice_line[0].icms_percent_reduction == 0.00
+    - u"EEAEEDF6-8244-8244-8244-3A14AB21D3B3" in invoice_line[0].fiscal_comment
     - invoice_line[1].icms_cst_id.code == '00'
     - invoice_line[1].icms_base == 550.00
     - invoice_line[1].icms_base_other == 0.00
