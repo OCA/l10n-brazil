@@ -13,6 +13,7 @@ addons:
       - libxml2-dev
       - libxmlsec1-dev
       - libxslt-dev
+      - python-xlwt
 
 env:
   - VERSION="8.0" LINT_CHECK="1"
