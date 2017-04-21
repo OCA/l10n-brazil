@@ -4848,7 +4848,6 @@ FORMA_PAGAMENTO = (
     ('12', u'Vale presente'),
     ('13', u'Vale combustível'),
     ('14', u'Duplicata mercantil'),
-    # ('90', u''),
     ('99', u'Outros'),
 )
 FORMA_PAGAMENTO_DICT = dict(FORMA_PAGAMENTO)
