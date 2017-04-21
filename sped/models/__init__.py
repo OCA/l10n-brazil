@@ -8,8 +8,8 @@
 #
 # Cadastros básicos
 #
-from . import sped_empresa
-from . import inherited_res_partner
+from . import inherited_sped_participante
+from . import inherited_sped_empresa
 
 #
 # Unidade é requisito para NCM e produtos
@@ -31,6 +31,7 @@ from . import sped_aliquota_simples
 #
 from . import sped_cest
 from . import sped_cfop
+from . import sped_cnae
 from . import sped_ncm
 from . import sped_servico
 from . import sped_nbs

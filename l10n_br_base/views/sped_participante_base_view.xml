@@ -117,7 +117,6 @@
                             <field name="eh_orgao_publico" />
                             <field name="eh_transportadora" />
                             <field name="eh_funcionario" />
-                            <field name="cnae_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
                         </group>
                         <!--                        <field name="eh_cooperativa" />
                         <field name="eh_convenio" />

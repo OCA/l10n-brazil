@@ -5,15 +5,47 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
+import logging
 
 from odoo import api, fields, models
 from pybrasil.valor.decimal import Decimal as D
 
 
 class DecimalPrecision(models.Model):
-    _inherit = 'decimal.precision'
+    _inherit = b'decimal.precision'
 
     def write(self, dados):
+        #
+        # Validação do número máximo de casas decimais
+        #
+        if 'digits' in dados:
+            for dp in self:
+                if dp.id == \
+                    self.env.ref('l10n_br_base.CASAS_DECIMAIS_QUANTIDADE').id:
+                    if dados['digits'] > 4:
+                        raise ValidationError(
+                            'O número máximo de casas decimais para os ' +
+                            'campos de quantidade é 4!'
+                        )
+
+                elif dp.id == \
+                    self.env.ref('l10n_br_base.CASAS_DECIMAIS_UNITARIO').id:
+                    if dados['digits'] > 11:
+                        raise ValidationError(
+                            'O número máximo de casas decimais para os ' +
+                            'campos de valor unitário é 11!'
+                        )
+
+                elif dp.id == \
+                    self.env.ref('l10n_br_base.CASAS_DECIMAIS_PESO').id:
+                    if dados['digits'] > 4:
+                        raise ValidationError(
+                            'O número máximo de casas decimais para os ' +
+                            'campos de peso é 4!'
+                        )
+
         res = super(DecimalPrecision, self).write(dados)
         import ipdb; ipdb.set_trace();
 

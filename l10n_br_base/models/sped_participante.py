@@ -5,6 +5,7 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
 import logging
 
@@ -14,8 +15,7 @@ from ..constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 
-#try:
-if True:
+try:
     from email_validator import validate_email
 
     from pybrasil.base import mascara, primeira_maiuscula
@@ -27,163 +27,163 @@ if True:
                                    valida_fone_celular,
                                    valida_fone_internacional)
 
-#except (ImportError, IOError) as err:
-#    _logger.debug(err)
+except (ImportError, IOError) as err:
+    _logger.debug(err)
 
 
-class Participante(models.Model):
-    _description = u'Participantes'
+class SpedParticipante(models.Model):
+    _name = b'sped.participante'
+    _description = 'Participantes'
     _inherits = {'res.partner': 'partner_id'}
     _inherit = 'mail.thread'
-    _name = 'sped.participante'
     _rec_name = 'nome'
     _order = 'nome, cnpj_cpf'
 
     partner_id = fields.Many2one(
         comodel_name='res.partner',
-        string=u'Partner original',
+        string='Partner original',
         ondelete='restrict',
         required=True,
     )
     codigo = fields.Char(
-        string=u'Código',
+        string='Código',
         size=60,
         index=True
     )
     nome = fields.Char(
-        string=u'Nome',
+        string='Nome',
         size=60,
         index=True
     )
     eh_orgao_publico = fields.Boolean(
-        string=u'É órgão público?',
+        string='É órgão público?',
     )
     eh_cooperativa = fields.Boolean(
-        string=u'É cooperativa?',
+        string='É cooperativa?',
     )
     eh_sindicato = fields.Boolean(
-        string=u'É sindicato?',
+        string='É sindicato?',
     )
     eh_consumidor_final = fields.Boolean(
-        string=u'É consumidor final?',
+        string='É consumidor final?',
     )
     # eh_sociedade = fields.Boolean('É sociedade?')
     eh_convenio = fields.Boolean(
-        string=u'É convênio?',
+        string='É convênio?',
     )
     eh_cliente = fields.Boolean(
-        string=u'É cliente?',
+        string='É cliente?',
     )
     eh_fornecedor = fields.Boolean(
-        string=u'É fornecedor?',
+        string='É fornecedor?',
     )
     eh_transportadora = fields.Boolean(
-        string=u'É transportadora?'
+        string='É transportadora?'
     )
     # empresa_ids = fields.One2many(
     # 'res.company', 'partner_id', 'Empresa/unidade')
     # usuario_ids = fields.One2many('res.users', 'partner_id', 'Usuário')
     eh_grupo = fields.Boolean(
-        string=u'É grupo?',
+        string='É grupo?',
         index=True,
     )
     eh_empresa = fields.Boolean(
-        string=u'É empresa?',
+        string='É empresa?',
         index=True,
     )
     eh_usuario = fields.Boolean(
-        string=u'É usuário?',
+        string='É usuário?',
         index=True
     )
     eh_funcionario = fields.Boolean(
-        string=u'É funcionário?'
+        string='É funcionário?'
     )
     cnpj_cpf = fields.Char(
-        string=u'CNPJ/CPF',
+        string='CNPJ/CPF',
         size=18,
         index=True,
         help=u"""Para participantes estrangeiros, usar EX9999,
         onde 9999 é um número a sua escolha"""
     )
     tipo_pessoa = fields.Char(
-        string=u'Tipo pessoa',
+        string='Tipo pessoa',
         size=1,
         compute='_compute_tipo_pessoa',
         store=True,
         index=True
     )
     razao_social = fields.Char(
-        string=u'Razão Social',
+        string='Razão Social',
         size=60,
         index=True
     )
     fantasia = fields.Char(
-        string=u'Fantasia',
+        string='Fantasia',
         size=60,
         index=True
     )
     endereco = fields.Char(
-        string=u'Endereço',
+        string='Endereço',
         size=60
     )
     numero = fields.Char(
-        string=u'Número',
+        string='Número',
         size=60
     )
     complemento = fields.Char(
-        string=u'Complemento',
+        string='Complemento',
         size=60
     )
     bairro = fields.Char(
-        string=u'Bairro',
+        string='Bairro',
         size=60
     )
     municipio_id = fields.Many2one(
         comodel_name='sped.municipio',
-        string=u'Município',
+        string='Município',
         ondelete='restrict'
     )
     cidade = fields.Char(
-        string=u'Município',
+        string='Município',
         related='municipio_id.nome',
         store=True,
         index=True
     )
     estado = fields.Char(
-        string=u'Estado',
+        string='Estado',
         related='municipio_id.estado',
         store=True,
         index=True
     )
     cep = fields.Char(
-        string=u'CEP',
+        string='CEP',
         size=9
     )
     #
     # Telefone e email para a emissão da NF-e
     #
     fone = fields.Char(
-        string=u'Fone',
+        string='Fone',
         size=18
     )
     fone_comercial = fields.Char(
-        string=u'Fone Comercial',
+        string='Fone Comercial',
         size=18
     )
     celular = fields.Char(
-        string=u'Celular',
+        string='Celular',
         size=18
     )
     email = fields.Char(
-        string=u'Email',
+        string='Email',
         size=60
     )
     site = fields.Char(
-        string=u'Site',
+        string='Site',
         size=60
     )
     email_nfe = fields.Char(
-        string=u'Email para envio da NF-e',
+        string='Email para envio da NF-e',
         size=60
     )
     #
@@ -191,62 +191,58 @@ class Participante(models.Model):
     #
     contribuinte = fields.Selection(
         selection=INDICADOR_IE_DESTINATARIO,
-        string=u'Contribuinte',
+        string='Contribuinte',
         default=INDICADOR_IE_DESTINATARIO_ISENTO
     )
     ie = fields.Char(
-        string=u'Inscrição estadual',
+        string='Inscrição estadual',
         size=18
     )
     im = fields.Char(
-        string=u'Inscrição municipal',
+        string='Inscrição municipal',
         size=14
     )
     suframa = fields.Char(
-        string=u'SUFRAMA',
+        string='SUFRAMA',
         size=12
     )
     rntrc = fields.Char(
-        string=u'RNTRC',
+        string='RNTRC',
         size=15
     )
-    cnae_id = fields.Many2one(
-        comodel_name='sped.cnae',
-        string=u'CNAE principal'
-    )
     cei = fields.Char(
-        string=u'CEI',
+        string='CEI',
         size=15
     )
     rg_numero = fields.Char(
-        string=u'RG',
+        string='RG',
         size=14
     )
     rg_orgao_emissor = fields.Char(
-        string=u'Órgão emisssor do RG',
+        string='Órgão emisssor do RG',
         size=20
     )
     rg_data_expedicao = fields.Date(
-        string=u'Data de expedição do RG'
+        string='Data de expedição do RG'
     )
     crc = fields.Char(
-        string=u'Conselho Regional de Contabilidade',
+        string='Conselho Regional de Contabilidade',
         size=14
     )
     crc_uf = fields.Many2one(
         comodel_name='sped.estado',
-        string=u'UF do CRC',
+        string='UF do CRC',
         ondelete='restrict'
     )
     profissao = fields.Char(
-        string=u'Cargo',
+        string='Cargo',
         size=40
     )
     # 'sexo = fields.selection(SEXO, 'Sexo' )
     # 'estado_civil = fields.selection(ESTADO_CIVIL, 'Estado civil')
     pais_nacionalidade_id = fields.Many2one(
         comodel_name='sped.pais',
-        string=u'Nacionalidade',
+        string='Nacionalidade',
         ondelete='restrict'
     )
     #
@@ -264,11 +260,11 @@ class Participante(models.Model):
     # Para a NFC-e, ECF, SAT
     #
     exige_cnpj_cpf = fields.Boolean(
-        comodel_name=u'Exige CNPJ/CPF?',
+        comodel_name='Exige CNPJ/CPF?',
         compute='_compute_exige_cadastro_completo',
     )
     exige_endereco = fields.Boolean(
-        comodel_name=u'Exige endereço?',
+        comodel_name='Exige endereço?',
         compute='_compute_exige_cadastro_completo',
     )
     #
@@ -288,18 +284,18 @@ class Participante(models.Model):
     #
     transportadora_id = fields.Many2one(
         comodel_name='sped.participante',
-        string=u'Transportadora',
+        string='Transportadora',
         ondelete='restrict',
     )
     regime_tributario = fields.Selection(
         selection=REGIME_TRIBUTARIO,
-        string=u'Regime tributário',
+        string='Regime tributário',
         default=REGIME_TRIBUTARIO_SIMPLES,
         index=True,
     )
     payment_term_id = fields.Many2one(
         comodel_name='account.payment.term',
-        string=u'Condição de pagamento',
+        string='Condição de pagamento',
         ondelete='restrict',
     )
 
@@ -356,13 +352,13 @@ class Participante(models.Model):
             if participante.razao_social:
                 if participante.nome.strip().upper() != \
                     participante.razao_social.strip().upper():
-                    nome += u' - '
+                    nome += ' - '
                     nome += participante.razao_social
 
             if participante.cnpj_cpf:
-                nome += u' ['
+                nome += ' ['
                 nome += participante.cnpj_cpf
-                nome += u'] '
+                nome += '] '
 
             res.append((participante.id, nome))
 
@@ -391,7 +387,7 @@ class Participante(models.Model):
             participantes = self.search(args, limit=limit)
             return participantes.name_get()
 
-        return super(Participante, self).name_search(name=name, args=args,
+        return super(SpedParticipante, self).name_search(name=name, args=args,
                                                      operator=operator,
                                                      limit=limit)
 
@@ -626,7 +622,7 @@ class Participante(models.Model):
                 'force_email'):
             view_id = self.env.ref(
                 'sped.cadastro_participante_cliente_form').id
-        res = super(Participante, self).fields_view_get(view_id=view_id,
+        res = super(SpedParticipante, self).fields_view_get(view_id=view_id,
                                                         view_type=view_type,
                                                         toolbar=toolbar,
                                                         submenu=submenu)
@@ -766,7 +762,7 @@ class Participante(models.Model):
 
         if 'tz' not in dados:
             dados['tz'] = 'America/Sao_Paulo'
-        participante = super(Participante, self).create(dados)
+        participante = super(SpedParticipante, self).create(dados)
         participante.sync_to_partner()
 
         return participante
@@ -776,7 +772,7 @@ class Participante(models.Model):
         if 'nome' in dados:
             dados['name'] = dados['nome']
 
-        res = super(Participante, self).write(dados)
+        res = super(SpedParticipante, self).write(dados)
         self.sync_to_partner()
 
         return res

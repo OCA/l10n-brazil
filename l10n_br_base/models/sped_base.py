@@ -5,12 +5,14 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 from odoo import fields, models
 
 
-class Base(models.AbstractModel):
+class SpedBase(models.AbstractModel):
+    _name = b'sped.base'
     _description = 'Modelo base para campos em Reais e %'
-    _name = 'sped.base'
 
     #
     # Para todos os valores num item de documento fiscal, a moeda é SEMPRE o
@@ -19,25 +21,25 @@ class Base(models.AbstractModel):
     #
     currency_id = fields.Many2one(
         comodel_name='res.currency',
-        string=u'Moeda',
+        string='Moeda',
         compute='_compute_currency_id',
         default=lambda self: self.env.ref('base.BRL')
     )
     currency_aliquota_id = fields.Many2one(
         comodel_name='res.currency',
-        string=u'Percentual',
+        string='Percentual',
         compute='_compute_currency_id',
         default=lambda self: self.env.ref('l10n_br_base.SIMBOLO_ALIQUOTA')
     )
     currency_unitario_id = fields.Many2one(
         comodel_name='res.currency',
-        string=u'Unitário',
+        string='Unitário',
         compute='_compute_currency_id',
         default=lambda self: self.env.ref('l10n_br_base.SIMBOLO_VALOR_UNITARIO')
     )
     currency_peso_id = fields.Many2one(
         comodel_name='res.currency',
-        string=u'Peso',
+        string='Peso',
         compute='_compute_currency_id',
         default=lambda self: self.env.ref('l10n_br_base.SIMBOLO_PESO')
     )

@@ -5,38 +5,39 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
 
 
-class DocumentoDuplicata(models.Model):
-    _description = u'Duplicata do Documento Fiscal'
+class SpedDocumentoDuplicata(models.Model):
+    _name = b'sped.documento.duplicata'
+    _description = 'Duplicatas do Documento Fiscal'
     _inherit = 'sped.base'
-    _name = 'sped.documento.duplicata'
     _order = 'documento_id, data_vencimento'
     # _rec_name = 'numero'
 
     documento_id = fields.Many2one(
         comodel_name='sped.documento',
-        string=u'Documento',
+        string='Documento',
         ondelete='cascade',
     )
     pagamento_id = fields.Many2one(
         comodel_name='sped.documento.pagamento',
-        string=u'Pagamento',
+        string='Pagamento',
         ondelete='cascade',
     )
     numero = fields.Char(
-        string=u'Número',
+        string='Número',
         size=60,
         required=True,
     )
     data_vencimento = fields.Date(
-        string=u'Data de vencimento',
+        string='Data de vencimento',
         required=True,
     )
     valor = fields.Monetary(
-        string=u'Valor',
+        string='Valor',
         digits=(18, 2),
         required=True,
     )

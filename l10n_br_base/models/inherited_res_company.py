@@ -8,27 +8,26 @@
 from odoo import fields, models
 
 
-class Company(models.Model):
-    _name = 'res.company'
+class ResCompany(models.Model):
     _inherit = 'res.company'
 
     sped_participante_id = fields.Many2one(
-        comdodel_name='sped.participante',
-        string=u'Participante',
-        related='partner_id.sped_participante_id'
+        comodel_name='sped.participante',
+        string='Participante',
+        related='partner_id.sped_participante_id',
     )
     sped_empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
-        string=u'Empresa',
-        related='partner_id.sped_empresa_id'
+        string='Empresa',
+        related='partner_id.sped_empresa_id',
     )
     is_brazilian_partner = fields.Boolean(
-        string=u'Is a Brazilian partner?',
+        string='Is a Brazilian partner?',
         related='partner_id.sped_participante_id.is_brazilian_partner',
-        store=True
+        store=True,
     )
     is_brazilian_company = fields.Boolean(
-        string=u'Is a Brazilian company?',
+        string='Is a Brazilian company?',
         related='partner_id.sped_participante_id.is_brazilian_company',
-        store=True
+        store=True,
     )

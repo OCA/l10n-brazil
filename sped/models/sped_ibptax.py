@@ -5,8 +5,12 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 import logging
+
 from odoo import api, fields, models
+
 _logger = logging.getLogger(__name__)
 
 try:
@@ -17,37 +21,37 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class IBPTax(models.Model):
-    _description = u'IBPTax'
-    _name = 'sped.ibptax'
+class SpedIBPTax(models.Model):
+    _name = b'sped.ibptax'
+    _description = 'IBPTax'
     _order = 'estado_id'
     _rec_name = 'estado_id'
 
     estado_id = fields.Many2one(
         comodel_name='sped.estado',
-        string=u'Estado',
+        string='Estado',
     )
     versao = fields.Char(
-        string=u'Versão',
+        string='Versão',
         size=20,
     )
     data_validade = fields.Date(
-        string=u'Válida até',
+        string='Válida até',
     )
     ncm_ids = fields.One2many(
         comodel_name='sped.ibptax.ncm',
         inverse_name='ibptax_id',
-        string=u'NCMs',
+        string='NCMs',
     )
     nbs_ids = fields.One2many(
         comodel_name='sped.ibptax.nbs',
         inverse_name='ibptax_id',
-        string=u'NBSs',
+        string='NBSs',
     )
     servico_ids = fields.One2many(
         comodel_name='sped.ibptax.servico',
         inverse_name='ibptax_id',
-        string=u'Serviços',
+        string='Serviços',
     )
 
     @api.multi
@@ -150,116 +154,116 @@ class IBPTax(models.Model):
         self.versao = versao
 
 
-class IBPTaxNCM(models.Model):
-    _description = u'IBPTax por NCM'
+class SpedIBPTaxNCM(models.Model):
+    _name = b'sped.ibptax.ncm'
+    _description = 'IBPTax por NCM'
     _inherit = 'sped.base'
-    _name = 'sped.ibptax.ncm'
 
     ibptax_id = fields.Many2one(
         comodel_name='sped.ibptax',
-        string=u'IBPTax',
+        string='IBPTax',
         ondelete='cascade',
     )
     estado_id = fields.Many2one(
         comodel_name='sped.estado',
-        string=u'Estado',
+        string='Estado',
         related='ibptax_id.estado_id',
         store=True,
     )
     ncm_id = fields.Many2one(
         comodel_name='sped.ncm',
-        string=u'NCM',
+        string='NCM',
     )
     al_ibpt_nacional = fields.Monetary(
-        string=u'Nacional',
+        string='Nacional',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     al_ibpt_internacional = fields.Monetary(
-        string=u'Internacional',
+        string='Internacional',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     al_ibpt_estadual = fields.Monetary(
-        string=u'Estadual',
+        string='Estadual',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     al_icms_id = fields.Many2one(
         comodel_name='sped.aliquota.icms.proprio',
-        string=u'Estadual',
+        string='Estadual',
     )
 
 
-class IBPTaxNBS(models.Model):
-    _description = u'IBPTax por NBS'
+class SpedIBPTaxNBS(models.Model):
+    _name = b'sped.ibptax.nbs'
+    _description = 'IBPTax por NBS'
     _inherit = 'sped.base'
-    _name = 'sped.ibptax.nbs'
 
     ibptax_id = fields.Many2one(
         comodel_name='sped.ibptax',
-        string=u'IBPTax',
+        string='IBPTax',
         ondelete='cascade',
     )
     estado_id = fields.Many2one(
         comodel_name='sped.estado',
-        string=u'Estado',
+        string='Estado',
         related='ibptax_id.estado_id',
         store=True,
     )
     nbs_id = fields.Many2one(
         comodel_name='sped.nbs',
-        string=u'NBS',
+        string='NBS',
     )
     al_ibpt_nacional = fields.Monetary(
-        string=u'Nacional',
+        string='Nacional',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     al_ibpt_internacional = fields.Monetary(
-        string=u'Internacional',
+        string='Internacional',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     al_ibpt_municipal = fields.Monetary(
-        string=u'Municipal',
+        string='Municipal',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
 
 
-class IBPTaxServico(models.Model):
-    _description = u'IBPTax por Serviço'
+class SpedIBPTaxServico(models.Model):
+    _name = b'sped.ibptax.servico'
+    _description = 'IBPTax por Serviço'
     _inherit = 'sped.base'
-    _name = 'sped.ibptax.servico'
 
     ibptax_id = fields.Many2one(
         comodel_name='sped.ibptax',
-        string=u'IBPTax',
+        string='IBPTax',
         ondelete='cascade',
     )
     estado_id = fields.Many2one(
         comodel_name='sped.estado',
-        string=u'Estado',
+        string='Estado',
         related='ibptax_id.estado_id',
         store=True,
     )
     servico_id = fields.Many2one(
         comodel_name='sped.servico',
-        string=u'Serviço',
+        string='Serviço',
     )
     al_ibpt_nacional = fields.Monetary(
-        string=u'Nacional',
+        string='Nacional',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     al_ibpt_internacional = fields.Monetary(
-        string=u'Internacional',
+        string='Internacional',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     al_ibpt_municipal = fields.Monetary(
-        string=u'Municipal',
+        string='Municipal',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )

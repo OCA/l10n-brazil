@@ -5,7 +5,10 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 import logging
+
 from odoo import api, fields, models
 from odoo.addons.l10n_br_base.constante_tributaria import *
 
@@ -23,7 +26,7 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class DocumentoItemDeclaracaoImportacao(models.Model):
+class SpedDocumentoItemDeclaracaoImportacao(models.Model):
     _inherit = 'sped.documento.item.declaracao.importacao'
 
     @api.multi

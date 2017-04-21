@@ -5,6 +5,8 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 import logging
 
 from odoo import api, fields, models
@@ -19,31 +21,31 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class NBS(models.Model):
-    _description = u'NBS'
-    _name = 'sped.nbs'
+class SpedNBS(models.Model):
+    _name = b'sped.nbs'
+    _description = 'NBS'
     _order = 'codigo'
     _rec_name = 'nbs'
 
     codigo = fields.Char(
-        string=u'Código',
+        string='Código',
         size=9,
         required=True,
         index=True
     )
     descricao = fields.Char(
-        string=u'Descrição',
+        string='Descrição',
         size=255,
         required=True,
         index=True
     )
     codigo_formatado = fields.Char(
-        string=u'nbs',
+        string='nbs',
         compute='_compute_nbs',
         store=True
     )
     nbs = fields.Char(
-        string=u'nbs',
+        string='nbs',
         compute='_compute_nbs',
         store=True
     )
@@ -76,7 +78,7 @@ class NBS(models.Model):
                 ])
 
             if len(nbs_ids) > 0:
-                raise ValidationError(u'Código NBS já existe na tabela!')
+                raise ValidationError('Código NBS já existe na tabela!')
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
@@ -86,7 +88,7 @@ class NBS(models.Model):
                 '|',
                 ('codigo', '=', name),
                 '|',
-                ('codigo_formatado', '=', mascara(name, u'  .   .  ')),
+                ('codigo_formatado', '=', mascara(name, '  .   .  ')),
                 ('descricao', operator, name),
             ] + args
 

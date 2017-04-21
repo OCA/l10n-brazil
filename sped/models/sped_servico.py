@@ -5,25 +5,26 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
-class Servico(models.Model):
-    _description = u'Serviço'
-    _name = 'sped.servico'
+class SpedServico(models.Model):
+    _name = b'sped.servico'
+    _description = 'Serviços (fiscal)'
     _order = 'codigo'
     _rec_name = 'servico'
 
     codigo = fields.Char(
-        string=u'Código',
+        string='Código',
         size=4,
         required=True,
         index=True
     )
     descricao = fields.Char(
-        string=u'Descrição',
+        string='Descrição',
         size=400,
         required=True,
         index=True,
@@ -32,15 +33,15 @@ class Servico(models.Model):
     al_iss_ids = fields.One2many(
         comodel_name='sped.aliquota.iss',
         inverse_name='servico_id',
-        string=u'Alíquotas de ISS',
+        string='Alíquotas de ISS',
     )
     codigo_formatado = fields.Char(
-        string=u'Servico',
+        string='Servico',
         compute='_compute_servico',
         store=True,
     )
     servico = fields.Char(
-        string=u'Servico',
+        string='Servico',
         compute='_compute_servico',
         store=True,
     )
@@ -68,5 +69,5 @@ class Servico(models.Model):
 
             if len(servico_ids) > 0:
                 raise ValidationError(
-                    u'Código de Serviço já existe na tabela!'
+                    'Código de Serviço já existe na tabela!'
                 )

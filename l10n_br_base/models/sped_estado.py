@@ -5,51 +5,53 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 from openerp import models, fields, api
 
 
-class Estado(models.Model):
-    _name = 'sped.estado'
-    _description = u'Estado'
+class SpedEstado(models.Model):
+    _name = b'sped.estado'
+    _description = 'Estados'
     _rec_name = 'uf'
     _order = 'uf'
     _inherits = {'res.country.state': 'state_id'}
 
     state_id = fields.Many2one(
         comodel_name='res.country.state',
-        string=u'State original',
+        string='State original',
         ondelete='restrict',
         required=True
     )
 
     uf = fields.Char(
-        string=u'UF',
+        string='UF',
         size=2,
         required=True,
         index=True
     )
     nome = fields.Char(
-        string=u'Nome',
+        string='Nome',
         size=20,
         required=True,
         index=True
     )
     codigo_ibge = fields.Char(
-        string=u'Código IBGE',
+        string='Código IBGE',
         size=2
     )
     fuso_horario = fields.Char(
-        string=u'Fuso horário',
+        string='Fuso horário',
         size=20
     )
     pais_id = fields.Many2one(
         comodel_name='sped.pais',
-        string=u'País'
+        string='País'
     )
 
     _sql_constraints = [
-        ('uf_unique', 'unique (uf)', u'A UF não pode se repetir!'),
-        ('nome_unique', 'unique (nome)', u'O nome não pode se repetir!'),
+        ('uf_unique', 'unique (uf)', 'A UF não pode se repetir!'),
+        ('nome_unique', 'unique (nome)', 'O nome não pode se repetir!'),
     ]
 
     @api.multi
@@ -78,5 +80,5 @@ class Estado(models.Model):
             estados = self.search(args, limit=limit)
             return estados.name_get()
 
-        return super(Estado, self).name_search(name=name, args=args,
+        return super(SpedEstado, self).name_search(name=name, args=args,
                                                operator=operator, limit=limit)

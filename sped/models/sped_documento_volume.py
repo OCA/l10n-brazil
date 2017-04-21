@@ -5,44 +5,45 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
 from odoo import fields, models
 import odoo.addons.decimal_precision as dp
 
 
-class DocumentoVolume(models.Model):
-    _description = 'Volume do Documento Fiscal'
-    _name = 'sped.documento.volume'
+class SpedDocumentoVolume(models.Model):
+    _name = b'sped.documento.volume'
+    _description = 'Volumes do Documento Fiscal'
     _inherit = 'sped.base'
     # _order = 'emissao, modelo, data_emissao desc, serie, numero'
     # _rec_name = 'numero'
 
     documento_id = fields.Many2one(
         comodel_name='sped.documento',
-        string=u'Documento',
+        string='Documento',
         ondelete='cascade',
         required=True,
     )
     especie = fields.Char(
-        string=u'Espécie',
+        string='Espécie',
         size=60
     )
     marca = fields.Char(
-        string=u'Marca',
+        string='Marca',
         size=60
     )
     numero = fields.Char(
-        string=u'Número', size=60
+        string='Número', size=60
     )
     quantidade = fields.Float(
-        string=u'Quantidade',
+        string='Quantidade',
         digits=dp.get_precision('SPED - Quantidade')
     )
     peso_liquido = fields.Monetary(
-        string=u'Peso líquido',
+        string='Peso líquido',
         currency_field='currency_peso_id',
     )
     peso_bruto = fields.Monetary(
-        string=u'Peso bruto',
+        string='Peso bruto',
         currency_field='currency_peso_id',
     )
