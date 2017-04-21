@@ -5,40 +5,40 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 from odoo import fields, models
 
 
-class Pais(models.Model):
-
-    _description = u'País'
-
-    _name = 'sped.pais'
+class SpedPais(models.Model):
+    _name = b'sped.pais'
+    _description = 'Países'
     _rec_name = 'nome'
     _order = 'nome'
     _inherits = {'res.country': 'country_id'}
 
     country_id = fields.Many2one(
         comodel_name='res.country',
-        string=u'Country original',
+        string='Country original',
         ondelete='restrict',
-        required=True
+        required=True,
     )
     codigo_bacen = fields.Char(
-        string=u'Código BANCO CENTRAL',
+        string='Código BANCO CENTRAL',
         size=4,
         index=True,
     )
     codigo_siscomex = fields.Char(
-        string=u'Código SISCOMEX',
+        string='Código SISCOMEX',
         size=3,
     )
     nome = fields.Char(
-        string=u'Nome',
+        string='Nome',
         size=60,
         index=True,
     )
     iso_3166_alfa_2 = fields.Char(
-        string=u'Código ISO 3166',
+        string='Código ISO 3166',
         size=2,
-        index=True
+        index=True,
     )

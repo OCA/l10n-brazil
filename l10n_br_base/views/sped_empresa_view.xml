@@ -12,9 +12,11 @@
         <field name="arch" type="xml">
             <form string="Empresa">
             <sheet>
-                <div class="oe_button_box" name="button_box">
-<!--                     <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive"></button> -->
-                </div>
+<!--                    <div class="oe_button_box" name="button_box">
+                    <button name="toggle_active" type="object"
+                            class="oe_stat_button" icon="fa-archive">
+                    </button>
+                </div>-->
                 <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
                 <div class="oe_title">
                     <h1>
@@ -30,12 +32,16 @@
                     <field name="fantasia" attrs="{'invisible': [('tipo_pessoa', '=', 'F')]}" />
                 </group>
                 <separator string="Contato" />
-                <group col="6">
+                <group col="2">
                     <field name="fone" widget="phone" placeholder="(99) 9999-9999" />
+                    <newline />
                     <field name="celular" widget="phone" placeholder="(99) 999-999-999" />
+                    <newline />
                     <field name="fone_comercial" widget="phone" placeholder="(99) 9999-9999" />
-                    <field name="email" colspan="6" />
-                    <field name="site" colspan="6" />
+                    <newline />
+                    <field name="email" />
+                    <newline />
+                    <field name="site" />
                 </group>
                 <separator string="Endereço" />
                 <group col="6">
@@ -47,8 +53,8 @@
                     <field name="cep" placeholder="99999-999" required="1" />
                 </group>
 
-                <notebook name="sped_empresa_principal_notebook">
-                    <page string="Inscrições e registros">
+                <notebook>
+                    <page name="inscricoes" string="Inscrições e registros">
                         <group col="4">
                             <group col="4" colspan="4">
                                 <separator string="Inscrição Estadual" colspan="4" />
@@ -80,7 +86,7 @@
                             </group>
                         </group>
                     </page>
-                    <page string="Comercial">
+                    <page name="comercial" string="Comercial">
                         <group>
                             <group string="Vendas" name="vendas">
                                 <field name="eh_cliente" />
@@ -90,13 +96,28 @@
                             </group>
                             <group string="Outras informações" colspan="4" col="4">
                                 <field name="codigo" colspan="2" />
+                                <field name="comment" />
+                                <field name="transportadora_id" colspan="4" col="4" />
+                                <field name="payment_term_id" colspan="4" col="4" />
                             </group>
                         </group>
                     </page>
+                    <page name="fiscal" string="Fiscal">
+                        <notebook colspan="4">
+                            <page name="fiscal_geral" string="Geral">
+                                <group col="4">
+                                    <group name="fiscal_geral_regime_tributario" col="4" colspan="4">
+                                        <field name="regime_tributario" colspan="4" />
+                                        <!--<field name="eh_consumidor_final" />
+                                        <field name="eh_orgao_publico" />
+                                        <field name="eh_transportadora" />
+                                        <field name="eh_funcionario" />-->
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </page>
                 </notebook>
-                        <!--                        <field name="eh_cooperativa" />
-                        <field name="eh_convenio" />
-                        <field name="eh_sindicato" />-->
             </sheet>
 <!--            <div class="oe_chatter">
                 <field name="message_follower_ids" widget="mail_followers"/>
@@ -118,6 +139,8 @@
                 <field name="celular" />
                 <field name="email" />
                 <field name="site" />
+                <field name="municipio_id" />
+                <field name="regime_tributario" />
             </tree>
         </field>
     </record>

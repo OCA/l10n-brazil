@@ -5,6 +5,7 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
@@ -22,40 +23,39 @@ class AccountPaymentTerm(models.Model):
         default=10,
     )
     is_installment_plan = fields.Boolean(
-        string=u'Is monthly installment plan?',
+        string='Is monthly installment plan?',
         default=True,
     )
     has_down_payment = fields.Boolean(
-        string=u'Has down payment?',
+        string='Has down payment?',
     )
     months = fields.Integer(
-        string=u'Months',
+        string='Months',
     )
     # postpone_date_holiday = fields.Boolean(
-    #     string=u'Postpone dates to next work day when holiday?',
+    #     string='Postpone dates to next work day when holiday?',
     # )
     forma_pagamento = fields.Selection(
         selection=FORMA_PAGAMENTO,
-        string=u'Forma de pagamento',
+        string='Forma de pagamento',
     )
     bandeira_cartao = fields.Selection(
         selection=BANDEIRA_CARTAO,
-        string=u'Bandeira do cartão',
+        string='Bandeira do cartão',
     )
     integracao_cartao = fields.Selection(
         selection=INTEGRACAO_CARTAO,
-        string=u'Integração do cartão',
+        string='Integração do cartão',
         default=INTEGRACAO_CARTAO_NAO_INTEGRADO,
     )
     participante_id = fields.Many2one(
-        string=u'Operadora do cartão',
+        string='Operadora do cartão',
         ondelete='restrict',
     )
     comercial_name = fields.Char(
-        string=u'Payment Terms',
+        string='Payment Terms',
         compute='_compute_comercial_name',
     )
-
 
     @api.multi
     def _compute_comercial_name(self):

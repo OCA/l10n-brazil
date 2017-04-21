@@ -5,6 +5,8 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 import logging
 
 from odoo import api, fields, models
@@ -20,7 +22,7 @@ except (ImportError, IOError) as err:
 
 
 class DecimalPrecision(models.Model):
-    _inherit = 'decimal.precision'
+    _inherit = b'decimal.precision'
 
     def write(self, dados):
         #
@@ -32,24 +34,24 @@ class DecimalPrecision(models.Model):
                     self.env.ref('l10n_br_base.CASAS_DECIMAIS_QUANTIDADE').id:
                     if dados['digits'] > 4:
                         raise ValidationError(
-                            u'O número máximo de casas decimais para os ' +
-                            u'campos de quantidade é 4!'
+                            'O número máximo de casas decimais para os ' +
+                            'campos de quantidade é 4!'
                         )
 
                 elif dp.id == \
                     self.env.ref('l10n_br_base.CASAS_DECIMAIS_UNITARIO').id:
                     if dados['digits'] > 11:
                         raise ValidationError(
-                            u'O número máximo de casas decimais para os ' +
-                            u'campos de valor unitário é 11!'
+                            'O número máximo de casas decimais para os ' +
+                            'campos de valor unitário é 11!'
                         )
 
                 elif dp.id == \
                     self.env.ref('l10n_br_base.CASAS_DECIMAIS_PESO').id:
                     if dados['digits'] > 4:
                         raise ValidationError(
-                            u'O número máximo de casas decimais para os ' +
-                            u'campos de peso é 4!'
+                            'O número máximo de casas decimais para os ' +
+                            'campos de peso é 4!'
                         )
 
         res = super(DecimalPrecision, self).write(dados)
