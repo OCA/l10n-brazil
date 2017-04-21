@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
+#
+# Copyright 2016 Taŭga Tecnologia
+#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # Copyright 2017 KMEE
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
+
+from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
@@ -39,17 +45,15 @@ except (ImportError, IOError) as err:
 
 
 class SpedEmpresa(models.Model):
-    _description = u'Empresas e filiais'
+    _name = b'sped.empresa'
+    _description = 'Empresas e filiais'
     _inherits = {'sped.participante': 'participante_id'}
-    # _inherit = 'mail.thread'
-    # _inherits = 'res.partner'
-    _name = 'sped.empresa'
     _rec_name = 'nome'
     _order = 'nome, cnpj_cpf'
 
     participante_id = fields.Many2one(
         comodel_name='sped.participante',
-        string=u'Participante original',
+        string='Participante original',
         ondelete='restrict',
         required=True
     )
@@ -73,7 +77,7 @@ class SpedEmpresa(models.Model):
                 ('cnpj_cpf', 'ilike', mascara(name, '   .   .   -  ')),
             ]
 
-        return super(Empresa, self).name_search(
+        return super(SpedEmpresa, self).name_search(
             name=name, args=args, operator=operator, limit=limit)
 
     def _valida_cnpj_cpf(self):
@@ -119,7 +123,7 @@ class SpedEmpresa(models.Model):
             ])
 
         if len(cnpj_ids) > 0:
-            raise ValidationError(u'CNPJ/CPF já existe no cadastro!')
+            raise ValidationError('CNPJ/CPF já existe no cadastro!')
 
         return res
 
@@ -141,7 +145,7 @@ class SpedEmpresa(models.Model):
         if self.fone:
             if (not valida_fone_internacional(self.fone)) and (
                     not valida_fone_fixo(self.fone)):
-                raise ValidationError(u'Telefone fixo inválido!')
+                raise ValidationError('Telefone fixo inválido!')
 
             valores.update(fone=formata_fone(self.fone))
 
@@ -149,14 +153,14 @@ class SpedEmpresa(models.Model):
             if (not valida_fone_internacional(self.fone_comercial)) and (
                     not valida_fone_fixo(self.fone_comercial)) and (
                     not valida_fone_celular(self.fone_comercial)):
-                raise ValidationError(u'Telefone comercial inválido!')
+                raise ValidationError('Telefone comercial inválido!')
 
             valores.update(fone_comercial=formata_fone(self.fone_comercial))
 
         if self.celular:
             if (not valida_fone_internacional(self.celular)) and (
                     not valida_fone_celular(self.celular)):
-                raise ValidationError(u'Celular inválido!')
+                raise ValidationError('Celular inválido!')
 
             valores.update(celular=formata_fone(self.celular))
 
@@ -182,7 +186,7 @@ class SpedEmpresa(models.Model):
 
         cep = limpa_formatacao(self.cep)
         if (not cep.isdigit()) or len(cep) != 8:
-            raise ValidationError(u'CEP inválido!')
+            raise ValidationError('CEP inválido!')
 
         valores.update(cep=cep[:5] + '-' + cep[5:])
 
@@ -205,7 +209,7 @@ class SpedEmpresa(models.Model):
 
         if self.suframa:
             if not valida_inscricao_estadual(self.suframa, 'SUFRAMA'):
-                raise ValidationError(u'Inscrição na SUFRAMA inválida!')
+                raise ValidationError('Inscrição na SUFRAMA inválida!')
 
             valores.update(suframa=formata_inscricao_estadual(
                 self.suframa, 'SUFRAMA'))
@@ -217,17 +221,17 @@ class SpedEmpresa(models.Model):
             else:
                 if not self.municipio_id:
                     raise ValidationError(
-                        u"""Para validação da inscrição estadual é preciso
-                        informar o município!""")
+                        '''Para validação da inscrição estadual é preciso
+                        informar o município!''')
 
                 if (self.ie.strip().upper()[:6] == 'ISENTO' or
                         self.ie.strip().upper()[:6] == 'ISENTA'):
                     raise ValidationError(
-                        u'Inscrição estadual inválida para contribuinte!')
+                        'Inscrição estadual inválida para contribuinte!')
 
                 if not valida_inscricao_estadual(
                         self.ie, self.municipio_id.estado_id.uf):
-                    raise ValidationError(u'Inscrição estadual inválida!')
+                    raise ValidationError('Inscrição estadual inválida!')
 
                 valores.update(
                     ie=formata_inscricao_estadual(
@@ -265,7 +269,7 @@ class SpedEmpresa(models.Model):
                     valido = validate_email(e.strip())
                     emails_validos.append(valido['email'])
                 except:
-                    raise ValidationError(u'Email %s inválido!' % e.strip())
+                    raise ValidationError('Email %s inválido!' % e.strip())
 
             valores.update(email=','.join(emails_validos))
 
@@ -284,7 +288,7 @@ class SpedEmpresa(models.Model):
                     valido = validate_email(e.strip())
                     emails_validos.append(valido['email'])
                 except:
-                    raise ValidationError(u'Email %s inválido!' % e.strip())
+                    raise ValidationError('Email %s inválido!' % e.strip())
 
             valores.update(email_nfe=','.join(emails_validos))
 
@@ -385,14 +389,14 @@ class SpedEmpresa(models.Model):
 
     @api.model
     def create(self, dados):
-        empresa = super(Empresa, self).create(dados)
+        empresa = super(SpedEmpresa, self).create(dados)
         empresa.sync_to_company()
         return empresa
 
 
     @api.multi
     def write(self, dados):
-        res = super(Empresa, self).write(dados)
+        res = super(SpedEmpresa, self).write(dados)
         self.sync_to_company()
         return res
 

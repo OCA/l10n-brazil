@@ -5,8 +5,10 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
 import logging
+
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.addons.l10n_br_base.constante_tributaria import *
@@ -24,57 +26,57 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class ManifestacaoDestinatario(models.Model):
-    _description = u'Manifestação do Destinatário'
-    _name = 'sped.manifestacao.destinatario'
+class SpedManifestacaoDestinatario(models.Model):
+    _name = b'sped.manifestacao.destinatario'
+    _description = 'Manifestação do Destinatário'
 
     empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
-        string=u'Empresa',
+        string='Empresa',
         required=True,
     )
     chave = fields.Char(
-        string=u'Chave',
+        string='Chave',
         size=44,
         required=True,
     )
     serie = fields.Char(
-        string=u'Série',
+        string='Série',
         size=3,
         index=True,
     )
     numero = fields.Float(
-        string=u'Número',
+        string='Número',
         index=True,
         digits=(18, 0),
     )
     documento_id = fields.Many2one(
         comodel_name='sped.documento',
-        string=u'Documento Fiscal',
+        string='Documento Fiscal',
     )
     emissor = fields.Char(
-        string=u'Emissor',
+        string='Emissor',
         size=60,
     )
     cnpj_cpf = fields.Char(
-        string=u'CNPJ/CPF',
+        string='CNPJ/CPF',
         size=18,
     )
     ie = fields.Char(
-        string=u'Inscrição estadual',
+        string='Inscrição estadual',
         size=18,
     )
     participante_id = fields.Many2one(
         comodel_name='sped.participante',
-        string=u'Fornecedor',
+        string='Fornecedor',
     )
     data_hora_emissao = fields.Datetime(
-        string=u'Data de emissão',
+        string='Data de emissão',
         index=True,
         default=fields.Datetime.now,
     )
     data_emissao = fields.Date(
-        string=u'Data de emissão',
+        string='Data de emissão',
         compute='_compute_data_hora_separadas',
         store=True,
         index=True,
@@ -86,49 +88,49 @@ class ManifestacaoDestinatario(models.Model):
         store=True,
     )
     data_hora_autorizacao = fields.Datetime(
-        string=u'Data de autorização',
+        string='Data de autorização',
         index=True,
     )
     data_autorizacao = fields.Date(
-        string=u'Data de autorização',
+        string='Data de autorização',
         compute='_compute_data_hora_separadas',
         store=True,
         index=True,
     )
     data_hora_cancelamento = fields.Datetime(
-        string=u'Data de cancelamento',
+        string='Data de cancelamento',
         index=True,
     )
     data_cancelamento = fields.Date(
-        string=u'Data de cancelamento',
+        string='Data de cancelamento',
         compute='_compute_data_hora_separadas',
         store=True,
         index=True,
     )
     digest_value = fields.Char(
-        string=u'Digest Value',
+        string='Digest Value',
         size=28,
     )
     justificativa = fields.Char(
-        string=u'Justificativa',
+        string='Justificativa',
         size=255,
     )
     protocolo_autorizacao = fields.Char(
-        string=u'Protocolo de autorização',
+        string='Protocolo de autorização',
         size=60,
     )
     protocolo_cancelamento = fields.Char(
-        string=u'Protocolo de cancelamento',
+        string='Protocolo de cancelamento',
         size=60,
     )
 
 
 
-   #'nsu': fields.char(u'NSU', size=25, select=True),
-   #'situacao_dfe': fields.selection(SITUACAO_DFE, u'Situacação DF-e', select=True),
-   #'situacao_manifestacao': fields.selection(SITUACAO_MANIFESTACAO, u'Situacação DF-e', select=True),
-   #'data_manifestacao': fields.datetime(u'Data da manifestação'),
-   #'justificativa': fields.char(u'Justificativa', size=255),
-   #'xml_autorizacao': fields.text(u'XML de autorização'),
-   ##'xml_cancelamento': fields.text(u'XML de cancelamento'),
-   #'documento_original_id': fields.many2one('sped.documento', u'Documento de remessa/transferência/venda original'),
+   #'ns': fields.char('NS', size=25, select=True),
+   #'situacao_dfe': fields.selection(SITUACAO_DFE, 'Situacação DF-e', select=True),
+   #'situacao_manifestacao': fields.selection(SITUACAO_MANIFESTACAO, 'Situacação DF-e', select=True),
+   #'data_manifestacao': fields.datetime('Data da manifestação'),
+   #'justificativa': fields.char('Justificativa', size=255),
+   #'xml_autorizacao': fields.text('XML de autorização'),
+   ##'xml_cancelamento': fields.text('XML de cancelamento'),
+   #'documento_original_id': fields.many2one('sped.documento', 'Documento de remessa/transferência/venda original'),

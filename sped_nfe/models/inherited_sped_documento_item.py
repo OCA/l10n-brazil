@@ -5,7 +5,10 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 import logging
+
 from odoo import api, fields, models
 from odoo.addons.l10n_br_base.constante_tributaria import *
 
@@ -24,7 +27,7 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class DocumentoItem(models.Model):
+class SpedDocumentoItem(models.Model):
     _inherit = 'sped.documento.item'
 
     def monta_nfe(self, numero_item, nfe):
@@ -56,10 +59,10 @@ class DocumentoItem(models.Model):
             else:
                 descricao = self.produto_id.nome
 
-        descricao = descricao.replace(u'—', u'-').replace(u'–', u'-')
-        descricao = descricao.replace(u'”', u'"').replace(u'“', u'"')
-        descricao = descricao.replace(u'’', u"'").replace(u'‘', u"'")
-        descricao = descricao.replace(u'—', u'-').replace(u'–', u'-')
+        descricao = descricao.replace('—', '-').replace('–', '-')
+        descricao = descricao.replace('”', '"').replace('“', '"')
+        descricao = descricao.replace('’', u"'").replace('‘', u"'")
+        descricao = descricao.replace('—', '-').replace('–', '-')
         det.prod.xProd.valor = descricao.strip()
 
         if self.produto_id.ncm_id:
@@ -208,11 +211,11 @@ class DocumentoItem(models.Model):
             if len(infcomplementar) > 0:
                 infcomplementar += '\n'
 
-            infcomplementar += u'Permite o aproveitamento de crédito de ' + \
-                u'ICMS no valor de R$ ${formata_valor(item.vr_icms_sn)},' + \
-                u' correspondente à alíquota de ' + \
-                u'${formata_valor(item.al_icms_sn)}%, nos termos do art. 23'+ \
-                u' da LC 123/2006;'
+            infcomplementar += 'Permite o aproveitamento de crédito de ' + \
+                'ICMS no valor de R$ ${formata_valor(item.vr_icms_sn)},' + \
+                ' correspondente à alíquota de ' + \
+                '${formata_valor(item.al_icms_sn)}%, nos termos do art. 23'+ \
+                ' da LC 123/2006;'
 
         #
         # Valor do IBPT
@@ -221,9 +224,9 @@ class DocumentoItem(models.Model):
             if len(infcomplementar) > 0:
                 infcomplementar += '\n'
 
-            infcomplementar += u'Valor aproximado dos tributos: ' + \
-                u'R$ ${formata_valor(item.vr_ibpt)} (' + \
-                u'${formata_valor(item.al_ibpt)}%) - fonte: IBPT;'
+            infcomplementar += 'Valor aproximado dos tributos: ' + \
+                'R$ ${formata_valor(item.vr_ibpt)} (' + \
+                '${formata_valor(item.al_ibpt)}%) - fonte: IBPT;'
 
         #
         # ICMS para UF de destino
@@ -256,19 +259,19 @@ class DocumentoItem(models.Model):
                 infcomplementar += '\n'
 
             infcomplementar += \
-                u'Partilha do ICMS de ' + \
-                u'${formata_valor(item.al_interna_destino)}% recolhida ' + \
-                u'conf. EC 87/2015: ' + \
-                u'R$ ${formata_valor(item.vr_icms_estado_destino)} para o ' + \
-                u'estado de ${nf.participante_id.estado} e ' + \
-                u'R$ ${formata_valor(item.vr_icms_estado_origem)} para o ' + \
-                u'estado de ${nf.empresa_id.estado}; Valor do diferencial ' + \
-                u'de alíquota (${formata_valor(item.al_difal)}%): ' + \
-                u'R$ ${formata_valor(item.vr_difal)};'
+                'Partilha do ICMS de ' + \
+                '${formata_valor(item.al_interna_destino)}% recolhida ' + \
+                'conf. EC 87/2015: ' + \
+                'R$ ${formata_valor(item.vr_icms_estado_destino)} para o ' + \
+                'estado de ${nf.participante_id.estado} e ' + \
+                'R$ ${formata_valor(item.vr_icms_estado_origem)} para o ' + \
+                'estado de ${nf.empresa_id.estado}; Valor do diferencial ' + \
+                'de alíquota (${formata_valor(item.al_difal)}%): ' + \
+                'R$ ${formata_valor(item.vr_difal)};'
 
             if self.vr_fcp:
-                infcomplementar += u' Fundo de combate à pobreza: R$ ' + \
-                    u'${formata_valor(item.vr_fcp)}'
+                infcomplementar += ' Fundo de combate à pobreza: R$ ' + \
+                    '${formata_valor(item.vr_fcp)}'
 
         #
         # Aplica um template na observação do item

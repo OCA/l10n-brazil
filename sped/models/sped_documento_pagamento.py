@@ -5,10 +5,13 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
+import logging
 
 from odoo import api, fields, models
 from odoo.addons.l10n_br_base.constante_tributaria import *
-import logging
+
 _logger = logging.getLogger(__name__)
 
 try:
@@ -18,16 +21,16 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class DocumentoPagamento(models.Model):
-    _description = u'Pagamento do Documento Fiscal'
+class SpedDocumentoPagamento(models.Model):
+    _name = b'sped.documento.pagamento'
+    _description = 'Pagamentos do Documento Fiscal'
     _inherit = 'sped.base'
-    _name = 'sped.documento.pagamento'
     _order = 'documento_id, sequence, payment_term_id'
     # _rec_name = 'numero'
 
     documento_id = fields.Many2one(
         comodel_name='sped.documento',
-        string=u'Documento',
+        string='Documento',
         ondelete='cascade',
         required=True,
     )
@@ -36,44 +39,44 @@ class DocumentoPagamento(models.Model):
     )
     payment_term_id = fields.Many2one(
         comodel_name='account.payment.term',
-        string=u'Forma de pagamento',
+        string='Forma de pagamento',
         ondelete='restrict',
         domain=[('forma_pagamento', '!=', False)],
     )
     valor = fields.Monetary(
-        string=u'Valor',
+        string='Valor',
     )
     troco = fields.Monetary(
-        string=u'Troco',
+        string='Troco',
     )
     autorizacao = fields.Char(
-        string=u'Autorização nº',
+        string='Autorização nº',
         size=20,
     )
     duplicata_ids = fields.One2many(
         comodel_name='sped.documento.duplicata',
         inverse_name='pagamento_id',
-        string=u'Duplicatas',
+        string='Duplicatas',
     )
     forma_pagamento = fields.Selection(
         selection=FORMA_PAGAMENTO,
-        string=u'Forma de pagamento',
+        string='Forma de pagamento',
     )
     bandeira_cartao = fields.Selection(
         selection=BANDEIRA_CARTAO,
-        string=u'Bandeira do cartão',
+        string='Bandeira do cartão',
     )
     integracao_cartao = fields.Selection(
         selection=INTEGRACAO_CARTAO,
-        string=u'Integração do cartão',
+        string='Integração do cartão',
         default=INTEGRACAO_CARTAO_NAO_INTEGRADO,
     )
     participante_id = fields.Many2one(
-        string=u'Operadora do cartão',
+        string='Operadora do cartão',
         ondelete='restrict',
     )
     cnpj_cpf = fields.Char(
-        string=u'CNPJ/CPF',
+        string='CNPJ/CPF',
         size=18,
     )
 

@@ -5,39 +5,41 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
-class Veiculo(models.Model):
-    _description = u'Veículo'
-    _name = 'sped.veiculo'
+class SpedVeiculo(models.Model):
+    _name = b'sped.veiculo'
+    _description = 'Veículos'
     _order = 'placa'
     _rec_name = 'placa'
 
     placa = fields.Char(
-        string=u'Placa',
+        string='Placa',
         size=8,
         required=True,
         index=True,
     )
     estado_id = fields.Many2one(
         comodel_name='sped.estado',
-        string=u'Estado',
+        string='Estado',
         required=True,
     )
     rntrc = fields.Char(
-        string=u'RNTRC',
+        string='RNTRC',
         size=20,
     )
     transportadora_id = fields.Many2one(
         comodel_name='sped.participante',
-        string=u'Transportadora',
+        string='Transportadora',
         domain=[['eh_transportadora', '=', True]],
     )
     motorista_id = fields.Many2one(
         comodel_name='sped.participante',
-        string=u'Motorista',
+        string='Motorista',
         domain=[['tipo_pessoa', '=', 'F']]
     )
 
@@ -54,11 +56,11 @@ class Veiculo(models.Model):
 
         if len(placa) != 7:
             raise ValidationError(
-                u'Placa inválida! Informe a placa no formato AAA-9999')
+                'Placa inválida! Informe a placa no formato AAA-9999')
 
         if not (placa[0:3].isalpha() and placa[3:7].isdigit()):
             raise ValidationError(
-                u'Placa inválida! Informe a placa no formato AAA-9999')
+                'Placa inválida! Informe a placa no formato AAA-9999')
 
         valores['placa'] = placa[0:3] + '-' + placa[3:7]
 
@@ -69,7 +71,7 @@ class Veiculo(models.Model):
             veiculo_ids = self.search([('placa', '=', self.placa)])
 
         if len(veiculo_ids) > 0:
-            raise ValidationError(u'Veículo já cadastrado!')
+            raise ValidationError('Veículo já cadastrado!')
 
         return res
 

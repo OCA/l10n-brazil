@@ -5,6 +5,7 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
@@ -12,7 +13,6 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     TIPO_UNIDADE,
 )
 
-import json
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -26,10 +26,10 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class Unidade(models.Model):
-    _description = u'Unidade de medida'
+class SpedUnidade(models.Model):
+    _name = b'sped.unidade'
+    _description = 'Unidade de medida'
     _inherits = {'product.uom': 'uom_id'}
-    _name = 'sped.unidade'
     _order = 'codigo_unico'
     _rec_name = 'codigo'
 
@@ -43,35 +43,35 @@ class Unidade(models.Model):
 
     uom_id = fields.Many2one(
         comodel_name='product.uom',
-        string=u'UOM original',
+        string='UOM original',
         ondelete='restrict',
         required=True,
     )
     tipo = fields.Selection(
         selection=TIPO_UNIDADE,
-        string=u'Tipo',
+        string='Tipo',
         required=True,
         index=True,
     )
     codigo = fields.Char(
-        string=u'Código',
+        string='Código',
         size=10,
         index=True,
     )
     codigo_unico = fields.Char(
-        string=u'Código',
+        string='Código',
         size=10,
         index=True,
         compute='_compute_codigo_unico',
         store=True
     )
     nome = fields.Char(
-        string=u'Nome',
+        string='Nome',
         size=60,
         index=True,
     )
     nome_unico = fields.Char(
-        string=u'Nome',
+        string='Nome',
         size=60,
         index=True,
         compute='_compute_nome_unico',
@@ -81,42 +81,42 @@ class Unidade(models.Model):
     # Valores nas unidades por extenso
     #
     fator_relacao_decimal = fields.Float(
-        string=u'Multiplica por',
+        string='Multiplica por',
         default=10,
         digits=(18, 6),
     )
     precisao_decimal = fields.Float(
-        string=u'Elevado a',
+        string='Elevado a',
         default=2,
         digits=(18, 6),
     )
     arredondamento = fields.Integer(
-        string=u'Casas decimais para arredondamento',
+        string='Casas decimais para arredondamento',
         default=0,
     )
     nome_singular = fields.Char(
-        string=u'Singular',
+        string='Singular',
         size=60,
     )
     nome_plural = fields.Char(
-        string=u'Plural',
+        string='Plural',
         size=60,
     )
     genero_masculino = fields.Boolean(
-        string=u'Nome é masculino?',
+        string='Nome é masculino?',
         default=True,
     )
     usa_meio = fields.Boolean(
-        string=u'Usa meio?',
+        string='Usa meio?',
         default=False,
     )
     usa_virgula = fields.Boolean(
-        string=u'Usa vírgula?',
+        string='Usa vírgula?',
         default=True,
     )
     subunidade_id = fields.Many2one(
         comodel_name='sped.unidade',
-        string=u'Unidade decimal',
+        string='Unidade decimal',
         ondelete='restrict',
     )
 
@@ -124,36 +124,36 @@ class Unidade(models.Model):
     # Exemplos do texto por extenso
     #
     extenso_zero = fields.Char(
-        string=u'Ex. 0',
+        string='Ex. 0',
         compute='_compute_extenso',
     )
     extenso_singular_inteiro = fields.Char(
-        string=u'Ex. 1',
+        string='Ex. 1',
         compute='_compute_extenso',
     )
     extenso_plural_inteiro = fields.Char(
-        string=u'Ex. 1.234.567',
+        string='Ex. 1.234.567',
         compute='_compute_extenso',
     )
     extenso_singular_um_decimo = fields.Char(
-        string=u'Ex. 1,01',
+        string='Ex. 1,01',
         compute='_compute_extenso',
     )
     extenso_singular_meio = fields.Char(
-        string=u'Ex. 1,50',
+        string='Ex. 1,50',
         compute='_compute_extenso',
     )
     extenso_singular_decimal = fields.Char(
-        string=u'Ex. 1,67',
+        string='Ex. 1,67',
         compute='_compute_extenso',
     )
     extenso_plural_decimal = fields.Char(
-        string=u'Ex. 1.234.567,89',
+        string='Ex. 1.234.567,89',
         compute='_compute_extenso',
     )
     currency_id = fields.Many2one(
         comodel_name='res.currency',
-        string=u'Símbolo para campos monetary',
+        string='Símbolo para campos monetary',
         ondelete='restrict',
     )
 
@@ -162,9 +162,9 @@ class Unidade(models.Model):
         for unidade in self:
             codigo_unico = unidade.codigo or ''
             codigo_unico = codigo_unico.lower().strip()
-            codigo_unico = codigo_unico.replace(u' ', u' ')
-            codigo_unico = codigo_unico.replace(u'²', u'2')
-            codigo_unico = codigo_unico.replace(u'³', u'3')
+            codigo_unico = codigo_unico.replace(' ', ' ')
+            codigo_unico = codigo_unico.replace('²', '2')
+            codigo_unico = codigo_unico.replace('³', '3')
             codigo_unico = tira_acentos(codigo_unico)
             unidade.codigo_unico = codigo_unico
 
@@ -173,9 +173,9 @@ class Unidade(models.Model):
         for unidade in self:
             nome_unico = unidade.nome or ''
             nome_unico = nome_unico.lower().strip()
-            nome_unico = nome_unico.replace(u' ', u' ')
-            nome_unico = nome_unico.replace(u'²', u'2')
-            nome_unico = nome_unico.replace(u'³', u'3')
+            nome_unico = nome_unico.replace(' ', ' ')
+            nome_unico = nome_unico.replace('²', '2')
+            nome_unico = nome_unico.replace('³', '3')
             nome_unico = tira_acentos(nome_unico)
             unidade.nome_unico = nome_unico
 
@@ -193,7 +193,7 @@ class Unidade(models.Model):
                 ])
 
             if len(unidade_ids) > 0:
-                raise ValidationError(u'Código de unidade já existe!')
+                raise ValidationError('Código de unidade já existe!')
 
     @api.depends('nome')
     def _check_nome(self):
@@ -207,7 +207,7 @@ class Unidade(models.Model):
                     [('nome_unico', '=', unidade.nome_unico)])
 
             if len(unidade_ids) > 0:
-                raise ValidationError(u'Nome de unidade já existe!')
+                raise ValidationError('Nome de unidade já existe!')
 
     @api.multi
     def extenso(self, numero=D(0)):
@@ -340,9 +340,9 @@ class Unidade(models.Model):
     def name_search(self, name='', args=None, operator='ilike', limit=100):
         args = args or []
         if name and operator in ('=', 'ilike', '=ilike', 'like', '=like'):
-            name = name.replace(u' ', u' ')
-            name = name.replace(u'²', u'2')
-            name = name.replace(u'³', u'3')
+            name = name.replace(' ', ' ')
+            name = name.replace('²', '2')
+            name = name.replace('³', '3')
 
             args += [
                 '|',
@@ -356,7 +356,7 @@ class Unidade(models.Model):
             unidades = self.search(args, limit=limit)
             return unidades.name_get()
 
-        return super(Unidade, self).name_search(name=name, args=args,
+        return super(SpedUnidade, self).name_search(name=name, args=args,
                                                 operator=operator, limit=limit)
 
     def prepare_sync_to_uom(self):
@@ -405,7 +405,7 @@ class Unidade(models.Model):
         self.ensure_one()
 
         dados = {
-            'name': self.nome + u' - UNIDADE',
+            'name': self.nome + ' - UNIDADE',
             'symbol': self.codigo,
             'is_uom': True,
             'active': True,
@@ -462,7 +462,7 @@ class Unidade(models.Model):
         elif dados['tipo'] == self.TIPO_UNIDADE_TEMPO:
             dados['category_id'] = self.env.ref('product.uom_categ_wtime').id
 
-        unidade = super(Unidade, self).create(dados)
+        unidade = super(SpedUnidade, self).create(dados)
         unidade.sync_to_uom()
         unidade.sync_to_currency()
 
@@ -473,7 +473,7 @@ class Unidade(models.Model):
         if 'codigo' in dados:
             dados['name'] = dados['codigo']
 
-        res = super(Unidade, self).write(dados)
+        res = super(SpedUnidade, self).write(dados)
         self.sync_to_uom()
         self.sync_to_currency()
         return res

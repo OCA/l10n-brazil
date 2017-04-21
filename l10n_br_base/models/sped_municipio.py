@@ -5,60 +5,61 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
 from odoo import models, fields, api
 
 
-class Municipio(models.Model):
-    _name = 'sped.municipio'
-    _description = u'Município'
+class SpedMunicipio(models.Model):
+    _name = b'sped.municipio'
+    _description = 'Municípios'
     _order = 'nome, estado'
 
     codigo_ibge = fields.Char(
-        string=u'Código IBGE',
+        string='Código IBGE',
         size=11,
         required=True,
         index=True
     )
     codigo_siafi = fields.Char(
-        string=u'Código SIAFI',
+        string='Código SIAFI',
         size=5,
         index=True
     )
     codigo_anp = fields.Char(
-        string=u'Código ANP',
+        string='Código ANP',
         size=7
     )
     nome = fields.Char(
-        string=u'Nome',
+        string='Nome',
         size=80,
         required=True,
         index=True
     )
     estado_id = fields.Many2one(
         comodel_name='sped.estado',
-        string=u'Estado',
+        string='Estado',
         required=True,
         index=True
     )
     estado = fields.Char(
-        string=u'Estado',
+        string='Estado',
         related='estado_id.uf',
         store=True,
         index=True
     )
     pais_id = fields.Many2one(
         comodel_name='sped.pais',
-        string=u'País',
+        string='País',
         required=True,
         index=True
     )
     ddd = fields.Char(
-        string=u'DDD',
+        string='DDD',
         size=2
     )
     cep_unico = fields.Char(
-        string=u'CEP único',
+        string='CEP único',
         size=9
     )
 
@@ -66,7 +67,7 @@ class Municipio(models.Model):
         (
             'nome_estado_pais_unique',
             'unique (nome, estado_id, pais_id)',
-            u'O nome, estado e país não podem se repetir!',
+            'O nome, estado e país não podem se repetir!',
         ),
     ]
 
@@ -99,6 +100,6 @@ class Municipio(models.Model):
             municipios = self.search(args, limit=limit)
             return municipios.name_get()
 
-        return super(Municipio, self).name_search(name=name, args=args,
+        return super(SpedMunicipio, self).name_search(name=name, args=args,
                                                   operator=operator,
                                                   limit=limit)

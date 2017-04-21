@@ -5,40 +5,42 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 from odoo import api, fields, models
 
 
-class Partner(models.Model):
-    _name = 'res.partner'
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     sped_participante_id = fields.Many2one(
         comodel_name='sped.participante',
-        string=u'Participante',
+        string='Participante',
     )
     sped_empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
-        string=u'Empresa')
+        string='Empresa',
+    )
     is_brazilian_partner = fields.Boolean(
-        string=u'Is a Brazilian partner?',
+        string='Is a Brazilian partner?',
         compute='_compute_is_brazilian_partner',
         store=True,
     )
     is_brazilian_company = fields.Boolean(
-        string=u'Is a Brazilian company?',
+        string='Is a Brazilian company?',
         compute='_compute_is_brazilian_company',
         store=True,
     )
     original_company_id = fields.Many2one(
         comodel_name='res.company',
-        string=u'Original Company',
+        string='Original Company',
         compute='_compute_original_company_id',
         store=True,
         ondelete='cascade',
     )
     original_user_id = fields.Many2one(
         comodel_name='res.users',
-        string=u'Original User',
+        string='Original User',
         compute='_compute_original_user_id',
         store=True,
         ondelete='cascade'

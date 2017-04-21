@@ -5,13 +5,13 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
 import logging
+
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.addons.l10n_br_base.constante_tributaria import *
-
-_logger = logging.getLogger(__name__)
 
 _logger = logging.getLogger(__name__)
 
@@ -29,22 +29,22 @@ except (ImportError, IOError) as err:
 
 
 class ConsultaDFe(models.Model):
-    _description = u'Consulta DFe'
-    _name = 'sped.consulta.dfe'
+    _name = b'sped.consulta.dfe'
+    _description = 'Consulta DFe'
 
     empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
-        string=u'Empresa',
+        string='Empresa',
         required=True,
     )
     ultimo_nsu = fields.Char(
-        string=u'Último NSU',
+        string='Último NS',
         size=25,
         default='0',
         required=True,
     )
     ultima_consulta = fields.Datetime(
-        string=u'Última consulta',
+        string='Última consulta',
     )
 
     def busca_documentos(self):
@@ -70,7 +70,7 @@ class ConsultaDFe(models.Model):
             ## Nenhum documento encontrado
             ##
             #if processo.resposta.cStat.valor == '137':
-                #uu_obj.write({'ultimo_nsu': processo.resposta.ultNSU.valor, 'ultima_consulta': str(UTC.normalize(agora()))})
+                #uu_obj.write({'ultimo_ns': processo.resposta.ultNSU.valor, 'ultima_consulta': str(UTC.normalize(agora()))})
 
             ##
             ## Consumo indevido, não tem mais documentos para retornar, deve esperar
@@ -87,7 +87,7 @@ class ConsultaDFe(models.Model):
                     #cron_obj.write({'nextcall': str(nova_execucao)[:19]})
 
             #elif processo.resposta.cStat.valor == '138':
-                #uu_obj.write({'ultimo_nsu': processo.resposta.ultNSU.valor, 'ultima_consulta': str(UTC.normalize(agora()))})
+                #uu_obj.write({'ultimo_ns': processo.resposta.ultNSU.valor, 'ultima_consulta': str(UTC.normalize(agora()))})
 
                 #for rn in processo.resposta.resNFe:
                     #cnpj = formata_cnpj(rn.CNPJ.valor)
@@ -99,7 +99,7 @@ class ConsultaDFe(models.Model):
                         #'nome': rn.xNome.valor,
                         #'ie': rn.IE.valor,
                         #'data_emissao': str(rn.dEmi.valor),
-                        #'nsu': rn.NSU.valor,
+                        #'ns': rn.NSU.valor,
                         #'data_autorizacao': str(data_autorizacao),
                         #'digest_value': rn.digVal.valor,
                         #'situacao_dfe': rn.cSitNFe.valor,
@@ -119,8 +119,8 @@ class ConsultaDFe(models.Model):
 
     #def acao_demorada_busca_documentos(self, cr, uid, ids=[], context={}):
         #if not ids:
-            #ids = self.pool.get('sped.ultimo_nsu').search(cr, uid, [])
+            #ids = self.pool.get('sped.ultimo_ns').search(cr, uid, [])
 
-        #self.pool.get('sped.ultimo_nsu').busca_documentos(cr, uid, ids, context)
+        #self.pool.get('sped.ultimo_ns').busca_documentos(cr, uid, ids, context)
 
 
