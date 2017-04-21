@@ -5,6 +5,8 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 from odoo import api, fields, models
 from odoo.addons.l10n_br_base.constante_tributaria import (
     CFOPS_CALCULA_SIMPLES_CSLL_IRPJ,
@@ -28,136 +30,136 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
 )
 
 
-class CFOP(models.Model):
-    _description = u'CFOP'
-    _name = 'sped.cfop'
+class SpedCFOP(models.Model):
+    _name = b'sped.cfop'
+    _description = 'CFOPs'
     _rec_name = 'codigo'
     _order = 'codigo'
 
     codigo = fields.Char(
-        string=u'Código',
+        string='Código',
         size=4,
         index=True,
         required=True,
     )
     descricao = fields.Char(
-        string=u'Descrição',
+        string='Descrição',
         size=512,
         index=True,
         required=True,
     )
     entrada_saida = fields.Selection(
         selection=ENTRADA_SAIDA,
-        string=u'Entrada/saída',
+        string='Entrada/saída',
         index=True,
         default=ENTRADA_SAIDA_SAIDA,
     )
     posicao = fields.Selection(
         selection=POSICAO_CFOP,
-        string=u'Posição',
+        string='Posição',
         index=True,
     )
     gera_pis_cofins = fields.Boolean(
-        string=u'Gera crédito de PIS-COFINS (entrada)/paga PIS-COFINS (saída)?'
+        string='Gera crédito de PIS-COFINS (entrada)/paga PIS-COFINS (saída)?'
     )
     natureza_bc_credito_pis_cofins = fields.Char(
-        string=u'Natureza da BC do crédito de PIS-COFINS',
+        string='Natureza da BC do crédito de PIS-COFINS',
         size=2,
     )
     gera_ipi = fields.Boolean(
-        string=u'Gera crédito de IPI (entrada)/paga IPI (saída)?',
+        string='Gera crédito de IPI (entrada)/paga IPI (saída)?',
     )
     gera_icms_proprio = fields.Boolean(
-        string=u'Gera crédito de ICMS próprio (entrada)/paga ICMS próprio '
-               u'(saída)?',
+        string='Gera crédito de ICMS próprio (entrada)/paga ICMS próprio '
+               '(saída)?',
     )
     gera_icms_st = fields.Boolean(
-        string=u'Gera crédito de ICMS ST (entrada)/paga ICMS ST (saída)?',
+        string='Gera crédito de ICMS ST (entrada)/paga ICMS ST (saída)?',
     )
     gera_icms_sn = fields.Boolean(
-        string=u'Dá direito a crédito de ICMS SIMPLES (saída)?',
+        string='Dá direito a crédito de ICMS SIMPLES (saída)?',
     )
     cfop_dentro_estado_id = fields.Many2one(
         comodel_name='sped.cfop',
-        string=u'CFOP equivalente dentro do estado',
+        string='CFOP equivalente dentro do estado',
     )
     cfop_fora_estado_id = fields.Many2one(
         comodel_name='sped.cfop',
-        string=u'CFOP equivalente para fora do estado',
+        string='CFOP equivalente para fora do estado',
     )
     cfop_fora_pais_id = fields.Many2one(
         comodel_name='sped.cfop',
-        string=u'CFOP equivalente para fora do país'
+        string='CFOP equivalente para fora do país'
     )
     cfop_entrada_id = fields.Many2one(
         comodel_name='sped.cfop',
-        string=u'CFOP padrão para entrada'
+        string='CFOP padrão para entrada'
     )
     movimentacao_fisica = fields.Boolean(
-        comodel_name=u'Há movimentação física do produto?',
+        comodel_name='Há movimentação física do produto?',
     )
     eh_compra = fields.Boolean(
-        string=u'É compra?',
+        string='É compra?',
         compute='_compute_eh_compra_venda'
     )
     eh_compra_industrializacao = fields.Boolean(
-        string=u'É compra para industrialização?',
+        string='É compra para industrialização?',
         compute='_compute_eh_compra_venda',
     )
     eh_compra_comercializacao = fields.Boolean(
-        string=u'É compra para comercialização?',
+        string='É compra para comercialização?',
         compute='_compute_eh_compra_venda'
     )
     eh_compra_ativo = fields.Boolean(
-        string=u'É compra de ativo?',
+        string='É compra de ativo?',
         compute='_compute_eh_compra_venda'
     )
     eh_compra_uso_consumo = fields.Boolean(
-        string=u'É compra para uso e consumo?',
+        string='É compra para uso e consumo?',
         compute='_compute_eh_compra_venda'
     )
     eh_compra_servico = fields.Boolean(
-        string=u'É compra de serviço?',
+        string='É compra de serviço?',
         compute='_compute_eh_compra_venda'
     )
     custo_venda = fields.Boolean(
-        string=u'Compõe custo para venda?',
+        string='Compõe custo para venda?',
         compute='_compute_eh_compra_venda',
     )
     eh_venda = fields.Boolean(
-        string=u'É venda?',
+        string='É venda?',
         compute='_compute_eh_compra_venda'
     )
     eh_venda_mercadoria = fields.Boolean(
-        string=u'É venda de mercadoria?',
+        string='É venda de mercadoria?',
         compute='_compute_eh_compra_venda'
     )
     eh_venda_ativo = fields.Boolean(
-        string=u'É venda de ativo?',
+        string='É venda de ativo?',
         compute='_compute_eh_compra_venda'
     )
     eh_venda_servico = fields.Boolean(
-        string=u'É venda de serviço?',
+        string='É venda de serviço?',
         compute='_compute_eh_compra_venda'
     )
     eh_devolucao_compra = fields.Boolean(
-        string=u'É devolução de compra?',
+        string='É devolução de compra?',
         compute='_compute_eh_compra_venda'
     )
     eh_devolucao_venda = fields.Boolean(
-        string=u'É devolução de venda?',
+        string='É devolução de venda?',
         compute='_compute_eh_compra_venda'
     )
     eh_retorno_entrada = fields.Boolean(
-        string=u'É retorno entrada?',
+        string='É retorno entrada?',
         compute='_compute_eh_compra_venda'
     )
     eh_retorno_saida = fields.Boolean(
-        string=u'É retorno saída?',
+        string='É retorno saída?',
         compute='_compute_eh_compra_venda'
     )
     calcula_simples_csll_irpj = fields.Boolean(
-        string=u'Calcula SIMPLES, CSLL e IRPJ?',
+        string='Calcula SIMPLES, CSLL e IRPJ?',
         compute='_compute_eh_compra_venda'
     )
 
@@ -183,7 +185,7 @@ class CFOP(models.Model):
             cfop_ids = self.search(args, limit=limit)
             return cfop_ids.name_get()
 
-        return super(CFOP, self).name_search(
+        return super(SpedCFOP, self).name_search(
             name=name, args=args, operator=operator, limit=limit)
 
     @api.depends('codigo')

@@ -5,12 +5,13 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
 
 
-class NCM(models.Model):
-    _name = 'sped.ncm'
+class SpedNCM(models.Model):
+    _name = b'sped.ncm'
     _inherit = 'sped.ncm'
 
     cest_ids = fields.Many2many(
@@ -18,12 +19,12 @@ class NCM(models.Model):
         relation='sped_ncm_cest',
         column1='ncm_id',
         column2='cest_id',
-        string=u'Códigos CEST'
+        string='Códigos CEST'
     )
 
 
-class CEST(models.Model):
-    _name = 'sped.cest'
+class SpedCEST(models.Model):
+    _name = b'sped.cest'
     _inherit = 'sped.cest'
 
     ncm_ids = fields.Many2many(
@@ -31,10 +32,10 @@ class CEST(models.Model):
         relation='sped_ncm_cest',
         column1='cest_id',
         column2='ncm_id',
-        string=u'NCMs'
+        string='NCMs'
     )
     ncm_permitido = fields.Char(
-        string=u'NCMs permitidos',
+        string='NCMs permitidos',
         size=200,
         help='Informe a lista de NCMs permitidos, sem pontos, separados por |'
     )
