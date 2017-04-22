@@ -56,8 +56,8 @@ class AccountPaymentTerm(models.Model):
     )
 
     @api.constrains('line_ids')
-    @api.one
     def _check_lines(self):
+        self.ensure_one()
         payment_term_lines = self.line_ids.sorted()
 
         if payment_term_lines and payment_term_lines[-1].value != 'balance':
@@ -70,8 +70,8 @@ class AccountPaymentTerm(models.Model):
             raise ValidationError(_(u"""A Payment Term should have only one
             line of type Balance."""))
 
-    @api.one
     def compute(self, value, date_ref=False):
+        self.ensure_one()
         date_ref = date_ref or fields.Date.today()
         amount = value
         result = []

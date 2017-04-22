@@ -2,8 +2,7 @@
 <!-- Copyright 2017 KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
-<odoo>
-<data noupdate="1">
+<odoo noupdate="True">
 
     <!-- TODO
     <record model="sped.empresa" id="sped_empresa_demo_1">
@@ -11,5 +10,4 @@
     </record>
     -->
 
-</data>
 </odoo>

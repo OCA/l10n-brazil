@@ -1,24 +1,21 @@
 -
     Partner with valid CNPJ and Iscrição Estadual
 -
-  !python {model: res.partner}: |
+  !python {model: sped.participante}: |
     from openerp.exceptions import ValidationError
     try:
         id = self.create({
-            'name': 'Partner Test 1',
-            'legal_name': 'Partner Testc 1 Ltda',
+            'nome': 'Partner Test 1',
+            'razao_social': 'Partner Testc 1 Ltda',
             'cnpj_cpf': '00.702.434/0001-33',
-            'inscr_est': '176.754.07-5',
-            'street': 'Rod BR-101 Norte Contorno',
-            'number': '955',
-            'street2': 'Portão 1',
-            'district': 'Jardim da Saudade',
-            'state_id': ref('base.state_br_es'),
-            'l10n_br_city_id': ref('l10n_br_base.city_3205002'),
-            'country_id': ref('base.br'),
-            'city': 'Serra',
-            'zip': '29161-695',
-            'phone': '+55 27 2916-1695',
+            'ie': '176.754.07-5',
+            'endereco': 'Rod BR-101 Norte Contorno',
+            'numero': '955',
+            'complemento': 'Portão 1',
+            'bairro': 'Jardim da Saudade',
+            'municipio_id': ref('l10n_br_base.MUNICIPIO_32050020000'),
+            'cep': '29161-695',
+            'fone': '+55 27 2916-1695',
             'email': 'contact@partnertest.com.br',
             'website': 'www.partnertest.com.br'})
     except:
@@ -26,24 +23,21 @@
 -
     Partner with invalid CNPJ
 -
-  !python {model: res.partner}: |
+  !python {model: sped.participante}: |
     from odoo.exceptions import ValidationError
     try:
         id = self.create({
-            'name': 'Partner Test 2',
-            'legal_name': 'Partner Testc 2 Ltda',
+            'nome': 'Partner Test 2',
+            'razao_social': 'Partner Testc 2 Ltda',
             'cnpj_cpf': '56.524.912/0001-31',
-            'inscr_est': '538.759.92-5',
-            'street': 'Rod BR-101 Norte Contorno',
-            'number': '955',
-            'street2': 'Portão 1',
-            'district': 'Jardim da Saudade',
-            'state_id': ref('base.state_br_es'),
-            'l10n_br_city_id': ref('l10n_br_base.city_3205002'),
-            'country_id': ref('base.br'),
-            'city': 'Serra',
-            'zip': '29161-695',
-            'phone': '+55 27 2916-1695',
+            'ie': '538.759.92-5',
+            'endereco': 'Rod BR-101 Norte Contorno',
+            'numero': '955',
+            'complemento': 'Portão 1',
+            'bairro': 'Jardim da Saudade',
+            'municipio_id': ref('l10n_br_base.MUNICIPIO_32050020000'),
+            'cep': '29161-695',
+            'fone': '+55 27 2916-1695',
             'email': 'contact@partnertest.com.br',
             'website': 'www.partnertest.com.br'})
     except ValidationError:
@@ -51,24 +45,21 @@
 -
     Partner with invalid Iscrição Estadual
 -
-  !python {model: res.partner}: |
+  !python {model: sped.participante}: |
     from odoo.exceptions import ValidationError
     try:
         id = self.create({
-            'name': 'Partner Test 3',
-            'legal_name': 'Partner Testc 3 Ltda',
+            'nome': 'Partner Test 3',
+            'razao_social': 'Partner Testc 3 Ltda',
             'cnpj_cpf': '19.069.999/0001-53',
-            'inscr_est': '576.302.93-4',
-            'street': 'Rod BR-101 Norte Contorno',
-            'number': '955',
-            'street2': 'Portão 1',
-            'district': 'Jardim da Saudade',
-            'state_id': ref('base.state_br_es'),
-            'l10n_br_city_id': ref('l10n_br_base.city_3205002'),
-            'country_id': ref('base.br'),
-            'city': 'Serra',
-            'zip': '29161-695',
-            'phone': '+55 27 2916-1695',
+            'ie': '576.302.93-4',
+            'endereco': 'Rod BR-101 Norte Contorno',
+            'numero': '955',
+            'complemento': 'Portão 1',
+            'bairro': 'Jardim da Saudade',
+            'municipio_id': ref('l10n_br_base.MUNICIPIO_32050020000'),
+            'cep': '29161-695',
+            'fone': '+55 27 2916-1695',
             'email': 'contact@partnertest.com.br',
             'website': 'www.partnertest.com.br'})
     except ValidationError:
