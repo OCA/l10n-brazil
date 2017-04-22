@@ -80,5 +80,5 @@ class SpedEstado(models.Model):
             estados = self.search(args, limit=limit)
             return estados.name_get()
 
-        return super(SpedEstado, self).name_search(name=name, args=args,
-                                               operator=operator, limit=limit)
+        return super(SpedEstado, self).name_search(
+            name=name, args=args, operator=operator, limit=limit)

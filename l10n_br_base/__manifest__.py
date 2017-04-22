@@ -83,7 +83,7 @@
         'demo/sped_empresa_demo.xml',
     ],
     'test': [
-       'test/sped_participante_test.yml',
+        'test/sped_participante_test.yml',
     ],
     'installable': True,
     'auto_install': False,
