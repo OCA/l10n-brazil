@@ -5,26 +5,36 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 import logging
-from odoo import api, fields, models
-from odoo.addons.l10n_br_base.constante_tributaria import *
+
+from odoo import models
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    ST_ICMS_SN_CALCULA_PROPRIO,
+    REGIME_TRIBUTARIO_SIMPLES,
+    ST_ICMS_CALCULA_PROPRIO,
+    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL,
+    IDENTIFICACAO_DESTINO_INTERESTADUAL,
+    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
+    ST_ICMS_CODIGO_CEST,
+    AMBIENTE_NFE_HOMOLOGACAO,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFCE,
+)
 
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe import ProcessadorNFe
-    from pysped.nfe.webservices_flags import *
-    from pysped.nfe.leiaute import *
-    from pybrasil.inscricao import limpa_formatacao
-    from pybrasil.data import parse_datetime, UTC, formata_data
-    from pybrasil.valor import formata_valor
-    from mako.template import Template
+    from pysped.nfe.leiaute import Det_310
+    from pybrasil.valor import Decimal as D
+    from pybrasil.template import TemplateBrasil
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class DocumentoItem(models.Model):
+class SpedDocumentoItem(models.Model):
     _inherit = 'sped.documento.item'
 
     def monta_nfe(self, numero_item, nfe):
@@ -56,10 +66,10 @@ class DocumentoItem(models.Model):
             else:
                 descricao = self.produto_id.nome
 
-        descricao = descricao.replace(u'—', u'-').replace(u'–', u'-')
-        descricao = descricao.replace(u'”', u'"').replace(u'“', u'"')
-        descricao = descricao.replace(u'’', u"'").replace(u'‘', u"'")
-        descricao = descricao.replace(u'—', u'-').replace(u'–', u'-')
+        descricao = descricao.replace('—', '-').replace('–', '-')
+        descricao = descricao.replace('”', '"').replace('“', '"')
+        descricao = descricao.replace('’', u"'").replace('‘', u"'")
+        descricao = descricao.replace('—', '-').replace('–', '-')
         det.prod.xProd.valor = descricao.strip()
 
         if self.produto_id.ncm_id:
@@ -194,10 +204,36 @@ class DocumentoItem(models.Model):
         # Prepara a observação do item
         #
         infcomplementar = self.infcomplementar or ''
+
         dados_infcomplementar = {
             'nf': self.documento_id,
             'item': self,
         }
+
+        #
+        # Crédito de ICMS do SIMPLES
+        #
+        if self.documento_id.regime_tributario == REGIME_TRIBUTARIO_SIMPLES \
+            and self.cst_icms_sn in ST_ICMS_SN_CALCULA_CREDITO:
+            if len(infcomplementar) > 0:
+                infcomplementar += '\n'
+
+            infcomplementar += 'Permite o aproveitamento de crédito de ' + \
+                'ICMS no valor de R$ ${formata_valor(item.vr_icms_sn)},' + \
+                ' correspondente à alíquota de ' + \
+                '${formata_valor(item.al_icms_sn)}%, nos termos do art. 23'+ \
+                ' da LC 123/2006;'
+
+        #
+        # Valor do IBPT
+        #
+        if self.vr_ibpt:
+            if len(infcomplementar) > 0:
+                infcomplementar += '\n'
+
+            infcomplementar += 'Valor aproximado dos tributos: ' + \
+                'R$ ${formata_valor(item.vr_ibpt)} (' + \
+                '${formata_valor(item.al_ibpt)}%) - fonte: IBPT;'
 
         #
         # ICMS para UF de destino
@@ -230,53 +266,24 @@ class DocumentoItem(models.Model):
                 infcomplementar += '\n'
 
             infcomplementar += \
-                u'Partilha do ICMS de ' + \
-                u'${formata_valor(item.al_interna_destino)}% recolhida ' + \
-                u'conf. EC 87/2015: ' + \
-                u'R$ ${formata_valor(item.vr_icms_estado_destino)} para o ' + \
-                u'estado de ${nf.participante_id.estado} e ' + \
-                u'R$ ${formata_valor(item.vr_icms_estado_origem)} para o ' + \
-                u'estado de ${nf.empresa_id.estado}; Valor do diferencial ' + \
-                u'de alíquota (${formata_valor(item.al_difal)}%): ' + \
-                u'R$ ${formata_valor(item.vr_difal)} ;'
+                'Partilha do ICMS de ' + \
+                '${formata_valor(item.al_interna_destino)}% recolhida ' + \
+                'conf. EC 87/2015: ' + \
+                'R$ ${formata_valor(item.vr_icms_estado_destino)} para o ' + \
+                'estado de ${nf.participante_id.estado} e ' + \
+                'R$ ${formata_valor(item.vr_icms_estado_origem)} para o ' + \
+                'estado de ${nf.empresa_id.estado}; Valor do diferencial ' + \
+                'de alíquota (${formata_valor(item.al_difal)}%): ' + \
+                'R$ ${formata_valor(item.vr_difal)};'
 
             if self.vr_fcp:
-                infcomplementar += u' Fundo de combate à pobreza: R$ ' + \
-                    u'${formata_valor(item.vr_fcp)}'
+                infcomplementar += ' Fundo de combate à pobreza: R$ ' + \
+                    '${formata_valor(item.vr_fcp)}'
 
         #
         # Aplica um template na observação do item
         #
-        template_imports = [
-            'import pybrasil',
-            'import math',
-            'from pybrasil.base import (tira_acentos, primeira_maiuscula)',
-            'from pybrasil.data import (DIA_DA_SEMANA,',
-            '   DIA_DA_SEMANA_ABREVIADO, MES, MES_ABREVIADO,',
-            '   data_por_extenso, dia_da_semana_por_extenso,',
-            '   dia_da_semana_por_extenso_abreviado, mes_por_extenso,',
-            '   mes_por_extenso_abreviado, seculo, seculo_por_extenso,',
-            '   hora_por_extenso, hora_por_extenso_aproximada, formata_data,',
-            '   ParserInfoBrasil, parse_datetime, UTC, HB,',
-            '   fuso_horario_sistema, data_hora_horario_brasilia, agora,',
-            '   hoje, ontem, amanha, mes_passado, mes_que_vem, ano_passado,',
-            '   ano_que_vem, semana_passada, semana_que_vem,',
-            '   primeiro_dia_mes, ultimo_dia_mes, idade)',
-            'from pybrasil.valor import (numero_por_extenso,',
-            '   numero_por_extenso_ordinal, numero_por_extenso_unidade,',
-            '   valor_por_extenso, valor_por_extenso_ordinal,',
-            '   valor_por_extenso_unidade, formata_valor)',
-            'from pybrasil.valor.decimal import Decimal as D',
-            'from pybrasil.valor.decimal import Decimal',
-        ]
-
-        template = Template(
-            infcomplementar.encode('utf-8'),
-            imports=template_imports,
-            input_encoding='utf-8',
-            output_encoding='utf-8',
-            strict_undefined=True,
-        )
+        template = TemplateBrasil(infcomplementar.encode('utf-8'))
         infcomplementar = template.render(**dados_infcomplementar)
         det.infAdProd.valor = infcomplementar.decode('utf-8')
 

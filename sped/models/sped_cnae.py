@@ -5,14 +5,15 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 
-class CNAE(models.Model):
-    _description = u'CNAE'
-    _name = 'sped.cnae'
+class SpedCNAE(models.Model):
+    _name = b'sped.cnae'
+    _description = 'CNAEs'
     _order = 'codigo'
     _rec_name = 'cnae'
 
@@ -25,19 +26,19 @@ class CNAE(models.Model):
             cnae.cnae += ' - ' + cnae.descricao
 
     codigo = fields.Char(
-        string=u'Código',
+        string='Código',
         size=7,
         required=True,
         index=True,
     )
     descricao = fields.Char(
-        string=u'Descrição',
+        string='Descrição',
         size=255,
         required=True,
         index=True,
     )
     cnae = fields.Char(
-        string=u'CNAE',
+        string='CNAE',
         compute='_cnae',
         store=True,
     )
@@ -50,9 +51,11 @@ class CNAE(models.Model):
                 name = name.strip().replace(' ', '%')
 
             args += ['|', ('codigo', '=', name), ('descricao', 'ilike', name)]
+            cnaes = self.search(args, limit=limit)
+            return cnaes.name_get()
 
-        return super(CNAE, self).name_search(
-            name=name, args=args, operator=operator, limit=limit)
+        return super(SpedCNAE, self).name_search(name=name, args=args,
+                                             operator=operator, limit=limit)
 
     @api.depends('codigo')
     def _check_codigo(self):
@@ -66,4 +69,4 @@ class CNAE(models.Model):
                 cnae_ids = self.search([('codigo', '=', cnae.codigo)])
 
             if len(cnae_ids) > 0:
-                raise ValidationError(u'Código CNAE já existe na tabela!')
+                raise ValidationError(_(u'Código CNAE já existe na tabela!'))

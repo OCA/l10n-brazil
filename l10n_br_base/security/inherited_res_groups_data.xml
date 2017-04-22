@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="True">
+
+    <record id="GRUPO_SUPORTE" model="res.groups">
+        <field name="name">Suporte técnico</field>
+    </record>
+
+    <record id="GRUPO_CADASTRO_LEITURA" model="res.groups">
+        <field name="name">Cadastro (somente leitura)</field>
+    </record>
+
+    <record id="GRUPO_CADASTRO_GERAL" model="res.groups">
+        <field name="name">Cadastro</field>
+    </record>
+
+    <record id="GRUPO_CADASTRO_GERENTE" model="res.groups">
+        <field name="name">Cadastro (gerente)</field>
+    </record>
+
+</odoo>

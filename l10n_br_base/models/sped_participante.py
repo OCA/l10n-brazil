@@ -5,21 +5,22 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from odoo import api, fields, models
-from odoo.exceptions import ValidationError
+from odoo import api, fields, models, _
+from odoo.exeptions import ValidationError
 from ..constante_tributaria import (
     INDICADOR_IE_DESTINATARIO,
     INDICADOR_IE_DESTINATARIO_ISENTO,
     INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
     REGIME_TRIBUTARIO,
     REGIME_TRIBUTARIO_LUCRO_PRESUMIDO,
-    REGIME_TRIBUTARIO_LUCRO_REAL,
     REGIME_TRIBUTARIO_SIMPLES,
-    REGIME_TRIBUTARIO_SIMPLES_EXCESSO,
     TIPO_PESSOA_JURIDICA,
+    TIPO_PESSOA_FISICA,
+    TIPO_PESSOA_ESTRANGEIRO,
 )
 
 _logger = logging.getLogger(__name__)
@@ -29,170 +30,170 @@ try:
 
     from pybrasil.base import mascara, primeira_maiuscula
     from pybrasil.inscricao import (formata_cnpj, formata_cpf,
-                                limpa_formatacao,
-                                formata_inscricao_estadual, valida_cnpj,
-                                valida_cpf, valida_inscricao_estadual)
+                                    limpa_formatacao,
+                                    formata_inscricao_estadual, valida_cnpj,
+                                    valida_cpf, valida_inscricao_estadual)
     from pybrasil.telefone import (formata_fone, valida_fone_fixo,
-                               valida_fone_celular,
-                               valida_fone_internacional)
+                                   valida_fone_celular,
+                                   valida_fone_internacional)
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class Participante(models.Model):
-    _description = u'Participantes'
+class SpedParticipante(models.Model):
+    _name = b'sped.participante'
+    _description = 'Participantes'
     _inherits = {'res.partner': 'partner_id'}
     _inherit = 'mail.thread'
-    _name = 'sped.participante'
     _rec_name = 'nome'
     _order = 'nome, cnpj_cpf'
 
     partner_id = fields.Many2one(
         comodel_name='res.partner',
-        string=u'Partner original',
+        string='Partner original',
         ondelete='restrict',
         required=True,
     )
     codigo = fields.Char(
-        string=u'Código',
+        string='Código',
         size=60,
         index=True
     )
     nome = fields.Char(
-        string=u'uNome',
+        string='Nome',
         size=60,
         index=True
     )
     eh_orgao_publico = fields.Boolean(
-        string=u'É órgão público?',
+        string='É órgão público?',
     )
     eh_cooperativa = fields.Boolean(
-        string=u'É cooperativa?',
+        string='É cooperativa?',
     )
     eh_sindicato = fields.Boolean(
-        string=u'É sindicato?',
+        string='É sindicato?',
     )
     eh_consumidor_final = fields.Boolean(
-        string=u'É consumidor final?',
+        string='É consumidor final?',
     )
     # eh_sociedade = fields.Boolean('É sociedade?')
     eh_convenio = fields.Boolean(
-        string=u'É convênio?',
+        string='É convênio?',
     )
     eh_cliente = fields.Boolean(
-        string=u'É cliente?',
+        string='É cliente?',
     )
     eh_fornecedor = fields.Boolean(
-        string=u'É fornecedor?',
+        string='É fornecedor?',
     )
     eh_transportadora = fields.Boolean(
-        string=u'É transportadora?'
+        string='É transportadora?'
     )
     # empresa_ids = fields.One2many(
     # 'res.company', 'partner_id', 'Empresa/unidade')
     # usuario_ids = fields.One2many('res.users', 'partner_id', 'Usuário')
     eh_grupo = fields.Boolean(
-        string=u'É grupo?',
+        string='É grupo?',
         index=True,
     )
     eh_empresa = fields.Boolean(
-        string=u'É empresa?',
+        string='É empresa?',
         index=True,
     )
     eh_usuario = fields.Boolean(
-        string=u'É usuário?',
+        string='É usuário?',
         index=True
     )
     eh_funcionario = fields.Boolean(
-        string=u'É funcionário?'
+        string='É funcionário?'
     )
     cnpj_cpf = fields.Char(
-        string=u'CNPJ/CPF',
+        string='CNPJ/CPF',
         size=18,
         index=True,
         help=u"""Para participantes estrangeiros, usar EX9999,
         onde 9999 é um número a sua escolha"""
     )
     tipo_pessoa = fields.Char(
-        string=u'Tipo pessoa',
+        string='Tipo pessoa',
         size=1,
         compute='_compute_tipo_pessoa',
         store=True,
         index=True
     )
     razao_social = fields.Char(
-        string=u'Razão Social',
+        string='Razão Social',
         size=60,
         index=True
     )
     fantasia = fields.Char(
-        string=u'Fantasia',
+        string='Fantasia',
         size=60,
         index=True
     )
     endereco = fields.Char(
-        string=u'Endereço',
+        string='Endereço',
         size=60
     )
     numero = fields.Char(
-        string=u'Número',
+        string='Número',
         size=60
     )
     complemento = fields.Char(
-        string=u'Complemento',
+        string='Complemento',
         size=60
     )
     bairro = fields.Char(
-        string=u'Bairro',
+        string='Bairro',
         size=60
     )
     municipio_id = fields.Many2one(
         comodel_name='sped.municipio',
-        string=u'Município',
+        string='Município',
         ondelete='restrict'
     )
     cidade = fields.Char(
-        string=u'Município',
+        string='Município',
         related='municipio_id.nome',
         store=True,
         index=True
     )
     estado = fields.Char(
-        string=u'Estado',
+        string='Estado',
         related='municipio_id.estado',
         store=True,
         index=True
     )
     cep = fields.Char(
-        string=u'CEP',
+        string='CEP',
         size=9
     )
     #
     # Telefone e email para a emissão da NF-e
     #
     fone = fields.Char(
-        string=u'Fone',
+        string='Fone',
         size=18
     )
     fone_comercial = fields.Char(
-        string=u'Fone Comercial',
+        string='Fone Comercial',
         size=18
     )
     celular = fields.Char(
-        string=u'Celular',
+        string='Celular',
         size=18
     )
     email = fields.Char(
-        string=u'Email',
+        string='Email',
         size=60
     )
     site = fields.Char(
-        string=u'Site',
+        string='Site',
         size=60
     )
     email_nfe = fields.Char(
-        string=u'Email para envio da NF-e',
+        string='Email para envio da NF-e',
         size=60
     )
     #
@@ -200,62 +201,58 @@ class Participante(models.Model):
     #
     contribuinte = fields.Selection(
         selection=INDICADOR_IE_DESTINATARIO,
-        string=u'Contribuinte',
+        string='Contribuinte',
         default=INDICADOR_IE_DESTINATARIO_ISENTO
     )
     ie = fields.Char(
-        string=u'Inscrição estadual',
+        string='Inscrição estadual',
         size=18
     )
     im = fields.Char(
-        string=u'Inscrição municipal',
+        string='Inscrição municipal',
         size=14
     )
     suframa = fields.Char(
-        string=u'SUFRAMA',
+        string='SUFRAMA',
         size=12
     )
     rntrc = fields.Char(
-        string=u'RNTRC',
+        string='RNTRC',
         size=15
     )
-    cnae_id = fields.Many2one(
-        comodel_name='sped.cnae',
-        string=u'CNAE principal'
-    )
     cei = fields.Char(
-        string=u'CEI',
+        string='CEI',
         size=15
     )
     rg_numero = fields.Char(
-        string=u'RG',
+        string='RG',
         size=14
     )
     rg_orgao_emissor = fields.Char(
-        string=u'Órgão emisssor do RG',
+        string='Órgão emisssor do RG',
         size=20
     )
     rg_data_expedicao = fields.Date(
-        string=u'Data de expedição do RG'
+        string='Data de expedição do RG'
     )
     crc = fields.Char(
-        string=u'Conselho Regional de Contabilidade',
+        string='Conselho Regional de Contabilidade',
         size=14
     )
     crc_uf = fields.Many2one(
         comodel_name='sped.estado',
-        string=u'UF do CRC',
+        string='UF do CRC',
         ondelete='restrict'
     )
     profissao = fields.Char(
-        string=u'Cargo',
+        string='Cargo',
         size=40
     )
     # 'sexo = fields.selection(SEXO, 'Sexo' )
     # 'estado_civil = fields.selection(ESTADO_CIVIL, 'Estado civil')
     pais_nacionalidade_id = fields.Many2one(
         comodel_name='sped.pais',
-        string=u'Nacionalidade',
+        string='Nacionalidade',
         ondelete='restrict'
     )
     #
@@ -273,11 +270,11 @@ class Participante(models.Model):
     # Para a NFC-e, ECF, SAT
     #
     exige_cnpj_cpf = fields.Boolean(
-        comodel_name=u'Exige CNPJ/CPF?',
+        comodel_name='Exige CNPJ/CPF?',
         compute='_compute_exige_cadastro_completo',
     )
     exige_endereco = fields.Boolean(
-        comodel_name=u'Exige endereço?',
+        comodel_name='Exige endereço?',
         compute='_compute_exige_cadastro_completo',
     )
     #
@@ -297,14 +294,19 @@ class Participante(models.Model):
     #
     transportadora_id = fields.Many2one(
         comodel_name='sped.participante',
-        string=u'Transportadora',
+        string='Transportadora',
         ondelete='restrict',
     )
     regime_tributario = fields.Selection(
         selection=REGIME_TRIBUTARIO,
-        string=u'Regime tributário',
+        string='Regime tributário',
         default=REGIME_TRIBUTARIO_SIMPLES,
         index=True,
+    )
+    payment_term_id = fields.Many2one(
+        comodel_name='account.payment.term',
+        string='Condição de pagamento',
+        ondelete='restrict',
     )
 
     @api.depends('cnpj_cpf')
@@ -350,38 +352,27 @@ class Participante(models.Model):
             else:
                 self.exige_endereco = False
 
-                # @api.depends('nome', 'razao_social', 'fantasia', 'cnpj_cpf')
-                # def name_get(self, cr, uid, ids, context={}):
-                # if not len(ids):
-                # return []
+    @api.multi
+    def name_get(self):
+        res = []
 
-                # res = []
-                # for partner_obj in self.browse(cr, uid, ids):
-                # if hasattr(partner_obj, 'nome'):
-                # nome = partner_obj.nome or ''
+        for participante in self:
+            nome = participante.nome
 
-                # if partner_obj.cnpj_cpf:
-                # nome += ' - ' + partner_obj.cnpj_cpf
+            if participante.razao_social:
+                if participante.nome.strip().upper() != \
+                    participante.razao_social.strip().upper():
+                    nome += ' - '
+                    nome += participante.razao_social
 
-                # if partner_obj.razao_social and
-                # partner_obj.razao_social.upper() != partner_obj.nome.upper():
-                # nome += ' [' + partner_obj.razao_social + ']'
+            if participante.cnpj_cpf:
+                nome += ' ['
+                nome += participante.cnpj_cpf
+                nome += '] '
 
-                # if partner_obj.fantasia and
-                #  partner_obj.fantasia.upper() != partner_obj.nome.upper():
-                # if partner_obj.razao_social:
-                # if partner_obj.razao_social.upper()
-                # != partner_obj.fantasia.upper():
-                # nome += ' [' + partner_obj.fantasia + ']'
+            res.append((participante.id, nome))
 
-                # else:
-                # nome += ' [' + partner_obj.fantasia + ']'
-
-                # res.append((partner_obj.id, nome))
-                # else:
-                # res.append((partner_obj.id, ''))
-
-                # return res
+        return res
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
@@ -394,6 +385,8 @@ class Participante(models.Model):
                 '|',
                 ('codigo', '=', name),
                 '|',
+                ('nome', 'ilike', name),
+                '|',
                 ('razao_social', 'ilike', name),
                 '|',
                 ('fantasia', 'ilike', name),
@@ -401,8 +394,10 @@ class Participante(models.Model):
                 ('cnpj_cpf', 'ilike', mascara(name, '  .   .   /    -  ')),
                 ('cnpj_cpf', 'ilike', mascara(name, '   .   .   -  ')),
             ]
+            participantes = self.search(args, limit=limit)
+            return participantes.name_get()
 
-        return super(Participante, self).name_search(name=name, args=args,
+        return super(SpedParticipante, self).name_search(name=name, args=args,
                                                      operator=operator,
                                                      limit=limit)
 
@@ -419,7 +414,7 @@ class Participante(models.Model):
 
         if cnpj_cpf[:2] != 'EX':
             if not valida_cnpj(cnpj_cpf) and not valida_cpf(cnpj_cpf):
-                raise ValidationError('CNPJ/CPF inválido')
+                raise ValidationError(_(u'CNPJ/CPF inválido'))
 
         if len(cnpj_cpf) == 14:
             valores['cnpj_cpf'] = formata_cnpj(cnpj_cpf)
@@ -450,7 +445,7 @@ class Participante(models.Model):
                  ('eh_grupo', '=', False)])
 
         if len(cnpj_ids) > 0:
-            raise ValidationError('CNPJ/CPF já existe no cadastro!')
+            raise ValidationError(_(u'CNPJ/CPF já existe no cadastro!'))
 
         return res
 
@@ -472,7 +467,7 @@ class Participante(models.Model):
         if self.fone:
             if (not valida_fone_internacional(self.fone)) and (
                     not valida_fone_fixo(self.fone)):
-                raise ValidationError('Telefone fixo inválido!')
+                raise ValidationError(_(u'Telefone fixo inválido!'))
 
             valores['fone'] = formata_fone(self.fone)
 
@@ -480,14 +475,14 @@ class Participante(models.Model):
             if (not valida_fone_internacional(self.fone_comercial)) and (
                     not valida_fone_fixo(self.fone_comercial)) and (
                     not valida_fone_celular(self.fone_comercial)):
-                raise ValidationError('Telefone comercial inválido!')
+                raise ValidationError(_(u'Telefone comercial inválido!'))
 
             valores['fone_comercial'] = formata_fone(self.fone_comercial)
 
         if self.celular:
             if (not valida_fone_internacional(self.celular)) and (
                     not valida_fone_celular(self.celular)):
-                raise ValidationError('Celular inválido!')
+                raise ValidationError(_(u'Celular inválido!'))
 
             valores['celular'] = formata_fone(self.celular)
 
@@ -513,7 +508,7 @@ class Participante(models.Model):
 
         cep = limpa_formatacao(self.cep)
         if (not cep.isdigit()) or len(cep) != 8:
-            raise ValidationError('CEP inválido!')
+            raise ValidationError(_(u'CEP inválido!'))
 
         valores['cep'] = cep[:5] + '-' + cep[5:]
 
@@ -536,7 +531,7 @@ class Participante(models.Model):
 
         if self.suframa:
             if not valida_inscricao_estadual(self.suframa, 'SUFRAMA'):
-                raise ValidationError('Inscrição na SUFRAMA inválida!')
+                raise ValidationError(_(u'Inscrição na SUFRAMA inválida!'))
 
             valores['suframa'] = formata_inscricao_estadual(self.suframa,
                                                             'SUFRAMA')
@@ -547,18 +542,18 @@ class Participante(models.Model):
 
             else:
                 if not self.municipio_id:
-                    raise ValidationError(
-                        """Para validação da inscrição estadual é preciso
-                        informar o município!""")
+                    raise ValidationError(_(
+                        u"""Para validação da inscrição estadual é preciso
+                        informar o município!"""))
 
                 if self.ie.strip().upper()[
                    :6] == 'ISENTO' or self.ie.strip().upper()[:6] == 'ISENTA':
-                    raise ValidationError(
-                        'Inscrição estadual inválida para contribuinte!')
+                    raise ValidationError(_(
+                        u'Inscrição estadual inválida para contribuinte!'))
 
                 if not valida_inscricao_estadual(
                         self.ie, self.municipio_id.estado_id.uf):
-                    raise ValidationError('Inscrição estadual inválida!')
+                    raise ValidationError(_(u'Inscrição estadual inválida!'))
 
                 valores['ie'] = formata_inscricao_estadual(
                     self.ie, self.municipio_id.estado_id.uf
@@ -596,7 +591,7 @@ class Participante(models.Model):
                     valido = validate_email(e.strip())
                     emails_validos.append(valido['email'])
                 except:
-                    raise ValidationError('Email %s inválido!' % e.strip())
+                    raise ValidationError(_(u'Email %s inválido!' % e.strip()))
 
             valores['email'] = ','.join(emails_validos)
 
@@ -615,7 +610,8 @@ class Participante(models.Model):
                     valido = validate_email(e.strip())
                     emails_validos.append(valido['email'])
                 except:
-                    raise ValidationError('Email %s inválido!' % e.strip())
+                    raise ValidationError(
+                        _(u'Email %s inválido!' % e.strip()))
 
             valores['email_nfe'] = ','.join(emails_validos)
 
@@ -637,7 +633,7 @@ class Participante(models.Model):
                 'force_email'):
             view_id = self.env.ref(
                 'sped.cadastro_participante_cliente_form').id
-        res = super(Participante, self).fields_view_get(view_id=view_id,
+        res = super(SpedParticipante, self).fields_view_get(view_id=view_id,
                                                         view_type=view_type,
                                                         toolbar=toolbar,
                                                         submenu=submenu)
@@ -663,26 +659,26 @@ class Participante(models.Model):
         valores = {}
         res['value'] = valores
 
-        if self.nome:
-            valores['nome'] = primeira_maiuscula(self.nome)
+        #if self.nome:
+        #    valores['nome'] = primeira_maiuscula(self.nome)
 
-        if self.razao_social:
-            valores['razao_social'] = primeira_maiuscula(self.razao_social)
+        #if self.razao_social:
+        #    valores['razao_social'] = primeira_maiuscula(self.razao_social)
 
-        if self.fantasia:
-            valores['fantasia'] = primeira_maiuscula(self.fantasia)
+        #if self.fantasia:
+        #    valores['fantasia'] = primeira_maiuscula(self.fantasia)
 
-        if self.endereco:
-            valores['endereco'] = primeira_maiuscula(self.endereco)
+        #if self.endereco:
+        #    valores['endereco'] = primeira_maiuscula(self.endereco)
 
-        if self.bairro:
-            valores['bairro'] = primeira_maiuscula(self.bairro)
+        #if self.bairro:
+        #    valores['bairro'] = primeira_maiuscula(self.bairro)
 
-        if self.cidade:
-            valores['cidade'] = primeira_maiuscula(self.cidade)
+        #if self.cidade:
+        #    valores['cidade'] = primeira_maiuscula(self.cidade)
 
-        if self.profissao:
-            valores['profissao'] = primeira_maiuscula(self.profissao)
+        #if self.profissao:
+        #    valores['profissao'] = primeira_maiuscula(self.profissao)
 
         return res
 
@@ -777,7 +773,7 @@ class Participante(models.Model):
 
         if 'tz' not in dados:
             dados['tz'] = 'America/Sao_Paulo'
-        participante = super(Participante, self).create(dados)
+        participante = super(SpedParticipante, self).create(dados)
         participante.sync_to_partner()
 
         return participante
@@ -787,7 +783,7 @@ class Participante(models.Model):
         if 'nome' in dados:
             dados['name'] = dados['nome']
 
-        res = super(Participante, self).write(dados)
+        res = super(SpedParticipante, self).write(dados)
         self.sync_to_partner()
 
         return res

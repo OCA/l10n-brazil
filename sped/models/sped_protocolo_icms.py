@@ -5,17 +5,18 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.addons.l10n_br_base.constante_tributaria import (
     ALIQUOTAS_ICMS,
 )
 
 
-class ProtocoloICMS(models.Model):
-    _description = u'Protocolos ICMS'
-    _name = 'sped.protocolo.icms'
+class SpedProtocoloICMS(models.Model):
+    _name = b'sped.protocolo.icms'
+    _description = 'Protocolos ICMS'
     _rec_name = 'descricao'
     _order = 'descricao'
 
@@ -23,13 +24,13 @@ class ProtocoloICMS(models.Model):
         ('P', 'Próprio'),
         ('S', 'ST')
     ],
-        string=u'Tipo',
+        string='Tipo',
         required=True,
         default='P',
         index=True
     )
     descricao = fields.Char(
-        string=u'Protocolo',
+        string='Protocolo',
         size=60,
         index=True,
         required=True,
@@ -50,201 +51,201 @@ class ProtocoloICMS(models.Model):
         relation='sped_protocolo_icms_estado',
         column1='protocolo_id',
         column2='estado_id',
-        string=u'Estados',
+        string='Estados',
     )
     aliquota_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas')
+        string='Alíquotas')
     aliquota_interna_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas internas',
+        string='Alíquotas internas',
         domain=[('interna', '=', True)],
     )
     aliquota_AC_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas do Acre',
+        string='Alíquotas do Acre',
         domain=[('estado_origem_id.uf', '=', 'AC')],
     )
     aliquota_AL_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas de Alagoas',
+        string='Alíquotas de Alagoas',
         domain=[('estado_origem_id.uf', '=', 'AL')],
     )
     aliquota_AP_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas do Amapá',
+        string='Alíquotas do Amapá',
         domain=[('estado_origem_id.uf', '=', 'AP')],
     )
     aliquota_AM_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas do Amazonas',
+        string='Alíquotas do Amazonas',
         domain=[('estado_origem_id.uf', '=', 'AM')],
     )
     aliquota_BA_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas da Bahia',
+        string='Alíquotas da Bahia',
         domain=[('estado_origem_id.uf', '=', 'BA')],
     )
     aliquota_CE_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas do Ceará',
+        string='Alíquotas do Ceará',
         domain=[('estado_origem_id.uf', '=', 'CE')],
     )
     aliquota_DF_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas do Distrito Federal',
+        string='Alíquotas do Distrito Federal',
         domain=[('estado_origem_id.uf', '=', 'DF')],
     )
     aliquota_ES_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas do Espírito Santo',
+        string='Alíquotas do Espírito Santo',
         domain=[('estado_origem_id.uf', '=', 'ES')],
     )
     # aliquota_EX_ids = fields.One2many(
     # comodel_name='sped.protocolo.icms.aliquota',
     # inverse_name='protocolo_id',
-    # string=u'Alíquotas do Exterior',
+    # string='Alíquotas do Exterior',
     # domain=[('estado_origem_id.uf', '=', 'EX')]
     aliquota_GO_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas de Goiás',
+        string='Alíquotas de Goiás',
         domain=[('estado_origem_id.uf', '=', 'GO')],
     )
     aliquota_MA_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas do Maranhão',
+        string='Alíquotas do Maranhão',
         domain=[('estado_origem_id.uf', '=', 'MA')],
     )
     aliquota_MT_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas do Mato Grosso',
+        string='Alíquotas do Mato Grosso',
         domain=[('estado_origem_id.uf', '=', 'MT')],
     )
     aliquota_MS_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas do Mato Grosso do Sul',
+        string='Alíquotas do Mato Grosso do Sul',
         domain=[('estado_origem_id.uf', '=', 'MS')],
     )
     aliquota_MG_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas de Minas Gerais',
+        string='Alíquotas de Minas Gerais',
         domain=[('estado_origem_id.uf', '=', 'MG')],
     )
     aliquota_PA_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas do Pará',
+        string='Alíquotas do Pará',
         domain=[('estado_origem_id.uf', '=', 'PA')],
     )
     aliquota_PB_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas da Paraíba',
+        string='Alíquotas da Paraíba',
         domain=[('estado_origem_id.uf', '=', 'PB')],
     )
     aliquota_PR_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas do Paraná',
+        string='Alíquotas do Paraná',
         domain=[('estado_origem_id.uf', '=', 'PR')],
     )
     aliquota_PE_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas de Pernambuco',
+        string='Alíquotas de Pernambuco',
         domain=[('estado_origem_id.uf', '=', 'PE')],
     )
     aliquota_PI_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas do Piauí',
+        string='Alíquotas do Piauí',
         domain=[('estado_origem_id.uf', '=', 'PI')],
     )
     aliquota_RJ_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas do Rio de Janeiro',
+        string='Alíquotas do Rio de Janeiro',
         domain=[('estado_origem_id.uf', '=', 'RJ')],
     )
     aliquota_RN_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas do Rio Grande do Norte',
+        string='Alíquotas do Rio Grande do Norte',
         domain=[('estado_origem_id.uf', '=', 'RN')],
     )
     aliquota_RS_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas do Rio Grande do Sul',
+        string='Alíquotas do Rio Grande do Sul',
         domain=[('estado_origem_id.uf', '=', 'RS')],
     )
     aliquota_RO_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas de Rondônia',
+        string='Alíquotas de Rondônia',
         domain=[('estado_origem_id.uf', '=', 'RO')],
     )
     aliquota_RR_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas de Roraima',
+        string='Alíquotas de Roraima',
         domain=[('estado_origem_id.uf', '=', 'RR')],
     )
     aliquota_SC_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas de Santa Catarina',
+        string='Alíquotas de Santa Catarina',
         domain=[('estado_origem_id.uf', '=', 'SC')],
     )
     aliquota_SP_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas de São Paulo',
+        string='Alíquotas de São Paulo',
         domain=[('estado_origem_id.uf', '=', 'SP')],
     )
     aliquota_SE_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas de Sergipe',
+        string='Alíquotas de Sergipe',
         domain=[('estado_origem_id.uf', '=', 'SE')],
     )
     aliquota_TO_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.aliquota',
         inverse_name='protocolo_id',
-        string=u'Alíquotas do Tocantins',
+        string='Alíquotas do Tocantins',
         domain=[('estado_origem_id.uf', '=', 'TO')],
     )
     ncm = fields.Char(
-        string=u'NCM',
+        string='NCM',
         size=8,
     )
     ex = fields.Char(
-        string=u'EX',
+        string='EX',
         size=2,
     )
     mva = fields.Float(
-        string=u'MVA original',
+        string='MVA original',
         digits=(5, 2),
     )
     ncm_ids = fields.One2many(
         comodel_name='sped.protocolo.icms.ncm',
         inverse_name='protocolo_id',
-        string=u'NCMs',
+        string='NCMs',
     )
 
     def _valida_descricao(self):
@@ -253,28 +254,31 @@ class ProtocoloICMS(models.Model):
         valores = {}
         res = {'value': valores}
 
+        params = []
         if self.descricao:
-            sql = u"""
+            sql = """
             select
                 a.id
             from
                 sped_protocolo_icms a
             where
-                a.descricao = '{descricao}'
+                a.descricao = %s
             """
-            sql = sql.format(descricao=self.descricao)
+            params.append(self.descricao)
+            #sql = sql.format(descricao=self.descricao)
 
             if self.id or self._origin.id:
-                sql += u"""
-                    and a.id != {id}
+                sql += """
+                    and a.id != %s
                 """
-                sql = sql.format(id=self.id or self._origin.id)
+                params.append(self.id or self._origin.id)
+                #sql = sql.format(id=self.id or self._origin.id)
 
-            self.env.cr.execute(sql)
+            self.env.cr.execute(sql, params)
             jah_existe = self.env.cr.fetchall()
 
             if jah_existe:
-                raise ValidationError('Protocolo já existe!')
+                raise ValidationError(_('Protocolo já existe!'))
 
         return res
 
@@ -296,8 +300,8 @@ class ProtocoloICMS(models.Model):
         sped_protocolo_icms_aliquota = self.env['sped.protocolo.icms.aliquota']
 
         self._cr.execute(
-            'delete from sped_protocolo_icms_aliquota where protocolo_id = ' +
-            str(self.id) + ';'
+            'delete from sped_protocolo_icms_aliquota where protocolo_id = '
+            '%s;', [self.id]
         )
 
         for estado_origem in ALIQUOTAS_ICMS:
@@ -441,52 +445,52 @@ class ProtocoloICMS(models.Model):
         return
 
 
-class ProtocoloICMSAliquota(models.Model):
-    _description = u'Protocolo ICMS - alíquotas'
-    _name = 'sped.protocolo.icms.aliquota'
+class SpedProtocoloICMSAliquota(models.Model):
+    _name = b'sped.protocolo.icms.aliquota'
+    _description = 'Protocolos ICMS - alíquotas'
     # _rec_name = 'descricao'
     _order = 'protocolo_id, data_inicio desc, estado_origem_id, ' \
              'estado_destino_id'
 
     protocolo_id = fields.Many2one(
         comodel_name='sped.protocolo.icms',
-        string=u'Protocolo',
+        string='Protocolo',
         require=True,
         ondelete='cascade',
     )
     estado_origem_id = fields.Many2one(
         comodel_name='sped.estado',
-        string=u'Estado de origem',
+        string='Estado de origem',
         ondelete='restrict',
     )
     estado_destino_id = fields.Many2one(
         comodel_name='sped.estado',
-        string=u'Estado de destino',
+        string='Estado de destino',
         ondelete='restrict',
     )
     data_inicio = fields.Date(
-        string=u'Início',
+        string='Início',
         required=True,
     )
     al_icms_proprio_id = fields.Many2one(
         comodel_name='sped.aliquota.icms.proprio',
-        string=u'ICMS próprio',
+        string='ICMS próprio',
         required=True,
     )
     al_icms_st_id = fields.Many2one(
-        comodel_name=u'sped.aliquota.icms.st',
-        string=u'ICMS ST',
+        comodel_name='sped.aliquota.icms.st',
+        string='ICMS ST',
     )
     infadic = fields.Text(
-        string=u'Informações adicionais',
+        string='Informações adicionais',
     )
     interna = fields.Boolean(
-        string=u'Interna',
+        string='Interna',
         compute='_compute_interna',
         store=True,
     )
     al_fcp = fields.Float(
-        string=u'Fundo de Combate à Pobreza',
+        string='Fundo de Combate à Pobreza',
         digits=(5, 2),
     )
 
@@ -498,24 +502,24 @@ class ProtocoloICMSAliquota(models.Model):
             )
 
 
-class ProtocoloICMSNCM(models.Model):
-    _description = u'Protocolo ICMS - NCM e MVA'
-    _name = 'sped.protocolo.icms.ncm'
+class SpedProtocoloICMSNCM(models.Model):
+    _name = b'sped.protocolo.icms.ncm'
+    _description = 'Protocolos ICMS - NCM e MVA'
     # _rec_name = 'descricao'
     _order = 'protocolo_id, ncm_id'
 
     protocolo_id = fields.Many2one(
         comodel_name='sped.protocolo.icms',
-        string=u'Protocolo',
+        string='Protocolo',
         require=True,
         ondelete='cascade'
     )
     ncm_id = fields.Many2one(
         comodel_name='sped.ncm',
-        string=u'NCM',
+        string='NCM',
         required=True,
     )
     mva = fields.Float(
-        string=u'MVA original',
+        string='MVA original',
         digits=(5, 2),
     )

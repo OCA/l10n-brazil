@@ -5,16 +5,22 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 import logging
+
 from odoo import api, fields, models
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFCE,
+    MODELO_FISCAL_CTE,
+    MODELO_FISCAL_CUPOM_FISCAL_ECF,
+)
 
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe import ProcessadorNFe
-    from pysped.nfe.webservices_flags import *
-    from pysped.nfe.leiaute import *
+    from pysped.nfe.leiaute import NFRef_310
     from pybrasil.inscricao import limpa_formatacao
     from pybrasil.data import parse_datetime, UTC
 
@@ -22,7 +28,7 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class DocumentoReferenciado(models.Model):
+class SpedDocumentoReferenciado(models.Model):
     _inherit = 'sped.documento.referenciado'
 
     def monta_nfe(self):

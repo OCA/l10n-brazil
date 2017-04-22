@@ -6,10 +6,18 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 #
 
+from __future__ import division, print_function, unicode_literals
+
 #
 # Sincronização de casas decimais
 #
 from . import inherited_decimal_precision
+from . import inherited_res_currency
+
+#
+# Templates de email
+#
+from . import inherited_mail_template
 
 #
 # Model Base
@@ -24,16 +32,12 @@ from . import sped_estado
 from . import sped_municipio
 
 #
-# Tabelas Fiscais
-#
-from . import sped_cnae
-
-#
 # Cadastros básicos
 #
 from . import sped_participante
 from . import inherited_res_company
 from . import inherited_res_partner
+from . import sped_empresa
 
 #
 # Parcelamentos e pagamentos; bancos e contas bancárias
@@ -41,4 +45,3 @@ from . import inherited_res_partner
 from . import copied_account_payment_term
 from . import copied_account_payment_term_line
 from . import inherited_account_payment_term
-

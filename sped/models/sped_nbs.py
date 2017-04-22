@@ -5,36 +5,47 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
+import logging
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
+_logger = logging.getLogger(__name__)
 
-class NBS(models.Model):
-    _description = u'nbs'
-    _name = 'sped.nbs'
+try:
+    from pybrasil.base import mascara
+
+except (ImportError, IOError) as err:
+    _logger.debug(err)
+
+
+class SpedNBS(models.Model):
+    _name = b'sped.nbs'
+    _description = 'NBS'
     _order = 'codigo'
     _rec_name = 'nbs'
 
     codigo = fields.Char(
-        string=u'Código',
+        string='Código',
         size=9,
         required=True,
         index=True
     )
     descricao = fields.Char(
-        string=u'Descrição',
+        string='Descrição',
         size=255,
         required=True,
         index=True
     )
     codigo_formatado = fields.Char(
-        string=u'nbs',
+        string='nbs',
         compute='_compute_nbs',
         store=True
     )
     nbs = fields.Char(
-        string=u'nbs',
+        string='nbs',
         compute='_compute_nbs',
         store=True
     )
@@ -67,4 +78,22 @@ class NBS(models.Model):
                 ])
 
             if len(nbs_ids) > 0:
-                raise ValidationError(u'Código NBS já existe na tabela!')
+                raise ValidationError('Código NBS já existe na tabela!')
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        if name and operator in ('=', 'ilike', '=ilike', 'like', 'ilike'):
+            args = list(args or [])
+            args = [
+                '|',
+                ('codigo', '=', name),
+                '|',
+                ('codigo_formatado', '=', mascara(name, '  .   .  ')),
+                ('descricao', operator, name),
+            ] + args
+
+            nbs_ids = self.search(args, limit=limit)
+            return nbs_ids.name_get()
+
+        return super(NBS, self).name_search(
+            name=name, args=args, operator=operator, limit=limit)

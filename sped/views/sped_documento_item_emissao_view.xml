@@ -21,6 +21,8 @@
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
                 <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
                 <!--                <field name="empresa_id" invisible="0"/>
                 <field name="participante_id" invisible="0"/>
                 <field name="operacao_id" invisible="0"/> -->
@@ -82,7 +84,7 @@
                     <field name="cfop_id" colspan="4" domain="[('entrada_saida', '=', parent.entrada_saida)]" options="{'no_create': True}" />
                     <newline />
                     <field name="quantidade" />
-                    <field name="unidade_readonly_id" options="{'no_open': True, 'no_create': True}" />
+                    <field name="unidade_readonly_id" options="{'no_open': True, 'no_create': True}" invisible="1" />
                     <newline />
                     <field name="vr_unitario" />
                     <field name="vr_nf_readonly" string="Item na NF"/>
@@ -280,7 +282,7 @@
                                         </group>
                                     </group>
                                 </page>
-                                <page string="SIMPLES Nacional" attrs="{'invisible': [('regime_tributario', '!=', '1')]}">
+                                <page string="SIMPLES" attrs="{'invisible': [('regime_tributario', '!=', '1')]}">
                                     <group string="SIMPLES Nacional">
                                         <field name="al_simples" />
                                         <newline />
@@ -304,6 +306,26 @@
                             <group string="B2B" colspan="4">
                                 <field name="numero_pedido" />
                                 <field name="numero_item_pedido" />
+                            </group>
+                        </page>
+                        <page string="Volume">
+                            <group colspan="4" col="4">
+                                <group colspan="2" string="Preenchimento automático dos volumes">
+                                    <field name="peso_bruto_unitario" />
+                                    <field name="peso_bruto_readonly" />
+                                    <field name="peso_bruto" invisible="1" />
+                                    <newline />
+                                    <field name="peso_liquido_unitario" />
+                                    <field name="peso_liquido_readonly" />
+                                    <field name="peso_liquido" invisible="1" />
+                                    <newline />
+                                    <field name="especie" />
+                                    <field name="marca" />
+                                    <newline />
+                                    <field name="fator_quantidade_especie" />
+                                    <field name="quantidade_especie_readonly" />
+                                    <field name="quantidade_especie" invisible="1" />
+                                </group>
                             </group>
                         </page>
                         <page string="Custo">
@@ -356,6 +378,8 @@
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
                 <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
                 <field name="unidade_id" invisible="1"/>
                 <field name="produto_id"  />
                 <field name="cfop_id"  />

@@ -5,10 +5,9 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
-
 from odoo.addons.l10n_br_base.constante_tributaria import (
     ENTRADA_SAIDA,
     IE_DESTINATARIO,
@@ -23,22 +22,23 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     ST_IPI_SAIDA,
     TIPO_PRODUTO_SERVICO
 )
+from odoo.exceptions import ValidationError
 
 
-class OperacaoFiscalItem(models.Model):
-    _description = u'Operações Fiscais - Itens'
-    _name = 'sped.operacao.item'
+class SpedOperacaoFiscalItem(models.Model):
+    _name = b'sped.operacao.item'
+    _description = 'Itens da Operação Fiscal'
     _order = 'operacao_id, protocolo_id, contribuinte, cfop_codigo'
     # _rec_name = 'nome'
 
     operacao_id = fields.Many2one(
         comodel_name='sped.operacao',
-        string=u'Operação',
+        string='Operação',
         ondelete='cascade',
     )
     entrada_saida = fields.Selection(
         selection=ENTRADA_SAIDA,
-        string=u'Entrada/saída',
+        string='Entrada/saída',
         related='operacao_id.entrada_saida',
         readonly=True,
     )
@@ -47,24 +47,24 @@ class OperacaoFiscalItem(models.Model):
     # Filtro
     #
     tipo_protocolo = fields.Selection([
-        ('P', u'Próprio'),
-        ('S', u'ST')
+        ('P', 'Próprio'),
+        ('S', 'ST')
     ],
-        string=u'Tipo do protocolo',
+        string='Tipo do protocolo',
         index=True,
     )
     protocolo_id = fields.Many2one(
         comodel_name='sped.protocolo.icms',
-        string=u'Protocolo',
+        string='Protocolo',
     )
     contribuinte = fields.Selection(
         selection=IE_DESTINATARIO,
-        string=u'Contribuinte',
+        string='Contribuinte',
         index=True,
     )
     tipo_produto_servico = fields.Selection(
         selection=TIPO_PRODUTO_SERVICO,
-        string=u'Tipo do produto/serviço',
+        string='Tipo do produto/serviço',
         index=True
     )
 
@@ -73,69 +73,69 @@ class OperacaoFiscalItem(models.Model):
     #
     cfop_id = fields.Many2one(
         comodel_name='sped.cfop',
-        string=u'CFOP',
+        string='CFOP',
         required=True,
         ondelete='restrict',
     )
     cfop_codigo = fields.Char(
-        string=u'CFOP',
+        string='CFOP',
         related='cfop_id.codigo',
         size=4,
         store=True,
         index=True,
     )
     compoe_total = fields.Boolean(
-        string=u'Compõe o valor total da nota?',
+        string='Compõe o valor total da nota?',
         default=True,
     )
     movimentacao_fisica = fields.Boolean(
-        string=u'Há movimentação física do produto?',
+        string='Há movimentação física do produto?',
         default=True,
     )
     org_icms = fields.Selection(
         selection=ORIGEM_MERCADORIA,
-        string=u'Origem da mercadoria',
+        string='Origem da mercadoria',
         index=True,
     )
     cst_icms = fields.Selection(
         selection=ST_ICMS,
-        string=u'CST ICMS',
+        string='CST ICMS',
         default=ST_ICMS_INTEGRAL,
     )
     cst_icms_sn = fields.Selection(
         selection=ST_ICMS_SN,
-        string=u'CSOSN',
+        string='CSOSN',
         default=ST_ICMS_SN_TRIB_SEM_CREDITO,
     )
     cst_ipi = fields.Selection(
         selection=ST_IPI,
-        string=u'CST IPI',
+        string='CST IPI',
     )
     cst_ipi_entrada = fields.Selection(
         selection=ST_IPI_ENTRADA,
-        string=u'CST IPI',
+        string='CST IPI',
     )
     cst_ipi_saida = fields.Selection(
         selection=ST_IPI_SAIDA,
-        string=u'CST IPI'
+        string='CST IPI'
     )
     bc_icms_proprio_com_ipi = fields.Boolean(
-        string=u'IPI integra a BC do ICMS?'
+        string='IPI integra a BC do ICMS?'
     )
     bc_icms_st_com_ipi = fields.Boolean(
-        string=u'IPI integra a BC do ICMS ST?'
+        string='IPI integra a BC do ICMS ST?'
     )
     enquadramento_ipi = fields.Char(
-        string=u'Enquadramento legal do IPI',
+        string='Enquadramento legal do IPI',
         size=3
     )
     al_pis_cofins_id = fields.Many2one(
         comodel_name='sped.aliquota.pis.cofins',
-        string=u'CST PIS-COFINS'
+        string='CST PIS-COFINS'
     )
     protocolo_alternativo_id = fields.Many2one(
         comodel_name='sped.protocolo.icms',
-        string=u'Protocolo alternativo'
+        string='Protocolo alternativo'
     )
 
     @api.depends('cfop_id')
@@ -162,42 +162,42 @@ class OperacaoFiscalItem(models.Model):
         return {'value': {'cst_ipi': self.cst_ipi_saida}}
 
 
-class OperacaoFiscal(models.Model):
-    _name = 'sped.operacao'
+class SpedOperacaoFiscal(models.Model):
+    _name = b'sped.operacao'
     _inherit = 'sped.operacao'
 
     item_ids = fields.One2many(
         comodel_name='sped.operacao.item',
         inverse_name='operacao_id',
-        string=u'Item da operação fiscal',
+        string='Item da operação fiscal',
     )
     item_simples_ids = fields.One2many(
         comodel_name='sped.operacao.item',
         inverse_name='operacao_id',
-        string=u'Item da operação fiscal'
+        string='Item da operação fiscal'
     )
     item_sem_st_ids = fields.One2many(
         comodel_name='sped.operacao.item',
         inverse_name='operacao_id',
-        string=u'Item da operação fiscal',
+        string='Item da operação fiscal',
         domain=[('tipo_protocolo', '=', 'P')],
     )
     item_simples_sem_st_ids = fields.One2many(
         comodel_name='sped.operacao.item',
         inverse_name='operacao_id',
-        string=u'Item da operação fiscal',
+        string='Item da operação fiscal',
         domain=[('tipo_protocolo', '=', 'P')],
     )
 
     item_com_st_ids = fields.One2many(
         comodel_name='sped.operacao.item',
         inverse_name='operacao_id',
-        string=u'Item da operação fiscal',
+        string='Item da operação fiscal',
         domain=[('tipo_protocolo', '=', 'S')]
     )
     item_simples_com_st_ids = fields.One2many(
         comodel_name='sped.operacao.item',
         inverse_name='operacao_id',
-        string=u'Item da operação fiscal',
+        string='Item da operação fiscal',
         domain=[('tipo_protocolo', '=', 'S')]
     )

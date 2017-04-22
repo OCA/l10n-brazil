@@ -39,6 +39,7 @@
         'data/sped_cest_data.xml',
         'data/sped_cfop_data.xml',
         'data/sped_cfop_equivalente_data.xml',
+        'data/sped_cnae_data.xml',
         'data/sped_servico_data.xml',
 
         #
@@ -58,17 +59,19 @@
         'views/sped_aliquota_pis_cofins_view.xml',
         'views/sped_aliquota_simples_view.xml',
 
-        'views/sped_cfop_view.xml',
         'views/sped_cest_view.xml',
+        'views/sped_cfop_view.xml',
+        'views/sped_cnae_view.xml',
+        'views/sped_ibptax_view.xml',
         'views/sped_nbs_view.xml',
         'views/sped_ncm_view.xml',
         'views/sped_servico_view.xml',
-        'views/sped_ibptax_view.xml',
+
         #
         # Módulo Cadastro: participantes, produtos etc.
         #
-        'views/sped_empresa_view.xml',
-        'views/sped_empresa_vincula_company_view.xml',
+        'views/inherited_sped_empresa_view.xml',
+        'views/inherited_sped_participante_base_view.xml',
 
         'views/sped_produto_produto_view.xml',
         'views/sped_unidade_produto_view.xml',
@@ -88,7 +91,7 @@
 
         'views/sped_operacao_emissao_nfe_view.xml',
         'views/sped_operacao_emissao_nfce_view.xml',
-        #'views/sped_operacao_recebimento_nfe_view.xml',
+        # 'views/sped_operacao_recebimento_nfe_view.xml',
 
         'views/sped_documento_item_declaracao_importacao_view.xml',
         'views/sped_documento_item_emissao_view.xml',

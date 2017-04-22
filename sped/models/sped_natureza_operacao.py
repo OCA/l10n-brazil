@@ -5,38 +5,39 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
 
-class NaturezaOperacao(models.Model):
-    _name = 'sped.natureza.operacao'
-    _description = u'Naturezas de operação fiscal'
+class SpedNaturezaOperacao(models.Model):
+    _name = b'sped.natureza.operacao'
+    _description = 'Naturezas de Operação Fiscal'
     _rec_name = 'nome'
     _order = 'nome'
 
     codigo = fields.Char(
-        string=u'Código',
+        string='Código',
         size=10,
         required=True,
         index=True,
     )
     codigo_unico = fields.Char(
-        string=u'Código',
+        string='Código',
         size=10,
         index=True,
         compute='_compute_codigo_unico',
         store=True,
     )
     nome = fields.Char(
-        string=u'Nome',
+        string='Nome',
         size=60,
         required=True,
         index=True,
     )
     nome_unico = fields.Char(
-        string=u'Nome',
+        string='Nome',
         size=60,
         index=True,
         compute='_compute_nome_unico',
@@ -46,17 +47,17 @@ class NaturezaOperacao(models.Model):
     @api.depends('codigo')
     def _compute_codigo_unico(self):
         for natureza_operacao in self:
-            codigo_unico = natureza_operacao.codigo or u''
+            codigo_unico = natureza_operacao.codigo or ''
             codigo_unico = codigo_unico.lower().strip()
-            codigo_unico = codigo_unico.replace(u' ', u' ')
+            codigo_unico = codigo_unico.replace(' ', ' ')
             natureza_operacao.codigo_unico = codigo_unico
 
     @api.depends('nome')
     def _compute_nome_unico(self):
         for natureza_operacao in self:
-            nome_unico = natureza_operacao.nome or u''
+            nome_unico = natureza_operacao.nome or ''
             nome_unico = nome_unico.lower().strip()
-            nome_unico = nome_unico.replace(u' ', u' ')
+            nome_unico = nome_unico.replace(' ', ' ')
             natureza_operacao.nome_unico = nome_unico
 
     @api.depends('codigo')
@@ -73,9 +74,9 @@ class NaturezaOperacao(models.Model):
                 ])
 
             if len(natureza_operacao_ids) > 0:
-                raise ValidationError(
+                raise ValidationError(_(
                     u'Código de natureza de operação fiscal já existe!'
-                )
+                ))
 
     @api.depends('nome')
     def _check_nome(self):
@@ -91,6 +92,6 @@ class NaturezaOperacao(models.Model):
                 ])
 
             if len(natureza_operacao_ids) > 0:
-                raise ValidationError(
+                raise ValidationError(_(
                     u'Natureza de operação fiscal já existe!'
-                )
+                ))

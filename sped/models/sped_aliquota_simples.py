@@ -5,26 +5,27 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 
-class AliquotaSIMPLESAnexo(models.Model):
-    _description = u'Anexo do SIMPLES Nacional'
-    _name = 'sped.aliquota.simples.anexo'
+class SpedAliquotaSIMPLESAnexo(models.Model):
+    _name = b'sped.aliquota.simples.anexo'
+    _description = 'Anexos do SIMPLES Nacional'
     _rec_name = 'nome'
     _order = 'nome'
 
     nome = fields.Char(
-        string=u'Anexo do SIMPLES Nacional',
-        size=40,
+        string='Anexo do SIMPLES Nacional',
+        size=60,
         index=True
     )
     aliquota_ids = fields.One2many(
         comodel_name='sped.aliquota.simples.aliquota',
         inverse_name='anexo_id',
-        string=u'Alíquotas'
+        string='Alíquotas'
     )
 
     @api.depends('nome')
@@ -37,23 +38,25 @@ class AliquotaSIMPLESAnexo(models.Model):
                 anexo_ids = self.search([('nome', '=', anexo.nome)])
 
             if anexo_ids:
-                raise ValidationError(u'Anexo já existe na tabela!')
+                raise ValidationError(
+                    _(u'Anexo já existe na tabela!')
+                )
 
 
-class AliquotaSIMPLESTeto(models.Model):
-    _description = u'Teto do SIMPLES Nacional'
+class SpedAliquotaSIMPLESTeto(models.Model):
+    _name = b'sped.aliquota.simples.teto'
+    _description = 'Tetos do SIMPLES Nacional'
     _inherit = 'sped.base'
-    _name = 'sped.aliquota.simples.teto'
     _rec_name = 'nome'
     _order = 'valor'
 
     valor = fields.Monetary(
-        string=u'Valor do teto do SIMPLES Nacional',
+        string='Valor do teto do SIMPLES Nacional',
         required=True,
         index=True,
     )
     nome = fields.Char(
-        string=u'Teto do SIMPLES Nacional',
+        string='Teto do SIMPLES Nacional',
         size=40,
         index=True,
     )
@@ -71,62 +74,62 @@ class AliquotaSIMPLESTeto(models.Model):
                 raise ValidationError('Teto já existe na tabela!')
 
 
-class AliquotaSIMPLESAliquota(models.Model):
-    _description = u'Alíquota do SIMPLES Nacional'
+class SpedAliquotaSIMPLESAliquota(models.Model):
+    _name = b'sped.aliquota.simples.aliquota'
+    _description = 'Alíquotas do SIMPLES Nacional'
     _inherit = 'sped.base'
-    _name = 'sped.aliquota.simples.aliquota'
     _rec_name = 'al_simples'
     _order = 'anexo_id, teto_id'
 
     anexo_id = fields.Many2one(
         comodel_name='sped.aliquota.simples.anexo',
-        string=u'Anexo',
+        string='Anexo',
         required=True,
         ondelete='cascade',
     )
     teto_id = fields.Many2one(
         comodel_name='sped.aliquota.simples.teto',
-        string=u'Teto',
+        string='Teto',
         required=True,
         ondelete='cascade',
     )
     al_simples = fields.Monetary(
-        string=u'SIMPLES',
+        string='SIMPLES',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     al_irpj = fields.Monetary(
-        string=u'IRPJ',
+        string='IRPJ',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     al_csll = fields.Monetary(
-        string=u'CSLL',
+        string='CSLL',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     al_cofins = fields.Monetary(
-        string=u'COFINS',
+        string='COFINS',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     al_pis = fields.Monetary(
-        string=u'PIS',
+        string='PIS',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     al_cpp = fields.Monetary(
-        string=u'CPP',
+        string='CPP',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     al_icms = fields.Monetary(
-        string=u'ICMS',
+        string='ICMS',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     al_iss = fields.Monetary(
-        string=u'ISS',
+        string='ISS',
         digits=(5, 2),
         currency_field='currency_aliquota_id',
     )

@@ -5,8 +5,10 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
 import logging
+
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.addons.l10n_br_base.constante_tributaria import *
@@ -14,36 +16,42 @@ from odoo.addons.l10n_br_base.constante_tributaria import *
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe.leiaute import *
-    from pybrasil.inscricao import limpa_formatacao
-    from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
-                               agora)
+    from pysped.nfe.leiaute import (
+        ProcNFe_310,
+        EventoCCe_100,
+    )
+    from pybrasil.data import (
+        parse_datetime,
+        UTC,
+        data_hora_horario_brasilia,
+        agora
+    )
     from pybrasil.valor import formata_valor
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class CartaCorrecao(models.Model):
-    _description = u'Carta de Correção'
-    _name = 'sped.documento.carta.correcao'
+class SpedCartaCorrecao(models.Model):
+    _name = b'sped.documento.carta.correcao'
+    _description = 'Carta de Correção'
     _order = 'documento_id, sequencia desc'
     _rec_name = 'descricao'
 
     descricao = fields.Char(
-        string=u'Carta de Correção',
+        string='Carta de Correção',
         compute='_compute_descricao',
     )
     documento_id = fields.Many2one(
         comodel_name='sped.documento',
-        string=u'Documento',
+        string='Documento',
         ondelete='cascade',
     )
     sequencia = fields.Integer(
-        string=u'Sequência',
+        string='Sequência',
     )
     correcao = fields.Text(
-        string=u'Correção',
+        string='Correção',
     )
 
     #
@@ -53,48 +61,48 @@ class CartaCorrecao(models.Model):
     #
     arquivo_xml_id = fields.Many2one(
         comodel_name='ir.attachment',
-        string=u'XML',
+        string='XML',
         ondelete='restrict',
         copy=False,
     )
     arquivo_xml_autorizacao_id = fields.Many2one(
         comodel_name='ir.attachment',
-        string=u'XML de autorização',
+        string='XML de autorização',
         ondelete='restrict',
         copy=False,
     )
     arquivo_pdf_id = fields.Many2one(
         comodel_name='ir.attachment',
-        string=u'PDF DAEDE',
+        string='PDF DAEDE',
         ondelete='restrict',
         copy=False,
     )
     data_hora_autorizacao = fields.Datetime(
-        string=u'Data de autorização',
+        string='Data de autorização',
         index=True,
     )
     data_autorizacao = fields.Date(
-        string=u'Data de autorização',
+        string='Data de autorização',
         compute='_compute_data_hora_separadas',
         store=True,
         index=True,
     )
     protocolo_autorizacao = fields.Char(
-        string=u'Protocolo de autorização',
+        string='Protocolo de autorização',
         size=60,
     )
     permite_alteracao = fields.Boolean(
-        string=u'Permite alteração?',
+        string='Permite alteração?',
         compute='_compute_permite_alteracao',
     )
 
     @api.depends('documento_id', 'sequencia')
     def _compute_descricao(self):
         for carta_correcao in self:
-            txt = u'CC-e nº '
+            txt = 'CC-e nº '
             txt += \
                 formata_valor(carta_correcao.sequencia or 1, casas_decimais=0)
-            txt += u' - '
+            txt += ' - '
             txt += carta_correcao.documento_id.descricao
 
             carta_correcao.descricao = txt
@@ -112,13 +120,13 @@ class CartaCorrecao(models.Model):
             if carta_correcao.permite_alteracao:
                 if operacao == 'unlink':
                     mensagem = \
-                        u'Não é permitido excluir esta carta de correção!'
+                        'Não é permitido excluir esta carta de correção!'
                 elif operacao == 'write':
                     mensagem = \
-                        u'Não é permitido alterar esta carta de correção!'
+                        'Não é permitido alterar esta carta de correção!'
                 elif operacao == 'create':
                     mensagem = \
-                        u'Não é permitido criar esta carta de correção!'
+                        'Não é permitido criar esta carta de correção!'
 
                 raise ValidationError(mensagem)
 
@@ -206,7 +214,7 @@ class CartaCorrecao(models.Model):
         ## Correção ASP - Cláudia copiou e colou e veio esse caracter esquisito
         ##
         #if self.correcao:
-            #self.correcao = self.correcao.replace(u'\u200b', ' ')
+            #self.correcao = self.correcao.replace('\u200b', ' ')
 
         evento.infEvento.detEvento.xCorrecao.valor = self.correcao or ''
         evento.infEvento.nSeqEvento.valor = self.sequencia or 1
@@ -220,18 +228,16 @@ class CartaCorrecao(models.Model):
         #
         # A CC-e foi aceita e vinculada à NF-e
         #
-        import ipdb; ipdb.set_trace();
         if self.documento_id.chave in processo.resposta.dic_procEvento:
             procevento = \
                 processo.resposta.dic_procEvento[self.documento_id.chave]
 
             retevento = procevento.retEvento
 
-            import ipdb; ipdb.set_trace();
             if retevento.infEvento.cStat.valor not in ('135', '136'):
-                mensagem = u'Erro na carta de correção'
-                mensagem += u'\nCódigo: ' + retevento.infEvento.cStat.valor
-                mensagem += u'\nMotivo: ' + \
+                mensagem = 'Erro na carta de correção'
+                mensagem += '\nCódigo: ' + retevento.infEvento.cStat.valor
+                mensagem += '\nMotivo: ' + \
                     retevento.infEvento.xMotivo.valor
                 raise UserError(mensagem)
 
@@ -244,7 +250,7 @@ class CartaCorrecao(models.Model):
             #
             # Gera o DAEDE da nova CC-e
             #
-            processador.daede.NFe = procNFe.NFe
+            processador.daede.NFe.xml = procNFe.NFe.xml
             processador.daede.protNFe = procNFe.protNFe
             processador.daede.procEventos = [procevento]
             processador.daede.salvar_arquivo = False

@@ -5,15 +5,17 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
+import dateutil.relativedelta as relativedelta
 
 
 class AccountPaymentTerm(models.Model):
-    _name = "account.payment.term"
-    _description = "Payment Term"
-    _order = "name"
+    _name = b'account.payment.term'
+    _description = 'Payment Term'
+    _order = 'name'
 
     def _default_line_ids(self):
         return [(0, 0,
@@ -32,8 +34,8 @@ class AccountPaymentTerm(models.Model):
     )
     active = fields.Boolean(
         default=True,
-        help="If the active field is set to False, it will allow you to hide "
-             "the payment term without removing it.",
+        help='If the active field is set to False, it will allow you to hide '
+             'the payment term without removing it.',
     )
     note = fields.Text(
         string='Description on the Invoice',
@@ -54,22 +56,22 @@ class AccountPaymentTerm(models.Model):
     )
 
     @api.constrains('line_ids')
-    @api.one
     def _check_lines(self):
+        self.ensure_one()
         payment_term_lines = self.line_ids.sorted()
 
         if payment_term_lines and payment_term_lines[-1].value != 'balance':
-            raise ValidationError(_('A Payment Term should have its last line '
-                                    'of type Balance.'))
+            raise ValidationError(_(u"""A Payment Term should have its last
+            line 'of type Balance."""))
 
         lines = self.line_ids.filtered(lambda r: r.value == 'balance')
 
         if len(lines) > 1:
-            raise ValidationError(_('A Payment Term should have only one line '
-                                    'of type Balance.'))
+            raise ValidationError(_(u"""A Payment Term should have only one
+            line of type Balance."""))
 
-    @api.one
     def compute(self, value, date_ref=False):
+        self.ensure_one()
         date_ref = date_ref or fields.Date.today()
         amount = value
         result = []

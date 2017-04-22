@@ -5,75 +5,77 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 import logging
 import os
-from odoo import api, fields, models, _, exceptions
+
+from odoo import fields, models
 from odoo.tools import config
 
 _logger = logging.getLogger(__name__)
 
-#try:
-if True:
+try:
     from pysped.nfe import ProcessadorNFe
     from pybrasil.inscricao import limpa_formatacao
 
-#except (ImportError, IOError) as err:
-#    _logger.debug(err)
+except (ImportError, IOError) as err:
+    _logger.debug(err)
 
 
-class Empresa(models.Model):
+class SpedEmpresa(models.Model):
     _inherit = 'sped.empresa'
 
     certificado_id = fields.Many2one(
         comodel_name='sped.certificado',
-        string=u'Certificado digital',
+        string='Certificado digital',
     )
     logo_danfe = fields.Binary(
-        string=u'Logo no DANFE',
+        string='Logo no DANFE',
         attachment=True,
     )
     logo_danfce = fields.Binary(
-        string=u'Logo no DANFCE',
+        string='Logo no DANFCE',
         attachment=True,
     )
     mail_template_nfe_autorizada_id = fields.Many2one(
         comodel_name='mail.template',
-        string=u'Modelo de email para NF-e autorizada',
+        string='Modelo de email para NF-e autorizada',
         #domain=[('model_id', '=', ref('sped.model_sped_documento'))],
     )
     mail_template_nfe_cancelada_id = fields.Many2one(
         comodel_name='mail.template',
-        string=u'Modelo de email para NF-e cancelada',
+        string='Modelo de email para NF-e cancelada',
         #domain=[('model_id', '=', ref('sped.model_sped_documento'))],
     )
     mail_template_nfe_denegada_id = fields.Many2one(
         comodel_name='mail.template',
-        string=u'Modelo de email para NF-e denegada',
+        string='Modelo de email para NF-e denegada',
         #domain=[('model_id', '=', ref('sped.model_sped_documento'))],
     )
     mail_template_nfe_cce_id = fields.Many2one(
         comodel_name='mail.template',
-        string=u'Modelo de email para CC-e',
+        string='Modelo de email para CC-e',
         #domain=[('model_id', '=', ref('sped.model_sped_documento'))],
     )
     mail_template_nfce_autorizada_id = fields.Many2one(
         comodel_name='mail.template',
-        string=u'Modelo de email para NFC-e autorizada',
+        string='Modelo de email para NFC-e autorizada',
         #domain=[('model_id', '=', ref('sped.model_sped_documento'))],
     )
     mail_template_nfce_cancelada_id = fields.Many2one(
         comodel_name='mail.template',
-        string=u'Modelo de email para NFC-e cancelada',
+        string='Modelo de email para NFC-e cancelada',
         #domain=[('model_id', '=', ref('sped.model_sped_documento'))],
     )
     mail_template_nfce_denegada_id = fields.Many2one(
         comodel_name='mail.template',
-        string=u'Modelo de email para NFC-e denegada',
+        string='Modelo de email para NFC-e denegada',
         #domain=[('model_id', '=', ref('sped.model_sped_documento'))],
     )
     mail_template_nfce_cce_id = fields.Many2one(
         comodel_name='mail.template',
-        string=u'Modelo de email para CC-e',
+        string='Modelo de email para CC-e',
         #domain=[('model_id', '=', ref('sped.model_sped_documento'))],
     )
 
