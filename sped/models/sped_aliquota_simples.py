@@ -7,7 +7,7 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 
@@ -38,7 +38,9 @@ class SpedAliquotaSIMPLESAnexo(models.Model):
                 anexo_ids = self.search([('nome', '=', anexo.nome)])
 
             if anexo_ids:
-                raise ValidationError('Anexo já existe na tabela!')
+                raise ValidationError(
+                    _(u'Anexo já existe na tabela!')
+                )
 
 
 class SpedAliquotaSIMPLESTeto(models.Model):

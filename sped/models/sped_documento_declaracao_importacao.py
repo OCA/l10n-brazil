@@ -7,8 +7,11 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from odoo import api, fields, models
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo import fields, models
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    FORMA_IMPORTACAO,
+    VIA_TRANSPORTE_IMPORTACAO,
+)
 
 
 class SpedDocumentoItemDeclaracaoImportacao(models.Model):
