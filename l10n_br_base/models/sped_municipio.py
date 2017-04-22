@@ -157,5 +157,5 @@ class SpedMunicipio(models.Model):
             return municipios.name_get()
 
         return super(SpedMunicipio, self).name_search(name=name, args=args,
-                                                  operator=operator,
-                                                  limit=limit)
+                                                      operator=operator,
+                                                      limit=limit)
