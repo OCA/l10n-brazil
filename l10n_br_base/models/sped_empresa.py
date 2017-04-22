@@ -10,7 +10,7 @@ from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
-from ..constante_tributaria import (
+from odoo.addons.l10n_br_base.constante_tributaria import (
     AMBIENTE_NFE,
     INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
     REGIME_TRIBUTARIO_LUCRO_PRESUMIDO,
@@ -93,7 +93,7 @@ class SpedEmpresa(models.Model):
 
         if cnpj_cpf[:2] != 'EX':
             if not valida_cnpj(cnpj_cpf) and not valida_cpf(cnpj_cpf):
-                raise ValidationError('CNPJ/CPF inválido')
+                raise ValidationError(_(u'CNPJ/CPF inválido'))
 
         if len(cnpj_cpf) == 14:
             valores.update(cnpj_cpf=formata_cnpj(cnpj_cpf))
@@ -123,8 +123,7 @@ class SpedEmpresa(models.Model):
             ])
 
         if len(cnpj_ids) > 0:
-            raise ValidationError('CNPJ/CPF já existe no cadastro!')
-
+            raise ValidationError(_(u'CNPJ/CPF já existe no cadastro!'))
         return res
 
     @api.constrains('cnpj_cpf')
@@ -145,7 +144,7 @@ class SpedEmpresa(models.Model):
         if self.fone:
             if (not valida_fone_internacional(self.fone)) and (
                     not valida_fone_fixo(self.fone)):
-                raise ValidationError('Telefone fixo inválido!')
+                raise ValidationError(_(u'Telefone fixo inválido!'))
 
             valores.update(fone=formata_fone(self.fone))
 
@@ -153,14 +152,14 @@ class SpedEmpresa(models.Model):
             if (not valida_fone_internacional(self.fone_comercial)) and (
                     not valida_fone_fixo(self.fone_comercial)) and (
                     not valida_fone_celular(self.fone_comercial)):
-                raise ValidationError('Telefone comercial inválido!')
+                raise ValidationError(_(u'Telefone comercial inválido!'))
 
             valores.update(fone_comercial=formata_fone(self.fone_comercial))
 
         if self.celular:
             if (not valida_fone_internacional(self.celular)) and (
                     not valida_fone_celular(self.celular)):
-                raise ValidationError('Celular inválido!')
+                raise ValidationError(_(u'Celular inválido!'))
 
             valores.update(celular=formata_fone(self.celular))
 

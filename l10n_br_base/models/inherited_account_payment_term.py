@@ -12,7 +12,17 @@ import logging
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from dateutil.relativedelta import relativedelta
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    FORMA_PAGAMENTO,
+    BANDEIRA_CARTAO,
+    INTEGRACAO_CARTAO,
+    INTEGRACAO_CARTAO_NAO_INTEGRADO,
+    FORMA_PAGAMENTO_CARTOES,
+    FORMA_PAGAMENTO_CARTAO_CREDITO,
+    FORMA_PAGAMENTO_CARTAO_DEBITO,
+    FORMA_PAGAMENTO_DICT,
+    BANDEIRA_CARTAO_DICT,
+)
 
 _logger = logging.getLogger(__name__)
 
