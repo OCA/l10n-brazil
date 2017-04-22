@@ -23,9 +23,24 @@ from odoo.addons.l10n_br_base.constante_tributaria import *
 _logger = logging.getLogger(__name__)
 
 try:
-    from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
-                               agora, formata_data, data_por_extenso)
-    from pybrasil.valor import formata_valor, valor_por_extenso_unidade
+    from pybrasil.base import (tira_acentos, primeira_maiuscula)
+    from pybrasil.data import (DIA_DA_SEMANA,
+       DIA_DA_SEMANA_ABREVIADO, MES, MES_ABREVIADO,
+       data_por_extenso, dia_da_semana_por_extenso,
+       dia_da_semana_por_extenso_abreviado, mes_por_extenso,
+       mes_por_extenso_abreviado, seculo, seculo_por_extenso,
+       hora_por_extenso, hora_por_extenso_aproximada, formata_data,
+       ParserInfoBrasil, parse_datetime, UTC, HB,
+       fuso_horario_sistema, data_hora_horario_brasilia, agora,
+       hoje, ontem, amanha, mes_passado, mes_que_vem, ano_passado,
+       ano_que_vem, semana_passada, semana_que_vem,
+       primeiro_dia_mes, ultimo_dia_mes, idade)
+    from pybrasil.valor import (numero_por_extenso,
+       numero_por_extenso_ordinal, numero_por_extenso_unidade,
+       valor_por_extenso, valor_por_extenso_ordinal,
+       valor_por_extenso_unidade, formata_valor)
+    from pybrasil.valor.decimal import Decimal as D
+    from pybrasil.valor.decimal import Decimal
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -77,11 +92,6 @@ class MailTemplate(models.Model):
             res_to_rec[record.id] = record
 
         variables = {
-            'formata_data': formata_data,
-            'formata_valor': formata_valor,
-            'valor_por_extenso': valor_por_extenso_unidade,
-            'data_por_extenso': data_por_extenso,
-            'parse_datetime': parse_datetime,
             'format_date': \
                 lambda date, format=False, context=self._context: \
                     format_date(self.env, date, format),
@@ -89,14 +99,72 @@ class MailTemplate(models.Model):
                 lambda dt, tz=False, format=False, context=self._context: \
                     format_tz(self.env, dt, tz, format),
             'user': self.env.user,
-            'usuario': self.env.user,
             'ctx': self._context,  # context kw would clash with mako internals
+
+            #
+            # Traduz o nome das instâncias e dicionários
+            #
+            'usuario': self.env.user,
             'contexto': self._context,
+
+            #
+            # Permite usar as diversas funções de formatação e tratamento de
+            # datas e valores da pybrasil nos templates de email
+            #
+            'tira_acentos': tira_acentos,
+            'primeira_maiuscula': primeira_maiuscula,
+            'DIA_DA_SEMANA': DIA_DA_SEMANA,
+            'DIA_DA_SEMANA_ABREVIADO': DIA_DA_SEMANA_ABREVIADO,
+            'MES': MES,
+            'MES_ABREVIADO': MES_ABREVIADO,
+            'data_por_extenso': data_por_extenso,
+            'dia_da_semana_por_extenso': dia_da_semana_por_extenso,
+            'dia_da_semana_por_extenso_abreviado': \
+                dia_da_semana_por_extenso_abreviado,
+            'mes_por_extenso': mes_por_extenso,
+            'mes_por_extenso_abreviado': mes_por_extenso_abreviado,
+            'seculo': seculo,
+            'seculo_por_extenso': seculo_por_extenso,
+            'hora_por_extenso': hora_por_extenso,
+            'hora_por_extenso_aproximada': hora_por_extenso_aproximada,
+            'formata_data': formata_data,
+            'ParserInfoBrasil': ParserInfoBrasil,
+            'parse_datetime': parse_datetime,
+            'UTC': UTC,
+            'HB': HB,
+            'fuso_horario_sistema': fuso_horario_sistema,
+            'data_hora_horario_brasilia': data_hora_horario_brasilia,
+            'agora': agora,
+            'hoje': hoje,
+            'ontem': ontem,
+            'amanha': amanha,
+            'mes_passado': mes_passado,
+            'mes_que_vem': mes_que_vem,
+            'ano_passado': ano_passado,
+            'ano_que_vem': ano_que_vem,
+            'semana_passada': semana_passada,
+            'semana_que_vem': semana_que_vem,
+            'primeiro_dia_mes': primeiro_dia_mes,
+            'ultimo_dia_mes': ultimo_dia_mes,
+            'idade': idade,
+            'numero_por_extenso': numero_por_extenso,
+            'numero_por_extenso_ordinal': numero_por_extenso_ordinal,
+            'numero_por_extenso_unidade': numero_por_extenso_unidade,
+            'valor_por_extenso': valor_por_extenso,
+            'valor_por_extenso_ordinal': valor_por_extenso_ordinal,
+            'valor_por_extenso_unidade': valor_por_extenso_unidade,
+            'formata_valor': formata_valor,
+            'D': D,
+            'Decimal': Decimal,
         }
 
         for res_id, record in res_to_rec.iteritems():
             variables['object'] = record
+            #
+            # Traduz o nome das instâncias
+            #
             variables['registro'] = record
+            variables['objeto'] = record
 
             try:
                 render_result = template.render(variables)
