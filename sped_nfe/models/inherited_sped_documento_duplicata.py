@@ -9,7 +9,7 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 from odoo import api, models
-from odoo.addons.l10n_br_base.contrante_tributaria import (
+from odoo.addons.l10n_br_base.constante_tributaria import (
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFCE,
 )

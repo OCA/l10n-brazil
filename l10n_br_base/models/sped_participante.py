@@ -10,7 +10,7 @@ from __future__ import division, print_function, unicode_literals
 import logging
 
 from odoo import api, fields, models, _
-from odoo.exeptions import ValidationError
+from odoo.exceptions import ValidationError
 from ..constante_tributaria import (
     INDICADOR_IE_DESTINATARIO,
     INDICADOR_IE_DESTINATARIO_ISENTO,
