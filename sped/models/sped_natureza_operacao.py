@@ -74,9 +74,9 @@ class SpedNaturezaOperacao(models.Model):
                 ])
 
             if len(natureza_operacao_ids) > 0:
-                raise ValidationError(
-                    'Código de natureza de operação fiscal já existe!'
-                )
+                raise ValidationError(_(
+                    u'Código de natureza de operação fiscal já existe!'
+                ))
 
     @api.depends('nome')
     def _check_nome(self):
@@ -92,6 +92,6 @@ class SpedNaturezaOperacao(models.Model):
                 ])
 
             if len(natureza_operacao_ids) > 0:
-                raise ValidationError(
-                    'Natureza de operação fiscal já existe!'
-                )
+                raise ValidationError(_(
+                    u'Natureza de operação fiscal já existe!'
+                ))
