@@ -3,7 +3,7 @@
     Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
-<odoo noupdate="0">
+<odoo noupdate="False">
 
     <record id="base.BRL" model="res.currency">
         <field name="name">Real</field>
