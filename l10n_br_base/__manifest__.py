@@ -63,8 +63,11 @@
         'views/sped_account_payment_term_line_view.xml',
         'views/sped_account_payment_term_view.xml',
 
-       'security/inherited_res_groups_data.xml',
-       'security/ir.model.access.csv',
+        #
+        # Grupos e permissões
+        #
+        'security/inherited_res_groups_data.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [
         'demo/sped_empresa_demo.xml',
