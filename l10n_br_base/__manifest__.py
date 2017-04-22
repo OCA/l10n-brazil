@@ -63,22 +63,14 @@
         'views/sped_account_payment_term_line_view.xml',
         'views/sped_account_payment_term_view.xml',
 
-        #
-        # Parcelamentos e pagamentos; bancos e contas bancárias
-        #
-        'views/sped_account_payment_term_line_view.xml',
-        'views/sped_account_payment_term_view.xml',
-
-#        'security/ir.model.access.csv',
+       'security/inherited_res_groups_data.xml',
+       'security/ir.model.access.csv',
     ],
     'demo': [
         'demo/sped_empresa_demo.xml',
     ],
     'test': [
-        #        'test/base_inscr_est_valid.yml',
-        #        'test/base_inscr_est_invalid.yml',
-        #        'test/res_partner_test.yml',
-        #        'test/res_company_test.yml',
+       'test/sped_participante_test.yml',
     ],
     'installable': True,
     'auto_install': False,
