@@ -8,7 +8,6 @@
 from __future__ import division, print_function, unicode_literals
 
 import logging
-
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from ..constante_tributaria import (
@@ -28,7 +27,7 @@ _logger = logging.getLogger(__name__)
 try:
     from email_validator import validate_email
 
-    from pybrasil.base import mascara, primeira_maiuscula
+    from pybrasil.base import mascara
     from pybrasil.inscricao import (formata_cnpj, formata_cpf,
                                     limpa_formatacao,
                                     formata_inscricao_estadual, valida_cnpj,
@@ -361,7 +360,7 @@ class SpedParticipante(models.Model):
 
             if participante.razao_social:
                 if participante.nome.strip().upper() != \
-                    participante.razao_social.strip().upper():
+                        participante.razao_social.strip().upper():
                     nome += ' - '
                     nome += participante.razao_social
 
@@ -398,8 +397,8 @@ class SpedParticipante(models.Model):
             return participantes.name_get()
 
         return super(SpedParticipante, self).name_search(name=name, args=args,
-                                                     operator=operator,
-                                                     limit=limit)
+                                                         operator=operator,
+                                                         limit=limit)
 
     def _valida_cnpj_cpf(self):
         self.ensure_one()
@@ -633,10 +632,9 @@ class SpedParticipante(models.Model):
                 'force_email'):
             view_id = self.env.ref(
                 'sped.cadastro_participante_cliente_form').id
-        res = super(SpedParticipante, self).fields_view_get(view_id=view_id,
-                                                        view_type=view_type,
-                                                        toolbar=toolbar,
-                                                        submenu=submenu)
+        res = super(SpedParticipante, self).fields_view_get(
+            view_id=view_id, view_type=view_type, toolbar=toolbar,
+            submenu=submenu)
         # if view_type == 'form':
         #    res['arch'] = self.fields_view_get_address(res['arch'])
         return res
@@ -659,25 +657,25 @@ class SpedParticipante(models.Model):
         valores = {}
         res['value'] = valores
 
-        #if self.nome:
+        # if self.nome:
         #    valores['nome'] = primeira_maiuscula(self.nome)
 
-        #if self.razao_social:
+        # if self.razao_social:
         #    valores['razao_social'] = primeira_maiuscula(self.razao_social)
 
-        #if self.fantasia:
+        # if self.fantasia:
         #    valores['fantasia'] = primeira_maiuscula(self.fantasia)
 
-        #if self.endereco:
+        # if self.endereco:
         #    valores['endereco'] = primeira_maiuscula(self.endereco)
 
-        #if self.bairro:
+        # if self.bairro:
         #    valores['bairro'] = primeira_maiuscula(self.bairro)
 
-        #if self.cidade:
+        # if self.cidade:
         #    valores['cidade'] = primeira_maiuscula(self.cidade)
 
-        #if self.profissao:
+        # if self.profissao:
         #    valores['profissao'] = primeira_maiuscula(self.profissao)
 
         return res

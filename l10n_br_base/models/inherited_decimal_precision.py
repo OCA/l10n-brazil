@@ -18,7 +18,7 @@ try:
     from pybrasil.valor.decimal import Decimal as D
 
 except (ImportError, IOError) as err:
-   _logger.debug(err)
+    _logger.debug(err)
 
 
 class DecimalPrecision(models.Model):
@@ -32,7 +32,8 @@ class DecimalPrecision(models.Model):
         if 'digits' in dados:
             for dp in self:
                 if dp.id == \
-                    self.env.ref('l10n_br_base.CASAS_DECIMAIS_QUANTIDADE').id:
+                        self.env.ref(
+                            'l10n_br_base.CASAS_DECIMAIS_QUANTIDADE').id:
                     if dados['digits'] > 4:
                         raise ValidationError(
                             'O número máximo de casas decimais para os ' +
@@ -40,7 +41,8 @@ class DecimalPrecision(models.Model):
                         )
 
                 elif dp.id == \
-                    self.env.ref('l10n_br_base.CASAS_DECIMAIS_UNITARIO').id:
+                        self.env.ref(
+                            'l10n_br_base.CASAS_DECIMAIS_UNITARIO').id:
                     if dados['digits'] > 11:
                         raise ValidationError(
                             'O número máximo de casas decimais para os ' +
@@ -48,7 +50,7 @@ class DecimalPrecision(models.Model):
                         )
 
                 elif dp.id == \
-                    self.env.ref('l10n_br_base.CASAS_DECIMAIS_PESO').id:
+                        self.env.ref('l10n_br_base.CASAS_DECIMAIS_PESO').id:
                     if dados['digits'] > 4:
                         raise ValidationError(
                             'O número máximo de casas decimais para os ' +
@@ -62,12 +64,14 @@ class DecimalPrecision(models.Model):
             # Mantém a sincronia entre as casas decimais dos campos float
             # e monetary
             #
-            if dp.id == self.env.ref('l10n_br_base.CASAS_DECIMAIS_UNITARIO').id:
+            if dp.id == self.env.ref(
+                    'l10n_br_base.CASAS_DECIMAIS_UNITARIO').id:
                 simbolo = self.env.ref('l10n_br_base.SIMBOLO_VALOR_UNITARIO')
                 arredondamento = D(10) ** (D(dp.digits or 0) * -1)
                 simbolo.rounding = arredondamento
 
-            elif dp.id == self.env.ref('l10n_br_base.CASAS_DECIMAIS_PESO').id:
+            elif dp.id == self.env.ref(
+                    'l10n_br_base.CASAS_DECIMAIS_PESO').id:
                 simbolo = self.env.ref('l10n_br_base.SIMBOLO_PESO')
                 arredondamento = D(10) ** (D(dp.digits or 0) * -1)
                 simbolo.rounding = arredondamento
