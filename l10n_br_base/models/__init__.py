@@ -15,6 +15,11 @@ from . import inherited_decimal_precision
 from . import inherited_res_currency
 
 #
+# Templates de email
+#
+from . import inherited_mail_template
+
+#
 # Model Base
 #
 from . import sped_base
