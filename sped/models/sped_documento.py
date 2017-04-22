@@ -1186,7 +1186,7 @@ class SpedDocumento(models.Model):
                 mensagem = \
                     'Não é permitido criar este documento fiscal!'
 
-            raise ValidationError(_(mensagem)
+            raise ValidationError(_(mensagem))
 
     def unlink(self):
         self._check_permite_alteracao(operacao='unlink')
