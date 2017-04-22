@@ -30,14 +30,14 @@
                         <newline />
                         <field name="company_id" invisible="1"/>
                         <newline />
-                        <field name="is_installment_plan"/>
+                        <field name="em_parcelas_mensais"/>
                         <newline />
-                        <field name="months" attrs="{'invisible': [('is_installment_plan', '!=', True)], 'required': [('is_installment_plan', '=', True)]}" />
-                        <field name="has_down_payment" attrs="{'invisible': [('is_installment_plan', '!=', True)]}" />
+                        <field name="meses" attrs="{'invisible': [('em_parcelas_mensais', '!=', True)], 'required': [('em_parcelas_mensais', '=', True)]}" />
+                        <field name="tem_entrada" attrs="{'invisible': [('em_parcelas_mensais', '!=', True)]}" />
                     </group>
                     <label for="note"/>
                     <field name="note" placeholder="Payment term explanation for the customer..."/>
-                    <group attrs="{'invisible': [('is_installment_plan', '=', True)]}">
+                    <group attrs="{'invisible': [('em_parcelas_mensais', '=', True)]}">
                         <separator string="Terms" />
                         <newline />
                         <p class="text-muted">
@@ -58,7 +58,7 @@
         <field name="arch" type="xml">
             <tree string="Condições de Pagamento">
                 <field name="sequence" widget="handle"/>
-                <field name="comercial_name" />
+                <field name="nome_comercial" />
             </tree>
         </field>
     </record>
