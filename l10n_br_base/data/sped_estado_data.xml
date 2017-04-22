@@ -3,7 +3,7 @@
     Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
-<odoo noupdate="1">
+<odoo noupdate="True">
     <!-- A ordem aqui é importante, não é a alfabética, é a do código do IBGE, favor não mudar -->
 
     <record id="ESTADO_RO" model="sped.estado">
