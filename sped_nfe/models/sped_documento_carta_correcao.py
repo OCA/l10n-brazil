@@ -16,10 +16,16 @@ from odoo.addons.l10n_br_base.constante_tributaria import *
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe.leiaute import *
-    from pybrasil.inscricao import limpa_formatacao
-    from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
-                               agora)
+    from pysped.nfe.leiaute import (
+        ProcNFe_310,
+        EventoCCe_100,
+    )
+    from pybrasil.data import (
+        parse_datetime,
+        UTC,
+        data_hora_horario_brasilia,
+        agora
+    )
     from pybrasil.valor import formata_valor
 
 except (ImportError, IOError) as err:
@@ -222,14 +228,12 @@ class SpedCartaCorrecao(models.Model):
         #
         # A CC-e foi aceita e vinculada à NF-e
         #
-        import ipdb; ipdb.set_trace();
         if self.documento_id.chave in processo.resposta.dic_procEvento:
             procevento = \
                 processo.resposta.dic_procEvento[self.documento_id.chave]
 
             retevento = procevento.retEvento
 
-            import ipdb; ipdb.set_trace();
             if retevento.infEvento.cStat.valor not in ('135', '136'):
                 mensagem = 'Erro na carta de correção'
                 mensagem += '\nCódigo: ' + retevento.infEvento.cStat.valor

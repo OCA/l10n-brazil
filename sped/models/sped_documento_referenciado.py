@@ -8,7 +8,10 @@
 from __future__ import division, print_function, unicode_literals
 
 from odoo import fields, models
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    MODELO_FISCAL_REFERENCIADO_FILTRO,
+    MODELO_FISCAL_REFERENCIADO,
+)
 
 
 class SpedDocumentoReferenciado(models.Model):

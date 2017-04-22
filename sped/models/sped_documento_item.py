@@ -9,10 +9,76 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    ENTRADA_SAIDA_ENTRADA,
+    TIPO_EMISSAO_PROPRIA,
+    ST_ICMS_SN_CALCULA_ST,
+    ST_ICMS_SN_CALCULA_PROPRIO,
+    REGIME_TRIBUTARIO_SIMPLES,
+    ST_ICMS_ZERA_ICMS_PROPRIO,
+    MODALIDADE_BASE_ICMS_ST_MARGEM_VALOR_AGREGADO,
+    ST_ICMS_CALCULA_ST,
+    ST_ICMS_COM_REDUCAO,
+    MODALIDADE_BASE_ICMS_PROPRIO_MARGEM_VALOR_AGREGADO,
+    POSICAO_CFOP_ESTRANGEIRO,
+    POSICAO_CFOP_ESTADUAL,
+    MODALIDADE_BASE_ICMS_PROPRIO_PRECO_TABELADO_MAXIMO,
+    MODALIDADE_BASE_ICMS_PROPRIO_PAUTA,
+    ST_ICMS_CALCULA_PROPRIO,
+    ST_ICMS_SN_ANTERIOR,
+    MODALIDADE_BASE_COFINS_QUANTIDADE,
+    MODALIDADE_BASE_PIS_QUANTIDADE,
+    MODALIDADE_BASE_COFINS_ALIQUOTA,
+    MODALIDADE_BASE_PIS_ALIQUOTA,
+    ST_PIS_CALCULA_ALIQUOTA,
+    ST_PIS_AQUIS_SEM_CREDITO,
+    ST_PIS_CALCULA_CREDITO,
+    ST_PIS_CALCULA,
+    ST_ICMS_SN_CALCULA_CREDITO,
+    MODALIDADE_BASE_IPI_QUANTIDADE,
+    MODALIDADE_BASE_IPI_ALIQUOTA,
+    ST_IPI_CALCULA,
+    TIPO_PRODUTO_SERVICO_SERVICOS,
+    POSICAO_CFOP_INTERESTADUAL,
+    ORIGEM_MERCADORIA_ALIQUOTA_4,
+    ST_ICMS_SN_OUTRAS,
+    REGIME_TRIBUTARIO,
+    MODELO_FISCAL,
+    IE_DESTINATARIO,
+    TIPO_EMISSAO,
+    ENTRADA_SAIDA,
+    TIPO_CONSUMIDOR_FINAL,
+    POSICAO_CFOP,
+    ORIGEM_MERCADORIA,
+    ORIGEM_MERCADORIA_NACIONAL,
+    ST_ICMS,
+    MODALIDADE_BASE_ICMS_PROPRIO,
+    MODALIDADE_BASE_ICMS_PROPRIO_VALOR_OPERACAO,
+    ST_ICMS_SN,
+    MODALIDADE_BASE_ICMS_ST,
+    APURACAO_IPI,
+    APURACAO_IPI_MENSAL,
+    ST_IPI,
+    ST_IPI_ENTRADA,
+    ST_IPI_SAIDA,
+    MODALIDADE_BASE_IPI,
+    ST_PIS,
+    ST_PIS_ENTRADA,
+    ST_PIS_SAIDA,
+    MODALIDADE_BASE_PIS,
+    ST_COFINS,
+    ST_COFINS_ENTRADA,
+    ST_COFINS_SAIDA,
+    MODALIDADE_BASE_COFINS,
+    MODELO_FISCAL_CONSUMIDOR_FINAL,
+    ENTRADA_SAIDA_SAIDA,
+    TIPO_EMISSAO_TERCEIROS,
+    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL,
+    ST_PIS_CALCULA_QUANTIDADE,
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -958,14 +1024,17 @@ class SpedDocumentoItem(models.Model):
         # Validamos alguns dos M2O necessários, vindos do documento
         #
         if not self.empresa_id:
-            raise ValidationError('A empresa ativa não foi definida!')
+            raise ValidationError(
+                _(u'A empresa ativa não foi definida!')
+            )
 
         if not self.participante_id:
             raise ValidationError(
-                'O destinatário/remetente não foi informado!')
+                _(u'O destinatário/remetente não foi informado!')
+            )
 
         if not self.operacao_id:
-            raise ValidationError('A operação fiscal não foi informada!')
+            raise ValidationError(_(u'A operação fiscal não foi informada!'))
 
         #
         # Se já ocorreu o preenchimento da descrição, não sobrepõe
@@ -1035,7 +1104,9 @@ class SpedDocumentoItem(models.Model):
             protocolo = self.empresa_id.protocolo_id
 
         if (not protocolo) or (protocolo is None):
-            raise ValidationError('O protocolo não foi definido!')
+            raise ValidationError(
+                _(u'O protocolo não foi definido!')
+            )
 
         #
         # Tratando protocolos que só valem para determinados estados
@@ -1061,10 +1132,12 @@ class SpedDocumentoItem(models.Model):
                             'e o protocolo “{protocolo}” não pode ' \
                             'ser usado para o estado “{estado}” ' \
                             '(produto “{produto}”, NCM “{ncm}”)!' \
-                            .format(protocolo=protocolo.descricao,
-                                    estado=estado_destino,
-                                    produto=self.produto_id.nome,
-                                    ncm=self.produto_id.ncm_id.codigo_formatado)
+                            .format(
+                                protocolo=protocolo.descricao,
+                                estado=estado_destino,
+                                produto=self.produto_id.nome,
+                                ncm=self.produto_id.ncm_id.codigo_formatado
+                            )
                     else:
                         mensagem_erro = \
                             'Não há protocolo padrão para a empresa, ' \
@@ -1075,7 +1148,7 @@ class SpedDocumentoItem(models.Model):
                                     estado=estado_destino,
                                     produto=self.produto_id.nome)
 
-                    raise ValidationError(mensagem_erro)
+                    raise ValidationError(_(mensagem_erro))
 
         #
         # Determinamos agora qual linha da operação será seguida
@@ -1164,7 +1237,7 @@ class SpedDocumentoItem(models.Model):
                 mensagem_erro = mensagem_erro.format(
                     protocolo=protocolo.descricao, estado='internacionais')
 
-            raise ValidationError(mensagem_erro)
+            raise ValidationError(_(mensagem_erro))
 
         #
         # Agora que temos o item da operação, definimos os valores do item

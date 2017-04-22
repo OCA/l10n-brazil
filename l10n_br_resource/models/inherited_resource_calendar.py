@@ -14,13 +14,6 @@ from odoo import tools
 
 _logger = logging.getLogger(__name__)
 
-try:
-    from pybrasil.feriado.constantes import (
-        TIPO_FERIADO, ABRANGENCIA_FERIADO,
-    )
-except ImportError:
-    _logger.warning('Cannot import pybrasil')
-
 
 class ResourceCalendar(models.Model):
     _inherit = 'resource.calendar'

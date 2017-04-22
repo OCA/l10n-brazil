@@ -8,25 +8,17 @@
 from __future__ import division, print_function, unicode_literals
 
 import os
-import logging
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError, ValidationError
-from odoo.addons.l10n_br_base.constante_tributaria import *
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from pysped.nfe import ProcessadorNFe
-    from pysped.nfe.webservices_flags import *
-    from pysped.nfe.leiaute import *
-    from pybrasil.inscricao import limpa_formatacao
-    from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
-                               agora)
-    from pybrasil.valor import formata_valor
-
-except (ImportError, IOError) as err:
-    _logger.debug(err)
+from odoo.exceptions import ValidationError
+from odoo.addons.l10n_br_base.contrante_tributaria import (
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFCE,
+    TIPO_EMISSAO_PROPRIA,
+    SITUACAO_NFE_AUTORIZADA,
+    SITUACAO_NFE_CANCELADA,
+    SITUACAO_NFE_DENEGADA,
+)
 
 
 class MailComposeMessage(models.TransientModel):

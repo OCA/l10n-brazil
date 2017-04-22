@@ -8,15 +8,16 @@
 #
 
 {
-    'name': 'Brazilian Localisation Base',
+    'name': 'Brazilian Localization Base',
     'category': 'Localisation',
     'license': 'AGPL-3',
-    'author': 'Odoo Community Association (OCA), Akretion, Taŭga, KMEE',
+    'author': 'Odoo Community Association (OCA), Akretion',
     'website': 'http://odoo-brasil.org',
     'version': '10.0.1.0.0',
     'depends': [
         'base',
         'mail',
+        'base_setup',
         'decimal_precision',
         'copy_views',
     ],

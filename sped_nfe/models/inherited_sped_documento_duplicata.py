@@ -8,18 +8,19 @@
 from __future__ import division, print_function, unicode_literals
 
 import logging
-
-from odoo import api, fields, models
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo import api, models
+from odoo.addons.l10n_br_base.contrante_tributaria import (
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFCE,
+)
 
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe import ProcessadorNFe
-    from pysped.nfe.webservices_flags import *
-    from pysped.nfe.leiaute import *
-    from pybrasil.inscricao import limpa_formatacao
-    from pybrasil.data import parse_datetime, UTC
+    from pysped.nfe.leiaute import (
+        Dup_310,
+    )
+    from pybrasil.valor import Decimal as D
 
 except (ImportError, IOError) as err:
     _logger.debug(err)

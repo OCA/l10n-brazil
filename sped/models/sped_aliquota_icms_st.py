@@ -9,7 +9,7 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODALIDADE_BASE_ICMS_ST,
@@ -131,4 +131,4 @@ class SpedAliquotaICMSST(models.Model):
             al_icms_ids = self.search(busca)
 
             if al_icms_ids:
-                raise ValidationError('Alíquota de ICMS ST já existe!')
+                raise ValidationError(_(u'Alíquota de ICMS ST já existe!'))

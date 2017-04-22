@@ -10,8 +10,6 @@ from __future__ import division, print_function, unicode_literals
 import logging
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError, ValidationError
-from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 
@@ -124,13 +122,20 @@ class SpedManifestacaoDestinatario(models.Model):
         size=60,
     )
 
-
-
-   #'ns': fields.char('NS', size=25, select=True),
-   #'situacao_dfe': fields.selection(SITUACAO_DFE, 'Situacação DF-e', select=True),
-   #'situacao_manifestacao': fields.selection(SITUACAO_MANIFESTACAO, 'Situacação DF-e', select=True),
-   #'data_manifestacao': fields.datetime('Data da manifestação'),
-   #'justificativa': fields.char('Justificativa', size=255),
-   #'xml_autorizacao': fields.text('XML de autorização'),
-   ##'xml_cancelamento': fields.text('XML de cancelamento'),
-   #'documento_original_id': fields.many2one('sped.documento', 'Documento de remessa/transferência/venda original'),
+    # 'nsu': fields.char(
+    # u'NSU', size=25, select=True),
+    # 'situacao_dfe': fields.selection(
+    #   SITUACAO_DFE, u'Situacação DF-e', select=True),
+    # 'situacao_manifestacao': fields.selection(
+    #   SITUACAO_MANIFESTACAO, u'Situacação DF-e', select=True),
+    # 'data_manifestacao': fields.datetime(
+    #   u'Data da manifestação'),
+    # 'justificativa': fields.char(
+    #   u'Justificativa', size=255),
+    # 'xml_autorizacao': fields.text(
+    #   u'XML de autorização'),
+    # 'xml_cancelamento': fields.text(
+    #   u'XML de cancelamento'),
+    # 'documento_original_id': fields.many2one(
+    #   'sped.documento',
+    #   u'Documento de remessa/transferência/venda original'),

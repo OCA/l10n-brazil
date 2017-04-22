@@ -9,7 +9,7 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from odoo import api, fields, models
+from odoo import api, models
 from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
@@ -24,6 +24,7 @@ except (ImportError, IOError) as err:
 class DecimalPrecision(models.Model):
     _inherit = b'decimal.precision'
 
+    @api.multi
     def write(self, dados):
         #
         # Validação do número máximo de casas decimais
@@ -70,5 +71,4 @@ class DecimalPrecision(models.Model):
                 simbolo = self.env.ref('l10n_br_base.SIMBOLO_PESO')
                 arredondamento = D(10) ** (D(dp.digits or 0) * -1)
                 simbolo.rounding = arredondamento
-
         return res

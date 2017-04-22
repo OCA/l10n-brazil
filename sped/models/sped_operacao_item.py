@@ -8,8 +8,6 @@
 from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
-
 from odoo.addons.l10n_br_base.constante_tributaria import (
     ENTRADA_SAIDA,
     IE_DESTINATARIO,
@@ -24,6 +22,7 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     ST_IPI_SAIDA,
     TIPO_PRODUTO_SERVICO
 )
+from odoo.exceptions import ValidationError
 
 
 class SpedOperacaoFiscalItem(models.Model):

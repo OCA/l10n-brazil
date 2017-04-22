@@ -11,7 +11,11 @@ import logging
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo.addons.l10n_br_base.contrante_tributaria import (
+    AMBIENTE_NFE_PRODUCAO,
+    CONS_NFE_TODAS,
+    CONS_NFE_EMISSAO_TODOS_EMITENTES,
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -49,7 +53,6 @@ class ConsultaDFe(models.Model):
 
     def busca_documentos(self):
         for consulta in self:
-            #import ipdb; ipdb.set_trace();
 
             processador = self.empresa_id.processador_nfe()
             processador.ambiente = int(AMBIENTE_NFE_PRODUCAO)
@@ -62,9 +65,10 @@ class ConsultaDFe(models.Model):
                 tipo_emissao=CONS_NFE_EMISSAO_TODOS_EMITENTES,
             )
 
-            print(processo.envio.xml.encode('utf-8'))
-            print('resposta')
-            print(processo.resposta.original.encode('utf-8'))
+            _logger.info("ConsultaDFe")
+            _logger.info(processo.envio.xml.encode('utf-8'))
+            _logger.info('resposta')
+            _logger.info(processo.resposta.original.encode('utf-8'))
 
             ##
             ## Nenhum documento encontrado

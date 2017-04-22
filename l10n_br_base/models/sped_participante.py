@@ -9,9 +9,19 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from odoo import api, fields, models
-from odoo.exceptions import ValidationError
-from ..constante_tributaria import *
+from odoo import api, fields, models, _
+from odoo.exeptions import ValidationError
+from ..constante_tributaria import (
+    INDICADOR_IE_DESTINATARIO,
+    INDICADOR_IE_DESTINATARIO_ISENTO,
+    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
+    REGIME_TRIBUTARIO,
+    REGIME_TRIBUTARIO_LUCRO_PRESUMIDO,
+    REGIME_TRIBUTARIO_SIMPLES,
+    TIPO_PESSOA_JURIDICA,
+    TIPO_PESSOA_FISICA,
+    TIPO_PESSOA_ESTRANGEIRO,
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -20,12 +30,12 @@ try:
 
     from pybrasil.base import mascara, primeira_maiuscula
     from pybrasil.inscricao import (formata_cnpj, formata_cpf,
-                                limpa_formatacao,
-                                formata_inscricao_estadual, valida_cnpj,
-                                valida_cpf, valida_inscricao_estadual)
+                                    limpa_formatacao,
+                                    formata_inscricao_estadual, valida_cnpj,
+                                    valida_cpf, valida_inscricao_estadual)
     from pybrasil.telefone import (formata_fone, valida_fone_fixo,
-                               valida_fone_celular,
-                               valida_fone_internacional)
+                                   valida_fone_celular,
+                                   valida_fone_internacional)
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -404,7 +414,7 @@ class SpedParticipante(models.Model):
 
         if cnpj_cpf[:2] != 'EX':
             if not valida_cnpj(cnpj_cpf) and not valida_cpf(cnpj_cpf):
-                raise ValidationError('CNPJ/CPF inválido')
+                raise ValidationError(_(u'CNPJ/CPF inválido'))
 
         if len(cnpj_cpf) == 14:
             valores['cnpj_cpf'] = formata_cnpj(cnpj_cpf)
@@ -435,7 +445,7 @@ class SpedParticipante(models.Model):
                  ('eh_grupo', '=', False)])
 
         if len(cnpj_ids) > 0:
-            raise ValidationError('CNPJ/CPF já existe no cadastro!')
+            raise ValidationError(_(u'CNPJ/CPF já existe no cadastro!'))
 
         return res
 
@@ -457,7 +467,7 @@ class SpedParticipante(models.Model):
         if self.fone:
             if (not valida_fone_internacional(self.fone)) and (
                     not valida_fone_fixo(self.fone)):
-                raise ValidationError('Telefone fixo inválido!')
+                raise ValidationError(_(u'Telefone fixo inválido!'))
 
             valores['fone'] = formata_fone(self.fone)
 
@@ -465,14 +475,14 @@ class SpedParticipante(models.Model):
             if (not valida_fone_internacional(self.fone_comercial)) and (
                     not valida_fone_fixo(self.fone_comercial)) and (
                     not valida_fone_celular(self.fone_comercial)):
-                raise ValidationError('Telefone comercial inválido!')
+                raise ValidationError(_(u'Telefone comercial inválido!'))
 
             valores['fone_comercial'] = formata_fone(self.fone_comercial)
 
         if self.celular:
             if (not valida_fone_internacional(self.celular)) and (
                     not valida_fone_celular(self.celular)):
-                raise ValidationError('Celular inválido!')
+                raise ValidationError(_(u'Celular inválido!'))
 
             valores['celular'] = formata_fone(self.celular)
 
@@ -498,7 +508,7 @@ class SpedParticipante(models.Model):
 
         cep = limpa_formatacao(self.cep)
         if (not cep.isdigit()) or len(cep) != 8:
-            raise ValidationError('CEP inválido!')
+            raise ValidationError(_(u'CEP inválido!'))
 
         valores['cep'] = cep[:5] + '-' + cep[5:]
 
@@ -521,7 +531,7 @@ class SpedParticipante(models.Model):
 
         if self.suframa:
             if not valida_inscricao_estadual(self.suframa, 'SUFRAMA'):
-                raise ValidationError('Inscrição na SUFRAMA inválida!')
+                raise ValidationError(_(u'Inscrição na SUFRAMA inválida!'))
 
             valores['suframa'] = formata_inscricao_estadual(self.suframa,
                                                             'SUFRAMA')
@@ -532,18 +542,18 @@ class SpedParticipante(models.Model):
 
             else:
                 if not self.municipio_id:
-                    raise ValidationError(
-                        """Para validação da inscrição estadual é preciso
-                        informar o município!""")
+                    raise ValidationError(_(
+                        u"""Para validação da inscrição estadual é preciso
+                        informar o município!"""))
 
                 if self.ie.strip().upper()[
                    :6] == 'ISENTO' or self.ie.strip().upper()[:6] == 'ISENTA':
-                    raise ValidationError(
-                        'Inscrição estadual inválida para contribuinte!')
+                    raise ValidationError(_(
+                        u'Inscrição estadual inválida para contribuinte!'))
 
                 if not valida_inscricao_estadual(
                         self.ie, self.municipio_id.estado_id.uf):
-                    raise ValidationError('Inscrição estadual inválida!')
+                    raise ValidationError(_(u'Inscrição estadual inválida!'))
 
                 valores['ie'] = formata_inscricao_estadual(
                     self.ie, self.municipio_id.estado_id.uf
@@ -581,7 +591,7 @@ class SpedParticipante(models.Model):
                     valido = validate_email(e.strip())
                     emails_validos.append(valido['email'])
                 except:
-                    raise ValidationError('Email %s inválido!' % e.strip())
+                    raise ValidationError(_(u'Email %s inválido!' % e.strip()))
 
             valores['email'] = ','.join(emails_validos)
 
@@ -600,7 +610,8 @@ class SpedParticipante(models.Model):
                     valido = validate_email(e.strip())
                     emails_validos.append(valido['email'])
                 except:
-                    raise ValidationError('Email %s inválido!' % e.strip())
+                    raise ValidationError(
+                        _(u'Email %s inválido!' % e.strip()))
 
             valores['email_nfe'] = ','.join(emails_validos)
 

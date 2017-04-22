@@ -11,20 +11,62 @@ import os
 import logging
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError, ValidationError
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo.exceptions import UserError
+
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL,
+    TIPO_EMISSAO_PROPRIA,
+    MODALIDADE_FRETE_DESTINATARIO_PROPRIO,
+    IND_FORMA_PAGAMENTO_A_VISTA,
+    MODALIDADE_FRETE_REMETENTE_PROPRIO,
+    SITUACAO_NFE,
+    SITUACAO_NFE_EM_DIGITACAO,
+    SITUACAO_NFE_ENVIADA,
+    SITUACAO_NFE_REJEITADA,
+    SITUACAO_NFE_AUTORIZADA,
+    SITUACAO_NFE_CANCELADA,
+    SITUACAO_NFE_DENEGADA,
+    SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
+    SITUACAO_FISCAL_CANCELADO,
+    SITUACAO_FISCAL_DENEGADO,
+    IDENTIFICACAO_DESTINO_EXTERIOR,
+    IDENTIFICACAO_DESTINO_INTERNO,
+    INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
+    MODALIDADE_FRETE_REMETENTE_CIF,
+    MODALIDADE_FRETE_DESTINATARIO_FOB,
+    MODALIDADE_FRETE_SEM_FRETE,
+    IND_FORMA_PAGAMENTO_A_PRAZO,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFCE,
+    AMBIENTE_NFE_HOMOLOGACAO,
+    IDENTIFICACAO_DESTINO_INTERESTADUAL,
+    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
+)
 
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe import ProcessadorNFe
-    from pysped.nfe.webservices_flags import *
-    from pysped.nfe.leiaute import *
+    from pysped.nfe.webservices_flags import (
+        WS_NFE_ENVIO_LOTE,
+        WS_NFE_CONSULTA_RECIBO,
+        WS_NFE_CONSULTA,
+        WS_NFE_SITUACAO,
+        UF_CODIGO,
+    )
+    from pysped.nfe.leiaute import (
+        NFe_310,
+        NFCe_310,
+        EventoCancNFe_100,
+        ProcNFe_310,
+        Reboque_310,
+    )
     from pybrasil.inscricao import limpa_formatacao
     from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
                                agora)
     from pybrasil.valor import formata_valor
-    from pybrasil.template import TemplateBrasil
+
+    from pybrasil.valor import Decimal as D
+
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -1190,11 +1232,8 @@ class SpedDocumento(models.Model):
 
     def envia_email(self, mail_template):
         self.ensure_one()
-        import ipdb; ipdb.set_trace();
-        print(mail_template)
-
         dados = mail_template.generate_email([documento.id])
-        print(dados)
+	# TODO: FIX ME
 
     def gera_pdf(self):
         self.ensure_one()
@@ -1208,7 +1247,6 @@ class SpedDocumento(models.Model):
         processador = self.processador_nfe()
 
         procNFe = ProcNFe_310()
-        import ipdb; ipdb.set_trace();
         if self.arquivo_xml_autorizacao_id:
             procNFe.xml = \
                 self.arquivo_xml_autorizacao_id.datas.decode('base64')

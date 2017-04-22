@@ -9,18 +9,25 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from odoo import api, fields, models
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo import models
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    ST_ICMS_SN_CALCULA_PROPRIO,
+    REGIME_TRIBUTARIO_SIMPLES,
+    ST_ICMS_CALCULA_PROPRIO,
+    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL,
+    IDENTIFICACAO_DESTINO_INTERESTADUAL,
+    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
+    ST_ICMS_CODIGO_CEST,
+    AMBIENTE_NFE_HOMOLOGACAO,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFCE,
+)
 
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe import ProcessadorNFe
-    from pysped.nfe.webservices_flags import *
-    from pysped.nfe.leiaute import *
-    from pybrasil.inscricao import limpa_formatacao
-    from pybrasil.data import parse_datetime, UTC, formata_data
-    from pybrasil.valor import formata_valor
+    from pysped.nfe.leiaute import Det_310
+    from pybrasil.valor import Decimal as D
     from pybrasil.template import TemplateBrasil
 
 except (ImportError, IOError) as err:

@@ -9,7 +9,7 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
@@ -69,7 +69,7 @@ class SpedCEST(models.Model):
                 cest_ids = self.search([('codigo', '=', cest.codigo)])
 
             if len(cest_ids) > 0:
-                raise ValidationError('Código CEST já existe na tabela!')
+                raise ValidationError(_(u'Código CEST já existe na tabela!'))
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):

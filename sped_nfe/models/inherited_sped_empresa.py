@@ -9,7 +9,8 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 import os
-from odoo import api, fields, models, _, exceptions
+
+from odoo import fields, models
 from odoo.tools import config
 
 _logger = logging.getLogger(__name__)
