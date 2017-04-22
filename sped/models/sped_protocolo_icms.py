@@ -254,24 +254,27 @@ class SpedProtocoloICMS(models.Model):
         valores = {}
         res = {'value': valores}
 
+        params = []
         if self.descricao:
-            sql = u"""
+            sql = """
             select
                 a.id
             from
                 sped_protocolo_icms a
             where
-                a.descricao = '{descricao}'
+                a.descricao = %s
             """
-            sql = sql.format(descricao=self.descricao)
+            params.append(self.descricao)
+            #sql = sql.format(descricao=self.descricao)
 
             if self.id or self._origin.id:
-                sql += u"""
-                    and a.id != {id}
+                sql += """
+                    and a.id != %s
                 """
-                sql = sql.format(id=self.id or self._origin.id)
+                params.append(self.id or self._origin.id)
+                #sql = sql.format(id=self.id or self._origin.id)
 
-            self.env.cr.execute(sql)
+            self.env.cr.execute(sql, params)
             jah_existe = self.env.cr.fetchall()
 
             if jah_existe:
@@ -297,8 +300,8 @@ class SpedProtocoloICMS(models.Model):
         sped_protocolo_icms_aliquota = self.env['sped.protocolo.icms.aliquota']
 
         self._cr.execute(
-            'delete from sped_protocolo_icms_aliquota where protocolo_id = ' +
-            str(self.id) + ';'
+            'delete from sped_protocolo_icms_aliquota where protocolo_id = '
+            '%s;', [self.id]
         )
 
         for estado_origem in ALIQUOTAS_ICMS:
