@@ -1025,16 +1025,16 @@ class SpedDocumentoItem(models.Model):
         #
         if not self.empresa_id:
             raise ValidationError(
-                _(u'A empresa ativa não foi definida!')
+                _('A empresa ativa não foi definida!')
             )
 
         if not self.participante_id:
             raise ValidationError(
-                _(u'O destinatário/remetente não foi informado!')
+                _('O destinatário/remetente não foi informado!')
             )
 
         if not self.operacao_id:
-            raise ValidationError(_(u'A operação fiscal não foi informada!'))
+            raise ValidationError(_('A operação fiscal não foi informada!'))
 
         #
         # Se já ocorreu o preenchimento da descrição, não sobrepõe
@@ -1105,7 +1105,7 @@ class SpedDocumentoItem(models.Model):
 
         if (not protocolo) or (protocolo is None):
             raise ValidationError(
-                _(u'O protocolo não foi definido!')
+                _('O protocolo não foi definido!')
             )
 
         #
