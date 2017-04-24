@@ -16,3 +16,6 @@
 "access_hr_curso","access_hr_curso","model_hr_curso","",1,0,0,0
 "create_hr_curso","create_hr_curso","model_hr_curso","base.group_hr_manager",1,1,1,1
 "access_hr_contract_officer","access_hr_contract_officer","model_hr_contract","base.group_hr_user",1,0,0,0
+"access_hr_payslip_worked_days_officer","access_hr_payslip_worked_days_officer","hr_payroll.model_hr_payslip_worked_days","base.group_hr_user",1,1,1,1
+"access_hr_payslip_input_officer","access_hr_payslip_input_officer","hr_payroll.model_hr_payslip_input","base.group_hr_user",1,1,1,1
+"access_hr_rule_input_officer","access_hr_rule_input_officer","hr_payroll.model_hr_rule_input","base.group_hr_user",1,1,1,1
