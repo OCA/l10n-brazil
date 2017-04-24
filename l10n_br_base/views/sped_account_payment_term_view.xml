@@ -11,41 +11,53 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <form string="Condição de Pagamento">
-                    <field name="sequence" invisible="1" />
-                <group>
-                    <group>
-                        <field name="forma_pagamento" />
+                <field name="sequence" invisible="1" />
+                <sheet>
+                    <group col="4" colspan="4">
+                        <field name="forma_pagamento" required="1" />
+                        <field name="active" string="Ativa?" />
+                    </group>
+                    <newline />
+                    <group attrs="{'invisible': [('forma_pagamento', 'not in', ('02', '03'))]}">
+                        <separator string="Cartão de crédito/débito" />
                         <newline />
-                        <group attrs="{'invisible': [('forma_pagamento', 'not in', ('02', '03'))]}">
-                            <separator string="Cartão de crédito/débito" />
-                            <newline />
-                            <field name="bandeira_cartao" attrs="{'required': [('forma_pagamento', 'in', ('02', '03'))]}" string="Bandeira" />
-                            <field name="integracao_cartao" attrs="{'required': [('forma_pagamento', 'in', ('02', '03'))]}" string="Integração" />
-                            <newline />
-                            <field name="participante_id" domain="[('cnpj_cpf', '!=', False)]" attrs="{'required': [('forma_pagamento', 'in', ('02', '03'))]}" string="Operadora" />
-                        </group>
+                        <field name="bandeira_cartao" attrs="{'required': [('forma_pagamento', 'in', ('02', '03'))]}" string="Bandeira" />
+                        <field name="integracao_cartao" attrs="{'required': [('forma_pagamento', 'in', ('02', '03'))]}" string="Integração" />
                         <newline />
-                        <field name="name"/>
-                        <field name="active"/>
+                        <field name="participante_id" domain="[('cnpj_cpf', '!=', False)]" attrs="{'required': [('forma_pagamento', 'in', ('02', '03'))]}" string="Operadora" />
+                    </group>
+                    <newline />
+                    <group col="4" colspan="4">
+                        <field name="name" string="Condição de pagamento" />
+                        <field name="em_parcelas_mensais"/>
                         <newline />
                         <field name="company_id" invisible="1"/>
                         <newline />
-                        <field name="em_parcelas_mensais"/>
-                        <newline />
                         <field name="meses" attrs="{'invisible': [('em_parcelas_mensais', '!=', True)], 'required': [('em_parcelas_mensais', '=', True)]}" />
-                        <field name="tem_entrada" attrs="{'invisible': [('em_parcelas_mensais', '!=', True)]}" />
+                        <field name="com_entrada" attrs="{'invisible': [('em_parcelas_mensais', '!=', True)]}" />
+                        <newline />
+                        <field name="somente_dias_uteis" />
+                        <field name="antecipa_dia_util" attrs="{'invisible': [('somente_dias_uteis', '!=', True)]}" />
+                        <newline />
+        <!--                         <field name="todo_dia_mes" attrs="{'invisible': [('todo_dia_mes_util', '!=', True)]}" /> -->
+        <!--                         <field name="todo_dia_mes_util" attrs="{'invisible': [('todo_dia_mes', '!=', True)]}" /> -->
+                        <field name="todo_dia_mes" />
+                        <field name="todo_dia_mes_util" />
+                        <newline />
+                        <field name="evitar_dia_semana" />
+                        <newline />
+                        <label for="note" string="Descrição" />
+                        <field name="note" nolabel="1" placeholder="Descrição da condição de pagamento para o cliente..."/>
                     </group>
-                    <label for="note"/>
-                    <field name="note" placeholder="Payment term explanation for the customer..."/>
                     <group attrs="{'invisible': [('em_parcelas_mensais', '=', True)]}">
-                        <separator string="Terms" />
+                        <separator string="Termos manuais" />
                         <newline />
                         <p class="text-muted">
                             The last line's computation type should be "Balance" to ensure that the whole amount will be allocated.
                         </p>
                         <field name="line_ids"/>
                     </group>
-                </group>
+                </sheet>
             </form>
 
         </field>
@@ -69,8 +81,8 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <search string="Condições de Pagamento">
-                <field name="name" />
-                <field name="active" />
+                <field name="name" string="Condição de pagamento" />
+                <field name="active" string="Ativa?" />
             </search>
         </field>
     </record>
