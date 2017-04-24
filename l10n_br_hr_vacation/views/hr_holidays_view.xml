@@ -26,17 +26,17 @@
                 <field name="date_from" position="replace">
                     <field name="date_from" nolabel="1"
                            on_change="onchange_date_from(date_to, date_from, sold_vacations_days)"
-                           attrs="{'required':[('type', '=', 'remove')], 'invisible': [('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}"
+                           attrs="{'required':[('type', '=', 'remove')], 'invisible': 1}"
                            class="oe_inline"/>
                     <field name="data_inicio" nolabel="1"
-                           attrs="{'required':[('type', '=', 'remove')], 'invisible': [('holiday_status_id', '!=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}"/>
+                           attrs="{'required':[('type', '=', 'remove')], 'invisible': 0}"/>
                 </field>
                 <field name="date_to" position="replace">
                     <field name="data_fim" nolabel="1"
-                           attrs="{'required':[('type', '=', 'remove')], 'invisible': [('holiday_status_id', '!=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}"/>
+                           attrs="{'required':[('type', '=', 'remove')], 'invisible': 0}"/>
                     <field name="date_to" nolabel="1"
                            on_change="onchange_date_to(date_to, date_from, sold_vacations_days)"
-                           attrs="{'required':[('type', '=', 'remove')], 'invisible': [('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}"
+                           attrs="{'required':[('type', '=', 'remove')], 'invisible': 1}"
                            class="oe_inline"/>
                 </field>
                 <field name="number_of_days_temp" position="replace">
