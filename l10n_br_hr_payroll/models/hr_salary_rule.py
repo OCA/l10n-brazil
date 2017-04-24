@@ -83,13 +83,12 @@ class HrSalaryRule(models.Model):
     )
 
     @api.multi
-    def compute_rule(self, rule_id, localdict, context=None):
-        rule = self.browse(rule_id, context=context)
+    def compute_rule(self, rule_id, localdict):
+        rule = self.browse(rule_id)
         if not rule.calculo_nao_padrao:
             if rule.amount_select != 'code':
                 return super(HrSalaryRule, self).compute_rule(rule_id,
-                                                              localdict,
-                                                              context=context)
+                                                              localdict)
 
             codigo_python = python_pt_BR(rule.amount_python_compute or '',
                                          CALCULO_FOLHA_PT_BR)
@@ -141,13 +140,12 @@ class HrSalaryRule(models.Model):
                 raise ValidationError(msg % (rule.name, rule.code))
 
     @api.multi
-    def satisfy_condition(self, rule_id, localdict, context=None):
-        rule = self.browse(rule_id, context=context)
+    def satisfy_condition(self, rule_id, localdict):
+        rule = self.browse(rule_id)
 
         if rule.condition_select != 'python':
             return super(HrSalaryRule, self).satisfy_condition(rule_id,
-                                                               localdict,
-                                                               context=context)
+                                                               localdict)
 
         codigo_python = python_pt_BR(rule.condition_python or '',
                                      CALCULO_FOLHA_PT_BR)

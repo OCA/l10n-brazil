@@ -137,6 +137,20 @@ class HrPayslipRun(models.Model):
                     }
                 )
                 payslip._compute_set_employee_id()
+                worked_days_line_ids = payslip.get_worked_day_lines(
+                    contrato.id, self.date_start, self.date_end
+                )
+                input_line_ids = payslip.get_inputs(
+                    contrato.id, self.date_start, self.date_end
+                )
+                worked_days_obj = self.env['hr.payslip.worked_days']
+                input_obj = self.env['hr.payslip.input']
+                for worked_day in worked_days_line_ids:
+                    worked_day.update({'payslip_id': payslip.id})
+                    worked_days_obj.create(worked_day)
+                for input_id in input_line_ids:
+                    input_id.update({'payslip_id': payslip.id})
+                    input_obj.create(input_id)
                 payslip.compute_sheet()
             except:
                 self._cr.rollback()
