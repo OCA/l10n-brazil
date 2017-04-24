@@ -40,16 +40,17 @@ except (ImportError, IOError) as err:
 
 
 class AccountPaymentTerm(models.Model):
-    _inherit = 'account.payment.term'
+    _name = b'account.payment.term'
+    _inherit = ['account.payment.term', 'sped.base']
     _rec_name = 'nome_comercial'
     _order = 'sequence, name'
 
     DIAS_UTEIS = (
-        (str(DIA_SEGUNDA), 'Segunda-feira'),
-        (str(DIA_TERCA), 'Terça-feira'),
-        (str(DIA_QUARTA), 'Quarta-feira'),
-        (str(DIA_QUINTA), 'Quinta-feira'),
-        (str(DIA_SEXTA), 'Sexta-feira'),
+        (str(DIA_SEGUNDA), 'Segundas-feiras'),
+        (str(DIA_TERCA), 'Terças-feiras'),
+        (str(DIA_QUARTA), 'Quartas-feiras'),
+        (str(DIA_QUINTA), 'Quintas-feiras'),
+        (str(DIA_SEXTA), 'Sextas-feiras'),
     )
 
     ADIA_ANTECIPA_DIA_UTIL = (
@@ -118,15 +119,23 @@ class AccountPaymentTerm(models.Model):
     sequence = fields.Integer(
         default=10,
     )
+    nome_comercial = fields.Char(
+        string='Condição da pagamento',
+        compute='_compute_nome_comercial',
+    )
     em_parcelas_mensais = fields.Boolean(
         string='Em parcelas mensais?',
         default=True,
     )
-    com_entrada = fields.Boolean(
-        string='Com entrada?',
-    )
+    #
+    # Configuração das datas de vencimento
+    #
     meses = fields.Integer(
         string='Meses',
+    )
+    evitar_dia_semana = fields.Selection(
+        selection=DIAS_UTEIS,
+        string='Evitar vencimento às',
     )
     somente_dias_uteis = fields.Boolean(
         string='Somente dias úteis?',
@@ -144,10 +153,26 @@ class AccountPaymentTerm(models.Model):
         selection=DIAS_MES_UTIL,
         string='Vencimento todo dia útil',
     )
-    evitar_dia_semana = fields.Selection(
-        selection=DIAS_UTEIS,
-        string='Evitar vencimento em',
+    #
+    # Configuração do valor das parcelas
+    #
+    com_entrada = fields.Boolean(
+        string='Com entrada?',
     )
+    al_entrada = fields.Float(
+        string='Percentual de entrada',
+        currency_field='currency_aliquota_id',
+    )
+    com_juros = fields.Boolean(
+        string='Com juros?',
+    )
+    al_juros = fields.Float(
+        string='Percentual de juros',
+        currency_field='currency_aliquota_id',
+    )
+    #
+    # Campos para NF-e e SPED
+    #
     forma_pagamento = fields.Selection(
         selection=FORMA_PAGAMENTO,
         string='Forma de pagamento',
@@ -166,10 +191,6 @@ class AccountPaymentTerm(models.Model):
         string='Operadora do cartão',
         ondelete='restrict',
     )
-    nome_comercial = fields.Char(
-        string='Condição da pagamento',
-        compute='_compute_nome_comercial',
-    )
 
     @api.multi
     def _compute_nome_comercial(self):
@@ -178,8 +199,6 @@ class AccountPaymentTerm(models.Model):
                 self.env.context['currency_id'])
         else:
             currency = self.env.user.company_id.currency_id
-
-        prec = D(10) ** (D(currency.decimal_places or 2) * -1)
 
         if self.env.context.get('lang'):
             lang = self.env['res.lang']._lang_get(self.env.context.get('lang'))
@@ -210,16 +229,70 @@ class AccountPaymentTerm(models.Model):
 
             nome_comercial += payment_term.name
 
-            if payment_term.em_parcelas_mensais and valor > 0:
+            if valor <= 0 or not payment_term.em_parcelas_mensais:
+                if payment_term.com_entrada:
+                    nome_comercial += ' com entrada '
+
+                if payment_term.com_juros and payment_term.al_juros:
+                    nome_comercial += ', com juros de '
+                    nome_comercial += lang.format('%.2f',
+                                                  payment_term.al_juros,
+                                                  True, True)
+                    nome_comercial += '%'
+
+                payment_term.nome_comercial = nome_comercial
+                continue
+
+            meses = D(payment_term.meses or 1)
+
+            valor_entrada = D(0)
+            if payment_term.com_entrada:
+                if self.env.context.get('valor_entrada'):
+                    valor_entrada = D(self.env.context['currency_id'] or 0)
+                elif payment_term.al_entrada:
+                    valor_entrada = \
+                        valor * D(payment_term.al_entrada) / 100
+
+                valor_entrada = valor_entrada.quantize(D('0.01'))
+
+                if valor_entrada > 0:
+                    nome_comercial += ' com entrada de '
+                    nome_comercial += currency.symbol
+                    nome_comercial += ' '
+                    nome_comercial += lang.format('%.2f', valor_entrada, True,
+                                                  True)
+
+            valor_parcela, diferenca = payment_term._calcula_valor_parcela(
+                valor, meses, valor_entrada)
+
+            if valor_parcela > 0:
                 nome_comercial += ' de '
                 nome_comercial += currency.symbol
                 nome_comercial += ' '
-                valor_parcela = valor / D(payment_term.meses or 1)
-                valor_parcela = valor_parcela.quantize(prec)
                 nome_comercial += lang.format('%.2f', valor_parcela, True,
                                               True)
 
+            if payment_term.com_juros and payment_term.al_juros:
+                nome_comercial += ', com juros de '
+                nome_comercial += lang.format('%.2f', payment_term.al_juros,
+                                              True, True)
+                nome_comercial += '%'
+
             payment_term.nome_comercial = nome_comercial
+
+    @api.depends('meses', 'com_entrada')
+    def _onchange_meses(self):
+        res = {}
+        valores = {}
+        res['value'] = valores
+
+        #
+        # Não pode ter entrada sendo somente 1 parcela
+        #
+        if meses <= 1:
+            valores['com_entrada'] = False
+
+        return res
 
     def _verifica_dia_util(self, data):
         self.ensure_one()
@@ -265,7 +338,51 @@ class AccountPaymentTerm(models.Model):
 
         return data
 
-    def compute(self, value, date_ref=False):
+    def _calcula_valor_parcela(self, valor, meses, valor_entrada=0):
+        self.ensure_one()
+
+        #
+        # Tratamento dos juros
+        #
+        if self.com_juros and self.al_juros:
+            al_juros = D(self.al_juros) / 100
+            valor_parcela = D(0)
+
+            if valor_entrada > 0:
+                if meses > 1:
+                    fator_juros = 1 - ((1 + al_juros) ** ((meses - 1) * -1))
+                    fator_juros /= al_juros
+                    valor_parcela = (valor - valor_entrada) / fator_juros
+            else:
+                fator_juros = 1 - ((1 + al_juros) ** (meses * -1))
+                fator_juros /= al_juros
+                valor_parcela = valor / fator_juros
+
+            valor_parcela = valor_parcela.quantize(D('0.01'))
+
+            if valor_entrada > 0:
+                valor = valor_entrada + (valor_parcela * (meses - 1))
+            else:
+                valor = valor_parcela * meses
+
+        #
+        # Aponta o valor da parcela e a diferença em centavos a ser ajustada
+        #
+        if valor_entrada > 0:
+            if meses > 1:
+                valor_parcela = (valor - valor_entrada) / (meses - 1)
+                valor_parcela = valor_parcela.quantize(D('0.01'))
+                diferenca = valor - valor_entrada - \
+                    (valor_parcela * (meses - 1))
+        else:
+            valor_parcela = valor / meses
+            valor_parcela = valor_parcela.quantize(D('0.01'))
+            diferenca = valor - (valor_parcela * meses)
+
+
+        return valor_parcela, diferenca
+
+    def compute(self, value, date_ref=False, entrada=0):
         self.ensure_one()
 
         if not self.em_parcelas_mensais:
@@ -283,28 +400,42 @@ class AccountPaymentTerm(models.Model):
         else:
             currency = self.env.user.company_id.currency_id
 
-        prec = D(10) ** (D(currency.decimal_places or 2) * -1)
+        #
+        # Tratamento do valor de entrada
+        #
+        valor_entrada = D(0)
+        if self.com_entrada:
+            if entrada:
+                valor_entrada = D(entrada or 0)
+            elif self.env.context.get('valor_entrada'):
+                valor_entrada = D(self.env.context['currency_id'] or 0)
+            elif self.al_entrada:
+                valor_entrada = valor * D(self.al_entrada) / 100
 
-        valor_parcela = valor / meses
-        valor_parcela = valor_parcela.quantize(prec)
-        diferenca = valor - (valor_parcela * meses)
+        valor_entrada = valor_entrada.quantize(D('0.01'))
 
+        valor_parcela, diferenca = \
+            self._calcula_valor_parcela(valor, meses, valor_entrada)
+
+        #
+        # Gera as datas e valores de cada parcela
+        #
         for i in range(meses):
             proxima_data = fields.Date.from_string(data_referencia)
-
-            if self.com_entrada:
-                proxima_data += relativedelta(months=i)
-
-            else:
-                proxima_data += relativedelta(months=i + 1)
-
+            proxima_data += relativedelta(months=i + 1)
             proxima_data = self._verifica_dia_mes(proxima_data)
             proxima_data = self._verifica_dia_util(proxima_data)
 
-            parcela = [
-                fields.Date.to_string(proxima_data),
-                valor_parcela,
-            ]
+            if valor_entrada > 0 and i == 0:
+                parcela = [
+                    fields.Date.to_string(proxima_data),
+                    valor_entrada,
+                ]
+            else:
+                parcela = [
+                    fields.Date.to_string(proxima_data),
+                    valor_parcela,
+                ]
 
             if i == 0 and diferenca > 0:
                 parcela[1] += diferenca

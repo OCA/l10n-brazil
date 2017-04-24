@@ -317,7 +317,7 @@
                                             <field name="currency_id" invisible="1" />
                                             <field name="numero" />
                                             <field name="data_vencimento" />
-                                            <field name="valor" />
+                                            <field name="valor" sum="valor" />
                                         </tree>
                                     </field>
                                     <newline />
