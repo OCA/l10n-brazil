@@ -58,6 +58,28 @@ class SpedEmpresa(models.Model):
         required=True
     )
 
+    @api.multi
+    def name_get(self):
+        res = []
+
+        for empresa in self:
+            nome = empresa.nome
+
+            if empresa.razao_social:
+                if empresa.nome.strip().upper() != \
+                    empresa.razao_social.strip().upper():
+                    nome += ' - '
+                    nome += empresa.razao_social
+
+            if empresa.cnpj_cpf:
+                nome += ' ['
+                nome += empresa.cnpj_cpf
+                nome += '] '
+
+            res.append((empresa.id, nome))
+
+        return res
+
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
         args = args or []
@@ -69,6 +91,8 @@ class SpedEmpresa(models.Model):
                 '|',
                 ('codigo', '=', name),
                 '|',
+                ('nome', 'ilike', name),
+                '|',
                 ('razao_social', 'ilike', name),
                 '|',
                 ('fantasia', 'ilike', name),
@@ -76,6 +100,8 @@ class SpedEmpresa(models.Model):
                 ('cnpj_cpf', 'ilike', mascara(name, '  .   .   /    -  ')),
                 ('cnpj_cpf', 'ilike', mascara(name, '   .   .   -  ')),
             ]
+            empresas = self.search(args, limit=limit)
+            return empresas.name_get()
 
         return super(SpedEmpresa, self).name_search(
             name=name, args=args, operator=operator, limit=limit)

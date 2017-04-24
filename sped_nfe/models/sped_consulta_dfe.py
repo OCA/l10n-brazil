@@ -11,17 +11,13 @@ import logging
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
-from odoo.addons.l10n_br_base.contrante_tributaria import (
-    AMBIENTE_NFE_PRODUCAO,
-    CONS_NFE_TODAS,
-    CONS_NFE_EMISSAO_TODOS_EMITENTES,
-)
 
 _logger = logging.getLogger(__name__)
 
 try:
     from pysped.nfe import ProcessadorNFe
-    from pysped.nfe.webservices_flags import *
+    from pysped.nfe.webservices_flags import (AMBIENTE_NFE_PRODUCAO,
+        CONS_NFE_TODAS, CONS_NFE_EMISSAO_TODOS_EMITENTES)
     from pysped.nfe.leiaute import *
     from pybrasil.inscricao import limpa_formatacao
     from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
