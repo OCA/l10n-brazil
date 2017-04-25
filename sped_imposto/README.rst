@@ -2,8 +2,8 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-============
-Sped Imposto
+
+SPED Imposto
 ============
 
 Definicoes de impostos brasileiros
@@ -36,10 +36,6 @@ To use this module, you need to:
 .. repo_id is available in https://github.com/OCA/maintainer-tools/blob/master/tools/repos_with_ids.txt
 .. branch is "8.0" for example
 
-Known issues / Roadmap
-======================
-
-* ...
 
 Bug Tracker
 ===========

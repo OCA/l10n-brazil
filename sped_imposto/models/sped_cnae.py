@@ -17,14 +17,6 @@ class SpedCNAE(models.Model):
     _order = 'codigo'
     _rec_name = 'cnae'
 
-    @api.depends('codigo', 'descricao')
-    def _cnae(self):
-        for cnae in self:
-            cnae.cnae = (
-                cnae.codigo[:4] + '-' + cnae.codigo[4] + '/' + cnae.codigo[5:]
-            )
-            cnae.cnae += ' - ' + cnae.descricao
-
     codigo = fields.Char(
         string='Código',
         size=7,
@@ -39,9 +31,17 @@ class SpedCNAE(models.Model):
     )
     cnae = fields.Char(
         string='CNAE',
-        compute='_cnae',
+        compute='_compute_cnae',
         store=True,
     )
+
+    @api.depends('codigo', 'descricao')
+    def _compute_cnae(self):
+        for cnae in self:
+            cnae.cnae = (
+                cnae.codigo[:4] + '-' + cnae.codigo[4] + '/' + cnae.codigo[5:]
+            )
+            cnae.cnae += ' - ' + cnae.descricao
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
