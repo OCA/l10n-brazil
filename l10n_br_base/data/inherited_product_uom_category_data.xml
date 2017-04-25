@@ -5,7 +5,7 @@
 -->
 <odoo noupdate="1">
 
-    <record id="product_uom_categ_area" model="product.uom.categ">
+    <record id="product.product_uom_categ_area" model="product.uom.categ">
         <field name="name">Area</field>
     </record>
 

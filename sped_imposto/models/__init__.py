@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-# Copyright 2017 Odoo Community Association (OCA)
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-
-
-# Unidade é requisito para NCM e produtos
 #
-from . import sped_unidade
-from . import inherited_product_uom
+# Copyright 2017 Taŭga Tecnologia
+#    Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+#
+
 #
 # Alíquotas
 #
@@ -16,6 +14,7 @@ from . import sped_aliquota_ipi
 from . import sped_aliquota_iss
 from . import sped_aliquota_pis_cofins
 from . import sped_aliquota_simples
+
 #
 # Tabelas Fiscais
 #
@@ -33,12 +32,7 @@ from . import sped_ncm_ipi
 from . import sped_aliquota_iss
 from . import sped_protocolo_icms
 from . import sped_ncm_protocolo
-#
-# Produtos e serviços
-#
-from . import sped_produto
-from . import inherited_product_template
-from . import inherited_product_product
+
 #
 # Fiscal e faturamento
 #

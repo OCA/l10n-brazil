@@ -9,9 +9,7 @@ from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
-from odoo.addons.l10n_br_base.constante_tributaria import (
-    TIPO_UNIDADE,
-)
+from ..constante_tributaria import TIPO_UNIDADE
 
 import logging
 
@@ -377,7 +375,7 @@ class SpedUnidade(models.Model):
 
         elif self.tipo == self.TIPO_UNIDADE_AREA:
             category_id = self.env.ref(
-                'sped_imposto.product_uom_categ_area').id
+                'product.product_uom_categ_area').id
 
         elif self.tipo == self.TIPO_UNIDADE_TEMPO:
             category_id = self.env.ref('product.uom_categ_wtime').id
@@ -458,7 +456,7 @@ class SpedUnidade(models.Model):
 
         elif dados['tipo'] == self.TIPO_UNIDADE_AREA:
             dados['category_id'] = self.env.ref(
-                'sped_imposto.product_uom_categ_area').id
+                'product.product_uom_categ_area').id
 
         elif dados['tipo'] == self.TIPO_UNIDADE_TEMPO:
             dados['category_id'] = self.env.ref('product.uom_categ_wtime').id

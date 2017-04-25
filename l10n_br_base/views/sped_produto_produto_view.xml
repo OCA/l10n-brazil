@@ -34,40 +34,11 @@
                     <tr>
                         <td style="width:32%;"><label for="unidade_id" /></td>
                         <td style="width:1%;"></td>
-                        <td style="width:32%;"><label for="ncm_id" /></td>
-                        <td style="width:1%;"></td>
-                        <td style="width:32%;"><label for="cest_id" attrs="{'invisible': [('cest_ids', '=', False)]}" /></td>
                         <td style="width:1%;"></td>
                     </tr>
                     <tr>
                         <td style="width:32%;"><field name="unidade_id" required="1" domain="[('tipo', '!=', 'T')]" options="{'no_create': True, 'no_open': True}" /></td>
                         <td style="width:1%;"></td>
-                        <td style="width:32%;"><field name="ncm_id" required="1" options="{'no_create': True, 'no_open': False}" /></td>
-                        <td style="width:1%;"></td>
-                        <td style="width:32%;">
-                            <field name="cest_ids" readonly="1" invisible="1" />
-                            <field name="exige_cest" invisible="1" />
-                            <field name="cest_id" domain="[('id', 'in', cest_ids[0][2])]" attrs="{'invisible': [('exige_cest', '=', False)], 'required': [('exige_cest', '=', True)]}" options="{'no_create': True, 'no_open': False}" />
-                        </td>
-                        <td style="width:1%;"></td>
-                    </tr>
-                    <tr>
-                        <td style="width:32%;"><label for="unidade_tributacao_id" /></td>
-                        <td style="width:1%;"></td>
-                        <td style="width:32%;"><label for="fator_conversao_unidade_tributacao" /></td>
-                        <td style="width:1%;"></td>
-                        <td style="width:32%;"></td>
-                        <td style="width:1%;"></td>
-                    </tr>
-                    <tr>
-                        <td style="width:32%;"><field name="unidade_tributacao_ncm_id" options="{'no_create': True, 'no_open': True}" /></td>
-                        <td style="width:1%;"></td>
-                        <td style="width:32%;">
-                            <field name="exige_fator_conversao_unidade_tributacao_ncm" invisible="1" />
-                            <field name="fator_conversao_unidade_tributacao_ncm" attrs="{'required': [('exige_fator_conversao_unidade_tributacao_ncm', '!=', False)]}" />
-                        </td>
-                        <td style="width:1%;"></td>
-                        <td style="width:32%;"></td>
                         <td style="width:1%;"></td>
                     </tr>
                 </table>
@@ -156,22 +127,6 @@
                                 <td style="width:32%;"><field name="tipo" /></td>
                                 <td style="width:1%;"></td>
                                 <td style="width:32%;"></td>
-                                <td style="width:1%;"></td>
-                            </tr>
-                            <tr>
-                                <td style="width:32%;"><label for="protocolo_id" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"><label for="al_ipi_id" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"><label for="al_pis_cofins_id" /></td>
-                                <td style="width:1%;"></td>
-                            </tr>
-                            <tr>
-                                <td style="width:32%;"><field name="protocolo_id" options="{'no_create': True, 'no_open': False}" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"><field name="al_ipi_id" options="{'no_create': True, 'no_open': False}" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"><field name="al_pis_cofins_id" options="{'no_create': True, 'no_open': False}" /></td>
                                 <td style="width:1%;"></td>
                             </tr>
                         </table>
