@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_produto_produto_form" >
+        <field name="name">sped.produto.produto.form</field>
+        <field name="model">sped.produto</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_produto_produto_form"/>
+        <field name="priority">2</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='unidade_id']" position="before">
+                <field name="cest_ids" readonly="1" invisible="1" />
+                <field name="exige_cest" invisible="1" />
+                <newline />
+            </xpath>
+            <xpath expr="//field[@name='unidade_id']" position="after">
+                <newline />
+                <field name="ncm_id" required="1" options="{'no_create': True, 'no_open': False}" colspan="4" />
+                <newline />
+                <field name="cest_id" domain="[('id', 'in', cest_ids[0][2])]" attrs="{'invisible': [('exige_cest', '=', False)], 'required': [('exige_cest', '=', True)]}" options="{'no_create': True, 'no_open': False}" colspan="4" />
+                <newline />
+            </xpath>
+            <xpath expr="//field[@name='tipo']" position="after">
+                <newline />
+                <field name="protocolo_id" options="{'no_create': True, 'no_open': False}" colspan="4" />
+                <newline />
+                <field name="al_ipi_id" options="{'no_create': True, 'no_open': False}" colspan="4" />
+                <newline />
+                <field name="al_pis_cofins_id" options="{'no_create': True, 'no_open': False}" colspan="4" />
+                <newline />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
