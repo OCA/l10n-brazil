@@ -39,6 +39,14 @@
         'data/sped_servico_data.xml',
 
         #
+        # Cadastros
+        #
+        'views/inherited_sped_empresa_view.xml',
+        'views/inherited_sped_participante_base_view.xml',
+        'views/inherited_sped_produto_produto_view.xml',
+        'views/inherited_sped_produto_servico_view.xml',
+
+        #
         # Tabelas principais
         #
         'views/sped_view.xml',
