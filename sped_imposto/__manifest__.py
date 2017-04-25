@@ -23,9 +23,6 @@
         #
         # Valores padrão
         #
-        'data/inherited_product_uom_category_data.xml',
-        # 'data/inherited_product_uom_data.xml',
-
         'data/sped_aliquota_icms_proprio_data.xml',
         'data/sped_aliquota_icms_st_data.xml',
         'data/sped_aliquota_ipi_data.xml',
@@ -34,7 +31,6 @@
         'data/sped_aliquota_simples_teto_data.xml',
         'data/sped_aliquota_simples_aliquota_data.xml',
 
-        'data/sped_unidade_data.xml',
         'data/sped_ncm_data.xml',
         'data/sped_cest_data.xml',
         'data/sped_cnae_data.xml',
