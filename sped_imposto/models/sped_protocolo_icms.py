@@ -319,7 +319,7 @@ class SpedProtocoloICMS(models.Model):
                     '.', '_').replace('_00', '').replace('_0', '')
 
                 al_icms = self.env.ref(
-                    'sped.ALIQUOTA_ICMS_PROPRIO_' + aliquota
+                    'sped_imposto.ALIQUOTA_ICMS_PROPRIO_' + aliquota
                 )
 
                 dados = {
@@ -337,7 +337,7 @@ class SpedProtocoloICMS(models.Model):
                         '.', '_').replace('_00', '').replace('_0', '')
 
                     al_icms_st = self.env.ref(
-                        'sped.ALIQUOTA_ICMS_ST_' + aliquota_st
+                        'sped_imposto.ALIQUOTA_ICMS_ST_' + aliquota_st
                     )
                     dados['al_icms_st_id'] = al_icms_st.id
 

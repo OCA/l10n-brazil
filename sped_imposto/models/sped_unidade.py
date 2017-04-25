@@ -376,7 +376,8 @@ class SpedUnidade(models.Model):
             category_id = self.env.ref('product.uom_categ_length').id
 
         elif self.tipo == self.TIPO_UNIDADE_AREA:
-            category_id = self.env.ref('sped.product_uom_categ_area').id
+            category_id = self.env.ref(
+                'sped_imposto.product_uom_categ_area').id
 
         elif self.tipo == self.TIPO_UNIDADE_TEMPO:
             category_id = self.env.ref('product.uom_categ_wtime').id
@@ -457,7 +458,7 @@ class SpedUnidade(models.Model):
 
         elif dados['tipo'] == self.TIPO_UNIDADE_AREA:
             dados['category_id'] = self.env.ref(
-                'sped.product_uom_categ_area').id
+                'sped_imposto.product_uom_categ_area').id
 
         elif dados['tipo'] == self.TIPO_UNIDADE_TEMPO:
             dados['category_id'] = self.env.ref('product.uom_categ_wtime').id
