@@ -1,0 +1,3388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="1">
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_01" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_01" />
+        <field name="al_simples">4.00</field>
+        <field name="al_irpj">0.00</field>
+        <field name="al_csll">0.00</field>
+        <field name="al_cofins">0.00</field>
+        <field name="al_pis">0.00</field>
+        <field name="al_cpp">2.75</field>
+        <field name="al_icms">1.25</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_02" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_02" />
+        <field name="al_simples">5.47</field>
+        <field name="al_irpj">0.00</field>
+        <field name="al_csll">0.00</field>
+        <field name="al_cofins">0.86</field>
+        <field name="al_pis">0.00</field>
+        <field name="al_cpp">2.75</field>
+        <field name="al_icms">1.86</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_03" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_03" />
+        <field name="al_simples">6.84</field>
+        <field name="al_irpj">0.27</field>
+        <field name="al_csll">0.31</field>
+        <field name="al_cofins">0.95</field>
+        <field name="al_pis">0.23</field>
+        <field name="al_cpp">2.75</field>
+        <field name="al_icms">2.33</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_04" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_04" />
+        <field name="al_simples">7.54</field>
+        <field name="al_irpj">0.35</field>
+        <field name="al_csll">0.35</field>
+        <field name="al_cofins">1.04</field>
+        <field name="al_pis">0.25</field>
+        <field name="al_cpp">2.99</field>
+        <field name="al_icms">2.56</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_05" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_05" />
+        <field name="al_simples">7.60</field>
+        <field name="al_irpj">0.35</field>
+        <field name="al_csll">0.35</field>
+        <field name="al_cofins">1.05</field>
+        <field name="al_pis">0.25</field>
+        <field name="al_cpp">3.02</field>
+        <field name="al_icms">2.58</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_06" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_06" />
+        <field name="al_simples">8.28</field>
+        <field name="al_irpj">0.38</field>
+        <field name="al_csll">0.38</field>
+        <field name="al_cofins">1.15</field>
+        <field name="al_pis">0.27</field>
+        <field name="al_cpp">3.28</field>
+        <field name="al_icms">2.82</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_07" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_07" />
+        <field name="al_simples">8.36</field>
+        <field name="al_irpj">0.39</field>
+        <field name="al_csll">0.39</field>
+        <field name="al_cofins">1.16</field>
+        <field name="al_pis">0.28</field>
+        <field name="al_cpp">3.30</field>
+        <field name="al_icms">2.84</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_08" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_08" />
+        <field name="al_simples">8.45</field>
+        <field name="al_irpj">0.39</field>
+        <field name="al_csll">0.39</field>
+        <field name="al_cofins">1.17</field>
+        <field name="al_pis">0.28</field>
+        <field name="al_cpp">3.35</field>
+        <field name="al_icms">2.87</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_09" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_09" />
+        <field name="al_simples">9.03</field>
+        <field name="al_irpj">0.42</field>
+        <field name="al_csll">0.42</field>
+        <field name="al_cofins">1.25</field>
+        <field name="al_pis">0.30</field>
+        <field name="al_cpp">3.57</field>
+        <field name="al_icms">3.07</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_10" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_10" />
+        <field name="al_simples">9.12</field>
+        <field name="al_irpj">0.43</field>
+        <field name="al_csll">0.43</field>
+        <field name="al_cofins">1.26</field>
+        <field name="al_pis">0.30</field>
+        <field name="al_cpp">3.60</field>
+        <field name="al_icms">3.10</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_11" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_11" />
+        <field name="al_simples">9.95</field>
+        <field name="al_irpj">0.46</field>
+        <field name="al_csll">0.46</field>
+        <field name="al_cofins">1.38</field>
+        <field name="al_pis">0.33</field>
+        <field name="al_cpp">3.94</field>
+        <field name="al_icms">3.38</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_12" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_12" />
+        <field name="al_simples">10.04</field>
+        <field name="al_irpj">0.46</field>
+        <field name="al_csll">0.46</field>
+        <field name="al_cofins">1.39</field>
+        <field name="al_pis">0.33</field>
+        <field name="al_cpp">3.99</field>
+        <field name="al_icms">3.41</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_13" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_13" />
+        <field name="al_simples">10.13</field>
+        <field name="al_irpj">0.47</field>
+        <field name="al_csll">0.47</field>
+        <field name="al_cofins">1.40</field>
+        <field name="al_pis">0.33</field>
+        <field name="al_cpp">4.01</field>
+        <field name="al_icms">3.45</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_14" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_14" />
+        <field name="al_simples">10.23</field>
+        <field name="al_irpj">0.47</field>
+        <field name="al_csll">0.47</field>
+        <field name="al_cofins">1.42</field>
+        <field name="al_pis">0.34</field>
+        <field name="al_cpp">4.05</field>
+        <field name="al_icms">3.48</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_15" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_15" />
+        <field name="al_simples">10.32</field>
+        <field name="al_irpj">0.48</field>
+        <field name="al_csll">0.48</field>
+        <field name="al_cofins">1.43</field>
+        <field name="al_pis">0.34</field>
+        <field name="al_cpp">4.08</field>
+        <field name="al_icms">3.51</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_16" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_16" />
+        <field name="al_simples">11.23</field>
+        <field name="al_irpj">0.52</field>
+        <field name="al_csll">0.52</field>
+        <field name="al_cofins">1.56</field>
+        <field name="al_pis">0.37</field>
+        <field name="al_cpp">4.44</field>
+        <field name="al_icms">3.82</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_17" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_17" />
+        <field name="al_simples">11.32</field>
+        <field name="al_irpj">0.52</field>
+        <field name="al_csll">0.52</field>
+        <field name="al_cofins">1.57</field>
+        <field name="al_pis">0.37</field>
+        <field name="al_cpp">4.49</field>
+        <field name="al_icms">3.85</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_18" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_18" />
+        <field name="al_simples">11.42</field>
+        <field name="al_irpj">0.53</field>
+        <field name="al_csll">0.53</field>
+        <field name="al_cofins">1.58</field>
+        <field name="al_pis">0.38</field>
+        <field name="al_cpp">4.52</field>
+        <field name="al_icms">3.88</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_19" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_19" />
+        <field name="al_simples">11.51</field>
+        <field name="al_irpj">0.53</field>
+        <field name="al_csll">0.53</field>
+        <field name="al_cofins">1.60</field>
+        <field name="al_pis">0.38</field>
+        <field name="al_cpp">4.56</field>
+        <field name="al_icms">3.91</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_01_TETO_20" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_01" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_20" />
+        <field name="al_simples">11.61</field>
+        <field name="al_irpj">0.54</field>
+        <field name="al_csll">0.54</field>
+        <field name="al_cofins">1.60</field>
+        <field name="al_pis">0.38</field>
+        <field name="al_cpp">4.60</field>
+        <field name="al_icms">3.95</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_01" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_01" />
+        <field name="al_simples">4.50</field>
+        <field name="al_irpj">0.00</field>
+        <field name="al_csll">0.00</field>
+        <field name="al_cofins">0.00</field>
+        <field name="al_pis">0.00</field>
+        <field name="al_cpp">2.75</field>
+        <field name="al_icms">1.25</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_02" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_02" />
+        <field name="al_simples">5.97</field>
+        <field name="al_irpj">0.00</field>
+        <field name="al_csll">0.00</field>
+        <field name="al_cofins">0.86</field>
+        <field name="al_pis">0.00</field>
+        <field name="al_cpp">2.75</field>
+        <field name="al_icms">1.86</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_03" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_03" />
+        <field name="al_simples">7.34</field>
+        <field name="al_irpj">0.27</field>
+        <field name="al_csll">0.31</field>
+        <field name="al_cofins">0.95</field>
+        <field name="al_pis">0.23</field>
+        <field name="al_cpp">2.75</field>
+        <field name="al_icms">2.33</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_04" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_04" />
+        <field name="al_simples">8.04</field>
+        <field name="al_irpj">0.35</field>
+        <field name="al_csll">0.35</field>
+        <field name="al_cofins">1.04</field>
+        <field name="al_pis">0.25</field>
+        <field name="al_cpp">2.99</field>
+        <field name="al_icms">2.56</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_05" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_05" />
+        <field name="al_simples">8.10</field>
+        <field name="al_irpj">0.35</field>
+        <field name="al_csll">0.35</field>
+        <field name="al_cofins">1.05</field>
+        <field name="al_pis">0.25</field>
+        <field name="al_cpp">3.02</field>
+        <field name="al_icms">2.58</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_06" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_06" />
+        <field name="al_simples">8.78</field>
+        <field name="al_irpj">0.38</field>
+        <field name="al_csll">0.38</field>
+        <field name="al_cofins">1.15</field>
+        <field name="al_pis">0.27</field>
+        <field name="al_cpp">3.28</field>
+        <field name="al_icms">2.82</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_07" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_07" />
+        <field name="al_simples">8.86</field>
+        <field name="al_irpj">0.39</field>
+        <field name="al_csll">0.39</field>
+        <field name="al_cofins">1.16</field>
+        <field name="al_pis">0.28</field>
+        <field name="al_cpp">3.30</field>
+        <field name="al_icms">2.84</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_08" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_08" />
+        <field name="al_simples">8.95</field>
+        <field name="al_irpj">0.39</field>
+        <field name="al_csll">0.39</field>
+        <field name="al_cofins">1.17</field>
+        <field name="al_pis">0.28</field>
+        <field name="al_cpp">3.35</field>
+        <field name="al_icms">2.87</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_09" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_09" />
+        <field name="al_simples">9.53</field>
+        <field name="al_irpj">0.42</field>
+        <field name="al_csll">0.42</field>
+        <field name="al_cofins">1.25</field>
+        <field name="al_pis">0.30</field>
+        <field name="al_cpp">3.57</field>
+        <field name="al_icms">3.07</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_10" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_10" />
+        <field name="al_simples">9.62</field>
+        <field name="al_irpj">0.42</field>
+        <field name="al_csll">0.42</field>
+        <field name="al_cofins">1.26</field>
+        <field name="al_pis">0.30</field>
+        <field name="al_cpp">3.62</field>
+        <field name="al_icms">3.10</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_11" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_11" />
+        <field name="al_simples">10.45</field>
+        <field name="al_irpj">0.46</field>
+        <field name="al_csll">0.46</field>
+        <field name="al_cofins">1.38</field>
+        <field name="al_pis">0.33</field>
+        <field name="al_cpp">3.94</field>
+        <field name="al_icms">3.38</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_12" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_12" />
+        <field name="al_simples">10.54</field>
+        <field name="al_irpj">0.46</field>
+        <field name="al_csll">0.46</field>
+        <field name="al_cofins">1.39</field>
+        <field name="al_pis">0.33</field>
+        <field name="al_cpp">3.99</field>
+        <field name="al_icms">3.41</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_13" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_13" />
+        <field name="al_simples">10.63</field>
+        <field name="al_irpj">0.47</field>
+        <field name="al_csll">0.47</field>
+        <field name="al_cofins">1.40</field>
+        <field name="al_pis">0.33</field>
+        <field name="al_cpp">4.01</field>
+        <field name="al_icms">3.45</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_14" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_14" />
+        <field name="al_simples">10.73</field>
+        <field name="al_irpj">0.47</field>
+        <field name="al_csll">0.47</field>
+        <field name="al_cofins">1.42</field>
+        <field name="al_pis">0.34</field>
+        <field name="al_cpp">4.05</field>
+        <field name="al_icms">3.48</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_15" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_15" />
+        <field name="al_simples">10.82</field>
+        <field name="al_irpj">0.48</field>
+        <field name="al_csll">0.48</field>
+        <field name="al_cofins">1.43</field>
+        <field name="al_pis">0.34</field>
+        <field name="al_cpp">4.08</field>
+        <field name="al_icms">3.51</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_16" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_16" />
+        <field name="al_simples">11.73</field>
+        <field name="al_irpj">0.52</field>
+        <field name="al_csll">0.52</field>
+        <field name="al_cofins">1.56</field>
+        <field name="al_pis">0.37</field>
+        <field name="al_cpp">4.44</field>
+        <field name="al_icms">3.82</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_17" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_17" />
+        <field name="al_simples">11.82</field>
+        <field name="al_irpj">0.52</field>
+        <field name="al_csll">0.52</field>
+        <field name="al_cofins">1.57</field>
+        <field name="al_pis">0.37</field>
+        <field name="al_cpp">4.49</field>
+        <field name="al_icms">3.85</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_18" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_18" />
+        <field name="al_simples">11.92</field>
+        <field name="al_irpj">0.53</field>
+        <field name="al_csll">0.53</field>
+        <field name="al_cofins">1.58</field>
+        <field name="al_pis">0.38</field>
+        <field name="al_cpp">4.52</field>
+        <field name="al_icms">3.88</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_19" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_19" />
+        <field name="al_simples">12.01</field>
+        <field name="al_irpj">0.53</field>
+        <field name="al_csll">0.53</field>
+        <field name="al_cofins">1.60</field>
+        <field name="al_pis">0.38</field>
+        <field name="al_cpp">4.56</field>
+        <field name="al_icms">3.91</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_02_TETO_20" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_02" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_20" />
+        <field name="al_simples">12.11</field>
+        <field name="al_irpj">0.54</field>
+        <field name="al_csll">0.54</field>
+        <field name="al_cofins">1.60</field>
+        <field name="al_pis">0.38</field>
+        <field name="al_cpp">4.60</field>
+        <field name="al_icms">3.95</field>
+        <field name="al_iss">0.50</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_01" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_01" />
+        <field name="al_simples">6.00</field>
+        <field name="al_irpj">0.00</field>
+        <field name="al_csll">0.00</field>
+        <field name="al_cofins">0.00</field>
+        <field name="al_pis">0.00</field>
+        <field name="al_cpp">4.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_02" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_02" />
+        <field name="al_simples">8.21</field>
+        <field name="al_irpj">0.00</field>
+        <field name="al_csll">0.00</field>
+        <field name="al_cofins">1.42</field>
+        <field name="al_pis">0.00</field>
+        <field name="al_cpp">4.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_03" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_03" />
+        <field name="al_simples">10.26</field>
+        <field name="al_irpj">0.48</field>
+        <field name="al_csll">0.43</field>
+        <field name="al_cofins">1.43</field>
+        <field name="al_pis">0.35</field>
+        <field name="al_cpp">4.07</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_04" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_04" />
+        <field name="al_simples">11.31</field>
+        <field name="al_irpj">0.53</field>
+        <field name="al_csll">0.53</field>
+        <field name="al_cofins">1.56</field>
+        <field name="al_pis">0.38</field>
+        <field name="al_cpp">4.47</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_05" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_05" />
+        <field name="al_simples">11.40</field>
+        <field name="al_irpj">0.53</field>
+        <field name="al_csll">0.52</field>
+        <field name="al_cofins">1.58</field>
+        <field name="al_pis">0.38</field>
+        <field name="al_cpp">4.52</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_06" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_06" />
+        <field name="al_simples">12.42</field>
+        <field name="al_irpj">0.57</field>
+        <field name="al_csll">0.57</field>
+        <field name="al_cofins">1.73</field>
+        <field name="al_pis">0.40</field>
+        <field name="al_cpp">4.92</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_07" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_07" />
+        <field name="al_simples">12.54</field>
+        <field name="al_irpj">0.59</field>
+        <field name="al_csll">0.56</field>
+        <field name="al_cofins">1.74</field>
+        <field name="al_pis">0.42</field>
+        <field name="al_cpp">4.97</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_08" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_08" />
+        <field name="al_simples">12.68</field>
+        <field name="al_irpj">0.59</field>
+        <field name="al_csll">0.57</field>
+        <field name="al_cofins">1.76</field>
+        <field name="al_pis">0.42</field>
+        <field name="al_cpp">5.03</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_09" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_09" />
+        <field name="al_simples">13.55</field>
+        <field name="al_irpj">0.63</field>
+        <field name="al_csll">0.61</field>
+        <field name="al_cofins">1.88</field>
+        <field name="al_pis">0.45</field>
+        <field name="al_cpp">5.37</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_10" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_10" />
+        <field name="al_simples">13.68</field>
+        <field name="al_irpj">0.63</field>
+        <field name="al_csll">0.64</field>
+        <field name="al_cofins">1.89</field>
+        <field name="al_pis">0.45</field>
+        <field name="al_cpp">5.42</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_11" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_11" />
+        <field name="al_simples">14.93</field>
+        <field name="al_irpj">0.69</field>
+        <field name="al_csll">0.69</field>
+        <field name="al_cofins">2.07</field>
+        <field name="al_pis">0.50</field>
+        <field name="al_cpp">5.98</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_12" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_12" />
+        <field name="al_simples">15.06</field>
+        <field name="al_irpj">0.69</field>
+        <field name="al_csll">0.69</field>
+        <field name="al_cofins">2.09</field>
+        <field name="al_pis">0.50</field>
+        <field name="al_cpp">6.09</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_13" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_13" />
+        <field name="al_simples">15.20</field>
+        <field name="al_irpj">0.71</field>
+        <field name="al_csll">0.70</field>
+        <field name="al_cofins">2.10</field>
+        <field name="al_pis">0.50</field>
+        <field name="al_cpp">6.19</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_14" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_14" />
+        <field name="al_simples">15.35</field>
+        <field name="al_irpj">0.71</field>
+        <field name="al_csll">0.70</field>
+        <field name="al_cofins">2.13</field>
+        <field name="al_pis">0.51</field>
+        <field name="al_cpp">6.30</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_15" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_15" />
+        <field name="al_simples">15.48</field>
+        <field name="al_irpj">0.72</field>
+        <field name="al_csll">0.70</field>
+        <field name="al_cofins">2.15</field>
+        <field name="al_pis">0.51</field>
+        <field name="al_cpp">6.40</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_16" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_16" />
+        <field name="al_simples">16.85</field>
+        <field name="al_irpj">0.78</field>
+        <field name="al_csll">0.76</field>
+        <field name="al_cofins">2.34</field>
+        <field name="al_pis">0.56</field>
+        <field name="al_cpp">7.41</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_17" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_17" />
+        <field name="al_simples">16.98</field>
+        <field name="al_irpj">0.78</field>
+        <field name="al_csll">0.78</field>
+        <field name="al_cofins">2.36</field>
+        <field name="al_pis">0.56</field>
+        <field name="al_cpp">7.50</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_18" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_18" />
+        <field name="al_simples">17.13</field>
+        <field name="al_irpj">0.80</field>
+        <field name="al_csll">0.79</field>
+        <field name="al_cofins">2.37</field>
+        <field name="al_pis">0.57</field>
+        <field name="al_cpp">7.60</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_19" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_19" />
+        <field name="al_simples">17.27</field>
+        <field name="al_irpj">0.80</field>
+        <field name="al_csll">0.79</field>
+        <field name="al_cofins">2.40</field>
+        <field name="al_pis">0.57</field>
+        <field name="al_cpp">7.71</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_03_TETO_20" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_03" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_20" />
+        <field name="al_simples">17.42</field>
+        <field name="al_irpj">0.81</field>
+        <field name="al_csll">0.79</field>
+        <field name="al_cofins">2.42</field>
+        <field name="al_pis">0.57</field>
+        <field name="al_cpp">7.83</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_01" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_01" />
+        <field name="al_simples">4.50</field>
+        <field name="al_irpj">0.00</field>
+        <field name="al_csll">1.22</field>
+        <field name="al_cofins">1.28</field>
+        <field name="al_pis">0.00</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_02" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_02" />
+        <field name="al_simples">6.54</field>
+        <field name="al_irpj">0.00</field>
+        <field name="al_csll">1.84</field>
+        <field name="al_cofins">1.91</field>
+        <field name="al_pis">0.00</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_03" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_03" />
+        <field name="al_simples">7.70</field>
+        <field name="al_irpj">0.16</field>
+        <field name="al_csll">1.85</field>
+        <field name="al_cofins">1.95</field>
+        <field name="al_pis">0.24</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_04" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_04" />
+        <field name="al_simples">8.49</field>
+        <field name="al_irpj">0.52</field>
+        <field name="al_csll">1.87</field>
+        <field name="al_cofins">1.99</field>
+        <field name="al_pis">0.27</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_05" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_05" />
+        <field name="al_simples">8.97</field>
+        <field name="al_irpj">0.89</field>
+        <field name="al_csll">1.89</field>
+        <field name="al_cofins">2.03</field>
+        <field name="al_pis">0.29</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_06" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_06" />
+        <field name="al_simples">9.78</field>
+        <field name="al_irpj">1.25</field>
+        <field name="al_csll">1.91</field>
+        <field name="al_cofins">2.07</field>
+        <field name="al_pis">0.32</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_07" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_07" />
+        <field name="al_simples">10.26</field>
+        <field name="al_irpj">1.62</field>
+        <field name="al_csll">1.93</field>
+        <field name="al_cofins">2.11</field>
+        <field name="al_pis">0.34</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_08" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_08" />
+        <field name="al_simples">10.76</field>
+        <field name="al_irpj">2.00</field>
+        <field name="al_csll">1.95</field>
+        <field name="al_cofins">2.15</field>
+        <field name="al_pis">0.35</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_09" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_09" />
+        <field name="al_simples">11.51</field>
+        <field name="al_irpj">2.37</field>
+        <field name="al_csll">1.97</field>
+        <field name="al_cofins">2.19</field>
+        <field name="al_pis">0.37</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_10" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_10" />
+        <field name="al_simples">12.00</field>
+        <field name="al_irpj">2.74</field>
+        <field name="al_csll">2.00</field>
+        <field name="al_cofins">2.23</field>
+        <field name="al_pis">0.38</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_11" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_11" />
+        <field name="al_simples">12.80</field>
+        <field name="al_irpj">3.12</field>
+        <field name="al_csll">2.01</field>
+        <field name="al_cofins">2.27</field>
+        <field name="al_pis">0.40</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_12" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_12" />
+        <field name="al_simples">13.25</field>
+        <field name="al_irpj">3.49</field>
+        <field name="al_csll">2.03</field>
+        <field name="al_cofins">2.31</field>
+        <field name="al_pis">0.42</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_13" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_13" />
+        <field name="al_simples">13.70</field>
+        <field name="al_irpj">3.86</field>
+        <field name="al_csll">2.05</field>
+        <field name="al_cofins">2.35</field>
+        <field name="al_pis">0.44</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_14" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_14" />
+        <field name="al_simples">14.15</field>
+        <field name="al_irpj">4.23</field>
+        <field name="al_csll">2.07</field>
+        <field name="al_cofins">2.39</field>
+        <field name="al_pis">0.46</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_15" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_15" />
+        <field name="al_simples">14.60</field>
+        <field name="al_irpj">4.60</field>
+        <field name="al_csll">2.10</field>
+        <field name="al_cofins">2.43</field>
+        <field name="al_pis">0.47</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_16" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_16" />
+        <field name="al_simples">15.05</field>
+        <field name="al_irpj">4.90</field>
+        <field name="al_csll">2.19</field>
+        <field name="al_cofins">2.47</field>
+        <field name="al_pis">0.49</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_17" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_17" />
+        <field name="al_simples">15.50</field>
+        <field name="al_irpj">5.21</field>
+        <field name="al_csll">2.27</field>
+        <field name="al_cofins">2.51</field>
+        <field name="al_pis">0.51</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_18" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_18" />
+        <field name="al_simples">15.95</field>
+        <field name="al_irpj">5.51</field>
+        <field name="al_csll">2.36</field>
+        <field name="al_cofins">2.55</field>
+        <field name="al_pis">0.53</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_19" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_19" />
+        <field name="al_simples">16.40</field>
+        <field name="al_irpj">5.81</field>
+        <field name="al_csll">2.45</field>
+        <field name="al_cofins">2.59</field>
+        <field name="al_pis">0.55</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_04_TETO_20" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_04" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_20" />
+        <field name="al_simples">16.85</field>
+        <field name="al_irpj">6.12</field>
+        <field name="al_csll">2.53</field>
+        <field name="al_cofins">2.63</field>
+        <field name="al_pis">0.57</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_01" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_01" />
+        <field name="al_simples">16.93</field>
+        <field name="al_irpj">7.71</field>
+        <field name="al_csll">3.19</field>
+        <field name="al_cofins">3.31</field>
+        <field name="al_pis">0.72</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_02" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_02" />
+        <field name="al_simples">17.72</field>
+        <field name="al_irpj">7.71</field>
+        <field name="al_csll">3.19</field>
+        <field name="al_cofins">3.31</field>
+        <field name="al_pis">0.72</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_03" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_03" />
+        <field name="al_simples">18.43</field>
+        <field name="al_irpj">7.71</field>
+        <field name="al_csll">3.19</field>
+        <field name="al_cofins">3.31</field>
+        <field name="al_pis">0.72</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_04" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_04" />
+        <field name="al_simples">18.77</field>
+        <field name="al_irpj">7.71</field>
+        <field name="al_csll">3.19</field>
+        <field name="al_cofins">3.31</field>
+        <field name="al_pis">0.72</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_05" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_05" />
+        <field name="al_simples">19.04</field>
+        <field name="al_irpj">7.83</field>
+        <field name="al_csll">3.24</field>
+        <field name="al_cofins">3.37</field>
+        <field name="al_pis">0.73</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_06" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_06" />
+        <field name="al_simples">19.94</field>
+        <field name="al_irpj">8.11</field>
+        <field name="al_csll">3.35</field>
+        <field name="al_cofins">3.49</field>
+        <field name="al_pis">0.76</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_07" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_07" />
+        <field name="al_simples">20.34</field>
+        <field name="al_irpj">8.31</field>
+        <field name="al_csll">3.43</field>
+        <field name="al_cofins">3.57</field>
+        <field name="al_pis">0.77</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_08" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_08" />
+        <field name="al_simples">20.66</field>
+        <field name="al_irpj">8.44</field>
+        <field name="al_csll">3.49</field>
+        <field name="al_cofins">3.63</field>
+        <field name="al_pis">0.79</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_09" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_09" />
+        <field name="al_simples">21.17</field>
+        <field name="al_irpj">8.54</field>
+        <field name="al_csll">3.54</field>
+        <field name="al_cofins">3.68</field>
+        <field name="al_pis">0.80</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_10" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_10" />
+        <field name="al_simples">21.38</field>
+        <field name="al_irpj">8.65</field>
+        <field name="al_csll">3.57</field>
+        <field name="al_cofins">3.71</field>
+        <field name="al_pis">0.80</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_11" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_11" />
+        <field name="al_simples">21.86</field>
+        <field name="al_irpj">8.71</field>
+        <field name="al_csll">3.60</field>
+        <field name="al_cofins">3.74</field>
+        <field name="al_pis">0.81</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_12" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_12" />
+        <field name="al_simples">21.97</field>
+        <field name="al_irpj">8.76</field>
+        <field name="al_csll">3.62</field>
+        <field name="al_cofins">3.77</field>
+        <field name="al_pis">0.82</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_13" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_13" />
+        <field name="al_simples">22.06</field>
+        <field name="al_irpj">8.81</field>
+        <field name="al_csll">3.64</field>
+        <field name="al_cofins">3.79</field>
+        <field name="al_pis">0.82</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_14" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_14" />
+        <field name="al_simples">22.14</field>
+        <field name="al_irpj">8.86</field>
+        <field name="al_csll">3.66</field>
+        <field name="al_cofins">3.80</field>
+        <field name="al_pis">0.82</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_15" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_15" />
+        <field name="al_simples">22.21</field>
+        <field name="al_irpj">8.89</field>
+        <field name="al_csll">3.67</field>
+        <field name="al_cofins">3.82</field>
+        <field name="al_pis">0.83</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_16" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_16" />
+        <field name="al_simples">22.21</field>
+        <field name="al_irpj">8.89</field>
+        <field name="al_csll">3.67</field>
+        <field name="al_cofins">3.82</field>
+        <field name="al_pis">0.83</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_17" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_17" />
+        <field name="al_simples">22.32</field>
+        <field name="al_irpj">8.95</field>
+        <field name="al_csll">3.70</field>
+        <field name="al_cofins">3.84</field>
+        <field name="al_pis">0.83</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_18" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_18" />
+        <field name="al_simples">22.37</field>
+        <field name="al_irpj">8.96</field>
+        <field name="al_csll">3.71</field>
+        <field name="al_cofins">3.86</field>
+        <field name="al_pis">0.84</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_19" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_19" />
+        <field name="al_simples">22.41</field>
+        <field name="al_irpj">8.99</field>
+        <field name="al_csll">3.72</field>
+        <field name="al_cofins">3.86</field>
+        <field name="al_pis">0.84</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_06_TETO_20" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_06" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_20" />
+        <field name="al_simples">22.45</field>
+        <field name="al_irpj">9.01</field>
+        <field name="al_csll">3.73</field>
+        <field name="al_cofins">3.87</field>
+        <field name="al_pis">0.84</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_01" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_01" />
+        <field name="al_simples">17.50</field>
+        <field name="al_irpj">8.01</field>
+        <field name="al_csll">3.31</field>
+        <field name="al_cofins">3.44</field>
+        <field name="al_pis">0.75</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_02" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_02" />
+        <field name="al_simples">17.52</field>
+        <field name="al_irpj">7.61</field>
+        <field name="al_csll">3.14</field>
+        <field name="al_cofins">3.27</field>
+        <field name="al_pis">0.71</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_03" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_03" />
+        <field name="al_simples">17.55</field>
+        <field name="al_irpj">7.26</field>
+        <field name="al_csll">3.00</field>
+        <field name="al_cofins">3.12</field>
+        <field name="al_pis">0.68</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_04" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_04" />
+        <field name="al_simples">17.95</field>
+        <field name="al_irpj">7.29</field>
+        <field name="al_csll">3.01</field>
+        <field name="al_cofins">3.13</field>
+        <field name="al_pis">0.68</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_05" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_05" />
+        <field name="al_simples">18.15</field>
+        <field name="al_irpj">7.37</field>
+        <field name="al_csll">3.05</field>
+        <field name="al_cofins">3.17</field>
+        <field name="al_pis">0.69</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_06" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_06" />
+        <field name="al_simples">18.45</field>
+        <field name="al_irpj">7.34</field>
+        <field name="al_csll">3.04</field>
+        <field name="al_cofins">3.16</field>
+        <field name="al_pis">0.68</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_07" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_07" />
+        <field name="al_simples">18.55</field>
+        <field name="al_irpj">7.39</field>
+        <field name="al_csll">3.05</field>
+        <field name="al_cofins">3.17</field>
+        <field name="al_pis">0.69</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_08" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_08" />
+        <field name="al_simples">18.62</field>
+        <field name="al_irpj">7.39</field>
+        <field name="al_csll">3.06</field>
+        <field name="al_cofins">3.18</field>
+        <field name="al_pis">0.69</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_09" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_09" />
+        <field name="al_simples">18.72</field>
+        <field name="al_irpj">7.28</field>
+        <field name="al_csll">3.01</field>
+        <field name="al_cofins">3.13</field>
+        <field name="al_pis">0.68</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_10" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_10" />
+        <field name="al_simples">18.86</field>
+        <field name="al_irpj">7.35</field>
+        <field name="al_csll">3.03</field>
+        <field name="al_cofins">3.15</field>
+        <field name="al_pis">0.68</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_11" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_11" />
+        <field name="al_simples">18.96</field>
+        <field name="al_irpj">7.21</field>
+        <field name="al_csll">2.98</field>
+        <field name="al_cofins">3.10</field>
+        <field name="al_pis">0.67</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_12" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_12" />
+        <field name="al_simples">19.06</field>
+        <field name="al_irpj">7.26</field>
+        <field name="al_csll">3.00</field>
+        <field name="al_cofins">3.12</field>
+        <field name="al_pis">0.68</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_13" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_13" />
+        <field name="al_simples">19.26</field>
+        <field name="al_irpj">7.36</field>
+        <field name="al_csll">3.04</field>
+        <field name="al_cofins">3.16</field>
+        <field name="al_pis">0.69</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_14" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_14" />
+        <field name="al_simples">19.56</field>
+        <field name="al_irpj">7.53</field>
+        <field name="al_csll">3.11</field>
+        <field name="al_cofins">3.23</field>
+        <field name="al_pis">0.70</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_15" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_15" />
+        <field name="al_simples">20.70</field>
+        <field name="al_irpj">8.11</field>
+        <field name="al_csll">3.35</field>
+        <field name="al_cofins">3.48</field>
+        <field name="al_pis">0.76</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_16" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_16" />
+        <field name="al_simples">21.20</field>
+        <field name="al_irpj">8.37</field>
+        <field name="al_csll">3.46</field>
+        <field name="al_cofins">3.60</field>
+        <field name="al_pis">0.78</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_17" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_17" />
+        <field name="al_simples">21.70</field>
+        <field name="al_irpj">8.62</field>
+        <field name="al_csll">3.57</field>
+        <field name="al_cofins">3.71</field>
+        <field name="al_pis">0.80</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_18" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_18" />
+        <field name="al_simples">22.20</field>
+        <field name="al_irpj">8.87</field>
+        <field name="al_csll">3.67</field>
+        <field name="al_cofins">3.82</field>
+        <field name="al_pis">0.83</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_19" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_19" />
+        <field name="al_simples">22.50</field>
+        <field name="al_irpj">9.04</field>
+        <field name="al_csll">3.74</field>
+        <field name="al_cofins">3.88</field>
+        <field name="al_pis">0.84</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10_TETO_20" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_10" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_20" />
+        <field name="al_simples">22.90</field>
+        <field name="al_irpj">9.24</field>
+        <field name="al_csll">3.82</field>
+        <field name="al_cofins">3.97</field>
+        <field name="al_pis">0.86</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_01" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_01" />
+        <field name="al_simples">15.70</field>
+        <field name="al_irpj">7.08</field>
+        <field name="al_csll">2.92</field>
+        <field name="al_cofins">3.04</field>
+        <field name="al_pis">0.66</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_02" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_02" />
+        <field name="al_simples">15.75</field>
+        <field name="al_irpj">6.69</field>
+        <field name="al_csll">2.77</field>
+        <field name="al_cofins">2.88</field>
+        <field name="al_pis">0.62</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_03" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_03" />
+        <field name="al_simples">15.95</field>
+        <field name="al_irpj">6.43</field>
+        <field name="al_csll">2.66</field>
+        <field name="al_cofins">2.76</field>
+        <field name="al_pis">0.60</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_04" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_04" />
+        <field name="al_simples">16.70</field>
+        <field name="al_irpj">6.64</field>
+        <field name="al_csll">2.75</field>
+        <field name="al_cofins">2.85</field>
+        <field name="al_pis">0.62</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_05" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_05" />
+        <field name="al_simples">16.95</field>
+        <field name="al_irpj">6.76</field>
+        <field name="al_csll">2.79</field>
+        <field name="al_cofins">2.90</field>
+        <field name="al_pis">0.63</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_06" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_06" />
+        <field name="al_simples">17.20</field>
+        <field name="al_irpj">6.70</field>
+        <field name="al_csll">2.77</field>
+        <field name="al_cofins">2.88</field>
+        <field name="al_pis">0.62</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_07" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_07" />
+        <field name="al_simples">17.30</field>
+        <field name="al_irpj">6.74</field>
+        <field name="al_csll">2.78</field>
+        <field name="al_cofins">2.89</field>
+        <field name="al_pis">0.63</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_08" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_08" />
+        <field name="al_simples">17.32</field>
+        <field name="al_irpj">6.72</field>
+        <field name="al_csll">2.78</field>
+        <field name="al_cofins">2.89</field>
+        <field name="al_pis">0.63</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_09" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_09" />
+        <field name="al_simples">17.42</field>
+        <field name="al_irpj">6.61</field>
+        <field name="al_csll">2.73</field>
+        <field name="al_cofins">2.84</field>
+        <field name="al_pis">0.62</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_10" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_10" />
+        <field name="al_simples">17.56</field>
+        <field name="al_irpj">6.68</field>
+        <field name="al_csll">2.76</field>
+        <field name="al_cofins">2.87</field>
+        <field name="al_pis">0.62</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_11" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_11" />
+        <field name="al_simples">17.66</field>
+        <field name="al_irpj">6.54</field>
+        <field name="al_csll">2.70</field>
+        <field name="al_cofins">2.81</field>
+        <field name="al_pis">0.61</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_12" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_12" />
+        <field name="al_simples">17.76</field>
+        <field name="al_irpj">6.59</field>
+        <field name="al_csll">2.72</field>
+        <field name="al_cofins">2.83</field>
+        <field name="al_pis">0.61</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_13" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_13" />
+        <field name="al_simples">17.96</field>
+        <field name="al_irpj">6.69</field>
+        <field name="al_csll">2.77</field>
+        <field name="al_cofins">2.88</field>
+        <field name="al_pis">0.62</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_14" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_14" />
+        <field name="al_simples">18.30</field>
+        <field name="al_irpj">6.88</field>
+        <field name="al_csll">2.84</field>
+        <field name="al_cofins">2.95</field>
+        <field name="al_pis">0.64</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_15" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_15" />
+        <field name="al_simples">19.30</field>
+        <field name="al_irpj">7.39</field>
+        <field name="al_csll">3.05</field>
+        <field name="al_cofins">3.17</field>
+        <field name="al_pis">0.69</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_16" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_16" />
+        <field name="al_simples">20.00</field>
+        <field name="al_irpj">7.75</field>
+        <field name="al_csll">3.20</field>
+        <field name="al_cofins">3.33</field>
+        <field name="al_pis">0.72</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_17" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_17" />
+        <field name="al_simples">20.50</field>
+        <field name="al_irpj">8.01</field>
+        <field name="al_csll">3.31</field>
+        <field name="al_cofins">3.44</field>
+        <field name="al_pis">0.75</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_18" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_18" />
+        <field name="al_simples">20.90</field>
+        <field name="al_irpj">8.20</field>
+        <field name="al_csll">3.39</field>
+        <field name="al_cofins">3.53</field>
+        <field name="al_pis">0.76</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_19" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_19" />
+        <field name="al_simples">21.30</field>
+        <field name="al_irpj">8.42</field>
+        <field name="al_csll">3.48</field>
+        <field name="al_cofins">3.62</field>
+        <field name="al_pis">0.78</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15_TETO_20" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_15" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_20" />
+        <field name="al_simples">21.80</field>
+        <field name="al_irpj">8.68</field>
+        <field name="al_csll">3.59</field>
+        <field name="al_cofins">3.73</field>
+        <field name="al_pis">0.81</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_01" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_01" />
+        <field name="al_simples">13.70</field>
+        <field name="al_irpj">6.04</field>
+        <field name="al_csll">2.50</field>
+        <field name="al_cofins">2.60</field>
+        <field name="al_pis">0.56</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_02" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_02" />
+        <field name="al_simples">13.90</field>
+        <field name="al_irpj">5.74</field>
+        <field name="al_csll">2.37</field>
+        <field name="al_cofins">2.47</field>
+        <field name="al_pis">0.53</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_03" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_03" />
+        <field name="al_simples">14.20</field>
+        <field name="al_irpj">5.53</field>
+        <field name="al_csll">2.28</field>
+        <field name="al_cofins">2.37</field>
+        <field name="al_pis">0.51</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_04" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_04" />
+        <field name="al_simples">15.00</field>
+        <field name="al_irpj">5.76</field>
+        <field name="al_csll">2.38</field>
+        <field name="al_cofins">2.48</field>
+        <field name="al_pis">0.54</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_05" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_05" />
+        <field name="al_simples">15.30</field>
+        <field name="al_irpj">5.90</field>
+        <field name="al_csll">2.44</field>
+        <field name="al_cofins">2.54</field>
+        <field name="al_pis">0.55</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_06" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_06" />
+        <field name="al_simples">15.40</field>
+        <field name="al_irpj">5.77</field>
+        <field name="al_csll">2.38</field>
+        <field name="al_cofins">2.48</field>
+        <field name="al_pis">0.54</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_07" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_07" />
+        <field name="al_simples">15.50</field>
+        <field name="al_irpj">5.81</field>
+        <field name="al_csll">2.40</field>
+        <field name="al_cofins">2.49</field>
+        <field name="al_pis">0.54</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_08" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_08" />
+        <field name="al_simples">15.60</field>
+        <field name="al_irpj">5.83</field>
+        <field name="al_csll">2.41</field>
+        <field name="al_cofins">2.51</field>
+        <field name="al_pis">0.54</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_09" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_09" />
+        <field name="al_simples">15.70</field>
+        <field name="al_irpj">5.72</field>
+        <field name="al_csll">2.37</field>
+        <field name="al_cofins">2.46</field>
+        <field name="al_pis">0.53</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_10" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_10" />
+        <field name="al_simples">15.80</field>
+        <field name="al_irpj">5.77</field>
+        <field name="al_csll">2.38</field>
+        <field name="al_cofins">2.47</field>
+        <field name="al_pis">0.54</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_11" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_11" />
+        <field name="al_simples">15.90</field>
+        <field name="al_irpj">5.63</field>
+        <field name="al_csll">2.33</field>
+        <field name="al_cofins">2.42</field>
+        <field name="al_pis">0.52</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_12" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_12" />
+        <field name="al_simples">16.00</field>
+        <field name="al_irpj">5.68</field>
+        <field name="al_csll">2.35</field>
+        <field name="al_cofins">2.44</field>
+        <field name="al_pis">0.53</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_13" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_13" />
+        <field name="al_simples">16.20</field>
+        <field name="al_irpj">5.78</field>
+        <field name="al_csll">2.39</field>
+        <field name="al_cofins">2.49</field>
+        <field name="al_pis">0.54</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_14" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_14" />
+        <field name="al_simples">16.50</field>
+        <field name="al_irpj">5.95</field>
+        <field name="al_csll">2.46</field>
+        <field name="al_cofins">2.55</field>
+        <field name="al_pis">0.55</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_15" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_15" />
+        <field name="al_simples">17.45</field>
+        <field name="al_irpj">6.43</field>
+        <field name="al_csll">2.66</field>
+        <field name="al_cofins">2.76</field>
+        <field name="al_pis">0.60</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_16" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_16" />
+        <field name="al_simples">18.20</field>
+        <field name="al_irpj">6.82</field>
+        <field name="al_csll">2.82</field>
+        <field name="al_cofins">2.93</field>
+        <field name="al_pis">0.63</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_17" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_17" />
+        <field name="al_simples">18.70</field>
+        <field name="al_irpj">7.08</field>
+        <field name="al_csll">2.92</field>
+        <field name="al_cofins">3.04</field>
+        <field name="al_pis">0.66</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_18" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_18" />
+        <field name="al_simples">19.10</field>
+        <field name="al_irpj">7.27</field>
+        <field name="al_csll">3.01</field>
+        <field name="al_cofins">3.13</field>
+        <field name="al_pis">0.68</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_19" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_19" />
+        <field name="al_simples">19.50</field>
+        <field name="al_irpj">7.49</field>
+        <field name="al_csll">3.10</field>
+        <field name="al_cofins">3.22</field>
+        <field name="al_pis">0.70</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20_TETO_20" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_20" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_20" />
+        <field name="al_simples">20.00</field>
+        <field name="al_irpj">7.75</field>
+        <field name="al_csll">3.20</field>
+        <field name="al_cofins">3.33</field>
+        <field name="al_pis">0.72</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_01" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_01" />
+        <field name="al_simples">11.82</field>
+        <field name="al_irpj">5.07</field>
+        <field name="al_csll">2.10</field>
+        <field name="al_cofins">2.18</field>
+        <field name="al_pis">0.47</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_02" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_02" />
+        <field name="al_simples">12.60</field>
+        <field name="al_irpj">5.07</field>
+        <field name="al_csll">2.09</field>
+        <field name="al_cofins">2.18</field>
+        <field name="al_pis">0.47</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_03" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_03" />
+        <field name="al_simples">12.90</field>
+        <field name="al_irpj">4.85</field>
+        <field name="al_csll">2.01</field>
+        <field name="al_cofins">2.09</field>
+        <field name="al_pis">0.45</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_04" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_04" />
+        <field name="al_simples">13.70</field>
+        <field name="al_irpj">5.09</field>
+        <field name="al_csll">2.11</field>
+        <field name="al_cofins">2.19</field>
+        <field name="al_pis">0.47</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_05" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_05" />
+        <field name="al_simples">14.03</field>
+        <field name="al_irpj">5.25</field>
+        <field name="al_csll">2.17</field>
+        <field name="al_cofins">2.25</field>
+        <field name="al_pis">0.49</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_06" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_06" />
+        <field name="al_simples">14.10</field>
+        <field name="al_irpj">5.10</field>
+        <field name="al_csll">2.11</field>
+        <field name="al_cofins">2.19</field>
+        <field name="al_pis">0.47</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_07" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_07" />
+        <field name="al_simples">14.11</field>
+        <field name="al_irpj">5.10</field>
+        <field name="al_csll">2.10</field>
+        <field name="al_cofins">2.19</field>
+        <field name="al_pis">0.47</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_08" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_08" />
+        <field name="al_simples">14.12</field>
+        <field name="al_irpj">5.07</field>
+        <field name="al_csll">2.09</field>
+        <field name="al_cofins">2.18</field>
+        <field name="al_pis">0.47</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_09" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_09" />
+        <field name="al_simples">14.13</field>
+        <field name="al_irpj">4.91</field>
+        <field name="al_csll">2.03</field>
+        <field name="al_cofins">2.11</field>
+        <field name="al_pis">0.46</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_10" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_10" />
+        <field name="al_simples">14.14</field>
+        <field name="al_irpj">4.91</field>
+        <field name="al_csll">2.03</field>
+        <field name="al_cofins">2.11</field>
+        <field name="al_pis">0.46</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_11" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_11" />
+        <field name="al_simples">14.49</field>
+        <field name="al_irpj">4.90</field>
+        <field name="al_csll">2.03</field>
+        <field name="al_cofins">2.11</field>
+        <field name="al_pis">0.46</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_12" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_12" />
+        <field name="al_simples">14.67</field>
+        <field name="al_irpj">4.99</field>
+        <field name="al_csll">2.06</field>
+        <field name="al_cofins">2.15</field>
+        <field name="al_pis">0.47</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_13" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_13" />
+        <field name="al_simples">14.86</field>
+        <field name="al_irpj">5.09</field>
+        <field name="al_csll">2.11</field>
+        <field name="al_cofins">2.19</field>
+        <field name="al_pis">0.47</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_14" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_14" />
+        <field name="al_simples">15.46</field>
+        <field name="al_irpj">5.41</field>
+        <field name="al_csll">2.23</field>
+        <field name="al_cofins">2.32</field>
+        <field name="al_pis">0.50</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_15" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_15" />
+        <field name="al_simples">16.24</field>
+        <field name="al_irpj">5.80</field>
+        <field name="al_csll">2.40</field>
+        <field name="al_cofins">2.49</field>
+        <field name="al_pis">0.54</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_16" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_16" />
+        <field name="al_simples">16.91</field>
+        <field name="al_irpj">6.15</field>
+        <field name="al_csll">2.54</field>
+        <field name="al_cofins">2.64</field>
+        <field name="al_pis">0.57</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_17" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_17" />
+        <field name="al_simples">17.40</field>
+        <field name="al_irpj">6.40</field>
+        <field name="al_csll">2.65</field>
+        <field name="al_cofins">2.75</field>
+        <field name="al_pis">0.60</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_18" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_18" />
+        <field name="al_simples">17.80</field>
+        <field name="al_irpj">6.60</field>
+        <field name="al_csll">2.73</field>
+        <field name="al_cofins">2.84</field>
+        <field name="al_pis">0.62</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_19" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_19" />
+        <field name="al_simples">18.20</field>
+        <field name="al_irpj">6.82</field>
+        <field name="al_csll">2.82</field>
+        <field name="al_cofins">2.93</field>
+        <field name="al_pis">0.63</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25_TETO_20" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_25" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_20" />
+        <field name="al_simples">18.60</field>
+        <field name="al_irpj">7.02</field>
+        <field name="al_csll">2.90</field>
+        <field name="al_cofins">3.02</field>
+        <field name="al_pis">0.65</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_01" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_01" />
+        <field name="al_simples">10.47</field>
+        <field name="al_irpj">4.37</field>
+        <field name="al_csll">1.81</field>
+        <field name="al_cofins">1.88</field>
+        <field name="al_pis">0.41</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_02" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_02" />
+        <field name="al_simples">12.33</field>
+        <field name="al_irpj">4.93</field>
+        <field name="al_csll">2.04</field>
+        <field name="al_cofins">2.12</field>
+        <field name="al_pis">0.46</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_03" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_03" />
+        <field name="al_simples">12.64</field>
+        <field name="al_irpj">4.72</field>
+        <field name="al_csll">1.95</field>
+        <field name="al_cofins">2.03</field>
+        <field name="al_pis">0.44</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_04" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_04" />
+        <field name="al_simples">13.45</field>
+        <field name="al_irpj">4.96</field>
+        <field name="al_csll">2.05</field>
+        <field name="al_cofins">2.13</field>
+        <field name="al_pis">0.46</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_05" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_05" />
+        <field name="al_simples">13.53</field>
+        <field name="al_irpj">4.99</field>
+        <field name="al_csll">2.06</field>
+        <field name="al_cofins">2.14</field>
+        <field name="al_pis">0.46</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_06" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_06" />
+        <field name="al_simples">13.60</field>
+        <field name="al_irpj">4.84</field>
+        <field name="al_csll">2.00</field>
+        <field name="al_cofins">2.08</field>
+        <field name="al_pis">0.45</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_07" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_07" />
+        <field name="al_simples">13.68</field>
+        <field name="al_irpj">4.88</field>
+        <field name="al_csll">2.01</field>
+        <field name="al_cofins">2.09</field>
+        <field name="al_pis">0.45</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_08" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_08" />
+        <field name="al_simples">13.69</field>
+        <field name="al_irpj">4.84</field>
+        <field name="al_csll">2.00</field>
+        <field name="al_cofins">2.08</field>
+        <field name="al_pis">0.45</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_09" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_09" />
+        <field name="al_simples">14.08</field>
+        <field name="al_irpj">4.88</field>
+        <field name="al_csll">2.02</field>
+        <field name="al_cofins">2.10</field>
+        <field name="al_pis">0.46</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_10" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_10" />
+        <field name="al_simples">14.09</field>
+        <field name="al_irpj">4.89</field>
+        <field name="al_csll">2.02</field>
+        <field name="al_cofins">2.10</field>
+        <field name="al_pis">0.45</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_11" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_11" />
+        <field name="al_simples">14.45</field>
+        <field name="al_irpj">4.88</field>
+        <field name="al_csll">2.02</field>
+        <field name="al_cofins">2.10</field>
+        <field name="al_pis">0.45</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_12" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_12" />
+        <field name="al_simples">14.64</field>
+        <field name="al_irpj">4.98</field>
+        <field name="al_csll">2.06</field>
+        <field name="al_cofins">2.14</field>
+        <field name="al_pis">0.46</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_13" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_13" />
+        <field name="al_simples">14.82</field>
+        <field name="al_irpj">5.07</field>
+        <field name="al_csll">2.10</field>
+        <field name="al_cofins">2.18</field>
+        <field name="al_pis">0.47</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_14" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_14" />
+        <field name="al_simples">15.18</field>
+        <field name="al_irpj">5.27</field>
+        <field name="al_csll">2.17</field>
+        <field name="al_cofins">2.26</field>
+        <field name="al_pis">0.49</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_15" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_15" />
+        <field name="al_simples">16.00</field>
+        <field name="al_irpj">5.68</field>
+        <field name="al_csll">2.35</field>
+        <field name="al_cofins">2.44</field>
+        <field name="al_pis">0.53</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_16" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_16" />
+        <field name="al_simples">16.72</field>
+        <field name="al_irpj">6.05</field>
+        <field name="al_csll">2.50</field>
+        <field name="al_cofins">2.60</field>
+        <field name="al_pis">0.56</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_17" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_17" />
+        <field name="al_simples">17.13</field>
+        <field name="al_irpj">6.26</field>
+        <field name="al_csll">2.59</field>
+        <field name="al_cofins">2.69</field>
+        <field name="al_pis">0.58</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_18" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_18" />
+        <field name="al_simples">17.55</field>
+        <field name="al_irpj">6.47</field>
+        <field name="al_csll">2.68</field>
+        <field name="al_cofins">2.79</field>
+        <field name="al_pis">0.60</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_19" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_19" />
+        <field name="al_simples">17.97</field>
+        <field name="al_irpj">6.70</field>
+        <field name="al_csll">2.77</field>
+        <field name="al_cofins">2.88</field>
+        <field name="al_pis">0.62</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30_TETO_20" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_30" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_20" />
+        <field name="al_simples">18.40</field>
+        <field name="al_irpj">6.92</field>
+        <field name="al_csll">2.86</field>
+        <field name="al_cofins">2.97</field>
+        <field name="al_pis">0.64</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_01" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_01" />
+        <field name="al_simples">9.97</field>
+        <field name="al_irpj">4.12</field>
+        <field name="al_csll">1.70</field>
+        <field name="al_cofins">1.77</field>
+        <field name="al_pis">0.38</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_02" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_02" />
+        <field name="al_simples">10.72</field>
+        <field name="al_irpj">4.10</field>
+        <field name="al_csll">1.69</field>
+        <field name="al_cofins">1.76</field>
+        <field name="al_pis">0.38</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_03" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_03" />
+        <field name="al_simples">11.11</field>
+        <field name="al_irpj">3.93</field>
+        <field name="al_csll">1.62</field>
+        <field name="al_cofins">1.69</field>
+        <field name="al_pis">0.37</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_04" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_04" />
+        <field name="al_simples">12.00</field>
+        <field name="al_irpj">4.21</field>
+        <field name="al_csll">1.74</field>
+        <field name="al_cofins">1.81</field>
+        <field name="al_pis">0.39</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_05" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_05" />
+        <field name="al_simples">12.40</field>
+        <field name="al_irpj">4.41</field>
+        <field name="al_csll">1.82</field>
+        <field name="al_cofins">1.89</field>
+        <field name="al_pis">0.41</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_06" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_06" />
+        <field name="al_simples">12.60</field>
+        <field name="al_irpj">4.32</field>
+        <field name="al_csll">1.79</field>
+        <field name="al_cofins">1.86</field>
+        <field name="al_pis">0.40</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_07" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_07" />
+        <field name="al_simples">12.68</field>
+        <field name="al_irpj">4.36</field>
+        <field name="al_csll">1.80</field>
+        <field name="al_cofins">1.87</field>
+        <field name="al_pis">0.41</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_08" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_08" />
+        <field name="al_simples">12.69</field>
+        <field name="al_irpj">4.33</field>
+        <field name="al_csll">1.79</field>
+        <field name="al_cofins">1.86</field>
+        <field name="al_pis">0.40</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_09" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_09" />
+        <field name="al_simples">13.08</field>
+        <field name="al_irpj">4.36</field>
+        <field name="al_csll">1.81</field>
+        <field name="al_cofins">1.88</field>
+        <field name="al_pis">0.41</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_10" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_10" />
+        <field name="al_simples">13.09</field>
+        <field name="al_irpj">4.37</field>
+        <field name="al_csll">1.80</field>
+        <field name="al_cofins">1.87</field>
+        <field name="al_pis">0.41</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_11" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_11" />
+        <field name="al_simples">13.61</field>
+        <field name="al_irpj">4.45</field>
+        <field name="al_csll">1.84</field>
+        <field name="al_cofins">1.91</field>
+        <field name="al_pis">0.41</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_12" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_12" />
+        <field name="al_simples">13.81</field>
+        <field name="al_irpj">4.55</field>
+        <field name="al_csll">1.88</field>
+        <field name="al_cofins">1.96</field>
+        <field name="al_pis">0.42</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_13" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_13" />
+        <field name="al_simples">14.17</field>
+        <field name="al_irpj">4.74</field>
+        <field name="al_csll">1.96</field>
+        <field name="al_cofins">2.04</field>
+        <field name="al_pis">0.44</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_14" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_14" />
+        <field name="al_simples">14.61</field>
+        <field name="al_irpj">4.97</field>
+        <field name="al_csll">2.05</field>
+        <field name="al_cofins">2.13</field>
+        <field name="al_pis">0.46</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_15" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_15" />
+        <field name="al_simples">15.52</field>
+        <field name="al_irpj">5.43</field>
+        <field name="al_csll">2.25</field>
+        <field name="al_cofins">2.33</field>
+        <field name="al_pis">0.51</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_16" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_16" />
+        <field name="al_simples">16.32</field>
+        <field name="al_irpj">5.85</field>
+        <field name="al_csll">2.42</field>
+        <field name="al_cofins">2.51</field>
+        <field name="al_pis">0.54</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_17" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_17" />
+        <field name="al_simples">16.82</field>
+        <field name="al_irpj">6.10</field>
+        <field name="al_csll">2.52</field>
+        <field name="al_cofins">2.62</field>
+        <field name="al_pis">0.57</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_18" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_18" />
+        <field name="al_simples">17.22</field>
+        <field name="al_irpj">6.30</field>
+        <field name="al_csll">2.61</field>
+        <field name="al_cofins">2.71</field>
+        <field name="al_pis">0.59</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_19" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_19" />
+        <field name="al_simples">17.44</field>
+        <field name="al_irpj">6.42</field>
+        <field name="al_csll">2.66</field>
+        <field name="al_cofins">2.76</field>
+        <field name="al_pis">0.60</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35_TETO_20" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_35" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_20" />
+        <field name="al_simples">17.85</field>
+        <field name="al_irpj">6.64</field>
+        <field name="al_csll">2.74</field>
+        <field name="al_cofins">2.85</field>
+        <field name="al_pis">0.62</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_01" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_01" />
+        <field name="al_simples">8.80</field>
+        <field name="al_irpj">3.51</field>
+        <field name="al_csll">1.45</field>
+        <field name="al_cofins">1.51</field>
+        <field name="al_pis">0.33</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_02" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_02" />
+        <field name="al_simples">9.10</field>
+        <field name="al_irpj">3.26</field>
+        <field name="al_csll">1.35</field>
+        <field name="al_cofins">1.40</field>
+        <field name="al_pis">0.30</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_03" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_03" />
+        <field name="al_simples">9.58</field>
+        <field name="al_irpj">3.14</field>
+        <field name="al_csll">1.30</field>
+        <field name="al_cofins">1.35</field>
+        <field name="al_pis">0.29</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_04" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_04" />
+        <field name="al_simples">10.56</field>
+        <field name="al_irpj">3.47</field>
+        <field name="al_csll">1.43</field>
+        <field name="al_cofins">1.49</field>
+        <field name="al_pis">0.32</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_05" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_05" />
+        <field name="al_simples">11.04</field>
+        <field name="al_irpj">3.70</field>
+        <field name="al_csll">1.53</field>
+        <field name="al_cofins">1.59</field>
+        <field name="al_pis">0.34</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_06" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_06" />
+        <field name="al_simples">11.60</field>
+        <field name="al_irpj">3.81</field>
+        <field name="al_csll">1.57</field>
+        <field name="al_cofins">1.64</field>
+        <field name="al_pis">0.35</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_07" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_07" />
+        <field name="al_simples">11.68</field>
+        <field name="al_irpj">3.84</field>
+        <field name="al_csll">1.58</field>
+        <field name="al_cofins">1.65</field>
+        <field name="al_pis">0.36</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_08" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_08" />
+        <field name="al_simples">11.69</field>
+        <field name="al_irpj">3.81</field>
+        <field name="al_csll">1.58</field>
+        <field name="al_cofins">1.64</field>
+        <field name="al_pis">0.35</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_09" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_09" />
+        <field name="al_simples">12.08</field>
+        <field name="al_irpj">3.85</field>
+        <field name="al_csll">1.59</field>
+        <field name="al_cofins">1.66</field>
+        <field name="al_pis">0.36</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_10" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_10" />
+        <field name="al_simples">12.09</field>
+        <field name="al_irpj">3.85</field>
+        <field name="al_csll">1.59</field>
+        <field name="al_cofins">1.65</field>
+        <field name="al_pis">0.36</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_11" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_11" />
+        <field name="al_simples">12.78</field>
+        <field name="al_irpj">4.02</field>
+        <field name="al_csll">1.66</field>
+        <field name="al_cofins">1.73</field>
+        <field name="al_pis">0.37</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_12" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_12" />
+        <field name="al_simples">13.15</field>
+        <field name="al_irpj">4.21</field>
+        <field name="al_csll">1.74</field>
+        <field name="al_cofins">1.81</field>
+        <field name="al_pis">0.39</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_13" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_13" />
+        <field name="al_simples">13.51</field>
+        <field name="al_irpj">4.40</field>
+        <field name="al_csll">1.82</field>
+        <field name="al_cofins">1.89</field>
+        <field name="al_pis">0.41</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_14" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_14" />
+        <field name="al_simples">14.04</field>
+        <field name="al_irpj">4.68</field>
+        <field name="al_csll">1.93</field>
+        <field name="al_cofins">2.01</field>
+        <field name="al_pis">0.43</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_15" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_15" />
+        <field name="al_simples">15.03</field>
+        <field name="al_irpj">5.18</field>
+        <field name="al_csll">2.14</field>
+        <field name="al_cofins">2.23</field>
+        <field name="al_pis">0.48</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_16" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_16" />
+        <field name="al_simples">15.93</field>
+        <field name="al_irpj">5.64</field>
+        <field name="al_csll">2.33</field>
+        <field name="al_cofins">2.43</field>
+        <field name="al_pis">0.53</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_17" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_17" />
+        <field name="al_simples">16.38</field>
+        <field name="al_irpj">5.88</field>
+        <field name="al_csll">2.43</field>
+        <field name="al_cofins">2.53</field>
+        <field name="al_pis">0.55</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_18" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_18" />
+        <field name="al_simples">16.82</field>
+        <field name="al_irpj">6.09</field>
+        <field name="al_csll">2.52</field>
+        <field name="al_cofins">2.62</field>
+        <field name="al_pis">0.57</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_19" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_19" />
+        <field name="al_simples">17.21</field>
+        <field name="al_irpj">6.31</field>
+        <field name="al_csll">2.61</field>
+        <field name="al_cofins">2.71</field>
+        <field name="al_pis">0.59</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40_TETO_20" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_ATE_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_20" />
+        <field name="al_simples">17.60</field>
+        <field name="al_irpj">6.51</field>
+        <field name="al_csll">2.69</field>
+        <field name="al_cofins">2.80</field>
+        <field name="al_pis">0.61</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_01" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_01" />
+        <field name="al_simples">8.00</field>
+        <field name="al_irpj">3.10</field>
+        <field name="al_csll">1.28</field>
+        <field name="al_cofins">1.33</field>
+        <field name="al_pis">0.29</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_02" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_02" />
+        <field name="al_simples">8.48</field>
+        <field name="al_irpj">2.94</field>
+        <field name="al_csll">1.21</field>
+        <field name="al_cofins">1.26</field>
+        <field name="al_pis">0.27</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_03" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_03" />
+        <field name="al_simples">9.03</field>
+        <field name="al_irpj">2.86</field>
+        <field name="al_csll">1.18</field>
+        <field name="al_cofins">1.23</field>
+        <field name="al_pis">0.27</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_04" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_04" />
+        <field name="al_simples">9.34</field>
+        <field name="al_irpj">2.84</field>
+        <field name="al_csll">1.17</field>
+        <field name="al_cofins">1.22</field>
+        <field name="al_pis">0.26</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_05" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_05" />
+        <field name="al_simples">10.06</field>
+        <field name="al_irpj">3.20</field>
+        <field name="al_csll">1.32</field>
+        <field name="al_cofins">1.37</field>
+        <field name="al_pis">0.30</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_06" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_06" />
+        <field name="al_simples">10.60</field>
+        <field name="al_irpj">3.29</field>
+        <field name="al_csll">1.36</field>
+        <field name="al_cofins">1.41</field>
+        <field name="al_pis">0.31</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_07" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_07" />
+        <field name="al_simples">10.68</field>
+        <field name="al_irpj">3.33</field>
+        <field name="al_csll">1.37</field>
+        <field name="al_cofins">1.42</field>
+        <field name="al_pis">0.31</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_08" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_08" />
+        <field name="al_simples">10.69</field>
+        <field name="al_irpj">3.29</field>
+        <field name="al_csll">1.36</field>
+        <field name="al_cofins">1.42</field>
+        <field name="al_pis">0.31</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_09" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_09" />
+        <field name="al_simples">11.08</field>
+        <field name="al_irpj">3.33</field>
+        <field name="al_csll">1.38</field>
+        <field name="al_cofins">1.44</field>
+        <field name="al_pis">0.31</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_10" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_10" />
+        <field name="al_simples">11.09</field>
+        <field name="al_irpj">3.34</field>
+        <field name="al_csll">1.37</field>
+        <field name="al_cofins">1.43</field>
+        <field name="al_pis">0.31</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_11" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_11" />
+        <field name="al_simples">11.87</field>
+        <field name="al_irpj">3.55</field>
+        <field name="al_csll">1.47</field>
+        <field name="al_cofins">1.52</field>
+        <field name="al_pis">0.33</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_12" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_12" />
+        <field name="al_simples">12.28</field>
+        <field name="al_irpj">3.76</field>
+        <field name="al_csll">1.55</field>
+        <field name="al_cofins">1.62</field>
+        <field name="al_pis">0.35</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_13" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_13" />
+        <field name="al_simples">12.68</field>
+        <field name="al_irpj">3.97</field>
+        <field name="al_csll">1.64</field>
+        <field name="al_cofins">1.70</field>
+        <field name="al_pis">0.37</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_14" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_14" />
+        <field name="al_simples">13.26</field>
+        <field name="al_irpj">4.28</field>
+        <field name="al_csll">1.76</field>
+        <field name="al_cofins">1.83</field>
+        <field name="al_pis">0.40</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_15" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_15" />
+        <field name="al_simples">14.29</field>
+        <field name="al_irpj">4.80</field>
+        <field name="al_csll">1.98</field>
+        <field name="al_cofins">2.06</field>
+        <field name="al_pis">0.45</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_16" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_16" />
+        <field name="al_simples">15.23</field>
+        <field name="al_irpj">5.28</field>
+        <field name="al_csll">2.18</field>
+        <field name="al_cofins">2.27</field>
+        <field name="al_pis">0.49</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_17" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_17" />
+        <field name="al_simples">16.17</field>
+        <field name="al_irpj">5.77</field>
+        <field name="al_csll">2.38</field>
+        <field name="al_cofins">2.48</field>
+        <field name="al_pis">0.54</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_18" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_18" />
+        <field name="al_simples">16.51</field>
+        <field name="al_irpj">5.93</field>
+        <field name="al_csll">2.46</field>
+        <field name="al_cofins">2.55</field>
+        <field name="al_pis">0.55</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_19" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_19" />
+        <field name="al_simples">16.94</field>
+        <field name="al_irpj">6.17</field>
+        <field name="al_csll">2.55</field>
+        <field name="al_cofins">2.65</field>
+        <field name="al_pis">0.57</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+    <record id="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40_TETO_20" model="sped.aliquota.simples.aliquota">
+        <field name="anexo_id" ref="ALIQUOTA_SIMPLES_ANEXO_05_MAIS_40" />
+        <field name="teto_id" ref="ALIQUOTA_SIMPLES_TETO_20" />
+        <field name="al_simples">17.18</field>
+        <field name="al_irpj">6.29</field>
+        <field name="al_csll">2.60</field>
+        <field name="al_cofins">2.70</field>
+        <field name="al_pis">0.59</field>
+        <field name="al_cpp">0.00</field>
+        <field name="al_icms">0.00</field>
+        <field name="al_iss">0.00</field>
+    </record>
+
+</odoo>

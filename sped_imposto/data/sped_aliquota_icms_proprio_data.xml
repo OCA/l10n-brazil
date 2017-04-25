@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="1">
+
+<!--    <record id="ALIQUOTA_ICMS_PROPRIO_NAO_TRIBUTADO" model="sped.aliquota.icms.proprio">
+        <field name="al_icms">-1.0</field>
+        <field name="md_icms">3</field>
+        <field name="pr_icms">0</field>
+        <field name="rd_icms">0</field>
+        <field name="importado" eval="False" />
+    </record>-->
+
+    <record id="ALIQUOTA_ICMS_PROPRIO_4" model="sped.aliquota.icms.proprio">
+        <field name="al_icms">4.0</field>
+        <field name="md_icms">3</field>
+        <field name="pr_icms">0</field>
+        <field name="rd_icms">0</field>
+        <field name="importado" eval="True" />
+    </record>
+
+    <record id="ALIQUOTA_ICMS_PROPRIO_7" model="sped.aliquota.icms.proprio">
+        <field name="al_icms">7.0</field>
+        <field name="md_icms">3</field>
+        <field name="pr_icms">0</field>
+        <field name="rd_icms">0</field>
+        <field name="importado" eval="False" />
+    </record>
+
+    <record id="ALIQUOTA_ICMS_PROPRIO_12" model="sped.aliquota.icms.proprio">
+        <field name="al_icms">12.0</field>
+        <field name="md_icms">3</field>
+        <field name="pr_icms">0</field>
+        <field name="rd_icms">0</field>
+        <field name="importado" eval="False" />
+    </record>
+
+    <record id="ALIQUOTA_ICMS_PROPRIO_17" model="sped.aliquota.icms.proprio">
+        <field name="al_icms">17.0</field>
+        <field name="md_icms">3</field>
+        <field name="pr_icms">0</field>
+        <field name="rd_icms">0</field>
+        <field name="importado" eval="False" />
+    </record>
+
+    <record id="ALIQUOTA_ICMS_PROPRIO_17_5" model="sped.aliquota.icms.proprio">
+        <field name="al_icms">17.5</field>
+        <field name="md_icms">3</field>
+        <field name="pr_icms">0</field>
+        <field name="rd_icms">0</field>
+        <field name="importado" eval="False" />
+    </record>
+
+    <record id="ALIQUOTA_ICMS_PROPRIO_18" model="sped.aliquota.icms.proprio">
+        <field name="al_icms">18.0</field>
+        <field name="md_icms">3</field>
+        <field name="pr_icms">0</field>
+        <field name="rd_icms">0</field>
+        <field name="importado" eval="False" />
+    </record>
+
+    <record id="ALIQUOTA_ICMS_PROPRIO_19" model="sped.aliquota.icms.proprio">
+        <field name="al_icms">19.0</field>
+        <field name="md_icms">3</field>
+        <field name="pr_icms">0</field>
+        <field name="rd_icms">0</field>
+        <field name="importado" eval="False" />
+    </record>
+
+</odoo>
