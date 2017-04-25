@@ -45,3 +45,16 @@ from . import sped_empresa
 from . import copied_account_payment_term
 from . import copied_account_payment_term_line
 from . import inherited_account_payment_term
+
+#
+# Unidade é requisito para NCM e produtos
+#
+from . import sped_unidade
+from . import inherited_product_uom
+
+#
+# Produtos e serviços
+#
+from . import sped_produto
+from . import inherited_product_template
+from . import inherited_product_product

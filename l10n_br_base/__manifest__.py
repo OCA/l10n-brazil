@@ -19,6 +19,7 @@
         'mail',
         'base_setup',
         'decimal_precision',
+        'product',
         'copy_views',
     ],
     'data': [
@@ -36,6 +37,9 @@
         'data/sped_estado_data.xml',
         'data/sped_municipio_data.xml',
         'data/sped_municipio_exterior_data.xml',
+
+        'data/inherited_product_uom_category_data.xml',
+        'data/sped_unidade_data.xml',
 
         #
         # Menus principais
@@ -57,6 +61,11 @@
         'views/sped_participante_fornecedor_view.xml',
         'views/sped_participante_vincula_partner_view.xml',
         'views/sped_empresa_view.xml',
+
+        'views/sped_produto_produto_view.xml',
+        'views/sped_unidade_produto_view.xml',
+        'views/sped_produto_servico_view.xml',
+        'views/sped_unidade_servico_view.xml',
 
         #
         # Parcelamentos e pagamentos; bancos e contas bancárias
