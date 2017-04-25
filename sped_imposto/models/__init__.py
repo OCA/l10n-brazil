@@ -40,3 +40,7 @@ from . import sped_natureza_operacao
 from . import sped_operacao
 from . import sped_operacao_item
 
+#
+# Cadastro de produtos e serviços
+#
+from . import inherited_sped_produto
