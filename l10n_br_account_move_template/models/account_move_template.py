@@ -61,21 +61,43 @@ class AccountMoveTemplate(models.Model):
     )
     fiscal_document_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.document',
-        string=u'Tipo do documento'
+        string=u'Documento fiscal'
     )
-    # TODO: verificar origem desse campo
-    account_type = fields.Many2one(
-        comodel_name='account.account.type', string=u'Tipo de conta'
+    fiscal_category = fields.Many2one(
+        comodel_name='l10n_br_account.fiscal.category',
+        string=u'Categoria da operação'
     )
-    operation_nature = fields.Selection(selection=OPERATION_NATURE)
-    operation_position = fields.Selection(selection=OPERATION_POSITION)
-    # TODO: verificar se sera criado modelo para o tipo de produto
-    product_type = fields.Char()
-    product_origin = fields.Selection(selection=PRODUCT_ORIGIN)
+    operation_type = fields.Selection(
+        related='fiscal_category.type',
+        string=u'Tipo de operação'
+    )
+    destination = fields.Many2one(
+        comodel_name='l10n_br_account_product.cfop',
+    )
+    operation_destination = fields.Selection(
+        related='destination.id_dest',
+        string=u'Destino da operação'
+    )
+    fiscal_type = fields.Many2one(
+        comodel_name='product.template',
+        string=u'Tipo fiscal do produto'
+    )
+    product_fiscal_type = fields.Selection(
+        related='fiscal_type.type',
+        string=u'Tipo fiscal do produto'
+    )
+    p_origin = fields.Many2one(
+        comodel_name='product.product',
+        string=u'Origem do produto'
+    )
+    product_origin = fields.Selection(
+        related='p_origin.origin',
+        string=u'Origem do produto'
+    )
     term = fields.Selection(selection=TERM)
     # TODO: qual a melhor forma de estruturar?
     # operation_purpose = fields.Selection(selection=OPERATION_PURPOSE)
-    account_move_type = fields.Selection(selection=MOVE_TYPE)
+    #account_move_type = fields.Selection(selection=MOVE_TYPE)
     credit_account_id = fields.Many2one(
         comodel_name='account.account', string=u'Conta de credito'
     )
@@ -86,9 +108,11 @@ class AccountMoveTemplate(models.Model):
         comodel_name='account.account', string=u'Conta de compensaçao de '
                                                 u'debito'
     )
+    # ----------------------------------------------new fields----------
+
 
     # def _map_tax_domain(self, **kwargs):
-    #     domain = []
+    #fields     domain = []
     #     for key, value in kwargs.iteritems():
     #         domain.append((str(key), '=', str(value)))
     #     return domain
@@ -103,7 +127,6 @@ class AccountMoveTemplate(models.Model):
             dict(
                 company_id=invoice.company_id.id,
                 fiscal_document_id=invoice.fiscal_document_id.id,
-                account_type=invoice.account_id.user_type.id,
                 product_origin=line.product_id.origin,
 
             )
