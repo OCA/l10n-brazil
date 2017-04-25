@@ -36,6 +36,7 @@ from . import sped_ncm_protocolo
 #
 # Fiscal e faturamento
 #
+from . import sped_calculo_imposto
 from . import sped_natureza_operacao
 from . import sped_operacao
 from . import sped_operacao_item
@@ -44,3 +45,9 @@ from . import sped_operacao_item
 # Cadastro de produtos e serviços
 #
 from . import inherited_sped_produto
+
+#
+# Cadastros básicos
+#
+from . import inherited_sped_participante
+from . import inherited_sped_empresa
