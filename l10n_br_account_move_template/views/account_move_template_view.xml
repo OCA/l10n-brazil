@@ -9,14 +9,13 @@
             <tree string="Move Template" editable="top">   <!--decoration-info="state == 'draft'" decoration-muted="state == 'cancel'"-->
                 <field name="company_id"/>
                 <field name="fiscal_document_id"/>
-                <field name="account_type"/>
-                <field name="operation_nature"/>
-                <field name="operation_position"/>
-                <field name="product_type"/>
+                <field name="fiscal_category"/>
+                <field name="operation_type"/>
+                <field name="operation_destination"/>
+                <field name="product_fiscal_type"/>
                 <field name="product_origin"/>
                 <field name="term"/>
                 <!--<field name="operation_purpose"/>-->
-                <field name="account_move_type"/>
                 <field name="credit_account_id"/>
                 <field name="debit_account_id"/>
                 <field name="debit_compensation_account_id"/>
@@ -30,15 +29,15 @@
         <field name="arch" type="xml">
             <form><!--decoration-info="state == 'draft'" decoration-muted="state == 'cancel'"-->
                 <group>
+                    <field name="company_id"/>
                     <field name="fiscal_document_id"/>
-                    <field name="account_type"/>
-                    <field name="operation_nature"/>
-                    <field name="operation_position"/>
-                    <field name="product_type"/>
+                    <field name="fiscal_category"/>
+                    <field name="operation_type"/>
+                    <field name="operation_destination"/>
+                    <field name="product_fiscal_type"/>
                     <field name="product_origin"/>
                     <field name="term"/>
                     <!--<field name="operation_purpose"/>-->
-                    <field name="account_move_type"/>
                     <field name="credit_account_id"/>
                     <field name="debit_account_id"/>
                     <field name="debit_compensation_account_id"/>
