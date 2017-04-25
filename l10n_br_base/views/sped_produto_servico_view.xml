@@ -24,62 +24,36 @@
                 <field name="image_medium" widget="image" class="oe_avatar"/>
                 <div class="oe_title">
                     <h1>
-                        <field name="nome" placeholder="Nome do servico" required="1" />
+                        <field name="nome" placeholder="Nome do produto" required="1" />
                     </h1>
                     <h2>
                         <field name="codigo" placeholder="Código" required="1" />
                     </h2>
                 </div>
-                <table style="width:100%;">
-                    <tr>
-                        <td style="width:32%;"><label for="unidade_id" /></td>
-                        <td style="width:1%;"></td>
-                    </tr>
-                    <tr>
-                        <td style="width:32%;"><field name="unidade_id" required="1" domain="[('tipo', '=', 'T')]" options="{'no_create': True, 'no_open': True}" /></td>
-                        <td style="width:1%;"></td>
-                    </tr>
-                </table>
+                <group col="4">
+                    <field name="unidade_id" required="1" domain="[('tipo', '=', 'T')]" options="{'no_create': True, 'no_open': True}" colspan="2" />
+                </group>
                 <notebook>
                     <page string="Comercial">
-                        <table style="width:100%;">
-                            <tr>
-                                <td style="width:32%;"><label for="preco_venda" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"><label for="preco_custo" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"></td>
-                                <td style="width:1%;"></td>
-                            </tr>
-                            <tr>
-                                <td style="width:32%;"><field name="preco_venda" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"><field name="preco_custo" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"></td>
-                                <td style="width:1%;"></td>
-                            </tr>
-                        </table>
+                        <group col="4">
+                            <field name="codigo_barras" />
+                            <field name="marca" />
+                            <newline />
+                            <field name="preco_venda" />
+                            <field name="preco_custo" />
+                            <newline />
+<!--                            <field name="peso_bruto" />
+                            <field name="peso_liquido" />
+                            <newline />
+                            <field name="especie" />
+                            <field name="fator_quantidade_especie" />-->
+                        </group>
                     </page>
                     <page string="Fiscal">
-                        <table style="width:100%;">
-                            <tr>
-                                <td style="width:32%;"><label for="org_icms" string="Origem" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"><label for="tipo" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"></td>
-                                <td style="width:1%;"></td>
-                            </tr>
-                            <tr>
-                                <td style="width:32%;"><field name="org_icms" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"><field name="tipo" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"></td>
-                                <td style="width:1%;"></td>
-                            </tr>
-                        </table>
+                        <group col="4">
+                            <field name="org_icms" required="1" />
+                            <field name="tipo" required="1" />
+                        </group>
                     </page>
                 </notebook>
             </sheet>
