@@ -9,10 +9,10 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
+from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
-from dateutil.relativedelta import relativedelta
-from odoo.addons.l10n_br_base.constante_tributaria import (
+from ..constante_tributaria import (
     FORMA_PAGAMENTO,
     BANDEIRA_CARTAO,
     INTEGRACAO_CARTAO,
