@@ -34,39 +34,15 @@
                     <tr>
                         <td style="width:32%;"><label for="unidade_id" /></td>
                         <td style="width:1%;"></td>
-                        <td style="width:32%;"><label for="servico_id" /></td>
-                        <td style="width:1%;"></td>
-                        <td style="width:32%;"><label for="nbs_id" /></td>
-                        <td style="width:1%;"></td>
                     </tr>
                     <tr>
                         <td style="width:32%;"><field name="unidade_id" required="1" domain="[('tipo', '=', 'T')]" options="{'no_create': True, 'no_open': True}" /></td>
-                        <td style="width:1%;"></td>
-                        <td style="width:32%;"><field name="servico_id" required="1" options="{'no_create': True, 'no_open': False}" /></td>
-                        <td style="width:1%;"></td>
-                        <td style="width:32%;"><field name="nbs_id" options="{'no_create': True, 'no_open': False}" /></td>
                         <td style="width:1%;"></td>
                     </tr>
                 </table>
                 <notebook>
                     <page string="Comercial">
                         <table style="width:100%;">
-<!--                            <tr>
-                                <td style="width:32%;"><label for="codigo_barras" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"><label for="marca" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"></td>
-                                <td style="width:1%;"></td>
-                            </tr>
-                            <tr>
-                                <td style="width:32%;"><field name="codigo_barras" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"><field name="marca" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"></td>
-                                <td style="width:1%;"></td>
-                            </tr>-->
                             <tr>
                                 <td style="width:32%;"><label for="preco_venda" /></td>
                                 <td style="width:1%;"></td>
@@ -103,22 +79,6 @@
                                 <td style="width:32%;"></td>
                                 <td style="width:1%;"></td>
                             </tr>
-<!--                            <tr>
-                                <td style="width:32%;"><label for="protocolo_id" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"><label for="al_ipi_id" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"><label for="al_pis_cofins_id" /></td>
-                                <td style="width:1%;"></td>
-                            </tr>
-                            <tr>
-                                <td style="width:32%;"><field name="protocolo_id" options="{'no_create': True, 'no_open': False}" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"><field name="al_ipi_id" options="{'no_create': True, 'no_open': False}" /></td>
-                                <td style="width:1%;"></td>
-                                <td style="width:32%;"><field name="al_pis_cofins_id" options="{'no_create': True, 'no_open': False}" /></td>
-                                <td style="width:1%;"></td>
-                            </tr>-->
                         </table>
                     </page>
                 </notebook>
