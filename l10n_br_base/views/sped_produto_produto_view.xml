@@ -179,7 +179,7 @@
     <record model="ir.actions.act_window" id="sped_produto_produto_acao">
         <field name="name">Produtos</field>
         <field name="domain">[('tipo', '!=', '09')]</field>
-        <field name="context">{'default_tipo': '00', 'default_ref_unidade_id': 'sped.UNIDADE_UNIDADE'}</field>
+        <field name="context">{'default_tipo': '00', 'default_ref_unidade_id': 'l10n_br_base.UNIDADE_UNIDADE'}</field>
         <field name="res_model">sped.produto</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
