@@ -227,18 +227,18 @@ class SpedEmpresa(models.Model):
 
         if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
             valores.update(al_pis_cofins_id=self.env.ref(
-                'sped.ALIQUOTA_PIS_COFINS_SIMPLES').id)
+                'sped_imposto.ALIQUOTA_PIS_COFINS_SIMPLES').id)
 
         elif self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES_EXCESSO:
             valores.update(al_pis_cofins_id=self.env.ref(
-                'sped.ALIQUOTA_PIS_COFINS_LUCRO_PRESUMIDO').id)
+                'sped_imposto.ALIQUOTA_PIS_COFINS_LUCRO_PRESUMIDO').id)
 
         elif self.regime_tributario == REGIME_TRIBUTARIO_LUCRO_PRESUMIDO:
             valores.update(al_pis_cofins_id=self.env.ref(
-                'sped.ALIQUOTA_PIS_COFINS_LUCRO_PRESUMIDO').id)
+                'sped_imposto.ALIQUOTA_PIS_COFINS_LUCRO_PRESUMIDO').id)
 
         elif self.regime_tributario == REGIME_TRIBUTARIO_LUCRO_REAL:
             valores.update(al_pis_cofins_id=self.env.ref(
-                'sped.ALIQUOTA_PIS_COFINS_LUCRO_REAL').id)
+                'sped_imposto.ALIQUOTA_PIS_COFINS_LUCRO_REAL').id)
 
         return res
