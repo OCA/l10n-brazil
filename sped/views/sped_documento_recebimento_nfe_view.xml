@@ -159,7 +159,7 @@
         id="menu_sped_documento_recebimento_nfe"
         sequence="1"
         name="NF-e"
-        parent="menu_sped_documento_recebimento"
+        parent="sped_imposto.menu_sped_documento_recebimento"
         action="sped_documento_recebimento_nfe_acao" />
 
 </odoo>

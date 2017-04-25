@@ -1308,7 +1308,8 @@ class SpedDocumentoItem(models.Model):
             valores['cst_ipi_entrada'] = ''
             # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
             valores['cst_ipi_saida'] = ''
-            al_pis_cofins = self.env.ref('sped.ALIQUOTA_PIS_COFINS_SIMPLES')
+            al_pis_cofins = self.env.ref(
+                'sped_imposto.ALIQUOTA_PIS_COFINS_SIMPLES')
             valores['al_pis_cofins_id'] = al_pis_cofins.id
 
         else:
@@ -1599,7 +1600,7 @@ class SpedDocumentoItem(models.Model):
         #
         if (self.org_icms in ORIGEM_MERCADORIA_ALIQUOTA_4 and
                 self.cfop_id.posicao == POSICAO_CFOP_INTERESTADUAL):
-            al_icms = self.env.ref('sped.ALIQUOTA_ICMS_PROPRIO_4')
+            al_icms = self.env.ref('sped_imposto.ALIQUOTA_ICMS_PROPRIO_4')
 
         else:
             al_icms = aliquota_origem_destino.al_icms_proprio_id
