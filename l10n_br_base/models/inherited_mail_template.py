@@ -8,14 +8,18 @@
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError
 
+
+import logging
+
+from odoo import api, fields, models, tools, _
+from odoo.exceptions import UserError, ValidationError
 from odoo.addons.mail.models.mail_template import (
     mako_safe_template_env,
     mako_template_env,
     format_date,
     format_tz,
 )
-
-import logging
+from ..constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 
