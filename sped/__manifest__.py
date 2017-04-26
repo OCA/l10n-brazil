@@ -27,12 +27,6 @@
         'views/sped_view.xml',
 
         #
-        # Módulo Cadastro: participantes, produtos etc.
-        #
-        'views/inherited_sped_empresa_view.xml',
-        'views/inherited_sped_participante_base_view.xml',
-
-        #
         # Fiscal
         #
         'views/sped_veiculo_view.xml',
