@@ -6,22 +6,15 @@ from openerp import api, fields, models
 from openerp.addons.l10n_br_account_product.models.product import \
     PRODUCT_ORIGIN
 
-OPERATION_NATURE = [
-    ('venda', u'Venda'),
-    ('revenda', u'Revenda'),
-
-]
-
-OPERATION_POSITION = [
-    ('interestadual', u'Interestadual'),
-    ('dentro_estado', u'Dentro do estado'),
-    ('exportacao', u'Exportação'),
-
-]
-
 TERM = [
     ('curto', 'Curto prazo'),
     ('longo', 'Longo prazo')
+]
+
+OPERATION_DESTINATION = [
+    ('1', u'Operação interna'),
+    ('2', u'Operação interestadual'),
+    ('3', u'Operação com exterior')
 ]
 
 # OPERATION_PURPOSE = [
@@ -29,8 +22,9 @@ TERM = [
 #     ('financeiro', u'Financeiro'),
 # ]
 
-MOVE_TYPE = [
-    ('receita', 'Receita'),
+PRODUCT_TYPE = [
+    ('product', u'Produto'),
+    ('service', u'Serviço')
 ]
 
 
@@ -52,19 +46,12 @@ class AccountMoveTemplate(models.Model):
         related='fiscal_category.type',
         string=u'Tipo de operação'
     )
-    destination = fields.Many2one(
-        comodel_name='l10n_br_account_product.cfop',
-    )
     operation_destination = fields.Selection(
-        related='destination.id_dest',
+        selection=OPERATION_DESTINATION,
         string=u'Destino da operação'
     )
-    fiscal_type = fields.Many2one(
-        comodel_name='product.template',
-        string=u'Tipo fiscal do produto'
-    )
     product_fiscal_type = fields.Selection(
-        related='fiscal_type.type',
+        selection=PRODUCT_TYPE,
         string=u'Tipo fiscal do produto'
     )
     product_origin = fields.Selection(
