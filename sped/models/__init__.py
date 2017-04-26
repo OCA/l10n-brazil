@@ -6,12 +6,6 @@
 #
 
 #
-# Cadastros básicos
-#
-from . import inherited_sped_participante
-from . import inherited_sped_empresa
-
-#
 # Fiscal e faturamento
 #
 from . import sped_veiculo
