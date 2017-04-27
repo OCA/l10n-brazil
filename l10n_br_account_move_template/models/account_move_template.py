@@ -27,12 +27,21 @@ PRODUCT_TYPE = [
     ('service', u'Serviço')
 ]
 
+TYPE = [
+    ('receipt', u'Receita'),
+    ('tax', u'Imposto'),
+    ('cost', u'Custo')
+]
 
 class AccountMoveTemplate(models.Model):
     _name = 'account.move.template'
 
     company_id = fields.Many2one(
         comodel_name='res.company',
+    )
+    type = fields.Selection(
+        selection=TYPE,
+        string=u'Tipo do lançamento'
     )
     fiscal_document_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.document',
@@ -75,11 +84,30 @@ class AccountMoveTemplate(models.Model):
     # ----------------------------------------------new fields----------
 
 
-    # def _map_tax_domain(self, **kwargs):
-    #fields     domain = []
-    #     for key, value in kwargs.iteritems():
-    #         domain.append((str(key), '=', str(value)))
-    #     return domain
+    def _map_tax_domain(self, move_line):
+
+        values_dict = {}
+        domain = ['&']
+        line = self.env['account.invoice.line'].browse(
+            move_line.get('invl_id'))
+        invoice =line.invoice_id
+
+        values_dict.update(
+            dict(
+                company_id=invoice.company_id.id,
+                fiscal_document_id=invoice.fiscal_document_id.id,
+                fiscal_category=invoice.fiscal_category_id.id,
+                operation_destination=line.product_id.cfop.id_dest,
+                product_fiscal_type=line.product.template.type,
+                product_origin=line.product_id.origin,
+                # term=invoice.term
+            )
+        )
+        for key, value in values_dict.iteritems():
+            domain.append('|')
+            domain.append((key, '=', value))
+            domain.append((key, '=', False))
+        return domain
 
     def _map_invoice_domain(self, move_line):
         values_dict = {}
@@ -91,9 +119,10 @@ class AccountMoveTemplate(models.Model):
             dict(
                 company_id=invoice.company_id.id,
                 fiscal_document_id=invoice.fiscal_document_id.id,
+                fiscal_category=invoice.fiscal_category_id.id,
                 product_origin=line.product_id.origin,
-                # operation_destination=line.product_id.cfop.id_dest,
-                # product_fiscal_type=line.product.template.type,
+                operation_destination=line.product_id.cfop.id_dest,
+                product_fiscal_type=line.product.template.type,
             )
         )
         for key, value in values_dict.iteritems():
