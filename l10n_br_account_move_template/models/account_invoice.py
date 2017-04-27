@@ -23,13 +23,13 @@ class AccountInvoiceLine(models.Model):
 class AccountInvoiceTax(models.Model):
     _inherit = 'account.invoice.tax'
 
-    @api.model
-    def move_line_get(self, invoice_id):
-        result = []
-        res = super(AccountInvoiceTax, self).move_line_get(invoice_id)
-        invoice = self.env['account.invoice'].browse(invoice_id)
-        if invoice.company_id.use_move_line_templates:
-            mlt_obj = self.env['account.move.template']
-            for move_line in res:
-                result.append(mlt_obj.map_account(move_line))
-        return result
+    # @api.model
+    # def move_line_get(self, invoice_id):
+    #     result = []
+    #     res = super(AccountInvoiceTax, self).move_line_get(invoice_id)
+    #     invoice = self.env['account.invoice'].browse(invoice_id)
+    #     if invoice.company_id.use_move_line_templates:
+    #         mlt_obj = self.env['account.move.template']
+    #         for move_line in res:
+    #             result.append(mlt_obj.map_account(move_line))
+    #     return result

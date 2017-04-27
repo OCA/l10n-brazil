@@ -8,9 +8,10 @@
         <field name="arch" type="xml">
             <tree string="Move Template" editable="top">   <!--decoration-info="state == 'draft'" decoration-muted="state == 'cancel'"-->
                 <field name="company_id"/>
+                <field name="type"/>
                 <field name="fiscal_document_id"/>
-                <field name="fiscal_category"/>
                 <field name="operation_type"/>
+                <field name="fiscal_category"/>
                 <field name="operation_destination"/>
                 <field name="product_fiscal_type"/>
                 <field name="product_origin"/>
@@ -30,9 +31,10 @@
             <form><!--decoration-info="state == 'draft'" decoration-muted="state == 'cancel'"-->
                 <group>
                     <field name="company_id"/>
+                    <field name="type"/>
                     <field name="fiscal_document_id"/>
-                    <field name="fiscal_category"/>
                     <field name="operation_type"/>
+                    <field name="fiscal_category"/>
                     <field name="operation_destination"/>
                     <field name="product_fiscal_type"/>
                     <field name="product_origin"/>
