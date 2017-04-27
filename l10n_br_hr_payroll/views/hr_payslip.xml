@@ -250,7 +250,12 @@
                            attrs="{'invisible': [('tipo_de_folha', 'not in', ['aviso_previo', 'rescisao'])],'required': [('tipo_de_folha', 'in', ['aviso_previo','rescisao'])]}"/>
                     <field name="is_simulacao" invisible="1"/>
                 </field>
-
+                <field name="credit_note" position="after">
+                    <field name="data_afastamento"/>
+                    <field name="data_pagamento_demissao"/>
+                    <field name="valor_saldo_fgts"/>
+                    <field name="valor_multa_fgts"/>
+                </field>
             </field>
         </record>
 

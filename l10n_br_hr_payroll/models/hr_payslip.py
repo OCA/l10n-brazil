@@ -459,6 +459,23 @@ class HrPayslip(models.Model):
         store=True,
     )
 
+    # Rescisão
+    data_afastamento = fields.Date(
+        string="Data do afastamento"
+    )
+
+    data_pagamento_demissao = fields.Date(
+        string="Data do pagamento"
+    )
+
+    valor_saldo_fgts = fields.Float(
+        string="Valor do Saldo do FGTS"
+    )
+
+    valor_multa_fgts = fields.Float(
+        string="Valor da Multa do FGTS"
+    )
+
     @api.depends('periodo_aquisitivo')
     @api.model
     def _compute_saldo_periodo_aquisitivo(self):
