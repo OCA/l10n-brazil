@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2017 - Daniel Sadamo - KMEE INFORMATICA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+from datetime import datetime
 
 from openerp import api, fields, models
 from openerp.addons.l10n_br_account_product.models.product import \
@@ -84,77 +85,83 @@ class AccountMoveTemplate(models.Model):
     # ----------------------------------------------new fields----------
 
 
-    def _map_tax_domain(self, move_line):
-
-        values_dict = {}
-        domain = ['&']
-        line = self.env['account.invoice.line'].browse(
-            move_line.get('invl_id'))
-        invoice =line.invoice_id
-
-        values_dict.update(
-            dict(
-                company_id=invoice.company_id.id,
-                fiscal_document_id=invoice.fiscal_document_id.id,
-                fiscal_category=invoice.fiscal_category_id.id,
-                operation_destination=line.product_id.cfop.id_dest,
-                product_fiscal_type=line.product.template.type,
-                product_origin=line.product_id.origin,
-                # term=invoice.term
-            )
-        )
-        for key, value in values_dict.iteritems():
-            domain.append('|')
-            domain.append((key, '=', value))
-            domain.append((key, '=', False))
-        return domain
-
-    def _map_invoice_domain(self, move_line):
-        values_dict = {}
-        domain = ['&']
-        line = self.env['account.invoice.line'].browse(
-            move_line.get('invl_id'))
-        invoice =line.invoice_id
-        values_dict.update(
-            dict(
-                company_id=invoice.company_id.id,
-                fiscal_document_id=invoice.fiscal_document_id.id,
-                fiscal_category=invoice.fiscal_category_id.id,
-                product_origin=line.product_id.origin,
-                operation_destination=line.product_id.cfop.id_dest,
-                product_fiscal_type=line.product.template.type,
-            )
-        )
-        for key, value in values_dict.iteritems():
-            domain.append('|')
-            domain.append((key, '=', value))
-            domain.append((key, '=', False))
-
-        # operation_nature
-        # operation_position
-        # product_type
-        # term
-        # account_move_type
-        return domain
-
-    def map_account(self, move_line):
-        """ Parametros da tabela de decisão:
-         - company_id, document_type_id,
-                    account_type, operation_nature,
-                    operation_position, product_type, product_origin, term,
-                    operation_purpose, account_move_type
-        :return: o objeto account.account
-        """
-        if move_line.get('invl_id'):
-            domain = self._map_invoice_domain(move_line)
-        elif move_line.get('tax_code'):
-            domain = self._map_tax_domain(move_line)
-        else:
-            return move_line
-
-        rule = self.search(domain, limit=1)
-
-        if rule:
-            move_line.update({'account_id': rule.debit_account_id.id or
-                                                   rule.credit_account_id.id})
-        return move_line
+    # def _map_tax_domain(self, move_line):
+    #
+    #     values_dict = {}
+    #     domain = ['&']
+    #     line = self.env['account.invoice.line'].browse(
+    #         move_line.get('invl_id'))
+    #     invoice =line.invoice_id
+    #     term = 'curto'
+    #     time = invoice.date_maturity - datetime.today()
+    #     if time.years > 1:
+    #         term = 'longo'
+    #
+    #     values_dict.update(
+    #         dict(
+    #             company_id=invoice.company_id.id,
+    #             fiscal_document_id=invoice.fiscal_document_id.id,
+    #             fiscal_category=invoice.fiscal_category_id.id,
+    #             operation_destination=line.product_id.cfop.id_dest,
+    #             product_fiscal_type=line.product.template.type,
+    #             product_origin=line.product_id.origin,
+    #             term=term,
+    #             # credit_account_id=
+    #
+    #         )
+    #     )
+    #     for key, value in values_dict.iteritems():
+    #         domain.append('|')
+    #         domain.append((key, '=', value))
+    #         domain.append((key, '=', False))
+    #     return domain
+    #
+    # def _map_invoice_domain(self, move_line):
+    #     values_dict = {}
+    #     domain = ['&']
+    #     line = self.env['account.invoice.line'].browse(
+    #         move_line.get('invl_id'))
+    #     invoice =line.invoice_id
+    #     values_dict.update(
+    #         dict(
+    #             company_id=invoice.company_id.id,
+    #             fiscal_document_id=invoice.fiscal_document_id.id,
+    #             fiscal_category=invoice.fiscal_category_id.id,
+    #             product_origin=line.product_id.origin,
+    #             operation_destination=line.product_id.cfop.id_dest,
+    #             product_fiscal_type=line.product.template.type,
+    #         )
+    #     )
+    #     for key, value in values_dict.iteritems():
+    #         domain.append('|')
+    #         domain.append((key, '=', value))
+    #         domain.append((key, '=', False))
+    #
+    #     # operation_nature
+    #     # operation_position
+    #     # product_type
+    #     # term
+    #     # account_move_type
+    #     return domain
+    #
+    # def map_account(self, move_line):
+    #     """ Parametros da tabela de decisão:
+    #      - company_id, document_type_id,
+    #                 account_type, operation_nature,
+    #                 operation_position, product_type, product_origin, term,
+    #                 operation_purpose, account_move_type
+    #     :return: o objeto account.account
+    #     """
+    #     if move_line.get('invl_id'):
+    #         domain = self._map_invoice_domain(move_line)
+    #     elif move_line.get('tax_code'):
+    #         domain = self._map_tax_domain(move_line)
+    #     else:
+    #         return move_line
+    #
+    #     rule = self.search(domain, limit=1)
+    #
+    #     # if rule:
+    #         # move_line.update({'account_id': rule.debit_account_id.id or
+    #                                                # rule.credit_account_id.id})
+    #     return move_line
