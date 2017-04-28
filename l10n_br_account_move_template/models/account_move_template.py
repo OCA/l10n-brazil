@@ -31,7 +31,7 @@ PRODUCT_TYPE = [
 TYPE = [
     ('receipt', u'Receita'),
     ('tax', u'Imposto'),
-    ('cost', u'Custo')
+    ('client', u'Cliente')
 ]
 
 class AccountMoveTemplate(models.Model):
