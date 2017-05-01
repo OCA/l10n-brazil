@@ -25,6 +25,9 @@ install:
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - pip install -r requirements.txt
+  - pip install https://github.com/odoo-brazil/pybrasil/archive/master.zip
+  - pip install https://github.com/odoo-brazil/geraldo/archive/master.zip
+  - pip install https://github.com/odoo-brazil/PySPED/archive/master.zip
   - travis_install_nightly
 
 before_script:
