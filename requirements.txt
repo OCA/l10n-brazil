@@ -4,7 +4,11 @@ pillow==3.4.2
 reportlab
 unidecode
 email_validator
-xmlsec
-https://github.com/odoo-brazil/pybrasil/archive/master.zip#egg=pybrasil
-https://github.com/odoo-brazil/geraldo/archive/master.zip#egg=geraldo
-https://github.com/odoo-brazil/PySPED/archive/master.zip#egg=PySPED
+py3o.template==0.9.11
+sh==1.12.13
+lxml==3.7.3
+signxml==2.3.0
+dateutil==2.6.0
+pytz==2016.10
+pyparsing==2.2.0
+mako==1.0.6
