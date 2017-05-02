@@ -42,7 +42,7 @@
             <field name="category_id" ref="hr_payroll.IRPF"/>
             <field name="condition_select">none</field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = CALCULAR.IRRF(BASE_IRPF, INSS)</field>
+            <field name="amount_python_compute">result = CALCULAR.IRRF(BASE_IR, INSS)</field>
             <field name="sequence" eval="502"/>
         </record>
 
@@ -487,7 +487,7 @@ result_qty = MEDIAS.SALARIO.meses
         </record>
 
         <record id="hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS" model="hr.salary.rule">
-            <field name="code">PROP_FERIAS</field>
+            <field name="code">PROP_1/3_FERIAS</field>
             <field name="name">Proporcional 1/3 de Férias</field>
             <field name="category_id" ref="hr_payroll.PROVENTO"/>
             <field name="amount_select">code</field>
