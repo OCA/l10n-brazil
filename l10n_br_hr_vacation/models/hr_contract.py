@@ -38,10 +38,28 @@ class HrContract(models.Model):
         return controle_ferias
 
     @api.model
+    def write(self, vals, **kwargs):
+        if vals.__class__.__name__ == 'list':
+            for contrato in self.browse(vals):
+                if not self.env['hr.holidays'].search(
+                        [('type', '=', 'remove'),
+                         ('contrato_id.id', '=', contrato.id)]):
+                    for linha in contrato.vacation_control_ids:
+                        linha.unlink()
+                    contrato.atualizar_linhas_controle_ferias(
+                        contrato.date_start, contrato
+                    )
+        return super(HrContract, self).write(vals)
+
+    @api.model
     def create(self, vals):
-        inicio = fields.Date.from_string(vals['date_start'])
-        hoje = fields.Date.from_string(fields.Date.today())
         hr_contract_id = super(HrContract, self).create(vals)
+        return self.atualizar_linhas_controle_ferias(
+            vals['date_start'], hr_contract_id)
+
+    def atualizar_linhas_controle_ferias(self, date_start, hr_contract_id):
+        inicio = fields.Date.from_string(date_start)
+        hoje = fields.Date.from_string(fields.Date.today())
         lista_controle_ferias = []
         controle_ferias_obj = self.env['hr.vacation.control']
 
