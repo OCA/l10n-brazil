@@ -5,6 +5,7 @@
 from openerp import api, models, fields
 from dateutil.relativedelta import relativedelta
 from lxml import etree
+from openerp.exceptions import Warning as UserError
 
 
 class HrContract(models.Model):
@@ -38,17 +39,40 @@ class HrContract(models.Model):
         return controle_ferias
 
     @api.model
-    def write(self, vals, **kwargs):
+    def write(self, vals, context=None):
+        """
+        No HrContract, o método write é chamado tanto na api antiga quanto na
+        api nova. No caso da alteração da data de início do contrato, a chamada
+        é feita na api antiga, dessa forma, é passado uma lista com os ids a
+        serem escritos e os valores a serem alterados num dicionário chamado
+        context. A programação abaixo foi feita da seguinte forma: primeiro
+        verifica-se se há holidays do tipo remove atrelados ao contrato, pois
+        se existe, a data de início do contrato não pode ser alterado por
+        motivos de integridade do sistema. Depois são deletados os holidays do
+        tipo add e as linhas de controle de férias antigas. Por último, são
+        criadas novas linhas de controle de férias e holidays do tipo add para
+        a nova data de início do contrato.
+        """
         if vals.__class__.__name__ == 'list':
             for contrato in self.browse(vals):
-                if not self.env['hr.holidays'].search(
+                if self.env['hr.holidays'].search(
                         [('type', '=', 'remove'),
                          ('contrato_id.id', '=', contrato.id)]):
+                    raise UserError(
+                        "Não é possível alterar a data de início de contratos"
+                        " que possuem ocorrências ou férias confirmadas."
+                    )
+                elif context['date_start']:
                     for linha in contrato.vacation_control_ids:
                         linha.unlink()
+                    for holiday in self.env['hr.holidays'].search([
+                        ('contrato_id.id', '=', contrato.id)
+                    ]):
+                        holiday.unlink()
                     contrato.atualizar_linhas_controle_ferias(
-                        contrato.date_start, contrato
+                        context['date_start'], contrato
                     )
+            return super(HrContract, self.browse(vals)).write(context)
         return super(HrContract, self).write(vals)
 
     @api.model
