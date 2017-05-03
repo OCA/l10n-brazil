@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2017 - Daniel Sadamo - KMEE INFORMATICA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
-from openerp import models
+from openerp import api, models, fields
 
 
 class AccountInvoice(models.Model):
@@ -19,22 +21,32 @@ class AccountInvoice(models.Model):
         """
         values_dict = {'type': line_type}
         domain = ['&']
-        product = self.env['product.product'].browse(move_line.get(
-            'product_id',False))
-
-        values_dict.update(dict(
-            company_id=self.company_id.id or False,
-            fiscal_document_id=self.fiscal_document_id.id or False,
-            fiscal_category=self.fiscal_category_id.id or False,
-            # operation_type= False,
-            operation_destination=product.cfop.id_dest or False,
-            product_fiscal_type=product.type or False,
-            product_origin=product.origin or False,
-        ))
+        invl = self.env['account.invoice.line'].browse(move_line.get('invl_id',
+                                                                     False))
+        duration = fields.Datetime.from_string(self.date_due) + \
+                                               relativedelta(years=-1)
+        if duration > datetime.today():
+            term = 'longo'
+        else:
+            term = 'curto'
+        if invl:
+            product = invl.product_id
+            values_dict.update(dict(
+                operation_destination=product.cfop.id_dest or False,
+                product_fiscal_type=product.type or False,
+                product_origin=product.origin or False,
+            ))
         if line_type == 'tax':
             values_dict.update(dict(
                 debit_account_id=move_line.account_id or False
             ))
+        values_dict.update(dict(
+            company_id=self.company_id.id or False,
+            fiscal_document_id=self.fiscal_document_id.id or False,
+            fiscal_category=self.fiscal_category_id.id or False,
+            operation_type=self.fiscal_category_id.type or False,
+            term=term,
+        ))
 
         for key, value in values_dict.iteritems():
             domain.append('|')
@@ -105,3 +117,22 @@ class AccountInvoice(models.Model):
                 self.define_account(move[2], line_type)
 
         return move_lines
+
+    def line_get_convert(self, line, part, date):
+        res = super(AccountInvoice, self).line_get_convert(line, part, date)
+        res.update(dict(
+            invl_id=line.get('invl_id', False)
+        ))
+        return res
+
+
+class AccountInvoiceLine(models.Model):
+    _inherit = 'account.invoice.line'
+
+    @api.model
+    def move_line_get_item(self, line):
+        res = super(AccountInvoiceLine, self).move_line_get_item(line)
+        res.update(dict(
+            invl_id=line.id
+        ))
+        return res
