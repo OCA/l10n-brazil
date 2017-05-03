@@ -12,6 +12,8 @@
         <field name="arch" type="xml">
             <form string="Condição de Pagamento">
                 <field name="sequence" invisible="1" />
+                <field name="currency_id" invisible="1" />
+                <field name="currency_aliquota_id" invisible="1" />
                 <sheet>
                     <group col="4" colspan="4">
                         <field name="forma_pagamento" required="1" />
@@ -32,23 +34,35 @@
                         <field name="em_parcelas_mensais"/>
                         <newline />
                         <field name="company_id" invisible="1"/>
+                    </group>
+                    <newline />
+                    <group col="4" colspan="4" attrs="{'invisible': [('em_parcelas_mensais', '!=', True)]}">
+                        <separator string="Configuração das datas de vencimento" colspan="4" />
                         <newline />
                         <field name="meses" attrs="{'invisible': [('em_parcelas_mensais', '!=', True)], 'required': [('em_parcelas_mensais', '=', True)]}" />
-                        <field name="com_entrada" attrs="{'invisible': [('em_parcelas_mensais', '!=', True)]}" />
+                        <newline />
+                        <field name="evitar_dia_semana" />
                         <newline />
                         <field name="somente_dias_uteis" />
                         <field name="antecipa_dia_util" attrs="{'invisible': [('somente_dias_uteis', '!=', True)]}" />
                         <newline />
-        <!--                         <field name="todo_dia_mes" attrs="{'invisible': [('todo_dia_mes_util', '!=', True)]}" /> -->
-        <!--                         <field name="todo_dia_mes_util" attrs="{'invisible': [('todo_dia_mes', '!=', True)]}" /> -->
                         <field name="todo_dia_mes" />
-                        <field name="todo_dia_mes_util" />
+                        <field name="todo_dia_mes_util" attrs="{'invisible': [('somente_dias_uteis', '!=', True)]}" />
+<!--                         <field name="todo_dia_mes" /> -->
+<!--                         <field name="todo_dia_mes_util" /> -->
                         <newline />
-                        <field name="evitar_dia_semana" />
+                        <separator string="Configuração do valor das parcelas" colspan="4" />
                         <newline />
-                        <label for="note" string="Descrição" />
-                        <field name="note" nolabel="1" placeholder="Descrição da condição de pagamento para o cliente..."/>
+                        <field name="com_entrada" />
+                        <field name="al_entrada" attrs="{'invisible': [('com_entrada', '=', False)]}" />
+                        <field name="com_juros" />
+                        <field name="al_juros" attrs="{'invisible': [('com_juros', '=', False)]}" />
+                        <newline />
                     </group>
+                    <newline />
+                    <label for="note" string="Descrição" />
+                    <field name="note" nolabel="1" placeholder="Descrição da condição de pagamento para o cliente..."/>
+                    <newline />
                     <group attrs="{'invisible': [('em_parcelas_mensais', '=', True)]}">
                         <separator string="Termos manuais" />
                         <newline />

@@ -13,6 +13,7 @@
     'license': 'AGPL-3',
     'depends': [
         'l10n_br_base',
+        'sped_imposto',
         'document',
         'product',
         'copy_views',
@@ -21,77 +22,14 @@
     'application': True,
     'data': [
         #
-        # Valores padrão
+        # Menus
         #
-        'data/inherited_product_uom_category_data.xml',
-        # 'data/inherited_product_uom_data.xml',
-
-        'data/sped_aliquota_icms_proprio_data.xml',
-        'data/sped_aliquota_icms_st_data.xml',
-        'data/sped_aliquota_ipi_data.xml',
-        'data/sped_aliquota_pis_cofins_data.xml',
-        'data/sped_aliquota_simples_anexo_data.xml',
-        'data/sped_aliquota_simples_teto_data.xml',
-        'data/sped_aliquota_simples_aliquota_data.xml',
-
-        'data/sped_unidade_data.xml',
-        'data/sped_ncm_data.xml',
-        'data/sped_cest_data.xml',
-        'data/sped_cfop_data.xml',
-        'data/sped_cfop_equivalente_data.xml',
-        'data/sped_cnae_data.xml',
-        'data/sped_servico_data.xml',
-
-        #
-        # Menus principais
-        #
-        'views/cadastro_view.xml',
         'views/sped_view.xml',
-
-        #
-        # Tabelas principais
-        #
-        'views/sped_protocolo_icms_proprio_view.xml',
-        'views/sped_aliquota_icms_proprio_view.xml',
-        'views/sped_protocolo_icms_st_view.xml',
-        'views/sped_aliquota_icms_st_view.xml',
-        'views/sped_aliquota_ipi_view.xml',
-        'views/sped_aliquota_pis_cofins_view.xml',
-        'views/sped_aliquota_simples_view.xml',
-
-        'views/sped_cest_view.xml',
-        'views/sped_cfop_view.xml',
-        'views/sped_cnae_view.xml',
-        'views/sped_ibptax_view.xml',
-        'views/sped_nbs_view.xml',
-        'views/sped_ncm_view.xml',
-        'views/sped_servico_view.xml',
-
-        #
-        # Módulo Cadastro: participantes, produtos etc.
-        #
-        'views/inherited_sped_empresa_view.xml',
-        'views/inherited_sped_participante_base_view.xml',
-
-        'views/sped_produto_produto_view.xml',
-        'views/sped_unidade_produto_view.xml',
-
-        'views/sped_produto_servico_view.xml',
-        'views/sped_unidade_servico_view.xml',
 
         #
         # Fiscal
         #
-        'views/sped_natureza_operacao_view.xml',
         'views/sped_veiculo_view.xml',
-
-        'views/sped_operacao_item_view.xml',
-
-        'views/sped_operacao_base_view.xml',
-
-        'views/sped_operacao_emissao_nfe_view.xml',
-        'views/sped_operacao_emissao_nfce_view.xml',
-        # 'views/sped_operacao_recebimento_nfe_view.xml',
 
         'views/sped_documento_item_declaracao_importacao_view.xml',
         'views/sped_documento_item_emissao_view.xml',

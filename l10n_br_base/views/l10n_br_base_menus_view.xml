@@ -19,7 +19,6 @@
         name="Configuração"
         />
 
-
     <menuitem
         parent="menu_fiscal_configuracao"
         sequence="6"
@@ -28,9 +27,8 @@
         />
 
     <menuitem id="menu_cadastro"
-        parent="menu_fiscal"
         name="Cadastro"
-        sequence="2"
+        sequence="1"
         web_icon="sped,static/description/icon.png"
         />
 
@@ -40,8 +38,27 @@
         parent="menu_cadastro"
         />
 
+    <menuitem id="menu_cadastro_produto"
+        name="Produtos"
+        sequence="2"
+        parent="menu_cadastro"
+        />
+
+    <menuitem id="menu_cadastro_servico"
+        name="Serviços"
+        sequence="3"
+        parent="menu_cadastro"
+        />
+
     <menuitem
-        parent="menu_fiscal_configuracao"
+        parent="menu_cadastro"
+        sequence="100"
+        id="menu_cadastro_configuracao"
+        name="Configuração"
+        />
+
+    <menuitem
+        parent="menu_cadastro_configuracao"
         sequence="100"
         id="menu_cadastro_vinculo"
         name="Vínculos"

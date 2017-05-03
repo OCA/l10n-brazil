@@ -20,39 +20,4 @@
         name="Recebimento"
         />
 
-    <menuitem
-        parent="l10n_br_base.menu_fiscal_configuracao"
-        sequence="1"
-        id="menu_sped_aliquota"
-        name="Alíquotas"
-        />
-
-    <menuitem
-        parent="menu_sped_aliquota"
-        sequence="2"
-        id="menu_sped_aliquota_icms_proprio"
-        name="ICMS próprio"
-        />
-
-    <menuitem
-        parent="menu_sped_aliquota"
-        sequence="3"
-        id="menu_sped_aliquota_icms_st"
-        name="ICMS ST"
-        />
-
-    <menuitem
-        parent="l10n_br_base.menu_fiscal_configuracao"
-        sequence="3"
-        id="menu_sped_operacao_emissao"
-        name="Operações de emissão"
-        />
-
-    <menuitem
-        parent="l10n_br_base.menu_fiscal_configuracao"
-        sequence="4"
-        id="menu_sped_operacao_recebimento"
-        name="Operações de recebimento"
-        />
-
 </odoo>

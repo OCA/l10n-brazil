@@ -117,7 +117,7 @@
         id="menu_sped_documento_emissao_nfce"
         sequence="2"
         name="NFC-e"
-        parent="menu_sped_documento_emissao"
+        parent="sped.menu_sped_documento_emissao"
         action="sped_documento_emissao_nfce_acao" />
 
 </odoo>

@@ -10,7 +10,7 @@ from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
-from odoo.addons.l10n_br_base.constante_tributaria import (
+from ..constante_tributaria import (
     AMBIENTE_NFE,
     INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
     REGIME_TRIBUTARIO_LUCRO_PRESUMIDO,

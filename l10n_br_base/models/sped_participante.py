@@ -516,12 +516,12 @@ class SpedParticipante(models.Model):
 
     @api.constrains('cep')
     def constrains_cep(self):
-        self._valida_cep()
+        for participante in self:
+            participante._valida_cep()
 
     @api.onchange('cep')
     def onchange_cep(self):
-        for participante in self:
-            participante._valida_cep()
+        return self._valida_cep()
 
     def _valida_ie(self):
         self.ensure_one()

@@ -49,6 +49,7 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     IND_FORMA_PAGAMENTO_A_VISTA,
     REGIME_TRIBUTARIO,
     REGIME_TRIBUTARIO_SIMPLES,
+    INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
 )
 
 _logger = logging.getLogger(__name__)
