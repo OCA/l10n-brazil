@@ -38,7 +38,7 @@ class AccountInvoice(models.Model):
             ))
         if line_type == 'tax':
             values_dict.update(dict(
-                debit_account_id=move_line['account_id'] or False
+                debit_account_id=move_line.get('account_id', False)
             ))
         values_dict.update(dict(
             company_id=self.company_id.id or False,
@@ -70,7 +70,7 @@ class AccountInvoice(models.Model):
         amt = amt.search(domain)
         if line_type == 'receipt':
 
-            if move_line['debit']:
+            if move_line[2].debit:
                 account_id = amt.debit_account_id
             else:
                 account_id = amt.credit_account_id
@@ -81,7 +81,7 @@ class AccountInvoice(models.Model):
         # Se definir uma conta no mapeamento, seta a conta,
         # senão fica com a conta padrão
         if account_id:
-            move_line['account_id'] = account_id
+            move_line['account_id'] = account_id.id
 
     def finalize_invoice_move_lines(self, move_lines):
         """
