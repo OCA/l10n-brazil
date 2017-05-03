@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+<data>
+
+    <record model="ir.ui.view" id="financial_move_form_view">
+        <field name="name">financial.move.form (in l10n_br_financial)</field>
+        <field name="model">financial.move</field>
+        <field name="inherit_id" ref="TODO othermodule.form_view"/>
+        <field name="arch" type="xml">
+            <!-- TODO -->
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="financial_move_search_view">
+        <field name="name">financial.move.search (in l10n_br_financial)</field>
+        <field name="model">financial.move</field>
+        <field name="inherit_id" ref="TODO othermodule.search_view"/>
+        <field name="arch" type="xml">
+            <!-- TODO -->
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="financial_move_tree_view">
+        <field name="name">financial.move.tree (in l10n_br_financial)</field>
+        <field name="model">financial.move</field>
+        <field name="inherit_id" ref="TODO othermodule.tree_view"/>
+        <field name="arch" type="xml">
+            <!-- TODO -->
+        </field>
+    </record>
+
+
+</data>
+</odoo>
