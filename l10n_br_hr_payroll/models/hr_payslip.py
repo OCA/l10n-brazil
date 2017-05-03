@@ -3,12 +3,12 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
-from openerp import api, fields, models, exceptions, _
+from calendar import monthrange
 from datetime import datetime
+
 from dateutil.relativedelta import relativedelta
 from lxml import etree
-from calendar import monthrange
-
+from openerp import api, fields, models, exceptions, _
 
 _logger = logging.getLogger(__name__)
 
