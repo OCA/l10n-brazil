@@ -1527,7 +1527,22 @@ class HrPayslip(models.Model):
                 record.date_to = record.contract_id.date_end
 
     @api.multi
+    def _checar_holerites_aprovados(self):
+        return self.env['hr.payslip'].search(
+            [
+                ('contract_id', '=', self.contract_id.id),
+                ('tipo_de_folha', '=', 'normal'),
+                ('state', '=', 'done')
+            ]
+        )
+
+    @api.multi
     def compute_sheet(self):
+        if self.tipo_de_folha == "rescisao":
+            if len(self._checar_holerites_aprovados()) == 0:
+                raise exceptions.Warning(
+                    "Não existem holerites aprovados para este contrato!"
+                )
         self.atualizar_worked_days_inputs()
         if self.tipo_de_folha in [
             "decimo_terceiro", "ferias", "aviso_previo",
