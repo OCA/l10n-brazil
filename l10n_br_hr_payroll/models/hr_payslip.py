@@ -101,17 +101,17 @@ class HrPayslip(models.Model):
                 total += line.valor_provento - line.valor_deducao
                 total_proventos += line.valor_provento
                 total_descontos += line.valor_deducao
-                if codigo['BASE_FGTS']:
+                if line.code == codigo.get('BASE_FGTS'):
                     base_fgts = line.total
-                elif codigo['BASE_INSS']:
+                elif line.code == codigo.get('BASE_INSS'):
                     base_inss = line.total
-                elif codigo('BASE_IRPF'):
+                elif line.code == codigo.get('BASE_IRPF'):
                     base_irpf = line.total
-                elif codigo['FGTS']:
+                elif line.code == codigo.get('FGTS'):
                     fgts = line.total
-                elif codigo['INSS']:
+                elif line.code == codigo.get('INSS'):
                     inss = line.total
-                elif codigo['IRPF']:
+                elif line.code == codigo.get('IRPF'):
                     irpf = line.total
             holerite.total_folha = total
             holerite.total_proventos = total_proventos
@@ -168,6 +168,7 @@ class HrPayslip(models.Model):
             holerite.fim_gozo_fmt = data.formata_data(
                 holerite.date_to
             )
+
     employee_id = fields.Many2one(
         string=u'Funcionário',
         comodel_name='hr.employee',
