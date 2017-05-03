@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+<data>
+
+    <record model="ir.ui.view" id="account_payment_method_form_view">
+        <field name="name">account.payment.method.form (in l10n_br_financial)</field>
+        <field name="model">account.payment.method</field>
+        <field name="inherit_id" ref="TODO othermodule.form_view"/>
+        <field name="arch" type="xml">
+            <!-- TODO -->
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="account_payment_method_search_view">
+        <field name="name">account.payment.method.search (in l10n_br_financial)</field>
+        <field name="model">account.payment.method</field>
+        <field name="inherit_id" ref="TODO othermodule.search_view"/>
+        <field name="arch" type="xml">
+            <!-- TODO -->
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="account_payment_method_tree_view">
+        <field name="name">account.payment.method.tree (in l10n_br_financial)</field>
+        <field name="model">account.payment.method</field>
+        <field name="inherit_id" ref="TODO othermodule.tree_view"/>
+        <field name="arch" type="xml">
+            <!-- TODO -->
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="account_payment_method_act_window">
+        <field name="name">Account Payment Method</field> <!-- TODO -->
+        <field name="res_model">account.payment.method</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="account_payment_method_menu">
+        <field name="name">Account Payment Method</field>
+        <field name="parent_id" ref="xmlid of parent menu"/> <!-- TODO -->
+        <field name="action" ref="account_payment_method_act_window"/>
+        <field name="sequence" eval="16"/> <!-- TODO -->
+    </record>
+
+</data>
+</odoo>
