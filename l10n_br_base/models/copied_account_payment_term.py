@@ -9,7 +9,7 @@ from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
-import dateutil.relativedelta as relativedelta
+from dateutil.relativedelta import relativedelta
 
 
 class AccountPaymentTerm(models.Model):
@@ -70,6 +70,14 @@ class AccountPaymentTerm(models.Model):
             raise ValidationError(_(u"""A Payment Term should have only one
             line of type Balance."""))
 
+    #
+    # PELAMORDEDEUS!!!!
+    # Esse api.one era pra ser deprecado, só que não, o core continua usando
+    # Tentei trocar pro self.ensure_one, mas o decorator injeta o retorno
+    # do método dentro de uma lista, com um único elemento.
+    # Pois é...
+    #
+    @api.one
     def compute(self, value, date_ref=False):
         self.ensure_one()
         date_ref = date_ref or fields.Date.today()
