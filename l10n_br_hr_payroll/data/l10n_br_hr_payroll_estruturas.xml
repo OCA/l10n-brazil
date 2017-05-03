@@ -97,6 +97,22 @@
             <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS_13')" />
         </record>
 
+         <record id="hr_salary_structure_PROVISAO_13" model="hr.payroll.structure">
+             <field name="code">PROVISAO_DECIMO_TERCEIRO</field>
+             <field name="name">Provisão de Décimo Terceiro (13º)</field>
+             <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_FUNCAO_COMISSIONADA')])]" />
+             <field name="company_id" ref="base.main_company" />
+             <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
+         </record>
+
+        <record id="hr_salary_structure_PROVISAO_FERIAS" model="hr.payroll.structure">
+             <field name="code">PROVISAO_FERIAS</field>
+             <field name="name">Provisão de Férias</field>
+             <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_FUNCAO_COMISSIONADA')])]" />
+             <field name="company_id" ref="base.main_company" />
+             <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
+          </record>
+
         <!--Estrutura de salario para rescisão-->
         <record id="hr_salary_structure_JUSTA_CAUSA" model="hr.payroll.structure">
             <field name="code">JUSTA_CAUSA</field>
