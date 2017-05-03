@@ -107,6 +107,7 @@ class ResourceCalendar(models.Model):
             ('holiday_status_id', '=', holiday_status_id.id),
         ]
         ferias_holidays_ids = self.env['hr.holidays'].search(domain)
+        # filtrar apenas ferias que esta dentro do periodo a ser validado
         ferias_atuais = ferias_holidays_ids.filtered(
             lambda holiday:
             (date_from <= holiday.date_from <= date_to) or
@@ -121,9 +122,16 @@ class ResourceCalendar(models.Model):
                     quantidade_dias_ferias += 1
                 data_inicio_holiday += timedelta(days=1)
 
+            # Se o funcionario for vender ferias
             if holiday.sold_vacations_days:
-                data_inicial_abono = data_inicio_holiday - timedelta(days=1)
-                if date_from <= str(data_inicial_abono) <= date_to:
+                # data inicial do abono pecuniario sera o
+                # dia anterior ao primeiro dia de férias
+                data_inicial_abono = fields.Date.from_string(holiday.date_from)
+                # Se a data inicial do abono estiver dentro do período que
+                # esta sendo validado (quando em divisão de férias em 2+partes)
+                # o abono será contabilizado. Senao o abono será contabilizado
+                # na proxima parte das ferias
+                if date_from == str(data_inicial_abono):
                     quantidade_dias_abono = holiday.sold_vacations_days
 
         return quantidade_dias_ferias, quantidade_dias_abono
