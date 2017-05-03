@@ -838,6 +838,8 @@ class HrPayslip(models.Model):
             'date_to': data_fim,
             'employee_id': self.contract_id.employee_id.id
         }
+        if tipo_simulacao == "aviso_previo":
+            vals.update({'dias_aviso_previo': self.dias_aviso_previo})
         payslip_simulacao_criada = hr_payslip_obj.create(vals)
         if tipo_simulacao == "ferias":
             periodo_ferias_vencida = False
@@ -852,6 +854,8 @@ class HrPayslip(models.Model):
                 }
             )
             payslip_simulacao_criada._compute_saldo_periodo_aquisitivo()
+        if tipo_simulacao in ["ferias", "aviso_previo"]:
+            payslip_simulacao_criada.gerar_media_dos_proventos()
         payslip_simulacao_criada._compute_set_employee_id()
         # worked_days_line_ids = \
         #     payslip_simulacao_criada.get_worked_day_lines(

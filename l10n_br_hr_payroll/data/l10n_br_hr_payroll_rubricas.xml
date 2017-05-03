@@ -558,7 +558,9 @@ result_qty = round(DIAS_AVISO_PREVIO/30.0)</field>
             <field name="category_id" ref="hr_payroll.PROVENTO"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = CALCULAR.BUSCAR_VALOR_MEDIA_PROVENTO('ferias')
+            <!--<field name="amount_python_compute">result = CALCULAR.BUSCAR_VALOR_MEDIA_PROVENTO('ferias')-->
+<!--result_qty = round(DIAS_AVISO_PREVIO/30.0)</field>-->
+            <field name="amount_python_compute">result = AVISO_PREV_IND/12
 result_qty = round(DIAS_AVISO_PREVIO/30.0)</field>
             <field name="sequence" eval="188"/>
             <field name="compoe_base_INSS" eval="True"/>
