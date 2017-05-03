@@ -78,10 +78,10 @@ class FinancialPayreceive(models.TransientModel):
 
             financial_to_pay = account_financial.browse(active_id)
 
-            if financial_to_pay.financial_type == 'p':
-                financial_type = 'pp'
+            if financial_to_pay.financial_type == '2pay':
+                financial_type = 'payment_item'
             else:
-                financial_type = 'rr'
+                financial_type = 'receipt_item'
 
             values = account_financial._prepare_financial_move(
                 bank_id=wizard.bank_id.id,
@@ -93,7 +93,7 @@ class FinancialPayreceive(models.TransientModel):
                 document_number=financial_to_pay.document_number,
                 date_maturity=financial_to_pay.date_maturity,
                 amount=wizard.amount,
-                account_id=financial_to_pay.account_id.id,
+                account_type_id=financial_to_pay.account_type_id.id,
                 financial_payment_id=active_id,
                 date_credit_debit=wizard.date_credit_debit,
             )

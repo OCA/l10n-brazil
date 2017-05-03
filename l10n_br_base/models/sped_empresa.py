@@ -411,20 +411,17 @@ class SpedEmpresa(models.Model):
                 # FIXME: company = self.env['res.company'].create(dados)
                 self.env['res.company'].create(dados)
 
-
     @api.model
     def create(self, dados):
         empresa = super(SpedEmpresa, self).create(dados)
         empresa.sync_to_company()
         return empresa
 
-
     @api.multi
     def write(self, dados):
         res = super(SpedEmpresa, self).write(dados)
         self.sync_to_company()
         return res
-
 
     @api.onchange('partner_id')
     def onchange_partner_id(self):
