@@ -5,7 +5,8 @@
 {
     'name': 'L10n Br Account Move Template',
     'summary': """
-        Modulo temporario pra facilitar o desenvolvimento dos roteiros contabeis""",
+        Modulo temporario pra facilitar o desenvolvimento dos roteiros
+        contabeis""",
     'version': '8.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'KMEE,Odoo Community Association (OCA)',
@@ -17,7 +18,7 @@
     'data': [
         'views/account_move_template_view.xml',
         'views/res_config_view.xml',
-        #'data/account.move.template.csv', # TODO exportar dados
+        # 'data/account.move.template.csv', # TODO exportar dados
     ],
     'demo': [
     ],
