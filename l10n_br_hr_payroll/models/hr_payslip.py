@@ -1498,8 +1498,8 @@ class HrPayslip(models.Model):
             if record.tipo_de_folha == 'ferias' and record.holidays_ferias:
                 record.periodo_aquisitivo =\
                     record.holidays_ferias.controle_ferias[0]
-                record.date_from = record.holidays_ferias.date_from
-                record.date_to = record.holidays_ferias.date_to
+                record.date_from = record.holidays_ferias.data_inicio
+                record.date_to = record.holidays_ferias.data_fim
                 continue
 
             ultimo_dia_do_mes = str(
@@ -1534,7 +1534,8 @@ class HrPayslip(models.Model):
 
             # Metodo pra validar se ja foram processadors todos os holerites
             #  usados no calculo das medias
-            if self.tipo_de_folha in ["decimo_terceiro", "ferias"] and \
+            # if self.tipo_de_folha in ["decimo_terceiro", "ferias"] and \
+            if self.tipo_de_folha in ["decimo_terceiro"] and \
                     not self.is_simulacao:
                 self.validacao_holerites_anteriores(
                     data_de_inicio, data_final, self.contract_id)
@@ -1544,12 +1545,15 @@ class HrPayslip(models.Model):
                     raise exceptions.Warning(
                         _('Nenhum Pedido de Ferias encontrado!')
                     )
-                if self.holidays_ferias.number_of_days_temp > \
-                        self.saldo_periodo_aquisitivo:
-                    raise exceptions.Warning(
-                        _('Selecionado mais dias de ferias do que o saldo do '
-                          'periodo aquisitivo selecionado!')
-                    )
+
+                # Validação da quantidade de dias de férias sendo processada e
+                # a quantidade de saldo dísponivel
+                # if self.holidays_ferias.number_of_days_temp > \
+                #         self.saldo_periodo_aquisitivo:
+                #     raise exceptions.Warning(
+                #         _('Selecionado mais dias de ferias do que o saldo do '
+                #           'periodo aquisitivo selecionado!')
+                #     )
 
                 # Atualizar o controle de férias com informacao de quantos dias
                 # o funcionario gozara
