@@ -12,7 +12,7 @@
             <field name="code">FERIAS</field>
             <field name="name">Férias</field>
             <field name="tipo_estrutura">ferias</field>
-            <field eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_base_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_1/3_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_ABONO_PECUNIARIO'), ref('l10n_br_hr_payroll.hr_salary_rule_1/3_ABONO_PECUNIARIO'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_liquido_ferias')])]" name="rule_ids"/>
+            <field eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_1/3_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_ABONO_PECUNIARIO'), ref('l10n_br_hr_payroll.hr_salary_rule_1/3_ABONO_PECUNIARIO'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_liquido_ferias')])]" name="rule_ids"/>
             <field name="company_id" ref="base.main_company"/>
             <field name="parent_id" eval="False" />
         </record>

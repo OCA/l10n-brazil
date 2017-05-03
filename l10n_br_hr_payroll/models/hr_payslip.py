@@ -1551,7 +1551,7 @@ class HrPayslip(models.Model):
                 # if self.holidays_ferias.number_of_days_temp > \
                 #         self.saldo_periodo_aquisitivo:
                 #     raise exceptions.Warning(
-                #         _('Selecionado mais dias de ferias do que o saldo do '
+                #         _('Selecionado mais dias de ferias do que o saldo do
                 #           'periodo aquisitivo selecionado!')
                 #     )
 
