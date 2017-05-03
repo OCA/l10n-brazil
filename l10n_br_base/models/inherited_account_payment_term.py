@@ -446,4 +446,8 @@ class AccountPaymentTerm(models.Model):
 
             res.append(parcela)
 
-        return res
+        #
+        # Emula o retorno conforme o decorator api.one, colocando o retorno
+        # numa lista com um único elemento
+        #
+        return [res]
