@@ -32,13 +32,13 @@ class AccountInvoice(models.Model):
         if invl:
             product = invl.product_id
             values_dict.update(dict(
-                operation_destination=product.cfop.id_dest or False,
+                operation_destination=invl.cfop_id.id_dest or False,
                 product_fiscal_type=product.type or False,
                 product_origin=product.origin or False,
             ))
         if line_type == 'tax':
             values_dict.update(dict(
-                debit_account_id=move_line.account_id or False
+                debit_account_id=move_line['account_id'] or False
             ))
         values_dict.update(dict(
             company_id=self.company_id.id or False,
@@ -70,7 +70,7 @@ class AccountInvoice(models.Model):
         amt = amt.search(domain)
         if line_type == 'receipt':
 
-            if move_line[2].debit:
+            if move_line['debit']:
                 account_id = amt.debit_account_id
             else:
                 account_id = amt.credit_account_id
@@ -110,7 +110,6 @@ class AccountInvoice(models.Model):
             if line_type in ['tax', 'receipt']:
                 partida = dict(move[2])
                 partida['name'] = 'Contrapartida - ' + move[2]['name']
-                move[2]['account_id'] = 30
                 partida['debit'] = move[2]['credit']
                 partida['credit'] = move[2]['debit']
                 move_lines.append([0, 0, partida])
