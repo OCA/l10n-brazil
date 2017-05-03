@@ -4,6 +4,7 @@
 
 from openerp.tests.common import TransactionCase
 
+
 class TestAccountMoveTemplate(TransactionCase):
 
     def setUp(self):
@@ -14,8 +15,8 @@ class TestAccountMoveTemplate(TransactionCase):
             'l10n_br_account.fiscal_document_service')
         self.fiscal_document_55 = self.env[
             'l10n_br_account.fiscal.document'].create(
-            dict(code=u'55', name=u'Nota fiscal eletronica', electronic=True)
-        )
+                dict(code=u'55', name=u'Nota fiscal eletronica',
+                     electronic=True))
 
     def test_map_account_01(self):
         """ DADO uma operação de revenda para dentro do estado

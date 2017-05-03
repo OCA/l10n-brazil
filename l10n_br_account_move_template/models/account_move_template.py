@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2017 - Daniel Sadamo - KMEE INFORMATICA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
-from datetime import datetime
 
-from openerp import api, fields, models
+from openerp import fields, models
 from openerp.addons.l10n_br_account_product.models.product import \
     PRODUCT_ORIGIN
 
@@ -33,6 +32,7 @@ TYPE = [
     ('tax', u'Imposto'),
     ('client', u'Cliente')
 ]
+
 
 class AccountMoveTemplate(models.Model):
     _name = 'account.move.template'
@@ -80,13 +80,11 @@ class AccountMoveTemplate(models.Model):
     )
     debit_compensation_account_id = fields.Many2one(
         comodel_name='account.account', string=u'Conta de compensaçao de '
-                                                u'debito'
+                                               u'debito'
     )
     # ----------------------------------------------new fields----------
 
-
     # def _map_tax_domain(self, move_line):
-    #
     #     values_dict = {}
     #     domain = ['&']
     #     line = self.env['account.invoice.line'].browse(
@@ -163,5 +161,5 @@ class AccountMoveTemplate(models.Model):
     #
     #     # if rule:
     #         # move_line.update({'account_id': rule.debit_account_id.id or
-    #                                                # rule.credit_account_id.id})
+    #                                          # rule.credit_account_id.id})
     #     return move_line
