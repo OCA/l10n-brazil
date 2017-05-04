@@ -98,6 +98,19 @@ class AccountInvoice(models.Model):
         for move in lines:
             if move[2].get('product_id', False):
                 line_type = 'receipt'
+                invl=self.env['account.invoice.line'].browse(
+                    move[2].get('invl_id', False))
+                # Adiciona o valor dos impostos no lançamento de receita para
+                # gerar a receita bruta
+                move[2]['credit'] += invl.ipi_value
+                move[2]['credit'] += invl.icms_value
+                move[2]['credit'] += invl.pis_value
+                move[2]['credit'] += invl.cofins_value
+                move[2]['credit'] += invl.ir_value
+                move[2]['credit'] += invl.issqn_value
+                move[2]['credit'] += invl.csll_value
+                move[2]['credit'] += invl.inss_value
+                move[2]['credit'] += invl.ii_value
                 # move_lines.remove(move)
 
             elif move[2].get('tax_amount', False):
@@ -107,7 +120,7 @@ class AccountInvoice(models.Model):
                 line_type = 'client'
 
             # Criar contra-partidas
-            if line_type in ['tax', 'receipt']:
+            if line_type == 'tax':
                 partida = dict(move[2])
                 partida['name'] = 'Contrapartida - ' + move[2]['name']
                 partida['debit'] = move[2]['credit']
