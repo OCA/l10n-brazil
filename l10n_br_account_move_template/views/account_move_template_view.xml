@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <tree string="Move Template" editable="top">   <!--decoration-info="state == 'draft'" decoration-muted="state == 'cancel'"-->
                 <field name="company_id"/>
-                <field name="fiscal_category"/>
+                <field name="fiscal_category_ids"/>
             </tree>
         </field>
     </record>
@@ -20,7 +20,7 @@
             <form><!--decoration-info="state == 'draft'" decoration-muted="state == 'cancel'"-->
                 <group>
                     <field name="company_id"/>
-                    <field name="fiscal_category"/>
+                    <field name="fiscal_category_ids"/>
                 </group>
             </form>
         </field>
