@@ -45,7 +45,6 @@ class AccountMoveTemplate(models.Model):
     fiscal_category_ids = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
         string=u'Categoria da operação',
-        inverse_name=move_template_id,
     )
 
 
@@ -90,4 +89,6 @@ class L10nBrAccountFiscalCategory(models.Model):
     _inherit = 'l10n_br_account.fiscal.category'
     _description = 'Categoria Fiscal'
 
-    move_template_id = fields.One2many()
+    move_template_id = fields.One2many(
+        'account.move.template', 'fiscal_category_ids',
+    )
