@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    <record id="account_move_line_template_tree_view" model="ir.ui.view">
+        <field name="name">account.move.line.template.tree.view</field>
+        <field name="model">account.move.line.template</field>
+        <field name="arch" type="xml">
+            <tree string="Move Template" editable="top">   <!--decoration-info="state == 'draft'" decoration-muted="state == 'cancel'"-->
+                <field name="sequence" widget="handle"/>
+                <field name="type"/>
+                <field name="product_fiscal_type"/>
+                <field name="product_origin"/>
+                <field name="term"/>
+                <!--<field name="operation_purpose"/>-->
+                <field name="credit_account_id"/>
+                <field name="debit_account_id"/>
+                <field name="debit_compensation_account_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="account_move_line_template_form_view" model="ir.ui.view">
+        <field name="name">account.move.line.template.form.view</field>
+        <field name="model">account.move.line.template</field>
+        <field name="arch" type="xml">
+            <form><!--decoration-info="state == 'draft'" decoration-muted="state == 'cancel'"-->
+                <group>
+                    <field name="sequence" widget="handle"/>
+                    <field name="type"/>
+                    <field name="product_fiscal_type"/>
+                    <field name="product_origin"/>
+                    <field name="term"/>
+                    <!--<field name="operation_purpose"/>-->
+                    <field name="credit_account_id"/>
+                    <field name="debit_account_id"/>
+                    <field name="debit_compensation_account_id"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_account_move_line_template" model="ir.actions.act_window">
+            <field name="name">Move Line Templates</field>
+            <field name="res_model">account.move.line.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="account_move_line_template_tree_view"/>
+            <field name="context">{}</field>
+            <!--<field name="search_view_id" ref="view_account_invoice_filter"/>-->
+        </record>
+
+    <menuitem action="action_account_move_line_template" id="menu_action_account_move_line_template" parent="account.account_account_menu" sequence="99"/>
+    </data>
+</openerp>

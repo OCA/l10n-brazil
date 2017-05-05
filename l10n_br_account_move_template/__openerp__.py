@@ -17,6 +17,7 @@
     ],
     'data': [
         'views/account_move_template_view.xml',
+        'views/account_move_line_template_view.xml',
         'views/res_config_view.xml',
         # 'data/account.move.template.csv', # TODO exportar dados
     ],

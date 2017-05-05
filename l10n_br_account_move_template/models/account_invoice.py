@@ -32,7 +32,6 @@ class AccountInvoice(models.Model):
         if invl:
             product = invl.product_id
             values_dict.update(dict(
-                operation_destination=invl.cfop_id.id_dest or False,
                 product_fiscal_type=product.type or False,
                 product_origin=product.origin or False,
             ))
@@ -41,10 +40,6 @@ class AccountInvoice(models.Model):
                 debit_account_id=move_line.get('account_id', False)
             ))
         values_dict.update(dict(
-            company_id=self.company_id.id or False,
-            fiscal_document_id=self.fiscal_document_id.id or False,
-            fiscal_category=self.fiscal_category_id.id or False,
-            operation_type=self.fiscal_category_id.type or False,
             term=term,
         ))
 
@@ -111,6 +106,8 @@ class AccountInvoice(models.Model):
                 move[2]['credit'] += invl.csll_value
                 move[2]['credit'] += invl.inss_value
                 move[2]['credit'] += invl.ii_value
+                move[2]['credit'] += invl.icms_fcp_value
+                move[2]['credit'] += invl.icms_dest_value
                 # move_lines.remove(move)
 
             elif move[2].get('tax_amount', False):
@@ -126,7 +123,8 @@ class AccountInvoice(models.Model):
                 partida['debit'] = move[2]['credit']
                 partida['credit'] = move[2]['debit']
                 move_lines.append([0, 0, partida])
-                self.define_account(move[2], line_type)
+
+            self.define_account(move[2], line_type)
 
         return move_lines
 
