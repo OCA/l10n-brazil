@@ -266,3 +266,13 @@ class HrVacationControl(models.Model):
         """
         for controle in self:
             controle.gerar_holidays_ferias()
+
+    @api.multi
+    def unlink(self):
+        """
+        Se excluir o controle de ferias, excluir todos os holidays atrelados
+        FIXTO: utilizar o ondelete=cascade na definição do campo
+        """
+        for holidays in self.hr_holiday_ids:
+            holidays.unlink()
+        return super(HrVacationControl, self).unlink()

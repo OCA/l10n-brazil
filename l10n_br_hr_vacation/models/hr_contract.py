@@ -14,7 +14,8 @@ class HrContract(models.Model):
     vacation_control_ids = fields.One2many(
         comodel_name='hr.vacation.control',
         inverse_name='contract_id',
-        string='Periodos Aquisitivos Alocados'
+        string=u'Periodos Aquisitivos Alocados',
+        ondelete="cascade",
     )
 
     def create_controle_ferias(self, inicio_periodo_aquisitivo):
@@ -38,8 +39,8 @@ class HrContract(models.Model):
         })
         return controle_ferias
 
-    @api.model
-    def write(self, vals, context=None):
+    @api.multi
+    def write(self, vals):
         """
         No HrContract, o método write é chamado tanto na api antiga quanto na
         api nova. No caso da alteração da data de início do contrato, a chamada
@@ -53,35 +54,65 @@ class HrContract(models.Model):
         criadas novas linhas de controle de férias e holidays do tipo add para
         a nova data de início do contrato.
         """
-        if vals.__class__.__name__ == 'list':
-            for contrato in self.browse(vals):
-                if self.env['hr.holidays'].search(
-                        [('type', '=', 'remove'),
-                         ('contrato_id.id', '=', contrato.id)]):
-                    raise UserError(
-                        "Não é possível alterar a data de início de contratos"
-                        " que possuem ocorrências ou férias confirmadas."
-                    )
-                elif context['date_start']:
-                    for linha in contrato.vacation_control_ids:
-                        linha.unlink()
-                    for holiday in self.env['hr.holidays'].search([
-                        ('contrato_id.id', '=', contrato.id)
-                    ]):
-                        holiday.unlink()
-                    contrato.atualizar_linhas_controle_ferias(
-                        context['date_start'], contrato
-                    )
-            return super(HrContract, self.browse(vals)).write(context)
+        if vals.get('date_start'):
+            self.verificar_controle_ferias()
+            self.atualizar_linhas_controle_ferias(vals.get('date_start'))
         return super(HrContract, self).write(vals)
 
     @api.model
     def create(self, vals):
         hr_contract_id = super(HrContract, self).create(vals)
-        return self.atualizar_linhas_controle_ferias(
-            vals['date_start'], hr_contract_id)
+        if vals.get('date_start'):
+            hr_contract_id.atualizar_linhas_controle_ferias(
+                vals.get('date_start'))
+        return hr_contract_id
 
-    def atualizar_linhas_controle_ferias(self, date_start, hr_contract_id):
+    def verificar_controle_ferias(self):
+        """
+        Função que verifica se em algum controle de férias ja tem um pedido de
+        Férias ja aprovado. Se nao existir nenhum, exclui todas as linhas de
+        controle de férias e chama a função para criar novas
+        :return:
+        """
+        vacation_id = self.env.ref(
+            'l10n_br_hr_holiday.holiday_status_vacation').id
+
+        holidays_ferias_do_contrato =  self.env['hr.holidays'].search([
+            ('type', '=', 'remove'),
+            ('contrato_id', '=', self.id),
+            ('holiday_status_id', '=', vacation_id),
+        ])
+        if holidays_ferias_do_contrato:
+            raise UserError(
+                "Não é possível alterar a data de início de contratos "
+                "que possuem ocorrências ou férias confirmadas.")
+
+        for holiday in holidays_ferias_do_contrato:
+            holiday.unlink()
+
+        for linha in self.vacation_control_ids:
+            linha.unlink()
+
+    @api.multi
+    def action_button_update_controle_ferias(self):
+        """
+        Ação disparada pelo botão na view, que atualiza as linhas de controle
+        de férias desde que nao contenham férias atreladas a elas
+        """
+        self.verificar_controle_ferias()
+        self.atualizar_linhas_controle_ferias(self.date_start)
+
+    @api.multi
+    def atualizar_linhas_controle_ferias(self, date_start):
+        """
+        Dada um data inicial, gerar as linhas de controle de férias
+        :param date_start: string - 2017-05-01 Data de admissao do funcionario
+        :return:
+        """
+        for linha in self.vacation_control_ids:
+                linha.unlink()
+        if not date_start:
+            date_start = self.date_start
         inicio = fields.Date.from_string(date_start)
         hoje = fields.Date.from_string(fields.Date.today())
         lista_controle_ferias = []
@@ -94,13 +125,13 @@ class HrContract(models.Model):
             controle_ferias = controle_ferias_obj.create(vals)
             inicio = inicio + relativedelta(years=1)
             lista_controle_ferias.append(controle_ferias.id)
-        hr_contract_id.vacation_control_ids = lista_controle_ferias
+        self.vacation_control_ids = lista_controle_ferias
 
         # gerar automaticamente as ferias (holidays) dos 2 ultimos controles
-        ultimos_controles = hr_contract_id.vacation_control_ids[-2:]
+        ultimos_controles = self.vacation_control_ids[-2:]
         for controle_ferias in ultimos_controles:
             controle_ferias.gerar_holidays_ferias()
-        return hr_contract_id
+        return self
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form',
@@ -124,8 +155,7 @@ class HrContract(models.Model):
     @api.multi
     def atualizar_controle_ferias(self):
         """
-        Função disparada por botão na view do contrato e/ou pelo cron que
-        dispara diarimente.
+        Função disparada  pelo cron que dispara diarimente.
         Atualiza o controle de férias, verificando por periodos
         aquisitivos que se encerraram ontem, para criar novas linhas de
         controle de ferias.

@@ -40,7 +40,7 @@
                                 />
                             </tree>
                         </field>
-                        <button name="atualizar_controle_ferias"
+                        <button name="action_button_update_controle_ferias"
                                 string="Gerar período aquisitivo"
                                 type="object" class="oe_highlight"/>
                     </page>
