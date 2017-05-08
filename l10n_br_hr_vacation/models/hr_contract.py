@@ -77,7 +77,7 @@ class HrContract(models.Model):
         vacation_id = self.env.ref(
             'l10n_br_hr_holiday.holiday_status_vacation').id
 
-        holidays_ferias_do_contrato =  self.env['hr.holidays'].search([
+        holidays_ferias_do_contrato = self.env['hr.holidays'].search([
             ('type', '=', 'remove'),
             ('contrato_id', '=', self.id),
             ('holiday_status_id', '=', vacation_id),

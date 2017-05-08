@@ -2,9 +2,10 @@
 # Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, models, fields
-from dateutil.relativedelta import relativedelta
 from datetime import datetime
+
+from dateutil.relativedelta import relativedelta
+from openerp import api, models, fields
 
 
 class HrVacationControl(models.Model):
@@ -116,7 +117,7 @@ class HrVacationControl(models.Model):
         relation='vacation_control_holidays_rel',
         column1='hr_vacation_control_id',
         column2='holiday_id',
-        string='Período Aquisitivo'
+        string=u'Período Aquisitivo',
     )
 
     display_name = fields.Char(
