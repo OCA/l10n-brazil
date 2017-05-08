@@ -41,8 +41,7 @@ class TestHrHoliday(common.TransactionCase):
             'l10n_br_hr_holiday.holiday_status_vacation')
 
         # Solicitacao de férias do funcionario
-        ferias = self.hr_holidays.\
-            create({
+        ferias = self.hr_holidays.create({
             'name': 'Ferias Do ' + contrato.employee_id.name,
             'type': 'remove',
             'parent_id': holiday_periodo_aquisitivo.id,

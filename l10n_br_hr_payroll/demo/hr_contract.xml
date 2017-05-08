@@ -12,7 +12,7 @@
             <field eval="1.0" name="time_efficiency"/>
             <field name="company_id" ref="base.main_company"/>
             <field eval="1" name="active"/>
-            <field name="name">Tony Stark</field>
+            <field name="name">Antony Edward Stark</field>
             <field name="resource_type">user</field>
             <field name="work_phone">+24242424</field>
             <field name="image" type="base64"
@@ -47,7 +47,7 @@
             <field eval="1.0" name="time_efficiency"/>
             <field name="company_id" ref="base.main_company"/>
             <field eval="1" name="active"/>
-            <field name="name">Bruce Banner</field>
+            <field name="name">Robert Bruce Banner</field>
             <field name="resource_type">user</field>
             <field name="work_phone">+71717171</field>
             <field name="image" type="base64"
