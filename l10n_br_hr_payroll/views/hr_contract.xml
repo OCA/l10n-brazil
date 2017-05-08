@@ -144,13 +144,13 @@
                     </field>
                 </page>
                 <!--Aba Afastamentos-->
-                <page string="Afastamentos">
+                <page string="Ocorrências e Férias">
                     <field name="afastamento_ids">
                         <tree>
-                            <field name="contrato_id" string="Contrato"/>
-                            <field name="rubrica"/>
-                            <field name="periodo"/>
-                            <field name="valor_inss"/>
+                            <field name="holiday_status_id"/>
+                            <field name="data_inicio"/>
+                            <field name="data_fim"/>
+                            <field name="state"/>
                         </tree>
                     </field>
                 </page>
