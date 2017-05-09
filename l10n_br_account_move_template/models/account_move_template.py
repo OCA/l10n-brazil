@@ -75,14 +75,14 @@ class AccountMoveLineTemplate(models.Model):
     _name = 'account.move.line.template'
     _order = 'sequence asc'
 
+    sequence = fields.Integer(
+        string=u'Sequence',
+    )
+
     template_id = fields.Many2one(
         comodel_name='account.move.template',
         required=True,
         ondelete='cascade',
-    )
-
-    sequence = fields.Integer(
-        string=u'Sequence',
     )
 
     type = fields.Selection(

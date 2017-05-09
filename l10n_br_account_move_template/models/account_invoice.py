@@ -46,6 +46,7 @@ class AccountInvoice(models.Model):
                 values_dict.update(dict(
                     debit_account_id=move_line.get('account_id', False)
                 ))
+
         if amt.id:
             values_dict.update(dict(
                 template_id=amt.id,
@@ -75,16 +76,21 @@ class AccountInvoice(models.Model):
         amt = self.env['account.move.template'].search([(
             'fiscal_category_ids', '=', self.fiscal_category_id.id)])
         domain = self._map_move_template_domain(move_line, line_type, amt)
-        amlt = self.env['account.move.line.template'].search(domain)
-        if line_type == 'receipt':
+        amlt = self.env['account.move.line.template'].search(domain,
+                                                             order='sequence'
+                                                             , limit=1)
+        if line_type in ('receipt', 'tax'):
 
             if move_line[2].debit:
                 account_id = amlt.debit_account_id
             else:
                 account_id = amlt.credit_account_id
 
-        elif line_type == 'tax':
-            account_id = amlt.debit_account_id
+        # elif line_type == 'tax':
+        #     if move_line.get('debit', False):
+        #         account_id = amlt.debit_account_id
+        #     else:
+
 
         # Se definir uma conta no mapeamento, seta a conta,
         # senão fica com a conta padrão
@@ -104,26 +110,26 @@ class AccountInvoice(models.Model):
             move_lines)
         lines = list(move_lines)
         for move in lines:
-            if move[2].get('product_id', False):
+            move_line = move[2]
+            if move_line.get('product_id', False):
                 line_type = 'receipt'
                 invl = self.env['account.invoice.line'].browse(
-                    move[2].get('invl_id', False))
+                    move_line.get('invl_id', False))
                 # Adiciona o valor dos impostos no lançamento de receita para
                 # gerar a receita bruta
-                move[2]['credit'] += invl.ipi_value
-                move[2]['credit'] += invl.icms_value
-                move[2]['credit'] += invl.pis_value
-                move[2]['credit'] += invl.cofins_value
-                move[2]['credit'] += invl.ir_value
-                move[2]['credit'] += invl.issqn_value
-                move[2]['credit'] += invl.csll_value
-                move[2]['credit'] += invl.inss_value
-                move[2]['credit'] += invl.ii_value
-                move[2]['credit'] += invl.icms_fcp_value
-                move[2]['credit'] += invl.icms_dest_value
-                # move_lines.remove(move)
+                move_line['credit'] += invl.ipi_value
+                move_line['credit'] += invl.icms_value
+                move_line['credit'] += invl.pis_value
+                move_line['credit'] += invl.cofins_value
+                move_line['credit'] += invl.ir_value
+                move_line['credit'] += invl.issqn_value
+                move_line['credit'] += invl.csll_value
+                move_line['credit'] += invl.inss_value
+                move_line['credit'] += invl.ii_value
+                move_line['credit'] += invl.icms_fcp_value
+                move_line['credit'] += invl.icms_dest_value
 
-            elif move[2].get('tax_amount', False):
+            elif move_line.get('tax_amount', False):
                 line_type = 'tax'
 
             else:
@@ -131,13 +137,13 @@ class AccountInvoice(models.Model):
 
             # Criar contra-partidas
             if line_type == 'tax':
-                partida = dict(move[2])
-                partida['name'] = 'Contrapartida - ' + move[2]['name']
-                partida['debit'] = move[2]['credit']
-                partida['credit'] = move[2]['debit']
+                partida = dict(move_line)
+                # partida['name'] = 'Contrapartida - ' + move_line['name']
+                partida['debit'] = move_line['credit']
+                partida['credit'] = move_line['debit']
                 move_lines.append([0, 0, partida])
 
-            self.define_account(move[2], line_type)
+            self.define_account(move_line, line_type)
 
         return move_lines
 
