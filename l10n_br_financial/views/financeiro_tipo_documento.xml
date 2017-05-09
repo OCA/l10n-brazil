@@ -55,7 +55,6 @@
 
     <record model="ir.ui.menu" id="financeiro_tipo_documento_menu">
         <field name="name">Financeiro Tipo_documento</field>
-        <field name="parent_id" ref="xmlid of parent menu"/> <!-- TODO -->
         <field name="action" ref="financeiro_tipo_documento_act_window"/>
         <field name="sequence" eval="16"/> <!-- TODO -->
     </record>

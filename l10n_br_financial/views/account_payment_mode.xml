@@ -5,47 +5,47 @@
 <odoo>
 <data>
 
-    <record model="ir.ui.view" id="account_payment_mode_form_view">
-        <field name="name">account.payment.mode.form (in l10n_br_financial)</field>
-        <field name="model">account.payment.mode</field>
-        <field name="inherit_id" ref="TODO othermodule.form_view"/>
-        <field name="arch" type="xml">
-            <!-- TODO -->
-        </field>
-    </record>
+    <!--<record model="ir.ui.view" id="account_payment_mode_form_view">-->
+        <!--<field name="name">account.payment.mode.form (in l10n_br_financial)</field>-->
+        <!--<field name="model">account.payment.mode</field>-->
+        <!--<field name="inherit_id" ref="TODO othermodule.form_view"/>-->
+        <!--<field name="arch" type="xml">-->
+            <!--&lt;!&ndash; TODO &ndash;&gt;-->
+        <!--</field>-->
+    <!--</record>-->
 
-    <record model="ir.ui.view" id="account_payment_mode_search_view">
-        <field name="name">account.payment.mode.search (in l10n_br_financial)</field>
-        <field name="model">account.payment.mode</field>
-        <field name="inherit_id" ref="TODO othermodule.search_view"/>
-        <field name="arch" type="xml">
-            <!-- TODO -->
-        </field>
-    </record>
+    <!--<record model="ir.ui.view" id="account_payment_mode_search_view">-->
+        <!--<field name="name">account.payment.mode.search (in l10n_br_financial)</field>-->
+        <!--<field name="model">account.payment.mode</field>-->
+        <!--<field name="inherit_id" ref="TODO othermodule.search_view"/>-->
+        <!--<field name="arch" type="xml">-->
+            <!--&lt;!&ndash; TODO &ndash;&gt;-->
+        <!--</field>-->
+    <!--</record>-->
 
-    <record model="ir.ui.view" id="account_payment_mode_tree_view">
-        <field name="name">account.payment.mode.tree (in l10n_br_financial)</field>
-        <field name="model">account.payment.mode</field>
-        <field name="inherit_id" ref="TODO othermodule.tree_view"/>
-        <field name="arch" type="xml">
-            <!-- TODO -->
-        </field>
-    </record>
+    <!--<record model="ir.ui.view" id="account_payment_mode_tree_view">-->
+        <!--<field name="name">account.payment.mode.tree (in l10n_br_financial)</field>-->
+        <!--<field name="model">account.payment.mode</field>-->
+        <!--<field name="inherit_id" ref="TODO othermodule.tree_view"/>-->
+        <!--<field name="arch" type="xml">-->
+            <!--&lt;!&ndash; TODO &ndash;&gt;-->
+        <!--</field>-->
+    <!--</record>-->
 
-    <record model="ir.actions.act_window" id="account_payment_mode_act_window">
-        <field name="name">Account Payment Mode</field> <!-- TODO -->
-        <field name="res_model">account.payment.mode</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[]</field>
-        <field name="context">{}</field>
-    </record>
+    <!--<record model="ir.actions.act_window" id="account_payment_mode_act_window">-->
+        <!--<field name="name">Account Payment Mode</field> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--<field name="res_model">account.payment.mode</field>-->
+        <!--<field name="view_mode">tree,form</field>-->
+        <!--<field name="domain">[]</field>-->
+        <!--<field name="context">{}</field>-->
+    <!--</record>-->
 
-    <record model="ir.ui.menu" id="account_payment_mode_menu">
-        <field name="name">Account Payment Mode</field>
-        <field name="parent_id" ref="xmlid of parent menu"/> <!-- TODO -->
-        <field name="action" ref="account_payment_mode_act_window"/>
-        <field name="sequence" eval="16"/> <!-- TODO -->
-    </record>
+    <!--<record model="ir.ui.menu" id="account_payment_mode_menu">-->
+        <!--<field name="name">Account Payment Mode</field>-->
+        <!--<field name="parent_id" ref="xmlid of parent menu"/> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--<field name="action" ref="account_payment_mode_act_window"/>-->
+        <!--<field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
+    <!--</record>-->
 
 </data>
 </odoo>
