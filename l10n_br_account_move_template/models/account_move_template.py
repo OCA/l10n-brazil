@@ -22,11 +22,21 @@ OPERATION_DESTINATION = [
 #     ('financeiro', u'Financeiro'),
 # ]
 
-PRODUCT_TYPE = [
-    ('product', u'Produto'),
-    ('service', u'Serviço')
-]
 
+PRODUCT_TYPE = [
+    ('revenda',u'Mercadoria para Revenda'),
+    ('prima',u'Matéria - Prima'),
+    ('embalagem',u'Embalagem'),
+    ('processo',u'Produto em Processo'),
+    ('acabado',u'Produto Acabado'),
+    ('subproduto',u'Subproduto'),
+    ('intermediario',u'Produto Intermediário'),
+    ('consumo',u'Material de Uso e Consumo'),
+    ('atiivo',u'Ativo Imobilizado'),
+    ('service',u'Serviço'),
+    ('insumos',u'Outros Insumos'),
+    ('outro',u'Outras'),
+]
 TYPE = [
     ('receipt', u'Receita'),
     ('tax', u'Imposto'),
