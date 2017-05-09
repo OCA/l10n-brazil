@@ -10,7 +10,7 @@ from openerp import api, models, fields
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    def _map_move_template_domain(self, move_line, line_type):
+    def _map_move_template_domain(self, move_line, line_type, amt):
         """
         Método para mapear qual é o roteiro correto para cada tipo de
         lançamento ou manter as contas originais caso não exista roteiro que
@@ -24,24 +24,36 @@ class AccountInvoice(models.Model):
         invl = self.env['account.invoice.line'].browse(move_line.get('invl_id',
                                                                      False))
         duration = fields.Datetime.from_string(self.date_due) + \
-                                               relativedelta(years=-1)
+                   relativedelta(years=-1)
+
         if duration > datetime.today():
             term = 'longo'
         else:
             term = 'curto'
         if invl:
             product = invl.product_id
-            values_dict.update(dict(
-                product_fiscal_type=product.type or False,
-                product_origin=product.origin or False,
-            ))
+            if product.type:
+                values_dict.update(dict(
+                    product_fiscal_type=product.type,
+                ))
+            if product.origin:
+                values_dict.update(dict(
+                    product_origin=product.origin
+                ))
+
         if line_type == 'tax':
+            if move_line.get('account_id', False):
+                values_dict.update(dict(
+                    debit_account_id=move_line.get('account_id', False)
+                ))
+        if amt.id:
             values_dict.update(dict(
-                debit_account_id=move_line.get('account_id', False)
+                template_id=amt.id,
             ))
-        values_dict.update(dict(
-            term=term,
-        ))
+        if term:
+            values_dict.update(dict(
+                term=term,
+            ))
 
         for key, value in values_dict.iteritems():
             domain.append('|')
@@ -60,18 +72,19 @@ class AccountInvoice(models.Model):
         :return:
         """
         account_id = False
-        amt = self.env['account.move.template']
-        domain = self._map_move_template_domain(move_line, line_type)
-        amt = amt.search(domain)
+        amt = self.env['account.move.template'].search([(
+            'fiscal_category_ids', '=', self.fiscal_category_id.id)])
+        domain = self._map_move_template_domain(move_line, line_type, amt)
+        amlt = self.env['account.move.line.template'].search(domain)
         if line_type == 'receipt':
 
             if move_line[2].debit:
-                account_id = amt.debit_account_id
+                account_id = amlt.debit_account_id
             else:
-                account_id = amt.credit_account_id
+                account_id = amlt.credit_account_id
 
         elif line_type == 'tax':
-            account_id = amt.debit_account_id
+            account_id = amlt.debit_account_id
 
         # Se definir uma conta no mapeamento, seta a conta,
         # senão fica com a conta padrão
@@ -93,7 +106,7 @@ class AccountInvoice(models.Model):
         for move in lines:
             if move[2].get('product_id', False):
                 line_type = 'receipt'
-                invl=self.env['account.invoice.line'].browse(
+                invl = self.env['account.invoice.line'].browse(
                     move[2].get('invl_id', False))
                 # Adiciona o valor dos impostos no lançamento de receita para
                 # gerar a receita bruta
