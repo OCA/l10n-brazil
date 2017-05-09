@@ -5,33 +5,65 @@
 <odoo>
 <data>
 
+    <record model="ir.ui.menu" id="menu_tesouraria">
+        <field name="name">Tesouraria</field>
+        <field name="parent_id" ref="financial.financial_top_menu"/>
+        <field name="sequence" eval="14"/>
+    </record>
+
     <record model="ir.ui.view" id="financial_move_form_view">
         <field name="name">financial.move.form (in l10n_br_financial)</field>
         <field name="model">financial.move</field>
-        <field name="inherit_id" ref="TODO othermodule.form_view"/>
+        <field name="inherit_id" ref="financial.financial_move_form_view"/>
         <field name="arch" type="xml">
-            <!-- TODO -->
+            <field name="date_business_maturity" position="after">
+                <field name="tipo_documento_id"/>
+            </field>
+            <field name="date_maturity" position="replace">
+                <field name="date_maturity"
+                       attrs="{'invisible': [('financial_type', 'in', ['money_in', 'money_out'])]}"/>
+            </field>
+            <field name="date_business_maturity" position="replace">
+                <field name="date_business_maturity"
+                       attrs="{'invisible': [('financial_type', 'in', ['money_in', 'money_out'])]}"/>
+            </field>
+            <page name="payments" position="attributes">
+                <attribute name="attrs">{'invisible': [('financial_type', 'in', ['money_in', 'money_out'])]}</attribute>
+            </page>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="financial_move_search_view">
-        <field name="name">financial.move.search (in l10n_br_financial)</field>
-        <field name="model">financial.move</field>
-        <field name="inherit_id" ref="TODO othermodule.search_view"/>
-        <field name="arch" type="xml">
-            <!-- TODO -->
-        </field>
+
+
+    <record model="ir.actions.act_window" id="entradas_act_window">
+        <field name="name">Entradas</field>
+        <field name="res_model">financial.move</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('financial_type','=','money_in')]</field>
+        <field name="context" >{'default_financial_type': 'money_in'}</field>
     </record>
 
-    <record model="ir.ui.view" id="financial_move_tree_view">
-        <field name="name">financial.move.tree (in l10n_br_financial)</field>
-        <field name="model">financial.move</field>
-        <field name="inherit_id" ref="TODO othermodule.tree_view"/>
-        <field name="arch" type="xml">
-            <!-- TODO -->
-        </field>
+    <record model="ir.actions.act_window" id="saidas_act_window">
+        <field name="name">Saídas</field>
+        <field name="res_model">financial.move</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('financial_type','=','money_out')]</field>
+        <field name="context" >{'default_financial_type': 'money_out'}</field>
     </record>
 
+    <record model="ir.ui.menu" id="entradas_menu">
+        <field name="name">Entradas</field>
+        <field name="parent_id" ref="l10n_br_financial.menu_tesouraria"/>
+        <field name="action" ref="entradas_act_window"/>
+        <field name="sequence" eval="30"/>
+    </record>
+
+    <record model="ir.ui.menu" id="saidas_menu">
+        <field name="name">Saídas</field>
+        <field name="parent_id" ref="l10n_br_financial.menu_tesouraria"/>
+        <field name="action" ref="saidas_act_window"/>
+        <field name="sequence" eval="40"/>
+    </record>
 
 </data>
 </odoo>
