@@ -109,6 +109,10 @@ class HrHolidays(models.Model):
 
     @api.depends('vacations_days', 'sold_vacations_days')
     def _compute_days_temp(self):
+        """
+        Função que seta as variaveis temporarias de férias para exibição na
+        visao em formato de lista (resumo de férias)
+        """
         for holiday_id in self:
             if holiday_id.type == 'remove':
                 holiday_id.sold_vacations_days_temp = \
@@ -147,19 +151,32 @@ class HrHolidays(models.Model):
 
     @api.onchange('parent_id')
     def _compute_contract(self):
+        """
+        Função que configura o controle de férias no pedido de férias atual
+        """
         if self.parent_id:
             self.controle_ferias = self.parent_id.controle_ferias
 
     @api.depends('date_from', 'date_to', 'holiday_status_id', 'employee_id')
     def _compute_name_holiday(self):
-        for holiday in self:
-            if holiday.date_from and holiday.date_to and \
-                    holiday.holiday_status_id and holiday.employee_id:
-                date_from = data.formata_data(holiday.date_from)
-                date_to = data.formata_data(holiday.date_to)
-                holiday.name = \
-                    '['+holiday.employee_id.name+'] ' + \
-                    holiday.holiday_status_id.name[:30] + \
+        """
+        Função que configura o nome automaticamente do holidays. Se começar e
+        terminar em dias diferentes, mostre a data inicial e final do holidays,
+         senão só mostra a data que acontecerá o holidays
+        """
+        if self.data_inicio and self.data_fim and \
+                self.holiday_status_id and self.employee_id:
+            date_from = data.formata_data(self.data_inicio)
+            date_to = data.formata_data(self.data_fim)
+
+            if date_from == date_to:
+                self.name = self.holiday_status_id.name[:30] + \
+                    '[' + self.employee_id.name[:10] + '] ' + \
+                    ' (' + date_to + ')'
+            else:
+                self.name = \
+                    '[' + self.employee_id.name+'] ' + \
+                    self.holiday_status_id.name[:30] + \
                     ' (' + date_from + '-' + date_to + ')'
 
     @api.onchange('data_inicio', 'data_fim', 'date_from', 'date_to')
