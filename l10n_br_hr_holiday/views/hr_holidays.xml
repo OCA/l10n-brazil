@@ -43,8 +43,13 @@
             name="Ocorrencias"
             action="l10n_br_hr_holiday_action_ocorrencias"
             parent="hr_holidays.menu_open_ask_holidays"
-            groups="base.group_hr_manager"
+            groups="base.group_user"
             sequence="6"/>
+
+    <!-- Libera o MENU de Pedido de Férias para todos os usuarios-->
+    <record id="hr_holidays.menu_open_ask_holidays_new" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4,ref('base.group_user'))]" />
+    </record>
 
     <record model="ir.actions.act_window" id="open_ask_holidays">
             <field name="name">Pedido de Férias</field>
