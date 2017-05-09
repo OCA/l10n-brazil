@@ -5,6 +5,9 @@
 from openerp import api, fields, models
 from openerp.addons.l10n_br_account_product.models.product import \
     PRODUCT_ORIGIN
+from openerp.addons.l10n_br_account_product.models.l10n_br_account_product \
+    import\
+    PRODUCT_FISCAL_TYPE
 
 TERM = [
     ('curto', 'Curto prazo'),
@@ -23,20 +26,6 @@ OPERATION_DESTINATION = [
 # ]
 
 
-PRODUCT_TYPE = [
-    ('revenda',u'Mercadoria para Revenda'),
-    ('prima',u'Matéria - Prima'),
-    ('embalagem',u'Embalagem'),
-    ('processo',u'Produto em Processo'),
-    ('acabado',u'Produto Acabado'),
-    ('subproduto',u'Subproduto'),
-    ('intermediario',u'Produto Intermediário'),
-    ('consumo',u'Material de Uso e Consumo'),
-    ('atiivo',u'Ativo Imobilizado'),
-    ('service',u'Serviço'),
-    ('insumos',u'Outros Insumos'),
-    ('outro',u'Outras'),
-]
 TYPE = [
     ('receipt', u'Receita'),
     ('tax', u'Imposto'),
@@ -102,7 +91,8 @@ class AccountMoveLineTemplate(models.Model):
     )
 
     product_fiscal_type = fields.Selection(
-        selection=PRODUCT_TYPE,
+        selection=PRODUCT_FISCAL_TYPE,
+        selection_add=[('service', u'Serviço')],
         string=u'Tipo fiscal do produto'
     )
     product_origin = fields.Selection(
