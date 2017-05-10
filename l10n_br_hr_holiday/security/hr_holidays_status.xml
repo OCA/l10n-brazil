@@ -15,5 +15,14 @@
         <field name="perm_unlink" eval="0"/>
     </record>
 
+    <!--Regra para os funcionarios terem acesso à seu contrato apenas-->
+    <record id="property_rule_contract_employee_read" model="ir.rule">
+        <field name="name">Employee Read Contract</field>
+        <field name="model_id" ref="hr_contract.model_hr_contract"/>
+        <field name="domain_force">[('employee_id.user_id','=',user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="groups" eval="[(4,ref('base.group_user'))]"/>
+    </record>
+
 </data>
 </openerp>
