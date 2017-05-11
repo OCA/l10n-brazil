@@ -53,7 +53,7 @@
         'views/res_config_view.xml',
     ],
     'demo': [
-        'demo/hr_contract.xml',
+        # 'demo/hr_contract.xml',
     ],
     'installable': True,
     'auto_install': False,
