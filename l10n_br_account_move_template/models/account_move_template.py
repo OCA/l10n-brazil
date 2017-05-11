@@ -6,8 +6,7 @@ from openerp import api, fields, models
 from openerp.addons.l10n_br_account_product.models.product import \
     PRODUCT_ORIGIN
 from openerp.addons.l10n_br_account_product.models.l10n_br_account_product \
-    import\
-    PRODUCT_FISCAL_TYPE
+    import PRODUCT_FISCAL_TYPE
 
 TERM = [
     ('curto', 'Curto prazo'),
@@ -29,7 +28,7 @@ OPERATION_DESTINATION = [
 TYPE = [
     ('receipt', u'Receita'),
     ('tax', u'Imposto'),
-    ('client', u'Cliente')
+    # ('client', u'Cliente')
 ]
 
 

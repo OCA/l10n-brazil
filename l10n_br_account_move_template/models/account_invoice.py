@@ -19,6 +19,7 @@ class AccountInvoice(models.Model):
         :param line_type:
         :return:
         """
+        values_dict = {}
         values_dict = {'type': line_type}
         domain = ['&']
         invl = self.env['account.invoice.line'].browse(move_line.get('invl_id',
@@ -34,7 +35,7 @@ class AccountInvoice(models.Model):
             product = invl.product_id
             if product.type:
                 values_dict.update(dict(
-                    product_fiscal_type=product.type,
+                    product_fiscal_type=product.fiscal_type,
                 ))
             if product.origin:
                 values_dict.update(dict(
@@ -44,7 +45,7 @@ class AccountInvoice(models.Model):
         if line_type == 'tax':
             if move_line.get('account_id', False):
                 values_dict.update(dict(
-                    debit_account_id=move_line.get('account_id', False)
+                    credit_account_id=move_line.get('account_id', False)
                 ))
 
         if amt.id:
@@ -57,9 +58,11 @@ class AccountInvoice(models.Model):
             ))
 
         for key, value in values_dict.iteritems():
-            domain.append('|')
+            if key != 'template_id':
+                domain.append('|')
             domain.append((key, '=', value))
-            domain.append((key, '=', False))
+            if key != 'template_id':
+                domain.append((key, '=', False))
 
         return domain
 
@@ -72,6 +75,7 @@ class AccountInvoice(models.Model):
                                     ['CLIENTE', 'RECEITA', 'IMPOSTO']
         :return:
         """
+
         account_id = False
         amt = self.env['account.move.template'].search([(
             'fiscal_category_ids', '=', self.fiscal_category_id.id)])
@@ -79,23 +83,28 @@ class AccountInvoice(models.Model):
         amlt = self.env['account.move.line.template'].search(domain,
                                                              order='sequence'
                                                              , limit=1)
-        if line_type in ('receipt', 'tax'):
+        if line_type == 'tax':
+            if move_line.get('credit', False):
+                account_id = amlt.credit_account_id
 
             if move_line[2].debit:
                 account_id = amlt.debit_account_id
-            else:
-                account_id = amlt.credit_account_id
 
+        elif line_type == 'receipt':
+            account_id = amlt.credit_account_id
+        else:
+            account_id = amlt.debit_account_id
         # elif line_type == 'tax':
         #     if move_line.get('debit', False):
         #         account_id = amlt.debit_account_id
         #     else:
 
-
         # Se definir uma conta no mapeamento, seta a conta,
         # senão fica com a conta padrão
         if account_id:
             move_line['account_id'] = account_id.id
+            print 'Conta encontrada'
+            print account_id
 
     def finalize_invoice_move_lines(self, move_lines):
         """
@@ -128,6 +137,7 @@ class AccountInvoice(models.Model):
                 move_line['credit'] += invl.ii_value
                 move_line['credit'] += invl.icms_fcp_value
                 move_line['credit'] += invl.icms_dest_value
+                move_line['credit'] += invl.icms_st_value
 
             elif move_line.get('tax_amount', False):
                 line_type = 'tax'
@@ -141,6 +151,7 @@ class AccountInvoice(models.Model):
                 # partida['name'] = 'Contrapartida - ' + move_line['name']
                 partida['debit'] = move_line['credit']
                 partida['credit'] = move_line['debit']
+                self.define_account(partida, line_type)
                 move_lines.append([0, 0, partida])
 
             self.define_account(move_line, line_type)
