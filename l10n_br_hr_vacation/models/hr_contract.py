@@ -54,7 +54,8 @@ class HrContract(models.Model):
         criadas novas linhas de controle de férias e holidays do tipo add para
         a nova data de início do contrato.
         """
-        if vals.get('date_start'):
+        if vals.get('date_start') and \
+                (vals.get('date_start') != self.date_start):
             self.verificar_controle_ferias()
             self.atualizar_linhas_controle_ferias(vals.get('date_start'))
         return super(HrContract, self).write(vals)
