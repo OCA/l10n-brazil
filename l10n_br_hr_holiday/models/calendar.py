@@ -50,5 +50,7 @@ class L10nBrHrCalendar(models.Model):
         if not self.env.user.has_group('base.group_hr_manager'):
             if self.models_id.id == \
                     self.env.ref('hr_holidays.model_hr_holidays').id:
-                raise Warning('Evento de Recursos Humanos')
+                raise Warning(
+                    'Ocorrências já aprovadas somente podem ser rejeitadas '
+                    'por usuários com perfil de Gerente de RH')
         return super(L10nBrHrCalendar, self).unlink()
