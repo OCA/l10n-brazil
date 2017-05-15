@@ -19,16 +19,10 @@ OPERATION_DESTINATION = [
     ('3', u'Operação com exterior')
 ]
 
-# OPERATION_PURPOSE = [
-#     ('operacional', u'Operacional'),
-#     ('financeiro', u'Financeiro'),
-# ]
-
-
 TYPE = [
     ('receipt', u'Receita'),
     ('tax', u'Imposto'),
-    # ('client', u'Cliente')
+    ('cost', u'Custo')
 ]
 
 
@@ -48,26 +42,33 @@ class AccountMoveTemplate(models.Model):
         string=u'Categoria da operação',
         # domain="[('tem_account_template', '=', False)]",
     )
+    use_cost = fields.Boolean(
+        default=False,
+        string=u'Usar custo'
+    )
     move_template_ids = fields.One2many(
         'account.move.line.template',
         inverse_name='template_id',
     )
 
+    purchase_installed = fields.Boolean(
+        compute='compute_purchase',
+        default=False,
+    )
+
+    def compute_purchase(self):
+        is_installed = self.env['ir.module.module'].search(['&', ('state', '=',
+                                                                  'installed'),
+                                                            ('name', '=',
+                                                             'purchase')])
+        if is_installed:
+            self.purchase_installed = True
+
     @api.constrains('fiscal_category_ids')
     def _constraints_fiscal_categories(self):
         for category in self.fiscal_category_ids:
             if len(category.move_template_ids) >= 2:
-                raise Warning(u'A categoria %s já tem roteiro' %category.name)
-
-    # @api.onchange('fiscal_category_ids')
-    # def _compute_tem_account_template(self):
-    #     for category in self.env['l10n_br_account.fiscal.category'].search([]):
-    #         if category in self.fiscal_category_ids:
-    #             print "true"
-    #             category.write({'tem_account_template': True})
-    #         else:
-    #             print 'False'
-    #             category.write({'tem_account_template': False})
+                raise Warning(u'A categoria %s já tem roteiro' % category.name)
 
 
 class AccountMoveLineTemplate(models.Model):
@@ -99,9 +100,6 @@ class AccountMoveLineTemplate(models.Model):
         string=u'Origem do produto'
     )
     term = fields.Selection(selection=TERM)
-    # TODO: qual a melhor forma de estruturar?
-    # operation_purpose = fields.Selection(selection=OPERATION_PURPOSE)
-    # account_move_type = fields.Selection(selection=MOVE_TYPE)
     credit_account_id = fields.Many2one(
         comodel_name='account.account', string=u'Conta de credito'
     )
@@ -112,6 +110,7 @@ class AccountMoveLineTemplate(models.Model):
         comodel_name='account.account', string=u'Conta de compensaçao de '
                                                u'debito'
     )
+
 
 class L10nBrAccountFiscalCategory(models.Model):
     _inherit = 'l10n_br_account.fiscal.category'
@@ -124,20 +123,3 @@ class L10nBrAccountFiscalCategory(models.Model):
         'template_id',
         string=u'Modelos de contabilização',
     )
-
-    # tem_account_template = fields.Boolean(
-    #     string=u'Tem account template?',
-    #     # compute='_compute_tem_account_template',
-    #     # store=True,
-    # )
-
-    # @api.depends('move_template_ids.fiscal_category_ids')
-    # def _compute_tem_account_template(self):
-    #     for category in self:
-    #         if category.move_template_ids and len(category.move_template_ids)\
-    #                 > 0:
-    #             print "true"
-    #             category.tem_account_template = True
-    #         else:
-    #             print 'False'
-    #             category.tem_account_template = False

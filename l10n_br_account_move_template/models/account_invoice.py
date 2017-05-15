@@ -24,8 +24,8 @@ class AccountInvoice(models.Model):
         domain = ['&']
         invl = self.env['account.invoice.line'].browse(move_line.get('invl_id',
                                                                      False))
-        duration = fields.Datetime.from_string(self.date_due) + \
-                   relativedelta(years=-1)
+        duration = fields.Datetime.from_string(self.date_due) + relativedelta(
+            years=-1)
 
         if duration > datetime.today():
             term = 'longo'
@@ -81,14 +81,66 @@ class AccountInvoice(models.Model):
             'fiscal_category_ids', '=', self.fiscal_category_id.id)])
         domain = self._map_move_template_domain(move_line, line_type, amt)
         amlt = self.env['account.move.line.template'].search(domain,
-                                                             order='sequence'
-                                                             , limit=1)
+                                                             order='sequence',
+                                                             limit=1)
         if line_type == 'tax':
             if move_line.get('credit', False):
                 account_id = amlt.credit_account_id
 
             if move_line[2].debit:
                 account_id = amlt.debit_account_id
+
+        elif line_type == 'cost':
+            invl = self.env['account.invoice.line'].browse(move_line.
+                                                           get('invl_id',
+                                                               False))
+            prod = invl.product_id
+            value = prod.standard_price
+            if amt.purchase_installed:
+                print 'purchase installed'
+                print value
+                if prod.cost_method == 'real':
+                    sm = self.env['stock.move'].search([(
+                        'product_id', '=', prod.id)], limit=1, order='id')
+                    if sm.price_unit:
+                        value = sm.price_unit
+
+                elif prod.cost_method == 'average':
+                    tmpl_dict = {}
+                    for move in self.env['stock.move'].search([(
+                            'product_id', '=', prod.id)]):
+                        # adapt standard price on incomming moves if
+                        # the product cost_method is 'average'
+                        # if (move.location_id.usage == 'supplier'):
+                        product = move.product_id
+                        prod_tmpl_id = move.product_id.product_tmpl_id.id
+                        qty_available = move.product_id.product_tmpl_id.\
+                            qty_available
+                        if tmpl_dict.get(prod_tmpl_id):
+                            product_avail = qty_available + tmpl_dict[
+                                prod_tmpl_id]
+                        else:
+                            tmpl_dict[prod_tmpl_id] = 0
+                            product_avail = qty_available
+                        if product_avail <= 0:
+                            new_std_price = move.price_unit
+                        else:
+                            # Get the standard price
+                            amount_unit = product.standard_price
+                            new_std_price = ((amount_unit * product_avail) +
+                                             (move.price_unit * move.
+                                              product_qty)) / (product_avail +
+                                                               move.
+                                                               product_qty)
+                        tmpl_dict[prod_tmpl_id] += move.product_qty
+                        value = new_std_price
+
+            if move_line.get('credit', False):
+                move_line['credit'] = value
+                account_id = amlt.credit_account_id
+            if move_line.get('debit', False):
+                account_id = amlt.debit_account_id
+                move_line['debit'] = value
 
         elif line_type == 'receipt':
             account_id = amlt.credit_account_id
@@ -105,6 +157,10 @@ class AccountInvoice(models.Model):
             move_line['account_id'] = account_id.id
             print 'Conta encontrada'
             print account_id
+
+        if line_type == 'receipt' and amt.use_cost:
+            return True
+        return False
 
     def finalize_invoice_move_lines(self, move_lines):
         """
@@ -148,13 +204,22 @@ class AccountInvoice(models.Model):
             # Criar contra-partidas
             if line_type == 'tax':
                 partida = dict(move_line)
-                # partida['name'] = 'Contrapartida - ' + move_line['name']
                 partida['debit'] = move_line['credit']
                 partida['credit'] = move_line['debit']
                 self.define_account(partida, line_type)
                 move_lines.append([0, 0, partida])
 
-            self.define_account(move_line, line_type)
+            cost = self.define_account(move_line, line_type)
+            if cost:
+                custo = dict(move_line)
+                self.define_account(custo, 'cost')
+                # calcular custo
+                estoque = dict(custo)
+                estoque['debit'] = custo['credit']
+                estoque['credit'] = custo['debit']
+                self.define_account(estoque, 'cost')
+                move_lines.append([0, 0, custo])
+                move_lines.append([0, 0, estoque])
 
         return move_lines
 

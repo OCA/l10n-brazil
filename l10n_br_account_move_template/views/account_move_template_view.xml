@@ -10,6 +10,7 @@
                 <field name="sequence" widget="handle"/>
                 <field name="company_id"/>
                 <field name="fiscal_category_ids"/>
+                <field name="use_cost"/>
                 <field name="move_template_ids"/>
             </tree>
         </field>
@@ -24,6 +25,7 @@
                     <field name="sequence" widget="handle"/>
                     <field name="company_id"/>
                     <field name="fiscal_category_ids" widget="many2many_tags"/>
+                    <field name="use_cost"/>
                     <field name="move_template_ids"/>
                 </group>
             </form>
