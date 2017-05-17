@@ -25,6 +25,7 @@ virtualenv:
 install:
   - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
+  - travis_install_nightly
   - pip install reportlab
   - pip install unidecode
   - pip install suds
@@ -32,7 +33,6 @@ install:
   - pip install https://github.com/odoo-brazil/pyxmlsec/archive/master.zip
   - pip install https://github.com/odoo-brazil/geraldo/archive/master.zip
   - pip install https://github.com/odoo-brazil/PySPED/archive/8.0.zip --allow-external PyXMLSec --allow-insecure PyXMLSec
-  - travis_install_nightly
 
 before_script:
   - chmod +x configure_locale.sh
