@@ -1623,7 +1623,9 @@ class HrPayslip(models.Model):
         folhas_periodo = folha_obj.search(domain)
 
         folhas_sorted = folhas_periodo.sorted(key=lambda r: r.date_from)
-        mes = data_inicio + relativedelta(months=-1)
+        mes = fields.Datetime.from_string(data_inicio) + relativedelta(
+            months=-1
+        )
         mes_anterior = ''
         for folha in folhas_sorted:
             if mes_anterior and mes_anterior == folha.mes_do_ano:
@@ -1634,7 +1636,7 @@ class HrPayslip(models.Model):
                 raise exceptions.ValidationError(
                     _("Faltando Holerite confirmado do mês de %s de %s") %
                     (MES_DO_ANO[mes.month-1][1], mes.year))
-        if mes.month != data_fim.month:
+        if mes.month != fields.Datetime.from_string(data_fim).month:
             raise exceptions.ValidationError(
                 _("Não foi encontrado o último holerite do periodo "
                   "aquisitivo, \nreferente ao mês  de %s de %s") %
