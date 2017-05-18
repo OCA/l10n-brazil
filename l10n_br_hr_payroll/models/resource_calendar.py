@@ -102,7 +102,7 @@ class ResourceCalendar(models.Model):
             self.env.ref('l10n_br_hr_holiday.holiday_status_vacation')
         domain = [
             ('state', '=', 'validate'),
-            ('employee_id', '=', employee_id),
+            ('contrato_id', '=', contract_id.id),
             ('type', '=', 'remove'),
             ('holiday_status_id', '=', holiday_status_id.id),
         ]
@@ -111,12 +111,12 @@ class ResourceCalendar(models.Model):
         ferias_atuais = ferias_holidays_ids.filtered(
             lambda holiday:
             (date_from <= holiday.date_from <= date_to) or
-            (date_to <= holiday.date_to <= date_to)
+            (date_from <= holiday.date_to <= date_to)
         )
 
         for holiday in ferias_atuais:
-            data_inicio_holiday = fields.Date.from_string(holiday.date_from)
-            data_final_holiday = fields.Date.from_string(holiday.date_to)
+            data_inicio_holiday = fields.Date.from_string(holiday.data_inicio)
+            data_final_holiday = fields.Date.from_string(holiday.data_fim)
             while data_inicio_holiday <= data_final_holiday:
                 if date_from <= str(data_inicio_holiday) <= date_to:
                     quantidade_dias_ferias += 1
