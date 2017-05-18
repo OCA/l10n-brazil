@@ -583,5 +583,34 @@ result_qty = round(DIAS_AVISO_PREVIO/30.0)</field>
             <field name="compoe_base_FGTS" eval="True"/>
         </record>
 
+         <record id="hr_salary_rule_DESCONTO_LIGACOES" model="hr.salary.rule">
+             <field name="code">DESCONTO_LIGACOES_TELEFONICAS</field>
+             <field name="name">Desconto Ligações Telefônicas</field>
+             <field name="category_id" ref="hr_payroll.DEDUCAO"/>
+             <field name="condition_select">python</field>
+             <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
+             <field name="amount_select">code</field>
+             <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+             <field name="sequence" eval="188"/>
+             <field name="compoe_base_INSS" eval="False"/>
+             <field name="compoe_base_IR" eval="False"/>
+             <field name="compoe_base_FGTS" eval="False"/>
+        </record>
+
+        <record id="hr_salary_rule_CONTRIBUICAO_SINDICAL" model="hr.salary.rule">
+             <field name="code">CONTRIBUICAO_SINDICAL</field>
+             <field name="name">Contribuição Sindical</field>
+             <field name="category_id" ref="hr_payroll.DEDUCAO"/>
+             <field name="condition_select">python</field>
+             <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
+             <field name="amount_select">code</field>
+             <field name="amount_python_compute">result = contract.wage/30</field>
+             <field name="sequence" eval="187"/>
+             <field name="compoe_base_INSS" eval="False"/>
+             <field name="compoe_base_IR" eval="False"/>
+             <field name="compoe_base_FGTS" eval="False"/>
+        </record>
+
+
     </data>
 </openerp>
