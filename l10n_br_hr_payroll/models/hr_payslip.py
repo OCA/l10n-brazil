@@ -1240,7 +1240,7 @@ class HrPayslip(models.Model):
             'inputs': input_obj, 'rubrica': None, 'SALARIO_MES': salario_mes,
             'SALARIO_DIA': salario_dia, 'SALARIO_HORA': salario_hora,
             'RAT_FAP': rat_fap, 'MEDIAS': medias_obj,
-            'PEDIDO_FERIAS': ferias_abono,
+            'PEDIDO_FERIAS': ferias_abono, 'PAGAR_FERIAS': False,
             'DIAS_AVISO_PREVIO': payslip.dias_aviso_previo,
         }
 
@@ -1253,14 +1253,24 @@ class HrPayslip(models.Model):
             rule_ids = self.env['hr.payroll.structure'].browse(
                 structure_ids).get_all_rules()
 
+            # Caso nao esteja computando holerite de ferias
             # recuperar as regras especificas do contrato
-            rule_ids = payslip.get_contract_specific_rubrics(
-                contract_ids, rule_ids)
+            if not payslip.tipo_de_folha == 'ferias':
+                rule_ids = payslip.get_contract_specific_rubrics(
+                    contract_ids, rule_ids)
 
-            # Recuperar informações da payslip de ferias, e se encontrar
-            # calcular proporcionalmente
-            lines, holidays_ferias = self.get_line_ferias(payslip)
-            if holidays_ferias and worked_days_obj.FERIAS.number_of_days > 0:
+            # Buscar informações de férias dentro do mês que esta sendo
+            # processado. Isto é, fazer uma busca para verificar se no mês de
+            # outubro o funcionário ja gozou alguma férias.
+            lines, holidays_ferias = self.buscar_ferias_do_mes(payslip)
+            # Se encontrar informações de férias gozadas dentro do mês,
+            #  trazer as informações de férias para o holerite mensal.
+            if holidays_ferias and worked_days_obj.FERIAS.number_of_days > 0 \
+                    and payslip.tipo_de_folha=='normal':
+                # Atualizar o baselocaldict para informar que tem que pagar
+                # ferias naquele holerite
+                baselocaldict.update({'PAGAR_FERIAS': True})
+                # Recuperar configurações do RH para calcular férias proporcio
                 ferias_proporcionais = \
                     self.env['ir.config_parameter'].get_param(
                         'l10n_br_hr_payroll_ferias_proporcionais',
@@ -1307,9 +1317,7 @@ class HrPayslip(models.Model):
                         name = 'Ajuste INSS Ferias'
                         category_id = \
                             self.env.ref('hr_payroll.PROVENTO')
-                        # "Ajuste" compoe base do IR
-                        # mas nao compoe base do INSS
-                        baselocaldict['BASE_INSS'] -= line.total
+                        # Ajuste do INSS compoe base do IR
                         baselocaldict['BASE_IR'] += line.total
 
                     if line.code == 'IRPF':
@@ -1341,6 +1349,7 @@ class HrPayslip(models.Model):
                         'quantity': qty,
                         'rate': line.rate,
                     }
+
                     if line.category_id.code == 'DEDUCAO':
                         if line.salary_rule_id.compoe_base_INSS:
                             baselocaldict['BASE_INSS'] -= line.total
@@ -1351,8 +1360,8 @@ class HrPayslip(models.Model):
                     else:
                         if line.salary_rule_id.compoe_base_INSS:
                             baselocaldict['BASE_INSS'] += line.total
-                        # if line.salary_rule_id.compoe_base_IR:
-                        #     baselocaldict['BASE_IR'] += line.total
+                        if line.salary_rule_id.compoe_base_IR:
+                            baselocaldict['BASE_IR'] += line.total
                         if line.salary_rule_id.compoe_base_FGTS:
                             baselocaldict['BASE_FGTS'] += line.total
 
@@ -1378,6 +1387,7 @@ class HrPayslip(models.Model):
                     localdict['result_qty'] = 1.0
                     localdict['result_rate'] = 100
                     localdict['rubrica'] = rule
+
                     # check if the rule can be applied
                     if obj_rule.satisfy_condition(rule.id, localdict) \
                             and rule.id not in blacklist:
@@ -1403,7 +1413,6 @@ class HrPayslip(models.Model):
                         tot_rule = amount * qty * rate / 100.0
                         localdict[rule.code] = tot_rule
                         rules[rule.code] = rule
-
                         if rule.compoe_base_INSS:
                             localdict['BASE_INSS'] += tot_rule
                         if rule.compoe_base_IR:

@@ -236,8 +236,9 @@ result_qty =  PEDIDO_FERIAS.DIAS_FERIAS
 result_qty =  PEDIDO_FERIAS.DIAS_ABONO
             </field>
             <field name="sequence" eval="111"/>
-            <field name="compoe_base_FGTS" eval="True"/>
-            <field name="compoe_base_INSS" eval="True"/>
+            <field name="compoe_base_FGTS" eval="False"/>
+            <field name="compoe_base_INSS" eval="False"/>
+            <field name="compoe_base_IR" eval="False"/>
         </record>
 
         <!-- 1/3 Abono Pecuniário-->
@@ -251,8 +252,9 @@ result_qty =  PEDIDO_FERIAS.DIAS_ABONO
             <field name="amount_python_compute">result = ABONO_PECUNIARIO / 3.0
             </field>
             <field name="sequence" eval="112"/>
-            <field name="compoe_base_FGTS" eval="True"/>
-            <field name="compoe_base_INSS" eval="True"/>
+            <field name="compoe_base_FGTS" eval="False"/>
+            <field name="compoe_base_INSS" eval="False"/>
+            <field name="compoe_base_IR" eval="False"/>
         </record>
 
         <!-- Liquido Férias-->
@@ -274,11 +276,11 @@ result_qty =  PEDIDO_FERIAS.DIAS_ABONO
             <field name="name">Pagamento Antecipado de Férias</field>
             <field name="category_id" ref="hr_payroll.DEDUCAO"/>
             <field name="condition_select">python</field>
-            <field name="condition_python">result = worked_days.FERIAS.number_of_days > 0 </field>
+            <field name="condition_python">result = worked_days.FERIAS.number_of_days > 0 and PAGAR_FERIAS</field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute">result = CALCULAR.rubrica_anterior_total(code='LIQUIDO_FERIAS', tipo_de_folha='ferias')
             </field>
-            <field name="sequence" eval="10"/>
+            <field name="sequence" eval="999"/>
             <field name="compoe_base_FGTS" eval="False"/>
             <field name="compoe_base_INSS" eval="False"/>
         </record>
