@@ -49,6 +49,7 @@ TIPO_DE_FOLHA = [
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
     _order = 'employee_id asc, number desc'
+    _rec_name = 'display_name'
 
     @api.multi
     def _buscar_dias_aviso_previo(self):
@@ -572,7 +573,7 @@ class HrPayslip(models.Model):
             # get dias de férias + get dias de abono pecuniario
             quantidade_dias_ferias, quantidade_dias_abono = \
                 self.env['resource.calendar'].get_quantidade_dias_ferias(
-                    hr_contract.employee_id.id, date_from, date_to)
+                    hr_contract, date_from, date_to)
 
             result += [
                 self.get_attendances(
@@ -717,7 +718,12 @@ class HrPayslip(models.Model):
                     (line.salary_rule_id.id, line.salary_rule_id.sequence))
         return rule_ids, holerite_ferias.holidays_ferias
 
-    def get_line_ferias(self, payslip):
+    def buscar_ferias_do_mes(self, payslip):
+        """
+        Buscar holerite de ferias que tem o inicio dentro do mes da competencia
+        que esta sendo calculada. Isto é, quando estiver sendo calculado o
+        holerite de OUTUBRO, buscar férias que tem a data inicial em OUT.
+        """
         holerite_ferias = self.search([
             ('tipo_de_folha', '=', 'ferias'),
             ('date_from', '>=', payslip.date_from),
@@ -1051,45 +1057,6 @@ class HrPayslip(models.Model):
         else:
             return 0
 
-    # utilizando estrategia de copiar a linha .
-    # Problea: Nao incrmenta as rubricas bases de referencias.
-    # def buscar_informacoes_ferias(self, payslip, qtd_dias_ferias, localdict):
-    #     if payslip.tipo_de_folha == 'normal':
-    #         # Recuperar a payslip de férias
-    #         holerite_ferias = self.search([
-    #             ('tipo_de_folha', '=', 'ferias'),
-    #             ('date_from', '>=', payslip.date_from),
-    #             ('date_from', '<=', payslip.date_to),
-    #             ('contract_id', '=', payslip.contract_id.id),
-    #             ('state', '=', 'done')
-    #         ])
-    #
-    #         dias_gozadas = \
-    #             holerite_ferias.holidays_ferias.number_of_days_temp
-    #
-    #         # payslip.worked_days_line_ids[3].number_of_days
-    #         for worked_days_line in payslip.worked_days_line_ids:
-    #             if worked_days_line.code == 'FERIAS':
-    #                 dias_gozadas_mes = worked_days_line.number_of_days
-    #
-    #         for linha_ferias in holerite_ferias.line_ids:
-    #             nova_linha = linha_ferias.copy({
-    #                 'slip_id': payslip.id,
-    #                 'name': linha_ferias.name + ' (ferias)',
-    #                 'code': linha_ferias.code + '_ANTERIOR',
-    #                 'rate':
-    #                     dias_gozadas_mes / dias_gozadas * 100,
-    #             })
-    #
-    #             if nova_linha.code == 'INSS_ANTERIOR':
-    #                 category_rule_id = self.env.ref('hr_payroll.PROVENTO')
-    #                 nova_linha.copy({
-    #                     'slip_id': payslip.id,
-    #                     'name': nova_linha.name + ' (Ajuste de ferias)',
-    #                     'code': nova_linha.code + '_AJUSTE',
-    #                     'category_id': category_rule_id.id,
-    #                 })
-
     @api.multi
     def get_payslip_lines(self, payslip_id):
         """
@@ -1215,7 +1182,8 @@ class HrPayslip(models.Model):
         salario_hora = payslip._buscar_valor_salario('SALARIO_HORA')
         rat_fap = payslip._get_rat_fap_period_values(payslip.ano)
 
-        # Construir um browsableObject para informações das ferias na payslip\
+        # Construir um browsableObject para informações da quantidade de dias
+        # de ferias e de abono na payslip.
         #     payslip.holidays_ferias
         dias_abono_ferias = {}
         if payslip.holidays_ferias and not payslip.is_simulacao:
@@ -1289,7 +1257,7 @@ class HrPayslip(models.Model):
                             holidays_ferias.sold_vacations_days
 
                 for line in lines:
-                    key = line.code + '_ANTERIOR'
+                    key = line.code + '_FERIAS'
                     amount = line.amount
                     qty = line.quantity
                     category_id = line.category_id
@@ -1311,7 +1279,7 @@ class HrPayslip(models.Model):
                         line.copy({
                             'slip_id': payslip.id,
                             'name': line.name + ' (ferias)',
-                            'code': line.code + '_ANTERIOR',
+                            'code': line.code + '_FERIAS',
                         })
 
                         name = 'Ajuste INSS Ferias'
@@ -1327,7 +1295,7 @@ class HrPayslip(models.Model):
                         'salary_rule_id': line.salary_rule_id.id,
                         'contract_id': payslip.contract_id.id,
                         'name': name,
-                        'code': line.code + '_ANTERIOR',
+                        'code': line.code + '_FERIAS',
                         'category_id': category_id.id,
                         'sequence': line.sequence,
                         'appears_on_payslip': line.appears_on_payslip,

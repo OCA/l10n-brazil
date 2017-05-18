@@ -89,7 +89,7 @@ class ResourceCalendar(models.Model):
         return quantity_DSR
 
     @api.multi
-    def get_quantidade_dias_ferias(self, employee_id, date_from, date_to):
+    def get_quantidade_dias_ferias(self, contract_id, date_from, date_to):
         """Calcular a quantidade de dias que o funcionario ficou de férias
         :param str: data_to - Data Inicial do intervalo
                str: data_from - Data final do intervalo
