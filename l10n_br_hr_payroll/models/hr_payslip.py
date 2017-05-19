@@ -1286,6 +1286,8 @@ class HrPayslip(models.Model):
                         category_id = \
                             self.env.ref('hr_payroll.PROVENTO')
                         # Ajuste do INSS compoe base do IR
+                         # mas nao compoe base do INSS
+                        baselocaldict['BASE_INSS'] -= line.total
                         baselocaldict['BASE_IR'] += line.total
 
                     if line.code == 'IRPF':
@@ -1328,8 +1330,8 @@ class HrPayslip(models.Model):
                     else:
                         if line.salary_rule_id.compoe_base_INSS:
                             baselocaldict['BASE_INSS'] += line.total
-                        if line.salary_rule_id.compoe_base_IR:
-                            baselocaldict['BASE_IR'] += line.total
+                        # if line.salary_rule_id.compoe_base_IR:
+                        #     baselocaldict['BASE_IR'] += line.total
                         if line.salary_rule_id.compoe_base_FGTS:
                             baselocaldict['BASE_FGTS'] += line.total
 
