@@ -195,8 +195,7 @@ class HrPayslip(models.Model):
                 tempo_trabalhado = []
                 tempo_trabalhado = [
                     ano.inicio_aquisitivo for ano in periodos_aquisitivos if
-                    ano.inicio_aquisitivo not in tempo_trabalhado
-                    ]
+                    ano.inicio_aquisitivo not in tempo_trabalhado]
 
                 payslip.dias_aviso_previo = \
                     30 + (len(tempo_trabalhado) * 3) - \
@@ -627,7 +626,7 @@ class HrPayslip(models.Model):
             'name': 'Salário Dia',
             'code': 'SALARIO_DIA',
             'amount': contract._salario_dia(date_from, date_to)if
-            not self.medias_proventos else self.medias_proventos[1].media/30,
+            not self.medias_proventos else self.medias_proventos[1].media / 30,
             'contract_id': contract.id,
         }
         salario_hora_dic = {
@@ -1234,7 +1233,7 @@ class HrPayslip(models.Model):
             # Se encontrar informações de férias gozadas dentro do mês,
             #  trazer as informações de férias para o holerite mensal.
             if holidays_ferias and worked_days_obj.FERIAS.number_of_days > 0 \
-                    and payslip.tipo_de_folha=='normal':
+                    and payslip.tipo_de_folha == 'normal':
                 # Atualizar o baselocaldict para informar que tem que pagar
                 # ferias naquele holerite
                 baselocaldict.update({'PAGAR_FERIAS': True})
@@ -1286,7 +1285,7 @@ class HrPayslip(models.Model):
                         category_id = \
                             self.env.ref('hr_payroll.PROVENTO')
                         # Ajuste do INSS compoe base do IR
-                         # mas nao compoe base do INSS
+                        # mas nao compoe base do INSS
                         baselocaldict['BASE_INSS'] -= line.total
                         baselocaldict['BASE_IR'] += line.total
 
