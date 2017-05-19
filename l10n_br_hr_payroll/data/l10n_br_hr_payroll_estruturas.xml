@@ -86,7 +86,7 @@
             <field name="name">Primeira Parcela 13 Salário</field>
             <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_PRIMEIRA_PARCELA_13')])]" />
             <field name="company_id" ref="base.main_company" />
-            <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS_13')" />
+            <field name="parent_id" eval="False" />
         </record>
 
         <record id="hr_salary_structure_SEGUNDA_PARCELA_13" model="hr.payroll.structure">

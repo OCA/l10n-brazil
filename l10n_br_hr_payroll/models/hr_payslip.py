@@ -1596,6 +1596,7 @@ class HrPayslip(models.Model):
             ('date_from', '>=', data_inicio),
             ('date_from', '<=', data_fim),
             ('contract_id', '=', contrato.id),
+            ('tipo_de_folha', '=', 'normal'),
             ('state', '=', 'done'),
         ]
         folhas_periodo = folha_obj.search(domain)
@@ -1618,7 +1619,13 @@ class HrPayslip(models.Model):
             raise exceptions.ValidationError(
                 _("Não foi encontrado o último holerite do periodo "
                   "aquisitivo, \nreferente ao mês  de %s de %s") %
-                (MES_DO_ANO[data_fim.month-1][1], data_fim.year))
+                (
+                    MES_DO_ANO[
+                        fields.Datetime.from_string(data_fim).month-1
+                    ][1],
+                    fields.Datetime.from_string(data_fim).year
+                )
+            )
 
     @api.multi
     def gerar_media_dos_proventos(self):
