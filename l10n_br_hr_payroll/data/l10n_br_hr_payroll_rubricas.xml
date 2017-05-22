@@ -42,7 +42,7 @@
             <field name="category_id" ref="hr_payroll.IRPF"/>
             <field name="condition_select">none</field>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = CALCULAR.IRRF(BASE_IRPF, INSS)</field>
+            <field name="amount_python_compute">result = CALCULAR.IRRF(BASE_IRPF, INSS if 'INSS' in locals() else 0)</field>
             <field name="sequence" eval="502"/>
         </record>
 
@@ -62,7 +62,7 @@
             <field name="category_id" ref="hr_payroll.REFERENCIA" />
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = CALCULAR.BASE_IRRF(BASE_IR, INSS)</field>
+            <field name="amount_python_compute">result = CALCULAR.BASE_IRRF(BASE_IR, INSS if 'INSS' in locals() else 0)</field>
             <field name="sequence" eval="501" />
         </record>
 
@@ -72,7 +72,7 @@
             <field name="category_id" ref="hr_payroll.LIQUIDO" />
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = categories.DEDUCAO + INSS + IRPF</field>
+            <field name="amount_python_compute">result = categories.DEDUCAO + INSS if 'INSS' in locals() else 0 + IRPF if 'IRPF' in locals() else 0</field>
             <field name="sequence" eval="701" />
         </record>
 
