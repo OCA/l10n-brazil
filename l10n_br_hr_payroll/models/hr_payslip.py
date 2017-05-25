@@ -1521,9 +1521,9 @@ class HrPayslip(models.Model):
     def compute_sheet(self):
         if self.tipo_de_folha == "rescisao":
             if len(self._checar_holerites_aprovados()) == 0:
-                raise exceptions.Warning(
+                raise exceptions.Warning(_(
                     "Não existem holerites aprovados para este contrato!"
-                )
+                ))
         self.atualizar_worked_days_inputs()
         if self.tipo_de_folha in [
             "decimo_terceiro", "ferias", "aviso_previo",
