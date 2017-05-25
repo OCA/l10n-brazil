@@ -100,6 +100,24 @@ class TestHrHoliday(common.TransactionCase):
         self.assertEqual(contrato.name, 'Contrato ANA BEATRIZ CARVALHO')
         self.assertEqual(contrato.date_start, '2014-01-01')
         self.assertEqual(contrato.wage, 12345.67)
+        # Testar controles de férias
+        self.assertEqual(len(contrato.vacation_control_ids), 4)
+        self.assertEqual(
+            contrato.vacation_control_ids[0].inicio_aquisitivo, '2014-01-01')
+        self.assertEqual(
+            contrato.vacation_control_ids[0].fim_aquisitivo, '2014-12-31')
+        self.assertEqual(
+            contrato.vacation_control_ids[1].inicio_aquisitivo, '2015-01-01')
+        self.assertEqual(
+            contrato.vacation_control_ids[1].fim_aquisitivo, '2015-12-31')
+        self.assertEqual(
+            contrato.vacation_control_ids[2].inicio_aquisitivo, '2016-01-01')
+        self.assertEqual(
+            contrato.vacation_control_ids[2].fim_aquisitivo, '2016-12-31')
+        self.assertEqual(
+            contrato.vacation_control_ids[3].inicio_aquisitivo, '2017-01-01')
+        self.assertEqual(
+            contrato.vacation_control_ids[3].fim_aquisitivo, '2017-12-31')
 
     def test_01_verificar_controle_ferias(self):
         """
