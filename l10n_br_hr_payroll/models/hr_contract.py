@@ -204,9 +204,9 @@ class HrContract(models.Model):
     )
 
     # Lotação
-    departamento_lotacao = fields.Selection(
-        selection=[],
-        string="Departamento/lotação"
+    departamento_lotacao = fields.Many2one(
+        string="Departamento/lotação",
+        comodel_name='hr.department'
     )
 
     lotacao_cliente_fornecedor = fields.Selection(
