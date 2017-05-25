@@ -344,26 +344,26 @@ class SpedEmpresa(models.Model):
         valores = {}
         res = {'value': valores}
 
-        if self.nome:
-            valores.update(nome=primeira_maiuscula(self.nome))
-
-        if self.razao_social:
-            valores.update(razao_social=primeira_maiuscula(self.razao_social))
-
-        if self.fantasia:
-            valores.update(fantasia=primeira_maiuscula(self.fantasia))
-
-        if self.endereco:
-            valores.update(endereco=primeira_maiuscula(self.endereco))
-
-        if self.bairro:
-            valores.update(bairro=primeira_maiuscula(self.bairro))
-
-        if self.cidade:
-            valores.update(cidade=primeira_maiuscula(self.cidade))
-
-        if self.profissao:
-            valores.update(profissao=primeira_maiuscula(self.profissao))
+        # if self.nome:
+        #     valores.update(nome=primeira_maiuscula(self.nome))
+        #
+        # if self.razao_social:
+        #     valores.update(razao_social=primeira_maiuscula(self.razao_social))
+        #
+        # if self.fantasia:
+        #     valores.update(fantasia=primeira_maiuscula(self.fantasia))
+        #
+        # if self.endereco:
+        #     valores.update(endereco=primeira_maiuscula(self.endereco))
+        #
+        # if self.bairro:
+        #     valores.update(bairro=primeira_maiuscula(self.bairro))
+        #
+        # if self.cidade:
+        #     valores.update(cidade=primeira_maiuscula(self.cidade))
+        #
+        # if self.profissao:
+        #     valores.update(profissao=primeira_maiuscula(self.profissao))
 
         return res
 
@@ -392,7 +392,7 @@ class SpedEmpresa(models.Model):
             dados.update(paperformat_id=self.env.ref(
                 'report.paperformat_euro').id
                          )
-            dados.update(currency_id=self.env.ref('base.BRL').id)
+        dados.update(currency_id=self.env.ref('base.BRL').id)
 
         return dados
 
@@ -421,6 +421,15 @@ class SpedEmpresa(models.Model):
     def write(self, dados):
         res = super(SpedEmpresa, self).write(dados)
         self.sync_to_company()
+        return res
+
+    @api.onchange('company_id')
+    def _onchange_company_id(self):
+        valores = {}
+        res = {'value': valores}
+
+        valores['partner_id'] = self.company_id.partner_id.id
+
         return res
 
     @api.onchange('partner_id')
@@ -452,8 +461,8 @@ class SpedEmpresa(models.Model):
             valores.update(eh_usuario=True)
         else:
             valores.update(eh_usuario=False)
-        return res
 
+        return res
 
     @api.model
     @api.returns('self', lambda value: value.id if value else False)
