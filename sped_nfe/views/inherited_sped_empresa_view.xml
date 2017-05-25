@@ -9,7 +9,7 @@
         <field name="name">sped.empresa.inherited.form</field>
         <field name="model">sped.empresa</field>
         <field name="priority">2</field>
-        <field name="inherit_id" ref="sped.sped_empresa_form" />
+        <field name="inherit_id" ref="sped_imposto.sped_empresa_form" />
         <field name="arch" type="xml">
             <field name="protocolo_id" position="after">
                 <newline />
