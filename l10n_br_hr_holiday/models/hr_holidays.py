@@ -48,6 +48,7 @@ class HrHolidays(models.Model):
     def onchange_contrato(self):
         for holiday in self:
             holiday.employee_id = holiday.contrato_id.employee_id
+            holiday.department_id = holiday.contrato_id.departamento_lotacao
 
     @api.constrains('attachment_ids', 'holiday_status_id', 'date_from',
                     'date_to', 'number_of_days_temp')
