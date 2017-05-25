@@ -164,20 +164,21 @@ class HrHolidays(models.Model):
         terminar em dias diferentes, mostre a data inicial e final do holidays,
          senão só mostra a data que acontecerá o holidays
         """
-        if self.data_inicio and self.data_fim and \
-                self.holiday_status_id and self.employee_id:
-            date_from = data.formata_data(self.data_inicio)
-            date_to = data.formata_data(self.data_fim)
-
-            if date_from == date_to:
-                self.name = self.holiday_status_id.name[:30] + \
-                    '[' + self.employee_id.name[:10] + '] ' + \
-                    ' (' + date_to + ')'
-            else:
-                self.name = \
-                    '[' + self.employee_id.name+'] ' + \
-                    self.holiday_status_id.name[:30] + \
-                    ' (' + date_from + '-' + date_to + ')'
+        for holiday in self:
+            if holiday.data_inicio and holiday.data_fim and \
+                    holiday.holiday_status_id and holiday.employee_id:
+                date_from = data.formata_data(holiday.data_inicio)
+                date_to = data.formata_data(holiday.data_fim)
+    
+                if date_from == date_to:
+                    holiday.name = holiday.holiday_status_id.name[:30] + \
+                        '[' + holiday.employee_id.name[:10] + '] ' + \
+                        ' (' + date_to + ')'
+                else:
+                    holiday.name = \
+                        '[' + holiday.employee_id.name+'] ' + \
+                        holiday.holiday_status_id.name[:30] + \
+                        ' (' + date_from + '-' + date_to + ')'
 
     @api.onchange('data_inicio', 'data_fim', 'date_from', 'date_to')
     def setar_datas_core(self):
