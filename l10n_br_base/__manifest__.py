@@ -42,6 +42,12 @@
         'data/sped_unidade_data.xml',
 
         #
+        # Ajustes nas views padrão
+        #
+        'views/inherited_res_currency_view.xml',
+        'views/inherited_res_company_view.xml',
+
+        #
         # Menus principais
         #
         'views/l10n_br_base_menus_view.xml',
@@ -61,6 +67,7 @@
         'views/sped_participante_fornecedor_view.xml',
         'views/sped_participante_vincula_partner_view.xml',
         'views/sped_empresa_view.xml',
+        'views/sped_empresa_vincula_company_view.xml',
 
         'views/sped_produto_produto_view.xml',
         'views/sped_unidade_produto_view.xml',
