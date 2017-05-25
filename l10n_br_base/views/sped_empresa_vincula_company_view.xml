@@ -11,193 +11,123 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <form string="Empresa">
-                <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <!--                     <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive"></button> -->
-                    </div>
-                    <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
-                    <field name="id" invisible="1" />
-                    <div class="oe_title">
+            <sheet>
+                <field name="id" invisible="1" />
+<!--                    <div class="oe_button_box" name="button_box">
+                    <button name="toggle_active" type="object"
+                            class="oe_stat_button" icon="fa-archive">
+                    </button>
+                </div>-->
+                <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
+                <div class="oe_title">
                         <h1>
-                            <field name="partner_id" placeholder="Partner original" required="1" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('id', '!=', False)]}" />
+                            <field name="company_id" placeholder="Company original" required="1" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('id', '!=', False)]}" />
+                            <field name="partner_id" invisible="1" />
                         </h1>
-                        <h1>
-                            <field name="nome" default_focus="1" placeholder="Nome (uso interno)" required="1" />
-                        </h1>
-                        <h2>
-                            <field name="cnpj_cpf" placeholder="CNPJ ou CPF" required="1" />
-                            <field name="tipo_pessoa" invisible="1" />
-                        </h2>
-                    </div>
-                    <group>
-                        <field name="razao_social" required="1" string="Nome completo Razão Social" />
-                        <field name="fantasia" attrs="{'invisible': [('tipo_pessoa', '=', 'F')]}" />
-                    </group>
-                    <separator string="Contato" />
-                    <group col="6">
-                        <field name="fone" widget="phone" placeholder="(99) 9999-9999" />
-                        <field name="celular" widget="phone" placeholder="(99) 999-999-999" />
-                        <field name="fone_comercial" widget="phone" placeholder="(99) 9999-9999" />
-                        <field name="email" colspan="6" />
-                        <field name="site" colspan="6" />
-                    </group>
-                    <separator string="Endereço" />
-                    <group col="6">
-                        <field name="endereco" colspan="6" required="1" />
-                        <field name="numero" required="1" />
-                        <field name="complemento" colspan="4" />
-                        <field name="bairro" colspan="6" required="1" />
-                        <field name="municipio_id" options="{'no_open': True, 'no_create': True}" domain="[('estado', '!=', 'EX')]" colspan="6" required="1" />
-                        <field name="cep" placeholder="99999-999" required="1" />
-                    </group>
+                    <h1>
+                        <field name="nome" default_focus="1" placeholder="Nome (uso interno)" required="1" />
+                    </h1>
+                    <h2>
+                        <field name="cnpj_cpf" placeholder="CNPJ ou CPF" required="1" />
+                        <field name="tipo_pessoa" invisible="1" />
+                    </h2>
+                </div>
+                <group>
+                    <field name="razao_social" required="1" string="Nome completo Razão Social" />
+                    <field name="fantasia" attrs="{'invisible': [('tipo_pessoa', '=', 'F')]}" />
+                </group>
+                <separator string="Contato" />
+                <group col="2">
+                    <field name="fone" widget="phone" placeholder="(99) 9999-9999" />
+                    <newline />
+                    <field name="celular" widget="phone" placeholder="(99) 999-999-999" />
+                    <newline />
+                    <field name="fone_comercial" widget="phone" placeholder="(99) 9999-9999" />
+                    <newline />
+                    <field name="email" />
+                    <newline />
+                    <field name="site" />
+                </group>
+                <separator string="Endereço" />
+                <group col="6">
+                    <field name="endereco" colspan="6" required="1" />
+                    <field name="numero" required="1" />
+                    <field name="complemento" colspan="4" />
+                    <field name="bairro" colspan="6" required="1" />
+                    <field name="municipio_id" options="{'no_open': True, 'no_create': True}" domain="[('estado', '!=', 'EX')]" colspan="6" required="1" />
+                    <field name="cep" placeholder="99999-999" required="1" />
+                </group>
 
-                    <notebook>
-                        <page string="Inscrições e registros">
-                            <group col="4">
-                                <group col="4" colspan="4">
-                                    <separator string="Inscrição Estadual" colspan="4" />
-                                    <field name="contribuinte" colspan="2" />
-                                    <field name="ie" attrs="{'invisible': [('contribuinte', '!=', '1')]}" colspan="2" />
-                                </group>
-                                <newline />
-                                <group col="6" colspan="4" attrs="{'invisible': [('tipo_pessoa', '!=', 'F')]}">
-                                    <separator string="RG" colspan="6"  />
-                                    <field name="rg_numero" string="Número" colspan="2" />
-                                    <field name="rg_orgao_emissor" string="Órgão emissor" colspan="2" />
-                                    <field name="rg_data_expedicao" string="Data de emissão" colspan="2" />
-                                </group>
-                                <newline />
-                                <group col="4" colspan="4" attrs="{'invisible': [('tipo_pessoa', '=', 'F')]}" >
-                                    <separator string="Outras inscrições" colspan="6" />
-                                    <separator string="Inscrição Municipal" colspan="2" />
-                                    <separator string="CEI" colspan="2" />
-                                    <field name="im" colspan="2" nolabel="1" />
-                                    <field name="cei" colspan="2" nolabel="1" />
-                                    <separator string="SUFRAMA" colspan="2" />
-                                    <separator string="RNTRC" colspan="2" />
-                                    <field name="suframa" colspan="2" nolabel="1" />
-                                    <field name="rntrc" colspan="2" nolabel="1" />
-                                    <separator string="CRC" />
-                                    <newline />
-                                    <field name="crc" colspan="2" />
-                                    <field name="crc_uf" colspan="2" options="{'no_open': True, 'no_create': True}" />
-                                </group>
+                <notebook>
+                    <page name="inscricoes" string="Inscrições e registros">
+                        <group col="4">
+                            <group col="4" colspan="4">
+                                <separator string="Inscrição Estadual" colspan="4" />
+                                <field name="contribuinte" colspan="2" />
+                                <field name="ie" attrs="{'invisible': [('contribuinte', '!=', '1')]}" colspan="2" />
                             </group>
-                        </page>
-                        <page string="Comercial">
-                            <group>
-                                <group string="Vendas" name="vendas">
-                                    <field name="eh_cliente" />
-                                </group>
-                                <group string="Compras" name="compras">
-                                    <field name="eh_fornecedor" />
-                                </group>
-                                <group string="Outras informações" colspan="4" col="4">
-                                    <field name="codigo" colspan="2" />
-                                </group>
+                            <newline />
+                            <group col="6" colspan="4" attrs="{'invisible': [('tipo_pessoa', '!=', 'F')]}">
+                                <separator string="RG" colspan="6"  />
+                                <field name="rg_numero" string="Número" colspan="2" />
+                                <field name="rg_orgao_emissor" string="Órgão emissor" colspan="2" />
+                                <field name="rg_data_expedicao" string="Data de emissão" colspan="2" />
                             </group>
-                        </page>
-                        <page string="Fiscal">
-                            <notebook colspan="4">
-                                <page string="Geral">
-                                    <group col="4">
-                                        <group col="4" colspan="4">
-                                            <field name="regime_tributario" colspan="4" />
-                                        </group>
-                                        <newline />
-                                        <group col="4" colspan="4" attrs="{'invisible': ['!', ('regime_tributario', 'in', ('1', '2'))]}">
-                                            <field name="simples_anexo_id" options="{'no_open': True, 'no_create': True}" attrs="{'required': [('regime_tributario', 'in', ('1', '2'))]}" />
-                                            <field name="simples_teto_id" options="{'no_open': True, 'no_create': True}" attrs="{'required': [('regime_tributario', 'in', ('1', '2'))]}" />
-                                        </group>
-                                        <newline />
-                                        <!--                            <field name="eh_consumidor_final" />
+                            <newline />
+                            <group col="4" colspan="4" attrs="{'invisible': [('tipo_pessoa', '=', 'F')]}" >
+                                <separator string="Outras inscrições" colspan="6" />
+                                <separator string="Inscrição Municipal" colspan="2" />
+                                <separator string="CEI" colspan="2" />
+                                <field name="im" colspan="2" nolabel="1" />
+                                <field name="cei" colspan="2" nolabel="1" />
+                                <separator string="SUFRAMA" colspan="2" />
+                                <separator string="RNTRC" colspan="2" />
+                                <field name="suframa" colspan="2" nolabel="1" />
+                                <field name="rntrc" colspan="2" nolabel="1" />
+                                <separator string="CRC" />
+                                <newline />
+                                <field name="crc" colspan="2" />
+                                <field name="crc_uf" colspan="2" options="{'no_open': True, 'no_create': True}" />
+                            </group>
+                        </group>
+                    </page>
+                    <page name="comercial" string="Comercial">
+                        <group>
+                            <group string="Vendas" name="vendas">
+                                <field name="eh_cliente" />
+                            </group>
+                            <group string="Compras" name="compras">
+                                <field name="eh_fornecedor" />
+                            </group>
+                            <group string="Outras informações" colspan="4" col="4">
+                                <field name="codigo" colspan="2" />
+                                <field name="comment" />
+                                <field name="transportadora_id" colspan="4" col="4" />
+                                <field name="payment_term_id" colspan="4" col="4" />
+                            </group>
+                        </group>
+                    </page>
+                    <page name="fiscal" string="Fiscal">
+                        <notebook colspan="4">
+                            <page name="fiscal_geral" string="Geral">
+                                <group col="4">
+                                    <group name="fiscal_geral_regime_tributario" col="4" colspan="4">
+                                        <field name="regime_tributario" colspan="4" />
+                                        <!--<field name="eh_consumidor_final" />
                                         <field name="eh_orgao_publico" />
                                         <field name="eh_transportadora" />
                                         <field name="eh_funcionario" />-->
-                                        <group col="4" colspan="4">
-                                            <field name="al_pis_cofins_id" colspan="4" options="{'no_open': True, 'no_create': True}" attrs="{'required': True}" />
-                                            <newline />
-                                            <field name="cnae_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
-                                            <newline />
-                                            <field name="protocolo_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
-                                        </group>
                                     </group>
-                                </page>
-                                <page string="Operações Fiscais Padrão">
-                                    <group col="4">
-                                        <separator string="Operações Fiscais padrão para produtos" colspan="4" />
-                                        <field name="operacao_produto_id" string="Venda" colspan="4" options="{'no_open': True, 'no_create': True}" />
-                                        <field name="operacao_produto_pessoa_fisica_id" string="Venda pessoa física" colspan="4" options="{'no_open': True, 'no_create': True}" />
-                                        <field name="operacao_produto_ids" string="Outras operações permitidas" colspan="4" widget="many2many_tags" />
-    <!--                                     <field name="operacao_produto_ids" colspan="4" widget="many2many_tags" options="{'no_open': True, 'no_create': True}" /> -->
-                                        <separator string="Operações Fiscais padrão para serviços" colspan="4" />
-                                        <field name="operacao_servico_id" string="Venda" colspan="4" options="{'no_open': True, 'no_create': True}" />
-                                        <field name="operacao_servico_ids" sring="Outras operações permitidas" colspan="4" widget="many2many_tags" />
-                                    </group>
-                                </page>
-                                <page string="NF-e - Produtos">
-                                    <group col="4">
-                                        <field name="ambiente_nfe" string="Ambiente" />
-                                        <field name="tipo_emissao_nfe" string="Tipo de emissão" />
-                                        <newline />
-                                        <separator string="Emissão normal" colspan="4" />
-                                        <separator string="Produção" colspan="2" />
-                                        <separator string="Homologação" colspan="2" />
-                                        <field name="serie_nfe_producao" string="Série" />
-                                        <field name="serie_nfe_homologacao" string="Série" />
-                                        <newline />
-                                        <separator string="Emissão em contingência" colspan="4" />
-                                        <separator string="Produção" colspan="2" />
-                                        <separator string="Homologação" colspan="2" />
-                                        <field name="serie_nfe_contingencia_producao" string="Série" />
-                                        <field name="serie_nfe_contingencia_homologacao" string="Série" />
-                                    </group>
-                                </page>
-                                <page string="NFC-e - Produtos">
-                                    <group col="4">
-                                        <field name="ambiente_nfce" string="Ambiente" />
-                                        <field name="tipo_emissao_nfce" string="Tipo de emissão" />
-                                        <newline />
-                                        <separator string="Emissão normal" colspan="4" />
-                                        <separator string="Produção" colspan="2" />
-                                        <separator string="Homologação" colspan="2" />
-                                        <field name="serie_nfce_producao" string="Série" />
-                                        <field name="serie_nfce_homologacao" string="Série" />
-                                        <newline />
-                                        <separator string="Emissão em contingência" colspan="4" />
-                                        <separator string="Produção" colspan="2" />
-                                        <separator string="Homologação" colspan="2" />
-                                        <field name="serie_nfce_contingencia_producao" string="Série" />
-                                        <field name="serie_nfce_contingencia_homologacao" string="Série" />
-                                    </group>
-                                </page>
-                                <page string="NFS-e - Serviços">
-                                    <group col="4">
-                                        <separator string="NS-e" colspan="4" />
-                                        <field name="ambiente_nfse" string="Ambiente" />
-    <!--                                     <field name="provedor_nfse" /> -->
-                                        <newline />
-                                        <separator string="Emissão normal" colspan="4" />
-                                        <separator string="Produção" colspan="2" />
-                                        <separator string="Homologação" colspan="2" />
-                                        <field name="serie_rps_producao" string="Série" />
-                                        <field name="serie_rps_homologacao" string="Série" />
-                                        <newline />
-                                        <field name="ultimo_rps" />
-                                        <field name="ultimo_lote_rps" />
-                                    </group>
-                                </page>
-                            </notebook>
-                            <!--                        <field name="eh_cooperativa" />
-                            <field name="eh_convenio" />
-                            <field name="eh_sindicato" />-->
-                        </page>
-                    </notebook>
-                </sheet>
-                <!--            <div class="oe_chatter">
+                                </group>
+                            </page>
+                        </notebook>
+                    </page>
+                </notebook>
+            </sheet>
+<!--            <div class="oe_chatter">
                 <field name="message_follower_ids" widget="mail_followers"/>
                 <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
-                </div>-->
+            </div>-->
             </form>
         </field>
     </record>
