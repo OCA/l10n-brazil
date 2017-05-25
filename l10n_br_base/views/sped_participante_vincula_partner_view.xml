@@ -42,6 +42,7 @@
                 <attribute name="string">Vincular Participante - Partner</attribute>
             </xpath>
             <xpath expr="//field[@name='nome']" position="before">
+                <field name="id" invisible="1" />
                 <field name="partner_id" placeholder="Partner original" required="1" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('id', '!=', False)]}" domain="[('sped_participante_id', '=', False), ('original_company_id', '=', False)]" />
                 <newline />
             </xpath>
