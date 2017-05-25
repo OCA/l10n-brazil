@@ -153,6 +153,8 @@ class SpedUnidade(models.Model):
         comodel_name='res.currency',
         string='Símbolo para campos monetary',
         ondelete='restrict',
+        context={'only_currencies': False},
+        domain=[['is_uom', '=', True]],
     )
 
     @api.depends('codigo')
