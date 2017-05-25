@@ -2,7 +2,7 @@
 # Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, models, fields
+from openerp import api, models, fields, _
 from dateutil.relativedelta import relativedelta
 from lxml import etree
 from openerp.exceptions import Warning as UserError
@@ -84,9 +84,9 @@ class HrContract(models.Model):
             ('holiday_status_id', '=', vacation_id),
         ])
         if holidays_ferias_do_contrato:
-            raise UserError(
+            raise UserError(_(
                 "Não é possível alterar a data de início de contratos "
-                "que possuem ocorrências ou férias confirmadas.")
+                "que possuem ocorrências ou férias confirmadas."))
 
         for holiday in holidays_ferias_do_contrato:
             holiday.unlink()

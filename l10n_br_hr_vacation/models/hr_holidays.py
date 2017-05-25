@@ -169,7 +169,7 @@ class HrHolidays(models.Model):
                     holiday.holiday_status_id and holiday.employee_id:
                 date_from = data.formata_data(holiday.data_inicio)
                 date_to = data.formata_data(holiday.data_fim)
-    
+
                 if date_from == date_to:
                     holiday.name = holiday.holiday_status_id.name[:30] + \
                         '[' + holiday.employee_id.name[:10] + '] ' + \
