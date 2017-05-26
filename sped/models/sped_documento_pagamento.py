@@ -96,10 +96,15 @@ class SpedDocumentoPagamento(models.Model):
 
         valor = Decimal(self.valor or 0)
 
+        #
+        # Para a compatibilidade com a chamada original (super), que usa
+        # o decorator deprecado api.one, pegamos aqui sempre o 1º elemento
+        # da lista que vai ser retornada
+        #
         lista_vencimentos = self.payment_term_id.compute(
             valor,
             self.documento_id.data_emissao,
-        )
+        )[0]
 
         duplicata_ids = [
             [5, False, {}],
