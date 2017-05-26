@@ -41,6 +41,27 @@ class L10nBrHrCalendar(models.Model):
             res['arch'] = etree.tostring(doc)
         return res
 
+    @api.model
+    def get_date_formats(self):
+        lang = self._context.get("lang") or self.env.user.lang or ''
+        res_lang_obj = self.env['res.lang']
+        lang_params = {}
+
+        lang_id = res_lang_obj.search([("code", "=", lang)])
+        if lang_id:
+            lang_params = {
+                'date_format': lang_id.date_format,
+                'time_format': lang_id.time_format,
+            }
+
+        # formats will be used for str{f,p}time() which do
+        # not support unicode in Python 2, coerce to str
+        format_date = \
+            lang_params.get("date_format", '%B-%d-%Y').encode('utf-8')
+        format_time = \
+            lang_params.get("time_format", '%I-%M %p').encode('utf-8')
+        return (format_date, format_time)
+
     @api.multi
     def unlink(self):
         """
