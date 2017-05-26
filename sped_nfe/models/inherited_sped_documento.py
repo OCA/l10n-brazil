@@ -11,30 +11,20 @@ import os
 import logging
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import UserError
+
 from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe.webservices_flags import (
-        WS_NFE_ENVIO_LOTE,
-        WS_NFE_CONSULTA_RECIBO,
-        WS_NFE_CONSULTA,
-        WS_NFE_SITUACAO,
-        UF_CODIGO,
-    )
-    from pysped.nfe.leiaute import (
-        NFe_310,
-        NFCe_310,
-        EventoCancNFe_100,
-        ProcNFe_310,
-        Reboque_310,
-    )
+    from pysped.nfe.webservices_flags import *
+    from pysped.nfe.leiaute import *
     from pybrasil.inscricao import limpa_formatacao
     from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
                                agora)
     from pybrasil.valor import formata_valor
+    from pybrasil.valor.decimal import Decimal as D
     from pybrasil.template import TemplateBrasil
 
 except (ImportError, IOError) as err:
@@ -387,9 +377,10 @@ class SpedDocumento(models.Model):
         self._monta_nfe_transporte(nfe.infNFe.transp)
 
         #
-        # Duplicatas
+        # Duplicatas e pagamentos
         #
         self._monta_nfe_cobranca(nfe.infNFe.cobr)
+        self._monta_nfe_pagamentos(nfe.infNFe.pag)
 
         #
         # Totais
@@ -644,6 +635,8 @@ class SpedDocumento(models.Model):
                     limpa_formatacao(self.endereco_entrega_id.cnpj_cpf)
 
     def _monta_nfe_transporte(self, transp):
+        if self.modelo != MODELO_FISCAL_NFE:
+            return
         #
         # Temporário até o início da NF-e 4.00
         #
@@ -721,6 +714,9 @@ class SpedDocumento(models.Model):
             transp.vol.append(volume.monta_nfe())
 
     def _monta_nfe_cobranca(self, cobr):
+        if self.modelo != MODELO_FISCAL_NFE:
+            return
+
         if self.ind_forma_pagamento not in \
                 (IND_FORMA_PAGAMENTO_A_VISTA, IND_FORMA_PAGAMENTO_A_PRAZO):
             return
@@ -731,6 +727,13 @@ class SpedDocumento(models.Model):
 
         for duplicata in self.duplicata_ids:
             cobr.dup.append(duplicata.monta_nfe())
+
+    def _monta_nfe_pagamentos(self, pag):
+        if self.modelo != MODELO_FISCAL_NFCE:
+            return
+
+        for pagamento in self.pagamento_ids:
+            pag.append(pagamento.monta_nfe())
 
     def _monta_nfe_total(self, total):
         total.ICMSTot.vBC.valor = str(D(self.bc_icms_proprio))

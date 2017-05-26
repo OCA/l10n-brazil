@@ -172,6 +172,14 @@ class SpedEmpresa(models.Model):
         size=3,
         default='999'
     )
+    csc_id = fields.Integer(
+        string='ID CSC',
+        default=1,
+    )
+    csc_codigo = fields.Char(
+        string='Código CSC',
+        size=36,
+    )
     ambiente_nfse = fields.Selection(
         selection=AMBIENTE_NFE,
         string='Ambiente NFS-e'

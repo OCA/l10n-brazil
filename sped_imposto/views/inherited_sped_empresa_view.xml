@@ -41,6 +41,7 @@
                 </page>
                 <page string="NF-e - Produtos">
                     <group col="4">
+                        <separator string="Ambiente" colspan="4" />
                         <field name="ambiente_nfe" string="Ambiente" />
                         <field name="tipo_emissao_nfe" string="Tipo de emissão" />
                         <newline />
@@ -59,6 +60,10 @@
                 </page>
                 <page string="NFC-e - Produtos">
                     <group col="4">
+                        <separator string="CSC" colspan="4" />
+                        <field name="csc_id" string="ID" />
+                        <field name="csc_codigo" string="Código" />
+                        <separator string="Ambiente" colspan="4" />
                         <field name="ambiente_nfce" string="Ambiente" />
                         <field name="tipo_emissao_nfce" string="Tipo de emissão" />
                         <newline />
@@ -77,7 +82,7 @@
                 </page>
                 <page string="NFS-e - Serviços">
                     <group col="4">
-                        <separator string="NS-e" colspan="4" />
+                        <separator string="Ambiente" colspan="4" />
                         <field name="ambiente_nfse" string="Ambiente" />
 <!--                                     <field name="provedor_nfse" /> -->
                         <newline />

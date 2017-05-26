@@ -18,7 +18,7 @@ try:
     from pysped.nfe.leiaute import (
         Vol_310,
     )
-    from pybrasil.valor import Decimal as D
+    from pybrasil.valor.decimal import Decimal as D
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
