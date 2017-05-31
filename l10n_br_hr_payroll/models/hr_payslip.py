@@ -477,6 +477,13 @@ class HrPayslip(models.Model):
         string="Valor da Multa do FGTS"
     )
 
+    company_id = fields.Many2one(
+        string="Empresa",
+        comodel_name="res.company",
+        related='contract_id.company_id',
+        store=True
+    )
+
     @api.depends('periodo_aquisitivo')
     @api.model
     def _compute_saldo_periodo_aquisitivo(self):
