@@ -450,7 +450,8 @@ class AccountInvoice(models.Model):
         nfe_tree = 'l10n_br_account_product.l10n_br_account_product_nfe_tree'
         nfe_views = {'form': nfe_form, 'tree': nfe_tree}
 
-        if active_id and not fiscal_document_code:
+        if context.get('active_model') == 'account.invoice' and \
+                active_id and not fiscal_document_code:
             invoice = self.browse(active_id)
             fiscal_document_code = invoice.fiscal_document_id.code
 
