@@ -46,7 +46,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="financeiro_tipo_documento_act_window">
-        <field name="name">Financeiro Tipo_documento</field> <!-- TODO -->
+        <field name="name">Tipo Documento Financeiro</field> <!-- TODO -->
         <field name="res_model">financeiro.tipo_documento</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[]</field>
@@ -54,9 +54,10 @@
     </record>
 
     <record model="ir.ui.menu" id="financeiro_tipo_documento_menu">
-        <field name="name">Financeiro Tipo_documento</field>
+        <field name="name">Tipo Documento</field>
         <field name="action" ref="financeiro_tipo_documento_act_window"/>
-        <field name="sequence" eval="16"/> <!-- TODO -->
+        <field name="sequence" eval="16"/>
+        <field name="parent_id" ref="financial.financial_config_menu"/>
     </record>
 
 </data>

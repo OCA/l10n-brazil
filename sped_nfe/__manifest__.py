@@ -12,6 +12,7 @@
     'category': u'Base',
     'depends': [
         'l10n_br_base',
+        'sped_imposto',
         'sped',
     ],
     'installable': True,
