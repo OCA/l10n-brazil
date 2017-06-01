@@ -33,6 +33,7 @@
         'security/l10n_br_hr_contract.xml',
         'security/l10n_br_hr_payslip_security_rule.xml',
         'security/ir.model.access.csv',
+        'security/l10n_br_hr_rat_fap_security_rule.xml',
         'views/hr_contract.xml',
         'views/hr_payroll_structure.xml',
         'views/hr_payslip.xml',
