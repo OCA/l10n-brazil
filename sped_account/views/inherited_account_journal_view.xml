@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record id="account_journal_form" model="ir.ui.view">
+        <field name="name">account.journal.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="replace">
+                <field name="is_brazilian_journal" invisible="1" />
+                <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"
+                       attrs="{'invisible': [('is_brazilian_journal', '=', True)]}"/>
+                <field name="sped_empresa_id" string="Empresa"
+                       options="{'no_create': True}"
+                       groups="base.group_multi_company"
+                       attrs="{'required': [('is_brazilian_journal', '=', True)], 'invisible': [('is_brazilian_journal', '!=', True)]}"/>
+            </field>
+            <field name="currency_id" position="attributes">
+                <attribute name="domain">[('is_currency', '=', True)]</attribute>
+                <attribute name="invisible">[('is_brazilian_journal', '=', True)]</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="account_bank_journal_form" model="ir.ui.view">
+        <field name="name">account.bank.journal.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_bank_journal_form"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="replace">
+                <field name="is_brazilian_journal" invisible="1" />
+                <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"
+                       attrs="{'invisible': [('is_brazilian_journal', '=', True)]}"/>
+                <field name="sped_empresa_id" string="Empresa"
+                       options="{'no_create': True}"
+                       groups="base.group_multi_company"
+                       attrs="{'required': [('is_brazilian_journal', '=', True)], 'invisible': [('is_brazilian_journal', '!=', True)]}"/>
+            </field>
+            <field name="currency_id" position="attributes">
+                <attribute name="domain">[('is_currency', '=', True)]</attribute>
+                <attribute name="invisible">[('is_brazilian_journal', '=', True)]</attribute>
+            </field>
+        </field>
+    </record>
+
+</odoo>

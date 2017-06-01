@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="True">
+
+    <record id="TIPO_CONTA_DRE_RECEITA_BRUTA_VENDA_MERCADORIAS" model="account.account.type">
+        <field name="name">Venda de Mercadoria</field>
+        <field name="note">DRE / (+) RECEITA BRUTA</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_RECEITA_BRUTA_VENDA_PRODUTOS" model="account.account.type">
+        <field name="name">Venda de Produtos</field>
+        <field name="note">DRE / (+) RECEITA BRUTA</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_RECEITA_BRUTA_VENDA_SERVICOS" model="account.account.type">
+        <field name="name">Venda de Serviços</field>
+        <field name="note">DRE / (+) RECEITA BRUTA</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_DEDUCAO_RECEITA_IMPOSTOS" model="account.account.type">
+        <field name="name">Impostos</field>
+        <field name="note">DRE / (-) DEDUÇÕES DA RECEITA BRUTA</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_DEDUCAO_RECEITA_DEVOLUCOES" model="account.account.type">
+        <field name="name">Devoluções</field>
+        <field name="note">DRE / (-) DEDUÇÕES DA RECEITA BRUTA</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_DEDUCAO_RECEITA_ABATIMENTOS" model="account.account.type">
+        <field name="name">Abatimentos</field>
+        <field name="note">DRE / (-) DEDUÇÕES DA RECEITA BRUTA</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_CUSTO_VENDAS_MERCADORIAS" model="account.account.type">
+        <field name="name">Custo das Mercadorias Vendidas</field>
+        <field name="note">DRE / (-) CUSTO DAS VENDAS</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_CUSTO_VENDAS_PRODUTOS" model="account.account.type">
+        <field name="name">Custo dos Produtos Vendidos</field>
+        <field name="note">DRE / (-) CUSTO DAS VENDAS</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_CUSTO_VENDAS_SERVICOS" model="account.account.type">
+        <field name="name">Custo dos Serviços Prestados</field>
+        <field name="note">DRE / (-) CUSTO DAS VENDAS</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_DESPESAS_OPERACIONAIS_PESSOAL" model="account.account.type">
+        <field name="name">Despesas com Pessoal</field>
+        <field name="note">DRE / (-) DESPESAS OPERACIONAIS</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_DESPESAS_OPERACIONAIS_ADMINISTRATIVAS" model="account.account.type">
+        <field name="name">Despesas Administrativas</field>
+        <field name="note">DRE / (-) DESPESAS OPERACIONAIS</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_DESPESAS_OPERACIONAIS_COMERCIALIZACAO" model="account.account.type">
+        <field name="name">Despesas de Comercialização</field>
+        <field name="note">DRE / (-) DESPESAS OPERACIONAIS</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_DESPESAS_OPERACIONAIS_TRIBUTARIAS" model="account.account.type">
+        <field name="name">Despesas Tributárias</field>
+        <field name="note">DRE / (-) DESPESAS OPERACIONAIS</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_DESPESAS_OPERACIONAIS_DEPRECIACAO_AMORTIZACAO" model="account.account.type">
+        <field name="name">Depreciação e Amortização</field>
+        <field name="note">DRE / (-) DESPESAS OPERACIONAIS</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_DESPESAS_OPERACIONAIS_PERDAS_DIVERSAS" model="account.account.type">
+        <field name="name">Perdas Diversas</field>
+        <field name="note">DRE / (-) DESPESAS OPERACIONAIS</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_DESPESAS_FINANCEIRAS_DESPESAS" model="account.account.type">
+        <field name="name">Despesas Financeiras</field>
+        <field name="note">DRE / (-) DESPESAS FINANCEIRAS</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_DESPESAS_FINANCEIRAS_RECEITAS" model="account.account.type">
+        <field name="name">(-) Receitas Financeiras</field>
+        <field name="note">DRE / (-) DESPESAS FINANCEIRAS</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_RECEITAS_DIVERSAS" model="account.account.type">
+        <field name="name">Receitas Diversas</field>
+        <field name="note">DRE / (+) RECEITAS DIVERSAS</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_RESULTADO_NAO_OPERACIONAL_RECEITAS" model="account.account.type">
+        <field name="name">Receitas não Operacionais</field>
+        <field name="note">DRE / (+) RESULTADO NÃO OPERACIONAL</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_RESULTADO_NAO_OPERACIONAL_DESPESAS" model="account.account.type">
+        <field name="name">(-) Despesas não Operacionais</field>
+        <field name="note">DRE / (+) RESULTADO NÃO OPERACIONAL</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_PROVISAO_IRPJ" model="account.account.type">
+        <field name="name">Provisão para o IRPJ</field>
+        <field name="note">DRE / (-) PROVISÃO DE IRPJ E CSLL</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+    <record id="TIPO_CONTA_DRE_PROVISAO_CSLL" model="account.account.type">
+        <field name="name">Provisão para a CSLL</field>
+        <field name="note">DRE / (-) PROVISÃO DE IRPJ E CSLL</field>
+        <field name="type">other</field>
+        <field name="include_initial_balance" eval="False" />
+    </record>
+
+</odoo>

@@ -6,16 +6,12 @@
 #
 
 from odoo import api, fields, models
+from odoo.addons.l10n_br_base.constante_tributaria import *
 
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    sped_documento_id = fields.Many2one(
-        comodel_name='sped.documento',
-        string=u'Documento Fiscal',
-        ondelete='cascade',
-    )
     is_brazilian_invoice = fields.Boolean(
         string=u'Is a Brazilian Invoice?',
         compute='_compute_is_brazilian_invoice',
@@ -24,54 +20,65 @@ class AccountInvoice(models.Model):
         comodel_name='sped.empresa',
         string='Empresa',
     )
-    sped_operacao_id = fields.Many2one(
-        comodel_name='sped.operacao',
-        string=u'Operação',
-    )
     sped_participante_id = fields.Many2one(
         comodel_name='sped.participante',
         string=u'Destinatário/Remetente'
     )
+    sped_operacao_produto_id = fields.Many2one(
+        comodel_name='sped.operacao',
+        string=u'Operação Fiscal (produtos)',
+        domain=[('modelo', 'in', MODELO_FISCAL_EMISSAO_PRODUTO)],
+    )
+    sped_operacao_servico_id = fields.Many2one(
+        comodel_name='sped.operacao',
+        string=u'Operação Fiscal (serviços)',
+        domain=[('modelo', 'in', MODELO_FISCAL_EMISSAO_SERVICO)],
+    )
+    sped_documento_ids = fields.Many2one(
+        comodel_name='sped.documento',
+        inverse_name='invoice_id',
+        string=u'Documentos Fiscais',
+    )
+    condicao_pagamento_id = fields.Many2one(
+        comodel_name='account.payment.term',
+        string='Condição de pagamento',
+        domain=[('forma_pagamento', '!=', False)],
+    )
 
-    @api.onchange('company_id')
-    def onchange_company_id(self):
-        self.ensure_one()
-        if self.is_brazilian_invoice:
-            self.sped_empresa_id = self.company_id.sped_empresa_id
-
-    @api.onchange('partner_id')
-    def onchange_partner_id(self):
-        self.ensure_one()
-        if self.is_brazilian_invoice:
-            if self.sped_participante_id:
-                self.sped_participante_id = \
-                    self.partner_id.sped_participante_id
-
-    @api.onchange('sped_participante_id')
-    def onchange_sped_participante_id(self):
-        self.ensure_one()
-        self.partner_id = self.sped_participante_id.partner_id
-
-    @api.onchange('sped_empresa_id')
-    def onchange_sped_empresa_id(self):
-        self.ensure_one()
-        self.company_id = self.sped_empresa_id.company_id
-
-    @api.multi
-    @api.depends('sped_documento_id', 'company_id')
+    @api.depends('sped_documento_ids', 'company_id', 'partner_id')
     def _compute_is_brazilian_invoice(self):
         for invoice in self:
-            if self.sped_documento_id:
-                invoice.is_brazilian_invoice = True
-                continue
-
             if invoice.company_id.country_id:
                 if invoice.company_id.country_id.id == \
                         self.env.ref('base.br').id:
                     invoice.is_brazilian_invoice = True
+
+                    if invoice.partner_id.sped_participante_id:
+                        invoice.sped_participante_id = \
+                            invoice.partner_id.sped_participante_id
+
+                    if invoice.company_id.sped_empresa_id:
+                        invoice.sped_empresa_id = \
+                            invoice.company_id.sped_empresa_id
+
                     continue
 
-            self.is_brazilian_invoice = False
+            invoice.is_brazilian_invoice = False
+
+    @api.onchange('sped_participante_id')
+    def _onchange_sped_participante_id(self):
+        self.ensure_one()
+        self.partner_id = self.sped_participante_id.partner_id
+
+    @api.onchange('sped_empresa_id')
+    def _onchange_sped_empresa_id(self):
+        self.ensure_one()
+        self.company_id = self.sped_empresa_id.company_id
+
+    @api.onchange('condicao_pagamento_id')
+    def _onchange_condicao_pagamento_id(self):
+        self.ensure_one()
+        self.payment_term_id = self.condicao_pagamento_id
 
     @api.multi
     def _check_brazilian_invoice(self, operation):
