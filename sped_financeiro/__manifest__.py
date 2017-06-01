@@ -12,7 +12,7 @@
     'website': 'www.odoobrasil.org.br',
     'depends': [
         'sped',
-        'financial',
+        'l10n_br_financial',
     ],
     'data': [
     ],
