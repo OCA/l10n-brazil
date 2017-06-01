@@ -780,6 +780,7 @@ class SpedDocumento(models.Model):
         comodel_name='sped.documento.item',
         inverse_name='documento_id',
         string='Itens',
+        copy=True,
     )
     documento_referenciado_ids = fields.One2many(
         comodel_name='sped.documento.referenciado',
@@ -1201,3 +1202,66 @@ class SpedDocumento(models.Model):
     def write(self, dados):
         self._check_permite_alteracao(operacao='write', dados=dados)
         return super(SpedDocumento, self).write(dados)
+
+    def envia_nfe(self):
+        pass
+
+    def cancela_nfe(self):
+        pass
+
+    def executa_antes_autorizar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias antes de autorizar uma NF-e
+        #
+        pass
+
+    def executa_depois_autorizar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias depois de autorizar uma NF-e,
+        # por exemplo, criar lançamentos financeiros, movimentações de
+        # estoque etc.
+        #
+        pass
+
+    def executa_antes_cancelar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias antes de autorizar uma NF-e;
+        # não confundir com o método _compute_permite_cancelamento, que indica
+        # se o botão de cancelamento vai estar disponível para o usuário na
+        # interface
+        #
+        pass
+
+    def executa_depois_cancelar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias depois de cancelar uma NF-e,
+        # por exemplo, excluir lançamentos financeiros, movimentações de
+        # estoque etc.
+        #
+        pass
+
+    def executa_antes_denegar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias antes de denegar uma NF-e
+        #
+        pass
+
+    def executa_depois_denegar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias depois de denegar uma NF-e,
+        # por exemplo, invalidar pedidos de venda e movimentações de estoque
+        # etc.
+        #
+        pass
+
+    def envia_email(self, mail_template):
+        pass
+
+    def gera_pdf(self):
+        pass
