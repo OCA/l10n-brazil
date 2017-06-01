@@ -745,8 +745,9 @@ class SpedParticipante(models.Model):
             'is_company': self.tipo_pessoa == TIPO_PESSOA_JURIDICA,
         }
 
-        if not self.partner_id.lang:
-            dados['lang'] = 'pt_BR'
+        if not self.partner_id.lang and self.env['res.lang'].search(
+                [('code', '=', 'pt_BR')]):
+                dados['lang'] = 'pt_BR'
 
         if not self.partner_id.tz:
             dados['tz'] = 'America/Sao_Paulo'
@@ -766,8 +767,9 @@ class SpedParticipante(models.Model):
 
         dados['name'] = dados['nome']
 
-        if 'lang' not in dados:
-            dados['lang'] = 'pt_BR'
+        if not self.partner_id.lang and self.env['res.lang'].search(
+                [('code', '=', 'pt_BR')]):
+                dados['lang'] = 'pt_BR'
 
         if 'tz' not in dados:
             dados['tz'] = 'America/Sao_Paulo'
