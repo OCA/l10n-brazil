@@ -229,8 +229,8 @@ class SpedDocumento(models.Model):
                 tempo_autorizado -= \
                     parse_datetime(documento.data_hora_autorizacao + ' GMT')
 
-                if documento.state_nfe == SITUACAO_NFE_AUTORIZADA and \
-                    tempo_autorizado.days < 1:
+                if (documento.state_nfe == SITUACAO_NFE_AUTORIZADA and
+                        tempo_autorizado.days < 1):
                     documento.permite_cancelamento = True
 
     def processador_nfe(self):
@@ -458,8 +458,9 @@ class SpedDocumento(models.Model):
             else:
                 ide.idDest.valor = IDENTIFICACAO_DESTINO_INTERESTADUAL
 
-            if (self.consumidor_final or participante.contribuinte ==
-                    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE):
+            if (self.consumidor_final) or (
+                        participante.contribuinte ==
+                        INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE):
                 ide.indFinal.valor = TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL
 
     def _le_nfe(self, ide):
@@ -767,11 +768,12 @@ class SpedDocumento(models.Model):
         # Crédito de ICMS do SIMPLES
         #
         if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES and \
-            self.vr_icms_sn:
+                self.vr_icms_sn:
             if len(infcomplementar) > 0:
                 infcomplementar += '\n'
 
-            infcomplementar += 'Permite o aproveitamento de crédito de ' + \
+            infcomplementar += \
+                'Permite o aproveitamento de crédito de ' + \
                 'ICMS no valor de R$ ${formata_valor(nf.vr_icms_sn)},' + \
                 ' nos termos do art. 23 da LC 123/2006;'
 
@@ -783,17 +785,17 @@ class SpedDocumento(models.Model):
                 infcomplementar += '\n'
 
             infcomplementar += 'Valor aproximado dos tributos: ' + \
-                'R$ ${formata_valor(nf.vr_ibpt)} - fonte: IBPT;'
+                               'R$ ${formata_valor(nf.vr_ibpt)} - fonte: IBPT;'
 
         #
         # ICMS para UF de destino
         #
         if nfe.infNFe.ide.idDest.valor == \
-            IDENTIFICACAO_DESTINO_INTERESTADUAL and \
-            nfe.infNFe.ide.indFinal.valor == \
-            TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and \
-            nfe.infNFe.dest.indIEDest.valor == \
-            INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE:
+                IDENTIFICACAO_DESTINO_INTERESTADUAL and \
+                nfe.infNFe.ide.indFinal.valor == \
+                TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and \
+                nfe.infNFe.dest.indIEDest.valor == \
+                INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE:
 
             if len(infcomplementar) > 0:
                 infcomplementar += '\n'
@@ -811,7 +813,7 @@ class SpedDocumento(models.Model):
 
             if self.vr_fcp:
                 infcomplementar += ' Fundo de combate à pobreza: R$ ' + \
-                    '${formata_valor(nf.vr_fcp)}'
+                                   '${formata_valor(nf.vr_fcp)}'
 
         #
         # Aplica um template na observação
@@ -835,6 +837,7 @@ class SpedDocumento(models.Model):
         nfe.infNFe.infAdic.infAdFisco.valor = infadfisco.decode('utf-8')
 
     def envia_nfe(self):
+        super(SpedDocumento, self).envia_nfe()
         self.ensure_one()
 
         processador = self.processador_nfe()
@@ -976,6 +979,8 @@ class SpedDocumento(models.Model):
                 self.state_nfe = SITUACAO_NFE_REJEITADA
 
     def cancela_nfe(self):
+        super(SpedDocumento, self).cancela_nfe()
+
         self.ensure_one()
 
         processador = self.processador_nfe()
@@ -1015,7 +1020,7 @@ class SpedDocumento(models.Model):
                 mensagem = 'Erro no cancelamento'
                 mensagem += '\nCódigo: ' + retevento.infEvento.cStat.valor
                 mensagem += '\nMotivo: ' + \
-                    retevento.infEvento.xMotivo.valor
+                            retevento.infEvento.xMotivo.valor
                 raise UserError(mensagem)
 
             #
@@ -1074,7 +1079,7 @@ class SpedDocumento(models.Model):
         # Este método deve ser alterado por módulos integrados, para realizar
         # tarefas de integração necessárias antes de autorizar uma NF-e
         #
-        pass
+        return super(SpedDocumento, self).executa_antes_autorizar()
 
     def executa_depois_autorizar(self):
         #
@@ -1083,6 +1088,8 @@ class SpedDocumento(models.Model):
         # por exemplo, criar lançamentos financeiros, movimentações de
         # estoque etc.
         #
+        super(SpedDocumento, self).executa_depois_autorizar()
+
         for documento in self:
             if documento.modelo not in (MODELO_FISCAL_NFE,
                                         MODELO_FISCAL_NFCE):
@@ -1122,7 +1129,7 @@ class SpedDocumento(models.Model):
         # se o botão de cancelamento vai estar disponível para o usuário na
         # interface
         #
-        pass
+        super(SpedDocumento, self).executa_antes_cancelar()
 
     def executa_depois_cancelar(self):
         #
@@ -1131,6 +1138,7 @@ class SpedDocumento(models.Model):
         # por exemplo, excluir lançamentos financeiros, movimentações de
         # estoque etc.
         #
+        super(SpedDocumento, self).executa_depois_cancelar()
         for documento in self:
             if documento.modelo not in (MODELO_FISCAL_NFE,
                                         MODELO_FISCAL_NFCE):
@@ -1164,7 +1172,7 @@ class SpedDocumento(models.Model):
         # Este método deve ser alterado por módulos integrados, para realizar
         # tarefas de integração necessárias antes de denegar uma NF-e
         #
-        pass
+        super(SpedDocumento, self).executa_antes_denegar()
 
     def executa_depois_denegar(self):
         #
@@ -1173,6 +1181,8 @@ class SpedDocumento(models.Model):
         # por exemplo, invalidar pedidos de venda e movimentações de estoque
         # etc.
         #
+        super(SpedDocumento, self).executa_depois_denegar()
+
         for documento in self:
             if documento.modelo not in (MODELO_FISCAL_NFE,
                                         MODELO_FISCAL_NFCE):
@@ -1202,14 +1212,19 @@ class SpedDocumento(models.Model):
             documento.envia_email(mail_template)
 
     def envia_email(self, mail_template):
+        super(SpedDocumento, self).envia_email()
+
         self.ensure_one()
         import ipdb; ipdb.set_trace();
         print(mail_template)
 
         dados = mail_template.generate_email([documento.id])
-        print(dados)
+
+    # TODO: FIX ME
 
     def gera_pdf(self):
+        super(SpedDocumento, self).gera_pdf()
+
         self.ensure_one()
 
         if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
@@ -1234,7 +1249,8 @@ class SpedDocumento(models.Model):
         procevento = ProcEventoCancNFe_100()
         if self.arquivo_xml_autorizacao_cancelamento_id:
             procevento.xml = \
-                self.arquivo_xml_autorizacao_cancelamento_id.datas.decode('base64')
+                self.arquivo_xml_autorizacao_cancelamento_id.datas.decode(
+                    'base64')
 
         #
         # Gera o DANFE, com a tarja de cancelamento quando necessário
