@@ -9,6 +9,7 @@ class HrContractSalaryRule(models.Model):
 
     _name = 'hr.contract.salary.rule'
     _description = 'Rubricas especificas'
+    _order = "contract_id,date_start DESC,date_stop DESC,rule_id"
 
     contract_id = fields.Many2one(
         comodel_name="hr.contract",

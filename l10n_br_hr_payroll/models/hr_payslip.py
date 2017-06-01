@@ -748,7 +748,10 @@ class HrPayslip(models.Model):
     @api.model
     def get_specific_rubric_value(self, rubrica_id, medias_obj=False):
         for rubrica in self.contract_id.specific_rule_ids:
-            if rubrica.rule_id.id == rubrica_id:
+            if rubrica.rule_id.id == rubrica_id \
+                    and rubrica.date_start <= self.date_from and \
+                    (not rubrica.date_stop or rubrica.date_stop >= self.date_to
+                     ):
                 if medias_obj:
                     if rubrica.rule_id.code not in medias_obj.dict.keys():
                         return 0
