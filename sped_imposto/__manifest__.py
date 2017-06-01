@@ -75,5 +75,6 @@
         # 'views/sped_operacao_recebimento_nfe_view.xml',
     ],
     'demo': [
+        'demo/sped_produto_demo.xml',
     ],
 }
