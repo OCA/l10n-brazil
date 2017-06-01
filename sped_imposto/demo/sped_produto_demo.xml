@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+
+<!-- PRODUTOS -->
+
+        <record id="sped_product_product_5" model="sped.produto">
+            <field name="product_id" ref="product.product_product_5"/>
+            <field name="nome">Custom Computer (kit)</field>
+            <field name="unidade_id" ref="l10n_br_base.UNIDADE_UNIDADE"/>
+            <field name="codigo">E-COM06</field>
+            <field name="preco_venda">600.00</field>
+            <!--<field name="preco_custo">1.00</field>-->
+            <field name="peso_bruto">1.00</field>
+            <field name="peso_liquido">1.00</field>
+            <field name="ncm_id" ref="NCM_84713012"/>
+            <field name="org_icms">0</field>
+            <field name="tipo">04</field>
+        </record>
+
+        <record id="sped_product_product_6" model="sped.produto">
+            <field name="unidade_id" ref="l10n_br_base.UNIDADE_UNIDADE"/>
+            <field name="nome">iPad Mini</field>
+            <field name="codigo">E-COM07</field>
+            <field name="product_id" ref="product.product_product_6"/>
+            <field name="preco_venda">800.00</field>
+            <!--<field name="preco_custo">800.00</field>-->
+            <field name="peso_bruto">0.330</field>
+            <field name="peso_liquido">0.330</field>
+            <field name="ncm_id" ref="NCM_84713012"/>
+            <field name="org_icms">0</field>
+            <field name="tipo">00</field>
+        </record>
+
+        <record id="sped_product_product_7" model="sped.produto">
+            <field name="unidade_id" ref="l10n_br_base.UNIDADE_UNIDADE"/>
+            <field name="nome">Apple In-Ear Headphones</field>
+            <field name="codigo">E-COM08</field>
+            <field name="product_id" ref="product.product_product_7"/>
+            <field name="preco_venda">79.00</field>
+            <!--<field name="preco_custo">10.00</field>-->
+            <field name="peso_bruto">1.00</field>
+            <field name="peso_liquido">1.00</field>
+            <field name="ncm_id" ref="NCM_85181090"/>
+            <field name="org_icms">0</field>
+            <field name="tipo">00</field>
+        </record>
+
+        <record id="sped_product_product_8" model="sped.produto">
+            <field name="unidade_id" ref="l10n_br_base.UNIDADE_UNIDADE"/>
+            <field name="nome">iMac</field>
+            <field name="codigo">E-COM09</field>
+            <field name="product_id" ref="product.product_product_8"/>
+            <field name="preco_venda">1799.00</field>
+            <!--<field name="preco_custo">10.00</field>-->
+            <field name="peso_bruto">9.54</field>
+            <field name="peso_liquido">9.54</field>
+            <field name="ncm_id" ref="NCM_84713012"/>
+            <field name="org_icms">0</field>
+            <field name="tipo">00</field>
+        </record>
+
+        <record id="sped_product_product_9" model="sped.produto">
+            <field name="unidade_id" ref="l10n_br_base.UNIDADE_UNIDADE"/>
+            <field name="codigo">E-COM10</field>
+            <field name="nome">Apple Wireless Keyboard</field>
+            <field name="product_id" ref="product.product_product_9"/>
+            <field name="preco_venda">47.00</field>
+            <!--<field name="preco_custo">10.00</field>-->
+            <field name="peso_bruto">1.00</field>
+            <field name="peso_liquido">1.00</field>
+            <field name="ncm_id" ref="NCM_84716052"/>
+            <field name="org_icms">0</field>
+            <field name="tipo">00</field>
+        </record>
+
+        <record id="sped_product_product_10" model="sped.produto">
+            <field name="unidade_id" ref="l10n_br_base.UNIDADE_UNIDADE"/>
+            <field name="codigo">E-COM11</field>
+            <field name="nome">Mouse, Optical</field>
+            <field name="product_id" ref="product.product_product_10"/>
+            <field name="preco_venda">14.00</field>
+            <!--<field name="preco_custo">10.00</field>-->
+            <field name="peso_bruto">0.200</field>
+            <field name="peso_liquido">0.200</field>
+            <field name="ncm_id" ref="NCM_84716053_EX_01"/>
+            <field name="org_icms">0</field>
+            <field name="tipo">00</field>
+        </record>
+
+        <record id="sped_product_product_11" model="sped.produto">
+            <field name="unidade_id" ref="l10n_br_base.UNIDADE_UNIDADE"/>
+            <field name="codigo">E-COM12</field>
+            <field name="nome">iPod</field>
+            <field name="product_id" ref="product.product_product_11"/>
+            <field name="preco_venda">16.50</field>
+            <!--<field name="preco_custo">10.00</field>-->
+            <field name="peso_bruto">1.00</field>
+            <field name="peso_liquido">1.00</field>
+            <field name="ncm_id" ref="NCM_84713012"/>
+            <field name="org_icms">0</field>
+            <field name="tipo">00</field>
+        </record>
+
+        <record id="sped_product_product_12" model="sped.produto">
+            <field name="unidade_id" ref="l10n_br_base.UNIDADE_UNIDADE"/>
+            <field name="codigo">M-Wir</field>
+            <field name="nome">Mouse, Wireless</field>
+            <field name="product_id" ref="product.product_product_12"/>
+            <field name="preco_venda">12.50</field>
+            <!--<field name="preco_custo">10.00</field>-->
+            <field name="peso_bruto">1.00</field>
+            <field name="peso_liquido">1.00</field>
+            <field name="ncm_id" ref="NCM_84716053_EX_01"/>
+            <field name="org_icms">0</field>
+            <field name="tipo">00</field>
+        </record>
+
+        <record id="sped_product_product_13" model="sped.produto">
+            <field name="unidade_id" ref="l10n_br_base.UNIDADE_UNIDADE"/>
+            <field name="codigo">RAM-SR5</field>
+            <field name="nome">RAM SR5</field>
+            <field name="product_id" ref="product.product_product_13"/>
+            <field name="preco_venda">85.00</field>
+            <!--<field name="preco_custo">10.00</field>-->
+            <field name="peso_bruto">1.00</field>
+            <field name="peso_liquido">1.00</field>
+            <field name="ncm_id" ref="NCM_84733042"/>
+            <field name="org_icms">0</field>
+            <field name="tipo">00</field>
+        </record>
+
+        <record id="sped_product_product_16" model="sped.produto">
+            <field name="unidade_id" ref="l10n_br_base.UNIDADE_UNIDADE"/>
+            <field name="codigo">C-Case</field>
+            <field name="nome">Computer Case</field>
+            <field name="product_id" ref="product.product_product_16"/>
+            <field name="preco_venda">25.00</field>
+            <!--<field name="preco_custo">10.00</field>-->
+            <field name="peso_bruto">1.00</field>
+            <field name="peso_liquido">1.00</field>
+            <field name="ncm_id" ref="NCM_84733019"/>
+            <field name="org_icms">0</field>
+            <field name="tipo">00</field>
+        </record>
+
+        <record id="sped_product_product_17" model="sped.produto">
+            <field name="unidade_id" ref="l10n_br_base.UNIDADE_UNIDADE"/>
+            <field name="codigo">HDD-SH1</field>
+            <field name="nome">HDD SH-1</field>
+            <field name="product_id" ref="product.product_product_17"/>
+            <field name="preco_venda">975.00</field>
+            <!--<field name="preco_custo">10.00</field>-->
+            <field name="peso_bruto">1.00</field>
+            <field name="peso_liquido">1.00</field>
+            <field name="ncm_id" ref="NCM_84717012"/>
+            <field name="org_icms">0</field>
+            <field name="tipo">00</field>
+        </record>
+
+        <record id="sped_product_product_20" model="sped.produto">
+            <field name="unidade_id" ref="l10n_br_base.UNIDADE_UNIDADE"/>
+            <field name="nome">Motherboard I9P57</field>
+            <field name="codigo">MBi9</field>
+            <field name="product_id" ref="product.product_product_20"/>
+            <field name="preco_venda">1950.00</field>
+            <!--<field name="preco_custo">10.00</field>-->
+            <field name="peso_bruto">1.00</field>
+            <field name="peso_liquido">1.00</field>
+            <field name="ncm_id" ref="NCM_84733041"/>
+            <field name="org_icms">0</field>
+            <field name="tipo">00</field>
+        </record>
+
+        <record id="sped_product_product_22" model="sped.produto">
+            <field name="unidade_id" ref="l10n_br_base.UNIDADE_UNIDADE"/>
+            <field name="nome">Processor Core i5 2.70 Ghz</field>
+            <field name="codigo">CPUi5</field>
+            <field name="product_id" ref="product.product_product_22"/>
+            <field name="preco_venda">2100.00</field>
+            <!--<field name="preco_custo">10.00</field>-->
+            <field name="peso_bruto">1.00</field>
+            <field name="peso_liquido">1.00</field>
+            <field name="ncm_id" ref="NCM_85423210"/>
+            <field name="org_icms">0</field>
+            <field name="tipo">00</field>
+        </record>
+
+        <record id="sped_product_product_24" model="sped.produto">
+            <field name="unidade_id" ref="l10n_br_base.UNIDADE_UNIDADE"/>
+            <field name="codigo">CARD</field>
+            <field name="nome">Graphics Card</field>
+            <field name="product_id" ref="product.product_product_24"/>
+            <field name="preco_venda">885.00</field>
+            <!--<field name="preco_custo">10.00</field>-->
+            <field name="peso_bruto">1.00</field>
+            <field name="peso_liquido">1.00</field>
+            <field name="ncm_id" ref="NCM_85423210"/>
+            <field name="org_icms">0</field>
+            <field name="tipo">00</field>
+        </record>
+
+        <record id="sped_product_product_25" model="sped.produto">
+            <field name="unidade_id" ref="l10n_br_base.UNIDADE_UNIDADE"/>
+            <field name="codigo">LAP-E5</field>
+            <field name="nome">Laptop E5023</field>
+            <field name="product_id" ref="product.product_product_25"/>
+            <field name="preco_venda">2950.00</field>
+            <!--<field name="preco_custo">10.00</field>-->
+            <field name="peso_bruto">1.00</field>
+            <field name="peso_liquido">1.00</field>
+            <field name="ncm_id" ref="NCM_84713012"/>
+            <field name="org_icms">0</field>
+            <field name="tipo">00</field>
+        </record>
+
+        <record id="sped_product_product_27" model="sped.produto">
+            <field name="unidade_id" ref="l10n_br_base.UNIDADE_UNIDADE"/>
+            <field name="codigo">LAP-CUS</field>
+            <field name="nome">Laptop Customized</field>
+            <field name="product_id" ref="product.product_product_27"/>
+            <field name="preco_venda">3645.00</field>
+            <!--<field name="preco_custo">10.00</field>-->
+            <field name="peso_bruto">1.00</field>
+            <field name="peso_liquido">1.00</field>
+            <field name="ncm_id" ref="NCM_84713012"/>
+            <field name="org_icms">0</field>
+            <field name="tipo">04</field>
+        </record>
+
+    </data>
+</odoo>
