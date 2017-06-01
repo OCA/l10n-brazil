@@ -12,7 +12,7 @@
         <field name="arch" type="xml">
             <field name="has_outstanding" position="after">
                 <field name="is_brazilian_invoice" invisible="1"/>
-                <field name="sped_documento_id" invisible="0"/>
+                <field name="sped_documento_ids" invisible="0"/>
             </field>
             <field name="partner_id" position="attributes">
                 <attribute name="invisible">[('is_brazilian_invoice', '=',
@@ -38,9 +38,15 @@
                 </attribute>
             </field>
             <field name="fiscal_position_id" position="after">
-                <field name="sped_operacao_id" domain="[('emissao', '=', '0')]"
-                       attrs="{'required': [('is_brazilian_invoice', '=', True)], 'invisible': [('is_brazilian_invoice', '!=', True)]}"/>
+                <field name="sped_operacao_produto_id" domain="[('emissao', '=', '0')]"
+                       attrs="{'required': [('is_brazilian_invoice', '=', True), ('sped_operacao_servico_id', '=', False)], 'invisible': [('is_brazilian_invoice', '!=', True)]}"/>
+                <field name="sped_operacao_servico_id" domain="[('emissao', '=', '0')]"
+                       attrs="{'required': [('is_brazilian_invoice', '=', True), ('sped_operacao_produto_id', '=', False)], 'invisible': [('is_brazilian_invoice', '!=', True)]}"/>
             </field>
+            <field name="currency_id" position="attributes">
+                <attribute name="domain">[('is_currency', '=', True)]</attribute>
+            </field>
+
         </field>
     </record>
 
