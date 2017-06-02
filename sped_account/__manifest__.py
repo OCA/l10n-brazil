@@ -22,7 +22,12 @@
         'data/inherited_account_account_type_balanco_data.xml',
         'data/inherited_account_financial_report_dre_data.xml',
         'data/inherited_account_financial_report_balanco_data.xml',
+        'data/inherited_account_chart_template_data.xml',
+        'data/inherited_account_chart_template_data.xml',
+        'data/inherited_account_account_template_data.xml',
+        'data/inherited_account_chart_template_properties_data.xml',
 
+        'views/inherited_account_account_type_view.xml',
         'views/inherited_account_account_template_view.xml',
         'views/inherited_account_account_view.xml',
         'views/inherited_account_bank_statement_view.xml',
@@ -34,3 +39,4 @@
         'views/inherited_account_financial_report_view.xml',
     ],
 }
+
