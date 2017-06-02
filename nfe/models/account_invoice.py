@@ -193,42 +193,38 @@ class AccountInvoice(models.Model):
                     else:
                         event_obj.create(result)
 
-                self.write(cr, uid, inv.id, {
-                    'nfe_status': protNFe["status_code"] + ' - '
-                    + protNFe["message"],
+                self.write({
+                    'nfe_status': protNFe["status_code"] + ' - ' +
+                    protNFe["message"],
                     'nfe_date': datetime.datetime.now(),
                     'state': protNFe["state"],
                     'nfe_protocol_number': protNFe["nfe_protocol_number"],
                 })
         return True
 
-    def button_cancel(self, cr, uid, ids, context=None):
-        assert len(ids) == 1, ('This option should only be used for a single '
-                               'id at a time.')
-        if context is None:
-            context = {}
-        inv = self.browse(cr, uid, ids[0], context=context)
+    @api.multi
+    def button_cancel(self):
 
         document_serie_id = self.document_serie_id
         fiscal_document_id = self.document_serie_id.fiscal_document_id
         electronic = self.document_serie_id.fiscal_document_id.electronic
         nfe_protocol = self.nfe_protocol_number
+        emitente = self.issuer
 
         if ((document_serie_id and fiscal_document_id and not electronic) or
-                not nfe_protocol):
-            return super(AccountInvoice, self).action_cancel(cr, uid,
-                                                             [inv.id], context)
+                not nfe_protocol) or emitente == u'1':
+            return super(AccountInvoice, self).action_cancel()
         else:
-            ctx = dict(context)
             result = self.env['ir.actions.act_window'].for_xml_id(
                 'nfe',
                 'action_nfe_invoice_cancel_form')
             return result
 
-    def cancel_invoice_online(self, cr, uid, ids, justificative, context=None):
-        event_obj = self.pool.get('l10n_br_account.document_event')
+    @api.multi
+    def cancel_invoice_online(self, justificative):
+        event_obj = self.env['l10n_br_account.document_event']
 
-        for inv in self.browse(cr, uid, ids, context):
+        for inv in self:
             if inv.state in ('open', 'paid'):
 
                 validate_nfe_configuration(self.company_id)
@@ -252,19 +248,20 @@ class AccountInvoice(models.Model):
                         'document_event_ids': inv.id}
 
                     self.attach_file_event(None, 'can', 'xml')
+
                     for prot in processo.resposta.retEvento:
                         vals["status"] = prot.infEvento.cStat.valor
                         vals["message"] = prot.infEvento.xEvento.valor
-                        if vals["status"] in ('101',  # Cancelamento de NF-e
-                                              # homologado
-                                              '128',
-                                              # Loto do evento processado
-                                              '135',  # Evento registrado e
-                                              # vinculado a NFC-e
-                                              '151',  # Cancelamento de NF-e
-                                              # homologado fora de prazo
-                                              '155'):  # Cancelamento
-                                              # homologado fora de prazo
+                        if vals["status"] in (
+                                '101',  # Cancelamento de NF-e
+                                # homologado
+                                '128',
+                                # Loto do evento processado
+                                '135',  # Evento registrado e
+                                # vinculado a NFC-e
+                                '151',  # Cancelamento de NF-e
+                                # homologado fora de prazo
+                                '155'):  # Cancelamento homologado fora prazo
                             # Fixme:
                             result = super(AccountInvoice, self)\
                                 .action_cancel()
