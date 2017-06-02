@@ -6,7 +6,7 @@
 #
 
 from odoo import api, fields, models
-from oddo.addons.sped_account.constantes import *
+from ..constantes import *
 
 
 class AccountAccountTemplate(models.Model):
@@ -14,14 +14,29 @@ class AccountAccountTemplate(models.Model):
 
     is_brazilian_account = fields.Boolean(
         string=u'Is a Brazilian Account?',
-        compute='_compute_is_brazilian_account',
     )
     sped_empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
         string='Empresa',
     )
+    tipo = fields.Selection(
+        selection=TIPO_CONTA_CONTABIL,
+        string='Tipo',
+    )
+    parent_id = fields.Many2one(
+        comodel_name='account.account.template',
+        string='Conta superior',
+        ondelete='restrict',
+        index=True,
+    )
+    tipo_sped = fields.Selection(
+        selection=TIPO_SPED_CONTA_CONTABIL,
+        string='Tipo no SPED Contábil',
+        compute='_compute_conta_contabil',
+        store=False,
+    )
 
-    @api.depends('company_id', 'currency_id')
+    @api.depends('company_id', 'currency_id', 'is_brazilian_account')
     def _compute_is_brazilian_account(self):
         for account in self:
             if account.company_id.country_id:

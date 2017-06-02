@@ -13,12 +13,24 @@
             <xpath expr="//notebook[1]" position="attributes">
                 <attribute name="attrs">{'invisible': [('type','=','sum')]}</attribute>
             </xpath>
+            <field name="style_overwrite" position="after">
+                <field name="is_brazilian_financial_report" />
+            </field>
             <field name="account_type_ids" position="after">
                 <field
                    name="summary_report_ids"
                    attrs="{'invisible': [('type', '!=', 'account_report_summary')]}"
-                   domain="[('type', '!=', 'sum'), ('sequence', '&lt;', sequence)]"
+                   domain="[('type', '!=', 'sum'), ('sequence', '&lt;', sequence), ('is_brazilian_financial_report', '=', is_brazilian_financial_report)]"
                 />
+            </field>
+            <field name="account_report_id" position="replace">
+                <field name="account_report_id" attrs="{'invisible': [('type', '!=', 'account_report')]}" domain="[('is_brazilian_financial_report', '=', is_brazilian_financial_report)]" />
+            </field>
+            <field name="account_ids" position="replace">
+                <field name="account_ids" attrs="{'invisible': [('type', '!=', 'accounts')]}" domain="[('is_brazilian_account', '=', is_brazilian_financial_report)]" />
+            </field>
+            <field name="account_type_ids" position="replace">
+                <field name="account_type_ids" attrs="{'invisible': [('type', '!=', 'account_type')]}" domain="[('is_brazilian_account_type', '=', is_brazilian_financial_report)]" />
             </field>
         </field>
     </record>

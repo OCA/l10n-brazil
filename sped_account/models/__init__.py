@@ -8,6 +8,11 @@
 # from . import inherited_sped_documento
 # from . import inherited_sped_documento_item
 
+from . import inherited_account_config_settings
+from . import inherited_wizard_multi_chart_accounts
+from . import inherited_account_account_type
+from . import inherited_account_chart_template
+from . import inherited_account_account_template
 from . import inherited_account_account
 from . import inherited_account_journal
 from . import inherited_account_invoice

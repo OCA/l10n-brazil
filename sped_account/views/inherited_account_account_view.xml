@@ -19,6 +19,9 @@
                        groups="base.group_multi_company"
                        attrs="{'required': [('is_brazilian_account', '=', True)], 'invisible': [('is_brazilian_account', '!=', True)]}"/>
             </field>
+            <field name="user_type_id" position="replace">
+                <field name="user_type_id" domain="[('is_brazilian_account_type', '=', is_brazilian_account)]" context="{'default_is_brazilian_account_type': is_brazilian_account}" />
+            </field>
             <field name="currency_id" position="attributes">
                 <attribute name="domain">[('is_currency', '=', True)]</attribute>
                 <attribute name="invisible">[('is_brazilian_account', '=', True)]</attribute>

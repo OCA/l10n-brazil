@@ -29,6 +29,9 @@ class AccountFinancialReport(models.Model):
     # _parent_order = 'sequence, name'
     _order = 'parent_id, sequence'
 
+    is_brazilian_financial_report = fields.Boolean(
+        string='Is Brazilian Financial Report?',
+    )
     summary_report_ids = fields.Many2many(
         comodel_name='account.financial.report',
         relation='account_financial_report_self',

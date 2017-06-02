@@ -12,9 +12,9 @@ from ..constantes import *
 class AccountAccount(models.Model):
     _inherit = 'account.account'
     _parent_name = 'parent_id'
-    _parent_store = True
-    _parent_order = 'code, name'
-    _order = 'parent_left, code'
+    # _parent_store = True
+    # _parent_order = 'code, name'
+    # _order = 'parent_left, code'
 
     is_brazilian_account = fields.Boolean(
         string=u'Is a Brazilian Account?',
@@ -27,7 +27,6 @@ class AccountAccount(models.Model):
     tipo = fields.Selection(
         selection=TIPO_CONTA_CONTABIL,
         string='Tipo',
-        required=True,
         index=True,
     )
     parent_id = fields.Many2one(
