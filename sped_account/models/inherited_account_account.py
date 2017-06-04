@@ -114,11 +114,6 @@ class AccountAccount(models.Model):
 
             account.is_brazilian_account = False
 
-    @api.onchange('sped_empresa_id')
-    def _onchange_sped_empresa_id(self):
-        self.ensure_one()
-        self.company_id = self.sped_empresa_id.company_id
-
     def _calcula_nivel(self):
         self.ensure_one()
 

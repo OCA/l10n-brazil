@@ -23,15 +23,15 @@
                 <field name="currency_unitario_id" invisible="1"/>
                 <field name="currency_peso_id" invisible="1"/>
                 <field name="currency_unidade_id" invisible="1"/>
-                <field name="product_id" invisible="0" />
-                <field name="name" invisible="0" />
-                <field name="account_id" invisible="0" />
-                <field name="price_unit" invisible="0" />
-                <field name="quantity" invisible="0" />
-                <field name="empresa_id" invisible="0"/>
-                <field name="participante_id" invisible="0"/>
-                <field name="operacao_id" invisible="0"/>
-                <field name="data_emissao" invisible="0"/>
+                <field name="product_id" invisible="1" />
+                <field name="name" invisible="1" />
+                <field name="account_id" invisible="1" />
+                <field name="price_unit" invisible="1" />
+                <field name="quantity" invisible="1" />
+                <field name="empresa_id" invisible="1"/>
+                <field name="participante_id" invisible="1"/>
+                <field name="operacao_id" invisible="1"/>
+                <field name="data_emissao" invisible="1"/>
 
                 <field name="compoe_total" invisible="1"/>
                 <field name="movimentacao_fisica" invisible="1"/>
@@ -379,6 +379,7 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="sequence" widget="handle"/>
                 <field name="regime_tributario" invisible="1"/>
                 <field name="modelo" invisible="1"/>
                 <field name="currency_id" invisible="1"/>
@@ -408,49 +409,5 @@
             </tree>
         </field>
     </record>
-
-<!--    <record model="ir.ui.view" id="sped_documento_emissao_nfe_search">
-        <field name="name">sped.documento.emissao.nfe.search</field>
-        <field name="model">sped.documento</field>
-        <field name="priority">1</field>
-        <field name="arch" type="xml">
-            <search string="Emissão de NF-e">
-                <field name="empresa_id" />
-                <field name="operacao_id" />
-                <field name="numero" />
-                <field name="participante_id" />
-            </search>
-        </field>
-    </record>
-
-    <record model="ir.actions.act_window" id="sped_documento_emissao_nfe_acao">
-        <field name="name">Emissão de NF-e</field>
-        <field name="domain">[('emissao', '=', '0'), ('modelo', '=', '55')]</field>
-        <field name="context">{'default_emissao': '0', 'default_modelo': '55'}</field>
-        <field name="res_model">sped.documento</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-    <record model="ir.actions.act_window.view" id="sped_documento_emissao_nfe_form_acao">
-        <field eval="2" name="sequence"/>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="sped_documento_emissao_nfe_form"/>
-        <field name="act_window_id" ref="sped_documento_emissao_nfe_acao"/>
-    </record>
-
-    <record model="ir.actions.act_window.view" id="sped_documento_emissao_nfe_tree_acao">
-        <field eval="1" name="sequence"/>
-        <field name="view_mode">tree</field>
-        <field name="view_id" ref="sped_documento_emissao_nfe_tree"/>
-        <field name="act_window_id" ref="sped_documento_emissao_nfe_acao"/>
-    </record>
-
-    <menuitem
-        id="menu_sped_documento_emissao_nfe"
-        sequence="1"
-        name="NF-e"
-        parent="sped.menu_sped_documento_emissao"
-        action="sped_documento_emissao_nfe_acao" />-->
 
 </odoo>
