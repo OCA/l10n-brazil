@@ -23,9 +23,9 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedCalculoImposto(models.Model):
-    _name = b'sped.calculo.imposto'
-    _description = 'Cálculo dos Impostos'
+class SpedSomaImposto(models.Model):
+    _name = b'sped.soma.imposto'
+    _description = 'Soma dos Impostos Calculados'
     _inherit = 'sped.base'
     _abstract = True
     # _order = 'emissao, modelo, data_emissao desc, serie, numero'

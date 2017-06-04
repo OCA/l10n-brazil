@@ -26,6 +26,8 @@
         #
         # Valores padrão
         #
+        'data/inherited_res_lang_data.xml',
+
         'data/inherited_res_currency_simbolo_data.xml',
         'data/inherited_res_currency_data.xml',
         'data/inherited_decimal_precision_data.xml',

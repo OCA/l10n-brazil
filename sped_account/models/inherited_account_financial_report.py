@@ -5,6 +5,8 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 from odoo import api, fields, models
 from ..constantes import *
 
@@ -44,3 +46,17 @@ class AccountFinancialReport(models.Model):
         string='Type',
         default=REPORT_TYPE_VIEW,
     )
+    redutor = fields.Boolean(
+        string='Redutor?',
+        compute='_compute_redutor',
+        store=True,
+    )
+
+    @api.depends('name')
+    def _compute_redutor(self):
+        for report in self:
+            if report.name and (report.name.startswith('(-)')
+                               or report.name.startswith('( - )')):
+                report.redutor = True
+            else:
+                report.redutor = False

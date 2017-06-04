@@ -25,7 +25,7 @@
         <field name="name">(+) Receita Bruta de Vendas</field>
         <field name="sequence" eval="1" />
         <field name="type">account_type</field>
-        <field name="sign" eval="1" />
+        <field name="sign" eval="-1" />
         <field name="display_detail">detail_with_hierarchy</field>
         <field name="parent_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_DRE_DRE" />
         <field name="account_type_ids" eval="[(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_RECEITA_BRUTA_VENDA_MERCADORIAS')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_RECEITA_BRUTA_VENDA_PRODUTOS')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_RECEITA_BRUTA_VENDA_SERVICOS'))]" />
@@ -61,7 +61,7 @@
         <field name="name">(-) Custo das Vendas</field>
         <field name="sequence" eval="4" />
         <field name="type">account_type</field>
-        <field name="sign" eval="-1" />
+        <field name="sign" eval="1" />
         <field name="display_detail">detail_with_hierarchy</field>
         <field name="parent_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_DRE_DRE" />
         <field name="account_type_ids" eval="[(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_CUSTO_VENDAS_MERCADORIAS')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_CUSTO_VENDAS_PRODUTOS')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_CUSTO_VENDAS_SERVICOS'))]" />
@@ -85,7 +85,7 @@
         <field name="name">(-) Despesas Operacionais</field>
         <field name="sequence" eval="6" />
         <field name="type">account_type</field>
-        <field name="sign" eval="-1" />
+        <field name="sign" eval="1" />
         <field name="display_detail">detail_with_hierarchy</field>
         <field name="parent_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_DRE_DRE" />
         <field name="account_type_ids" eval="[(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_DESPESAS_OPERACIONAIS_PESSOAL')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_DESPESAS_OPERACIONAIS_ADMINISTRATIVAS')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_DESPESAS_OPERACIONAIS_COMERCIALIZACAO')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_DESPESAS_OPERACIONAIS_TRIBUTARIAS')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_DESPESAS_OPERACIONAIS_DEPRECIACAO_AMORTIZACAO')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_DESPESAS_OPERACIONAIS_PERDAS_DIVERSAS'))]" />
@@ -97,7 +97,7 @@
         <field name="name">(-) Despesas Financeiras Líquidas</field>
         <field name="sequence" eval="7" />
         <field name="type">account_type</field>
-        <field name="sign" eval="-1" />
+        <field name="sign" eval="1" />
         <field name="display_detail">detail_with_hierarchy</field>
         <field name="parent_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_DRE_DRE" />
         <field name="account_type_ids" eval="[(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_DESPESAS_FINANCEIRAS_DESPESAS')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_DESPESAS_FINANCEIRAS_RECEITAS'))]" />
@@ -157,7 +157,7 @@
         <field name="name">(-) Provisão de IRPJ e CSLL</field>
         <field name="sequence" eval="12" />
         <field name="type">account_type</field>
-        <field name="sign" eval="-1" />
+        <field name="sign" eval="1" />
         <field name="display_detail">detail_with_hierarchy</field>
         <field name="parent_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_DRE_DRE" />
         <field name="account_type_ids" eval="[(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_PROVISAO_IRPJ')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_PROVISAO_CSLL'))]" />

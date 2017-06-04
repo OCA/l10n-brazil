@@ -5,6 +5,8 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 from odoo import api, fields, models
 from odoo.addons.l10n_br_base.constante_tributaria import (
     TIPO_PRODUTO_SERVICO_SERVICOS,
