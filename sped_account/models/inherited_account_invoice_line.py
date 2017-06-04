@@ -19,6 +19,7 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     TIPO_EMISSAO,
     ENTRADA_SAIDA,
     TIPO_CONSUMIDOR_FINAL,
+    ENTRADA_SAIDA_SAIDA,
 )
 
 _logger = logging.getLogger(__name__)
@@ -80,13 +81,11 @@ class AccountInvoiceLine(models.Model):
     #     return res
 
 
-
 class AccountInvoiceLineBrazil(models.Model):
     _name = b'account.invoice.line.brazil'
     _description = 'Linhas da Fatura'
     _inherit = 'sped.calculo.imposto'
     _abstract = False
-
 
 
 class AccountInvoiceLineBrazil2(models.Model):
@@ -196,6 +195,41 @@ class AccountInvoiceLineBrazil2(models.Model):
         string='Permite alteração?',
         compute='_compute_permite_alteracao',
     )
+
+    def get_invoice_line_account(self):
+        if self.operacao_id.entrada_saida == ENTRADA_SAIDA_SAIDA:
+            return self.product_id.property_account_income_id
+        else:
+            return self.product_id.property_account_expense_id
+
+    @api.onchange('produto_id')
+    def onchange_product_id_date(self):
+        domain = {}
+        if not self.invoice_id:
+            return
+
+        if not self.data_emissao:
+            warning = {
+                'title': _('Warning!'),
+                'message': _(
+                    'Por favor defina a data da fatura, \n'
+                    'para permtir o cálculo correto dos impostos'),
+            }
+            return {'warning': warning}
+        if not (self.invoice_id.sped_operacao_produto_id or
+                self.invoice_id.sped_operacao_servico_id):
+            warning = {
+                'title': _('Warning!'),
+                'message': _(
+                    'Por favor defina a operação'),
+            }
+            return {'warning': warning}
+        account = self.get_invoice_line_account()
+
+        if account:
+            self.account_id = account.id
+        if self.produto_id:
+            self.name = self.produto_id.nome
 
     @api.depends('modelo', 'emissao')
     def _compute_permite_alteracao(self):
