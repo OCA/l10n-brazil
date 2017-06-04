@@ -16,6 +16,7 @@
         <!--<field name="cash_account_code_prefix">1.1.1.1.0</field>-->
         <!--<field name="bank_account_code_prefix">1.1.1.2.0</field>-->
         <field name="code_digits" eval="1" />
+        <field name="is_brazilian_chart_template" eval="True" />
     </record>
 
 </odoo>

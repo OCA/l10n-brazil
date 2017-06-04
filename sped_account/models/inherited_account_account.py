@@ -5,6 +5,8 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 from odoo import api, fields, models
 from ..constantes import *
 
@@ -50,7 +52,6 @@ class AccountAccount(models.Model):
     )
     data_inclusao = fields.Date(
         string='Data de inclusão',
-        required=True,
         default=fields.Date.today,
         index=True,
     )
@@ -72,24 +73,24 @@ class AccountAccount(models.Model):
         selection=NATUREZA_CONTA_CONTABIL,
         string='Natureza',
         compute='_compute_conta_contabil',
-        store=False,
+        store=True,
     )
     redutora = fields.Boolean(
         string='Redutora?',
         compute='_compute_conta_contabil',
-        store=False,
+        store=True,
     )
     tipo_sped = fields.Selection(
         selection=TIPO_SPED_CONTA_CONTABIL,
         string='Tipo no SPED Contábil',
         compute='_compute_conta_contabil',
-        store=False,
+        store=True,
     )
     nome_completo = fields.Char(
         string='Conta (completa)',
         size=500,
         compute='_compute_conta_contabil',
-        store=False,
+        store=True,
     )
 
     @api.depends('company_id', 'currency_id')
@@ -137,7 +138,7 @@ class AccountAccount(models.Model):
 
         return nome
 
-    @api.depends('parent_id', 'code', 'name', 'tipo')
+    @api.depends('parent_id', 'code', 'name', 'tipo', 'child_ids.parent_id')
     def _compute_conta_contabil(self):
         for conta in self:
             conta.nivel = conta._calcula_nivel()
@@ -148,7 +149,7 @@ class AccountAccount(models.Model):
             else:
                 conta.redutora = False
 
-            if conta.child_ids:
+            if len(conta.child_ids) > 0:
                 conta.tipo_sped = 'S'
             else:
                 conta.tipo_sped = 'A'

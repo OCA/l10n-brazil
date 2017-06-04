@@ -10,8 +10,88 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
+            <field name="company_id" position="replace">
+                <field name="is_brazilian_move" invisible="1" />
+                <field name="company_id"
+                       options="{'no_create': True}"
+                       groups="base.group_multi_company"
+                       attrs="{'invisible': [('is_brazilian_move', '=', True)]}"/>
+                <field name="sped_empresa_id"
+                       options="{'no_create': True}"
+                       groups="base.group_multi_company"
+                       attrs="{'required': [('is_brazilian_move', '=', True)], 'invisible': [('is_brazilian_move', '!=', True)]}"/>
+            </field>
+            <field name="date" position="after">
+                <newline />
+                <field name="sped_participante_id"
+                       options="{'no_create': True}"
+                       attrs="{'invisible': [('is_brazilian_move', '!=', True)]}"/>
+                <field name="partner_id"
+                       options="{'no_create': True}"
+                       attrs="{'invisible': [('is_brazilian_move', '=', True)]}"/>
+                <newline />
+            </field>
+            <!--<field name="journal_id" position="attributes">-->
+                <!--<attribute name="domain">[('is_brazilian_journal', '=', is_brazilian_move)]</attribute>-->
+            <!--</field>-->
+            <field name="currency_id" position="attributes">
+                <attribute name="domain">[('is_currency', '=', True)]</attribute>
+                <attribute name="invisible">[('is_brazilian_move', '=', True)]</attribute>
+            </field>
+
+            <xpath expr="//field[@name='line_ids']" position="attributes">
+                <attribute name="context">{'line_ids': line_ids, 'journal_id': journal_id, 'default_currency_id': currency_id, 'default_company_currency_id': currency_id}</attribute>
+            </xpath>
+            <!--<xpath expr="//field[@name='line_ids']/tree/field[@name='account_id']" position="before">-->
+                <!--<field name="move_id" invisible="1" />-->
+            <!--</xpath>-->
             <xpath expr="//field[@name='line_ids']/tree/field[@name='currency_id']" position="attributes">
                 <attribute name="domain">[('is_currency', '=', True)]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='account_id']" position="attributes">
+                <attribute name="domain">[('deprecated', '=', False), ('is_brazilian_account', '=', parent.is_brazilian_move), ('tipo_sped', '=', 'A')]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='partner_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!--<xpath expr="//field[@name='line_ids']/tree/field[@name='debit']" position="attributes">-->
+                <!--<attribute name="attrs">{'readonly': [('credit', '!=', 0)]}</attribute>-->
+            <!--</xpath>-->
+            <!--<xpath expr="//field[@name='line_ids']/tree/field[@name='credit']" position="attributes">-->
+                <!--<attribute name="attrs">{'readonly': [('debit', '!=', 0)]}</attribute>-->
+            <!--</xpath>-->
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='date_maturity']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='date_maturity']" position="after">
+                <field name="narration" required="1" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_move_tree" model="ir.ui.view">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_tree"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="replace">
+                <field name="partner_id" invisible="1" />
+                <field name="sped_participante_id" />
+            </field>
+        </field>
+    </record>
+
+    <record id="account_move_search" model="ir.ui.view">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_move_filter"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="replace">
+                <field name="partner_id" invisible="1" />
+                <field name="sped_participante_id" />
+            </field>
+            <xpath expr="//search/group/filter[1]" position="replace">
+                <filter string="Participante" domain="[]" context="{'group_by':'sped_participante_id'}"/>
             </xpath>
         </field>
     </record>

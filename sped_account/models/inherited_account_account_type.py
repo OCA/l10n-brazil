@@ -5,6 +5,8 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 from odoo import api, fields, models
 from ..constantes import *
 
@@ -15,7 +17,21 @@ class AccountAccountType(models.Model):
     is_brazilian_account_type = fields.Boolean(
         string=u'Is a Brazilian Account?',
     )
-    
+    redutor = fields.Boolean(
+        string='Redutor?',
+        compute='_compute_redutor',
+        store=True,
+    )
+
+    @api.depends('name')
+    def _compute_redutor(self):
+        for account_type in self:
+            if account_type.name and (account_type.name.startswith('(-)')
+                               or account_type.name.startswith('( - )')):
+                account_type.redutor = True
+            else:
+                account_type.redutor = False
+
     @api.multi
     def name_get(self):
         res = []

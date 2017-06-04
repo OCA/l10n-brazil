@@ -13,6 +13,7 @@
     'depends': [
         'sped',
         'account',
+        'sped_imposto',
     ],
     'installable': True,
     'application': False,
@@ -35,10 +36,12 @@
         'views/inherited_account_account_view.xml',
         'views/inherited_account_bank_statement_view.xml',
         'views/inherited_account_config_settings_view.xml',
-        # 'views/inherited_account_invoice_customer_view.xml',
-        # 'views/inherited_account_invoice_supplier_view.xml',
+        'views/account_invoice_line_brazil_view.xml',
+        'views/inherited_account_invoice_customer_view.xml',
+        'views/inherited_account_invoice_supplier_view.xml',
         'views/inherited_account_journal_view.xml',
         'views/inherited_account_move_view.xml',
+        'views/inherited_account_move_line_view.xml',
         'views/inherited_account_financial_report_view.xml',
     ],
 }

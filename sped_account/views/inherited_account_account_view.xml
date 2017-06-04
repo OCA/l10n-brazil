@@ -30,6 +30,11 @@
                 <attribute name="attrs">{'invisible': [('is_brazilian_account', '=', True)]}</attribute>
             </xpath>
             <xpath expr="//sheet/group/group[2]" position="after">
+                <group name="contas_filhas">
+                    <separator string="Contas Inferiores" />
+                    <newline />
+                    <field name="child_ids" readonly="1" />
+                </group>
                 <newline />
                 <group name="dre_balanco" colspan="4" attrs="{'invisible': [('is_brazilian_account', '!=', True)]}">
                    <div class="row" style="background-color: #eee">

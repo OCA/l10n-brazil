@@ -5,15 +5,18 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 from odoo import api, fields, models
 
 
-class journalJournal(models.Model):
+class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
     is_brazilian_journal = fields.Boolean(
         string=u'Is a Brazilian Journal?',
         compute='_compute_is_brazilian_journal',
+        store=True,
     )
     sped_empresa_id = fields.Many2one(
         comodel_name='sped.empresa',

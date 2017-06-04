@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <!--<record model="ir.ui.view" id="account_move_line_form" >-->
+        <!--<field name="name">account.move.line.form</field>-->
+        <!--<field name="model">account.move.line</field>-->
+        <!--<field name="priority">999</field>-->
+        <!--<field name="arch" type="xml">-->
+        <!--</field>-->
+    <!--</record>-->
+
+    <record model="ir.ui.view" id="account_move_line_tree" >
+        <field name="name">account.move.line.tree</field>
+        <field name="model">account.move.line</field>
+        <field name="priority">999</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom" string="Partidas do lançamento">
+                <!--<field name="move_id" invisible="1" />-->
+                <field name="account_id" domain="[('deprecated', '=', False), ('is_brazilian_account', '=', parent.is_brazilian_move), ('tipo_sped', '=', 'A')]"/>
+                <field name="name"/>
+                <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+                <field name="amount_currency" groups="base.group_multi_currency"/>
+                <field name="company_currency_id" invisible="0"/>
+                <field name="currency_id" options="{'no_create': True}" domain="[('is_currency', '=', True)]" groups="base.group_multi_currency"/>
+                <field name="debit" sum="Total Debit" attrs="{'readonly': [('credit', '!=', 0)]}" />
+                <field name="credit" sum="Total Credit" attrs="{'readonly': [('debit', '!=', 0)]}" />
+                <field name="date_maturity" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+
+</odoo>

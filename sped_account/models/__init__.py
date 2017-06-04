@@ -18,7 +18,9 @@ from . import inherited_account_chart_template
 from . import inherited_account_account_template
 from . import inherited_account_account
 from . import inherited_account_journal
-# from . import inherited_account_invoice
-# from . import inherited_account_invoice_line
+from . import inherited_account_move
+from . import inherited_account_move_line
+from . import inherited_account_invoice
+from . import inherited_account_invoice_line
 from . import inherited_account_financial_report
 from . import inherited_report_account_report_financial

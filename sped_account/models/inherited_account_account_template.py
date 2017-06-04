@@ -5,6 +5,8 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 from odoo import api, fields, models
 from ..constantes import *
 
@@ -28,12 +30,6 @@ class AccountAccountTemplate(models.Model):
         string='Conta superior',
         ondelete='restrict',
         index=True,
-    )
-    tipo_sped = fields.Selection(
-        selection=TIPO_SPED_CONTA_CONTABIL,
-        string='Tipo no SPED Contábil',
-        compute='_compute_conta_contabil',
-        store=False,
     )
 
     @api.depends('company_id', 'currency_id', 'is_brazilian_account')

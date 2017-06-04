@@ -37,6 +37,7 @@ from . import sped_ncm_protocolo
 # Fiscal e faturamento
 #
 from . import sped_calculo_imposto
+from . import sped_soma_imposto
 from . import sped_natureza_operacao
 from . import sped_operacao
 from . import sped_operacao_item

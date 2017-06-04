@@ -23,6 +23,18 @@
                 <attribute name="domain">[('is_currency', '=', True)]</attribute>
                 <attribute name="invisible">[('is_brazilian_journal', '=', True)]</attribute>
             </field>
+            <field name="default_debit_account_id" position="attributes">
+                <attribute name="domain">[('deprecated', '=', False), ('is_brazilian_account', '=', is_brazilian_journal), ('tipo_sped', '=', 'A')]</attribute>
+            </field>
+            <field name="default_credit_account_id" position="attributes">
+                <attribute name="domain">[('deprecated', '=', False), ('is_brazilian_account', '=', is_brazilian_journal), ('tipo_sped', '=', 'A')]</attribute>
+            </field>
+            <field name="type_control_ids" position="attributes">
+                <attribute name="domain">[('is_brazilian_account_type', '=', is_brazilian_journal)]</attribute>
+            </field>
+            <field name="account_control_ids" position="attributes">
+                <attribute name="domain">[('deprecated', '=', False), ('is_brazilian_account', '=', is_brazilian_journal), ('tipo_sped', '=', 'A')]</attribute>
+            </field>
         </field>
     </record>
 
