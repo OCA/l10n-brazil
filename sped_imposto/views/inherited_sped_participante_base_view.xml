@@ -7,7 +7,7 @@
 
     <record model="ir.ui.view" id="sped_participante_base_form" >
         <field name="name">sped.participante.base.form</field>
-        <field name="model">sped.empresa</field>
+        <field name="model">sped.participante</field>
         <field name="inherit_id" ref="l10n_br_base.sped_participante_base_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='eh_funcionario']" position="after">

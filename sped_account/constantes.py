@@ -81,3 +81,43 @@ NATUREZA_PARTIDA = (
 )
 NATUREZA_PARTIDA_DEBITO = 'D'
 NATUREZA_PARTIDA_CREDITO = 'C'
+
+CAMPO_DOCUMENTO_FISCAL = [
+    ('vr_cofins_proprio', u'COFINS própria'),
+    ('vr_cofins_retido', u'COFINS retida'),
+    ('vr_icms_sn', u'Crédito de ICMS - SIMPLES Nacional'),
+    ('vr_csll_propria', u'CSLL própria'),
+    ('vr_csll', u'CSLL retida'),
+    ('vr_custo_comercial', u'Custo (nas entradas/compras)'),
+    ('vr_custo_estoque', u'Custo médio (nas saídas/vendas)'),
+    ('vr_desconto', u'Desconto'),
+    ('vr_diferencial_aliquota', u'Diferencial de alíquota (ICMS próprio)'),
+    ('vr_diferencial_aliquota_st', u'Diferencial de alíquota (ICMS ST)'),
+    ('vr_frete', u'Frete'),
+    ('vr_icms_proprio', u'ICMS próprio'),
+    ('vr_icms_st', u'ICMS ST'),
+    ('vr_ii', u'Imposto de importação'),
+    ('vr_previdencia', u'INSS retido'),
+    ('vr_ipi', u'IPI'),
+    ('vr_irpj_proprio', u'IRPJ próprio'),
+    ('vr_irrf', u'IRRF retido'),
+    ('vr_iss', u'ISS próprio'),
+    ('vr_iss_retido', u'ISS retido'),
+    ('vr_outras', u'Outras despesas acessórias'),
+    ('vr_pis_proprio', u'PIS próprio'),
+    ('vr_pis_retido', u'PIS retido'),
+    ('vr_seguro', u'Seguro'),
+    ('vr_simples', u'SIMPLES'),
+    ('vr_fatura', u'Total da fatura'),
+    ('vr_nf', u'Total da NF'),
+    ('vr_operacao', u'Valor da operação'),
+]
+
+CAMPO_DOCUMENTO_FISCAL_ITEM = (
+    'vr_custo_comercial',
+    'vr_custo_estoque',
+    'vr_icms_proprio',
+    'vr_icms_st',
+    'vr_ipi',
+    'vr_operacao',
+)

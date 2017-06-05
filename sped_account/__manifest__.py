@@ -19,9 +19,6 @@
     'application': False,
     'license': 'AGPL-3',
     'data': [
-        'data/account_move_template_view.xml',
-        'data/account_move_line_template_view.xml',
-
         'data/inherited_account_account_type_dre_data.xml',
         'data/inherited_account_account_type_balanco_data.xml',
         'data/inherited_account_financial_report_dre_data.xml',
@@ -43,5 +40,7 @@
         'views/inherited_account_move_view.xml',
         'views/inherited_account_move_line_view.xml',
         'views/inherited_account_financial_report_view.xml',
+        'views/sped_account_move_template_view.xml',
+        'views/inherited_sped_documento_base_view.xml',
     ],
 }

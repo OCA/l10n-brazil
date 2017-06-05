@@ -35,20 +35,27 @@ class AccountMove(models.Model):
         string='Partner',
         compute='_onchange_sped_participante_id',
     )
+    sped_documento_id = fields.Many2one(
+        comodel_name='sped.documento',
+        string='Documento Fiscal',
+        ondelete='restrict',
+    )
 
     @api.depends('journal_id', 'company_id', 'currency_id', 'sped_empresa_id')
     def _compute_is_brazilian_move(self):
         for move in self:
-            if move.company_id.country_id:
+            if self.sped_documento_id:
+                move.is_brazilian_move = True
+            elif move.company_id.country_id:
                 if move.sped_empresa_id:
                     move.is_brazilian_move = True
 
-                    #
-                    # Brazilian moves, by law, must always be in BRL
-                    #
-                    move.currency_id = self.env.ref('base.BRL').id
-
-                    continue
+            if move.is_brazilian_move:
+                #
+                # Brazilian moves, by law, must always be in BRL
+                #
+                move.currency_id = self.env.ref('base.BRL').id
+                continue
 
             move.is_brazilian_move = False
 
