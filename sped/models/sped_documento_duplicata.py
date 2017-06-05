@@ -7,13 +7,13 @@
 
 from __future__ import division, print_function, unicode_literals
 
+from odoo.addons.l10n_br_base.models.sped_base import SpedBase
 from odoo import api, fields, models
 
 
-class SpedDocumentoDuplicata(models.Model):
+class SpedDocumentoDuplicata(SpedBase, models.Model):
     _name = b'sped.documento.duplicata'
     _description = 'Duplicatas do Documento Fiscal'
-    _inherit = 'sped.base'
     _order = 'documento_id, data_vencimento'
     # _rec_name = 'numero'
 
