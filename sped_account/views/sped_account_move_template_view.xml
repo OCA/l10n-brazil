@@ -1,49 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
 
-    <record id="account_move_template_tree_view" model="ir.ui.view">
-        <field name="name">account.move.template.tree.view</field>
-        <field name="model">account.move.template</field>
+    <record model="ir.ui.view" id="sped_account_move_template_form" >
+        <field name="name">sped.account.move.template.form</field>
+        <field name="model">sped.account.move.template</field>
+        <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Move Template" editable="top">   <!--decoration-info="state == 'draft'" decoration-muted="state == 'cancel'"-->
-                <field name="sequence" widget="handle"/>
-                <field name="company_id"/>
-                <field name="fiscal_category_ids"/>
-                <field name="use_cost"/>
-                <field name="move_template_ids"/>
-            </tree>
-        </field>
-    </record>
-
-    <record id="account_move_template_form_view" model="ir.ui.view">
-        <field name="name">account.move.template.form.view</field>
-        <field name="model">account.move.template</field>
-        <field name="arch" type="xml">
-            <form><!--decoration-info="state == 'draft'" decoration-muted="state == 'cancel'"-->
-                <group>
-                    <field name="sequence" widget="handle"/>
-                    <field name="company_id"/>
-                    <field name="fiscal_category_ids" widget="many2many_tags"/>
-                    <field name="use_cost"/>
-                    <field name="move_template_ids"/>
-                </group>
+            <form string="Modelo de partida dobrada fiscal">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="nome" default_focus="1" required="1" />
+                        </h1>
+                    </div>
+                    <group colspan="4">
+                        <field name="parent_id" colspan="4" />
+                        <newline />
+                        <field name="operacao_ids" colspan="4" widget="many2many_tags"  />
+                        <newline />
+                        <separator string="Partidas" colspan="4" />
+                        <field name="item_ids" colspan="4" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="campo" />
+                                <field name="account_debito_id" />
+                                <field name="account_credito_id" />
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
             </form>
         </field>
     </record>
 
+    <record model="ir.ui.view" id="sped_account_move_template_tree">
+        <field name="name">sped.account.move.template.tree</field>
+        <field name="model">sped.account.move.template</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="parent_id" invisible="1" />
+                <field name="nome" />
+            </tree>
+        </field>
+    </record>
 
-    <record id="action_account_move_template" model="ir.actions.act_window">
-            <field name="name">Move Templates</field>
-            <field name="res_model">account.move.template</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="account_move_template_tree_view"/>
-            <field name="context">{}</field>
-            <!--<field name="search_view_id" ref="view_account_invoice_filter"/>-->
-        </record>
+    <record model="ir.ui.view" id="sped_account_move_template_search">
+        <field name="name">sped.account.move.template.search</field>
+        <field name="model">sped.account.move.template</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Modelo de partida dobrada fiscal">
+                <field name="nome" />
+                <field name="parent_id" />
+            </search>
+        </field>
+    </record>
 
-    <menuitem action="action_account_move_template"
-              id="menu_action_account_move_template" parent="account.account_account_menu" sequence="90"/>
-    </data>
-</openerp>
+    <record model="ir.actions.act_window" id="sped_account_move_template_acao">
+        <field name="name">Modelo de partida dobrada fiscal</field>
+        <field name="res_model">sped.account.move.template</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_account_move_template_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_account_move_template_form"/>
+        <field name="act_window_id" ref="sped_account_move_template_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_account_move_template_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_account_move_template_tree"/>
+        <field name="act_window_id" ref="sped_account_move_template_acao"/>
+    </record>
+
+    <menuitem
+        id="menu_sped_account_move_template"
+        sequence="1"
+        name="Modelo de partidas fiscal"
+        parent="sped.menu_sped_documento_emissao"
+        action="sped_account_move_template_acao" />
+    
+</odoo>

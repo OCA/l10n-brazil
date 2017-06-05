@@ -55,6 +55,17 @@ class AccountMoveLine(models.Model):
         compute='_compute_natureza',
         store=True,
     )
+    sped_documento_id = fields.Many2one(
+        comodel_name='sped.documento',
+        related='move_id.sped_documento_id',
+        string='Documento Fiscal',
+        store=True,
+    )
+    sped_documento_item_id = fields.Many2one(
+        comodel_name='sped.documento.item',
+        string='Item do documento fiscal',
+        ondelete='restrict',
+    )
 
     @api.depends('debit', 'credit')
     def _compute_natureza(self):
