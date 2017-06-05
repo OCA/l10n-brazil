@@ -19,8 +19,10 @@ from openerp.addons.l10n_br_base.models.sped_base import (
 )
 
 
-class SpedCalculoImposto(object):
+class SpedCalculoImposto(SpedBase):
     """ Definie informações essenciais para as operações brasileiras"""
+
+    _abstract = False
 
     @api.model
     def _default_company_id(self):

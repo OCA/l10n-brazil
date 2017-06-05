@@ -6,7 +6,7 @@
 #
 
 from __future__ import division, print_function, unicode_literals
-
+from odoo.addons.l10n_br_base.models.sped_base import SpedBase
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
@@ -43,10 +43,9 @@ class SpedAliquotaSIMPLESAnexo(models.Model):
                 )
 
 
-class SpedAliquotaSIMPLESTeto(models.Model):
+class SpedAliquotaSIMPLESTeto(SpedBase, models.Model):
     _name = b'sped.aliquota.simples.teto'
     _description = 'Tetos do SIMPLES Nacional'
-    _inherit = 'sped.base'
     _rec_name = 'nome'
     _order = 'valor'
 
@@ -74,10 +73,9 @@ class SpedAliquotaSIMPLESTeto(models.Model):
                 raise ValidationError('Teto já existe na tabela!')
 
 
-class SpedAliquotaSIMPLESAliquota(models.Model):
+class SpedAliquotaSIMPLESAliquota(SpedBase, models.Model):
     _name = b'sped.aliquota.simples.aliquota'
     _description = 'Alíquotas do SIMPLES Nacional'
-    _inherit = 'sped.base'
     _rec_name = 'al_simples'
     _order = 'anexo_id, teto_id'
 
