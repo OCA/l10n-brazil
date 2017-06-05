@@ -54,7 +54,6 @@ class AccountInvoice(SpedCalculoImposto, models.Model):
             return super(AccountInvoice, self)._compute_amount()
         return self._amount_all_brazil()
 
-
     # @api.multi
     # def _check_brazilian_invoice(self, operation):
     #     pass

@@ -151,7 +151,7 @@ class AccountAccount(models.Model):
 
             if conta.code and conta.name:
                 conta.nome_completo = conta.code + ' - ' + \
-                                      conta._calcula_nome()
+                    conta._calcula_nome()
 
             if conta.tipo:
                 conta.natureza = TIPO_CONTA_CONTABIL_NATUREZA[conta.tipo]

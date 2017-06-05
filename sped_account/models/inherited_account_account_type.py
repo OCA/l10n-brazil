@@ -27,7 +27,7 @@ class AccountAccountType(models.Model):
     def _compute_redutor(self):
         for account_type in self:
             if account_type.name and (account_type.name.startswith('(-)')
-                               or account_type.name.startswith('( - )')):
+                                      or account_type.name.startswith('( - )')):
                 account_type.redutor = True
             else:
                 account_type.redutor = False

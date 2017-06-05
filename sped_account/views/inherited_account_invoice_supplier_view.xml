@@ -10,10 +10,6 @@
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.invoice_supplier_form"/>
         <field name="arch" type="xml">
-            <field name="has_outstanding" position="after">
-                <field name="is_brazilian" invisible="1"/>
-            </field>
-
             <field name="partner_id" position="attributes">
                  <attribute name="attrs">{'invisible': [('is_brazilian', '=', True)]}</attribute>
             </field>
@@ -22,7 +18,6 @@
                        domain="[('eh_fornecedor', '=', True)]"
                        attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
             </field>
-
             <field name="payment_term_id" position="attributes">
                 <attribute name="invisible">[('is_brazilian', '=', True)]</attribute>
             </field>
@@ -32,6 +27,8 @@
                        attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
             </field>
             <xpath expr="//page[2]/group/group[2]/field[@name='company_id']" position="after">
+                <field name="is_brazilian" groups="l10n_br_base.GRUPO_SUPORTE"/>
+                <field name="sped_documento_ids" groups="l10n_br_base.GRUPO_SUPORTE"/>
                 <field name="sped_empresa_id" string="Razão Social"
                        options="{'no_create': True}"
                        attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
@@ -50,9 +47,6 @@
             <field name="currency_id" position="attributes">
                 <attribute name="domain">[('is_currency', '=', True)]</attribute>
             </field>
-            <!--<xpath expr="//form/sheet/notebook/page[1]" position="attributes">-->
-                <!--<attribute name="invisible">[('is_brazilian', '=', True)]</attribute>-->
-            <!--</xpath>-->
              <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
                  <attribute name="attrs">{'invisible': [('is_brazilian', '=', True)]}</attribute>
             </xpath>

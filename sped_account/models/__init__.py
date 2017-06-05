@@ -5,8 +5,8 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-# from . import account_move_template
-# from . import account_invoice
+from . import sped_account_move_template
+
 
 # from . import inherited_sped_documento
 # from . import inherited_sped_documento_item

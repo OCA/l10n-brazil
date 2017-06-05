@@ -39,8 +39,9 @@ class AccountConfigSettings(models.TransientModel):
         if self.chart_template_id and not self.has_chart_of_accounts and \
                 self.expects_chart_of_accounts:
             if self.company_id.chart_template_id and \
-                self.chart_template_id != self.company_id.chart_template_id:
-                raise UserError(_('You can not change a company chart of account once it has been installed'))
+                    self.chart_template_id != self.company_id.chart_template_id:
+                raise UserError(
+                    _('You can not change a company chart of account once it has been installed'))
 
             wizard = self.env['wizard.multi.charts.accounts'].create({
                 'company_id': self.company_id.id,
