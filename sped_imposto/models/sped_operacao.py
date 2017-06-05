@@ -208,13 +208,13 @@ class SpedOperacaoFiscal(models.Model):
     def calcula_imposto(self):
         self.ensure_one()
 
-        calculo = self.env['sped.calculo.imposto'].new()
+        calculo = self.env['sped.calculo.imposto.item'].new()
         calculo.operacao_id = self.id
-        #calculo.empresa_id = empresa_id
-        #calculo.participante_id = participante_id
-        #calculo.produto_id = produto_id
-        #calculo.quantidade = quantidade
-        #calculo.vr_unitario = vr_unitario
+        # calculo.empresa_id = empresa_id
+        # calculo.participante_id = participante_id
+        # calculo.produto_id = produto_id
+        # calculo.quantidade = quantidade
+        # calculo.vr_unitario = vr_unitario
 
         calculo.empresa_id = 1
         calculo.participante_id = 1
@@ -225,4 +225,3 @@ class SpedOperacaoFiscal(models.Model):
         calculo.calcula_impostos()
 
         print(calculo.vr_nf)
-

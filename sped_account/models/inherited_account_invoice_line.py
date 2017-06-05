@@ -84,7 +84,7 @@ class AccountInvoiceLine(models.Model):
 class AccountInvoiceLineBrazil(models.Model):
     _name = b'account.invoice.line.brazil'
     _description = 'Linhas da Fatura'
-    _inherit = 'sped.calculo.imposto'
+    _inherit = 'sped.calculo.imposto.item'
     _abstract = False
 
 
