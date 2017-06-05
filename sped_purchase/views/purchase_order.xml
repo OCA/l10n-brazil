@@ -52,10 +52,15 @@
                     </attribute>
                 </xpath>
                 <xpath expr="//field[@name='order_line']" position="before">
-                    <field name="order_line_brazil_ids" nolabel="1"
+                    <field name="brazil_line_ids" nolabel="1"
                            widget="one2many_list"
                            attrs="{'readonly': [('state', 'in', ('done','cancel'))], 'invisible': [('is_brazilian', '!=', True)]}"/>
                 </xpath>
+                <field name="amount_untaxed" position="after">
+                    <field name="vr_frete" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
+                    <field name="vr_seguro" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
+                    <field name="vr_outras" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
+                </field>
             </field>
         </record>
 
