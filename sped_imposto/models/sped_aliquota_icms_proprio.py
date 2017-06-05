@@ -11,6 +11,7 @@ import logging
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
+from odoo.addons.l10n_br_base.models.sped_base import SpedBase
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODALIDADE_BASE_ICMS_PROPRIO,
     MODALIDADE_BASE_ICMS_PROPRIO_MARGEM_VALOR_AGREGADO,
@@ -28,10 +29,9 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedAliquotaICMSProprio(models.Model):
+class SpedAliquotaICMSProprio(SpedBase, models.Model):
     _name = b'sped.aliquota.icms.proprio'
     _description = 'Alíquotas do ICMS próprio'
-    _inherit = 'sped.base'
     _rec_name = 'descricao'
     _order = 'al_icms, md_icms, pr_icms, rd_icms'
 
