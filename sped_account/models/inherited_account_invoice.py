@@ -22,56 +22,38 @@ class AccountInvoice(SpedCalculoImposto, models.Model):
         inverse_name='invoice_id',
         string=u'Documentos Fiscais',
     )
-    invoice_line_brazil_ids = fields.One2many(
+    brazil_line_ids = fields.One2many(
         comodel_name='account.invoice.line.brazil',
         inverse_name='invoice_id',
         string='Linhas da Fatura',
     )
 
+    def _get_date(self):
+        """
+        Return the document date
+        Used in _amount_all_wrapper
+        """
+        return self.date_invoice
+
     @api.one
-    @api.depends('invoice_line_ids.price_subtotal', 'tax_line_ids.amount',
-                 'currency_id', 'company_id', 'date_invoice', 'type',
-                 'invoice_line_brazil_ids.vr_nf',
-                 'invoice_line_brazil_ids.vr_fatura')
+    @api.depends(
+        'invoice_line_ids.price_subtotal',
+        'tax_line_ids.amount',
+        'currency_id',
+        'company_id',
+        'date_invoice',
+        'type',
+        #
+        # Brasil
+        #
+        'brazil_line_ids.vr_nf',
+        'brazil_line_ids.vr_fatura',
+    )
     def _compute_amount(self):
         if not self.is_brazilian:
             return super(AccountInvoice, self)._compute_amount()
+        return self._amount_all_brazil()
 
-        #
-        # Tratamos os impostos brasileiros;
-        # amount_untaxed é equivalente ao valor dos produtos
-        #
-        self.amount_untaxed = \
-            sum(item.vr_produtos for item in self.invoice_line_brazil_ids)
-        #
-        # amount_tax são os imposto que são somados no valor total da NF;
-        # no nosso caso, não só impostos, mas todos os valores que entram
-        # no total da NF: outras despesas acessórias, frete etc.
-        # E, como o amount_total é o valor DA FATURA, não da NF, somamos este
-        # primeiro, e listamos o valor dos impostos considerando valores
-        # acessórios, e potencias retenções de imposto que estejam
-        # reduzindo o valor
-        #
-        self.amount_total = \
-            sum(item.vr_fatura for item in self.invoice_line_brazil_ids)
-
-        self.amount_tax = self.amount_total - self.amount_untaxed
-        amount_total_company_signed = self.amount_total
-        amount_untaxed_signed = self.amount_untaxed
-        if (self.currency_id and self.company_id and
-                self.currency_id != self.company_id.currency_id):
-            currency_id = self.currency_id.with_context(
-                date=self.date_invoice)
-            amount_total_company_signed = \
-                currency_id.compute(self.amount_total,
-                                    self.company_id.currency_id)
-            amount_untaxed_signed = \
-                currency_id.compute(self.amount_untaxed,
-                                    self.company_id.currency_id)
-        sign = self.type in ['in_refund', 'out_refund'] and -1 or 1
-        self.amount_total_company_signed = amount_total_company_signed * sign
-        self.amount_total_signed = self.amount_total * sign
-        self.amount_untaxed_signed = amount_untaxed_signed * sign
 
     # @api.multi
     # def _check_brazilian_invoice(self, operation):

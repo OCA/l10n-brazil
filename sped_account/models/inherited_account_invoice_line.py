@@ -34,6 +34,15 @@ except (ImportError, IOError) as err:
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
 
+    #
+    # Workarround para o cálculo globalizado.
+    #
+    order_id = fields.Many2one(
+        comodel_name='account.invoice',
+        related='invoice_id',
+        readonly=True,
+        index=True,
+    )
     sped_documento_item_id = fields.Many2one(
         comodel_name='sped.documento.item',
         string=u'Item do Documento Fiscal',
@@ -85,12 +94,8 @@ class AccountInvoiceLineBrazil(models.Model):
     _name = b'account.invoice.line.brazil'
     _description = 'Linhas da Fatura'
     _inherit = 'sped.calculo.imposto.item'
-    _abstract = False
-
-
-class AccountInvoiceLineBrazil2(models.Model):
-    _inherit = 'account.invoice.line.brazil'
     _inherits = {'account.invoice.line': 'invoice_line_id'}
+    _abstract = False
 
     invoice_line_id = fields.Many2one(
         comodel_name='account.invoice.line',
