@@ -21,10 +21,7 @@ class SaleOrder(SpedCalculoImposto, models.Model):
     )
 
     def _get_date(self):
-        """
-        Return the document date
-        Used in _amount_all_wrapper
-        """
+        """ Return the document date Used in _amount_all_wrapper """
         return self.date_order
 
     @api.one
@@ -33,3 +30,5 @@ class SaleOrder(SpedCalculoImposto, models.Model):
         if not self.is_brazilian:
             return super(SaleOrder, self)._amount_all()
         return self._amount_all_brazil()
+
+    # TODO: O campo empresa não é obrigatório
