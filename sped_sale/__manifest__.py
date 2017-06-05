@@ -15,8 +15,10 @@
         'sale',
     ],
     'data': [
-        # 'views/sale_order_line.xml',
+
         # 'security/sale_order.xml',
+
+        'views/sale_order_line.xml',
         'views/sale_order.xml',
     ],
     'demo': [
