@@ -1570,6 +1570,7 @@ class SpedCalculoImposto(SpedBase, models.Model):
         if hasattr(self, 'quantity'):
             valores['quantity'] = self.quantidade
 
+
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
 
