@@ -11,45 +11,45 @@
         <field name="inherit_id" ref="account.invoice_form"/>
         <field name="arch" type="xml">
             <field name="has_outstanding" position="after">
-                <field name="is_brazilian_invoice"/>
+                <field name="is_brazilian"/>
                 <field name="sped_documento_ids" invisible="0"/>
             </field>
             <field name="partner_id" position="attributes">
-                 <attribute name="attrs">{'invisible': [('is_brazilian_invoice', '=', True)]}</attribute>
+                 <attribute name="attrs">{'invisible': [('is_brazilian', '=', True)]}</attribute>
             </field>
             <field name="partner_id" position="after">
                 <field name="sped_participante_id" string="Customer"
                        domain="[('eh_cliente', '=', True)]"
-                       attrs="{'required': [('is_brazilian_invoice', '=', True)], 'invisible': [('is_brazilian_invoice', '!=', True)]}"/>
+                       attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
             </field>
             <!--            <field name="company_id" position="attributes">
-                            <attribute name="invisible">[('is_brazilian_invoice', '=', True)]</attribute>
+                            <attribute name="invisible">[('is_brazilian', '=', True)]</attribute>
                         </field>-->
             <xpath expr="//page[@name='other_info']/group/group/field[@name='company_id']"
                    position="after">
                 <field name="sped_empresa_id" string="Razão Social"
-                       attrs="{'required': [('is_brazilian_invoice', '=', True)], 'invisible': [('is_brazilian_invoice', '!=', True)]}"/>
+                       attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
             </xpath>
             <field name="fiscal_position_id" position="attributes">
-                 <attribute name="attrs">{'invisible': [('is_brazilian_invoice', '=', True)]}</attribute>
+                 <attribute name="attrs">{'invisible': [('is_brazilian', '=', True)]}</attribute>
             </field>
             <field name="fiscal_position_id" position="after">
                 <field name="sped_operacao_produto_id" domain="[('emissao', '=', '0')]"
-                       attrs="{'required': [('sped_operacao_servico_id', '=', False)], 'invisible': [('is_brazilian_invoice', '!=', True)]}"/>
+                       attrs="{'required': [('sped_operacao_servico_id', '=', False)], 'invisible': [('is_brazilian', '!=', True)]}"/>
                 <field name="sped_operacao_servico_id" domain="[('emissao', '=', '0')]"
-                       attrs="{'required': [('sped_operacao_produto_id', '=', False)], 'invisible': [('is_brazilian_invoice', '!=', True)]}"/>
+                       attrs="{'required': [('sped_operacao_produto_id', '=', False)], 'invisible': [('is_brazilian', '!=', True)]}"/>
             </field>
             <field name="currency_id" position="attributes">
                 <attribute name="domain">[('is_currency', '=', True)]</attribute>
             </field>
             <!--<xpath expr="//form/sheet/notebook/page[1]" position="attributes">-->
-                <!--<attribute name="invisible">[('is_brazilian_invoice', '=', True)]</attribute>-->
+                <!--<attribute name="invisible">[('is_brazilian', '=', True)]</attribute>-->
             <!--</xpath>-->
              <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
-                 <attribute name="attrs">{'invisible': [('is_brazilian_invoice', '=', True)]}</attribute>
+                 <attribute name="attrs">{'invisible': [('is_brazilian', '=', True)]}</attribute>
             </xpath>
              <xpath expr="//field[@name='invoice_line_ids']" position="before">
-                    <field name="invoice_line_brazil_ids" nolabel="1" widget="one2many_list" context="{'type': type, 'journal_id': journal_id, 'default_invoice_id': id}" attrs="{'invisible': [('is_brazilian_invoice', '!=', True)]}"/>
+                    <field name="invoice_line_brazil_ids" nolabel="1" widget="one2many_list" context="{'type': type, 'journal_id': journal_id, 'default_invoice_id': id}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
             </xpath>
 
         </field>
