@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="sale_order_line_form_view">
+            <field name="name">sale.order.line.form (in sped_sale)</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="TODO othermodule.form_view"/>
+            <field name="arch" type="xml">
+                <!-- TODO -->
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="sale_order_line_tree_view">
+            <field name="name">sale.order.line.tree (in sped_sale)</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="TODO othermodule.tree_view"/>
+            <field name="arch" type="xml">
+                <!-- TODO -->
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
