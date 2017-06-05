@@ -57,9 +57,13 @@
                  <attribute name="attrs">{'invisible': [('is_brazilian', '=', True)]}</attribute>
             </xpath>
              <xpath expr="//field[@name='invoice_line_ids']" position="before">
-                    <field name="invoice_line_brazil_ids" nolabel="1" widget="one2many_list" context="{'type': type, 'journal_id': journal_id, 'default_invoice_id': id}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
+                    <field name="brazil_line_ids" nolabel="1" widget="one2many_list" context="{'type': type, 'journal_id': journal_id, 'default_invoice_id': id}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
             </xpath>
-
+            <field name="amount_untaxed" position="after">
+                    <field name="vr_frete" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
+                    <field name="vr_seguro" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
+                    <field name="vr_outras" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
+            </field>
         </field>
     </record>
 
