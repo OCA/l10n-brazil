@@ -7,6 +7,7 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
+from odoo.addons.l10n_br_base.models.sped_base import SpedBase
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODALIDADE_BASE_PIS,
     MODALIDADE_BASE_PIS_ALIQUOTA,
@@ -26,10 +27,9 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedAliquotaPISCOFINS(models.Model):
+class SpedAliquotaPISCOFINS(SpedBase, models.Model):
     _name = b'sped.aliquota.pis.cofins'
     _description = 'Alíquotas do PIS-COFINS'
-    _inherit = 'sped.base'
     _rec_name = 'descricao'
     _order = 'al_pis, al_cofins'
 

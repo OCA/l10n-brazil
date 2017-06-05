@@ -12,6 +12,7 @@ import logging
 from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
+from odoo.addons.l10n_br_base.models.sped_base import SpedBase
 from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
@@ -23,10 +24,9 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedSomaImposto(models.Model):
+class SpedSomaImposto(SpedBase, models.Model):
     _name = b'sped.soma.imposto'
     _description = 'Soma dos Impostos Calculados'
-    _inherit = 'sped.base'
     _abstract = True
     # _order = 'emissao, modelo, data_emissao desc, serie, numero'
     # _rec_name = 'numero'

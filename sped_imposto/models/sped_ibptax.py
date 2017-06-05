@@ -8,7 +8,7 @@
 from __future__ import division, print_function, unicode_literals
 
 import logging
-
+from odoo.addons.l10n_br_base.models.sped_base import SpedBase
 from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
@@ -154,10 +154,9 @@ class SpedIBPTax(models.Model):
         self.versao = versao
 
 
-class SpedIBPTaxNCM(models.Model):
+class SpedIBPTaxNCM(SpedBase, models.Model):
     _name = b'sped.ibptax.ncm'
     _description = 'IBPTax por NCM'
-    _inherit = 'sped.base'
 
     ibptax_id = fields.Many2one(
         comodel_name='sped.ibptax',
@@ -195,10 +194,9 @@ class SpedIBPTaxNCM(models.Model):
     )
 
 
-class SpedIBPTaxNBS(models.Model):
+class SpedIBPTaxNBS(SpedBase, models.Model):
     _name = b'sped.ibptax.nbs'
     _description = 'IBPTax por NBS'
-    _inherit = 'sped.base'
 
     ibptax_id = fields.Many2one(
         comodel_name='sped.ibptax',
@@ -232,10 +230,9 @@ class SpedIBPTaxNBS(models.Model):
     )
 
 
-class SpedIBPTaxServico(models.Model):
+class SpedIBPTaxServico(SpedBase, models.Model):
     _name = b'sped.ibptax.servico'
     _description = 'IBPTax por Serviço'
-    _inherit = 'sped.base'
 
     ibptax_id = fields.Many2one(
         comodel_name='sped.ibptax',
