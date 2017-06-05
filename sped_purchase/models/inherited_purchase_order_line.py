@@ -140,7 +140,7 @@ class PurchaseOrderLineBrazil(models.Model):
             }
             return {'warning': warning}
         if not (self.order_id.sped_operacao_produto_id or
-                    self.order_id.sped_operacao_servico_id):
+                self.order_id.sped_operacao_servico_id):
             warning = {
                 'title': _('Warning!'),
                 'message': _(
