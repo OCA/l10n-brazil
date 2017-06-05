@@ -11,6 +11,7 @@ import logging
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
+from odoo.addons.l10n_br_base.models.sped_base import SpedBase
 from odoo.addons.l10n_br_base.constante_tributaria import (
     TIPO_EMISSAO_NFE,
     TIPO_EMISSAO,
@@ -64,10 +65,10 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedDocumento(models.Model):
+class SpedDocumento(SpedBase, models.Model):
     _name = b'sped.documento'
     _description = 'Documentos Fiscais'
-    _inherit = ['sped.base', 'mail.thread']
+    _inherit = ['mail.thread']
     _order = 'emissao, modelo, data_emissao desc, serie, numero desc'
     _rec_name = 'descricao'
 
