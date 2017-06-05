@@ -10,9 +10,6 @@
             <field name="model">purchase.order</field>
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="arch" type="xml">
-                <field name="name" position="after">
-                    <field name="is_brazilian"/>
-                </field>
                 <field name="partner_id" position="attributes">
                     <attribute name="attrs">{'invisible': [('is_brazilian',
                         '=', True)]}
@@ -25,6 +22,7 @@
                 </field>
                 <xpath expr="//group/field[@name='company_id']"
                        position="after">
+                    <field name="is_brazilian" groups="l10n_br_base.GRUPO_SUPORTE"/>
                     <field name="sped_empresa_id" string="Razão Social"
                            attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
                 </xpath>
@@ -36,10 +34,10 @@
                 <field name="fiscal_position_id" position="after">
                     <field name="sped_operacao_produto_id"
                            domain="[('emissao', '=', '0')]"
-                           attrs="{'required': [('sped_operacao_servico_id', '=', False)], 'invisible': [('is_brazilian', '!=', True)]}"/>
+                           attrs="{'required': [('sped_operacao_servico_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
                     <field name="sped_operacao_servico_id"
                            domain="[('emissao', '=', '0')]"
-                           attrs="{'required': [('sped_operacao_produto_id', '=', False)], 'invisible': [('is_brazilian', '!=', True)]}"/>
+                           attrs="{'required': [('sped_operacao_produto_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
                 </field>
                 <field name="currency_id" position="attributes">
                     <attribute name="domain">[('is_currency', '=', True)]
