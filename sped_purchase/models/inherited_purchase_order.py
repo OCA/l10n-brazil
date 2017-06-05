@@ -13,8 +13,22 @@ from odoo.addons.sped_imposto.models.sped_calculo_imposto import (
 class PurchaseOrder(SpedCalculoImposto, models.Model):
     _inherit = 'purchase.order'
 
-    order_line_brazil_ids = fields.One2many(
+    brazil_line_ids = fields.One2many(
         comodel_name='purchase.order.line.brazil',
         inverse_name='order_id',
         string='Linhas',
     )
+
+    def _get_date(self):
+        """
+        Return the document date
+        Used in _amount_all_wrapper
+        """
+        return self.date_order
+
+    @api.one
+    @api.depends('order_line.price_total')
+    def _amount_all(self):
+        if not self.is_brazilian:
+            return super(PurchaseOrder, self)._amount_all()
+        return self._amount_all_brazil()
