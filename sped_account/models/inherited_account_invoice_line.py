@@ -39,15 +39,15 @@ class AccountInvoiceLine(models.Model):
         string=u'Item do Documento Fiscal',
         ondelete='cascade',
     )
-    is_brazilian_invoice = fields.Boolean(
+    is_brazilian = fields.Boolean(
         string=u'Is a Brazilian Invoice?',
-        related='invoice_id.is_brazilian_invoice',
+        related='invoice_id.is_brazilian',
     )
 
     # @api.multi
     # def _check_brazilian_invoice(self, operation):
     #     for item in self:
-    #         if (item.is_brazilian_invoice and
+    #         if (item.is_brazilian and
     #                 'sped_documento_item_id' not in self._context):
     #             if operation == 'create':
     #                 raise ValidationError(
