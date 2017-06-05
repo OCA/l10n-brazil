@@ -93,8 +93,8 @@ class WizardMultiChartsAccounts(models.TransientModel):
         # Install all the templates objects and generate the real objects
         acc_template_ref, taxes_ref = \
             self.chart_template_id._install_template(company,
-                code_digits=self.code_digits,
-                transfer_account_id=self.transfer_account_id)
+                                                     code_digits=self.code_digits,
+                                                     transfer_account_id=self.transfer_account_id)
 
         # # write values of default taxes for product as super user
         # ir_values_pool = self.env['ir.values']

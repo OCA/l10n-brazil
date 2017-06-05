@@ -27,9 +27,11 @@ class ReportAccountReportFinancial(models.AbstractModel):
 
         lines = []
         child_reports = account_report._get_children_by_order()
-        res = self.with_context(data.get('used_context'))._compute_report_balance(child_reports, is_brazilian_financial_report=True)
+        res = self.with_context(data.get('used_context'))._compute_report_balance(
+            child_reports, is_brazilian_financial_report=True)
         if data['enable_filter']:
-            comparison_res = self.with_context(data.get('comparison_context'))._compute_report_balance(child_reports, is_brazilian_financial_report=True)
+            comparison_res = self.with_context(data.get('comparison_context'))._compute_report_balance(
+                child_reports, is_brazilian_financial_report=True)
             for report_id, value in comparison_res.items():
                 res[report_id]['comp_bal'] = value['balance']
                 report_acc = res[report_id].get('account')
@@ -43,7 +45,8 @@ class ReportAccountReportFinancial(models.AbstractModel):
                 'balance': res[report.id]['balance'],
                 'type': 'report',
                 'level': bool(report.style_overwrite) and report.style_overwrite or report.level,
-                'account_type': report.type or False, #used to underline the financial report balances
+                # used to underline the financial report balances
+                'account_type': report.type or False,
             }
             if data['debit_credit']:
                 vals['debit'] = res[report.id]['debit']
@@ -54,15 +57,16 @@ class ReportAccountReportFinancial(models.AbstractModel):
 
             lines.append(vals)
             if report.display_detail == 'no_detail':
-                #the rest of the loop is used to display the details of the financial report, so it's not needed here.
+                # the rest of the loop is used to display the details of the
+                # financial report, so it's not needed here.
                 continue
 
             if res[report.id].get('account'):
                 sub_lines = []
                 for account_id, value in res[report.id]['account'].items():
-                    #if there are accounts to display, we add them to the lines with a level equals to their level in
-                    #the COA + 1 (to avoid having them with a too low level that would conflicts with the level of data
-                    #financial reports for Assets, liabilities...)
+                    # if there are accounts to display, we add them to the lines with a level equals to their level in
+                    # the COA + 1 (to avoid having them with a too low level that would conflicts with the level of data
+                    # financial reports for Assets, liabilities...)
                     flag = False
                     account = self.env['account.account'].browse(account_id)
                     vals = {
@@ -85,7 +89,8 @@ class ReportAccountReportFinancial(models.AbstractModel):
                             flag = True
                     if flag:
                         sub_lines.append(vals)
-                lines += sorted(sub_lines, key=lambda sub_line: sub_line['name'])
+                lines += sorted(sub_lines,
+                                key=lambda sub_line: sub_line['name'])
         return lines
 
     def _compute_account_balance(self, accounts,
@@ -106,7 +111,8 @@ class ReportAccountReportFinancial(models.AbstractModel):
             res[account.id]['redutora'] = account.redutora
 
         if accounts:
-            tables, where_clause, where_params = self.env['account.move.line']._query_get()
+            tables, where_clause, where_params = self.env[
+                'account.move.line']._query_get()
             tables = tables.replace('"', '') if tables else "account_move_line"
             wheres = [""]
             if where_clause.strip():
@@ -114,10 +120,10 @@ class ReportAccountReportFinancial(models.AbstractModel):
             filters = " AND ".join(wheres)
             request = "SELECT account_id as id, " + \
                       ', '.join(mapping.values()) + \
-                       " FROM " + tables + \
-                       " WHERE account_id IN %s " \
-                            + filters + \
-                       " GROUP BY account_id"
+                " FROM " + tables + \
+                " WHERE account_id IN %s " \
+                + filters + \
+                " GROUP BY account_id"
             params = (tuple(accounts._ids),) + tuple(where_params)
             self.env.cr.execute(request, params)
             for row in self.env.cr.dictfetchall():
@@ -129,7 +135,6 @@ class ReportAccountReportFinancial(models.AbstractModel):
                 res[row['id']] = row
 
         return res
-
 
     def _compute_report_balance(self, reports,
                                 is_brazilian_financial_report=True):
@@ -148,7 +153,8 @@ class ReportAccountReportFinancial(models.AbstractModel):
             res[report.id] = dict((fn, 0.0) for fn in fields)
 
             if report.type == REPORT_TYPE_ACCOUNTS:
-                res[report.id]['account'] = self._compute_account_balance(report.account_ids, is_brazilian_financial_report=True)
+                res[report.id]['account'] = self._compute_account_balance(
+                    report.account_ids, is_brazilian_financial_report=True)
 
                 #
                 # Inverte o sinal de todos os valores em caso de item redutor
@@ -173,8 +179,10 @@ class ReportAccountReportFinancial(models.AbstractModel):
                         res[report.id][field] += value.get(field)
 
             elif report.type == REPORT_TYPE_ACCOUNT_TYPE:
-                accounts = self.env['account.account'].search([('user_type_id', 'in', report.account_type_ids.ids)])
-                res[report.id]['account'] = self._compute_account_balance(accounts, is_brazilian_financial_report=True)
+                accounts = self.env['account.account'].search(
+                    [('user_type_id', 'in', report.account_type_ids.ids)])
+                res[report.id]['account'] = self._compute_account_balance(
+                    accounts, is_brazilian_financial_report=True)
 
                 #
                 # Inverte o sinal de todos os valores em caso de item redutor
@@ -195,9 +203,9 @@ class ReportAccountReportFinancial(models.AbstractModel):
                     for field in fields:
                         res[report.id][field] += value.get(field)
 
-
             elif report.type == REPORT_TYPE_REPORT_VALUE and report.account_report_id:
-                res2 = self._compute_report_balance(report.account_report_id, is_brazilian_financial_report=True)
+                res2 = self._compute_report_balance(
+                    report.account_report_id, is_brazilian_financial_report=True)
 
                 for key, value in res2.items():
                     for field in fields:
@@ -210,7 +218,8 @@ class ReportAccountReportFinancial(models.AbstractModel):
                         res[report.id][field] += value[field]
 
             elif report.type == REPORT_TYPE_VIEW:
-                res2 = self._compute_report_balance(report.children_ids, is_brazilian_financial_report=True)
+                res2 = self._compute_report_balance(
+                    report.children_ids, is_brazilian_financial_report=True)
 
                 for key, value in res2.items():
                     for field in fields:
@@ -224,7 +233,8 @@ class ReportAccountReportFinancial(models.AbstractModel):
 
             elif report.type == REPORT_TYPE_SUMMARY:
                 for summary in report.summary_report_ids:
-                    res_summary = self._compute_report_balance(summary, is_brazilian_financial_report=True)
+                    res_summary = self._compute_report_balance(
+                        summary, is_brazilian_financial_report=True)
                     for key, value in res_summary.items():
                         for field in fields:
                             if report.redutor:

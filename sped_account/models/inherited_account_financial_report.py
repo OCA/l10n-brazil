@@ -56,7 +56,7 @@ class AccountFinancialReport(models.Model):
     def _compute_redutor(self):
         for report in self:
             if report.name and (report.name.startswith('(-)')
-                               or report.name.startswith('( - )')):
+                                or report.name.startswith('( - )')):
                 report.redutor = True
             else:
                 report.redutor = False

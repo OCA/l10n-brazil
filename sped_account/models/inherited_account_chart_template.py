@@ -70,7 +70,8 @@ class AccountChartTemplate(models.Model):
                          self).try_loading_for_current_company()
 
         company = self.env.user.company_id
-        # If we don't have any chart of account on this company, install this chart of account
+        # If we don't have any chart of account on this company, install this
+        # chart of account
         if not company.chart_template_id:
             wizard = self.env['wizard.multi.charts.accounts'].create({
                 'company_id': self.env.user.company_id.id,
@@ -86,14 +87,14 @@ class AccountChartTemplate(models.Model):
 
     @api.multi
     def _load_template(self, company, code_digits=None,
-            transfer_account_id=None, account_ref=None, taxes_ref=None):
+                       transfer_account_id=None, account_ref=None, taxes_ref=None):
         self.ensure_one()
 
         if not self.is_brazilian_chart_template:
             return super(AccountChartTemplate, self)._load_template(company,
-                code_digits=code_digits,
-                transfer_account_id=transfer_account_id,
-                account_ref=account_ref, taxes_ref=taxes_ref)
+                                                                    code_digits=code_digits,
+                                                                    transfer_account_id=transfer_account_id,
+                                                                    account_ref=account_ref, taxes_ref=taxes_ref)
 
         if account_ref is None:
             account_ref = {}
@@ -186,14 +187,14 @@ class AccountChartTemplate(models.Model):
             'name': account_template.name,
             'currency_id': self.env.ref('base.BRL').id,
             'code': account_template.code,
-            'user_type_id': account_template.user_type_id.id \
-                            if account_template.user_type_id else False,
+            'user_type_id': account_template.user_type_id.id
+            if account_template.user_type_id else False,
             'reconcile': account_template.reconcile,
             'note': account_template.note,
             'company_id': company.id,
             'tipo': account_template.tipo,
             # 'tax_ids': [(6, 0, tax_ids)],
             # 'tag_ids': [(6, 0, [t.id for t in account_template.tag_ids])],
-            }
+        }
 
         return dados

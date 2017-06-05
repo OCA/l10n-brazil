@@ -34,6 +34,10 @@ class SpedDocumento(models.Model):
         related='account_move_id.line_ids',
     )
 
+    def executa_antes_autorizar(self):
+        super(SpedDocumento, self).executa_antes_autorizar()
+        self.gera_account_move()
+
     def gera_account_move(self):
         for documento in self:
             dados = {
@@ -57,7 +61,8 @@ class SpedDocumento(models.Model):
                 account_move = self.env['account.move'].create(dados)
                 documento.account_move_id = account_move
 
-            line_ids = []
+            line_ids = [(5, 0, {})]
+
             documento.item_ids.gera_account_move_line(account_move,
                 documento.move_template_id, line_ids)
 
