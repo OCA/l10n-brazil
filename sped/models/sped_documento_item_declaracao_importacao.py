@@ -7,14 +7,17 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from odoo import api, fields, models
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo import fields, models
+from odoo.addons.l10n_br_base.models.sped_base import SpedBase
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    INTERMEDIACAO_IMPORTACAO,
+    VIA_TRANSPORTE_IMPORTACAO,
+)
 
 
-class SpedDocumentoItemDeclaracaoImportacao(models.Model):
+class SpedDocumentoItemDeclaracaoImportacao(SpedBase, models.Model):
     _name = b'sped.documento.item.declaracao.importacao'
     _description = 'Declarações de Importação do Item do Documento Fiscal'
-    _inherit = 'sped.base'
 
     item_id = fields.Many2one(
         comodel_name='sped.documento.item',

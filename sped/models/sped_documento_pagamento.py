@@ -10,7 +10,13 @@ from __future__ import division, print_function, unicode_literals
 import logging
 
 from odoo import api, fields, models
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo.addons.l10n_br_base.models.sped_base import SpedBase
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    FORMA_PAGAMENTO,
+    BANDEIRA_CARTAO,
+    INTEGRACAO_CARTAO,
+    INTEGRACAO_CARTAO_NAO_INTEGRADO,
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -21,10 +27,9 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedDocumentoPagamento(models.Model):
+class SpedDocumentoPagamento(SpedBase, models.Model):
     _name = b'sped.documento.pagamento'
     _description = 'Pagamentos do Documento Fiscal'
-    _inherit = 'sped.base'
     _order = 'documento_id, sequence, payment_term_id'
     # _rec_name = 'numero'
 
