@@ -33,7 +33,7 @@ except (ImportError, IOError) as err:
 class SpedDocumentoItem(models.Model):
     _name = b'sped.documento.item'
     _description = 'Itens do Documento Fiscal'
-    _inherit = 'sped.calculo.imposto'
+    _inherit = 'sped.calculo.imposto.item'
     _abstract = False
     # _order = 'emissao, modelo, data_emissao desc, serie, numero'
     # _rec_name = 'numero'
