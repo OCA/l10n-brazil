@@ -82,7 +82,7 @@ class HrPayslipRun(models.Model):
     def verificar_holerites_gerados(self):
         for lote in self:
             contracts_id = self.env['hr.contract'].search([
-                ('date_start', '<', lote.date_start),
+                ('date_start', '<', lote.date_end),
                 ('company_id', '=', lote.company_id.id)
             ])
 
