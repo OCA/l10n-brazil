@@ -219,8 +219,8 @@ class ResourceCalendar(models.Model):
         :param datetime data_from: Data inicial do intervalo de tempo.
                datetime data_end: Data final do intervalo
         :return int : quantidade de dias que devem ser remunerada
-       """
-        return 30
+        """
+        return 30 - data_from.day + 1
         # quantidade_dias = (data_to - data_from).days + 1
         # if quantidade_dias > 30:
         #     return 30
