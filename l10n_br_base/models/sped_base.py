@@ -10,10 +10,7 @@ from __future__ import division, print_function, unicode_literals
 from odoo import fields, models
 
 
-class SpedBase(models.AbstractModel):
-    _name = b'sped.base'
-    _description = 'Modelo base para campos em Reais e %'
-
+class SpedBase(object):
     #
     # Para todos os valores num item de documento fiscal, a moeda é SEMPRE o
     # Real BRL

@@ -10,36 +10,43 @@
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.invoice_form"/>
         <field name="arch" type="xml">
-            <field name="has_outstanding" position="after">
-                <field name="is_brazilian_invoice" invisible="1"/>
-                <field name="sped_documento_id" invisible="0"/>
-            </field>
             <field name="partner_id" position="attributes">
-                <attribute name="invisible">[('is_brazilian_invoice', '=',
-                    True)]
-                </attribute>
+                 <attribute name="attrs">{'invisible': [('is_brazilian', '=', True)]}</attribute>
             </field>
             <field name="partner_id" position="after">
                 <field name="sped_participante_id" string="Customer"
                        domain="[('eh_cliente', '=', True)]"
-                       attrs="{'required': [('is_brazilian_invoice', '=', True)], 'invisible': [('is_brazilian_invoice', '!=', True)]}"/>
+                       attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
             </field>
-            <!--            <field name="company_id" position="attributes">
-                            <attribute name="invisible">[('is_brazilian_invoice', '=', True)]</attribute>
-                        </field>-->
             <xpath expr="//page[@name='other_info']/group/group/field[@name='company_id']"
                    position="after">
-                <field name="sped_empresa_id" string="Company"
-                       attrs="{'required': [('is_brazilian_invoice', '=', True)], 'invisible': [('is_brazilian_invoice', '!=', True)]}"/>
+                <field name="is_brazilian" groups="l10n_br_base.GRUPO_SUPORTE"/>
+                <field name="sped_documento_ids" groups="l10n_br_base.GRUPO_SUPORTE"/>
+                <field name="sped_empresa_id" string="Razão Social"
+                       attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
             </xpath>
             <field name="fiscal_position_id" position="attributes">
-                <attribute name="invisible">[('is_brazilian_invoice', '=',
-                    True)]
-                </attribute>
+                 <attribute name="attrs">{'invisible': [('is_brazilian', '=', True)]}</attribute>
             </field>
             <field name="fiscal_position_id" position="after">
-                <field name="sped_operacao_id" domain="[('emissao', '=', '0')]"
-                       attrs="{'required': [('is_brazilian_invoice', '=', True)], 'invisible': [('is_brazilian_invoice', '!=', True)]}"/>
+                <field name="sped_operacao_produto_id" domain="[('emissao', '=', '0')]"
+                       attrs="{'required': [('sped_operacao_servico_id', '=', False)], 'invisible': [('is_brazilian', '!=', True)]}"/>
+                <field name="sped_operacao_servico_id" domain="[('emissao', '=', '0')]"
+                       attrs="{'required': [('sped_operacao_produto_id', '=', False)], 'invisible': [('is_brazilian', '!=', True)]}"/>
+            </field>
+            <field name="currency_id" position="attributes">
+                <attribute name="domain">[('is_currency', '=', True)]</attribute>
+            </field>
+             <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
+                 <attribute name="attrs">{'invisible': [('is_brazilian', '=', True)]}</attribute>
+            </xpath>
+             <xpath expr="//field[@name='invoice_line_ids']" position="before">
+                    <field name="brazil_line_ids" nolabel="1" widget="one2many_list" context="{'type': type, 'journal_id': journal_id, 'default_invoice_id': id}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
+            </xpath>
+             <field name="amount_untaxed" position="after">
+                    <field name="vr_frete" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
+                    <field name="vr_seguro" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
+                    <field name="vr_outras" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
             </field>
         </field>
     </record>

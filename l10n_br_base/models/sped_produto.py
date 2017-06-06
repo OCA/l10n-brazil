@@ -12,6 +12,7 @@ import logging
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 import odoo.addons.decimal_precision as dp
+from .sped_base import SpedBase
 from ..constante_tributaria import (
     ORIGEM_MERCADORIA,
     TIPO_PRODUTO_SERVICO,
@@ -29,11 +30,11 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedProduto(models.Model):
+class SpedProduto(SpedBase, models.Model):
     _name = b'sped.produto'
     _description = 'Produtos e serviços'
     _inherits = {'product.product': 'product_id'}
-    _inherit = ['mail.thread', 'sped.base']
+    _inherit = ['mail.thread']
     _order = 'codigo, nome'
     _rec_name = 'nome'
 

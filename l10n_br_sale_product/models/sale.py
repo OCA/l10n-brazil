@@ -86,56 +86,7 @@ class SaleOrder(models.Model):
         company = self.env['res.company'].browse(self.env.user.company_id.id)
         return company.default_ind_pres
 
-    @api.one
-    def _get_costs_value(self):
-        """ Read the l10n_br specific functional fields. """
-        freight = costs = insurance = 0.0
-        for line in self.order_line:
-            freight += line.freight_value
-            insurance += line.insurance_value
-            costs += line.other_costs_value
-        self.amount_freight = freight
-        self.amount_costs = costs
-        self.amount_insurance = insurance
 
-    @api.one
-    def _set_amount_freight(self):
-        for line in self.order_line:
-            if not self.amount_gross:
-                break
-            line.write({
-                'freight_value': calc_price_ratio(
-                    line.price_gross,
-                    self.amount_freight,
-                    line.order_id.amount_gross),
-                })
-        return True
-
-    @api.one
-    def _set_amount_insurance(self):
-        for line in self.order_line:
-            if not self.amount_gross:
-                break
-            line.write({
-                'insurance_value': calc_price_ratio(
-                    line.price_gross,
-                    self.amount_insurance,
-                    line.order_id.amount_gross),
-                })
-        return True
-
-    @api.one
-    def _set_amount_costs(self):
-        for line in self.order_line:
-            if not self.amount_gross:
-                break
-            line.write({
-                'other_costs_value': calc_price_ratio(
-                    line.price_gross,
-                    self.amount_costs,
-                    line.order_id.amount_gross),
-                })
-        return True
 
     ind_pres = fields.Selection([
         ('0', u'Não se aplica'),

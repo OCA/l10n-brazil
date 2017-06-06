@@ -42,6 +42,7 @@ class AccountInvoice(models.Model):
             'document_number': '/',
             'date_maturity': item['date_maturity'],
             'amount': item['debit'] or item['credit'],
+            'account_type_id': item['user_type_id'],
         }
 
     def _prepare_financial_move(self, lines):
@@ -56,7 +57,6 @@ class AccountInvoice(models.Model):
             'currency_id': self.currency_id.id,
             'payment_term_id':
                 self.payment_term_id and self.payment_term_id.id or False,
-            # 'account_type_id':
             # 'analytic_account_id':
             # 'payment_mode_id:
             'lines': [self._prepare_move_item(item) for item in lines],
@@ -69,6 +69,7 @@ class AccountInvoice(models.Model):
             account_id = self.env[
                 'account.account'].browse(item.get('account_id', []))
             if account_id.internal_type in ('payable', 'receivable'):
+                item['user_type_id'] = account_id.user_type_id.id
                 to_financial.append(item)
 
         p = self._prepare_financial_move(to_financial)
@@ -89,5 +90,6 @@ class AccountInvoice(models.Model):
     def invoice_validate(self):
         super(AccountInvoice, self).invoice_validate()
         for invoice in self:
-            invoice.financial_ids.write({'document_number': invoice.name})
+            invoice.financial_ids.write({'document_number': invoice.name
+                                         or invoice.move_id.name or '/'})
             invoice.financial_ids.action_confirm()

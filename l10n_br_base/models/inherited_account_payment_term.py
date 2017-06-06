@@ -12,6 +12,7 @@ import logging
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.addons.l10n_br_base.models.sped_base import SpedBase
 from ..constante_tributaria import (
     FORMA_PAGAMENTO,
     BANDEIRA_CARTAO,
@@ -24,6 +25,7 @@ from ..constante_tributaria import (
     FORMA_PAGAMENTO_DICT,
     BANDEIRA_CARTAO_DICT,
 )
+from .sped_base import SpedBase
 
 _logger = logging.getLogger(__name__)
 
@@ -39,9 +41,9 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class AccountPaymentTerm(models.Model):
+class AccountPaymentTerm(SpedBase, models.Model):
     _name = b'account.payment.term'
-    _inherit = ['account.payment.term', 'sped.base']
+    _inherit = ['account.payment.term']
     _rec_name = 'nome_comercial'
     _order = 'sequence, name'
 

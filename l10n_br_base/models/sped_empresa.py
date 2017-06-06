@@ -47,7 +47,7 @@ except (ImportError, IOError) as err:
 class SpedEmpresa(models.Model):
     _name = b'sped.empresa'
     _description = 'Empresas e filiais'
-    _inherits = {'sped.participante': 'participante_id'}
+    _inherits = {'sped.participante': 'participante_id'} # , 'res.company': 'company_id'}
     _rec_name = 'nome'
     _order = 'nome, cnpj_cpf'
 
@@ -56,6 +56,12 @@ class SpedEmpresa(models.Model):
         string='Participante original',
         ondelete='restrict',
         required=True
+    )
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        string='Company original',
+        ondelete='restrict',
+        # required=True
     )
 
     @api.multi
@@ -413,12 +419,35 @@ class SpedEmpresa(models.Model):
 
     @api.model
     def create(self, dados):
+        if 'razao_social' in dados and not dados['razao_social']:
+            dados['razao_social'] = dados['nome']
+
+        dados['name'] = dados['nome']
+
+        if 'lang' not in dados:
+            dados['lang'] = 'pt_BR'
+
+        if 'tz' not in dados:
+            dados['tz'] = 'America/Sao_Paulo'
+
+        #
+        # Resolve o default do partner vinculado ao company
+        # nem pergunte...
+        #
+        if 'company_id' not in dados or not dados['company_id']:
+            company = self.env['res.company'].create(dados)
+            dados['company_id'] = company.id
+            dados['partner_id'] = company.partner_id.id
+
         empresa = super(SpedEmpresa, self).create(dados)
         empresa.sync_to_company()
         return empresa
 
     @api.multi
     def write(self, dados):
+        if 'nome' in dados:
+            dados['name'] = dados['nome']
+
         res = super(SpedEmpresa, self).write(dados)
         self.sync_to_company()
         return res
