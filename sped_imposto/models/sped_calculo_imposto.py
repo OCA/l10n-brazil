@@ -13,6 +13,7 @@ from openerp.addons.l10n_br_base.tools.misc import calc_price_ratio
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODELO_FISCAL_EMISSAO_PRODUTO,
     MODELO_FISCAL_EMISSAO_SERVICO,
+    TIPO_PESSOA_FISICA,
 )
 from openerp.addons.l10n_br_base.models.sped_base import (
     SpedBase
@@ -20,7 +21,61 @@ from openerp.addons.l10n_br_base.models.sped_base import (
 
 
 class SpedCalculoImposto(SpedBase):
-    """ Definie informações essenciais para as operações brasileiras"""
+    """ Definie informações essenciais para as operações brasileiras
+
+    Para entender como usar este modelo verifique os módulos:
+        - sped_sale
+        - sped_purchase
+
+        Mas por via das dúvidas siga os passos:
+
+        - Escolha o modelo de negócios que você deseja tornar faturável para o
+        Brasil;
+        - Crie um módulo com o padrõa l10n_MODELO ou sped_MODELO
+        - Herde a classe que será no futuro o cabeçalho do documento fiscal
+         da seguinte forma:
+
+         from odoo.addons.sped_imposto.models.sped_calculo_imposto import (
+            SpedCalculoImposto
+         )
+
+     class ModeloCabecalho(SpedCaluloImposto, models.Models):
+
+        brazil_line_ids = fields.One2many(
+            comodel_name='sale.order.line.brazil',
+            inverse_name='order_id',
+            string='Linhas',
+            copy=True
+        )
+
+        def _get_date(self):
+        # Return the document date Used in _amount_all_wrapper
+            return self.date_order
+
+        # Se o documento já criar a invoice injete os paramretros na criação.
+        @api.multi
+        def _prepare_invoice(self):
+            vals = super(SaleOrder, self)._prepare_invoice()
+
+            vals['sped_empresa_id'] = self.sped_empresa_id.id or False
+            vals['sped_participante_id'] = \
+                self.sped_participante_id.id or False
+            vals['sped_operacao_produto_id'] = \
+                self.sped_operacao_produto_id.id or False
+            vals['sped_operacao_servico_id'] = \
+                self.sped_operacao_servico_id.id or False
+            vals['condicao_pagamento_id'] = \
+                self.condicao_pagamento_id.id or False
+
+            return vals
+
+        @api.one
+        @api.depends('order_line.price_total')
+        def _amount_all(self):
+            if not self.is_brazilian:
+                return super(SaleOrder, self)._amount_all()
+            return self._amount_all_brazil()
+    """
 
     _abstract = False
 
@@ -28,12 +83,26 @@ class SpedCalculoImposto(SpedBase):
         """
         Return the document date
         Used in get_info
+
+        Override this method in your document like this:
+
+        @api.multi
+        def _get_date(self):
+            date = super(MyClass, self)._get_date()
+
+            # Your logic
+            if self.your_date_field ... :
+                return self.your_date_field
+            return date
+
+        NOTE: If the date of the tax camputation is important to you,
+        don't forget to send this date to the invoice!
         """
-        raise NotImplementedError
+        return fields.Date.context_today(self)
 
     def _amount_all_brazil(self):
+        """ Tratamos os impostos brasileiros """
         #
-        # Tratamos os impostos brasileiros;
         # amount_untaxed é equivalente ao valor dos produtos
         #
         self.amount_untaxed = \
@@ -75,17 +144,29 @@ class SpedCalculoImposto(SpedBase):
 
     @api.depends('company_id', 'partner_id')
     def _compute_is_brazilian(self):
-        for invoice in self:
-            if invoice.company_id.country_id:
-                if invoice.company_id.country_id.id == \
+        for record in self:
+            if record.company_id.country_id:
+                if record.company_id.country_id.id == \
                         self.env.ref('base.br').id:
-                    invoice.is_brazilian = True
+                    record.is_brazilian = True
 
-                    if invoice.partner_id.sped_participante_id:
-                        invoice.sped_participante_id = \
-                            invoice.partner_id.sped_participante_id
+                    if record.partner_id.sped_participante_id:
+                        record.sped_participante_id = \
+                            record.partner_id.sped_participante_id
+
+                    if record.sped_empresa_id:
+                        if (record.sped_participante_id.tipo_pessoa ==
+                                TIPO_PESSOA_FISICA):
+                            record.sped_operacao_produto_id = \
+                                record.sped_empresa_id.\
+                                operacao_produto_pessoa_fisica_id
+                        else:
+                            record.sped_operacao_produto_id = \
+                                record.sped_empresa_id.operacao_produto_id
+                        record.sped_operacao_servico_id = \
+                            record.sped_empresa_id.operacao_servico_id
                     continue
-            invoice.is_brazilian = False
+            record.is_brazilian = False
 
     @api.one
     def _get_costs_value(self):
