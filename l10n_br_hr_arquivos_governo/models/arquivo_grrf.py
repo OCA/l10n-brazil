@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (c) 2014 Kmee - Luis Felipe Mileo <mileo@kmee.com.br>
+# (c) 2017 KMEE- Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from .abstract_arquivos_governo import AbstractArquivosGoverno
