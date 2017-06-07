@@ -31,11 +31,17 @@ class SpedCalculoImposto(SpedBase, models.Model):
     # _order = 'emissao, modelo, data_emissao desc, serie, numero'
     # _rec_name = 'numero'
 
+    @api.one
+    def _amount_price_brazil(self):
+        if not self.data_emissao:
+            self.data_emissao = self.order_id._get_date()
+        self.calcula_impostos()
+
     operacao_id = fields.Many2one(
         comodel_name='sped.operacao',
         string='Operação Fiscal',
-        #related='documento_id.operacao_id',
-        #readonly=True,
+        # related='documento_id.operacao_id',
+        # readonly=True,
     )
     regime_tributario = fields.Selection(
         selection=REGIME_TRIBUTARIO,
@@ -52,14 +58,14 @@ class SpedCalculoImposto(SpedBase, models.Model):
     empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
         string='Empresa',
-        #related='documento_id.empresa_id',
-        #readonly=True,
+        # related='documento_id.empresa_id',
+        # readonly=True,
     )
     participante_id = fields.Many2one(
         comodel_name='sped.participante',
         string='Destinatário/Remetente',
-        #related='documento_id.participante_id',
-        #readonly=True,
+        # related='documento_id.participante_id',
+        # readonly=True,
     )
     contribuinte = fields.Selection(
         selection=IE_DESTINATARIO,
@@ -75,8 +81,8 @@ class SpedCalculoImposto(SpedBase, models.Model):
     )
     data_emissao = fields.Date(
         string='Data de emissão',
-        #related='documento_id.data_emissao',
-        #readonly=True,
+        # related='documento_id.data_emissao',
+        # readonly=True,
         default=fields.Date.today,
     )
     entrada_saida = fields.Selection(
@@ -145,10 +151,10 @@ class SpedCalculoImposto(SpedBase, models.Model):
         string='Item da operação fiscal',
         ondelete='restrict',
     )
-    #quantidade = fields.Float(
-        #string='Quantidade',
-        #default=1,
-        #digits=dp.get_precision('SPED - Quantidade'),
+    # quantidade = fields.Float(
+    # string='Quantidade',
+    # default=1,
+    #digits=dp.get_precision('SPED - Quantidade'),
     #)
     unidade_id = fields.Many2one(
         comodel_name='sped.unidade',
@@ -856,12 +862,12 @@ class SpedCalculoImposto(SpedBase, models.Model):
         if self.emissao == TIPO_EMISSAO_PROPRIA:
             res = self._onchange_produto_id_emissao_propria()
             if hasattr(self, 'product_id'):
-                res['value']['product_id'] = self.produto_id.product_id.id
+                self.product_id = self.produto_id.product_id.id
             return res
         elif self.emissao == TIPO_EMISSAO_TERCEIROS:
             res = self._onchange_produto_id_recebimento()
             if hasattr(self, 'product_id'):
-                res['value']['product_id'] = self.produto_id.product_id.id
+                self.product_id = self.produto_id.product_id.id
             return res
 
     def _onchange_produto_id_emissao_propria(self):
@@ -872,8 +878,6 @@ class SpedCalculoImposto(SpedBase, models.Model):
         # a operação, o produto e o NCM em questão
         #
         res = {}
-        valores = {}
-        res['value'] = valores
 
         if not self.produto_id:
             return res
@@ -898,32 +902,32 @@ class SpedCalculoImposto(SpedBase, models.Model):
         # Se já ocorreu o preenchimento da descrição, não sobrepõe
         #
         if not self.produto_descricao:
-            valores['produto_descricao'] = self.produto_id.nome
+            self.produto_descricao = self.produto_id.nome
 
-        valores['org_icms'] = (self.produto_id.org_icms or
-                               ORIGEM_MERCADORIA_NACIONAL)
-        valores['unidade_id'] = self.produto_id.unidade_id.id
+        self.org_icms = (self.produto_id.org_icms or
+                         ORIGEM_MERCADORIA_NACIONAL)
+        self.unidade_id = self.produto_id.unidade_id.id
 
         if self.produto_id.unidade_tributacao_ncm_id:
-            valores['unidade_tributacao_id'] = \
+            self.unidade_tributacao_id = \
                 self.produto_id.unidade_tributacao_ncm_id.id
-            valores['fator_conversao_unidade_tributacao'] = \
+            self.fator_conversao_unidade_tributacao = \
                 self.produto_id.fator_conversao_unidade_tributacao_ncm
 
         else:
-            valores['unidade_tributacao_id'] = self.produto_id.unidade_id.id
-            valores['fator_conversao_unidade_tributacao'] = 1
+            self.unidade_tributacao_id = self.produto_id.unidade_id.id
+            self.fator_conversao_unidade_tributacao = 1
 
         if self.operacao_id.preco_automatico == 'V':
-            valores['vr_unitario'] = self.produto_id.preco_venda
+            self.vr_unitario = self.produto_id.preco_venda
 
         elif self.operacao_id.preco_automatico == 'C':
-            valores['vr_unitario'] = self.produto_id.preco_custo
+            self.vr_unitario = self.produto_id.preco_custo
 
-        valores['peso_bruto_unitario'] = self.produto_id.peso_bruto
-        valores['peso_liquido_unitario'] = self.produto_id.peso_liquido
-        valores['especie'] = self.produto_id.especie
-        valores['fator_quantidade_especie'] = \
+        self.peso_bruto_unitario = self.produto_id.peso_bruto
+        self.peso_liquido_unitario = self.produto_id.peso_liquido
+        self.especie = self.produto_id.especie
+        self.fator_quantidade_especie = \
             self.produto_id.fator_quantidade_especie
 
         estado_origem, estado_destino, destinatario = \
@@ -1102,7 +1106,7 @@ class SpedCalculoImposto(SpedBase, models.Model):
         #
         operacao_item = operacao_item_ids[0]
 
-        valores['operacao_item_id'] = operacao_item.id
+        self.operacao_item_id = operacao_item.id
 
         #
         # O protocolo alternativo no item da operação força o uso de
@@ -1110,10 +1114,10 @@ class SpedCalculoImposto(SpedBase, models.Model):
         # validações
         #
         if operacao_item.protocolo_alternativo_id:
-            valores['protocolo_id'] = operacao_item.protocolo_alternativo_id.id
+            self.protocolo_id = operacao_item.protocolo_alternativo_id.id
 
         else:
-            valores['protocolo_id'] = protocolo.id
+            self.protocolo_id = protocolo.id
 
         return res
 
@@ -1122,37 +1126,35 @@ class SpedCalculoImposto(SpedBase, models.Model):
         self.ensure_one()
 
         res = {}
-        valores = {}
-        res['value'] = valores
 
         if not self.operacao_item_id:
             return res
 
-        valores['cfop_id'] = self.operacao_item_id.cfop_id.id
-        valores['compoe_total'] = self.operacao_item_id.compoe_total
-        valores['movimentacao_fisica'] = \
+        self.cfop_id = self.operacao_item_id.cfop_id.id
+        self.compoe_total = self.operacao_item_id.compoe_total
+        self.movimentacao_fisica = \
             self.operacao_item_id.movimentacao_fisica
-        # valores['bc_icms_proprio_com_ipi'] = \
+        # self.bc_icms_proprio_com_ipi = \
         #    self.operacao_item_id.bc_icms_proprio_com_ipi
-        # valores['bc_icms_st_com_ipi'] = \
+        # self.bc_icms_st_com_ipi = \
         #    self.operacao_item_id.bc_icms_st_com_ipi
 
         if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
-            valores['cst_icms_sn'] = self.operacao_item_id.cst_icms_sn
-            valores['cst_icms'] = False
+            self.cst_icms_sn = self.operacao_item_id.cst_icms_sn
+            self.cst_icms = False
 
         else:
-            valores['cst_icms'] = self.operacao_item_id.cst_icms
-            valores['cst_icms_sn'] = False
+            self.cst_icms = self.operacao_item_id.cst_icms
+            self.cst_icms_sn = False
 
         if self.entrada_saida == ENTRADA_SAIDA_ENTRADA:
-            valores['cst_ipi_entrada'] = self.operacao_item_id.cst_ipi_entrada
-            valores['cst_ipi'] = self.operacao_item_id.cst_ipi_entrada
+            self.cst_ipi_entrada = self.operacao_item_id.cst_ipi_entrada
+            self.cst_ipi = self.operacao_item_id.cst_ipi_entrada
         else:
-            valores['cst_ipi_saida'] = self.operacao_item_id.cst_ipi_saida
-            valores['cst_ipi'] = self.operacao_item_id.cst_ipi_saida
+            self.cst_ipi_saida = self.operacao_item_id.cst_ipi_saida
+            self.cst_ipi = self.operacao_item_id.cst_ipi_saida
 
-        valores['enquadramento_ipi'] = self.operacao_item_id.enquadramento_ipi
+        self.enquadramento_ipi = self.operacao_item_id.enquadramento_ipi
 
         #
         # Busca agora as alíquotas do PIS e COFINS
@@ -1163,14 +1165,14 @@ class SpedCalculoImposto(SpedBase, models.Model):
             # Força a CST do PIS, COFINS e IPI para o SIMPLES
             #
             # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
-            valores['cst_ipi'] = ''
+            self.cst_ipi = ''
             # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
-            valores['cst_ipi_entrada'] = ''
+            self.cst_ipi_entrada = ''
             # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
-            valores['cst_ipi_saida'] = ''
+            self.cst_ipi_saida = ''
             al_pis_cofins = self.env.ref(
                 'sped_imposto.ALIQUOTA_PIS_COFINS_SIMPLES')
-            valores['al_pis_cofins_id'] = al_pis_cofins.id
+            self.al_pis_cofins_id = al_pis_cofins.id
 
         else:
             #
@@ -1198,7 +1200,7 @@ class SpedCalculoImposto(SpedBase, models.Model):
                         .cst_pis_cofins_saida in ST_PIS_CALCULA_QUANTIDADE)):
                 al_pis_cofins = self.operacao_item_id.al_pis_cofins_id
 
-            valores['al_pis_cofins_id'] = al_pis_cofins.id
+            self.al_pis_cofins_id = al_pis_cofins.id
 
         #
         # Busca a alíquota do IBPT quando venda
@@ -1214,12 +1216,12 @@ class SpedCalculoImposto(SpedBase, models.Model):
                 ])
 
                 if len(ibpt_ids) > 0:
-                    valores['al_ibpt'] = ibpt_ids[
+                    self.al_ibpt = ibpt_ids[
                         0].al_ibpt_nacional + ibpt_ids[0].al_ibpt_estadual
 
                     if (self.operacao_item_id.cfop_id.posicao ==
                             POSICAO_CFOP_ESTRANGEIRO):
-                        valores['al_ibpt'] += ibpt_ids[0].al_ibpt_internacional
+                        self.al_ibpt += ibpt_ids[0].al_ibpt_internacional
 
             #
             # NBS por ser mais detalhado tem prioridade sobre o código do
@@ -1235,12 +1237,12 @@ class SpedCalculoImposto(SpedBase, models.Model):
                 ])
 
                 if len(ibpt_ids) > 0:
-                    valores['al_ibpt'] = ibpt_ids[
+                    self.al_ibpt = ibpt_ids[
                         0].al_ibpt_nacional + ibpt_ids[0].al_ibpt_municipal
 
                     if (self.operacao_item_id.cfop_id.posicao ==
                             POSICAO_CFOP_ESTRANGEIRO):
-                        valores['al_ibpt'] += ibpt_ids[0].al_ibpt_internacional
+                        self.al_ibpt += ibpt_ids[0].al_ibpt_internacional
 
             elif self.produto_id.servico_id:
                 ibpt = self.env['sped.ibptax.servico']
@@ -1252,12 +1254,12 @@ class SpedCalculoImposto(SpedBase, models.Model):
                 ])
 
                 if len(ibpt_ids) > 0:
-                    valores['al_ibpt'] = ibpt_ids[
+                    self.al_ibpt = ibpt_ids[
                         0].al_ibpt_nacional + ibpt_ids[0].al_ibpt_municipal
 
                     if (self.operacao_item_id.cfop_id.posicao ==
                             POSICAO_CFOP_ESTRANGEIRO):
-                        valores['al_ibpt'] += ibpt_ids[0].al_ibpt_internacional
+                        self.al_ibpt += ibpt_ids[0].al_ibpt_internacional
 
         return res
 
@@ -1266,29 +1268,27 @@ class SpedCalculoImposto(SpedBase, models.Model):
         self.ensure_one()
 
         res = {}
-        valores = {}
-        res['value'] = valores
 
         if not self.cfop_id:
             return res
 
-        valores['al_simples'] = 0
-        valores['calcula_difal'] = False
-        valores['bc_icms_proprio_com_ipi'] = False
-        valores['bc_icms_st_com_ipi'] = False
+        self.al_simples = 0
+        self.calcula_difal = False
+        self.bc_icms_proprio_com_ipi = False
+        self.bc_icms_st_com_ipi = False
 
         if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
             if self.cfop_id.calcula_simples_csll_irpj:
                 if self.cfop_id.eh_venda_servico:
                     if self.empresa_id.simples_aliquota_servico_id:
-                        valores['al_simples'] = \
+                        self.al_simples = \
                             self.empresa_id.simples_aliquota_servico_id \
                                 .al_simples
                     else:
-                        valores['al_simples'] = \
+                        self.al_simples = \
                             self.empresa_id.simples_aliquota_id.al_simples
                 else:
-                    valores['al_simples'] = \
+                    self.al_simples = \
                         self.empresa_id.simples_aliquota_id.al_simples
 
         else:
@@ -1296,17 +1296,17 @@ class SpedCalculoImposto(SpedBase, models.Model):
                     TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and
                     self.cfop_id.eh_venda):
                 if self.cfop_id.posicao == POSICAO_CFOP_INTERESTADUAL:
-                    valores['calcula_difal'] = True
+                    self.calcula_difal = True
 
                     if '2016-' in self.data_emissao:
-                        valores['al_partilha_estado_destino'] = 40
+                        self.al_partilha_estado_destino = 40
                     elif '2017-' in self.data_emissao:
-                        valores['al_partilha_estado_destino'] = 60
+                        self.al_partilha_estado_destino = 60
                     else:
-                        valores['al_partilha_estado_destino'] = 100
+                        self.al_partilha_estado_destino = 100
 
-                valores['bc_icms_proprio_com_ipi'] = True
-                valores['bc_icms_st_com_ipi'] = True
+                self.bc_icms_proprio_com_ipi = True
+                self.bc_icms_st_com_ipi = True
 
         return res
 
@@ -1315,33 +1315,31 @@ class SpedCalculoImposto(SpedBase, models.Model):
         self.ensure_one()
 
         res = {}
-        valores = {}
-        res['value'] = valores
 
         if not self.al_pis_cofins_id:
             return res
 
-        valores['md_pis_proprio'] = self.al_pis_cofins_id.md_pis_cofins
-        valores['al_pis_proprio'] = self.al_pis_cofins_id.al_pis or 0
+        self.md_pis_proprio = self.al_pis_cofins_id.md_pis_cofins
+        self.al_pis_proprio = self.al_pis_cofins_id.al_pis or 0
 
-        valores['md_cofins_proprio'] = self.al_pis_cofins_id.md_pis_cofins
-        valores['al_cofins_proprio'] = self.al_pis_cofins_id.al_cofins or 0
+        self.md_cofins_proprio = self.al_pis_cofins_id.md_pis_cofins
+        self.al_cofins_proprio = self.al_pis_cofins_id.al_cofins or 0
 
         if self.entrada_saida == ENTRADA_SAIDA_ENTRADA:
-            valores['cst_pis'] = self.al_pis_cofins_id.cst_pis_cofins_entrada
-            valores['cst_cofins'] = \
+            self.cst_pis = self.al_pis_cofins_id.cst_pis_cofins_entrada
+            self.cst_cofins = \
                 self.al_pis_cofins_id.cst_pis_cofins_entrada
-            valores['cst_pis_entrada'] = \
+            self.cst_pis_entrada = \
                 self.al_pis_cofins_id.cst_pis_cofins_entrada
-            valores['cst_cofins_entrada'] = \
+            self.cst_cofins_entrada = \
                 self.al_pis_cofins_id.cst_pis_cofins_entrada
 
         else:
-            valores['cst_pis'] = self.al_pis_cofins_id.cst_pis_cofins_saida
-            valores['cst_cofins'] = self.al_pis_cofins_id.cst_pis_cofins_saida
-            valores['cst_pis_saida'] = \
+            self.cst_pis = self.al_pis_cofins_id.cst_pis_cofins_saida
+            self.cst_cofins = self.al_pis_cofins_id.cst_pis_cofins_saida
+            self.cst_pis_saida = \
                 self.al_pis_cofins_id.cst_pis_cofins_saida
-            valores['cst_cofins_saida'] = \
+            self.cst_cofins_saida = \
                 self.al_pis_cofins_id.cst_pis_cofins_saida
 
         return res
@@ -1351,8 +1349,6 @@ class SpedCalculoImposto(SpedBase, models.Model):
         self.ensure_one()
 
         res = {}
-        valores = {}
-        res['value'] = valores
 
         if not self.cst_ipi:
             return res
@@ -1366,15 +1362,15 @@ class SpedCalculoImposto(SpedBase, models.Model):
 
         if (self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES and
                 self.cst_icms_sn != ST_ICMS_SN_OUTRAS):
-            valores['cst_ipi'] = ''  # NF-e do SIMPLES não destaca IPI nunca
+            self.cst_ipi = ''  # NF-e do SIMPLES não destaca IPI nunca
             # NF-e do SIMPLES não destaca IPI nunca
-            valores['cst_ipi_entrada'] = ''
+            self.cst_ipi_entrada = ''
             # NF-e do SIMPLES não destaca IPI nunca
-            valores['cst_ipi_saida'] = ''
-            valores['md_ipi'] = MODALIDADE_BASE_IPI_ALIQUOTA
-            valores['bc_ipi'] = 0
-            valores['al_ipi'] = 0
-            valores['vr_ipi'] = 0
+            self.cst_ipi_saida = ''
+            self.md_ipi = MODALIDADE_BASE_IPI_ALIQUOTA
+            self.bc_ipi = 0
+            self.al_ipi = 0
+            self.vr_ipi = 0
             return res
 
         #
@@ -1391,14 +1387,14 @@ class SpedCalculoImposto(SpedBase, models.Model):
 
         if ((self.cst_ipi not in ST_IPI_CALCULA) or
                 (not al_ipi) or (al_ipi is None)):
-            valores['md_ipi'] = MODALIDADE_BASE_IPI_ALIQUOTA
-            valores['bc_ipi'] = 0
-            valores['al_ipi'] = 0
-            valores['vr_ipi'] = 0
+            self.md_ipi = MODALIDADE_BASE_IPI_ALIQUOTA
+            self.bc_ipi = 0
+            self.al_ipi = 0
+            self.vr_ipi = 0
 
         else:
-            valores['md_ipi'] = al_ipi.md_ipi
-            valores['al_ipi'] = al_ipi.al_ipi
+            self.md_ipi = al_ipi.md_ipi
+            self.al_ipi = al_ipi.al_ipi
 
         return res
 
@@ -1408,8 +1404,7 @@ class SpedCalculoImposto(SpedBase, models.Model):
         self.ensure_one()
 
         res = {}
-        valores = {}
-        res['value'] = valores
+
         avisos = {}
         res['warning'] = avisos
 
@@ -1427,16 +1422,16 @@ class SpedCalculoImposto(SpedBase, models.Model):
                         'Você selecionou uma CSOSN que dá direito a crédito, '\
                         'porém a CFOP não indica uma venda!'
 
-                valores['al_icms_sn'] = self.empresa_id.simples_aliquota_id \
+                self.al_icms_sn = self.empresa_id.simples_aliquota_id \
                     .al_icms
 
             else:
-                valores['al_icms_sn'] = 0
-                valores['rd_icms_sn'] = 0
+                self.al_icms_sn = 0
+                self.rd_icms_sn = 0
 
         else:
-            valores['al_icms_sn'] = 0
-            valores['rd_icms_sn'] = 0
+            self.al_icms_sn = 0
+            self.rd_icms_sn = 0
 
         estado_origem, estado_destino, destinatario = \
             self._estado_origem_estado_destino_destinatario()
@@ -1465,13 +1460,13 @@ class SpedCalculoImposto(SpedBase, models.Model):
         else:
             al_icms = aliquota_origem_destino.al_icms_proprio_id
 
-        valores['md_icms_proprio'] = al_icms.md_icms
-        valores['pr_icms_proprio'] = al_icms.pr_icms
-        valores['rd_icms_proprio'] = al_icms.rd_icms
-        valores['al_icms_proprio'] = al_icms.al_icms
-        valores['al_interna_destino'] = 0
-        valores['al_difal'] = 0
-        valores['al_fcp'] = 0
+        self.md_icms_proprio = al_icms.md_icms
+        self.pr_icms_proprio = al_icms.pr_icms
+        self.rd_icms_proprio = al_icms.rd_icms
+        self.al_icms_proprio = al_icms.al_icms
+        self.al_interna_destino = 0
+        self.al_difal = 0
+        self.al_fcp = 0
 
         if self.calcula_difal:
             aliquota_interna_destino = self.protocolo_id.busca_aliquota(
@@ -1483,11 +1478,11 @@ class SpedCalculoImposto(SpedBase, models.Model):
                 al_difal = aliquota_interna_destino.al_icms_proprio_id.al_icms
                 al_difal -= al_icms.al_icms
 
-                valores['al_difal'] = al_difal
-                valores['al_interna_destino'] = \
+                self.al_difal = al_difal
+                self.al_interna_destino = \
                     aliquota_interna_destino.al_icms_proprio_id.al_icms
 
-                valores['al_fcp'] = aliquota_interna_destino.al_fcp
+                self.al_fcp = aliquota_interna_destino.al_fcp
 
         #
         # Alíquota e MVA do ICMS ST, somente para quando não houver serviço
@@ -1498,10 +1493,10 @@ class SpedCalculoImposto(SpedBase, models.Model):
                 self.produto_id.tipo != TIPO_PRODUTO_SERVICO_SERVICOS):
             al_icms_st = aliquota_origem_destino.al_icms_st_id
 
-            valores['md_icms_st'] = al_icms_st.md_icms
-            valores['pr_icms_st'] = al_icms_st.pr_icms
-            valores['rd_icms_st'] = al_icms_st.rd_icms
-            valores['al_icms_st'] = al_icms_st.al_icms
+            self.md_icms_st = al_icms_st.md_icms
+            self.pr_icms_st = al_icms_st.pr_icms
+            self.rd_icms_st = al_icms_st.rd_icms
+            self.al_icms_st = al_icms_st.al_icms
 
             #
             # Verificamos a necessidade de se busca a MVA (ajustada ou não)
@@ -1544,7 +1539,7 @@ class SpedCalculoImposto(SpedBase, models.Model):
                         pr_icms_st *= 100
                         pr_icms_st = pr_icms_st.quantize(D('0.0001'))
 
-                    valores['pr_icms_st'] = pr_icms_st
+                    self.pr_icms_st = pr_icms_st
 
         return res
 
@@ -1562,14 +1557,11 @@ class SpedCalculoImposto(SpedBase, models.Model):
         self.ensure_one()
 
         res = {}
-        valores = {}
-        res['value'] = valores
 
         if hasattr(self, 'price_unit'):
-            valores['price_unit'] = self.vr_unitario
+            self.price_unit = self.vr_unitario
         if hasattr(self, 'quantity'):
-            valores['quantity'] = self.quantidade
-
+            self.quantity = self.quantidade
 
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
@@ -1582,8 +1574,8 @@ class SpedCalculoImposto(SpedBase, models.Model):
             self.vr_unitario_tributacao = self.vr_unitario_tributacao.quantize(
                 D('0.001'))
 
-            valores['vr_unitario'] = self.vr_unitario
-            valores['vr_unitario_tributacao'] = self.vr_unitario_tributacao
+            self.vr_unitario = self.vr_unitario
+            self.vr_unitario_tributacao = self.vr_unitario_tributacao
 
         #
         # Calcula o valor dos produtos
@@ -1602,13 +1594,13 @@ class SpedCalculoImposto(SpedBase, models.Model):
             D('0.0000000001'))
         vr_produtos_tributacao = quantidade_tributacao * vr_unitario_tributacao
         vr_produtos_tributacao = vr_produtos_tributacao
-        valores['quantidade_tributacao'] = quantidade_tributacao
-        valores['vr_unitario_tributacao'] = vr_unitario_tributacao
+        self.quantidade_tributacao = quantidade_tributacao
+        self.vr_unitario_tributacao = vr_unitario_tributacao
 
         if self.fator_conversao_unidade_tributacao != 1:
-            valores['exibe_tributacao'] = True
+            self.exibe_tributacao = True
         else:
-            valores['exibe_tributacao'] = False
+            self.exibe_tributacao = False
 
         vr_operacao = vr_produtos + self.vr_frete + \
             self.vr_seguro + self.vr_outras - self.vr_desconto
@@ -1616,10 +1608,10 @@ class SpedCalculoImposto(SpedBase, models.Model):
             vr_produtos_tributacao + self.vr_frete + self.vr_seguro + \
             self.vr_outras - self.vr_desconto + self.vr_ii
 
-        valores['vr_produtos'] = vr_produtos
-        valores['vr_produtos_tributacao'] = vr_produtos_tributacao
-        valores['vr_operacao'] = vr_operacao
-        valores['vr_operacao_tributacao'] = vr_operacao_tributacao
+        self.vr_produtos = vr_produtos
+        self.vr_produtos_tributacao = vr_produtos_tributacao
+        self.vr_operacao = vr_operacao
+        self.vr_operacao_tributacao = vr_operacao_tributacao
 
         #
         # Preenchimento automático de volumes
@@ -1637,9 +1629,9 @@ class SpedCalculoImposto(SpedBase, models.Model):
         else:
             quantidade_especie = 0
 
-        valores['peso_bruto'] = peso_bruto
-        valores['peso_liquido'] = peso_liquido
-        valores['quantidade_especie'] = quantidade_especie
+        self.peso_bruto = peso_bruto
+        self.peso_liquido = peso_liquido
+        self.quantidade_especie = quantidade_especie
 
         return res
 
@@ -1647,26 +1639,24 @@ class SpedCalculoImposto(SpedBase, models.Model):
                   'cst_ipi', 'md_ipi', 'bc_ipi', 'al_ipi', 'vr_ipi')
     def _onchange_calcula_ipi(self):
         res = {}
-        valores = {}
-        res['value'] = valores
 
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
 
-        valores['bc_ipi'] = 0
-        valores['vr_ipi'] = 0
+        self.bc_ipi = 0
+        self.vr_ipi = 0
 
         #
         # SIMPLES não tem IPI
         #
         if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
-            valores['cst_ipi'] = ''
-            valores['md_ipi'] = MODALIDADE_BASE_IPI_ALIQUOTA
-            valores['al_ipi'] = 0
+            self.cst_ipi = ''
+            self.md_ipi = MODALIDADE_BASE_IPI_ALIQUOTA
+            self.al_ipi = 0
             return res
 
         if self.cst_ipi not in ST_IPI_CALCULA:
-            valores['al_ipi'] = 0
+            self.al_ipi = 0
             return res
 
         bc_ipi = D(0)
@@ -1682,8 +1672,8 @@ class SpedCalculoImposto(SpedBase, models.Model):
 
         vr_ipi = vr_ipi.quantize(D('0.01'))
 
-        valores['bc_ipi'] = bc_ipi
-        valores['vr_ipi'] = vr_ipi
+        self.bc_ipi = bc_ipi
+        self.vr_ipi = vr_ipi
 
         return res
 
@@ -1692,26 +1682,24 @@ class SpedCalculoImposto(SpedBase, models.Model):
                   'bc_icms_proprio_com_ipi')
     def _onchange_calcula_icms_sn(self):
         res = {}
-        valores = {}
-        res['value'] = valores
 
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
 
-        valores['vr_icms_sn'] = 0
+        self.vr_icms_sn = 0
 
         #
         # Só SIMPLES tem crédito de ICMS SN
         #
         if self.regime_tributario != REGIME_TRIBUTARIO_SIMPLES:
-            valores['cst_icms_sn'] = False
-            valores['rd_icms_sn'] = 0
-            valores['al_icms_sn'] = 0
+            self.cst_icms_sn = False
+            self.rd_icms_sn = 0
+            self.al_icms_sn = 0
             return res
 
         if self.cst_icms_sn not in ST_ICMS_SN_CALCULA_CREDITO:
-            valores['rd_icms_sn'] = 0
-            valores['al_icms_sn'] = 0
+            self.rd_icms_sn = 0
+            self.al_icms_sn = 0
             return res
 
         al_icms_sn = D(self.al_icms_sn)
@@ -1726,7 +1714,7 @@ class SpedCalculoImposto(SpedBase, models.Model):
         vr_icms_sn = D(self.vr_operacao_tributacao) * al_icms_sn / 100
         vr_icms_sn = vr_icms_sn.quantize(D('0.01'))
 
-        valores['vr_icms_sn'] = vr_icms_sn
+        self.vr_icms_sn = vr_icms_sn
 
         return res
 
@@ -1737,21 +1725,19 @@ class SpedCalculoImposto(SpedBase, models.Model):
                   'al_cofins_proprio', 'vr_cofins_proprio')
     def _onchange_calcula_pis_cofins(self):
         res = {}
-        valores = {}
-        res['value'] = valores
 
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
 
-        valores['md_pis_proprio'] = MODALIDADE_BASE_PIS_ALIQUOTA
-        valores['bc_pis_proprio'] = 0
-        valores['al_pis_proprio'] = 0
-        valores['vr_pis_proprio'] = 0
+        self.md_pis_proprio = MODALIDADE_BASE_PIS_ALIQUOTA
+        self.bc_pis_proprio = 0
+        self.al_pis_proprio = 0
+        self.vr_pis_proprio = 0
 
-        valores['md_cofins_proprio'] = MODALIDADE_BASE_COFINS_ALIQUOTA
-        valores['bc_cofins_proprio'] = 0
-        valores['al_cofins_proprio'] = 0
-        valores['vr_cofins_proprio'] = 0
+        self.md_cofins_proprio = MODALIDADE_BASE_COFINS_ALIQUOTA
+        self.bc_cofins_proprio = 0
+        self.al_cofins_proprio = 0
+        self.vr_cofins_proprio = 0
 
         if (self.cst_pis in ST_PIS_CALCULA or
                 self.cst_pis in ST_PIS_CALCULA_CREDITO or
@@ -1782,15 +1768,15 @@ class SpedCalculoImposto(SpedBase, models.Model):
             vr_pis_proprio = vr_pis_proprio.quantize(D('0.01'))
             vr_cofins_proprio = vr_cofins_proprio.quantize(D('0.01'))
 
-            valores['md_pis_proprio'] = md_pis_proprio
-            valores['bc_pis_proprio'] = bc_pis_proprio
-            valores['al_pis_proprio'] = self.al_pis_proprio
-            valores['vr_pis_proprio'] = vr_pis_proprio
+            self.md_pis_proprio = md_pis_proprio
+            self.bc_pis_proprio = bc_pis_proprio
+            self.al_pis_proprio = self.al_pis_proprio
+            self.vr_pis_proprio = vr_pis_proprio
 
-            valores['md_cofins_proprio'] = md_cofins_proprio
-            valores['bc_cofins_proprio'] = bc_cofins_proprio
-            valores['al_cofins_proprio'] = self.al_cofins_proprio
-            valores['vr_cofins_proprio'] = vr_cofins_proprio
+            self.md_cofins_proprio = md_cofins_proprio
+            self.bc_cofins_proprio = bc_cofins_proprio
+            self.al_cofins_proprio = self.al_cofins_proprio
+            self.vr_cofins_proprio = vr_cofins_proprio
 
         return res
 
@@ -1807,22 +1793,20 @@ class SpedCalculoImposto(SpedBase, models.Model):
         self.ensure_one()
 
         res = {}
-        valores = {}
-        res['value'] = valores
 
-        self._onchange_calcula_icms_proprio(valores)
-        self._onchange_calcula_icms_st(valores)
+        self._onchange_calcula_icms_proprio()
+        self._onchange_calcula_icms_st()
 
         return res
 
-    def _onchange_calcula_icms_proprio(self, valores):
+    def _onchange_calcula_icms_proprio(self):
         self.ensure_one()
 
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return
 
-        valores['bc_icms_proprio'] = 0
-        valores['vr_icms_proprio'] = 0
+        self.bc_icms_proprio = 0
+        self.vr_icms_proprio = 0
 
         #
         # Baseado no valor da situação tributária, calcular o ICMS próprio
@@ -1895,17 +1879,17 @@ class SpedCalculoImposto(SpedBase, models.Model):
         vr_icms_proprio = bc_icms_proprio * D(self.al_icms_proprio) / 100
         vr_icms_proprio = vr_icms_proprio.quantize(D('0.01'))
 
-        valores['bc_icms_proprio'] = bc_icms_proprio
-        valores['vr_icms_proprio'] = vr_icms_proprio
+        self.bc_icms_proprio = bc_icms_proprio
+        self.vr_icms_proprio = vr_icms_proprio
 
-    def _onchange_calcula_icms_st(self, valores):
+    def _onchange_calcula_icms_st(self):
         self.ensure_one()
 
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return
 
-        valores['bc_icms_st'] = 0
-        valores['vr_icms_st'] = 0
+        self.bc_icms_st = 0
+        self.vr_icms_st = 0
 
         #
         # Baseado no valor da situação tributária, calcular o ICMS ST
@@ -1960,15 +1944,15 @@ class SpedCalculoImposto(SpedBase, models.Model):
         vr_icms_st = vr_icms_st.quantize(D('0.01'))
         vr_icms_st -= D(self.vr_icms_proprio)
 
-        valores['bc_icms_st'] = bc_icms_st
-        valores['vr_icms_st'] = vr_icms_st
+        self.bc_icms_st = bc_icms_st
+        self.vr_icms_st = vr_icms_st
 
         if ((self.cst_icms in ST_ICMS_ZERA_ICMS_PROPRIO) or
             ((self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES) and
                 (self.cst_icms_sn not in ST_ICMS_SN_CALCULA_PROPRIO) and
                 (self.cst_icms_sn not in ST_ICMS_SN_CALCULA_ST))):
-            valores['bc_icms_proprio'] = 0
-            valores['vr_icms_proprio'] = 0
+            self.bc_icms_proprio = 0
+            self.vr_icms_proprio = 0
 
     @api.onchange('vr_operacao_tributacao', 'calcula_difal',
                   'al_icms_proprio', 'al_interna_destino', 'al_fcp',
@@ -1977,24 +1961,22 @@ class SpedCalculoImposto(SpedBase, models.Model):
         self.ensure_one()
 
         res = {}
-        valores = {}
-        res['value'] = valores
 
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
 
-        valores['al_difal'] = 0
-        valores['vr_difal'] = 0
-        valores['vr_icms_estado_origem'] = 0
-        valores['vr_icms_estado_destino'] = 0
-        valores['vr_fcp'] = 0
+        self.al_difal = 0
+        self.vr_difal = 0
+        self.vr_icms_estado_origem = 0
+        self.vr_icms_estado_destino = 0
+        self.vr_fcp = 0
 
         if self.calcula_difal:
             al_difal = D(self.al_interna_destino) - D(self.al_icms_proprio)
             vr_difal = D(self.vr_operacao_tributacao) * al_difal / 100
             vr_difal = vr_difal.quantize(D('0.01'))
-            valores['al_difal'] = al_difal
-            valores['vr_difal'] = vr_difal
+            self.al_difal = al_difal
+            self.vr_difal = vr_difal
 
             vr_icms = D(self.vr_operacao_tributacao)
             vr_icms *= D(self.al_interna_destino)
@@ -2006,12 +1988,12 @@ class SpedCalculoImposto(SpedBase, models.Model):
             vr_icms_estado_origem = vr_icms - \
                 vr_icms_estado_destino
 
-            valores['vr_icms_estado_destino'] = vr_icms_estado_destino
-            valores['vr_icms_estado_origem'] = vr_icms_estado_origem
+            self.vr_icms_estado_destino = vr_icms_estado_destino
+            self.vr_icms_estado_origem = vr_icms_estado_origem
 
             vr_fcp = D(self.vr_operacao_tributacao) * D(self.al_fcp) / 100
             vr_fcp = vr_fcp.quantize(D('0.01'))
-            valores['vr_fcp'] = vr_fcp
+            self.vr_fcp = vr_fcp
 
         return res
 
@@ -2020,8 +2002,6 @@ class SpedCalculoImposto(SpedBase, models.Model):
         self.ensure_one()
 
         res = {}
-        valores = {}
-        res['value'] = valores
 
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
@@ -2029,7 +2009,7 @@ class SpedCalculoImposto(SpedBase, models.Model):
         if self.al_simples:
             vr_simples = D(self.vr_fatura) * D(self.al_simples) / 100
             vr_simples = vr_simples.quantize(D('0.01'))
-            valores['vr_simples'] = vr_simples
+            self.vr_simples = vr_simples
 
         return res
 
@@ -2038,8 +2018,6 @@ class SpedCalculoImposto(SpedBase, models.Model):
         self.ensure_one()
 
         res = {}
-        valores = {}
-        res['value'] = valores
 
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
@@ -2047,7 +2025,7 @@ class SpedCalculoImposto(SpedBase, models.Model):
         if self.al_ibpt:
             vr_ibpt = D(self.vr_operacao_tributacao) * D(self.al_ibpt) / 100
             vr_ibpt = vr_ibpt.quantize(D('0.01'))
-            valores['vr_ibpt'] = vr_ibpt
+            self.vr_ibpt = vr_ibpt
 
         return res
 
@@ -2057,8 +2035,6 @@ class SpedCalculoImposto(SpedBase, models.Model):
         self.ensure_one()
 
         res = {}
-        valores = {}
-        res['value'] = valores
 
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
@@ -2071,18 +2047,18 @@ class SpedCalculoImposto(SpedBase, models.Model):
         if self.vr_ii > 0:
             vr_nf += self.vr_icms_proprio
 
-        valores['vr_nf'] = vr_nf
+        self.vr_nf = vr_nf
 
         if self.compoe_total:
-            valores['vr_fatura'] = vr_nf
+            self.vr_fatura = vr_nf
 
         else:
             #
             # Não concordo com o valor do item não compor o total da NF, mas
             # enfim...
             #
-            valores['vr_nf'] = 0
-            valores['vr_fatura'] = 0
+            self.vr_nf = 0
+            self.vr_fatura = 0
 
         return res
 
@@ -2132,13 +2108,14 @@ class SpedCalculoImposto(SpedBase, models.Model):
 
     def _seta_valores(self, res):
         self.ensure_one()
-
-        if not 'value' in res:
+        print (res)
+        if not (res and res.get('value')):
             return
 
         valores = res['value']
         valores.pop('id', None)
-        self.update({campo: valor for campo, valor in valores.iteritems() if campo in self._fields})
+        self.update({campo: valor for campo,
+                     valor in valores.iteritems() if campo in self._fields})
 
     def calcula_impostos(self):
         self.ensure_one()
@@ -2146,37 +2123,24 @@ class SpedCalculoImposto(SpedBase, models.Model):
         #
         # Busca configurações, CSTs e alíquotas
         #
-        res = self._onchange_produto_id()
-        self._seta_valores(res)
-        res = self._onchange_operacao_item_id()
-        self._seta_valores(res)
-        res = self._onchange_cfop_id()
-        self._seta_valores(res)
-        res = self._onchange_al_pis_cofins_id()
-        self._seta_valores(res)
-        res = self._onchange_cst_ipi()
-        self._seta_valores(res)
-        res = self._onchange_cst_icms_cst_icms_sn()
-        self._seta_valores(res)
+        self._onchange_produto_id()
+        self._onchange_operacao_item_id()
+        self._onchange_cfop_id()
+        self._onchange_al_pis_cofins_id()
+        self._onchange_cst_ipi()
+        self._onchange_cst_icms_cst_icms_sn()
 
         #
         # Faz os cálculos propriamente ditos
         #
-        res = self._onchange_calcula_valor_operacao()
-        self._seta_valores(res)
-        res = self._onchange_calcula_ipi()
-        self._seta_valores(res)
-        res = self._onchange_calcula_icms_sn()
-        self._seta_valores(res)
-        res = self._onchange_calcula_pis_cofins()
-        self._seta_valores(res)
-        res = self._onchange_calcula_icms()
-        self._seta_valores(res)
-        res = self._onchange_calcula_difal()
-        self._seta_valores(res)
-        res = self._onchange_calcula_simples()
-        self._seta_valores(res)
-        res = self._onchange_calcula_ibpt()
-        self._seta_valores(res)
-        res = self._onchange_calcula_total()
-        self._seta_valores(res)
+        self._onchange_calcula_valor_operacao()
+        self._onchange_calcula_ipi()
+        self._onchange_calcula_icms_sn()
+        self._onchange_calcula_pis_cofins()
+        self._onchange_calcula_icms()
+        self._onchange_calcula_difal()
+        self._onchange_calcula_total()
+        self._onchange_calcula_simples()
+        self._onchange_calcula_ibpt()
+
+        return
