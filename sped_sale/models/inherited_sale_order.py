@@ -17,8 +17,24 @@ class SaleOrder(SpedCalculoImposto, models.Model):
     brazil_line_ids = fields.One2many(
         comodel_name='sale.order.line.brazil',
         inverse_name='order_id',
-        string='Linhas da Fatura',
+        string='Linhas',
     )
+
+    @api.multi
+    def _prepare_invoice(self):
+        vals = super(SaleOrder, self)._prepare_invoice()
+
+        vals['sped_empresa_id'] = self.sped_empresa_id.id or False
+        vals['sped_participante_id'] = self.sped_participante_id.id or False
+        vals['sped_operacao_produto_id'] = \
+            self.sped_operacao_produto_id.id or False
+        vals['sped_operacao_servico_id'] = \
+            self.sped_operacao_servico_id.id or False
+        vals['condicao_pagamento_id'] = \
+            self.condicao_pagamento_id.id or False
+        vals['date_invoice'] = fields.Date.context_today(self)
+
+        return vals
 
     def _get_date(self):
         """ Return the document date Used in _amount_all_wrapper """
