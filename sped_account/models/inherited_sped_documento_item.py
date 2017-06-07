@@ -113,7 +113,7 @@ class SpedDocumentoItem(models.Model):
 
         if move_template.parent_id:
             self.gera_account_move_line(account_move, move_template.parent_id,
-                line_ids, campos_jah_contabilizados=campos_jah_contabilizados)
+                                        line_ids, campos_jah_contabilizados=campos_jah_contabilizados)
 
     @api.depends('modelo', 'emissao')
     def _compute_permite_alteracao(self):
@@ -125,4 +125,3 @@ class SpedDocumentoItem(models.Model):
 
             if not self.documento_id.permite_alteracao:
                 item.permite_alteracao = False
-

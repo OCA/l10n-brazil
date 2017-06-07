@@ -34,10 +34,39 @@ except (ImportError, IOError) as err:
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
 
-    #
-    # Workarround para o cálculo globalizado.
-    #
+    @api.one
+    @api.depends(
+        'price_unit', 'discount', 'invoice_line_tax_ids', 'quantity',
+        'product_id', 'invoice_id.partner_id', 'invoice_id.currency_id',
+        'invoice_id.company_id', 'invoice_id.date_invoice',
+        #
+        # Campos brasileiros
+        #
+        'brazil_line_id.produto_id',
+        'brazil_line_id.quantidade',
+        'brazil_line_id.vr_unitario',
+        'brazil_line_id.vr_desconto',
+        'brazil_line_id.unidade',
+        # 'brazil_line_id.operacao_id',
+        'brazil_line_id.operacao_item_id',
+        'brazil_line_id.protocolo_id',
+        # TODO: Outros campos que precisamos monitorar
+    )
+    def _compute_price(self):
+        super(AccountInvoiceLine, self)._compute_price()
+        if self.is_brazilian:
+            self.brazil_line_id._amount_price_brazil()
+
+    brazil_line_id = fields.One2many(
+        comodel_name='account.invoice.line.brazil',
+        inverse_name='invoice_line_id',
+        string='Linha da Fatura',
+    )
     order_id = fields.Many2one(
+        #
+        # Workarround para o cálculo globalizado. Devido a diferença dos
+        # modelos da invoice/sale/purchase
+        #
         comodel_name='account.invoice',
         related='invoice_id',
         readonly=True,
@@ -53,41 +82,30 @@ class AccountInvoiceLine(models.Model):
         related='invoice_id.is_brazilian',
     )
 
-    # @api.multi
-    # def _check_brazilian_invoice(self, operation):
-    #     for item in self:
-    #         if (item.is_brazilian and
-    #                 'sped_documento_item_id' not in self._context):
-    #             if operation == 'create':
-    #                 raise ValidationError(
-    #                     'This is a Brazilian Invoice! You should create it '
-    #                     'through the proper Brazilian Fiscal Document!')
-    #             elif operation == 'write':
-    #                 raise ValidationError(
-    #                     'This is a Brazilian Invoice! You should change it '
-    #                     'through the proper Brazilian Fiscal Document!')
-    #             elif operation == 'unlink':
-    #                 raise ValidationError(
-    #                     'This is a Brazilian Invoice! You should delete it '
-    #                     'through the proper Brazilian Fiscal Document!')
+    @api.multi
+    def create_brazil(self):
+        Brazil = self.env["account.invoice.line.brazil"]
+        for item in self:
+            related_vals = {
+                'invoice_line_id': item.id,
+                'vr_unitario': item.price_unit,
+                'quantidade': item.quantity,
+                'produto_id': item.product_id.sped_produto_id.id,
+                'unidade_id': item.uom_id.sped_unidade_id.id
+            }
+            new = Brazil.create(related_vals)
+        return True
 
-    # @api.multi
-    # def create(self, dados):
-    #     invoice = super(AccountInvoiceLine, self).create(dados)
-    #     invoice._check_brazilian_invoice()
-    #     return invoice
-    #
-    # @api.multi
-    # def write(self, dados):
-    #     self._check_brazilian_invoice()
-    #     res = super(AccountInvoiceLine, self).write(dados)
-    #     return res
-    #
-    # @api.multi
-    # def unlink(self):
-    #     self._check_brazilian_invoice()
-    #     res = super(AccountInvoiceLine, self).unlink()
-    #     return res
+    @api.model
+    def create(self, vals):
+        line = super(AccountInvoiceLine, self).create(vals)
+        #
+        # Não podemos verificar se empresa é brasileira aqui, pois muitas
+        # vezes não temos o company_id
+        #
+        if "create_brazil" not in self._context:
+            line.create_brazil()
+        return line
 
 
 class AccountInvoiceLineBrazil(models.Model):
@@ -97,18 +115,19 @@ class AccountInvoiceLineBrazil(models.Model):
     _inherits = {'account.invoice.line': 'invoice_line_id'}
     _abstract = False
 
+    vr_nf = fields.Monetary(
+        compute='_amount_price_brazil'
+    )
+    vr_fatura = fields.Monetary(
+        compute='_amount_price_brazil'
+    )
+
     invoice_line_id = fields.Many2one(
         comodel_name='account.invoice.line',
         string='Invoice Line original',
         ondelete='restrict',
         required=True,
     )
-    # invoice_id = fields.Many2one(
-    #     comodel_name='account.invoice',
-    #     string='Invoice original',
-    #     ondelete='cascade',
-    #     required=True,
-    # )
     empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
         string='Empresa',
@@ -200,6 +219,13 @@ class AccountInvoiceLineBrazil(models.Model):
         string='Permite alteração?',
         compute='_compute_permite_alteracao',
     )
+
+    @api.model
+    def create(self, vals):
+        line = super(AccountInvoiceLineBrazil, self.with_context(
+            create_brazil=True)).create(vals)
+        line.calcula_impostos()
+        return line
 
     def get_invoice_line_account(self):
         if self.operacao_id.entrada_saida == ENTRADA_SAIDA_SAIDA:

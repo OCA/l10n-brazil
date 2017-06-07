@@ -33,7 +33,10 @@ class AccountInvoice(SpedCalculoImposto, models.Model):
         Return the document date
         Used in _amount_all_wrapper
         """
-        return self.date_invoice
+        date = super(AccountInvoice, self)._get_date()
+        if self.date_invoice:
+            return self.date_invoice
+        return date
 
     @api.one
     @api.depends(
@@ -46,39 +49,19 @@ class AccountInvoice(SpedCalculoImposto, models.Model):
         #
         # Brasil
         #
-        'brazil_line_ids.vr_nf',
-        'brazil_line_ids.vr_fatura',
+        'invoice_line_ids.brazil_line_id.vr_nf',
+        'invoice_line_ids.brazil_line_id.vr_fatura',
     )
     def _compute_amount(self):
         if not self.is_brazilian:
             return super(AccountInvoice, self)._compute_amount()
         return self._amount_all_brazil()
 
-    # @api.multi
-    # def _check_brazilian_invoice(self, operation):
-    #     pass
-    #     # for invoice in self:
-    #     # if (invoice.is_brazilian
-    #     # and 'sped_documento_id' not in self._context):
-    #     # if operation == 'create':
-    #     # raise ValidationError('This is a Brazilian Invoice!
-    #     # You should create it through the proper Brazilian
-    # Fiscal Document!')
-    #     # elif operation == 'write':
-    #     # raise ValidationError('This is a Brazilian Invoice!
-    #     #  You should change it through the proper Brazilian
-    #  Fiscal Document!')
-    #     # elif operation == 'unlink':
-    #     # raise ValidationError('This is a Brazilian Invoice!
-    #     # You should delete it through the proper Brazilian
-    #  Fiscal Document!')
+    @api.model
+    def create(self, dados):
+        invoice = super(AccountInvoice, self).create(dados)
+        return invoice
 
-    # @api.model
-    # def create(self, dados):
-    #     invoice = super(AccountInvoice, self).create(dados)
-    #     invoice._check_brazilian_invoice('create')
-    #     return invoice
-    #
     # @api.model
     # def write(self, dados):
     #     self._check_brazilian_invoice('write')
