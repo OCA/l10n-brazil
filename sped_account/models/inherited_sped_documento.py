@@ -64,7 +64,7 @@ class SpedDocumento(models.Model):
             line_ids = [(5, 0, {})]
 
             documento.item_ids.gera_account_move_line(account_move,
-                documento.move_template_id, line_ids)
+                                                      documento.move_template_id, line_ids)
 
             if len(line_ids):
                 account_move.write({'line_ids': line_ids})
