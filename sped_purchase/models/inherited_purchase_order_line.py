@@ -8,6 +8,9 @@ import logging
 
 from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
+from odoo.addons.sped_imposto.models.sped_calculo_imposto_item import (
+    SpedCalculoImpostoItem
+)
 
 
 class PurchaseOrderLine(models.Model):
@@ -19,11 +22,10 @@ class PurchaseOrderLine(models.Model):
     )
 
 
-class PurchaseOrderLineBrazil(models.Model):
+class PurchaseOrderLineBrazil(SpedCalculoImpostoItem, models.Model):
 
     _name = b'purchase.order.line.brazil'
     _description = 'Linhas'
-    _inherit = 'sped.calculo.imposto.item'
     _inherits = {'purchase.order.line': 'purchase_line_id'}
     _abstract = False
 
