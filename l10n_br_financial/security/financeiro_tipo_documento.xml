@@ -6,7 +6,7 @@
 <data>
 
     <record model="ir.model.access" id="financeiro_tipo_documento_access_name"> <!-- TODO acl id -->
-        <field name="name">financeiro.tipo_documento access name</field> <!-- TODO acl name -->
+        <field name="name">financeiro.tipo.documento access name</field> <!-- TODO acl name -->
         <field name="model_id" ref="model_financeiro_tipo_documento"/>
         <!-- TODO review and adapt -->
         <field name="group_id" ref="base.group_user"/>

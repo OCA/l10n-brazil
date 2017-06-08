@@ -9,7 +9,7 @@ from odoo import api, fields, models, _
 
 class FinanceiroTipo_documento(models.Model):
 
-    _name = b'financeiro.tipo_documento'
+    _name = b'financeiro.tipo.documento'
     _description = 'Financeiro Tipo_documento'  # TODO
 
     name = fields.Char()

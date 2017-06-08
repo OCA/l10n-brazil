@@ -13,7 +13,7 @@ class FinancialMove(models.Model):
 
     tipo_documento_id = fields.Many2one(
         string='Tipo do documento',
-        comodel_name=b'financeiro.tipo_documento',
+        comodel_name=b'financeiro.tipo.documento',
     )
 
     @api.onchange('date')
