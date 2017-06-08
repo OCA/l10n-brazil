@@ -79,6 +79,8 @@ class SpedCalculoImposto(SpedBase):
 
     _abstract = False
 
+    # TODO: Remover esta funçã;
+    # Estamos validando a data dentro do calula impostos
     def _get_date(self):
         """
         Return the document date
