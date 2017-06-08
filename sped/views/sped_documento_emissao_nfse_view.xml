@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_nfse_form">
+        <field name="name">sped.documento.emissao.nfse.form</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">1</field>
+        <field name="type">form</field>
+        <field name="copy_id" ref="sped.sped_documento_base_form" />
+        <!-- <field name="arch" eval="False" /> -->
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_nfse_tree">
+        <field name="name">sped.documento.emissao.nfse.tree</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">1</field>
+        <field name="type">tree</field>
+        <field name="copy_id" ref="sped.sped_documento_base_tree" />
+        <!-- <field name="arch" eval="False" /> -->
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_nfse_search">
+        <field name="name">sped.documento.emissao.nfse.search</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">1</field>
+        <field name="type">search</field>
+        <field name="copy_id" ref="sped.sped_documento_base_search" />
+        <!-- <field name="arch" eval="False" /> -->
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_nfse_inherited_form">
+        <field name="name">sped.documento.emissao.nfse.inherited.form</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="sped.sped_documento_emissao_nfse_form" />
+        <field name="arch" type="xml">
+            <page name="transporte" position="replace" />
+            <xpath expr="//form[1]" position="attributes">
+                <attribute name="string">Emissão de NFS-e</attribute>
+            </xpath>
+            <xpath expr="//field[@name='empresa_id']" position="attributes">
+                <attribute name="domain" value="" />
+            </xpath>
+            <xpath expr="//field[@name='item_ids']" position="replace">
+                <field name="item_ids" 
+                       nolabel="1" 
+                       colspan="4" 
+                       context="{'form_view_ref' : 'sped.sped_documento_item_emissao_servico_form', 'tree_view_ref' : 'sped.sped_documento_item_emissao_servico_tree'}" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+            </xpath>
+            <xpath expr="//separator[@name='pagamentos']" position="replace" />
+            <xpath expr="//field[@name='pagamento_ids']" position="replace" />
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="domain">[('forma_pagamento', '!=', False)]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_nfse_inherited_tree">
+        <field name="name">sped.documento.emissao.nfse.inherited.tree</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="sped.sped_documento_emissao_nfse_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree[1]" position="attributes">
+                <attribute name="string">Emissão de NFS-e</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_nfse_inherited_search">
+        <field name="name">sped.documento.emissao.nfse.inherited.search</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="sped.sped_documento_emissao_nfse_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//search[1]" position="attributes">
+                <attribute name="string">Emissão de NFS-e</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_documento_emissao_nfse_acao">
+        <field name="name">Emissão de NFS-e</field>
+        <field name="domain">[('emissao', '=', '0'), ('modelo', '=', 'SE')]</field>
+        <field name="context">{'default_emissao': '0', 'default_modelo': 'SE'}</field>
+        <field name="res_model">sped.documento</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="sped.sped_documento_emissao_nfse_search" />
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_documento_emissao_nfse_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_documento_emissao_nfse_tree"/>
+        <field name="act_window_id" ref="sped_documento_emissao_nfse_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_documento_emissao_nfse_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_documento_emissao_nfse_form"/>
+        <field name="act_window_id" ref="sped_documento_emissao_nfse_acao"/>
+    </record>
+
+    <menuitem
+        id="menu_sped_documento_emissao_nfse"
+        sequence="1"
+        name="NFS-e"
+        parent="sped.menu_sped_documento_emissao"
+        action="sped_documento_emissao_nfse_acao" />
+
+</odoo>
