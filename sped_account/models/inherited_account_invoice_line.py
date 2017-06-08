@@ -83,7 +83,7 @@ class AccountInvoiceLine(models.Model):
     )
 
     @api.multi
-    def create_brazil(self):
+    def _create_brazil(self):
         Brazil = self.env["account.invoice.line.brazil"]
         for item in self:
             related_vals = {
@@ -104,8 +104,29 @@ class AccountInvoiceLine(models.Model):
         # vezes não temos o company_id
         #
         if "create_brazil" not in self._context:
-            line.create_brazil()
+            line._create_brazil()
         return line
+
+    @api.multi
+    def _new_brazil(self):
+        Brazil = self.env["account.invoice.line.brazil"]
+        for item in self:
+            related_vals = {
+                'invoice_line_id': item.id,
+                'vr_unitario': item.price_unit,
+                'quantidade': item.quantity,
+                'produto_id': item.product_id.sped_produto_id.id,
+                'unidade_id': item.uom_id.sped_unidade_id.id
+            }
+            new = Brazil.new(related_vals)
+        return True
+
+    @api.model
+    def new(self, values={}):
+        record = super(AccountInvoiceLine, self).new(values)
+        if "create_brazil" not in self._context:
+            record._new_brazil()
+        return record
 
 
 class AccountInvoiceLineBrazil(models.Model):
@@ -222,10 +243,19 @@ class AccountInvoiceLineBrazil(models.Model):
 
     @api.model
     def create(self, vals):
-        line = super(AccountInvoiceLineBrazil, self.with_context(
+        record = super(AccountInvoiceLineBrazil, self.with_context(
             create_brazil=True)).create(vals)
-        line.calcula_impostos()
-        return line
+        record.calcula_impostos()
+        return record
+
+    # @api.model
+    # Funçao usada nas criação das compras através do purchase.
+    # Mas ela quebra a invoice normal.
+    # def new(self, values={}):
+    #     record = super(AccountInvoiceLineBrazil, self.with_context(
+    #         create_brazil=True)).new(values)
+    #     record.calcula_impostos()
+    #     return record
 
     def get_invoice_line_account(self):
         if self.operacao_id.entrada_saida == ENTRADA_SAIDA_SAIDA:
