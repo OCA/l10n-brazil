@@ -41,39 +41,44 @@ class SpedDocumentoItem(models.Model):
                             not item.credita_ipi:
                         continue
                     elif template_item.campo in ('vr_pis_proprio',
-                                                 'vr_cofins_proprio') and not item.credita_pis_cofins:
+                        'vr_cofins_proprio') and not item.credita_pis_cofins:
                         continue
+
+                valor = getattr(item, template_item.campo, 0)
+
+                if not valor:
+                    continue
 
                 dados = {
                     'move_id': account_move.id,
                     'sped_documento_item_id': item.id,
                     'name': item.produto_id.nome,
                     'narration': template_item.campo,
-                    'debit': getattr(item, template_item.campo, 0),
+                    'debit': valor,
                     'currency_id': item.currency_id.id,
                 }
 
-                account_debito_id = None
-                if template_item.account_debito_id:
-                    account_debito_id = template_item.account_debito_id
+                account_debito = None
+                if template_item.account_debito:
+                    account_debito = template_item.account_debito
                 elif template_item.campo in CAMPO_DOCUMENTO_FISCAL_ITEM:
+                    product = item.produto_id.product_id
                     if item.documento_id.eh_venda:
-                        account_debito_id = \
-                            item.produto_id.product_id.property_account_income_id
+                        account_debito = product.property_account_income_id
                     elif item.documento_id.eh_compra:
-                        account_debito_id = \
-                            item.produto_id.product_id.property_account_expense_id
+                        account_debito = product.property_account_expense_id
                 else:
+                    partner = item.documento_id.participante_id.partner_id
                     if item.documento_id.eh_venda:
-                        account_debito_id = item.documento_id.participante_id.partner_id.property_account_receivable_id
+                        account_debito = partner.property_account_receivable_id
                     elif item.documento_id.eh_compra:
-                        account_debito_id = item.documento_id.participante_id.partner_id.property_account_payable_id
+                        account_debito = partner.property_account_payable_id
 
-                if account_debito_id is None:
+                if account_debito is None:
                     # raise
                     pass
                 else:
-                    dados['account_id'] = account_debito_id.id
+                    dados['account_id'] = account_debito.id
 
                 line_ids.append([0, 0, dados])
 
@@ -82,31 +87,31 @@ class SpedDocumentoItem(models.Model):
                     'sped_documento_item_id': item.id,
                     'name': item.produto_id.nome,
                     'narration': template_item.campo,
-                    'credit': getattr(item, template_item.campo, 0),
+                    'credit': valor,
                     'currency_id': item.currency_id.id,
                 }
 
-                account_credito_id = None
-                if template_item.account_credito_id:
-                    account_credito_id = template_item.account_credito_id
+                account_credito = None
+                if template_item.account_credito:
+                    account_credito = template_item.account_credito
                 elif template_item.campo in CAMPO_DOCUMENTO_FISCAL_ITEM:
+                    product = item.produto_id.product_id
                     if item.documento_id.eh_venda:
-                        account_credito_id = \
-                            item.produto_id.product_id.property_account_income_id
+                        account_credito = product.property_account_income_id
                     elif item.documento_id.eh_compra:
-                        account_credito_id = \
-                            item.produto_id.product_id.property_account_expense_id
+                        account_credito = product.property_account_expense_id
                 else:
+                    partner = item.documento_id.participante_id.partner_id
                     if item.documento_id.eh_venda:
-                        account_credito_id = item.documento_id.participante_id.partner_id.property_account_receivable_id
+                        account_credito = partner.property_account_receivable_id
                     elif item.documento_id.eh_compra:
-                        account_credito_id = item.documento_id.participante_id.partner_id.property_account_payable_id
+                        account_credito = partner.property_account_payable_id
 
-                if account_credito_id is None:
+                if account_credito is None:
                     # raise
                     pass
                 else:
-                    dados['account_id'] = account_credito_id.id
+                    dados['account_id'] = account_credito.id
 
                 line_ids.append([0, 0, dados])
                 campos_jah_contabilizados.append(template_item.campo)
