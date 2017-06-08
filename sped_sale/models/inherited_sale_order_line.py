@@ -18,6 +18,9 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     TIPO_CONSUMIDOR_FINAL,
     ENTRADA_SAIDA_SAIDA,
 )
+from odoo.addons.sped_imposto.models.sped_calculo_imposto_item import (
+    SpedCalculoImpostoItem
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -37,10 +40,9 @@ class SaleOrderLine(models.Model):
     )
 
 
-class SaleOrderLineBrazil(models.Model):
+class SaleOrderLineBrazil(SpedCalculoImpostoItem, models.Model):
     _name = b'sale.order.line.brazil'
     _description = 'Linhas da Venda'
-    _inherit = 'sped.calculo.imposto.item'
     _inherits = {'sale.order.line': 'sale_line_id'}
     _abstract = False
 
