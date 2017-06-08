@@ -33,6 +33,9 @@
                 <attribute name="string">Serviço</attribute>
                 <attribute name="domain">[('tipo', '=', '09')]</attribute>
             </xpath>
+            <xpath expr="//field[@name='vr_frete']" position="replace" />
+            <xpath expr="//field[@name='vr_seguro']" position="replace" />
+            <page name="volume" position="replace" />
         </field>
     </record>
 
