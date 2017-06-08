@@ -32,6 +32,7 @@
         'views/sped_veiculo_view.xml',
 
         'views/sped_documento_item_declaracao_importacao_view.xml',
+        'views/sped_documento_item_base_view.xml',
         'views/sped_documento_item_emissao_view.xml',
 
         'views/sped_documento_referenciado_view.xml',
@@ -41,6 +42,9 @@
 
         'views/sped_documento_emissao_nfe_view.xml',
         'views/sped_documento_emissao_nfce_view.xml',
+        'views/sped_documento_emissao_nfse_view.xml',
+
+        'views/sped_documento_item_emissao_servico_view.xml',
         # 'views/sped_documento_recebimento_nfe_view.xml',
     ],
     'external_dependencies': {
