@@ -238,15 +238,6 @@ class AccountInvoiceLineBrazil(models.Model):
         domain = {}
         if not self.invoice_id:
             return
-
-        if not self.data_emissao:
-            warning = {
-                'title': _('Warning!'),
-                'message': _(
-                    'Por favor defina a data da fatura, \n'
-                    'para permtir o cálculo correto dos impostos'),
-            }
-            return {'warning': warning}
         if not (self.invoice_id.sped_operacao_produto_id or
                 self.invoice_id.sped_operacao_servico_id):
             warning = {

@@ -33,8 +33,8 @@ class SpedCalculoImpostoItem(SpedBase, models.Model):
 
     @api.one
     def _amount_price_brazil(self):
-        if not self.data_emissao:
-            self.data_emissao = self.order_id._get_date()
+        # if not self.data_emissao:
+        #     self.data_emissao = self.order_id._get_date()
         self.calcula_impostos()
 
     operacao_id = fields.Many2one(
