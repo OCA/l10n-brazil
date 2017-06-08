@@ -66,8 +66,7 @@ class SpedDocumento(models.Model):
             documento.item_ids.gera_account_move_line(account_move,
                                                       documento.move_template_id, line_ids)
 
-            if len(line_ids):
-                account_move.write({'line_ids': line_ids})
+            account_move.write({'line_ids': line_ids})
 
     @api.depends('modelo', 'emissao')
     def _compute_permite_alteracao(self):
