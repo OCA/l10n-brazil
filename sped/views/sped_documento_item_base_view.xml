@@ -312,7 +312,7 @@
                                 <field name="numero_item_pedido" />
                             </group>
                         </page>
-                        <page string="Volume">
+                        <page name='volume' string="Volume">
                             <group colspan="4" col="4">
                                 <group colspan="2" string="Preenchimento automático dos volumes">
                                     <field name="peso_bruto_unitario" />
