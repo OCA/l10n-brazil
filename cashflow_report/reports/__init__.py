@@ -3,5 +3,5 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from . import abstract_report_xlsx
-from . import trial_balance
-from . import trial_balance_xlsx
+from . import financial_cashflow_report
+from . import financial_cashflow_report_xlsx

@@ -19,41 +19,60 @@ class TrialBalanceXslx(abstract_report_xlsx.AbstractReportXslx):
         return _('CashFlow')
 
     def _get_report_columns(self, report):
-
         row_mes = 2
-
         result ={
             0: {'header': _('Conta'), 'field': '0', 'width': 12},
-
-            1: {'header': _('Name'), 'field': '1', 'type': 'amount', 'width': 20},
-
+            1: {'header': _('Name'), 'field': '1', 'type': 'amount', 'width': 25},
         }
 
         for mes in self.env.context['fluxo_de_caixa']['meses']:
             result.update({
-                row_mes: {'header': mes, 'field': row_mes, 'type': 'float', 'width': 10},
+                row_mes: {'header': mes, 'field': row_mes, 'type': 'float', 'width': 15},
+            })
+
+            row_mes += 1
+        return result
+
+    def _get_report_columns_resumo(self, report):
+
+        row_mes = 2
+
+        result = {
+            0: {'header': _('Conta'), 'field': '0', 'width': 12},
+            1: {'header': _('Resumo'), 'field': '1', 'type': 'amount',
+                'width': 25},
+        }
+
+        for mes in self.env.context['fluxo_de_caixa']['meses']:
+            result.update({
+                row_mes: {'header': mes, 'field': row_mes, 'type': 'float',
+                          'width': 15},
             })
 
             row_mes += 1
 
         return result
 
-        # for col_pos, column in self.columns.iteritems():
-        #     value = getattr(line_object, column['field'])
-        #     cell_type = column.get('type', 'string')
-        #     if cell_type == 'string':
-        #         self.sheet.write_string(self.row_pos, col_pos, value or '')
-        #     elif cell_type == 'amount':
-        #         self.sheet.write_number(
-        #             self.row_pos, col_pos, float(value), self.format_amount
-        #         )
-        # self.row_pos += 1
-
     def write_line(self, line_object):
         """Write a line on current line using all defined columns field name.
         Columns are defined with `_get_report_columns` method.
         """
         for col_pos, column in self.columns.iteritems():
+
+            value = line_object[int(column.get('field'))]
+
+            if column.get('type') == 'float':
+                self.sheet.write_number(self.row_pos, col_pos, value)
+            else:
+                self.sheet.write_string(self.row_pos, col_pos, value or '')
+
+        self.row_pos += 1
+
+    def write_line_resumo(self, line_object):
+        """Write a line on current line using all defined columns field name.
+        Columns are defined with `_get_report_columns` method.
+        """
+        for col_pos, column in self.columns_resumo.iteritems():
 
             value = line_object[int(column.get('field'))]
 
@@ -76,15 +95,23 @@ class TrialBalanceXslx(abstract_report_xlsx.AbstractReportXslx):
 
     def _generate_report_content(self, workbook, report):
 
-        if not report.show_partner_details:
-            # Display array header for account lines
-            self.write_array_header()
+        # Display array header for account lines
+        self.write_array_header()
 
         # For each account
         # for account in report.fluxo_de_caixa['']:
         for account in self.env.context['fluxo_de_caixa']['contas']:
             # Display account lines
             self.write_line(account)
+
+        self.write_array_header_resumo()
+
+        for resumo in self.env.context['fluxo_de_caixa']['resumo']:
+            # Display account lines
+            self.write_line_resumo(resumo)
+
+        self.write_line_resumo(['','Saldo Final'] + self.env.context['fluxo_de_caixa']['saldo_final'])
+        self.write_line_resumo(['','Saldo Acumulado'] + self.env.context['fluxo_de_caixa']['saldo_acumulado'])
         #
         #     else:
         #         # Write account title
@@ -123,7 +150,7 @@ class TrialBalanceXslx(abstract_report_xlsx.AbstractReportXslx):
 
 
 TrialBalanceXslx(
-    'report.cashflow_report.report_trial_balance_xlsx',
-    'report_cashflow_qweb',
+    'report.cashflow_report.report_financial_cashflow_xlsx',
+    'report_financial_cashflow',
     parser=report_sxw.rml_parse
 )
