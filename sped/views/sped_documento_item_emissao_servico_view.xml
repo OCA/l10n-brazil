@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_item_emissao_servico_form">
+        <field name="name">sped.documento.item.emissao.servico.form</field>
+        <field name="model">sped.documento.item</field>
+        <field name="priority">1</field>
+        <field name="type">form</field>
+        <field name="copy_id" ref="sped.sped_documento_item_base_form" />
+        <!-- <field name="arch" eval="False" /> -->
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_item_emissao_servico_tree">
+        <field name="name">sped.documento.item.emissao.servico.tree</field>
+        <field name="model">sped.documento.item</field>
+        <field name="priority">1</field>
+        <field name="type">tree</field>
+        <field name="copy_id" ref="sped.sped_documento_item_base_tree" />
+        <!-- <field name="arch" eval="False" /> -->
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_item_emissao_servico_inherited_form">
+        <field name="name">sped.documento.item.emissao.servico.inherited.form</field>
+        <field name="model">sped.documento.item</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="sped_documento_item_emissao_servico_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='produto_id']" position="attributes">
+                <attribute name="string">Serviço</attribute>
+                <attribute name="domain">[('tipo', '=', '09')]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_item_emissao_servico_inherited_tree">
+        <field name="name">sped.documento.item.emissao.servico.inherited.tree</field>
+        <field name="model">sped.documento.item</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="sped_documento_item_emissao_servico_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='produto_id']" position="attributes">
+                <attribute name="string">Serviço</attribute>
+                <attribute name="domain">[('tipo', '=', '09')]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='vr_produtos']" position="attributes">
+                <attribute name="string">Valor do serviço</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
