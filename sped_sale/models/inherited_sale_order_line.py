@@ -41,12 +41,8 @@ class SaleOrderLineBrazil(models.Model):
     _name = b'sale.order.line.brazil'
     _description = 'Linhas da Venda'
     _inherit = 'sped.calculo.imposto.item'
-    _abstract = False
-
-
-class SaleOrderLineBrazil2(models.Model):
-    _inherit = 'sale.order.line.brazil'
     _inherits = {'sale.order.line': 'sale_line_id'}
+    _abstract = False
 
     sale_line_id = fields.Many2one(
         comodel_name='sale.order.line',
