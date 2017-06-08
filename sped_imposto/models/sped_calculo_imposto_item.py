@@ -24,7 +24,7 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedCalculoImposto(SpedBase, models.Model):
+class SpedCalculoImpostoItem(SpedBase, models.Model):
     _name = b'sped.calculo.imposto.item'
     _description = 'Cálculo dos Impostos'
     _abstract = True
@@ -1562,6 +1562,9 @@ class SpedCalculoImposto(SpedBase, models.Model):
             self.price_unit = self.vr_unitario
         if hasattr(self, 'quantity'):
             self.quantity = self.quantidade
+        if hasattr(self, 'product_qty'):
+            self.quantity = self.quantidade
+
 
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
@@ -2123,6 +2126,10 @@ class SpedCalculoImposto(SpedBase, models.Model):
         #
         # Busca configurações, CSTs e alíquotas
         #
+
+        if not self.data_emissao:
+            self.data_emissao = fields.Date.context_today(self)
+
         self._onchange_produto_id()
         self._onchange_operacao_item_id()
         self._onchange_cfop_id()
