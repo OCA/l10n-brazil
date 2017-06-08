@@ -2,6 +2,8 @@
 #
 # Copyright 2016 Taŭga Tecnologia
 #   Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2017 KMEE INFORMATICA LTDA
+#   Luis Felipe Miléo <mileo@kme.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -24,12 +26,9 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedCalculoImpostoItem(SpedBase, models.Model):
-    _name = b'sped.calculo.imposto.item'
-    _description = 'Cálculo dos Impostos'
-    _abstract = True
-    # _order = 'emissao, modelo, data_emissao desc, serie, numero'
-    # _rec_name = 'numero'
+class SpedCalculoImpostoItem(SpedBase):
+
+    _abstract = False
 
     @api.one
     def _amount_price_brazil(self):
