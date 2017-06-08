@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- TRIAL BALANCE -->
+    <record id="trial_balance_wizard" model="ir.ui.view">
+        <field name="name">Trial Balance</field>
+        <field name="model">trial.balance.report.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group name="main_info">
+                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                </group>
+                <div attrs="{'invisible': [('not_only_one_unaffected_earnings_account', '=', True)]}">
+                    <group name="filters">
+                        <group name="date_range">
+                            <!--<field name="date_range_id" domain="[('company_id','=',company_id)]"/>-->
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <!--<field name="fy_start_date" invisible="1"/>-->
+                        </group>
+                        <group name="other_filters">
+                            <field name="target_move" widget="radio"/>
+                            <field name="hide_account_balance_at_0"/>
+                            <field name="show_partner_details"/>
+                        </group>
+                    </group>
+                    <label for="partner_ids" attrs="{'invisible':[('show_partner_details','!=',True)]}"/>
+                    <field name="partner_ids" nolabel="1" options="{'no_create': True}" attrs="{'invisible':[('show_partner_details','!=',True)]}"/>
+                    <group attrs="{'invisible':[('show_partner_details','!=',True)]}"/>
+                    <label for="account_ids"/>
+                    <group col="4">
+                        <field name="receivable_accounts_only"/>
+                        <field name="payable_accounts_only"/>
+                    </group>
+                    <field name="account_ids" widget="many2many_tags" nolabel="1" options="{'no_create': True}"/>
+                </div>
+                <div attrs="{'invisible': [('not_only_one_unaffected_earnings_account', '=', False)]}">
+                    <field name="not_only_one_unaffected_earnings_account" invisible="1"/>
+                    <group/>
+                    <h4>Trial Balance can be computed only if selected company have only one unaffected earnings account.</h4>
+                    <group/>
+                </div>
+                <footer>
+                    <div attrs="{'invisible': [('not_only_one_unaffected_earnings_account', '=', True)]}">
+
+                        <button name="button_export_xlsx" string="Export XLSX" type="object"/>
+
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </div>
+                    <div attrs="{'invisible': [('not_only_one_unaffected_earnings_account', '=', False)]}">
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </div>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id="action_trial_balance_wizard"
+                name="Trial Balance"
+                res_model="trial.balance.report.wizard"
+                view_type="form"
+                view_mode="form"
+                view_id="trial_balance_wizard"
+                target="new" />
+
+    <record model="ir.ui.menu" id="financial_trial_balance">
+        <field name="name">Cashflow</field>
+        <field name="parent_id" ref="financial.financial_report_menu"/>
+        <field name="action" ref="action_trial_balance_wizard"/>
+        <field name="sequence" eval="19"/>
+    </record>
+
+</odoo>

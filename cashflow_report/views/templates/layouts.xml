@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="assets_specific" inherit_id="report.assets_common">
+        <xpath expr="." position="inside">
+            <link href="/account_financial_report_qweb/static/src/css/report.css" rel="stylesheet"/>
+        </xpath>
+    </template>
+
+    <template id="account_financial_report_qweb.internal_layout">
+        <div class="header">
+            <div class="row">
+                <div class="col-xs-6">
+                    <span t-esc="title"/>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <span t-esc="company_name"/>
+                </div>
+            </div>
+        </div>
+        <t t-raw="0" />
+        <div class="footer">
+            <div class="row">
+                <div class="col-xs-6 custom_footer">
+                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                </div>
+                <div class="col-xs-6 text-right custom_footer">
+                    <ul class="list-inline">
+                        <li><span class="page"/></li>
+                        <li>/</li>
+                        <li><span class="topage"/></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+
+</odoo>

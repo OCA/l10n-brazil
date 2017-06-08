@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="account_financial_report_qweb.report_trial_balance_qweb">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="o">
+                <!-- Saved flag fields into variables, used to define columns display -->
+                <t t-set="show_partner_details" t-value="o.show_partner_details"/>
+
+                <t t-call="account_financial_report_qweb.internal_layout">
+                    <!-- Defines global variables used by internal layout -->
+                    <t t-set="title">Trial Balance</t>
+                    <t t-set="company_name" t-value="o.company_id.name"/>
+
+                    <div class="page">
+                        <!-- Display filters -->
+                        <t t-call="account_financial_report_qweb.report_trial_balance_qweb_filters"/>
+                        <div class="act_as_table list_table" style="margin-top: 10px;"/>
+
+                        <!-- Display account lines -->
+                        <t t-if="not show_partner_details">
+                            <div class="act_as_table data_table" style="width: 1140px !important;">
+                                <!-- Display account header -->
+                                <t t-call="account_financial_report_qweb.report_trial_balance_qweb_lines_header"/>
+
+                                <!-- Display each lines -->
+                                <t t-foreach="o.account_ids" t-as="line">
+                                    <!-- Display account lines -->
+                                    <t t-call="account_financial_report_qweb.report_trial_balance_qweb_line"/>
+                                </t>
+                            </div>
+                        </t>
+
+                        <!-- Display partner lines -->
+                        <t t-if="show_partner_details">
+                            <t t-foreach="o.account_ids" t-as="account">
+                                <div class="page_break">
+                                    <!-- Display account header -->
+                                    <div class="act_as_table list_table" style="margin-top: 10px;"/>
+                                    <div class="act_as_caption account_title" style="width: 1141px !important;">
+                                        <span t-field="account.code"/> - <span t-field="account.name"/>
+                                    </div>
+
+                                    <div class="act_as_table data_table" style="width: 1140px !important;">
+                                        <!-- Display account/partner header -->
+                                        <t t-call="account_financial_report_qweb.report_trial_balance_qweb_lines_header"/>
+
+                                        <!-- Display each partners -->
+                                        <t t-foreach="account.partner_ids" t-as="line">
+                                            <!-- Display partner line -->
+                                            <t t-call="account_financial_report_qweb.report_trial_balance_qweb_line"/>
+                                        </t>
+                                    </div>
+
+                                    <!-- Display account footer -->
+                                    <t t-call="account_financial_report_qweb.report_trial_balance_qweb_account_footer"/>
+                                </div>
+                            </t>
+
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="account_financial_report_qweb.report_trial_balance_qweb_filters">
+        <div class="act_as_table data_table" style="width: 1140px !important;">
+            <div class="act_as_row labels">
+                <div class="act_as_cell">Date range filter</div>
+                <div class="act_as_cell">Target moves filter</div>
+                <div class="act_as_cell">Account balance at 0 filter</div>
+            </div>
+            <div class="act_as_row">
+                <div class="act_as_cell">
+                    From: <span t-field="o.date_from"/> To: <span t-field="o.date_to"/>
+                </div>
+                <div class="act_as_cell">
+                    <t t-if="o.only_posted_moves">All posted entries</t>
+                    <t t-if="not o.only_posted_moves">All entries</t>
+                </div>
+                <div class="act_as_cell">
+                    <t t-if="o.hide_account_balance_at_0">Hide</t>
+                    <t t-if="not o.hide_account_balance_at_0">Show</t>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="account_financial_report_qweb.report_trial_balance_qweb_lines_header">
+        <!-- Display table headers for lines -->
+        <div class="act_as_thead">
+            <div class="act_as_row labels">
+                <t t-if="not show_partner_details">
+                    <!--## Code-->
+                    <div class="act_as_cell" style="width: 100px;">Code</div>
+                    <!--## Account-->
+                    <div class="act_as_cell" style="width: 600px;">Account</div>
+                </t>
+                <t t-if="show_partner_details">
+                    <!--## Partner-->
+                    /<div class="act_as_cell" style="width: 700px;">Partner</div>
+                </t>
+                <!--## Initial balance-->
+                <div class="act_as_cell" style="width: 110px;">Initial balance</div>
+                <!--## Debit-->
+                <div class="act_as_cell" style="width: 110px;">Debit</div>
+                <!--## Credit-->
+                <div class="act_as_cell" style="width: 110px;">Credit</div>
+                <!--## Ending balance-->
+                <div class="act_as_cell" style="width: 110px;">Ending balance</div>
+            </div>
+        </div>
+    </template>
+
+    <template id="account_financial_report_qweb.report_trial_balance_qweb_line">
+        <!-- # line -->
+        <div class="act_as_row lines">
+            <t t-if="not show_partner_details">
+                <!--## Code-->
+                <div class="act_as_cell left"><span t-field="line.code"/></div>
+            </t>
+            <!--## Account/Partner-->
+            <div class="act_as_cell left"><span t-field="line.name"/></div>
+            <!--## Initial balance-->
+            <div class="act_as_cell amount"><span t-field="line.initial_balance"/></div>
+            <!--## Debit-->
+            <div class="act_as_cell amount"><span t-field="line.debit"/></div>
+            <!--## Credit-->
+            <div class="act_as_cell amount"><span t-field="line.credit"/></div>
+            <!--## Ending balance-->
+            <div class="act_as_cell amount"><span t-field="line.final_balance"/></div>
+        </div>
+    </template>
+
+    <template id="account_financial_report_qweb.report_trial_balance_qweb_account_footer">
+        <!-- Display account footer -->
+        <div class="act_as_table list_table" style="width: 1141px !important;">
+            <div class="act_as_row labels" style="font-weight: bold;">
+                <!--## Account-->
+                <div class="act_as_cell left" style="width: 700px;"><span t-field="account.code"/> - <span t-field="account.name"/></div>
+                <!--## Initial balance-->
+                <div class="act_as_cell amount" style="width: 110px;"><span t-field="account.initial_balance"/></div>
+                <!--## Debit-->
+                <div class="act_as_cell amount" style="width: 110px;"><span t-field="account.debit"/></div>
+                <!--## Credit-->
+                <div class="act_as_cell amount" style="width: 110px;"><span t-field="account.credit"/></div>
+                <!--## Ending balance-->
+                <div class="act_as_cell amount" style="width: 110px;"><span t-field="account.final_balance"/></div>
+            </div>
+        </div>
+    </template>
+
+</odoo>
