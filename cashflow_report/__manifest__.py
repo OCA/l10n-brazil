@@ -16,9 +16,7 @@
         'report_py3o',
     ],
     'data': [
-        # 'wizards/financial_cashflow.xml',
-        'wizards/trial_balance_wizard_view.xml',
-        # 'report/financial_cashflow_py3o.xml',
-        'reports.xml',
+        'wizards/financial_cashflow_wizard_view.xml',
+        'reports/financial_cashflow_report.xml',
     ],
 }

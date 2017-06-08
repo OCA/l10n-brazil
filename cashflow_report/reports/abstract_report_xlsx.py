@@ -46,6 +46,7 @@ class AbstractReportXslx(ReportXlsx):
         report_name = self._get_report_name()
         # filters = self._get_report_filters(report)
         self.columns = self._get_report_columns(report)
+        self.columns_resumo = self._get_report_columns_resumo(report)
 
         self.sheet = workbook.add_worksheet(report_name[:31])
 
@@ -175,6 +176,15 @@ class AbstractReportXslx(ReportXlsx):
                 self.sheet.write_number(
                     self.row_pos, col_pos, float(value), self.format_amount
                 )
+        self.row_pos += 1
+
+    def write_array_header_resumo(self):
+        """Write array header on current line using all defined columns name.
+         Columns are defined with `_get_report_columns` method.
+         """
+        for col_pos, column in self.columns_resumo.iteritems():
+            self.sheet.write(self.row_pos, col_pos, column['header'],
+                             self.format_header_center)
         self.row_pos += 1
 
     def write_initial_balance(self, my_object, label):
