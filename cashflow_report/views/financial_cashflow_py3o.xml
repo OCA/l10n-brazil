@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+
+    <record id="financial_cashflow_report" model="ir.actions.report.xml">
+        <field name="name">financial_cashflow_report</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">financial.cashflow.report</field>
+        <field name="report_name">py3o_user_info</field>
+        <field name="report_type">py3o</field>
+        <field name="py3o_filetype">odt</field>
+        <field name="py3o_is_local_fusion" eval="1"/>
+        <field name="py3o_filetype">odt</field>
+        <field name="module">financial</field>
+        <field name="py3o_template_fallback">test.odt</field>
+    </record>
+
+    <record id="financial_cashflow_report_py3o_print_action" model="ir.values">
+      <field eval="'action'" name="key" />
+      <field eval="'client_print_multi'" name="key2" />
+      <field name="model">financial.cashflow.report</field>
+      <field name="name">financial_cashflow_report</field>
+      <field eval="'ir.actions.report.xml,'+str(financial_cashflow_report)" name="value" />
+    </record>
+
+
+
+
+    <record model="ir.actions.act_window" id="financial_cashflow_form_act_window2">
+        <field name="name">Financial Cashflow Reports</field>
+        <field name="res_model">financial.cashflow.report</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="financial_cashflow_form_menu2">
+        <field name="name">Cashflow Reports</field>
+        <field name="parent_id" ref="financial_report_menu"/>
+        <field name="action" ref="financial_cashflow_form_act_window2"/>
+        <field name="sequence" eval="19"/>
+    </record>
+
+    <!--<report-->
+        <!--id="report_analytic_py3o_report"-->
+        <!--string="Analitico"-->
+        <!--model="wizard.financial.cashflow"-->
+        <!--report_type="py3o"-->
+        <!--name="l10n_br_hr_payroll_report.report_analyticreport"-->
+    <!--/>-->
+
+        <!--<record id="py3o_template_analytic" model="py3o.template">-->
+            <!--<field name="name">analytic-report</field>-->
+            <!--<field name="filetype">odt</field>-->
+            <!--<field name="py3o_template_data" type="base64"-->
+                   <!--file="financial/report/test.odt"></field>-->
+        <!--</record>-->
+
+        <!--<record id="report_analytic_py3o_report" model="ir.actions.report.xml">-->
+            <!--<field name="module">financial</field>-->
+            <!--&lt;!&ndash;<field name="py3o_fusion_filetype"&ndash;&gt;-->
+                   <!--&lt;!&ndash;ref="report_py3o.py3o_fusion_filetype_pdf"/>&ndash;&gt;-->
+            <!--<field name="py3o_template_fallback">report/test.odt</field>-->
+            <!--<field name="py3o_template_id" ref="py3o_template_analytic"/>-->
+        <!--</record>-->
+
+    <!--<record id="report_cashflow_py3o" model="ir.actions.report.xml">-->
+      <!--<field name="name">Cashflow</field>-->
+      <!--<field name="type">ir.actions.report.xml</field>-->
+      <!--<field name="model">wizard.financial.cashflow</field>-->
+      <!--<field name="report_name">py3o_cashflow</field>-->
+      <!--<field name="report_type">py3o</field>-->
+      <!--<field name="py3o_filetype">odt</field>-->
+      <!--<field name="py3o_is_local_fusion" eval="1"/>-->
+      <!--<field name="py3o_filetype">odt</field>-->
+      <!--<field name="module">financial</field>-->
+      <!--<field name="py3o_template_fallback">report/test.odt</field>-->
+    <!--</record>-->
+
+
+    <!--<record id="py3o_report_cashflow_form" model="py3o.template">-->
+        <!--<field name="name">Cashflow</field>-->
+        <!--<field name="filetype">odt</field>-->
+        <!--<field name="py3o_template_data" type="base64"-->
+               <!--file="financial/report/test.odt"></field>-->
+    <!--</record>-->
+
+    <!--<record id="financial_cashflow_form_report_py3o" model="ir.actions.report.xml">-->
+        <!--<field name="name">Cashflow</field>-->
+        <!--<field name="type">ir.actions.report.xml</field>-->
+        <!--<field name="module">financial</field>-->
+
+        <!--<field name="py3o_filetype">odt</field>-->
+        <!--<field name="report_type">py3o</field>-->
+        <!--<field name="py3o_filetype">odt</field>-->
+
+        <!--&lt;!&ndash;<field name="py3o_fusion_filetype" ref="report_py3o.py3o_fusion_filetype_odt"/>&ndash;&gt;-->
+        <!--<field name="py3o_template_fallback">report/test.odt</field>-->
+        <!--&lt;!&ndash;<field name="py3o_template_id" ref="py3o_report_cashflow_form"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<field name="py3o_is_local_fusion" eval="1"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<field name="py3o_template_fallback">test.odt</field>&ndash;&gt;-->
+        <!--&lt;!&ndash;<field name="py3o_template_id" ref="py3o_report_cashflow_form"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<field name="py3o_template_fallback">report/test.odt</field>&ndash;&gt;-->
+        <!--&lt;!&ndash;<field name="type">ir.actions.report.xml</field>&ndash;&gt;-->
+        <!--&lt;!&ndash;<field name="model">wizard.financial.cashflow</field>&ndash;&gt;-->
+        <!--&lt;!&ndash;<field name="report_name">Cashflow</field>&ndash;&gt;-->
+        <!--&lt;!&ndash;<field name="py3o_is_local_fusion" eval="1"/>&ndash;&gt;-->
+    <!--</record>-->
+
+</odoo>
