@@ -861,13 +861,18 @@ class SpedCalculoImpostoItem(SpedBase, models.Model):
 
         if self.emissao == TIPO_EMISSAO_PROPRIA:
             res = self._onchange_produto_id_emissao_propria()
+
             if hasattr(self, 'product_id'):
                 self.product_id = self.produto_id.product_id.id
+            if hasattr(self, 'product_uom'):
+                self.product_uom = self.produto_id.unidade_id.uom_id
             return res
         elif self.emissao == TIPO_EMISSAO_TERCEIROS:
             res = self._onchange_produto_id_recebimento()
             if hasattr(self, 'product_id'):
                 self.product_id = self.produto_id.product_id.id
+            if hasattr(self, 'product_uom'):
+                self.product_uom = self.produto_id.unidade_id.uom_id
             return res
 
     def _onchange_produto_id_emissao_propria(self):

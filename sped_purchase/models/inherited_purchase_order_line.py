@@ -34,25 +34,18 @@ class PurchaseOrderLineBrazil(models.Model):
         required=True,
     )
     empresa_id = fields.Many2one(
-        comodel_name='sped.empresa',
-        string='Empresa',
         related='order_id.sped_empresa_id',
         readonly=True,
     )
     participante_id = fields.Many2one(
-        comodel_name='sped.participante',
-        string='Destinatário/Remetente',
         related='order_id.sped_participante_id',
         readonly=True,
     )
     operacao_id = fields.Many2one(
-        comodel_name='sped.operacao',
-        string='Operação Fiscal',
         related='order_id.sped_operacao_produto_id',
         readonly=True,
     )
     data_emissao = fields.Datetime(
-        string='Data de emissão',
         related='order_id.date_order',
         readonly=True,
     )
