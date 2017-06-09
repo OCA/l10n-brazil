@@ -1,78 +1,64 @@
 # -*- coding: utf-8 -*-
-#
-#  Copyright 2017 KMEE
+# Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-#
-
-from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models, _
-from odoo.addons.l10n_br_base.constante_tributaria import *
-from odoo.addons.financial.constants import FINANCIAL_DEBT_2RECEIVE
 
 
 class SpedDocumento(models.Model):
+
     _inherit = 'sped.documento'
 
-    document_type_id = fields.Many2one(
-        comodel_name='financial.document.type',
-        string='Tipo de documento',
-        ondelete='restrict',
-    )
-    account_id = fields.Many2one(
-        comodel_name='account.account',
-        string='Conta contábil',
-        ondelete='restrict',
-        domain=[('is_brazilian_account', '=', True), ('tipo_sped', '=', 'A')],
-    )
-    financial_move_ids = fields.One2many(
+    def _get_financial_ids(self):
+        document_id = self._name + ',' + str(self.id)
+        self.financial_ids = self.env['financial.move'].search(
+            [['doc_source_id', '=', document_id]]
+        )
+
+    financial_ids = fields.One2many(
         comodel_name='financial.move',
-        inverse_name='sped_documento_id',
-        string='Lançamentos Financeiros',
-        copy=False,
+        compute='_get_financial_ids',
+        string=u'Financial Items',
+        readonly=True,
+        copy=False
     )
 
-    @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
-    def onchange_operacao_id(self):
-        res = super(SpedDocumento, self).onchange_operacao_id()
+    def _prepara_lancamento_item(self, item):
+        return {
+            'document_number':
+                "{0.serie}-{0.numero:0.0f}-{1.numero}/{2}".format(
+                    self, item, len(self.duplicata_ids)),
+            'date_maturity': item.data_vencimento,
+            'amount': item.valor
+        }
 
-        if not self.operacao_id:
-            return res
+    def _prepara_lancamento_financeiro(self):
+        return {
+            'date': self.data_emissao,
+            'financial_type': '2receive',
+            'partner_id':
+                self.participante_id and self.participante_id.partner_id.id,
+            'doc_source_id': self._name + ',' + str(self.id),
+            'bank_id': 1,
+            'company_id': self.empresa_id and self.empresa_id.company_id.id,
+            'currency_id': self.currency_id.id,
+            'payment_term_id':
+                self.payment_term_id and self.payment_term_id.id or False,
+            # 'account_type_id':
+            # 'analytic_account_id':
+            # 'payment_mode_id:
+            'lines': [self._prepara_lancamento_item(parcela)
+                      for parcela in self.duplicata_ids],
+        }
 
-        if self.operacao_id.document_type_id:
-            res['value']['document_type_id'] = \
-                self.operacao_id.document_type_id.id
-
-        if self.operacao_id.account_id:
-            res['value']['account_id'] = self.operacao_id.account_id.id
-
-        return res
-
-    def gera_financial_move(self):
+    def action_financial_create(self):
         """ Cria o lançamento financeiro do documento fiscal
         :return:
         """
-        for documento in self:
-            if documento.situacao_fiscal not in \
-                    SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO:
-                # documento.apaga_financial_move()
-                continue
-
-            if documento.emissao == TIPO_EMISSAO_PROPRIA and \
-                documento.entrada_saida == ENTRADA_SAIDA_ENTRADA:
-                continue
-
-            #
-            # Temporariamente, apagamos todos os lançamentos anteriores
-            #
-            self.financial_move_ids.unlink()
-
-            for duplicata in self.duplicata_ids:
-                dados = duplicata.prepara_financial_move()
-                financial_move = \
-                    self.env['financial.move'].create(dados)
-                financial_move.action_confirm()
+        p = self._prepara_lancamento_financeiro()
+        financial_move_ids = self.env['financial.move']._create_from_dict(p)
+        financial_move_ids.action_confirm()
 
     def executa_depois_autorizar(self):
         super(SpedDocumento, self).executa_depois_autorizar()
-        self.gera_financial_move()
+        self.action_financial_create()
