@@ -98,7 +98,8 @@ class AbstractReportXslx(ReportXlsx):
              'bg_color': '#FFFFCC'})
         self.format_header_amount.set_num_format('#,##0.00')
         self.format_amount = workbook.add_format()
-        self.format_amount.set_num_format('#,##0.00')
+        self.format_amount.set_num_format('[$R$-416] #,##0.00;[RED]-[$R$-416] #,##0.00')
+
         self.format_percent_bold_italic = workbook.add_format(
             {'bold': True, 'italic': True}
         )
@@ -176,15 +177,6 @@ class AbstractReportXslx(ReportXlsx):
                 self.sheet.write_number(
                     self.row_pos, col_pos, float(value), self.format_amount
                 )
-        self.row_pos += 1
-
-    def write_array_header_resumo(self):
-        """Write array header on current line using all defined columns name.
-         Columns are defined with `_get_report_columns` method.
-         """
-        for col_pos, column in self.columns_resumo.iteritems():
-            self.sheet.write(self.row_pos, col_pos, column['header'],
-                             self.format_header_center)
         self.row_pos += 1
 
     def write_initial_balance(self, my_object, label):

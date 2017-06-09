@@ -21,15 +21,21 @@ class TrialBalanceXslx(abstract_report_xlsx.AbstractReportXslx):
     def _get_report_columns(self, report):
         row_mes = 2
         result ={
-            0: {'header': _('Conta'), 'field': '0', 'width': 12},
-            1: {'header': _('Name'), 'field': '1', 'type': 'amount', 'width': 25},
+            0: {'header': _('Conta'), 'field': 'code', 'width': 12},
+            1: {'header': _('Name'), 'field': 'name', 'width': 25},
         }
 
-        for mes in self.env.context['fluxo_de_caixa']['meses']:
+        meses = self.env.context['fluxo_de_caixa']['meses']
+        for mes in sorted(meses):
             result.update({
-                row_mes: {'header': mes, 'field': row_mes, 'type': 'float', 'width': 15},
+                row_mes: {
+                    'header': meses[mes].values()[0],
+                    'field': 'dados',
+                    'type': 'float',
+                    'width': 15,
+                    'mes_ano': meses[mes].keys()[0],
+                },
             })
-
             row_mes += 1
         return result
 
@@ -59,10 +65,22 @@ class TrialBalanceXslx(abstract_report_xlsx.AbstractReportXslx):
         """
         for col_pos, column in self.columns.iteritems():
 
-            value = line_object[int(column.get('field'))]
+            # Pega o nome do field, e busca na linha pelo field
+            value = line_object.get(column.get('field'))
 
+            # Se for do tipo valor, deverá corresponder com mes-ano
             if column.get('type') == 'float':
-                self.sheet.write_number(self.row_pos, col_pos, value)
+                # Valor padrao para o float
+                valor = 0.00
+                # Para cada dado na linha com chave == mes-valor
+                for mes_ano in value.iterkeys():
+
+                    if column.get('mes_ano') == mes_ano:
+                        valor = value[mes_ano]
+
+                self.sheet.write_number(self.row_pos, col_pos, valor, self.format_amount)
+
+            # Se nao for float é string
             else:
                 self.sheet.write_string(self.row_pos, col_pos, value or '')
 
@@ -73,18 +91,11 @@ class TrialBalanceXslx(abstract_report_xlsx.AbstractReportXslx):
         Columns are defined with `_get_report_columns` method.
         """
         for col_pos, column in self.columns_resumo.iteritems():
-
             value = line_object[int(column.get('field'))]
-
             if column.get('type') == 'float':
                 self.sheet.write_number(self.row_pos, col_pos, value)
             else:
                 self.sheet.write_string(self.row_pos, col_pos, value or '')
-
-            # cell_type = column.get('type', 'string')
-            # if column.get('field') == 'relacional':
-            #     self.sheet.write_string(self.row_pos, col_pos, value or '')
-            # else:
         self.row_pos += 1
 
     def _get_col_count_filter_name(self):
@@ -93,25 +104,73 @@ class TrialBalanceXslx(abstract_report_xlsx.AbstractReportXslx):
     def _get_col_count_filter_value(self):
         return 3
 
+    def write_linha_soma(self):
+        alfabeto = '.ABCDEFGHIJKLMNOPQRSTUVWYXZ'
+        qtd_linhas = len(self.env.context['fluxo_de_caixa']['resumo'])
+        for col_pos, column in self.columns.iteritems():
+            if column.get('type') == 'float':
+                celula = alfabeto[col_pos+1] + str(self.row_pos+1)
+                formula = '{=SUM(%s%s:%s%s)}' % (
+                    alfabeto[col_pos+1], str(self.row_pos-qtd_linhas),
+                    alfabeto[col_pos+1], str(self.row_pos),
+                )
+                self.sheet.write_formula(celula, formula, self.format_amount)
+            else:
+                if col_pos == 1:
+                    self.sheet.write_string(
+                        self.row_pos, col_pos, 'SALDO' or '')
+        self.row_pos += 1
+
+    def write_linha_soma_acumulativa(self):
+        alfabeto = '.ABCDEFGHIJKLMNOPQRSTUVWYXZ'
+        primeira = True # Primeira celula da linha tem a formula diferenciada
+        for col_pos, column in self.columns.iteritems():
+            if column.get('type') == 'float':
+                celula = alfabeto[col_pos+1] + str(self.row_pos+1)
+                formula = '{=%s%s+%s%s}' % (
+                    alfabeto[col_pos], str(self.row_pos+1),
+                    alfabeto[col_pos+1], str(self.row_pos),
+                )
+                if primeira:
+                    formula = '{=%s%s}' % (
+                        alfabeto[col_pos+1], str(self.row_pos)
+                    )
+                    primeira = False
+                self.sheet.write_formula(celula, formula, self.format_amount)
+            else:
+                if col_pos == 1:
+                    self.sheet.write_string(
+                        self.row_pos, col_pos, 'SALDO ACUMULATIVO' or '')
+        self.row_pos += 1
+
     def _generate_report_content(self, workbook, report):
+
+        # Set zoom
+        self.sheet.set_zoom(85)
 
         # Display array header for account lines
         self.write_array_header()
 
         # For each account
-        # for account in report.fluxo_de_caixa['']:
         for account in self.env.context['fluxo_de_caixa']['contas']:
             # Display account lines
-            self.write_line(account)
+            self.write_line(self.env.context['fluxo_de_caixa']['contas'][account])
 
-        self.write_array_header_resumo()
+        # Cabeçalho do resumo
+        self.write_array_header()
 
         for resumo in self.env.context['fluxo_de_caixa']['resumo']:
-            # Display account lines
-            self.write_line_resumo(resumo)
+            # Display resume
+            self.write_line(self.env.context['fluxo_de_caixa']['contas'][resumo])
 
-        self.write_line_resumo(['','Saldo Final'] + self.env.context['fluxo_de_caixa']['saldo_final'])
-        self.write_line_resumo(['','Saldo Acumulado'] + self.env.context['fluxo_de_caixa']['saldo_acumulado'])
+        # Cria um alinha com formulas de SOMA e nome das contas na coluna de conta
+        self.write_linha_soma()
+
+        # Cria um alinha com formulas de SOMA ACUMULANDO os valores do periodo anterior
+        self.write_linha_soma_acumulativa()
+
+        # self.write_line_resumo(['','Saldo Final'] + self.env.context['fluxo_de_caixa']['saldo_final'])
+        # self.write_line_resumo(['','Saldo Acumulado'] + self.env.context['fluxo_de_caixa']['saldo_acumulado'])
         #
         #     else:
         #         # Write account title
@@ -147,6 +206,7 @@ class TrialBalanceXslx(abstract_report_xlsx.AbstractReportXslx):
     #             self.sheet.write_number(self.row_pos, col_pos, float(value),
     #                                     self.format_header_amount)
     #     self.row_pos += 1
+
 
 
 TrialBalanceXslx(
