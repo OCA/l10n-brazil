@@ -40,23 +40,27 @@ class TrialBalanceXslx(abstract_report_xlsx.AbstractReportXslx):
         return result
 
     def _get_report_columns_resumo(self, report):
-
+        # Coluna 0 e 1 São labels
         row_mes = 2
-
+        # Dict que sera iterado as colunas dos labels
         result = {
-            0: {'header': _('Conta'), 'field': '0', 'width': 12},
-            1: {'header': _('Resumo'), 'field': '1', 'type': 'amount',
+            0: {'header': _('Conta'),
+                'field': '0',
+                'width': 12},
+            1: {'header': _('Resumo'),
+                'field': '1',
+                'type': 'amount',
                 'width': 25},
         }
-
+        # Dict que sera iterado as colunas das contas (lines)
         for mes in self.env.context['fluxo_de_caixa']['meses']:
             result.update({
-                row_mes: {'header': mes, 'field': row_mes, 'type': 'float',
-                          'width': 15},
+                row_mes: {'header': mes,
+                          'field': row_mes,
+                          'type': 'float',
+                          'width': 15}
             })
-
             row_mes += 1
-
         return result
 
     def write_line(self, line_object):
@@ -78,24 +82,13 @@ class TrialBalanceXslx(abstract_report_xlsx.AbstractReportXslx):
                     if column.get('mes_ano') == mes_ano:
                         valor = value[mes_ano]
 
-                self.sheet.write_number(self.row_pos, col_pos, valor, self.format_amount)
+                self.sheet.write_number(
+                    self.row_pos, col_pos, valor, self.format_amount)
 
             # Se nao for float é string
             else:
                 self.sheet.write_string(self.row_pos, col_pos, value or '')
 
-        self.row_pos += 1
-
-    def write_line_resumo(self, line_object):
-        """Write a line on current line using all defined columns field name.
-        Columns are defined with `_get_report_columns` method.
-        """
-        for col_pos, column in self.columns_resumo.iteritems():
-            value = line_object[int(column.get('field'))]
-            if column.get('type') == 'float':
-                self.sheet.write_number(self.row_pos, col_pos, value)
-            else:
-                self.sheet.write_string(self.row_pos, col_pos, value or '')
         self.row_pos += 1
 
     def _get_col_count_filter_name(self):
@@ -152,61 +145,23 @@ class TrialBalanceXslx(abstract_report_xlsx.AbstractReportXslx):
         self.write_array_header()
 
         # For each account
-        for account in self.env.context['fluxo_de_caixa']['contas']:
+        contas = self.env.context['fluxo_de_caixa']['contas']
+        for account in sorted(contas.keys()):
             # Display account lines
-            self.write_line(self.env.context['fluxo_de_caixa']['contas'][account])
+            self.write_line(contas[account])
 
         # Cabeçalho do resumo
         self.write_array_header()
-
-        for resumo in self.env.context['fluxo_de_caixa']['resumo']:
+        contas_resumo = self.env.context['fluxo_de_caixa']['resumo']
+        for resumo in sorted(contas_resumo.keys()):
             # Display resume
-            self.write_line(self.env.context['fluxo_de_caixa']['contas'][resumo])
+            self.write_line(contas_resumo[resumo])
 
-        # Cria um alinha com formulas de SOMA e nome das contas na coluna de conta
+        # Cria uma linha com formulas de SOMA para gerar Saldo
         self.write_linha_soma()
 
         # Cria um alinha com formulas de SOMA ACUMULANDO os valores do periodo anterior
         self.write_linha_soma_acumulativa()
-
-        # self.write_line_resumo(['','Saldo Final'] + self.env.context['fluxo_de_caixa']['saldo_final'])
-        # self.write_line_resumo(['','Saldo Acumulado'] + self.env.context['fluxo_de_caixa']['saldo_acumulado'])
-        #
-        #     else:
-        #         # Write account title
-        #         self.write_array_title(account.code + ' - ' + account.name)
-        #
-        #         # Display array header for partner lines
-        #         self.write_array_header()
-        #
-        #         # For each partner
-        #         for partner in account.partner_ids:
-        #             # Display partner lines
-        #             self.write_line(partner)
-        #
-        #         # Display account footer line
-        #         self.write_account_footer(account,
-        #                                   account.code + ' - ' + account.name)
-        #
-        #         # Line break
-        #         self.row_pos += 2
-
-    # def write_account_footer(self, account, name_value):
-    #     """Specific function to write account footer for Trial Balance"""
-    #     for col_pos, column in self.columns.iteritems():
-    #         if column['field'] == 'name':
-    #             value = name_value
-    #         else:
-    #             value = getattr(account, column['field'])
-    #         cell_type = column.get('type', 'string')
-    #         if cell_type == 'string':
-    #             self.sheet.write_string(self.row_pos, col_pos, value or '',
-    #                                     self.format_header_left)
-    #         elif cell_type == 'amount':
-    #             self.sheet.write_number(self.row_pos, col_pos, float(value),
-    #                                     self.format_header_amount)
-    #     self.row_pos += 1
-
 
 
 TrialBalanceXslx(
