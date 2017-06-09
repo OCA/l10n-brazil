@@ -18,7 +18,7 @@ class SpedDocumento(models.Model):
         string='Diário',
         domain=[('is_brazilian_journal', '=', True)],
     )
-    move_template_id = fields.Many2one(
+    account_move_template_id = fields.Many2one(
         comodel_name='sped.account.move.template',
         string='Modelo de partidas dobradas',
     )
@@ -33,6 +33,22 @@ class SpedDocumento(models.Model):
         string='Partidas do lançamento contábil',
         related='account_move_id.line_ids',
     )
+
+    @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
+    def onchange_operacao_id(self):
+        res = super(SpedDocumento, self).onchange_operacao_id()
+
+        if not self.operacao_id:
+            return res
+
+        if self.operacao_id.journal_id:
+            res['value']['journal_id'] = self.operacao_id.journal_id.id
+
+        if self.operacao_id.account_move_template_ids:
+            res['value']['account_move_template_id'] = \
+                self.operacao_id.account_move_template_ids[0].id
+
+        return res
 
     def executa_antes_autorizar(self):
         super(SpedDocumento, self).executa_antes_autorizar()
@@ -64,7 +80,7 @@ class SpedDocumento(models.Model):
             line_ids = [(5, 0, {})]
 
             documento.item_ids.gera_account_move_line(account_move,
-                                                      documento.move_template_id, line_ids)
+                documento.account_move_template_id, line_ids)
 
             account_move.write({'line_ids': line_ids})
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_operacao_base_inherited_form" >
+        <field name="name">sped.operacao.base.inherited_form</field>
+        <field name="model">sped.operacao</field>
+        <field name="inherit_id" ref="sped_imposto.sped_operacao_base_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='financeiro']" position="attributes">
+                <attribute name="string">Financeiro e Contabilidade</attribute>
+            </xpath>
+            <xpath expr="//field[@name='ind_forma_pagamento']" position="after">
+                <newline />
+                <separator string="Contabilização" colspan="4" />
+                <newline />
+                <field name="journal_id" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

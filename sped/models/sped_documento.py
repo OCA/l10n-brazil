@@ -438,6 +438,7 @@ class SpedDocumento(SpedBase, models.Model):
         comodel_name='account.payment.term',
         string='Forma de pagamento',
         ondelete='restrict',
+        domain=[('forma_pagamento', '!=', False)],
     )
     duplicata_ids = fields.One2many(
         comodel_name='sped.documento.duplicata',
@@ -1023,6 +1024,9 @@ class SpedDocumento(SpedBase, models.Model):
             valores['regime_tributario'] = self.operacao_id.regime_tributario
             valores['ind_forma_pagamento'] = \
                 self.operacao_id.ind_forma_pagamento
+            if self.operacao_id.payment_term_id:
+                valores['payment_term_id'] = \
+                    self.operacao_id.payment_term_id.id
             valores['finalidade_nfe'] = self.operacao_id.finalidade_nfe
             valores['modalidade_frete'] = self.operacao_id.modalidade_frete
             valores['infadfisco'] = self.operacao_id.infadfisco
