@@ -59,8 +59,8 @@ class SpedDocumentoItem(models.Model):
                 }
 
                 account_debito = None
-                if template_item.account_debito:
-                    account_debito = template_item.account_debito
+                if template_item.account_debito_id:
+                    account_debito = template_item.account_debito_id
                 elif template_item.campo in CAMPO_DOCUMENTO_FISCAL_ITEM:
                     product = item.produto_id.product_id
                     if item.documento_id.eh_venda:
@@ -92,8 +92,8 @@ class SpedDocumentoItem(models.Model):
                 }
 
                 account_credito = None
-                if template_item.account_credito:
-                    account_credito = template_item.account_credito
+                if template_item.account_credito_id:
+                    account_credito = template_item.account_credito_id
                 elif template_item.campo in CAMPO_DOCUMENTO_FISCAL_ITEM:
                     product = item.produto_id.product_id
                     if item.documento_id.eh_venda:
@@ -103,7 +103,8 @@ class SpedDocumentoItem(models.Model):
                 else:
                     partner = item.documento_id.participante_id.partner_id
                     if item.documento_id.eh_venda:
-                        account_credito = partner.property_account_receivable_id
+                        account_credito = \
+                            partner.property_account_receivable_id
                     elif item.documento_id.eh_compra:
                         account_credito = partner.property_account_payable_id
 
