@@ -59,7 +59,25 @@ class AccountInvoice(SpedCalculoImposto, models.Model):
     def _compute_amount(self):
         if not self.is_brazilian:
             return super(AccountInvoice, self)._compute_amount()
-        return self._amount_all_brazil()
+        self._amount_all_brazil()
+        # FIX ME
+        amount_total_company_signed = self.amount_total
+        amount_untaxed_signed = self.amount_untaxed
+        if (self.currency_id and self.company_id and
+                self.currency_id != self.company_id.currency_id):
+            currency_id = self.currency_id.with_context(
+                date=self._get_date())
+            amount_total_company_signed = \
+                currency_id.compute(self.amount_total,
+                                    self.company_id.currency_id)
+            amount_untaxed_signed = \
+                currency_id.compute(self.amount_untaxed,
+                                    self.company_id.currency_id)
+        sign = self.type in ['in_refund', 'out_refund'] and -1 or 1
+        self.amount_total_company_signed = amount_total_company_signed * sign
+        self.amount_total_signed = self.amount_total * sign
+        self.amount_untaxed_signed = amount_untaxed_signed * sign
+
 
     @api.model
     def create(self, dados):
