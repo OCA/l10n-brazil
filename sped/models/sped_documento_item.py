@@ -204,3 +204,6 @@ class SpedDocumentoItem(SpedCalculoImpostoItem, models.Model):
             item.peso_bruto_readonly = item.peso_bruto
             item.peso_liquido_readonly = item.peso_liquido
             item.quantidade_especie_readonly = item.quantidade_especie
+
+    def _set_additional_fields(self, sped_documento_id):
+        pass
