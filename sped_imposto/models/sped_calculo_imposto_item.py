@@ -2,6 +2,8 @@
 #
 # Copyright 2016 Taŭga Tecnologia
 #   Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2017 KMEE INFORMATICA LTDA
+#   Luis Felipe Miléo <mileo@kme.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -24,17 +26,14 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedCalculoImposto(SpedBase, models.Model):
-    _name = b'sped.calculo.imposto.item'
-    _description = 'Cálculo dos Impostos'
-    _abstract = True
-    # _order = 'emissao, modelo, data_emissao desc, serie, numero'
-    # _rec_name = 'numero'
+class SpedCalculoImpostoItem(SpedBase):
+
+    _abstract = False
 
     @api.one
     def _amount_price_brazil(self):
-        if not self.data_emissao:
-            self.data_emissao = self.order_id._get_date()
+        # if not self.data_emissao:
+        #     self.data_emissao = self.order_id._get_date()
         self.calcula_impostos()
 
     operacao_id = fields.Many2one(
@@ -765,6 +764,73 @@ class SpedCalculoImposto(SpedBase, models.Model):
         string='Quantidade por espécie/embalagem',
         digits=dp.get_precision('SPED - Quantidade'),
     )
+    #
+    # Campos readonly
+    #
+    unidade_readonly_id = fields.Many2one(
+        comodel_name='sped.unidade',
+        string='Unidade',
+        ondelete='restrict',
+        compute='_compute_readonly',
+    )
+    unidade_tributacao_readonly_id = fields.Many2one(
+        comodel_name='sped.unidade',
+        string='Unidade para tributação',
+        ondelete='restrict',
+        compute='_compute_readonly',
+    )
+    vr_produtos_readonly = fields.Monetary(
+        string='Valor do produto/serviço',
+        compute='_compute_readonly',
+    )
+    vr_produtos_tributacao_readonly = fields.Monetary(
+        string='Valor do produto/serviço para tributação',
+        compute='_compute_readonly',
+    )
+    vr_operacao_readonly = fields.Monetary(
+        string='Valor da operação',
+        compute='_compute_readonly',
+    )
+    vr_operacao_tributacao_readonly = fields.Monetary(
+        string='Valor da operação para tributação',
+        compute='_compute_readonly',
+    )
+    vr_nf_readonly = fields.Monetary(
+        string='Valor da NF',
+        compute='_compute_readonly',
+    )
+    vr_fatura_readonly = fields.Monetary(
+        string='Valor da fatura',
+        compute='_compute_readonly',
+    )
+    vr_unitario_custo_comercial_readonly = fields.Float(
+        string='Custo unitário comercial',
+        compute='_compute_readonly',
+        digits=dp.get_precision('SPED - Valor Unitário'),
+    )
+    vr_custo_comercial_readonly = fields.Monetary(
+        string='Custo comercial',
+        compute='_compute_readonly',
+    )
+    peso_bruto_readonly = fields.Monetary(
+        string='Peso bruto',
+        currency_field='currency_peso_id',
+        compute='_compute_readonly',
+    )
+    peso_liquido_readonly = fields.Monetary(
+        string='Peso líquido',
+        currency_field='currency_peso_id',
+        compute='_compute_readonly',
+    )
+    quantidade_especie_readonly = fields.Float(
+        string='Quantidade por espécie/embalagem',
+        digits=dp.get_precision('SPED - Quantidade'),
+        compute='_compute_readonly',
+    )
+    permite_alteracao = fields.Boolean(
+        string='Permite alteração?',
+        compute='_compute_permite_alteracao',
+    )
 
     #
     # Funções para manter a sincronia entre as CSTs do PIS e COFINS para
@@ -861,13 +927,18 @@ class SpedCalculoImposto(SpedBase, models.Model):
 
         if self.emissao == TIPO_EMISSAO_PROPRIA:
             res = self._onchange_produto_id_emissao_propria()
+
             if hasattr(self, 'product_id'):
                 self.product_id = self.produto_id.product_id.id
+            if hasattr(self, 'product_uom'):
+                self.product_uom = self.produto_id.unidade_id.uom_id
             return res
         elif self.emissao == TIPO_EMISSAO_TERCEIROS:
             res = self._onchange_produto_id_recebimento()
             if hasattr(self, 'product_id'):
                 self.product_id = self.produto_id.product_id.id
+            if hasattr(self, 'product_uom'):
+                self.product_uom = self.produto_id.unidade_id.uom_id
             return res
 
     def _onchange_produto_id_emissao_propria(self):
@@ -1562,6 +1633,9 @@ class SpedCalculoImposto(SpedBase, models.Model):
             self.price_unit = self.vr_unitario
         if hasattr(self, 'quantity'):
             self.quantity = self.quantidade
+        if hasattr(self, 'product_qty'):
+            self.quantity = self.quantidade
+
 
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
@@ -2117,12 +2191,49 @@ class SpedCalculoImposto(SpedBase, models.Model):
         self.update({campo: valor for campo,
                      valor in valores.iteritems() if campo in self._fields})
 
+    @api.depends('modelo', 'emissao')
+    def _compute_permite_alteracao(self):
+        for item in self:
+            item.permite_alteracao = True
+
+    @api.depends('unidade_id', 'unidade_tributacao_id',
+                 'vr_produtos', 'vr_operacao',
+                 'vr_produtos_tributacao', 'vr_operacao_tributacao',
+                 'vr_nf', 'vr_fatura',
+                 'vr_unitario_custo_comercial', 'vr_custo_comercial')
+    def _compute_readonly(self):
+        for item in self:
+            item.unidade_readonly_id = \
+                item.unidade_id.id if item.unidade_id else False
+            if item.unidade_tributacao_id:
+                item.unidade_tributacao_readonly_id = \
+                    item.unidade_tributacao_id.id
+            else:
+                item.unidade_tributacao_readonly_id = False
+
+            item.vr_produtos_readonly = item.vr_produtos
+            item.vr_operacao_readonly = item.vr_operacao
+            item.vr_produtos_tributacao_readonly = item.vr_produtos_tributacao
+            item.vr_operacao_tributacao_readonly = item.vr_operacao_tributacao
+            item.vr_nf_readonly = item.vr_nf
+            item.vr_fatura_readonly = item.vr_fatura
+            item.vr_unitario_custo_comercial_readonly = \
+                item.vr_unitario_custo_comercial
+            item.vr_custo_comercial_readonly = item.vr_custo_comercial
+            item.peso_bruto_readonly = item.peso_bruto
+            item.peso_liquido_readonly = item.peso_liquido
+            item.quantidade_especie_readonly = item.quantidade_especie
+
     def calcula_impostos(self):
         self.ensure_one()
 
         #
         # Busca configurações, CSTs e alíquotas
         #
+
+        if not self.data_emissao:
+            self.data_emissao = fields.Date.context_today(self)
+
         self._onchange_produto_id()
         self._onchange_operacao_item_id()
         self._onchange_cfop_id()

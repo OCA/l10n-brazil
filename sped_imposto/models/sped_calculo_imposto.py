@@ -79,6 +79,8 @@ class SpedCalculoImposto(SpedBase):
 
     _abstract = False
 
+    # TODO: Remover esta funçã;
+    # Estamos validando a data dentro do calula impostos
     def _get_date(self):
         """
         Return the document date
@@ -106,7 +108,7 @@ class SpedCalculoImposto(SpedBase):
         # amount_untaxed é equivalente ao valor dos produtos
         #
         self.amount_untaxed = \
-            sum(item.vr_produtos for item in self.brazil_line_ids)
+            sum(item.vr_produtos for item in self.order_line)
         #
         # amount_tax são os imposto que são somados no valor total da NF;
         # no nosso caso, não só impostos, mas todos os valores que entram
@@ -117,7 +119,7 @@ class SpedCalculoImposto(SpedBase):
         # reduzindo o valor
         #
         self.amount_total = \
-            sum(item.vr_fatura for item in self.brazil_line_ids)
+            sum(item.vr_fatura for item in self.order_line)
 
         self.amount_tax = self.amount_total - self.amount_untaxed
         amount_total_company_signed = self.amount_total
@@ -172,7 +174,7 @@ class SpedCalculoImposto(SpedBase):
     def _get_costs_value(self):
         """ Read the l10n_br specific functional fields. """
         freight = costs = insurance = 0.0
-        for line in self.brazil_line_ids:
+        for line in self.order_line:
             freight += line.vr_frete
             insurance += line.vr_seguro
             costs += line.vr_outras
@@ -182,7 +184,7 @@ class SpedCalculoImposto(SpedBase):
 
     @api.one
     def _set_amount_freight(self):
-        for line in self.brazil_line_ids:
+        for line in self.order_line:
             if not self.vr_frete:
                 break
             line.write({
@@ -195,7 +197,7 @@ class SpedCalculoImposto(SpedBase):
 
     @api.one
     def _set_amount_insurance(self):
-        for line in self.brazil_line_ids:
+        for line in self.order_line:
             if not self.vr_seguro:
                 break
             line.write({
@@ -208,7 +210,7 @@ class SpedCalculoImposto(SpedBase):
 
     @api.one
     def _set_amount_costs(self):
-        for line in self.brazil_line_ids:
+        for line in self.order_line:
             if not self.vr_outras:
                 break
             line.write({
