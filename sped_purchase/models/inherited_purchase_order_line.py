@@ -13,27 +13,12 @@ from odoo.addons.sped_imposto.models.sped_calculo_imposto_item import (
 )
 
 
-class PurchaseOrderLine(models.Model):
+class PurchaseOrderLine(SpedCalculoImpostoItem, models.Model):
     _inherit = b'purchase.order.line'
 
     is_brazilian = fields.Boolean(
         string=u'Is a Brazilian Invoice?',
         related='order_id.is_brazilian',
-    )
-
-
-class PurchaseOrderLineBrazil(SpedCalculoImpostoItem, models.Model):
-
-    _name = b'purchase.order.line.brazil'
-    _description = 'Linhas'
-    _inherits = {'purchase.order.line': 'purchase_line_id'}
-    _abstract = False
-
-    purchase_line_id = fields.Many2one(
-        comodel_name='purchase.order.line',
-        string='Purchase Line original',
-        ondelete='restrict',
-        required=True,
     )
     empresa_id = fields.Many2one(
         related='order_id.sped_empresa_id',

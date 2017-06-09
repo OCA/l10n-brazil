@@ -7,7 +7,7 @@
 
         <record model="ir.ui.view" id="purchase_order_line_brazil_form">
             <field name="name">purchase.order.line.brazil.form</field>
-            <field name="model">purchase.order.line.brazil</field>
+            <field name="model">purchase.order.line</field>
             <field name="priority">1</field>
             <field name="arch" type="xml">
                 <form string="Itens">
@@ -512,7 +512,7 @@
 
         <record model="ir.ui.view" id="purchase_order_line_brazil_tree">
             <field name="name">purchase.order.line.brazil.tree</field>
-            <field name="model">purchase.order.line.brazil</field>
+            <field name="model">purchase.order.line</field>
             <field name="priority">1</field>
             <field name="arch" type="xml">
                 <tree>
