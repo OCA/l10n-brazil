@@ -30,4 +30,5 @@
         'demo/account_payment_mode.xml',
         'demo/account_payment_method.xml',
     ],
+    'installable': False,
 }
