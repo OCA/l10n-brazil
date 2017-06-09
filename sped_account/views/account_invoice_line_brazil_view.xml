@@ -7,7 +7,7 @@
 
     <record model="ir.ui.view" id="account_invoice_line_brazil_form" >
         <field name="name">account.invoice.line.brazil.form</field>
-        <field name="model">account.invoice.line.brazil</field>
+        <field name="model">account.invoice.line</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <form string="Item da fatura">
@@ -375,7 +375,7 @@
 
     <record model="ir.ui.view" id="account_invoice_line_brazil_tree">
         <field name="name">account.invoice.line.brazil.tree</field>
-        <field name="model">account.invoice.line.brazil</field>
+        <field name="model">account.invoice.line</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <tree>
