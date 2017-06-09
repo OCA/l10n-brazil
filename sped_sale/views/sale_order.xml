@@ -49,10 +49,13 @@
                         '=', True)]}
                     </attribute>
                 </xpath>
-                <xpath expr="//field[@name='order_line']" position="before">
-                    <field name="brazil_line_ids" nolabel="1"
-                           widget="one2many_list"
-                           attrs="{'readonly': [('state', 'in', ('done','cancel'))], 'invisible': [('is_brazilian', '!=', True)]}"/>
+                <xpath expr="//field[@name='order_line']" position="after">
+                    <field name="order_line" nolabel="1"
+                            attrs="{'readonly': [('state', 'in', ('done','cancel'))], 'invisible': [('is_brazilian', '!=', True)]}"
+                            context="{
+						'tree_view_ref': 'sped_sale.sale_order_line_brazil_tree',
+						'form_view_ref': 'sped_sale.sale_order_line_brazil_form'}"
+                    />
                 </xpath>
                 <field name="amount_untaxed" position="after">
                     <field name="vr_frete" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>

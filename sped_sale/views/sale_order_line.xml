@@ -7,8 +7,8 @@
 
         <record model="ir.ui.view" id="sale_order_line_brazil_form">
             <field name="name">sale.order.line.brazil.form</field>
-            <field name="model">sale.order.line.brazil</field>
-            <field name="priority">1</field>
+            <field name="model">sale.order.line</field>
+            <field name="priority">99999</field>
             <field name="arch" type="xml">
                 <form string="Item da fatura">
                     <field name="product_id" invisible="1"/>
@@ -510,8 +510,8 @@
 
         <record model="ir.ui.view" id="sale_order_line_brazil_tree">
             <field name="name">sale.order.line.brazil.tree</field>
-            <field name="model">sale.order.line.brazil</field>
-            <field name="priority">1</field>
+            <field name="model">sale.order.line</field>
+            <field name="priority">99999</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="sequence" widget="handle"/>

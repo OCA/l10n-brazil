@@ -24,4 +24,5 @@
     'demo': [
         'demo/sale_order.xml',
     ],
+    'installable': True,
 }
