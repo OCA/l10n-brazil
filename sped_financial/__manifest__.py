@@ -11,10 +11,12 @@
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'www.odoobrasil.org.br',
     'depends': [
+        'financial',
         'sped',
-        'l10n_br_financial',
     ],
     'data': [
+        'views/inherited_sped_operacao_base_view.xml',
+        'views/inherited_sped_documento_base_view.xml',
     ],
     'demo': [
     ],
