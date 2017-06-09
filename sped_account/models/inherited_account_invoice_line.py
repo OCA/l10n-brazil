@@ -11,7 +11,7 @@ import logging
 
 from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 from odoo.addons.l10n_br_base.constante_tributaria import (
     REGIME_TRIBUTARIO,
     MODELO_FISCAL,
@@ -197,3 +197,31 @@ class AccountInvoiceLine(SpedCalculoImpostoItem, models.Model):
             #         create_brazil=True)).new(values)
             #     record.calcula_impostos()
             #     return record
+
+    @api.multi
+    def _prepare_sped_line(self):
+        """
+        Prepare the dict of values to create the new sped.document
+
+        converting invoice.line object into a sped.documento.item.
+
+        """
+        return self._convert_to_write(self._cache)
+
+
+    @api.multi
+    def sped_line_create(self, documento_id):
+        """
+        Create a sped.documento.
+
+        :param invoice_id: integer
+        """
+        for line in self:
+            vals = line._prepare_sped_line()
+            vals.update({
+                'documento_id': documento_id,
+                'account_invoice_ids': [
+                    (6, 0, [line.id])
+                ]
+            })
+            self.env['sped.documento.item'].create(vals)
