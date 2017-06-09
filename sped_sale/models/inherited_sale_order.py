@@ -14,11 +14,19 @@ from odoo.addons.sped_imposto.models.sped_calculo_imposto import (
 class SaleOrder(SpedCalculoImposto, models.Model):
     _inherit = 'sale.order'
 
-    brazil_line_ids = fields.One2many(
-        comodel_name='sale.order.line.brazil',
-        inverse_name='order_id',
-        string='Linhas',
+    @api.one
+    @api.depends(
+        'order_line.price_total',
+        #
+        # Brasil
+        #
+        'order_line.vr_nf',
+        'order_line.vr_fatura',
     )
+    def _amount_all(self):
+        if not self.is_brazilian:
+            return super(SaleOrder, self)._amount_all()
+        return self._amount_all_brazil()
 
     @api.multi
     def _prepare_invoice(self):
@@ -36,15 +44,3 @@ class SaleOrder(SpedCalculoImposto, models.Model):
 
         return vals
 
-    def _get_date(self):
-        """ Return the document date Used in _amount_all_wrapper """
-        return self.date_order
-
-    @api.one
-    @api.depends('order_line.price_total')
-    def _amount_all(self):
-        if not self.is_brazilian:
-            return super(SaleOrder, self)._amount_all()
-        return self._amount_all_brazil()
-
-    # TODO: O campo empresa não é obrigatório

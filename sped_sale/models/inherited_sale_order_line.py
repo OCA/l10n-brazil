@@ -31,26 +31,13 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SaleOrderLine(models.Model):
+class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
     _inherit = 'sale.order.line'
+    _abstract = False
 
     is_brazilian = fields.Boolean(
         string=u'Is a Brazilian Invoice?',
         related='order_id.is_brazilian',
-    )
-
-
-class SaleOrderLineBrazil(SpedCalculoImpostoItem, models.Model):
-    _name = b'sale.order.line.brazil'
-    _description = 'Linhas da Venda'
-    _inherits = {'sale.order.line': 'sale_line_id'}
-    _abstract = False
-
-    sale_line_id = fields.Many2one(
-        comodel_name='sale.order.line',
-        string='Sale Line original',
-        ondelete='restrict',
-        required=True,
     )
     empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
@@ -201,3 +188,21 @@ class SaleOrderLineBrazil(SpedCalculoImpostoItem, models.Model):
             item.peso_bruto_readonly = item.peso_bruto
             item.peso_liquido_readonly = item.peso_liquido
             item.quantidade_especie_readonly = item.quantidade_especie
+
+    @api.multi
+    def _prepare_invoice_line(self, qty):
+        """ """
+        res = super(SaleOrderLine, self)._prepare_invoice_line(qty)
+        if self.is_brazilian:
+            res['produto_id'] = self.produto_id.id
+            res['quantidade'] = self.quantidade
+            res['vr_unitario'] = self.vr_unitario
+            res['vr_desconto'] = self.vr_desconto
+            res['unidade_id'] = self.unidade_id.id
+            res['protocolo_id'] = self.protocolo_id.id
+            res['operacao_item_id'] = self.operacao_item_id.id
+            res['unidade_id'] = self.unidade_id.id
+            res['vr_seguro'] = self.vr_seguro
+            res['vr_outras'] = self.vr_outras
+            res['vr_frete'] = self.vr_frete
+        return res
