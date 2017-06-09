@@ -14,6 +14,13 @@ from ..constantes import CAMPO_DOCUMENTO_FISCAL_ITEM
 class SpedDocumentoItem(models.Model):
     _inherit = 'sped.documento.item'
 
+    account_invoice_ids = fields.Many2many(
+        'account.invoice.line',
+        'invoice_line_documento_rel',
+        'documento_item_id', 'invoice_line_id',
+        string='Invoice Lines', readonly=True, copy=False
+    )
+
     def gera_account_move_line(self, account_move, move_template, line_ids,
                                campos_jah_contabilizados=[]):
         for item in self:

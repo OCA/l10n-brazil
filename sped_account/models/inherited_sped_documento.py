@@ -33,6 +33,10 @@ class SpedDocumento(models.Model):
         string='Partidas do lançamento contábil',
         related='account_move_id.line_ids',
     )
+    origin = fields.Char(
+        string='Source Document',
+        help="Reference of the document that produced this document.",
+    )
 
     @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
     def onchange_operacao_id(self):
@@ -105,3 +109,12 @@ class SpedDocumento(models.Model):
 
             if documento.account_move_id:
                 documento.permite_cancelamento = False
+
+    @api.multi
+    def calcula_imposto(self):
+        """
+        """
+        ctx = dict(self._context)
+        for documento in self:
+            documento.onchange_empresa_id()
+        return self.with_context(ctx).write({'line_ids': []})
