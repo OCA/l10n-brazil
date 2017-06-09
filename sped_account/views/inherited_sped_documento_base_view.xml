@@ -15,7 +15,7 @@
                     <group>
                         <group colspan="4" col="4">
                             <field name="journal_id" />
-                            <field name="move_template_id" />
+                            <field name="account_move_template_id" />
                             <field name="account_move_id" readonly="1" />
                             <button type="object" name="gera_account_move" string="Gera lançamento contábil" />
                             <separator string="Partidas do lançamento contábil" colspan="4" />

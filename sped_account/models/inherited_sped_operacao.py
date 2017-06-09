@@ -18,7 +18,7 @@ class SpedOperacao(models.Model):
         string='Diário',
         domain=[('is_brazilian_journal', '=', True)],
     )
-    template_ids = fields.Many2many(
+    account_move_template_ids = fields.Many2many(
         comodel_name='sped.account.move.template',
         relation='sped_account_move_template_operacao',
         column1='operacao_id',

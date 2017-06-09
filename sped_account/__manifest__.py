@@ -42,5 +42,6 @@
         'views/inherited_account_financial_report_view.xml',
         'views/sped_account_move_template_view.xml',
         'views/inherited_sped_documento_base_view.xml',
+        'views/inherited_sped_operacao_base_view.xml',
     ],
 }
