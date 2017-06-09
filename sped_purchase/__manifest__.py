@@ -24,4 +24,5 @@
         'demo/purchase_order_line.xml',
         'demo/purchase_order.xml',
     ],
+    'installable': True,
 }

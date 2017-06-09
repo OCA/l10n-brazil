@@ -8,51 +8,31 @@ import logging
 
 from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
+from odoo.addons.sped_imposto.models.sped_calculo_imposto_item import (
+    SpedCalculoImpostoItem
+)
 
 
-class PurchaseOrderLine(models.Model):
+class PurchaseOrderLine(SpedCalculoImpostoItem, models.Model):
     _inherit = b'purchase.order.line'
 
     is_brazilian = fields.Boolean(
         string=u'Is a Brazilian Invoice?',
         related='order_id.is_brazilian',
     )
-
-
-class PurchaseOrderLineBrazil(models.Model):
-
-    _name = b'purchase.order.line.brazil'
-    _description = 'Linhas'
-    _inherit = 'sped.calculo.imposto.item'
-    _inherits = {'purchase.order.line': 'purchase_line_id'}
-    _abstract = False
-
-    purchase_line_id = fields.Many2one(
-        comodel_name='purchase.order.line',
-        string='Purchase Line original',
-        ondelete='restrict',
-        required=True,
-    )
     empresa_id = fields.Many2one(
-        comodel_name='sped.empresa',
-        string='Empresa',
         related='order_id.sped_empresa_id',
         readonly=True,
     )
     participante_id = fields.Many2one(
-        comodel_name='sped.participante',
-        string='Destinatário/Remetente',
         related='order_id.sped_participante_id',
         readonly=True,
     )
     operacao_id = fields.Many2one(
-        comodel_name='sped.operacao',
-        string='Operação Fiscal',
         related='order_id.sped_operacao_produto_id',
         readonly=True,
     )
     data_emissao = fields.Datetime(
-        string='Data de emissão',
         related='order_id.date_order',
         readonly=True,
     )

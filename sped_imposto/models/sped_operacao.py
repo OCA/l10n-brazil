@@ -205,23 +205,23 @@ class SpedOperacaoFiscal(models.Model):
         string='Traz preço automático?',
     )
 
-    def calcula_imposto(self):
-        self.ensure_one()
-
-        calculo = self.env['sped.calculo.imposto.item'].new()
-        calculo.operacao_id = self.id
-        # calculo.empresa_id = empresa_id
-        # calculo.participante_id = participante_id
-        # calculo.produto_id = produto_id
-        # calculo.quantidade = quantidade
-        # calculo.vr_unitario = vr_unitario
-
-        calculo.empresa_id = 1
-        calculo.participante_id = 1
-        calculo.produto_id = 1
-        calculo.quantidade = 10
-        calculo.vr_unitario = 100
-        calculo.data_emissao = fields.Date.today()
-        calculo.calcula_impostos()
-
-        print(calculo.vr_nf)
+    # def calcula_imposto(self):
+    #     self.ensure_one()
+    #
+    #     calculo = self.env['sped.calculo.imposto.item'].new()
+    #     calculo.operacao_id = self.id
+    #     # calculo.empresa_id = empresa_id
+    #     # calculo.participante_id = participante_id
+    #     # calculo.produto_id = produto_id
+    #     # calculo.quantidade = quantidade
+    #     # calculo.vr_unitario = vr_unitario
+    #
+    #     calculo.empresa_id = 1
+    #     calculo.participante_id = 1
+    #     calculo.produto_id = 1
+    #     calculo.quantidade = 10
+    #     calculo.vr_unitario = 100
+    #     calculo.data_emissao = fields.Date.today()
+    #     calculo.calcula_impostos()
+    #
+    #     print(calculo.vr_nf)

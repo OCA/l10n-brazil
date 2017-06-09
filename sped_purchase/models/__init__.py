@@ -4,3 +4,4 @@
 
 from . import inherited_purchase_order
 from . import inherited_purchase_order_line
+from . import inherited_account_invoice

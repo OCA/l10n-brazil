@@ -21,6 +21,9 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     TIPO_CONSUMIDOR_FINAL,
     ENTRADA_SAIDA_SAIDA,
 )
+from odoo.addons.sped_imposto.models.sped_calculo_imposto_item import (
+    SpedCalculoImpostoItem
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -31,7 +34,7 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class AccountInvoiceLine(models.Model):
+class AccountInvoiceLine(SpedCalculoImpostoItem, models.Model):
     _inherit = 'account.invoice.line'
 
     @api.one
@@ -42,26 +45,21 @@ class AccountInvoiceLine(models.Model):
         #
         # Campos brasileiros
         #
-        'brazil_line_id.produto_id',
-        'brazil_line_id.quantidade',
-        'brazil_line_id.vr_unitario',
-        'brazil_line_id.vr_desconto',
-        'brazil_line_id.unidade',
-        # 'brazil_line_id.operacao_id',
-        'brazil_line_id.operacao_item_id',
-        'brazil_line_id.protocolo_id',
+        'produto_id',
+        'quantidade',
+        'vr_unitario',
+        'vr_desconto',
+        'unidade',
+        'operacao_id',
+        'operacao_item_id',
+        'protocolo_id',
         # TODO: Outros campos que precisamos monitorar
     )
     def _compute_price(self):
         super(AccountInvoiceLine, self)._compute_price()
         if self.is_brazilian:
-            self.brazil_line_id._amount_price_brazil()
+             self._amount_price_brazil()
 
-    brazil_line_id = fields.One2many(
-        comodel_name='account.invoice.line.brazil',
-        inverse_name='invoice_line_id',
-        string='Linha da Fatura',
-    )
     order_id = fields.Many2one(
         #
         # Workarround para o cálculo globalizado. Devido a diferença dos
@@ -82,51 +80,11 @@ class AccountInvoiceLine(models.Model):
         related='invoice_id.is_brazilian',
     )
 
-    @api.multi
-    def create_brazil(self):
-        Brazil = self.env["account.invoice.line.brazil"]
-        for item in self:
-            related_vals = {
-                'invoice_line_id': item.id,
-                'vr_unitario': item.price_unit,
-                'quantidade': item.quantity,
-                'produto_id': item.product_id.sped_produto_id.id,
-                'unidade_id': item.uom_id.sped_unidade_id.id
-            }
-            new = Brazil.create(related_vals)
-        return True
-
-    @api.model
-    def create(self, vals):
-        line = super(AccountInvoiceLine, self).create(vals)
-        #
-        # Não podemos verificar se empresa é brasileira aqui, pois muitas
-        # vezes não temos o company_id
-        #
-        if "create_brazil" not in self._context:
-            line.create_brazil()
-        return line
-
-
-class AccountInvoiceLineBrazil(models.Model):
-    _name = b'account.invoice.line.brazil'
-    _description = 'Linhas da Fatura'
-    _inherit = 'sped.calculo.imposto.item'
-    _inherits = {'account.invoice.line': 'invoice_line_id'}
-    _abstract = False
-
     vr_nf = fields.Monetary(
         compute='_amount_price_brazil'
     )
     vr_fatura = fields.Monetary(
         compute='_amount_price_brazil'
-    )
-
-    invoice_line_id = fields.Many2one(
-        comodel_name='account.invoice.line',
-        string='Invoice Line original',
-        ondelete='restrict',
-        required=True,
     )
     empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
@@ -152,101 +110,34 @@ class AccountInvoiceLineBrazil(models.Model):
         readonly=True,
     )
 
-    #
-    # Campos readonly
-    #
-    unidade_readonly_id = fields.Many2one(
-        comodel_name='sped.unidade',
-        string='Unidade',
-        ondelete='restrict',
-        compute='_compute_readonly',
-    )
-    unidade_tributacao_readonly_id = fields.Many2one(
-        comodel_name='sped.unidade',
-        string='Unidade para tributação',
-        ondelete='restrict',
-        compute='_compute_readonly',
-    )
-    vr_produtos_readonly = fields.Monetary(
-        string='Valor do produto/serviço',
-        compute='_compute_readonly',
-    )
-    vr_produtos_tributacao_readonly = fields.Monetary(
-        string='Valor do produto/serviço para tributação',
-        compute='_compute_readonly',
-    )
-    vr_operacao_readonly = fields.Monetary(
-        string='Valor da operação',
-        compute='_compute_readonly',
-    )
-    vr_operacao_tributacao_readonly = fields.Monetary(
-        string='Valor da operação para tributação',
-        compute='_compute_readonly',
-    )
-    vr_nf_readonly = fields.Monetary(
-        string='Valor da NF',
-        compute='_compute_readonly',
-    )
-    vr_fatura_readonly = fields.Monetary(
-        string='Valor da fatura',
-        compute='_compute_readonly',
-    )
-    vr_unitario_custo_comercial_readonly = fields.Float(
-        string='Custo unitário comercial',
-        compute='_compute_readonly',
-        digits=dp.get_precision('SPED - Valor Unitário'),
-    )
-    vr_custo_comercial_readonly = fields.Monetary(
-        string='Custo comercial',
-        compute='_compute_readonly',
-    )
-    peso_bruto_readonly = fields.Monetary(
-        string='Peso bruto',
-        currency_field='currency_peso_id',
-        compute='_compute_readonly',
-    )
-    peso_liquido_readonly = fields.Monetary(
-        string='Peso líquido',
-        currency_field='currency_peso_id',
-        compute='_compute_readonly',
-    )
-    quantidade_especie_readonly = fields.Float(
-        string='Quantidade por espécie/embalagem',
-        digits=dp.get_precision('SPED - Quantidade'),
-        compute='_compute_readonly',
-    )
-    permite_alteracao = fields.Boolean(
-        string='Permite alteração?',
-        compute='_compute_permite_alteracao',
-    )
-
     @api.model
     def create(self, vals):
-        line = super(AccountInvoiceLineBrazil, self.with_context(
-            create_brazil=True)).create(vals)
+        line = super(AccountInvoiceLine, self).create(vals)
+        #
+        # Não podemos verificar se empresa é brasileira aqui, pois muitas
+        # vezes não temos o company_id
+        #
+        # if "create_brazil" not in self._context:
+        #     # line._create_brazil()
+        #     pass
         line.calcula_impostos()
         return line
 
-    def get_invoice_line_account(self):
-        if self.operacao_id.entrada_saida == ENTRADA_SAIDA_SAIDA:
-            return self.product_id.property_account_income_id
-        else:
-            return self.product_id.property_account_expense_id
+    # def get_invoice_line_account(self, type, product, fpos, company):
+    #     if not self.is_brazilian:
+    #         return self.get_invoice_line_account(
+    #              type, product, fpos, company)
+    #
+    #     if self.operacao_id.entrada_saida == ENTRADA_SAIDA_SAIDA:
+    #         return self.product_id.property_account_income_id
+    #     else:
+    #         return self.product_id.property_account_expense_id
 
     @api.onchange('produto_id')
-    def onchange_product_id_date(self):
+    def onchange_product_brazil(self):
         domain = {}
         if not self.invoice_id:
             return
-
-        if not self.data_emissao:
-            warning = {
-                'title': _('Warning!'),
-                'message': _(
-                    'Por favor defina a data da fatura, \n'
-                    'para permtir o cálculo correto dos impostos'),
-            }
-            return {'warning': warning}
         if not (self.invoice_id.sped_operacao_produto_id or
                 self.invoice_id.sped_operacao_servico_id):
             warning = {
@@ -255,42 +146,54 @@ class AccountInvoiceLineBrazil(models.Model):
                     'Por favor defina a operação'),
             }
             return {'warning': warning}
-        account = self.get_invoice_line_account()
 
-        if account:
-            self.account_id = account.id
-        if self.produto_id:
-            self.name = self.produto_id.nome
+            # @api.multi
+            # def _create_brazil(self):
+            #     Brazil = self.env["account.invoice.line.brazil"]
+            #     for item in self:
+            #         related_vals = {
+            #             'invoice_line_id': item.id,
+            #             'vr_unitario': item.price_unit,
+            #             'quantidade': item.quantity,
+            #             'produto_id': item.product_id.sped_produto_id.id,
+            #             'unidade_id': item.uom_id.sped_unidade_id.id
+            #         }
+            #         new = Brazil.create(related_vals)
+            #     return True
+            #
+            # @api.multi
+            # def _new_brazil(self):
+            #     Brazil = self.env["account.invoice.line.brazil"]
+            #     for item in self:
+            #         related_vals = {
+            #             'invoice_line_id': item.id,
+            #             'vr_unitario': item.price_unit,
+            #             'quantidade': item.quantity,
+            #             'produto_id': item.product_id.sped_produto_id.id,
+            #             'unidade_id': item.uom_id.sped_unidade_id.id
+            #         }
+            #         new = Brazil.new(related_vals)
+            #     return True
+            #
+            # @api.model
+            # def new(self, values={}):
+            #     record = super(AccountInvoiceLine, self).new(values)
+            #     if "create_brazil" not in self._context:
+            #         record._new_brazil()
+            #     return record
 
-    @api.depends('modelo', 'emissao')
-    def _compute_permite_alteracao(self):
-        for item in self:
-            item.permite_alteracao = True
+            # @api.model
+            # def create(self, vals):
+            #     record = super(AccountInvoiceLineBrazil, self.with_context(
+            #         create_brazil=True)).create(vals)
+            #     record.calcula_impostos()
+            #     return record
 
-    @api.depends('unidade_id', 'unidade_tributacao_id',
-                 'vr_produtos', 'vr_operacao',
-                 'vr_produtos_tributacao', 'vr_operacao_tributacao',
-                 'vr_nf', 'vr_fatura',
-                 'vr_unitario_custo_comercial', 'vr_custo_comercial')
-    def _compute_readonly(self):
-        for item in self:
-            item.unidade_readonly_id = \
-                item.unidade_id.id if item.unidade_id else False
-            if item.unidade_tributacao_id:
-                item.unidade_tributacao_readonly_id = \
-                    item.unidade_tributacao_id.id
-            else:
-                item.unidade_tributacao_readonly_id = False
-
-            item.vr_produtos_readonly = item.vr_produtos
-            item.vr_operacao_readonly = item.vr_operacao
-            item.vr_produtos_tributacao_readonly = item.vr_produtos_tributacao
-            item.vr_operacao_tributacao_readonly = item.vr_operacao_tributacao
-            item.vr_nf_readonly = item.vr_nf
-            item.vr_fatura_readonly = item.vr_fatura
-            item.vr_unitario_custo_comercial_readonly = \
-                item.vr_unitario_custo_comercial
-            item.vr_custo_comercial_readonly = item.vr_custo_comercial
-            item.peso_bruto_readonly = item.peso_bruto
-            item.peso_liquido_readonly = item.peso_liquido
-            item.quantidade_especie_readonly = item.quantidade_especie
+            # @api.model
+            # Funçao usada nas criação das compras através do purchase.
+            # Mas ela quebra a invoice normal.
+            # def new(self, values={}):
+            #     record = super(AccountInvoiceLineBrazil, self.with_context(
+            #         create_brazil=True)).new(values)
+            #     record.calcula_impostos()
+            #     return record

@@ -20,7 +20,8 @@
             </field>
             <xpath expr="//page[@name='other_info']/group/group/field[@name='company_id']"
                    position="after">
-                <field name="is_brazilian" groups="l10n_br_base.GRUPO_SUPORTE"/>
+                <!--<field name="is_brazilian" groups="l10n_br_base.GRUPO_SUPORTE"/>-->
+                <field name="is_brazilian"/>
                 <field name="sped_documento_ids" groups="l10n_br_base.GRUPO_SUPORTE"/>
                 <field name="sped_empresa_id" string="Razão Social"
                        attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
@@ -40,8 +41,13 @@
              <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
                  <attribute name="attrs">{'invisible': [('is_brazilian', '=', True)]}</attribute>
             </xpath>
-             <xpath expr="//field[@name='invoice_line_ids']" position="before">
-                    <field name="brazil_line_ids" nolabel="1" widget="one2many_list" context="{'type': type, 'journal_id': journal_id, 'default_invoice_id': id}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
+             <xpath expr="//field[@name='invoice_line_ids']" position="after">
+                 <field name="invoice_line_ids" nolabel="1"
+                 attrs="{'invisible': [('is_brazilian', '!=', True)]}"
+				context="{'type': type, 'journal_id': journal_id, 'default_invoice_id': id,
+						'tree_view_ref': 'sped_account.account_invoice_line_brazil_tree',
+						'form_view_ref': 'sped_account.account_invoice_line_brazil_form',
+				}"/>
             </xpath>
              <field name="amount_untaxed" position="after">
                     <field name="vr_frete" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
@@ -50,5 +56,8 @@
             </field>
         </field>
     </record>
+
+    <!--'form_view_ref': (is_brazilian == 'True' and 'sped_account.account_invoice_line_brazil_form' or 'account.view_invoice_line_form'),-->
+                    <!--'tree_view_ref': (is_brazilian == 'True' and 'sped_account.account_invoice_line_brazil_tree' or 'account.view_invoice_line_tree'),}"-->
 
 </odoo>
