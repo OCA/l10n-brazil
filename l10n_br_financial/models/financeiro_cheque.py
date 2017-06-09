@@ -4,7 +4,7 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models
 
 
 class FinanceiroCheque(models.Model):
@@ -25,7 +25,7 @@ class FinanceiroCheque(models.Model):
         string=u'Agência',
         comodel_name='res.bank.agencia'
     )
-    conta = fields.Integer(
+    conta = fields.Char(
         string=u'Conta Corrente'
     )
     titular = fields.Char(
@@ -38,8 +38,14 @@ class FinanceiroCheque(models.Model):
         string=u'Valor',
         digits=(16, 2)
     )
+    numero_cheque = fields.Char(
+        string=u'Número do cheque'
+    )
     pre_datado = fields.Date(
         string=u'Pré datado para'
+    )
+    data_recebimento = fields.Date(
+        string=u'Data do recebimento'
     )
     state = fields.Selection(
         selection=[
@@ -85,3 +91,14 @@ class FinanceiroCheque(models.Model):
         if (self.state, estado) in permitido:
             self.state = estado
 
+    @api.onchange('codigo')
+    def onchange_codigo(self):
+        if self.codigo and len(self.codigo) == 34:
+            self.banco_id = self.env.get('res.bank').search([
+                ('bic', '=', self.codigo[1:4])
+            ])
+            self.agencia = self.env.get('res.bank.agencia').search([
+                ('name', '=', self.codigo[4:8])
+            ])
+            self.numero_cheque = self.codigo[13:19]
+            self.conta = self.codigo[26:32]

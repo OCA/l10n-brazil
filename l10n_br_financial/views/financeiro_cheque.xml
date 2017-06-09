@@ -23,18 +23,21 @@
                     <group>
                         <field name="name" invisible="True"/>
                         <field name="codigo"/>
+                        <field name="data_recebimento"
+                               attrs="{'invisible': [('state', 'in', ['novo','verificado'])]}"/>
                     </group>
                     <group>
                         <group>
                             <field name="titular"/>
                             <field name="banco_id"/>
                             <field name="agencia"/>
+                            <field name="valor"/>
                         </group>
                         <group>
                             <field name="cpf_titular"/>
                             <field name="pre_datado"/>
                             <field name="conta"/>
-                            <field name="valor"/>
+                            <field name="numero_cheque"/>
                         </group>
                     </group>
                 </sheet>
