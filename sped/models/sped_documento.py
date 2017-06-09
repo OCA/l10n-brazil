@@ -866,7 +866,10 @@ class SpedDocumento(SpedBase, models.Model):
             documento.data_entrada_saida = str(data_hora_entrada_saida)[:10]
             documento.hora_entrada_saida = str(data_hora_entrada_saida)[11:19]
 
-    @api.depends('item_ids')
+    @api.depends(
+        'item_ids.vr_nf',
+        'item_ids.vr_fatura',
+    )
     def _compute_soma_itens(self):
         CAMPOS_SOMA_ITENS = [
             'vr_produtos', 'vr_produtos_tributacao',

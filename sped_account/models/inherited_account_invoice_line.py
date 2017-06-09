@@ -224,4 +224,5 @@ class AccountInvoiceLine(SpedCalculoImpostoItem, models.Model):
                     (6, 0, [line.id])
                 ]
             })
-            self.env['sped.documento.item'].create(vals)
+            line = self.env['sped.documento.item'].create(vals)
+            line.calcula_impostos()
