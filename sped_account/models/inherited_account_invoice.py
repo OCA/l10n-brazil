@@ -205,7 +205,9 @@ class AccountInvoice(SpedCalculoImposto, models.Model):
                     if group_key not in documents:
                         sped_data = invoice._prepare_sped(operacao)
                         sped_documento = sped_obj.create(sped_data)
+                        sped_documento.calcula_imposto_cabecalho()
                         references[sped_documento] = invoice
+                        invoice.sped_documento_ids = sped_documento.id
                         documents[group_key] = sped_documento
                     elif group_key in documents:
                         #
