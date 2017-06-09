@@ -44,7 +44,7 @@ class AccountMove(models.Model):
     @api.depends('journal_id', 'company_id', 'currency_id', 'sped_empresa_id')
     def _compute_is_brazilian_move(self):
         for move in self:
-            if self.sped_documento_id:
+            if move.sped_documento_id:
                 move.is_brazilian_move = True
             elif move.company_id.country_id:
                 if move.sped_empresa_id:
