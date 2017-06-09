@@ -20,6 +20,9 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     ENTRADA_SAIDA,
     TIPO_CONSUMIDOR_FINAL,
 )
+from odoo.addons.sped_imposto.models.sped_calculo_imposto_item import (
+    SpedCalculoImpostoItem
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -30,10 +33,9 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedDocumentoItem(models.Model):
+class SpedDocumentoItem(SpedCalculoImpostoItem, models.Model):
     _name = b'sped.documento.item'
     _description = 'Itens do Documento Fiscal'
-    _inherit = 'sped.calculo.imposto.item'
     _abstract = False
     # _order = 'emissao, modelo, data_emissao desc, serie, numero'
     # _rec_name = 'numero'
