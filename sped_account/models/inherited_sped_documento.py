@@ -111,10 +111,13 @@ class SpedDocumento(models.Model):
                 documento.permite_cancelamento = False
 
     @api.multi
-    def calcula_imposto(self):
+    def calcula_imposto_cabecalho(self):
         """
         """
-        ctx = dict(self._context)
-        for documento in self:
-            documento.onchange_empresa_id()
-        return self.with_context(ctx).write({'line_ids': []})
+        self.ensure_one()
+
+        self.write(self.onchange_empresa_id()['value'])
+        self.write(self.onchange_operacao_id()['value'])
+        self.write(self.onchange_serie()['value'])
+        self.write(self.onchange_participante_id()['value'])
+
