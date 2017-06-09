@@ -23,6 +23,7 @@
         'views/account_payment_mode.xml',
         'security/account_payment_method.xml',
         'views/account_payment_method.xml',
+        'views/res_bank_agencia.xml',
     ],
     'demo': [
         'demo/financeiro_tipo_documento.xml',

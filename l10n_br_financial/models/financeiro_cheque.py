@@ -21,8 +21,9 @@ class FinanceiroCheque(models.Model):
         comodel_name='res.bank',
         string=u'Banco'
     )
-    agencia = fields.Integer(
-        string=u'Agência'
+    agencia = fields.Many2one(
+        string=u'Agência',
+        comodel_name='res.bank.agencia'
     )
     conta = fields.Integer(
         string=u'Conta Corrente'
