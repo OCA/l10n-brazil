@@ -33,10 +33,15 @@ class AbstractArquivosGoverno(object):
         """
         Função Genérica utilizada para validação de campos que são gerados
         nos arquivos TXT's
-        :param word:
-        :param tam:
-        :param tipo:
-        :return:
+        :param tipo: str - Tipo de palavras validadas:
+            -   A -> Alfabéticas -> Apenas letras do alfabeto
+            -   D -> Data -> Apenas numeral
+            -   V -> Valor -> Valores decimais, retirando a virgula
+            -   N -> Numerico -> Apenas numeros preechidos com zero a esq.
+            -   AN -> Alfanumericos -> Aceita nuemros e caracateres sem acentos
+        :param word: str - palavra a ser validada
+        :param tam: int - Tamanho que a palavra deve ser
+        :return: str - Palavra formatada de acordo com tipo e tamanho
         """
         if not word:
             word = u''
