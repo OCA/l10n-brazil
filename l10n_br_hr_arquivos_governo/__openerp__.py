@@ -20,5 +20,6 @@
     'data': [
         'security/hr_payslip.xml',
         'views/hr_payslip.xml',
+        'wizards/wizard_l10n_br_hr_caged.xml',
     ],
 }

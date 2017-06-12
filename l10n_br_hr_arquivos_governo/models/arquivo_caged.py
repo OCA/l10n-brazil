@@ -206,3 +206,12 @@ class Caged(AbstractArquivosGoverno):
         self.X_CPF = ''
         self.X_cep_residencia = ''
         # ---------------------------------------------------------------------
+
+    def _validar(self, word, tam, tipo='AN'):
+        """
+        Sobrescrever a função de validacao de palavras da classe abstrata para
+         obter todas as palavras do caged em maiusculas.
+        """
+        if tipo=='AN':
+            word = word.upper()
+        result = super(Caged, self)._validar(self, word, tam, tipo='AN')
