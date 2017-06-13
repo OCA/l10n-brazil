@@ -103,21 +103,21 @@ class TestHrHoliday(common.TransactionCase):
         # Testar controles de férias
         self.assertEqual(len(contrato.vacation_control_ids), 4)
         self.assertEqual(
-            contrato.vacation_control_ids[0].inicio_aquisitivo, '2014-01-01')
+            contrato.vacation_control_ids[3].inicio_aquisitivo, '2014-01-01')
         self.assertEqual(
-            contrato.vacation_control_ids[0].fim_aquisitivo, '2014-12-31')
+            contrato.vacation_control_ids[3].fim_aquisitivo, '2014-12-31')
         self.assertEqual(
-            contrato.vacation_control_ids[1].inicio_aquisitivo, '2015-01-01')
+            contrato.vacation_control_ids[2].inicio_aquisitivo, '2015-01-01')
         self.assertEqual(
-            contrato.vacation_control_ids[1].fim_aquisitivo, '2015-12-31')
+            contrato.vacation_control_ids[2].fim_aquisitivo, '2015-12-31')
         self.assertEqual(
-            contrato.vacation_control_ids[2].inicio_aquisitivo, '2016-01-01')
+            contrato.vacation_control_ids[1].inicio_aquisitivo, '2016-01-01')
         self.assertEqual(
-            contrato.vacation_control_ids[2].fim_aquisitivo, '2016-12-31')
+            contrato.vacation_control_ids[1].fim_aquisitivo, '2016-12-31')
         self.assertEqual(
-            contrato.vacation_control_ids[3].inicio_aquisitivo, '2017-01-01')
+            contrato.vacation_control_ids[0].inicio_aquisitivo, '2017-01-01')
         self.assertEqual(
-            contrato.vacation_control_ids[3].fim_aquisitivo, '2017-12-31')
+            contrato.vacation_control_ids[0].fim_aquisitivo, '2017-12-31')
 
     def test_01_verificar_controle_ferias(self):
         """
@@ -128,7 +128,7 @@ class TestHrHoliday(common.TransactionCase):
         contrato = self.criar_contrato('2014-01-01')
 
         # Verificar a criação do controle de férias
-        controle = contrato.vacation_control_ids[0]
+        controle = contrato.vacation_control_ids[3]
         self.assertEqual(len(contrato.vacation_control_ids), 4)
         self.assertEqual(controle.inicio_aquisitivo, '2014-01-01')
         self.assertEqual(controle.fim_aquisitivo, '2014-12-31')
@@ -153,7 +153,7 @@ class TestHrHoliday(common.TransactionCase):
         # Edição do contrato
         contrato.date_start = '2010-08-01'
 
-        controle = contrato.vacation_control_ids[0]
+        controle = contrato.vacation_control_ids[6]
         self.assertEqual(len(contrato.vacation_control_ids), 7)
         self.assertEqual(controle.inicio_aquisitivo, '2010-08-01')
         self.assertEqual(controle.fim_aquisitivo, '2011-07-31')
@@ -220,3 +220,5 @@ class TestHrHoliday(common.TransactionCase):
         # Se ja tiver holidays, nao permite alteração da data do contrato
         with self.assertRaises(exceptions.Warning):
             contrato.date_start = '2015-02-02'
+
+        print ("BOA")
