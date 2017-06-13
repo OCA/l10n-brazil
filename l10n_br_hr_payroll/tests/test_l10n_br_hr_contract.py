@@ -221,4 +221,31 @@ class TestHrHoliday(common.TransactionCase):
         with self.assertRaises(exceptions.Warning):
             contrato.date_start = '2015-02-02'
 
-        print ("BOA")
+    def test_05_finalizar_contrato(self):
+        """
+        Ao atribuir uma data de demissao ('date_end'), o controle de ferias
+        deve parar a contabilizacao do saldo de dias para ferias e atribuir
+        a data de demissao para o ultimo controle de ferias
+        """
+        def tests_05(contrato):
+            self.assertEqual(
+                contrato.vacation_control_ids[0].fim_aquisitivo, '2017-06-12')
+            self.assertEqual(
+                contrato.vacation_control_ids[0].inicio_concessivo, False)
+            self.assertEqual(
+                contrato.vacation_control_ids[0].fim_concessivo, False)
+            self.assertEqual(
+                contrato.vacation_control_ids[0].avos, 5)
+
+        # Criar Contrato
+        contrato = self.criar_contrato('2014-01-01')
+        # Encerrar contrato
+        contrato.date_end = '2017-06-12'
+        # Executar testes
+        tests_05(contrato)
+
+        # Se Chamar atualizacao do controle de ferias pela view, deve continuar
+        # passando nos testes
+        contrato.action_button_update_controle_ferias()
+        # tests
+        tests_05(contrato)
