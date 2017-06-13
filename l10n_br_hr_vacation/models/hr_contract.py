@@ -58,7 +58,11 @@ class HrContract(models.Model):
                 (vals.get('date_start') != self.date_start):
             self.verificar_controle_ferias()
             self.atualizar_linhas_controle_ferias(vals.get('date_start'))
-        return super(HrContract, self).write(vals)
+        contract_id = super(HrContract, self).write(vals)
+        # se o contrato ja se encerrou, replicar no controle de férias
+        if vals.get('date_end'):
+            self.atualizar_data_demissao()
+        return contract_id
 
     @api.model
     def create(self, vals):
@@ -66,7 +70,21 @@ class HrContract(models.Model):
         if vals.get('date_start'):
             hr_contract_id.atualizar_linhas_controle_ferias(
                 vals.get('date_start'))
+        # se o contrato ja se encerrou, replicar no controle de férias
+        if vals.get('date_end'):
+            hr_contract_id.atualizar_data_demissao()
         return hr_contract_id
+
+    def atualizar_data_demissao(self):
+        """
+        Se o contrato ja foi encerrado, replica a informação para o
+        controle de ferias computar corretamente as ferias de direito
+        :return:
+        """
+        if self.date_end:
+            self.vacation_control_ids[0].fim_aquisitivo = self.date_end
+            self.vacation_control_ids[0].inicio_concessivo = ''
+            self.vacation_control_ids[0].fim_concessivo = ''
 
     def verificar_controle_ferias(self):
         """
@@ -126,8 +144,9 @@ class HrContract(models.Model):
             controle_ferias = controle_ferias_obj.create(vals)
             inicio = inicio + relativedelta(years=1)
             lista_controle_ferias.append(controle_ferias.id)
-        self.vacation_control_ids = lista_controle_ferias
-
+        self.vacation_control_ids = sorted(lista_controle_ferias, reverse=True)
+        # verificar se o contrato ja foi encerrado
+        self.atualizar_data_demissao()
         # gerar automaticamente as ferias (holidays) dos 2 ultimos controles
         ultimos_controles = self.vacation_control_ids[-2:]
         for controle_ferias in ultimos_controles:
@@ -169,6 +188,10 @@ class HrContract(models.Model):
         contratos_ids = self.env['hr.contract'].search(domain)
 
         for contrato in contratos_ids:
+            # Se o contrato estiver encerrado nao atualizar
+            if contrato.date_end:
+                contrato.atualizar_data_demissao()
+                continue
             if contrato.vacation_control_ids:
                 ultimo_controles = contrato.vacation_control_ids[0]
                 for ultimo_controle in ultimo_controles:
