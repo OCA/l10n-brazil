@@ -14,8 +14,6 @@
         'financial',
     ],
     'data': [
-        'security/financeiro_tipo_documento.xml',
-        'views/financeiro_tipo_documento.xml',
         'views/financial_move.xml',
         'security/financeiro_cheque.xml',
         'views/financeiro_cheque.xml',
