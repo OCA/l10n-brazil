@@ -60,7 +60,7 @@ class HrContract(models.Model):
             self.atualizar_linhas_controle_ferias(vals.get('date_start'))
         contract_id = super(HrContract, self).write(vals)
         # se o contrato ja se encerrou, replicar no controle de férias
-        if vals.get('date_end'):
+        if 'date_end' in vals:
             self.atualizar_data_demissao()
         return contract_id
 
@@ -81,10 +81,23 @@ class HrContract(models.Model):
         controle de ferias computar corretamente as ferias de direito
         :return:
         """
-        if self.date_end:
+        if self.date_end and \
+                self.vacation_control_ids and \
+                self.vacation_control_ids[0].fim_aquisitivo > self.date_end:
             self.vacation_control_ids[0].fim_aquisitivo = self.date_end
             self.vacation_control_ids[0].inicio_concessivo = ''
             self.vacation_control_ids[0].fim_concessivo = ''
+
+        # Se estiver reativando o contrato, isto é, removendo a data de demiss
+        if not self.date_end:
+            vc_obj = self.vacation_control_ids
+            inicio_aquisit = self.vacation_control_ids[0].inicio_aquisitivo
+            vals = vc_obj.calcular_datas_aquisitivo_concessivo(inicio_aquisit)
+            # Atualizar datas do ultimo controle de ferias
+            ultimo_controle = self.vacation_control_ids[0]
+            ultimo_controle.fim_aquisitivo = vals.get('fim_aquisitivo')
+            ultimo_controle.inicio_concessivo = vals.get('inicio_concessivo')
+            ultimo_controle.fim_concessivo = vals.get('fim_concessivo')
 
     def verificar_controle_ferias(self):
         """
@@ -103,7 +116,7 @@ class HrContract(models.Model):
         ])
         if holidays_ferias_do_contrato:
             raise UserError(_(
-                "Não é possível alterar a data de início de contratos "
+                "Não é possível modificar contratos "
                 "que possuem ocorrências ou férias confirmadas."))
 
         for holiday in holidays_ferias_do_contrato:
@@ -124,7 +137,8 @@ class HrContract(models.Model):
     @api.multi
     def atualizar_linhas_controle_ferias(self, date_start):
         """
-        Dada um data inicial, gerar as linhas de controle de férias
+        Dada uma data inicial, Apagar todo o controle de férias existente e
+        gerar novas linhas de controle de férias
         :param date_start: string - 2017-05-01 Data de admissao do funcionario
         :return:
         """
