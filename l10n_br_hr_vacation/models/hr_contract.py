@@ -162,7 +162,7 @@ class HrContract(models.Model):
         # verificar se o contrato ja foi encerrado
         self.atualizar_data_demissao()
         # gerar automaticamente as ferias (holidays) dos 2 ultimos controles
-        ultimos_controles = self.vacation_control_ids[-2:]
+        ultimos_controles = self.vacation_control_ids[:2]
         for controle_ferias in ultimos_controles:
             controle_ferias.gerar_holidays_ferias()
         return self
