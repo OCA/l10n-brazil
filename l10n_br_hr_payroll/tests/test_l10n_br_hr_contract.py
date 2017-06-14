@@ -221,31 +221,60 @@ class TestHrHoliday(common.TransactionCase):
         with self.assertRaises(exceptions.Warning):
             contrato.date_start = '2015-02-02'
 
+    def run_tests_05(self, contrato):
+        """
+        Testes das informacoes do ultimo controle de ferias para o bloco de
+        testes do item 05
+        """
+        self.assertEqual(
+            contrato.vacation_control_ids[0].fim_aquisitivo, '2017-06-12')
+        self.assertEqual(
+            contrato.vacation_control_ids[0].inicio_concessivo, False)
+        self.assertEqual(
+            contrato.vacation_control_ids[0].fim_concessivo, False)
+        self.assertEqual(
+            contrato.vacation_control_ids[0].avos, 5)
+
     def test_05_finalizar_contrato(self):
         """
         Ao atribuir uma data de demissao ('date_end'), o controle de ferias
         deve parar a contabilizacao do saldo de dias para ferias e atribuir
         a data de demissao para o ultimo controle de ferias
         """
-        def tests_05(contrato):
-            self.assertEqual(
-                contrato.vacation_control_ids[0].fim_aquisitivo, '2017-06-12')
-            self.assertEqual(
-                contrato.vacation_control_ids[0].inicio_concessivo, False)
-            self.assertEqual(
-                contrato.vacation_control_ids[0].fim_concessivo, False)
-            self.assertEqual(
-                contrato.vacation_control_ids[0].avos, 5)
-
         # Criar Contrato
         contrato = self.criar_contrato('2014-01-01')
         # Encerrar contrato
         contrato.date_end = '2017-06-12'
         # Executar testes
-        tests_05(contrato)
+        self.run_tests_05(contrato)
 
         # Se Chamar atualizacao do controle de ferias pela view, deve continuar
         # passando nos testes
         contrato.action_button_update_controle_ferias()
         # tests
-        tests_05(contrato)
+        self.run_tests_05(contrato)
+
+    def test_06_reativar_contrato(self):
+        """
+        Após finalizar um contrato, o controle de ferias é atualizado com
+        informacoes da data de demissao. Quando um contrato é reativado,
+        o controle de ferias deve voltar a calcular
+        """
+        # Criar Contrato
+        contrato = self.criar_contrato('2014-01-01')
+        # Encerrar contrato
+        contrato.date_end = '2017-06-12'
+        self.run_tests_05(contrato)
+
+        # Reativar contrato
+        contrato.date_end = False
+
+        self.assertEqual(
+            contrato.vacation_control_ids[0].inicio_aquisitivo, '2017-01-01')
+        self.assertEqual(
+            contrato.vacation_control_ids[0].fim_aquisitivo, '2017-12-31')
+        self.assertEqual(
+            contrato.vacation_control_ids[0].inicio_concessivo, '2018-01-01')
+        self.assertEqual(
+            contrato.vacation_control_ids[0].fim_concessivo, '2018-12-31')
+
