@@ -11,15 +11,15 @@
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'www.kmee.com.br',
     'depends': [
-        'account_payment_partner',
         'financial',
         'account',
     ],
     'data': [
-        'views/account_invoice.xml',
-        # 'views/account_journal.xml',
-        # 'views/account_move.xml',
-        # 'views/financial_move.xml',
+        'views/inherited_res_partner_bank_view.xml',
+        'views/inherited_financial_move_debt_base_view.xml',
+        'views/inherited_financial_move_payment_base_view.xml',
+        'views/financial_account_move_template_view.xml',
+        'views/inherited_financial_document_type_view.xml',
     ],
     'demo': [
     ],
