@@ -14,16 +14,16 @@ from odoo.addons.financial.constants import FINANCIAL_DEBT_2RECEIVE
 class SpedDocumento(models.Model):
     _inherit = 'sped.documento'
 
-    document_type_id = fields.Many2one(
+    financial_document_type_id = fields.Many2one(
         comodel_name='financial.document.type',
         string='Tipo de documento',
         ondelete='restrict',
     )
-    account_id = fields.Many2one(
-        comodel_name='account.account',
-        string='Conta contábil',
+    financial_account_id = fields.Many2one(
+        comodel_name='financial.account',
+        string='Conta financeira',
         ondelete='restrict',
-        domain=[('is_brazilian_account', '=', True), ('tipo_sped', '=', 'A')],
+        domain=[('type', '=', 'A')],
     )
     financial_move_ids = fields.One2many(
         comodel_name='financial.move',
@@ -39,12 +39,13 @@ class SpedDocumento(models.Model):
         if not self.operacao_id:
             return res
 
-        if self.operacao_id.document_type_id:
-            res['value']['document_type_id'] = \
-                self.operacao_id.document_type_id.id
+        if self.operacao_id.financial_document_type_id:
+            res['value']['financial_document_type_id'] = \
+                self.operacao_id.financial_document_type_id.id
 
-        if self.operacao_id.account_id:
-            res['value']['account_id'] = self.operacao_id.account_id.id
+        if self.operacao_id.financial_account_id:
+            res['value']['financial_account_id'] = \
+                self.operacao_id.financial.account_id.id
 
         return res
 

@@ -33,8 +33,9 @@ class SpedDocumentoDuplicata(models.Model):
             'currency_id': self.documento_id.currency_id.id,
             'sped_documento_id': self.documento_id.id,
             'sped_documento_duplicata_id': self.id,
-            'document_type_id': self.documento_id.document_type_id.id,
-            'account_id': self.documento_id.account_id.id,
+            'document_type_id': \
+                self.documento_id.financial_document_type_id.id,
+            'account_id': self.documento_id.financial_account_id.id,
             'date_maturity': self.data_vencimento,
             'amount_document': self.valor,
             'document_number':
