@@ -25,3 +25,19 @@ class FinancialMove(models.Model):
         string='Duplicata do Documento Fiscal',
         ondelete='restrict',
     )
+
+    @api.depends('date_maturity')
+    def _compute_date_business_maturity(self):
+        for move in self:
+            if (not move.date_maturity) or \
+                (not move.company_id.country_id) or \
+                (move.company_id.country_id.id != self.env.ref('base.br').id):
+                super(FinancialMove, move)._compute_date_business_maturity()
+                continue
+
+            date_maturity = fields.Date.from_string(move.date_maturity)
+            date_business_maturity = \
+                self.env['resource.calendar'].proximo_dia_util_bancario(
+                    date_maturity
+                )
+            move.date_business_maturity = date_business_maturity
