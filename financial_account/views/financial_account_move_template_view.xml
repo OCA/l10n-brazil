@@ -83,7 +83,7 @@
         id="financial_account_move_template_menu"
         sequence="19"
         name="Account Move Template"
-        parent="financial_config_menu"
+        parent="financial.financial_config_menu"
         action="financial_account_move_template_acao" />
     
 </odoo>
