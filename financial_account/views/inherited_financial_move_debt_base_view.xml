@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <!--<record model="ir.ui.view" id="financial_move_debt_base_tree">-->
+        <!--<field name="name">financial.move.debt.base.tree (in financial_account)</field>-->
+        <!--<field name="model">financial.move</field>-->
+        <!--<field name="inherited_id" ref="financial.financial_move_debt_base_tree" />-->
+        <!--<field name="priority">99999</field>-->
+        <!--<field name="type">tree</field>-->
+        <!--<field name="arch" type="xml">-->
+        <!--</field>-->
+    <!--</record>-->
+
+    <record model="ir.ui.view" id="financial_move_debt_base_form">
+        <field name="name">financial.move.debt.base.form (in financial_account)</field>
+        <field name="model">financial.move</field>
+        <field name="priority">99999</field>
+        <field name="inherited_id" ref="financial.financial_move_debt_base_form" />
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <page name="payments" position="after">
+                <page string="Accounting" name="accounting">
+                    <group>
+                        <group colspan="4" col="4">
+                            <field name="journal_id" />
+                            <field name="account_move_template_id" />
+                            <field name="account_move_id" readonly="1" />
+                            <button type="object" name="create_account_move" string="Gera lançamento contábil" />
+                            <separator string="Partidas do lançamento contábil" colspan="4" />
+                            <field name="account_move_line_ids" nolabel="1" readonly="1" colspan="4" context="{'tree_view_ref': 'sped_account.account_move_line_tree'}" />
+                        </group>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+    <!--<record model="ir.ui.view" id="financial_move_debt_base_search">-->
+        <!--<field name="name">financial.move.debt.base.search (in financial_account)</field>-->
+        <!--<field name="model">financial.move</field>-->
+        <!--<field name="priority">99999</field>-->
+        <!--<field name="inherited_id" ref="financial.financial_move_debt_base_search" />-->
+        <!--<field name="type">search</field>-->
+        <!--<field name="arch" type="xml">-->
+        <!--</field>-->
+    <!--</record>-->
+
+</odoo>
