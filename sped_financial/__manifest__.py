@@ -13,6 +13,7 @@
     'depends': [
         'financial',
         'sped',
+        'l10n_br_resource',
     ],
     'data': [
         'views/inherited_sped_operacao_base_view.xml',
