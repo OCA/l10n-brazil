@@ -12,14 +12,14 @@ from odoo import api, fields, models, _
 class SpedOperacao(models.Model):
     _inherit = 'sped.operacao'
 
-    document_type_id = fields.Many2one(
+    financial_document_type_id = fields.Many2one(
         comodel_name='financial.document.type',
         string='Tipo de documento',
         ondelete='restrict',
     )
-    account_id = fields.Many2one(
-        comodel_name='account.account',
-        string='Conta contábil',
+    financial_account_id = fields.Many2one(
+        comodel_name='financial.account',
+        string='Conta financeira',
         ondelete='restrict',
-        domain=[('is_brazilian_account', '=', True), ('tipo_sped', '=', 'A')],
+        domain=[('type', '=', 'A')],
     )
