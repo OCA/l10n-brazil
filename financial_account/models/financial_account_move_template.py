@@ -6,6 +6,7 @@ from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
 
+
 class FinancialAccountMoveTemplate(models.Model):
     _name = b'financial.account.move.template'
     _description = 'Financial Account Move Template'
