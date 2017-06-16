@@ -20,7 +20,7 @@ select
     1 as level
 from
     account_account a1
-
+    
 union all
 
 select
