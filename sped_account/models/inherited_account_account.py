@@ -8,6 +8,7 @@
 from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
+from .account_account_tree_analysis import SQL_SELECT_ACCOUNT_TREE_ANALYSIS
 from ..constantes import *
 
 
@@ -156,6 +157,15 @@ class AccountAccount(models.Model):
             if conta.tipo:
                 conta.natureza = TIPO_CONTA_CONTABIL_NATUREZA[conta.tipo]
 
+    def recreate_account_account_tree_analysis(self):
+        SQL_RECREATE_ACCOUNT_ACCOUNT_TREE_ANALYSIS = '''
+        delete from account_account_tree_analysis;
+        insert into account_account_tree_analysis (id, child_account_id,
+          parent_account_id, level)
+        ''' + SQL_SELECT_ACCOUNT_TREE_ANALYSIS
+
+        self.env.cr.execute(SQL_RECREATE_ACCOUNT_ACCOUNT_TREE_ANALYSIS)
+
     @api.model
     def create(self, dados):
         if 'company_id' in dados:
@@ -165,4 +175,24 @@ class AccountAccount(models.Model):
                 if company.sped_empresa_id:
                     dados['sped_empresa_id'] = company.sped_empresa_id.id
 
-        return super(AccountAccount, self).create(dados)
+        res = super(AccountAccount, self).create(dados)
+        
+        self.recreate_account_account_tree_analysis()
+        
+        return res
+    
+    @api.model
+    def write(self, dados):
+        res = super(AccountAccount, self).write(dados)
+
+        self.recreate_financial_account_tree_analysis()
+
+        return res
+
+    @api.model
+    def unlink(self):
+        res = super(AccountAccount, self).unlink()
+
+        self.recreate_financial_account_tree_analysis()
+
+        return res

@@ -37,7 +37,7 @@
         <field name="name">(-) Deduções da Receita Bruta</field>
         <field name="sequence" eval="2" />
         <field name="type">account_type</field>
-        <field name="sign" eval="-1" />
+        <field name="sign" eval="1" />
         <field name="display_detail">detail_with_hierarchy</field>
         <field name="parent_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_DRE_DRE" />
         <field name="account_type_ids" eval="[(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_DEDUCAO_RECEITA_IMPOSTOS')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_DEDUCAO_RECEITA_DEVOLUCOES')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_DRE_DEDUCAO_RECEITA_ABATIMENTOS'))]" />
