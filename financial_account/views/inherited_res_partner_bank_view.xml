@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="res_partner_bank_form">
+        <field name="name">res.partner.bank.form (in financial_account)</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="financial.res_partner_bank_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='general']" position="after">
+                <group string="Accounting">
+                    <field name="account_id"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
