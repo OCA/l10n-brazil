@@ -83,9 +83,9 @@
 
     <menuitem
         id="menu_sped_account_move_template"
-        sequence="1"
-        name="Modelo de partidas fiscal"
-        parent="sped.menu_sped_documento_emissao"
+        sequence="4"
+        name="Modelos de partida dobrada"
+        parent="l10n_br_base.menu_fiscal_configuracao"
         action="sped_account_move_template_acao" />
     
 </odoo>
