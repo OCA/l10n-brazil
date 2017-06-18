@@ -177,10 +177,10 @@ class AccountingNoneType(object):
         return other == 0 or other is None or other is AccountingNone
 
     def __lt__(self, other):
-        return 0 < other
+        return other > 0
 
     def __gt__(self, other):
-        return 0 > other
+        return other < 0
 
 
 AccountingNone = AccountingNoneType()
