@@ -52,7 +52,7 @@ class WorkalendarHolidayImport(models.TransientModel):
         ('months', 'Month(s)'),
         ('years', 'Year(s)')],
         string='Type',
-        default='days',
+        default='years',
         required=True
     )
     calendar_id = fields.Many2one(
