@@ -272,7 +272,7 @@ class MisReportKpiStyle(models.Model):
         css_attributes = [
             ('font-style', props.font_style),
             ('font-weight', props.font_weight),
-            ('font-size',  props.font_size),
+            ('font-size', props.font_size),
             ('color', props.color),
             ('background-color', props.background_color),
         ]
