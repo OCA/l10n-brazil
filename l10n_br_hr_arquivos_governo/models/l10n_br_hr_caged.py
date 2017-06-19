@@ -2,14 +2,16 @@
 # Copyright 2017 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import base64
+
 from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
-from openerp import api, fields, models
+from openerp import api, fields, models, _
 from openerp.addons.l10n_br_hr_arquivos_governo.models.arquivo_caged \
     import Caged
 from openerp.addons.l10n_br_hr_payroll.models.hr_payslip import MES_DO_ANO
-from openerp.exceptions import ValidationError
+from openerp.exceptions import ValidationError, Warning
 
 
 class HrCaged(models.Model):
@@ -37,14 +39,14 @@ class HrCaged(models.Model):
         string='CAGED TXT'
     )
 
-    alteracao = fields.Boolean(
+    alteracao = fields.Selection(
         string=u'Alteração?',
         selection=[
             ('1', 'Nada a Atualizar'),
             ('2', 'Alterar dados cadastrais'),
             ('3', 'Encerramento das Atividades'),
         ],
-        default=0,
+        default='1',
         help='Define se os dados cadastrais informado irão ou não atualizar o'
              ' Cadastro de Autorizados do CAGED Informatizado'
              '\n 1- Nada a atualizar'
@@ -55,12 +57,14 @@ class HrCaged(models.Model):
 
     @api.constrains('mes_do_ano', 'ano', 'company_id')
     def caged_restriction(self):
-        if self.alteracao != 1:
-            caged = self.search([
+        if self.alteracao != 2:
+            caged = self.search_count([
                 ('mes_do_ano', '=', self.mes_do_ano),
                 ('ano', '=', self.ano),
-                ('company_id', '=', self.company_id.id)])
-            if caged:
+                ('company_id', '=', self.company_id.id),
+                ('alteracao', '=', self.alteracao),
+            ])
+            if caged > 1:
                 raise ValidationError(u'Ja existe Caged nesta data.'
                                       u'\nFaça um CAGED de Alteração.')
 
@@ -95,6 +99,7 @@ class HrCaged(models.Model):
         """
         company_id = self.env.user.company_id
 
+        # Data da competencia
         data_competencia = str(self.mes_do_ano) + str(self.ano)
         caged.A_competencia = data_competencia
 
@@ -111,10 +116,13 @@ class HrCaged(models.Model):
             company_id.street or '' + company_id.street2 or '' + \
             company_id.number or ''
         caged.A_cep = company_id.zip
-        caged.A_uf = ''
+        caged.A_uf = company_id.state_id.code
         caged.A_ddd = ''
         caged.A_telefone = company_id.phone
         caged.A_ramal = ''
+
+# Definir Como sera preenchido esse campo
+
         caged.A_total_estabelecimento_informados = 1
         return caged._registro_A()
 
@@ -126,17 +134,15 @@ class HrCaged(models.Model):
         :return: str - Linha de preenchimento do funcioario
         """
         company_id = self.env.user.company_id
-
         qtd_funcionarios = self.env['hr.contract'].search_count([])
 
+        caged.B_sequencia = 00001
         # Tipo de 1 - CNPJ | 2 - CEI
         caged.B_tipo_identificador = 1
-        caged.B_sequencia = 00001
+        caged.B_identificador_estabelecimento = company_id.cnpj_cpf
 
-        caged.B_identificador_autorizado = company_id.cnpj_cpf
-
-        # TO DO : Definir como sera preenchido esse campo
-        caged.B_primeira_declaracao = ''
+# TO DO : Definir como sera preenchido esse campo
+        caged.B_primeira_declaracao = 2
 
         caged.B_alteracao = self.alteracao
         caged.B_cep = company_id.zip
@@ -145,8 +151,8 @@ class HrCaged(models.Model):
             company_id.street or '' + company_id.street2 or '' + \
             company_id.number or ''
         caged.B_bairro = ''
-        caged.B_uf = ''
 
+# Como vai calcular esse campo?
         caged.B_total_empregados_existentes = qtd_funcionarios
         # 1 – Microempresa – para a pessoa jurídica, ou a ela equiparada,
         #  que auferir, em cada ano-calendário, receita bruta igual ou inferior
@@ -161,7 +167,7 @@ class HrCaged(models.Model):
         # 4 – Microempreendedor Individual – para o empresário individual
         # que tenha auferido receita bruta, no ano-calendário anterior,
         # de até R$36.000,00 (trinta e seis mil reais).
-        caged.B_porte_estabelecimento = 2
+        caged.B_porte_estabelecimento = 3
 
         caged.B_CNAE = company_id.cnae_main_id.code or ''
         caged.B_ddd = ''
@@ -220,7 +226,7 @@ class HrCaged(models.Model):
 #         Informar se o empregado é Aprendiz ou não.
 # 1 - SIM
 # 2 – NÃO
-        caged.C_aprendiz = ''
+        caged.C_aprendiz = 2
         caged.C_uf_ctps = employee_id.ctps_uf_id.code
         caged.C_tipo_deficiencia = employee_id.deficiency_id.code
         caged.C_CPF = employee_id.cpf
@@ -313,11 +319,37 @@ class HrCaged(models.Model):
 
         self.caged_txt = caged_txt
 
-        # # Depois de preencher o objeto, chama a função para computar o txt
-        # holerite.grrf_txt = grrf._gerar_grrf()
-        # # Cria um arquivo temporario txt do grrf e escreve o que foi gerado
-        # path_arquivo = grrf._gerar_arquivo_temp(holerite.grrf_txt, 'GRRF')
-        # # Gera o anexo apartir do txt do grrf no temp do sistema
-        # self._gerar_anexo('grrf.re', path_arquivo)
+        # Cria um arquivo temporario txt do CAGED e escreve o que foi gerado
+        path_arquivo = caged._gerar_arquivo_temp(caged_txt, 'CAGED')
+        # Gera o anexo apartir do txt do grrf no temp do sistema
+        nome_arquivo = 'CGED' + str(self.ano) + '.' + str(self.mes_do_ano)
+        self._gerar_anexo(nome_arquivo, path_arquivo)
 
         return True
+
+    def _gerar_anexo(self, nome_do_arquivo, path_arquivo_temp):
+        """
+        Função para gerar anexo dentro do holerite, apartir de um arquivo
+        temporário. Deve ser passado o path do arquivo temporário que se
+        tornará anexo da payslip
+        :param nome_do_arquivo:
+        :param path_arquivo_temp:
+        :return:
+        """
+        try:
+            file_attc = open(path_arquivo_temp, 'r')
+            attc = file_attc.read()
+            attachment_obj = self.env['ir.attachment']
+            attachment_data = {
+                'name': nome_do_arquivo,
+                'datas_fname': nome_do_arquivo,
+                'datas': base64.b64encode(attc),
+                'res_model': 'hr.caged',
+                'res_id': self.id,
+            }
+            attachment_obj.create(attachment_data)
+            file_attc.close()
+
+        except:
+            raise Warning(
+                _('Impossível gerar Anexo do %s' % nome_do_arquivo))
