@@ -59,16 +59,20 @@ class HrPayslip(models.Model):
         """
         for holerite in self:
             grrf = Grrf()
+            # Preencher o objeto com informações do holerite
             self._preencher_grrf(holerite, grrf)
+            # Depois de preencher o objeto, chama a função para computar o txt
             holerite.grrf_txt = grrf._gerar_grrf()
+            # Cria um arquivo temporario txt do grrf e escreve o que foi gerado
             path_arquivo = grrf._gerar_arquivo_temp(holerite.grrf_txt, 'GRRF')
+            # Gera o anexo apartir do txt do grrf no temp do sistema
             self._gerar_anexo('grrf.re', path_arquivo)
 
     def _preencher_seguro_desemprego(self, holerite, seguro_desemprego):
         """
         Dado um holerite de rescisao preencher os campos do objeto de GRRF
-        :param holerite:
-        :param seguro_desemprego:
+        :param holerite: hr.payslip
+        :param seguro_desemprego: obj arquivo_seguro_desemprego
         :return:
         """
         # HEADER

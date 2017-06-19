@@ -11,14 +11,14 @@ class Caged(AbstractArquivosGoverno):
     # meio magnético (autorizado).
     def _registro_A(self):
         registro_A = self.A_tipo_de_registro
-        registro_A += self._validar(self.A_tipo_layout)
+        registro_A += self.A_tipo_layout
         registro_A += str.ljust('', 2)
         registro_A += self._validar(self.A_competencia, 6, 'N')
         registro_A += self._validar(self.A_alteracao, 1, 'N')
         registro_A += self._validar(self.A_sequencia, 5, 'N')
         registro_A += self._validar(self.A_tipo_identificador, 1, 'N')
         registro_A += self._validar(self.A_identificador_autorizado, 14, 'N')
-        registro_A += self._validar(self.A_razao_social, 35, 'A')
+        registro_A += self._validar(self.A_razao_social, 35, 'AN')
         registro_A += self._validar(self.A_endereco, 40, 'AN')
         registro_A += self._validar(self.A_cep, 8, 'N')
         registro_A += self._validar(self.A_uf, 2, 'A')
@@ -31,7 +31,7 @@ class Caged(AbstractArquivosGoverno):
             self._validar(self.A_total_movimentacoes_informados, 5, 'N')
         registro_A += str.ljust('', 92)
         return registro_A
-        
+
     # Informações da Empresa
     def _registro_B(self):
         registro_B = self.B_tipo_de_registro
@@ -130,18 +130,18 @@ class Caged(AbstractArquivosGoverno):
 
         # campos do Registro A (AUTORIZADO) -----------------------------------
         # Registro do estabelecimento responsável pela informação (Autorizado)
-        self.A_tipo_de_registro= 'A'
+        self.A_tipo_de_registro = 'A'
         self.A_tipo_layout = 'L2009'
         self.A_competencia = ''
-        self.A_alteracao= ''
+        self.A_alteracao = ''
         self.A_sequencia = ''
-        self.A_tipo_identificador= ''
+        self.A_tipo_identificador = ''
         self.A_identificador_autorizado = ''
-        self.A_razao_social= ''
-        self.A_endereco= ''
-        self.A_cep= ''
-        self.A_uf= ''
-        self.A_ddd= ''
+        self.A_razao_social = ''
+        self.A_endereco = ''
+        self.A_cep = ''
+        self.A_uf = ''
+        self.A_ddd = ''
         self.A_telefone = ''
         self.A_ramal = ''
         self.A_total_estabelecimento_informados = ''
@@ -149,32 +149,33 @@ class Caged(AbstractArquivosGoverno):
         # ---------------------------------------------------------------------
 
         # campos do REGISTRO B (ESTABELECIMENTO) ------------------------------
-        self.B_tipo_de_registro= 'B'
-        self.B_tipo_identificador= ''
-        self.B_identificador_estabelecimento= ''
-        self.B_sequencia= ''
+        # dados cadastrais do estabelecimento que teve movimentação
+        self.B_tipo_de_registro = 'B'
+        self.B_tipo_identificador = ''
+        self.B_identificador_estabelecimento = ''
+        self.B_sequencia = ''
         self.B_primeira_declaracao = ''
-        self.B_alteracao= ''
-        self.B_cep= ''
-        self.B_razao_social= ''
-        self.B_endereco= ''
-        self.B_bairro= ''
-        self.B_uf= ''
+        self.B_alteracao = ''
+        self.B_cep = ''
+        self.B_razao_social = ''
+        self.B_endereco = ''
+        self.B_bairro = ''
+        self.B_uf = ''
         self.B_total_empregados_existentes = ''
         self.B_porte_estabelecimento = ''
         self.B_CNAE = ''
-        self.B_ddd= ''
-        self.B_telefone= ''
-        self.B_email= ''
+        self.B_ddd = ''
+        self.B_telefone = ''
+        self.B_email = ''
         # ---------------------------------------------------------------------
 
         # campos do REGISTRO C (MOVIMENTAÇÃO) ---------------------------------
-        self.C_tipo_de_registro= 'C'
-        self.C_tipo_identificador= ''
-        self.C_identificador_estabelecimento= ''
-        self.C_sequencia= ''
-        self.C_PIS_PASEP= ''
-        self.C_sexo= ''
+        self.C_tipo_de_registro = 'C'
+        self.C_tipo_identificador = ''
+        self.C_identificador_estabelecimento = ''
+        self.C_sequencia = ''
+        self.C_PIS_PASEP = ''
+        self.C_sexo = ''
         self.C_nascimento = ''
         self.C_grau_instrucao = ''
         self.C_salario_mensal = ''
@@ -229,6 +230,6 @@ class Caged(AbstractArquivosGoverno):
         Sobrescrever a função de validacao de palavras da classe abstrata para
          obter todas as palavras do caged em maiusculas.
         """
-        if tipo=='AN':
+        if tipo in ['AN', 'A'] and word:
             word = word.upper()
-        result = super(Caged, self)._validar(self, word, tam, tipo='AN')
+        return super(Caged, self)._validar(word, tam, tipo)

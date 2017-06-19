@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 Hendrix Costa
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <menuitem id="menu_hr_root_payroll_relatorios" parent="hr.menu_hr_root"
+                  name="Relatórios" sequence="46"
+                  groups="base.group_hr_manager"/>
+
+        <record model="ir.ui.view" id="hr_caged_form_view">
+            <field name="name">hr.caged.form (in l10n_br_hr_arquivos_governo)</field>
+            <field name="model">hr.caged</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name='doit'
+                                string='Gerar Caged'
+                                class='btn-primary oe_highlight'
+                                type='object'/>
+                    </header>
+                    <group>
+                        <group>
+                            <field name="mes_do_ano"/>
+                            <field name="ano"/>
+                        </group>
+                        <group>
+                            <field name="alteracao"/>
+                            <field name="company_id"/>
+                        </group>
+                        <group>
+                              <field name="caged_txt" readonly="1" />
+                        </group>
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_caged_tree_view">
+            <field name="name">hr.caged.tree (in l10n_br_hr_arquivos_governo)</field>
+            <field name="model">hr.caged</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="mes_do_ano"/>
+                    <field name="ano"/>
+                    <field name="alteracao"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_l10n_br_hr_arquivos_governo_caged">
+            <field name="name">CAGED's</field>
+            <field name="res_model">hr.caged</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.menu"
+                id="l10n_br_hr_arquivos_governo_caged">
+            <field name="name">CAGED</field>
+            <field name="parent_id" ref="menu_hr_root_payroll_relatorios"/>
+            <field name="action"
+                   ref="action_l10n_br_hr_arquivos_governo_caged"/>
+            <field name="sequence" eval="61"/>
+        </record>
+
+
+    </data>
+</openerp>
