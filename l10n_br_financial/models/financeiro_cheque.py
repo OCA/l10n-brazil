@@ -2,8 +2,6 @@
 # Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from __future__ import division, print_function, unicode_literals
-
 from odoo import api, fields, models
 
 
@@ -14,6 +12,16 @@ class FinanceiroCheque(models.Model):
 
     name = fields.Char()
 
+    financial_move_ids = fields.Many2many(
+        comodel_name='financial.move',
+        string=u'Movimentações'
+    )
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        string='Partner',
+        ondelete='set null',
+        index=True,
+    )
     codigo = fields.Char(
         string=u'Código de Barras'
     )

@@ -25,6 +25,8 @@
                         <field name="codigo"/>
                         <field name="data_recebimento"
                                attrs="{'invisible': [('state', 'in', ['novo','verificado'])]}"/>
+                        <field name="partner_id"
+                               attrs="{'invisible': [('state', 'in', ['novo','verificado'])]}"/>
                     </group>
                     <group>
                         <group>
@@ -41,6 +43,9 @@
                         </group>
                     </group>
                 </sheet>
+                <footer>
+                    <field name="financial_move_ids"/>
+                </footer>
             </form>
         </field>
     </record>

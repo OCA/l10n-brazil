@@ -23,6 +23,21 @@
             <page name="payments" position="attributes">
                 <attribute name="attrs">{'invisible': [('type', 'in', ['money_in', 'money_out'])]}</attribute>
             </page>
+            <page name="payments" position="after">
+                <page name="cheques" string="Cheques">
+                    <field name="cheque_ids"
+                           context="{'default_partner_id': partner_id, 'default_financial_move_ids': [id]}">
+                        <tree>
+                            <field name="numero_cheque"/>
+                            <field name="data_recebimento"/>
+                            <field name="partner_id"/>
+                            <field name="titular"/>
+                            <field name="valor"/>
+                            <field name="pre_datado"/>
+                        </tree>
+                    </field>
+                </page>
+            </page>
         </field>
     </record>
 
