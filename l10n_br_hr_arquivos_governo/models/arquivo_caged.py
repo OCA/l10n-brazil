@@ -4,6 +4,7 @@
 
 from .abstract_arquivos_governo import AbstractArquivosGoverno
 
+from datetime import datetime
 
 class Caged(AbstractArquivosGoverno):
 
@@ -12,7 +13,7 @@ class Caged(AbstractArquivosGoverno):
     def _registro_A(self):
         registro_A = self.A_tipo_de_registro
         registro_A += self.A_tipo_layout
-        registro_A += str.ljust('', 2)
+        registro_A += str.ljust('', 3)
         registro_A += self._validar(self.A_competencia, 6, 'N')
         registro_A += self._validar(self.A_alteracao, 1, 'N')
         registro_A += self._validar(self.A_sequencia, 5, 'N')
@@ -30,6 +31,7 @@ class Caged(AbstractArquivosGoverno):
         registro_A += \
             self._validar(self.A_total_movimentacoes_informados, 5, 'N')
         registro_A += str.ljust('', 92)
+        registro_A += '\n'
         return registro_A
 
     # Informações da Empresa
@@ -54,6 +56,7 @@ class Caged(AbstractArquivosGoverno):
         registro_B += self._validar(self.B_telefone, 8, 'N')
         registro_B += self._validar(self.B_email, 50, 'AN')
         registro_B += str.ljust('', 27)
+        registro_B += '\n'
         return registro_B
 
     # Informações do trabalhador
@@ -76,15 +79,17 @@ class Caged(AbstractArquivosGoverno):
         registro_C += self._validar(self.C_nome_empregado, 40, 'A')
         registro_C += self._validar(self.C_numero_ctps, 8, 'N')
         registro_C += self._validar(self.C_serie_ctps, 4, 'N')
-        registro_C += self._validar(self.C_uf_ctps, 2, 'A')
+        registro_C += str.ljust('', 7)
         registro_C += self._validar(self.C_raca_cor, 1, 'N')
         registro_C += self._validar(self.C_pessoas_com_deficiencia, 1, 'N')
         registro_C += self._validar(self.C_cbo2000, 6, 'N')
         registro_C += self._validar(self.C_aprendiz, 1, 'N')
+        registro_C += self._validar(self.C_uf_ctps, 2, 'A')
         registro_C += self._validar(self.C_tipo_deficiencia, 1, 'AN')
         registro_C += self._validar(self.C_CPF, 11, 'N')
         registro_C += self._validar(self.C_cep_residencia, 8, 'N')
         registro_C += str.ljust('', 81)
+        registro_C += '\n'
         return registro_C
 
     def _registro_X(self):
@@ -117,14 +122,27 @@ class Caged(AbstractArquivosGoverno):
         registro_X += self._validar(self.X_CPF, 11, 'N')
         registro_X += self._validar(self.X_cep_residencia, 8, 'AN')
         registro_X += str.ljust('', 81)
+        registro_X += '\n'
         return registro_X
+
+    def _registro_Z(self):
+        registro_Z = self.Z_tipo_de_registro
+        registro_Z += self._validar(self.Z_responsavel, 40, 'AN')
+        registro_Z += self._validar(self.Z_email_responsavel, 50, 'AN')
+        registro_Z += ''.rjust(7, '0')
+        registro_Z += self._validar(self.Z_cpf_responsavel, 11, 'N')
+        registro_Z += str.ljust('', 122)
+        registro_Z += ''.rjust(9, '0')
+        registro_Z += '\n'
+        return registro_Z
 
     def _gerar_grrf(self):
         return \
             self._registro_A() + \
             self._registro_B() + \
             self._registro_C() + \
-            self._registro_X()
+            self._registro_X() + \
+            self._registro_Z()
 
     def __init__(self, *args, **kwargs):
 
@@ -225,6 +243,12 @@ class Caged(AbstractArquivosGoverno):
         self.X_cep_residencia = ''
         # ---------------------------------------------------------------------
 
+        # campos do REGISTRO Z (Responsavel preenchimento) --------------------
+        self.Z_tipo_de_registro = 'Z'
+        self.Z_responsavel = ''
+        self.Z_email_responsavel = ''
+        self.Z_cpf_responsavel = ''
+
     def _validar(self, word, tam, tipo='AN'):
         """
         Sobrescrever a função de validacao de palavras da classe abstrata para
@@ -232,4 +256,6 @@ class Caged(AbstractArquivosGoverno):
         """
         if tipo in ['AN', 'A'] and word:
             word = word.upper()
+        if tipo in ['D'] and not word:
+            word = datetime.now().strftime("%Y-%m-%d")
         return super(Caged, self)._validar(word, tam, tipo)

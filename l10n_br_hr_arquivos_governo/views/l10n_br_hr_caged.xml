@@ -30,8 +30,13 @@
                             <field name="company_id"/>
                         </group>
                         <group>
-                              <field name="caged_txt" readonly="1" />
+                            <field name="responsavel" />
+                            <field name="cpf_responsavel" />
+                            <field name="email_responsavel" />
                         </group>
+
+                        <field name="caged_txt" colspan="2" nolabel="1" readonly="1" />
+
                     </group>
 
                 </form>

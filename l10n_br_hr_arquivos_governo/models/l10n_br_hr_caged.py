@@ -55,6 +55,34 @@ class HrCaged(models.Model):
              '\n 3- Encerramento de Atividades (Fechamento do estabelecimento)'
     )
 
+    responsavel = fields.Many2one(
+        comodel_name='res.users',
+        string=u'Responsável',
+        default=lambda self: self.env.user
+    )
+
+    @api.depends('responsavel')
+    def _set_info_responsavel(self):
+        if self.responsavel and self.responsavel.employee_ids:
+            employee = self.responsavel.employee_ids[0]
+            if employee:
+                self.email_responsavel = employee.work_email
+                self.cpf_responsavel = employee.cpf
+                self.telefone_responsavel = employee.work_phone
+
+    email_responsavel = fields.Char(
+        string='Email do Responsável',
+        compute=_set_info_responsavel,
+    )
+    cpf_responsavel = fields.Char(
+        string='CPF do Responsável',
+        compute=_set_info_responsavel,
+    )
+    telefone_responsavel = fields.Char(
+        string='Telefone do Responsável',
+        compute=_set_info_responsavel,
+    )
+
     @api.constrains('mes_do_ano', 'ano', 'company_id')
     def caged_restriction(self):
         if self.alteracao != 2:
@@ -88,7 +116,7 @@ class HrCaged(models.Model):
 # mm = mês de referência
 # dd = dia de referência
 
-    def _preencher_caged_empresa_responsavel(self, caged):
+    def _preencher_registro_A(self, caged, total_movimentacoes, sequencia):
         """
         Registro A
         Dado um contrato, computar a linha de preenchimento do caged relativa
@@ -97,63 +125,67 @@ class HrCaged(models.Model):
         :param caged - arquivo_caged
         :return: str - Linha de preenchimento do funcioario
         """
-        company_id = self.env.user.company_id
-
+        company_id = self.company_id
         # Data da competencia
-        data_competencia = str(self.mes_do_ano) + str(self.ano)
-        caged.A_competencia = data_competencia
-
+        caged.A_competencia = str(self.mes_do_ano) + str(self.ano)
         # Se for alteracao marca com 1 se nao marca com 2 (nada a alterar)
         caged.A_alteracao = self.alteracao
-
-        caged.A_sequencia = 00001
-
+        caged.A_sequencia = sequencia
         # Tipo de 1 - CNPJ | 2 - CEI
         caged.A_tipo_identificador = 1
         caged.A_identificador_autorizado = company_id.cnpj_cpf
         caged.A_razao_social = company_id.legal_name
-        caged.A_endereco = \
-            company_id.street or '' + company_id.street2 or '' + \
-            company_id.number or ''
+        caged.A_endereco = (company_id.street or '') + \
+                           (company_id.street2 or '') + \
+                           (company_id.number or '')
         caged.A_cep = company_id.zip
         caged.A_uf = company_id.state_id.code
-        caged.A_ddd = ''
+# DDD da ABGF fixo pois nao achei no odoo
+        caged.A_ddd = '0061'
         caged.A_telefone = company_id.phone
         caged.A_ramal = ''
-
-# Definir Como sera preenchido esse campo
-
+        # Quantidade de registros tipo B (Estabelecimento) no arquivo.
         caged.A_total_estabelecimento_informados = 1
+        # Quantidade de registros tipo C e/ou X (Empregado) no arquivo.
+        caged.A_total_movimentacoes_informados = total_movimentacoes
+
         return caged._registro_A()
 
-    def _preencher_caged_empresa_informada(self, caged):
+    def _preencher_registro_B(self, caged, sequencia):
         """
         Dado um contrato, computar a linha de preenchimento do caged relativa
          ao preenchimento das informações da empresa que esta sendo informada.
         :param contrato - hr.contract -
         :return: str - Linha de preenchimento do funcioario
         """
-        company_id = self.env.user.company_id
-        qtd_funcionarios = self.env['hr.contract'].search_count([])
+        company_id = self.company_id
+        qtd_funcionarios = self.env['hr.contract'].search_count([
+            ('company_id', '=', self.company_id.id),
+            ('date_end', '=', False),
+        ])
 
-        caged.B_sequencia = 00001
+        caged.B_sequencia = sequencia
         # Tipo de 1 - CNPJ | 2 - CEI
         caged.B_tipo_identificador = 1
         caged.B_identificador_estabelecimento = company_id.cnpj_cpf
 
 # TO DO : Definir como sera preenchido esse campo
+#   1. primeira declaração
+#   2. já informou ao CAGED anteriormente
         caged.B_primeira_declaracao = 2
 
         caged.B_alteracao = self.alteracao
         caged.B_cep = company_id.zip
         caged.B_razao_social = company_id.legal_name
-        caged.B_endereco = \
-            company_id.street or '' + company_id.street2 or '' + \
-            company_id.number or ''
+        caged.B_endereco = (company_id.street or '') + \
+                           (company_id.street2 or '') + \
+                           (company_id.number or '')
         caged.B_bairro = ''
-
+        caged.B_uf = company_id.state_id.code
 # Como vai calcular esse campo?
         caged.B_total_empregados_existentes = qtd_funcionarios
+        caged.B_total_empregados_existentes = 33
+
         # 1 – Microempresa – para a pessoa jurídica, ou a ela equiparada,
         #  que auferir, em cada ano-calendário, receita bruta igual ou inferior
         #  a R$ 240.000,00 (duzentos e quarenta mil reais).
@@ -170,19 +202,20 @@ class HrCaged(models.Model):
         caged.B_porte_estabelecimento = 3
 
         caged.B_CNAE = company_id.cnae_main_id.code or ''
-        caged.B_ddd = ''
+        caged.B_ddd = '0061'
+        caged.B_telefone = company_id.phone
         caged.B_telefone = company_id.phone
         caged.B_email = company_id.email
         return caged._registro_B()
 
-    def _preencher_caged_movimentacao_funcionario(self, contrato, caged, seq):
+    def _preencher_registro_C(self, contrato, caged, seq):
         """
         Dado um contrato, computar a linha de preenchimento do caged relativa
          ao preenchimento das informações do funcionario.
         :param contrato - hr.contract -
         :return: str - Linha de preenchimento do funcionario
         """
-        company_id = contrato.company_id
+        company_id = self.company_id
         employee_id = contrato.employee_id
 
         caged.C_tipo_identificador = 1
@@ -193,10 +226,7 @@ class HrCaged(models.Model):
         caged.C_nascimento = employee_id.birthday
         caged.C_grau_instrucao = employee_id.educational_attainment.code
         caged.C_salario_mensal = contrato.wage
-
-        caged.C_horas_trabalhadas = ''
-
-        caged.C_admissao = contrato.date_start
+        caged.C_horas_trabalhadas = contrato.weekly_hours
 
 #         ADMISSÃO
 # 10 - Primeiro emprego
@@ -213,24 +243,28 @@ class HrCaged(models.Model):
 # 50 - Aposentado
 # 60 - Morte
 # 80 - Transferência de saída
-        caged.C_tipo_de_movimento = 10
+        caged.C_tipo_de_movimento = 20
 
-        caged.C_dia_desligamento = ''
+        caged.C_admissao = contrato.date_start
+        caged.C_dia_desligamento = contrato.date_end
         caged.C_nome_empregado = employee_id.name
         caged.C_numero_ctps = employee_id.ctps
         caged.C_serie_ctps = employee_id.ctps_series
         caged.C_raca_cor = employee_id.ethnicity
-        caged.C_pessoas_com_deficiencia = ''
+        # 1 - Para indicar SIM
+        # 2 - Para indicar NÃO
+        caged.C_pessoas_com_deficiencia = 2
         caged.C_cbo2000 = contrato.job_id.cbo_id.code
 
-#         Informar se o empregado é Aprendiz ou não.
+# Informar se o empregado é Aprendiz ou não.
 # 1 - SIM
 # 2 – NÃO
         caged.C_aprendiz = 2
+
         caged.C_uf_ctps = employee_id.ctps_uf_id.code
         caged.C_tipo_deficiencia = employee_id.deficiency_id.code
         caged.C_CPF = employee_id.cpf
-        caged.C_cep_residencia = employee_id.address_id.zip
+        caged.C_cep_residencia = employee_id.address_home_id.zip
         return caged._registro_C()
 
     def _preencher_caged_atualizar_funcionario(self, contrato, caged, seq):
@@ -268,6 +302,15 @@ class HrCaged(models.Model):
         caged.X_cep_residencia = ''
         return caged._registro_X()
 
+    def _preencher_registro_Z(self, caged):
+        """
+        Preencher informações do contato referente ao registro Z
+        """
+        caged.Z_responsavel = self.responsavel.name
+        caged.Z_email_responsavel = self.email_responsavel
+        caged.Z_cpf_responsavel = self.cpf_responsavel
+        return caged._registro_Z()
+
     @api.multi
     def doit(self):
 
@@ -281,48 +324,59 @@ class HrCaged(models.Model):
 
         # Contratacoes do mes
         domain = [
+            ('company_id', '=', self.company_id.id),
             ('date_start', '<=', ultimo_dia_do_mes),
             ('date_start', '>=', primeiro_dia_do_mes)]
         contratacoes = contrato_model.search(domain)
 
         # Demissoes do mes
         domain = [
+            ('company_id', '=', self.company_id.id),
             ('date_end', '<=', ultimo_dia_do_mes),
             ('date_end', '>=', primeiro_dia_do_mes)]
         demissoes = contrato_model.search(domain)
 
+        # Total de movimentações (Registro C)
+        total_mov = len(contratacoes) + len(demissoes)
+
         # Instancia um objeto do Caged
         caged = Caged()
 
-        # Variavel para guardar as informacoes do caged
+        # Variavel para guardar as informacoes do caged e da sequencia
         caged_txt = ''
+
+        sequencia = 1
 
         # Preencher o objeto com informações da empresa
         # Registro A
-        caged_txt += self._preencher_caged_empresa_responsavel(caged)
+        caged_txt += self._preencher_registro_A(caged, total_mov, sequencia)
+        sequencia += 1
         # Registro B
-        caged_txt += self._preencher_caged_empresa_informada(caged)
+        caged_txt += self._preencher_registro_B(caged, sequencia)
+        sequencia += 1
 
         # Registros C
-        sequencia = 00001
         for contrato in contratacoes:
             caged_txt += \
-                self._preencher_caged_movimentacao_funcionario(
-                    contrato, caged, sequencia)
+                self._preencher_registro_C(contrato, caged, sequencia)
             sequencia += 1
 
-        sequencia = 00001
         for contrato in demissoes:
-            caged_txt += self._preencher_caged_movimentacao_funcionario(
-                contrato, caged, sequencia)
+            caged_txt += self._preencher_registro_C(contrato, caged, sequencia)
             sequencia += 1
 
+        # Preencher informações do Registro Z (contato)
+        caged_txt += self._preencher_registro_Z(caged)
+
+        # Guardar campo no modelo com informações do CAGED
         self.caged_txt = caged_txt
 
         # Cria um arquivo temporario txt do CAGED e escreve o que foi gerado
         path_arquivo = caged._gerar_arquivo_temp(caged_txt, 'CAGED')
         # Gera o anexo apartir do txt do grrf no temp do sistema
-        nome_arquivo = 'CGED' + str(self.ano) + '.' + str(self.mes_do_ano)
+        mes = str(self.mes_do_ano) \
+            if self.mes_do_ano > 9 else '0' + str(self.mes_do_ano)
+        nome_arquivo = 'CGED' + str(self.ano) + '.M' + mes
         self._gerar_anexo(nome_arquivo, path_arquivo)
 
         return True
