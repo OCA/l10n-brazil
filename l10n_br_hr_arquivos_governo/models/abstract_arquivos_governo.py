@@ -5,11 +5,15 @@
 import logging
 import re
 
-
 _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil.base import tira_acentos
+except ImportError:
+    _logger.info('Cannot import pybrasil')
+
+try:
+    from pybrasil import data
 except ImportError:
     _logger.info('Cannot import pybrasil')
 
@@ -56,8 +60,9 @@ class AbstractArquivosGoverno(object):
 
         elif tipo == 'D':       # Data
             # Retira tudo que nao for numeral
-            data = re.sub(u'[^0-9]', '', str(word))
-            return unicode.ljust(unicode(data), tam)[:tam]
+            word = data.formata_data(word)
+            word = re.sub(u'[^0-9]', '', str(word))
+            return unicode.ljust(unicode(word), tam)[:tam]
 
         elif tipo == 'V':       # Valor
             # Pega a parte decimal como inteiro e nas duas ultimas casas
