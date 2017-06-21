@@ -9,6 +9,7 @@
         <field name="name">sped.documento.item.base.form</field>
         <field name="model">sped.documento.item</field>
         <field name="priority">9999</field>
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
             <form string="Item do documento">
                 <field name="documento_id" required="0" invisible="1"/>
@@ -77,10 +78,8 @@
 
                 <group colspan="4" col="4">
 <!--                     options="{'no_open': True, 'no_create': True}" -->
-                    <field name="produto_id" colspan="4" options="{'no_create': True}" 
-                           context="{
-                'form_view_ref': (modelo != 'SE' and 'l10n_br_base.sped_produto_produto_form' or 'l10n_br_base.sped_produto_servico_form'),
-                }"
+                    <field name="produto_id" colspan="4" options="{'no_create': True}"
+                           context="{'form_view_ref': (modelo != 'SE' and 'l10n_br_base.sped_produto_produto_form' or 'l10n_br_base.sped_produto_servico_form')}"
                     />
                     <newline />
                     <field name="produto_descricao" colspan="4" string="Descrição alternativa" />
@@ -375,8 +374,9 @@
         <field name="name">sped.documento.item.base.tree</field>
         <field name="model">sped.documento.item</field>
         <field name="priority">9999</field>
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree string="Itens do documento">
                 <field name="regime_tributario" invisible="1"/>
                 <field name="modelo" invisible="1"/>
                 <field name="currency_id" invisible="1"/>

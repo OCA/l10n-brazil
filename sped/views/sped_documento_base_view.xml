@@ -9,6 +9,7 @@
         <field name="name">sped.documento.base.form</field>
         <field name="model">sped.documento</field>
         <field name="priority">9999</field>
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
             <form string="Emissão de NF-e">
                 <sheet>
@@ -343,6 +344,7 @@
         <field name="name">sped.documento.base.tree</field>
         <field name="model">sped.documento</field>
         <field name="priority">9999</field>
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
             <tree string="Emissão de NF-e">
                 <field name="currency_id" invisible="1"/>
@@ -364,6 +366,7 @@
         <field name="name">sped.documento.base.search</field>
         <field name="model">sped.documento</field>
         <field name="priority">9999</field>
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
             <search string="Emissão de NF-e">
                 <field name="empresa_id" />
