@@ -7,9 +7,14 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from . import financial_account_move_template
-from . import financial_account_move_template_item
-from . import inherited_financial_move
-from . import inherited_res_partner_bank
-from . import inherited_financial_account
+from odoo import api, fields, models
 
+
+class AccountAccount(models.Model):
+    _inherit = 'account.account'
+
+    parent_id = fields.Many2one(
+        comodel_name='account.account',
+        string='Parent account',
+        index=True,
+    )

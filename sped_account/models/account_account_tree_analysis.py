@@ -7,9 +7,6 @@ from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models, _
 from odoo.tools.sql import drop_view_if_exists
-from odoo.exceptions import UserError, ValidationError
-from odoo.tools import float_is_zero
-from ..constants import *
 
 
 SQL_ACCOUNT_TREE_ANALYSIS_VIEW = '''
@@ -152,28 +149,47 @@ DROP_TABLE = '''
     DROP TABLE IF EXISTS account_account_tree_analysis
 '''
 
-SQL_ACCOUNT_TREE_ANALYSIS_TABLE = '''
-create table account_account_tree_analysis as
+SQL_SELECT_ACCOUNT_TREE_ANALYSIS = '''
 select
   row_number() over() as id,
-  *
+  child_account_id,
+  parent_account_id,
+  level
+
 from
   account_account_tree_analysis_view
+
 order by
   child_account_id,
   parent_account_id;
 '''
 
+SQL_ACCOUNT_TREE_ANALYSIS_TABLE = '''
+create table account_account_tree_analysis as
+''' + SQL_SELECT_ACCOUNT_TREE_ANALYSIS + '''
+
+create index account_account_tree_analysis_child_account_id
+  on account_account_tree_analysis
+  (child_account_id);
+
+create index account_account_tree_analysis_parent_account_id
+  on account_account_tree_analysis
+  (parent_account_id);
+
+create index account_account_tree_analysis_level
+  on account_account_tree_analysis
+  (level);
+'''
+
 
 class AccountAccountTreeAnalysis(models.Model):
     _name = b'account.account.tree.analysis'
-    _description = 'Account Tree Analysis'
+    _description = 'Account Account Tree Analysis'
     _auto = False
 
     @api.model_cr
     def init(self):
         drop_view_if_exists(self._cr, 'account_account_tree_analysis_view')
-        # drop_table_if_exists(self._cr, 'account_account_tree_analysis')
         self._cr.execute(DROP_TABLE)
         self._cr.execute(SQL_ACCOUNT_TREE_ANALYSIS_VIEW)
         self._cr.execute(SQL_ACCOUNT_TREE_ANALYSIS_TABLE)

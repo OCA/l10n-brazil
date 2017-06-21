@@ -9,8 +9,7 @@
 from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
-from ..constants import FINANCIAL_MOVE_FIELD
+from odoo.addons.financial.constants import FINANCIAL_MOVE_FIELD
 
 
 class FinancialAccountMoveTemplateItem(models.Model):
