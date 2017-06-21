@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_account_payment_term_form" >
+        <field name="name">sped.account.payment.term.form</field>
+        <field name="model">account.payment.term</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Condição de Pagamento">
+                <field name="sequence" invisible="1" />
+                <field name="currency_id" invisible="1" />
+                <field name="currency_aliquota_id" invisible="1" />
+                <sheet>
+                    <group col="4" colspan="4">
+                        <field name="forma_pagamento" required="1" />
+                        <field name="active" string="Ativa?" />
+                    </group>
+                    <newline />
+                    <group attrs="{'invisible': [('forma_pagamento', 'not in', ('02', '03'))]}">
+                        <separator string="Cartão de crédito/débito" />
+                        <newline />
+                        <field name="bandeira_cartao" attrs="{'required': [('forma_pagamento', 'in', ('02', '03'))]}" string="Bandeira" />
+                        <field name="integracao_cartao" attrs="{'required': [('forma_pagamento', 'in', ('02', '03'))]}" string="Integração" />
+                        <newline />
+                        <field name="participante_id" domain="[('cnpj_cpf', '!=', False)]" attrs="{'required': [('forma_pagamento', 'in', ('02', '03'))]}" string="Operadora" />
+                    </group>
+                    <newline />
+                    <group col="4" colspan="4">
+                        <field name="name" string="Condição de pagamento" />
+                        <field name="em_parcelas_mensais"/>
+                        <newline />
+                        <field name="company_id" invisible="1"/>
+                    </group>
+                    <newline />
+                    <group col="4" colspan="4" attrs="{'invisible': [('em_parcelas_mensais', '!=', True)]}">
+                        <separator string="Configuração das datas de vencimento" colspan="4" />
+                        <newline />
+                        <field name="meses" attrs="{'invisible': [('em_parcelas_mensais', '!=', True)], 'required': [('em_parcelas_mensais', '=', True)]}" />
+                        <newline />
+                        <field name="evitar_dia_semana" />
+                        <newline />
+                        <field name="somente_dias_uteis" />
+                        <field name="antecipa_dia_util" attrs="{'invisible': [('somente_dias_uteis', '!=', True)]}" />
+                        <newline />
+                        <field name="todo_dia_mes" />
+                        <field name="todo_dia_mes_util" attrs="{'invisible': [('somente_dias_uteis', '!=', True)]}" />
+<!--                         <field name="todo_dia_mes" /> -->
+<!--                         <field name="todo_dia_mes_util" /> -->
+                        <newline />
+                        <separator string="Configuração do valor das parcelas" colspan="4" />
+                        <newline />
+                        <field name="com_entrada" />
+                        <field name="al_entrada" attrs="{'invisible': [('com_entrada', '=', False)]}" />
+                        <field name="com_juros" />
+                        <field name="al_juros" attrs="{'invisible': [('com_juros', '=', False)]}" />
+                        <newline />
+                    </group>
+                    <newline />
+                    <label for="note" string="Descrição" />
+                    <field name="note" nolabel="1" placeholder="Descrição da condição de pagamento para o cliente..."/>
+                    <newline />
+                    <group attrs="{'invisible': [('em_parcelas_mensais', '=', True)]}">
+                        <separator string="Termos manuais" />
+                        <newline />
+                        <p class="text-muted">
+                            The last line's computation type should be "Balance" to ensure that the whole amount will be allocated.
+                        </p>
+                        <field name="line_ids"/>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_account_payment_term_tree">
+        <field name="name">sped.account.payment.term.tree</field>
+        <field name="model">account.payment.term</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Condições de Pagamento">
+                <field name="sequence" widget="handle"/>
+                <field name="nome_comercial" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_account_payment_term_search">
+        <field name="name">sped.account.payment.term.search</field>
+        <field name="model">account.payment.term</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Condições de Pagamento">
+                <field name="name" string="Condição de pagamento" />
+                <field name="active" string="Ativa?" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_account_payment_term_acao">
+        <field name="name">Condições de Pagamento</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="res_model">account.payment.term</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_account_payment_term_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_account_payment_term_form"/>
+        <field name="act_window_id" ref="sped_account_payment_term_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_account_payment_term_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_account_payment_term_tree"/>
+        <field name="act_window_id" ref="sped_account_payment_term_acao"/>
+    </record>
+
+    <menuitem
+        parent="menu_fiscal_configuracao"
+        sequence="2"
+        id="menu_sped_account_payment_term"
+        name="Cond. pagamento"
+        action="sped_account_payment_term_acao" />
+
+</odoo>
