@@ -19,7 +19,6 @@
         'mail',
         'decimal_precision',
         'product',
-        'copy_views',
     ],
     'data': [
         #
