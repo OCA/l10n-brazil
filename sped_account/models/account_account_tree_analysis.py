@@ -7,12 +7,6 @@ from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models, _
 from odoo.tools.sql import drop_view_if_exists
-<<<<<<< HEAD
-=======
-from odoo.exceptions import UserError, ValidationError
-from odoo.tools import float_is_zero
-from ..constants import *
->>>>>>> 7d8f229df4fb8cdaadc9b398a41d1b33854c4aae
 
 
 SQL_ACCOUNT_TREE_ANALYSIS_VIEW = '''
