@@ -18,6 +18,7 @@
     'data': [
         'data/ir_sequence_data.xml',
         # 'data/financial_move_data.xml',
+
         'views/financial_menu.xml',
         'views/financial_move_payment_base_view.xml',
         'views/financial_move_debt_base_view.xml',
