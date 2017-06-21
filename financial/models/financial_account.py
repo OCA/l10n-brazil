@@ -8,10 +8,6 @@
 from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
-<<<<<<< HEAD
-=======
-from .financial_account_tree_analysis import SQL_SELECT_ACCOUNT_TREE_ANALYSIS
->>>>>>> 7d8f229df4fb8cdaadc9b398a41d1b33854c4aae
 
 
 class FinancialAccount(models.Model):
@@ -126,11 +122,8 @@ class FinancialAccount(models.Model):
                     account._compute_complete_name()
 
     def recreate_financial_account_tree_analysis(self):
-<<<<<<< HEAD
         from .financial_account_tree_analysis import \
             SQL_SELECT_ACCOUNT_TREE_ANALYSIS
-=======
->>>>>>> 7d8f229df4fb8cdaadc9b398a41d1b33854c4aae
         SQL_RECREATE_FINANCIAL_ACCOUNT_TREE_ANALYSIS = '''
         delete from financial_account_tree_analysis;
         insert into financial_account_tree_analysis (id, child_account_id,
@@ -139,7 +132,6 @@ class FinancialAccount(models.Model):
 
         self.env.cr.execute(SQL_RECREATE_FINANCIAL_ACCOUNT_TREE_ANALYSIS)
 
-    @api.model
     def create(self, vals):
         res = super(FinancialAccount, self).create(vals)
 
@@ -147,11 +139,6 @@ class FinancialAccount(models.Model):
 
         return res
 
-<<<<<<< HEAD
-    # @api.model
-=======
-    @api.model
->>>>>>> 7d8f229df4fb8cdaadc9b398a41d1b33854c4aae
     def write(self, vals):
         res = super(FinancialAccount, self).write(vals)
 
@@ -159,7 +146,6 @@ class FinancialAccount(models.Model):
 
         return res
 
-    @api.model
     def unlink(self):
         res = super(FinancialAccount, self).unlink()
 
