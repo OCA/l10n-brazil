@@ -534,10 +534,14 @@ class HrPayslip(models.Model):
         for contract_id in self.env['hr.contract'].browse(contract_id):
 
             # get dias Base para cálculo do mês
-            dias_mes = self.env['resource.calendar'].get_dias_base(
-                fields.Datetime.from_string(date_from),
-                fields.Datetime.from_string(date_to)
-            )
+            if self.tipo_de_folha == 'rescisao':
+                dias_mes = fields.Date.from_string(date_to).day - \
+                    fields.Date.from_string(date_from).day + 1
+            else:
+                dias_mes = self.env['resource.calendar'].get_dias_base(
+                    fields.Datetime.from_string(date_from),
+                    fields.Datetime.from_string(date_to)
+                )
             result += [self.get_attendances(u'Dias Base', 1, u'DIAS_BASE',
                                             dias_mes, 0.0, contract_id)]
 
@@ -1487,7 +1491,7 @@ class HrPayslip(models.Model):
                 '/' + str(record.ano)
 
     @api.multi
-    @api.depends('mes_do_ano', 'ano', 'holidays_ferias')
+    @api.depends('mes_do_ano', 'ano', 'holidays_ferias', 'data_afastamento')
     def _compute_set_dates(self):
         for record in self:
             if record.tipo_de_folha == 'ferias' and record.holidays_ferias:
