@@ -14,11 +14,7 @@ class FinancialMove(models.Model):
     #
     # Accounting
     #
-<<<<<<< HEAD
     account_journal_id = fields.Many2one(
-=======
-    journal_id = fields.Many2one(
->>>>>>> 7d8f229df4fb8cdaadc9b398a41d1b33854c4aae
         comodel_name='account.journal',
         string='Journal',
         ondelete='restrict',
@@ -55,7 +51,6 @@ class FinancialMove(models.Model):
             # the document type of their respectiv debts
             #
             if move.type in (FINANCIAL_RECEIPT, FINANCIAL_PAYMENT):
-<<<<<<< HEAD
                 financial_account = move.debt_id.account_id
             else:
                 financial_account = move.account_id
@@ -64,16 +59,6 @@ class FinancialMove(models.Model):
                 vals['journal_id'] = move.account_journal_id.id
             elif financial_account.account_journal_id:
                 vals['journal_id'] = financial_account.account_journal_id.id
-=======
-                document_type = move.debt_id.document_type_id
-            else:
-                document_type = move.document_type_id
-
-            if move.journal_id:
-                vals['journal_id'] = move.journal_id.id
-            elif move.document_type_id.journal_id:
-                vals['journal_id'] = document_type.journal_id.id
->>>>>>> 7d8f229df4fb8cdaadc9b398a41d1b33854c4aae
 
             if move.account_move_id:
                 if move.account_move_id.state != 'draft':
@@ -92,7 +77,6 @@ class FinancialMove(models.Model):
                 move_template = move.account_move_template_id
             else:
                 if move.type == FINANCIAL_DEBT_2RECEIVE and \
-<<<<<<< HEAD
                     financial_account.account_move_template_2receive_id:
                     move_template = \
                         financial_account.account_move_template_2receive_id
@@ -119,34 +103,6 @@ class FinancialMove(models.Model):
                     financial_account.account_move_template_money_out_id:
                     move_template = \
                         financial_account.account_move_template_money_out_id
-=======
-                    document_type.account_move_template_2receive_id:
-                    move_template = \
-                        document_type.account_move_template_2receive_id
-
-                elif move.type == FINANCIAL_DEBT_2PAY and \
-                    document_type.account_move_template_2pay_id:
-                    move_template = \
-                        document_type.account_move_template_2pay_id
-
-                elif move.type == FINANCIAL_RECEIPT and \
-                    document_type.account_move_template_receipt_item_id:
-                    move_template = \
-                        document_type.account_move_template_receipt_item_id
-
-                elif move.type == FINANCIAL_PAYMENT and \
-                    document_type.account_move_template_payment_item_id:
-                    move_template = \
-                        document_type.account_move_template_payment_item_id
-                elif move.type == FINANCIAL_MONEY_IN and \
-                    document_type.account_move_template_money_in_id:
-                    move_template = \
-                        document_type.account_move_template_money_in_id
-                elif move.type == FINANCIAL_MONEY_OUT and \
-                    document_type.account_move_template_money_out_id:
-                    move_template = \
-                        document_type.account_move_template_money_out_id
->>>>>>> 7d8f229df4fb8cdaadc9b398a41d1b33854c4aae
 
             if move_template is None:
                 #raise
@@ -207,15 +163,9 @@ class FinancialMove(models.Model):
                             partner.property_account_receivable_id
 
                 elif self.type == FINANCIAL_DEBT_2PAY:
-<<<<<<< HEAD
                     if account_move.journal_id.default_debit_account_id:
                         account_debit = \
                             account_move.journal_id.default_debit_account_id
-=======
-                    if self.journal_id.default_debit_account_id:
-                        account_debit = \
-                            self.journal_id.default_debit_account_id
->>>>>>> 7d8f229df4fb8cdaadc9b398a41d1b33854c4aae
 
                 elif self.type == FINANCIAL_RECEIPT:
                     if self.bank_id.account_id:
@@ -231,15 +181,9 @@ class FinancialMove(models.Model):
                         account_debit = self.bank_id.account_id
 
                 elif self.type == FINANCIAL_MONEY_OUT:
-<<<<<<< HEAD
                     if account_move.journal_id.default_debit_account_id:
                         account_debit = \
                             account_move.journal_id.default_debit_account_id
-=======
-                    if self.journal_id.default_debit_account_id:
-                        account_debit = \
-                            self.journal_id.default_debit_account_id
->>>>>>> 7d8f229df4fb8cdaadc9b398a41d1b33854c4aae
 
             if account_debit is None:
                 # raise
@@ -263,15 +207,9 @@ class FinancialMove(models.Model):
                 account_credit = template_item.account_credit_id
             else:
                 if self.type == FINANCIAL_DEBT_2RECEIVE:
-<<<<<<< HEAD
                     if account_move.journal_id.default_credit_account_id:
                         account_debit = \
                             account_move.journal_id.default_credit_account_id
-=======
-                    if self.journal_id.default_credit_account_id:
-                        account_debit = \
-                            self.journal_id.default_credit_account_id
->>>>>>> 7d8f229df4fb8cdaadc9b398a41d1b33854c4aae
 
                 elif self.type == FINANCIAL_DEBT_2PAY:
                     if partner.property_account_payable_id:
@@ -288,15 +226,9 @@ class FinancialMove(models.Model):
                         account_credit = self.bank_id.account_id
 
                 elif self.type == FINANCIAL_MONEY_IN:
-<<<<<<< HEAD
                     if account_move.journal_id.default_credit_account_id:
                         account_debit = \
                             account_move.journal_id.default_credit_account_id
-=======
-                    if self.journal_id.default_credit_account_id:
-                        account_debit = \
-                            self.journal_id.default_credit_account_id
->>>>>>> 7d8f229df4fb8cdaadc9b398a41d1b33854c4aae
 
                 elif self.type == FINANCIAL_MONEY_OUT:
                     if self.bank_id.account_id:
@@ -313,11 +245,6 @@ class FinancialMove(models.Model):
             fields_already_accounted.append(template_item.field)
 
         if move_template.parent_id:
-<<<<<<< HEAD
             self.create_account_move_line(account_move,
                 move_template.parent_id, line_ids,
                 fields_already_accounted=fields_already_accounted)
-=======
-            self.create_account_move_line(account_move, move_template,
-                line_ids, fields_already_accounted=fields_already_accounted)
->>>>>>> 7d8f229df4fb8cdaadc9b398a41d1b33854c4aae
