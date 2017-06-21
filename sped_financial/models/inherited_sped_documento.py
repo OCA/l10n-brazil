@@ -45,7 +45,7 @@ class SpedDocumento(models.Model):
 
         if self.operacao_id.financial_account_id:
             res['value']['financial_account_id'] = \
-                self.operacao_id.financial.account_id.id
+                self.operacao_id.financial_account_id.id
 
         return res
 
