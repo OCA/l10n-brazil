@@ -9,6 +9,7 @@
         <field name="name">sped.participante.base.form</field>
         <field name="model">sped.participante</field>
         <field name="priority">9999</field>
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
             <form string="Cliente">
                 <field name="exige_cnpj_cpf" invisible="1" />
@@ -138,6 +139,7 @@
         <field name="name">sped.participante.base.tree</field>
         <field name="model">sped.participante</field>
         <field name="priority">9999</field>
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
             <tree string="Clientes">
                 <field name="nome" />
@@ -155,6 +157,7 @@
         <field name="name">sped.participante.base.search</field>
         <field name="model">sped.participante</field>
         <field name="priority">9999</field>
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
             <search string="Clientes">
                 <field name="nome" filter_domain="['|', '|', '|', ('nome','ilike',self), ('razao_social','ilike',self), ('fantasia','ilike',self), ('cnpj_cpf','ilike',self)]" />
