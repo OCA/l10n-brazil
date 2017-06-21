@@ -9,34 +9,8 @@
         <field name="name">sped.documento.emissao.nfse.form</field>
         <field name="model">sped.documento</field>
         <field name="priority">1</field>
-        <field name="type">form</field>
-        <field name="copy_id" ref="sped.sped_documento_base_form" />
-        <!-- <field name="arch" eval="False" /> -->
-    </record>
-
-    <record model="ir.ui.view" id="sped_documento_emissao_nfse_tree">
-        <field name="name">sped.documento.emissao.nfse.tree</field>
-        <field name="model">sped.documento</field>
-        <field name="priority">1</field>
-        <field name="type">tree</field>
-        <field name="copy_id" ref="sped.sped_documento_base_tree" />
-        <!-- <field name="arch" eval="False" /> -->
-    </record>
-
-    <record model="ir.ui.view" id="sped_documento_emissao_nfse_search">
-        <field name="name">sped.documento.emissao.nfse.search</field>
-        <field name="model">sped.documento</field>
-        <field name="priority">1</field>
-        <field name="type">search</field>
-        <field name="copy_id" ref="sped.sped_documento_base_search" />
-        <!-- <field name="arch" eval="False" /> -->
-    </record>
-
-    <record model="ir.ui.view" id="sped_documento_emissao_nfse_inherited_form">
-        <field name="name">sped.documento.emissao.nfse.inherited.form</field>
-        <field name="model">sped.documento</field>
-        <field name="priority">2</field>
-        <field name="inherit_id" ref="sped.sped_documento_emissao_nfse_form" />
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sped.sped_documento_base_form" />
         <field name="arch" type="xml">
             <page name="transporte" position="replace" />
             <xpath expr="//form[1]" position="attributes">
@@ -46,9 +20,9 @@
                 <attribute name="domain" value="" />
             </xpath>
             <xpath expr="//field[@name='item_ids']" position="replace">
-                <field name="item_ids" 
-                       nolabel="1" 
-                       colspan="4" 
+                <field name="item_ids"
+                       nolabel="1"
+                       colspan="4"
                        context="{'form_view_ref' : 'sped.sped_documento_item_emissao_servico_form', 'tree_view_ref' : 'sped.sped_documento_item_emissao_servico_tree'}" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
             </xpath>
             <xpath expr="//separator[@name='pagamentos']" position="replace" />
@@ -56,11 +30,12 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="sped_documento_emissao_nfse_inherited_tree">
-        <field name="name">sped.documento.emissao.nfse.inherited.tree</field>
+    <record model="ir.ui.view" id="sped_documento_emissao_nfse_tree">
+        <field name="name">sped.documento.emissao.nfse.tree</field>
         <field name="model">sped.documento</field>
-        <field name="priority">2</field>
-        <field name="inherit_id" ref="sped.sped_documento_emissao_nfse_tree" />
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sped.sped_documento_base_tree" />
         <field name="arch" type="xml">
             <xpath expr="//tree[1]" position="attributes">
                 <attribute name="string">Emissão de NFS-e</attribute>
@@ -68,11 +43,12 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="sped_documento_emissao_nfse_inherited_search">
-        <field name="name">sped.documento.emissao.nfse.inherited.search</field>
+    <record model="ir.ui.view" id="sped_documento_emissao_nfse_search">
+        <field name="name">sped.documento.emissao.nfse.search</field>
         <field name="model">sped.documento</field>
-        <field name="priority">2</field>
-        <field name="inherit_id" ref="sped.sped_documento_emissao_nfse_search" />
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sped.sped_documento_base_search" />
         <field name="arch" type="xml">
             <xpath expr="//search[1]" position="attributes">
                 <attribute name="string">Emissão de NFS-e</attribute>
