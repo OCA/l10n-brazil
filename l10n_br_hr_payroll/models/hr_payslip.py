@@ -406,7 +406,7 @@ class HrPayslip(models.Model):
         compute='_compute_valor_total_folha',
     )
     fim_gozo_fmt = fields.Char(
-        string=u'Fom do Período de Gozo Formatado',
+        string=u'Fim do Periodo de Gozo Formatado',
         compute='_compute_valor_total_folha',
     )
 

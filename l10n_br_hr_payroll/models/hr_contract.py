@@ -105,6 +105,7 @@ class HrContract(models.Model):
         comodel_name='hr.contract.salary.rule',
         inverse_name='contract_id',
         string=u"Rúbricas específicas",
+        ondelete='cascade',
     )
     change_salary_ids = fields.One2many(
         comodel_name='l10n_br_hr.contract.change',
