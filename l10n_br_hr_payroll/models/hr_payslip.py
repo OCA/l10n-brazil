@@ -1517,6 +1517,10 @@ class HrPayslip(models.Model):
             if data_final and ultimo_dia_do_mes > data_final:
                 record.date_to = record.contract_id.date_end
 
+            if record.data_afastamento and \
+               ultimo_dia_do_mes > record.data_afastamento:
+                record.date_to = record.data_afastamento
+
     @api.multi
     def _checar_holerites_aprovados(self):
         return self.env['hr.payslip'].search(
