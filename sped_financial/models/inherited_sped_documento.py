@@ -45,11 +45,7 @@ class SpedDocumento(models.Model):
 
         if self.operacao_id.financial_account_id:
             res['value']['financial_account_id'] = \
-<<<<<<< HEAD
                 self.operacao_id.financial_account_id.id
-=======
-                self.operacao_id.financial.account_id.id
->>>>>>> 7d8f229df4fb8cdaadc9b398a41d1b33854c4aae
 
         return res
 
