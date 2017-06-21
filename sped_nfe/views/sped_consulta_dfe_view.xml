@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_consulta_dfe_form" >
+        <field name="name">sped.consulta.dfe.form</field>
+        <field name="model">sped.consulta.dfe</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Consulta DF-e">
+            <sheet>
+<!--                <div class="oe_title">
+                    <label for="tipo" class="oe_edit_only"/>
+                    <h1>
+                        <field name="tipo" default_focus="1" required="1" />
+                    </h1>
+                    <label for="login" class="oe_edit_only"/>
+                    <h2>
+                        <field name="login" required="1" />
+                    </h2>
+                </div>-->
+<!--                 <separator string="Contato" /> -->
+                <group>
+                    <group col="4" colspan="4">
+                        <field name="empresa_id" required="1" domain="[('certificado_id', '!=', False)]" />
+                        <newline />
+                        <field name="ultimo_nsu" required="1" />
+                        <newline />
+                        <field name="ultima_consulta" readonly="1" />
+                        <newline />
+                        <button name="busca_documentos" string="Busca documentos" type="object" class="btn-primary" />
+                    </group>
+                </group>
+            </sheet>
+<!--            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+            </div>-->
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_consulta_dfe_tree">
+        <field name="name">sped.consulta.dfe.tree</field>
+        <field name="model">sped.consulta.dfe</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Consultas DF-e">
+                <field name="empresa_id" />
+                <field name="ultimo_nsu" />
+                <field name="ultima_consulta" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_consulta_dfe_search">
+        <field name="name">sped.consulta.dfe.search</field>
+        <field name="model">sped.consulta.dfe</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Consultas DF-e">
+                <field name="empresa_id" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_consulta_dfe_acao">
+        <field name="name">Consultas DF-e</field>
+        <field name="res_model">sped.consulta.dfe</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_consulta_dfe_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_consulta_dfe_form"/>
+        <field name="act_window_id" ref="sped_consulta_dfe_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_consulta_dfe_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_consulta_dfe_tree"/>
+        <field name="act_window_id" ref="sped_consulta_dfe_acao"/>
+    </record>
+
+    <menuitem
+        id="menu_sped_consulta_dfe"
+        sequence="20"
+        name="Consultas DF-e"
+        parent="sped.menu_sped_documento_emissao"
+        action="sped_consulta_dfe_acao"
+        />
+
+</odoo>

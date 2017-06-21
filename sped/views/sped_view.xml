@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+
+    <menuitem
+        parent="l10n_br_base.menu_fiscal"
+        sequence="1"
+        id="menu_sped_documento_emissao"
+        name="Emissão"
+        />
+
+    <menuitem
+        parent="l10n_br_base.menu_fiscal"
+        sequence="2"
+        id="menu_sped_documento_recebimento"
+        name="Recebimento"
+        />
+
+</odoo>

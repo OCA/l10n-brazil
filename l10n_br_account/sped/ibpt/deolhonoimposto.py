@@ -36,8 +36,8 @@ def _request(req):
         return _convert(data)
 
     except urllib2.HTTPError, e:
-        from openerp import _
-        from openerp.exceptions import Warning as UserError
+        from odoo import _
+        from odoo.exceptions import Warning as UserError
         raise UserError(_('Error in the request: {0}'.format(e)))
 
 
@@ -55,7 +55,7 @@ def get_ibpt_product(config, ncm, ex='0', reference=None, description=None,
         'unidadeMedida': uom,
         'valor': amount,
         'gtin': gtin,
-        })
+    })
 
     req = urllib2.Request(WS_IBPT[WS_PRODUTOS] + data)
     return _request(req)
@@ -71,7 +71,7 @@ def get_ibpt_service(config, nbs, description=None, uom=None, amount=None):
         'descricao': description,
         'unidadeMedida': uom,
         'valor': amount,
-        })
+    })
 
     req = urllib2.Request(WS_IBPT[WS_SERVICOS] + data)
     return _request(req)

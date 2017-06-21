@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="1">
+
+    <record id="ALIQUOTA_PIS_COFINS_SIMPLES" model="sped.aliquota.pis.cofins">
+        <field name="al_pis">0</field>
+        <field name="al_cofins">0</field>
+        <field name="md_pis_cofins">0</field>
+        <field name="cst_pis_cofins_entrada">98</field>
+        <field name="cst_pis_cofins_saida">99</field>
+        <field name="codigo_justificativa"></field>
+    </record>
+
+    <record id="ALIQUOTA_PIS_COFINS_LUCRO_PRESUMIDO" model="sped.aliquota.pis.cofins">
+        <field name="al_pis">0.65</field>
+        <field name="al_cofins">3</field>
+        <field name="md_pis_cofins">0</field>
+        <field name="cst_pis_cofins_entrada">70</field>
+        <field name="cst_pis_cofins_saida">01</field>
+        <field name="codigo_justificativa"></field>
+    </record>
+
+    <record id="ALIQUOTA_PIS_COFINS_LUCRO_REAL" model="sped.aliquota.pis.cofins">
+        <field name="al_pis">7.6</field>
+        <field name="al_cofins">1.65</field>
+        <field name="md_pis_cofins">0</field>
+        <field name="cst_pis_cofins_entrada">50</field>
+        <field name="cst_pis_cofins_saida">01</field>
+        <field name="codigo_justificativa"></field>
+    </record>
+
+    <record id="ALIQUOTA_PIS_COFINS_IMPORTACAO" model="sped.aliquota.pis.cofins">
+        <field name="al_pis">2.1</field>
+        <field name="al_cofins">9.65</field>
+        <field name="md_pis_cofins">0</field>
+        <field name="cst_pis_cofins_entrada">50</field>
+        <field name="cst_pis_cofins_saida">01</field>
+        <field name="codigo_justificativa"></field>
+    </record>
+
+</odoo>
