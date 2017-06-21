@@ -2,12 +2,12 @@
 # (c) 2017 KMEE- Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from .abstract_arquivos_governo import AbstractArquivosGoverno
-
 from datetime import datetime
 
-class Caged(AbstractArquivosGoverno):
+from .abstract_arquivos_governo import AbstractArquivosGoverno
 
+
+class Caged(AbstractArquivosGoverno):
     # Registro do estabelecimento responsável pela informação no
     # meio magnético (autorizado).
     def _registro_A(self):
