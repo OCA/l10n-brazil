@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 Hendrix Costa
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_employee_view_form">
+            <field name="name">hr.employee.view.form (in l10n_br_hr_arquivos_governo)</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <field name="birthday" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+                <field name="address_home_id" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+                <field name="gender" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_l10n_br_hr_employee_form">
+            <field name="name">l10n_br.hr.employee.view.form(in l10n_br_hr_arquivos_governo)</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="l10n_br_hr.view_l10n_br_hr_employee_form"/>
+            <field name="arch" type="xml">
+                <field name="ctps" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <field name="ctps_series" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <field name="ctps_date" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <field name="ctps_uf_id" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <field name="pis_pasep" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <field name="educational_attainment" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <field name="ethnicity" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <field name="identity_type_id" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <field name="rg" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <field name="organ_exp" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <field name="rg_emission" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <field name="identity_validity" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <field name="identity_uf_id" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <field name="identity_city_id" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

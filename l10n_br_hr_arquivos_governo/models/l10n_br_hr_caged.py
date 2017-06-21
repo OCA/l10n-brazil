@@ -180,7 +180,7 @@ class HrCaged(models.Model):
         caged.B_endereco = (company_id.street or '') + \
                            (company_id.street2 or '') + \
                            (company_id.number or '')
-        caged.B_bairro = ''
+        caged.B_bairro = company_id.district
         caged.B_uf = company_id.state_id.code
 # Como vai calcular esse campo?
         caged.B_total_empregados_existentes = qtd_funcionarios
@@ -267,7 +267,7 @@ class HrCaged(models.Model):
         caged.C_cep_residencia = employee_id.address_home_id.zip
         return caged._registro_C()
 
-    def _preencher_caged_atualizar_funcionario(self, contrato, caged, seq):
+    def _preencher_registro_X(self, contrato, caged, seq):
         """
         Dado um contrato, computar a linha de preenchimento do caged relativa
          ao preenchimento das informações do funcionario.
