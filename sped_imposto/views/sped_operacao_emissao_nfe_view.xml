@@ -9,34 +9,8 @@
         <field name="name">sped.operacao.emissao.nfe.form</field>
         <field name="model">sped.operacao</field>
         <field name="priority">1</field>
-        <field name="type">form</field>
-        <field name="copy_id" ref="sped_imposto.sped_operacao_base_form" />
-        <!--<field name="arch" eval="False" />-->
-    </record>
-
-    <record model="ir.ui.view" id="sped_operacao_emissao_nfe_tree">
-        <field name="name">sped.operacao.emissao.nfe.tree</field>
-        <field name="model">sped.operacao</field>
-        <field name="priority">1</field>
-        <field name="type">tree</field>
-        <field name="copy_id" ref="sped_imposto.sped_operacao_base_tree" />
-        <!--<field name="arch" eval="False" />-->
-    </record>
-
-    <record model="ir.ui.view" id="sped_operacao_emissao_nfe_search">
-        <field name="name">sped.operacao.emissao.nfe.search</field>
-        <field name="model">sped.operacao</field>
-        <field name="priority">1</field>
-        <field name="type">search</field>
-        <field name="copy_id" ref="sped_imposto.sped_operacao_base_search" />
-        <!--<field name="arch" eval="False" />-->
-    </record>
-
-    <record model="ir.ui.view" id="sped_operacao_emissao_nfe_inherited_form">
-        <field name="name">sped.operacao.emissao.nfe.inherited.form</field>
-        <field name="model">sped.operacao</field>
-        <field name="priority">2</field>
-        <field name="inherit_id" ref="sped_imposto.sped_operacao_emissao_nfe_form" />
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sped_imposto.sped_operacao_base_form" />
         <field name="arch" type="xml">
             <xpath expr="//form[1]" position="attributes">
                 <attribute name="string">Operação Fiscal para Emissão de NF-e</attribute>
@@ -44,11 +18,12 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="sped_operacao_emissao_nfe_inherited_tree">
-        <field name="name">sped.operacao.emissao.nfe.inherited.tree</field>
+    <record model="ir.ui.view" id="sped_operacao_emissao_nfe_tree">
+        <field name="name">sped.operacao.emissao.nfe.tree</field>
         <field name="model">sped.operacao</field>
-        <field name="priority">2</field>
-        <field name="inherit_id" ref="sped_imposto.sped_operacao_emissao_nfe_tree" />
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sped_imposto.sped_operacao_base_tree" />
         <field name="arch" type="xml">
             <xpath expr="//tree[1]" position="attributes">
                 <attribute name="string">Operação Fiscal para Emissão de NF-e</attribute>
@@ -56,11 +31,12 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="sped_operacao_emissao_nfe_inherited_search">
-        <field name="name">sped.operacao.emissao.nfe.inherited.search</field>
+    <record model="ir.ui.view" id="sped_operacao_emissao_nfe_search">
+        <field name="name">sped.operacao.emissao.nfe.search</field>
         <field name="model">sped.operacao</field>
-        <field name="priority">2</field>
-        <field name="inherit_id" ref="sped_imposto.sped_operacao_emissao_nfe_search" />
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sped_imposto.sped_operacao_base_search" />
         <field name="arch" type="xml">
             <xpath expr="//search[1]" position="attributes">
                 <attribute name="string">Operação Fiscal para Emissão de NF-e</attribute>

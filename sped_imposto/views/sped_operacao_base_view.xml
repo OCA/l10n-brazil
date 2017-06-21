@@ -9,6 +9,7 @@
         <field name="name">sped.operacao.base.form</field>
         <field name="model">sped.operacao</field>
         <field name="priority">9999</field>
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
             <form string="Operação Fiscal - Emissão de NF-e">
                 <sheet>
@@ -105,6 +106,7 @@
         <field name="name">sped.operacao.base.tree</field>
         <field name="model">sped.operacao</field>
         <field name="priority">9999</field>
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
             <tree string="Operação Fiscal - Emissão de NF-e">
                 <field name="nome" />
@@ -119,6 +121,7 @@
         <field name="name">sped.operacao.base.search</field>
         <field name="model">sped.operacao</field>
         <field name="priority">9999</field>
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
             <search string="Operação Fiscal - Emissão de NF-e">
                 <field name="nome" />
