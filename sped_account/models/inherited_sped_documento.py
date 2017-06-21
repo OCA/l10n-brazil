@@ -54,6 +54,22 @@ class SpedDocumento(models.Model):
 
         return res
 
+    @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
+    def onchange_operacao_id(self):
+        res = super(SpedDocumento, self).onchange_operacao_id()
+
+        if not self.operacao_id:
+            return res
+
+        if self.operacao_id.journal_id:
+            res['value']['journal_id'] = self.operacao_id.journal_id.id
+
+        if self.operacao_id.account_move_template_ids:
+            res['value']['account_move_template_id'] = \
+                self.operacao_id.account_move_template_ids[0].id
+
+        return res
+
     def executa_antes_autorizar(self):
         super(SpedDocumento, self).executa_antes_autorizar()
         self.gera_account_move()
