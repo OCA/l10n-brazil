@@ -11,4 +11,4 @@ from . import financial_account_move_template
 from . import financial_account_move_template_item
 from . import inherited_financial_move
 from . import inherited_res_partner_bank
-from . import inherited_financial_document_type
+from . import inherited_financial_account
