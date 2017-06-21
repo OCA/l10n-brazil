@@ -8,7 +8,6 @@
 from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
-from .account_account_tree_analysis import SQL_SELECT_ACCOUNT_TREE_ANALYSIS
 from ..constantes import *
 
 
@@ -158,6 +157,8 @@ class AccountAccount(models.Model):
                 conta.natureza = TIPO_CONTA_CONTABIL_NATUREZA[conta.tipo]
 
     def recreate_account_account_tree_analysis(self):
+        from .account_account_tree_analysis import \
+            SQL_SELECT_ACCOUNT_TREE_ANALYSIS
         SQL_RECREATE_ACCOUNT_ACCOUNT_TREE_ANALYSIS = '''
         delete from account_account_tree_analysis;
         insert into account_account_tree_analysis (id, child_account_id,
