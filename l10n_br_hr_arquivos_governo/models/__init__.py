@@ -7,3 +7,4 @@ from . import l10n_br_hr_caged
 from . import l10n_br_hr_contract
 from . import l10n_br_hr_payslip
 from . import res_company
+from . import l10n_br_sefip

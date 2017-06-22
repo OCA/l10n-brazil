@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE INFORMATICA - Daniel Sadamo <daniel.sadamo@kmee.com.br>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record model="ir.actions.act_window" id="hr_sefip_act_window">
+            <field name="name">HR SEFIP</field>
+            <field name="res_model">l10n_br.hr.sefip</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record model="ir.ui.menu" id="hr_sefip_menu">
+            <field name="name">SEFIP</field>
+            <field name="parent_id" ref="hr.menu_hr_root"/>
+            <field name="sequence" eval="49"/>
+        </record>
+
+        <record model="ir.ui.menu" id="hr_sefip_submenu">
+            <field name="name">SEFIP</field>
+            <field name="parent_id" ref="hr_sefip_menu"/>
+            <field name="action" ref="hr_sefip_act_window"/>
+            <field name="sequence" eval="1"/>
+        </record>
+
+        <record model="ir.ui.view" id="hr_sefip_form_view">
+            <field name="name">hr.sefip.form</field>
+            <field name="model">l10n_br.hr.sefip</field>
+            <field name="arch" type="xml">
+                <header>
+                    <button name="gerar_sefip" string="Gerar SEFIP" type="object"/>
+                    <button name="voltar_rascunho" string="Voltar para provisório" type="object"/>
+                    <button name="confirmar_envio" string="Confirmar Envio" type="object"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <form string="SEFIP">
+                    <group cols="4" string="SEFIP">
+                        <group colspan="4">
+                            <field name="responsible_company_id"/>
+                            <field name="responsible_user_id"/>
+                            <field name="company_id"/>
+                            <field name="mes"/>
+                            <field name="ano"/>
+                            <field name="modalidade_arquivo"/>
+                         </group>
+                        <group colspan="4">
+                            <field name="codigo_recolhimento"/>
+                            <field name="recolhimento_fgts"/>
+                            <field name="data_recolhimento_fgts"/>
+                        </group>
+                        <group colspan="4">
+                            <field name="codigo_recolhimento_gps"/>
+                            <field name="recolhimento_gps"/>
+                            <field name="data_recolhimento_gps"/>
+                        </group>
+                        <group colspan="4">
+                            <field name="codigo_fpas"/>
+                            <field name="codigo_outras_entidades"/>
+                            <field name="centralizadora"/>
+                            <field name="data_geracao"/>
+                        </group>
+                        <group string="Processo, convenção ou coletiva" colspan="4">
+                            <field name="num_processo"/>
+                            <field name="ano_processo"/>
+                            <field name="vara_jcj"/>
+                            <field name="data_inicio"/>
+                            <field name="data_termino"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!--<record model="ir.ui.view" id="hr_payslip_search_view">-->
+        <!--<field name="name">hr.payslip.search (in l10n_br_hr_arquivos_governo)</field>-->
+        <!--<field name="model">hr.payslip</field>-->
+        <!--<field name="inherit_id" ref="TODO othermodule.search_view"/>-->
+        <!--<field name="arch" type="xml">-->
+        <!--&lt;!&ndash; TODO &ndash;&gt;-->
+        <!--</field>-->
+        <!--</record>-->
+
+        <!--<record model="ir.ui.view" id="hr_payslip_tree_view">-->
+        <!--<field name="name">hr.payslip.tree (in l10n_br_hr_arquivos_governo)</field>-->
+        <!--<field name="model">hr.payslip</field>-->
+        <!--<field name="inherit_id" ref="TODO othermodule.tree_view"/>-->
+        <!--<field name="arch" type="xml">-->
+        <!--&lt;!&ndash; TODO &ndash;&gt;-->
+        <!--</field>-->
+        <!--</record>-->
+
+        <!--<record model="ir.actions.act_window" id="hr_payslip_act_window">-->
+        <!--<field name="name">Hr Payslip</field> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--<field name="res_model">hr.payslip</field>-->
+        <!--<field name="view_mode">tree,form</field>-->
+        <!--<field name="domain">[]</field>-->
+        <!--<field name="context">{}</field>-->
+        <!--</record>-->
+
+        <!--<record model="ir.ui.menu" id="hr_payslip_menu">-->
+        <!--<field name="name">Hr Payslip</field>-->
+        <!--<field name="parent_id" ref="xmlid of parent menu"/> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--<field name="action" ref="hr_payslip_act_window"/>-->
+        <!--<field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--</record>-->
+
+    </data>
+</openerp>
