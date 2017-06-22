@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="1">
+
+    <record id="ALIQUOTA_IPI_NAO_TRIBUTADO" model="sped.aliquota.ipi">
+        <field name="al_ipi">-1.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">53</field>
+        <field name="cst_ipi_entrada">03</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_0" model="sped.aliquota.ipi">
+        <field name="al_ipi">0.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">51</field>
+        <field name="cst_ipi_entrada">01</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_2" model="sped.aliquota.ipi">
+        <field name="al_ipi">2.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_3" model="sped.aliquota.ipi">
+        <field name="al_ipi">3.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_4" model="sped.aliquota.ipi">
+        <field name="al_ipi">4.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_5" model="sped.aliquota.ipi">
+        <field name="al_ipi">5.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_7" model="sped.aliquota.ipi">
+        <field name="al_ipi">7.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_8" model="sped.aliquota.ipi">
+        <field name="al_ipi">8.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_10" model="sped.aliquota.ipi">
+        <field name="al_ipi">10.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_12" model="sped.aliquota.ipi">
+        <field name="al_ipi">12.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_13" model="sped.aliquota.ipi">
+        <field name="al_ipi">13.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_15" model="sped.aliquota.ipi">
+        <field name="al_ipi">15.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_16" model="sped.aliquota.ipi">
+        <field name="al_ipi">16.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_18" model="sped.aliquota.ipi">
+        <field name="al_ipi">18.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_20" model="sped.aliquota.ipi">
+        <field name="al_ipi">20.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_22" model="sped.aliquota.ipi">
+        <field name="al_ipi">22.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_24" model="sped.aliquota.ipi">
+        <field name="al_ipi">24.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_25" model="sped.aliquota.ipi">
+        <field name="al_ipi">25.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_27" model="sped.aliquota.ipi">
+        <field name="al_ipi">27.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_30" model="sped.aliquota.ipi">
+        <field name="al_ipi">30.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_35" model="sped.aliquota.ipi">
+        <field name="al_ipi">35.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_40" model="sped.aliquota.ipi">
+        <field name="al_ipi">40.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_42" model="sped.aliquota.ipi">
+        <field name="al_ipi">42.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_45" model="sped.aliquota.ipi">
+        <field name="al_ipi">45.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_50" model="sped.aliquota.ipi">
+        <field name="al_ipi">50.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_60" model="sped.aliquota.ipi">
+        <field name="al_ipi">60.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_300" model="sped.aliquota.ipi">
+        <field name="al_ipi">300.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+    <record id="ALIQUOTA_IPI_330" model="sped.aliquota.ipi">
+        <field name="al_ipi">330.0</field>
+        <field name="md_ipi">0</field>
+        <field name="cst_ipi_saida">50</field>
+        <field name="cst_ipi_entrada">00</field>
+    </record>
+
+</odoo>
