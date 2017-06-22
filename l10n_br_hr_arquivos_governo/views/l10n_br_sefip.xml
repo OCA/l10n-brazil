@@ -39,7 +39,7 @@
                 <form string="SEFIP">
                     <group cols="4" string="SEFIP">
                         <group colspan="4">
-                            <field name="responsible_company_id"/>
+                            <!--<field name="responsible_company_id"/>-->
                             <field name="responsible_user_id"/>
                             <field name="company_id"/>
                             <field name="mes"/>

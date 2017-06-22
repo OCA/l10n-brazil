@@ -482,7 +482,7 @@ class SEFIP(AbstractArquivosGoverno):
             return word[:tam]
 
         elif tipo == 'N':       # Numerico
-            # Preenche com brancos a direita
+            # Preenche com brancos a esquerda
             word = re.sub('[^0-9]', '', str(word))
             # word = str(word).zfill(tam)
             # return word[:tam]
