@@ -120,7 +120,6 @@
                                    style="width: 30%"/>
                             <field name="state_id" class="oe_no_button" placeholder="Estado"
                                    style="width: 30%" options="{&quot;no_open&quot;: True}"
-                                  
                             <field name="l10n_br_city_id" placeholder="Cidade" style="width: 30%"/>
                         </div>
                     </div>
