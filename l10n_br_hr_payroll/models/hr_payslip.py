@@ -4,7 +4,7 @@
 
 import logging
 from calendar import monthrange
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from dateutil.relativedelta import relativedelta
 from lxml import etree
@@ -1523,7 +1523,7 @@ class HrPayslip(models.Model):
 
             if record.data_afastamento and \
                ultimo_dia_do_mes > record.data_afastamento:
-                record.date_to = record.data_afastamento
+                record.date_to = fields.Date.from_string(record.data_afastamento) - timedelta(days=1)
 
     @api.multi
     def _checar_holerites_aprovados(self):
