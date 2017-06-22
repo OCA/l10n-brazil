@@ -16,8 +16,7 @@ addons:
 
 env:
   - VERSION="10.0" LINT_CHECK="1"
-  - VERSION="10.0" ODOO_REPO="odoo/odoo" LINT_CHECK="0"
-  - VERSION="10.0" ODOO_REPO="OCA/OCB" LINT_CHECK="0"
+  - VERSION="10.0" ODOO_REPO="odoo-brazil/odoo" LINT_CHECK="0"
 
 virtualenv:
   system_site_packages: true
