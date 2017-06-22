@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<openerp>
+    <data>
+
+        <record model="hr.contract.type" id="hr_contract_type_indeterminado">
+            <field name="name">Prazo Indeterminado</field>
+            <field name="code">1</field>
+        </record>
+
+        <record model="hr.contract.type" id="hr_contract_type_determinado">
+            <field name="name">Prazo Determinado</field>
+            <field name="code">2</field>
+        </record>
+
+    </data>
+</openerp>

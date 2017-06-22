@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 Hendrix Costa
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <!-- Contract -->
+        <record model="ir.ui.view" id="hr_contract_type_view_form">
+            <field name="name">hr.contract.type.view.form (in l10n_br_hr_arquivos_governo)</field>
+            <field name="model">hr.contract.type</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_type_view_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field colspan="4" name="code"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

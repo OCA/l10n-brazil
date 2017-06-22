@@ -25,6 +25,9 @@
                 <field name="weekly_hours" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
+                <field name="admission_type_id" position="before">
+                    <field name="categoria" />
+                </field>
             </field>
         </record>
 
