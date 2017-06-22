@@ -120,7 +120,7 @@
                                    style="width: 30%"/>
                             <field name="state_id" class="oe_no_button" placeholder="Estado"
                                    style="width: 30%" options="{&quot;no_open&quot;: True}"
-                                   on_change="onchange_state(state_id)" domain="[('country_id','=',country_id)]"/>
+                                   domain="[('country_id','=',country_id)]"/>
                             <field name="l10n_br_city_id" placeholder="Cidade" style="width: 30%"/>
                         </div>
                     </div>
