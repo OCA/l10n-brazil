@@ -83,4 +83,11 @@ class L10nBrSefip(models.Model):
         sefip.data_recolhimento_fgts = self.data_recolhimento_fgts
         sefip.indic_recolh_ps = self.recolhimento_gps
         sefip.data_recolh_ps = self.data_recolhimento_gps
-        # sefip.tipo_inscr_fornec = self.
+        sefip.tipo_inscr_fornec = (
+            '1' if self.company_id.supplier_partner_id.is_company else '3')
+        sefip.inscr_fornec = self.company_id.supplier_partner_id.cnpj_cpf
+        return sefip._registro_00_informacoes_responsavel()
+
+    def _preencher_registro_10(self, sefip):
+
+        return sefip._registro_10_informacoes_empresa()
