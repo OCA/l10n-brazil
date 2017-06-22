@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <menuitem id="menu_cadastro_produto"
+        name="Produtos"
+        sequence="2"
+        parent="l10n_br_base.menu_cadastro"
+        />
+
+    <menuitem id="menu_cadastro_servico"
+        name="Serviços"
+        sequence="3"
+        parent="l10n_br_base.menu_cadastro"
+        />
+
+</odoo>
