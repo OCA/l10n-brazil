@@ -2,6 +2,15 @@
 # Copyright 2017 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from pybrasil import telefone
+except ImportError:
+    _logger.info('Cannot import pybrasil')
+
 import base64
 
 from datetime import datetime
@@ -39,20 +48,11 @@ class HrCaged(models.Model):
         string='CAGED TXT'
     )
 
-    alteracao = fields.Selection(
-        string=u'Alteração?',
-        selection=[
-            ('1', 'Nada a Atualizar'),
-            ('2', 'Alterar dados cadastrais'),
-            ('3', 'Encerramento das Atividades'),
-        ],
-        default='1',
-        help='Define se os dados cadastrais informado irão ou não atualizar o'
-             ' Cadastro de Autorizados do CAGED Informatizado'
-             '\n 1- Nada a atualizar'
-             '\n 2- Alterar dados cadastrais do estabelecimento (Razão Social,'
-             ' Endereço, CEP, Bairro, UF, ou Atividade Econômica)'
-             '\n 3- Encerramento de Atividades (Fechamento do estabelecimento)'
+    primeira_declaracao = fields.Boolean(
+        string='Primeira declaração?',
+        help='Define se é ou não a primeira declaração do estabelecimento ao '
+             'Cadastro Geral de Empregados e Desempregados - '
+             'CAGED  Lei nº 4.923/65.',
     )
 
     responsavel = fields.Many2one(
@@ -85,16 +85,13 @@ class HrCaged(models.Model):
 
     @api.constrains('mes_do_ano', 'ano', 'company_id')
     def caged_restriction(self):
-        if self.alteracao != 2:
-            caged = self.search_count([
-                ('mes_do_ano', '=', self.mes_do_ano),
-                ('ano', '=', self.ano),
-                ('company_id', '=', self.company_id.id),
-                ('alteracao', '=', self.alteracao),
-            ])
-            if caged > 1:
-                raise ValidationError(u'Ja existe Caged nesta data.'
-                                      u'\nFaça um CAGED de Alteração.')
+        caged = self.search_count([
+            ('mes_do_ano', '=', self.mes_do_ano),
+            ('ano', '=', self.ano),
+            ('company_id', '=', self.company_id.id),
+        ])
+        if caged > 1:
+            raise ValidationError(u'Ja existe Caged neste período.')
 
 # 5.1. Especificação Técnica do Arquivo
 # · Campos alfabéticos:
@@ -128,8 +125,9 @@ class HrCaged(models.Model):
         company_id = self.company_id
         # Data da competencia
         caged.A_competencia = str(self.mes_do_ano) + str(self.ano)
-        # Se for alteracao marca com 1 se nao marca com 2 (nada a alterar)
-        caged.A_alteracao = self.alteracao
+        # 1 - Nada a alterar
+        # 2 - Alterar dados cadastrais
+        caged.A_alteracao = 1
         caged.A_sequencia = sequencia
         # Tipo de 1 - CNPJ | 2 - CEI
         caged.A_tipo_identificador = 1
@@ -140,9 +138,10 @@ class HrCaged(models.Model):
                            (company_id.number or '')
         caged.A_cep = company_id.zip
         caged.A_uf = company_id.state_id.code
-# DDD da ABGF fixo pois nao achei no odoo
-        caged.A_ddd = '0061'
-        caged.A_telefone = company_id.phone
+        # Telefone e DDD a partir do phone do res_company
+        ddd, numero = telefone.telefone.separa_fone(company_id.phone)
+        caged.A_ddd = ddd
+        caged.A_telefone = numero
         caged.A_ramal = ''
         # Quantidade de registros tipo B (Estabelecimento) no arquivo.
         caged.A_total_estabelecimento_informados = 1
@@ -162,6 +161,7 @@ class HrCaged(models.Model):
         qtd_funcionarios = self.env['hr.contract'].search_count([
             ('company_id', '=', self.company_id.id),
             ('date_end', '=', False),
+            ('categoria', '=', 101),
         ])
 
         caged.B_sequencia = sequencia
@@ -169,12 +169,15 @@ class HrCaged(models.Model):
         caged.B_tipo_identificador = 1
         caged.B_identificador_estabelecimento = company_id.cnpj_cpf
 
-# TO DO : Definir como sera preenchido esse campo
-#   1. primeira declaração
-#   2. já informou ao CAGED anteriormente
-        caged.B_primeira_declaracao = 2
+        # TO DO : Definir como sera preenchido esse campo
+        #   1. primeira declaração
+        #   2. já informou ao CAGED anteriormente
+        caged.B_primeira_declaracao = 1 if self.primeira_declaracao else 2
 
-        caged.B_alteracao = self.alteracao
+        # 1 - Nada a alterar
+        # 2 - Alterar dados cadastrais
+        caged.B_alteracao = 1
+
         caged.B_cep = company_id.zip
         caged.B_razao_social = company_id.legal_name
         caged.B_endereco = (company_id.street or '') + \
@@ -182,7 +185,8 @@ class HrCaged(models.Model):
                            (company_id.number or '')
         caged.B_bairro = company_id.district
         caged.B_uf = company_id.state_id.code
-# Como vai calcular esse campo?
+        # Como vai calcular esse campo?
+        # criar categoria no contrato
         caged.B_total_empregados_existentes = qtd_funcionarios
         caged.B_total_empregados_existentes = 33
 
@@ -227,24 +231,7 @@ class HrCaged(models.Model):
         caged.C_grau_instrucao = employee_id.educational_attainment.code
         caged.C_salario_mensal = contrato.wage
         caged.C_horas_trabalhadas = contrato.weekly_hours
-
-#         ADMISSÃO
-# 10 - Primeiro emprego
-# 20 - Reemprego
-# 25 - Contrato por prazo determinado
-# 35 - Reintegração
-# 70 - Transferência de entrada
-#         DESLIGAMENTO
-# 31 - Dispensa sem justa causa
-# 32 - Dispensa por justa causa
-# 40 - A pedido (espontâneo)
-# 43 - Término de contrato por prazo determinado
-# 45 - Término de contrato
-# 50 - Aposentado
-# 60 - Morte
-# 80 - Transferência de saída
-        caged.C_tipo_de_movimento = 20
-
+        caged.C_tipo_de_movimento = contrato.labor_bond_type_id.code
         caged.C_admissao = contrato.date_start
         caged.C_dia_desligamento = contrato.date_end
         caged.C_nome_empregado = employee_id.name
@@ -255,12 +242,10 @@ class HrCaged(models.Model):
         # 2 - Para indicar NÃO
         caged.C_pessoas_com_deficiencia = 2
         caged.C_cbo2000 = contrato.job_id.cbo_id.code
-
-# Informar se o empregado é Aprendiz ou não.
-# 1 - SIM
-# 2 – NÃO
-        caged.C_aprendiz = 2
-
+        # Informar se o empregado é Aprendiz ou não. pela categoria
+        # 1 - SIM
+        # 2 – NÃO
+        caged.C_aprendiz = 2 if contrato.categoria != '103' else 1
         caged.C_uf_ctps = employee_id.ctps_uf_id.code
         caged.C_tipo_deficiencia = employee_id.deficiency_id.code
         caged.C_CPF = employee_id.cpf

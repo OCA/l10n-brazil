@@ -9,10 +9,6 @@ _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil.base import tira_acentos
-except ImportError:
-    _logger.info('Cannot import pybrasil')
-
-try:
     from pybrasil import data
 except ImportError:
     _logger.info('Cannot import pybrasil')

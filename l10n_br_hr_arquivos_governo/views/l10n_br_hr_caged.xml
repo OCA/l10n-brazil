@@ -26,7 +26,7 @@
                             <field name="ano"/>
                         </group>
                         <group>
-                            <field name="alteracao"/>
+                            <field name="primeira_declaracao"/>
                             <field name="company_id"/>
                         </group>
                         <group>
@@ -50,7 +50,7 @@
                 <tree>
                     <field name="mes_do_ano"/>
                     <field name="ano"/>
-                    <field name="alteracao"/>
+                    <field name="primeira_declaracao"/>
                     <field name="company_id"/>
                 </tree>
             </field>

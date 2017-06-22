@@ -4,7 +4,6 @@
 
 from openerp import api, exceptions, fields, models, _
 
-from ..constantes_rh import *
 
 class HrContractType(models.Model):
     _inherit = 'hr.contract.type'
