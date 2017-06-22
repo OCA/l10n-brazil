@@ -16,7 +16,6 @@
         'sped_imposto',
         'document',
         'product',
-        'copy_views',
     ],
     'installable': True,
     'application': True,
