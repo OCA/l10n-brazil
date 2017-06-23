@@ -112,6 +112,19 @@ class L10nBrHrMedias(models.Model):
                     linha.media = linha.soma/linha.meses
 
     @api.multi
+    def _completar_colunas_vazias_linha_media(self, vals):
+        """
+        Função responsável por completar com 0's os meses que não possuem
+        o provento no holerite.
+        :param vals:
+        :return: vals
+        """
+        for i in range(1, 13):
+            if not vals.get('mes_' + str(i)):
+                vals.update({'mes_' + str(i): '0.00'})
+        return vals
+
+    @api.multi
     def gerar_media_dos_proventos(self, data_inicio, data_fim, holerite_id):
         """
         Recuperar os proventos do periodo e retornar média
@@ -224,5 +237,7 @@ class L10nBrHrMedias(models.Model):
                             )
                             break
                         mes_cont += 1
+        vals = self._completar_colunas_vazias_linha_media(vals)
+        hr_medias_ids.append(linha_obj.create(vals))
 
         return hr_medias_ids
