@@ -1030,6 +1030,27 @@ class HrPayslip(models.Model):
     #             return media.media
 
     @api.multi
+    def BUSCAR_ADIANTAMENTO_DECIMO_TERCEIRO(self):
+        payslips_id = self.search(
+            [
+                ('tipo_de_folha', '=', 'ferias'),
+                ('contract_id', '=', self.contract_id.id),
+                ('date_from', '>=', str(self.ano)+'-01-01'),
+                ('date_to', '<=', self.date_to)
+            ]
+        )
+        salary_rule_id = self.env['hr.salary.rule'].search(
+            [
+                ('code', '=', 'ADIANTAMENTO_13')
+            ]
+        )
+        payslip_line_id = self.env['hr.payslip.line'].search(
+            [
+                ('slip_id', 'in', payslips_id.ids),
+                ('salary_rule_id', '=', salary_rule_id.id),
+            ]
+        )
+        return payslip_line_id.total
     def BUSCAR_PRIMEIRA_PARCELA(self):
         primeira_parcela_struct_id = self.env.ref(
             'l10n_br_hr_payroll.hr_salary_structure_PRIMEIRA_PARCELA_13'
