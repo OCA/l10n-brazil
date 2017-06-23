@@ -603,7 +603,12 @@ class HrPayslip(models.Model):
             ]
             # se o periodo aquisitivo ja estiver definido, pega o saldo de dias
             if self.periodo_aquisitivo:
-                saldo_ferias = self.periodo_aquisitivo.saldo
+                if self.tipo_de_folha in ['rescisao']:
+                    saldo_ferias = \
+                        self.periodo_aquisitivo.dias_de_direito() *\
+                        self.medias_proventos[0]['meses'] / 12.0
+                else:
+                    saldo_ferias = self.periodo_aquisitivo.saldo
                 result += [
                     self.get_attendances(
                         u'Saldo de dias máximo para Férias', 8,
