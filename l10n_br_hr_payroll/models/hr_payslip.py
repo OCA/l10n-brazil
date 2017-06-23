@@ -1030,12 +1030,12 @@ class HrPayslip(models.Model):
     #             return media.media
 
     @api.multi
-    def BUSCAR_ADIANTAMENTO_DECIMO_TERCEIRO(self):
+    def verificar_adiantamento_13_aviso_ferias(self):
         payslips_id = self.search(
             [
                 ('tipo_de_folha', '=', 'ferias'),
                 ('contract_id', '=', self.contract_id.id),
-                ('date_from', '>=', str(self.ano)+'-01-01'),
+                ('date_from', '>=', str(self.ano) + '-01-01'),
                 ('date_to', '<=', self.date_to)
             ]
         )
@@ -1050,7 +1050,14 @@ class HrPayslip(models.Model):
                 ('salary_rule_id', '=', salary_rule_id.id),
             ]
         )
+        return payslip_line_id
+
+    @api.multi
+    def BUSCAR_ADIANTAMENTO_DECIMO_TERCEIRO(self):
+        payslip_line_id = self.verificar_adiantamento_13_aviso_ferias()
         return payslip_line_id.total
+
+    @api.multi
     def BUSCAR_PRIMEIRA_PARCELA(self):
         primeira_parcela_struct_id = self.env.ref(
             'l10n_br_hr_payroll.hr_salary_structure_PRIMEIRA_PARCELA_13'
@@ -1387,6 +1394,15 @@ class HrPayslip(models.Model):
             # organizando as regras pela sequencia de execução definida
             sorted_rule_ids = \
                 [id for id, sequence in sorted(rule_ids, key=lambda x:x[1])]
+
+            if payslip.tipo_de_folha == "rescisao":
+                if not self.verificar_adiantamento_13_aviso_ferias():
+                    salary_rule_id = self.env['hr.salary.rule'].search(
+                        [
+                            ('code', '=', 'ADIANTAMENTO_13_RESC'),
+                        ]
+                    )
+                    sorted_rule_ids.remove(salary_rule_id.id)
 
             for contract in self.env['hr.contract'].browse(contract_ids.ids):
                 employee = contract.employee_id
