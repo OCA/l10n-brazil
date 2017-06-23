@@ -150,6 +150,7 @@ class L10nBrHrMedias(models.Model):
                                     'ano': folha.ano,
                                     'valor': linha.total,
                                     'rubrica_id': linha.salary_rule_id.id,
+                                    'codigo': linha.salary_rule_id.code,
                                 }]
                         })
                     else:
@@ -158,6 +159,7 @@ class L10nBrHrMedias(models.Model):
                             'ano': folha.ano,
                             'valor': linha.total,
                             'rubrica_id': linha.salary_rule_id.id,
+                            'codigo': linha.salary_rule_id.code,
                         })
 
         linha_obj = self.env['l10n_br.hr.medias']
@@ -166,22 +168,27 @@ class L10nBrHrMedias(models.Model):
         meses_titulos = []
 
         # definindo titulo da visao tree
+        id_rubrica_salario = 0
         for rubrica in medias:
-            mes_cont = 1
-            titulo.update({'meses': len(medias[rubrica])})
-            titulo.update({'holerite_id': holerite_id.id})
-            titulo.update({'linha_de_titulo': True})
-            for mes in medias[rubrica]:
-                titulo.update(
-                    {
-                        'mes_' + str(mes_cont):
-                            str(mes['mes'])[:3] + '/' + str(mes['ano']),
-                    }
-                )
-                if str(mes['mes']) in meses_titulos:
-                    meses_titulos.remove(str(mes['mes']))
-                meses_titulos.append(str(mes['mes']))
-                mes_cont += 1
+            if medias[rubrica][0]['codigo'] == 'SALARIO':
+                id_rubrica_salario = rubrica
+                break
+
+        mes_cont = 1
+        titulo.update({'meses': len(medias[id_rubrica_salario])})
+        titulo.update({'holerite_id': holerite_id.id})
+        titulo.update({'linha_de_titulo': True})
+        for mes in medias[id_rubrica_salario]:
+            titulo.update(
+                {
+                    'mes_' + str(mes_cont):
+                        str(mes['mes'])[:3] + '/' + str(mes['ano']),
+                }
+            )
+            if str(mes['mes']) in meses_titulos:
+                meses_titulos.remove(str(mes['mes']))
+            meses_titulos.append(str(mes['mes']))
+            mes_cont += 1
         linha_obj.create(titulo)
 
         # definindo a linha
