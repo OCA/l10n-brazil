@@ -192,25 +192,37 @@ class L10nBrHrMedias(models.Model):
         linha_obj.create(titulo)
 
         # definindo a linha
+        vals = {}
         for rubrica in medias:
-            vals = {}
-            nome_rubrica = self.env['hr.salary.rule'].\
-                browse(rubrica).display_name
-            vals.update({'nome_rubrica': nome_rubrica})
-            vals.update({'meses': len(medias[rubrica])})
-            vals.update({'holerite_id': holerite_id.id})
-            vals.update({'rubrica_id': rubrica})
+            if not vals:
+                nome_rubrica = self.env['hr.salary.rule'].\
+                    browse(rubrica).display_name
+                vals.update({'nome_rubrica': nome_rubrica})
+                vals.update({'meses': len(medias[rubrica])})
+                vals.update({'holerite_id': holerite_id.id})
+                vals.update({'rubrica_id': rubrica})
 
-            for mes in medias[rubrica]:
-                mes_cont = 1
-                for mes_titulo in meses_titulos:
-                    # se o mes em questão for igual mes do titulo
-                    if mes_titulo == mes['mes']:
-                        vals.update({
-                            'mes_' + str(mes_cont): str(mes['valor']),
-                        })
-                        break
-                    mes_cont += 1
-            hr_medias_ids.append(linha_obj.create(vals))
+                for mes in medias[rubrica]:
+                    mes_cont = 1
+                    for mes_titulo in meses_titulos:
+                        # se o mes em questão for igual mes do titulo
+                        if mes_titulo == mes['mes']:
+                            vals.update({
+                                'mes_' + str(mes_cont): str(mes['valor']),
+                            })
+                            break
+                        mes_cont += 1
+            else:
+                for mes in medias[rubrica]:
+                    mes_cont = 1
+                    for mes_titulo in meses_titulos:
+                        # se o mes em questão for igual mes do titulo
+                        if mes_titulo == mes['mes']:
+                            vals['mes_' + str(mes_cont)] = str(
+                                float(vals['mes_' + str(mes_cont)]) +
+                                mes['valor']
+                            )
+                            break
+                        mes_cont += 1
 
         return hr_medias_ids
