@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="1">
+
+     <record id="PROTOCOLO_ICMS_PADRAO" model="sped.protocolo.icms">
+        <field name="descricao">Padrão</field>
+    </record>
+
+</odoo>
