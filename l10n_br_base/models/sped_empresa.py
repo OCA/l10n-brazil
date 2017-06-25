@@ -63,6 +63,9 @@ class SpedEmpresa(models.Model):
         ondelete='restrict',
         # required=True
     )
+    eh_empresa = fields.Boolean(
+        default=True,
+    )
 
     @api.multi
     def name_get(self):
