@@ -10,7 +10,7 @@ from openerp.exceptions import Warning as UserError
 _logger = logging.getLogger(__name__)
 
 try:
-    from pybrasil.valor.decimal import Decimal, ROUND_HALP_UP
+    from pybrasil.valor.decimal import Decimal
 
 except ImportError:
     _logger.info('Cannot import pybrasil')

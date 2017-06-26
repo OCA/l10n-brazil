@@ -36,18 +36,18 @@ class HrPayslipeLine(models.Model):
         string=u'Sequence',
     )
     rate = fields.Float(
-       digits=(18,11),
+        digits=(18, 11),
     )
     amount = fields.Float(
-       digits=(18,11),
+        digits=(18, 11),
     )
     quantity = fields.Float(
-       digits=(18,11),
+        digits=(18, 11),
     )
     total = fields.Float(
-       digits=(18,2),
-       compute='_compute_total',
-       store=True,
+        digits=(18, 2),
+        compute='_compute_total',
+        store=True,
     )
 
     @api.depends('rate', 'amount', 'quantity')

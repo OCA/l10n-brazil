@@ -712,7 +712,9 @@ class HrPayslip(models.Model):
             if self.date_from >= rule.date_start:
                 if not rule.date_stop or self.date_to <= rule.date_stop:
                     if rule.rule_id.id not in dict(rule_ids):
-                        rule_ids.append((rule.rule_id.id, rule.rule_id.sequence))
+                        rule_ids.append(
+                            (rule.rule_id.id, rule.rule_id.sequence)
+                        )
         return rule_ids
 
     def get_ferias_rubricas(self, payslip, rule_ids):
@@ -1321,14 +1323,14 @@ class HrPayslip(models.Model):
                     }
                     baselocaldict[line.code + '_FERIAS'] = line.total
 
-                    #if line.category_id.code == 'DEDUCAO':
+                    # if line.category_id.code == 'DEDUCAO':
                     #    if line.salary_rule_id.compoe_base_INSS:
                     #        baselocaldict['BASE_INSS'] -= line.total
                     #    if line.salary_rule_id.compoe_base_IR:
                     #        baselocaldict['BASE_IR'] -= line.total
                     #    if line.salary_rule_id.compoe_base_FGTS:
                     #        baselocaldict['BASE_FGTS'] -= line.total
-                    #else:
+                    # else:
                     #    if line.salary_rule_id.compoe_base_INSS:
                     #        baselocaldict['BASE_INSS'] += line.total
                     #    if line.salary_rule_id.compoe_base_IR:
@@ -1341,7 +1343,7 @@ class HrPayslip(models.Model):
                     # uma rubrica de provento para devolver ao funcionario
                     # o valor descontado nas ferias proporcionalmente a
                     #  competencia corrente.
-                    #if line.code == 'INSS':
+                    # if line.code == 'INSS':
                     #    line.copy({
                     #        'slip_id': payslip.id,
                     #        'name': line.name + ' (ferias)',
@@ -1355,7 +1357,6 @@ class HrPayslip(models.Model):
                     #    # mas nao compoe base do INSS
                     #    baselocaldict['BASE_INSS'] -= line.total
                     #    baselocaldict['BASE_IR'] += line.total
-
 
             # organizando as regras pela sequencia de execução definida
             sorted_rule_ids = \
@@ -1400,10 +1401,11 @@ class HrPayslip(models.Model):
                         previous_amount = \
                             rule.code in localdict and \
                             localdict[rule.code] or 0.0
-                        #previous_amount = 0
+                        # previous_amount = 0
                         # set/overwrite the amount computed
                         # for this rule in the localdict
-                        tot_rule = Decimal(amount or 0) * Decimal(qty or 0) * Decimal(rate or 0) / 100.0
+                        tot_rule = Decimal(amount or 0) * Decimal(
+                            qty or 0) * Decimal(rate or 0) / 100.0
                         tot_rule = tot_rule.quantize(Decimal('0.01'))
                         localdict[rule.code] = tot_rule
                         rules[rule.code] = rule

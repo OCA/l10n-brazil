@@ -4,12 +4,12 @@
 
 import logging
 
-from openerp import fields, models, _
-from openerp.tools.safe_eval import safe_eval
-from openerp.exceptions import ValidationError, Warning as UserError
 import openerp.addons.decimal_precision as dp
-from openerp.osv import osv
 from openerp import api
+from openerp import fields, models, _
+from openerp.exceptions import Warning as UserError
+from openerp.osv import osv
+from openerp.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
 
@@ -111,21 +111,26 @@ class HrSalaryRule(models.Model):
             elif rule.custom_amount_select == 'percentage':
                 try:
                     return (
-                        Decimal(safe_eval(rule.custom_amount_percentage_base,
-                                        localdict)), float(safe_eval(
-                                            rule.custom_quantity, localdict)),
-                        rule.custom_amount_percentage)
+                        Decimal(
+                            safe_eval(
+                                rule.custom_amount_percentage_base, localdict
+                            )
+                        ), float(
+                            safe_eval(rule.custom_quantity, localdict)
+                        ), rule.custom_amount_percentage
+                    )
                 except:
-                    raise osv.except_osv(_('Error!'), _(
-                        'Wrong percentage base or quantity '
-                        'defined for salary rule %s (%s).') % (
-                            rule.name, rule.code))
+                    raise osv.except_osv(
+                        _('Error!'), _(
+                            'Wrong percentage base or quantity defined for '
+                            'salary rule %s (%s).') % (rule.name, rule.code)
+                    )
 
         if codigo_python:
-            if True: #try:
+            if True:  # try:
                 for variavel in localdict:
                     if isinstance(localdict[variavel], float):
-                       localdict[variavel] = Decimal(localdict[variavel] or 0)
+                        localdict[variavel] = Decimal(localdict[variavel] or 0)
                 safe_eval(codigo_python, localdict, mode='exec', nocopy=True)
                 result = localdict['result']
 
@@ -140,10 +145,9 @@ class HrSalaryRule(models.Model):
                     result_rate = 100
 
                 return result, result_qty, result_rate
-
-           # except:
-           #     msg = _('Wrong python code defined for salary rule %s (%s).')
-           #     raise ValidationError(msg % (rule.name, rule.code))
+            # except:
+            #     msg = _('Wrong python code defined for salary rule %s (%s).')
+            #     raise ValidationError(msg % (rule.name, rule.code))
 
     @api.multi
     def satisfy_condition(self, rule_id, localdict):
