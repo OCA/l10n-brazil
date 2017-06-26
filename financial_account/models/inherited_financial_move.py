@@ -248,3 +248,21 @@ class FinancialMove(models.Model):
             self.create_account_move_line(account_move,
                 move_template.parent_id, line_ids,
                 fields_already_accounted=fields_already_accounted)
+
+    @api.model
+    def create(self, vals):
+        financial_move_ids = super(FinancialMove, self).create(vals)
+        financial_move_ids.create_account_move()
+        return financial_move_ids
+
+    @api.multi
+    def _write(self, vals):
+        res = super(FinancialMove, self)._write(vals)
+        self.create_account_move()
+        return res
+
+    @api.multi
+    def do_after_unlink(self):
+        for record in self:
+            record.account_move_id.unlink()
+
