@@ -603,7 +603,9 @@ class HrPayslip(models.Model):
             ]
             # se o periodo aquisitivo ja estiver definido, pega o saldo de dias
             if self.periodo_aquisitivo:
-                if self.tipo_de_folha in ['rescisao']:
+                if self.tipo_de_folha in ['rescisao'] or fields.\
+                        Date.from_string(self.date_from) < fields.Date.\
+                        from_string(self.periodo_aquisitivo.inicio_concessivo):
                     saldo_ferias = \
                         self.periodo_aquisitivo.dias_de_direito() *\
                         self.medias_proventos[0]['meses'] / 12.0
