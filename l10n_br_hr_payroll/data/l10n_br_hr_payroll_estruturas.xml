@@ -344,20 +344,13 @@
 			<field name="tipo_desligamento_rais"></field>
 		</record>
 
-		<record id="l10n_br_hr_payroll.hr_salary_structure_RESCISAO" model="hr.payroll.structure">
+		<record id="hr_salary_structure_RESCISAO" model="hr.payroll.structure">
 			<field name="code">RESCISAO</field>
 			<field name="name">Rescisão</field>
-			<field name="note"></field>
-			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_13'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_AVISO_PREVIO_INDENIZADO'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_13_AVISO_PREVIO_INDENIZADO'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_FERIAS_AVISO_PREVIO_INDENIZADO'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS_AVISO_PREVIO_INDENIZADO')])]" />
-			<field name="tipo_saque"></field>
-			<field name="ferias" ref=""/>
-			<field name="parent_id" ref="l10n_br_hr_payroll.hr_salary_structure_BASE_INSS_IRPF"/>
-			<field name="children_ids" eval="[(6, 0, [])]" />
-			<field name="company_id" ref="base.main_company"/>
-			<field name="tipo_afastamento_cef"></field>
-			<field name="tipo_afastamento_sefip"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_PROPORCIONAL_13'), ref('hr_salary_rule_PROPORCIONAL_FERIAS'), ref('hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS'), ref('hr_salary_rule_AVISO_PREVIO_INDENIZADO'), ref('hr_salary_rule_PROPORCIONAL_13_AVISO_PREVIO_INDENIZADO'), ref('hr_salary_rule_PROPORCIONAL_FERIAS_AVISO_PREVIO_INDENIZADO'), ref('hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS_AVISO_PREVIO_INDENIZADO')])]" />
+			<field name="company_id" ref="base.main_company" />
 			<field name="tipo_estrutura">rescisao</field>
-			<field name="tipo_desligamento_rais"></field>
+			<field name="parent_id" eval="ref('hr_salary_structure_BASE_INSS_IRPF')" />
 		</record>
 
 		<record id="l10n_br_hr_payroll.hr_salary_structure_COMPLEMENTO_JUSTA_CAUSA" model="hr.payroll.structure">
