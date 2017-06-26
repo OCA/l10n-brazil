@@ -1630,7 +1630,17 @@ result_qty = MEDIAS.SALARIO.meses
             <field name="amount_python_compute">result = CALCULAR.BUSCAR_ADIANTAMENTO_DECIMO_TERCEIRO()
             </field>
             <field name="sequence" eval="189"/>
-            <field name="compoe_base_FGTS" eval="True"/>
+        </record>
+
+        <record id="hr_salary_rule_ADIANTAMENTO_FERIAS_RESC" model="hr.salary.rule">
+            <field name="code">ADIANTAMENTO_13_RESC</field>
+            <field name="name">Dedução Adiantamento Férias</field>
+            <field name="category_id" ref="hr_payroll.DEDUCAO"/>
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = CALCULAR.BUSCAR_ADIANTAMENTO_DECIMO_TERCEIRO()
+            </field>
+            <field name="sequence" eval="190"/>
         </record>
 
 		<record id="l10n_br_hr_payroll.hr_salary_rule_SEGUNDA_PARCELA_13" model="hr.salary.rule">
