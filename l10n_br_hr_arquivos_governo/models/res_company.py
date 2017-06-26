@@ -5,7 +5,7 @@
 
 import logging
 
-from openerp import api, exceptions, models, _
+from openerp import api, exceptions, fields, models, _
 
 _logger = logging.getLogger(__name__)
 
@@ -26,3 +26,7 @@ class ResCompany(models.Model):
             if not telefone.valida_fone(self.phone):
                 raise exceptions.Warning(
                     _('Número do Telefone Inválido'))
+
+    supplier_partner_id = fields.Many2one(
+        string='Fornecedor do sistema', comodel_name='res.partner'
+    )

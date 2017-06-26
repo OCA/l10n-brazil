@@ -5,7 +5,7 @@
 from openerp import api, fields, models
 from ..constantes_rh import (MESES, MODALIDADE_ARQUIVO, CODIGO_RECOLHIMENTO,
                              RECOLHIMENTO_GPS, RECOLHIMENTO_FGTS,
-                             CENTRALIZADORA)
+                             CENTRALIZADORA, SEFIP_CATEGORIA_TRABALHADOR)
 
 SEFIP_STATE = [
     ('rascunho',u'Rascunho'),
@@ -73,7 +73,7 @@ class L10nBrSefip(models.Model):
         sefip.arq_bairro = self.responsible_user_id.district
         sefip.arq_cep = self.responsible_user_id.zip
         sefip.arq_cidade = self.responsible_user_id.l10n_br_city.name
-        sefip.arq_uf = self.responsible_user_id.state.code
+        sefip.arq_uf = self.responsible_user_id.state_id.code
         sefip.tel_contato = self.responsible_user_id.phone
         sefip.internet_contato = self.responsible_user_id.website
         sefip.competencia = self.ano + self.mes
@@ -89,5 +89,58 @@ class L10nBrSefip(models.Model):
         return sefip._registro_00_informacoes_responsavel()
 
     def _preencher_registro_10(self, sefip):
-
+        aliquota_rat = self.env['l10n_hr.rat.fap'].search(
+            [('year', '=', self.ano)], limit=1).rat_rate or '0'
+        # sefip.tipo_inscr_empresa = self.
+        sefip.inscr_empresa = self.company_id.cnpj_cei
+        sefip.emp_nome_razao_social = self.company_id.name
+        sefip.emp_logradouro = self.company_id.street + ' ' + \
+                               self.company_id.number + ' ' + \
+                               self.company_id.street2
+        sefip.emp_bairro = self.company_id.district
+        sefip.emp_cep = self.company_id.zip
+        sefip.emp_cidade = self.company_id.l10n_br_city.name
+        sefip.emp_uf = self.company_id.state_id.code
+        sefip.emp_tel = self.company_id.phone
+        # sefip.emp_indic_alteracao_endereco = 'n'
+        sefip.emp_cnae = self.company_id.cnae
+        # sefip.emp_indic_alteracao_cnae = 'n'
+        sefip.emp_aliquota_RAT = aliquota_rat
+        sefip.emp_cod_centralizacao = self.centralizadora
+        sefip.emp_simples = '1' if self.company_id.fiscal_type == '3' else '2'
+        sefip.emp_FPAS = self.codigo_fpas
+        sefip.emp_cod_outras_entidades = self.codigo_outras_entidades
+        sefip.emp_cod_pagamento_GPS = self.codigo_recolhimento_gps
+        # sefip.emp_percent_isencao_filantropia = self.
+        # sefip.emp_salario_familia =
+        # sefip.emp_salario_maternidade =
+        # sefip.emp_banco = self.company_id.bank_id[0].bank
+        # sefip.emp_ag = self.company_id.bank_id[0].agency
+        # sefip.emp_cc = self.company_id.bank_id[0].account
         return sefip._registro_10_informacoes_empresa()
+
+    def _preencher_registro_30(self, sefip, contract):
+        # sefip.tipo_inscr_empresa =
+        sefip.inscr_empresa = self.company_id.cnpj_cei
+        # sefip.tipo_inscr_tomador = self.
+        # sefip.inscr_tomador = self
+        sefip.pis_pasep_ci = contract.employee_id.pis_pasep
+        sefip.data_admissao = contract.date_start
+        sefip.categoria_trabalhador = SEFIP_CATEGORIA_TRABALHADOR.get(
+            contract.categoria, '01')
+        sefip.nome_trabalhador = contract.employee_id.name
+        sefip.matricula_trabalhador = contract.employee_id.registration
+        sefip.num_ctps = contract.employee_id.ctps
+        sefip.serie_ctps = contract.employee_id.ctps_series
+        # sefip.data_de_opcao =
+        sefip.data_de_nascimento = contract.employee_id.birthday
+        sefip.trabalhador_cbo = contract.job_id.cbo_id.code
+        # sefip.trabalhador_remun_sem_13 = holerite.salario-total
+        # sefip.trabalhador_remun_13 =
+        # sefip.trabalhador_classe_contrib =
+        # ONDE SE ENCONTRAM INFORMAÇÕES REFERENTES A INSALUBRIDADE, DEVERIAM ESTAR NO CAMPO job_id?
+        #sefip.trabalhador_ocorrencia =
+        # sefip.trabalhador_valor_desc_segurado =
+        sefip.trabalhador_remun_base_calc_contribuicao_previdenciaria = contract.wage
+        sefip.trabalhador_base_calc_13_previdencia_competencia =
+        sefip.trabalhador_base_calc_13_previdencia_GPS =

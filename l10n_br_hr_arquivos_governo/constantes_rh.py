@@ -66,6 +66,15 @@ CATEGORIA_TRABALHADOR = (
 )
 CATEGORIA_TRABALHADOR_DIC = dict(CATEGORIA_TRABALHADOR)
 
+SEFIP_CATEGORIA_TRABALHADOR = {
+    '701':'13',
+    '702':'13',
+    '703':'13',
+    '721':'11',
+    '722':'11',
+    '103':'07'
+}
+
 MESES = [
     ('01',u'Janeiro'),
     ('02',u'Fevereiro'),
@@ -152,9 +161,3 @@ CENTRALIZADORA = [
     ('1', u'1 - Centralizadora'),
     ('2', u'2 - Centralizada'),
 ]
-SEFIP_STATE = [
-    ('rascunho',u'Rascunho'),
-    ('confirmado',u'Confirmada'),
-    ('enviado',u'Enviado'),
-]
-

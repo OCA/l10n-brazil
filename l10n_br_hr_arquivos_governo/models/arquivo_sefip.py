@@ -300,7 +300,7 @@ class SEFIP(AbstractArquivosGoverno):
         self.preenche_zeros = '0'
         self.preenche_brancos = ''
         self.fim_linha = '*'
-        self.tipo_inscr_empresa = ''
+        self.tipo_inscr_empresa = '1'
         self.inscr_empresa = ''
         # campos do HEADER  ARQUIVO--------------------------------------------
         self.tipo_de_registro_00 = '00'
@@ -335,12 +335,12 @@ class SEFIP(AbstractArquivosGoverno):
         self.emp_cidade = ''
         self.emp_uf = ''
         self.emp_tel = ''
-        self.emp_indic_alteracao_endereco = ''
+        self.emp_indic_alteracao_endereco = 'N'
         self.emp_cnae = ''
-        self.emp_indic_alteracao_cnae = ''
+        self.emp_indic_alteracao_cnae = 'N'
         self.emp_aliquota_RAT = ''
         self.emp_cod_centralizacao = ''
-        self.emp_simples = ''
+        self.emp_simples = '1'
         self.emp_FPAS = ''
         self.emp_cod_outras_entidades = ''
         self.emp_cod_pagamento_GPS = ''
@@ -398,7 +398,7 @@ class SEFIP(AbstractArquivosGoverno):
         self.trabalhador_cidade = ''
         self.trabalhador_uf = ''
         # campos gerais TOMADOR DE SERVICO/OBRA DE CONSTRUCAO CIVIL------------
-        self.tipo_inscr_tomador = ''
+        self.tipo_inscr_tomador = '1'
         self.inscr_tomador = ''
         # campos TOMADOR DE SERVICO/OBRA DE CONSTRUCAO CIVIL ------------------
         self.tipo_de_registro_20 = '20'
