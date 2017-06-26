@@ -22,6 +22,7 @@ class ResCompany(models.Model):
 
     @api.constrains('phone')
     def _check_phone_br(self):
-        if not telefone.valida_fone(self.phone):
-            raise exceptions.Warning(
-                _('Número do Telefone Inválido'))
+        if self.phone:
+            if not telefone.valida_fone(self.phone):
+                raise exceptions.Warning(
+                    _('Número do Telefone Inválido'))
