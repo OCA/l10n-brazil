@@ -623,7 +623,7 @@ class HrPayslip(models.Model):
             quantidade_dias_trabalhados = \
                 dias_mes - leaves['quantidade_dias_faltas_nao_remuneradas'] - \
                 quantity_DSR_discount - quantidade_dias_ferias
-            if self.tipo_de_folha == "rescisao" and self.date_from ==\
+            if self.tipo_de_folha == "rescisao" and self.date_to ==\
                     self.data_afastamento:
                 quantidade_dias_trabalhados -= 1
             result += [self.get_attendances(u'Dias Trabalhados', 34,
