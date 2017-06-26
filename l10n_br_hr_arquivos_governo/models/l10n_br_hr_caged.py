@@ -137,7 +137,12 @@ class HrCaged(models.Model):
         caged.A_cep = company_id.zip
         caged.A_uf = company_id.state_id.code
         # Telefone e DDD a partir do phone do res_company
-        ddd, numero = telefone.telefone.separa_fone(company_id.phone)
+        if company_id.phone:
+            ddd, numero = telefone.telefone.separa_fone(company_id.phone)
+        else:
+            ddd = '  '
+            numero = '        '
+
         caged.A_ddd = ddd
         caged.A_telefone = numero
         caged.A_ramal = ''
