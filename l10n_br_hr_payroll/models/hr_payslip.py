@@ -1036,6 +1036,12 @@ class HrPayslip(models.Model):
 
     @api.multi
     def verificar_adiantamento_13_aviso_ferias(self):
+        """
+        Verifica se houve aidantamento de 13º salário no aviso de férias do
+        periodo
+        :return: Retorna a linha do adiantamento de 13º existente no aviso
+        de férias
+        """
         payslips_id = self.search(
             [
                 ('tipo_de_folha', '=', 'ferias'),
@@ -1059,6 +1065,10 @@ class HrPayslip(models.Model):
 
     @api.multi
     def BUSCAR_ADIANTAMENTO_DECIMO_TERCEIRO(self):
+        """
+        Retorna o valor total do adiantamento de 13º pedido no aviso de férias
+        :return: Valor total da linha do adiantamento do 13º no aviso de férias
+        """
         payslip_line_id = self.verificar_adiantamento_13_aviso_ferias()
         return payslip_line_id.total
 
@@ -1401,7 +1411,7 @@ class HrPayslip(models.Model):
                 [id for id, sequence in sorted(rule_ids, key=lambda x:x[1])]
 
             if payslip.tipo_de_folha == "rescisao":
-                if not self.verificar_adiantamento_13_aviso_ferias():
+                if not payslip.verificar_adiantamento_13_aviso_ferias():
                     salary_rule_id = self.env['hr.salary.rule'].search(
                         [
                             ('code', '=', 'ADIANTAMENTO_13_RESC'),
