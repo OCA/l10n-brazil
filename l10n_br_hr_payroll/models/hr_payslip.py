@@ -1475,6 +1475,28 @@ class HrPayslip(models.Model):
                             ]
                         )
                     sorted_rule_ids.remove(adiantamento_ferias_vencida.id)
+                if not payslip.dias_aviso_previo:
+                    aviso_previo_indenizado = \
+                        self.env['hr.salary.rule'].search(
+                            [
+                                ('code', '=', 'AVISO_PREV_IND')
+                            ]
+                        )
+                    ferias_aviso_previo = \
+                        self.env['hr.salary.rule'].search(
+                            [
+                                ('code', '=', 'PROP_FERIAS_AVISO_PREVIO')
+                            ]
+                        )
+                    ferias_1_3_aviso_previo = \
+                        self.env['hr.salary.rule'].search(
+                            [
+                                ('code', '=', 'PROP_1/3_FERIAS_AVISO_PREVIO')
+                            ]
+                        )
+                    sorted_rule_ids.remove(aviso_previo_indenizado.id)
+                    sorted_rule_ids.remove(ferias_aviso_previo.id)
+                    sorted_rule_ids.remove(ferias_1_3_aviso_previo.id)
 
             for contract in self.env['hr.contract'].browse(contract_ids.ids):
                 employee = contract.employee_id
