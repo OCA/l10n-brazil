@@ -219,7 +219,10 @@ class FinancialMove(models.Model):
     debt_id = fields.Many2one(
         comodel_name='financial.move',
         string='Debt',
-        domain=[('type', 'in', (FINANCIAL_DEBT_2RECEIVE, FINANCIAL_DEBT_2PAY))]
+        domain=[('type', 'in', (
+            FINANCIAL_DEBT_2RECEIVE,
+            FINANCIAL_DEBT_2PAY,
+        ))]
     )
     payment_ids = fields.One2many(
         comodel_name='financial.move',
@@ -443,6 +446,8 @@ class FinancialMove(models.Model):
         for record in self:
             if record._avaliable_transition(record.state, new_state):
                 record.state = new_state
+            elif record.state == new_state:
+                return True
             else:
                 raise UserError(_('This state transition is not allowed'))
 
