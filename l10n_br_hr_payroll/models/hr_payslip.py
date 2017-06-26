@@ -852,8 +852,9 @@ class HrPayslip(models.Model):
             [
                 ('contract_id', '=', self.contract_id.id),
                 ('fim_aquisitivo', '<', self.date_from),
+                ('fim_concessivo', '>=', self.date_to),
                 ('inicio_gozo', '=', False),
-            ]
+            ], order='fim_aquisitivo desc'
         )
         return periodo_ferias_vencida
 
@@ -1071,6 +1072,41 @@ class HrPayslip(models.Model):
         """
         payslip_line_id = self.verificar_adiantamento_13_aviso_ferias()
         return payslip_line_id.total
+
+    @api.multi
+    def verificar_ferias_no_periodo(self):
+        """
+        Função responsável por procurar a férias parcial tirada no periodo
+        atual referente ao último periodo vencido de férias. Calcular o valor
+        total pago pelos dias de gozo e o 1/3 sobre este valor.
+        :return: Total dos dias de gozo + 1/3 sobre o total dos dias de gozo
+        """
+        periodo_aquisitivo = self._verificar_ferias_vencidas()
+        payslip_ferias = self.search(
+            [
+                ('tipo_de_folha', '=', 'ferias'),
+                ('holidays_ferias', '!=', False),
+                ('contract_id', '=', self.contract_id.id),
+                ('date_from', '>=', periodo_aquisitivo.inicio_concessivo),
+                ('date_to', '<=', periodo_aquisitivo.fim_concessivo),
+            ]
+        )
+        total = 0.0
+        for line in payslip_ferias.line_ids:
+            if line.salary_rule_id.code == "FERIAS":
+                total += line.total
+            elif line.salary_rule_id.code == "1/3_FERIAS":
+                total += line.total
+        return total
+
+    @api.multi
+    def BUSCAR_ADIANTAMENTO_FERIAS(self):
+        """
+        Função chamada pela rúbrica Adiantamento de Férias para buscar o valor
+        das férias parciais que foi tirada no periodo pelo funcionario.
+        :return: Total pago na férias parcial do periodo
+        """
+        return self.verificar_ferias_no_periodo()
 
     @api.multi
     def BUSCAR_PRIMEIRA_PARCELA(self):
@@ -1418,20 +1454,33 @@ class HrPayslip(models.Model):
                         ]
                     )
                     sorted_rule_ids.remove(salary_rule_id.id)
+                if not payslip._verificar_ferias_vencidas():
+                    ferias_vencida_rubrica = self.env['hr.salary.rule'].search(
+                        [
+                            ('code', '=', 'FERIAS_VENCIDAS'),
+                        ]
+                    )
+                    sorted_rule_ids.remove(ferias_vencida_rubrica.id)
+                    ferias_vencida_1_3_rubrica = \
+                        self.env['hr.salary.rule'].search(
+                            [
+                                ('code', '=', 'FERIAS_VENCIDAS_1/3')
+                            ]
+                        )
+                    sorted_rule_ids.remove(ferias_vencida_1_3_rubrica.id)
+                    adiantamento_ferias_vencida = \
+                        self.env['hr.salary.rule'].search(
+                            [
+                                ('code', '=', 'ADIANTAMENTO_FERIAS_RESC')
+                            ]
+                        )
+                    sorted_rule_ids.remove(adiantamento_ferias_vencida.id)
 
             for contract in self.env['hr.contract'].browse(contract_ids.ids):
                 employee = contract.employee_id
                 localdict = dict(
                     baselocaldict, employee=employee, contract=contract)
-                ferias_vencida = payslip._verificar_ferias_vencidas()
                 for rule in obj_rule.browse(sorted_rule_ids):
-                    if rule.code == "FERIAS_VENCIDAS" or \
-                                    rule.code == "FERIAS_VENCIDAS_1/3":
-                        if not (
-                            rule.code == "FERIAS_VENCIDAS" or
-                            rule.code == "FERIAS_VENCIDAS_1/3"
-                        ) and ferias_vencida:
-                            continue
                     key = rule.code + '-' + str(contract.id)
                     localdict['result'] = None
                     localdict['result_qty'] = 1.0
