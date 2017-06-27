@@ -3308,5 +3308,57 @@ result = CALCULAR.INSS(base)</field>
 			<field name="company_id" ref="base.main_company"/>
 			<field name="register_id" ref=""/>
 		</record>
+
+		<record id="hr_salary_rule_SALARIO_RESCISAO" model="hr.salary.rule">
+			<field name="code">SALARIO_RESCISAO</field>
+			<field name="name">Função Comissionada</field>
+			<field name="active">True</field>
+			<field name="sequence">101</field>
+			<field name="category_id" ref="hr_payroll.PROVENTO"/>
+			<field name="condition_select">none</field>
+			<field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+			<field name="amount_python_compute">result = worked_days.DIAS_TRABALHADOS.number_of_days * contract.wage/30</field>
+			<field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)
+
+if not result:
+    result = worked_days.DIAS_TRABALHADOS.number_of_days * contract.wage/30</field>
+			<field name="amount_select">code</field>
+			<field name="custom_amount_select">code</field>
+			<field name="compoe_base_INSS"></field>
+			<field name="compoe_base_IR"></field>
+			<field name="compoe_base_FGTS">True</field>
+			<field name="amount_fix"></field>
+			<field name="custom_amount_fix"></field>
+			<field name="amount_percentage"></field>
+			<field name="amount_percentage_base"></field>
+			<field name="custom_amount_percentage_base"></field>
+			<field name="custom_amount_percentage"></field>
+			<field name="appears_on_payslip">True</field>
+			<field name="condition_range">contract.wage</field>
+			<field name="condition_range_min"></field>
+			<field name="condition_range_max"></field>
+			<field name="note"></field>
+			<field name="calculo_nao_padrao">True</field>
+			<field name="quantity">1.0</field>
+			<field name="custom_quantity"></field>
+			<field name="tipo_media">valor</field>
+			<field name="parent_rule_id" ref=""/>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="register_id" ref=""/>
+		</record>
+
 		</data>
 	</openerp>
