@@ -1,146 +1,405 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2017 - KMEE
+
+<!-- Copyright 2017 Hendrix Costa - KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <openerp>
     <data>
 
-        <!--ESTRUTURAS DE SALARIOS-->
-
-        <!--Estrutura de salario para ferias-->
-        <record id="hr_salary_structure_FERIAS" model="hr.payroll.structure">
-            <field name="code">FERIAS</field>
-            <field name="name">Férias</field>
-            <field name="tipo_estrutura">ferias</field>
-            <field eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_1/3_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_ABONO_PECUNIARIO'), ref('l10n_br_hr_payroll.hr_salary_rule_1/3_ABONO_PECUNIARIO'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_liquido_ferias')])]" name="rule_ids"/>
-            <field name="company_id" ref="base.main_company"/>
-            <field name="parent_id" eval="False" />
-        </record>
-
-        <record id="hr_salary_structure_BASE_INSS_IRPF" model="hr.payroll.structure">
-            <field name="code">BASE_INSS_IRPF</field>
-            <field name="name">Base para INSS e IRPF</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_TOTAL_DESCONTOS'), ref('l10n_br_hr_payroll.hr_salary_rule_BRUTO'), ref('l10n_br_hr_payroll.hr_salary_rule_LIQUIDO')])]" />
-            <field name="company_id" ref="base.main_company" />
-            <field name="parent_id" eval="False" />
-        </record>
-
-        <record id="hr_salary_structure_BASE_FGTS" model="hr.payroll.structure">
-            <field name="code">BASE_FGTS</field>
-            <field name="name">Base para FGTS</field>
-            <field name="parent_id" eval="ref('hr_salary_structure_BASE_INSS_IRPF')" />
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_BASE_FGTS'), ref('hr_salary_rule_FGTS')])]" />
-            <field name="company_id" ref="base.main_company" />
-        </record>
-
-        <record id="hr_salary_structure_BASE_INSS_IRPF_13" model="hr.payroll.structure">
-            <field name="code">BASE_INSS_IRPF_13</field>
-            <field name="name">Base para INSS e IRPF de 13</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_BASE_INSS_13'), ref('hr_salary_rule_BASE_IRPF_13'), ref('hr_salary_rule_INSS'), ref('hr_salary_rule_IRPF'), ref('hr_salary_rule_TOTAL_DESCONTOS'), ref('hr_salary_rule_BRUTO'), ref('hr_salary_rule_LIQUIDO')])]" />
-            <field name="company_id" ref="base.main_company" />
-            <field name="parent_id" eval="False" />
-        </record>
-
-        <record id="hr_salary_structure_BASE_FGTS_13" model="hr.payroll.structure">
-            <field name="code">BASE_FGTS_13</field>
-            <field name="name">Base para FGTS de 13</field>
-            <field name="parent_id" eval="ref('hr_salary_structure_BASE_INSS_IRPF_13')" />
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_BASE_FGTS_13'), ref('hr_salary_rule_FGTS')])]" />
-            <field name="company_id" ref="base.main_company" />
-        </record>
-
-        <record id="hr_salary_structure_FUNCAO_COMISSIONADA" model="hr.payroll.structure">
-            <field name="code">FUNCAO_COMISSIONADA</field>
-            <field name="name">Função Comissionada</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_FUNCAO_COMISSIONADA'), ref('hr_salary_rule_pagamento_ferias') ])]" />
-            <field name="company_id" ref="base.main_company" />
-            <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
-        </record>
-
-        <record id="hr_salary_structure_HONORARIO_PRESIDENTE" model="hr.payroll.structure">
-            <field name="code">HONORARIO_PRESIDENTE</field>
-            <field name="name">Honorario Presidente</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_HONORARIO_PRESIDENTE')])]" />
-            <field name="company_id" ref="base.main_company" />
-            <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
-        </record>
-
-        <record id="hr_salary_structure_HONORARIO_DIRETORIA" model="hr.payroll.structure">
-            <field name="code">HONORARIO_DIRETORIA</field>
-            <field name="name">Honorario Diretoria</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_HONORARIO_DIRETORIA')])]" />
-            <field name="company_id" ref="base.main_company" />
-            <field name="parent_id" eval="ref('hr_salary_structure_BASE_INSS_IRPF')" />
-        </record>
-
-        <record id="hr_salary_structure_HONORARIO_CONSELHO" model="hr.payroll.structure">
-            <field name="code">HONORARIO_CONSELHO</field>
-            <field name="name">Honorario Conselho</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_HONORARIO_CONSELHO')])]" />
-            <field name="company_id" ref="base.main_company" />
-            <field name="parent_id" eval="ref('hr_salary_structure_BASE_INSS_IRPF')" />
-        </record>
-
-        <record id="hr_salary_structure_PRIMEIRA_PARCELA_13" model="hr.payroll.structure">
-            <field name="code">PRIMEIRA_PARCELA_13</field>
-            <field name="name">Primeira Parcela 13 Salário</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_PRIMEIRA_PARCELA_13')])]" />
-            <field name="company_id" ref="base.main_company" />
-            <field name="parent_id" eval="False" />
-        </record>
-
-        <record id="hr_salary_structure_SEGUNDA_PARCELA_13" model="hr.payroll.structure">
-            <field name="code">SEGUNDA_PARCELA_13</field>
-            <field name="name">Segunda Parcela 13 Salário</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_ADIANTAMENTO_13'), ref('hr_salary_rule_SEGUNDA_PARCELA_13')])]" />
-            <field name="company_id" ref="base.main_company" />
-            <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS_13')" />
-        </record>
-
-         <record id="hr_salary_structure_PROVISAO_13" model="hr.payroll.structure">
-             <field name="code">PROVISAO_DECIMO_TERCEIRO</field>
-             <field name="name">Provisão de Décimo Terceiro (13º)</field>
-             <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_FUNCAO_COMISSIONADA')])]" />
-             <field name="company_id" ref="base.main_company" />
-             <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
-         </record>
-
-        <record id="hr_salary_structure_PROVISAO_FERIAS" model="hr.payroll.structure">
-             <field name="code">PROVISAO_FERIAS</field>
-             <field name="name">Provisão de Férias</field>
-             <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_FUNCAO_COMISSIONADA')])]" />
-             <field name="company_id" ref="base.main_company" />
-             <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
-          </record>
-
-        <!--Estrutura de salario para rescisão-->
-        <record id="hr_salary_structure_JUSTA_CAUSA" model="hr.payroll.structure">
-            <field name="code">JUSTA_CAUSA</field>
-            <field name="name">Rescisão dispensa com justa causa</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_PROPORCIONAL_13'), ref('hr_salary_rule_PROPORCIONAL_FERIAS'), ref('hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS'), ref('hr_salary_rule_FERIAS_VENCIDAS'), ref('hr_salary_rule_FERIAS_VENCIDAS_UM_TERCO'), ref('hr_salary_rule_AVISO_PREVIO_INDENIZADO'), ref('hr_salary_rule_PROPORCIONAL_13_AVISO_PREVIO_INDENIZADO'), ref('hr_salary_rule_PROPORCIONAL_FERIAS_AVISO_PREVIO_INDENIZADO'), ref('hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS_AVISO_PREVIO_INDENIZADO')])]" />
-            <field name="company_id" ref="base.main_company" />
-            <field name="tipo_estrutura">rescisao</field>
-            <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
-        </record>
-
-        <record id="hr_salary_structure_RESCISAO" model="hr.payroll.structure">
-            <field name="code">RESCISAO</field>
-            <field name="name">Rescisão</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_PROPORCIONAL_13'), ref('hr_salary_rule_PROPORCIONAL_FERIAS'), ref('hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS'), ref('hr_salary_rule_AVISO_PREVIO_INDENIZADO'), ref('hr_salary_rule_PROPORCIONAL_13_AVISO_PREVIO_INDENIZADO'), ref('hr_salary_rule_PROPORCIONAL_FERIAS_AVISO_PREVIO_INDENIZADO'), ref('hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS_AVISO_PREVIO_INDENIZADO')])]" />
-            <field name="company_id" ref="base.main_company" />
-            <field name="tipo_estrutura">rescisao</field>
-            <field name="parent_id" eval="ref('hr_salary_structure_BASE_INSS_IRPF')" />
-        </record>
-        
-        <record id="hr_salary_structure_COMPLEMENTO_JUSTA_CAUSA" model="hr.payroll.structure">
-            <field name="code">COMPLEMENTO_JUSTA_CAUSA</field>
-            <field name="name">Rescisão Complementar (dispensa com justa causa)</field>
-            <field name="rule_ids" eval="[(6, 0, [ref('hr_salary_rule_PROPORCIONAL_13')])]" />
-            <field name="company_id" ref="base.main_company" />
-            <field name="tipo_estrutura">rescisao</field>
-            <field name="parent_id" eval="ref('hr_salary_structure_BASE_FGTS')" />
-        </record>
+        <!-- Model de backup serão geradas aqui -->
 
 
-    </data>
-</openerp>
+
+		<!-- BACKUP EM  2017-06-27 00:13:10.304118 -->
+
+		<!-- Objetos Criados: 8 -->
+
+		<record id="l10n_br_hr_payroll.hr_payroll_structure_BASE_IRPF_SEM_INSS" model="hr.payroll.structure">
+			<field name="code">BASE_IRPF_SEM_INSS</field>
+			<field name="name">Base para IRPF (sem INSS)</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_BRUTO'), ref('l10n_br_hr_payroll.hr_salary_rule_LIQUIDO'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_TOTAL_DESCONTOS')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref=""/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura"></field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="hr_payroll_structure_HONORARIO_PRESIDENTE" model="hr.payroll.structure">
+			<field name="code">HONORARIO_PRESIDENTE</field>
+			<field name="name">Honorario Presidente</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_HONORARIO_PRESIDENTE')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref=""/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura"></field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="hr_payroll_structure_JUSTA_CAUSA" model="hr.payroll.structure">
+			<field name="code">JUSTA_CAUSA</field>
+			<field name="name">Rescisão dispensa com justa causa</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_13'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_FERIAS_VENCIDAS'), ref('l10n_br_hr_payroll.hr_salary_rule_FERIAS_VENCIDAS_UM_TERCO'), ref('l10n_br_hr_payroll.hr_salary_rule_AVISO_PREVIO_INDENIZADO'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_13_AVISO_PREVIO_INDENIZADO'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_FERIAS_AVISO_PREVIO_INDENIZADO'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS_AVISO_PREVIO_INDENIZADO')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref=""/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura">rescisao</field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="hr_payroll_structure_COMPLEMENTO_JUSTA_CAUSA" model="hr.payroll.structure">
+			<field name="code">COMPLEMENTO_JUSTA_CAUSA</field>
+			<field name="name">Rescisão Complementar (dispensa com justa causa)</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_13')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref=""/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura">rescisao</field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="hr_payroll_structure_PROVISAO_DECIMO_TERCEIRO" model="hr.payroll.structure">
+			<field name="code">PROVISAO_DECIMO_TERCEIRO</field>
+			<field name="name">Provisão de Décimo Terceiro (13º)</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_FUNCAO_COMISSIONADA')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref=""/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura"></field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="hr_payroll_structure_PROVISAO_FERIAS" model="hr.payroll.structure">
+			<field name="code">PROVISAO_FERIAS</field>
+			<field name="name">Provisão de Férias</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_FUNCAO_COMISSIONADA')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref=""/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura"></field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="hr_payroll_structure_FUNCIONARIO_CEDIDO" model="hr.payroll.structure">
+			<field name="code">FUNCIONARIO_CEDIDO</field>
+			<field name="name">Funcionário Cedido</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_BASE_FGTS'), ref('l10n_br_hr_payroll.hr_salary_rule_FGTS'), ref('l10n_br_hr_payroll.hr_salary_rule_FUNCAO_COMISSIONADA'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF_PROPORCIONAL_REGULAR'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF_PROPORCIONAL_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF_PROPORCIONAL_REGULAR'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF_PROPORCIONAL_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS_PROPORCIONAL_REGULAR'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS_PROPORCIONAL_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_PENSAO_PROPORCIONAL_REGULAR'), ref('l10n_br_hr_payroll.hr_salary_rule_PENSAO_PROPORCIONAL_FERIAS')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref="l10n_br_hr_payroll.hr_payroll_structure_BASE_IRPF_SEM_INSS"/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura">normal</field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="hr_payroll_structure_HONORARIO_DIRETORIA_SEM_INSS" model="hr.payroll.structure">
+			<field name="code">HONORARIO_DIRETORIA_SEM_INSS</field>
+			<field name="name">Honorário Diretoria (sem INSS)</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_BRUTO'), ref('l10n_br_hr_payroll.hr_salary_rule_LIQUIDO'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_TOTAL_DESCONTOS'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_FGTS'), ref('l10n_br_hr_payroll.hr_salary_rule_FGTS'), ref('l10n_br_hr_payroll.hr_salary_rule_1/3_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_HONORARIO_DIRETORIA'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF_PROPORCIONAL_REGULAR'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF_PROPORCIONAL_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF_PROPORCIONAL_REGULAR'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF_PROPORCIONAL_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS_PROPORCIONAL_REGULAR'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS_PROPORCIONAL_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_PENSAO_PROPORCIONAL_REGULAR'), ref('l10n_br_hr_payroll.hr_salary_rule_PENSAO_PROPORCIONAL_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_ADIANTAMENTO_13')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref=""/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura">normal</field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+
+		<!-- Objetos Editadas: 16 -->
+
+		<record id="l10n_br_hr_payroll.hr_salary_structure_FERIAS" model="hr.payroll.structure">
+			<field name="code">FERIAS</field>
+			<field name="name">Férias</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_1/3_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_ABONO_PECUNIARIO'), ref('l10n_br_hr_payroll.hr_salary_rule_1/3_ABONO_PECUNIARIO'), ref('l10n_br_hr_payroll.hr_salary_rule_liquido_ferias')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref=""/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura">ferias</field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="l10n_br_hr_payroll.hr_salary_structure_BASE_INSS_IRPF" model="hr.payroll.structure">
+			<field name="code">BASE_INSS_IRPF</field>
+			<field name="name">Base para INSS e IRPF</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_BRUTO'), ref('l10n_br_hr_payroll.hr_salary_rule_LIQUIDO'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_TOTAL_DESCONTOS')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref=""/>
+			<field name="children_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS'), ref('l10n_br_hr_payroll.hr_salary_structure_HONORARIO_DIRETORIA'), ref('l10n_br_hr_payroll.hr_salary_structure_HONORARIO_CONSELHO'), ref('l10n_br_hr_payroll.hr_salary_structure_RESCISAO')])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura"></field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS" model="hr.payroll.structure">
+			<field name="code">BASE_FGTS</field>
+			<field name="name">Base para FGTS</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_BASE_FGTS'), ref('l10n_br_hr_payroll.hr_salary_rule_FGTS')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref="l10n_br_hr_payroll.hr_salary_structure_BASE_INSS_IRPF"/>
+			<field name="children_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_structure_FUNCAO_COMISSIONADA'), ref('l10n_br_hr_payroll.hr_salary_structure_HONORARIO_PRESIDENTE'), ref('l10n_br_hr_payroll.hr_salary_structure_JUSTA_CAUSA'), ref('l10n_br_hr_payroll.hr_salary_structure_COMPLEMENTO_JUSTA_CAUSA'), ref('l10n_br_hr_payroll.hr_salary_structure_PROVISAO_13'), ref('l10n_br_hr_payroll.hr_salary_structure_PROVISAO_FERIAS')])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura"></field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="l10n_br_hr_payroll.hr_salary_structure_BASE_INSS_IRPF_13" model="hr.payroll.structure">
+			<field name="code">BASE_INSS_IRPF_13</field>
+			<field name="name">Base para INSS e IRPF de 13</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_BRUTO'), ref('l10n_br_hr_payroll.hr_salary_rule_LIQUIDO'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_TOTAL_DESCONTOS'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS_13'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF_13')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref=""/>
+			<field name="children_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS_13')])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura"></field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS_13" model="hr.payroll.structure">
+			<field name="code">BASE_FGTS_13</field>
+			<field name="name">Base para FGTS de 13</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_FGTS'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_FGTS_13')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref="l10n_br_hr_payroll.hr_salary_structure_BASE_INSS_IRPF_13"/>
+			<field name="children_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_structure_SEGUNDA_PARCELA_13')])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura"></field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="l10n_br_hr_payroll.hr_salary_structure_FUNCAO_COMISSIONADA" model="hr.payroll.structure">
+			<field name="code">FUNCAO_COMISSIONADA</field>
+			<field name="name">Função Comissionada</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_pagamento_ferias'), ref('l10n_br_hr_payroll.hr_salary_rule_FUNCAO_COMISSIONADA')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref="l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS"/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura"></field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="l10n_br_hr_payroll.hr_salary_structure_HONORARIO_PRESIDENTE" model="hr.payroll.structure">
+			<field name="code">HONORARIO_PRESIDENTE</field>
+			<field name="name">Honorario Presidente</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_HONORARIO_PRESIDENTE')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref="l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS"/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura"></field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="l10n_br_hr_payroll.hr_salary_structure_HONORARIO_DIRETORIA" model="hr.payroll.structure">
+			<field name="code">HONORARIO_DIRETORIA</field>
+			<field name="name">Honorario Diretoria</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_HONORARIO_DIRETORIA')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref="l10n_br_hr_payroll.hr_salary_structure_BASE_INSS_IRPF"/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura"></field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="l10n_br_hr_payroll.hr_salary_structure_HONORARIO_CONSELHO" model="hr.payroll.structure">
+			<field name="code">HONORARIO_CONSELHO</field>
+			<field name="name">Honorario Conselho</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_HONORARIO_CONSELHO')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref="l10n_br_hr_payroll.hr_salary_structure_BASE_INSS_IRPF"/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura"></field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="l10n_br_hr_payroll.hr_salary_structure_PRIMEIRA_PARCELA_13" model="hr.payroll.structure">
+			<field name="code">PRIMEIRA_PARCELA_13</field>
+			<field name="name">Primeira Parcela 13 Salário</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_PRIMEIRA_PARCELA_13')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref=""/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura"></field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="l10n_br_hr_payroll.hr_salary_structure_SEGUNDA_PARCELA_13" model="hr.payroll.structure">
+			<field name="code">SEGUNDA_PARCELA_13</field>
+			<field name="name">Segunda Parcela 13 Salário</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_SEGUNDA_PARCELA_13')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref="l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS_13"/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura"></field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="l10n_br_hr_payroll.hr_salary_structure_JUSTA_CAUSA" model="hr.payroll.structure">
+			<field name="code">JUSTA_CAUSA</field>
+			<field name="name">Rescisão dispensa com justa causa</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_13'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_FERIAS_VENCIDAS'), ref('l10n_br_hr_payroll.hr_salary_rule_FERIAS_VENCIDAS_UM_TERCO'), ref('l10n_br_hr_payroll.hr_salary_rule_AVISO_PREVIO_INDENIZADO'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_13_AVISO_PREVIO_INDENIZADO'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_FERIAS_AVISO_PREVIO_INDENIZADO'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS_AVISO_PREVIO_INDENIZADO')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref="l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS"/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura">rescisao</field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="l10n_br_hr_payroll.hr_salary_structure_RESCISAO" model="hr.payroll.structure">
+			<field name="code">RESCISAO</field>
+			<field name="name">Rescisão</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_13'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS'), ref('l10n_br_hr_payroll.hr_salary_rule_AVISO_PREVIO_INDENIZADO'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_13_AVISO_PREVIO_INDENIZADO'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_FERIAS_AVISO_PREVIO_INDENIZADO'), ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS_AVISO_PREVIO_INDENIZADO')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref="l10n_br_hr_payroll.hr_salary_structure_BASE_INSS_IRPF"/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura">rescisao</field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="l10n_br_hr_payroll.hr_salary_structure_COMPLEMENTO_JUSTA_CAUSA" model="hr.payroll.structure">
+			<field name="code">COMPLEMENTO_JUSTA_CAUSA</field>
+			<field name="name">Rescisão Complementar (dispensa com justa causa)</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_13')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref="l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS"/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura">rescisao</field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="l10n_br_hr_payroll.hr_salary_structure_PROVISAO_13" model="hr.payroll.structure">
+			<field name="code">PROVISAO_DECIMO_TERCEIRO</field>
+			<field name="name">Provisão de Décimo Terceiro (13º)</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_FUNCAO_COMISSIONADA')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref="l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS"/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura"></field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		<record id="l10n_br_hr_payroll.hr_salary_structure_PROVISAO_FERIAS" model="hr.payroll.structure">
+			<field name="code">PROVISAO_FERIAS</field>
+			<field name="name">Provisão de Férias</field>
+			<field name="note"></field>
+			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_FUNCAO_COMISSIONADA')])]" />
+			<field name="tipo_saque"></field>
+			<field name="ferias" ref=""/>
+			<field name="parent_id" ref="l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS"/>
+			<field name="children_ids" eval="[(6, 0, [])]" />
+			<field name="company_id" ref="base.main_company"/>
+			<field name="tipo_afastamento_cef"></field>
+			<field name="tipo_afastamento_sefip"></field>
+			<field name="tipo_estrutura"></field>
+			<field name="tipo_desligamento_rais"></field>
+		</record>
+
+		</data>
+	</openerp>

@@ -1,51 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2017 - KMEE
+
+<!-- Copyright 2017 Hendrix Costa - KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <openerp>
     <data>
 
-        <!--CATEGORIAS DE REGRAS DE SALARIOS-->
-        <record id="hr_payroll.REFERENCIA" model="hr.salary.rule.category">
-            <field name="name">Referência</field>
-            <field name="code">REFERENCIA</field>
-        </record>
-        <record id="hr_payroll.PROVENTO" model="hr.salary.rule.category">
-            <field name="name">Provento</field>
-            <field name="code">PROVENTO</field>
-        </record>
-        <record id="hr_payroll.BRUTO" model="hr.salary.rule.category">
-            <field name="name">Bruto</field>
-            <field name="code">BRUTO</field>
-        </record>
-        <record id="hr_payroll.DEDUCAO" model="hr.salary.rule.category">
-            <field name="name">Dedução</field>
-            <field name="code">DEDUCAO</field>
-        </record>
-        <record id="hr_payroll.LIQUIDO" model="hr.salary.rule.category">
-            <field name="name">Liquido</field>
-            <field name="code">LIQUIDO</field>
-        </record>
-        <record id="hr_payroll.INSS" model="hr.salary.rule.category">
-            <field name="name">INSS</field>
-            <field name="code">INSS</field>
-        </record>
-        <record id="hr_payroll.IRPF" model="hr.salary.rule.category">
-            <field name="name">IRPF</field>
-            <field name="code">IRPF</field>
-        </record>
-        <record id="hr_payroll.FGTS" model="hr.salary.rule.category">
-            <field name="name">FGTS</field>
-            <field name="code">FGTS</field>
-        </record>
-        <record id="hr_payroll.SEFIP" model="hr.salary.rule.category">
-            <field name="name">SEFIP</field>
-            <field name="code">SEFIP</field>
-        </record>
-        <record id="hr_payroll.FERIAS" model="hr.salary.rule.category">
-            <field name="name">FERIAS</field>
-            <field name="code">FERIAS</field>
-        </record>
+        <!-- Model de backup serão geradas aqui -->
 
-    </data>
-</openerp>
+
+		<!-- BACKUP EM  2017-06-27 00:12:59.081860 -->
+
+		<!-- Objetos Criados: 0 -->
+
+
+		<!-- Objetos Editadas: 10 -->
+
+		<record id="hr_payroll.REFERENCIA" model="hr.salary.rule.category">
+			<field name="name">Referência</field>
+			<field name="code">REFERENCIA</field>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="note"></field>
+			<field name="parent_id" ref=""/>
+		</record>
+
+		<record id="hr_payroll.PROVENTO" model="hr.salary.rule.category">
+			<field name="name">Provento</field>
+			<field name="code">PROVENTO</field>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="note"></field>
+			<field name="parent_id" ref=""/>
+		</record>
+
+		<record id="hr_payroll.BRUTO" model="hr.salary.rule.category">
+			<field name="name">Bruto</field>
+			<field name="code">BRUTO</field>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="note"></field>
+			<field name="parent_id" ref=""/>
+		</record>
+
+		<record id="hr_payroll.DEDUCAO" model="hr.salary.rule.category">
+			<field name="name">Dedução</field>
+			<field name="code">DEDUCAO</field>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="note"></field>
+			<field name="parent_id" ref=""/>
+		</record>
+
+		<record id="hr_payroll.LIQUIDO" model="hr.salary.rule.category">
+			<field name="name">Liquido</field>
+			<field name="code">LIQUIDO</field>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="note"></field>
+			<field name="parent_id" ref=""/>
+		</record>
+
+		<record id="hr_payroll.INSS" model="hr.salary.rule.category">
+			<field name="name">INSS</field>
+			<field name="code">INSS</field>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="note"></field>
+			<field name="parent_id" ref=""/>
+		</record>
+
+		<record id="hr_payroll.IRPF" model="hr.salary.rule.category">
+			<field name="name">IRPF</field>
+			<field name="code">IRPF</field>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="note"></field>
+			<field name="parent_id" ref=""/>
+		</record>
+
+		<record id="hr_payroll.FGTS" model="hr.salary.rule.category">
+			<field name="name">FGTS</field>
+			<field name="code">FGTS</field>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="note"></field>
+			<field name="parent_id" ref=""/>
+		</record>
+
+		<record id="hr_payroll.SEFIP" model="hr.salary.rule.category">
+			<field name="name">SEFIP</field>
+			<field name="code">SEFIP</field>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="note"></field>
+			<field name="parent_id" ref=""/>
+		</record>
+
+		<record id="hr_payroll.FERIAS" model="hr.salary.rule.category">
+			<field name="name">FERIAS</field>
+			<field name="code">FERIAS</field>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="note"></field>
+			<field name="parent_id" ref=""/>
+		</record>
+
+		</data>
+	</openerp>
