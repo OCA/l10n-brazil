@@ -48,4 +48,7 @@
         'demo/financial.account.csv',
         'demo/financial_demo.yml'
     ],
+    'test': [
+        'test/financial_move_test.yml',
+    ]
 }
