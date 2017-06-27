@@ -3207,5 +3207,56 @@ result = contract.wage * 0.10</field>
 			<field name="register_id" ref=""/>
 		</record>
 
+		<record id="hr_salary_rule_FGTS_RESCISAO" model="hr.salary.rule">
+			<field name="code">FGTS_RESCISAO</field>
+			<field name="name">FGTS A MAIOR</field>
+			<field name="active">True</field>
+			<field name="sequence">460</field>
+			<field name="category_id" ref="hr_payroll.DEDUCAO"/>
+			<field name="condition_select">none</field>
+			<field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+			<field name="amount_python_compute">result = BASE_FGTS * 0.08</field>
+			<field name="custom_amount_python_compute">valor = BASE_FGTS * 0.08
+if valor  &gt;=  0:
+    result = valor
+else:
+    result = -1*valor </field>
+			<field name="amount_select">code</field>
+			<field name="custom_amount_select">code</field>
+			<field name="compoe_base_INSS"></field>
+			<field name="compoe_base_IR"></field>
+			<field name="compoe_base_FGTS"></field>
+			<field name="amount_fix"></field>
+			<field name="custom_amount_fix"></field>
+			<field name="amount_percentage">8.0</field>
+			<field name="amount_percentage_base">contract.wage</field>
+			<field name="custom_amount_percentage_base">BASE_FGTS</field>
+			<field name="custom_amount_percentage">0.08</field>
+			<field name="appears_on_payslip">True</field>
+			<field name="condition_range">contract.wage</field>
+			<field name="condition_range_min"></field>
+			<field name="condition_range_max"></field>
+			<field name="note"></field>
+			<field name="calculo_nao_padrao">True</field>
+			<field name="quantity">1.0</field>
+			<field name="custom_quantity">1</field>
+			<field name="tipo_media"></field>
+			<field name="parent_rule_id" ref=""/>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="register_id" ref=""/>
+		</record>
 		</data>
 	</openerp>
