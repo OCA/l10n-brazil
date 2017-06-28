@@ -267,6 +267,50 @@ class L10nBrSefip(models.Model):
                 ))
         return tipo_inscr_empresa, inscr_empresa, cnae
 
+    def _ded_13_lic_maternidade(self):
+        """ Registro 12 item 5:
+
+                    Dedução 13o Salário Licença
+            Maternidade
+            (Informar o valor da parcela de
+            13o salário referente ao período
+            em que a trabalhadora esteve em
+            licença maternidade, nos casos
+            em que o
+            empregador/contribuinte for
+            responsável pelo pagamento do
+            salário-maternidade.
+            A informação deve ser prestada
+            nas seguintes situações:
+            - na competência 13, referente ao
+            valor pago durante o ano.
+            - na competência da rescisão do
+            contrato de trabalho (exceto
+            rescisão por justa causa),
+            aposentadoria sem continuidade
+            de vínculo ou falecimento )
+
+            Opcional para a competência 13.
+            Opcional para o código de recolhimento 115.
+            Opcional para os códigos de recolhimento 150, 155 e 608, quando o CNPJ da empresa for igual ao
+            CNPJ do tomador.
+            Deve ser informado quando houver movimentação por rescisão de contrato de trabalho (exceto
+            rescisão com justa causa), aposentadoria sem continuidade de vínculo, aposentadoria por invalidez
+            ou falecimento, para empregada que possuir afastamento por motivo de licença maternidade no ano.
+            Não pode ser informado para os códigos de recolhimento 130, 135, 145, 211, 307, 317, 327, 337,
+            345, 640, 650, 660 e para empregador doméstico (FPAS 868).
+            Não pode ser informado para licença maternidade iniciada a partir de 01/12/1999 e com benefícios
+            requeridos até 31/08/2003.
+            Não pode ser informado para competências anteriores a 10/1998.
+            Não pode ser informado para as competências 01/2001 a 08/2003.
+            Sempre que não informado preencher com zeros.
+
+        :return:
+        """
+        #  TODO:
+
+        return 0.00
+
     @api.multi
     def gerar_sefip(self):
         for record in self:
@@ -353,6 +397,10 @@ class L10nBrSefip(models.Model):
         sefip.emp_cod_centralizacao = self.centralizadora
         sefip.emp_simples = self._simples()
         sefip.emp_FPAS = self.codigo_fpas
+
+        ########
+        #
+        #
         # TODO: Criar um campo calculado para este registro
         sefip.emp_cod_outras_entidades = self.codigo_outras_entidades
         # TODO: Criar um campo calculado para este registro
@@ -368,29 +416,36 @@ class L10nBrSefip(models.Model):
         # valor devido 13 salario,  INSS décimo terceiro igual ao
         # "emp_contrib_descont_empregados" #24
 
-        # TODO: Campos opicionais / implementação futura
+        # TODO: implementação futura / não precisa preencher
         # sefip.emp_banco = self.company_id.bank_id[0].bank
         # sefip.emp_ag = self.company_id.bank_id[0].agency
         # sefip.emp_cc = self.company_id.bank_id[0].account
         return sefip._registro_10_informacoes_empresa()
 
     def _preencher_registro_12(self, sefip):
-        """"
-        5. Total maternidade
-        6. 0
-        7. 0
-        8. 0
-        9. 0
 
-        ### Processo, convenção ou coletiva
-        10. 11. 12. Campos da tela
-        13. 14.
-        #####
+        tipo_inscr_empresa, inscr_empresa, cnae = self._tipo_inscricao_cnae(
+            self.company_id
+        )
 
-        O Resto é zerado
+        sefip.tipo_inscr_empresa = tipo_inscr_empresa
+        sefip.inscr_empresa = inscr_empresa
 
-        """
-        pass
+        # Item 5
+        # TODO: Implementar função
+        sefip.ded_13_lic_maternidade = self._ded_13_lic_maternidade()
+
+        # Campos da tela
+        if self.codigo_recolhimento in ('650', '660'):
+            sefip.rec_outras_info_processo = self.num_processo
+            sefip.rec_outras_info_processo_ano = self.ano_processo
+            sefip.rec_outras_info_vara_JCJ = self.vara_jcj
+            sefip.rec_outras_info_periodo_inicio = self.data_inicio
+            sefip.rec_outras_info_periodo_fim = self.data_termino
+
+        # Os outros campos são em branco
+        return sefip._registro_12_inf_adic_recolhimento_empresa()
+
 
     def _preencher_registro_30(self, sefip, folha):
         """
