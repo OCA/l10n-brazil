@@ -1294,6 +1294,19 @@ class HrPayslip(models.Model):
                 dias_abono_ferias.update(
                     {'DIAS_ABONO': payslip.holidays_ferias.sold_vacations_days}
                 )
+        elif payslip.struct_id.code == "FERIAS" and payslip.is_simulacao:
+            if fields.Date.from_string(payslip.date_from) < fields.Date.\
+                    from_string(payslip.periodo_aquisitivo.inicio_concessivo):
+                dias_abono_ferias.update(
+                    {
+                        'DIAS_FERIAS':
+                            worked_days[u'SALDO_FERIAS'].number_of_days
+                    }
+                )
+            else:
+                dias_abono_ferias.update(
+                    {'DIAS_FERIAS': payslip.saldo_periodo_aquisitivo}
+                )
         else:
             dias_abono_ferias.update(
                 {'DIAS_FERIAS': payslip.saldo_periodo_aquisitivo}
