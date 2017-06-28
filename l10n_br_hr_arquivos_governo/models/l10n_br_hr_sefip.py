@@ -431,14 +431,14 @@ class L10nBrSefip(models.Model):
         sefip.serie_ctps = folha.employee_id.ctps_series
         # sefip.data_de_opcao =
         sefip.data_de_nascimento = folha.employee_id.birthday
-        sefip.trabalhador_cbo = folha.job_id.cbo_id.code
+        sefip.trabalhador_cbo = folha.contract_id.job_id.cbo_id.code
         # sefip.trabalhador_remun_sem_13 = holerite.salario-total
         # sefip.trabalhador_remun_13 =
         # sefip.trabalhador_classe_contrib =
         # ONDE SE ENCONTRAM INFORMAÇÕES REFERENTES A INSALUBRIDADE, DEVERIAM ESTAR NO CAMPO job_id?
         #sefip.trabalhador_ocorrencia =
         # sefip.trabalhador_valor_desc_segurado =
-        sefip.trabalhador_remun_base_calc_contribuicao_previdenciaria = folha.wage
+        # sefip.trabalhador_remun_base_calc_contribuicao_previdenciaria = folha.wage
         # sefip.trabalhador_base_calc_13_previdencia_competencia =
         # sefip.trabalhador_base_calc_13_previdencia_GPS =
 
