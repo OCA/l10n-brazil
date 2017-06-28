@@ -61,9 +61,11 @@ class L10nBrSefip(models.Model):
     responsible_user_id = fields.Many2one(
         comodel_name='res.partner', string=u'Usuário Responsável'
     )
-    company_id = fields.Many2one(comodel_name='res.company', string=u'Empresa')
+    company_id = fields.Many2one(
+        comodel_name='res.company', string=u'Empresa'
+    )
     mes = fields.Selection(selection=MESES, string=u'Mês')
-    ano = fields.Char(string=u'Ano')
+    ano = fields.Char(string=u'Ano', size=4)
     modalidade_arquivo = fields.Selection(
         selection=MODALIDADE_ARQUIVO, string=u'Modalidade do arquivo'
     )
