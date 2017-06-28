@@ -2,15 +2,19 @@
 # (c) 2017 KMEE INFORMATICA LTDA - Daniel Sadamo <sadamo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import api, fields, models
+from __future__ import (
+    division, print_function, unicode_literals, absolute_import
+)
+
+import logging
+
+from openerp import api, fields, models, _
 from openerp.exceptions import ValidationError
+
+from .arquivo_sefip import SEFIP
 from ..constantes_rh import (MESES, MODALIDADE_ARQUIVO, CODIGO_RECOLHIMENTO,
                              RECOLHIMENTO_GPS, RECOLHIMENTO_FGTS,
                              CENTRALIZADORA, SEFIP_CATEGORIA_TRABALHADOR)
-import logging
-import re
-
-from .arquivo_sefip import SEFIP
 
 _logger = logging.getLogger(__name__)
 
@@ -29,6 +33,20 @@ SEFIP_STATE = [
 
 class L10nBrSefip(models.Model):
     _name = 'l10n_br.hr.sefip'
+
+
+    @api.one
+    @api.depends('codigo_recolhimento', 'codigo_fpas')
+    def _compute_eh_obrigatorio_codigo_outras_entidades(self):
+        if self.codigo_recolhimento in (
+                '115', '130', '135', '150', '155', '211', '608', '650'):
+            self.eh_obrigatorio_codigo_outras_entidades = True
+        else:
+            self.eh_obrigatorio_codigo_outras_entidades = False
+            self.codigo_outras_entidades = False
+        if self.codigo_fpas == '582':
+            self.codigo_outras_entidades = '0'
+
 
     state = fields.Selection(selection=SEFIP_STATE, default='rascunho')
     # responsible_company_id = fields.Many2one(
@@ -61,11 +79,43 @@ class L10nBrSefip(models.Model):
     data_recolhimento_gps = fields.Date(
         string=u'Data de recolhimento do GPS'
     )
-    codigo_fpas = fields.Char(string=u'Código FPAS', default='736')
-    codigo_outras_entidades = fields.Char(string=u'Código de outras entidades')
+    codigo_fpas = fields.Char(
+        string=u'Código FPAS',
+        default='736',
+        required=True,
+        help="""• Campo obrigatório.\n 
+        • Deve ser um FPAS válido.\n
+        • Deve ser diferente de 744 e 779, pois as GPS desses códigos serão  
+        geradas automaticamente, sempre que forem informados os respectivos 
+        fatos geradores dessas contribuições.\n
+        • Deve ser diferente de 620, pois a informação das categorias 15, 16, 
+        18, 23 e 25 indica os respectivos fatos geradores dessas 
+        contribuições.\n
+        • Deve ser diferente de 663 e 671 a partir da competência 04/2004.\n
+        • Deve ser igual a 868 para empregador doméstico."""
+    )
+    eh_obrigatorio_codigo_outras_entidades = fields.Boolean(
+        compute='_compute_eh_obrigatorio_codigo_outras_entidades',
+    )
+    codigo_outras_entidades = fields.Char(
+        string=u'Código de outras entidades'
+    )
     centralizadora = fields.Selection(
-        selection=CENTRALIZADORA, string=u'Centralizadora',
-        default='1'
+        selection=CENTRALIZADORA,
+        string=u'Centralizadora',
+        default='1',
+        required=True,
+        help="""Para indicar as empresas que centralizam o recolhimento 
+        do FGTS\n\n
+        
+        - Deve ser igual a zero (0), para os códigos de recolhimento 
+            130, 135, 150, 155, 211, 317, 337, 608 e para empregador doméstico
+             (FPAS 868).\n
+        - Quando existir empresa centralizadora deve existir, no mínimo,
+         uma empresa centralizada e vice-versa.\n
+        - Quando existir centralização, as oito primeiras posições\n 
+        do CNPJ da centralizadora e da centralizada devem ser iguais.\n
+        - Empresa com inscrição CEI não possui centralização.\n"""
     )
     data_geracao = fields.Date(string=u'Data do arquivo')
     #Processo ou convenção coletiva
@@ -84,7 +134,10 @@ class L10nBrSefip(models.Model):
         if len(linha) == 360:
             return linha + '\n'
         else:
-            raise ValidationError( 'Tamanho da linha diferente de 360 posicoes. tam = %s, linha = %s' %(len(linha), linha))
+            raise ValidationError(
+                'Tamanho da linha diferente de 360 posicoes.'
+                ' tam = %s, linha = %s' %(len(linha), linha)
+            )
 
     @api.multi
     def gerar_sefip(self):
@@ -264,26 +317,116 @@ class L10nBrSefip(models.Model):
     #     sefip += '\n'
     #     return sefip
 
-    def _preencher_registro_10(self, sefip):
-        aliquota_rat = self.env['l10n_hr.rat.fap'].search(
+    def _rat(self):
+        """
+        - Campo obrigatório.
+        - Campo com uma posição inteira e uma decimal.
+        - Campo obrigatório para competência maior ou igual a 10/1998.
+        - Não pode ser informado para competências anteriores a 10/1998.
+        - Não pode ser informado para competências anteriores a 04/99
+            quando o FPAS for 639.
+        - Não pode ser informado para os códigos de recolhimento
+            145, 307, 317, 327, 337, 345, 640 e 660.
+        - Será zeros para FPAS 604, 647, 825, 833 e 868 (empregador doméstico)
+            e para a empresa optante pelo SIMPLES.
+        - Não pode ser informado para FPAS 604 com recolhimento de código 150
+         em competências posteriores a 10/2001.
+
+            Sempre que não informado o campo deve ficar em branco.
+
+        :return:
+        """
+
+        if self.codigo_recolhimento in (
+                '145', '307', '317', '327', '337', '345', '640', '660'):
+            return ''
+        elif (self.codigo_recolhimento in (
+                '604', '647', '825', '833', '868') or
+              self.company_id.fiscal_type in ('1', '2')):
+            return 0.00
+        elif self.codigo_fpas == '604' and self.codigo_recolhimento == '150':
+            return ''
+        return self.env['l10n_hr.rat.fap'].search(
             [('year', '=', self.ano)], limit=1).rat_rate or '0'
-        # sefip.tipo_inscr_empresa = self.
-        sefip.inscr_empresa = self.company_id.cnpj_cei
-        sefip.emp_nome_razao_social = self.company_id.name
+
+    def _simples(self):
+        """
+        Campo obrigatório.
+        Só pode ser:
+            1 - Não Optante;
+            2 – Optante;
+            3 – Optante - faturamento anual superior a R$1.200.000,00 ;
+            4 – Não Optante - Produtor Rural Pessoa Física (CEI e FPAS 604 )
+            com faturamento anual superior a R$1.200.000,00.
+            5 – Não Optante – Empresa com Liminar para não recolhimento da
+            Contribuição Social – Lei Complementar 110/01, de 26/06/2001.
+            6 – Optante - faturamento anual superior a R$1.200.000,00 -
+            Empresa com Liminar para não recolhimento da Contribuição
+            Social – Lei Complementar 110/01, de 26/06/2001.
+        Deve sempre ser igual a 1 ou 5 para
+            FPAS 582, 639, 663, 671, 680 e 736.
+        Deve sempre ser igual a 1 para o FPAS 868 (empregador doméstico).
+
+        Não pode ser informado para o código de recolhimento 640.
+        Não pode ser informado para competência anterior a 12/1996.
+
+        Os códigos 3, 4, 5 e 6 não podem ser informados a partir da
+        competência 01/2007.
+
+        Sempre que não informado o campo deve ficar em branco.
+        """
+        # TODO: Melhorar esta função para os outros casos de uso
+        if self.company_id.fiscal_type == '3':
+            return '1'
+        else:
+            return '2'
+
+    def _preencher_registro_10(self, sefip):
+
+        if self.company_id.partner_id.is_company:
+            tipo_inscr_empresa = '1'
+            inscr_empresa = self.company_id.cnpj_cpf
+            cnae = self.company_id.cnae
+        else:
+            raise ValidationError(_(
+                'Exportação de empregador doméstico não parametrizada '
+                'corretamente'))
+            tipo_inscr_empresa = '0'
+            # TODO: Campo não implementado
+            inscr_empresa = self.company_id.cei
+            cnae = self.company_id.cnae
+            if '9700500' not in cnae:
+                raise ValidationError(_(
+                    'Para empregador doméstico utilizar o número 9700500.'
+                ))
+
+
+        sefip.tipo_inscr_empresa = tipo_inscr_empresa
+        sefip.inscr_empresa = inscr_empresa
+        sefip.emp_nome_razao_social = (
+            self.company_id.legal_name or self.company_id.name or ''
+        )
         sefip.emp_logradouro = self.company_id.street or '' + ' ' + \
                                self.company_id.number or '' + ' ' + \
                                self.company_id.street2 or ''
-        sefip.emp_bairro = self.company_id.district
-        sefip.emp_cep = self.company_id.zip
-        sefip.emp_cidade = self.company_id.l10n_br_city.name
+        sefip.emp_bairro = self.company_id.district or ''
+        sefip.emp_cep = self.company_id.zip or ''
+        sefip.emp_cidade = self.company_id.city
         sefip.emp_uf = self.company_id.state_id.code
+        # TODO: Pode ser que este campo precise ser revisto por conta da
+        # formatação
         sefip.emp_tel = self.company_id.phone
-        # sefip.emp_indic_alteracao_endereco = 'n'
-        sefip.emp_cnae = self.company_id.cnae
+        #
+        # A responsabilidade de alteração do enderço da empresa deve ser
+        # sempre feita pela receita federal, não ousamos usar esta campo.
+        #
+        sefip.emp_indic_alteracao_endereco = 'N'
+
+        sefip.emp_cnae = cnae
         # sefip.emp_indic_alteracao_cnae = 'n'
-        sefip.emp_aliquota_RAT = aliquota_rat
+        sefip.emp_aliquota_RAT = self._rat()
         sefip.emp_cod_centralizacao = self.centralizadora
-        sefip.emp_simples = '1' if self.company_id.fiscal_type == '3' else '2'
+        sefip.emp_simples = self._simples()
         sefip.emp_FPAS = self.codigo_fpas
         sefip.emp_cod_outras_entidades = self.codigo_outras_entidades
         sefip.emp_cod_pagamento_GPS = self.codigo_recolhimento_gps
