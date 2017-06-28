@@ -165,7 +165,14 @@
 			<field name="code">BASE_INSS_IRPF</field>
 			<field name="name">Base para INSS e IRPF</field>
 			<field name="note"></field>
-			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_BRUTO'), ref('l10n_br_hr_payroll.hr_salary_rule_LIQUIDO'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_TOTAL_DESCONTOS')])]" />
+			<field name="rule_ids" eval="[(6, 0, [
+				ref('l10n_br_hr_payroll.hr_salary_rule_BRUTO'), ref('l10n_br_hr_payroll.hr_salary_rule_LIQUIDO'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS'),
+				ref('l10n_br_hr_payroll.hr_salary_rule_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF'),
+				ref('l10n_br_hr_payroll.hr_salary_rule_TOTAL_DESCONTOS'),
+				ref('l10n_br_hr_payroll.hr_salary_rule_INSS_EMPRESA_BASE'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS_DEDUCAO_PREVIDENCARIA'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS_EMPRESA'),
+				ref('l10n_br_hr_payroll.hr_salary_rule_INSS_OUTRAS_ENTIDADES'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS_RAT_FAP'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS_EMPRESA_TOTAL'),
+				ref('l10n_br_hr_payroll.hr_salary_rule_INSS_EMPRESA_LIQUIDO')
+			])]" />
 			<field name="tipo_saque"></field>
 			<field name="ferias" ref=""/>
 			<field name="parent_id" ref=""/>
