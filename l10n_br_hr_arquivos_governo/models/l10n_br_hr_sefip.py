@@ -35,6 +35,14 @@ class L10nBrSefip(models.Model):
     _name = b'l10n_br.hr.sefip'
 
     @api.one
+    @api.depends('codigo_recolhimento')
+    def _compute_eh_obrigatorio_informacoes_processo(self):
+        if self.codigo_recolhimento in ('650', '660'):
+            self.eh_obrigatorio_informacoes_processo = True
+        else:
+            self.eh_obrigatorio_informacoes_processo = False
+
+    @api.one
     @api.depends('codigo_recolhimento', 'codigo_fpas')
     def _compute_eh_obrigatorio_codigo_outras_entidades(self):
         if self.codigo_recolhimento in (
@@ -115,10 +123,14 @@ class L10nBrSefip(models.Model):
         do CNPJ da centralizadora e da centralizada devem ser iguais.\n
         - Empresa com inscrição CEI não possui centralização.\n"""
     )
+    eh_obrigatorio_informacoes_processo = fields.Boolean(
+        compute='_compute_eh_obrigatorio_informacoes_processo',
+        default=False,
+    )
     data_geracao = fields.Date(string=u'Data do arquivo')
     # Processo ou convenção coletiva
     num_processo = fields.Char(string=u'Número do processo')
-    ano_processo = fields.Char(string=u'Ano do processo')
+    ano_processo = fields.Char(string=u'Ano do processo', size=4)
     vara_jcj = fields.Char(string=u'Vara/JCJ')
     data_inicio = fields.Date(string=u'Data de Início')
     data_termino = fields.Date(string=u'Data de término')

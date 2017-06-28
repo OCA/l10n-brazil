@@ -63,12 +63,13 @@
                             <field name="centralizadora"/>
                             <field name="data_geracao"/>
                         </group>
-                        <group string="Processo, convenção ou coletiva" colspan="4">
-                            <field name="num_processo"/>
-                            <field name="ano_processo"/>
-                            <field name="vara_jcj"/>
-                            <field name="data_inicio"/>
-                            <field name="data_termino"/>
+                        <field name="eh_obrigatorio_informacoes_processo" invisible="1"/>
+                        <group string="Processo, convenção ou coletiva" colspan="4"  attrs="{'invisible':[('eh_obrigatorio_informacoes_processo', '!=', True)]}" >
+                            <field name="num_processo" attrs="{'required':[('eh_obrigatorio_informacoes_processo', '=', True)]}"/>
+                            <field name="ano_processo" attrs="{'required':[('eh_obrigatorio_informacoes_processo', '=', True)]}"/>
+                            <field name="vara_jcj" attrs="{'required':[('eh_obrigatorio_informacoes_processo', '=', True)]}"/>
+                            <field name="data_inicio" attrs="{'required':[('eh_obrigatorio_informacoes_processo', '=', True)]}"/>
+                            <field name="data_termino" attrs="{'required':[('eh_obrigatorio_informacoes_processo', '=', True)]}"/>
                         </group>
                     </group>
                     <footer>
