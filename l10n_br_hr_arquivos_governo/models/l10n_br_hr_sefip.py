@@ -3,6 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import api, fields, models
+from openerp.exceptions import ValidationError
 from ..constantes_rh import (MESES, MODALIDADE_ARQUIVO, CODIGO_RECOLHIMENTO,
                              RECOLHIMENTO_GPS, RECOLHIMENTO_FGTS,
                              CENTRALIZADORA, SEFIP_CATEGORIA_TRABALHADOR)
@@ -77,79 +78,25 @@ class L10nBrSefip(models.Model):
         string=u'Prévia do SEFIP'
     )
 
-    def _validar(self, word, tam, tipo='AN'):
-        """
-        Função Genérica utilizada para validação de campos que são gerados
-        nos arquivos TXT's
-        :param tipo: str - Tipo de palavras validadas:
-            -   A -> Alfabéticas -> Apenas letras do alfabeto
-            -   D -> Data -> Apenas numeral
-            -   V -> Valor -> Valores decimais, retirando a virgula
-            -   N -> Numerico -> Apenas numeros preechidos com zero a esq.
-            -   AN -> Alfanumericos -> Aceita numeros e caracateres sem acentos
-        :param word: str - palavra a ser validada
-        :param tam: int - Tamanho que a palavra deve ser
-        :return: str - Palavra formatada de acordo com tipo e tamanho
-        """
-        if not word:
-            word = u''
-
-        if tipo == 'A':         # Alfabetico
-            word = tira_acentos(word)
-            # tirar tudo que nao for letra do alfabeto
-            word = re.sub('[^a-zA-Z]', ' ', word)
-            # Retirar 2 espaços seguidos
-            word = re.sub('[ ]+', ' ', word)
-            word = word.upper()
-            return unicode.ljust(unicode(word), tam)[:tam]
-
-        elif tipo == 'D':       # Data
-            # Retira tudo que nao for numeral
-            word = data.formata_data(word)
-            word = re.sub(u'[^0-9]', '', str(word))
-            return unicode.ljust(unicode(word), tam)[:tam]
-
-        elif tipo == 'V':       # Valor
-            # Pega a parte decimal como inteiro e nas duas ultimas casas
-            word = int(word * 100) if word else 0
-            # Preenche com zeros a esquerda
-            word = str(word).zfill(tam)
-            return word[:tam]
-
-        elif tipo == 'N':       # Numerico
-            # Preenche com zeros a esquerda
-            word = re.sub('[^0-9]', '', str(word))
-            word = str(word).zfill(tam)
-            return word[:tam]
-
-        elif tipo == 'AN':      # Alfanumerico
-            word = word.upper()
-            # Tira acentos da palavras
-            word = tira_acentos(word)
-            # Preenche com espaço vazio a esquerda
-            return unicode.ljust(unicode(word), tam)[:tam]
+    def _valida_tamanho_linha(self, linha):
+        if len(linha) == 360:
+            return linha
         else:
-            return word
+            raise ValidationError( 'Tamanho da linha diferente de 360 posicoes. tam = %s, linha = %s' %(len(linha), linha))
 
-    # @api.depends('responsible_user_id', 'company_id', 'mes', 'ano',
-    #              'modalidade_arquivo', 'codigo_recolhimento', 'codigo_fpas',
-    #              'recolhimento_fgts', 'data_recolhimento_fgts', 'vara_jcj',
-    #              'codigo_recolhimento_gps', 'recolhimento_gps', 'data_inicio',
-    #              'data_recolhimento_gps', 'codigo_outras_entidades',
-    #              'centralizadora', 'data_geracao', 'num_processo',
-    #              'ano_processo', 'data_termino'
-    #              )
     @api.multi
     def gerar_sefip(self):
         sefip = SEFIP()
-        self._preencher_registro_00(sefip)
+        self.sefip = ''
+        self.sefip += self._valida_tamanho_linha(self._preencher_registro_00(sefip))
         # self._preencher_registro_10(sefip)
         for folha in self.env['hr.payslip'].search([
-            ('mes_do_ano', '=', self.mes),
-            ('ano', '=', self.ano)
-        ]).sorted(key=lambda folha: folha.employee_id.pis_pasep):
-            self._preencher_registro_30(sefip, folha)
-        self.sefip = sefip._gerar_arquivo_SEFIP()
+                ('mes_do_ano', '=', self.mes),
+                ('ano', '=', self.ano)
+                ]).sorted(key=lambda folha: folha.employee_id.pis_pasep):
+            self.sefip += self._valida_tamanho_linha(self._preencher_registro_30(sefip, folha))
+        self.sefip += self._valida_tamanho_linha(sefip._registro_90_totalizador_do_arquivo())
+        # self.sefip = sefip._gerar_arquivo_SEFIP()
 
     # def _registro_00(self):
     #     _validar = self._validar
@@ -441,6 +388,7 @@ class L10nBrSefip(models.Model):
         # sefip.trabalhador_remun_base_calc_contribuicao_previdenciaria = folha.wage
         # sefip.trabalhador_base_calc_13_previdencia_competencia =
         # sefip.trabalhador_base_calc_13_previdencia_GPS =
+        return sefip._registro_30_registro_do_trabalhador()
 
     # def _preencher_registro_90(self):
     #     sefip = '90'

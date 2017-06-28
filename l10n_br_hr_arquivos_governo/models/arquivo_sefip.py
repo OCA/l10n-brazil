@@ -293,19 +293,6 @@ class SEFIP(AbstractArquivosGoverno):
         registro_90 += self._validar(self.fim_linha, 1, 'AN')
         return registro_90
 
-    def _gerar_arquivo_SEFIP(self):
-        return \
-            self._registro_00_informacoes_responsavel() + \
-            self._registro_10_informacoes_empresa() + \
-            self._registro_12_inf_adic_recolhimento_empresa() + \
-            self._registro_13_alteracao_cadastral_trabalhador()+ \
-            self._registro_14_inclusao_alteracao_endereco_trabalhador() + \
-            self._registro_20_tomador_de_servico_ou_obra_contrucao_civil()+ \
-            self._registro_21_informacoes_adicionais_tomador_de_servico()+ \
-            self._registro_30_registro_do_trabalhador() + \
-            self._registro_32_movimentacao_do_trabalhador()+ \
-            self._registro_90_totalizador_do_arquivo()
-
     def __init__(self, *args, **kwargs):
         # campos gerais--------------------------------------------------------
         self.preenche_zeros = '0'
