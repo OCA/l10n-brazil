@@ -142,7 +142,7 @@ class L10nBrSefip(models.Model):
     @api.multi
     def gerar_sefip(self):
         sefip = SEFIP()
-        # self._preencher_registro_00(sefip)
+        self._preencher_registro_00(sefip)
         # self._preencher_registro_10(sefip)
         for folha in self.env['hr.payslip'].search([
             ('mes_do_ano', '=', self.mes),
@@ -232,12 +232,12 @@ class L10nBrSefip(models.Model):
         sefip.inscr_resp = self.responsible_user_id.cnpj_cpf
         sefip.nome_resp = self.responsible_user_id.parent_id.name
         sefip.nome_contato = self.responsible_user_id.name
-        sefip.arq_logradouro = self.responsible_user_id.street + ' ' + \
-                               self.responsible_user_id.number + ' ' + \
-                               self.responsible_user_id.street2
+        sefip.arq_logradouro = self.responsible_user_id.street or '' + ' ' + \
+                               self.responsible_user_id.number or ''+ ' ' + \
+                               self.responsible_user_id.street2 or ''
         sefip.arq_bairro = self.responsible_user_id.district
         sefip.arq_cep = self.responsible_user_id.zip
-        sefip.arq_cidade = self.responsible_user_id.l10n_br_city.name
+        sefip.arq_cidade = self.responsible_user_id.l10n_br_city_id.name
         sefip.arq_uf = self.responsible_user_id.state_id.code
         sefip.tel_contato = self.responsible_user_id.phone
         sefip.internet_contato = self.responsible_user_id.website
@@ -245,9 +245,11 @@ class L10nBrSefip(models.Model):
         sefip.cod_recolhimento = self.codigo_recolhimento
         sefip.indic_recolhimento_fgts = self.recolhimento_fgts
         sefip.modalidade_arq = self.modalidade_arquivo
-        sefip.data_recolhimento_fgts = self.data_recolhimento_fgts
+        sefip.data_recolhimento_fgts = fields.Datetime.from_string(
+                self.data_recolhimento_fgts).strftime('%d%m%Y')
         sefip.indic_recolh_ps = self.recolhimento_gps
-        sefip.data_recolh_ps = self.data_recolhimento_gps
+        sefip.data_recolh_ps = fields.Datetime.from_string(
+                self.data_recolhimento_gps).strftime('%d%m%Y')
         sefip.tipo_inscr_fornec = (
             '1' if self.company_id.supplier_partner_id.is_company else '3')
         sefip.inscr_fornec = self.company_id.supplier_partner_id.cnpj_cpf
@@ -317,9 +319,9 @@ class L10nBrSefip(models.Model):
         # sefip.tipo_inscr_empresa = self.
         sefip.inscr_empresa = self.company_id.cnpj_cei
         sefip.emp_nome_razao_social = self.company_id.name
-        sefip.emp_logradouro = self.company_id.street + ' ' + \
-                               self.company_id.number + ' ' + \
-                               self.company_id.street2
+        sefip.emp_logradouro = self.company_id.street or '' + ' ' + \
+                               self.company_id.number or '' + ' ' + \
+                               self.company_id.street2 or ''
         sefip.emp_bairro = self.company_id.district
         sefip.emp_cep = self.company_id.zip
         sefip.emp_cidade = self.company_id.l10n_br_city.name
