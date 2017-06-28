@@ -58,7 +58,8 @@
                         </group>
                         <group colspan="4">
                             <field name="codigo_fpas"/>
-                            <field name="codigo_outras_entidades"/>
+                            <field name="eh_obrigatorio_codigo_outras_entidades" invisible="1"/>
+                            <field name="codigo_outras_entidades" attrs="{'required':[('eh_obrigatorio_codigo_outras_entidades', '=', True)]}"/>
                             <field name="centralizadora"/>
                             <field name="data_geracao"/>
                         </group>
