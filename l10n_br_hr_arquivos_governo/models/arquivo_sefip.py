@@ -43,6 +43,7 @@ class SEFIP(AbstractArquivosGoverno):
         registro_00 += self._validar(self.inscr_fornec, 14, 'N')
         registro_00 += self._validar(self.preenche_brancos, 18, 'AN')
         registro_00 += self._validar(self.fim_linha, 1, 'AN')
+        registro_00 += '\n'
         return registro_00
 
     def _registro_10_informacoes_empresa(self):
@@ -81,6 +82,7 @@ class SEFIP(AbstractArquivosGoverno):
         registro_10 += self._validar(self.preenche_zeros, 45, 'V')
         registro_10 += self._validar(self.preenche_brancos, 4, 'AN')
         registro_10 += self._validar(self.fim_linha, 1, 'AN')
+        registro_10 += '\n'
         return registro_10
 
     def _registro_12_inf_adic_recolhimento_empresa(self):
@@ -122,6 +124,7 @@ class SEFIP(AbstractArquivosGoverno):
         registro_12 += self._validar(self.preenche_zeros, 45, 'V')
         registro_12 += self._validar(self.preenche_brancos, 6, 'AN')
         registro_12 += self._validar(self.fim_linha, 1, 'AN')
+        registro_12 += '\n'
         return registro_12
 
     def _registro_13_alteracao_cadastral_trabalhador(self):
@@ -142,6 +145,7 @@ class SEFIP(AbstractArquivosGoverno):
         registro_13 += self._validar(self.novo_conteudo_campo, 70, 'AN')
         registro_13 += self._validar(self.preenche_brancos, 94, 'AN')
         registro_13 += self._validar(self.fim_linha, 1, 'AN')
+        registro_13 += '\n'
         return registro_13
 
     def _registro_14_inclusao_alteracao_endereco_trabalhador(self):
@@ -162,6 +166,7 @@ class SEFIP(AbstractArquivosGoverno):
         registro_14 += self._validar(self.trabalhador_uf, 2, 'A')
         registro_14 += self._validar(self.preenche_brancos, 103, 'AN')
         registro_14 += self._validar(self.fim_linha, 1, 'AN')
+        registro_14 += '\n'
         return registro_14
 
     def _registro_20_tomador_de_servico_ou_obra_contrucao_civil(self):
@@ -188,6 +193,7 @@ class SEFIP(AbstractArquivosGoverno):
         registro_20 += self._validar(self.preenche_zeros, 45, 'V')
         registro_20 += self._validar(self.preenche_brancos, 42, 'AN')
         registro_20 += self._validar(self.fim_linha, 1, 'AN')
+        registro_20 += '\n'
         return registro_20
 
     def _registro_21_informacoes_adicionais_tomador_de_servico(self):
@@ -215,6 +221,7 @@ class SEFIP(AbstractArquivosGoverno):
             self.inf_adic_tomador_parc_fgts_vlr_recolhido, 15, 'V')
         registro_21 += self._validar(self.preenche_brancos, 204, 'AN')
         registro_21 += self._validar(self.fim_linha, 1, 'AN')
+        registro_21 += '\n'
         return registro_21
 
     def _registro_30_registro_do_trabalhador(self):
@@ -248,6 +255,7 @@ class SEFIP(AbstractArquivosGoverno):
             self.trabalhador_base_calc_13_previdencia_GPS, 15, 'V')
         registro_30 += self._validar(self.preenche_brancos, 98, 'AN')
         registro_30 += self._validar(self.fim_linha, 1, 'AN')
+        registro_30 += '\n'
         return registro_30
 
     def _registro_32_movimentacao_do_trabalhador(self):
@@ -268,6 +276,7 @@ class SEFIP(AbstractArquivosGoverno):
             self.trabalhador_indic_recolhimento_fgts, 1, 'AN')
         registro_32 += self._validar(self.preenche_brancos, 225, 'AN')
         registro_32 += self._validar(self.fim_linha, 1, 'AN')
+        registro_32 += '\n'
         return registro_32
 
     # PARA IMPLEMENTAÇAO FUTURA
