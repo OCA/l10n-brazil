@@ -246,10 +246,12 @@ class L10nBrSefip(models.Model):
         sefip.indic_recolhimento_fgts = self.recolhimento_fgts
         sefip.modalidade_arq = self.modalidade_arquivo
         sefip.data_recolhimento_fgts = fields.Datetime.from_string(
-                self.data_recolhimento_fgts).strftime('%d%m%Y')
+            self.data_recolhimento_fgts).strftime('%d%m%Y') \
+            if self.data_recolhimento_fgts else ''
         sefip.indic_recolh_ps = self.recolhimento_gps
         sefip.data_recolh_ps = fields.Datetime.from_string(
-                self.data_recolhimento_gps).strftime('%d%m%Y')
+            self.data_recolhimento_gps).strftime('%d%m%Y') \
+            if self.data_recolhimento_fgts else ''
         sefip.tipo_inscr_fornec = (
             '1' if self.company_id.supplier_partner_id.is_company else '3')
         sefip.inscr_fornec = self.company_id.supplier_partner_id.cnpj_cpf
