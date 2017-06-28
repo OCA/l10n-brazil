@@ -79,8 +79,10 @@ class L10nBrSefip(models.Model):
     )
 
     def _valida_tamanho_linha(self, linha):
+        """Valida tamanho da linha (sempre igual a 360 posições) e
+         adiciona quebra caso esteja correto"""
         if len(linha) == 360:
-            return linha
+            return linha + '\n'
         else:
             raise ValidationError( 'Tamanho da linha diferente de 360 posicoes. tam = %s, linha = %s' %(len(linha), linha))
 
