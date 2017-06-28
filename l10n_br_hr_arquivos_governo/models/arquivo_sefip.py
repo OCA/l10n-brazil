@@ -456,7 +456,7 @@ class SEFIP(AbstractArquivosGoverno):
             word = re.sub('[^a-zA-Z]', ' ', word)
             # Retirar 2 espaços seguidos
             word = re.sub('[ ]+', ' ', word)
-            return unicode.rjust(unicode(word), tam)[:tam]
+            return unicode.ljust(unicode(word), tam)[:tam]
 
         elif tipo == 'D':       # Data
             # Retira tudo que nao for numeral
@@ -475,10 +475,10 @@ class SEFIP(AbstractArquivosGoverno):
             word = re.sub('[^0-9]', '', str(word))
             # word = str(word).zfill(tam)
             # return word[:tam]
-            return unicode.ljust(unicode(word), tam)[:tam]
+            return unicode.rjust(unicode(word), tam)[:tam]
 
         elif tipo == 'AN':      # Alfanumerico
             # Tira acentos da palavras
             word = tira_acentos(unicode(word))
             # Preenche com espaço vazio a direita
-            return unicode.rjust(unicode(word), tam)[:tam]
+            return unicode.ljust(unicode(word), tam)[:tam]
