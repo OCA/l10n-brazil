@@ -32,8 +32,7 @@ SEFIP_STATE = [
 
 
 class L10nBrSefip(models.Model):
-    _name = 'l10n_br.hr.sefip'
-
+    _name = b'l10n_br.hr.sefip'
 
     @api.one
     @api.depends('codigo_recolhimento', 'codigo_fpas')
@@ -351,7 +350,7 @@ class L10nBrSefip(models.Model):
             return 0.00
         elif self.codigo_fpas == '604' and self.codigo_recolhimento == '150':
             return ''
-        return self.env['l10n_hr.rat.fap'].search(
+        return self.env['l10n_br.hr.rat.fap'].search(
             [('year', '=', self.ano)], limit=1).rat_rate or '0'
 
     def _simples(self):
