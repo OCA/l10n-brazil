@@ -7,8 +7,10 @@ from .abstract_arquivos_governo import AbstractArquivosGoverno
 import re
 
 _logger = logging.getLogger(__name__)
+
 try:
-    from pybrasil.data import hoje, tira_acentos
+    from pybrasil.base import tira_acentos
+    from pybrasil import data
 except ImportError:
     _logger.info('Cannot import pybrasil')
 
@@ -320,9 +322,9 @@ class SEFIP(AbstractArquivosGoverno):
         self.cod_recolhimento = ''
         self.indic_recolhimento_fgts = ''
         self.modalidade_arq = ''
-        self.data_recolhimento_fgts = hoje()
+        self.data_recolhimento_fgts = data.hoje()
         self.indic_recolh_ps = ''
-        self.data_recolh_ps = hoje()
+        self.data_recolh_ps = data.hoje()
         self.indice_recolh_atraso_ps = ''
         self.tipo_inscr_fornec = ''
         self.inscr_fornec = ''
@@ -378,7 +380,7 @@ class SEFIP(AbstractArquivosGoverno):
         self.vlr_pago_cooperativas_trabalho = ''
         # campos gerais do TRABALHADOR ----------------------------------------
         self.pis_pasep_ci = ''
-        self.data_admissao = hoje()
+        self.data_admissao = data.hoje()
         self.categoria_trabalhador = ''
         self.num_ctps = ''
         self.serie_ctps = ''
@@ -425,8 +427,8 @@ class SEFIP(AbstractArquivosGoverno):
         self.inf_adic_tomador_parc_fgts_vlr_recolhido = ''
         #campos REGISTRO DO TRABALHADOR ---------------------------------------
         self.tipo_de_registro_30 = '30'
-        self.data_de_opcao = hoje()
-        self.data_de_nascimento = hoje()
+        self.data_de_opcao = data.hoje()
+        self.data_de_nascimento = data.hoje()
         self.trabalhador_cbo = ''
         self.trabalhador_remun_sem_13 = ''
         self.trabalhador_remun_13 = ''
@@ -462,7 +464,7 @@ class SEFIP(AbstractArquivosGoverno):
             word = u''
 
         if tipo == 'A':         # Alfabetico
-            word = tira_acentos(word)
+            word = tira_acentos(unicode(word))
             # tirar tudo que nao for letra do alfabeto
             word = re.sub('[^a-zA-Z]', ' ', word)
             # Retirar 2 espaços seguidos
@@ -490,6 +492,6 @@ class SEFIP(AbstractArquivosGoverno):
 
         elif tipo == 'AN':      # Alfanumerico
             # Tira acentos da palavras
-            word = tira_acentos(word)
+            word = tira_acentos(unicode(word))
             # Preenche com espaço vazio a direita
             return unicode.rjust(unicode(word), tam)[:tam]
