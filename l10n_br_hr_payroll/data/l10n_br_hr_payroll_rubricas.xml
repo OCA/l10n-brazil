@@ -1146,7 +1146,7 @@ result = rules.NET  &gt;  categories.NET * 0.10</field>
 			<field name="code">VA/VR</field>
 			<field name="name">Vale alimentação/Refeição</field>
 			<field name="active">True</field>
-			<field name="sequence">103.0</field>
+			<field name="sequence">305.0</field>
 			<field name="category_id" ref="hr_payroll.DEDUCAO"/>
 			<field name="condition_select">none</field>
 			<field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
