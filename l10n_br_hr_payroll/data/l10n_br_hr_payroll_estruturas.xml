@@ -161,7 +161,7 @@
 			<field name="tipo_desligamento_rais"></field>
 		</record>
 
-		<record id="l10n_br_hr_payroll.hr_salary_structure_BASE_INSS_IRPF" model="hr.payroll.structure">
+        <record id="l10n_br_hr_payroll.hr_salary_structure_BASE_INSS_IRPF" model="hr.payroll.structure">
 			<field name="code">BASE_INSS_IRPF</field>
 			<field name="name">Base para INSS e IRPF</field>
 			<field name="note"></field>
@@ -176,7 +176,7 @@
 			<field name="tipo_saque"></field>
 			<field name="ferias" ref=""/>
 			<field name="parent_id" ref=""/>
-			<field name="children_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS'), ref('l10n_br_hr_payroll.hr_salary_structure_HONORARIO_DIRETORIA'), ref('l10n_br_hr_payroll.hr_salary_structure_HONORARIO_CONSELHO'), ref('l10n_br_hr_payroll.hr_salary_structure_RESCISAO')])]" />
+			<!--<field name="children_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS'), ref('l10n_br_hr_payroll.hr_salary_structure_HONORARIO_DIRETORIA'), ref('l10n_br_hr_payroll.hr_salary_structure_HONORARIO_CONSELHO'), ref('l10n_br_hr_payroll.hr_salary_structure_RESCISAO')])]" />-->
 			<field name="company_id" ref="base.main_company"/>
 			<field name="tipo_afastamento_cef"></field>
 			<field name="tipo_afastamento_sefip"></field>
@@ -184,7 +184,7 @@
 			<field name="tipo_desligamento_rais"></field>
 		</record>
 
-		<record id="l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS" model="hr.payroll.structure">
+        <record id="l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS" model="hr.payroll.structure">
 			<field name="code">BASE_FGTS</field>
 			<field name="name">Base para FGTS</field>
 			<field name="note"></field>
@@ -192,7 +192,7 @@
 			<field name="tipo_saque"></field>
 			<field name="ferias" ref=""/>
 			<field name="parent_id" ref="l10n_br_hr_payroll.hr_salary_structure_BASE_INSS_IRPF"/>
-			<field name="children_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_structure_FUNCAO_COMISSIONADA'), ref('l10n_br_hr_payroll.hr_salary_structure_HONORARIO_PRESIDENTE'), ref('l10n_br_hr_payroll.hr_salary_structure_JUSTA_CAUSA'), ref('l10n_br_hr_payroll.hr_salary_structure_COMPLEMENTO_JUSTA_CAUSA'), ref('l10n_br_hr_payroll.hr_salary_structure_PROVISAO_13'), ref('l10n_br_hr_payroll.hr_salary_structure_PROVISAO_FERIAS')])]" />
+			<!--<field name="children_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_structure_FUNCAO_COMISSIONADA'), ref('l10n_br_hr_payroll.hr_salary_structure_HONORARIO_PRESIDENTE'), ref('l10n_br_hr_payroll.hr_salary_structure_JUSTA_CAUSA'), ref('l10n_br_hr_payroll.hr_salary_structure_COMPLEMENTO_JUSTA_CAUSA'), ref('l10n_br_hr_payroll.hr_salary_structure_PROVISAO_13'), ref('l10n_br_hr_payroll.hr_salary_structure_PROVISAO_FERIAS')])]" />-->
 			<field name="company_id" ref="base.main_company"/>
 			<field name="tipo_afastamento_cef"></field>
 			<field name="tipo_afastamento_sefip"></field>
@@ -208,7 +208,7 @@
 			<field name="tipo_saque"></field>
 			<field name="ferias" ref=""/>
 			<field name="parent_id" ref=""/>
-			<field name="children_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS_13')])]" />
+			<!--<field name="children_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS_13')])]" />-->
 			<field name="company_id" ref="base.main_company"/>
 			<field name="tipo_afastamento_cef"></field>
 			<field name="tipo_afastamento_sefip"></field>
@@ -224,7 +224,7 @@
 			<field name="tipo_saque"></field>
 			<field name="ferias" ref=""/>
 			<field name="parent_id" ref="l10n_br_hr_payroll.hr_salary_structure_BASE_INSS_IRPF_13"/>
-			<field name="children_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_structure_SEGUNDA_PARCELA_13')])]" />
+			<!--<field name="children_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_structure_SEGUNDA_PARCELA_13')])]" />-->
 			<field name="company_id" ref="base.main_company"/>
 			<field name="tipo_afastamento_cef"></field>
 			<field name="tipo_afastamento_sefip"></field>
