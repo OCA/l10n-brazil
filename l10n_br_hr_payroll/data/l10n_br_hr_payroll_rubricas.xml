@@ -955,7 +955,7 @@ result = rules.NET  &gt;  categories.NET * 0.10</field>
             </field>
 			<field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)
 
-if 'FERIAS' in locals() and payslip.tipo_de_calculo == 'ferias':
+if 'FERIAS' in locals() and payslip.tipo_de_folha == 'ferias':
     result = FERIAS / 3.0
 elif not result:
     result = contract.wage / 3.0 / 12</field>
