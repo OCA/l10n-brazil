@@ -422,8 +422,7 @@ class L10nBrSefip(models.Model):
         else:
             return '2'
 
-    def _preencher_registro_10(self, sefip):
-
+    def _tipo_inscricao_cnae(self, company_id):
         if self.company_id.partner_id.is_company:
             tipo_inscr_empresa = '1'
             inscr_empresa = self.company_id.cnpj_cpf
@@ -440,6 +439,13 @@ class L10nBrSefip(models.Model):
                 raise ValidationError(_(
                     'Para empregador doméstico utilizar o número 9700500.'
                 ))
+        return tipo_inscr_empresa, inscr_empresa, cnae
+
+    def _preencher_registro_10(self, sefip):
+
+        tipo_inscr_empresa, inscr_empresa, cnae = self._tipo_inscricao_cnae(
+            self.company_id
+        )
 
         sefip.tipo_inscr_empresa = tipo_inscr_empresa
         sefip.inscr_empresa = inscr_empresa
@@ -468,15 +474,42 @@ class L10nBrSefip(models.Model):
         sefip.emp_cod_centralizacao = self.centralizadora
         sefip.emp_simples = self._simples()
         sefip.emp_FPAS = self.codigo_fpas
+        # TODO: Criar um campo calculado para este registro
         sefip.emp_cod_outras_entidades = self.codigo_outras_entidades
+        # TODO: Criar um campo calculado para este registro
         sefip.emp_cod_pagamento_GPS = self.codigo_recolhimento_gps
-        # sefip.emp_percent_isencao_filantropia = self.
-        # sefip.emp_salario_familia =
-        # sefip.emp_salario_maternidade =
+        # TODO: Criar um campo calculado para este registro
+        sefip.emp_percent_isencao_filantropia = ''
+        # TODO:
+        sefip.emp_salario_familia = '' # rubrica salario familia
+        sefip.emp_salario_maternidade = ''  # soma das li mat pagas no mês
+        sefip.emp_contrib_descont_empregados = ''  # total inss retido
+        sefip.emp_indic_valor_pos_neg = 0  # Sempre positivo
+        sefip.emp_valor_devido_ps_referente = ''
+        # valor devido 13 salario,  INSS décimo terceiro igual ao "emp_contrib_descont_empregados" #24
+
+        # TODO: Campos opicionais / implementação futura
         # sefip.emp_banco = self.company_id.bank_id[0].bank
         # sefip.emp_ag = self.company_id.bank_id[0].agency
         # sefip.emp_cc = self.company_id.bank_id[0].account
         return sefip._registro_10_informacoes_empresa()
+
+    def _preencher_registro_12(self, sefip):
+        """"
+        5. Total maternidade
+        6. 0
+        7. 0
+        8. 0
+        9. 0
+
+        ### Processo, convenção ou coletiva
+        10. 11. 12. Campos da tela
+        13. 14.
+        #####
+
+        O Resto é zerado
+
+        """
 
 
     # def _registro_30(self, folha):
@@ -549,8 +582,45 @@ class L10nBrSefip(models.Model):
 
 
     def _preencher_registro_30(self, sefip, folha):
-        sefip.tipo_inscr_empresa = '1'
-        sefip.inscr_empresa = self.company_id.cnpj_cpf
+        """
+        Acatar categoria 14 e 16 apenas para competências anteriores a 03/2000.
+        Acatar categoria 17, 18, 24 e 25 apenas para código de recolhimento 211.
+        Acatar categoria 06 apenas para competência maior ou igual a 03/2000.
+        Acatar categoria 07 apenas para competência maior ou igual a 12/2000
+
+        Uma linha para cada folha do periodo, sendo rescisão, normal.
+
+        Férias não entra.
+
+        Na competência 13 considerar somente o 13.
+
+
+        13. Data de opção do FGtS, é sempre a data de contratação!
+
+        16. RB Base do INSS
+        17. RB 13 Base do INSS
+        ( Na rescisão temos o 16 e o 17!)
+
+
+        19. Ocorrencia: Acidente de trabalho, rescisão, afastamento por doença
+        lic maternidade, ( situaçeõs que o funcionario deixa de trablhlar e o inss
+        deverá assumir o pagamento do funcionário)
+
+        20. Verificar se na ABGF, por exemplo, o funcionário esta contratado
+        em 2 lugares pois o INSS recolhido em outro lugar pode ter que ser
+        informado aqui.
+
+        21. Preenchido somente quando o funcionário esta afastado.
+        Geralmente Zerado
+
+        22.
+        """
+
+        tipo_inscr_empresa, inscr_empresa, cnae = self._tipo_inscricao_cnae(
+            self.company_id
+        )
+        sefip.tipo_inscr_empresa = tipo_inscr_empresa
+        sefip.inscr_empresa = inscr_empresa
         sefip.tipo_inscr_tomador = ' '
         sefip.inscr_tomador = ' '*14
         sefip.pis_pasep_ci = folha.employee_id.pis_pasep
