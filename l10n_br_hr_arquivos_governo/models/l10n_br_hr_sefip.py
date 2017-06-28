@@ -141,16 +141,21 @@ class L10nBrSefip(models.Model):
 
     @api.multi
     def gerar_sefip(self):
-        sefip = SEFIP()
-        self.sefip = ''
-        self.sefip += self._valida_tamanho_linha(self._preencher_registro_00(sefip))
-        # self._preencher_registro_10(sefip)
-        for folha in self.env['hr.payslip'].search([
-                ('mes_do_ano', '=', self.mes),
-                ('ano', '=', self.ano)
-                ]).sorted(key=lambda folha: folha.employee_id.pis_pasep):
-            self.sefip += self._valida_tamanho_linha(self._preencher_registro_30(sefip, folha))
-        self.sefip += self._valida_tamanho_linha(sefip._registro_90_totalizador_do_arquivo())
+        for record in self:
+            sefip = SEFIP()
+            record.sefip = ''
+            record.sefip += self._valida_tamanho_linha(
+                record._preencher_registro_00(sefip))
+            record.sefip += self._valida_tamanho_linha(
+                self._preencher_registro_10(sefip))
+            for folha in record.env['hr.payslip'].search([
+                    ('mes_do_ano', '=', record.mes),
+                    ('ano', '=', record.ano)
+                    ]).sorted(key=lambda folha: folha.employee_id.pis_pasep):
+                record.sefip += self._valida_tamanho_linha(
+                    record._preencher_registro_30(sefip, folha))
+            record.sefip += self._valida_tamanho_linha(
+                sefip._registro_90_totalizador_do_arquivo())
         # self.sefip = sefip._gerar_arquivo_SEFIP()
 
     # def _registro_00(self):
