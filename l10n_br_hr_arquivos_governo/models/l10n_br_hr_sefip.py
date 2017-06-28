@@ -46,7 +46,6 @@ class L10nBrSefip(models.Model):
         if self.codigo_fpas == '582':
             self.codigo_outras_entidades = '0'
 
-
     state = fields.Selection(selection=SEFIP_STATE, default='rascunho')
     # responsible_company_id = fields.Many2one(
     #     comodel_name='res.company', string=u'Empresa Responsável'
@@ -65,7 +64,7 @@ class L10nBrSefip(models.Model):
     )
     recolhimento_fgts = fields.Selection(
         string=u'Recolhimento do FGTS', selection=RECOLHIMENTO_FGTS
-     )
+    )
     data_recolhimento_fgts = fields.Date(
         string=u'Data de recolhimento do FGTS'
     )
@@ -117,7 +116,7 @@ class L10nBrSefip(models.Model):
         - Empresa com inscrição CEI não possui centralização.\n"""
     )
     data_geracao = fields.Date(string=u'Data do arquivo')
-    #Processo ou convenção coletiva
+    # Processo ou convenção coletiva
     num_processo = fields.Char(string=u'Número do processo')
     ano_processo = fields.Char(string=u'Ano do processo')
     vara_jcj = fields.Char(string=u'Vara/JCJ')
@@ -135,12 +134,12 @@ class L10nBrSefip(models.Model):
         else:
             raise ValidationError(
                 'Tamanho da linha diferente de 360 posicoes.'
-                ' tam = %s, linha = %s' %(len(linha), linha)
+                ' tam = %s, linha = %s' % (len(linha), linha)
             )
 
     def _logadouro_bairro_cep_cidade_uf_telefone(self, type, partner_id):
         erro = ''
-        
+
         if not partner_id.street:
             erro += _("Rua {0} não preenchida\n".format(type))
         if not partner_id.district:
@@ -159,7 +158,7 @@ class L10nBrSefip(models.Model):
             erro += _("Número {0} não preenchido\n".format(type))
         if erro:
             raise ValidationError(erro)
-        
+
         logadouro = ''
         logadouro += partner_id.street or ''
         logadouro += ' '
@@ -279,7 +278,7 @@ class L10nBrSefip(models.Model):
         sefip.inscr_resp = self.responsible_user_id.parent_id.cnpj_cpf
         sefip.nome_resp = self.responsible_user_id.parent_id.legal_name
         sefip.nome_contato = self.responsible_user_id.legal_name or \
-                             self.responsible_user_id.name
+            self.responsible_user_id.name
         logadouro, bairro, cep, cidade, uf, telefone = \
             self._logadouro_bairro_cep_cidade_uf_telefone(
                 'do responsável', self.responsible_user_id
@@ -347,12 +346,13 @@ class L10nBrSefip(models.Model):
         # TODO: Criar um campo calculado para este registro
         sefip.emp_percent_isencao_filantropia = ''
         # TODO:
-        sefip.emp_salario_familia = '' # rubrica salario familia
+        sefip.emp_salario_familia = ''  # rubrica salario familia
         sefip.emp_salario_maternidade = ''  # soma das li mat pagas no mês
         sefip.emp_contrib_descont_empregados = ''  # total inss retido
         sefip.emp_indic_valor_pos_neg = 0  # Sempre positivo
         sefip.emp_valor_devido_ps_referente = ''
-        # valor devido 13 salario,  INSS décimo terceiro igual ao "emp_contrib_descont_empregados" #24
+        # valor devido 13 salario,  INSS décimo terceiro igual ao
+        # "emp_contrib_descont_empregados" #24
 
         # TODO: Campos opicionais / implementação futura
         # sefip.emp_banco = self.company_id.bank_id[0].bank
@@ -419,7 +419,7 @@ class L10nBrSefip(models.Model):
         sefip.tipo_inscr_empresa = tipo_inscr_empresa
         sefip.inscr_empresa = inscr_empresa
         sefip.tipo_inscr_tomador = ' '
-        sefip.inscr_tomador = ' '*14
+        sefip.inscr_tomador = ' ' * 14
         sefip.pis_pasep_ci = folha.employee_id.pis_pasep
         sefip.data_admissao = folha.contract_id.date_start
         sefip.categoria_trabalhador = SEFIP_CATEGORIA_TRABALHADOR.get(
@@ -435,7 +435,7 @@ class L10nBrSefip(models.Model):
         # sefip.trabalhador_remun_13 =
         # sefip.trabalhador_classe_contrib =
         # ONDE SE ENCONTRAM INFORMAÇÕES REFERENTES A INSALUBRIDADE, DEVERIAM ESTAR NO CAMPO job_id?
-        #sefip.trabalhador_ocorrencia =
+        # sefip.trabalhador_ocorrencia =
         # sefip.trabalhador_valor_desc_segurado =
         # sefip.trabalhador_remun_base_calc_contribuicao_previdenciaria = folha.wage
         # sefip.trabalhador_base_calc_13_previdencia_competencia =
@@ -443,10 +443,10 @@ class L10nBrSefip(models.Model):
         return sefip._registro_30_registro_do_trabalhador()
 
     def _preencher_registro_90(self):
-    #     sefip = '90'
-    #     sefip += '9'*51
-    #     sefip += ' '*306
-    #     sefip += '*'
-    #     sefip += '\n'
-    #     return sefip
+        #     sefip = '90'
+        #     sefip += '9'*51
+        #     sefip += ' '*306
+        #     sefip += '*'
+        #     sefip += '\n'
+        #     return sefip
         pass
