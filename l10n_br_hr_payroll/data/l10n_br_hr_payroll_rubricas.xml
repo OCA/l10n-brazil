@@ -1061,7 +1061,7 @@ result_qty =  PEDIDO_FERIAS.DIAS_ABONO
 			<field name="code">LIQUIDO_FERIAS</field>
 			<field name="name">Liquido Férias</field>
 			<field name="active">True</field>
-			<field name="sequence">700.0</field>
+			<field name="sequence">799.0</field>
 			<field name="category_id" ref="hr_payroll.REFERENCIA"/>
 			<field name="condition_select">none</field>
 			<field name="condition_python">
