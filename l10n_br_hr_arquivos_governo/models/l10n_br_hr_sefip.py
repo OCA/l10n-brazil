@@ -82,7 +82,7 @@ class L10nBrSefip(models.Model):
         string=u'Código FPAS',
         default='736',
         required=True,
-        help="""• Campo obrigatório.\n 
+        help="""Campo obrigatório:\n 
         • Deve ser um FPAS válido.\n
         • Deve ser diferente de 744 e 779, pois as GPS desses códigos serão  
         geradas automaticamente, sempre que forem informados os respectivos 
@@ -232,20 +232,56 @@ class L10nBrSefip(models.Model):
     #     sefip += '\n'
     #     return sefip
 
+    def _logadouro_bairro_cep_cidade_uf_telefone(self, type, partner_id):
+        erro = ''
+        
+        if not partner_id.street:
+            erro += _("Rua {0} não preenchida\n".format(type))
+        if not partner_id.district:
+            erro += _("Bairro {0} não preenchido\n".format(type))
+        if not partner_id.zip:
+            erro += _("Cep {0} não preenchido\n".format(type))
+        if not partner_id.city:
+            erro += _("Cidade {0} não preenchida\n".format(type))
+        if not partner_id.state_id and partner_id.state_id.code:
+            erro += _("UF {0} não preenchido\n".format(type))
+        if not partner_id.phone:
+            # TODO: Pode ser que este campo precise ser revisto por conta da
+            # formatação
+            erro += _("Telefone {0} não preenchido\n".format(type))
+        if not partner_id.number:
+            erro += _("Número {0} não preenchido\n".format(type))
+        if erro:
+            raise ValidationError(erro)
+        
+        logadouro = ''
+        logadouro += partner_id.street or ''
+        logadouro += ' '
+        logadouro += partner_id.number or ''
+        logadouro += ' '
+        logadouro += partner_id.street2 or ''
+
+        return (logadouro, partner_id.district, partner_id.zip,
+                partner_id.city, partner_id.state_id.code,
+                partner_id.phone)
+
+
     def _preencher_registro_00(self, sefip):
         sefip.tipo_inscr_resp = '1' if self.responsible_user_id.is_company \
             else '3'
         sefip.inscr_resp = self.responsible_user_id.cnpj_cpf
         sefip.nome_resp = self.responsible_user_id.parent_id.name
         sefip.nome_contato = self.responsible_user_id.name
-        sefip.arq_logradouro = self.responsible_user_id.street or '' + ' ' + \
-                               self.responsible_user_id.number or ''+ ' ' + \
-                               self.responsible_user_id.street2 or ''
-        sefip.arq_bairro = self.responsible_user_id.district
-        sefip.arq_cep = self.responsible_user_id.zip
-        sefip.arq_cidade = self.responsible_user_id.l10n_br_city_id.name
-        sefip.arq_uf = self.responsible_user_id.state_id.code
-        sefip.tel_contato = self.responsible_user_id.phone
+        logadouro, bairro, cep, cidade, uf, telefone = \
+            self._logadouro_bairro_cep_cidade_uf_telefone(
+                'do responsável', self.responsible_user_id
+            )
+        sefip.arq_logradouro = logadouro
+        sefip.arq_bairro = bairro
+        sefip.arq_cep = cep
+        sefip.arq_cidade = cidade
+        sefip.arq_uf = uf
+        sefip.tel_contato = telefone
         sefip.internet_contato = self.responsible_user_id.website
         sefip.competencia = self.ano + self.mes
         sefip.cod_recolhimento = self.codigo_recolhimento
@@ -404,22 +440,21 @@ class L10nBrSefip(models.Model):
                     'Para empregador doméstico utilizar o número 9700500.'
                 ))
 
-
         sefip.tipo_inscr_empresa = tipo_inscr_empresa
         sefip.inscr_empresa = inscr_empresa
         sefip.emp_nome_razao_social = (
             self.company_id.legal_name or self.company_id.name or ''
         )
-        sefip.emp_logradouro = self.company_id.street or '' + ' ' + \
-                               self.company_id.number or '' + ' ' + \
-                               self.company_id.street2 or ''
-        sefip.emp_bairro = self.company_id.district or ''
-        sefip.emp_cep = self.company_id.zip or ''
-        sefip.emp_cidade = self.company_id.city
-        sefip.emp_uf = self.company_id.state_id.code
-        # TODO: Pode ser que este campo precise ser revisto por conta da
-        # formatação
-        sefip.emp_tel = self.company_id.phone
+        logadouro, bairro, cep, cidade, uf, telefone = \
+            self._logadouro_bairro_cep_cidade_uf_telefone(
+                'da empresa', self.company_id.partner_id
+            )
+        sefip.emp_logradouro = logadouro
+        sefip.emp_bairro = bairro
+        sefip.emp_cep = cep
+        sefip.emp_cidade = cidade
+        sefip.emp_uf = uf
+        sefip.emp_tel = telefone
         #
         # A responsabilidade de alteração do enderço da empresa deve ser
         # sempre feita pela receita federal, não ousamos usar esta campo.
