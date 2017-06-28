@@ -833,7 +833,7 @@ result = rules.NET  &gt;  categories.NET * 0.10</field>
 		<record id="l10n_br_hr_payroll.hr_salary_rule_base_FERIAS" model="hr.salary.rule">
 			<field name="code">BASE_FERIAS</field>
 			<field name="name">Base FERIAS</field>
-			<field name="active">True</field>
+			<field name="active" eval="False" />
 			<field name="sequence">108.0</field>
 			<field name="category_id" ref="hr_payroll.REFERENCIA"/>
 			<field name="condition_select">none</field>
