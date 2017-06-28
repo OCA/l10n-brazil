@@ -32,7 +32,7 @@
 # Note: returned value have to be set in the variable 'result'
 
 result = rules.NET  &gt;  categories.NET * 0.10</field>
-			<field name="amount_python_compute">result = categories.PROVENTO</field>
+			<field name="amount_python_compute">result = categories.PROVENTO + categories.FERIAS</field>
 			<field name="custom_amount_python_compute"></field>
 			<field name="amount_select">code</field>
 			<field name="custom_amount_select">code</field>
@@ -924,7 +924,7 @@ result_qty =  PEDIDO_FERIAS.DIAS_FERIAS
 			<field name="calculo_nao_padrao"></field>
 			<field name="quantity">1.0</field>
 			<field name="custom_quantity"></field>
-			<field name="tipo_media"></field>
+			<field name="tipo_media">valor</field>
 			<field name="parent_rule_id" ref=""/>
 			<field name="company_id" ref="base.main_company"/>
 			<field name="register_id" ref=""/>
@@ -1671,6 +1671,7 @@ result = contract.wage * 0.10</field>
 			<field name="parent_rule_id" ref=""/>
 			<field name="company_id" ref="base.main_company"/>
 			<field name="register_id" ref=""/>
+		</record>
 
         <record id="hr_salary_rule_ADIANTAMENTO_FERIAS_RESC" model="hr.salary.rule">
             <field name="code">ADIANTAMENTO_FERIAS_RESC</field>
@@ -1678,7 +1679,7 @@ result = contract.wage * 0.10</field>
             <field name="category_id" ref="hr_payroll.DEDUCAO"/>
             <field name="amount_select">code</field>
             <field name="condition_select">none</field>
-            <field name="amount_python_compute">result = CALCULAR.BUSCAR_ADIANTAMENTO_DECIMO_TERCEIRO()
+            <field name="amount_python_compute">result = CALCULAR.BUSCAR_ADIANTAMENTO_FERIAS()
             </field>
             <field name="sequence" eval="190"/>
         </record>
