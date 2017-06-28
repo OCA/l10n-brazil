@@ -138,100 +138,6 @@ class L10nBrSefip(models.Model):
                 ' tam = %s, linha = %s' %(len(linha), linha)
             )
 
-    @api.multi
-    def gerar_sefip(self):
-        for record in self:
-            sefip = SEFIP()
-            record.sefip = ''
-            record.sefip += self._valida_tamanho_linha(
-                record._preencher_registro_00(sefip))
-            record.sefip += self._valida_tamanho_linha(
-                self._preencher_registro_10(sefip))
-            for folha in record.env['hr.payslip'].search([
-                    ('mes_do_ano', '=', record.mes),
-                    ('ano', '=', record.ano)
-                    ]).sorted(key=lambda folha: folha.employee_id.pis_pasep):
-                record.sefip += self._valida_tamanho_linha(
-                    record._preencher_registro_30(sefip, folha))
-            record.sefip += self._valida_tamanho_linha(
-                sefip._registro_90_totalizador_do_arquivo())
-        # self.sefip = sefip._gerar_arquivo_SEFIP()
-
-    # def _registro_00(self):
-    #     _validar = self._validar
-    #     sefip = '00'                        # Tipo de Registro
-    #     sefip += _validar('', 51, 'AN')     # Brancos
-    #     sefip += _validar('1', 1, 'N')      # Tipo de Remessa
-    #     sefip += '1' if self.responsible_user_id.is_company \
-    #         else '3'                        # Tipo de Inscrição - Responsável
-    #     sefip += _validar(
-    #         self.responsible_user_id.cnpj_cpf, 14, 'N'
-    #     )                                   # Inscrição do Responsável
-    #     sefip += _validar(
-    #         self.responsible_user_id.legal_name, 30, 'AN'
-    #     )                                   # Razão Social
-    #     sefip += _validar(
-    #         self.responsible_user_id.name, 20, 'A'
-    #     )                                   # Nome Pessoa Contato
-    #     logradouro = _validar(self.responsible_user_id.street, 0, '') + ' '
-    #     logradouro += _validar(self.responsible_user_id.number, 0, '') + ' '
-    #     logradouro += _validar(self.responsible_user_id.street2, 0, '')
-    #     sefip += _validar(
-    #         logradouro, 50, 'AN'
-    #     )                                   # Logradouro
-    #     sefip += _validar(
-    #         self.responsible_user_id.district, 20, 'AN'
-    #     )                                   # Bairro
-    #     sefip += _validar(
-    #         self.responsible_user_id.zip, 8, 'N'
-    #     )                                   # CEP
-    #     sefip += _validar(
-    #         self.responsible_user_id.l10n_br_city_id, 20, 'AN'
-    #     )                                   # Cidade
-    #     sefip += _validar(
-    #         self.responsible_user_id.state_id.code, 2, 'N'
-    #     )                                   # UF
-    #     sefip += _validar(
-    #         self.responsible_user_id.phone, 12, 'N'
-    #     )                                   # Telefone
-    #     sefip += _validar(
-    #         self.responsible_user_id.website, 60, 'AN'
-    #     )                                   # Site
-    #     sefip += _validar(self.ano, 4, 'N') + \
-    #         _validar(self.mes, 2, 'N')      # Competência
-    #     sefip += _validar(
-    #         self.codigo_recolhimento, 3, 'N'
-    #     )                                   # Código de Recolhimento
-    #     sefip += _validar(
-    #         self.recolhimento_fgts, 1, 'N'
-    #     )                                   # Recolhimento FGTS
-    #     sefip += _validar(
-    #         self.modalidade_arquivo, 1, 'N'
-    #     )                                   # Modalidade do Arquivo
-    #     sefip += _validar(
-    #         fields.Datetime.from_string(
-    #             self.data_recolhimento_fgts).strftime('%d%m%Y'), 8, 'D'
-    #     )                                   # Data de Recolhimento do FGTS
-    #     sefip += _validar(
-    #         self.recolhimento_gps, 1, 'N'
-    #     )                                   # Indicador de Recolhimento PS
-    #     sefip += _validar(
-    #         fields.Datetime.from_string(
-    #             self.data_recolhimento_gps).strftime('%d%m%Y'), 8, 'D'
-    #     )                                   # Data de Recolhimento PS
-    #     sefip += _validar(
-    #         '', 7, 'N'
-    #     )                                   # Índice de Recolhimento em Atraso
-    #     sefip += '1' if self.company_id.supplier_partner_id.is_company \
-    #         else '3'                    # Tipo de Inscrição do Fornecedor
-    #     sefip += _validar(
-    #         self.company_id.supplier_partner_id.cnpj_cpf, 14, 'N'
-    #     )                               # Inscrição do Fornecedor
-    #     sefip += _validar('', 18, 'AN')
-    #     sefip += '*'
-    #     sefip += '\n'
-    #     return sefip
-
     def _logadouro_bairro_cep_cidade_uf_telefone(self, type, partner_id):
         erro = ''
         
@@ -264,41 +170,6 @@ class L10nBrSefip(models.Model):
         return (logadouro, partner_id.district, partner_id.zip,
                 partner_id.city, partner_id.state_id.code,
                 partner_id.phone)
-
-
-    def _preencher_registro_00(self, sefip):
-        sefip.tipo_inscr_resp = '1' if \
-            self.responsible_user_id.parent_id.is_company else '3'
-        sefip.inscr_resp = self.responsible_user_id.parent_id.cnpj_cpf
-        sefip.nome_resp = self.responsible_user_id.parent_id.legal_name
-        sefip.nome_contato = self.responsible_user_id.legal_name or \
-            self.responsible_user_id.name
-        logadouro, bairro, cep, cidade, uf, telefone = \
-            self._logadouro_bairro_cep_cidade_uf_telefone(
-                'do responsável', self.responsible_user_id
-            )
-        sefip.arq_logradouro = logadouro
-        sefip.arq_bairro = bairro
-        sefip.arq_cep = cep
-        sefip.arq_cidade = cidade
-        sefip.arq_uf = uf
-        sefip.tel_contato = telefone
-        sefip.internet_contato = self.responsible_user_id.email
-        sefip.competencia = self.ano + self.mes
-        sefip.cod_recolhimento = self.codigo_recolhimento
-        sefip.indic_recolhimento_fgts = self.recolhimento_fgts
-        sefip.modalidade_arq = self.modalidade_arquivo
-        sefip.data_recolhimento_fgts = fields.Datetime.from_string(
-            self.data_recolhimento_fgts).strftime('%d%m%Y') \
-            if self.data_recolhimento_fgts else ''
-        sefip.indic_recolh_ps = self.recolhimento_gps
-        sefip.data_recolh_ps = fields.Datetime.from_string(
-            self.data_recolhimento_gps).strftime('%d%m%Y') \
-            if self.data_recolhimento_fgts else ''
-        sefip.tipo_inscr_fornec = (
-            '1' if self.company_id.supplier_partner_id.is_company else '3')
-        sefip.inscr_fornec = self.company_id.supplier_partner_id.cnpj_cpf
-        return sefip._registro_00_informacoes_responsavel()
 
     def _rat(self):
         """
@@ -383,6 +254,59 @@ class L10nBrSefip(models.Model):
                 ))
         return tipo_inscr_empresa, inscr_empresa, cnae
 
+    @api.multi
+    def gerar_sefip(self):
+        for record in self:
+            sefip = SEFIP()
+            record.sefip = ''
+            record.sefip += self._valida_tamanho_linha(
+                record._preencher_registro_00(sefip))
+            record.sefip += self._valida_tamanho_linha(
+                self._preencher_registro_10(sefip))
+            for folha in record.env['hr.payslip'].search([
+                ('mes_do_ano', '=', record.mes),
+                ('ano', '=', record.ano)
+            ]).sorted(key=lambda folha: folha.employee_id.pis_pasep):
+                record.sefip += self._valida_tamanho_linha(
+                    record._preencher_registro_30(sefip, folha))
+            record.sefip += self._valida_tamanho_linha(
+                sefip._registro_90_totalizador_do_arquivo())
+            # self.sefip = sefip._gerar_arquivo_SEFIP()
+
+    def _preencher_registro_00(self, sefip):
+        sefip.tipo_inscr_resp = '1' if \
+            self.responsible_user_id.parent_id.is_company else '3'
+        sefip.inscr_resp = self.responsible_user_id.parent_id.cnpj_cpf
+        sefip.nome_resp = self.responsible_user_id.parent_id.legal_name
+        sefip.nome_contato = self.responsible_user_id.legal_name or \
+                             self.responsible_user_id.name
+        logadouro, bairro, cep, cidade, uf, telefone = \
+            self._logadouro_bairro_cep_cidade_uf_telefone(
+                'do responsável', self.responsible_user_id
+            )
+        sefip.arq_logradouro = logadouro
+        sefip.arq_bairro = bairro
+        sefip.arq_cep = cep
+        sefip.arq_cidade = cidade
+        sefip.arq_uf = uf
+        sefip.tel_contato = telefone
+        sefip.internet_contato = self.responsible_user_id.email
+        sefip.competencia = self.ano + self.mes
+        sefip.cod_recolhimento = self.codigo_recolhimento
+        sefip.indic_recolhimento_fgts = self.recolhimento_fgts
+        sefip.modalidade_arq = self.modalidade_arquivo
+        sefip.data_recolhimento_fgts = fields.Datetime.from_string(
+            self.data_recolhimento_fgts).strftime('%d%m%Y') \
+            if self.data_recolhimento_fgts else ''
+        sefip.indic_recolh_ps = self.recolhimento_gps
+        sefip.data_recolh_ps = fields.Datetime.from_string(
+            self.data_recolhimento_gps).strftime('%d%m%Y') \
+            if self.data_recolhimento_fgts else ''
+        sefip.tipo_inscr_fornec = (
+            '1' if self.company_id.supplier_partner_id.is_company else '3')
+        sefip.inscr_fornec = self.company_id.supplier_partner_id.cnpj_cpf
+        return sefip._registro_00_informacoes_responsavel()
+
     def _preencher_registro_10(self, sefip):
 
         tipo_inscr_empresa, inscr_empresa, cnae = self._tipo_inscricao_cnae(
@@ -452,76 +376,7 @@ class L10nBrSefip(models.Model):
         O Resto é zerado
 
         """
-
-
-    # def _registro_30(self, folha):
-    #     _validar = self._validar
-    #     sefip = '30'                        # Tipo de Registro
-    #     sefip += '1'                        # Tipo de Inscrição - Empresa
-    #     sefip += _validar(
-    #         self.company_id.cnpj_cpf, 14, 'N'
-    #     )                                   # Inscrição Empresa
-    #     sefip += ' '                        # Tipo Inscrição Tomador/Obra
-    #     sefip += ' '*14                     # Inscrição Tomador/Obra
-    #     sefip += _validar(
-    #         folha.employee_id.pis_pasep, 11, 'N'
-    #     )                                   # PIS/PASEP
-    #     sefip += _validar(
-    #         folha.contract_id.date_start, 8, 'D'
-    #     )                                   # Data de Admissão
-    #     sefip += '01'                       # Categoria Trabalhador
-    #     sefip += _validar(
-    #         folha.employee_id.name, 70, 'A'
-    #     )                                   # Nome Trabalhador
-    #     sefip += _validar(
-    #         folha.employee_id.registration, 11, 'N'
-    #     )                                   # Matrícula Trabalhador
-    #     sefip += _validar(
-    #         folha.employee_id.ctps, 7, 'N'
-    #     )                                   # Número CTPS
-    #     sefip += _validar(
-    #         folha.employee_id.ctps_series, 5, 'N'
-    #     )                                   # Série CTPS
-    #     sefip += _validar(
-    #         folha.contract_id.date_start
-    #     )                                   # Data Opção FGTS
-    #     sefip += _validar(
-    #         folha.employee_id.birthday, 8, 'D'
-    #     )                                   # Data de Nascimento
-    #     sefip += _validar(
-    #         folha.contract_id.job_id.cbo_id.code, 5, 'N'
-    #     )                                   # CBO
-    #     sefip += _validar(
-    #         folha.contract_id.wage, 15, 'N'
-    #     )                                   # Remuneração sem 13º
-    #     sefip += _validar(
-    #         folha.contract_id.wage, 15, 'N'
-    #     )                                   # Remuneração 13º
-    #     sefip += _validar(
-    #         '', 2, 'AN'
-    #     )                                   # Classe de Contribuição (errado)
-    #     sefip += _validar(
-    #         '', 2, 'AN'
-    #     )                                   # Ocorrência
-    #     sefip += _validar(
-    #         '', 15, 'N'
-    #     )                                   # Valor descontado do segurado ocorrencia 05
-    #     sefip += _validar(
-    #         folha.contract_id.wage, 15, 'N'
-    #     )                                   # Base de Cálculo Contr. Prev. (errado)
-    #     sefip += _validar(
-    #         folha.contract_id.wage, 15, 'N'
-    #     )                                   # Base de Cálculo 13º - 1 (errado)
-    #     sefip += _validar(
-    #         folha.contract_id.wage, 15, 'N'
-    #     )                                   # Base de Cálculo 13º - 2 (errado)
-    #     sefip += _validar(
-    #         '', 98, 'AN'
-    #     )                                   # Brancos
-    #     sefip += '*'
-    #     sefip += '\n'
-    #     return sefip
-
+        pass
 
     def _preencher_registro_30(self, sefip, folha):
         """
@@ -587,10 +442,11 @@ class L10nBrSefip(models.Model):
         # sefip.trabalhador_base_calc_13_previdencia_GPS =
         return sefip._registro_30_registro_do_trabalhador()
 
-    # def _preencher_registro_90(self):
+    def _preencher_registro_90(self):
     #     sefip = '90'
     #     sefip += '9'*51
     #     sefip += ' '*306
     #     sefip += '*'
     #     sefip += '\n'
     #     return sefip
+        pass
