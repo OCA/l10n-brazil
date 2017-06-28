@@ -267,11 +267,12 @@ class L10nBrSefip(models.Model):
 
 
     def _preencher_registro_00(self, sefip):
-        sefip.tipo_inscr_resp = '1' if self.responsible_user_id.is_company \
-            else '3'
-        sefip.inscr_resp = self.responsible_user_id.cnpj_cpf
-        sefip.nome_resp = self.responsible_user_id.parent_id.name
-        sefip.nome_contato = self.responsible_user_id.name
+        sefip.tipo_inscr_resp = '1' if \
+            self.responsible_user_id.parent_id.is_company else '3'
+        sefip.inscr_resp = self.responsible_user_id.parent_id.cnpj_cpf
+        sefip.nome_resp = self.responsible_user_id.parent_id.legal_name
+        sefip.nome_contato = self.responsible_user_id.legal_name or \
+            self.responsible_user_id.name
         logadouro, bairro, cep, cidade, uf, telefone = \
             self._logadouro_bairro_cep_cidade_uf_telefone(
                 'do responsável', self.responsible_user_id
@@ -282,7 +283,7 @@ class L10nBrSefip(models.Model):
         sefip.arq_cidade = cidade
         sefip.arq_uf = uf
         sefip.tel_contato = telefone
-        sefip.internet_contato = self.responsible_user_id.website
+        sefip.internet_contato = self.responsible_user_id.email
         sefip.competencia = self.ano + self.mes
         sefip.cod_recolhimento = self.codigo_recolhimento
         sefip.indic_recolhimento_fgts = self.recolhimento_fgts
