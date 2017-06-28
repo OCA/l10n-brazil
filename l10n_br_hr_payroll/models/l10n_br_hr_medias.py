@@ -153,8 +153,9 @@ class L10nBrHrMedias(models.Model):
                 continue
             mes_anterior = folha.mes_do_ano
             for linha in folha.line_ids:
-                if linha.salary_rule_id.category_id.code == "PROVENTO" \
-                        and linha.salary_rule_id.tipo_media:
+                if linha.salary_rule_id.category_id.code in \
+                        ["PROVENTO", "FERIAS"] and \
+                        linha.salary_rule_id.tipo_media:
                     if not medias.get(linha.salary_rule_id.id):
                         medias.update({
                             linha.salary_rule_id.id:
