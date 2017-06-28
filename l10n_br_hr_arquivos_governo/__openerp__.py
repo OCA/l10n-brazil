@@ -27,5 +27,6 @@
         'views/l10n_br_hr_contract.xml',
         'views/l10n_br_hr_employee.xml',
         'views/l10n_br_hr_sefip.xml',
+        'views/res_company.xml',
     ],
 }

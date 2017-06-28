@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE INFORMATICA - Daniel Sadamo <daniel.sadamo@kmee.com.br>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+        <record id="hr_arquivos_governo_company_form_view" model="ir.ui.view">
+            <field name="name">l10n_br.hr.arquivos.governo.res.company.form.view</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_company_form"/>
+            <field name="arch" type="xml">
+                <field name="fiscal_type" position="before">
+                    <field name="supplier_partner_id"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
