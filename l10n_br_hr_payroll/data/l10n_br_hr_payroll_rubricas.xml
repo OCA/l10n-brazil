@@ -1080,7 +1080,7 @@ result_qty =  PEDIDO_FERIAS.DIAS_ABONO
 result = rules.NET  &gt;  categories.NET * 0.10</field>
 			<field name="amount_python_compute">result = categories.FERIAS - INSS - IRPF
             </field>
-			<field name="custom_amount_python_compute">result = BRUTO - TOTAL_DESCONTOS</field>
+			<field name="custom_amount_python_compute">result = BRUTO + categories.FERIAS - TOTAL_DESCONTOS</field>
 			<field name="amount_select">code</field>
 			<field name="custom_amount_select">code</field>
 			<field name="compoe_base_INSS"></field>
