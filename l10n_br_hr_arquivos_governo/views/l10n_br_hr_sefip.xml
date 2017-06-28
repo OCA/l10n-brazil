@@ -30,13 +30,13 @@
             <field name="name">hr.sefip.form</field>
             <field name="model">l10n_br.hr.sefip</field>
             <field name="arch" type="xml">
-                <header>
-                    <button name="gerar_sefip" string="Gerar SEFIP" type="object"/>
-                    <button name="voltar_rascunho" string="Voltar para provisório" type="object"/>
-                    <button name="confirmar_envio" string="Confirmar Envio" type="object"/>
-                    <field name="state" widget="statusbar"/>
-                </header>
                 <form string="SEFIP">
+                    <header>
+                        <button name="gerar_sefip" string="Gerar SEFIP" type="object"/>
+                        <!--<button name="voltar_rascunho" string="Voltar para provisório" type="object"/>-->
+                        <!--<button name="confirmar_envio" string="Confirmar Envio" type="object"/>-->
+                        <!--<field name="state" widget="statusbar"/>-->
+                    </header>
                     <group cols="4" string="SEFIP">
                         <group colspan="4">
                             <!--<field name="responsible_company_id"/>-->
@@ -70,6 +70,9 @@
                             <field name="data_termino"/>
                         </group>
                     </group>
+                    <footer>
+                        <field name="sefip"/>
+                    </footer>
                 </form>
             </field>
         </record>
