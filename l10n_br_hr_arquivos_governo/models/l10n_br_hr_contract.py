@@ -30,9 +30,14 @@ class HrContract(models.Model):
                 # Autônomo
                 #
                 record.categoria_sefip = '13'
-            elif record.categoria in ('721', '722'):
+            elif record.categoria == '721':
                 #
                 # Pró-labore
+                #
+                record.categoria_sefip = '05'
+            elif record.categoria == '722':
+                #
+                # Pró-labore 2
                 #
                 record.categoria_sefip = '11'
             elif record.categoria == '103':
