@@ -245,7 +245,7 @@ class L10nBrSefip(models.Model):
                 partner_id.city, partner_id.state_id.code,
                 partner_id.phone)
 
-    def _rat(self):
+    def _rat(self, company):
         """
         - Campo obrigatório.
         - Campo com uma posição inteira e uma decimal.
@@ -275,7 +275,9 @@ class L10nBrSefip(models.Model):
         elif self.codigo_fpas == '604' and self.codigo_recolhimento == '150':
             return ''
         return self.env['l10n_br.hr.rat.fap'].search(
-            [('year', '=', self.ano)], limit=1).rat_rate or '0'
+            [('year', '=', self.ano),
+            ('company_id', '=', company.id)
+             ], limit=1).rat_rate or '0'
 
     def _simples(self, company_id):
         """
@@ -496,7 +498,7 @@ class L10nBrSefip(models.Model):
 
         sefip.emp_cnae = cnae
         # sefip.emp_indic_alteracao_cnae = 'n'
-        sefip.emp_aliquota_RAT = self._rat()
+        sefip.emp_aliquota_RAT = self._rat(company_id)
         sefip.emp_cod_centralizacao = self.centralizadora
         sefip.emp_simples = self._simples(company_id)
         sefip.emp_FPAS = self.codigo_fpas
