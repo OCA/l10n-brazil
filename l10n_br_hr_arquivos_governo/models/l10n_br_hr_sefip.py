@@ -760,7 +760,7 @@ class L10nBrSefip(models.Model):
         """
         # if folha.tipo_de_folha == 'ferias':
 
-        codigo_categoria = self.folha.contract_id.categoria_sefip
+        codigo_categoria = folha.contract_id.categoria_sefip
 
         tipo_inscr_empresa, inscr_empresa, cnae = self._tipo_inscricao_cnae(
             self.company_id
