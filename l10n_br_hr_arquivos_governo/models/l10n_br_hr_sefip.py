@@ -367,7 +367,7 @@ class L10nBrSefip(models.Model):
             path_arquivo = sefip._gerar_arquivo_temp(self.sefip, 'SEFIP')
             # Gera o anexo apartir do txt do grrf no temp do sistema
             mes = str(self.mes) if self.mes > 9 else '0' + str(self.mes)
-            nome_arquivo = 'SEFIP-' + str(mes) + '-' + str(self.ano) + '.re'
+            nome_arquivo = 'SEFIP.re'
             self._gerar_anexo(nome_arquivo, path_arquivo)
 
     def _preencher_registro_00(self, sefip):
