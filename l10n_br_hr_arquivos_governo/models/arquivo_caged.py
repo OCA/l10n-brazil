@@ -10,6 +10,7 @@ from .abstract_arquivos_governo import AbstractArquivosGoverno
 class Caged(AbstractArquivosGoverno):
     # Registro do estabelecimento responsável pela informação no
     # meio magnético (autorizado).
+
     def _registro_A(self):
         registro_A = self.A_tipo_de_registro
         registro_A += self.A_tipo_layout

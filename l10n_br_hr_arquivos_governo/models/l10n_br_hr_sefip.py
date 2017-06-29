@@ -20,12 +20,6 @@ from ..constantes_rh import (
 
 _logger = logging.getLogger(__name__)
 
-try:
-    from pybrasil.base import tira_acentos
-    from pybrasil import data
-except ImportError:
-    _logger.info('Cannot import pybrasil')
-
 SEFIP_STATE = [
     ('rascunho', u'Rascunho'),
     ('confirmado', u'Confirmada'),
@@ -93,13 +87,13 @@ class L10nBrSefip(models.Model):
         string=u'Código FPAS',
         default='736',
         required=True,
-        help="""Campo obrigatório:\n 
+        help="""Campo obrigatório:\n
         • Deve ser um FPAS válido.\n
-        • Deve ser diferente de 744 e 779, pois as GPS desses códigos serão  
-        geradas automaticamente, sempre que forem informados os respectivos 
+        • Deve ser diferente de 744 e 779, pois as GPS desses códigos serão
+        geradas automaticamente, sempre que forem informados os respectivos
         fatos geradores dessas contribuições.\n
-        • Deve ser diferente de 620, pois a informação das categorias 15, 16, 
-        18, 23 e 25 indica os respectivos fatos geradores dessas 
+        • Deve ser diferente de 620, pois a informação das categorias 15, 16,
+        18, 23 e 25 indica os respectivos fatos geradores dessas
         contribuições.\n
         • Deve ser diferente de 663 e 671 a partir da competência 04/2004.\n
         • Deve ser igual a 868 para empregador doméstico."""
@@ -115,17 +109,14 @@ class L10nBrSefip(models.Model):
         string=u'Centralizadora',
         default='1',
         required=True,
-        help="""Para indicar as empresas que centralizam o recolhimento 
-        do FGTS\n\n
-        
-        - Deve ser igual a zero (0), para os códigos de recolhimento 
-            130, 135, 150, 155, 211, 317, 337, 608 e para empregador doméstico
-             (FPAS 868).\n
-        - Quando existir empresa centralizadora deve existir, no mínimo,
-         uma empresa centralizada e vice-versa.\n
-        - Quando existir centralização, as oito primeiras posições\n 
-        do CNPJ da centralizadora e da centralizada devem ser iguais.\n
-        - Empresa com inscrição CEI não possui centralização.\n"""
+        help="""Para indicar as empresas que centralizam o recolhimento do
+         FGTS\n- Deve ser igual a zero (0), para os códigos de recolhimento
+          130, 135, 150, 155, 211, 317, 337, 608 e para empregador doméstico
+         (FPAS 868).\n- Quando existir empresa centralizadora deve existir,
+         no mínimo, uma empresa centralizada e vice-versa.\n - Quando existir
+          centralização, as oito primeiras posições\n do CNPJ da
+          centralizadora e da centralizada devem ser iguais.\n- Empresa com
+           inscrição CEI não possui centralização.\n"""
     )
     eh_obrigatorio_informacoes_processo = fields.Boolean(
         compute='_compute_eh_obrigatorio_informacoes_processo',
@@ -210,8 +201,8 @@ class L10nBrSefip(models.Model):
                 '145', '307', '317', '327', '337', '345', '640', '660'):
             return ''
         elif (self.codigo_recolhimento in (
-                '604', '647', '825', '833', '868') or
-                      self.company_id.fiscal_type in ('1', '2')):
+              '604', '647', '825', '833', '868') or
+              self.company_id.fiscal_type in ('1', '2')):
             return 0.00
         elif self.codigo_fpas == '604' and self.codigo_recolhimento == '150':
             return ''
@@ -286,17 +277,17 @@ class L10nBrSefip(models.Model):
 
             Opcional para a competência 13.
             Opcional para o código de recolhimento 115.
-            Opcional para os códigos de recolhimento 150, 155 e 608, quando o 
+            Opcional para os códigos de recolhimento 150, 155 e 608, quando o
             CNPJ da empresa for igual ao CNPJ do tomador.
-            Deve ser informado quando houver movimentação por rescisão de 
-            contrato de trabalho (exceto rescisão com justa causa), 
-            aposentadoria sem continuidade de vínculo, aposentadoria por 
-            invalidez ou falecimento, para empregada que possuir afastamento 
+            Deve ser informado quando houver movimentação por rescisão de
+            contrato de trabalho (exceto rescisão com justa causa),
+            aposentadoria sem continuidade de vínculo, aposentadoria por
+            invalidez ou falecimento, para empregada que possuir afastamento
             por motivo de licença maternidade no ano.
-            Não pode ser informado para os códigos de recolhimento 130, 135, 
+            Não pode ser informado para os códigos de recolhimento 130, 135,
             145, 211, 307, 317, 327, 337, 345, 640, 650, 660 e para empregador
             doméstico (FPAS 868).
-            Não pode ser informado para licença maternidade iniciada a partir 
+            Não pode ser informado para licença maternidade iniciada a partir
             de 01/12/1999 e com benefícios requeridos até 31/08/2003.
             Não pode ser informado para competências anteriores a 10/1998.
             Não pode ser informado para as competências 01/2001 a 08/2003.
@@ -311,8 +302,9 @@ class L10nBrSefip(models.Model):
                 ('data_inicio', '>=', self.ano + '-01-01'),
                 ('data_fim', '<=', self.ano + '-12-31'),
             ]):
-                total += ocorrencia.contrato_id.wage * \
-                         ocorrencia.number_of_days_temp / 30
+                total += (
+                    ocorrencia.contrato_id.wage *
+                    ocorrencia.number_of_days_temp / 30)
             return total
         else:
             rescisoes = self.env['hr.payslip'].search([
@@ -328,8 +320,8 @@ class L10nBrSefip(models.Model):
                     ('data_inicio', '>=', self.ano + '-01-01'),
                     ('data_fim', '<=', self.ano + '-' + self.mes + '-31'),
                 ]):
-                    total += ocorrencia.contrato_id.wage * \
-                             ocorrencia.number_of_days_temp / 30
+                    total += (ocorrencia.contrato_id.wage *
+                              ocorrencia.number_of_days_temp / 30)
             return total
 
     @api.multi
@@ -337,8 +329,9 @@ class L10nBrSefip(models.Model):
         for record in self:
             sefip = SEFIP()
             record.sefip = ''
-            record.sefip += self._valida_tamanho_linha(
-                record._preencher_registro_00(sefip))
+            record.sefip += \
+                self._valida_tamanho_linha(
+                    record._preencher_registro_00(sefip))
             record.sefip += self._valida_tamanho_linha(
                 self._preencher_registro_10(sefip))
             for folha in record.env['hr.payslip'].search([
@@ -362,8 +355,8 @@ class L10nBrSefip(models.Model):
             self.responsible_user_id.parent_id.is_company else '3'
         sefip.inscr_resp = self.responsible_user_id.parent_id.cnpj_cpf
         sefip.nome_resp = self.responsible_user_id.parent_id.legal_name
-        sefip.nome_contato = self.responsible_user_id.legal_name or \
-                             self.responsible_user_id.name
+        sefip.nome_contato = (self.responsible_user_id.legal_name or
+                              self.responsible_user_id.name)
         logadouro, bairro, cep, cidade, uf, telefone = \
             self._logadouro_bairro_cep_cidade_uf_telefone(
                 'do responsável', self.responsible_user_id
@@ -577,13 +570,11 @@ class L10nBrSefip(models.Model):
         ocorrencia_aprovada_ids = folha.contract_id.afastamento_ids.filtered(
             lambda r: r.state == 'validate')
         ocorrencias_no_periodo_ids = ocorrencia_aprovada_ids.filtered(
-            lambda r: folha_date_from >=
-                      fields.Date.from_string(r.data_inicio) and
-                      fields.Date.from_string(r.data_fim) <= folha_date_to)
+            lambda r: (folha_date_from >=
+                       fields.Date.from_string(r.data_inicio) and
+                       fields.Date.from_string(r.data_fim) <= folha_date_to))
 
         return ocorrencias_no_periodo_ids
-
-
 
     def _trabalhador_ocorrencia(self, folha):
         """ Registro 30. Item 19
@@ -615,7 +606,7 @@ class L10nBrSefip(models.Model):
             # TODO:
             ocorrencia = '05'
         elif folha.contract_id.categoria_sefip in (
-            '02', '22', '23'
+                '02', '22', '23'
         ):
             permitido = [' ', '01', '02', '03', '04']
 
@@ -623,12 +614,13 @@ class L10nBrSefip(models.Model):
             return ocorrencia
         elif permitido and ocorrencia not in permitido:
             raise ValidationError(
-                _("A ocorrência {0} não é permitida para "
-                  "folha de pagamento de \n {1}, "
-                  "referente a {2}.".format(
-                    OCORRENCIA_SEFIP[ocorrencia],
-                    folha.contract_id.name,
-                    folha.data_extenso)))
+                _("A ocorrência {0} não é permitida para folha de pagamento"
+                  " de \n {1}, referente a {2}."
+                    .format(
+                        OCORRENCIA_SEFIP[ocorrencia],
+                        folha.contract_id.name,
+                        folha.data_extenso
+                    )))
         return ocorrencia
 
     def _trabalhador_valor_desc_segurado(self, folha):
@@ -661,11 +653,11 @@ class L10nBrSefip(models.Model):
         if not ocorrencias_no_periodo_ids:
             return 0.00
 
-        # TODO:
-        # Campo opcional para as ocorrências 05, 06, 07 e 08.
-        # Campo opcional para as categorias de trabalhadores igual a
+            # TODO:
+            # Campo opcional para as ocorrências 05, 06, 07 e 08.
+            # Campo opcional para as categorias de trabalhadores igual a
             # 01, 02, 04, 06, 07, 12, 19, 20, 21 e 26.
-        # Campo opcional para as categorias de trabalhadores igual a
+            # Campo opcional para as categorias de trabalhadores igual a
             # 05, 11, 13, 15, 17, 18, 24 e 25 a partir da competência 04/2003.
 
         return 0.00
@@ -731,7 +723,6 @@ class L10nBrSefip(models.Model):
 
         """
         # if folha.tipo_de_folha == 'ferias':
-
 
         codigo_categoria = self.folha.contract_id.categoria_sefip
 

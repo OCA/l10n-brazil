@@ -53,4 +53,3 @@ class HrContract(models.Model):
         string="Categoria do Contrato",
         required=True,
     )
-

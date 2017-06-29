@@ -24,10 +24,10 @@ class AbstractArquivosGoverno(object):
         :param tipo:
         :return:
         """
-        arq = open('/tmp/'+tipo, 'w')
+        arq = open('/tmp/' + tipo, 'w')
         arq.write(text.encode('utf-8'))
         arq.close()
-        return '/tmp/'+tipo
+        return '/tmp/' + tipo
 
     def _validar(self, word, tam, tipo='AN'):
         """

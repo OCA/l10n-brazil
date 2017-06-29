@@ -67,28 +67,28 @@ CATEGORIA_TRABALHADOR = (
 CATEGORIA_TRABALHADOR_DIC = dict(CATEGORIA_TRABALHADOR)
 
 SEFIP_CATEGORIA_TRABALHADOR = {
-    '701':'13',
-    '702':'13',
-    '703':'13',
-    '721':'11',
-    '722':'11',
-    '103':'07'
+    '701': '13',
+    '702': '13',
+    '703': '13',
+    '721': '11',
+    '722': '11',
+    '103': '07'
 }
 
 MESES = [
-    ('01',u'Janeiro'),
-    ('02',u'Fevereiro'),
-    ('03',u'Março'),
-    ('04',u'Abril'),
-    ('05',u'Maio'),
-    ('06',u'Junho'),
-    ('07',u'Julho'),
-    ('08',u'Agosto'),
-    ('09',u'Setembro'),
-    ('10',u'Outubro'),
-    ('11',u'NOvembro'),
-    ('12',u'Dezembro'),
-    ('13',u'Décimo Terceiro'),
+    ('01', u'Janeiro'),
+    ('02', u'Fevereiro'),
+    ('03', u'Março'),
+    ('04', u'Abril'),
+    ('05', u'Maio'),
+    ('06', u'Junho'),
+    ('07', u'Julho'),
+    ('08', u'Agosto'),
+    ('09', u'Setembro'),
+    ('10', u'Outubro'),
+    ('11', u'NOvembro'),
+    ('12', u'Dezembro'),
+    ('13', u'Décimo Terceiro'),
 ]
 
 MODALIDADE_ARQUIVO = [
@@ -183,4 +183,3 @@ OCORRENCIA_SEFIP = [
            u'Exposição a agente nocivo (aposentadoria especial aos '
            u'25 anos de trabalho)'),
 ]
-

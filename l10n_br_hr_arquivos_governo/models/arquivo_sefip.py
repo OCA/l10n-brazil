@@ -16,6 +16,7 @@ except ImportError:
 
 
 class SEFIP(AbstractArquivosGoverno):
+
     def _registro_00_informacoes_responsavel(self):
         registro_00 = self.tipo_de_registro_00
         registro_00 += self._validar(self.preenche_brancos, 51, 'AN')
@@ -299,7 +300,7 @@ class SEFIP(AbstractArquivosGoverno):
         self.nome_resp = ''
         self.nome_contato = ''
         self.arq_logradouro = ''
-        self.arq_bairro =''
+        self.arq_bairro = ''
         self.arq_cep = ''
         self.arq_cidade = ''
         self.arq_uf = ''
@@ -395,7 +396,7 @@ class SEFIP(AbstractArquivosGoverno):
         self.tomador_logradouro = ''
         self.tomador_bairro = ''
         self.tomador_cep = ''
-        self.tomador_cidade =''
+        self.tomador_cidade = ''
         self.tomador_uf = ''
         self.tomador_cod_gps = ''
         self.tomador_salario_familia = ''
@@ -412,7 +413,7 @@ class SEFIP(AbstractArquivosGoverno):
         self.inf_adic_tomador_parc_fgts_cat_01_02_03_05_06 = ''
         self.inf_adic_tomador_parc_fgts_cat_04_07 = ''
         self.inf_adic_tomador_parc_fgts_vlr_recolhido = ''
-        #campos REGISTRO DO TRABALHADOR ---------------------------------------
+        # campos REGISTRO DO TRABALHADOR --------------------------------------
         self.tipo_de_registro_30 = '30'
         self.data_de_opcao = data.hoje()
         self.data_de_nascimento = data.hoje()
@@ -425,15 +426,15 @@ class SEFIP(AbstractArquivosGoverno):
         self.trabalhador_remun_base_calc_contribuicao_previdenciaria = ''
         self.trabalhador_base_calc_13_previdencia_competencia = ''
         self.trabalhador_base_calc_13_previdencia_GPS = ''
-        #campos MOVIMENTACAO DO TRABALHADOR
+        # campos MOVIMENTACAO DO TRABALHADOR
         self.tipo_de_registro_32 = '32'
         self.trabalhador_codigo_movimentacao = ''
         self.trabalhador_data_movimentacao = ''
         self.trabalhador_indic_recolhimento_fgts = ''
-        #campos registro 50 - IMPLEMENTACAO FUTURA
-        #campos registro 51  - IMPLEMENTACAO FUTURA
+        # campos registro 50 - IMPLEMENTACAO FUTURA
+        # campos registro 51  - IMPLEMENTACAO FUTURA
 
-        #campos REGISTRO TOTALIZADOR DO ARQUIVO
+        # campos REGISTRO TOTALIZADOR DO ARQUIVO
         self.tipo_de_registro_90 = '90'
         self.marca_de_final_registro = '99999999999999999999999999' \
                                        '999999999999999999999999'
