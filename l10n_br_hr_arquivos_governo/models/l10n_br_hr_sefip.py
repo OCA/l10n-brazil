@@ -874,8 +874,8 @@ class L10nBrSefip(models.Model):
 
         """
         tipo_afastamento = folha.struct_id.tipo_afastamento_sefip
-        sefip.trabalhador_codigo_movimentacao = tipo_afastamento or '  '
-        sefip.trabalhador_data_movimentacao = folha.data_afastamento
+        sefip.trabalhador_codigo_movimentacao = tipo_afastamento or ''
+        sefip.trabalhador_data_movimentacao = folha.data_afastamento or ''
         # No exemplo de SEFIP da ABGF todos os registros 32 tem o seguinte
         # campo em branco
         sefip.trabalhador_indic_recolhimento_fgts = ' '
