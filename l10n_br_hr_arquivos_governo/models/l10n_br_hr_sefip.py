@@ -14,7 +14,7 @@ from openerp.exceptions import ValidationError
 from .arquivo_sefip import SEFIP
 from ..constantes_rh import (MESES, MODALIDADE_ARQUIVO, CODIGO_RECOLHIMENTO,
                              RECOLHIMENTO_GPS, RECOLHIMENTO_FGTS,
-                             CENTRALIZADORA, SEFIP_CATEGORIA_TRABALHADOR)
+                             CENTRALIZADORA)
 
 _logger = logging.getLogger(__name__)
 
@@ -151,27 +151,6 @@ class L10nBrSefip(models.Model):
                 ' tam = %s, linha = %s' % (len(linha), linha)
             )
 
-    def _converte_categoria_trabalhador(self, categoria_contrato):
-
-        # Autônomo
-        #
-
-        if categoria_contrato in ['701', '702', '703']:
-            return '13'
-        #
-        # Pro-labore
-        #
-        elif categoria_contrato in ['721', '722']:
-            return '11'
-        #
-        # Aprendiz
-        #
-        elif categoria_contrato == '103':
-            return '07'
-        else:
-            return '01'
-
-
     def _logadouro_bairro_cep_cidade_uf_telefone(self, type, partner_id):
         erro = ''
 
@@ -230,7 +209,7 @@ class L10nBrSefip(models.Model):
             return ''
         elif (self.codigo_recolhimento in (
                 '604', '647', '825', '833', '868') or
-              self.company_id.fiscal_type in ('1', '2')):
+                      self.company_id.fiscal_type in ('1', '2')):
             return 0.00
         elif self.codigo_fpas == '604' and self.codigo_recolhimento == '150':
             return ''
@@ -357,7 +336,7 @@ class L10nBrSefip(models.Model):
         sefip.inscr_resp = self.responsible_user_id.parent_id.cnpj_cpf
         sefip.nome_resp = self.responsible_user_id.parent_id.legal_name
         sefip.nome_contato = self.responsible_user_id.legal_name or \
-            self.responsible_user_id.name
+                             self.responsible_user_id.name
         logadouro, bairro, cep, cidade, uf, telefone = \
             self._logadouro_bairro_cep_cidade_uf_telefone(
                 'do responsável', self.responsible_user_id
@@ -469,92 +448,90 @@ class L10nBrSefip(models.Model):
 
     def _trabalhador_remun_sem_13(self, folha):
         """ Registro 30. Item 16
+
+        Rubrica Base do INSS
+
         """
-        # TODO:
+        if folha.contract_id.categoria_sefip in (
+                '05', '11', '13', '14', '15', '16', '17', '18', '22', '23',
+                '24', '25'):
+            # TODO:
+            return 0.00
         return 0.00
 
     def _trabalhador_remun_13(self, folha):
         """ Registro 30. Item 17
+
+        Rúbrica 13 Base do INSS (Somente na rescisão temos o 16 e o 17!)
+
         """
-        # TODO:
+        if folha.contract_id.categoria_sefip == '02':
+            # TODO:
+            return 0.00
         return 0.00
 
     def _trabalhador_classe_contrib(self, folha):
         """ Registro 30. Item 18
         """
-        # TODO:
+        if codigo_categoria in ('14', '16'):
+            # TODO:
+            return 0.00
         return 0.00
 
     def _trabalhador_ocorrencia(self, folha):
         """ Registro 30. Item 19
+        Ocorrencia: Acidente de trabalho, rescisão, afastamento por
+        doença lic maternidade, ( situaçeõs que o funcionario deixa de
+        trablalhar e o inss deverá assumir o pagamento do funcionário)
+
         """
-        # TODO:
         return 0.00
 
     def _trabalhador_valor_desc_segurado(self, folha):
-        """ Registro 30. Item 20
+        """ Registro 30. Item 20.
+
+        Verificar se no cliente, por exemplo,
+        o funcionário esta contratado em 2 lugares pois o INSS recolhido
+        em outro lugar pode ter que ser informado aqui.
         """
-        # TODO:
         return 0.00
 
     def _trabalhador_remun_base_calc_contribuicao_previdenciaria(self, folha):
         """ Registro 30. Item 21
+
+        Preenchido somente quando o funcionário esta afastado.
+
+        Geralmente Zerado
+
         """
-        # TODO:
         return 0.00
 
     def _trabalhador_base_calc_13_previdencia_competencia(self, folha):
         """ Registro 30. Item 22
+
+
         """
-        # TODO:
         return 0.00
 
     def _trabalhador_base_calc_13_previdencia_GPS(self, folha):
         """ Registro 30. Item 23
         """
-        # TODO:
         return 0.00
 
     def _preencher_registro_30(self, sefip, folha):
         """
-        Acatar categoria 14 e 16 apenas para competências anteriores a 03/2000.
-        Acatar categoria 17, 18, 24 e 25 apenas para código de recolhimento 211.
-        Acatar categoria 06 apenas para competência maior ou igual a 03/2000.
-        Acatar categoria 07 apenas para competência maior ou igual a 12/2000
+
+        Recomendações gerais!:
 
         Uma linha para cada folha do periodo, sendo rescisão, normal.
-
         Férias não entra.
-
         Na competência 13 considerar somente o 13.
 
-
-
-
-        16. RB Base do INSS
-        17. RB 13 Base do INSS
-        ( Na rescisão temos o 16 e o 17!)
-
-
-        19. Ocorrencia: Acidente de trabalho, rescisão, afastamento por doença
-        lic maternidade, ( situaçeõs que o funcionario deixa de trablhlar e o inss
-        deverá assumir o pagamento do funcionário)
-
-        20. Verificar se na ABGF, por exemplo, o funcionário esta contratado
-        em 2 lugares pois o INSS recolhido em outro lugar pode ter que ser
-        informado aqui.
-
-        21. Preenchido somente quando o funcionário esta afastado.
-        Geralmente Zerado
-
-        22.
         """
-
         # if folha.tipo_de_folha == 'ferias':
 
 
-        codigo_categoria = self._converte_categoria_trabalhador(
-            folha.contract_id.categoria)
+        codigo_categoria = self.folha.contract_id.categoria_sefip
 
         tipo_inscr_empresa, inscr_empresa, cnae = self._tipo_inscricao_cnae(
             self.company_id
@@ -588,7 +565,7 @@ class L10nBrSefip(models.Model):
             sefip.num_ctps = folha.employee_id.ctps
             sefip.serie_ctps = folha.employee_id.ctps_series
 
-        if codigo_categoria in ('01', '03', '04' , '05', '06', '07'):
+        if codigo_categoria in ('01', '03', '04', '05', '06', '07'):
             # Item 13: Data de opção do FGtS, é sempre a data de contratação!
             sefip.data_de_opcao = folha.contract_id.date_start
 
@@ -601,21 +578,13 @@ class L10nBrSefip(models.Model):
         else:
             sefip.trabalhador_cbo = folha.contract_id.job_id.cbo_id.code
 
-        if codigo_categoria in (
-                '05', '11', '13', '14', '15', '16', '17', '18', '22', '23',
-                '24', '25'):
-            sefip.trabalhador_remun_sem_13 = \
-                self._trabalhador_remun_sem_13(folha)
+        sefip.trabalhador_remun_sem_13 = \
+            self._trabalhador_remun_sem_13(folha)
 
-        if codigo_categoria in '02':
-            sefip.trabalhador_remun_13 = self._trabalhador_remun_13(folha)
+        sefip.trabalhador_remun_13 = self._trabalhador_remun_13(folha)
 
-        if codigo_categoria in ('14', '16'):
-            sefip.trabalhador_classe_contrib = \
-                self._trabalhador_classe_contrib(folha)
-
-        # ONDE SE ENCONTRAM INFORMAÇÕES REFERENTES A INSALUBRIDADE,
-        #  DEVERIAM ESTAR NO CAMPO job_id?
+        sefip.trabalhador_classe_contrib = \
+            self._trabalhador_classe_contrib(folha)
 
         sefip.trabalhador_ocorrencia = self._trabalhador_ocorrencia(folha)
         sefip.trabalhador_valor_desc_segurado = \

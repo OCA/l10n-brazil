@@ -20,8 +20,37 @@ class HrContract(models.Model):
             raise exceptions.Warning(
                 _('A quantidade de horas semanais deve estar entre 1 e 44.'))
 
+    @api.multi
+    @api.depends('categoria')
+    def _compute_categoria_sefip(self):
+
+        for record in self:
+            if record.categoria in ('701', '702', '703'):
+                #
+                # Autônomo
+                #
+                record.categoria_sefip = '13'
+            elif record.categoria in ('721', '722'):
+                #
+                # Pró-labore
+                #
+                record.categoria_sefip = '11'
+            elif record.categoria == '103':
+                #
+                # Aprendiz
+                #
+                record.categoria_sefip = '07'
+            else:
+                record.categoria_sefip = '01'
+
+    categoria_sefip = fields.Char(
+        compute='_compute_categoria_sefip',
+        store=True,
+    )
+
     categoria = fields.Selection(
         selection=CATEGORIA_TRABALHADOR,
         string="Categoria do Contrato",
         required=True,
     )
+
