@@ -876,7 +876,8 @@ class L10nBrSefip(models.Model):
 
         if codigo_categoria in ('01', '03', '04', '05', '06', '07'):
             # Item 13: Data de opção do FGtS, é sempre a data de contratação!
-            sefip.data_de_opcao = folha.contract_id.date_start
+            sefip.data_de_opcao = fields.Datetime.from_string(
+                folha.contract_id.date_start).strftime('%d%m%Y')
 
         if codigo_categoria in ('01', '02', '03', '04', '05', '06', '07',
                                 '12', '19', '20', '21', '26'):

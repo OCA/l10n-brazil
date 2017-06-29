@@ -310,9 +310,9 @@ class SEFIP(AbstractArquivosGoverno):
         self.cod_recolhimento = ''
         self.indic_recolhimento_fgts = ''
         self.modalidade_arq = ''
-        self.data_recolhimento_fgts = data.hoje()
+        self.data_recolhimento_fgts = '        '
         self.indic_recolh_ps = ''
-        self.data_recolh_ps = data.hoje()
+        self.data_recolh_ps = '        '
         self.indice_recolh_atraso_ps = ''
         self.tipo_inscr_fornec = ''
         self.inscr_fornec = ''
@@ -368,7 +368,7 @@ class SEFIP(AbstractArquivosGoverno):
         self.vlr_pago_cooperativas_trabalho = ''
         # campos gerais do TRABALHADOR ----------------------------------------
         self.pis_pasep_ci = ''
-        self.data_admissao = data.hoje()
+        self.data_admissao = '        '
         self.categoria_trabalhador = ''
         self.num_ctps = ''
         self.serie_ctps = ''
@@ -415,8 +415,8 @@ class SEFIP(AbstractArquivosGoverno):
         self.inf_adic_tomador_parc_fgts_vlr_recolhido = ''
         # campos REGISTRO DO TRABALHADOR --------------------------------------
         self.tipo_de_registro_30 = '30'
-        self.data_de_opcao = data.hoje()
-        self.data_de_nascimento = data.hoje()
+        self.data_de_opcao = '        '
+        self.data_de_nascimento = '        '
         self.trabalhador_cbo = ''
         self.trabalhador_remun_sem_13 = ''
         self.trabalhador_remun_13 = ''
@@ -429,7 +429,7 @@ class SEFIP(AbstractArquivosGoverno):
         # campos MOVIMENTACAO DO TRABALHADOR
         self.tipo_de_registro_32 = '32'
         self.trabalhador_codigo_movimentacao = ''
-        self.trabalhador_data_movimentacao = ''
+        self.trabalhador_data_movimentacao = '        '
         self.trabalhador_indic_recolhimento_fgts = ''
         # campos registro 50 - IMPLEMENTACAO FUTURA
         # campos registro 51  - IMPLEMENTACAO FUTURA
