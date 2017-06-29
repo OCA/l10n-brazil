@@ -200,38 +200,6 @@
 			<field name="tipo_desligamento_rais"></field>
 		</record>
 
-		<record id="l10n_br_hr_payroll.hr_salary_structure_BASE_INSS_IRPF_13" model="hr.payroll.structure">
-			<field name="code">BASE_INSS_IRPF_13</field>
-			<field name="name">Base para INSS e IRPF de 13</field>
-			<field name="note"></field>
-			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_BRUTO'), ref('l10n_br_hr_payroll.hr_salary_rule_LIQUIDO'), ref('l10n_br_hr_payroll.hr_salary_rule_INSS'), ref('l10n_br_hr_payroll.hr_salary_rule_IRPF'), ref('l10n_br_hr_payroll.hr_salary_rule_TOTAL_DESCONTOS'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS_13'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF_13')])]" />
-			<field name="tipo_saque"></field>
-			<field name="ferias" ref=""/>
-			<field name="parent_id" ref=""/>
-			<!--<field name="children_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS_13')])]" />-->
-			<field name="company_id" ref="base.main_company"/>
-			<field name="tipo_afastamento_cef"></field>
-			<field name="tipo_afastamento_sefip"></field>
-			<field name="tipo_estrutura"></field>
-			<field name="tipo_desligamento_rais"></field>
-		</record>
-
-		<record id="l10n_br_hr_payroll.hr_salary_structure_BASE_FGTS_13" model="hr.payroll.structure">
-			<field name="code">BASE_FGTS_13</field>
-			<field name="name">Base para FGTS de 13</field>
-			<field name="note"></field>
-			<field name="rule_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_rule_FGTS'), ref('l10n_br_hr_payroll.hr_salary_rule_BASE_FGTS_13')])]" />
-			<field name="tipo_saque"></field>
-			<field name="ferias" ref=""/>
-			<field name="parent_id" ref="l10n_br_hr_payroll.hr_salary_structure_BASE_INSS_IRPF_13"/>
-			<!--<field name="children_ids" eval="[(6, 0, [ref('l10n_br_hr_payroll.hr_salary_structure_SEGUNDA_PARCELA_13')])]" />-->
-			<field name="company_id" ref="base.main_company"/>
-			<field name="tipo_afastamento_cef"></field>
-			<field name="tipo_afastamento_sefip"></field>
-			<field name="tipo_estrutura"></field>
-			<field name="tipo_desligamento_rais"></field>
-		</record>
-
 		<record id="l10n_br_hr_payroll.hr_salary_structure_FUNCAO_COMISSIONADA" model="hr.payroll.structure">
 			<field name="code">FUNCAO_COMISSIONADA</field>
 			<field name="name">Função Comissionada</field>
