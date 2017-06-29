@@ -209,7 +209,7 @@ class L10nBrSefip(models.Model):
         return self.env['l10n_br.hr.rat.fap'].search(
             [('year', '=', self.ano)], limit=1).rat_rate or '0'
 
-    def _simples(self):
+    def _simples(self, company_id):
         """
         Campo obrigatório.
         Só pode ser:
@@ -236,24 +236,24 @@ class L10nBrSefip(models.Model):
         Sempre que não informado o campo deve ficar em branco.
         """
         # TODO: Melhorar esta função para os outros casos de uso
-        if self.company_id.fiscal_type == '3':
+        if company_id.fiscal_type == '3':
             return '1'
         else:
             return '2'
 
     def _tipo_inscricao_cnae(self, company_id):
-        if self.company_id.partner_id.is_company:
+        if company_id.partner_id.is_company:
             tipo_inscr_empresa = '1'
-            inscr_empresa = self.company_id.cnpj_cpf
-            cnae = self.company_id.cnae
+            inscr_empresa = company_id.cnpj_cpf
+            cnae = company_id.cnae
         else:
             raise ValidationError(_(
                 'Exportação de empregador doméstico não parametrizada '
                 'corretamente'))
             tipo_inscr_empresa = '0'
             # TODO: Campo não implementado
-            inscr_empresa = self.company_id.cei
-            cnae = self.company_id.cnae
+            inscr_empresa = company_id.cei
+            cnae = company_id.cnae
             if '9700500' not in cnae:
                 raise ValidationError(_(
                     'Para empregador doméstico utilizar o número 9700500.'
