@@ -50,7 +50,7 @@ class SEFIP(AbstractArquivosGoverno):
         registro_10 = self.tipo_de_registro_10
         registro_10 += self._validar(self.tipo_inscr_empresa, 1, 'N')
         registro_10 += self._validar(self.inscr_empresa, 14, 'N')
-        registro_10 += self._validar(self.preenche_zeros, 36, 'N')
+        registro_10 += self._validar(self.preenche_zeros, 36, 'V')
         registro_10 += self._validar(self.emp_nome_razao_social, 40, 'AN')
         registro_10 += self._validar(self.emp_logradouro, 50, 'AN')
         registro_10 += self._validar(self.emp_bairro, 20, 'AN')
@@ -88,7 +88,7 @@ class SEFIP(AbstractArquivosGoverno):
         registro_12 = self.tipo_de_registro_12
         registro_12 += self._validar(self.tipo_inscr_empresa, 1, 'N')
         registro_12 += self._validar(self.inscr_empresa, 14, 'N')
-        registro_12 += self._validar(self.preenche_zeros, 36, 'N')
+        registro_12 += self._validar(self.preenche_zeros, 36, 'V')
         registro_12 += self._validar(self.ded_13_lic_maternidade, 15, 'V')
         registro_12 += self._validar(self.receita_evento_desp_patroc, 15, 'V')
         registro_12 += self._validar(self.indic_orig_receita, 1, 'AN')
@@ -129,7 +129,7 @@ class SEFIP(AbstractArquivosGoverno):
         registro_13 = self.tipo_de_registro_13
         registro_13 += self._validar(self.tipo_inscr_empresa, 1, 'N')
         registro_13 += self._validar(self.inscr_empresa, 14, 'N')
-        registro_13 += self._validar(self.preenche_zeros, 36, 'N')
+        registro_13 += self._validar(self.preenche_zeros, 36, 'V')
         registro_13 += self._validar(self.pis_pasep_ci, 11, 'N')
         registro_13 += self._validar(self.data_admissao, 8, 'D')
         registro_13 += self._validar(self.categoria_trabalhador, 2, 'N')
@@ -149,7 +149,7 @@ class SEFIP(AbstractArquivosGoverno):
         registro_14 = self.tipo_de_registro_14
         registro_14 += self._validar(self.tipo_inscr_empresa, 2, 'N')
         registro_14 += self._validar(self.inscr_empresa, 14, 'N')
-        registro_14 += self._validar(self.preenche_zeros, 36, 'N')
+        registro_14 += self._validar(self.preenche_zeros, 36, 'V')
         registro_14 += self._validar(self.pis_pasep_ci, 11, 'N')
         registro_14 += self._validar(self.data_admissao, 8, 'D')
         registro_14 += self._validar(self.categoria_trabalhador, 2, 'N')
@@ -171,7 +171,7 @@ class SEFIP(AbstractArquivosGoverno):
         registro_20 += self._validar(self.inscr_empresa, 14, 'N')
         registro_20 += self._validar(self.tipo_inscr_tomador, 1, 'N')
         registro_20 += self._validar(self.inscr_tomador, 14, 'N')
-        registro_20 += self._validar(self.preenche_zeros, 21, 'N')
+        registro_20 += self._validar(self.preenche_zeros, 21, 'V')
         registro_20 += self._validar(self.nome_tomador, 40, 'AN')
         registro_20 += self._validar(self.tomador_logradouro, 50, 'AN')
         registro_20 += self._validar(self.tomador_bairro, 20, 'AN')
@@ -197,7 +197,7 @@ class SEFIP(AbstractArquivosGoverno):
         registro_21 += self._validar(self.inscr_empresa, 14, 'N')
         registro_21 += self._validar(self.tipo_inscr_tomador, 1, 'N')
         registro_21 += self._validar(self.inscr_tomador, 14, 'N')
-        registro_21 += self._validar(self.preenche_zeros, 21, 'N')
+        registro_21 += self._validar(self.preenche_zeros, 21, 'V')
         registro_21 += self._validar(
             self.inf_adic_tomador_compensacao_corrigido, 15, 'V')
         registro_21 += self._validar(
@@ -287,7 +287,7 @@ class SEFIP(AbstractArquivosGoverno):
 
     def __init__(self, *args, **kwargs):
         # campos gerais--------------------------------------------------------
-        self.preenche_zeros = '0'
+        self.preenche_zeros = '0' #DEVE SER SEMPRE PASSADO COM TIPO 'V'
         self.preenche_brancos = ''
         self.fim_linha = '*'
         self.tipo_inscr_empresa = '1'
