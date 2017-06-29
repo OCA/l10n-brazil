@@ -473,7 +473,7 @@ class L10nBrSefip(models.Model):
     def _trabalhador_classe_contrib(self, folha):
         """ Registro 30. Item 18
         """
-        if codigo_categoria in ('14', '16'):
+        if folha.contract_id.categoria_sefip in ('14', '16'):
             # TODO:
             return 0.00
         return 0.00
