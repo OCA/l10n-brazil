@@ -108,6 +108,12 @@ class L10nBrSefip(models.Model):
                 return self.company_id.codigo_recolhimento_GPS
         return '    '
 
+    @api.multi
+    def _buscar_isencao_filantropia(self):
+        if self.codigo_fpas == "639":
+            return str("%05d" % self.porcentagem_filantropia*100)
+        return '    '
+
     state = fields.Selection(selection=SEFIP_STATE, default='rascunho')
     # responsible_company_id = fields.Many2one(
     #     comodel_name='res.company', string=u'Empresa Responsável'
@@ -491,9 +497,9 @@ class L10nBrSefip(models.Model):
         sefip.emp_simples = self._simples(company_id)
         sefip.emp_FPAS = self.codigo_fpas
         sefip.emp_cod_outras_entidades = self._buscar_codigo_outras_entidades()
-        # TODO: Criar um campo calculado para este registro
-        sefip.emp_percent_isencao_filantropia = ''
         sefip.emp_cod_pagamento_GPS = self._buscar_codigo_pagamento_gps()
+        sefip.emp_percent_isencao_filantropia = \
+            self._buscar_isencao_filantropia()
         # TODO:
         sefip.emp_salario_familia = ''  # rubrica salario familia
         sefip.emp_salario_maternidade = ''  # soma das li mat pagas no mês
