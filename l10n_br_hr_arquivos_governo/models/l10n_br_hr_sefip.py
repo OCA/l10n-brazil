@@ -878,11 +878,15 @@ class L10nBrSefip(models.Model):
             # Item 13: Data de opção do FGtS, é sempre a data de contratação!
             sefip.data_de_opcao = fields.Datetime.from_string(
                 folha.contract_id.date_start).strftime('%d%m%Y')
+        else:
+            sefip.data_de_opcao = '      '
 
         if codigo_categoria in ('01', '02', '03', '04', '05', '06', '07',
                                 '12', '19', '20', '21', '26'):
             sefip.data_de_nascimento = fields.Datetime.from_string(
                 folha.employee_id.birthday).strftime('%d%m%Y')
+        else:
+            sefip.data_de_nascimento = '      '
 
         if codigo_categoria in '06':
             sefip.trabalhador_cbo = '05121'
