@@ -436,8 +436,7 @@ class SEFIP(AbstractArquivosGoverno):
 
         # campos REGISTRO TOTALIZADOR DO ARQUIVO
         self.tipo_de_registro_90 = '90'
-        self.marca_de_final_registro = '99999999999999999999999999' \
-                                       '999999999999999999999999'
+        self.marca_de_final_registro = '9' * 51
 
     def _validar(self, word, tam, tipo='AN'):
         """
