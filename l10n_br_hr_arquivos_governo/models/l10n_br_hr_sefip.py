@@ -909,7 +909,8 @@ class L10nBrSefip(models.Model):
         if codigo_categoria in '06':
             sefip.trabalhador_cbo = '05121'
         else:
-            sefip.trabalhador_cbo = folha.contract_id.job_id.cbo_id.code
+            sefip.trabalhador_cbo = '0' + \
+                                    folha.contract_id.job_id.cbo_id.code[:4]
         # Revisar daqui para a frente
         sefip.trabalhador_remun_sem_13 = \
             self._trabalhador_remun_sem_13(folha)

@@ -230,7 +230,11 @@ class SEFIP(AbstractArquivosGoverno):
         registro_30 += self._validar(self.nome_trabalhador, 70, 'A')
         registro_30 += self._validar(self.matricula_trabalhador, 11, 'N')
         registro_30 += self._validar(self.num_ctps, 7, 'V')
+<<<<<<< 60b71c5410d1a902bb926ca3c6172a64dc5fbd83
         registro_30 += self._validar(self.serie_ctps, 5, 'V')
+=======
+        registro_30 += self._validar(self.serie_ctps, 5, 'N')
+>>>>>>> [FIX] CBO
         registro_30 += self._validar(self.data_de_opcao, 8, 'D')
         registro_30 += self._validar(self.data_de_nascimento, 8, 'D')
         registro_30 += self._validar(self.trabalhador_cbo, 5, 'AN')
