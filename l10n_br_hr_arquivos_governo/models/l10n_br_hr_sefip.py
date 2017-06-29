@@ -96,6 +96,18 @@ class L10nBrSefip(models.Model):
         if self._simples(self.company_id) in ['2', '3', '6']:
             return '    '
 
+    @api.multi
+    def _buscar_codigo_pagamento_gps(self):
+        if fields.Date.from_string(self.ano + "-" + self.mes + "-01") <\
+                fields.Date.from_string("1998-10-01"):
+            return '    '
+        if self.codigo_recolhimento in ['115', '150', '211', '650']:
+            return self.company_id.codigo_recolhimento_GPS
+        if self.codigo_fpas == "868":
+            if self.company_id.codigo_recolhimento_GPS in ['1600', '1651']:
+                return self.company_id.codigo_recolhimento_GPS
+        return '    '
+
     state = fields.Selection(selection=SEFIP_STATE, default='rascunho')
     # responsible_company_id = fields.Many2one(
     #     comodel_name='res.company', string=u'Empresa Responsável'
@@ -480,9 +492,8 @@ class L10nBrSefip(models.Model):
         sefip.emp_FPAS = self.codigo_fpas
         sefip.emp_cod_outras_entidades = self._buscar_codigo_outras_entidades()
         # TODO: Criar um campo calculado para este registro
-        sefip.emp_cod_pagamento_GPS = self.codigo_recolhimento_gps
-        # TODO: Criar um campo calculado para este registro
         sefip.emp_percent_isencao_filantropia = ''
+        sefip.emp_cod_pagamento_GPS = self._buscar_codigo_pagamento_gps()
         # TODO:
         sefip.emp_salario_familia = ''  # rubrica salario familia
         sefip.emp_salario_maternidade = ''  # soma das li mat pagas no mês
