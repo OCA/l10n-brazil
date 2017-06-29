@@ -478,29 +478,30 @@ class L10nBrSefip(models.Model):
         #
         if folha.tipo_de_folha == 'decimo_terceiro':
             return result
-        #
-        # As remunerações pagas após rescisão do contrato de trabalho e
-        # conforme determinação do Art. 466 da CLT,
-        # não devem vir acompanhadas das respectivas movimentações .
-        #
-        elif False:
-            # TODO:
-            result = 0.00
-        #
-        # Obrigatório
-        #
-        elif folha.contract_id.categoria_sefip in (
-                '05', '11', '13', '14', '15', '16', '17', '18', '22', '23',
-                '24', '25'):
-            result = folha.base_inss
-        #
-        # Opcional
-        #
-        elif folha.contract_id.categoria_sefip in (
-                '01', '02', '03', '04', '06', '07', '12', '19', '20', '21',
-                '26'):
-            result = folha.base_inss
-        return result
+        # #
+        # # As remunerações pagas após rescisão do contrato de trabalho e
+        # # conforme determinação do Art. 466 da CLT,
+        # # não devem vir acompanhadas das respectivas movimentações.
+        # #
+        # elif False:
+        #     # TODO:
+        #     result = 0.00
+
+        # #
+        # # Obrigatório
+        # #
+        # elif folha.contract_id.categoria_sefip in (
+        #         '05', '11', '13', '14', '15', '16', '17', '18', '22', '23',
+        #         '24', '25'):
+        #     result = folha.base_inss
+        # #
+        # # Opcional
+        # #
+        # elif folha.contract_id.categoria_sefip in (
+        #         '01', '02', '03', '04', '06', '07', '12', '19', '20', '21',
+        #         '26'):
+        #     result = folha.base_inss
+        return folha.base_inss
 
     def _trabalhador_remun_13(self, folha):
         """ Registro 30. Item 17
@@ -512,28 +513,31 @@ class L10nBrSefip(models.Model):
         #
         # Não pode ser informado para a competência 13
         #
-        if folha.tipo_de_folha == 'decimo_terceiro':
+        if not folha.tipo_de_folha == 'rescisao':
             return result
-        #
-        # As remunerações pagas após rescisão do contrato de trabalho e
-        # conforme determinação do Art. 466 da CLT,
-        # não devem vir acompanhadas das respectivas movimentações .
-        #
-        elif False:
-            # TODO:
-            result = 0.00
-        #
-        # Campo obrigatório para categoria 02.
-        #
-        elif folha.contract_id.categoria_sefip == '02':
-            # TODO: Implementar campo para calcular a rúbrica do 13 do INSS
-            # ou pesquisar manualemnte
-            result = 0.00
-        elif folha.contract_id.categoria_sefip in (
-                '01', '03', '04', '06', '07', '12', '19', '20', '21', '26'):
-            # TODO:
-            result = 0.00
-        return result
+
+        # #
+        # # As remunerações pagas após rescisão do contrato de trabalho e
+        # # conforme determinação do Art. 466 da CLT,
+        # # não devem vir acompanhadas das respectivas movimentações .
+        # #
+        # elif False:
+        #     # TODO:
+        #     result = 0.00
+        # #
+        # # Campo obrigatório para categoria 02.
+        # #
+        # elif folha.contract_id.categoria_sefip == '02':
+        #     # TODO: Implementar campo para calcular a rúbrica do 13 do INSS
+        #     # BASE_INSS_13
+        #     # ou pesquisar manualemnte
+        #     result = 0.00
+        # elif folha.contract_id.categoria_sefip in (
+        #         '01', '03', '04', '06', '07', '12', '19', '20', '21', '26'):
+        #     # TODO:
+        #     result = 0.00
+        # return result
+        return folha.base_inss_13
 
     def _trabalhador_classe_contrib(self, folha):
         """ Registro 30. Item 18
@@ -542,24 +546,39 @@ class L10nBrSefip(models.Model):
         classifica como categoria 14 ou 16. A classe deve estar compreendida
         em tabela fornecida pelo INSS). """
 
-        result = 0.00
-        #
-        # Não pode ser informado para a competência 13
-        #
-        if folha.tipo_de_folha == 'decimo_terceiro':
-            return result
-        #
-        # Campo obrigatório para as categorias 14 e 16
-        # (apenas em recolhimentos de competências anteriores a 03/2000).
-        #
-        elif (fields.Date.from_string(folha.date_from) <
-              fields.Date.from_string('2000-03-01') and
-              folha.contract_id.categoria_sefip in ('14', '16')):
-            # TODO:
-            return 0.00
-        return 0.00
+        result = '  '
+        # #
+        # # Não pode ser informado para a competência 13
+        # #
+        # if folha.tipo_de_folha == 'decimo_terceiro':
+        #     return result
+        # #
+        # # Campo obrigatório para as categorias 14 e 16
+        # # (apenas em recolhimentos de competências anteriores a 03/2000).
+        # #
+        # elif (fields.Date.from_string(folha.date_from) <
+        #       fields.Date.from_string('2000-03-01') and
+        #       folha.contract_id.categoria_sefip in ('14', '16')):
+        #     # TODO:
+        #     return 0.00
+        return result
+
+    def _buscar_multiplos_vinculos(self, folha):
+        """ Esta informação deve ser lançada manualmente no payslip
+
+        :param folha:
+        :return:
+        """
+        #TODO: Implementar no payslip
+        return []
+
 
     def _buscar_ocorrencias(self, folha):
+        """ Estas informações devem ser lançadas na folha
+
+        :param folha:
+        :return:
+        """
         # FIXME: Deste jeito não deu certo, pois existem afastamentos s/ data
 
         return []
@@ -592,36 +611,46 @@ class L10nBrSefip(models.Model):
         ocorrencia = ' '
         permitido = False
 
+        # TODO:
+        if folha.tipo_de_folha == 'rescisao':
+            # FIXME:
+            # return hr.payroll.structure.tipo_afastamento_sefip
+            print ("tipo_afastamento_sefip - Registro 30. Item 19")
+            pass
+
         ocorrencias_no_periodo_ids = self._buscar_ocorrencias(folha)
 
         if not ocorrencias_no_periodo_ids:
             return ocorrencia
 
-        #
-        # Obrigatório para categoria 26,
-        # devendo ser informado 05, 06, 07 ou 08.
-        #
-        if folha.contract_id.categoria_sefip == '26':
-            permitido = ['05', '06', '07', '08']
-            # TODO:
-            ocorrencia = '05'
-        elif folha.contract_id.categoria_sefip in (
-                '02', '22', '23'
-        ):
-            permitido = [' ', '01', '02', '03', '04']
+        # Vai o código do afastamento mais longo e é sempre informado
+        # A lógica abaixo pode ser removida
 
-        if permitido and ocorrencia in permitido:
-            return ocorrencia
-        elif permitido and ocorrencia not in permitido:
-            raise ValidationError(
-                _("A ocorrência {0} não é permitida para folha de pagamento"
-                  " de \n {1}, referente a {2}."
-                    .format(
-                        OCORRENCIA_SEFIP[ocorrencia],
-                        folha.contract_id.name,
-                        folha.data_extenso
-                    )))
-        return ocorrencia
+        # #
+        # # Obrigatório para categoria 26,
+        # # devendo ser informado 05, 06, 07 ou 08.
+        # #
+        # if folha.contract_id.categoria_sefip == '26':
+        #     permitido = ['05', '06', '07', '08']
+        #     # TODO:
+        #     ocorrencia = '05'
+        # elif folha.contract_id.categoria_sefip in (
+        #         '02', '22', '23'
+        # ):
+        #     permitido = [' ', '01', '02', '03', '04']
+        #
+        # if permitido and ocorrencia in permitido:
+        #     return ocorrencia
+        # elif permitido and ocorrencia not in permitido:
+        #     raise ValidationError(
+        #         _("A ocorrência {0} não é permitida para folha de pagamento"
+        #           " de \n {1}, referente a {2}."
+        #             .format(
+        #                 OCORRENCIA_SEFIP[ocorrencia],
+        #                 folha.contract_id.name,
+        #                 folha.data_extenso
+        #             )))
+        # return ocorrencia
 
     def _trabalhador_valor_desc_segurado(self, folha):
         """ Registro 30. Item 20.
@@ -633,9 +662,11 @@ class L10nBrSefip(models.Model):
         de afastamento e retorno de licença maternidade)
         O valor informado será considerado como contribuição do segurado.
 
+        --
         Verificar se no cliente, por exemplo,
         o funcionário esta contratado em 2 lugares pois o INSS recolhido
         em outro lugar pode ter que ser informado aqui.
+
         """
         result = 0
 
@@ -648,9 +679,9 @@ class L10nBrSefip(models.Model):
         if self.codigo_recolhimento in ('130', '135', '650'):
             return 0
 
-        ocorrencias_no_periodo_ids = self._buscar_ocorrencias(folha)
+        multiplos_vinculos_ids = self._buscar_multiplos_vinculos(folha)
 
-        if not ocorrencias_no_periodo_ids:
+        if not multiplos_vinculos_ids:
             return 0.00
 
             # TODO:
@@ -696,6 +727,9 @@ class L10nBrSefip(models.Model):
         13o salário pago no ano ao trabalhador)
 
         """
+
+        if folha.tipo_de_folha == 'rescisao':
+            return folha.base_inss_13
         return 0.00
 
     def _trabalhador_base_calc_13_previdencia_GPS(self, folha):
@@ -710,6 +744,8 @@ class L10nBrSefip(models.Model):
         a qual já houve recolhimento em GPS ).
 
         """
+        if folha.tipo_de_folha == 'decimo_terceiro':
+            return folha.base_inss
         return 0.00
 
     def _preencher_registro_30(self, sefip, folha):
@@ -770,7 +806,7 @@ class L10nBrSefip(models.Model):
             sefip.trabalhador_cbo = '05121'
         else:
             sefip.trabalhador_cbo = folha.contract_id.job_id.cbo_id.code
-
+        # Revisar daqui para a frente
         sefip.trabalhador_remun_sem_13 = \
             self._trabalhador_remun_sem_13(folha)
 
