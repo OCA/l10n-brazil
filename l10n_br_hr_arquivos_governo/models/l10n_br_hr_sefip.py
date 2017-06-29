@@ -340,6 +340,10 @@ class L10nBrSefip(models.Model):
             ]).sorted(key=lambda folha: folha.employee_id.pis_pasep):
                 record.sefip += self._valida_tamanho_linha(
                     record._preencher_registro_30(sefip, folha))
+                if folha.tipo_de_folha == 'rescisao':
+                    record.sefip += self._valida_tamanho_linha(
+                        record._preencher_registro_32(sefip, folha)
+                    )
             record.sefip += self._valida_tamanho_linha(
                 sefip._registro_90_totalizador_do_arquivo())
 
@@ -827,6 +831,21 @@ class L10nBrSefip(models.Model):
             self._trabalhador_base_calc_13_previdencia_GPS(folha)
 
         return sefip._registro_30_registro_do_trabalhador()
+
+    def _preencher_registro_32(self, sefip, folha):
+        """
+
+        Registro de movimentação de Trabalhador
+
+        """
+        tipo_afastamento = folha.struct_id.tipo_afastamento_sefip
+        sefip.trabalhador_codigo_movimentacao = tipo_afastamento or '  '
+        sefip.trabalhador_data_movimentacao = folha.data_afastamento
+        # No exemplo de SEFIP da ABGF todos os registros 32 tem o seguinte
+        # campo em branco
+        sefip.trabalhador_indic_recolhimento_fgts = ' '
+
+        return sefip._registro_32_movimentacao_do_trabalhador()
 
     def _gerar_anexo(self, nome_do_arquivo, path_arquivo_temp):
         """
