@@ -50,6 +50,13 @@ class L10nBrSefip(models.Model):
         if self.codigo_fpas == '582':
             self.codigo_outras_entidades = '0'
 
+    @api.multi
+    def _retornar_valor_rubrica(self, rubricas, codigo_rubrica):
+        for rubrica in rubricas:
+            if rubrica.code == codigo_rubrica:
+                return rubrica.total
+        return 0.00
+
     state = fields.Selection(selection=SEFIP_STATE, default='rascunho')
     # responsible_company_id = fields.Many2one(
     #     comodel_name='res.company', string=u'Empresa Responsável'
@@ -551,7 +558,7 @@ class L10nBrSefip(models.Model):
         #     # TODO:
         #     result = 0.00
         # return result
-        return folha.base_inss_13
+        return self._retornar_valor_rubrica(folha.line_ids, "BASE_INSS_13")
 
     def _trabalhador_classe_contrib(self, folha):
         """ Registro 30. Item 18
@@ -743,7 +750,7 @@ class L10nBrSefip(models.Model):
         """
 
         if folha.tipo_de_folha == 'rescisao':
-            return folha.base_inss_13
+            return self._retornar_valor_rubrica(folha.line_ids, "BASE_INSS_13")
         return 0.00
 
     def _trabalhador_base_calc_13_previdencia_GPS(self, folha):
