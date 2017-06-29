@@ -272,44 +272,63 @@ class L10nBrSefip(models.Model):
 
                     Dedução 13o Salário Licença
             Maternidade
-            (Informar o valor da parcela de
-            13o salário referente ao período
-            em que a trabalhadora esteve em
-            licença maternidade, nos casos
-            em que o
-            empregador/contribuinte for
-            responsável pelo pagamento do
+            (Informar o valor da parcela de 13o salário referente ao período
+            em que a trabalhadora esteve em licença maternidade, nos casos
+            em que o empregador/contribuinte for responsável pelo pagamento do
             salário-maternidade.
-            A informação deve ser prestada
-            nas seguintes situações:
-            - na competência 13, referente ao
-            valor pago durante o ano.
-            - na competência da rescisão do
-            contrato de trabalho (exceto
-            rescisão por justa causa),
-            aposentadoria sem continuidade
+            A informação deve ser prestada nas seguintes situações:
+            - na competência 13, referente ao valor pago durante o ano.
+            - na competência da rescisão do contrato de trabalho (exceto
+            rescisão por justa causa), aposentadoria sem continuidade
             de vínculo ou falecimento )
 
             Opcional para a competência 13.
             Opcional para o código de recolhimento 115.
-            Opcional para os códigos de recolhimento 150, 155 e 608, quando o CNPJ da empresa for igual ao
-            CNPJ do tomador.
-            Deve ser informado quando houver movimentação por rescisão de contrato de trabalho (exceto
-            rescisão com justa causa), aposentadoria sem continuidade de vínculo, aposentadoria por invalidez
-            ou falecimento, para empregada que possuir afastamento por motivo de licença maternidade no ano.
-            Não pode ser informado para os códigos de recolhimento 130, 135, 145, 211, 307, 317, 327, 337,
-            345, 640, 650, 660 e para empregador doméstico (FPAS 868).
-            Não pode ser informado para licença maternidade iniciada a partir de 01/12/1999 e com benefícios
-            requeridos até 31/08/2003.
+            Opcional para os códigos de recolhimento 150, 155 e 608, quando o 
+            CNPJ da empresa for igual ao CNPJ do tomador.
+            Deve ser informado quando houver movimentação por rescisão de 
+            contrato de trabalho (exceto rescisão com justa causa), 
+            aposentadoria sem continuidade de vínculo, aposentadoria por 
+            invalidez ou falecimento, para empregada que possuir afastamento 
+            por motivo de licença maternidade no ano.
+            Não pode ser informado para os códigos de recolhimento 130, 135, 
+            145, 211, 307, 317, 327, 337, 345, 640, 650, 660 e para empregador
+            doméstico (FPAS 868).
+            Não pode ser informado para licença maternidade iniciada a partir 
+            de 01/12/1999 e com benefícios requeridos até 31/08/2003.
             Não pode ser informado para competências anteriores a 10/1998.
             Não pode ser informado para as competências 01/2001 a 08/2003.
             Sempre que não informado preencher com zeros.
 
         :return:
         """
-        #  TODO:
-
-        return 0.00
+        if self.mes == '13':
+            total = 0.00
+            for ocorrencia in self.env['hr.holidays'].search([
+                ('holiday_status_id.name', '=', 'Licença Maternidade'),
+                ('data_inicio', '>=', self.ano + '-01-01'),
+                ('data_fim', '<=', self.ano + '-12-31'),
+            ]):
+                total += ocorrencia.contrato_id.wage * \
+                         ocorrencia.number_of_days_temp / 30
+            return total
+        else:
+            rescisoes = self.env['hr.payslip'].search([
+                ('mes_do_ano', '=', self.mes),
+                ('ano', '=', self.ano),
+                ('tipo_de_folha', '=', 'rescisao')
+            ])
+            total = 0.00
+            for rescisao in rescisoes:
+                for ocorrencia in self.env['hr.holidays'].search([
+                    ('contrato_id.id', '=', rescisao.contract_id.id),
+                    ('holiday_status_id.name', '=', 'Licença Maternidade'),
+                    ('data_inicio', '>=', self.ano + '-01-01'),
+                    ('data_fim', '<=', self.ano + '-' + self.mes + '-31'),
+                ]):
+                    total += ocorrencia.contrato_id.wage * \
+                             ocorrencia.number_of_days_temp / 30
+            return total
 
     @api.multi
     def gerar_sefip(self):
