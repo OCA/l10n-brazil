@@ -332,14 +332,24 @@ class L10nBrSefip(models.Model):
             record.sefip += \
                 self._valida_tamanho_linha(
                     record._preencher_registro_00(sefip))
-            record.sefip += self._valida_tamanho_linha(
-                self._preencher_registro_10(sefip))
-            for folha in record.env['hr.payslip'].search([
+
+            raiz = record.company_id.cnpj_cpf.split('/')[0]
+            folha_ids = record.env['hr.payslip'].search([
                 ('mes_do_ano', '=', record.mes),
-                ('ano', '=', record.ano)
-            ]).sorted(key=lambda folha: folha.employee_id.pis_pasep):
+                ('ano', '=', record.ano),
+                ('company_id.partner_id.cnpj_cpf', 'like', raiz)
+            ]).sorted(key=lambda folha: folha.employee_id.pis_pasep)
+
+            for company_id in folha_ids.mapped('company_id'):
+                folhas_da_empresa = folha_ids.filtered(
+                    lambda r: r.company_id == company_id)
+
                 record.sefip += self._valida_tamanho_linha(
-                    record._preencher_registro_30(sefip, folha))
+                    self._preencher_registro_10(company_id, sefip))
+                for folha in folhas_da_empresa:
+                    record.sefip += self._valida_tamanho_linha(
+                        record._preencher_registro_30(sefip, folha))
+
                 if folha.tipo_de_folha == 'rescisao':
                     record.sefip += self._valida_tamanho_linha(
                         record._preencher_registro_32(sefip, folha)
@@ -388,20 +398,20 @@ class L10nBrSefip(models.Model):
         sefip.inscr_fornec = self.company_id.supplier_partner_id.cnpj_cpf
         return sefip._registro_00_informacoes_responsavel()
 
-    def _preencher_registro_10(self, sefip):
+    def _preencher_registro_10(self, company_id, sefip):
 
         tipo_inscr_empresa, inscr_empresa, cnae = self._tipo_inscricao_cnae(
-            self.company_id
+            company_id
         )
 
         sefip.tipo_inscr_empresa = tipo_inscr_empresa
         sefip.inscr_empresa = inscr_empresa
         sefip.emp_nome_razao_social = (
-            self.company_id.legal_name or self.company_id.name or ''
+            company_id.legal_name or company_id.name or ''
         )
         logadouro, bairro, cep, cidade, uf, telefone = \
             self._logadouro_bairro_cep_cidade_uf_telefone(
-                'da empresa', self.company_id.partner_id
+                'da empresa', company_id.partner_id
             )
         sefip.emp_logradouro = logadouro
         sefip.emp_bairro = bairro
@@ -419,7 +429,7 @@ class L10nBrSefip(models.Model):
         # sefip.emp_indic_alteracao_cnae = 'n'
         sefip.emp_aliquota_RAT = self._rat()
         sefip.emp_cod_centralizacao = self.centralizadora
-        sefip.emp_simples = self._simples()
+        sefip.emp_simples = self._simples(company_id)
         sefip.emp_FPAS = self.codigo_fpas
 
         ########
@@ -767,7 +777,7 @@ class L10nBrSefip(models.Model):
         codigo_categoria = folha.contract_id.categoria_sefip
 
         tipo_inscr_empresa, inscr_empresa, cnae = self._tipo_inscricao_cnae(
-            self.company_id
+            folha.company_id
         )
         sefip.tipo_inscr_empresa = tipo_inscr_empresa
         sefip.inscr_empresa = inscr_empresa
