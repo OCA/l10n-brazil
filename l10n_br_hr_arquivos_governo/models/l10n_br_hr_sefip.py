@@ -144,7 +144,7 @@ class L10nBrSefip(models.Model):
         """Valida tamanho da linha (sempre igual a 360 posições) e
          adiciona quebra caso esteja correto"""
         if len(linha) == 360:
-            return linha + '\n'
+            return linha + '\r\n'
         else:
             raise ValidationError(
                 'Tamanho da linha diferente de 360 posicoes.'
@@ -361,8 +361,7 @@ class L10nBrSefip(models.Model):
                     record.sefip += self._valida_tamanho_linha(
                         record._preencher_registro_32(sefip, folha)
                     )
-            record.sefip += self._valida_tamanho_linha(
-                sefip._registro_90_totalizador_do_arquivo())
+            record.sefip += sefip._registro_90_totalizador_do_arquivo()
 
             # Cria um arquivo temporario txt e escreve o que foi gerado
             path_arquivo = sefip._gerar_arquivo_temp(self.sefip, 'SEFIP')
