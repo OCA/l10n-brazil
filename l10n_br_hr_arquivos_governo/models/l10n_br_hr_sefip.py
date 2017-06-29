@@ -12,6 +12,8 @@ import base64
 from openerp import api, fields, models, _
 from openerp.exceptions import ValidationError
 
+from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
+
 from .arquivo_sefip import SEFIP
 from ..constantes_rh import (
     MESES, MODALIDADE_ARQUIVO, CODIGO_RECOLHIMENTO, RECOLHIMENTO_GPS,
@@ -345,7 +347,7 @@ class L10nBrSefip(models.Model):
                 ('mes_do_ano', '=', record.mes),
                 ('ano', '=', record.ano),
                 ('company_id.partner_id.cnpj_cpf', 'like', raiz)
-            ]).sorted(key=lambda folha: folha.employee_id.pis_pasep)
+            ])
 
             for company_id in folha_ids.mapped('company_id'):
                 folhas_da_empresa = folha_ids.filtered(
@@ -353,7 +355,9 @@ class L10nBrSefip(models.Model):
 
                 record.sefip += self._valida_tamanho_linha(
                     self._preencher_registro_10(company_id, sefip))
-                for folha in folhas_da_empresa:
+                for folha in folhas_da_empresa.sorted(
+                        key=lambda folha: punctuation_rm(
+                            folha.employee_id.pis_pasep)):
                     record.sefip += self._valida_tamanho_linha(
                         record._preencher_registro_30(sefip, folha))
 
