@@ -138,8 +138,10 @@ class L10nBrSefip(models.Model):
     data_recolhimento_fgts = fields.Date(
         string=u'Data de recolhimento do FGTS'
     )
-    codigo_recolhimento_gps = fields.Char(
-        string=u'Código de recolhimento do GPS'
+    codigo_recolhimento_gps = fields.Integer(
+        string=u'Código de recolhimento do GPS',
+        related='company_id.codigo_recolhimento_GPS',
+        store=True,
     )
     recolhimento_gps = fields.Selection(
         string=u'Recolhimento do GPS', selection=RECOLHIMENTO_GPS
@@ -165,8 +167,10 @@ class L10nBrSefip(models.Model):
     eh_obrigatorio_codigo_outras_entidades = fields.Boolean(
         compute='_compute_eh_obrigatorio_codigo_outras_entidades',
     )
-    codigo_outras_entidades = fields.Char(
-        string=u'Código de outras entidades'
+    codigo_outras_entidades = fields.Selection(
+        string=u'Código de outras entidades',
+        related='company_id.codigo_outras_entidades',
+        store=True,
     )
     centralizadora = fields.Selection(
         selection=CENTRALIZADORA,
