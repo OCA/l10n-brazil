@@ -151,6 +151,27 @@ class L10nBrSefip(models.Model):
                 ' tam = %s, linha = %s' % (len(linha), linha)
             )
 
+    def _converte_categoria_trabalhador(self, categoria_contrato):
+
+        # Autônomo
+        #
+
+        if categoria_contrato in ['701', '702', '703']:
+            return '13'
+        #
+        # Pro-labore
+        #
+        elif categoria_contrato in ['721', '722']:
+            return '11'
+        #
+        # Aprendiz
+        #
+        elif categoria_contrato == '103':
+            return '07'
+        else:
+            return '01'
+
+
     def _logadouro_bairro_cep_cidade_uf_telefone(self, type, partner_id):
         erro = ''
 
@@ -446,6 +467,53 @@ class L10nBrSefip(models.Model):
         # Os outros campos são em branco
         return sefip._registro_12_inf_adic_recolhimento_empresa()
 
+    def _trabalhador_remun_sem_13(self, folha):
+        """ Registro 30. Item 16
+        """
+        # TODO:
+        return 0.00
+
+    def _trabalhador_remun_13(self, folha):
+        """ Registro 30. Item 17
+        """
+        # TODO:
+        return 0.00
+
+    def _trabalhador_classe_contrib(self, folha):
+        """ Registro 30. Item 18
+        """
+        # TODO:
+        return 0.00
+
+    def _trabalhador_ocorrencia(self, folha):
+        """ Registro 30. Item 19
+        """
+        # TODO:
+        return 0.00
+
+    def _trabalhador_valor_desc_segurado(self, folha):
+        """ Registro 30. Item 20
+        """
+        # TODO:
+        return 0.00
+
+    def _trabalhador_remun_base_calc_contribuicao_previdenciaria(self, folha):
+        """ Registro 30. Item 21
+        """
+        # TODO:
+        return 0.00
+
+    def _trabalhador_base_calc_13_previdencia_competencia(self, folha):
+        """ Registro 30. Item 22
+        """
+        # TODO:
+        return 0.00
+
+    def _trabalhador_base_calc_13_previdencia_GPS(self, folha):
+        """ Registro 30. Item 23
+        """
+        # TODO:
+        return 0.00
 
     def _preencher_registro_30(self, sefip, folha):
         """
@@ -461,7 +529,7 @@ class L10nBrSefip(models.Model):
         Na competência 13 considerar somente o 13.
 
 
-        13. Data de opção do FGtS, é sempre a data de contratação!
+
 
         16. RB Base do INSS
         17. RB 13 Base do INSS
@@ -482,33 +550,84 @@ class L10nBrSefip(models.Model):
         22.
         """
 
+        # if folha.tipo_de_folha == 'ferias':
+
+
+        codigo_categoria = self._converte_categoria_trabalhador(
+            folha.contract_id.categoria)
+
         tipo_inscr_empresa, inscr_empresa, cnae = self._tipo_inscricao_cnae(
             self.company_id
         )
         sefip.tipo_inscr_empresa = tipo_inscr_empresa
         sefip.inscr_empresa = inscr_empresa
-        sefip.tipo_inscr_tomador = ' '
-        sefip.inscr_tomador = ' ' * 14
+
+        if self.codigo_recolhimento in (
+                '130', '135', '211', '150', '155', '317', '337', '608'):
+            sefip.tipo_inscr_tomador = ' '
+            sefip.inscr_tomador = ' ' * 14
+
         sefip.pis_pasep_ci = folha.employee_id.pis_pasep
-        sefip.data_admissao = folha.contract_id.date_start
-        sefip.categoria_trabalhador = SEFIP_CATEGORIA_TRABALHADOR.get(
-            folha.contract_id.categoria, '01')
+
+        if codigo_categoria in ('01', '03', '04', '05', '06', '07', '11',
+                                '12', '19', '20', '21', '26'):
+            sefip.data_admissao = folha.contract_id.date_start
+
+        if codigo_categoria in ('01', '03', '04', '05', '06', '07', '11',
+                                '12', '19', '20', '21'):
+            sefip.categoria_trabalhador = codigo_categoria
+
         sefip.nome_trabalhador = folha.employee_id.name
-        sefip.matricula_trabalhador = folha.employee_id.registration
-        sefip.num_ctps = folha.employee_id.ctps
-        sefip.serie_ctps = folha.employee_id.ctps_series
-        # sefip.data_de_opcao =
-        sefip.data_de_nascimento = folha.employee_id.birthday
-        sefip.trabalhador_cbo = folha.contract_id.job_id.cbo_id.code
-        # sefip.trabalhador_remun_sem_13 = holerite.salario-total
-        # sefip.trabalhador_remun_13 =
-        # sefip.trabalhador_classe_contrib =
-        # ONDE SE ENCONTRAM INFORMAÇÕES REFERENTES A INSALUBRIDADE, DEVERIAM ESTAR NO CAMPO job_id?
-        # sefip.trabalhador_ocorrencia =
-        # sefip.trabalhador_valor_desc_segurado =
-        # sefip.trabalhador_remun_base_calc_contribuicao_previdenciaria = folha.wage
-        # sefip.trabalhador_base_calc_13_previdencia_competencia =
-        # sefip.trabalhador_base_calc_13_previdencia_GPS =
+
+        if codigo_categoria not in (
+                '06', '13', '14', '15', '16', '17', '18', '22', '23',
+                '24', '25'):
+            sefip.matricula_trabalhador = folha.employee_id.registration
+
+        if codigo_categoria in ('01', '03', '04', '06', '07', '26'):
+            sefip.num_ctps = folha.employee_id.ctps
+            sefip.serie_ctps = folha.employee_id.ctps_series
+
+        if codigo_categoria in ('01', '03', '04' , '05', '06', '07'):
+            # Item 13: Data de opção do FGtS, é sempre a data de contratação!
+            sefip.data_de_opcao = folha.contract_id.date_start
+
+        if codigo_categoria in ('01', '02', '03', '04', '05', '06', '07',
+                                '12', '19', '20', '21', '26'):
+            sefip.data_de_nascimento = folha.employee_id.birthday
+
+        if codigo_categoria in '06':
+            sefip.trabalhador_cbo = '05121'
+        else:
+            sefip.trabalhador_cbo = folha.contract_id.job_id.cbo_id.code
+
+        if codigo_categoria in (
+                '05', '11', '13', '14', '15', '16', '17', '18', '22', '23',
+                '24', '25'):
+            sefip.trabalhador_remun_sem_13 = \
+                self._trabalhador_remun_sem_13(folha)
+
+        if codigo_categoria in '02':
+            sefip.trabalhador_remun_13 = self._trabalhador_remun_13(folha)
+
+        if codigo_categoria in ('14', '16'):
+            sefip.trabalhador_classe_contrib = \
+                self._trabalhador_classe_contrib(folha)
+
+        # ONDE SE ENCONTRAM INFORMAÇÕES REFERENTES A INSALUBRIDADE,
+        #  DEVERIAM ESTAR NO CAMPO job_id?
+
+        sefip.trabalhador_ocorrencia = self._trabalhador_ocorrencia(folha)
+        sefip.trabalhador_valor_desc_segurado = \
+            self._trabalhador_valor_desc_segurado(folha)
+        sefip.trabalhador_remun_base_calc_contribuicao_previdenciaria = \
+            self._trabalhador_remun_base_calc_contribuicao_previdenciaria(
+                folha)
+        sefip.trabalhador_base_calc_13_previdencia_competencia = \
+            self._trabalhador_base_calc_13_previdencia_competencia(folha)
+        sefip.trabalhador_base_calc_13_previdencia_GPS = \
+            self._trabalhador_base_calc_13_previdencia_GPS(folha)
+
         return sefip._registro_30_registro_do_trabalhador()
 
     def _preencher_registro_90(self):
