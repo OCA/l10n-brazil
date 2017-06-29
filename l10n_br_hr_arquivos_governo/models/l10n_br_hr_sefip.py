@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # (c) 2017 KMEE INFORMATICA LTDA - Daniel Sadamo <sadamo@kmee.com.br>
+# (c) 2017 KMEE INFORMATICA LTDA - Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from __future__ import (
@@ -7,7 +8,7 @@ from __future__ import (
 )
 
 import logging
-
+import base64
 from openerp import api, fields, models, _
 from openerp.exceptions import ValidationError
 
@@ -347,7 +348,13 @@ class L10nBrSefip(models.Model):
                     record._preencher_registro_30(sefip, folha))
             record.sefip += self._valida_tamanho_linha(
                 sefip._registro_90_totalizador_do_arquivo())
-            # self.sefip = sefip._gerar_arquivo_SEFIP()
+
+            # Cria um arquivo temporario txt e escreve o que foi gerado
+            path_arquivo = sefip._gerar_arquivo_temp(self.sefip, 'SEFIP')
+            # Gera o anexo apartir do txt do grrf no temp do sistema
+            mes = str(self.mes) if self.mes > 9 else '0' + str(self.mes)
+            nome_arquivo = 'SEFIP-' + str(mes) + '-' + str(self.ano) + '.re'
+            self._gerar_anexo(nome_arquivo, path_arquivo)
 
     def _preencher_registro_00(self, sefip):
         sefip.tipo_inscr_resp = '1' if \
@@ -618,11 +625,29 @@ class L10nBrSefip(models.Model):
 
         return sefip._registro_30_registro_do_trabalhador()
 
-    def _preencher_registro_90(self):
-        #     sefip = '90'
-        #     sefip += '9'*51
-        #     sefip += ' '*306
-        #     sefip += '*'
-        #     sefip += '\n'
-        #     return sefip
-        pass
+    def _gerar_anexo(self, nome_do_arquivo, path_arquivo_temp):
+        """
+        Função para gerar anexo dentro do holerite, apartir de um arquivo
+        temporário. Deve ser passado o path do arquivo temporário que se
+        tornará anexo da payslip
+        :param nome_do_arquivo:
+        :param path_arquivo_temp:
+        :return:
+        """
+        try:
+            file_attc = open(path_arquivo_temp, 'r')
+            attc = file_attc.read()
+            attachment_obj = self.env['ir.attachment']
+            attachment_data = {
+                'name': nome_do_arquivo,
+                'datas_fname': nome_do_arquivo,
+                'datas': base64.b64encode(attc),
+                'res_model': 'l10n_br.hr.sefip',
+                'res_id': self.id,
+            }
+            attachment_obj.create(attachment_data)
+            file_attc.close()
+
+        except:
+            raise Warning(
+                _('Impossível gerar Anexo do %s' % nome_do_arquivo))
