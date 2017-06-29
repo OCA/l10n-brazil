@@ -59,6 +59,25 @@ class L10nBrSefip(models.Model):
                 return rubrica.total
         return 0.00
 
+    @api.multi
+    def _buscar_codigo_outras_entidades(self):
+        if fields.Date.from_string(self.ano+"-"+self.mes+"-01") < fields.Date.from_string("1998-10-01"):
+            return '    '
+        if self.codigo_recolhimento in [115, 130, 135, 150, 155, 211, 608, 650]:
+            return self.company_id.codigo_outras_entidades
+        if self.codigo_recolhimento in [145, 307, 317, 327, 337, 345, 640, 660]:
+            return self.company_id.codigo_outras_entidades
+        if self.codigo_fpas == "582" and fields.Date.from_string(self.mes+"-"+self.ano+"-01") >= fields.Date.from_string("1999-04-01"):
+            return '0000'
+        if self.codigo_fpas == "639" and fields.Date.from_string(self.mes+"-"+self.ano+"-01") < fields.Date.from_string("1998-10-01"):
+            return '    '
+        if self.codigo_fpas == "868":
+            return '0000'
+        if self._simples(self.company_id) in ['1', '4', '5']:
+            return self.company_id.codigo_outras_entidades
+        if self._simples(self.company_id) in ['2', '3', '6']:
+            return '    '
+
     state = fields.Selection(selection=SEFIP_STATE, default='rascunho')
     # responsible_company_id = fields.Many2one(
     #     comodel_name='res.company', string=u'Empresa Responsável'
@@ -441,12 +460,7 @@ class L10nBrSefip(models.Model):
         sefip.emp_cod_centralizacao = self.centralizadora
         sefip.emp_simples = self._simples(company_id)
         sefip.emp_FPAS = self.codigo_fpas
-
-        ########
-        #
-        #
-        # TODO: Criar um campo calculado para este registro
-        sefip.emp_cod_outras_entidades = self.codigo_outras_entidades
+        sefip.emp_cod_outras_entidades = self._buscar_codigo_outras_entidades()
         # TODO: Criar um campo calculado para este registro
         sefip.emp_cod_pagamento_GPS = self.codigo_recolhimento_gps
         # TODO: Criar um campo calculado para este registro
