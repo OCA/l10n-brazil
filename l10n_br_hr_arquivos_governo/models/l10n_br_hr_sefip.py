@@ -72,15 +72,22 @@ class L10nBrSefip(models.Model):
 
     @api.multi
     def _buscar_codigo_outras_entidades(self):
-        if fields.Date.from_string(self.ano+"-"+self.mes+"-01") < fields.Date.from_string("1998-10-01"):
+        if fields.Date.from_string(self.ano+"-"+self.mes+"-01") < fields.Date.\
+                from_string("1998-10-01"):
             return '    '
-        if self.codigo_recolhimento in [115, 130, 135, 150, 155, 211, 608, 650]:
+        if self.codigo_recolhimento in \
+                ['115', '130', '135', '150', '155', '211', '608', '650']:
             return self.company_id.codigo_outras_entidades
-        if self.codigo_recolhimento in [145, 307, 317, 327, 337, 345, 640, 660]:
+        if self.codigo_recolhimento in \
+                ['145', '307', '317', '327', '337', '345', '640', '660']:
             return self.company_id.codigo_outras_entidades
-        if self.codigo_fpas == "582" and fields.Date.from_string(self.mes+"-"+self.ano+"-01") >= fields.Date.from_string("1999-04-01"):
+        if self.codigo_fpas == "582" and fields.Date.\
+                from_string(self.mes+"-"+self.ano+"-01") >= fields.\
+                Date.from_string("1999-04-01"):
             return '0000'
-        if self.codigo_fpas == "639" and fields.Date.from_string(self.mes+"-"+self.ano+"-01") < fields.Date.from_string("1998-10-01"):
+        if self.codigo_fpas == "639" and fields.Date.\
+                from_string(self.mes+"-"+self.ano+"-01") < fields.Date.\
+                from_string("1998-10-01"):
             return '    '
         if self.codigo_fpas == "868":
             return '0000'
