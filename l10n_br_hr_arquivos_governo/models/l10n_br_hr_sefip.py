@@ -866,17 +866,24 @@ class L10nBrSefip(models.Model):
 
     def _gerar_anexo(self, nome_do_arquivo, path_arquivo_temp):
         """
-        Função para gerar anexo dentro do holerite, apartir de um arquivo
-        temporário. Deve ser passado o path do arquivo temporário que se
-        tornará anexo da payslip
+        Função gerar anexo dentro do SEFIP, sobrescrevendo anexo existente.
+         Apartir de um arquivo temporário. Deve ser passado o path do
+         arquivo temporário que se tornará anexo da sefip
         :param nome_do_arquivo:
         :param path_arquivo_temp:
         :return:
         """
+        attachment_obj = self.env['ir.attachment']
+
+        # Apagar SEFIP's existentes
+        anexos = attachment_obj.search([('res_id', '=', self.id)])
+        for anexo in anexos:
+            anexo.unlink()
+
         try:
             file_attc = open(path_arquivo_temp, 'r')
             attc = file_attc.read()
-            attachment_obj = self.env['ir.attachment']
+
             attachment_data = {
                 'name': nome_do_arquivo,
                 'datas_fname': nome_do_arquivo,
