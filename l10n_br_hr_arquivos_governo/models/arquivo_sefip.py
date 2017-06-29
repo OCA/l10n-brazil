@@ -388,7 +388,7 @@ class SEFIP(AbstractArquivosGoverno):
         self.trabalhador_cidade = ''
         self.trabalhador_uf = ''
         # campos gerais TOMADOR DE SERVICO/OBRA DE CONSTRUCAO CIVIL------------
-        self.tipo_inscr_tomador = '1'
+        self.tipo_inscr_tomador = ''
         self.inscr_tomador = ''
         # campos TOMADOR DE SERVICO/OBRA DE CONSTRUCAO CIVIL ------------------
         self.tipo_de_registro_20 = '20'
