@@ -315,7 +315,7 @@ class L10nBrSefip(models.Model):
         if company_id.partner_id.is_company:
             tipo_inscr_empresa = '1'
             inscr_empresa = company_id.cnpj_cpf
-            cnae = company_id.cnae
+            cnae = company_id.cnae_main_id.code
         else:
             raise ValidationError(_(
                 'Exportação de empregador doméstico não parametrizada '
