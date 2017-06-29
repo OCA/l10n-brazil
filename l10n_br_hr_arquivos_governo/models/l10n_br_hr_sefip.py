@@ -32,6 +32,17 @@ SEFIP_STATE = [
 class L10nBrSefip(models.Model):
     _name = b'l10n_br.hr.sefip'
 
+    @api.multi
+    def name_get(self):
+        result = []
+        meses = dict(MESES)
+        for record in self:
+            name = (self.company_id.name + ' ' + meses.get(self.mes) +
+                    '/' + self.ano + ' - Recolhimento: ' +
+                    self.codigo_recolhimento)
+            result.append((record.id, name))
+        return result
+
     @api.one
     @api.depends('codigo_recolhimento')
     def _compute_eh_obrigatorio_informacoes_processo(self):

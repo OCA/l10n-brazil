@@ -6,7 +6,7 @@
     <data>
 
         <record model="ir.actions.act_window" id="hr_sefip_act_window">
-            <field name="name">HR SEFIP</field>
+            <field name="name">SEFIP</field>
             <field name="res_model">l10n_br.hr.sefip</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
@@ -38,7 +38,7 @@
                         <!--<field name="state" widget="statusbar"/>-->
                     </header>
                     <group cols="4" string="SEFIP">
-                        <group colspan="4">
+                        <group string="Responsável" colspan="4">
                             <!--<field name="responsible_company_id"/>-->
                             <field name="responsible_user_id"/>
                             <field name="company_id"/>
@@ -46,17 +46,17 @@
                             <field name="ano"/>
                             <field name="modalidade_arquivo"/>
                          </group>
-                        <group colspan="4">
+                        <group  string="FGTS" colspan="4">
                             <field name="codigo_recolhimento"/>
                             <field name="recolhimento_fgts"/>
                             <field name="data_recolhimento_fgts"/>
                         </group>
-                        <group colspan="4">
+                        <group string="GPS" colspan="4">
                             <field name="codigo_recolhimento_gps"/>
                             <field name="recolhimento_gps"/>
                             <field name="data_recolhimento_gps"/>
                         </group>
-                        <group colspan="4">
+                        <group string="FPAS" colspan="4">
                             <field name="codigo_fpas"/>
                             <field name="eh_obrigatorio_codigo_outras_entidades" invisible="1"/>
                             <field name="codigo_outras_entidades" attrs="{'required':[('eh_obrigatorio_codigo_outras_entidades', '=', True)]}"/>
@@ -72,8 +72,10 @@
                             <field name="data_termino" attrs="{'required':[('eh_obrigatorio_informacoes_processo', '=', True)]}"/>
                         </group>
                     </group>
-                    <footer>
-                        <field name="sefip"/>
+                    <footer >
+                        <group string="Prévia do SEFIP">
+                            <field nolabel="1" name="sefip"/>
+                        </group>
                     </footer>
                 </form>
             </field>
