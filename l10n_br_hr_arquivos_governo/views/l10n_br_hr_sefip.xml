@@ -79,19 +79,23 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="hr_sefip_tree_view">
+            <field name="name">hr.sefip.tree (in l10n_br_hr_arquivos_governo) </field>
+            <field name="model">l10n_br.hr.sefip</field>
+            <field name="arch" type="xml">
+                <tree string="Check Line">
+                    <field name="mes"/>
+                    <field name="ano"/>
+                    <field name="modalidade_arquivo"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
         <!--<record model="ir.ui.view" id="hr_payslip_search_view">-->
         <!--<field name="name">hr.payslip.search (in l10n_br_hr_arquivos_governo)</field>-->
         <!--<field name="model">hr.payslip</field>-->
         <!--<field name="inherit_id" ref="TODO othermodule.search_view"/>-->
-        <!--<field name="arch" type="xml">-->
-        <!--&lt;!&ndash; TODO &ndash;&gt;-->
-        <!--</field>-->
-        <!--</record>-->
-
-        <!--<record model="ir.ui.view" id="hr_payslip_tree_view">-->
-        <!--<field name="name">hr.payslip.tree (in l10n_br_hr_arquivos_governo)</field>-->
-        <!--<field name="model">hr.payslip</field>-->
-        <!--<field name="inherit_id" ref="TODO othermodule.tree_view"/>-->
         <!--<field name="arch" type="xml">-->
         <!--&lt;!&ndash; TODO &ndash;&gt;-->
         <!--</field>-->
