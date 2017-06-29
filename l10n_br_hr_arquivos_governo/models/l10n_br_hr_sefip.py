@@ -874,7 +874,8 @@ class L10nBrSefip(models.Model):
 
         if codigo_categoria in ('01', '02', '03', '04', '05', '06', '07',
                                 '12', '19', '20', '21', '26'):
-            sefip.data_de_nascimento = folha.employee_id.birthday
+            sefip.data_de_nascimento = fields.Datetime.from_string(
+                folha.employee_id.birthday).strftime('%d%m%Y')
 
         if codigo_categoria in '06':
             sefip.trabalhador_cbo = '05121'
