@@ -150,11 +150,14 @@ RECOLHIMENTO_FGTS = [
     ('1', u'1-GRF no prazo'),
     ('2', u'2-GRF em atraso'),
     ('3', u'3-GRF em atraso - Ação Fiscal'),
+    ('5', u'5-Individualização'),
+    ('6', u'6-Individualização - Ação Fiscal'),
+    (' ', u'Em branco'),
 ]
 RECOLHIMENTO_GPS = [
     ('1', u'1-GPF no prazo'),
     ('2', u'2-GPF em atraso'),
-    ('3', u'3-GPF em atraso - Ação Fiscal'),
+    ('3', u'3-Não gera GPS'),
 ]
 CENTRALIZADORA = [
     ('0', u'0 - Não centraliza'),
