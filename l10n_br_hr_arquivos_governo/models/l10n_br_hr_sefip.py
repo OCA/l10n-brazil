@@ -13,9 +13,10 @@ from openerp import api, fields, models, _
 from openerp.exceptions import ValidationError
 
 from .arquivo_sefip import SEFIP
-from ..constantes_rh import (MESES, MODALIDADE_ARQUIVO, CODIGO_RECOLHIMENTO,
-                             RECOLHIMENTO_GPS, RECOLHIMENTO_FGTS,
-                             CENTRALIZADORA)
+from ..constantes_rh import (
+    MESES, MODALIDADE_ARQUIVO, CODIGO_RECOLHIMENTO, RECOLHIMENTO_GPS,
+    RECOLHIMENTO_FGTS, CENTRALIZADORA, OCORRENCIA_SEFIP,
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -478,12 +479,35 @@ class L10nBrSefip(models.Model):
         Rubrica Base do INSS
 
         """
-        if folha.contract_id.categoria_sefip in (
+        result = 0.00
+        #
+        # Não pode ser informado para a competência 13
+        #
+        if folha.tipo_de_folha == 'decimo_terceiro':
+            return result
+        #
+        # As remunerações pagas após rescisão do contrato de trabalho e
+        # conforme determinação do Art. 466 da CLT,
+        # não devem vir acompanhadas das respectivas movimentações .
+        #
+        elif False:
+            # TODO:
+            result = 0.00
+        #
+        # Obrigatório
+        #
+        elif folha.contract_id.categoria_sefip in (
                 '05', '11', '13', '14', '15', '16', '17', '18', '22', '23',
                 '24', '25'):
-            # TODO:
-            return 0.00
-        return 0.00
+            result = folha.base_inss
+        #
+        # Opcional
+        #
+        elif folha.contract_id.categoria_sefip in (
+                '01', '02', '03', '04', '06', '07', '12', '19', '20', '21',
+                '26'):
+            result = folha.base_inss
+        return result
 
     def _trabalhador_remun_13(self, folha):
         """ Registro 30. Item 17
@@ -491,18 +515,75 @@ class L10nBrSefip(models.Model):
         Rúbrica 13 Base do INSS (Somente na rescisão temos o 16 e o 17!)
 
         """
-        if folha.contract_id.categoria_sefip == '02':
+        result = 0.00
+        #
+        # Não pode ser informado para a competência 13
+        #
+        if folha.tipo_de_folha == 'decimo_terceiro':
+            return result
+        #
+        # As remunerações pagas após rescisão do contrato de trabalho e
+        # conforme determinação do Art. 466 da CLT,
+        # não devem vir acompanhadas das respectivas movimentações .
+        #
+        elif False:
+            # TODO:
+            result = 0.00
+        #
+        # Campo obrigatório para categoria 02.
+        #
+        elif folha.contract_id.categoria_sefip == '02':
+            # TODO: Implementar campo para calcular a rúbrica do 13 do INSS
+            # ou pesquisar manualemnte
+            result = 0.00
+        elif folha.contract_id.categoria_sefip in (
+                '01', '03', '04', '06', '07', '12', '19', '20', '21', '26'):
+            # TODO:
+            result = 0.00
+        return result
+
+    def _trabalhador_classe_contrib(self, folha):
+        """ Registro 30. Item 18
+        Classe de Contribuição (Indicar a classe de contribuição do autônomo,
+        quando a empresa opta por contribuir sobre seu salário-base e os
+        classifica como categoria 14 ou 16. A classe deve estar compreendida
+        em tabela fornecida pelo INSS). """
+
+        result = 0.00
+        #
+        # Não pode ser informado para a competência 13
+        #
+        if folha.tipo_de_folha == 'decimo_terceiro':
+            return result
+        #
+        # Campo obrigatório para as categorias 14 e 16
+        # (apenas em recolhimentos de competências anteriores a 03/2000).
+        #
+        elif (fields.Date.from_string(folha.date_from) <
+              fields.Date.from_string('2000-03-01') and
+              folha.contract_id.categoria_sefip in ('14', '16')):
             # TODO:
             return 0.00
         return 0.00
 
-    def _trabalhador_classe_contrib(self, folha):
-        """ Registro 30. Item 18
-        """
-        if folha.contract_id.categoria_sefip in ('14', '16'):
-            # TODO:
-            return 0.00
-        return 0.00
+    def _buscar_ocorrencias(self, folha):
+        # FIXME: Deste jeito não deu certo, pois existem afastamentos s/ data
+
+        return []
+
+        folha_date_from = fields.Date.from_string(folha.date_from)
+        folha_date_to = fields.Date.from_string(folha.date_to)
+
+        ocorrencia_aprovada_ids = folha.contract_id.afastamento_ids.filtered(
+            lambda r: r.state == 'validate')
+        ocorrencias_no_periodo_ids = ocorrencia_aprovada_ids.filtered(
+            lambda r: folha_date_from >=
+                      fields.Date.from_string(r.data_inicio) and
+                      fields.Date.from_string(r.data_fim) <= folha_date_to)
+
+        return ocorrencias_no_periodo_ids
+
+
 
     def _trabalhador_ocorrencia(self, folha):
         """ Registro 30. Item 19
@@ -510,20 +591,95 @@ class L10nBrSefip(models.Model):
         doença lic maternidade, ( situaçeõs que o funcionario deixa de
         trablalhar e o inss deverá assumir o pagamento do funcionário)
 
+        Nao implementado:
+
+         - Para empregado doméstico (Cat 06) e diretor não empregado
+         (Cat 05) permitido apenas branco ou 05.
+         -
+
         """
-        return 0.00
+        ocorrencia = ' '
+        permitido = False
+
+        ocorrencias_no_periodo_ids = self._buscar_ocorrencias(folha)
+
+        if not ocorrencias_no_periodo_ids:
+            return ocorrencia
+
+        #
+        # Obrigatório para categoria 26,
+        # devendo ser informado 05, 06, 07 ou 08.
+        #
+        if folha.contract_id.categoria_sefip == '26':
+            permitido = ['05', '06', '07', '08']
+            # TODO:
+            ocorrencia = '05'
+        elif folha.contract_id.categoria_sefip in (
+            '02', '22', '23'
+        ):
+            permitido = [' ', '01', '02', '03', '04']
+
+        if permitido and ocorrencia in permitido:
+            return ocorrencia
+        elif permitido and ocorrencia not in permitido:
+            raise ValidationError(
+                _("A ocorrência {0} não é permitida para "
+                  "folha de pagamento de \n {1}, "
+                  "referente a {2}.".format(
+                    OCORRENCIA_SEFIP[ocorrencia],
+                    folha.contract_id.name,
+                    folha.data_extenso)))
+        return ocorrencia
 
     def _trabalhador_valor_desc_segurado(self, folha):
         """ Registro 30. Item 20.
+
+        Valor Descontado do Segurado (Destinado à informação do valor da
+        contribuição do trabalhador com mais de um vínculo empregatício;
+        ou quando tratar-se de recolhimento de trabalhador avulso,
+        dissídio coletivo ou reclamatória trabalhista, ou, ainda nos meses
+        de afastamento e retorno de licença maternidade)
+        O valor informado será considerado como contribuição do segurado.
 
         Verificar se no cliente, por exemplo,
         o funcionário esta contratado em 2 lugares pois o INSS recolhido
         em outro lugar pode ter que ser informado aqui.
         """
+        result = 0
+
+        if (fields.Date.from_string(folha.date_from) <
+                fields.Date.from_string('1998-10-01')):
+            return result
+        #
+        # Campo opcional para os códigos de recolhimento 130, 135 e 650.
+        #
+        if self.codigo_recolhimento in ('130', '135', '650'):
+            return 0
+
+        ocorrencias_no_periodo_ids = self._buscar_ocorrencias(folha)
+
+        if not ocorrencias_no_periodo_ids:
+            return 0.00
+
+        # TODO:
+        # Campo opcional para as ocorrências 05, 06, 07 e 08.
+        # Campo opcional para as categorias de trabalhadores igual a
+            # 01, 02, 04, 06, 07, 12, 19, 20, 21 e 26.
+        # Campo opcional para as categorias de trabalhadores igual a
+            # 05, 11, 13, 15, 17, 18, 24 e 25 a partir da competência 04/2003.
+
         return 0.00
 
     def _trabalhador_remun_base_calc_contribuicao_previdenciaria(self, folha):
         """ Registro 30. Item 21
+
+        Remuneração base de cálculo da contribuição previdenciária
+        (Destinado à informação da parcela de remuneração sobre a qual incide
+        contribuição previdenciária, quando o trabalhador estiver afastado
+        por motivo de acidente de trabalho e/ou prestação de serviço
+        militar obrigatório ou na informação de Recolhimento
+        Complementar de FGTS)
+
 
         Preenchido somente quando o funcionário esta afastado.
 
@@ -535,12 +691,32 @@ class L10nBrSefip(models.Model):
     def _trabalhador_base_calc_13_previdencia_competencia(self, folha):
         """ Registro 30. Item 22
 
+        Base de Cálculo 13 Salário Previdência Social –
+        Referente à competência do movimento
+
+        (Na competência em que ocorreu o afastamento definitivo – informar o
+        valor total do 13o pago no ano ao trabalhador.
+        Na competência 12 – Indicar eventuais diferenças de gratificação
+        natalina de empregados que recebem remuneração variável – Art. 216,
+        Parágrafo 25, Decreto 3.265 de 29.11.1999)
+
+        Na competência 13, para a geração da GPS, indicar o valor total do
+        13o salário pago no ano ao trabalhador)
 
         """
         return 0.00
 
     def _trabalhador_base_calc_13_previdencia_GPS(self, folha):
         """ Registro 30. Item 23
+
+        Base de Cálculo 13 Salário Previdência – Referente
+        à GPS da competência 13.
+
+        Deve ser utilizado apenas na competência 12, informando o valor
+        da base de cálculo do 13o dos empregados que recebem remuneração
+        variável, em relação a remuneração apurada até 20/12 sobre
+        a qual já houve recolhimento em GPS ).
+
         """
         return 0.00
 

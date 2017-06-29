@@ -161,3 +161,26 @@ CENTRALIZADORA = [
     ('1', u'1 - Centralizadora'),
     ('2', u'2 - Centralizada'),
 ]
+
+
+OCORRENCIA_SEFIP = [
+    ('01', u'01 - Não exposição a agente nocivo'),
+    ('02', u'Exposição a agente nocivo (aposentadoria especial aos '
+           u'15 anos de trabalho)'),
+    ('03', u'Exposição a agente nocivo (aposentadoria especial aos '
+           u'20 anos de trabalho)'),
+    ('04', u'Exposição a agente nocivo (aposentadoria especial aos '
+           u'25 anos de trabalho)'),
+    ('05', u'Mais de um vínculo empregatício (ou fonte pagadora) - '
+           u'Não exposição a agente nocivo'),
+    ('06', u'Mais de um vínculo empregatício (ou fonte pagadora) - '
+           u'Exposição a agente nocivo (aposentadoria especial aos '
+           u'15 anos de trabalho)'),
+    ('07', u'Mais de um vínculo empregatício (ou fonte pagadora) - '
+           u'Exposição a agente nocivo (aposentadoria especial aos '
+           u'20 anos de trabalho)'),
+    ('08', u'Mais de um vínculo empregatício (ou fonte pagadora) - '
+           u'Exposição a agente nocivo (aposentadoria especial aos '
+           u'25 anos de trabalho)'),
+]
+
