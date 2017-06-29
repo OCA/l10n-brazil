@@ -15,6 +15,18 @@ except ImportError:
     _logger.info('Cannot import pybrasil')
 
 
+OUTRAS_ENTIDADES = [
+    ('0000', "Em branco"),
+    ('0001', u"Salário educação"),
+    ('0002', u"INCRA"),
+    ('0003', u"Salário educação + INCRA"),
+    ('4096', u"SESCOOP"),
+    ('4097', u"SESCOOP + Salário educação"),
+    ('4098', u"SESCOOP + INCRA"),
+    ('4099', u"SESCOOP + INCRA + Salário educação"),
+]
+
+
 class ResCompany(models.Model):
     """Override company to activate validate phones"""
 
@@ -29,4 +41,19 @@ class ResCompany(models.Model):
 
     supplier_partner_id = fields.Many2one(
         string='Fornecedor do sistema', comodel_name='res.partner'
+    )
+
+    codigo_outras_entidades = fields.Selection(
+        string="Código de Outras Entidades",
+        selection=OUTRAS_ENTIDADES,
+        default='0000'
+    )
+
+    codigo_recolhimento_GPS = fields.Integer(
+        string=u"Código de recolhimento do GPS",
+    )
+
+    porcentagem_filantropia = fields.Float(
+        string=u"Porcentagem de Isenção de Filantropia",
+        default=000.00,
     )

@@ -12,6 +12,21 @@
                 <field name="fiscal_type" position="before">
                     <field name="supplier_partner_id"/>
                 </field>
+                <xpath expr="//page[@string='General Information']" position="after">
+                    <page string="Folha de Pagamento">
+                        <group>
+                            <group>
+                                <field name="codigo_outras_entidades"/>
+                            </group>
+                            <group>
+                                <field name="codigo_recolhimento_GPS"/>
+                            </group>
+                            <group>
+                                <field name="porcentagem_filantropia"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
             </field>
         </record>
     </data>
