@@ -357,10 +357,10 @@ class L10nBrSefip(models.Model):
                     record.sefip += self._valida_tamanho_linha(
                         record._preencher_registro_30(sefip, folha))
 
-                if folha.tipo_de_folha == 'rescisao':
-                    record.sefip += self._valida_tamanho_linha(
-                        record._preencher_registro_32(sefip, folha)
-                    )
+                    if folha.tipo_de_folha == 'rescisao':
+                        record.sefip += self._valida_tamanho_linha(
+                            record._preencher_registro_32(sefip, folha))
+
             record.sefip += sefip._registro_90_totalizador_do_arquivo()
 
             # Cria um arquivo temporario txt e escreve o que foi gerado
