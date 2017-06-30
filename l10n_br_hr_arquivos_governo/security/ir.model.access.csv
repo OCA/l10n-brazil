@@ -1,4 +1,6 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
 access_hr_caged,access_hr_caged,model_hr_caged,,1,0,0,0
-"access_hr_caged","create_hr_caged","model_hr_caged","base.group_hr_manager",1,1,1,1
+"access_hr_caged_manager","create_hr_caged","model_hr_caged","base.group_hr_manager",1,1,1,1
 "l10n_br_account_cnae","l10n_br_account.cnae","l10n_br_account.model_l10n_br_account_cnae","base.group_hr_user",1,0,0,0
+access_hr_sefip,access_hr_sefip,model_l10n_br_hr_sefip,,1,0,0,0
+"access_hr_sefip_manager","create_hr_sefip","model_l10n_br_hr_sefip","base.group_hr_manager",1,1,1,1
