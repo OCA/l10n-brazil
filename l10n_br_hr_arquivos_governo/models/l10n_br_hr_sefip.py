@@ -394,6 +394,15 @@ class L10nBrSefip(models.Model):
                               ocorrencia.number_of_days_temp / 30)
             return total
 
+    def _get_folha_ids(self):
+        raiz = self.company_id.cnpj_cpf.split('/')[0]
+        folha_ids = self.env['hr.payslip'].search([
+            ('mes_do_ano', '=', self.mes),
+            ('ano', '=', self.ano),
+            ('company_id.partner_id.cnpj_cpf', 'like', raiz)
+        ])
+        return folha_ids
+
     @api.multi
     def gerar_sefip(self):
         for record in self:
@@ -403,12 +412,7 @@ class L10nBrSefip(models.Model):
                 self._valida_tamanho_linha(
                     record._preencher_registro_00(sefip))
 
-            raiz = record.company_id.cnpj_cpf.split('/')[0]
-            folha_ids = record.env['hr.payslip'].search([
-                ('mes_do_ano', '=', record.mes),
-                ('ano', '=', record.ano),
-                ('company_id.partner_id.cnpj_cpf', 'like', raiz)
-            ])
+            folha_ids = record._get_folha_ids()
 
             for company_id in folha_ids.mapped('company_id'):
                 folhas_da_empresa = folha_ids.filtered(
@@ -687,6 +691,13 @@ class L10nBrSefip(models.Model):
          -
 
         """
+        folha_ids = self._get_folha_ids()
+        count = 0
+        for folha_id in folha_ids:
+            if folha.employee_id.id == folha_id.employee_id.id:
+                count += 1
+        if count == 2:
+            return '05'
         ocorrencia = ' '
         permitido = False
 
