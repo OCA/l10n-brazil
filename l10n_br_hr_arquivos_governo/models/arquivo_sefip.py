@@ -10,7 +10,6 @@ _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil.base import tira_acentos
-    from pybrasil import data
 except ImportError:
     _logger.info('Cannot import pybrasil')
 
@@ -287,7 +286,7 @@ class SEFIP(AbstractArquivosGoverno):
 
     def __init__(self, *args, **kwargs):
         # campos gerais--------------------------------------------------------
-        self.preenche_zeros = '0' #DEVE SER SEMPRE PASSADO COM TIPO 'V'
+        self.preenche_zeros = '0'  # DEVE SER SEMPRE PASSADO COM TIPO 'V'
         self.preenche_brancos = ''
         self.fim_linha = '*'
         self.tipo_inscr_empresa = '1'
@@ -370,8 +369,8 @@ class SEFIP(AbstractArquivosGoverno):
         self.pis_pasep_ci = ''
         self.data_admissao = '        '
         self.categoria_trabalhador = ''
-        self.num_ctps = ''*7
-        self.serie_ctps = ''*5
+        self.num_ctps = '' * 7
+        self.serie_ctps = '' * 5
         self.nome_trabalhador = ''
         self.matricula_trabalhador = ''
         # campos ALTERACAO CADASTRAL TRABALHADOR ------------------------------
@@ -460,8 +459,8 @@ class SEFIP(AbstractArquivosGoverno):
 
         elif tipo == 'D':       # Data
             # Retira tudo que nao for numeral
-            data = re.sub(u'[^0-9]', '', str(word))
-            return unicode.ljust(unicode(data), tam)[:tam]
+            data_calculo = re.sub(u'[^0-9]', '', str(word))
+            return unicode.ljust(unicode(data_calculo), tam)[:tam]
 
         elif tipo == 'V':       # Valor
             # Pega a parte decimal como inteiro e nas duas ultimas casas

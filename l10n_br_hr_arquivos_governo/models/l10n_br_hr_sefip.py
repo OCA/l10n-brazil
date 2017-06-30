@@ -16,8 +16,12 @@ from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 
 from .arquivo_sefip import SEFIP
 from ..constantes_rh import (
-    MESES, MODALIDADE_ARQUIVO, CODIGO_RECOLHIMENTO, RECOLHIMENTO_GPS,
-    RECOLHIMENTO_FGTS, CENTRALIZADORA, OCORRENCIA_SEFIP,
+    MESES,
+    MODALIDADE_ARQUIVO,
+    CODIGO_RECOLHIMENTO,
+    RECOLHIMENTO_GPS,
+    RECOLHIMENTO_FGTS,
+    CENTRALIZADORA,
 )
 
 _logger = logging.getLogger(__name__)
@@ -72,8 +76,8 @@ class L10nBrSefip(models.Model):
 
     @api.multi
     def _buscar_codigo_outras_entidades(self):
-        if fields.Date.from_string(self.ano+"-"+self.mes+"-01") < fields.Date.\
-                from_string("1998-10-01"):
+        if (fields.Date.from_string(self.ano + "-" + self.mes + "-01") <
+                fields.Date.from_string("1998-10-01")):
             return '    '
         if self.codigo_recolhimento in \
                 ['115', '130', '135', '150', '155', '211', '608', '650']:
@@ -82,11 +86,11 @@ class L10nBrSefip(models.Model):
                 ['145', '307', '317', '327', '337', '345', '640', '660']:
             return self.company_id.codigo_outras_entidades
         if self.codigo_fpas == "582" and fields.Date.\
-                from_string(self.mes+"-"+self.ano+"-01") >= fields.\
+                from_string(self.mes + "-" + self.ano + "-01") >= fields.\
                 Date.from_string("1999-04-01"):
             return '0000'
         if self.codigo_fpas == "639" and fields.Date.\
-                from_string(self.mes+"-"+self.ano+"-01") < fields.Date.\
+                from_string(self.mes + "-" + self.ano + "-01") < fields.Date.\
                 from_string("1998-10-01"):
             return '    '
         if self.codigo_fpas == "868":
@@ -111,7 +115,7 @@ class L10nBrSefip(models.Model):
     @api.multi
     def _buscar_isencao_filantropia(self):
         if self.codigo_fpas == "639":
-            return str("%05d" % self.porcentagem_filantropia*100)
+            return str("%05d" % self.porcentagem_filantropia * 100)
         return '    '
 
     state = fields.Selection(selection=SEFIP_STATE, default='rascunho')
@@ -276,7 +280,7 @@ class L10nBrSefip(models.Model):
             return ''
         return self.env['l10n_br.hr.rat.fap'].search(
             [('year', '=', self.ano),
-            ('company_id', '=', company.id)
+             ('company_id', '=', company.id)
              ], limit=1).rat_rate or '0'
 
     def _simples(self, company_id):
@@ -421,6 +425,10 @@ class L10nBrSefip(models.Model):
 
                 record.sefip += self._valida_tamanho_linha(
                     self._preencher_registro_10(company_id, sefip))
+
+                record.sefip += self._valida_tamanho_linha(
+                    self._preencher_registro_12(company_id, sefip))
+
                 for folha in folhas_da_empresa.sorted(
                         key=lambda folha: punctuation_rm(
                             folha.employee_id.pis_pasep)):
@@ -436,7 +444,6 @@ class L10nBrSefip(models.Model):
             # Cria um arquivo temporario txt e escreve o que foi gerado
             path_arquivo = sefip._gerar_arquivo_temp(self.sefip, 'SEFIP')
             # Gera o anexo apartir do txt do grrf no temp do sistema
-            mes = str(self.mes) if self.mes > 9 else '0' + str(self.mes)
             nome_arquivo = 'SEFIP.re'
             self._gerar_anexo(nome_arquivo, path_arquivo)
 
@@ -526,10 +533,10 @@ class L10nBrSefip(models.Model):
         # sefip.emp_cc = self.company_id.bank_id[0].account
         return sefip._registro_10_informacoes_empresa()
 
-    def _preencher_registro_12(self, sefip):
+    def _preencher_registro_12(self, company_id, sefip):
 
         tipo_inscr_empresa, inscr_empresa, cnae = self._tipo_inscricao_cnae(
-            self.company_id
+            company_id
         )
 
         sefip.tipo_inscr_empresa = tipo_inscr_empresa
@@ -668,9 +675,8 @@ class L10nBrSefip(models.Model):
         :param folha:
         :return:
         """
-        #TODO: Implementar no payslip
+        # TODO: Implementar no payslip
         return []
-
 
     def _buscar_ocorrencias(self, folha):
         """ Estas informações devem ser lançadas na folha
@@ -715,7 +721,6 @@ class L10nBrSefip(models.Model):
         if count == 2:
             return '05'
         ocorrencia = ' '
-        permitido = False
 
         # TODO:
         if folha.tipo_de_folha == 'rescisao':
@@ -901,8 +906,8 @@ class L10nBrSefip(models.Model):
             sefip.num_ctps = folha.employee_id.ctps
             sefip.serie_ctps = folha.employee_id.ctps_series
         else:
-            sefip.num_ctps = ' '*7
-            sefip.serie_ctps = ' '*5
+            sefip.num_ctps = ' ' * 7
+            sefip.serie_ctps = ' ' * 5
 
         if codigo_categoria in ('01', '03', '04', '05', '06', '07'):
             # Item 13: Data de opção do FGtS, é sempre a data de contratação!
