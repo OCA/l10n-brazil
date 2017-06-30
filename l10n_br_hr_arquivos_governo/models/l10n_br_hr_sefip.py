@@ -37,7 +37,7 @@ class L10nBrSefip(models.Model):
         result = []
         meses = dict(MESES)
         for record in self:
-            name = (self.company_id.name + ' ' + meses.get(self.mes) +
+            name = (self.company_id.,name + ' ' + meses.get(self.mes) +
                     '/' + self.ano + ' - Recolhimento: ' +
                     self.codigo_recolhimento)
             result.append((record.id, name))
@@ -175,7 +175,7 @@ class L10nBrSefip(models.Model):
     centralizadora = fields.Selection(
         selection=CENTRALIZADORA,
         string=u'Centralizadora',
-        default='1',
+        default='0',
         required=True,
         help="""Para indicar as empresas que centralizam o recolhimento do
          FGTS\n- Deve ser igual a zero (0), para os códigos de recolhimento
@@ -889,8 +889,6 @@ class L10nBrSefip(models.Model):
             sefip.matricula_trabalhador = folha.employee_id.registration
 
         if codigo_categoria in ('01', '03', '04', '06', '07', '26'):
-            print (folha.employee_id.name)
-            print (folha.employee_id.ctps)
             sefip.num_ctps = folha.employee_id.ctps
             sefip.serie_ctps = folha.employee_id.ctps_series
         else:
