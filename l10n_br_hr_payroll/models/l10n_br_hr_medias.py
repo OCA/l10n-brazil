@@ -139,7 +139,7 @@ class L10nBrHrMedias(models.Model):
         folha_obj = self.env['hr.payslip']
         domain = [
             ('date_from', '>=', data_inicio),
-            ('date_from', '<=', data_fim),
+            ('date_to', '<=', data_fim),
             ('contract_id', '=', holerite_id.contract_id.id),
             ('tipo_de_folha', '=', 'normal'),
             ('state', '=', 'done'),
