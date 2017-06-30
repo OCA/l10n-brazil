@@ -590,18 +590,19 @@ class L10nBrSefip(models.Model):
         #         '26'):
         #     result = folha.base_inss
 
-        if not folha.base_inss:
-            return self._valor_rubrica(folha.line_ids, "SALARIO")
+        # if not folha.base_inss:
+        #     return self._valor_rubrica(folha.line_ids, "SALARIO")
 
         result += self._valor_rubrica(folha.line_ids, "BASE_INSS")
+        result += self._valor_rubrica(folha.line_ids, "BASE_INSS_FERIAS")
 
-        base_inss_ferias = self._valor_rubrica(
-            folha.line_ids, "BASE_INSS_FERIAS"
-        )
-        result += base_inss_ferias
-
-        if not base_inss_ferias:
-            result += self._valor_rubrica(folha.line_ids, "1/3_FERIAS")
+        # base_inss_ferias = self._valor_rubrica(
+        #     folha.line_ids, "BASE_INSS_FERIAS"
+        # )
+        # result += base_inss_ferias
+        #
+        # if not base_inss_ferias:
+        #     result += self._valor_rubrica(folha.line_ids, "1/3_FERIAS")
         return result
 
     def _trabalhador_remun_13(self, folha):
