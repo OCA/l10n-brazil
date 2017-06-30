@@ -321,9 +321,6 @@ class L10nBrSefip(models.Model):
             inscr_empresa = company_id.cnpj_cpf
             cnae = company_id.cnae_main_id.code
         else:
-            raise ValidationError(_(
-                'Exportação de empregador doméstico não parametrizada '
-                'corretamente'))
             tipo_inscr_empresa = '0'
             # TODO: Campo não implementado
             inscr_empresa = company_id.cei
@@ -685,20 +682,18 @@ class L10nBrSefip(models.Model):
         :return:
         """
         # FIXME: Deste jeito não deu certo, pois existem afastamentos s/ data
-
+        # folha_date_from = fields.Date.from_string(folha.date_from)
+        # folha_date_to = fields.Date.from_string(folha.date_to)
+        #
+        # ocorrencia_aprovada_ids = folha.contract_id.afastamento_ids.filtered(
+        #     lambda r: r.state == 'validate')
+        # ocorrencias_no_periodo_ids = ocorrencia_aprovada_ids.filtered(
+        #     lambda r: (folha_date_from >=
+        #                fields.Date.from_string(r.data_inicio) and
+        #                fields.Date.from_string(r.data_fim) <= folha_date_to))
+        #
+        # return ocorrencias_no_periodo_ids
         return []
-
-        folha_date_from = fields.Date.from_string(folha.date_from)
-        folha_date_to = fields.Date.from_string(folha.date_to)
-
-        ocorrencia_aprovada_ids = folha.contract_id.afastamento_ids.filtered(
-            lambda r: r.state == 'validate')
-        ocorrencias_no_periodo_ids = ocorrencia_aprovada_ids.filtered(
-            lambda r: (folha_date_from >=
-                       fields.Date.from_string(r.data_inicio) and
-                       fields.Date.from_string(r.data_fim) <= folha_date_to))
-
-        return ocorrencias_no_periodo_ids
 
     def _trabalhador_ocorrencia(self, folha):
         """ Registro 30. Item 19

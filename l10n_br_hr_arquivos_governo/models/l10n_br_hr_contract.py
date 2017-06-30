@@ -58,4 +58,5 @@ class HrContract(models.Model):
         selection=CATEGORIA_TRABALHADOR,
         string="Categoria do Contrato",
         required=True,
+        default='101',
     )
