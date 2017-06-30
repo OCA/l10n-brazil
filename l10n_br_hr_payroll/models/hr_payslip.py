@@ -1677,6 +1677,25 @@ class HrPayslip(models.Model):
                     timedelta(days=1)
 
     @api.multi
+    def _buscar_holerites_periodo_aquisitivo(self):
+        if not self.periodo_aquisitivo:
+            raise exceptions.Warning(
+                "Não foi escolhido um periodo aquisitivo!"
+            )
+        else:
+            payslips = self.search(
+                [
+                    ('contract_id', '=', self.contract_id.id),
+                    ('date_from', '>=',
+                     self.periodo_aquisitivo.inicio_aquisitivo),
+                    ('date_to', '<=', self.periodo_aquisitivo.fim_aquisitivo),
+                    ('tipo_de_folha', '=', 'normal'),
+                    ('state', '=', 'done'),
+                ]
+            )
+            return payslips
+
+    @api.multi
     def _checar_holerites_aprovados(self):
         return self.env['hr.payslip'].search(
             [
