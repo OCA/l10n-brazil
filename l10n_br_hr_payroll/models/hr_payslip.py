@@ -1717,58 +1717,69 @@ class HrPayslip(models.Model):
             "decimo_terceiro", "ferias", "aviso_previo",
             "provisao_ferias", "provisao_decimo_terceiro"
         ]:
-            hr_medias_ids, data_de_inicio, data_final = \
-                self.gerar_media_dos_proventos()
+            if self.tipo_de_folha == 'ferias' and not self.\
+                    _buscar_holerites_periodo_aquisitivo():
+                raise exceptions.Warning(
+                    "Não existem holerites normais confirmados"
+                    "suficientes no periodo "
+                    "aquisitivo para os cálculos "
+                    "das férias!"
+                )
+            else:
+                hr_medias_ids, data_de_inicio, data_final = \
+                    self.gerar_media_dos_proventos()
 
-            # Metodo pra validar se ja foram processadors todos os holerites
-            #  usados no calculo das medias
-            # if self.tipo_de_folha in ["decimo_terceiro", "ferias"] and \
-            if self.tipo_de_folha in ["decimo_terceiro"] and \
-                    not self.is_simulacao:
-                self.validacao_holerites_anteriores(
-                    data_de_inicio, data_final, self.contract_id)
+                # Metodo pra validar se ja foram processadors
+                # todos os holerites usados no calculo das medias
+                # if self.tipo_de_folha in ["decimo_terceiro", "ferias"] and \
+                if self.tipo_de_folha in ["decimo_terceiro"] and \
+                        not self.is_simulacao:
+                    self.validacao_holerites_anteriores(
+                        data_de_inicio, data_final, self.contract_id)
 
-            if self.tipo_de_folha == 'ferias':
-                if not self.holidays_ferias and not self.is_simulacao:
-                    raise exceptions.Warning(
-                        _('Nenhum Pedido de Ferias encontrado!')
-                    )
-
-                # Validação da quantidade de dias de férias sendo processada e
-                # a quantidade de saldo dísponivel
-                # if self.holidays_ferias.number_of_days_temp > \
-                #         self.saldo_periodo_aquisitivo:
-                #     raise exceptions.Warning(
-                #         _('Selecionado mais dias de ferias do que o saldo do
-                #           'periodo aquisitivo selecionado!')
-                #     )
-
-                # Atualizar o controle de férias com informacao de quantos dias
-                # o funcionario gozara
-                self.periodo_aquisitivo.dias_gozados += \
-                    self.holidays_ferias.number_of_days_temp
-
-                # Caso o funcionario opte por dividir as férias em dois
-                # períodos, e ainda tenha saldo para tal, uma nova linha de
-                # controle de féria é criada com base na linha atual
-                if self.periodo_aquisitivo.saldo > 0 and not self.is_simulacao:
-                    novo_controle_ferias = self.periodo_aquisitivo.copy()
-                    novas_datas = novo_controle_ferias.\
-                        calcular_datas_aquisitivo_concessivo(
-                            novo_controle_ferias.inicio_aquisitivo
+                if self.tipo_de_folha == 'ferias':
+                    if not self.holidays_ferias and not self.is_simulacao:
+                        raise exceptions.Warning(
+                            _('Nenhum Pedido de Ferias encontrado!')
                         )
-                    novo_controle_ferias.write(novas_datas)
 
-                # Atualizar o controle de férias com informacoes dos dias
-                # gozados pelo funcionario de acordo com a payslip de férias
-                if not self.is_simulacao:
-                    self.periodo_aquisitivo.inicio_gozo = \
-                        self.holidays_ferias.date_from
-                    self.periodo_aquisitivo.fim_gozo = \
-                        self.holidays_ferias.date_to
-                else:
-                    self.periodo_aquisitivo.inicio_gozo = self.date_from
-                    self.periodo_aquisitivo.fim_gozo = self.date_to
+                    # Validação da quantidade de dias de férias
+                    # sendo processada e a quantidade de saldo dísponivel
+                    # if self.holidays_ferias.number_of_days_temp > \
+                    #         self.saldo_periodo_aquisitivo:
+                    #     raise exceptions.Warning(
+                    #         _('Selecionado mais dias de ferias do que
+                    #           'o saldo do periodo aquisitivo selecionado!')
+                    #     )
+
+                    # Atualizar o controle de férias com informacao de
+                    # quantos dias o funcionario gozara
+                    self.periodo_aquisitivo.dias_gozados += \
+                        self.holidays_ferias.number_of_days_temp
+
+                    # Caso o funcionario opte por dividir as férias em dois
+                    # períodos, e ainda tenha saldo para tal, uma nova linha de
+                    # controle de féria é criada com base na linha atual
+                    if self.periodo_aquisitivo.saldo > 0 and not self.\
+                            is_simulacao:
+                        novo_controle_ferias = self.periodo_aquisitivo.copy()
+                        novas_datas = novo_controle_ferias.\
+                            calcular_datas_aquisitivo_concessivo(
+                                novo_controle_ferias.inicio_aquisitivo
+                            )
+                        novo_controle_ferias.write(novas_datas)
+
+                    # Atualizar o controle de férias com informacoes dos dias
+                    # gozados pelo funcionario de acordo com a
+                    # payslip de férias
+                    if not self.is_simulacao:
+                        self.periodo_aquisitivo.inicio_gozo = \
+                            self.holidays_ferias.date_from
+                        self.periodo_aquisitivo.fim_gozo = \
+                            self.holidays_ferias.date_to
+                    else:
+                        self.periodo_aquisitivo.inicio_gozo = self.date_from
+                        self.periodo_aquisitivo.fim_gozo = self.date_to
         super(HrPayslip, self).compute_sheet()
         self._compute_valor_total_folha()
         return True
@@ -1819,45 +1830,57 @@ class HrPayslip(models.Model):
 
     @api.multi
     def gerar_media_dos_proventos(self):
-        medias_obj = self.env['l10n_br.hr.medias']
-        if self.tipo_de_folha in ['ferias', 'aviso_previo', 'provisao_ferias']:
-            if self.tipo_de_folha in ['provisao_ferias', 'aviso_previo']:
-                periodo_aquisitivo = self.contract_id.vacation_control_ids[0]
-            else:
-                periodo_aquisitivo = self.periodo_aquisitivo
+        if self.tipo_de_folha == 'ferias' and not self.\
+                _buscar_holerites_periodo_aquisitivo():
+            raise exceptions.Warning(
+                "Não existem holerites normais confirmados"
+                "suficientes no periodo "
+                "aquisitivo para os cálculos "
+                "das férias!"
+            )
+        else:
+            medias_obj = self.env['l10n_br.hr.medias']
+            if self.tipo_de_folha in \
+                    ['ferias', 'aviso_previo', 'provisao_ferias']:
+                if self.tipo_de_folha in ['provisao_ferias', 'aviso_previo']:
+                    periodo_aquisitivo = \
+                        self.contract_id.vacation_control_ids[0]
+                else:
+                    periodo_aquisitivo = self.periodo_aquisitivo
 
-            if self.tipo_de_folha in ['aviso_previo']:
-                data_de_inicio = fields.Date.from_string(
-                    self.date_from) - relativedelta(months=12)
-                data_inicio_mes = fields.Date.from_string(
-                    self.date_from).replace(day=1) - relativedelta(months=12)
-            else:
-                data_de_inicio = fields.Date.from_string(
-                    periodo_aquisitivo.inicio_aquisitivo)
-                data_inicio_mes = fields.Date.from_string(
-                    periodo_aquisitivo.inicio_aquisitivo).replace(day=1)
+                if self.tipo_de_folha in ['aviso_previo']:
+                    data_de_inicio = fields.Date.from_string(
+                        self.date_from) - relativedelta(months=12)
+                    data_inicio_mes = fields.Date.from_string(
+                        self.date_from).replace(day=1) - relativedelta(
+                        months=12)
+                else:
+                    data_de_inicio = fields.Date.from_string(
+                        periodo_aquisitivo.inicio_aquisitivo)
+                    data_inicio_mes = fields.Date.from_string(
+                        periodo_aquisitivo.inicio_aquisitivo).replace(day=1)
 
-            # Se trabalhou mais do que 15 dias, contabilizar o mes corrente
-            if (data_de_inicio - data_inicio_mes).days < 15:
-                data_de_inicio = data_inicio_mes
-                # Senão começar contabilizar medias apartir do mes seguinte.
-            else:
-                data_de_inicio = data_inicio_mes + relativedelta(months=1)
-            if self.tipo_de_folha in ['provisao_ferias']:
+                # Se trabalhou mais do que 15 dias, contabilizar o mes corrente
+                if (data_de_inicio - data_inicio_mes).days < 15:
+                    data_de_inicio = data_inicio_mes
+                    # Senão começar contabilizar medias apartir do mes seguinte
+                else:
+                    data_de_inicio = data_inicio_mes + relativedelta(months=1)
+                if self.tipo_de_folha in ['provisao_ferias']:
+                    data_final = self.date_to
+                else:
+                    data_final = data_inicio_mes + relativedelta(months=12)
+            elif self.tipo_de_folha in [
+                'decimo_terceiro', 'provisao_decimo_terceiro'
+            ]:
+                if self.contract_id.date_start > str(self.ano) + '-01-01':
+                    data_de_inicio = self.contract_id.date_start
+                else:
+                    data_de_inicio = str(self.ano) + '-01-01'
                 data_final = self.date_to
-            else:
-                data_final = data_inicio_mes + relativedelta(months=12)
-        elif self.tipo_de_folha in [
-            'decimo_terceiro', 'provisao_decimo_terceiro'
-        ]:
-            if self.contract_id.date_start > str(self.ano) + '-01-01':
-                data_de_inicio = self.contract_id.date_start
-            else:
-                data_de_inicio = str(self.ano) + '-01-01'
-            data_final = self.date_to
-        hr_medias_ids = medias_obj.gerar_media_dos_proventos(
-            data_de_inicio, data_final, self)
-        return hr_medias_ids, data_de_inicio, data_final
+            hr_medias_ids = medias_obj.gerar_media_dos_proventos(
+                data_de_inicio, data_final, self)
+            return hr_medias_ids, data_de_inicio, data_final
 
     @api.model
     def BUSCAR_VALOR_MEDIA_PROVENTO(self, tipo_simulacao):
