@@ -134,8 +134,8 @@ class SEFIP(AbstractArquivosGoverno):
         registro_13 += self._validar(self.data_admissao, 8, 'D')
         registro_13 += self._validar(self.categoria_trabalhador, 2, 'N')
         registro_13 += self._validar(self.matricula_trabalhador, 11, 'N')
-        registro_13 += self._validar(self.num_ctps, 7, 'N')
-        registro_13 += self._validar(self.serie_ctps, 5, 'N')
+        registro_13 += self._validar(self.num_ctps, 7, 'E')
+        registro_13 += self._validar(self.serie_ctps, 5, 'E')
         registro_13 += self._validar(self.nome_trabalhador, 70, 'A')
         registro_13 += self._validar(self.codigo_empresa_caixa, 14, 'N')
         registro_13 += self._validar(self.codigo_trabalhador_caixa, 11, 'N')
@@ -154,8 +154,8 @@ class SEFIP(AbstractArquivosGoverno):
         registro_14 += self._validar(self.data_admissao, 8, 'D')
         registro_14 += self._validar(self.categoria_trabalhador, 2, 'N')
         registro_14 += self._validar(self.nome_trabalhador, 70, 'A')
-        registro_14 += self._validar(self.num_ctps, 7, 'N')
-        registro_14 += self._validar(self.serie_ctps, 5, 'N')
+        registro_14 += self._validar(self.num_ctps, 7, 'E')
+        registro_14 += self._validar(self.serie_ctps, 5, 'E')
         registro_14 += self._validar(self.trabalhador_logradouro, 50, 'AN')
         registro_14 += self._validar(self.trabalhador_bairro, 20, 'AN')
         registro_14 += self._validar(self.trabalhador_cep, 8, 'N')
@@ -229,8 +229,8 @@ class SEFIP(AbstractArquivosGoverno):
         registro_30 += self._validar(self.categoria_trabalhador, 2, 'N')
         registro_30 += self._validar(self.nome_trabalhador, 70, 'A')
         registro_30 += self._validar(self.matricula_trabalhador, 11, 'N')
-        registro_30 += self._validar(self.num_ctps, 7, 'N')
-        registro_30 += self._validar(self.serie_ctps, 5, 'N')
+        registro_30 += self._validar(self.num_ctps, 7, 'E')
+        registro_30 += self._validar(self.serie_ctps, 5, 'E')
         registro_30 += self._validar(self.data_de_opcao, 8, 'D')
         registro_30 += self._validar(self.data_de_nascimento, 8, 'D')
         registro_30 += self._validar(self.trabalhador_cbo, 5, 'AN')
@@ -370,8 +370,8 @@ class SEFIP(AbstractArquivosGoverno):
         self.pis_pasep_ci = ''
         self.data_admissao = '        '
         self.categoria_trabalhador = ''
-        self.num_ctps = ''
-        self.serie_ctps = ''
+        self.num_ctps = ''*7
+        self.serie_ctps = ''*5
         self.nome_trabalhador = ''
         self.matricula_trabalhador = ''
         # campos ALTERACAO CADASTRAL TRABALHADOR ------------------------------
@@ -482,3 +482,12 @@ class SEFIP(AbstractArquivosGoverno):
             word = tira_acentos(unicode(word))
             # Preenche com espaço vazio a direita
             return unicode.ljust(unicode(word), tam)[:tam]
+
+        elif tipo == 'E':  # Valor
+            if ' ' in word:
+                return word
+            # Pega a parte decimal como inteiro e nas duas ultimas casas
+            word = int(word * 100) if word else 0
+            # Preenche com zeros a esquerda
+            word = str(word).zfill(tam)
+            return word[:tam]

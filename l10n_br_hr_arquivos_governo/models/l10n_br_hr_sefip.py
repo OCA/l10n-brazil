@@ -889,8 +889,13 @@ class L10nBrSefip(models.Model):
             sefip.matricula_trabalhador = folha.employee_id.registration
 
         if codigo_categoria in ('01', '03', '04', '06', '07', '26'):
+            print (folha.employee_id.name)
+            print (folha.employee_id.ctps)
             sefip.num_ctps = folha.employee_id.ctps
             sefip.serie_ctps = folha.employee_id.ctps_series
+        else:
+            sefip.num_ctps = ' '*7
+            sefip.serie_ctps = ' '*5
 
         if codigo_categoria in ('01', '03', '04', '05', '06', '07'):
             # Item 13: Data de opção do FGtS, é sempre a data de contratação!
