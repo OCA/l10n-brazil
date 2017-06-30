@@ -4,7 +4,7 @@
 
 from openerp import api, exceptions, fields, models, _
 
-from ..constantes_rh import CATEGORIA_TRABALHADOR
+from ..constantes_rh import CATEGORIA_TRABALHADOR, CATEGORIA_TRABALHADOR_SEFIP
 
 
 class HrContract(models.Model):
@@ -48,7 +48,8 @@ class HrContract(models.Model):
             else:
                 record.categoria_sefip = '01'
 
-    categoria_sefip = fields.Char(
+    categoria_sefip = fields.Selection(
+        selection=CATEGORIA_TRABALHADOR_SEFIP,
         compute='_compute_categoria_sefip',
         store=True,
     )

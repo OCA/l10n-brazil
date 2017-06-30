@@ -27,6 +27,7 @@
                 </field>
                 <field name="admission_type_id" position="before">
                     <field name="categoria" />
+                    <field name="categoria_sefip" readonly="1" />
                 </field>
             </field>
         </record>

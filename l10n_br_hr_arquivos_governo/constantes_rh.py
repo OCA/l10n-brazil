@@ -186,3 +186,17 @@ OCORRENCIA_SEFIP = [
            u'Exposição a agente nocivo (aposentadoria especial aos '
            u'25 anos de trabalho)'),
 ]
+
+
+CATEGORIA_TRABALHADOR_SEFIP = [
+    ('01', u'01 - Empregado'),
+    ('05', u'05 - Contribuinte individual - Diretor não empregado com FGTS – '
+           u'Lei nº 8.036/90, art. 16'),
+    ('07', u'07 - Menor aprendiz - Lei n°10.097/2000.'),
+    ('11', u'11 - Contribuinte Individual - Diretor não empregado e demais '
+           u'empresários sem FGTS.'),
+    ('13', u'13 - Contribuinte individual – Trabalhador autônomo ou a este '
+           u'equiparado, inclusive o operador de máquina, com contribuição '
+           u'sobre remuneração; trabalhador associado à cooperativa de '
+           u'produção.'),
+]
