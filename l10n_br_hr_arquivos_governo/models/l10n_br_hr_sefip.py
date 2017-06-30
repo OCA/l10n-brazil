@@ -37,7 +37,7 @@ class L10nBrSefip(models.Model):
         result = []
         meses = dict(MESES)
         for record in self:
-            name = (self.company_id.,name + ' ' + meses.get(self.mes) +
+            name = (self.company_id.name + ' ' + meses.get(self.mes) +
                     '/' + self.ano + ' - Recolhimento: ' +
                     self.codigo_recolhimento)
             result.append((record.id, name))
@@ -64,7 +64,7 @@ class L10nBrSefip(models.Model):
             self.codigo_outras_entidades = '0'
 
     @api.multi
-    def _retornar_valor_rubrica(self, rubricas, codigo_rubrica):
+    def _valor_rubrica(self, rubricas, codigo_rubrica):
         for rubrica in rubricas:
             if rubrica.code == codigo_rubrica:
                 return rubrica.total
@@ -586,9 +586,18 @@ class L10nBrSefip(models.Model):
         #         '26'):
         #     result = folha.base_inss
 
-        result = self._retornar_valor_rubrica(folha.line_ids, "BASE_INSS")
-        result += self._retornar_valor_rubrica(
-            folha.line_ids, "BASE_INSS_FERIAS")
+        if not folha.base_inss:
+            return self._valor_rubrica(folha.line_ids, "SALARIO")
+
+        result += self._valor_rubrica(folha.line_ids, "BASE_INSS")
+
+        base_inss_ferias = self._valor_rubrica(
+            folha.line_ids, "BASE_INSS_FERIAS"
+        )
+        result += base_inss_ferias
+
+        if not base_inss_ferias:
+            result += self._valor_rubrica(folha.line_ids, "1/3_FERIAS")
         return result
 
     def _trabalhador_remun_13(self, folha):
@@ -626,7 +635,7 @@ class L10nBrSefip(models.Model):
         #     result = 0.00
         # return result
 
-        return self._retornar_valor_rubrica(
+        return self._valor_rubrica(
             folha.line_ids, 'ADIANTAMENTO_13_FERIAS')
 
     def _trabalhador_classe_contrib(self, folha):
@@ -826,7 +835,7 @@ class L10nBrSefip(models.Model):
         """
 
         if folha.tipo_de_folha == 'rescisao':
-            return self._retornar_valor_rubrica(folha.line_ids, "BASE_INSS_13")
+            return self._valor_rubrica(folha.line_ids, "BASE_INSS_13")
         return 0.00
 
     def _trabalhador_base_calc_13_previdencia_GPS(self, folha):
