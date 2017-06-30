@@ -584,7 +584,11 @@ class L10nBrSefip(models.Model):
         #         '01', '02', '03', '04', '06', '07', '12', '19', '20', '21',
         #         '26'):
         #     result = folha.base_inss
-        return folha.base_inss
+
+        result = self._retornar_valor_rubrica(folha.line_ids, "BASE_INSS")
+        result += self._retornar_valor_rubrica(
+            folha.line_ids, "BASE_INSS_FERIAS")
+        return result
 
     def _trabalhador_remun_13(self, folha):
         """ Registro 30. Item 17
