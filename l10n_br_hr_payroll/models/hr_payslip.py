@@ -1833,7 +1833,7 @@ class HrPayslip(models.Model):
         if self.tipo_de_folha == 'ferias' and not self.\
                 _buscar_holerites_periodo_aquisitivo():
             raise exceptions.Warning(
-                "Não existem holerites normais confirmados"
+                "Não existem holerites normais confirmados "
                 "suficientes no periodo "
                 "aquisitivo para os cálculos "
                 "das férias!"
