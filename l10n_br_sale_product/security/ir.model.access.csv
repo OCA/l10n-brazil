@@ -1,0 +1,3 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"account_product_l10n_br_tax_icms_partition","l10n_br_tax.icms_partition","l10n_br_account_product.model_l10n_br_tax_icms_partition","base.group_sale_salesman",1,0,0,0
+"l10n_br_definition_state_product","l10n_br_tax.definition.state.product","l10n_br_account_product.model_l10n_br_tax_definition_state_product","base.group_sale_salesman",1,0,0,0

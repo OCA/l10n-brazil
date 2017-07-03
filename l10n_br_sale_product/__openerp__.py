@@ -17,6 +17,7 @@
         'views/sale_view.xml',
         'views/res_company_view.xml',
         'data/l10n_br_sale_product_data.xml',
+        'security/ir.model.access.csv',
     ],
     'test': [],
     'demo': [
