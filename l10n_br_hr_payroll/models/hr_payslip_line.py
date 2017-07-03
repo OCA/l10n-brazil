@@ -31,6 +31,11 @@ class HrPayslipeLine(models.Model):
         digits=(10, 2),
         compute='_compute_arredondamento'
     )
+    round_total_fmt = fields.Char(
+        string=u'Total',
+        default='',
+        compute='_compute_arredondamento'
+    )
 
     sequence = fields.Float(
         string=u'Sequence',
@@ -65,6 +70,7 @@ class HrPayslipeLine(models.Model):
         for linha in self:
             linha.round_amount = linha.amount
             linha.round_total = linha.total
+            linha.round_total_fmt = valor.formata_valor(linha.round_total)
 
     @api.multi
     @api.depends('category_id', 'total', 'amount')
