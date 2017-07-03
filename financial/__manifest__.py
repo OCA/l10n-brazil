@@ -11,6 +11,7 @@
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'www.kmee.com.br',
     'depends': [
+        'resource',
         'mail',
         'report_xlsx',
     ],
@@ -48,4 +49,7 @@
         'demo/financial.account.csv',
         'demo/financial_demo.yml'
     ],
+    'test': [
+        'test/financial_move_test.yml',
+    ]
 }
