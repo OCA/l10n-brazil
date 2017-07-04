@@ -21,7 +21,6 @@ from ..constantes_rh import (
     CODIGO_RECOLHIMENTO,
     RECOLHIMENTO_GPS,
     RECOLHIMENTO_FGTS,
-    CENTRALIZADORA,
 )
 
 _logger = logging.getLogger(__name__)
@@ -175,20 +174,6 @@ class L10nBrSefip(models.Model):
         string=u'Código de outras entidades',
         related='company_id.codigo_outras_entidades',
         store=True,
-    )
-    centralizadora = fields.Selection(
-        selection=CENTRALIZADORA,
-        string=u'Centralizadora',
-        default='0',
-        required=True,
-        help="""Para indicar as empresas que centralizam o recolhimento do
-         FGTS\n- Deve ser igual a zero (0), para os códigos de recolhimento
-          130, 135, 150, 155, 211, 317, 337, 608 e para empregador doméstico
-         (FPAS 868).\n- Quando existir empresa centralizadora deve existir,
-         no mínimo, uma empresa centralizada e vice-versa.\n - Quando existir
-          centralização, as oito primeiras posições\n do CNPJ da
-          centralizadora e da centralizada devem ser iguais.\n- Empresa com
-           inscrição CEI não possui centralização.\n"""
     )
     eh_obrigatorio_informacoes_processo = fields.Boolean(
         compute='_compute_eh_obrigatorio_informacoes_processo',
@@ -405,6 +390,24 @@ class L10nBrSefip(models.Model):
         ])
         return folha_ids
 
+    def _valida_centralizadora(self, companies):
+        options = []
+        for company in companies:
+            options.append(company.centralizadora)
+        if '1' in options:
+            if not '2' in options:
+                raise ValidationError(
+                    _(u'Existe uma empresa centralizadora porém não '
+                      u'existe nenhuma centralizada')
+                )
+        if '2' in options:
+            if not '1' in options:
+                raise ValidationError(
+                    _(u'Existe uma empresa centralizada porém não '
+                      u'existe nenhuma centralizadora')
+                )
+
+
     @api.multi
     def gerar_sefip(self):
         for record in self:
@@ -415,6 +418,8 @@ class L10nBrSefip(models.Model):
                     record._preencher_registro_00(sefip))
 
             folha_ids = record._get_folha_ids()
+
+            self._valida_centralizadora(folha_ids.mapped('company_id'))
 
             for company_id in folha_ids.mapped('company_id'):
                 folhas_da_empresa = folha_ids.filtered(
@@ -508,7 +513,8 @@ class L10nBrSefip(models.Model):
         sefip.emp_cnae = cnae
         # sefip.emp_indic_alteracao_cnae = 'n'
         sefip.emp_aliquota_RAT = self._rat(company_id)
-        sefip.emp_cod_centralizacao = self.centralizadora
+        sefip.emp_cod_centralizacao = company_id.centralizadora
+        print (sefip.emp_cod_centralizacao)
         sefip.emp_simples = self._simples(company_id)
         sefip.emp_FPAS = self.codigo_fpas
         sefip.emp_cod_outras_entidades = self._buscar_codigo_outras_entidades()

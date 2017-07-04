@@ -6,6 +6,7 @@
 import logging
 
 from openerp import api, exceptions, fields, models, _
+from ..constantes_rh import CENTRALIZADORA
 
 _logger = logging.getLogger(__name__)
 
@@ -56,4 +57,8 @@ class ResCompany(models.Model):
     porcentagem_filantropia = fields.Float(
         string=u"Porcentagem de Isenção de Filantropia",
         default=000.00,
+    )
+
+    centralizadora = fields.Selection(
+        selection=CENTRALIZADORA, strin=u'Centralizadora do FGTS'
     )
