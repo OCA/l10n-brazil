@@ -133,44 +133,44 @@ class FinancialMove(models.Model):
     #
     # Move amounts
     #
-    amount_document = fields.Monetary(
+    amount_document = fields.Float(
         string='Document',
     )
-    amount_interest = fields.Monetary(
+    amount_interest = fields.Float(
         string='Interest',
     )
-    amount_penalty = fields.Monetary(
+    amount_penalty = fields.Float(
         string='Penalty',
     )
-    amount_other_credits = fields.Monetary(
+    amount_other_credits = fields.Float(
         string='Other credits',
     )
-    amount_discount = fields.Monetary(
+    amount_discount = fields.Float(
         string='Discount',
     )
-    amount_other_debits = fields.Monetary(
+    amount_other_debits = fields.Float(
         string='Other debits',
     )
-    amount_bank_fees = fields.Monetary(
+    amount_bank_fees = fields.Float(
         string='Bank fees',
     )
-    amount_refund = fields.Monetary(
+    amount_refund = fields.Float(
         string='Refund',
     )
-    amount_cancel = fields.Monetary(
+    amount_cancel = fields.Float(
         string='Cancelled',
     )
-    amount_total = fields.Monetary(
+    amount_total = fields.Float(
         string='Total',
         compute='_compute_totals',
         store=True,
         )
-    amount_paid = fields.Monetary(
+    amount_paid = fields.Float(
         string='Paid',
         compute='_compute_residual',
         store=True,
         )
-    amount_residual = fields.Monetary(
+    amount_residual = fields.Float(
         string='Residual',
         compute='_compute_residual',
         store=True,
@@ -186,7 +186,7 @@ class FinancialMove(models.Model):
     date_interest = fields.Date(
         string='Interest since',
     )
-    amount_interest_forecast = fields.Monetary(
+    amount_interest_forecast = fields.Float(
         string='Interest forecast',
     )
     penalty_rate = fields.Float(
@@ -196,7 +196,7 @@ class FinancialMove(models.Model):
     date_penalty = fields.Date(
         string='Penalty since',
     )
-    amount_penalty_forecast = fields.Monetary(
+    amount_penalty_forecast = fields.Float(
         string='Penalty forecast',
     )
     discount_rate = fields.Float(
@@ -206,10 +206,10 @@ class FinancialMove(models.Model):
     date_discount = fields.Date(
         string='Discount up to',
     )
-    amount_discount_forecast = fields.Monetary(
+    amount_discount_forecast = fields.Float(
         string='Discount forecast',
     )
-    amount_total_forecast = fields.Monetary(
+    amount_total_forecast = fields.Float(
         string='Total forecast',
     )
 

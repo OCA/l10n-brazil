@@ -25,10 +25,10 @@ class FinancialPayreceive(models.TransientModel):
     date_credit_debit = fields.Date(
         compute='_compute_date_credit_debit'
     )
-    amount_discount = fields.Monetary(
+    amount_discount = fields.Float(
         string=u'Discount',
     )
-    amount_interest = fields.Monetary(
+    amount_interest = fields.Float(
         string=u'Interest',
         readonly=True,
     )

@@ -10,7 +10,7 @@ from openerp import fields, models
 class ResPartnerBank(models.Model):
     _inherit = 'res.partner.bank'
 
-    initial_balance = fields.Monetary(
+    initial_balance = fields.Float(
         track_visibility='onchange',
         default=0.00
     )

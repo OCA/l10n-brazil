@@ -44,12 +44,12 @@ class AbstractFinancial(models.AbstractModel):
         comodel_name='res.partner',
         string='Partner',
     )
-    amount = fields.Monetary(
+    amount = fields.Float(
         string='Payment Amount',
         required=_required_fields,
         track_visibility=_track_visibility_onchange,
     )
-    amount_discount = fields.Monetary(
+    amount_discount = fields.Float(
         string=u'Discount',
         track_visibility=_track_visibility_onchange,
     )

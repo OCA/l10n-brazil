@@ -299,7 +299,7 @@ class FinancialStatementReportNotIncluded(models.Model):
     currency_id = fields.Many2one(
         related='financial_statement_report_id.currency_id',
     )
-    amount = fields.Monetary(
+    amount = fields.Float(
         default=0.00,
     )
     financial_statement_report_id = fields.Many2one(

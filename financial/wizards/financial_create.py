@@ -40,15 +40,15 @@ class FinancialMoveCreate(models.TransientModel):
         string=u'Financial date',
         default=fields.Date.context_today,
     )
-    amount = fields.Monetary(
+    amount = fields.Float(
         required=False,
     )
-    amount_total = fields.Monetary(
+    amount_total = fields.Float(
         string=u'Total',
         readonly=True,
         compute='_compute_totals',
     )
-    amount_discount = fields.Monetary(
+    amount_discount = fields.Float(
         string=u'Discount',
     )
 
@@ -127,7 +127,7 @@ class FinancialMoveLineCreate(models.TransientModel):
     date_maturity = fields.Date(
         string=u"Due date",
     )
-    amount = fields.Monetary(
+    amount = fields.Float(
         string=u"Document amount",
     )
     financial_move_id = fields.Many2one(

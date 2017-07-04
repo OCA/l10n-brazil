@@ -16,16 +16,16 @@ class FinancialCashflow(models.Model):
     _auto = False
     _order = 'date_business_maturity, id'
 
-    amount_cumulative_balance = fields.Monetary(
+    amount_cumulative_balance = fields.Float(
         string=u"Balance",
     )
-    amount_debit = fields.Monetary(
+    amount_debit = fields.Float(
         string=u"Debit",
     )
-    amount_credit = fields.Monetary(
+    amount_credit = fields.Float(
         string=u"Credit",
     )
-    amount_paid = fields.Monetary(
+    amount_paid = fields.Float(
         string=u"Paid",
     )
     state = fields.Selection(
@@ -51,7 +51,7 @@ class FinancialCashflow(models.Model):
     date = fields.Date(
         string=u"Document date",
     )
-    amount_total = fields.Monetary(
+    amount_total = fields.Float(
         string=u"Total",
     )
     date_maturity = fields.Date(

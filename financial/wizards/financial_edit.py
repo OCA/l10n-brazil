@@ -15,11 +15,11 @@ class FinancialEdit(models.TransientModel):
         string='Currency',
         required=True,
     )
-    amount = fields.Monetary(
+    amount = fields.Float(
         string=u"Document amount",
         required=True,
     )
-    amount_discount = fields.Monetary(
+    amount_discount = fields.Float(
         string=u'Discount',
         # required=True
     )
