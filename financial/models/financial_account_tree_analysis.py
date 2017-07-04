@@ -187,12 +187,23 @@ class FinancialAccountTreeAnalysis(models.Model):
     _description = 'Financial Account Tree Analysis'
     _auto = False
 
-    @api.model_cr
-    def init(self):
-        drop_view_if_exists(self._cr, 'financial_account_tree_analysis_view')
-        self._cr.execute(DROP_TABLE)
-        self._cr.execute(SQL_ACCOUNT_TREE_ANALYSIS_VIEW)
-        self._cr.execute(SQL_ACCOUNT_TREE_ANALYSIS_TABLE)
+    #
+    # Use this code for migration to v10:
+    #
+
+    # @api.model_cr
+    # def init(self):
+    #     drop_view_if_exists(self._cr, 'financial_account_tree_analysis_view')
+    #     self._cr.execute(DROP_TABLE)
+    #     self._cr.execute(SQL_ACCOUNT_TREE_ANALYSIS_VIEW)
+    #     self._cr.execute(SQL_ACCOUNT_TREE_ANALYSIS_TABLE)
+
+    @api.v7
+    def init(self, cr):
+        drop_view_if_exists(cr, 'financial_account_tree_analysis_view')
+        cr.execute(DROP_TABLE)
+        cr.execute(SQL_ACCOUNT_TREE_ANALYSIS_VIEW)
+        cr.execute(SQL_ACCOUNT_TREE_ANALYSIS_TABLE)
 
     parent_account_id = fields.Many2one(
         comodel_name='financial.account',
