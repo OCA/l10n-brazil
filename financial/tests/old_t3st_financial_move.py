@@ -5,8 +5,8 @@
 import datetime
 import time
 
-from odoo.exceptions import ValidationError
-from odoo.tests.common import TransactionCase
+from openerp.exceptions import ValidationError
+from openerp.tests.common import TransactionCase
 
 
 class TestFinancialMove(TransactionCase):

@@ -4,7 +4,7 @@
     Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
-<odoo>
+<openerp>
 
     <record model="ir.ui.view" id="financial_move_debt_2receive_form">
         <field name="name">financial.move.debt.2receive.form (in financial)</field>
@@ -75,4 +75,4 @@
         <field name="sequence" eval="2"/>
     </record>
 
-</odoo>
+</openerp>

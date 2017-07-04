@@ -2,8 +2,8 @@
 # Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, tools
-from odoo.tools.safe_eval import safe_eval
+from openerp import api, fields, models, tools
+from openerp.tools.safe_eval import safe_eval
 
 from ..constants import (
     FINANCIAL_STATE,

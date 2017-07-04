@@ -4,7 +4,7 @@
     Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
-<odoo>
+<openerp>
 
     <record model="ir.ui.view" id="financial_move_base_tree">
         <field name="name">financial.move.base.tree</field>
@@ -219,4 +219,4 @@
         <field name="sequence" eval="40"/>
     </record>
 
-</odoo>
+</openerp>

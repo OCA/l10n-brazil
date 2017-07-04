@@ -1,4 +1,4 @@
-<odoo>
+<openerp>
     <data>
         <record model="financial.document.type"
                 id="DOCUMENTO_FINANCEIRO_ACORDO">
@@ -216,4 +216,4 @@
         </record>
     </data>
 
-</odoo>
+</openerp>

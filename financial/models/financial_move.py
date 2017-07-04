@@ -6,9 +6,9 @@ from __future__ import division, print_function, unicode_literals
 
 from datetime import datetime
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from odoo.tools import float_is_zero
+from openerp import api, fields, models, _
+from openerp.exceptions import UserError, ValidationError
+from openerp.tools import float_is_zero
 from ..constants import *
 
 

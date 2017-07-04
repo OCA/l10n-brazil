@@ -4,7 +4,7 @@
     Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
-<odoo>
+<openerp>
 
     <record model="ir.ui.view" id="report_xlsx_financial_cashflow_wizard_form">
         <field name="name">report.xlsx.financial.cashflow.wizard.form (in financial)</field>
@@ -48,4 +48,4 @@
         <field name="sequence" eval="2"/>
     </record>
 
-</odoo>
+</openerp>

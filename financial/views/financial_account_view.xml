@@ -4,7 +4,7 @@
     Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
-<odoo>
+<openerp>
 
     <record model="ir.ui.view" id="financial_account_tree">
         <field name="name">financial.account.tree (in financial)</field>
@@ -74,4 +74,4 @@
         <field name="sequence" eval="2"/>
     </record>
 
-</odoo>
+</openerp>

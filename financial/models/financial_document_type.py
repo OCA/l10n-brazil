@@ -4,7 +4,7 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from odoo import api, fields, models, _
+from openerp import api, fields, models, _
 
 
 class FinancialDocumentType(models.Model):

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
+<openerp>
 
 <report
     id="financial_statement"
@@ -123,4 +123,4 @@
         </t>
     </t>
 </template>
-</odoo>
+</openerp>

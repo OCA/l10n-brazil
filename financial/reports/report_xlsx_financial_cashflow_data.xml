@@ -4,7 +4,7 @@
     Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
-<odoo>
+<openerp>
 
     <record model="ir.actions.report.xml" id="report_xlsx_financial_cashflow_action">
         <field name="name">Cashflow</field>
@@ -17,4 +17,4 @@
         <field name="auto" eval="False"/>
     </record>
 
-</odoo>
+</openerp>

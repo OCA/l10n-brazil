@@ -2,7 +2,7 @@
 <!-- Copyright 2017 KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
-<odoo>
+<openerp>
     <data>
 
         <record id="ir_cron_scheduler_demo_action" model="ir.cron">
@@ -17,4 +17,4 @@
         </record>
 
     </data>
-</odoo>
+</openerp>

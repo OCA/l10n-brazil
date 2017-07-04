@@ -7,9 +7,9 @@ import time
 from datetime import datetime, timedelta
 
 
-from odoo import fields
-from odoo.tests.common import SingleTransactionCase
-from odoo.addons.financial.tests.financial_test_classes import \
+from openerp import fields
+from openerp.tests.common import SingleTransactionCase
+from openerp.addons.financial.tests.financial_test_classes import \
     FinancialTestCase
 
 

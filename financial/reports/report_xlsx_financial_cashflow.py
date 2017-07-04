@@ -8,9 +8,9 @@
 from __future__ import division, print_function, unicode_literals
 
 from .report_xlsx_financial_base import ReportXlsxFinancialBase
-from odoo.report import report_sxw
-from odoo import _
-from odoo import fields
+from openerp.report import report_sxw
+from openerp import _
+from openerp import fields
 from dateutil.relativedelta import relativedelta
 
 

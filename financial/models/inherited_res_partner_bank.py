@@ -4,7 +4,7 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from odoo import fields, models
+from openerp import fields, models
 
 
 class ResPartnerBank(models.Model):

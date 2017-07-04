@@ -7,8 +7,8 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from odoo.report import report_sxw
-from odoo.addons.report_xlsx.report.report_xlsx import ReportXlsx
+from openerp.report import report_sxw
+from openerp.addons.report_xlsx.report.report_xlsx import ReportXlsx
 
 from decimal import Decimal
 

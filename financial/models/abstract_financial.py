@@ -2,8 +2,8 @@
 # Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from openerp import api, fields, models, _
+from openerp.exceptions import ValidationError
 from ..constants import (
     FINANCIAL_TYPE,
     FINANCIAL_STATE,

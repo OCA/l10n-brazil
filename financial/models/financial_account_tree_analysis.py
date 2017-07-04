@@ -5,8 +5,8 @@
 from __future__ import division, print_function, unicode_literals
 
 
-from odoo import api, fields, models, _
-from odoo.tools.sql import drop_view_if_exists
+from openerp import api, fields, models, _
+from openerp.tools.sql import drop_view_if_exists
 
 
 SQL_ACCOUNT_TREE_ANALYSIS_VIEW = '''
