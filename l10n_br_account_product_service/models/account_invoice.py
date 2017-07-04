@@ -88,7 +88,7 @@ class AccountInvoice(models.Model):
                      'l10n_br_account_service_nfse_tree')
         nfse_views = {'form': nfse_form, 'tree': nfse_tree}
 
-        if active_id:
+        if active_id and context.get('active_model') == 'account.invoice':
             invoice = self.browse(active_id)
             fiscal_document_code = invoice.fiscal_document_id.code
 
