@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from openerp.tests.common import SingleTransactionCase
 from datetime import datetime, timedelta
-import time
+
+from openerp.tests.common import SingleTransactionCase
 
 
 class FinancialTestCase(SingleTransactionCase):

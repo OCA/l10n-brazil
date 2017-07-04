@@ -3,12 +3,8 @@
 #   Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import time
-from datetime import datetime, timedelta
-
 
 from openerp import fields
-from openerp.tests.common import SingleTransactionCase
 from openerp.addons.financial.tests.financial_test_classes import \
     FinancialTestCase
 

@@ -8,7 +8,8 @@
 from __future__ import division, print_function, unicode_literals
 
 from datetime import datetime
-from openerp import api, fields, models
+
+from openerp import fields, models
 
 
 class ReportXlsxFinancialCashflowWizard(models.TransientModel):
