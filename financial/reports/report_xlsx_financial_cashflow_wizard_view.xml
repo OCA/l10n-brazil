@@ -5,7 +5,7 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
-
+<data>
     <record model="ir.ui.view" id="report_xlsx_financial_cashflow_wizard_form">
         <field name="name">report.xlsx.financial.cashflow.wizard.form (in financial)</field>
         <field name="model">report.xlsx.financial.cashflow.wizard</field>
@@ -47,5 +47,5 @@
         <field name="action" ref="report_xlsx_financial_cashflow_wizard_action"/>
         <field name="sequence" eval="2"/>
     </record>
-
+</data>
 </openerp>

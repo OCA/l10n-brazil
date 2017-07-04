@@ -16,7 +16,7 @@ from ..constants import *
 class FinancialMove(models.Model):
     _name = b'financial.move'
     _description = 'Financial Move'
-    _inherit = ['mail.thread']
+    _inherit = [b'mail.thread']
     _order = 'date_business_maturity desc, ' \
              'ref desc, ref_item desc, document_number, id desc'
     _rec_name = 'ref'

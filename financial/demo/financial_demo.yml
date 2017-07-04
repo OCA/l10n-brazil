@@ -7,7 +7,7 @@
     document_number: 852456
     date_document: !eval datetime.now()
     company_id: base.main_company
-    partner_id: base.res_partner_10
+    partner_id: base.res_partner_23
     account_id: financial.financial_account_101001
     amount_document: 1234.00
     date_maturity: !eval (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d')
@@ -25,7 +25,7 @@
     document_number: 852456
     date_document: !eval datetime.now()
     company_id: base.main_company
-    partner_id: base.res_partner_10
+    partner_id: base.res_partner_2
     account_id: financial.financial_account_101001
     amount_document: 1000.00
     date_payment: !eval time.strftime('%Y-%m-%d')
@@ -40,7 +40,7 @@
     document_number: 852456
     date_document: !eval datetime.now()
     company_id: base.main_company
-    partner_id: base.res_partner_10
+    partner_id: base.res_partner_23
     account_id: financial.financial_account_101001
     amount_document: 234.00
     date_payment: !eval time.strftime('%Y-%m-%d')

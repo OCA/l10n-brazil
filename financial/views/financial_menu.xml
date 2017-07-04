@@ -5,7 +5,7 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
-
+<data>
     <record model="ir.ui.menu" id="financial_top_menu">
         <field name="name">Financial</field>
         <field name="sequence" eval="10"/>
@@ -28,5 +28,5 @@
         <field name="parent_id" ref="financial_top_menu"/>
         <field name="sequence" eval="96"/>
     </record>
-
+</data>
 </openerp>

@@ -5,7 +5,7 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
-
+<data>
     <record model="ir.ui.view" id="financial_account_tree">
         <field name="name">financial.account.tree (in financial)</field>
         <field name="model">financial.account</field>
@@ -73,5 +73,5 @@
         <field name="action" ref="financial_account_action"/>
         <field name="sequence" eval="2"/>
     </record>
-
+</data>
 </openerp>

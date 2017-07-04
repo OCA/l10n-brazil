@@ -5,7 +5,7 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
-
+<data>
     <record model="ir.ui.view" id="financial_document_type_form" >
         <field name="name">financial.document.type.form (in financial)</field>
         <field name="model">financial.document.type</field>
@@ -73,5 +73,5 @@
         <field name="action" ref="financial_document_type_action"/>
         <field name="sequence" eval="3"/>
     </record>
-
+</data>
 </openerp>

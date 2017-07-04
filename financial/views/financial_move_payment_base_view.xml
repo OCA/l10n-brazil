@@ -5,7 +5,7 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
-
+<data>
     <record model="ir.ui.view" id="financial_move_payment_base_tree">
         <field name="name">financial.move.payment.base.tree (in financial)</field>
         <field name="model">financial.move</field>
@@ -70,5 +70,5 @@
            <!--</search>-->
         <!--</field>-->
     <!--</record>-->
-
+</data>
 </openerp>

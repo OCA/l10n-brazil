@@ -13,6 +13,8 @@
             <field name="partner_id" ref="base.main_partner" />
             <field name="bank_id" ref="base.res_bank_1"/>
             <field name="initial_balance">20094.40</field>
+            <!-- V8 -->
+            <field name="state">bank</field>
     </record>
 
 </data>
