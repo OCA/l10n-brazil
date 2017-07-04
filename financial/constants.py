@@ -48,7 +48,6 @@ FINANCIAL_SEQUENCE = {
     'payment_item': 'financial.move.payment',
 }
 
-
 FINANCIAL_MOVE_FIELD = (
     ('amount_document', 'Document amount'),
     ('amount_interest', 'Interest amount'),

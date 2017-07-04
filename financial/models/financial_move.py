@@ -11,7 +11,8 @@ from openerp.exceptions import ValidationError
 from openerp.exceptions import Warning as UserError
 from openerp.tools import float_is_zero
 
-from ..constants import *
+from ..constants import FINANCIAL_TYPE, FINANCIAL_STATE, \
+    FINANCIAL_DEBT_2RECEIVE, FINANCIAL_DEBT_2PAY, FINANCIAL_SEQUENCE
 
 
 class FinancialMove(models.Model):
