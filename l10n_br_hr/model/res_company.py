@@ -8,5 +8,6 @@ from openerp import models, fields
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
-    check_benefits = fields.Boolean(u'Vale Refeição e Vale Alimentação',
-                                    required=False)
+    cnpj_cei = fields.Char(
+        string=u'CNPJ/CEI Tomadora/Obra',
+    )
