@@ -7,7 +7,8 @@ from __future__ import division, print_function, unicode_literals
 from datetime import datetime
 
 from openerp import api, fields, models, _
-from openerp.exceptions import UserError, ValidationError
+from openerp.exceptions import Warning as UserError
+from openerp.exceptions import ValidationError
 from openerp.tools import float_is_zero
 from ..constants import *
 
