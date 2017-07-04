@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia
-#    Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2017 KMEE INFORMATICA LTDA
+#    Aristides Caldeira <aristides.caldeira@kmee.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -24,7 +24,11 @@ class ReportXlsxFinancialCashflowWizard(models.TransientModel):
         string='By time span in',
         required=True,
         default='months',
-        selection=[['days', 'Days'], ['months', 'Months']],
+        selection=[
+            ('days', 'Days'),
+            ('weeks', 'Weeks'),
+            ('months', 'Months'),
+        ],
     )
     period = fields.Selection(
         string='Period',
@@ -46,5 +50,7 @@ class ReportXlsxFinancialCashflowWizard(models.TransientModel):
 
     def generate_report(self):
         self.ensure_one()
-        return self.env['report'].get_action(docids=self.ids,
-            report_name='report_xlsx_financial_cashflow')
+        return self.env['report'].get_action(
+            docids=self.ids,
+            report_name='report_xlsx_financial_cashflow'
+        )
