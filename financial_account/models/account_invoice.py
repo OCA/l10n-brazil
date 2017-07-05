@@ -9,7 +9,7 @@ class AccountInvoice(models.Model):
 
     _inherit = 'account.invoice'
 
-    def _get_financial_ids(self):
+    def _compute_financial_ids(self):
         document_id = self._name + ',' + str(self.id)
         self.financial_ids = self.env['financial.move'].search(
             [['doc_source_id', '=', document_id]]
@@ -17,7 +17,7 @@ class AccountInvoice(models.Model):
 
     financial_ids = fields.One2many(
         comodel_name='financial.move',
-        compute='_get_financial_ids',
+        compute='_compute__financial_ids',
         string=u'Financial Items',
         readonly=True,
         copy=False
@@ -90,6 +90,7 @@ class AccountInvoice(models.Model):
     def invoice_validate(self):
         super(AccountInvoice, self).invoice_validate()
         for invoice in self:
-            invoice.financial_ids.write({'document_number': invoice.name
-                                         or invoice.move_id.name or '/'})
+            invoice.financial_ids.write({
+                'document_number': invoice.name or
+                invoice.move_id.name or '/'})
             invoice.financial_ids.action_confirm()

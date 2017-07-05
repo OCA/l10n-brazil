@@ -8,7 +8,7 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from openerp import api, fields, models
+from openerp import fields, models
 from openerp.addons.financial.constants import FINANCIAL_MOVE_FIELD
 
 
