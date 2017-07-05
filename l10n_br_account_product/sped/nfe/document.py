@@ -557,7 +557,9 @@ class NFe200(FiscalDocument):
             self.nfe.infNFe.transp.transporta.IE.valor = punctuation_rm(
                 invoice.carrier_id.partner_id.inscr_est)
             self.nfe.infNFe.transp.transporta.xEnder.valor = (
-                invoice.carrier_id.partner_id.street or '')
+                (invoice.carrier_id.partner_id.street or '') + ', ' +
+                (invoice.carrier_id.partner_id.number or '') + ', ' +
+                (invoice.carrier_id.partner_id.district or ''))[:60]
             self.nfe.infNFe.transp.transporta.xMun.valor = (
                 invoice.carrier_id.partner_id.l10n_br_city_id.name or '')
             self.nfe.infNFe.transp.transporta.UF.valor = (
