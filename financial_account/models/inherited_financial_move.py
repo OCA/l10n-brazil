@@ -29,11 +29,15 @@ class FinancialMove(models.Model):
         string='Account move',
         ondelete='restrict',
     )
-    account_move_line_ids = fields.One2many(
+    #
+    # The correct name of this field is ... line_ids
+    # But only in v10, than we have to migrate it.
+    #
+    account_move_line_id = fields.One2many(
         comodel_name='account.move.line',
         inverse_name='move_id',
         string='Partidas do lançamento contábil',
-        related='account_move_id.line_ids',
+        related='account_move_id.line_id',
     )
 
     def create_account_move(self):
@@ -70,7 +74,7 @@ class FinancialMove(models.Model):
                 account_move = self.env['account.move'].create(vals)
                 move.account_move_id = account_move
 
-            line_ids = [(5, 0, {})]
+            line_id = [(5, 0, {})]
 
             move_template = None
             if move.account_move_template_id:
@@ -110,14 +114,14 @@ class FinancialMove(models.Model):
 
             fields_already_accounted = []
             move.create_account_move_line(account_move, move_template,
-                  line_ids, fields_already_accounted=fields_already_accounted)
+                  line_id, fields_already_accounted=fields_already_accounted)
 
-            account_move.write({'line_ids': line_ids})
+            account_move.write({'line_id': line_id})
 
             if len(move.payment_ids) > 0:
                 move.payment_ids.create_account_move()
 
-    def create_account_move_line(self, account_move, move_template, line_ids,
+    def create_account_move_line(self, account_move, move_template, line_id,
                                  fields_already_accounted=[]):
         self.ensure_one()
         for template_item in move_template.item_ids:
@@ -191,7 +195,7 @@ class FinancialMove(models.Model):
             else:
                 vals['account_id'] = account_debit.id
 
-            line_ids.append([0, 0, vals])
+            line_id.append([0, 0, vals])
 
             vals = {
                 'move_id': account_move.id,
@@ -240,13 +244,13 @@ class FinancialMove(models.Model):
             else:
                 vals['account_id'] = account_credit.id
 
-            line_ids.append([0, 0, vals])
+            line_id.append([0, 0, vals])
 
             fields_already_accounted.append(template_item.field)
 
         if move_template.parent_id:
             self.create_account_move_line(account_move,
-                move_template.parent_id, line_ids,
+                move_template.parent_id, line_id,
                 fields_already_accounted=fields_already_accounted)
 
     @api.model
