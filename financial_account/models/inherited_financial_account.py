@@ -4,11 +4,11 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from odoo import api, fields, models, _
+from openerp import api, fields, models, _
 
 
 class FinancialAccount(models.Model):
-    _inherit = 'financial.account'
+    _inherit = b'financial.account'
 
     account_move_template_2receive_id = fields.Many2one(
         comodel_name='financial.account.move.template',

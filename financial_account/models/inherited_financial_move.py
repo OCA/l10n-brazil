@@ -4,12 +4,12 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from odoo import api, fields, models, _
-from odoo.addons.financial.constants import *
+from openerp import api, fields, models, _
+from openerp.addons.financial.constants import *
 
 
 class FinancialMove(models.Model):
-    _inherit = 'financial.move'
+    _inherit = b'financial.move'
 
     #
     # Accounting
