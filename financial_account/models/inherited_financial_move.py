@@ -4,8 +4,15 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from openerp import api, fields, models, _
-from openerp.addons.financial.constants import *
+from openerp import api, fields, models
+from openerp.addons.financial.constants import (
+    FINANCIAL_DEBT_2PAY,
+    FINANCIAL_DEBT_2RECEIVE,
+    FINANCIAL_MONEY_IN,
+    FINANCIAL_MONEY_OUT,
+    FINANCIAL_PAYMENT,
+    FINANCIAL_RECEIPT,
+)
 
 
 class FinancialMove(models.Model):
@@ -81,40 +88,46 @@ class FinancialMove(models.Model):
                 move_template = move.account_move_template_id
             else:
                 if move.type == FINANCIAL_DEBT_2RECEIVE and \
-                    financial_account.account_move_template_2receive_id:
+                        financial_account.account_move_template_2receive_id:
                     move_template = \
                         financial_account.account_move_template_2receive_id
 
                 elif move.type == FINANCIAL_DEBT_2PAY and \
-                    financial_account.account_move_template_2pay_id:
+                        financial_account.account_move_template_2pay_id:
                     move_template = \
                         financial_account.account_move_template_2pay_id
 
                 elif move.type == FINANCIAL_RECEIPT and \
-                    financial_account.account_move_template_receipt_item_id:
+                        financial_account.\
+                        account_move_template_receipt_item_id:
                     move_template = \
                         financial_account.account_move_template_receipt_item_id
 
                 elif move.type == FINANCIAL_PAYMENT and \
-                    financial_account.account_move_template_payment_item_id:
+                        financial_account.\
+                        account_move_template_payment_item_id:
                     move_template = \
                         financial_account.account_move_template_payment_item_id
                 elif move.type == FINANCIAL_MONEY_IN and \
-                    financial_account.account_move_template_money_in_id:
+                        financial_account.account_move_template_money_in_id:
                     move_template = \
                         financial_account.account_move_template_money_in_id
                 elif move.type == FINANCIAL_MONEY_OUT and \
-                    financial_account.account_move_template_money_out_id:
+                        financial_account.account_move_template_money_out_id:
                     move_template = \
                         financial_account.account_move_template_money_out_id
 
             if move_template is None:
-                #raise
+                # raise
                 pass
 
             fields_already_accounted = []
-            move.create_account_move_line(account_move, move_template,
-                  line_id, fields_already_accounted=fields_already_accounted)
+            move.create_account_move_line(
+                account_move,
+                move_template,
+                line_id,
+                fields_already_accounted=fields_already_accounted
+            )
 
             account_move.write({'line_id': line_id})
 
@@ -249,9 +262,11 @@ class FinancialMove(models.Model):
             fields_already_accounted.append(template_item.field)
 
         if move_template.parent_id:
-            self.create_account_move_line(account_move,
+            self.create_account_move_line(
+                account_move,
                 move_template.parent_id, line_id,
-                fields_already_accounted=fields_already_accounted)
+                fields_already_accounted=fields_already_accounted
+            )
 
     @api.model
     def create(self, vals):
@@ -269,4 +284,3 @@ class FinancialMove(models.Model):
     def do_after_unlink(self):
         for record in self:
             record.account_move_id.unlink()
-
