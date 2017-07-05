@@ -2,7 +2,7 @@
 <!-- Copyright 2017 KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
-<odoo>
+<openerp>
 <data>
 
     <record model="ir.ui.view" id="account_move_form_view">
@@ -19,4 +19,4 @@
     </record>
 
 </data>
-</odoo>
+</openerp>

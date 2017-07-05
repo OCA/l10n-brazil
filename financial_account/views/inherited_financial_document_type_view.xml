@@ -4,8 +4,8 @@
     Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
-<odoo>
-
+<openerp>
+<data>
     <record model="ir.ui.view" id="financial_document_type_form" >
         <field name="name">financial.document.type.form (in financial_account)</field>
         <field name="model">financial.document.type</field>
@@ -31,5 +31,5 @@
             </field>
         </field>
     </record>
-
-</odoo>
+</data>
+</openerp>

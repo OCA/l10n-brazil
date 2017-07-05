@@ -4,8 +4,8 @@
     Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
-<odoo>
-
+<openerp>
+<data>
     <record model="ir.actions.act_window" id="account_account_type_action">
         <field name="name">Account Type</field>
         <field name="res_model">account.account.type</field>
@@ -34,5 +34,5 @@
         <field name="action" ref="account_account_type_action"/>
         <field name="sequence" eval="16"/>
     </record>
-
-</odoo>
+</data>
+</openerp>
