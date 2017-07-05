@@ -4,8 +4,8 @@
     Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
-<odoo>
-
+<openerp>
+<data>
     <record model="ir.actions.act_window" id="account_journal_action">
         <field name="name">Journal</field>
         <field name="res_model">account.journal</field>
@@ -34,5 +34,5 @@
         <field name="action" ref="account_journal_action"/>
         <field name="sequence" eval="21"/>
     </record>
-
-</odoo>
+</data>
+</openerp>

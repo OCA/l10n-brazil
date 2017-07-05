@@ -4,7 +4,8 @@
     Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
-<odoo>
+<openerp>
+    <data>
 
     <!--<record model="ir.ui.view" id="financial_move_debt_base_tree">-->
         <!--<field name="name">financial.move.debt.base.tree (in financial_account)</field>-->
@@ -32,7 +33,7 @@
                             <field name="account_move_id" readonly="1" />
                             <button type="object" name="create_account_move" string="Gera lançamento contábil" />
                             <separator string="Partidas do lançamento contábil" colspan="4" />
-                            <field name="account_move_line_ids" nolabel="1" readonly="1" colspan="4" context="{'tree_view_ref': 'sped_account.account_move_line_tree'}" />
+                            <field name="account_move_line_id" nolabel="1" readonly="1" colspan="4" context="{'tree_view_ref': 'sped_account.account_move_line_tree'}" />
                         </group>
                     </group>
                 </page>
@@ -49,5 +50,5 @@
         <!--<field name="arch" type="xml">-->
         <!--</field>-->
     <!--</record>-->
-
-</odoo>
+    </data>
+</openerp>
