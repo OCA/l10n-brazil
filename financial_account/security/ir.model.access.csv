@@ -1,0 +1,3 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_financial_account_move_template,access_financial_account_move_template,model_financial_account_move_template,,1,0,0,0
+access_financial_account_move_template_item,access_financial_account_move_template_item,model_financial_account_move_template_item,,1,0,0,0
