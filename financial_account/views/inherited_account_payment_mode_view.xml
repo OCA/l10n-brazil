@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<odoo>
+<openerp>
     <data>
         <record id="account_payment_mode_form" model="ir.ui.view">
             <field name="name">account.payment.mode.form</field>
@@ -16,5 +16,5 @@
             </field>
         </record>
     </data>
-</odoo>
+</openerp>
 
