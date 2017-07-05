@@ -17,7 +17,7 @@ class AccountInvoice(models.Model):
 
     financial_ids = fields.One2many(
         comodel_name='financial.move',
-        compute='_compute__financial_ids',
+        compute='_compute_financial_ids',
         string=u'Financial Items',
         readonly=True,
         copy=False
