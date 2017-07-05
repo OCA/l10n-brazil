@@ -135,8 +135,12 @@ class FinancialMove(models.Model):
                 move.payment_ids.create_account_move()
 
     def create_account_move_line(self, account_move, move_template, line_id,
-                                 fields_already_accounted=[]):
+                                 fields_already_accounted=False):
         self.ensure_one()
+
+        if not fields_already_accounted:
+            fields_already_accounted = []
+
         for template_item in move_template.item_ids:
             if not getattr(self, template_item.field, False):
                 continue
