@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia
-#    Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2017 KMEE INFORMATICA LTDA
+#    Aristides Caldeira <aristides.caldeira@kmee.com.br>
 # Copyright (C) 2017 - Daniel Sadamo - KMEE INFORMATICA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 #
 
 from __future__ import division, print_function, unicode_literals
 
-from odoo import api, fields, models
-from odoo.addons.financial.constants import FINANCIAL_MOVE_FIELD
+from openerp import api, fields, models
+from openerp.addons.financial.constants import FINANCIAL_MOVE_FIELD
 
 
 class FinancialAccountMoveTemplateItem(models.Model):
