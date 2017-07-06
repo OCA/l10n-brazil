@@ -11,6 +11,8 @@
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'www.kmee.com.br',
     'depends': [
+        'account_payment',
+        'account_payment_partner',
     ],
     'data': [
         'security/hr_payslip.xml',
