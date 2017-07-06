@@ -16,6 +16,12 @@ class HrPayslip(models.Model):
         # domain="[('type', '=', type)]"
     )
 
+    payment_line_ids = fields.One2many(
+        string="Orderns de Pagamento",
+        comodel_name="payment.line",
+        inverse_name="payslip_id",
+    )
+
     def _compute_set_employee_id(self):
         super(HrPayslip, self)._compute_set_employee_id()
         print ('Ajuste o tipo de pagamento')
@@ -76,6 +82,7 @@ class HrPayslip(models.Model):
             # 'currency_id': currency_id,
             'amount_currency': total,
             # date is set when the user confirms the payment order
+            'payslip_id': self.id,
         }
         return payment_line_model.create(vals)
 

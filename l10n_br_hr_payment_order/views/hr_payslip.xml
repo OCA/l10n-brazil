@@ -20,6 +20,13 @@
                 <button name="create_payment_order" type="object"
                         string="Add to Payment Order" />
             </button>
+            <xpath expr="//page[@string='Salary Computation']" position="after">
+                <page string="Orderns de Pagamento">
+                    <group>
+                        <field name="payment_line_ids"/>
+                    </group>
+                </page>
+            </xpath>
             <!--groups="account_payment_order.group_account_payment"-->
                 <!--attrs="{'invisible': ['|', ('payment_order_ok', '=', False), ('state', '!=', 'open')]}"-->
 

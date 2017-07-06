@@ -47,5 +47,16 @@
         <!--<field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
     <!--</record>-->
 
+    <record model="ir.ui.view" id="view_payment_line_form">
+        <field name="name">payment.order.line.payslip</field>
+        <field name="model">payment.line</field>
+        <field name="inherit_id" ref="account_payment.view_payment_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@string='Information']" position="inside">
+                <field name="payslip_id" />
+            </xpath>
+        </field>
+    </record>
+
 </data>
 </openerp>
