@@ -9,6 +9,8 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from lxml import etree
 from openerp import api, fields, models, exceptions, _
+from openerp.addons.l10n_br_resource.models.resource_calendar \
+    import ResourceCalendar
 
 _logger = logging.getLogger(__name__)
 
@@ -68,6 +70,18 @@ class HrPayslip(models.Model):
                         periodos_aquisitivos) * 3
                 else:
                     payslip.dias_aviso_previo = 30
+    @api.model
+    def compute_payment_day(self, date):
+        res = fields.Datetime.from_string(date) + relativedelta(days=-1)
+        rc = self.env['resource.calendar']
+        end = 1
+        while end < 2:
+            if rc.data_eh_dia_util(res):
+                end += 1
+                res = res + relativedelta(days=-1)
+            else:
+                res = res + relativedelta(days=-2)
+        return res.date()
 
     @api.multi
     def _compute_valor_total_folha(self):
@@ -181,6 +195,7 @@ class HrPayslip(models.Model):
         required=False,
         states={'draft': [('readonly', False)]}
     )
+
     is_simulacao = fields.Boolean(
         string=u"Simulação",
     )
