@@ -1,3 +1,4 @@
+from . import abstract_workflow
 from . import abstract_arquivos_governo
 from . import arquivo_caged
 from . import arquivo_grrf

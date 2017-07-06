@@ -60,5 +60,5 @@ class ResCompany(models.Model):
     )
 
     centralizadora = fields.Selection(
-        selection=CENTRALIZADORA, strin=u'Centralizadora do FGTS'
+        selection=CENTRALIZADORA, string=u'Centralizadora do FGTS'
     )

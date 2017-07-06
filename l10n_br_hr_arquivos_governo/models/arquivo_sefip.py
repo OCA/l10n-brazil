@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (c) 2017 KMEE INFORMATICA LTDA - Daniel Sadamo <sadamo@kmee.com.br>
+# (c) 2017 KMEE INFORMATICA LTDA - Daniel Sadamo <daniel.sadamo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging

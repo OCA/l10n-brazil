@@ -32,10 +32,11 @@
             <field name="arch" type="xml">
                 <form string="SEFIP">
                     <header>
-                        <button name="gerar_sefip" string="Gerar SEFIP" type="object"/>
-                        <!--<button name="voltar_rascunho" string="Voltar para provisório" type="object"/>-->
-                        <!--<button name="confirmar_envio" string="Confirmar Envio" type="object"/>-->
-                        <!--<field name="state" widget="statusbar"/>-->
+                        <button name="gerar_sefip" string="Gerar SEFIP" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
+                        <button name="action_open" string="Confirmar SEFIP" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
+                        <button name="action_draft" string="Voltar para provisório" type="object" attrs="{'invisible':[('state', '!=', 'open')]}"/>
+                        <button name="action_sent" string="Confirmar Envio" type="object" attrs="{'invisible':[('state', '!=', 'open')]}"/>
+                        <field name="state" widget="statusbar"/>
                     </header>
                     <group cols="4" string="SEFIP">
                         <group string="Responsável" colspan="4">
@@ -77,6 +78,12 @@
                         </group>
                     </footer>
                 </form>
+                <div class="oe_chatter">
+                        <field name="message_follower_ids"
+                               widget="mail_followers"
+                               groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
             </field>
         </record>
 

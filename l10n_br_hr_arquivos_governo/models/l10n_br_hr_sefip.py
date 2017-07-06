@@ -25,15 +25,16 @@ from ..constantes_rh import (
 
 _logger = logging.getLogger(__name__)
 
-SEFIP_STATE = [
-    ('rascunho', u'Rascunho'),
-    ('confirmado', u'Confirmada'),
-    ('enviado', u'Enviado'),
-]
+# SEFIP_STATE = [
+#     ('draft', u'Rascunho'),
+#     ('open', u'Confirmada'),
+#     ('sent', u'Enviado'),
+# ]
 
 
 class L10nBrSefip(models.Model):
     _name = b'l10n_br.hr.sefip'
+    _inherit = [b'abstract.arquivos.governo.workflow', b'mail.thread']
 
     @api.multi
     def name_get(self):
@@ -117,10 +118,12 @@ class L10nBrSefip(models.Model):
             return str("%05d" % self.porcentagem_filantropia * 100)
         return '    '
 
-    state = fields.Selection(selection=SEFIP_STATE, default='rascunho')
-    # responsible_company_id = fields.Many2one(
-    #     comodel_name='res.company', string=u'Empresa Responsável'
+    # state = fields.Selection(
+    #     selection=SEFIP_STATE, index = True,
+    #     readonly = True, default = 'draft',
+    #     track_visibility = 'onchange', copy = False
     # )
+
     responsible_user_id = fields.Many2one(
         comodel_name='res.partner', string=u'Usuário Responsável'
     )
@@ -407,6 +410,21 @@ class L10nBrSefip(models.Model):
                       u'existe nenhuma centralizadora')
                 )
 
+    @api.multi
+    def criar_anexo_sefip(self):
+        sefip = SEFIP()
+        for record in self:
+            # Cria um arquivo temporario txt e escreve o que foi gerado
+            path_arquivo = sefip._gerar_arquivo_temp(record.sefip, 'SEFIP')
+            # Gera o anexo apartir do txt do grrf no temp do sistema
+            nome_arquivo = 'SEFIP.re'
+            self._gerar_anexo(nome_arquivo, path_arquivo)
+
+    @api.multi
+    def action_open(self):
+        for record in self:
+            record.criar_anexo_sefip()
+            super(L10nBrSefip, record).action_open()
 
     @api.multi
     def gerar_sefip(self):
@@ -442,12 +460,6 @@ class L10nBrSefip(models.Model):
                             record._preencher_registro_32(sefip, folha))
 
             record.sefip += sefip._registro_90_totalizador_do_arquivo()
-
-            # Cria um arquivo temporario txt e escreve o que foi gerado
-            path_arquivo = sefip._gerar_arquivo_temp(self.sefip, 'SEFIP')
-            # Gera o anexo apartir do txt do grrf no temp do sistema
-            nome_arquivo = 'SEFIP.re'
-            self._gerar_anexo(nome_arquivo, path_arquivo)
 
     def _preencher_registro_00(self, sefip):
         sefip.tipo_inscr_resp = '1' if \
@@ -514,7 +526,6 @@ class L10nBrSefip(models.Model):
         # sefip.emp_indic_alteracao_cnae = 'n'
         sefip.emp_aliquota_RAT = self._rat(company_id)
         sefip.emp_cod_centralizacao = company_id.centralizadora
-        print (sefip.emp_cod_centralizacao)
         sefip.emp_simples = self._simples(company_id)
         sefip.emp_FPAS = self.codigo_fpas
         sefip.emp_cod_outras_entidades = self._buscar_codigo_outras_entidades()

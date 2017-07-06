@@ -18,7 +18,12 @@
                         <button name='doit'
                                 string='Gerar Caged'
                                 class='btn-primary oe_highlight'
-                                type='object'/>
+                                type='object'
+                                attrs="{'invisible':[('state', '!=', 'draft')]}"/>
+                        <button name="action_open" string="Confirmar Caged" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
+                        <button name="action_draft" string="Voltar para provisório" type="object" attrs="{'invisible':[('state', '!=', 'open')]}"/>
+                        <button name="action_sent" string="Confirmar Envio" type="object" attrs="{'invisible':[('state', '!=', 'open')]}"/>
+                        <field name="state" widget="statusbar"/>
                     </header>
                     <group>
                         <group>
@@ -40,6 +45,12 @@
                     </group>
 
                 </form>
+                <div class="oe_chatter">
+                        <field name="message_follower_ids"
+                               widget="mail_followers"
+                               groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
             </field>
         </record>
 
