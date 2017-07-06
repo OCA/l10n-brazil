@@ -159,9 +159,11 @@ class FinancialMove(models.Model):
     )
     amount_refund = fields.Float(
         string='Refund',
+        copy=False,
     )
     amount_cancel = fields.Float(
         string='Cancelled',
+        copy=False,
     )
     amount_total = fields.Float(
         string='Total',
