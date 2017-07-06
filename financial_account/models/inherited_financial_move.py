@@ -35,6 +35,7 @@ class FinancialMove(models.Model):
         comodel_name='account.move',
         string='Account move',
         ondelete='restrict',
+        copy=False,
     )
     #
     # The correct name of this field is ... line_ids
@@ -45,18 +46,17 @@ class FinancialMove(models.Model):
         inverse_name='move_id',
         string='Partidas do lançamento contábil',
         related='account_move_id.line_id',
+        readonly=True,
     )
 
+    @api.multi
     def create_account_move(self):
-        for move in self:
-            vals = {
-                'financial_move_id': move.id,
-                'ref': move.document_number,
-                'partner_id': move.partner_id.id,
-                'company_id': move.company_id.id,
-                'date': move.date_document,
-            }
+        account_move = self.env['account.move']
 
+        for move in self:
+
+            if move.account_move_line_id:
+                continue
             #
             # For receipts and payments, we use the configurations from
             # the document type of their respectiv debts
@@ -67,21 +67,11 @@ class FinancialMove(models.Model):
                 financial_account = move.account_id
 
             if move.account_journal_id:
-                vals['journal_id'] = move.account_journal_id.id
+                journal_id = move.account_journal_id.id
             elif financial_account.account_journal_id:
-                vals['journal_id'] = financial_account.account_journal_id.id
+                journal_id = financial_account.account_journal_id.id
 
-            if move.account_move_id:
-                if move.account_move_id.state != 'draft':
-                    # raise
-                    continue
-                account_move = move.account_move_id
-                account_move.write(vals)
-            else:
-                account_move = self.env['account.move'].create(vals)
-                move.account_move_id = account_move
-
-            line_id = [(5, 0, {})]
+            line_id = []
 
             move_template = None
             if move.account_move_template_id:
@@ -129,14 +119,27 @@ class FinancialMove(models.Model):
                 fields_already_accounted=fields_already_accounted
             )
 
-            account_move.write({'line_id': line_id})
+            vals = {
+                'financial_move_id': move.id,
+                'ref': move.document_number,
+                'partner_id': move.partner_id.id,
+                'company_id': move.company_id.id,
+                'date': move.date_document,
+                'line_id': line_id,
+                'journal_id': journal_id,
+            }
+
+            self.account_move_id = account_move.create(vals)
 
             if len(move.payment_ids) > 0:
                 move.payment_ids.create_account_move()
 
+    @api.multi
     def create_account_move_line(self, account_move, move_template, line_id,
                                  fields_already_accounted=False):
         self.ensure_one()
+
+        diff_currency = self.currency_id != self.company_id.currency_id
 
         if not fields_already_accounted:
             fields_already_accounted = []
@@ -159,7 +162,7 @@ class FinancialMove(models.Model):
                 'name': self.document_number,
                 'narration': template_item.field,
                 'debit': value,
-                'currency_id': self.currency_id.id,
+                'currency_id': diff_currency and self.currency_id.id,
             }
 
             #
@@ -212,7 +215,7 @@ class FinancialMove(models.Model):
             else:
                 vals['account_id'] = account_debit.id
 
-            line_id.append([0, 0, vals])
+            line_id.append((0, 0, vals))
 
             vals = {
                 'move_id': account_move.id,
@@ -220,7 +223,7 @@ class FinancialMove(models.Model):
                 'name': self.document_number,
                 'narration': template_item.field,
                 'credit': value,
-                'currency_id': self.currency_id.id,
+                'currency_id': diff_currency and self.currency_id.id,
             }
 
             account_credit = None
@@ -261,7 +264,7 @@ class FinancialMove(models.Model):
             else:
                 vals['account_id'] = account_credit.id
 
-            line_id.append([0, 0, vals])
+            line_id.append((0, 0, vals))
 
             fields_already_accounted.append(template_item.field)
 
@@ -272,19 +275,37 @@ class FinancialMove(models.Model):
                 fields_already_accounted=fields_already_accounted
             )
 
+    @api.multi
+    def action_confirm(self):
+        super(FinancialMove, self).action_confirm()
+        for record in self:
+            if record.account_move_line_id:
+                continue
+            record.create_account_move()
+
     @api.model
     def create(self, vals):
         financial_move_ids = super(FinancialMove, self).create(vals)
-        financial_move_ids.create_account_move()
+
+        #
+        # Create automatically account moves for payment_item and receipt_item
+        #
+        to_create_move = financial_move_ids.filtered(
+            lambda r: r.type in (
+                FINANCIAL_RECEIPT,
+                FINANCIAL_PAYMENT
+            ) and not r.move_id)
+        to_create_move.create_account_move()
+
         return financial_move_ids
 
-    @api.multi
-    def _write(self, vals):
-        res = super(FinancialMove, self)._write(vals)
-        self.create_account_move()
-        return res
-
-    @api.multi
-    def do_after_unlink(self):
-        for record in self:
-            record.account_move_id.unlink()
+    #
+    # @api.multi
+    # def _write(self, vals):
+    #     res = super(FinancialMove, self)._write(vals)
+    #     return res
+    #
+    # @api.multi
+    # def do_after_unlink(self):
+    #     for record in self:
+    #         record.account_move_id.unlink()
