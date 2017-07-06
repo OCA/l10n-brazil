@@ -9,6 +9,8 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from lxml import etree
 from openerp import api, fields, models, exceptions, _
+from openerp.addons.l10n_br_resource.models.resource_calendar \
+    import ResourceCalendar
 
 _logger = logging.getLogger(__name__)
 
@@ -158,10 +160,8 @@ class HrPayslip(models.Model):
             holerite.data_retorno = data.formata_data(
                 str((fields.Datetime.from_string(holerite.date_to) +
                      relativedelta(days=1)).date()))
-            holerite.data_pagamento = \
-                str((fields.Datetime.from_string(holerite.date_from) +
-                     relativedelta(days=-2)).date())
-            holerite.ferias_vencidas = self._verificar_ferias_vencidas()
+            holerite.data_pagamento = str(
+                self.compute_payment_day(holerite.date_from))
             # TO DO Verificar datas de feriados.
             # A biblioteca aceita os parametros de feriados, mas a utilizacao
             # dos feriados é diferente do odoo.
