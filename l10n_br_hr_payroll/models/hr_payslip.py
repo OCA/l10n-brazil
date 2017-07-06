@@ -9,6 +9,8 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from lxml import etree
 from openerp import api, fields, models, exceptions, _
+from openerp.addons.l10n_br_resource.models.resource_calendar \
+    import ResourceCalendar
 
 _logger = logging.getLogger(__name__)
 
