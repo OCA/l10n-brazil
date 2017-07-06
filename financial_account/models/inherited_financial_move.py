@@ -4,7 +4,7 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from openerp import api, fields, models
+from openerp import api, fields, models, exceptions, _
 from openerp.addons.financial.constants import (
     FINANCIAL_DEBT_2PAY,
     FINANCIAL_DEBT_2RECEIVE,
@@ -283,29 +283,43 @@ class FinancialMove(models.Model):
                 continue
             record.create_account_move()
 
-    @api.model
-    def create(self, vals):
-        financial_move_ids = super(FinancialMove, self).create(vals)
+    @api.multi
+    def do_after_create(self, result, values):
+        result = super(FinancialMove, self).do_after_create(result, values)
 
         #
         # Create automatically account moves for payment_item and receipt_item
         #
-        to_create_move = financial_move_ids.filtered(
+        to_create_move = result.filtered(
             lambda r: r.type in (
                 FINANCIAL_RECEIPT,
                 FINANCIAL_PAYMENT
-            ) and not r.move_id)
+            ) and not r.account_move_id)
         to_create_move.create_account_move()
 
-        return financial_move_ids
+        return result
 
-    #
-    # @api.multi
-    # def _write(self, vals):
-    #     res = super(FinancialMove, self)._write(vals)
-    #     return res
-    #
-    # @api.multi
-    # def do_after_unlink(self):
-    #     for record in self:
-    #         record.account_move_id.unlink()
+    @api.multi
+    def action_cancel(self, reason):
+        super(FinancialMove, self).action_cancel(reason)
+        moves = self.env['account.move']
+        for record in self:
+            if record.account_move_id:
+                moves += record.account_move_id
+            if record.payment_ids:
+                for payment_line in record.payment_ids:
+                    if payment_line.account_move_id:
+                        raise exceptions.ValiationError(
+                            _('You cannot cancel a financial which is paid.'
+                              ' You need to cancel the related payment '
+                              'entries first.'))
+        # Detach the move ids:
+        self.write({'account_move_id': False})
+        if moves:
+            # second, invalidate the move(s)
+            moves.button_cancel()
+            # delete the move this financial was pointing to
+            # Note that the corresponding move_lines and move_reconciles
+            # will be automatically deleted too
+            moves.unlink()
+        return True
