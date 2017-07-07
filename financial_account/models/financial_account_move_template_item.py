@@ -30,8 +30,10 @@ class FinancialAccountMoveTemplateItem(models.Model):
     account_debit_id = fields.Many2one(
         comodel_name='account.account',
         string='Debit',
+        domain=[('type', '=', 'A')],
     )
     account_credit_id = fields.Many2one(
         comodel_name='account.account',
         string='Credit',
+        domain=[('type', '=', 'A')],
     )
