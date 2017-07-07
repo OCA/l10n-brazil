@@ -146,9 +146,9 @@ class HrPayslip(models.Model):
             holerite.data_retorno = data.formata_data(
                 str((fields.Datetime.from_string(holerite.date_to) +
                      relativedelta(days=1)).date()))
-            holerite.data_pagamento = \
-                str((fields.Datetime.from_string(holerite.date_from) +
-                     relativedelta(days=-2)).date())
+            holerite.data_pagamento = str(
+                self.compute_payment_day(holerite.date_from))
+            holerite.ferias_vencidas = self._verificar_ferias_vencidas()
             # TO DO Verificar datas de feriados.
             # A biblioteca aceita os parametros de feriados, mas a utilizacao
             # dos feriados é diferente do odoo.
@@ -477,6 +477,14 @@ class HrPayslip(models.Model):
 
     valor_multa_fgts = fields.Float(
         string="Valor da Multa do FGTS"
+    )
+
+    ferias_vencidas = fields.Many2one(
+        comodel_name='hr.vacation.control',
+        string="Ferias Vencidas",
+        domain="[('contract_id','=',contract_id)]",
+        compute='_verificar_ferias_vencidas',
+        store=True,
     )
 
     company_id = fields.Many2one(
@@ -843,6 +851,7 @@ class HrPayslip(models.Model):
             )
             return estrutura_provisao_decimo_terceiro
 
+    @api.depends('contract_id', 'date_from', 'date_to')
     @api.multi
     def _verificar_ferias_vencidas(self):
         periodo_ferias_vencida = self.env['hr.vacation.control'].search(
