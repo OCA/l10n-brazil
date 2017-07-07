@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record id="view_account_config_settings" model="ir.ui.view">
+            <field name="name">account.settings</field>
+            <field name="model">account.config.settings</field>
+            <field name="inherit_id" ref="account.view_account_config_settings"/>
+            <field name="arch" type="xml">
+                <xpath expr="//separator[@string='Bank &amp; Cash']" position="before">
+                    <separator string="Folha de Pagamento"/>
+                    <group name="bank_cash">
+                        <label for="id" string="Configuration"/>
+                        <div>
+                            <field name="automated_payslip_payment_order" />
+                            <label for="automated_payslip_payment_order" />
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

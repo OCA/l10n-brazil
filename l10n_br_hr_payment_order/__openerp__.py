@@ -20,6 +20,7 @@
         'views/hr_payslip.xml',
         'security/payment_order.xml',
         'views/payment_order.xml',
+        'views/res_config_view.xml',
     ],
     'demo': [
         'demo/hr_payslip.xml',
