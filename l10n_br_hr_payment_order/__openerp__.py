@@ -21,6 +21,7 @@
         'security/payment_order.xml',
         'views/payment_order.xml',
         'views/res_config_view.xml',
+        'views/hr_salary_rule_view.xml',
     ],
     'demo': [
         'demo/hr_payslip.xml',
