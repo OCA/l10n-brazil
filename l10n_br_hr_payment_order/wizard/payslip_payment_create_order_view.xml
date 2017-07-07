@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record id="payslip_payment_create_order_view" model="ir.ui.view">
+            <field name="name">payslip.payment.create.order.form</field>
+            <field name="model">payslip.payment.order.create</field>
+            <field name="arch" type="xml">
+                <form string="Search Payment lines">
+                    <group>
+                        <field name="duedate" />
+                    </group>
+                    <footer>
+                        <button name="search_entries" string="Search" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="payslip_payment_lines_create_order_view" model="ir.ui.view">
+            <field name="name">payslip.payment.line.create.order</field>
+            <field name="model">payslip.payment.order.create</field>
+            <field name="arch" type="xml">
+                <form string="Search Payment lines">
+                    <group string="Entries">
+                        <field name="entries"/>
+                    </group>
+                    <footer>
+                        <button name="create_payment" string="_Add to payment order" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_create_payslip_payment_order" model="ir.actions.act_window">
+            <field name="name">Populate Payment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">payslip.payment.order.create</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="payslip_payment_create_order_view"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

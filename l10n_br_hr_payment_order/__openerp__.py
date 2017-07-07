@@ -17,6 +17,7 @@
     ],
     'data': [
         'security/hr_payslip.xml',
+        'wizard/payslip_payment_create_order_view.xml',
         'views/hr_payslip.xml',
         'security/payment_order.xml',
         'views/payment_order.xml',
