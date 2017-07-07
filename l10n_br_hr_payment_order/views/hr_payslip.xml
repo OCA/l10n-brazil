@@ -10,17 +10,17 @@
     <record model="ir.ui.view" id="hr_payslip_form_view">
         <field name="name">hr.payslip.form (in l10n_br_hr_payment_order)</field>
         <field name="model">hr.payslip</field>
-        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="inherit_id" ref="l10n_br_hr_payroll.hr_payslip_form_view"/>
         <field name="arch" type="xml">
             <field name="credit_note" position="after">
-                    <field name="payment_mode_id" />
+                <field name="payment_mode_id" />
             </field>
 
             <button name="refund_sheet" position="after">
                 <button name="create_payment_order" type="object"
                         string="Add to Payment Order" />
             </button>
-            <xpath expr="//page[@string='Salary Computation']" position="after">
+            <xpath expr="//notebook//page[@string='Holerite']" position="after">
                 <page string="Orderns de Pagamento">
                     <group>
                         <field name="payment_line_ids"/>

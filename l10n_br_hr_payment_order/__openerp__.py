@@ -11,6 +11,7 @@
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'www.kmee.com.br',
     'depends': [
+        'l10n_br_hr_payroll',
         'account_payment',
         'account_payment_partner',
     ],
