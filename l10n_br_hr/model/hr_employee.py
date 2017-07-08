@@ -159,6 +159,7 @@ class HrEmployee(models.Model):
 class HrEmployeeDependent(models.Model):
     _name = 'hr.employee.dependent'
     _description = 'Employee\'s Dependents'
+    _rec_name = "dependent_name"
 
     @api.constrains('dependent_cpf')
     def _validate_cpf(self):
@@ -182,3 +183,17 @@ class HrEmployeeDependent(models.Model):
         ('f', 'Female')])
     dependent_rg = fields.Char(string='RG')
     dependent_cpf = fields.Char(string='CPF')
+
+    have_alimony = fields.Boolean(string='Have a alimony')
+
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        string='Partner',
+        help="Parceiro que contem as informações de banco do dependente."
+    )
+
+    partner_id_bank_ids = fields.One2many(
+        comodel_name='res.partner.bank',
+        string='Info Bank',
+        related='partner_id.bank_ids',
+    )
