@@ -29,6 +29,7 @@ class HrContractSalaryRule(models.Model):
     )
     specific_quantity = fields.Float(
         string=u"Quandidade especifica",
+        default=1.0,
     )
     specific_percentual = fields.Float(
         string=u"Percentual especifico",
@@ -36,4 +37,8 @@ class HrContractSalaryRule(models.Model):
     )
     specific_amount = fields.Float(
         string=u"Valor especifico",
+    )
+    partner_id = fields.Many2one(
+        string=u'Beneficiário',
+        comodel_name='res.partner',
     )

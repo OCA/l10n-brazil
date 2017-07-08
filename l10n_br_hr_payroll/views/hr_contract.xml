@@ -26,6 +26,7 @@
                                 <field name="specific_quantity"/>
                                 <field name="specific_percentual"/>
                                 <field name="specific_amount"/>
+                                <field name="partner_id"/>
                             </tree>
                         </field>
                     </page>

@@ -1560,6 +1560,7 @@ class HrPayslip(models.Model):
                     localdict['result_rate'] = 100
                     localdict['rubrica'] = rule
                     id_rubrica_especifica = 0
+                    beneficiario_id = False
                     # se a rubrica estiver nas rubricas especificas cadastradas
                     # no contrato para serem computadas, recuperar o
                     # beneficiario da rubrica, remover a rubrica da variavel
@@ -1571,6 +1572,7 @@ class HrPayslip(models.Model):
                             if rule.id == value:
                                 regra_especifica = \
                                     rubricas_spec_model.browse(key)
+                                beneficiario_id = regra_especifica.partner_id.id
                                 applied_specific_rule.remove((key,value))
                                 id_rubrica_especifica = key
 
@@ -1619,6 +1621,12 @@ class HrPayslip(models.Model):
                             localdict, rule.category_id,
                             tot_rule - previous_amount)
 
+                        # Definir o partner que recebera o pagamento da linha
+                        if not beneficiario_id and \
+                                contract.employee_id.address_home_id:
+                            beneficiario_id = \
+                                contract.employee_id.address_home_id.id
+
                         # create/overwrite the rule in the temporary results
                         result_dict[key] = {
                             'salary_rule_id': rule.id,
@@ -1645,6 +1653,7 @@ class HrPayslip(models.Model):
                             'employee_id': contract.employee_id.id,
                             'quantity': qty,
                             'rate': rate,
+                            'partner_id': beneficiario_id or 1,
                         }
                     else:
                         rules_seq = rule._model._recursive_search_of_rules(
