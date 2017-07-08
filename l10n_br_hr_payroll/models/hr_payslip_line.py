@@ -31,6 +31,7 @@ class HrPayslipeLine(models.Model):
         digits=(10, 2),
         compute='_compute_arredondamento'
     )
+
     round_total_fmt = fields.Char(
         string=u'Total',
         default='',
@@ -40,15 +41,19 @@ class HrPayslipeLine(models.Model):
     sequence = fields.Float(
         string=u'Sequence',
     )
+
     rate = fields.Float(
         digits=(18, 11),
     )
+
     amount = fields.Float(
         digits=(18, 11),
     )
+
     quantity = fields.Float(
         digits=(18, 11),
     )
+
     total = fields.Float(
         digits=(18, 2),
         compute='_compute_total',
@@ -114,6 +119,7 @@ class HrPayslipeLine(models.Model):
         compute=_compute_valor_provento,
         default='',
     )
+
     valor_deducao = fields.Float(
         string=u'Dedução',
         compute=_compute_valor_deducao,
@@ -124,4 +130,9 @@ class HrPayslipeLine(models.Model):
         string=u'Dedução',
         compute=_compute_valor_deducao,
         default='',
+    )
+
+    partner_id = fields.Many2one(
+        string=u'Beneficiário',
+        comodel_name='res.partner',
     )
