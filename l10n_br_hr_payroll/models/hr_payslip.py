@@ -673,8 +673,9 @@ class HrPayslip(models.Model):
         salario_hora_dic = {
             'name': 'Salário Hora',
             'code': 'SALARIO_HORA',
-            'amount': contract._salario_hora(date_from, date_to)if not
-            self.medias_proventos else self.medias_proventos[1].media/220,
+            'amount': contract._salario_hora(date_from, date_to)
+            if not self.medias_proventos
+            else self.medias_proventos[1].media / 220,
             'contract_id': contract.id,
         }
         res += [salario_mes_dic]
@@ -740,10 +741,12 @@ class HrPayslip(models.Model):
         for specific_rule in contract.specific_rule_ids:
             if self.date_from >= specific_rule.date_start:
                 if not specific_rule.date_stop or \
-                                self.date_to <= specific_rule.date_stop:
+                        self.date_to <= specific_rule.date_stop:
                     rule_ids.append((specific_rule.rule_id.id,
                                      specific_rule.rule_id.sequence))
-                    applied_specific_rule.append((specific_rule.id, specific_rule.rule_id.id))
+                    applied_specific_rule.append(
+                        (specific_rule.id, specific_rule.rule_id.id)
+                    )
         return applied_specific_rule
 
     def get_ferias_rubricas(self, payslip, rule_ids):
@@ -787,20 +790,18 @@ class HrPayslip(models.Model):
     def get_specific_rubric_value(self, rubrica_id, medias_obj=False,
                                   rubricas_especificas_calculadas=False):
         """
-        Função dísponivel para as regras de salario, para buscar o valor das 
+        Função dísponivel para as regras de salario, que busca o valor das
         rubricas especificas cadastradas no contrato.
-        
-        
-        :param rubrica_id: int -   
-        :param medias_obj: 
-        :param rubricas_spec_calculadas - lista dos ids das rubricas 
-                                        especificas que ja foram computadas   
-        :return: 
+        :param rubrica_id: int - id da regra de salario corrente
+        :param medias_obj: ?
+        :param rubricas_spec_calculadas - lista dos ids das rubricas
+                                        especificas que ja foram computadas
+        :return: valor da rubrica especifica cadastrado no contrato ou 0.
         """
         for rubrica in self.contract_id.specific_rule_ids:
             # Se a rubrica_especifica ja tiver sido calculada segue pra próxima
             if rubricas_especificas_calculadas and \
-                            rubrica.id in rubricas_especificas_calculadas:
+                    rubrica.id in rubricas_especificas_calculadas:
                 continue
             if rubrica.rule_id.id == rubrica_id \
                     and rubrica.date_start <= self.date_from and \
@@ -810,7 +811,7 @@ class HrPayslip(models.Model):
                     if rubrica.rule_id.code not in medias_obj.dict.keys():
                         return 0
                 return rubrica.specific_quantity * \
-                    rubrica.specific_percentual/100 * \
+                    rubrica.specific_percentual / 100 * \
                     rubrica.specific_amount
 
     @api.multi
@@ -1378,6 +1379,7 @@ class HrPayslip(models.Model):
             rule_ids = self.env['hr.payroll.structure'].browse(
                 structure_ids).get_all_rules()
 
+            applied_specific_rule = []
             # Caso nao esteja computando holerite de ferias
             # recuperar as regras especificas do contrato
             if not payslip.tipo_de_folha == 'ferias':
@@ -1572,8 +1574,9 @@ class HrPayslip(models.Model):
                             if rule.id == value:
                                 regra_especifica = \
                                     rubricas_spec_model.browse(key)
-                                beneficiario_id = regra_especifica.partner_id.id
-                                applied_specific_rule.remove((key,value))
+                                beneficiario_id = \
+                                    regra_especifica.partner_id.id
+                                applied_specific_rule.remove((key, value))
                                 id_rubrica_especifica = key
 
                     # check if the rule can be applied
@@ -1588,7 +1591,7 @@ class HrPayslip(models.Model):
                         if medias.get(rule.code) and \
                                 not payslip.tipo_de_folha == 'aviso' \
                                                              '_previo':
-                            amount = medias.get(rule.code).media/12
+                            amount = medias.get(rule.code).media / 12
                             qty = medias.get(rule.code).meses
 
                         # check if there is already a rule computed
@@ -1705,7 +1708,7 @@ class HrPayslip(models.Model):
 
     def _compute_data_mes_ano(self):
         for record in self:
-            record.data_mes_ano = MES_DO_ANO[record.mes_do_ano-1][1][:3] + \
+            record.data_mes_ano = MES_DO_ANO[record.mes_do_ano - 1][1][:3] + \
                 '/' + str(record.ano)
 
     @api.multi
@@ -1884,18 +1887,14 @@ class HrPayslip(models.Model):
             if folha.mes_do_ano != mes.month:
                 raise exceptions.ValidationError(
                     _("Faltando Holerite confirmado do mês de %s de %s") %
-                    (MES_DO_ANO[mes.month-1][1], mes.year))
+                    (MES_DO_ANO[mes.month - 1][1], mes.year))
         if mes.month != fields.Datetime.from_string(data_fim).month:
+            mes = fields.Datetime.from_string(data_fim).month
             raise exceptions.ValidationError(
                 _("Não foi encontrado o último holerite do periodo "
                   "aquisitivo, \nreferente ao mês  de %s de %s") %
-                (
-                    MES_DO_ANO[
-                        fields.Datetime.from_string(data_fim).month-1
-                    ][1],
-                    fields.Datetime.from_string(data_fim).year
-                )
-            )
+                (MES_DO_ANO[mes - 1][1],
+                 fields.Datetime.from_string(data_fim).year))
 
     @api.multi
     def gerar_media_dos_proventos(self):
@@ -1998,7 +1997,7 @@ class HrPayslip(models.Model):
                 ]
             )
         media_id = payslip_simulacao.medias_proventos[-1]
-        return media_id.media/12
+        return media_id.media / 12
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form',

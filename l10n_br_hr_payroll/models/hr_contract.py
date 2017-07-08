@@ -75,23 +75,21 @@ class HrContract(models.Model):
     def _salario_dia(self, data_inicio, data_fim):
         if data_inicio >= self.date_start and \
                 (data_fim <= self.date_end or not self.date_end):
-            return self.wage/30
+            return self.wage / 30
         else:
             return self._buscar_salario_vigente_periodo(
-                data_inicio, data_fim)/30
+                data_inicio, data_fim) / 30
 
     @api.multi
     def _salario_hora(self, data_inicio, data_fim):
         if data_inicio >= self.date_start and \
                 (data_fim <= self.date_end or not self.date_end):
-            return self.wage/(
-                220 if not self.monthly_hours else self.monthly_hours
-            )
+            return self.wage / (
+                220 if not self.monthly_hours else self.monthly_hours)
         else:
-            return self._buscar_salario_vigente_periodo(
-                data_inicio, data_fim)/(
-                220 if not self.monthly_hours else self.monthly_hours
-            )
+            wage = self._buscar_salario_vigente_periodo(data_inicio, data_fim)
+            hours_total = 220 if not self.monthly_hours else self.monthly_hours
+            return wage / hours_total
 
     @api.multi
     def _salario_mes(self, data_inicio, data_fim):

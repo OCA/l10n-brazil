@@ -109,7 +109,7 @@ class L10nBrHrMedias(models.Model):
                 if linha.meses == 0:
                     linha.media = 123
                 else:
-                    linha.media = linha.soma/linha.meses
+                    linha.media = linha.soma / linha.meses
 
     @api.multi
     def _completar_colunas_vazias_linha_media(self, vals):
@@ -160,7 +160,7 @@ class L10nBrHrMedias(models.Model):
                         medias.update({
                             linha.salary_rule_id.id:
                                 [{
-                                    'mes': MES_DO_ANO[folha.mes_do_ano-1][1],
+                                    'mes': MES_DO_ANO[folha.mes_do_ano - 1][1],
                                     'ano': folha.ano,
                                     'valor': linha.total,
                                     'rubrica_id': linha.salary_rule_id.id,
@@ -169,7 +169,7 @@ class L10nBrHrMedias(models.Model):
                         })
                     else:
                         medias[linha.salary_rule_id.id].append({
-                            'mes': MES_DO_ANO[folha.mes_do_ano-1][1],
+                            'mes': MES_DO_ANO[folha.mes_do_ano - 1][1],
                             'ano': folha.ano,
                             'valor': linha.total,
                             'rubrica_id': linha.salary_rule_id.id,

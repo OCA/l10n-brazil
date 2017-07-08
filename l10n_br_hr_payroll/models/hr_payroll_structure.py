@@ -66,8 +66,8 @@ TIPO_AFASTAMENTO_SEFIP = (
     ('I3', u'I3 - Rescisão por término do contrato a termo.'),
     ('I4', u'I4 - Rescisão, sem justa causa, do contrato de trabalho do '
            u'empregado doméstico, por iniciativa do empregador .'),
-    ('J',  u'J - Rescisão do contrato de trabalho por iniciativa do '
-           u'empregado.'),
+    ('J', u'J - Rescisão do contrato de trabalho por iniciativa do '
+          u'empregado.'),
     ('K', u'K - Rescisão a pedido do empregado ou por iniciativa do '
           u'empregador, com justa causa, no caso de empregado não optante, '
           u'com menos de um ano de serviço.'),
