@@ -51,7 +51,16 @@ TIPO_DE_FOLHA = [
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
     _order = 'employee_id asc, number desc'
-    _rec_name = 'display_name'
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            if record.data_mes_ano and record.contract_id:
+                name = record.contract_id.nome_contrato + ' ' + \
+                    record.data_mes_ano
+            result.append((record.id, name))
+        return result
 
     @api.multi
     def _buscar_dias_aviso_previo(self):
