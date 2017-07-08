@@ -98,6 +98,7 @@
                                     <field name="dependent_verification"/>
                                 </tree>
                                 <form>
+                                    <separator string="Dependent Infos" colspan="4"/>
                                     <group>
                                         <group>
                                             <field name="dependent_name"/>
@@ -111,7 +112,13 @@
                                             <field name="pension_benefits"/>
                                             <field name="health_verification"/>
                                             <field name="dependent_verification"/>
+                                            <field name="have_alimony"/>
                                         </group>
+                                    </group>
+                                    <group attrs="{'invisible':[('have_alimony', '!=', True)]}">
+                                        <separator string="Bank account for alimony" colspan="4"/>
+                                        <field name="partner_id"/>
+                                        <field name="partner_id_bank_ids"/>
                                     </group>
                                 </form>
                             </field>
