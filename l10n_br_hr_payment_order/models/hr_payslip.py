@@ -90,10 +90,10 @@ class HrPayslip(models.Model):
         payment_order_model = self.env['payment.order']
 
         for holerite in self:
-            if holerite.state != 'done':
+            if holerite.state != 'draft':
                 raise UserError(_(
                     "The payslip %s is not in Open state") %
-                    holerite.contract_id.nome_do_contrato)
+                    holerite.contract_id.nome_contrato)
             if not holerite.payment_mode_id:
                 raise UserError(_(
                     "No Payment Mode on holerite %s") % holerite.number)
@@ -111,13 +111,12 @@ class HrPayslip(models.Model):
 
             for rubrica in holerite.line_ids:
                 if rubrica.code == 'LIQUIDO':
-
-                    if not holerite.contract_id.employee_id.user_id.partner_id:
-                        raise UserError(_(
-                            "Nenhum Parceiro associado com employee %s") %
-                            holerite.contract_id.employee_id.display_name)
-
                     self.create_payment_order_line(
                         payorder, rubrica.total,
-                        'SALARIO ' + holerite.data_mes_ano,
-                        holerite.contract_id.employee_id.address_home_id)
+                        'SALARIO ' + holerite.data_mes_ano, rubrica.partner_id)
+
+                if rubrica.code == 'PENSAO_ALIMENTICIA':
+                    self.create_payment_order_line(
+                        payorder, rubrica.total,
+                        'PENSAO ALIMENTICIA ' + holerite.data_mes_ano,
+                        rubrica.partner_id)
