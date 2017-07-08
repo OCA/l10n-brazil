@@ -1934,45 +1934,44 @@ result = rules.NET  &gt;  categories.NET * 0.10</field>
             <field name="category_id" ref="hr_payroll.DEDUCAO"/>
             <field name="condition_select">python</field>
             <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
-            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)
-</field>
-            <field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
-            <field name="amount_select">code</field>
-            <field name="custom_amount_select">code</field>
-            <field name="compoe_base_INSS"></field>
-            <field name="compoe_base_IR"></field>
-            <field name="compoe_base_FGTS"></field>
-            <field name="amount_fix"></field>
-            <field name="custom_amount_fix"></field>
-            <field name="amount_percentage"></field>
-            <field name="amount_percentage_base"></field>
-            <field name="custom_amount_percentage_base"></field>
-            <field name="custom_amount_percentage"></field>
-            <field name="appears_on_payslip">True</field>
-            <field name="condition_range">contract.wage</field>
-            <field name="condition_range_min"></field>
-            <field name="condition_range_max"></field>
-            <field name="note"></field>
-            <field name="calculo_nao_padrao">True</field>
-            <field name="quantity">1.0</field>
-            <field name="custom_quantity"></field>
-            <field name="tipo_media"></field>
-            <field name="parent_rule_id" ref=""/>
-            <field name="company_id" ref="base.main_company"/>
-            <field name="register_id" ref=""/>
-        </record>
+            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+			<field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+			<field name="amount_select">code</field>
+			<field name="custom_amount_select">code</field>
+			<field name="compoe_base_INSS"></field>
+			<field name="compoe_base_IR"></field>
+			<field name="compoe_base_FGTS"></field>
+			<field name="amount_fix"></field>
+			<field name="custom_amount_fix"></field>
+			<field name="amount_percentage"></field>
+			<field name="amount_percentage_base"></field>
+			<field name="custom_amount_percentage_base"></field>
+			<field name="custom_amount_percentage"></field>
+			<field name="appears_on_payslip">True</field>
+			<field name="condition_range">contract.wage</field>
+			<field name="condition_range_min"></field>
+			<field name="condition_range_max"></field>
+			<field name="note"></field>
+			<field name="calculo_nao_padrao">True</field>
+			<field name="quantity">1.0</field>
+			<field name="custom_quantity"></field>
+			<field name="tipo_media"></field>
+			<field name="parent_rule_id" ref=""/>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="register_id" ref=""/>
+		</record>
 
-        <record id="hr_salary_rule_PENSAO_ALIMENTICIA" model="hr.salary.rule">
-            <field name="code">PENSAO_ALIMENTICIA</field>
-            <field name="name">Pensão Alimentícia</field>
-            <field name="active">True</field>
-            <field name="sequence">307.0</field>
-            <field name="category_id" ref="hr_payroll.DEDUCAO"/>
-            <field name="condition_select">python</field>
-            <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
-            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)
+		<record id="hr_salary_rule_PENSAO_ALIMENTICIA" model="hr.salary.rule">
+			<field name="code">PENSAO_ALIMENTICIA</field>
+			<field name="name">Pensão Alimentícia</field>
+			<field name="active">True</field>
+			<field name="sequence">307.0</field>
+			<field name="category_id" ref="hr_payroll.DEDUCAO"/>
+			<field name="condition_select">python</field>
+			<field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
+			<field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id, rubricas_especificas_calculadas=RUBRICAS_ESPEC_CALCULADAS)
 </field>
-            <field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)
+			<field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id, rubricas_especificas_calculadas=RUBRICAS_ESPEC_CALCULADAS)
 
 if not result:
     base = BASE_IR

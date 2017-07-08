@@ -736,14 +736,15 @@ class HrPayslip(models.Model):
     @api.model
     def get_contract_specific_rubrics(self, contract_id, rule_ids):
         contract = self.env['hr.contract'].browse(contract_id.id)
-        for rule in contract.specific_rule_ids:
-            if self.date_from >= rule.date_start:
-                if not rule.date_stop or self.date_to <= rule.date_stop:
-                    if rule.rule_id.id not in dict(rule_ids):
-                        rule_ids.append(
-                            (rule.rule_id.id, rule.rule_id.sequence)
-                        )
-        return rule_ids
+        applied_specific_rule = []
+        for specific_rule in contract.specific_rule_ids:
+            if self.date_from >= specific_rule.date_start:
+                if not specific_rule.date_stop or \
+                                self.date_to <= specific_rule.date_stop:
+                    rule_ids.append((specific_rule.rule_id.id,
+                                     specific_rule.rule_id.sequence))
+                    applied_specific_rule.append((specific_rule.id, specific_rule.rule_id.id))
+        return applied_specific_rule
 
     def get_ferias_rubricas(self, payslip, rule_ids):
         holerite_ferias = self.search([
@@ -783,8 +784,24 @@ class HrPayslip(models.Model):
         return lines, holerite_ferias.holidays_ferias
 
     @api.model
-    def get_specific_rubric_value(self, rubrica_id, medias_obj=False):
+    def get_specific_rubric_value(self, rubrica_id, medias_obj=False,
+                                  rubricas_especificas_calculadas=False):
+        """
+        Função dísponivel para as regras de salario, para buscar o valor das 
+        rubricas especificas cadastradas no contrato.
+        
+        
+        :param rubrica_id: int -   
+        :param medias_obj: 
+        :param rubricas_spec_calculadas - lista dos ids das rubricas 
+                                        especificas que ja foram computadas   
+        :return: 
+        """
         for rubrica in self.contract_id.specific_rule_ids:
+            # Se a rubrica_especifica ja tiver sido calculada segue pra próxima
+            if rubricas_especificas_calculadas and \
+                            rubrica.id in rubricas_especificas_calculadas:
+                continue
             if rubrica.rule_id.id == rubrica_id \
                     and rubrica.date_start <= self.date_from and \
                     (not rubrica.date_stop or rubrica.date_stop >=
@@ -1271,6 +1288,7 @@ class HrPayslip(models.Model):
         blacklist = []
         payslip_obj = self.env['hr.payslip']
         obj_rule = self.env['hr.salary.rule']
+        rubricas_spec_model = self.env['hr.contract.salary.rule']
         payslip = payslip_obj.browse(payslip_id)
         worked_days = {}
         for worked_days_line in payslip.worked_days_line_ids:
@@ -1344,6 +1362,7 @@ class HrPayslip(models.Model):
             'RAT_FAP': rat_fap, 'MEDIAS': medias_obj,
             'PEDIDO_FERIAS': ferias_abono, 'PAGAR_FERIAS': False,
             'DIAS_AVISO_PREVIO': payslip.dias_aviso_previo,
+            'RUBRICAS_ESPEC_CALCULADAS': [],
             'locals': locals,
             'globals': locals,
             'Decimal': Decimal,
@@ -1362,7 +1381,7 @@ class HrPayslip(models.Model):
             # Caso nao esteja computando holerite de ferias
             # recuperar as regras especificas do contrato
             if not payslip.tipo_de_folha == 'ferias':
-                rule_ids = payslip.get_contract_specific_rubrics(
+                applied_specific_rule = payslip.get_contract_specific_rubrics(
                     contract_ids, rule_ids)
 
             # Buscar informações de férias dentro do mês que esta sendo
@@ -1540,6 +1559,20 @@ class HrPayslip(models.Model):
                     localdict['result_qty'] = 1.0
                     localdict['result_rate'] = 100
                     localdict['rubrica'] = rule
+                    id_rubrica_especifica = 0
+                    # se a rubrica estiver nas rubricas especificas cadastradas
+                    # no contrato para serem computadas, recuperar o
+                    # beneficiario da rubrica, remover a rubrica da variavel
+                    # local de rubricas_aplicadas a adicionar no localdict
+                    # a rubrica especifica ja computada
+                    if rule.id in [rubrica_id for rubrica_spec, rubrica_id in
+                                   applied_specific_rule]:
+                        for key, value in applied_specific_rule:
+                            if rule.id == value:
+                                regra_especifica = \
+                                    rubricas_spec_model.browse(key)
+                                applied_specific_rule.remove((key,value))
+                                id_rubrica_especifica = key
 
                     # check if the rule can be applied
                     if obj_rule.satisfy_condition(rule.id, localdict) \
@@ -1575,6 +1608,11 @@ class HrPayslip(models.Model):
                             localdict['BASE_IR'] += tot_rule
                         if rule.compoe_base_FGTS:
                             localdict['BASE_FGTS'] += tot_rule
+
+                        # Adiciona a rubrica especifica ao localdict
+                        if id_rubrica_especifica:
+                            localdict['RUBRICAS_ESPEC_CALCULADAS'].append(
+                                id_rubrica_especifica)
 
                         # sum the amount for its salary category
                         localdict = _sum_salary_rule_category(
