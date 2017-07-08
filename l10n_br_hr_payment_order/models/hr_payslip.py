@@ -17,7 +17,7 @@ class HrPayslip(models.Model):
     )
 
     payment_line_ids = fields.One2many(
-        string="Orderns de Pagamento",
+        string="Ordens de Pagamento",
         comodel_name="payment.line",
         inverse_name="payslip_id",
     )

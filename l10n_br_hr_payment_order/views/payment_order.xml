@@ -46,17 +46,6 @@
         <!--<field name="action" ref="payment_order_act_window"/>-->
         <!--<field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
     <!--</record>-->
-    <record model="ir.ui.view" id="view_payment_order_form">
-        <field name="name">payment.order.payslip</field>
-        <field name="model">payment.order</field>
-        <field name="inherit_id" ref="account_payment.view_payment_order_form" />
-        <field name="arch" type="xml">
-            <xpath expr="//button[@string='Invoices']" position="after">
-                <button class="oe_inline oe_stat_button oe_right" name="%(action_create_payslip_payment_order)d" string="Holerites" Help="Selecionar as linhas dos holerites que vao ser pagas"
-                               type="action" attrs="{'invisible':[('state','=','done')]}" icon="fa-pencil-square-o" widget="statinfo"/>
-            </xpath>
-        </field>
-    </record>
 
     <record model="ir.ui.view" id="view_payment_line_form">
         <field name="name">payment.order.line.payslip</field>
