@@ -176,7 +176,7 @@ class HrHolidays(models.Model):
                         ' (' + date_to + ')'
                 else:
                     holiday.name = \
-                        '[' + holiday.employee_id.name+'] ' + \
+                        '[' + holiday.employee_id.name + '] ' + \
                         holiday.holiday_status_id.name[:30] + \
                         ' (' + date_from + '-' + date_to + ')'
 
