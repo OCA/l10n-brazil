@@ -16,9 +16,9 @@ except ImportError:
 
 _INTERVALS = {
     'days': lambda interval: relativedelta(days=interval),
-    'weeks': lambda interval: relativedelta(days=7*interval),
+    'weeks': lambda interval: relativedelta(days=7 * interval),
     'months': lambda interval: relativedelta(months=interval),
-    'years': lambda interval: relativedelta(months=12*interval),
+    'years': lambda interval: relativedelta(months=12 * interval),
 }
 
 
