@@ -24,7 +24,6 @@ class HrPayslip(models.Model):
 
     def _compute_set_employee_id(self):
         super(HrPayslip, self)._compute_set_employee_id()
-        print ('Ajuste o tipo de pagamento')
         for record in self:
             if record.contract_id:
                 partner_id = \
@@ -57,13 +56,12 @@ class HrPayslip(models.Model):
     def create_payorder(self, mode_payment):
         '''
         Cria um payment order com base no metodo de pagamento
-        :param mode_payment: 
-        :return: 
+        :param mode_payment: Modo de pagamento
+        :return: objeto do payment.order
         '''
         payment_order_model = self.env['payment.order']
-        vals = {'mode': mode_payment.id,}
+        vals = {'mode': mode_payment.id, }
         return payment_order_model.create(vals)
-
 
     @api.multi
     def create_payment_order_line(
@@ -86,20 +84,16 @@ class HrPayslip(models.Model):
         }
         return payment_line_model.create(vals)
 
-
     @api.multi
     def create_payment_order(self):
 
         payment_order_model = self.env['payment.order']
 
-        result_payorder_ids = []
-        action_payment_type = 'debit'
-
         for holerite in self:
             if holerite.state != 'done':
                 raise UserError(_(
                     "The payslip %s is not in Open state") %
-                                holerite.contract_id.nome_do_contrato)
+                    holerite.contract_id.nome_do_contrato)
             if not holerite.payment_mode_id:
                 raise UserError(_(
                     "No Payment Mode on holerite %s") % holerite.number)
@@ -120,9 +114,10 @@ class HrPayslip(models.Model):
 
                     if not holerite.contract_id.employee_id.user_id.partner_id:
                         raise UserError(_(
-                            "Nenhum partner associado com o employee %s") %
-                                holerite.contract_id.employee_id.display_name)
+                            "Nenhum Parceiro associado com employee %s") %
+                            holerite.contract_id.employee_id.display_name)
 
                     self.create_payment_order_line(
-                        payorder, rubrica.total, 'SALARIO ' + holerite.data_mes_ano,
+                        payorder, rubrica.total,
+                        'SALARIO ' + holerite.data_mes_ano,
                         holerite.contract_id.employee_id.address_home_id)
