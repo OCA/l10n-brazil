@@ -26,10 +26,6 @@ from openerp import models, fields
 class PaymentMode(models.Model):
     _inherit = 'payment.mode'
 
-    payment_order_type = fields.Selection(
-        selection_add=[
-            ('cobranca', u'Cobrança'),
-        ])
     type_sale_payment = fields.Selection(
         [('00', u'00 - Duplicata'),
          ('01', u'01 - Cheque'),
