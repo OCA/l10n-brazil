@@ -88,3 +88,45 @@ class PayslipPaymentCreateOrder(models.Model):
                 'target': 'new',
                 }
 
+    @api.multi
+    def _preparar_linha_do_holerite(self, payment, line):
+        self.ensure_one()
+        _today = fields.Date.context_today(self)
+        date_to_pay = False  # no payment date => immediate payment
+        state = 'normal'
+        communication = 'Holerite: ' + line.display_name or '-'
+        amount_currency = line.total
+        res = {
+            'amount_currency': amount_currency,
+            'bank_id':
+                line.contract_id.employee_id.bank_account_id.id,
+            'order_id': payment.id,
+            'partner_id': line.partner_id and line.partner_id.id or False,
+            # account banking
+            'communication': communication,
+            'state': state,
+            # end account banking
+            'date': date_to_pay,
+            'payslip_id': line.slip_id.id,
+        }
+        return res
+
+    @api.multi
+    def create_payment(self):
+        if not self.entries:
+            return {'type': 'ir.actions.act_window_close'}
+        context = self.env.context
+        payment_line_obj = self.env['payment.line']
+        payment = self.env['payment.order'].browse(context['active_id'])
+        # Populate the current payment with new lines:
+        for line in self.entries:
+            vals = self._preparar_linha_do_holerite(payment, line)
+            payment_line_obj.create(vals)
+        # Force reload of payment order view as a workaround for lp:1155525
+        return {'name': _('Payment Orders'),
+                'context': context,
+                'view_type': 'form',
+                'view_mode': 'form,tree',
+                'res_model': 'payment.order',
+                'res_id': context['active_id'],
+                'type': 'ir.actions.act_window'}
