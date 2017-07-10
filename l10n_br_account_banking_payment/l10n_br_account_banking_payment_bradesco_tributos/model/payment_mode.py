@@ -26,10 +26,10 @@ from openerp import models, fields
 class PaymentMode(models.Model):
     _inherit = "payment.mode"
 
-    payment_order_type = fields.Selection(
-        selection_add=[
-            ('tax', u'Tributos'),
-        ])
+    # payment_order_type = fields.Selection(
+    #     selection_add=[
+    #         ('tax', u'Tributos'),
+    #     ])
     gnre_value_field = fields.Many2one(
         'ir.model.fields', 'Value field',
         domain=[('model_id', '=', 'account.invoice')])
@@ -40,24 +40,24 @@ class PaymentModeType(models.Model):
     _inherit = 'payment.mode.type'
     _description = 'Payment Mode Type'
 
-    payment_order_type = fields.Selection(
-        selection_add=[
-            ('tax', u'Tributos'),
-        ])
+    # payment_order_type = fields.Selection(
+    #     selection_add=[
+    #         ('tax', u'Tributos'),
+    #     ])
 
 
 class PaymentOrder(models.Model):
     _inherit = 'payment.order'
 
-    payment_order_type = fields.Selection(
-        selection_add=[
-            ('tax', u'Tributos'),
-        ])
+    # payment_order_type = fields.Selection(
+    #     selection_add=[
+    #         ('tax', u'Tributos'),
+    #     ])
 
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    has_gnre = fields.Boolean(
-        related='stored_invoice_id.has_gnre',
-        string="Tem GNRE")
+    # has_gnre = fields.Boolean(
+    #     related='stored_invoice_id.has_gnre',
+    #     string="Tem GNRE")
