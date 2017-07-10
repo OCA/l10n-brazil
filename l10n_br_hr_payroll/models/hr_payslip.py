@@ -146,8 +146,9 @@ class HrPayslip(models.Model):
             holerite.data_retorno = data.formata_data(
                 str((fields.Datetime.from_string(holerite.date_to) +
                      relativedelta(days=1)).date()))
-            holerite.data_pagamento = str(
-                self.compute_payment_day(holerite.date_from))
+            holerite.data_pagamento = \
+                str((fields.Datetime.from_string(holerite.date_from) +
+ -                     relativedelta(days=-2)).date())
             holerite.ferias_vencidas = self._verificar_ferias_vencidas()
             # TO DO Verificar datas de feriados.
             # A biblioteca aceita os parametros de feriados, mas a utilizacao
