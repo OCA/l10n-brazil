@@ -58,8 +58,8 @@ class PaymentLine(models.Model):
         cntry = partner_record.country_id and \
             partner_record.country_id.name or ''
         cnpj = partner_record.cnpj_cpf or ''
-        return partner_record.legal_name + "\n" + cnpj + "\n" + st + ", " \
-            + n + "  " + st1 + "\n" + zip_city + "\n" + cntry
+        return partner_record.legal_name or '' + "\n" + cnpj + "\n" + st \
+            + ", " + n + "  " + st1 + "\n" + zip_city + "\n" + cntry
 
     @api.one
     @api.depends('percent_interest', 'amount_currency')
