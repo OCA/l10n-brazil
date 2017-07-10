@@ -8,7 +8,6 @@
     'version': '8.0.1.0.0',
     'category': 'Banking addons',
     'license': 'AGPL-3',
-    'summary': '',
     'author': "KMEE, Odoo Community Association (OCA)",
     "website": "https://odoo-community.org/",
     'depends': [
