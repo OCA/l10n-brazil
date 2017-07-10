@@ -28,10 +28,11 @@ class AccountBankStatementLine(models.Model):
     @api.model
     def get_reconcile_lines_from_cnab_move(self, this, excluded_ids=None):
         """return move.line to reconcile with statement line"""
-        move_lines = self.env['account.move.line'].search(
-            [('transaction_ref', '=', this.name),
-             ('name', '=', this.ref)
-             ])
+        move_lines = self.env['account.move.line'].search([
+            ('transaction_ref', '=', this.name),
+            ('name', '=', this.ref),
+            ('company_id', '=', self.env.user.company_id.id)
+        ])
         try:
             assert len(move_lines) <= 1
         except Exception, e:
