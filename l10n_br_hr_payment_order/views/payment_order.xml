@@ -5,54 +5,24 @@
 <openerp>
 <data>
 
-    <!--<record model="ir.ui.view" id="payment_order_form_view">-->
-        <!--<field name="name">payment.order.form (in l10n_br_hr_payment_order)</field>-->
-        <!--<field name="model">payment.order</field>-->
-        <!--<field name="inherit_id" ref="TODO othermodule.form_view"/>-->
-        <!--<field name="arch" type="xml">-->
-            <!--&lt;!&ndash; TODO &ndash;&gt;-->
-        <!--</field>-->
-    <!--</record>-->
-
-    <!--<record model="ir.ui.view" id="payment_order_search_view">-->
-        <!--<field name="name">payment.order.search (in l10n_br_hr_payment_order)</field>-->
-        <!--<field name="model">payment.order</field>-->
-        <!--<field name="inherit_id" ref="TODO othermodule.search_view"/>-->
-        <!--<field name="arch" type="xml">-->
-            <!--&lt;!&ndash; TODO &ndash;&gt;-->
-        <!--</field>-->
-    <!--</record>-->
-
-    <!--<record model="ir.ui.view" id="payment_order_tree_view">-->
-        <!--<field name="name">payment.order.tree (in l10n_br_hr_payment_order)</field>-->
-        <!--<field name="model">payment.order</field>-->
-        <!--<field name="inherit_id" ref="TODO othermodule.tree_view"/>-->
-        <!--<field name="arch" type="xml">-->
-            <!--&lt;!&ndash; TODO &ndash;&gt;-->
-        <!--</field>-->
-    <!--</record>-->
-
-    <!--<record model="ir.actions.act_window" id="payment_order_act_window">-->
-        <!--<field name="name">Payment Order</field> &lt;!&ndash; TODO &ndash;&gt;-->
-        <!--<field name="res_model">payment.order</field>-->
-        <!--<field name="view_mode">tree,form</field>-->
-        <!--<field name="domain">[]</field>-->
-        <!--<field name="context">{}</field>-->
-    <!--</record>-->
-
-    <!--<record model="ir.ui.menu" id="payment_order_menu">-->
-        <!--<field name="name">Payment Order</field>-->
-        <!--<field name="parent_id" ref="xmlid of parent menu"/> &lt;!&ndash; TODO &ndash;&gt;-->
-        <!--<field name="action" ref="payment_order_act_window"/>-->
-        <!--<field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
-    <!--</record>-->
+    <record model="ir.ui.view" id="view_payment_order_form">
+        <field name="name">payment.order.payslip</field>
+        <field name="model">payment.order</field>
+        <field name="inherit_id" ref="account_payment.view_payment_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@string='Invoices']" position="after">
+                <button class="oe_inline oe_stat_button oe_right" name="%(action_create_payslip_payment_order)d" string="Holerites" Help="Selecionar as linhas dos holerites que vao ser pagas"
+                        type="action" attrs="{'invisible':[('state','=','done')]}" icon="fa-pencil-square-o" widget="statinfo"/>
+            </xpath>
+        </field>
+    </record>
 
     <record model="ir.ui.view" id="view_payment_line_form">
         <field name="name">payment.order.line.payslip</field>
         <field name="model">payment.line</field>
         <field name="inherit_id" ref="account_payment.view_payment_line_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[@string='Information']" position="inside">
+            <xpath expr="//page[@string='Information']/group[@string='Entry Information']" position="inside">
                 <field name="payslip_id" />
             </xpath>
         </field>
