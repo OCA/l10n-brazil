@@ -40,7 +40,7 @@
         'data/l10n_br_res_partner_bank_type.xml',
     ],
     'active': False,
-    "installable": True,
+    "installable": False,
     "auto_install": False,
     'description': """
     Allows to import CNAB 400 (Centro Nacional de Automação Bancária)
