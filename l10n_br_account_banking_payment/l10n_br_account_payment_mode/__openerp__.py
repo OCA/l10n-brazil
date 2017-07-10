@@ -4,13 +4,13 @@
 
 {
     'name': 'Odoo Brazil Account Banking Payment Infrastructure',
+    'summary': 'Odoo Brazil Payments Mode',
     'version': '8.0.1.0.0',
     'category': 'Banking addons',
     'license': 'AGPL-3',
     'summary': '',
-    'description': """ """,
-    'author': 'KMEE',
-    'website': 'http://www.kmee.com.br',
+    'author': "KMEE, Odoo Community Association (OCA)",
+    "website": "https://odoo-community.org/",
     'depends': [
         'l10n_br_account',
         'l10n_br_data_base',
