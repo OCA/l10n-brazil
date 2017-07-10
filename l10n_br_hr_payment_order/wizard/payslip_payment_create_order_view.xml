@@ -6,16 +6,32 @@
             <field name="name">payslip.payment.create.order.form</field>
             <field name="model">payslip.payment.order.create</field>
             <field name="arch" type="xml">
-                <form string="Search Payment lines">
+                <form string="Buscar rubricas a serem pagas nos holerites">
                     <group>
-                        <field name="duedate" />
+                        <field name="tipo_de_folha" />
+                        <field name="mes_do_ano" />
+                        <field name="ano" />
                     </group>
                     <footer>
-                        <button name="search_entries" string="Search" type="object" class="oe_highlight"/>
+                        <button name="buscar_linhas_holerites" string="Buscar Rubricas dos holerites" type="object" class="oe_highlight"/>
                         or
-                        <button string="Cancel" class="oe_link" special="cancel"/>
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
                     </footer>
                 </form>
+            </field>
+        </record>
+
+        <record id="payment_order_populate_view_payslip_line_tree" model="ir.ui.view">
+            <field name="name">payment.order.populate.account.payslip.line.tree</field>
+            <field name="model">hr.payslip.line</field>
+            <field name="arch" type="xml">
+                <tree string="Journal Items" editable="0" create="0" delete="1">
+                    <field name="name"/>
+                    <field name="slip_id"/>
+                    <field name="partner_id"/>
+                    <field name="code" />
+                    <field name="total" />
+                </tree>
             </field>
         </record>
 
@@ -23,21 +39,21 @@
             <field name="name">payslip.payment.line.create.order</field>
             <field name="model">payslip.payment.order.create</field>
             <field name="arch" type="xml">
-                <form string="Search Payment lines">
-                    <group string="Entries">
-                        <field name="entries"/>
-                    </group>
-                    <footer>
-                        <button name="create_payment" string="_Add to payment order" type="object" class="oe_highlight"/>
+                <form string="Criar Ordens de Pagamento">
+                    <header>
+                        <button name="create_payment" string="Criar Ordens de pagamento" type="object" class="oe_highlight"/>
                         or
-                        <button string="Cancel" class="oe_link" special="cancel"/>
-                    </footer>
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </header>
+                    <separator string="Rubricas a serem pagas" />
+                    <field name="entries" context="{'tree_view_ref': 'l10n_br_hr_payment_order.payment_order_populate_view_payslip_line_tree'}" nolabel="1"/>
+
                 </form>
             </field>
         </record>
 
         <record id="action_create_payslip_payment_order" model="ir.actions.act_window">
-            <field name="name">Populate Payment</field>
+            <field name="name">Buscar rubricas a serem pagas nos holerites</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">payslip.payment.order.create</field>
             <field name="view_type">form</field>
