@@ -3,9 +3,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from datetime import datetime
+
 from openerp import api, models, fields, _
-from openerp.addons.l10n_br_hr_payroll.models.hr_payslip import TIPO_DE_FOLHA,\
-    MES_DO_ANO
+from openerp.addons.l10n_br_hr_payroll.models.hr_payslip import \
+    TIPO_DE_FOLHA, MES_DO_ANO
 
 
 class PayslipPaymentCreateOrder(models.Model):
@@ -91,7 +92,6 @@ class PayslipPaymentCreateOrder(models.Model):
     @api.multi
     def _preparar_linha_do_holerite(self, payment, line):
         self.ensure_one()
-        _today = fields.Date.context_today(self)
         date_to_pay = False  # no payment date => immediate payment
         state = 'normal'
         communication = 'Holerite: ' + line.display_name or '-'
