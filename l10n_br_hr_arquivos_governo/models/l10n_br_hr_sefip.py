@@ -25,11 +25,27 @@ from ..constantes_rh import (
 
 _logger = logging.getLogger(__name__)
 
-# SEFIP_STATE = [
-#     ('draft', u'Rascunho'),
-#     ('open', u'Confirmada'),
-#     ('sent', u'Enviado'),
-# ]
+
+class SefipAttachments(models.Model):
+    _name = b'l10n_br.hr.sefip.attachments'
+    _order = b'create_date'
+
+    name = fields.Char(string='Observações')
+    type = fields.Selection(string='Tipo', selection=[
+        ('sent', 'Enviado'),
+        ('relatorio', 'relatorio'),
+    ], default='relatorio')
+    sefip_id = fields.Many2one(
+        string='Arquivo do governo relacionado',
+        comodel_name=b'l10n_br.hr.sefip'
+    )
+    attachment_ids = fields.Many2many(
+        string='Arquivo anexo',
+        comodel_name='ir.attachment',
+        relation='ir_attachment_sefip_rel',
+        column1='sefip_attachment_id',
+        column2='attachment_id',
+    )
 
 
 class L10nBrSefip(models.Model):
@@ -117,12 +133,6 @@ class L10nBrSefip(models.Model):
         if self.codigo_fpas == "639":
             return str("%05d" % self.porcentagem_filantropia * 100)
         return '    '
-
-    # state = fields.Selection(
-    #     selection=SEFIP_STATE, index = True,
-    #     readonly = True, default = 'draft',
-    #     track_visibility = 'onchange', copy = False
-    # )
 
     related_attachment_ids = fields.One2many(
         string='Anexos Relacionados',
@@ -486,6 +496,23 @@ class L10nBrSefip(models.Model):
             # Gera o anexo apartir do txt do grrf no temp do sistema
             nome_arquivo = 'SEFIP.re'
             self._gerar_anexo(nome_arquivo, path_arquivo)
+
+    def valida_anexos(self):
+        tipos_anexo = [x.type for x in self.related_attachment_ids]
+        if 'sent'in tipos_anexo and 'relatorio' in tipos_anexo:
+            return True
+        else:
+            raise ValidationError(
+                _('É necessário adicionar o relatório gerado pelo '
+                  'aplicativo na aba "Arquivos Anexos" para confirmar o envio')
+            )
+
+
+    @api.multi
+    def action_sent(self):
+        for record in self:
+            record.valida_anexos()
+            super(L10nBrSefip, record).action_sent()
 
     @api.multi
     def action_open(self):
@@ -1055,11 +1082,7 @@ class L10nBrSefip(models.Model):
         :return:
         """
         attachment_obj = self.env['ir.attachment']
-
-        # Apagar SEFIP's existentes
-        anexos = attachment_obj.search([('res_id', '=', self.id)])
-        for anexo in anexos:
-            anexo.unlink()
+        sefip_attachment_obj = self.env['l10n_br.hr.sefip.attachments']
 
         try:
             file_attc = open(path_arquivo_temp, 'r')
@@ -1069,10 +1092,24 @@ class L10nBrSefip(models.Model):
                 'name': nome_do_arquivo,
                 'datas_fname': nome_do_arquivo,
                 'datas': base64.b64encode(attc),
-                'res_model': 'l10n_br.hr.sefip',
-                'res_id': self.id,
+                'res_model': 'l10n_br.hr.sefip.attachments',
             }
-            attachment_obj.create(attachment_data)
+
+            if 'sent' in [line.type for line in self.related_attachment_ids]:
+                for line in self.related_attachment_ids:
+                    if line.type == 'sent':
+                        attach_id = attachment_obj.create(attachment_data)
+                        line.attachment_ids = False
+                        line.attachment_ids = [attach_id.id]
+            else:
+                sefip_attachment_data = {
+                    'name': 'Arquivo SEFIP',
+                    'sefip_id': self.id,
+                    'attachment_ids': [(0,0, attachment_data)],
+                    'type': 'sent'
+                }
+                sefip_attachment_obj.create(sefip_attachment_data)
+
             file_attc.close()
 
         except:

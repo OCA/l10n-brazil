@@ -21,7 +21,7 @@
                                 type='object'
                                 attrs="{'invisible':[('state', '!=', 'draft')]}"/>
                         <button name="action_open" string="Confirmar Caged" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
-                        <button name="action_draft" string="Voltar para provisório" type="object" attrs="{'invisible':[('state', '!=', 'open')]}"/>
+                        <button name="action_draft" string="Voltar para provisório" type="object" attrs="{'invisible':[('state', '!=', 'open')]}" groups="base.group_hr_manager"/>
                         <button name="action_sent" string="Confirmar Envio" type="object" attrs="{'invisible':[('state', '!=', 'open')]}"/>
                         <field name="state" widget="statusbar"/>
                     </header>
@@ -39,11 +39,35 @@
                             <field name="cpf_responsavel" />
                             <field name="email_responsavel" />
                         </group>
-
-                        <field name="caged_txt" colspan="2" nolabel="1" readonly="1" />
-
                     </group>
-
+                    <footer>
+                        <notebook>
+                            <page string="Prévia do CAGED">
+                                <group string="Prévia do CAGED" colspan="2">
+                                    <field name="caged_txt" colspan="2" nolabel="1" readonly="1" />
+                                </group>
+                            </page>
+                            <page string="Arquivos Anexos">
+                                <group string="Arquivos Anexos">
+                                    <field nolabel="1" name="related_attachment_ids" >
+                                        <tree >
+                                            <field name="write_date"/>
+                                            <field name="name"/>
+                                            <field name="attachment_ids"/>
+                                        </tree>
+                                        <form context="{'default_caged_id': self.id}">
+                                            <group>
+                                                <field name="write_date" readonly="1"/>
+                                                <field name="caged_id" invisible="1"/>
+                                                <field name="name"/>
+                                                <field name="attachment_ids" widget="many2many_binary"/>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </footer>
                 </form>
                 <div class="oe_chatter">
                         <field name="message_follower_ids"
@@ -63,6 +87,7 @@
                     <field name="ano"/>
                     <field name="primeira_declaracao"/>
                     <field name="company_id"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>

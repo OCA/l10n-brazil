@@ -21,7 +21,7 @@
 
         <record model="ir.ui.menu" id="hr_sefip_submenu">
             <field name="name">SEFIP</field>
-            <field name="parent_id" ref="hr_sefip_menu"/>
+            <field name="parent_id" ref="menu_hr_root_payroll_relatorios"/>
             <field name="action" ref="hr_sefip_act_window"/>
             <field name="sequence" eval="1"/>
         </record>
@@ -34,13 +34,12 @@
                     <header>
                         <button name="gerar_sefip" string="Gerar SEFIP" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
                         <button name="action_open" string="Confirmar SEFIP" type="object" attrs="{'invisible':[('state', '!=', 'draft')]}"/>
-                        <button name="action_draft" string="Voltar para provisório" type="object" attrs="{'invisible':[('state', '!=', 'open')]}"/>
+                        <button name="action_draft" string="Voltar para provisório" type="object" attrs="{'invisible':[('state', '!=', 'open')]}" groups="base.group_hr_manager"/>
                         <button name="action_sent" string="Confirmar Envio" type="object" attrs="{'invisible':[('state', '!=', 'open')]}"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <group cols="4" string="SEFIP">
                         <group string="Responsável" colspan="4">
-                            <!--<field name="responsible_company_id"/>-->
                             <field name="responsible_user_id"/>
                             <field name="company_id"/>
                             <field name="mes"/>
@@ -73,9 +72,34 @@
                         </group>
                     </group>
                     <footer >
-                        <group string="Prévia do SEFIP">
-                            <field nolabel="1" name="sefip"/>
-                        </group>
+                        <notebook>
+                            <page string="Prévia do SEFIP">
+                                <group string="Prévia do SEFIP">
+                                    <field nolabel="1" name="sefip"/>
+                                </group>
+                            </page>
+                            <page string="Arquivos Anexos">
+                                <group string="Arquivos Anexos">
+                                    <field nolabel="1" name="related_attachment_ids" >
+                                        <tree >
+                                            <field name="write_date"/>
+                                            <field name="name"/>
+                                            <field name="type"/>
+                                            <field name="attachment_ids"/>
+                                        </tree>
+                                        <form context="{'default_sefip_id': self.id}">
+                                            <group>
+                                                <field name="write_date" readonly="1"/>
+                                                <field name="sefip_id" invisible="1"/>
+                                                <field name="name"/>
+                                                <field name="type"/>
+                                                <field name="attachment_ids" widget="many2many_binary"/>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
                     </footer>
                 </form>
                 <div class="oe_chatter">
@@ -96,33 +120,10 @@
                     <field name="ano"/>
                     <field name="modalidade_arquivo"/>
                     <field name="company_id"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>
-
-        <!--<record model="ir.ui.view" id="hr_payslip_search_view">-->
-        <!--<field name="name">hr.payslip.search (in l10n_br_hr_arquivos_governo)</field>-->
-        <!--<field name="model">hr.payslip</field>-->
-        <!--<field name="inherit_id" ref="TODO othermodule.search_view"/>-->
-        <!--<field name="arch" type="xml">-->
-        <!--&lt;!&ndash; TODO &ndash;&gt;-->
-        <!--</field>-->
-        <!--</record>-->
-
-        <!--<record model="ir.actions.act_window" id="hr_payslip_act_window">-->
-        <!--<field name="name">Hr Payslip</field> &lt;!&ndash; TODO &ndash;&gt;-->
-        <!--<field name="res_model">hr.payslip</field>-->
-        <!--<field name="view_mode">tree,form</field>-->
-        <!--<field name="domain">[]</field>-->
-        <!--<field name="context">{}</field>-->
-        <!--</record>-->
-
-        <!--<record model="ir.ui.menu" id="hr_payslip_menu">-->
-        <!--<field name="name">Hr Payslip</field>-->
-        <!--<field name="parent_id" ref="xmlid of parent menu"/> &lt;!&ndash; TODO &ndash;&gt;-->
-        <!--<field name="action" ref="hr_payslip_act_window"/>-->
-        <!--<field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
-        <!--</record>-->
 
     </data>
 </openerp>

@@ -4,3 +4,7 @@ access_hr_caged,access_hr_caged,model_hr_caged,,1,0,0,0
 "l10n_br_account_cnae","l10n_br_account.cnae","l10n_br_account.model_l10n_br_account_cnae","base.group_hr_user",1,0,0,0
 access_hr_sefip,access_hr_sefip,model_l10n_br_hr_sefip,,1,0,0,0
 "access_hr_sefip_manager","create_hr_sefip","model_l10n_br_hr_sefip","base.group_hr_manager",1,1,1,1
+access_hr_sefip_attachment,access_hr_sefip_attachment,model_l10n_br_hr_sefip_attachments,,1,0,0,0
+"access_hr_sefip_attachment_manager","create_hr_sefip_attachment","model_l10n_br_hr_sefip_attachments","base.group_hr_manager",1,1,1,1
+access_hr_caged_attachment,access_hr_caged_attachment,model_l10n_br_hr_caged_attachments,,1,0,0,0
+"access_hr_caged_attachment_manager","create_hr_caged_attachment","model_l10n_br_hr_caged_attachments","base.group_hr_manager",1,1,1,1

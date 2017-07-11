@@ -21,6 +21,24 @@ except ImportError:
     _logger.info('Cannot import pybrasil')
 
 
+class CagedAttachment(models.Model):
+    _name = 'l10n_br.hr.caged.attachments'
+    _order = 'create_date'
+
+    name = fields.Char(string='Observações')
+    caged_id = fields.Many2one(
+        string='Arquivo do governo relacionado',
+        comodel_name=b'hr.caged'
+    )
+    attachment_ids = fields.Many2many(
+        string='Arquivo anexo',
+        comodel_name='ir.attachment',
+        relation='ir_attachment_caged_rel',
+        column1='caged_attachment_id',
+        column2='attachment_id',
+    )
+
+
 class HrCaged(models.Model):
 
     _name = 'hr.caged'
@@ -402,20 +420,26 @@ class HrCaged(models.Model):
         :param path_arquivo_temp:
         :return:
         """
+        caged_attach_obj = self.env['l10n_br.hr.caged.attachments']
         try:
             file_attc = open(path_arquivo_temp, 'r')
             attc = file_attc.read()
-            attachment_obj = self.env['ir.attachment']
+
             attachment_data = {
                 'name': nome_do_arquivo,
                 'datas_fname': nome_do_arquivo,
                 'datas': base64.b64encode(attc),
-                'res_model': 'hr.caged',
-                'res_id': self.id,
+                'res_model': 'l10n_br.hr.caged.attachments',
             }
-            attachment_obj.create(attachment_data)
-            file_attc.close()
 
+            caged_attachment_data = {
+                'name': 'Arquivo Caged',
+                'attachment_ids': [(0,0, attachment_data)],
+                'caged_id': self.id,
+            }
+            caged_attach_obj.create(caged_attachment_data)
+
+            file_attc.close()
         except:
             raise Warning(
                 _('Impossível gerar Anexo do %s' % nome_do_arquivo))
