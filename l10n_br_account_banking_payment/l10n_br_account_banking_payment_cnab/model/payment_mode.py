@@ -66,7 +66,7 @@ class PaymentMode(models.Model):
         string=u'Código de finalidade complementar',
         help=u'Campo P013 do CNAB'
     )
-    aviso_favorecido = fields.Selection(
+    aviso_ao_favorecido = fields.Selection(
         selection=AVISO_FAVORECIDO,
         string=u'Aviso ao Favorecido',
         help=u'Campo P006 do CNAB'

@@ -22,7 +22,7 @@
                     <field name="complemento_tipo_servico"/>
                     <field name="codigo_finalidade_ted"/>
                     <field name="codigo_finalidade_complementar"/>
-                    <field name="aviso_favorecido"/>
+                    <field name="aviso_ao_favorecido"/>
                 </field>
             </field>
         </record>

@@ -6,8 +6,8 @@
 from __future__ import division, print_function, unicode_literals
 
 from openerp import api, models, fields
-from ..constantes import INDICATIVO_FORMA_PAGAMENTO, TIPO_MOVIMENTO, \
-    CODIGO_INSTRUCAO_MOVIMENTO
+from ..constantes import TIPO_SERVICO, FORMA_LANCAMENTO, \
+    INDICATIVO_FORMA_PAGAMENTO, TIPO_MOVIMENTO, CODIGO_INSTRUCAO_MOVIMENTO
 
 
 class PaymentOrder(models.Model):
@@ -29,20 +29,20 @@ class PaymentOrder(models.Model):
         'l10n_br_cnab_file_sufix.sequence',
     )
 
-    forma_lancamento = fields.Selection(
-        string='Forma de Lançamento do CNAB',
-        related='mode.forma_lancamento',
-    )
     tipo_servico = fields.Selection(
-        related='mode.tipo_servico',
+        selection=TIPO_SERVICO,
         string=u'Tipo de Serviço',
         help=u'Campo G025 do CNAB'
+    )
+    forma_lancamento = fields.Selection(
+        selection=FORMA_LANCAMENTO,
+        string=u'Forma Lançamento',
+        help=u'Campo G029 do CNAB'
     )
     codigo_convenio = fields.Char(
         size=20,
         string=u'Código do Convênio no Banco',
-        help=u'Campo G007 do CNAB',
-        related='mode.codigo_convenio'
+        help=u'Campo G007 do CNAB'
     )
     indicativo_forma_pagamento = fields.Selection(
         selection=INDICATIVO_FORMA_PAGAMENTO,
