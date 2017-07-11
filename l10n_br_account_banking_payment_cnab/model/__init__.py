@@ -10,3 +10,4 @@ from . import res_partner
 from .. import constantes
 from . import payment_line
 from . import bank_payment_line
+from . import l10n_br_cnab
