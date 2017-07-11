@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (c) 2017 KMEE INFORMATICA LTDA - Daniel Sadamo <sadamo@kmee.com.br>
+# (c) 2017 KMEE INFORMATICA LTDA - Daniel Sadamo <daniel.sadamo@kmee.com.br>
 # (c) 2017 KMEE INFORMATICA LTDA - Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
@@ -124,41 +124,76 @@ class L10nBrSefip(models.Model):
     #     track_visibility = 'onchange', copy = False
     # )
 
+    related_attachment_ids = fields.One2many(
+        string='Anexos Relacionados',
+        comodel_name='l10n_br.hr.sefip.attachments',
+        inverse_name='sefip_id',
+        readonly=True, track_visibility='onchange',
+        states={'draft': [('readonly', False)], 'open': [('readonly', False)]}
+    )
     responsible_user_id = fields.Many2one(
-        comodel_name='res.partner', string=u'Usuário Responsável'
+        comodel_name='res.partner', string=u'Usuário Responsável',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     company_id = fields.Many2one(
-        comodel_name='res.company', string=u'Empresa'
+        comodel_name='res.company', string=u'Empresa',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
-    mes = fields.Selection(selection=MESES, string=u'Mês')
-    ano = fields.Char(string=u'Ano', size=4)
+    mes = fields.Selection(
+        selection=MESES, string=u'Mês',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
+    ano = fields.Char(
+        string=u'Ano', size=4,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
     modalidade_arquivo = fields.Selection(
-        selection=MODALIDADE_ARQUIVO, string=u'Modalidade do arquivo'
+        selection=MODALIDADE_ARQUIVO, string=u'Modalidade do arquivo',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     codigo_recolhimento = fields.Selection(
-        string=u'Código de recolhimento', selection=CODIGO_RECOLHIMENTO
+        string=u'Código de recolhimento', selection=CODIGO_RECOLHIMENTO,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     recolhimento_fgts = fields.Selection(
-        string=u'Recolhimento do FGTS', selection=RECOLHIMENTO_FGTS
+        string=u'Recolhimento do FGTS', selection=RECOLHIMENTO_FGTS,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     data_recolhimento_fgts = fields.Date(
-        string=u'Data de recolhimento do FGTS'
+        string=u'Data de recolhimento do FGTS',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     codigo_recolhimento_gps = fields.Integer(
         string=u'Código de recolhimento do GPS',
         related='company_id.codigo_recolhimento_GPS',
         store=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     recolhimento_gps = fields.Selection(
-        string=u'Recolhimento do GPS', selection=RECOLHIMENTO_GPS
+        string=u'Recolhimento do GPS', selection=RECOLHIMENTO_GPS,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     data_recolhimento_gps = fields.Date(
-        string=u'Data de recolhimento do GPS'
+        string=u'Data de recolhimento do GPS',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     codigo_fpas = fields.Char(
         string=u'Código FPAS',
         default='736',
         required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
         help="""Campo obrigatório:\n
         • Deve ser um FPAS válido.\n
         • Deve ser diferente de 744 e 779, pois as GPS desses códigos serão
@@ -172,25 +207,57 @@ class L10nBrSefip(models.Model):
     )
     eh_obrigatorio_codigo_outras_entidades = fields.Boolean(
         compute='_compute_eh_obrigatorio_codigo_outras_entidades',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     codigo_outras_entidades = fields.Selection(
         string=u'Código de outras entidades',
         related='company_id.codigo_outras_entidades',
         store=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     eh_obrigatorio_informacoes_processo = fields.Boolean(
         compute='_compute_eh_obrigatorio_informacoes_processo',
         default=False,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
-    data_geracao = fields.Date(string=u'Data do arquivo')
+    data_geracao = fields.Date(
+        string=u'Data do arquivo',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
     # Processo ou convenção coletiva
-    num_processo = fields.Char(string=u'Número do processo')
-    ano_processo = fields.Char(string=u'Ano do processo', size=4)
-    vara_jcj = fields.Char(string=u'Vara/JCJ')
-    data_inicio = fields.Date(string=u'Data de Início')
-    data_termino = fields.Date(string=u'Data de término')
+    num_processo = fields.Char(
+        string=u'Número do processo',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
+    ano_processo = fields.Char(
+        string=u'Ano do processo', size=4,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        )
+    vara_jcj = fields.Char(
+        string=u'Vara/JCJ',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
+    data_inicio = fields.Date(
+        string=u'Data de Início',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
+    data_termino = fields.Date(
+        string=u'Data de término',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
     sefip = fields.Text(
-        string=u'Prévia do SEFIP'
+        string=u'Prévia do SEFIP',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
 
     def _valida_tamanho_linha(self, linha):

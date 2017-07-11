@@ -26,38 +26,52 @@ class HrCaged(models.Model):
     _name = 'hr.caged'
     _inherit = ['abstract.arquivos.governo.workflow', 'mail.thread']
 
+    related_attachment_ids = fields.One2many(
+        string='Anexos Relacionados',
+        comodel_name='l10n_br.hr.caged.attachments',
+        inverse_name='caged_id',
+        readonly=True, track_visibility='onchange',
+        states={'draft': [('readonly', False)], 'open': [('readonly', False)]}
+    )
     mes_do_ano = fields.Selection(
         selection=MES_DO_ANO,
         string=u'Mês',
-        default=fields.Date.from_string(fields.Date.today()).month
+        default=fields.Date.from_string(fields.Date.today()).month,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
-
     ano = fields.Integer(
         string=u'Ano',
-        default=fields.Date.from_string(fields.Date.today()).year
+        default=fields.Date.from_string(fields.Date.today()).year,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
-
     company_id = fields.Many2one(
         comodel_name='res.company',
         string=u'Empresa',
         default=lambda self: self.env.user.company_id or '',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
-
     caged_txt = fields.Text(
-        string='CAGED TXT'
+        string='CAGED TXT',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
-
     primeira_declaracao = fields.Boolean(
         string='Primeira declaração?',
         help='Define se é ou não a primeira declaração do estabelecimento ao '
              'Cadastro Geral de Empregados e Desempregados - '
              'CAGED  Lei nº 4.923/65.',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
-
     responsavel = fields.Many2one(
         comodel_name='res.users',
         string=u'Responsável',
-        default=lambda self: self.env.user
+        default=lambda self: self.env.user,
+        readonly = True,
+        states = {'draft': [('readonly', False)]},
     )
 
     @api.depends('responsavel')
