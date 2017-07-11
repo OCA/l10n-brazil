@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 Bruna Maria Braga - KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<openerp>
+    <data>
+        <record id="hr_payroll.t5" model="workflow.transition">
+            <field name="act_from" ref="act_verify"/>
+            <field name="act_to" ref="act_done"/>
+            <field name="trigger_model"/>
+            <field name="trigger_expr_id"/>
+            <field name="condition">paid</field>
+        </record>
+    </data>
+</openerp>
