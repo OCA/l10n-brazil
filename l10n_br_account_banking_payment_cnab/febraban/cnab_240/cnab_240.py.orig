@@ -21,8 +21,6 @@
 #
 ##############################################################################
 
-from __future__ import division, print_function, unicode_literals
-
 import datetime
 import logging
 import re
@@ -64,9 +62,6 @@ class Cnab240(Cnab):
         elif bank == '033':
             from .bancos.santander import Santander240
             return Santander240
-        elif bank == '001':
-            from .bancos.bb import BB240
-            return BB240
         else:
             return Cnab240
 
@@ -84,52 +79,64 @@ class Cnab240(Cnab):
         :param:
         :return:
         """
-        # return {
-        #     'controle_banco': int(self.order.mode.bank_id.bank_bic),
-        #     'arquivo_data_de_geracao': self.data_hoje(),
-        #     'arquivo_hora_de_geracao': self.hora_agora(),
-        #     # TODO: Número sequencial de arquivo
-        #     'arquivo_sequencia': int(self.get_file_numeration()),
-        #     'cedente_inscricao_tipo': self.inscricao_tipo,
-        #     'cedente_inscricao_numero': int(punctuation_rm(
-        #         self.order.company_id.cnpj_cpf)),
-        #     'cedente_agencia': int(
-        #         self.order.mode.bank_id.bra_number),
-        #     'cedente_conta': int(self.order.mode.bank_id.acc_number),
-        #     'cedente_conta_dv': (self.order.mode.bank_id.acc_number_dig),
-        #     'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
-        #     'cedente_nome': self.order.company_id.legal_name,
-        #     # DV ag e conta
-        #     'cedente_dv_ag_cc': (self.order.mode.bank_id.bra_acc_dig),
-        #     'arquivo_codigo': 1,  # Remessa/Retorno
-        #     'servico_operacao': u'R',
-        #     'nome_banco': unicode(self.order.mode.bank_id.bank_name),
-        # }
         return {
-        'controle_banco': 1,
-        'arquivo_data_de_geracao': 12606201,
-        'arquivo_densidade': 0,
-        'arquivo_hora_de_geracao': 700000,
-        'arquivo_layout': 103,
-        'arquivo_sequencia': 0,
-        'cedente_agencia': 1234,
-        'cedente_agencia_dv': '1',
-        'cedente_conta': 333333,
-        'cedente_conta_dv': '0',
-        'cedente_convenio': '0001234567891',
-        'cedente_agencia_conta_dv': '',
-        'cedente_inscricao_numero': 23130935000198,
-        'cedente_inscricao_tipo': 2,
-        'cedente_nome': "KMEE INFORMATICA LTDA",
-        'controle_lote': 0,
-        'controle_registro': 0,
-        'nome_do_banco': 'BANCO DO BRASIL',
-        'reservado_banco': '0',
-        'reservado_empresa': 'EMPRESA 100',
-        'vazio1': '',
-        'vazio3': '',
-        'vazio4': 'CSP000',
-    }
+            'controle_banco': int(self.order.mode.bank_id.bank_bic),
+            'arquivo_data_de_geracao': self.data_hoje(),
+            'arquivo_hora_de_geracao': self.hora_agora(),
+<<<<<<< HEAD
+=======
+
+>>>>>>> [WIP] Preenchendo dict com dados do sistema
+            # TODO: Número sequencial de arquivo
+            'arquivo_sequencia': int(self.get_file_numeration()),
+            'cedente_inscricao_tipo': self.inscricao_tipo,
+            'cedente_inscricao_numero': int(punctuation_rm(
+                self.order.company_id.cnpj_cpf)),
+            'cedente_agencia': int(
+                self.order.mode.bank_id.bra_number),
+            'cedente_conta': int(self.order.mode.bank_id.acc_number),
+            'cedente_conta_dv': (self.order.mode.bank_id.acc_number_dig),
+            'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
+            'cedente_nome': self.order.company_id.legal_name,
+            # DV ag e conta
+            'cedente_dv_ag_cc': (self.order.mode.bank_id.bra_acc_dig),
+<<<<<<< HEAD
+            'arquivo_codigo': 1,  # Remessa/Retorno
+            'servico_operacao': u'R',
+            'nome_banco': unicode(self.order.mode.bank_id.bank_name),
+        }
+=======
+
+            # 'arquivo_codigo': 1,  # Remessa/Retorno
+            'servico_operacao': u'R',
+            'nome_banco': unicode(self.order.mode.bank_id.bank_name),
+        }
+    #     return {
+    #     'controle_banco': 1,
+    #     'arquivo_data_de_geracao': 12606201,
+    #     'arquivo_densidade': 0,
+    #     'arquivo_hora_de_geracao': 700000,
+    #     'arquivo_layout': 103,
+    #     'arquivo_sequencia': 0,
+    #     'cedente_agencia': 1234,
+    #     'cedente_agencia_dv': '1',
+    #     'cedente_conta': 333333,
+    #     'cedente_conta_dv': '0',
+    #     'cedente_convenio': '0001234567891',
+    #     'cedente_agencia_conta_dv': '',
+    #     'cedente_inscricao_numero': 23130935000198,
+    #     'cedente_inscricao_tipo': 2,
+    #     'cedente_nome': "KMEE INFORMATICA LTDA",
+    #     'controle_lote': 0,
+    #     'controle_registro': 0,
+    #     'nome_do_banco': 'BANCO DO BRASIL',
+    #     'reservado_banco': '0',
+    #     'reservado_empresa': 'EMPRESA 100',
+    #     'vazio1': '',
+    #     'vazio3': '',
+    #     'vazio4': 'CSP000',
+    # }
+>>>>>>> [WIP] Preenchendo dict com dados do sistema
 
     def get_file_numeration(self):
         numero = self.order.get_next_number()
@@ -186,16 +193,8 @@ class Cnab240(Cnab):
             'numero_documento': line.name,
             'vencimento_titulo': self.format_date(
                 line.ml_maturity_date),
-<<<<<<< HEAD
             'valor_titulo': Decimal("{0:,.2f}".format(
                 line.move_line_id.debit)),
-=======
-            'valor_titulo': Decimal(str(line.amount_currency)).quantize(
-                Decimal('1.00')),
-            # TODO: fépefwfwe
-            # TODO: Código adotado para identificar o título de cobrança.
-            # 8 é Nota de cŕedito comercial
->>>>>>> [WIP] Exportação do pagamento
             'especie_titulo': int(self.order.mode.boleto_especie),
             'aceite_titulo': u'%s' % aceite,
             'data_emissao_titulo': self.format_date(
@@ -224,57 +223,61 @@ class Cnab240(Cnab):
             'prazo_baixa': 0,
         }
 
+<<<<<<< HEAD
+=======
     def _prepare_pagamento(self, line):
-        return {
-        'aviso_ao_favorecido': 0,
-        'codigo_finalidade_complementar': '',
-        'codigo_finalidade_doc': '',
-        'codigo_finalidade_ted': '',
-        'controle_banco': 1,
-        'controle_lote': 1,
-        'controle_registro': 3,
-        'credito_data_pagamento': 30062017,
-        'credito_data_real': '',
-        'credito_moeda_quantidade': Decimal('0.00000'),
-        'credito_moeda_tipo': 'BRL',
-        'credito_nosso_numero': '',
-        'credito_seu_numero': '000133 06/2017 A',
-        'credito_valor_pagamento': Decimal('6121.36'),
-        'credito_valor_real': '',
-        'favorecido_agencia': 4444,
-        'favorecido_agencia_dv': '4',
-        'favorecido_banco': 1,
-        'favorecido_camara': 0,
-        'favorecido_conta': 54321,
-        'favorecido_conta_dv': '0',
-        'favorecido_dv': ' ',
-        'favorecido_nome': 'LUIS FELIPE MILEO',
-        'ocorrencias': '',
-        'outras_informacoes': '',
-        'servico_codigo_movimento': 0,
-        'servico_tipo_movimento': 0,
-        'aviso': '0',
-        'cod_documento_favorecido': '',
-        'codigo_ispb': '0',
-        'codigo_ug_centralizadora': '0',
-        'favorecido_cep': 37500,
-        'favorecido_cep_complemento': '150',
-        'favorecido_endereco_bairro': 'CENTRO',
-        'favorecido_endereco_cidade': 'ITAJUBA',
-        'favorecido_endereco_complemento': '',
-        'favorecido_endereco_num': 0,
-        'favorecido_endereco_rua': 'RUA DOS FERROVIARIOS',
-        'favorecido_estado': 'MG',
-        'favorecido_num_inscricao': 33333333333,
-        'favorecido_tipo_inscricao': 1,
-        'pagamento_abatimento': Decimal('0.00'),
-        'pagamento_desconto': Decimal('0.00'),
-        'pagamento_mora': Decimal('0.00'),
-        'pagamento_multa': Decimal('0.00'),
-        'pagamento_valor_documento': Decimal('0.00'),
-        'pagamento_vencimento': 0,
-    }
+        vals = {
+            'aviso_ao_favorecido': 0,
+            'codigo_finalidade_complementar': '',
+            'codigo_finalidade_doc': '',
+            'codigo_finalidade_ted': '',
+            'controle_banco': 1,
+            'controle_lote': 1,
+            'controle_registro': 3,
+            'credito_data_pagamento': 30062017,
+            'credito_data_real': '',
+            'credito_moeda_quantidade': Decimal('0.00000'),
+            'credito_moeda_tipo': 'BRL',
+            'credito_nosso_numero': '',
+            'credito_seu_numero': '000133 06/2017 A',
+            'credito_valor_pagamento': Decimal('6121.36'),
+            'credito_valor_real': '',
+            'favorecido_agencia': line.bank_id.bra_number,
+            'favorecido_agencia_dv': line.bank_id.acc_number_dig,
+            'favorecido_banco': line.bank_id.bank_bic,
+            'favorecido_camara': 0,
+            'favorecido_conta': line.bank_id.bra_number,
+            'favorecido_conta_dv': line.bank_id.bra_number_dig,
+            'favorecido_dv': line.bank_id.bra_acc_dig,
+            'favorecido_nome': line.partner_id.name,
+            'ocorrencias': '',
+            'outras_informacoes': '',
+            'servico_codigo_movimento': 0,
+            'servico_tipo_movimento': 0,
+            'aviso': '0',
+            'cod_documento_favorecido': '',
+            'codigo_ispb': '0',
+            'codigo_ug_centralizadora': '0',
+            'favorecido_cep': line.partner_id.zip[:5],
+            'favorecido_cep_complemento': line.partner_id.zip[6:9],
+            'favorecido_endereco_bairro': line.partner_id.district,
+            'favorecido_endereco_cidade': line.partner_id.l10n_br_city_id.name,
+            'favorecido_endereco_complemento': line.partner_id.street2,
+            'favorecido_endereco_num': line.partner_id.number,
+            'favorecido_endereco_rua': line.partner_id.street,
+            'favorecido_estado': line.partner_id.state_id.code,
+            'favorecido_num_inscricao': 33333333333,
+            'favorecido_tipo_inscricao': 1,
+            'pagamento_abatimento': Decimal('0.00'),
+            'pagamento_desconto': Decimal('0.00'),
+            'pagamento_mora': Decimal('0.00'),
+            'pagamento_multa': Decimal('0.00'),
+            'pagamento_valor_documento': Decimal('0.00'),
+            'pagamento_vencimento': 0,
+        }
+        return vals
 
+>>>>>>> [WIP] Preenchendo dict com dados do sistema
     def remessa(self, order):
         """
 
@@ -295,17 +298,10 @@ class Cnab240(Cnab):
             incluir(**prepare(line))
             self.arquivo.lotes[0].header.servico_servico = 1
             # TODO: tratar soma de tipos de cobranca
-<<<<<<< HEAD
             cobrancasimples_valor_titulos += line.amount_currency
             self.arquivo.lotes[0].trailer.cobrancasimples_valor_titulos = \
                 Decimal(cobrancasimples_valor_titulos).quantize(
                     Decimal('1.00'), rounding=ROUND_DOWN)
-=======
-            # cobrancasimples_valor_titulos += line.amount_currency
-            # self.arquivo.lotes[0].trailer.cobrancasimples_valor_titulos = \
-            #     Decimal(cobrancasimples_valor_titulos).quantize(
-            #         Decimal('1.00'))
->>>>>>> [WIP] Exportação do pagamento
 
         remessa = unicode(self.arquivo)
         return unicodedata.normalize(
