@@ -11,6 +11,10 @@
             <field name="arch" type="xml">
                 <data>
 
+                    <field name="mode" position="after">
+                        <field name="forma_lancamento" />
+                    </field>
+
                     <xpath expr="//field[@name='date_scheduled']"
                            position="after">
                         <field name="file_number"/>
