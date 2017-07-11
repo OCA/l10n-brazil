@@ -14,13 +14,15 @@ from openerp.addons.financial.constants import (
     FINANCIAL_RECEIPT,
 )
 
+TYPE2JOURNAL = {
+    'receipt_item': ('cash', 'bank'),
+    'payment_item': ('cash', 'bank'),
+}
+
 
 class FinancialMove(models.Model):
     _inherit = b'financial.move'
 
-    #
-    # Accounting
-    #
     account_journal_id = fields.Many2one(
         comodel_name='account.journal',
         string='Journal',
@@ -48,6 +50,56 @@ class FinancialMove(models.Model):
         related='account_move_id.line_id',
         readonly=True,
     )
+    require_accountant_review = fields.Boolean(
+        string='Require accountant review'
+    )
+    account_matrix_id = fields.Many2one(
+        comodel_name='financial.account.move.matrix',
+        string='Accounting Matrix',
+        ondelete='restrict',
+    )
+
+    @api.onchange('account_id')
+    def onchange_account_id(self):
+
+        if self.account_id:
+            document_type_length = len(self.account_id.account_matrix_ids)
+            document_type_id = \
+                self.account_id.account_matrix_ids.mapped('document_type_id')
+
+            if self.type in (FINANCIAL_DEBT_2RECEIVE, FINANCIAL_DEBT_2PAY):
+                self.account_journal_id = self.account_id.account_journal_id
+
+            if (document_type_id and
+                    len(document_type_id) == document_type_length):
+                return {'domain': {
+                    'document_type_id': [('id', 'in', document_type_id.ids)]
+                }}
+            else:
+                return {'domain': {'document_type_id': False}}
+
+    @api.onchange('account_id', 'document_type_id')
+    def onchange_account_move_template_id(self):
+
+        if self.account_id and self.document_type_id:
+
+            kwargs = {
+                'account_id': self.account_id.id,
+                'document_type_id': self.document_type_id.id,
+            }
+            matrix_id = self.account_matrix_id.map_account_matrix_id(**kwargs)
+
+            if matrix_id and self.type:
+                kwargs['matrix_id'] = matrix_id.id
+                kwargs['type'] = self.type
+                account_move_template_id = \
+                    self.account_matrix_id.map_account_move_template_id(
+                    **kwargs)
+                self.account_move_template_id = (
+                    account_move_template_id and
+                    account_move_template_id.id or
+                    False
+                )
 
     @api.multi
     def create_account_move(self):
