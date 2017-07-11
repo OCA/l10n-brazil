@@ -4,37 +4,28 @@ from ..constantes import COMPLEMENTO_TIPO_SERVICO, CODIGO_FINALIDADE_TED, \
     AVISO_FAVORECIDO
 
 
-class PaymentLine(models.Model):
-    _inherit = 'payment.line'
+class BankPaymentLine(models.Model):
+    _inherit = 'bank.payment.line'
 
-    seu_numero = fields.Char(
-        string=u'Seu Número',
-        size=20,
-        help=u'Campo G064'
-    )
     complemento_tipo_servico = fields.Selection(
         selection=COMPLEMENTO_TIPO_SERVICO,
         string=u'Complemento do Tipo de Serviço',
-        help=u'Campo P005 do CNAB',
-        default=lambda self: self.order_id.mode.complemento_tipo_servico,
+        help=u'Campo P005 do CNAB'
     )
     codigo_finalidade_ted = fields.Selection(
         selection=CODIGO_FINALIDADE_TED,
         string=u'Código Finalidade da TED',
-        help=u'Campo P011 do CNAB',
-        default=lambda self: self.order_id.mode.codigo_finalidade_ted,
+        help=u'Campo P011 do CNAB'
     )
     codigo_finalidade_complementar = fields.Char(
         size=2,
         string=u'Código de finalidade complementar',
-        help=u'Campo P013 do CNAB',
-        default=lambda self: self.order_id.mode.codigo_finalidade_complementar,
+        help=u'Campo P013 do CNAB'
     )
     aviso_ao_favorecido = fields.Selection(
         selection=AVISO_FAVORECIDO,
         string=u'Aviso ao Favorecido',
-        help=u'Campo P006 do CNAB',
-        default=lambda self: self.order_id.mode.aviso_ao_favorecido,
+        help=u'Campo P006 do CNAB'
     )
     abatimento = fields.Float(
         digits=(13, 2),

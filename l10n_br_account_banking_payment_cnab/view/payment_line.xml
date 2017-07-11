@@ -11,12 +11,15 @@
                 </field>
                 <xpath expr="//field[@name='line_ids']/form/notebook/page[@string='Payment']/group/field[@name='partner_id']"
                        position="after">
-                    <field name="mode" invisible="True"/>
                     <field name="seu_numero"/>
                     <field name="complemento_tipo_servico"/>
                     <field name="codigo_finalidade_ted"/>
                     <field name="codigo_finalidade_complementar"/>
-                    <field name="aviso_favorecido"/>
+                    <field name="aviso_ao_favorecido"/>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/form/notebook/page[@string='Information']/group/field[@name='bank_line_id']"
+                       position="attributes">
+                    <attribute name="context">{'': }</attribute>
                 </xpath>
             </field>
         </record>

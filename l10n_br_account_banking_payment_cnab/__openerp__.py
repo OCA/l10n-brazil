@@ -49,6 +49,7 @@
         'view/res_partner_bank.xml',
         'view/payment_mode.xml',
         'view/payment_line.xml',
+        'view/bank_payment_line.xml',
         'data/l10n_br_payment_export_type.xml',
         # 'data/l10n_br_payment_mode.xml',
     ],
