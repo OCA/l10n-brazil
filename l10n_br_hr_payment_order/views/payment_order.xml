@@ -14,6 +14,11 @@
                 <button class="oe_inline oe_stat_button oe_right" name="%(action_create_payslip_payment_order)d" string="Holerites" Help="Selecionar as linhas dos holerites que vao ser pagas"
                         type="action" attrs="{'invisible':[('state','=','done')]}" icon="fa-pencil-square-o" widget="statinfo"/>
             </xpath>
+            <xpath
+                    expr="//field[@name='line_ids']/tree[@string='Payment Line']/field[@name='name']"
+                    position="after">
+                <field name="state"/>
+            </xpath>
         </field>
     </record>
 
