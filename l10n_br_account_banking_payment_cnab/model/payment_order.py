@@ -6,13 +6,8 @@
 from __future__ import division, print_function, unicode_literals
 
 from openerp import api, models, fields
-
-import logging
-_logger = logging.getLogger(__name__)
-try:
-    from cnab240.constantes import FORMA_LANCAMENTO
-except ImportError as err:
-    _logger.debug = (err)
+from ..constantes import INDICATIVO_FORMA_PAGAMENTO, TIPO_MOVIMENTO, \
+    CODIGO_INSTRUCAO_MOVIMENTO
 
 
 class PaymentOrder(models.Model):
@@ -36,7 +31,34 @@ class PaymentOrder(models.Model):
 
     forma_lancamento = fields.Selection(
         string='Forma de Lançamento do CNAB',
-        selection=FORMA_LANCAMENTO,
+        related='mode.forma_lancamento',
+    )
+    tipo_servico = fields.Selection(
+        related='mode.tipo_servico',
+        string=u'Tipo de Serviço',
+        help=u'Campo G025 do CNAB'
+    )
+    codigo_convenio = fields.Char(
+        size=20,
+        string=u'Código do Convênio no Banco',
+        help=u'Campo G007 do CNAB',
+        related='mode.codigo_convenio'
+    )
+    indicativo_forma_pagamento = fields.Selection(
+        selection=INDICATIVO_FORMA_PAGAMENTO,
+        string=u'Indicativo de Forma de Pagamento',
+        help='Campo P014 do CNAB',
+        default='01'
+    )
+    tipo_movimento = fields.Selection(
+        selection=TIPO_MOVIMENTO,
+        string=u'Tipo de Movimento',
+        help=u'Campo G060 do CNAB',
+    )
+    codigo_instrucao_movimento = fields.Selection(
+        selection=CODIGO_INSTRUCAO_MOVIMENTO,
+        string=u'Código da Instrução para Movimento',
+        help=u'Campo G061 do CNAB'
     )
 
     @api.multi

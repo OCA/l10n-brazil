@@ -21,10 +21,10 @@
 #
 ##############################################################################
 
-<<<<<<< HEAD
+from . import wizard
 from . import model
+<<<<<<< HEAD
 
 =======
-import wizard
-from . import model
->>>>>>> [FIX] pep8 and merge clear
+import constantes
+>>>>>>> [WIP] Criação dos campos faltantes

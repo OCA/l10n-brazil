@@ -12,7 +12,12 @@
                 <data>
 
                     <field name="mode" position="after">
-                        <field name="forma_lancamento" />
+                        <field name="tipo_servico"/>
+                        <field name="forma_lancamento"/>
+                        <field name="codigo_convenio"/>
+                        <field name="indicativo_forma_pagamento"/>
+                        <field name="tipo_movimento"/>
+                        <field name="codigo_instrucao_movimento"/>
                     </field>
 
                     <xpath expr="//field[@name='date_scheduled']"
