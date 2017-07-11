@@ -49,11 +49,11 @@ class Santander240(Cnab240):
         del vals['arquivo_hora_de_geracao']
         return vals
 
-    def _prepare_segmento(self, line):
+    def _prepare_cobranca(self, line):
         """
 
         :param line:
         :return:
         """
-        vals = super(Santander240, self)._prepare_segmento(line)
+        vals = super(Santander240, self)._prepare_cobranca(line)
         return vals

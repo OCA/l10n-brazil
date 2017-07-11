@@ -176,7 +176,7 @@ class Cnab400(Cnab):
     def codificar(self, texto):
         return texto.encode('utf-8')
 
-    def _prepare_segmento(self, line):
+    def _prepare_cobranca(self, line):
         """
         :param line:
         :return:
@@ -303,7 +303,7 @@ class Cnab400(Cnab):
         self.order = order
         self.arquivo = ArquivoCobranca400(self.bank, **self._prepare_header())
         for line in order.line_ids:
-            self.arquivo.incluir_cobranca(**self._prepare_segmento(line))
+            self.arquivo.incluir_cobranca(**self._prepare_cobranca(line))
             self.arquivo.trailer.num_seq_registro = self.controle_linha
 
         remessa = unicode(self.arquivo)

@@ -130,7 +130,7 @@ class Cnab240(Cnab):
         return re.sub('[%s]' % re.escape(string.punctuation), '',
                       format or '')
 
-    def _prepare_segmento(self, line):
+    def _prepare_cobranca(self, line):
         """
         :param line:
         :return:
@@ -194,8 +194,16 @@ class Cnab240(Cnab):
         """
         self.order = order
         self.arquivo = Arquivo(self.bank, **self._prepare_header())
+
+        if order.payment_order_type == 'payment':
+            incluir = self.arquivo.incluir_debito_pagamento
+            prepare = self._prepare_pagamento
+        else:
+            incluir = self.arquivo.incluir_cobranca
+            prepare = self._prepare_cobranca
+
         for line in order.line_ids:
-            self.arquivo.incluir_cobranca(**self._prepare_segmento(line))
+            incluir(**prepare(line))
             self.arquivo.lotes[0].header.servico_servico = 1
             # TODO: tratar soma de tipos de cobranca
             cobrancasimples_valor_titulos += line.amount_currency
