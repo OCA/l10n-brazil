@@ -7,3 +7,5 @@ from . import l10n_br_cnab_file_sufix_sequence
 from . import payment_mode
 from . import res_partner_bank
 from . import res_partner
+from .. import constantes
+from . import payment_line

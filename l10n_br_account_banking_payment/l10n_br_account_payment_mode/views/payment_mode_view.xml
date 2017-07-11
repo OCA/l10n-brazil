@@ -16,7 +16,8 @@
                 <xpath expr="//form/group[@string='Note']" position="before">
                     <group string="Configurações" name='l10n-br-config' col="4">
                         <notebook colspan="4">
-                            <page string="Cobrança" attrs="{'invisible': [('sale_ok', '!=', True)]}">
+                            <page string="Cobrança" attrs="{'invisible': ['|', ('sale_ok', '!=', True),
+                                                                          ('payment_order_type', '!=', 'cobranca')]}">
                                 <group>
                                     <field name="type_sale_payment"/>
                                     <field name="internal_sequence_id"
@@ -43,8 +44,10 @@
                                 <group>
                                     <field name="type_purchase_payment"/>
                                     <field name="internal_sequence_id"/>
-                                    <field name="instrucoes"/>
-                                    <field name="invoice_print"/>
+                                    <field name="instrucoes"
+                                           attrs="{'invisible': [('payment_order_type', '!=', 'cobranca')]}"/>
+                                    <field name="invoice_print"
+                                           attrs="{'invisible': [('payment_order_type', '!=', 'cobranca')]}"/>
                                 </group>
                             </page>
                         </notebook>
