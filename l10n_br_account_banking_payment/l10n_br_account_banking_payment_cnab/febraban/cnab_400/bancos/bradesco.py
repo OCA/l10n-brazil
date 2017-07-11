@@ -48,13 +48,13 @@ class Bradesco400(Cnab400):
         vals['servico_servico'] = 1
         return vals
 
-    def _prepare_segmento(self, line):
+    def _prepare_cobranca(self, line):
         """
 
         :param line:
         :return:
         """
-        vals = super(Bradesco400, self)._prepare_segmento(line)
+        vals = super(Bradesco400, self)._prepare_cobranca(line)
         vals['prazo_baixa'] = unicode(str(
             vals['prazo_baixa']), "utf-8")
         vals['desconto1_percentual'] = Decimal('0.00')

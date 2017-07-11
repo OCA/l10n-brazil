@@ -249,7 +249,7 @@ class PagFor500(Cnab):
     def rmchar(self, format):
         return re.sub('[%s]' % re.escape(string.punctuation), '', format or '')
 
-    def _prepare_segmento(self, line, vals):
+    def _prepare_cobranca(self, line, vals):
         """
 
         :param line:
@@ -436,7 +436,7 @@ class PagFor500(Cnab):
             'informacoes_complementares': u'',
         }
 
-        return self._prepare_segmento(line, vals)
+        return self._prepare_cobranca(line, vals)
 
     def lancamento_ted(self, line):
         # TODO:
@@ -488,14 +488,14 @@ class PagFor500(Cnab):
 
         }
 
-        return self._prepare_segmento(line, vals)
+        return self._prepare_cobranca(line, vals)
 
     def lancamento_doc(self):
         # TODO:
 
         vals = {}
 
-        return self._prepare_segmento(vals)
+        return self._prepare_cobranca(vals)
 
     def lancamento_titulos_terceiros(self, line):
         # TODO:
@@ -520,7 +520,7 @@ class PagFor500(Cnab):
 
         }
 
-        return self._prepare_segmento(vals)
+        return self._prepare_cobranca(vals)
 
     def adiciona_digitos_num_pag(self, campo):
         num_digitos = 16

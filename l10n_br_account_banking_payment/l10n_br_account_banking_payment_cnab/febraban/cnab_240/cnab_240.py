@@ -21,6 +21,8 @@
 #
 ##############################################################################
 
+from __future__ import division, print_function, unicode_literals
+
 import datetime
 import logging
 import re
@@ -35,7 +37,7 @@ from ..cnab import Cnab
 
 _logger = logging.getLogger(__name__)
 try:
-    from cnab240.tipos import Arquivo
+    from cnab240.tipos import Arquivo, Lote
 except ImportError as err:
     _logger.debug = err
 
@@ -139,20 +141,16 @@ class Cnab240(Cnab):
             'arquivo_hora_de_geracao': self.hora_agora(),
             # 19.0 TODO: Número sequencial de arquivo
             'arquivo_sequencia': int(self.get_file_numeration()),
-            'cedente_inscricao_tipo': self.inscricao_tipo,
-            'cedente_inscricao_numero': int(punctuation_rm(
-                self.order.company_id.cnpj_cpf)),
-            'cedente_agencia': int(
-                self.order.mode.bank_id.bra_number),
-            'cedente_conta': int(self.order.mode.bank_id.acc_number),
-            'cedente_conta_dv': (self.order.mode.bank_id.acc_number_dig),
-            'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
-            'cedente_nome': self.order.company_id.legal_name,
-            # DV ag e conta
-            'cedente_dv_ag_cc': (self.order.mode.bank_id.bra_acc_dig),
-            'arquivo_codigo': 1,  # Remessa/Retorno
-            'servico_operacao': u'R',
-            'nome_banco': unicode(self.order.mode.bank_id.bank_name),
+            # 20.0
+            'arquivo_layout': 103,
+            # 21.0
+            'arquivo_densidade': 0,
+            # 22.0
+            'reservado_banco': '',
+            # 23.0
+            'reservado_empresa': 'EMPRESA 100',
+            # 24.0
+            # CNAB - Uso Exclusivo FEBRABAN / CNAB
         }
 
         return header_arquivo
@@ -278,8 +276,6 @@ class Cnab240(Cnab):
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
             'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig,
             'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
-            # DV ag e cc
-            'cedente_dv_ag_cc': (self.order.mode.bank_id.bra_acc_dig),
             'identificacao_titulo': u'0000000',  # TODO
             'identificacao_titulo_banco': u'0000000',  # TODO
             'identificacao_titulo_empresa': line.move_line_id.move_id.name,
@@ -288,6 +284,7 @@ class Cnab240(Cnab):
                 line.ml_maturity_date),
             'valor_titulo': Decimal(str(line.amount_currency)).quantize(
                 Decimal('1.00')),
+            # TODO: fépefwfwe
             # TODO: Código adotado para identificar o título de cobrança.
             # 8 é Nota de cŕedito comercial
             'especie_titulo': int(self.order.mode.boleto_especie),
@@ -521,10 +518,10 @@ class Cnab240(Cnab):
             #     raise exceptions.ValidationError("Erro")
             # self.arquivo.lotes[0].header.servico_servico = 30
             # TODO: tratar soma de tipos de cobranca
-            cobrancasimples_valor_titulos += line.amount_currency
-            self.arquivo.lotes[0].trailer.cobrancasimples_valor_titulos = \
-                Decimal(cobrancasimples_valor_titulos).quantize(
-                    Decimal('1.00'))
+            # cobrancasimples_valor_titulos += line.amount_currency
+            # self.arquivo.lotes[0].trailer.cobrancasimples_valor_titulos = \
+            #     Decimal(cobrancasimples_valor_titulos).quantize(
+            #         Decimal('1.00'))
 
         remessa = unicode(self.arquivo)
         return unicodedata.normalize('NFKD', remessa).encode('ascii', 'ignore')

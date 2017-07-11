@@ -57,13 +57,13 @@ class Cef240(Cnab240):
 
         return vals
 
-    def _prepare_segmento(self, line):
+    def _prepare_cobranca(self, line):
         """
 
         :param line:
         :return:
         """
-        vals = super(Cef240, self)._prepare_segmento(line)
+        vals = super(Cef240, self)._prepare_cobranca(line)
 
         carteira, nosso_numero, digito = self.nosso_numero(
             line.move_line_id.transaction_ref)
