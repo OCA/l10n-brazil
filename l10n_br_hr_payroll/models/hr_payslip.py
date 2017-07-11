@@ -68,6 +68,7 @@ class HrPayslip(models.Model):
                         periodos_aquisitivos) * 3
                 else:
                     payslip.dias_aviso_previo = 30
+
     @api.model
     def compute_payment_day(self, date):
         res = fields.Datetime.from_string(date) + relativedelta(days=-1)
