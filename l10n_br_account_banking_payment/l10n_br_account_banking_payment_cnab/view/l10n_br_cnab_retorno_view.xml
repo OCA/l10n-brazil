@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <menuitem id="menu_main_cnab" name="CNAB" parent="account.menu_finance" sequence="6"/>
+
+        <record id="view_cnab_retorno_tree" model="ir.ui.view">
+            <field name="name">cnab.retorno.tree</field>
+            <field name="model">l10n.br.cnab</field>
+            <field name="arch" type="xml">
+                <tree string="CNAB Retorno Lines">
+                    <field name="display_name" />
+                    <field name="data" />
+                    <field name="arquivo_retorno" />
+                    <field name="data_arquivo" />
+                    <field name="bank_account_id" />
+                    <field name="num_lotes" />
+                    <field name="num_eventos" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_cnab_lote_tree" model="ir.ui.view">
+            <field name="name">cnab.lote.tree</field>
+            <field name="model">l10n.br.cnab.lote</field>
+            <field name="arch" type="xml">
+                <tree string="CNAB Lotes Lines">
+                    <field name="account_bank_id" />
+                    <field name="empresa_inscricao_numero" />
+                    <field name="empresa_inscricao_tipo" />
+                    <field name="servico_operacao" />
+                    <field name="tipo_servico" />
+                    <field name="mensagem" />
+                    <field name="qtd_registros" />
+                    <field name="total_valores" />
+                    <field name="evento_id"  context="{'form_view_ref':'l10n_br_account_banking_payment_cnab.cnab_retorno_evento_form_view'}" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_cnab_evento_tree" model="ir.ui.view">
+            <field name="name">cnab.evento.tree</field>
+            <field name="model">l10n.br.cnab.evento</field>
+            <field name="arch" type="xml">
+                <tree string="CNAB Evento Lines">
+                    <field name="data_real_pagamento" />
+                    <field name="segmento" />
+                    <field name="favorecido_nome" />
+                    <field name="nosso_numero" />
+                    <field name="seu_numero" />
+                    <field name="tipo_moeda" />
+                    <field name="valor_pagamento" />
+                    <field name="ocorrencias" />
+                    <field name="str_motiv_a" />
+                    <field name="str_motiv_b" />
+                    <field name="str_motiv_c" />
+                    <field name="str_motiv_d" />
+                    <field name="str_motiv_e" />
+                    <field name="payment_line_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="cnab_retorno_evento_form_view" model="ir.ui.view">
+            <field name="name">cnab.retorno.evento.form.view</field>
+            <field name="model">l10n.br.cnab.evento</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="data_real_pagamento" />
+                        <field name="segmento" />
+                        <field name="favorecido_nome" />
+                        <field name="nosso_numero" />
+                        <field name="seu_numero" />
+                        <field name="tipo_moeda" />
+                        <field name="valor_pagamento" />
+                        <field name="ocorrencias" />
+                        <field name="str_motiv_a" />
+                        <field name="str_motiv_b" />
+                        <field name="str_motiv_c" />
+                        <field name="str_motiv_d" />
+                        <field name="str_motiv_e" />
+                        <field name="payment_line_id" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="cnab_retorno_lote_form_view" model="ir.ui.view">
+            <field name="name">cnab.retorno.lote.form.view</field>
+            <field name="model">l10n.br.cnab.lote</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="account_bank_id" />
+                        <field name="empresa_inscricao_numero" />
+                        <field name="empresa_inscricao_tipo" />
+                        <field name="servico_operacao" />
+                        <field name="tipo_servico" />
+                        <field name="mensagem" />
+                        <field name="qtd_registros" />
+                        <field name="total_valores" />
+                        <field name="evento_id"  context="{'form_view_ref':'l10n_br_account_banking_payment_cnab.cnab_retorno_evento_form_view'}" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="cnab_retorno_form_view" model="ir.ui.view">
+            <field name="name">cnab.retorno.form.view</field>
+            <field name="model">l10n.br.cnab</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="processar_arquivo_retorno" states="draft" string="Processar Retorno" type="object" class="oe_highlight" />
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,done" />
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="display_name" readonly="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="data" />
+                            </group>
+                            <group>
+                                <field name="arquivo_retorno" />
+                            </group>
+
+                        </group>
+                        <group attrs="{'invisible': [('state','!=', 'done')]}">
+                            <field name="data_arquivo" />
+                            <field name="bank_account_id" />
+                            <field name="num_lotes" />
+                            <field name="num_eventos" />
+                        </group>
+                        <separator string="Lote de Eventos" />
+                        <field name="lote_id" context="{'form_view_ref':'l10n_br_account_banking_payment_cnab.cnab_retorno_lote_form_view'}" />
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_cnab_retorno" model="ir.actions.act_window">
+            <field name="name">CNAB Retorno</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">l10n.br.cnab</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_cnab_retorno" parent="menu_main_cnab" name="CNAB Retorno" sequence="1" action="action_cnab_retorno"/>
+
+    </data>
+</openerp>

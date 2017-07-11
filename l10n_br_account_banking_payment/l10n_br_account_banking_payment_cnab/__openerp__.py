@@ -47,6 +47,7 @@
         'view/l10n_br_cobranca_cnab_lines.xml',
         'view/account_move_line.xml',
         'view/res_partner_bank.xml',
+        'view/l10n_br_cnab_retorno_view.xml',
         'view/payment_mode.xml',
         'view/payment_line.xml',
         'view/bank_payment_line.xml',
