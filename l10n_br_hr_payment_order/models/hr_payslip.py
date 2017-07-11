@@ -21,6 +21,40 @@ class HrPayslip(models.Model):
         comodel_name="payment.line",
         inverse_name="payslip_id",
     )
+    paid = fields.Boolean(
+        compute='_compute_paid',
+        default=False
+    )
+
+    # done = fields.Boolean(
+    #     compute='_compute_done'
+    # )
+
+    # confirmar os states
+    # def test_done(self):
+    #     for line in self.payment_line_ids:
+    #         if line.state != 'done':
+    #             return False
+    #     return True
+
+    # confirmar os states
+    def test_paid(self):
+        if not self.payment_line_ids:
+            print "vazio"
+            return False
+        for line in self.payment_line_ids:
+            if line.state != 'paid':
+                print line.state
+                return False
+        return True
+
+    # @api.depends('payment_line_ids')
+    # def _compute_done(self):
+    #     self.reconciled = self.test_done()
+
+    @api.depends('payment_line_ids')
+    def _compute_paid(self):
+        self.paid = self.test_paid()
 
     def _compute_set_employee_id(self):
         super(HrPayslip, self)._compute_set_employee_id()
