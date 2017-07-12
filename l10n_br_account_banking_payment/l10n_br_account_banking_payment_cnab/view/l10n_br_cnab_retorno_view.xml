@@ -9,7 +9,7 @@
             <field name="model">l10n.br.cnab</field>
             <field name="arch" type="xml">
                 <tree string="CNAB Retorno Lines">
-                    <field name="display_name" />
+                    <field name="name" />
                     <field name="data" />
                     <field name="arquivo_retorno" />
                     <field name="data_arquivo" />
@@ -132,7 +132,7 @@
                     </header>
                     <sheet>
                         <h1>
-                            <field name="display_name" readonly="1"/>
+                            <field name="name" readonly="1"/>
                         </h1>
                         <group>
                             <group>

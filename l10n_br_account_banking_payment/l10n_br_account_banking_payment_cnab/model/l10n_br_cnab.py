@@ -174,22 +174,26 @@ class L10nBrHrCnab(models.Model):
         return self.write({'state': 'done'})
 
     @api.multi
-    @api.depends('data')
-    def _get_rec_name(self):
-        if not self.display_name:
-            for rec in self:
-                cnab_ids = self.search([('data', '=', rec.data)])
-                rec.display_name = rec.data + " - " + str(len(cnab_ids) + 1)
+    def _get_name(self, data):
+        cnab_ids = self.search([('data', '=', data)])
+        return data + " - " + (
+            str(len(cnab_ids) + 1) if cnab_ids else '1'
+        )
+
+    @api.model
+    def create(self, vals):
+        name = self._get_name(vals['data'])
+        vals.update({'name': name})
+        return super(L10nBrHrCnab, self).create(vals)
 
     arquivo_retorno = fields.Binary(string='Arquivo Retorno')
     data = fields.Date(
         string="Data CNAB",
+        required=True,
         default=datetime.now()
     )
-    display_name = fields.Char(
+    name = fields.Char(
         string="Name",
-        compute=_get_rec_name,
-        store=True,
     )
     lote_id = fields.One2many(
         string="Lotes",
