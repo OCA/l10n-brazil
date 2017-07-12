@@ -77,15 +77,16 @@ class PaymentOrder(models.Model):
 
     @api.multi
     def get_next_sufixo(self):
-        for ord in self:
-            sequence = self.env['ir.sequence']
-            # sequence_read = sequence.read(
-            #     cr, uid, ord.serie_id.internal_sequence_id.id,
-            #     ['number_next'])
-            seq_no = sequence.get_id(
-                ord.serie_sufixo_arquivo.internal_sequence_id.id)
-            ord.write({'sufixo_arquivo': seq_no})
-        return seq_no
+        # for ord in self:
+        #     sequence = self.env['ir.sequence']
+        #     # sequence_read = sequence.read(
+        #     #     cr, uid, ord.serie_id.internal_sequence_id.id,
+        #     #     ['number_next'])
+        #     seq_no = sequence.get_id(
+        #         ord.serie_sufixo_arquivo.internal_sequence_id.id)
+        #     ord.write({'sufixo_arquivo': seq_no})
+        # return seq_no
+        return 'CNAB01'
 
     # @api.multi
     # def set_to_draft(self, *args):
