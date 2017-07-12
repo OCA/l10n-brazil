@@ -64,12 +64,13 @@ class PaymentMode(models.Model):
     codigo_finalidade_complementar = fields.Char(
         size=2,
         string=u'Código de finalidade complementar',
-        help=u'Campo P013 do CNAB'
+        help=u'Campo P013 do CNAB',
     )
     aviso_ao_favorecido = fields.Selection(
         selection=AVISO_FAVORECIDO,
         string=u'Aviso ao Favorecido',
-        help=u'Campo P006 do CNAB'
+        help=u'Campo P006 do CNAB',
+        default='0',
     )
     # A exportação CNAB não se encaixa somente nos parâmetros de
     # débito e crédito.
