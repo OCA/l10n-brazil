@@ -38,6 +38,7 @@ from ..cnab import Cnab
 _logger = logging.getLogger(__name__)
 try:
     from cnab240.tipos import Arquivo
+    from cnab240.errors import (Cnab240Error)
 except ImportError as err:
     _logger.debug = err
 
@@ -344,17 +345,32 @@ class Cnab240(Cnab):
         }
         return vals
 
+    def _adicionar_evento(self, line):
+        """
+        Adicionar o evento no arquivo de acordo com seu tipo 
+        """
+        if self.order.payment_order_type == 'payment':
+            incluir = self.arquivo.incluir_debito_pagamento
+            prepare = self._prepare_pagamento
+        else:
+            incluir = self.arquivo.incluir_cobranca
+            prepare = self._prepare_cobranca
+
     def remessa(self, order):
         """
-
-        :param order:
-        :return:
+        Cria a remessa de eventos que sera anexada ao arquivo
         """
         cobrancasimples_valor_titulos = 0
 
         self.order = order
-        self.arquivo = Arquivo(self.bank, **self._prepare_header())
 
+        # Preparar Header do Arquivo
+        try:
+            self.arquivo = Arquivo(self.bank, **self._prepare_header())
+        except Cnab240Error as e:
+            from openerp import exceptions
+            raise exceptions.ValidationError(
+                "Campo preenchido incorretamente \n\n{0}".format(e))
         if order.payment_order_type == 'payment':
             incluir = self.arquivo.incluir_debito_pagamento
             prepare = self._prepare_pagamento
@@ -363,7 +379,13 @@ class Cnab240(Cnab):
             prepare = self._prepare_cobranca
 
         for line in order.line_ids:
+            # para cada linha da payment order adicoinar como um novo evento
+            # self._adicionar_evento(line)
+            # try:
             incluir(**prepare(line))
+            # except:
+            #     from openerp import exceptions
+            #     raise exceptions.ValidationError("Erro")
             self.arquivo.lotes[0].header.servico_servico = 1
             # TODO: tratar soma de tipos de cobranca
             # cobrancasimples_valor_titulos += line.amount_currency
