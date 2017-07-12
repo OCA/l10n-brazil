@@ -6,6 +6,11 @@
             <field name="model">bank.payment.line</field>
             <field name="inherit_id" ref="account_banking_payment_export.bank_payment_line_form"/>
             <field name="arch" type="xml">
+                <group name="main" position="before">
+                    <header>
+                        <field name="state2" widget="statusbar" nolabel="1" statusbar_visible="draft,wait,paid"  clickable="True"/>
+                    </header>
+                </group>
                 <group name="main" position="after">
                     <group>
                         <field name="codigo_finalidade_doc"/>
