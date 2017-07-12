@@ -1,11 +1,34 @@
 # -*- coding: utf-8 -*-
-from openerp import models, fields
+from openerp import models, fields, api
 from ..constantes import COMPLEMENTO_TIPO_SERVICO, CODIGO_FINALIDADE_TED, \
     AVISO_FAVORECIDO
 
 
 class BankPaymentLine(models.Model):
     _inherit = 'bank.payment.line'
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super(BankPaymentLine, self).default_get(fields_list)
+        mode = self.env['payment.order'].browse(
+            self.env.context.get('order_id')).mode
+        if mode.complemento_tipo_servico:
+            res.update({
+                'complemento_tipo_servico': mode.complemento_tipo_servico})
+        if mode.codigo_finalidade_ted:
+            res.update({
+                'codigo_finalidade_ted': mode.codigo_finalidade_ted
+            })
+        if mode.codigo_finalidade_complementar:
+            res.update({
+                'codigo_finalidade_complementar':
+                    mode.codigo_finalidade_complementar
+            })
+        if mode.aviso_ao_favorecido:
+            res.update({
+                'aviso_ao_favorecido': mode.aviso_ao_favorecido
+            })
+        return res
 
     complemento_tipo_servico = fields.Selection(
         selection=COMPLEMENTO_TIPO_SERVICO,

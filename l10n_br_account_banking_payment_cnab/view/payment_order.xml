@@ -6,31 +6,27 @@
             <field name="name">payment.order.form.sequence</field>
             <field name="model">payment.order</field>
             <field name="inherit_id"
-                   ref="account_payment.view_payment_order_form"/>
+                   ref="account_banking_payment_export.view_payment_order_form"/>
             <field name="priority" eval="15"/>
             <field name="arch" type="xml">
-                <data>
+                <field name="bank_line_count" position="after">
+                    <field name="tipo_servico"/>
+                    <field name="forma_lancamento"/>
+                    <field name="codigo_convenio"/>
+                    <field name="indicativo_forma_pagamento"/>
+                    <field name="tipo_movimento"/>
+                    <field name="codigo_instrucao_movimento"/>
+                </field>
 
-                    <field name="mode" position="after">
-                        <field name="tipo_servico"/>
-                        <field name="forma_lancamento"/>
-                        <field name="codigo_convenio"/>
-                        <field name="indicativo_forma_pagamento"/>
-                        <field name="tipo_movimento"/>
-                        <field name="codigo_instrucao_movimento"/>
-                    </field>
-
-                    <xpath expr="//field[@name='date_scheduled']"
-                           position="after">
-                        <field name="file_number"/>
-                        <!--<field name="serie_id" domain="[('parent_payment_mode', '=', mode)]"/>-->
-                        <field name="serie_id"/>
-                        <field name="sufixo_arquivo"/>
-                        <!--<field name="serie_sufixo_arquivo" domain="[('parent_payment_mode_suf', '=', mode)]"/>-->
-                        <field name="serie_sufixo_arquivo"/>
-                    </xpath>
-
-                </data>
+                <xpath expr="//field[@name='date_scheduled']"
+                       position="after">
+                    <field name="file_number"/>
+                    <!--<field name="serie_id" domain="[('parent_payment_mode', '=', mode)]"/>-->
+                    <field name="serie_id"/>
+                    <field name="sufixo_arquivo"/>
+                    <!--<field name="serie_sufixo_arquivo" domain="[('parent_payment_mode_suf', '=', mode)]"/>-->
+                    <field name="serie_sufixo_arquivo"/>
+                </xpath>
             </field>
         </record>
 
