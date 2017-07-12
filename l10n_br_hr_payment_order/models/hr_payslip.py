@@ -40,11 +40,9 @@ class HrPayslip(models.Model):
     # confirmar os states
     def test_paid(self):
         if not self.payment_line_ids:
-            print "vazio"
             return False
         for line in self.payment_line_ids:
             if line.state != 'paid':
-                print line.state
                 return False
         return True
 

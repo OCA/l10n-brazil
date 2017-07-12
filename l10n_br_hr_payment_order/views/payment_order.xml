@@ -17,7 +17,7 @@
             <xpath
                     expr="//field[@name='line_ids']/tree[@string='Payment Line']/field[@name='name']"
                     position="after">
-                <field name="state"/>
+                <field name="status"/>
             </xpath>
         </field>
     </record>
