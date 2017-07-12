@@ -26,10 +26,11 @@ class PaymentLine(models.Model):
     _inherit = 'payment.line'
 
     # order_id
-    state = fields.Selection(
+    status = fields.Selection(
         selection=STATES,
         default='draft',
-        string='Status'
+        string='Status',
+        readonly=True,
     )
     payslip_id = fields.Many2one(
         string="Ref do Holerite",
@@ -37,11 +38,11 @@ class PaymentLine(models.Model):
     )
 
     def action_done(self):
-        self.state = 'done'
+        self.status = 'done'
 
     # FIXME
     def action_paid(self):
-        self.state = 'pid'
+        self.state = 'paid'
 
     # Caso de retorno
     def verify_error(self):
