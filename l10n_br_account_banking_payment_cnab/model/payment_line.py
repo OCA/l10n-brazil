@@ -3,6 +3,13 @@ from openerp import models, fields, api
 from ..constantes import COMPLEMENTO_TIPO_SERVICO, CODIGO_FINALIDADE_TED, \
     AVISO_FAVORECIDO
 
+STATE = [
+    ('draft', 'Draft'),
+    ('wait', 'Waiting Paiment'),
+    ('exception', 'Exception'),
+    ('paid', 'Paid'),
+]
+
 
 class PaymentLine(models.Model):
     _inherit = 'payment.line'
@@ -78,4 +85,9 @@ class PaymentLine(models.Model):
         string=u'Valor da Multa',
         help=u'Campo G048 do CNAB',
         default=0.00
+    )
+    state2 = fields.Selection(
+        related="bank_line_id.state2",
+        selection=STATE,
+        default="draft",
     )
