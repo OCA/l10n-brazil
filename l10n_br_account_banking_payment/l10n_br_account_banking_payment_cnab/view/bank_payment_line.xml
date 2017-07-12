@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <group name="main" position="after">
                     <group>
-                        <field name="complemento_tipo_servico"/>
+                        <field name="codigo_finalidade_doc"/>
                         <field name="codigo_finalidade_ted"/>
                         <field name="codigo_finalidade_complementar"/>
                         <field name="abatimento"/>

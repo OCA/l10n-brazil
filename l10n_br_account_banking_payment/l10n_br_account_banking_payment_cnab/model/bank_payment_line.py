@@ -12,9 +12,9 @@ class BankPaymentLine(models.Model):
         res = super(BankPaymentLine, self).default_get(fields_list)
         mode = self.env['payment.order'].browse(
             self.env.context.get('order_id')).mode
-        if mode.complemento_tipo_servico:
+        if mode.codigo_finalidade_doc:
             res.update({
-                'complemento_tipo_servico': mode.complemento_tipo_servico})
+                'codigo_finalidade_doc': mode.codigo_finalidade_doc})
         if mode.codigo_finalidade_ted:
             res.update({
                 'codigo_finalidade_ted': mode.codigo_finalidade_ted
@@ -30,7 +30,7 @@ class BankPaymentLine(models.Model):
             })
         return res
 
-    complemento_tipo_servico = fields.Selection(
+    codigo_finalidade_doc = fields.Selection(
         selection=COMPLEMENTO_TIPO_SERVICO,
         string=u'Complemento do Tipo de Serviço',
         help=u'Campo P005 do CNAB'
