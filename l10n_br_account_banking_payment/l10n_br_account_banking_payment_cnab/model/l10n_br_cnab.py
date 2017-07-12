@@ -6,6 +6,7 @@ import base64
 import codecs
 import logging
 from datetime import datetime
+from ..constantes import CODIGO_OCORRENCIAS
 
 from openerp import api, models, fields
 
@@ -127,6 +128,19 @@ class L10nBrHrCnab(models.Model):
                     [('acc_number', '=', evento.favorecido_conta)]).id
                 favorecido_partiner = self.env['res.partner'].search(
                     [('name', '=', evento.favorecido_nome)]).id
+                bank_payment_line_id = self.env['bank.payment.line'].search(
+                    [
+                        ('name', '=', evento.credito_seu_numero)
+                    ]
+                )
+                ocorrencias_dic = dict(CODIGO_OCORRENCIAS)
+                ocorrencias = [
+                    evento.ocorrencias[0:2],
+                    evento.ocorrencias[2:4],
+                    evento.ocorrencias[4:6],
+                    evento.ocorrencias[6:8],
+                    evento.ocorrencias[8:10]
+                ]
                 vals_evento = {
                     'data_real_pagamento': data_evento,
                     'segmento': evento.servico_segmento,
@@ -137,9 +151,26 @@ class L10nBrHrCnab(models.Model):
                     'tipo_moeda': evento.credito_moeda_tipo,
                     'valor_pagamento': evento.credito_valor_pagamento,
                     'ocorrencias': evento.ocorrencias,
+                    'str_motiv_a': ocorrencias_dic[ocorrencias[0]] if
+                    ocorrencias[0] else '',
+                    'str_motiv_b': ocorrencias_dic[ocorrencias[1]] if
+                    ocorrencias[1] else '',
+                    'str_motiv_c': ocorrencias_dic[ocorrencias[2]] if
+                    ocorrencias[2] else '',
+                    'str_motiv_d': ocorrencias_dic[ocorrencias[3]] if
+                    ocorrencias[3] else '',
+                    'str_motiv_e': ocorrencias_dic[ocorrencias[4]] if
+                    ocorrencias[4] else '',
                     'lote_id': lote_id.id,
+                    'bank_payment_line_id': bank_payment_line_id.id,
                 }
                 self.env['l10n.br.cnab.evento'].create(vals_evento)
+                if evento.ocorrencias and bank_payment_line_id:
+                    if '00' in ocorrencias:
+                        bank_payment_line_id.write({'state2': 'paid'})
+                    else:
+                        bank_payment_line_id.write({'state2': 'exception'})
+
         return self.write({'state': 'done'})
 
     @api.multi
