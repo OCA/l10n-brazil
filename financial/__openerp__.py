@@ -12,7 +12,7 @@
     'website': 'www.kmee.com.br',
     'depends': [
         'base',
-        'resource',
+        'l10n_br_resource',
         'mail',
         'report_xlsx',
     ],
