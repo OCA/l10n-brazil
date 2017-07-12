@@ -15,15 +15,17 @@
                     </group>
 
                 </field>
-                <field name="type_purchase_payment" position="after">
-                    <field name="tipo_servico"/>
-                    <field name="forma_lancamento"/>
-                    <field name="codigo_convenio"/>
-                    <field name="complemento_tipo_servico"/>
-                    <field name="codigo_finalidade_ted"/>
-                    <field name="codigo_finalidade_complementar"/>
-                    <field name="aviso_ao_favorecido"/>
-                </field>
+                <group name="payment_order_create_defaults" position="after">
+                    <group string="CNAB">
+                        <field name="tipo_servico"/>
+                        <field name="forma_lancamento"/>
+                        <field name="codigo_convenio"/>
+                        <field name="complemento_tipo_servico"/>
+                        <field name="codigo_finalidade_ted"/>
+                        <field name="codigo_finalidade_complementar"/>
+                        <field name="aviso_ao_favorecido"/>
+                    </group>
+                </group>
             </field>
         </record>
     </data>
