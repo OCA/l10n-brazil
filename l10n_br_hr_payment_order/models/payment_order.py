@@ -4,7 +4,7 @@
 
 from openerp import fields, models
 
-STATES = [('draft', 'Rascunho'),
+STATUS = [('draft', 'Rascunho'),
           ('done', 'Confirmado'),
           ('paid', 'Pago'),
           ('error', 'Erro'),
@@ -27,7 +27,7 @@ class PaymentLine(models.Model):
 
     # order_id
     status = fields.Selection(
-        selection=STATES,
+        selection=STATUS,
         default='draft',
         string='Status',
         readonly=True,
