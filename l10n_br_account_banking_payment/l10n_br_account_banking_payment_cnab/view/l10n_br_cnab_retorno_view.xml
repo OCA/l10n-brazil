@@ -65,6 +65,9 @@
             <field name="model">l10n.br.cnab.evento</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,done" />
+                    </header>
                     <group>
                         <field name="data_real_pagamento" />
                         <field name="segmento" />
@@ -90,6 +93,9 @@
             <field name="model">l10n.br.cnab.lote</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,done" />
+                    </header>
                     <group>
                         <field name="account_bank_id" />
                         <field name="empresa_inscricao_numero" />
