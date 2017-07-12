@@ -131,7 +131,7 @@ class Cnab240(Cnab):
         :param line:
         :return:
         """
-        prefixo, sulfixo = self.cep(line.partner_id.zip)
+        # prefixo, sulfixo = self.cep(line.partner_id.zip)
 
         aceite = u'N'
         if not self.order.mode.boleto_aceite == 'S':
@@ -395,12 +395,29 @@ class Cnab240(Cnab):
         return unicodedata.normalize(
             'NFKD', remessa).encode('ascii', 'ignore')
 
-    def cep(self, format):
+    def get_cep(self, tipo, value):
+        '''
+        
+        :param tipo: 
+        :param value: 
+        :return: 
+        '''
+        if not value:
+            if tipo == 'prefixo':
+                return 0
+            else:
+                return ''
+        value = punctuation_rm(value)
         sulfixo = format[-3:]
         prefixo = format[:5]
-        return prefixo, sulfixo
+        if tipo == 'sulfixo':
+            return sulfixo
+        else:
+            return prefixo
 
     def format_date(self, srt_date):
+        if not srt_date:
+            return 0
         return int(datetime.datetime.strptime(
             srt_date, '%Y-%m-%d').strftime('%d%m%Y'))
 
