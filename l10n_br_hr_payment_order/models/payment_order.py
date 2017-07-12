@@ -18,7 +18,7 @@ class PaymentOrder(models.Model):
     def action_done(self):
         super(PaymentOrder, self).action_done()
         for line in self.line_ids:
-            line.action_done()
+            line.action_paid()
         pass
 
 
@@ -42,7 +42,7 @@ class PaymentLine(models.Model):
 
     # FIXME
     def action_paid(self):
-        self.state = 'paid'
+        self.status = 'paid'
 
     # Caso de retorno
     def verify_error(self):
