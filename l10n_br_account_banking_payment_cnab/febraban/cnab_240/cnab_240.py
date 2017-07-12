@@ -214,53 +214,134 @@ class Cnab240(Cnab):
 
     def _prepare_pagamento(self, line):
         vals = {
-            'aviso_ao_favorecido': 0,
-            'codigo_finalidade_complementar': '',
-            'codigo_finalidade_doc': '',
-            'codigo_finalidade_ted': '',
-            'controle_banco': 1,
+            # CONTROLE
+            # 01.3A
+            'controle_banco': int(self.order.mode.bank_id.bank_bic),
+            # 02.3A
             'controle_lote': 1,
+            # 03.3A -  3-Registros Iniciais do Lote
             'controle_registro': 3,
-            'credito_data_pagamento': 30062017,
-            'credito_data_real': '',
-            'credito_moeda_quantidade': Decimal('0.00000'),
-            'credito_moeda_tipo': 'BRL',
-            'credito_nosso_numero': '',
-            'credito_seu_numero': '000133 06/2017 A',
-            'credito_valor_pagamento': Decimal('6121.36'),
-            'credito_valor_real': '',
-            'favorecido_agencia': line.bank_id.bra_number,
-            'favorecido_agencia_dv': line.bank_id.acc_number_dig,
-            'favorecido_banco': line.bank_id.bank_bic,
+
+            # SERVICO
+            # 04.3A - Nº Seqüencial do Registro - Inicia em 1 em cada novo lote
+            # TODO: Contador para o sequencial do lote
+              'servico_numero_registro': 1,
+            # 05.3A
+            #   Segmento Código de Segmento do Reg.Detalhe
+            # 06.3A
+            'servico_tipo_movimento': self.order.tipo_movimento or 1,
+            # 07.3A
+            'servico_codigo_movimento': self.order.tipo_movimento or 00,
+
+            # FAVORECIDO
+            # 08.3A - 018-TED 700-DOC
             'favorecido_camara': 0,
-            'favorecido_conta': line.bank_id.bra_number,
-            'favorecido_conta_dv': line.bank_id.bra_number_dig,
-            'favorecido_dv': line.bank_id.bra_acc_dig,
+            # 09.3A
+            'favorecido_banco': int(line.bank_id.bank_bic),
+            # 10.3A
+            'favorecido_agencia': int(line.bank_id.bra_number),
+            # 11.3A
+            'favorecido_agencia_dv': line.bank_id.bra_number_dig,
+            # 12.3A
+            'favorecido_conta': int(line.bank_id.acc_number),
+            # 13.3A
+            'favorecido_dv': line.bank_id.acc_number_dig[0],
+            # 14.3A
+            'favorecido_conta_dv': line.bank_id.acc_number_dig[1]
+                if len(line.bank_id.bra_number_dig) > 1 else '',
+            # 15.3A
             'favorecido_nome': line.partner_id.name,
-            'ocorrencias': '',
-            'outras_informacoes': '',
-            'servico_codigo_movimento': 0,
-            'servico_tipo_movimento': 0,
-            'aviso': '0',
-            'cod_documento_favorecido': '',
-            'codigo_ispb': '0',
-            'codigo_ug_centralizadora': '0',
-            'favorecido_cep': line.partner_id.zip[:5],
-            'favorecido_cep_complemento': line.partner_id.zip[6:9],
-            'favorecido_endereco_bairro': line.partner_id.district,
-            'favorecido_endereco_cidade': line.partner_id.l10n_br_city_id.name,
-            'favorecido_endereco_complemento': line.partner_id.street2,
-            'favorecido_endereco_num': line.partner_id.number,
-            'favorecido_endereco_rua': line.partner_id.street,
-            'favorecido_estado': line.partner_id.state_id.code,
-            'favorecido_num_inscricao': 33333333333,
-            'favorecido_tipo_inscricao': 1,
-            'pagamento_abatimento': Decimal('0.00'),
-            'pagamento_desconto': Decimal('0.00'),
-            'pagamento_mora': Decimal('0.00'),
-            'pagamento_multa': Decimal('0.00'),
-            'pagamento_valor_documento': Decimal('0.00'),
+
+            # CREDITO
+            # 16.3A -
+            'credito_seu_numero': line.name,
+            # 17.3A
+            'credito_data_pagamento': self.format_date(line.date),
+            # 18.3A
+            'credito_moeda_tipo': line.currency.name,
+            # 19.3A
+            'credito_moeda_quantidade': Decimal('0.00000'),
+            # 20.3A
+            'credito_valor_pagamento':
+                Decimal(str(line.amount_currency)).quantize(Decimal('1.00')),
+            # 21.3A
+            # 'credito_nosso_numero': '',
+            # 22.3A
+            # 'credito_data_real': '',
+            # 23.3A
+            # 'credito_valor_real': '',
+
+            # INFORMAÇÔES
+            # 24.3A
+            # 'outras_informacoes': '',
+            # 25.3A
+            # 'codigo_finalidade_doc': line.codigo_finalidade_doc,
+            # 26.3A
+            'codigo_finalidade_ted': line.codigo_finalidade_ted or '',
+            # 27.3A
+            'codigo_finalidade_complementar':
+                line.codigo_finalidade_complementar or '',
+            # 28.3A
+            # CNAB - Uso Exclusivo FEBRABAN/CNAB
+            # 29.3A
+            # 'aviso_ao_favorecido': line.aviso_ao_favorecido,
+            'aviso_ao_favorecido': 0,
+            # 'ocorrencias': '',
+
+            # REGISTRO B
+            # 01.3B
+            # 02.3B
+            # 03.3B
+            # 04.3B
+            # 05.3B
+            # 06.3B
+
+            # DADOS COMPLEMENTARES - FAVORECIDOS
+            # 07.3B
+            'favorecido_tipo_inscricao': self.inscricao_tipo(line.partner_id),
+            # 08.3B
+            'favorecido_num_inscricao':
+                int(punctuation_rm(line.partner_id.cnpj_cpf)),
+            # 09.3B
+            'favorecido_endereco_rua': line.partner_id.street or '',
+            # 10.3B
+            'favorecido_endereco_num': int(line.partner_id.number) or 0,
+            # 11.3B
+            'favorecido_endereco_complemento': line.partner_id.street2 or '',
+            # 12.3B
+            'favorecido_endereco_bairro': line.partner_id.district or '',
+            # 13.3B
+            'favorecido_endereco_cidade':
+                line.partner_id.l10n_br_city_id.name or '',
+            # 14.3B
+            'favorecido_cep': int(line.partner_id.zip[:5]) or 0,
+            # 15.3B
+            'favorecido_cep_complemento': line.partner_id.zip[6:9] or '',
+            # 16.3B
+            'favorecido_estado': line.partner_id.state_id.code or '',
+
+            # DADOS COMPLEMENTARES - PAGAMENTO
+            # 17.3B
             'pagamento_vencimento': 0,
+            # 18.3B
+            'pagamento_valor_documento': Decimal('0.00'),
+            # 19.3B
+            'pagamento_abatimento': Decimal('0.00'),
+            # 20.3B
+            'pagamento_desconto': Decimal('0.00'),
+            # 21.3B
+            'pagamento_mora': Decimal('0.00'),
+            # 22.3B
+            'pagamento_multa': Decimal('0.00'),
+            # 23.3B
+            # TODO: Verificar se este campo é retornado no retorno
+            # 'cod_documento_favorecido': '',
+            # 24.3B - Informado No SegmentoA
+            # 'aviso_ao_favorecido': '0',
+            # 25.3B
+            # 'codigo_ug_centralizadora': '0',
+            # 26.3B
+            # 'codigo_ispb': '0',
         }
         return vals
 
