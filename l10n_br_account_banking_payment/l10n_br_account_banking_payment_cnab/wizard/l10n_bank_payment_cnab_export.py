@@ -24,8 +24,8 @@
 import base64
 import time
 
-from openerp import models, api, workflow, fields
-
+from openerp import models, api, workflow, fields, _
+from openerp.exceptions import Warning as UserError
 from ..febraban.cnab import Cnab
 
 
@@ -36,23 +36,34 @@ class L10nPaymentCnab(models.TransientModel):
     _name = 'payment.cnab'
     _description = 'Export payment order(s) in cnab layout'
 
-    name = fields.Char(u'Nome', size=255)
-    cnab_file = fields.Binary('CNAB File', readonly=True)
+    name = fields.Char(string=u'Nome', size=255)
+
+    cnab_file = fields.Binary(string='CNAB File', readonly=True)
+
     state = fields.Selection(
-        [('init', 'init'),
-         ('done', 'done')],
-        'state',
+        string='state',
+        selection=[('init', 'init'), ('done', 'done')],
         default='init',
-        readonly=True)
+        readonly=True
+    )
 
     @api.multi
     def export(self):
         for order_id in self.env.context.get('active_ids', []):
 
             order = self.env['payment.order'].browse(order_id)
-            cnab = Cnab.get_cnab(order.mode.bank_id.bank_bic,
-                                 order.mode.type.code)()
+            if not order.line_ids:
+                raise UserError(
+                    _('Error'),
+                    _('Adicione pelo menos uma linha na ordem de pagamento.'))
+
+            # Criando instancia do CNAB a partir do código do banco
+            cnab = Cnab.get_cnab(
+                order.mode.bank_id.bank_bic, order.mode.type.code)()
+
+            # Criando remesse de eventos
             remessa = cnab.remessa(order)
+
             suf_arquivo = order.get_next_sufixo()
 
             if order.mode.type.code == '240':
@@ -66,8 +77,9 @@ class L10nPaymentCnab(models.TransientModel):
                     time.strftime('%d%m'), str(order.file_number))
             self.state = 'done'
             self.cnab_file = base64.b64encode(remessa)
-            workflow.trg_validate(self.env.uid, 'payment.order', order_id,
-                                  'done', self.env.cr)
+
+            workflow.trg_validate(
+                self.env.uid, 'payment.order', order_id, 'done', self.env.cr)
 
             return {
                 'type': 'ir.actions.act_window',
