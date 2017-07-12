@@ -12,7 +12,7 @@
                 <xpath expr="//field[@name='line_ids']/form/notebook" position="before">
                     <group name="cnab">
                         <field name="seu_numero"/>
-                        <field name="complemento_tipo_servico"/>
+                        <field name="codigo_finalidade_doc"/>
                         <field name="codigo_finalidade_ted"/>
                         <field name="codigo_finalidade_complementar"/>
                         <field name="aviso_ao_favorecido"/>

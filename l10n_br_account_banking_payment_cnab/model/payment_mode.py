@@ -51,7 +51,7 @@ class PaymentMode(models.Model):
         string=u'Código do Convênio no Banco',
         help=u'Campo G007 do CNAB'
     )
-    complemento_tipo_servico = fields.Selection(
+    codigo_finalidade_doc = fields.Selection(
         selection=COMPLEMENTO_TIPO_SERVICO,
         string=u'Complemento do Tipo de Serviço',
         help=u'Campo P005 do CNAB'
