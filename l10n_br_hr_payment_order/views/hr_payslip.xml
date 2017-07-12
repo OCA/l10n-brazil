@@ -19,6 +19,8 @@
             <button name="refund_sheet" position="after">
                 <button name="create_payment_order" type="object"
                         string="Add to Payment Order" />
+                <button name="action_done" type="object"
+                        string="Change to Done" />
             </button>
             <xpath expr="//notebook//page[@string='Holerite']" position="after">
                 <page string="Orderns de Pagamento">
