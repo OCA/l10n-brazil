@@ -125,9 +125,17 @@ class L10nBrHrCnab(models.Model):
                     data_evento[0:2]
                 )
                 account_bank_id_lote = self.env['res.partner.bank'].search(
-                    [('acc_number', '=', evento.favorecido_conta)]).id
-                favorecido_partiner = self.env['res.partner'].search(
-                    [('name', '=', evento.favorecido_nome)]).id
+                    [
+                        ('bra_number', '=', evento.favorecido_agencia),
+                        ('bra_number_dig', '=', evento.favorecido_agencia_dv),
+                        ('acc_number', '=', evento.favorecido_conta),
+                        ('acc_number_dig', '=', evento.favorecido_conta_dv)
+                    ])
+                account_bank_id_lote = account_bank_id_lote.ids[0] if account_bank_id_lote else False
+                favorecido_partner = self.env['res.partner.bank'].search(
+                    [('owner_name', 'ilike', evento.favorecido_nome)]
+                )
+                favorecido_partner = favorecido_partner[0].partner_id.id if favorecido_partner else False
                 bank_payment_line_id = self.env['bank.payment.line'].search(
                     [
                         ('name', '=', evento.credito_seu_numero)
@@ -144,7 +152,7 @@ class L10nBrHrCnab(models.Model):
                 vals_evento = {
                     'data_real_pagamento': data_evento,
                     'segmento': evento.servico_segmento,
-                    'favorecido_nome': favorecido_partiner,
+                    'favorecido_nome': favorecido_partner,
                     'favorecido_conta_bancaria': account_bank_id_lote,
                     'nosso_numero': str(evento.credito_nosso_numero),
                     'seu_numero': evento.credito_seu_numero,
@@ -259,6 +267,10 @@ class L10nBrHrCnabEvento(models.Model):
     favorecido_nome = fields.Many2one(
         string="Favorecido",
         comodel_name="res.partner"
+    )
+    favorecido_conta_bancaria = fields.Many2one(
+        string=u"Conta Bancária",
+        comodel_name="res.partner.bank",
     )
     nosso_numero = fields.Char(string=u"Nosso Número")
     seu_numero = fields.Char(string=u"Seu Número")
