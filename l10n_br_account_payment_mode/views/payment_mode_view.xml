@@ -42,7 +42,6 @@
                             </page>
                             <page string="Pagamento" attrs="{'invisible': [('purchase_ok', '!=', True)]}">
                                 <group>
-                                    <field name="type_purchase_payment"/>
                                     <field name="internal_sequence_id"/>
                                     <field name="instrucoes"
                                            attrs="{'invisible': [('payment_order_type', '!=', 'cobranca')]}"/>
