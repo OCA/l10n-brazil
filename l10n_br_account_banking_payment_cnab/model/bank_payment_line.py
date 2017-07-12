@@ -10,6 +10,7 @@ STATE = [
     ('paid', 'Paid'),
 ]
 
+
 class BankPaymentLine(models.Model):
     _inherit = 'bank.payment.line'
 

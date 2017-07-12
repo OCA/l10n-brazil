@@ -2,10 +2,8 @@
 
 from __future__ import division, print_function, unicode_literals
 
-
 import re
 import string
-from decimal import Decimal
 
 from ..cnab_240 import Cnab240
 
@@ -30,7 +28,7 @@ class BB240(Cnab240):
         """
         Preparar o evento (segmentoA e segmentoB) apartir da payment.line
         :param line - payment.line
-        :return: dict - Informações 
+        :return: dict - Informações
         """
         vals = super(BB240, self)._prepare_cobranca(line)
         # vals['prazo_baixa'] = unicode(str(
@@ -56,7 +54,6 @@ class BB240(Cnab240):
         nosso_numero = re.sub(
             '[%s]' % re.escape(string.punctuation), '', format[3:-1] or '')
         return carteira, nosso_numero, digito
-
 
     def str_to_unicode(inp_str):
         inp_str = unicode(inp_str, "utf-8")
