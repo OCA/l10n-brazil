@@ -24,7 +24,7 @@
         'views/payment_order.xml',
         'views/res_config_view.xml',
         'views/hr_salary_rule_view.xml',
-        # 'hr_payroll_workflow.xml',
+        'hr_payroll_workflow.xml',
         'payment_line_workflow.xml',
     ],
     'demo': [
