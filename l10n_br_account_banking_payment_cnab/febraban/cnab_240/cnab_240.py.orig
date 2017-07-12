@@ -38,13 +38,14 @@ from ..cnab import Cnab
 _logger = logging.getLogger(__name__)
 try:
     from cnab240.tipos import Arquivo
+    from cnab240.errors import (Cnab240Error)
 except ImportError as err:
     _logger.debug = err
 
 
 class Cnab240(Cnab):
     """
-
+    CNAB240
     """
 
     def __init__(self):
@@ -52,6 +53,12 @@ class Cnab240(Cnab):
 
     @staticmethod
     def get_bank(bank):
+        '''
+        Função chamada na criação do CNAB que dado o código do banco, 
+        instancia o objeto do banco e retorna o obj ao CNAB que sera criado. 
+        :param bank: str - Código do banco
+        :return: 
+        '''
         if bank == '341':
             from .bancos.itau import Itau240
             return Itau240
@@ -70,24 +77,22 @@ class Cnab240(Cnab):
         else:
             return Cnab240
 
-    @property
-    def inscricao_tipo(self):
+    def inscricao_tipo(self, partner_id):
         # TODO: Implementar codigo para PIS/PASEP
-        if self.order.company_id.partner_id.is_company:
+        if partner_id.is_company:
             return 2
         else:
             return 1
 
     def _prepare_header(self):
         """
-
-        :param:
-        :return:
+        Preparar o header do arquivo do CNAB
+        :return: dict - Header do arquivo 
         """
-        header_arquivo = {
-            # CONTROLE
-            # 01.0
+        return {
             'controle_banco': int(self.order.mode.bank_id.bank_bic),
+<<<<<<< HEAD
+=======
             # 02.0 # Sequencia para o Arquivo
             'controle_lote': 1,
             # 03.0  0- Header do Arquivo
@@ -114,9 +119,6 @@ class Cnab240(Cnab):
             # 11.0
             'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig[0],
             # 12.0
-            'cedente_agencia_conta_dv':
-                self.order.mode.bank_id.bra_acc_dig[1]
-                if len(self.order.mode.bank_id.bra_acc_dig) > 1 else '',
             # 13.0
             'cedente_nome': self.order.company_id.legal_name,
             # 14.0
@@ -128,27 +130,28 @@ class Cnab240(Cnab):
             # 16.0 Código Remessa = 1 / Retorno = 2
             'arquivo_codigo': '1',
             # 17.0
+>>>>>>> [REM] Campo bra_acc_dig
             'arquivo_data_de_geracao': self.data_hoje(),
-            # 18.0
             'arquivo_hora_de_geracao': self.hora_agora(),
-            # 19.0 TODO: Número sequencial de arquivo
-            'arquivo_sequencia': int(self.get_file_numeration()),
-            # 20.0
-            'arquivo_layout': 103,
-            # 21.0
-            'arquivo_densidade': 0,
-            # 22.0
-            'reservado_banco': '0',
-            # 23.0
-            'reservado_empresa': 'EMPRESA 100',
-            # 24.0
-            # CNAB - Uso Exclusivo FEBRABAN / CNAB
-        }
-<<<<<<< HEAD
-=======
 
-        return header_arquivo
->>>>>>> [ADD] Buscando campos do Header do Arquivo no sistema
+            # TODO: Número sequencial de arquivo
+            'arquivo_sequencia': int(self.get_file_numeration()),
+            'cedente_inscricao_tipo': self.inscricao_tipo,
+            'cedente_inscricao_numero': int(punctuation_rm(
+                self.order.company_id.cnpj_cpf)),
+            'cedente_agencia': int(
+                self.order.mode.bank_id.bra_number),
+            'cedente_conta': int(self.order.mode.bank_id.acc_number),
+            'cedente_conta_dv': (self.order.mode.bank_id.acc_number_dig),
+            'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
+            'cedente_nome': self.order.company_id.legal_name,
+            # DV ag e conta
+            'cedente_dv_ag_cc': (self.order.mode.bank_id.bra_acc_dig),
+
+            # 'arquivo_codigo': 1,  # Remessa/Retorno
+            'servico_operacao': u'R',
+            'nome_banco': unicode(self.order.mode.bank_id.bank_name),
+        }
 
     def get_file_numeration(self):
         numero = self.order.get_next_number()
@@ -156,28 +159,12 @@ class Cnab240(Cnab):
             numero = 1
         return numero
 
-    def format_date(self, srt_date):
-        return int(datetime.datetime.strptime(
-            srt_date, '%Y-%m-%d').strftime('%d%m%Y'))
-
-    def nosso_numero(self, format):
-        pass
-
-    def cep(self, format):
-        sulfixo = format[-3:]
-        prefixo = format[:5]
-        return prefixo, sulfixo
-
     def sacado_inscricao_tipo(self, partner_id):
         # TODO: Implementar codigo para PIS/PASEP
         if partner_id.is_company:
             return 2
         else:
             return 1
-
-    def rmchar(self, format):
-        return re.sub('[%s]' % re.escape(string.punctuation), '',
-                      format or '')
 
     def _prepare_cobranca(self, line):
         """
@@ -211,8 +198,6 @@ class Cnab240(Cnab):
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
             'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig,
             'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
-            # DV ag e cc
-            'cedente_dv_ag_cc': (self.order.mode.bank_id.bra_acc_dig),
             'identificacao_titulo': u'0000000',  # TODO
             'identificacao_titulo_banco': u'0000000',  # TODO
             'identificacao_titulo_empresa': line.move_line_id.move_id.name,
@@ -255,6 +240,12 @@ class Cnab240(Cnab):
         }
 
     def _prepare_pagamento(self, line):
+        """
+        Prepara um dict para preencher os valores do segmento A e B apartir de
+        uma linha da payment.order
+        :param line: payment.line - linha que sera base para evento
+        :return: dict - Dict contendo todas informações dos segmentos
+        """
         vals = {
             # CONTROLE
             # 01.3A
@@ -387,17 +378,34 @@ class Cnab240(Cnab):
         }
         return vals
 
+    def _adicionar_evento(self, line):
+        """
+        Adicionar o evento no arquivo de acordo com seu tipo 
+        """
+        if self.order.payment_order_type == 'payment':
+            incluir = self.arquivo.incluir_debito_pagamento
+            prepare = self._prepare_pagamento
+        else:
+            incluir = self.arquivo.incluir_cobranca
+            prepare = self._prepare_cobranca
+
     def remessa(self, order):
         """
-
-        :param order:
-        :return:
+        Cria a remessa de eventos que sera anexada ao arquivo
+        :param order: payment.order
+        :return: Arquivo Cnab pronto para download
         """
         cobrancasimples_valor_titulos = 0
 
         self.order = order
-        self.arquivo = Arquivo(self.bank, **self._prepare_header())
 
+        # Preparar Header do Arquivo
+        try:
+            self.arquivo = Arquivo(self.bank, **self._prepare_header())
+        except Cnab240Error as e:
+            from openerp import exceptions
+            raise exceptions.ValidationError(
+                "Campo preenchido incorretamente \n\n{0}".format(e))
         if order.payment_order_type == 'payment':
             incluir = self.arquivo.incluir_debito_pagamento
             prepare = self._prepare_pagamento
@@ -406,7 +414,13 @@ class Cnab240(Cnab):
             prepare = self._prepare_cobranca
 
         for line in order.line_ids:
+            # para cada linha da payment order adicoinar como um novo evento
+            # self._adicionar_evento(line)
+            # try:
             incluir(**prepare(line))
+            # except:
+            #     from openerp import exceptions
+            #     raise exceptions.ValidationError("Erro")
             self.arquivo.lotes[0].header.servico_servico = 1
             # TODO: tratar soma de tipos de cobranca
             # cobrancasimples_valor_titulos += line.amount_currency
@@ -418,8 +432,29 @@ class Cnab240(Cnab):
         return unicodedata.normalize(
             'NFKD', remessa).encode('ascii', 'ignore')
 
+    def cep(self, format):
+        sulfixo = format[-3:]
+        prefixo = format[:5]
+        return prefixo, sulfixo
+
+    def format_date(self, srt_date):
+        return int(datetime.datetime.strptime(
+            srt_date, '%Y-%m-%d').strftime('%d%m%Y'))
+
     def data_hoje(self):
         return (int(time.strftime("%d%m%Y")))
 
     def hora_agora(self):
         return (int(time.strftime("%H%M%S")))
+
+    def rmchar(self, format):
+        return re.sub('[%s]' % re.escape(string.punctuation), '',
+                      format or '')
+
+    def nosso_numero(self, format):
+        """
+        Hook para ser sobrescrito e adicionar informação
+        :param format: 
+        :return: 
+        """
+        pass

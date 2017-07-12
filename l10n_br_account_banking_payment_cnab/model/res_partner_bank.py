@@ -28,7 +28,6 @@ class ResPartnerBank(models.Model):
     bancárias no Brasil."""
     _inherit = 'res.partner.bank'
 
-    bra_acc_dig = fields.Char(u'Digito Verificador Agência/Conta', size=1)
     codigo_da_empresa = fields.Integer(
         u'Código da empresa', size=20,
         help=u"Será informado pelo banco depois do cadastro do beneficiário "

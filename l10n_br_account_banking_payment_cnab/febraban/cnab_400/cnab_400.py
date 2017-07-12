@@ -136,8 +136,6 @@ class Cnab400(Cnab):
             'cedente_conta_dv': (self.order.mode.bank_id.acc_number_dig),
             'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
             'cedente_nome': self.order.company_id.legal_name,
-            # DV ag e conta
-            'cedente_dv_ag_cc': (self.order.mode.bank_id.bra_acc_dig),
             'arquivo_codigo': 1,  # Remessa/Retorno
             'servico_operacao': u'R',
             'nome_banco': unicode(self.order.mode.bank_id.bank_name),
@@ -236,8 +234,6 @@ class Cnab400(Cnab):
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
             'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig,
             'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
-            # DV ag e cc
-            'cedente_dv_ag_cc': (self.order.mode.bank_id.bra_acc_dig),
             'identificacao_titulo': u'0000000',  # TODO
             'identificacao_titulo_banco': u'0000000',  # TODO
             'identificacao_titulo_empresa': line.move_line_id.move_id.name,
