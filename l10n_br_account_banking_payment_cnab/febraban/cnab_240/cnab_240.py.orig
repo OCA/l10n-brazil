@@ -54,10 +54,10 @@ class Cnab240(Cnab):
     @staticmethod
     def get_bank(bank):
         '''
-        Função chamada na criação do CNAB que dado o código do banco, 
-        instancia o objeto do banco e retorna o obj ao CNAB que sera criado. 
+        Função chamada na criação do CNAB que dado o código do banco,
+        instancia o objeto do banco e retorna o obj ao CNAB que sera criado.
         :param bank: str - Código do banco
-        :return: 
+        :return:
         '''
         if bank == '341':
             from .bancos.itau import Itau240
@@ -87,7 +87,7 @@ class Cnab240(Cnab):
     def _prepare_header(self):
         """
         Preparar o header do arquivo do CNAB
-        :return: dict - Header do arquivo 
+        :return: dict - Header do arquivo
         """
         return {
             'controle_banco': int(self.order.mode.bank_id.bank_bic),
@@ -119,8 +119,12 @@ class Cnab240(Cnab):
             # 11.0
             'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig[0],
             # 12.0
+            'cedente_agencia_conta_dv':
+                self.order.mode.bank_id.acc_number_dig[1]
+                if len(self.order.mode.bank_id.acc_number_dig) > 1 else '',
             # 13.0
-            'cedente_nome': self.order.company_id.legal_name,
+            'cedente_nome':
+                self.order.mode.bank_id.partner_id.legal_name[:30],
             # 14.0
             'nome_banco': self.order.mode.bank_id.bank_name,
             # 15.0
@@ -130,12 +134,13 @@ class Cnab240(Cnab):
             # 16.0 Código Remessa = 1 / Retorno = 2
             'arquivo_codigo': '1',
             # 17.0
->>>>>>> [REM] Campo bra_acc_dig
+>>>>>>> [FIX] Campos do Evento
             'arquivo_data_de_geracao': self.data_hoje(),
             'arquivo_hora_de_geracao': self.hora_agora(),
 
             # TODO: Número sequencial de arquivo
             'arquivo_sequencia': int(self.get_file_numeration()),
+<<<<<<< HEAD
             'cedente_inscricao_tipo': self.inscricao_tipo,
             'cedente_inscricao_numero': int(punctuation_rm(
                 self.order.company_id.cnpj_cpf)),
@@ -147,6 +152,19 @@ class Cnab240(Cnab):
             'cedente_nome': self.order.company_id.legal_name,
             # DV ag e conta
             'cedente_dv_ag_cc': (self.order.mode.bank_id.bra_acc_dig),
+=======
+            # 20.0
+            'arquivo_layout': 103,
+            # 21.0
+            'arquivo_densidade': 0,
+            # 22.0
+            'reservado_banco': '',
+            # 23.0
+            'reservado_empresa': 'EMPRESA 100',
+            # 24.0
+            # CNAB - Uso Exclusivo FEBRABAN / CNAB
+        }
+>>>>>>> [FIX] Campos do Evento
 
             # 'arquivo_codigo': 1,  # Remessa/Retorno
             'servico_operacao': u'R',
@@ -198,6 +216,8 @@ class Cnab240(Cnab):
             'cedente_conta': int(self.order.mode.bank_id.acc_number),
             'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig,
             'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
+            # DV ag e cc
+            'cedente_dv_ag_cc': (self.order.mode.bank_id.bra_acc_dig),
             'identificacao_titulo': u'0000000',  # TODO
             'identificacao_titulo_banco': u'0000000',  # TODO
             'identificacao_titulo_empresa': line.move_line_id.move_id.name,
@@ -242,11 +262,92 @@ class Cnab240(Cnab):
     def _prepare_pagamento(self, line):
         """
         Prepara um dict para preencher os valores do segmento A e B apartir de
-        uma linha da payment.order
+        uma linha da payment.order e insere informações que irão compor o 
+        header do lote
         :param line: payment.line - linha que sera base para evento
         :return: dict - Dict contendo todas informações dos segmentos
         """
         vals = {
+
+            # HEADER DO LOTE
+            #  CONTROLE
+            # 01.1
+            'controle_banco': int(self.order.mode.bank_id.bank_bic),
+            # 02.1
+            'controle_lote': 1,
+            # 03.1
+            'controle_registro': 3,
+
+            # SERVICO
+            # 04.1
+            'servico_operacao': 'C',
+            # 05.1
+            'servico_servico': 30,
+            # 06.1
+            'servico_forma_lancamento': 1,
+            # 07.1
+            'servico_layout': 20,
+            # 08.1
+            # CNAB - Uso Exclusivo da FEBRABAN/CNAB
+
+            # EMPRESA
+            # 09.1
+            'empresa_inscricao_tipo': 2,
+            # 10.1
+
+            # 11.1
+            # 12.1
+            # 13.1
+            # 14.1
+            # 15.1
+            # 16.1
+            # 17.1
+            # 18.1
+            # 19.1
+            # 20.1
+            # 21.1
+            # 22.1
+            # 23.1
+            # 24.1
+            # 25.1
+            # 26.1
+            # 27.1
+            # 28.1
+            # 29.1
+
+
+            # 'cedente_agencia': 1607,
+            #     'cedente_agencia_conta_dv': '',
+            #     'cedente_agencia_dv': '1',
+            #     'cedente_conta': 333166,
+            #     'cedente_conta_dv': '0',
+            #     'cedente_convenio': '0001222130126',
+            #     'cedente_nome': 'ABGF AGENCIA BRAS. GESTORA',
+            #     'controle_banco': 1,
+            #     'controle_lote': 1,
+            #     'controle_registro': 1,
+            #     'empresa_endereco_cep': 20090,
+            #     'empresa_endereco_cep_complemento': '003',
+            #     'empresa_endereco_cidade': 'RIO DE JANEIRO',
+            #     'empresa_endereco_complemento': '',
+            #     'empresa_endereco_estado': 'RJ',
+            #     'empresa_endereco_numero': 0,
+            #     'empresa_inscricao_numero': 17909518000226,
+            #     'empresa_inscricao_tipo': 2,
+            #     'empresa_logradouro': 'AVENIDA RIO BRANCO, N 1, 9 AND',
+            #     'indicativo_forma_pagamento': '',
+            #     'mensagem1': '',
+            #     'ocorrencias': '',
+            #
+            #
+
+            #
+            #     'vazio1': ''}
+
+
+
+
+
             # CONTROLE
             # 01.3A
             'controle_banco': int(self.order.mode.bank_id.bank_bic),
@@ -258,7 +359,7 @@ class Cnab240(Cnab):
             # SERVICO
             # 04.3A - Nº Seqüencial do Registro - Inicia em 1 em cada novo lote
             # TODO: Contador para o sequencial do lote
-              'servico_numero_registro': 1,
+            'servico_numero_registro': 1,
             # 05.3A
             #   Segmento Código de Segmento do Reg.Detalhe
             # 06.3A
@@ -280,10 +381,10 @@ class Cnab240(Cnab):
             # 13.3A
             'favorecido_dv': line.bank_id.acc_number_dig[0],
             # 14.3A
-            'favorecido_conta_dv': line.bank_id.acc_number_dig[1]
-                if len(line.bank_id.bra_number_dig) > 1 else '',
+            'favorecido_conta_dv': line.bank_id.acc_number_dig[1] if
+            len(line.bank_id.bra_number_dig) > 1 else '',
             # 15.3A
-            'favorecido_nome': line.partner_id.name,
+            'favorecido_nome': line.partner_id.name[:30],
 
             # CREDITO
             # 16.3A -
@@ -322,9 +423,11 @@ class Cnab240(Cnab):
             # 'ocorrencias': '',
 
             # REGISTRO B
+            # Preenchido no registro A
             # 01.3B
             # 02.3B
             # 03.3B
+
             # 04.3B
             # 05.3B
             # 06.3B
@@ -347,9 +450,11 @@ class Cnab240(Cnab):
             'favorecido_endereco_cidade':
                 line.partner_id.l10n_br_city_id.name or '',
             # 14.3B
-            'favorecido_cep': int(line.partner_id.zip[:5]) or 0,
+            # 'favorecido_cep': int(line.partner_id.zip[:5]) or 0,
+            'favorecido_cep': self.get_cep('prefixo', line.partner_id.zip),
             # 15.3B
-            'favorecido_cep_complemento': line.partner_id.zip[6:9] or '',
+            'favorecido_cep_complemento':
+                self.get_cep('sulfixo', line.partner_id.zip),
             # 16.3B
             'favorecido_estado': line.partner_id.state_id.code or '',
 
@@ -380,14 +485,15 @@ class Cnab240(Cnab):
 
     def _adicionar_evento(self, line):
         """
-        Adicionar o evento no arquivo de acordo com seu tipo 
+        Adicionar o evento no arquivo de acordo com seu tipo
         """
-        if self.order.payment_order_type == 'payment':
-            incluir = self.arquivo.incluir_debito_pagamento
-            prepare = self._prepare_pagamento
-        else:
-            incluir = self.arquivo.incluir_cobranca
-            prepare = self._prepare_cobranca
+        # if self.order.payment_order_type == 'payment':
+        #     incluir = self.arquivo.incluir_debito_pagamento
+        #     prepare = self._prepare_pagamento
+        # else:
+        #     incluir = self.arquivo.incluir_cobranca
+        #     prepare = self._prepare_cobranca
+        pass
 
     def remessa(self, order):
         """
@@ -395,7 +501,7 @@ class Cnab240(Cnab):
         :param order: payment.order
         :return: Arquivo Cnab pronto para download
         """
-        cobrancasimples_valor_titulos = 0
+        # cobrancasimples_valor_titulos = 0
 
         self.order = order
 
@@ -454,7 +560,7 @@ class Cnab240(Cnab):
     def nosso_numero(self, format):
         """
         Hook para ser sobrescrito e adicionar informação
-        :param format: 
-        :return: 
+        :param format:
+        :return:
         """
         pass
