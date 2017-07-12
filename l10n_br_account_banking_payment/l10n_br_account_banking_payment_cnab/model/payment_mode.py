@@ -70,7 +70,7 @@ class PaymentMode(models.Model):
         selection=AVISO_FAVORECIDO,
         string=u'Aviso ao Favorecido',
         help=u'Campo P006 do CNAB',
-        default='0',
+        default=0,
     )
     # A exportação CNAB não se encaixa somente nos parâmetros de
     # débito e crédito.
