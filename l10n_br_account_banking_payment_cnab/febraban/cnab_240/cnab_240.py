@@ -70,10 +70,9 @@ class Cnab240(Cnab):
         else:
             return Cnab240
 
-    @property
-    def inscricao_tipo(self):
+    def inscricao_tipo(self, partner_id):
         # TODO: Implementar codigo para PIS/PASEP
-        if self.order.company_id.partner_id.is_company:
+        if partner_id.is_company:
             return 2
         else:
             return 1
