@@ -239,6 +239,12 @@ class L10nBrHrCnabLote(models.Model):
         string="CNAB",
         comodel_name="l10n.br.cnab"
     )
+    state = fields.Selection(
+        string="State",
+        related="cnab_id.state",
+        selection=STATE,
+        default="draft",
+    )
 
 
 class L10nBrHrCnabEvento(models.Model):
@@ -267,4 +273,10 @@ class L10nBrHrCnabEvento(models.Model):
     lote_id = fields.Many2one(
         string="Lote",
         comodel_name="l10n.br.cnab.lote",
+    )
+    state = fields.Selection(
+        string="State",
+        related="lote_id.state",
+        selection=STATE,
+        default="draft",
     )
