@@ -19,20 +19,18 @@ class BB240(Cnab240):
 
     def _prepare_header(self):
         """
-
-        :param order:
-        :return:
+        Preparar header do arquivo.
+        Adicionar informações no header do arquivo do Banco do Brasil
         """
-
         vals = super(BB240, self)._prepare_header()
         # vals['servico_servico'] = 1
         return vals
 
     def _prepare_cobranca(self, line):
         """
-
-        :param line:
-        :return:
+        Preparar o evento (segmentoA e segmentoB) apartir da payment.line
+        :param line - payment.line
+        :return: dict - Informações 
         """
         vals = super(BB240, self)._prepare_cobranca(line)
         # vals['prazo_baixa'] = unicode(str(
@@ -60,6 +58,6 @@ class BB240(Cnab240):
         return carteira, nosso_numero, digito
 
 
-def str_to_unicode(inp_str):
-    inp_str = unicode(inp_str, "utf-8")
-    return inp_str
+    def str_to_unicode(inp_str):
+        inp_str = unicode(inp_str, "utf-8")
+        return inp_str

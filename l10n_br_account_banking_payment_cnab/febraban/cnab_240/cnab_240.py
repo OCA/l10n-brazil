@@ -45,7 +45,7 @@ except ImportError as err:
 
 class Cnab240(Cnab):
     """
-
+    CNAB240
     """
 
     def __init__(self):
@@ -53,6 +53,12 @@ class Cnab240(Cnab):
 
     @staticmethod
     def get_bank(bank):
+        '''
+        Função chamada na criação do CNAB que dado o código do banco, 
+        instancia o objeto do banco e retorna o obj ao CNAB que sera criado. 
+        :param bank: str - Código do banco
+        :return: 
+        '''
         if bank == '341':
             from .bancos.itau import Itau240
             return Itau240
@@ -80,9 +86,8 @@ class Cnab240(Cnab):
 
     def _prepare_header(self):
         """
-
-        :param:
-        :return:
+        Preparar o header do arquivo do CNAB
+        :return: dict - Header do arquivo 
         """
         return {
             'controle_banco': int(self.order.mode.bank_id.bank_bic),
@@ -114,28 +119,12 @@ class Cnab240(Cnab):
             numero = 1
         return numero
 
-    def format_date(self, srt_date):
-        return int(datetime.datetime.strptime(
-            srt_date, '%Y-%m-%d').strftime('%d%m%Y'))
-
-    def nosso_numero(self, format):
-        pass
-
-    def cep(self, format):
-        sulfixo = format[-3:]
-        prefixo = format[:5]
-        return prefixo, sulfixo
-
     def sacado_inscricao_tipo(self, partner_id):
         # TODO: Implementar codigo para PIS/PASEP
         if partner_id.is_company:
             return 2
         else:
             return 1
-
-    def rmchar(self, format):
-        return re.sub('[%s]' % re.escape(string.punctuation), '',
-                      format or '')
 
     def _prepare_cobranca(self, line):
         """
@@ -213,6 +202,12 @@ class Cnab240(Cnab):
         }
 
     def _prepare_pagamento(self, line):
+        """
+        Prepara um dict para preencher os valores do segmento A e B apartir de
+        uma linha da payment.order
+        :param line: payment.line - linha que sera base para evento
+        :return: dict - Dict contendo todas informações dos segmentos
+        """
         vals = {
             # CONTROLE
             # 01.3A
@@ -359,6 +354,8 @@ class Cnab240(Cnab):
     def remessa(self, order):
         """
         Cria a remessa de eventos que sera anexada ao arquivo
+        :param order: payment.order
+        :return: Arquivo Cnab pronto para download
         """
         cobrancasimples_valor_titulos = 0
 
@@ -397,8 +394,29 @@ class Cnab240(Cnab):
         return unicodedata.normalize(
             'NFKD', remessa).encode('ascii', 'ignore')
 
+    def cep(self, format):
+        sulfixo = format[-3:]
+        prefixo = format[:5]
+        return prefixo, sulfixo
+
+    def format_date(self, srt_date):
+        return int(datetime.datetime.strptime(
+            srt_date, '%Y-%m-%d').strftime('%d%m%Y'))
+
     def data_hoje(self):
         return (int(time.strftime("%d%m%Y")))
 
     def hora_agora(self):
         return (int(time.strftime("%H%M%S")))
+
+    def rmchar(self, format):
+        return re.sub('[%s]' % re.escape(string.punctuation), '',
+                      format or '')
+
+    def nosso_numero(self, format):
+        """
+        Hook para ser sobrescrito e adicionar informação
+        :param format: 
+        :return: 
+        """
+        pass
