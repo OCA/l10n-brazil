@@ -226,3 +226,29 @@ class ResourceCalendar(models.Model):
         #     return 30
         # else:
         #     return quantidade_dias
+
+    @api.multi
+    def data_eh_dia_util_bancario(self, data=datetime.now()):
+        """Verificar se data é dia util.
+        :param datetime data: Se nenhuma data referencia for passada
+                              verifique o dia de hoje.
+        :return boolean True: Se for dia útil
+                        False: Se Não for dia útil
+        """
+        if data.weekday() > 4:
+            return False
+        elif self.data_eh_feriado_bancario(data):
+            return False
+        return True
+
+    @api.multi
+    def proximo_dia_util_bancario(self, data_referencia=datetime.now()):
+        """Retornar o próximo dia util.
+        :param datetime data_referencia: Se nenhuma data referencia for passada
+                                   verifique se amanha é dia útil.
+        :return datetime Proximo dia util apartir da data referencia
+        """
+        if self.data_eh_dia_util_bancario(data_referencia):
+            return data_referencia
+        data_referencia += timedelta(days=1)
+        return self.proximo_dia_util_bancario(data_referencia)
