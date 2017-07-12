@@ -56,7 +56,6 @@
                     <field name="str_motiv_c" />
                     <field name="str_motiv_d" />
                     <field name="str_motiv_e" />
-                    <field name="payment_line_id" />
                 </tree>
             </field>
         </record>
@@ -80,7 +79,7 @@
                         <field name="str_motiv_c" />
                         <field name="str_motiv_d" />
                         <field name="str_motiv_e" />
-                        <field name="payment_line_id" />
+                        <field name="bank_payment_line_id" />
                     </group>
                 </form>
             </field>
@@ -100,7 +99,7 @@
                         <field name="mensagem" />
                         <field name="qtd_registros" />
                         <field name="total_valores" />
-                        <field name="evento_id"  context="{'form_view_ref':'l10n_br_account_banking_payment_cnab.cnab_retorno_evento_form_view'}" />
+                        <field name="evento_id" ontext="{'form_view_ref':'l10n_br_account_banking_payment_cnab.cnab_retorno_evento_form_view'}" nolabel="1" />
                     </group>
                 </form>
             </field>
@@ -134,8 +133,9 @@
                             <field name="num_lotes" />
                             <field name="num_eventos" />
                         </group>
-                        <separator string="Lote de Eventos" />
-                        <field name="lote_id" context="{'form_view_ref':'l10n_br_account_banking_payment_cnab.cnab_retorno_lote_form_view'}" />
+                        <group string="Lote de Eventos" name="evento-lines" attrs="{'invisible': [('state','!=', 'done')]}">
+                            <field name="lote_id" context="{'form_view_ref':'l10n_br_account_banking_payment_cnab.cnab_retorno_lote_form_view'}" nolabel="1" />
+                        </group>
                     </sheet>
                 </form>
             </field>
