@@ -90,8 +90,8 @@ class L10nBrHrCnab(models.Model):
         arquivo_parser = Arquivo(bancodobrasil, arquivo=arquivo_retono)
         data_arquivo = str(arquivo_parser.header.arquivo_data_de_geracao)
         self.data_arquivo = fields.Date.from_string(
-            data_arquivo[4:] + "-" + data_arquivo[2:4] + "-" + data_arquivo[
-                                                               0:2]
+            data_arquivo[4:] + "-" + data_arquivo[2:4] + "-" +
+            data_arquivo[0:2]
         )
         self.bank_account_id = self.env['res.partner.bank'].search(
             [('acc_number', '=', arquivo_parser.header.cedente_conta)]).id
@@ -120,8 +120,8 @@ class L10nBrHrCnab(models.Model):
                 data_evento = str(
                     evento.credito_data_real)
                 data_evento = fields.Date.from_string(
-                    data_evento[4:] + "-" + data_evento[
-                                            2:4] + "-" + data_evento[0:2]
+                    data_evento[4:] + "-" + data_evento[2:4] + "-" +
+                    data_evento[0:2]
                 )
                 account_bank_id_lote = self.env['res.partner.bank'].search(
                     [('acc_number', '=', evento.favorecido_conta)]).id
