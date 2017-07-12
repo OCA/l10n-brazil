@@ -84,5 +84,11 @@ class BankPaymentLine(models.Model):
     state2 = fields.Selection(
         string="State",
         selection=STATE,
-        default="draft"
+        default="draft",
+    )
+    evento_id = fields.One2many(
+        string="Eventos CNAB",
+        comodel_name="l10n.br.cnab.evento",
+        inverse_name="bank_payment_line_id",
+        readonly=True
     )

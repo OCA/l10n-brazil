@@ -22,6 +22,11 @@
                         <field name="multa"/>
                         <field name="aviso_ao_favorecido"/>
                     </group>
+                    <xpath expr="//group[@string='Related Payment Lines'" position="after">
+                        <group string="Histórico de Eventos CNAB Relacionados" name="evento-lines">
+                            <field name="evento_id" nolabel="1"/>
+                        </group>
+                    </xpath>
                 </group>
             </field>
         </record>

@@ -229,9 +229,9 @@ class L10nBrHrCnabEvento(models.Model):
     str_motiv_c = fields.Char(u'Motivo de ocorrência 03')
     str_motiv_d = fields.Char(u'Motivo de ocorrência 04')
     str_motiv_e = fields.Char(u'Motivo de ocorrência 05')
-    payment_line_id = fields.Many2one(
-        string="Payment Line",
-        comodel_name="payment.line",
+    bank_payment_line_id = fields.Many2one(
+        string="Bank Payment Line",
+        comodel_name="bank.payment.line",
     )
     lote_id = fields.Many2one(
         string="Lote",
