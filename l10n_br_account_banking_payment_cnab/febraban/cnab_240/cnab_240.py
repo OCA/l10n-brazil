@@ -361,13 +361,13 @@ class Cnab240(Cnab):
             # 11.3A
             'favorecido_agencia_dv': line.bank_id.bra_number_dig,
             # 12.3A
-            'favorecido_conta': int(line.bank_id.acc_number),
+            'favorecido_conta': punctuation_rm(line.bank_id.acc_number),
             # 13.3A
-            'favorecido_conta_dv': line.bank_id.acc_number_dig[0],
+            'favorecido_conta_dv': line.bank_id.acc_number_dig[0]
+                if line.bank_id.acc_number_dig else '',
             # 14.3A
             'favorecido_dv': line.bank_id.acc_number_dig[1]
-                if len(line.bank_id.bra_number_dig) > 1 else '',
-
+                if len(line.bank_id.bra_number_dig or '') > 1 else '',
             # 15.3A
             'favorecido_nome': line.partner_id.name,
 
