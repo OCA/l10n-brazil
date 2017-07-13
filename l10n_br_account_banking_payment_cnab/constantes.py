@@ -213,13 +213,11 @@ CODIGO_FINALIDADE_TED = [
     ('    ', u'Padrão')
 ]
 
-NAO_EMITE_AVISO = (0, u'0 - Não Emite Aviso')
-EMITE_AVISO_REMETENTE = (2, u'2 - Emite Aviso Somente para o Remetente')
-EMITE_AVISO_FAVORECIDO = (5, u'5 - Emite Aviso Somente para o Favorecido')
-EMITE_AVISO_REMETENTE_FAVORECIDO = (
-    6, u'6 - Emite Aviso para o Remetente e Favorecido')
-EMITE_AVISO_FAVORECIDO_2_VIAS_REMETENTE = (
-    7, u'7 - Emite Aviso para o Favorecido e 2 Vias para o Remetente')
+NAO_EMITE_AVISO = ('0', u'0 - Não Emite Aviso')
+EMITE_AVISO_REMETENTE = ('2', u'2 - Emite Aviso Somente para o Remetente')
+EMITE_AVISO_FAVORECIDO = ('5', u'5 - Emite Aviso Somente para o Favorecido')
+EMITE_AVISO_REMETENTE_FAVORECIDO = ('6', u'6 - Emite Aviso para o Remetente e Favorecido')
+EMITE_AVISO_FAVORECIDO_2_VIAS_REMETENTE = ('7', u'7 - Emite Aviso para o Favorecido e 2 Vias para o Remetente')
 
 AVISO_FAVORECIDO = [
     NAO_EMITE_AVISO,
@@ -247,8 +245,8 @@ TIPO_MOVIMENTO = [
 ]
 
 CODIGO_INSTRUCAO_MOVIMENTO = [
-    ('00', u'00 - Inclusão de Registro Detalhe Liberado'),
-    ('09', u'09 - Inclusão do Registro Detalhe Bloqueado'),
+    ('0', u'00 - Inclusão de Registro Detalhe Liberado'),
+    ('9', u'09 - Inclusão do Registro Detalhe Bloqueado'),
     ('10', u'10 - Alteração do Pagamento Liberado para Bloqueado (Bloqueio)'),
     ('11', u'11 - Alteração do Pagamento Bloqueado para Liberado (Liberação)'),
     ('17', u'17 - Alteração do Valor do Título'),
