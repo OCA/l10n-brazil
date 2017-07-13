@@ -25,7 +25,6 @@
         'security/ir.model.access.csv',
     ],
     'demo': [
-        'demo/financial_account_move_matrix.xml',
     ],
     'installable': True,
 }
