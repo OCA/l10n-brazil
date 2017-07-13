@@ -25,7 +25,7 @@
         <field name="arch" type="xml">
             <xpath expr="//group[@name='general']" position="after">
                 <group col="4" colspan="4" string="Accounting">
-                    <field name="account_journal_id" />
+                    <field name="journal_id" />
                     <field name="account_move_template_id" />
                     <field name="account_move_id" readonly="1" />
                     <newline />

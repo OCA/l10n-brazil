@@ -15,7 +15,7 @@
         <field name="arch" type="xml">
             <field name="name" position="after">
                 <newline />
-                <field name="account_journal_id" colspan="2" />
+                <field name="journal_id" colspan="2" />
                 <newline />
                 <separator string="Account Move Templates" colspan="2" />
                 <group string="Incoming moves">

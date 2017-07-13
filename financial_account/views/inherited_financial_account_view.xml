@@ -18,14 +18,14 @@
                 <newline />
                 <group name="accounting" string="Accounting">
                     <newline/>
-                    <field name="account_journal_id" />
+                    <field name="journal_id" />
                 </group>
                 <group name="accounting_templates" string="Account Move Templates">
                     <field name="account_matrix_ids" nolabel="1"
-                           context="{'default_account_journal_id': account_journal_id}">
+                           context="{'default_journal_id': journal_id}">
                         <tree editable="bottom"  >
                             <field name="company_id" groups="base.group_multi_company"/>
-                            <field name="account_journal_id" invisible="1"/>
+                            <field name="journal_id" invisible="1"/>
                             <field name="document_type_id"/>
                             <field name="account_move_template_2receive_id"/>
                             <field name="account_move_template_receipt_item_id"/>

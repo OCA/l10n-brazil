@@ -20,11 +20,11 @@ class FinancialAccountMoveMatrix(models.Model):
 
     company_id = fields.Many2one(
         comodel_name='res.company',
-        related='account_journal_id.company_id',
+        related='journal_id.company_id',
         store=True,
         readonly=True,
     )
-    account_journal_id = fields.Many2one(
+    journal_id = fields.Many2one(
         comodel_name='account.journal',
         string='Journal',
         ondelete='restrict',

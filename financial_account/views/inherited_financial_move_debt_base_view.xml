@@ -28,8 +28,8 @@
                 <page string="Account Moves" name="accounting">
                     <group>
                         <group>
-                            <field name="account_journal_id" />
-                            <field name="account_move_template_id" />
+                            <field name="journal_id"/>
+                            <field name="account_move_template_id"/>
                         </group>
                         <group>
                             <field name="account_move_id" readonly="1" />

@@ -38,10 +38,10 @@ class FinancialMove(models.Model):
                 if matrix_id and record.type:
                     if record.type in DEBT_2RECEIVE_2PAY:
 
-                        record.account_journal_id = \
-                            matrix_id.account_journal_id
+                        record.journal_id = \
+                            matrix_id.journal_id
                     else:
-                        record.account_journal_id = record.bank_id.journal_id
+                        record.journal_id = record.bank_id.journal_id
 
                     account_move_template_id = \
                         record.account_matrix_id.map_account_move_template_id(
@@ -56,7 +56,7 @@ class FinancialMove(models.Model):
                         False
                     )
 
-    account_journal_id = fields.Many2one(
+    journal_id = fields.Many2one(
         compute='_compute_account_move_template_id',
         comodel_name='account.journal',
         string='Journal',
@@ -106,7 +106,7 @@ class FinancialMove(models.Model):
                 self.account_id.account_matrix_ids.mapped('document_type_id')
 
             if self.type in DEBT_2RECEIVE_2PAY:
-                self.account_journal_id = self.account_id.account_journal_id
+                self.journal_id = self.account_id.journal_id
 
             if (document_type_id and
                     len(document_type_id) == document_type_length):
@@ -130,7 +130,7 @@ class FinancialMove(models.Model):
 
             if not move.account_move_template_id:
                 error += _("- Move template not found\n")
-            if not move.account_journal_id:
+            if not move.journal_id:
                 if move.type in DEBT_2RECEIVE_2PAY:
                     error += _("- Financial account without journal\n")
                 else:
@@ -156,7 +156,7 @@ class FinancialMove(models.Model):
                 'company_id': move.company_id.id,
                 'date': move.date_document,
                 'line_id': line_id,
-                'journal_id': move.account_journal_id.id,
+                'journal_id': move.journal_id.id,
             }
 
             self.account_move_id = account_move.create(vals)

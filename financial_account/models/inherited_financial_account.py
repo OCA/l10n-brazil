@@ -10,7 +10,7 @@ from openerp import fields, models
 class FinancialAccount(models.Model):
     _inherit = b'financial.account'
 
-    account_journal_id = fields.Many2one(
+    journal_id = fields.Many2one(
         comodel_name='account.journal',
         string='Journal',
         ondelete='restrict',
