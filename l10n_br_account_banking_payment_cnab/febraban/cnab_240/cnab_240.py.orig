@@ -37,7 +37,7 @@ from ..cnab import Cnab
 
 _logger = logging.getLogger(__name__)
 try:
-    from cnab240.tipos import Arquivo
+    from cnab240.tipos import Arquivo, Lote
     from cnab240.errors import (Cnab240Error)
 except ImportError as err:
     _logger.debug = err
@@ -77,7 +77,7 @@ class Cnab240(Cnab):
         else:
             return Cnab240
 
-    def inscricao_tipo(self, partner_id):
+    def get_inscricao_tipo(self, partner_id):
         # TODO: Implementar codigo para PIS/PASEP
         if partner_id.is_company:
             return 2
@@ -91,6 +91,50 @@ class Cnab240(Cnab):
         """
         return {
             'controle_banco': int(self.order.mode.bank_id.bank_bic),
+<<<<<<< HEAD
+=======
+            # 02.0 # Sequencia para o Arquivo
+            'controle_lote': 1,
+            # 03.0  0- Header do Arquivo
+            'controle_registro': 0,
+            # 04.0
+            # CNAB - Uso Exclusivo FEBRABAN / CNAB
+
+            # EMPRESA
+            # 05.0 - 1 - CPF / 2 - CNPJ
+            'cedente_inscricao_tipo':
+                self.get_inscricao_tipo(self.order.company_id.partner_id),
+            # 06.0
+            'cedente_inscricao_numero':
+                int(punctuation_rm(self.order.company_id.cnpj_cpf)),
+            # 07.0
+            'cedente_convenio': '0001222130126',
+            # 08.0
+            'cedente_agencia':
+                int(self.order.mode.bank_id.bra_number),
+            # 09.0
+            'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
+            # 10.0
+            'cedente_conta': int(self.order.mode.bank_id.acc_number),
+            # 11.0
+            'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig[0],
+            # 12.0
+            'cedente_agencia_conta_dv':
+                self.order.mode.bank_id.acc_number_dig[1]
+                if len(self.order.mode.bank_id.acc_number_dig) > 1 else '',
+            # 13.0
+            'cedente_nome':
+                self.order.mode.bank_id.partner_id.legal_name[:30],
+            # 14.0
+            'nome_banco': self.order.mode.bank_id.bank_name,
+            # 15.0
+            #   CNAB - Uso Exclusivo FEBRABAN / CNAB
+
+            # ARQUIVO
+            # 16.0 Código Remessa = 1 / Retorno = 2
+            'arquivo_codigo': '1',
+            # 17.0
+>>>>>>> [FIX] Ajuste na remessa e no  Get_cep
             'arquivo_data_de_geracao': self.data_hoje(),
             'arquivo_hora_de_geracao': self.hora_agora(),
 
@@ -113,107 +157,18 @@ class Cnab240(Cnab):
             'nome_banco': unicode(self.order.mode.bank_id.bank_name),
         }
 
-    def _prepare_header_lote(self):
-        """
-        Preparar o header de LOTE para arquivo do CNAB
-        :return: dict - Header do arquivo 
-        """
-        empresa = self.order.mode.bank_id.partner_id
-
-        header_arquivo_lote = {
-
-            # CONTROLE
-            # 01.1
-            'controle_banco': int(self.order.mode.bank_id.bank_bic),
-            # 02.1  Sequencia para o Arquivo
-            'controle_lote': 1,
-            # 03.1  0- Header do Arquivo
-            'controle_registro': 1,
-
-            # SERVICO
-            # 04.1 # Header do lote sempre 'C'
-            'servico_operacao': 'C',
-            # 05.1
-            'servico_servico': self.order.tipo_servico,
-            # 06.1
-            'servico_forma_lancamento': 1,
-            # 07.1
-            'servico_layout': 20,
-            # 08.1
-            # CNAB - Uso Exclusivo da FEBRABAN/CNAB
-
-            # EMPRESA CEDENTE
-            # 09.1
-            'empresa_inscricao_tipo': 2,
-                # self.get_inscricao_tipo(self.order.company_id.partner_id),
-            # 10.1
-            'empresa_inscricao_numero': punctuation_rm(empresa.cnpj_cpf),
-            # 11.1
-            'cedente_convenio': self.order.codigo_convenio,
-            # 12.1
-            'cedente_agencia':
-                int(self.order.mode.bank_id.bra_number),
-            # 13.1
-            'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
-            # 14.1
-            'cedente_conta': int(self.order.mode.bank_id.acc_number),
-            # 15.1
-            'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig[0],
-            # 16.1
-            'cedente_agencia_conta_dv':
-                self.order.mode.bank_id.acc_number_dig[1]
-                if len(self.order.mode.bank_id.acc_number_dig) > 1 else '',
-            # 17.1
-            'cedente_nome':
-                self.order.mode.bank_id.partner_id.legal_name[:30],
-            # 18.1
-            'mensagem1': '',
-
-            # ENDERECO
-            # 19.1
-            'empresa_logradouro': empresa.street,
-            # 20.1
-            'empresa_endereco_numero': empresa.number,
-            # 21.1
-            'empresa_endereco_complemento': empresa.street2,
-            # 22.1
-            'empresa_endereco_cidade': empresa.l10n_br_city_id.name,
-            # 23.1
-            'empresa_endereco_cep': self.get_cep('prefixo', empresa.zip),
-            # 24.1
-            'empresa_endereco_cep_complemento':
-                self.get_cep('sufixo', empresa.zip),
-            # 25.1
-            'empresa_endereco_estado': empresa.state_id.code,
-
-            # 26.1
-            'indicativo_forma_pagamento': '',
-            # 27.1
-            # CNAB - Uso Exclusivo FEBRABAN / CNAB
-            # 28.1
-            'ocorrencias': '',
-        }
-        return header_arquivo_lote
-
     def get_file_numeration(self):
         numero = self.order.get_next_number()
         if not numero:
             numero = 1
         return numero
 
-    def sacado_inscricao_tipo(self, partner_id):
-        # TODO: Implementar codigo para PIS/PASEP
-        if partner_id.is_company:
-            return 2
-        else:
-            return 1
-
     def _prepare_cobranca(self, line):
         """
         :param line:
         :return:
         """
-        # prefixo, sulfixo = self.cep(line.partner_id.zip)
+        # prefixo, sufixo = self.cep(line.partner_id.zip)
 
         aceite = u'N'
         if not self.order.mode.boleto_aceite == 'S':
@@ -264,7 +219,7 @@ class Cnab240(Cnab):
             'juros_mora_taxa_dia': Decimal('0.00'),
             'valor_abatimento': Decimal('0.00'),
             'sacado_inscricao_tipo': int(
-                self.sacado_inscricao_tipo(line.partner_id)),
+                self.get_inscricao_tipo(line.partner_id)),
             'sacado_inscricao_numero': int(
                 self.rmchar(line.partner_id.cnpj_cpf)),
             'sacado_nome': line.partner_id.legal_name,
@@ -272,7 +227,7 @@ class Cnab240(Cnab):
                 line.partner_id.street + ' ' + line.partner_id.number),
             'sacado_bairro': line.partner_id.district,
             'sacado_cep': int(prefixo),
-            'sacado_cep_sufixo': int(sulfixo),
+            'sacado_cep_sufixo': int(sufixo),
             'sacado_cidade': line.partner_id.l10n_br_city_id.name,
             'sacado_uf': line.partner_id.state_id.code,
             'codigo_protesto': int(self.order.mode.boleto_protesto),
@@ -291,11 +246,6 @@ class Cnab240(Cnab):
         :return: dict - Dict contendo todas informações dos segmentos
         """
         vals = {
-<<<<<<< HEAD
-=======
-
-            # SEGMENTO A
->>>>>>> [ADD] Header do Lote
             # CONTROLE
             # 01.3A
             'controle_banco': int(self.order.mode.bank_id.bank_bic),
@@ -311,9 +261,9 @@ class Cnab240(Cnab):
             # 05.3A
             #   Segmento Código de Segmento do Reg.Detalhe
             # 06.3A
-            'servico_tipo_movimento': self.order.tipo_movimento,
+            'servico_tipo_movimento': self.order.tipo_movimento or 1,
             # 07.3A
-            'servico_codigo_movimento': self.order.codigo_instrucao_movimento,
+            'servico_codigo_movimento': self.order.tipo_movimento or 00,
 
             # FAVORECIDO
             # 08.3A - 018-TED 700-DOC
@@ -327,11 +277,10 @@ class Cnab240(Cnab):
             # 12.3A
             'favorecido_conta': int(line.bank_id.acc_number),
             # 13.3A
-            'favorecido_conta_dv': line.bank_id.acc_number_dig[0],
+            'favorecido_dv': line.bank_id.acc_number_dig[0],
             # 14.3A
-            'favorecido_dv': line.bank_id.acc_number_dig[1]
-                if len(line.bank_id.bra_number_dig) > 1 else '',
-
+            'favorecido_conta_dv': line.bank_id.acc_number_dig[1] if
+            len(line.bank_id.bra_number_dig) > 1 else '',
             # 15.3A
             'favorecido_nome': line.partner_id.name,
 
@@ -348,7 +297,7 @@ class Cnab240(Cnab):
             'credito_valor_pagamento':
                 Decimal(str(line.amount_currency)).quantize(Decimal('1.00')),
             # 21.3A
-            # 'credito_nosLoteso_numero': '',
+            # 'credito_nosso_numero': '',
             # 22.3A
             # 'credito_data_real': '',
             # 23.3A
@@ -371,12 +320,7 @@ class Cnab240(Cnab):
             'aviso_ao_favorecido': 0,
             # 'ocorrencias': '',
 
-<<<<<<< HEAD
             # REGISTRO B
-=======
-            # SEGMENTO B
-            # Preenchido no segmento A
->>>>>>> [ADD] Header do Lote
             # 01.3B
             # 02.3B
             # 03.3B
@@ -386,8 +330,7 @@ class Cnab240(Cnab):
 
             # DADOS COMPLEMENTARES - FAVORECIDOS
             # 07.3B
-            'favorecido_tipo_inscricao':
-                self.get_inscricao_tipo(line.partner_id),
+            'favorecido_tipo_inscricao': self.inscricao_tipo(line.partner_id),
             # 08.3B
             'favorecido_num_inscricao':
                 int(punctuation_rm(line.partner_id.cnpj_cpf)),
@@ -405,12 +348,7 @@ class Cnab240(Cnab):
             # 14.3B
             'favorecido_cep': int(line.partner_id.zip[:5]) or 0,
             # 15.3B
-<<<<<<< HEAD
             'favorecido_cep_complemento': line.partner_id.zip[6:9] or '',
-=======
-            'favorecido_cep_complemento':
-                self.get_cep('sufixo', line.partner_id.zip),
->>>>>>> [ADD] Header do Lote
             # 16.3B
             'favorecido_estado': line.partner_id.state_id.code or '',
 
@@ -471,6 +409,17 @@ class Cnab240(Cnab):
         if order.payment_order_type == 'payment':
             incluir = self.arquivo.incluir_debito_pagamento
             prepare = self._prepare_pagamento
+
+            header = self.bank.registros.HeaderLotePagamento(
+                **self._prepare_header_lote())
+
+            trailer = self.bank.registros.TrailerLotePagamento()
+            trailer.somatoria_valores = Decimal('0.00')
+            trailer.somatoria_quantidade_moedas = Decimal('0.00000')
+
+            lote_pagamento = Lote(self.bank, header, trailer)
+            self.arquivo.adicionar_lote(lote_pagamento)
+
         else:
             incluir = self.arquivo.incluir_cobranca
             prepare = self._prepare_cobranca
@@ -479,11 +428,11 @@ class Cnab240(Cnab):
             # para cada linha da payment order adicoinar como um novo evento
             # self._adicionar_evento(line)
             # try:
-            incluir(**prepare(line))
+            incluir(tipo_lote=30, **prepare(line))
             # except:
             #     from openerp import exceptions
             #     raise exceptions.ValidationError("Erro")
-            self.arquivo.lotes[0].header.servico_servico = 1
+            # self.arquivo.lotes[0].header.servico_servico = 30
             # TODO: tratar soma de tipos de cobranca
             # cobrancasimples_valor_titulos += line.amount_currency
             # self.arquivo.lotes[0].trailer.cobrancasimples_valor_titulos = \
@@ -491,8 +440,7 @@ class Cnab240(Cnab):
             #         Decimal('1.00'))
 
         remessa = unicode(self.arquivo)
-        return unicodedata.normalize(
-            'NFKD', remessa).encode('ascii', 'ignore')
+        return unicodedata.normalize('NFKD', remessa).encode('ascii', 'ignore')
 
     def get_cep(self, tipo, value):
         '''
@@ -507,10 +455,10 @@ class Cnab240(Cnab):
             else:
                 return ''
         value = punctuation_rm(value)
-        sulfixo = format[-3:]
-        prefixo = format[:5]
-        if tipo == 'sulfixo':
-            return sulfixo
+        sufixo = value[-3:]
+        prefixo = value[:5]
+        if tipo == 'sufixo':
+            return sufixo
         else:
             return prefixo
 
