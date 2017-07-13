@@ -57,7 +57,7 @@ class PayslipPaymentCreateOrder(models.Model):
                 ('tipo_de_folha', '=', self.tipo_de_folha),
                 ('mes_do_ano', '=', self.mes_do_ano),
                 ('ano', '=', self.ano),
-                ('state', '=', 'done')
+                ('state', '=', 'verify')
             ]
         )
         rubricas_obj = self.env['hr.salary.rule']
