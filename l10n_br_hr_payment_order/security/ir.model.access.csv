@@ -1,3 +1,3 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-access_payslip_payment_order_create,access_payslip_payment_order_create,model_payslip_payment_order_create,,1,0,0,0
+access_payslip_payment_order_create,access_payslip_payment_order_create,model_payslip_payment_order_create,,1,0,1,0
 access_account_config_settings,access_account_config_settings,model_account_config_settings,,1,0,0,0
