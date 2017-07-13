@@ -32,7 +32,8 @@ class PaymentOrder(models.Model):
     tipo_servico = fields.Selection(
         selection=TIPO_SERVICO,
         string=u'Tipo de Serviço',
-        help=u'Campo G025 do CNAB'
+        help=u'Campo G025 do CNAB',
+        default='30',
     )
     forma_lancamento = fields.Selection(
         selection=FORMA_LANCAMENTO,
@@ -42,7 +43,8 @@ class PaymentOrder(models.Model):
     codigo_convenio = fields.Char(
         size=20,
         string=u'Código do Convênio no Banco',
-        help=u'Campo G007 do CNAB'
+        help=u'Campo G007 do CNAB',
+        default=u'0001222130126',
     )
     indicativo_forma_pagamento = fields.Selection(
         selection=INDICATIVO_FORMA_PAGAMENTO,
@@ -52,13 +54,15 @@ class PaymentOrder(models.Model):
     )
     tipo_movimento = fields.Selection(
         selection=TIPO_MOVIMENTO,
-        string=u'Tipo de Movimento',
-        help=u'Campo G060 do CNAB',
+        string='Tipo de Movimento',
+        help='Campo G060 do CNAB',
+        default='0',
     )
     codigo_instrucao_movimento = fields.Selection(
         selection=CODIGO_INSTRUCAO_MOVIMENTO,
-        string=u'Código da Instrução para Movimento',
-        help=u'Campo G061 do CNAB'
+        string='Código da Instrução para Movimento',
+        help='Campo G061 do CNAB',
+        default='0',
     )
 
     @api.multi

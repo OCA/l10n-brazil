@@ -61,7 +61,7 @@ class L10nPaymentCnab(models.TransientModel):
             cnab = Cnab.get_cnab(
                 order.mode.bank_id.bank_bic, order.mode.type.code)()
 
-            # Criando remesse de eventos
+            # Criando remessa de eventos
             remessa = cnab.remessa(order)
 
             suf_arquivo = order.get_next_sufixo()
