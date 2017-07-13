@@ -42,3 +42,7 @@ class ResPartnerBank(models.Model):
          ],
         u'Tipo de Conta', default='01'
     )
+
+    bra_number = fields.Char(
+        size=5,
+    )
