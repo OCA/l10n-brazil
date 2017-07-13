@@ -55,7 +55,8 @@ class BankPaymentLine(models.Model):
     aviso_ao_favorecido = fields.Selection(
         selection=AVISO_FAVORECIDO,
         string=u'Aviso ao Favorecido',
-        help=u'Campo P006 do CNAB'
+        help=u'Campo P006 do CNAB',
+        default='0',
     )
     abatimento = fields.Float(
         digits=(13, 2),

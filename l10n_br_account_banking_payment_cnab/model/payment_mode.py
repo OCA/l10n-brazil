@@ -49,7 +49,8 @@ class PaymentMode(models.Model):
     codigo_convenio = fields.Char(
         size=20,
         string=u'Código do Convênio no Banco',
-        help=u'Campo G007 do CNAB'
+        help=u'Campo G007 do CNAB',
+        default=u'0001222130126',
     )
     codigo_finalidade_doc = fields.Selection(
         selection=COMPLEMENTO_TIPO_SERVICO,
