@@ -23,14 +23,7 @@
             </button>
             <xpath expr="//notebook//page[@string='Holerite']" position="after">
                 <page string="Orderns de Pagamento">
-                    <field name="payment_line_ids">
-                        <field name="communication" />
-                        <field name="partner_id" />
-                        <field name="amount" />
-                        <field name="create_date" />
-                        <field name="bank_id" />
-                        <field name="date" />
-                    </field>
+                    <field name="payment_line_ids" />
                 </page>
             </xpath>
             <!--groups="account_payment_order.group_account_payment"-->
