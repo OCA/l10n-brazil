@@ -4,12 +4,6 @@
 
 from openerp import fields, models
 
-STATUS = [('draft', 'Rascunho'),
-          ('done', 'Confirmado'),
-          ('paid', 'Pago'),
-          ('error', 'Erro'),
-          ('cancel', 'Cancelado')]
-
 
 class PaymentOrder(models.Model):
 
@@ -30,13 +24,13 @@ class PaymentLine(models.Model):
         comodel_name="hr.payslip",
     )
 
-    def action_done(self):
-        self.status = 'done'
-
-    # FIXME
-    def action_paid(self):
-        self.status = 'paid'
-
-    # Caso de retorno
-    def verify_error(self):
-        pass
+    # def action_done(self):
+    #     self.status = 'done'
+    #
+    # # FIXME
+    # def action_paid(self):
+    #     self.status = 'paid'
+    #
+    # # Caso de retorno
+    # def verify_error(self):
+    #     pass
