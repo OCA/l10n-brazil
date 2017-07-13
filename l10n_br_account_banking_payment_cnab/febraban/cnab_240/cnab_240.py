@@ -505,7 +505,7 @@ class Cnab240(Cnab):
             incluir = self.arquivo.incluir_cobranca
             prepare = self._prepare_cobranca
 
-        for line in order.line_ids:
+        for line in order.bank_line_ids:
             # para cada linha da payment order adicoinar como um novo evento
             # self._adicionar_evento(line)
             # try:
