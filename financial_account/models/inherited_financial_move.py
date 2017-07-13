@@ -19,25 +19,63 @@ TYPE2JOURNAL = {
     'payment_item': ('cash', 'bank'),
 }
 
+DEBT_2RECEIVE_2PAY = (FINANCIAL_DEBT_2RECEIVE, FINANCIAL_DEBT_2PAY)
+
 
 class FinancialMove(models.Model):
     _inherit = b'financial.move'
 
+    @api.multi
+    @api.depends('account_id', 'document_type_id', 'bank_id')
+    def _compute_account_move_template_id(self):
+        for record in self:
+            if record.account_id and record.document_type_id:
+
+                matrix_id = record.account_matrix_id.map_account_matrix_id(
+                    account_id=self.account_id.id,
+                    document_type_id=record.document_type_id.id
+                )
+                if matrix_id and record.type:
+                    if record.type in DEBT_2RECEIVE_2PAY:
+
+                        record.account_journal_id = \
+                            matrix_id.account_journal_id
+                    else:
+                        record.account_journal_id = record.bank_id.journal_id
+
+                    account_move_template_id = \
+                        record.account_matrix_id.map_account_move_template_id(
+                            account_id=record.account_id.id,
+                            document_type_id=record.document_type_id.id,
+                            matrix_id=matrix_id.id,
+                            type=record.type
+                        )
+                    record.account_move_template_id = (
+                        account_move_template_id and
+                        account_move_template_id.id or
+                        False
+                    )
+
     account_journal_id = fields.Many2one(
+        compute='_compute_account_move_template_id',
         comodel_name='account.journal',
         string='Journal',
         ondelete='restrict',
+        store=True,
     )
     account_move_template_id = fields.Many2one(
+        compute='_compute_account_move_template_id',
         comodel_name='financial.account.move.template',
         string='Account move template',
         ondelete='restrict',
+        store=True,
     )
     account_move_id = fields.Many2one(
         comodel_name='account.move',
         string='Account move',
         ondelete='restrict',
         copy=False,
+        readonly=True,
     )
     #
     # The correct name of this field is ... line_ids
@@ -67,7 +105,7 @@ class FinancialMove(models.Model):
             document_type_id = \
                 self.account_id.account_matrix_ids.mapped('document_type_id')
 
-            if self.type in (FINANCIAL_DEBT_2RECEIVE, FINANCIAL_DEBT_2PAY):
+            if self.type in DEBT_2RECEIVE_2PAY:
                 self.account_journal_id = self.account_id.account_journal_id
 
             if (document_type_id and
@@ -78,95 +116,35 @@ class FinancialMove(models.Model):
             else:
                 return {'domain': {'document_type_id': False}}
 
-    @api.onchange('account_id', 'document_type_id')
-    def onchange_account_move_template_id(self):
-
-        if self.account_id and self.document_type_id:
-
-            kwargs = {
-                'account_id': self.account_id.id,
-                'document_type_id': self.document_type_id.id,
-            }
-            matrix_id = self.account_matrix_id.map_account_matrix_id(**kwargs)
-
-            if matrix_id and self.type:
-                kwargs['matrix_id'] = matrix_id.id
-                kwargs['type'] = self.type
-                account_move_template_id = \
-                    self.account_matrix_id.map_account_move_template_id(
-                    **kwargs)
-                self.account_move_template_id = (
-                    account_move_template_id and
-                    account_move_template_id.id or
-                    False
-                )
-
     @api.multi
     def create_account_move(self):
         account_move = self.env['account.move']
 
         for move in self:
-
             if move.account_move_line_id:
                 continue
-            #
-            # For receipts and payments, we use the configurations from
-            # the document type of their respectiv debts
-            #
-            if move.type in (FINANCIAL_RECEIPT, FINANCIAL_PAYMENT):
-                financial_account = move.debt_id.account_id
-            else:
-                financial_account = move.account_id
-
-            if move.account_journal_id:
-                journal_id = move.account_journal_id.id
-            elif financial_account.account_journal_id:
-                journal_id = financial_account.account_journal_id.id
 
             line_id = []
 
-            move_template = None
-            if move.account_move_template_id:
-                move_template = move.account_move_template_id
-            else:
-                if move.type == FINANCIAL_DEBT_2RECEIVE and \
-                        financial_account.account_move_template_2receive_id:
-                    move_template = \
-                        financial_account.account_move_template_2receive_id
+            error = ''
 
-                elif move.type == FINANCIAL_DEBT_2PAY and \
-                        financial_account.account_move_template_2pay_id:
-                    move_template = \
-                        financial_account.account_move_template_2pay_id
-
-                elif move.type == FINANCIAL_RECEIPT and \
-                        financial_account.\
-                        account_move_template_receipt_item_id:
-                    move_template = \
-                        financial_account.account_move_template_receipt_item_id
-
-                elif move.type == FINANCIAL_PAYMENT and \
-                        financial_account.\
-                        account_move_template_payment_item_id:
-                    move_template = \
-                        financial_account.account_move_template_payment_item_id
-                elif move.type == FINANCIAL_MONEY_IN and \
-                        financial_account.account_move_template_money_in_id:
-                    move_template = \
-                        financial_account.account_move_template_money_in_id
-                elif move.type == FINANCIAL_MONEY_OUT and \
-                        financial_account.account_move_template_money_out_id:
-                    move_template = \
-                        financial_account.account_move_template_money_out_id
-
-            if move_template is None:
-                # raise
-                pass
+            if not move.account_move_template_id:
+                error += _("- Move template not found\n")
+            if not move.account_journal_id:
+                if move.type in DEBT_2RECEIVE_2PAY:
+                    error += _("- Financial account without journal\n")
+                else:
+                    error += _("- Bank account without journal\n")
+            if error:
+                raise exceptions.ValidationError(
+                    _('Account configuration error: \n' + error)
+                )
 
             fields_already_accounted = []
+
             move.create_account_move_line(
                 account_move,
-                move_template,
+                move.account_move_template_id,
                 line_id,
                 fields_already_accounted=fields_already_accounted
             )
@@ -178,7 +156,7 @@ class FinancialMove(models.Model):
                 'company_id': move.company_id.id,
                 'date': move.date_document,
                 'line_id': line_id,
-                'journal_id': journal_id,
+                'journal_id': move.account_journal_id.id,
             }
 
             self.account_move_id = account_move.create(vals)
@@ -221,10 +199,10 @@ class FinancialMove(models.Model):
             # For receipts and payments, we use the configurations from
             # the document type of their respectiv debts
             #
-            if self.type in (FINANCIAL_RECEIPT, FINANCIAL_PAYMENT):
-                partner = self.debt_id.partner_id
-            else:
+            if self.type in DEBT_2RECEIVE_2PAY:
                 partner = self.partner_id
+            else:
+                partner = self.debt_id.partner_id
 
             #
             # Default debit and credit accounts, per financial move type
@@ -333,6 +311,7 @@ class FinancialMove(models.Model):
         for record in self:
             if record.account_move_line_id:
                 continue
+            record._compute_account_move_template_id()
             record.create_account_move()
 
     @api.multi
@@ -343,10 +322,8 @@ class FinancialMove(models.Model):
         # Create automatically account moves for payment_item and receipt_item
         #
         to_create_move = result.filtered(
-            lambda r: r.type in (
-                FINANCIAL_RECEIPT,
-                FINANCIAL_PAYMENT
-            ) and not r.account_move_id)
+            lambda r:
+            r.type not in DEBT_2RECEIVE_2PAY and not r.account_move_id)
         to_create_move.create_account_move()
 
         return result
