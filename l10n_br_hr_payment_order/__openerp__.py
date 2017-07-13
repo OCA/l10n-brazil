@@ -25,6 +25,7 @@
         'views/res_config_view.xml',
         'views/hr_salary_rule_view.xml',
         'hr_payroll_workflow.xml',
+        'views/hr_contract.xml',
     ],
     'demo': [
         'demo/hr_payslip.xml',
