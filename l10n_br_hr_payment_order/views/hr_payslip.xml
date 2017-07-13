@@ -15,12 +15,11 @@
             <field name="credit_note" position="after">
                 <field name="payment_mode_id" />
             </field>
-
+            <button name="refund_sheet" position="before">
+                <button name="action_done" states="verify" string="Change to Done" class="oe_highlight"/>
+            </button>
             <button name="refund_sheet" position="after">
-                <button name="create_payment_order" type="object"
-                        string="Add to Payment Order" />
-                <button name="action_done" type="object"
-                        string="Change to Done" />
+                <button name="create_payment_order" type="object" string="Add to Payment Order" />
             </button>
             <xpath expr="//notebook//page[@string='Holerite']" position="after">
                 <page string="Orderns de Pagamento">

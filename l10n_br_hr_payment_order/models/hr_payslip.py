@@ -30,35 +30,10 @@ class HrPayslip(models.Model):
                     record.contract_id.employee_id.parent_id.user_id.partner_id
                 record.payment_mode_id = partner_id.supplier_payment_mode
 
-    def action_done(self, cr, uid, ids, *args):
-        # self.state = 'done'
-        self.write(cr, uid, ids, {'state': 'done'})
-        # self.signal_workflow(cr, uid, ids, 'done')
-        # print self.state
+    @api.multi
+    def action_done(self):
+        self.write({'state': 'done'})
         return True
-
-        # self, type, partner_id, date_invoice=False,
-        #     payment_term=False, partner_bank_id=False, company_id=False):
-        # res = super(HrPayslip, self).onchange_partner_id(
-        #     type, partner_id, date_invoice=date_invoice,
-        #     payment_term=payment_term, partner_bank_id=partner_bank_id,
-        #     company_id=company_id)
-        # if partner_id:
-        #     partner = self.env['res.partner'].browse(partner_id)
-        #     if type == 'in_invoice':
-        #         res['value']['payment_mode_id'] = \
-        #             partner.supplier_payment_mode.id
-        #     elif type == 'out_invoice':
-        #         res['value']['payment_mode_id'] = \
-        #             partner.customer_payment_mode.id
-        #         # Do not change the default value of partner_bank_id if
-        #         # partner.customer_payment_mode is False
-        #         if partner.customer_payment_mode.bank_id:
-        #             res['value']['partner_bank_id'] = \
-        #                 partner.supplier_payment_mode.bank_id.id
-        # else:
-        #     res['value']['payment_mode_id'] = False
-        # return res
 
     def create_payorder(self, mode_payment):
         '''

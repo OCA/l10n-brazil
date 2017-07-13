@@ -5,17 +5,6 @@
 from openerp import fields, models
 
 
-class PaymentOrder(models.Model):
-
-    _inherit = 'payment.order'
-
-    def action_done(self):
-        super(PaymentOrder, self).action_done()
-        for line in self.line_ids:
-            line.action_paid()
-        pass
-
-
 class PaymentLine(models.Model):
     _inherit = 'payment.line'
 
