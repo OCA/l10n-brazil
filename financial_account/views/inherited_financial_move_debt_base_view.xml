@@ -25,17 +25,18 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <page name="payments" position="after">
-                <page string="Accounting" name="accounting">
+                <page string="Account Moves" name="accounting">
                     <group>
-                        <group colspan="4" col="4">
+                        <group>
                             <field name="account_journal_id" />
                             <field name="account_move_template_id" />
+                        </group>
+                        <group>
                             <field name="account_move_id" readonly="1" />
-                            <button type="object" name="create_account_move" string="Gera lançamento contábil" />
-                            <separator string="Partidas do lançamento contábil" colspan="4" />
-                            <field name="account_move_line_id" nolabel="1" readonly="1" colspan="4" context="{'tree_view_ref': 'sped_account.account_move_line_tree'}" />
                         </group>
                     </group>
+                    <separator string="Partidas do lançamento contábil"/>
+                    <field name="account_move_line_id" nolabel="1"/>
                 </page>
             </page>
         </field>

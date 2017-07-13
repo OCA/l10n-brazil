@@ -28,9 +28,9 @@
                     <field name="account_journal_id" />
                     <field name="account_move_template_id" />
                     <field name="account_move_id" readonly="1" />
-                    <button type="object" name="create_account_move" string="Gera lançamento contábil" />
+                    <newline />
                     <separator string="Partidas do lançamento contábil" colspan="4" />
-                    <field name="account_move_line_id" nolabel="1" colspan="4" readonly="1" context="{'tree_view_ref': 'sped_account.account_move_line_tree'}" />
+                    <field name="account_move_line_id" nolabel="1" colspan="4" />
                 </group>
             </xpath>
         </field>
