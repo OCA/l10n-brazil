@@ -14,9 +14,10 @@
                     <field name="forma_lancamento"/>
                     <field name="codigo_convenio"/>
                     <field name="indicativo_forma_pagamento"/>
-
                     <field name="codigo_instrucao_movimento"/>
                     <field name="tipo_movimento"/>
+                    <field name="cnab_filename" invisible="1" />
+                    <field name="cnab_file" attrs="{'invisible': [('cnab_file', '=', False)]}" filename="cnab_filename" />
                 </field>
 
                 <xpath expr="//field[@name='date_scheduled']"
