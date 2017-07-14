@@ -10,6 +10,14 @@
             <field name="priority" eval="15"/>
             <field name="arch" type="xml">
                 <data>
+                    <field name="bank_name" position="attributes">
+                        <attribute name="attrs">{'readonly': True}</attribute>
+                    </field>
+
+                    <field name="bank_bic" position="attributes">
+                        <attribute name="attrs">{'readonly': True}</attribute>
+                    </field>
+
                     <field name="state" position="after">
                         <field name="tipo_de_conta"/>
                     </field>
