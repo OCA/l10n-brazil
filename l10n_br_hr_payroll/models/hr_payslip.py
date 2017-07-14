@@ -892,7 +892,7 @@ class HrPayslip(models.Model):
             return estrutura_provisao_decimo_terceiro
 
     @api.depends('contract_id', 'date_from', 'date_to')
-    @api.multi
+    @api.one
     def _verificar_ferias_vencidas(self):
         periodo_ferias_vencida = self.env['hr.vacation.control'].search(
             [
