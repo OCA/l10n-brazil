@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record id="account_payment.act_cancel" model="workflow.activity">
+            <field name="name">cancel</field>
+            <field name="wkf_id" ref="account_payment.wkf_payment_order"/>
+            <field name="action">cancel()</field>
+            <field name="kind">function</field>
+            <field name="flow_stop">True</field>
+        </record>
+
+    </data>
+</openerp>

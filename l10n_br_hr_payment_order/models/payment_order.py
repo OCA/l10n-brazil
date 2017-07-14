@@ -14,14 +14,12 @@ class PaymentOrder(models.Model):
             line.write({'payslip_id': ''})
         self.write({'state': 'cancel'})
         return True
-dels
 
 
-class PaymentOrder(models.Model):
-    _inherit = 'payment.order'
+class PaymentLine(models.Model):
+    _inherit = 'payment.line'
 
-    @api.multi
-    def cancel(self):
-        for line in self.line_ids:
-            line.write({'payslomodel_name="hr.payslip",
+    payslip_id = fields.Many2one(
+        string="Ref do Holerite",
+        comodel_name="hr.payslip",
     )
