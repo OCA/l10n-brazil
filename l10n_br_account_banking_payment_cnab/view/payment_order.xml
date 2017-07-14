@@ -13,22 +13,16 @@
                     <field name="tipo_servico"/>
                     <field name="forma_lancamento"/>
                     <field name="codigo_convenio"/>
-                    <field name="indicativo_forma_pagamento"/>
-                    <field name="codigo_instrucao_movimento"/>
-                    <field name="tipo_movimento"/>
                     <field name="cnab_filename" invisible="1" />
                     <field name="cnab_file" attrs="{'invisible': [('cnab_file', '=', False)]}" filename="cnab_filename" />
                 </field>
 
-                <xpath expr="//field[@name='date_scheduled']"
-                       position="after">
-                    <field name="file_number"/>
-                    <!--<field name="serie_id" domain="[('parent_payment_mode', '=', mode)]"/>-->
-                    <field name="serie_id"/>
-                    <field name="sufixo_arquivo"/>
-                    <!--<field name="serie_sufixo_arquivo" domain="[('parent_payment_mode_suf', '=', mode)]"/>-->
-                    <field name="serie_sufixo_arquivo"/>
-                </xpath>
+                <field name="company_id" position="after">
+                    <field name="indicativo_forma_pagamento"/>
+                    <field name="codigo_instrucao_movimento"/>
+                    <field name="tipo_movimento"/>
+                </field>
+
             </field>
         </record>
 

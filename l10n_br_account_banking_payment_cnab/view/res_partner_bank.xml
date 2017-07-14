@@ -14,9 +14,6 @@
                         <field name="tipo_de_conta"/>
                     </field>
 
-                    <field name="bra_number_dig" position="after">
-                        <field name="codigo_da_empresa"/>
-                    </field>
                 </data>
             </field>
         </record>
