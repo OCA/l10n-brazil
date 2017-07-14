@@ -32,7 +32,7 @@ class FinancialMove(models.Model):
             if record.account_id and record.document_type_id:
 
                 matrix_id = record.account_matrix_id.map_account_matrix_id(
-                    account_id=self.account_id.id,
+                    account_id=record.account_id.id,
                     document_type_id=record.document_type_id.id
                 )
                 if matrix_id and record.type:
