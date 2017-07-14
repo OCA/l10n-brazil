@@ -13,13 +13,8 @@ from ..constantes import TIPO_SERVICO, FORMA_LANCAMENTO, \
 class PaymentOrder(models.Model):
     _inherit = b'payment.order'
 
-    file_number = fields.Integer(u'Número sequencial do arquivo')
-    # TODO adicionar domain para permitir o modo de pagamento correspondente
-    # ao mode
-
-    serie_id = fields.Many2one(
-        'l10n_br_cnab.sequence',
-        u'Sequencia interna'
+    file_number = fields.Integer(
+        string=u'Número sequencial do arquivo',
     )
 
     cnab_file = fields.Binary(
@@ -28,13 +23,6 @@ class PaymentOrder(models.Model):
     )
 
     cnab_filename = fields.Char("CNAB Filename")
-
-    sufixo_arquivo = fields.Integer(u'Sufixo do arquivo')
-
-    serie_sufixo_arquivo = fields.Many2one(
-        u'Série do Sufixo do arquivo',
-        'l10n_br_cnab_file_sufix.sequence',
-    )
 
     tipo_servico = fields.Selection(
         selection=TIPO_SERVICO,
@@ -71,33 +59,6 @@ class PaymentOrder(models.Model):
         help='Campo G061 do CNAB',
         default='0',
     )
-
-    @api.multi
-    def get_next_number(self):
-        for ord in self:
-            sequence = self.env['ir.sequence']
-            # sequence_read = sequence.read(
-            #     cr, uid, ord.serie_id.internal_sequence_id.id,
-            #     ['number_next'])
-            seq_no = sequence.get_id(ord.serie_id.internal_sequence_id.id)
-            ord.write({'file_number': seq_no})
-        return seq_no
-
-    # TODO: funcao a ser chamada por ação automatizada para resetar o sufixo
-    #     diariamente
-
-    @api.multi
-    def get_next_sufixo(self):
-        # for ord in self:
-        #     sequence = self.env['ir.sequence']
-        #     # sequence_read = sequence.read(
-        #     #     cr, uid, ord.serie_id.internal_sequence_id.id,
-        #     #     ['number_next'])
-        #     seq_no = sequence.get_id(
-        #         ord.serie_sufixo_arquivo.internal_sequence_id.id)
-        #     ord.write({'sufixo_arquivo': seq_no})
-        # return seq_no
-        return 'CNAB01'
 
     # @api.multi
     # def set_to_draft(self, *args):

@@ -137,8 +137,6 @@
                         <group>
                             <group>
                                 <field name="data" attrs="{'readonly': [('state', '=', 'done')]}" />
-                            </group>
-                            <group>
                                 <field name="arquivo_retorno" attrs="{'readonly': [('state', '=', 'done')]}" />
                             </group>
 

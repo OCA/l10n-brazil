@@ -109,7 +109,6 @@
     mode: l10n_br_account_banking_payment_cnab.payment_mode_cobranca_bradesco240
     date_prefered: 'due'
     serie_id: cnab_sequence
-    serie_sufixo_arquivo: cnab_sufix_sequence
 -
   I confirm the cobrança (payment order)
 -

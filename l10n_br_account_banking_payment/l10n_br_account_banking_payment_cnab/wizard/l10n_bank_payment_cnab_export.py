@@ -64,8 +64,6 @@ class L10nPaymentCnab(models.TransientModel):
             # Criando remessa de eventos
             remessa = cnab.remessa(order)
 
-            suf_arquivo = order.get_next_sufixo()
-
             if order.mode.type.code == '240':
                 self.name = 'CB%s%s.REM' % (
                     time.strftime('%d%m'), str(order.file_number))
@@ -77,7 +75,7 @@ class L10nPaymentCnab(models.TransientModel):
                     time.strftime('%d%m'), str(order.file_number))
             self.state = 'done'
             self.cnab_file = base64.b64encode(remessa)
-            order.cnab_file = base64.b64encode(remessa, 'CNAB')
+            order.cnab_file = base64.b64encode(remessa)
             order.cnab_filename = self.name
 
             workflow.trg_validate(
