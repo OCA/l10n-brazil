@@ -12,9 +12,6 @@
             <field name="inherit_id"
                    ref="account_payment.view_payment_order_form"/>
             <field name="arch" type="xml">
-                <field name="date" position="before">
-                    <field name="linha_digitavel" colspan="4"/>
-                </field>
                 <xpath expr="//form[@string='Payment Line']/notebook/page/group/div" position="after">
                         <field name="percent_interest"/>
                         <field name="amount_interest"/>
