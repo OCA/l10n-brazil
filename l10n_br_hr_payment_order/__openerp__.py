@@ -14,6 +14,7 @@
         'l10n_br_hr_payroll',
         'account_payment',
         'account_payment_partner',
+        'l10n_br_account_banking_payment_cnab',
     ],
     'data': [
         'security/hr_payslip.xml',

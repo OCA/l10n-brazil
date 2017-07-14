@@ -22,6 +22,28 @@ class HrPayslip(models.Model):
         inverse_name="payslip_id",
     )
 
+    paid_order = fields.Boolean(
+        compute='_compute_paid',
+        readonly=True,
+        store=True,
+    )
+
+    @api.multi
+    def test_paid(self):
+        if not self.payment_line_ids:
+            return False
+        for line in self.payment_line_ids:
+            if not line.state2:
+                return False
+            if line.state2 != 'paid':
+                return False
+        return True
+
+    @api.one
+    @api.depends('payment_line_ids.bank_line_id.state2')
+    def _compute_paid(self):
+        self.paid_order = self.test_paid()
+
     def _compute_set_employee_id(self):
         super(HrPayslip, self)._compute_set_employee_id()
         for record in self:
