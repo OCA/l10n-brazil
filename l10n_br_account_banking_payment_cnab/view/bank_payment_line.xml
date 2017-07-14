@@ -31,6 +31,6 @@
             </field>
         </record>
 
-        <menuitem id="menu_banking_payment_line" name="Bank Payment Line" action="account_banking_payment_export.bank_payment_line_action" parent="account_payment.menu_main_payment" sequence="7"/>
+        <menuitem id="menu_banking_payment_line" name="Linhas Bancárias de Pagamento" action="account_banking_payment_export.bank_payment_line_action" parent="account_payment.menu_main_payment" sequence="7"/>
     </data>
 </openerp>
