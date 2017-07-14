@@ -53,7 +53,10 @@
         'view/payment_line.xml',
         'view/bank_payment_line.xml',
         'data/l10n_br_payment_export_type.xml',
-        # 'data/l10n_br_payment_mode.xml',
+        'data/l10n_br_payment_mode.xml',
+    ],
+    'demo': [
+        # 'demo/l10n_br_payment_mode.xml',
     ],
     'test': [
         'tests/invoice_create.yml'
