@@ -8,7 +8,7 @@ import logging
 from datetime import datetime
 from ..constantes import CODIGO_OCORRENCIAS
 
-from openerp import api, models, fields
+from openerp import api, models, fields, exceptions
 
 _logger = logging.getLogger(__name__)
 try:
@@ -89,6 +89,10 @@ class L10nBrHrCnab(models.Model):
         f.close()
         arquivo_retono = codecs.open('/tmp/cnab_retorno.ret', encoding='ascii')
         arquivo_parser = Arquivo(bancodobrasil, arquivo=arquivo_retono)
+        if not arquivo_parser.header.arquivo_codigo == u'2':
+            raise exceptions.Warning(
+                u"Este não é um arquivo de retorno!"
+            )
         data_arquivo = str(arquivo_parser.header.arquivo_data_de_geracao)
         self.data_arquivo = fields.Date.from_string(
             data_arquivo[4:] + "-" + data_arquivo[2:4] + "-" +
