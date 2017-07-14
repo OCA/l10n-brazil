@@ -33,7 +33,6 @@
     'category': 'Banking addons',
     'depends': [
         'l10n_br_account',
-        'l10n_br_account',
         'account_banking_payment_export',
     ],
     'data': [
