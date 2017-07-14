@@ -26,8 +26,8 @@
             <xpath expr="//group[@name='general']" position="after">
                 <group col="4" colspan="4" string="Accounting">
                     <field name="journal_id" />
-                    <field name="account_move_template_id" />
                     <field name="account_move_id" readonly="1" />
+                    <field name="account_move_template_id" />
                     <newline />
                     <separator string="Partidas do lançamento contábil" colspan="4" />
                     <field name="account_move_line_id" nolabel="1" colspan="4" />

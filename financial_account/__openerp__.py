@@ -15,14 +15,12 @@
         'account',
     ],
     'data': [
-        'security/financial_account_move_matrix.xml',
+        'security/ir.model.access.csv',
         'views/inherited_res_partner_bank_view.xml',
         'views/inherited_financial_move_debt_base_view.xml',
         'views/inherited_financial_move_payment_base_view.xml',
         'views/financial_account_move_template_view.xml',
         'views/inherited_financial_account_view.xml',
-
-        'security/ir.model.access.csv',
     ],
     'demo': [
     ],
