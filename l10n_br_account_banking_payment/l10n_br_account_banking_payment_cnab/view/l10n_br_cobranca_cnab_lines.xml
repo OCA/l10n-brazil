@@ -87,7 +87,7 @@
             <field name="help">Lista das linhas cnab 400.</field>
         </record>
 
-        <menuitem action="action_cobranca_lines" id="menu_action_cobranca_lines" parent="account_payment.menu_main_payment" sequence="6"/>
+        <menuitem action="action_cobranca_lines" id="menu_action_cobranca_lines" parent="account_payment.menu_main_payment" sequence="6" groups="group_cnab_cobranca"/>
 
         <!--<record id="view_payment_order_form" model="ir.ui.view">-->
             <!--<field name="name">payment.order.form</field>-->

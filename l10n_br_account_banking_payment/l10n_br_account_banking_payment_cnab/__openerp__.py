@@ -40,6 +40,7 @@
         'account_banking_payment_export',
     ],
     'data': [
+        'security/cnab_cobranca_security.xml',
         'view/l10n_br_payment_cnab.xml',
         'view/payment_order.xml',
         'view/l10n_br_cnab_sequence.xml',
