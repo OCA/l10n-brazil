@@ -28,6 +28,7 @@
                     <field name="account_journal_id" />
                     <field name="account_move_template_id" />
                     <field name="account_move_id" readonly="1" />
+                    <field name="account_move_template_id" />
                     <newline />
                     <separator string="Partidas do lançamento contábil" colspan="4" />
                     <field name="account_move_line_id" nolabel="1" colspan="4" />
