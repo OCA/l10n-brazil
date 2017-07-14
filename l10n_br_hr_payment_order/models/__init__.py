@@ -4,6 +4,7 @@
 
 from . import payment_order
 from . import hr_payslip
+from . import hr_payslip_run
 from . import res_config
 from . import hr_salary_rule
 from . import bank_payment_line
