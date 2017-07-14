@@ -93,3 +93,8 @@ class BankPaymentLine(models.Model):
         inverse_name="bank_payment_line_id",
         readonly=True
     )
+    codigo_finalidade_complementar = fields.Char(
+        size=2,
+        string=u'Código de finalidade complementar',
+        help=u'Campo P013 do CNAB',
+    )
