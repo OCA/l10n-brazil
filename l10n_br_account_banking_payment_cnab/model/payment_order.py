@@ -22,6 +22,13 @@ class PaymentOrder(models.Model):
         u'Sequencia interna'
     )
 
+    cnab_file = fields.Binary(
+        string='CNAB File',
+        readonly=True,
+    )
+
+    cnab_filename = fields.Char("CNAB Filename")
+
     sufixo_arquivo = fields.Integer(u'Sufixo do arquivo')
 
     serie_sufixo_arquivo = fields.Many2one(

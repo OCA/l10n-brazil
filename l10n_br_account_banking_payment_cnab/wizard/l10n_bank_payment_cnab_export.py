@@ -77,6 +77,8 @@ class L10nPaymentCnab(models.TransientModel):
                     time.strftime('%d%m'), str(order.file_number))
             self.state = 'done'
             self.cnab_file = base64.b64encode(remessa)
+            order.cnab_file = base64.b64encode(remessa, 'CNAB')
+            order.cnab_filename = self.name
 
             workflow.trg_validate(
                 self.env.uid, 'payment.order', order_id, 'done', self.env.cr)
