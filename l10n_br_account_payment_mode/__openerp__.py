@@ -13,7 +13,7 @@
     'depends': [
         'l10n_br_data_base',
         'account_due_list_payment_mode',
-        'account_banking_payment_export'
+        'account_banking_payment_export',
         'l10n_br_account_banking_payment',
     ],
     'data': [
