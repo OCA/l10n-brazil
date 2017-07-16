@@ -1,0 +1,16 @@
+<!-- Copyright 2017 Hendrix Costa - KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_LIQUIDO" model="hr.salary.rule">
+            <field name="eh_pagavel">True</field>
+        </record>
+
+		<record id="l10n_br_hr_payroll.hr_salary_rule_PENSAO_ALIMENTICIA" model="hr.salary.rule">
+			<field name="eh_pagavel">True</field>
+        </record>
+
+        </data>
+    </openerp>

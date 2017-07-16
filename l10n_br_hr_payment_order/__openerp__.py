@@ -17,6 +17,7 @@
         'l10n_br_account_banking_payment_cnab',
     ],
     'data': [
+        'data/hr_salary_rule.xml',
         'security/hr_payslip.xml',
         'security/payment_order.xml',
         'security/ir.model.access.csv',
