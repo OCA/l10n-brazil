@@ -490,12 +490,8 @@ class Cnab240(Cnab):
         self.order = order
 
         # Preparar Header do Arquivo
-        try:
-            self.arquivo = Arquivo(self.bank, **self._prepare_header())
-        except Cnab240Error as e:
-            from openerp import exceptions
-            raise exceptions.ValidationError(
-                "Campo preenchido incorretamente \n\n{0}".format(e))
+        self.arquivo = Arquivo(self.bank, **self._prepare_header())
+
         if order.payment_order_type == 'payment':
             incluir = self.arquivo.incluir_debito_pagamento
             prepare = self._prepare_pagamento
