@@ -10,12 +10,16 @@
             <field name="priority" eval="15"/>
             <field name="arch" type="xml">
                 <data>
-                    <field name="bank_name" position="attributes">
-                        <attribute name="attrs">{'readonly': True}</attribute>
-                    </field>
+                    <!--<field name="bank_name" position="attributes">-->
+                        <!--<attribute name="attrs">{'readonly': True}</attribute>-->
+                    <!--</field>-->
 
                     <field name="bank_bic" position="attributes">
-                        <attribute name="attrs">{'readonly': True}</attribute>
+                        <attribute name="attrs">{'required': True}</attribute>
+                    </field>
+
+                    <field name="partner_id" position="attributes">
+                        <attribute name="attrs">{'required': True}</attribute>
                     </field>
 
                     <field name="state" position="after">
