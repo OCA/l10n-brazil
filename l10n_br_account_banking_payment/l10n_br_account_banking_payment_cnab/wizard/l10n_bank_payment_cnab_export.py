@@ -28,6 +28,15 @@ from openerp import models, api, workflow, fields, _
 from openerp.exceptions import Warning as UserError
 from ..febraban.cnab import Cnab
 
+import logging
+
+_logger = logging.getLogger(__name__)
+try:
+    from cnab240.errors import (Cnab240Error)
+except ImportError as err:
+    _logger.debug = err
+
+
 
 # TODO Server action para a cada dia retornar o sufixo do arquivo para zero
 
@@ -62,7 +71,12 @@ class L10nPaymentCnab(models.TransientModel):
                 order.mode.bank_id.bank_bic, order.mode.type.code)()
 
             # Criando remessa de eventos
-            remessa = cnab.remessa(order)
+            try:
+                remessa = cnab.remessa(order)
+            except Cnab240Error as e:
+                from openerp import exceptions
+                raise exceptions.ValidationError(
+                    "Campo preenchido incorretamente \n\n{0}".format(e))
 
             if order.mode.type.code == '240':
                 self.name = 'CB%s%s.REM' % (
