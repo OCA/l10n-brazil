@@ -894,15 +894,14 @@ class HrPayslip(models.Model):
     @api.depends('contract_id', 'date_from', 'date_to')
     @api.one
     def _verificar_ferias_vencidas(self):
-        periodo_ferias_vencida = self.env['hr.vacation.control'].search(
-            [
-                ('contract_id', '=', self.contract_id.id),
-                ('fim_aquisitivo', '<', self.date_from),
-                ('fim_concessivo', '>=', self.date_to),
+        for record in self:
+            periodo_ferias_vencida = self.env['hr.vacation.control'].search([
+                ('contract_id', '=', record.contract_id.id),
+                ('fim_aquisitivo', '<', record.date_from),
+                ('fim_concessivo', '>=', record.date_to),
                 ('inicio_gozo', '=', False),
-            ], order='fim_aquisitivo desc'
-        )
-        return periodo_ferias_vencida
+            ], order='fim_aquisitivo desc')
+            return periodo_ferias_vencida
 
     @api.multi
     def gerar_simulacao(
