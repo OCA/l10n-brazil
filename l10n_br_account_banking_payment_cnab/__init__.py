@@ -23,4 +23,3 @@
 
 from . import wizard
 from . import model
-import constantes
