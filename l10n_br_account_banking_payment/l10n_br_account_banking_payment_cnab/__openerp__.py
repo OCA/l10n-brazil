@@ -52,6 +52,7 @@
         'view/payment_line.xml',
         'view/bank_payment_line.xml',
         'data/l10n_br_payment_export_type.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [
         # 'demo/l10n_br_payment_mode.xml',
