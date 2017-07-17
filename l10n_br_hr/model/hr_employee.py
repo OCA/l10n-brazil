@@ -184,7 +184,7 @@ class HrEmployeeDependent(models.Model):
     dependent_rg = fields.Char(string='RG')
     dependent_cpf = fields.Char(string='CPF')
 
-    have_alimony = fields.Boolean(string='Have a alimony')
+    have_alimony = fields.Boolean(string='Have a alimony?')
 
     partner_id = fields.Many2one(
         comodel_name='res.partner',
