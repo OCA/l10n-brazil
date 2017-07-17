@@ -59,7 +59,7 @@
         # 'demo/l10n_br_payment_mode.xml',
     ],
     'test': [
-        'tests/invoice_create.yml'
+        # 'tests/invoice_create.yml'
     ],
     "installable": True,
     "auto_install": False,
