@@ -216,8 +216,10 @@ CODIGO_FINALIDADE_TED = [
 NAO_EMITE_AVISO = ('0', u'0 - Não Emite Aviso')
 EMITE_AVISO_REMETENTE = ('2', u'2 - Emite Aviso Somente para o Remetente')
 EMITE_AVISO_FAVORECIDO = ('5', u'5 - Emite Aviso Somente para o Favorecido')
-EMITE_AVISO_REMETENTE_FAVORECIDO = ('6', u'6 - Emite Aviso para o Remetente e Favorecido')
-EMITE_AVISO_FAVORECIDO_2_VIAS_REMETENTE = ('7', u'7 - Emite Aviso para o Favorecido e 2 Vias para o Remetente')
+EMITE_AVISO_REMETENTE_FAVORECIDO = \
+    ('6', u'6 - Emite Aviso para o Remetente e Favorecido')
+EMITE_AVISO_FAVORECIDO_2_VIAS_REMETENTE = \
+    ('7', u'7 - Emite Aviso para o Favorecido e 2 Vias para o Remetente')
 
 AVISO_FAVORECIDO = [
     NAO_EMITE_AVISO,

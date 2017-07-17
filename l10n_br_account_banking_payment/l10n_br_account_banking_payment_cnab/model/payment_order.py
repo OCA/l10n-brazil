@@ -5,7 +5,8 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from openerp import api, models, fields
+from openerp import models, fields
+
 from ..constantes import TIPO_SERVICO, FORMA_LANCAMENTO, \
     INDICATIVO_FORMA_PAGAMENTO, TIPO_MOVIMENTO, CODIGO_INSTRUCAO_MOVIMENTO
 
