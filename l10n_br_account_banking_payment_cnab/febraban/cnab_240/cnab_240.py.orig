@@ -37,8 +37,12 @@ from ..cnab import Cnab
 
 _logger = logging.getLogger(__name__)
 try:
+<<<<<<< HEAD
     from cnab240.tipos import Arquivo
     from cnab240.errors import (Cnab240Error)
+=======
+    from cnab240.tipos import Arquivo, Lote
+>>>>>>> fixup! [FIX] Flake8
 except ImportError as err:
     _logger.debug = err
 
@@ -307,13 +311,8 @@ class Cnab240(Cnab):
             'sacado_endereco': (
                 line.partner_id.street + ' ' + line.partner_id.number),
             'sacado_bairro': line.partner_id.district,
-<<<<<<< HEAD
             'sacado_cep': int(prefixo),
             'sacado_cep_sufixo': int(sulfixo),
-=======
-            'sacado_cep': self.get_cep('prefixo', line.partner_id.zip),
-            'sacado_cep_sufixo': self.get_cep('sufixo', line.partner_id.zip),
->>>>>>> [FIX] Flake8
             'sacado_cidade': line.partner_id.l10n_br_city_id.name,
             'sacado_uf': line.partner_id.state_id.code,
             'codigo_protesto': int(self.order.mode.boleto_protesto),

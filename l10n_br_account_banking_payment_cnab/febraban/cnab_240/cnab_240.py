@@ -38,7 +38,6 @@ from ..cnab import Cnab
 _logger = logging.getLogger(__name__)
 try:
     from cnab240.tipos import Arquivo
-    from cnab240.errors import (Cnab240Error)
 except ImportError as err:
     _logger.debug = err
 
