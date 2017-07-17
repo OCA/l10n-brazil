@@ -37,10 +37,6 @@ except ImportError as err:
     _logger.debug = err
 
 
-
-# TODO Server action para a cada dia retornar o sufixo do arquivo para zero
-
-
 class L10nPaymentCnab(models.TransientModel):
     _name = 'payment.cnab'
     _description = 'Export payment order(s) in cnab layout'

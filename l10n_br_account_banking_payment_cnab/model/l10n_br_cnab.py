@@ -135,11 +135,13 @@ class L10nBrHrCnab(models.Model):
                         ('acc_number', '=', evento.favorecido_conta),
                         ('acc_number_dig', '=', evento.favorecido_conta_dv)
                     ])
-                account_bank_id_lote = account_bank_id_lote.ids[0] if account_bank_id_lote else False
+                account_bank_id_lote = account_bank_id_lote.ids[0] \
+                    if account_bank_id_lote else False
                 favorecido_partner = self.env['res.partner.bank'].search(
                     [('owner_name', 'ilike', evento.favorecido_nome)]
                 )
-                favorecido_partner = favorecido_partner[0].partner_id.id if favorecido_partner else False
+                favorecido_partner = favorecido_partner[0].partner_id.id \
+                    if favorecido_partner else False
                 bank_payment_line_id = self.env['bank.payment.line'].search(
                     [
                         ('name', '=', evento.credito_seu_numero)
