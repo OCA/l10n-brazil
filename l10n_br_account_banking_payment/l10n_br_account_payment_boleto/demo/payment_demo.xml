@@ -20,7 +20,7 @@
             <field name="boleto_carteira">18</field>
             <field name="boleto_modalidade">DM</field>
             <field name="boleto_variacao">29</field>
-            <field name="aceite">S</field>
+            <!--<field name="aceite">S</field>-->
         </record>
 
         <record id="payment_mode_boleto_unregistred_bradesco"
@@ -43,7 +43,7 @@
             <field name="boleto_carteira">03</field>
             <field name="boleto_modalidade">DM</field>
             <field name="boleto_variacao">19</field>
-            <field name="aceite">N</field>
+            <!--<field name="aceite">N</field>-->
         </record>
 
         <record id="payment_mode_boleto_unregistred_hsbc" model="payment.mode">
@@ -65,7 +65,7 @@
             <field name="boleto_carteira">CNR</field>
             <field name="boleto_modalidade">PD</field>
             <!--<field name="boleto_variacao">19</field>-->
-            <field name="aceite">N</field>
+            <!--<field name="aceite">N</field>-->
         </record>
 
         <record id="payment_mode_boleto_unregistred_itau" model="payment.mode">
@@ -87,7 +87,7 @@
             <field name="boleto_carteira">109</field>
             <field name="boleto_modalidade">DM</field>
             <!--<field name="boleto_variacao">19</field>-->
-            <field name="aceite">N</field>
+            <!--<field name="aceite">N</field>-->
         </record>
 
         <record id="payment_mode_boleto_unregistred_santander"
@@ -110,7 +110,7 @@
             <field name="boleto_carteira">102</field>
             <field name="boleto_modalidade">DM</field>
             <!--<field name="boleto_variacao">19</field>-->
-            <field name="aceite">N</field>
+            <!--<field name="aceite">N</field>-->
         </record>
 
         <record id="payment_mode_boleto_unregistred_caixa" model="payment.mode">
@@ -132,7 +132,7 @@
             <field name="boleto_carteira">SR</field>
             <!--<field name="boleto_modalidade">DM</field>-->
             <!--<field name="boleto_variacao">19</field>-->
-            <field name="aceite">N</field>
+            <!--<field name="aceite">N</field>-->
         </record>
 
         <record id="payment_mode_boleto_unregistred_caixa_sigcb"
@@ -155,7 +155,7 @@
             <field name="boleto_carteira">SR</field>
             <!--<field name="boleto_modalidade">DM</field>-->
             <!--<field name="boleto_variacao">19</field>-->
-            <field name="aceite">N</field>
+            <!--<field name="aceite">N</field>-->
         </record>
 
     </data>
