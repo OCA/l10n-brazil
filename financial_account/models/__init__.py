@@ -13,3 +13,9 @@ from . import inherited_financial_move
 from . import inherited_res_partner_bank
 from . import inherited_financial_account
 from . import financial_account_move_matrix
+# from . import account_invoice
+# from . import account_journal
+# from . import account_move
+# from . import inherited_financial_document_type
+# from . import inherited_account_account_type
+# from . import inherited_account_payment_mode
