@@ -212,9 +212,9 @@ class FinancialMove(models.Model):
                 account_debit = template_item.account_debit_id
             else:
                 if self.type == FINANCIAL_DEBT_2RECEIVE:
-                    if partner.property_account_receivable_id:
+                    if partner.property_account_receivable:
                         account_debit = \
-                            partner.property_account_receivable_id
+                            partner.property_account_receivable
 
                 elif self.type == FINANCIAL_DEBT_2PAY:
                     if account_move.journal_id.default_debit_account_id:
@@ -226,9 +226,9 @@ class FinancialMove(models.Model):
                         account_debit = self.bank_id.account_id
 
                 elif self.type == FINANCIAL_PAYMENT:
-                    if partner.property_account_payable_id:
+                    if partner.property_account_payable:
                         account_debit = \
-                            partner.property_account_payable_id
+                            partner.property_account_payable
 
                 elif self.type == FINANCIAL_MONEY_IN:
                     if self.bank_id.account_id:
@@ -266,14 +266,14 @@ class FinancialMove(models.Model):
                             account_move.journal_id.default_credit_account_id
 
                 elif self.type == FINANCIAL_DEBT_2PAY:
-                    if partner.property_account_payable_id:
+                    if partner.property_account_payable:
                         account_credit = \
-                            partner.property_account_payable_id
+                            partner.property_account_payable
 
                 elif self.type == FINANCIAL_RECEIPT:
-                    if partner.property_account_receivable_id:
+                    if partner.property_account_receivable:
                         account_credit = \
-                            partner.property_account_receivable_id
+                            partner.property_account_receivable
 
                 elif self.type == FINANCIAL_PAYMENT:
                     if self.bank_id.account_id:
