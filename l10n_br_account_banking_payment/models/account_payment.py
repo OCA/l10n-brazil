@@ -45,7 +45,7 @@ class PaymentOrder(models.Model):
     @api.multi
     def action_open(self):
         """
-        Validacao para nao confirmar ordem de pagamento vazia 
+        Validacao para nao confirmar ordem de pagamento vazia
         """
         for record in self:
             if not record.line_ids:
