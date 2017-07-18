@@ -5,7 +5,7 @@
 from openerp import models, api, exceptions, _
 
 
-class AccountInvoiceConfirm(models.Model):
+class AccountInvoiceConfirm(models.TransientModel):
     """
     This wizard will confirm the all the selected draft invoices
     """
