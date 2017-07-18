@@ -9,5 +9,5 @@ class HrSalaryRule(models.Model):
     _inherit = "hr.salary.rule"
 
     eh_pagavel = fields.Boolean(
-        string="É pagavel"
+        string="É pagavel?"
     )

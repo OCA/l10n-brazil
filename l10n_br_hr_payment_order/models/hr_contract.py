@@ -9,6 +9,7 @@ class HrContract(models.Model):
     _inherit = 'hr.contract'
 
     conta_bancaria_id = fields.Many2one(
+        string="Conta bancaria",
         comodel_name='res.partner.bank',
-        required=True
+        required=True,
     )
