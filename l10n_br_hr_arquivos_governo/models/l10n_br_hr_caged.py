@@ -88,8 +88,8 @@ class HrCaged(models.Model):
         comodel_name='res.users',
         string=u'Responsável',
         default=lambda self: self.env.user,
-        readonly = True,
-        states = {'draft': [('readonly', False)]},
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
 
     @api.depends('responsavel')
@@ -434,7 +434,7 @@ class HrCaged(models.Model):
 
             caged_attachment_data = {
                 'name': 'Arquivo Caged',
-                'attachment_ids': [(0,0, attachment_data)],
+                'attachment_ids': [(0, 0, attachment_data)],
                 'caged_id': self.id,
             }
             caged_attach_obj.create(caged_attachment_data)

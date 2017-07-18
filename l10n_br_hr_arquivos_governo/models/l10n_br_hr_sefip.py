@@ -475,13 +475,13 @@ class L10nBrSefip(models.Model):
         for company in companies:
             options.append(company.centralizadora)
         if '1' in options:
-            if not '2' in options:
+            if '2' not in options:
                 raise ValidationError(
                     _(u'Existe uma empresa centralizadora porém não '
                       u'existe nenhuma centralizada')
                 )
         if '2' in options:
-            if not '1' in options:
+            if '1' not in options:
                 raise ValidationError(
                     _(u'Existe uma empresa centralizada porém não '
                       u'existe nenhuma centralizadora')
@@ -506,7 +506,6 @@ class L10nBrSefip(models.Model):
                 _('É necessário adicionar o relatório gerado pelo '
                   'aplicativo na aba "Arquivos Anexos" para confirmar o envio')
             )
-
 
     @api.multi
     def action_sent(self):
@@ -1105,7 +1104,7 @@ class L10nBrSefip(models.Model):
                 sefip_attachment_data = {
                     'name': 'Arquivo SEFIP',
                     'sefip_id': self.id,
-                    'attachment_ids': [(0,0, attachment_data)],
+                    'attachment_ids': [(0, 0, attachment_data)],
                     'type': 'sent'
                 }
                 sefip_attachment_obj.create(sefip_attachment_data)
