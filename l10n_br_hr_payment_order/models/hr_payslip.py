@@ -76,7 +76,7 @@ class HrPayslip(models.Model):
         payment_line_model = self.env['payment.line']
         vals = {
             'order_id': payment_order.id,
-            # 'partner_bank_id': self.partner_bank_id.id,
+            'bank_id': self.contract_id.conta_bancaria_id.id,
             'partner_id': partner_id.id,
             # 'move_line_id': self.id,
             'communication': communication,
