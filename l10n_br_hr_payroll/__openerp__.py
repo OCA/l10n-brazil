@@ -23,8 +23,8 @@
     'data': [
         'data/l10n_br_hr_payroll_categorias.xml',
         'data/l10n_br_hr_contract_sequence.xml',
-        'data/l10n_br_hr_payroll_rubricas.xml',
-        'data/l10n_br_hr_payroll_estruturas.xml',
+#        'data/l10n_br_hr_payroll_rubricas.xml',
+#        'data/l10n_br_hr_payroll_estruturas.xml',
         'data/l10n_br_hr_tabela_INSS.xml',
         'data/l10n_br_hr_tabela_IR.xml',
         'data/l10n_br_hr_tabela_IR_dependente.xml',
