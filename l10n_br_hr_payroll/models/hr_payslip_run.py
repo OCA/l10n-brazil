@@ -127,3 +127,10 @@ class HrPayslipRun(models.Model):
                 payslip.unlink()
                 continue
         self.verificar_holerites_gerados()
+
+    @api.multi
+    def close_payslip_run(self):
+        for lote in self:
+           for holerite in lote.slip_ids:
+                holerite.hr_verify_sheet()
+        super(HrPayslipRun, self).close_payslip_run()
