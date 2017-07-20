@@ -25,10 +25,10 @@ class HrPayslipRun(models.Model):
                     })
                     payslip._compute_set_dates()
                     payslip.compute_sheet()
-                    # Mudado o processo para executar o hr_verify_sheet no 
+                    # Mudado o processo para executar o hr_verify_sheet no
                     # botão "Close" do Lote do Holerite ao invés do botão
                     # "Gerar Holerites"
-                    #payslip.hr_verify_sheet()
+                    # payslip.hr_verify_sheet()
                 except:
                     payslip.unlink()
                     continue
