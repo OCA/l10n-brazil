@@ -98,3 +98,23 @@ class BankPaymentLine(models.Model):
         string=u'Código de finalidade complementar',
         help=u'Campo P013 do CNAB',
     )
+
+    @api.model
+    def same_fields_payment_line_and_bank_payment_line(self):
+        """
+        This list of fields is used both to compute the grouping
+        hashcode and to copy the values from payment line
+        to bank payment line
+        The fields must have the same name on the 2 objects
+        """
+        same_fields = super(
+            BankPaymentLine, self
+        ).same_fields_payment_line_and_bank_payment_line()
+
+        # TODO: Implementar campo brasileiros que permitem mesclar linhas
+
+        # same_fields = [
+        #     'currency', 'partner_id',
+        #     'bank_id', 'date', 'state']
+
+        return same_fields

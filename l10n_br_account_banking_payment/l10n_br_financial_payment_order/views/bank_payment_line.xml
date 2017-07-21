@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="bank_payment_line_form_view">
+        <field name="name">bank.payment.line.form (in l10n_br_financial_payment_order)</field>
+        <field name="model">bank.payment.line</field>
+        <field name="inherit_id" ref="TODO othermodule.form_view"/>
+        <field name="arch" type="xml">
+            <!-- TODO -->
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="bank_payment_line_search_view">
+        <field name="name">bank.payment.line.search (in l10n_br_financial_payment_order)</field>
+        <field name="model">bank.payment.line</field>
+        <field name="inherit_id" ref="TODO othermodule.search_view"/>
+        <field name="arch" type="xml">
+            <!-- TODO -->
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="bank_payment_line_tree_view">
+        <field name="name">bank.payment.line.tree (in l10n_br_financial_payment_order)</field>
+        <field name="model">bank.payment.line</field>
+        <field name="inherit_id" ref="TODO othermodule.tree_view"/>
+        <field name="arch" type="xml">
+            <!-- TODO -->
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="bank_payment_line_act_window">
+        <field name="name">Bank Payment Line</field> <!-- TODO -->
+        <field name="res_model">bank.payment.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="bank_payment_line_menu">
+        <field name="name">Bank Payment Line</field>
+        <field name="parent_id" ref="xmlid of parent menu"/> <!-- TODO -->
+        <field name="action" ref="bank_payment_line_act_window"/>
+        <field name="sequence" eval="16"/> <!-- TODO -->
+    </record>
+
+</data>
+</openerp>
