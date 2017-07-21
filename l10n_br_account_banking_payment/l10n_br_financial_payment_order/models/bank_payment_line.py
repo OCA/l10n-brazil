@@ -2,12 +2,14 @@
 # Copyright 2017 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from __future__ import division, print_function, unicode_literals
+
 from openerp import api, fields, models, _
 
 
 class BankPaymentLine(models.Model):
 
-    _inherit = 'bank.payment.line'
+    _inherit = b'bank.payment.line'
 
     @api.model
     def same_fields_payment_line_and_bank_payment_line(self):

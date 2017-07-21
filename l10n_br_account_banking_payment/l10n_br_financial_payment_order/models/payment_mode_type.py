@@ -9,7 +9,7 @@ from openerp import api, fields, models, _
 
 class PaymentModeType(models.Model):
 
-    _inherit = 'payment.mode.type'
+    _inherit = b'payment.mode.type'
 
     payment_order_type = fields.Selection(
         selection_add=[

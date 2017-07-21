@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+<data>
+    <record model="ir.ui.menu" id="financial_payment_order_menu">
+        <field name="name">Operações</field>
+        <field name="parent_id" ref="financial.financial_top_menu"/>
+        <field name="sequence" eval="20"/>
+    </record>
+
+</data>
+</openerp>

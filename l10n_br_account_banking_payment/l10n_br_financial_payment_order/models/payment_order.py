@@ -10,7 +10,12 @@ from openerp.exceptions import ValidationError
 
 class PaymentOrder(models.Model):
 
-    _inherit = 'payment.order'
+    _inherit = b'payment.order'
+
+    payment_order_type = fields.Selection(
+        selection_add=[
+            ('cobranca', u'Cobrança'),
+        ])
 
     @api.multi
     def action_open(self):

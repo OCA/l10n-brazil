@@ -10,7 +10,7 @@ from openerp import api, fields, models, _
 
 class PaymentLine(models.Model):
 
-    _inherit = 'payment.line'
+    _inherit = b'payment.line'
 
     # @api.one
     # @api.depends('percent_interest', 'amount_currency')

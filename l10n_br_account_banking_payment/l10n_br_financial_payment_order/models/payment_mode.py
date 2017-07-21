@@ -13,7 +13,7 @@ boleto_selection = getBoletoSelection()
 
 class PaymentMode(models.Model):
 
-    _inherit = 'payment.mode'
+    _inherit = b'payment.mode'
 
     boleto_carteira = fields.Char('Carteira', size=3)
     boleto_modalidade = fields.Char('Modalidade', size=2)
