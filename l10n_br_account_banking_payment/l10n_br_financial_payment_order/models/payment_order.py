@@ -8,15 +8,18 @@ from openerp import api, fields, models, _
 from openerp.exceptions import ValidationError
 from openerp.addons.l10n_br_hr_payroll.models.hr_payslip import TIPO_DE_FOLHA
 
+from ..constantes import TIPOS_ORDEM_PAGAMENTO
+
 
 class PaymentOrder(models.Model):
 
     _inherit = b'payment.order'
 
-    payment_order_type = fields.Selection(
-        selection_add=[
-            ('cobranca', u'Cobrança'),
-        ])
+    tipo_pagamento = fields.Selection(
+        string="Tipos de Ordem de Pagamento",
+        selection=TIPOS_ORDEM_PAGAMENTO,
+        help="Tipos de Ordens de Pagamento.",
+    )
 
     tipo_de_folha = fields.Selection(
         selection=TIPO_DE_FOLHA,
