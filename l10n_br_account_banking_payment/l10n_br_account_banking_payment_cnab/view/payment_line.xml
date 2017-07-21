@@ -21,17 +21,5 @@
             </field>
         </record>
 
-        <record id="view_payment_line_form" model="ir.ui.view">
-            <field name="name">payment.line.form</field>
-            <field name="model">payment.line</field>
-            <field name="inherit_id" ref="account_payment.view_payment_line_form" />
-            <field name="arch" type="xml">
-                <xpath expr="//notebook" position="before">
-                    <header>
-                        <field name="state2" widget="statusbar" nolabel="1" statusbar_visible="draft,wait,paid" />
-                    </header>
-                </xpath>
-            </field>
-        </record>
     </data>
 </openerp>
