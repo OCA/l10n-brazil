@@ -6,6 +6,8 @@ from __future__ import division, print_function, unicode_literals
 
 
 from openerp import api, fields, models, _
+from openerp.addons.l10n_br_financial_payment_order.models.bank_payment_line \
+    import STATE
 
 
 class PaymentLine(models.Model):
@@ -33,8 +35,16 @@ class PaymentLine(models.Model):
         string='Valor Multa',
     )
     #  TODO: Definir campos do segmento P/Q/R/T/U
-
+    payslip_id = fields.Many2one(
+        string="Ref do Holerite",
+        comodel_name="hr.payslip",
+    )
     linha_digitavel = fields.Char(string=u"Linha Digitável")
+    state2 = fields.Selection(
+        related="bank_line_id.state2",
+        selection=STATE,
+        default="draft",
+    )
 
     def _get_info_partner(self, cr, uid, partner_record, context=None):
         # TODO: Melhorar este método

@@ -8,9 +8,13 @@
     <record model="ir.ui.view" id="payment_line_form_view">
         <field name="name">payment.line.form (in l10n_br_financial_payment_order)</field>
         <field name="model">payment.line</field>
-        <field name="inherit_id" ref="TODO othermodule.form_view"/>
+        <field name="inherit_id" ref="account_payment.view_payment_line_form"/>
         <field name="arch" type="xml">
-            <!-- TODO -->
+            <xpath expr="//notebook" position="before">
+                <header>
+                    <field name="state2" widget="statusbar" nolabel="1" statusbar_visible="draft,wait,paid" />
+                </header>
+            </xpath>
         </field>
     </record>
 

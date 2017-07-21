@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record id="payslip_payment_create_order_view" model="ir.ui.view">
+            <field name="name">payslip.payment.create.order.form</field>
+            <field name="model">payslip.payment.order.create</field>
+            <field name="arch" type="xml">
+                <form string="Buscar rubricas a serem pagas nos holerites">
+                    <group>
+                        <field name="mes_do_ano" />
+                        <field name="ano" />
+                    </group>
+                    <footer>
+                        <button name="buscar_linhas_holerites" string="Buscar Holerites" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="payment_order_populate_view_payslip_tree" model="ir.ui.view">
+            <field name="name">payment.order.populate.account.payslip.tree</field>
+            <field name="model">hr.payslip</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="number"/>
+                    <field name="contract_id"/>
+                    <field name="ano" />
+                    <field name="tipo_de_folha" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="payslip_payment_lines_create_order_view" model="ir.ui.view">
+            <field name="name">payslip.payment.line.create.order</field>
+            <field name="model">payslip.payment.order.create</field>
+            <field name="arch" type="xml">
+                <form string="Criar Ordens de Pagamento">
+                    <header>
+                        <button name="create_payment" string="Criar Ordens de pagamento" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </header>
+                    <separator string="Holerites a serem pagos" />
+                    <field name="entries" context="{'tree_view_ref': 'l10n_br_hr_payment_order.payment_order_populate_view_payslip_tree'}" nolabel="1" readonly="1"/>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="action_create_payslip_payment_order" model="ir.actions.act_window">
+            <field name="name">Buscar rubricas a serem pagas nos holerites</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">payslip.payment.order.create</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'record_id' : active_id}</field>
+            <field name="view_id" ref="payslip_payment_create_order_view"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

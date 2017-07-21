@@ -6,10 +6,27 @@ from __future__ import division, print_function, unicode_literals
 
 from openerp import api, fields, models, _
 
+STATE = [
+    ('draft', 'Draft'),
+    ('wait', 'Waiting Paiment'),
+    ('exception', 'Exception'),
+    ('paid', 'Paid'),
+]
+
 
 class BankPaymentLine(models.Model):
 
     _inherit = b'bank.payment.line'
+
+    state2 = fields.Selection(
+        string="State",
+        selection=STATE,
+        default="draft",
+    )
+
+    @api.multi
+    def set_paid(self):
+        self.write({'state2': 'paid'})
 
     @api.model
     def same_fields_payment_line_and_bank_payment_line(self):

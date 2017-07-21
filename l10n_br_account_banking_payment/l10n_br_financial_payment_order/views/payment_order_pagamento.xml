@@ -15,11 +15,15 @@
                 <attribute name="string">Pagamento</attribute>
             </xpath>
             <xpath expr="//div[@name='botoes_superiores']" position="inside">
-                <h1>TODO: Importar Pagamentos</h1>
+                <button class="oe_inline oe_stat_button oe_right" name="%(action_create_payslip_payment_order)d" string="Holerites" Help="Selecionar as linhas dos holerites que vao ser pagas"
+                        type="action" attrs="{'invisible':[('state','=','done')]}" icon="fa-pencil-square-o" widget="statinfo"/>
             </xpath>
             <xpath expr="//form/group[@name='informacoes_especificas']" position="inside">
                 <h1>TODO: Informações específicas</h1>
             </xpath>
+            <field name="mode" position="after">
+                <field name="tipo_de_folha" />
+            </field>
         </field>
     </record>
 
@@ -57,6 +61,13 @@
     </record>
 
     <record model="ir.actions.act_window.view" id="payment_order_pagamento_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="payment_order_pagamento_form_view"/>
+        <field name="act_window_id" ref="payment_order_pagamento_act_window"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="payment_order_pagamento_tree_action">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="payment_order_base_tree_view"/>

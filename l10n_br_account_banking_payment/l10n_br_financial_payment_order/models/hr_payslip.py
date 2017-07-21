@@ -44,14 +44,6 @@ class HrPayslip(models.Model):
     def _compute_paid(self):
         self.paid_order = self.test_paid()
 
-    def _compute_set_employee_id(self):
-        super(HrPayslip, self)._compute_set_employee_id()
-        for record in self:
-            if record.contract_id:
-                partner_id = \
-                    record.contract_id.employee_id.parent_id.user_id.partner_id
-                record.payment_mode_id = partner_id.supplier_payment_mode
-
     @api.multi
     def action_done(self):
         self.write({'state': 'done'})
