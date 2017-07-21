@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+
+        <record model="ir.ui.view" id="payment_mode_base_tree_view">
+            <field name="name">payment.mode.tree (in l10n_br_financial_payment_mode)</field>
+            <field name="model">payment.mode</field>
+            <field name="priority">9999</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <tree string="Payment Mode">
+                    <field name="name"/>
+                    <field name="bank_id"/>
+                    <field name="tipo_pagamento"/>
+                    <!--<field name="company_id" groups="base.group_multi_company"/>-->
+                    <!--<field name="date_created"/>-->
+                    <!--<field name="date_done"/>-->
+                    <!--<field name="total"/>-->
+                    <!--<field name="state"/>-->
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="payment_mode_base_form_view">
+            <field name="name">payment.mode.form (in l10n_br_financial_payment_order)</field>
+            <field name="model">payment.mode</field>
+            <field name="priority">9999</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <form string="Payment Mode">
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="bank_id"/>
+                            <field name="tipo_servico" />
+                            <field name="origem_pagamento" />
+                        </group>
+                        <group>
+                            <field name="company_id" widget='selection' groups="base.group_multi_company"/>
+                            <field name="type" />
+                        </group>
+                    </group>
+
+                    <group string="Campos que serão escondidos">
+                        <field name="tipo_pagamento" />
+                        <field name="sale_ok" />
+                        <field name="purchase_ok" />
+                    </group>
+
+                    <group name="group_grouping" string="Line grouping">
+                        <field name="group_lines"/>
+                    </group>
+
+                    <group string="CNAB">
+                        <group>
+                            <field name="codigo_convenio"/>
+                            <field name="codigo_instrucao_movimento"/>
+                            <field name="codigo_finalidade_doc"/>
+                            <field name="codigo_finalidade_ted"/>
+                            <field name="codigo_finalidade_complementar"/>
+                            <field name="aviso_ao_favorecido"/>
+                        </group>
+                        <group string="Sequencias">
+                            <field name="sequencia_arquivo" required="1"/>
+                            <field name="proximo_sequencia_arquivo" required="1"/>
+                        </group>
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="payment_mode_base_search_view">
+            <field name="name">payment.mode.search (in l10n_br_financial_payment_order)</field>
+            <field name="model">payment.mode</field>
+            <field name="priority">9999</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <search string="Payment Mode">
+                    <field name="name" string="Payment Mode"/>
+                    <!--<field name="journal"/>-->
+                    <!--<field name="company_id" groups="base.group_multi_company"/>-->
+                    <!--<group expand="0" string="Group By">-->
+                        <!--<filter string="Journal" icon="terp-folder-orange" domain="[]" context="{'group_by':'journal'}"/>-->
+                    <!--</group>-->
+                <!--</search>-->
+                <!--<search string="Search Payment Orders">-->
+                    <!--<field name="reference" string="Payment Order"/>-->
+                    <!--<field name="date_done"/>-->
+                    <!--<filter string="Draft" domain="[('state','=','draft')]" icon="terp-document-new"/>-->
+                    <!--<filter string="Confirmed" domain="[('state','=','open')]" icon="terp-camera_test"/>-->
+                    <!--<filter string="Done" domain="[('state','=','done')]" icon="terp-dialog-close"/>-->
+                    <!--<field name="mode"/>-->
+                    <!--<field name="state"/>-->
+                    <!--<group expand="0" string="Group By">-->
+                        <!--<filter string="Payment Mode" context="{'group_by': 'mode'}" icon="terp-dolar"/>-->
+                        <!--<filter string="Status" context="{'group_by': 'state'}" icon="terp-stock_effects-object-colorize"/>-->
+                    <!--</group>-->
+                </search>
+            </field>
+        </record>
+
+
+
+    </data>
+</openerp>

@@ -19,13 +19,19 @@
     'data': [
         'wizards/ordem_pagamento_holerite_wizard.xml',
         'views/payment_menu.xml',
-        'views/primary/payment_order.xml',
-        'views/payment_order_cobranca.xml',
-        'views/payment_order_debito.xml',
-        'views/payment_order_pagamento.xml',
         'views/bank_payment_line.xml',
         'views/hr_payslip.xml',
         'hr_payroll_workflow.xml',
+
+        'views/payment_order/payment_order_primary.xml',
+        'views/payment_order/payment_order_cobranca.xml',
+        'views/payment_order/payment_order_debito.xml',
+        'views/payment_order/payment_order_pagamento.xml',
+
+        'views/payment_mode/payment_mode_primary.xml',
+        'views/payment_mode/payment_mode_pagamento.xml',
+        'views/payment_mode/payment_mode_pagamento_folha.xml',
+        'views/payment_mode/payment_mode_cobranca.xml',
         # 'security/payment_mode.xml',
         # 'security/payment_mode_type.xml',
         # 'security/bank_payment_line.xml',

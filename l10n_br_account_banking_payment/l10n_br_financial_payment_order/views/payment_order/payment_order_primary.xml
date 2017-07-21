@@ -5,6 +5,26 @@
 <openerp>
     <data>
 
+        <record model="ir.ui.view" id="payment_order_base_tree_view">
+            <field name="name">payment.order.tree (in l10n_br_financial_payment_order)</field>
+            <field name="model">payment.order</field>
+            <field name="priority">9999</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';gray:state in ('cancel','done');black:state == 'open'" string="Payment order">
+                    <field name="reference"/>
+                    <field name="mode"/>
+                    <field name="tipo_pagamento"/>
+                    <field name="user_id"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="date_created"/>
+                    <field name="date_done"/>
+                    <field name="total"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="payment_order_base_form_view">
             <field name="name">payment.order.form (in l10n_br_financial_payment_order)</field>
             <field name="model">payment.order</field>
@@ -32,6 +52,7 @@
                                 <field name="user_id" context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'account.group_account_invoice']}"/>
                                 <field name="mode"/>
                                 <field name="mode_type" invisible="1"/>
+                                <field name="tipo_pagamento" />
                                 <field name="payment_order_type" invisible="1"/>
                                 <field name="bank_line_count" attrs="{'invisible': [('state', 'in', ('draft', 'cancel'))]}"/>
                             </group>
@@ -101,9 +122,9 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Bank Payment Lines" name="bank-payment-lines">
-                                <field name="bank_line_ids" context="{'search_payment_order_type': context.get('search_payment_order_type')}"/>
-                            </page>
+                            <!--<page string="Bank Payment Lines" name="bank-payment-lines">-->
+                                <!--<field name="bank_line_ids" context="{'search_payment_order_type': context.get('search_payment_order_type')}"/>-->
+                            <!--</page>-->
                         </notebook>
                     </sheet>
                 </form>
@@ -132,24 +153,6 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="payment_order_base_tree_view">
-            <field name="name">payment.order.tree (in l10n_br_financial_payment_order)</field>
-            <field name="model">payment.order</field>
-            <field name="priority">9999</field>
-            <field name="mode">primary</field>
-            <field name="arch" type="xml">
-                <tree colors="blue:state == 'draft';gray:state in ('cancel','done');black:state == 'open'" string="Payment order">
-                    <field name="reference"/>
-                    <field name="mode"/>
-                    <field name="user_id"/>
-                    <field name="company_id" groups="base.group_multi_company"/>
-                    <field name="date_created"/>
-                    <field name="date_done"/>
-                    <field name="total"/>
-                    <field name="state"/>
-                </tree>
-            </field>
-        </record>
 
     </data>
 </openerp>

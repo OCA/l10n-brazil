@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="payment_mode_cobranca_form_view">
+        <field name="name">payment.mode.cobranca.form (in l10n_br_financial_payment_order)</field>
+        <field name="model">payment.mode</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="payment_mode_base_form_view"/>
+        <field name="arch" type="xml">
+            <!--<xpath expr="//group[@string='Sequencias']" position="after">-->
+                <!--<group>-->
+                    <!--<field name="sequencia_nosso_numero" required="1" />-->
+                    <!--<field name="proximo_sequencia_nosso_numero" required="1" />-->
+                <!--</group>-->
+            <!--</xpath>-->
+            <field name="proximo_sequencia_arquivo" position="after">
+                <field name="sequencia_nosso_numero" required="1" />
+                <field name="proximo_sequencia_nosso_numero" required="1" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="payment_mode_cobranca_act_window">
+        <field name="name">Carteira de Cobrança</field>
+        <field name="res_model">payment.mode</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('tipo_pagamento', '=', 'cobranca')]</field>
+        <field name="context">{'default_tipo_pagamento': 'cobranca'}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="payment_mode_cobranca_menu">
+        <field name="name">Carteira de Cobrança</field>
+        <field name="parent_id" ref="financial.financial_config_menu"/>
+        <field name="action" ref="payment_mode_cobranca_act_window"/>
+        <field name="sequence" eval="22"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="payment_mode_cobranca_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="payment_mode_cobranca_form_view"/>
+        <field name="act_window_id" ref="payment_mode_cobranca_act_window"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="payment_mode_cobranca_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="payment_mode_base_tree_view"/>
+        <field name="act_window_id" ref="payment_mode_cobranca_act_window"/>
+    </record>
+
+</data>
+</openerp>
