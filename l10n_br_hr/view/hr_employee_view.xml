@@ -46,8 +46,8 @@
                                 <group string="Civil certificate">
                                     <field name="civil_certificate_type_id"/>
                                 </group>
-                                <group string="ID">
-                                    <field name="identity_type_id"/>
+                                <group string="Identidade">
+				    <!-- <field name="identity_type_id"/> -->
                                     <field name="rg" string="Number"/>
                                     <field name="organ_exp"/>
                                     <field name="rg_emission"/>
