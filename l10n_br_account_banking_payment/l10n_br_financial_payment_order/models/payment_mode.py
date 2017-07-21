@@ -9,6 +9,7 @@ from openerp import api, fields, models, _
 from ..constantes import TIPO_SERVICO, FORMA_LANCAMENTO, \
     COMPLEMENTO_TIPO_SERVICO, CODIGO_FINALIDADE_TED, AVISO_FAVORECIDO, \
     CODIGO_INSTRUCAO_MOVIMENTO, TIPOS_ORDEM_PAGAMENTO, ORIGEM_PAGAMENTO, \
+    BOLETO_ESPECIE
 
 from ..febraban.boleto.document import getBoletoSelection
 
@@ -28,23 +29,16 @@ class PaymentMode(models.Model):
         [('S', 'Sim'), ('N', 'Não')], string='Aceite', default='N')
 
     boleto_type = fields.Selection(
-        boleto_selection, string="Boleto")
-    boleto_especie = fields.Selection([
-        ('01', 'DUPLICATA MERCANTIL'),
-        ('02', 'NOTA PROMISSÓRIA'),
-        ('03', 'NOTA DE SEGURO'),
-        ('04', 'MENSALIDADE ESCOLAR'),
-        ('05', 'RECIBO'),
-        ('06', 'CONTRATO'),
-        ('07', 'COSSEGUROS'),
-        ('08', 'DUPLICATA DE SERVIÇO'),
-        ('09', 'LETRA DE CÂMBIO'),
-        ('13', 'NOTA DE DÉBITOS'),
-        ('15', 'DOCUMENTO DE DÍVIDA'),
-        ('16', 'ENCARGOS CONDOMINIAIS'),
-        ('17', 'CONTA DE PRESTAÇÃO DE SERVIÇOS'),
-        ('99', 'DIVERSOS'),
-    ], string='Espécie do Título', default='01')
+        boleto_selection,
+        string="Boleto"
+    )
+
+    boleto_especie = fields.Selection(
+        string='Espécie do Título',
+        selection=BOLETO_ESPECIE,
+        default='01',
+    )
+
     boleto_protesto = fields.Selection([
         ('0', 'Sem instrução'),
         ('1', 'Protestar (Dias Corridos)'),
