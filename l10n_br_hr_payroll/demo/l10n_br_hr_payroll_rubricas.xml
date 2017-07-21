@@ -1,0 +1,3275 @@
+<!-- Copyright 2017 Hendrix Costa - KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <!-- Model de backup serão geradas aqui -->
+
+
+        <!-- BACKUP EM  2017-06-27 00:13:05.727582 -->
+
+        <!-- Objetos Editadas: 68 -->
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_BRUTO" model="hr.salary.rule">
+            <field name="code">BRUTO</field>
+            <field name="name">Bruto</field>
+            <field name="active">True</field>
+            <field name="sequence">201.0</field>
+            <field name="category_id" ref="hr_payroll.BRUTO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = categories.PROVENTO + categories.FERIAS</field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_LIQUIDO" model="hr.salary.rule">
+            <field name="code">LIQUIDO</field>
+            <field name="name">Líquido</field>
+            <field name="active">True</field>
+            <field name="sequence">799.0</field>
+            <field name="category_id" ref="hr_payroll.LIQUIDO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = BRUTO - TOTAL_DESCONTOS</field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_INSS" model="hr.salary.rule">
+            <field name="code">INSS</field>
+            <field name="name">INSS</field>
+            <field name="active">True</field>
+            <field name="sequence">402.0</field>
+            <field name="category_id" ref="hr_payroll.INSS"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = CALCULAR.INSS(BASE_INSS)</field>
+            <field name="custom_amount_python_compute">base = BASE_INSS
+
+if 'BASE_INSS_FERIAS' in locals():
+    base += BASE_INSS_FERIAS
+
+result = CALCULAR.INSS(base)
+
+if 'INSS_FERIAS' in locals():
+    result -= INSS_FERIAS
+
+if result  &lt;  0:
+    result = 0</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_IRPF" model="hr.salary.rule">
+            <field name="code">IRPF</field>
+            <field name="name">IRPF</field>
+            <field name="active">True</field>
+            <field name="sequence">502.0</field>
+            <field name="category_id" ref="hr_payroll.IRPF"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = CALCULAR.IRRF(BASE_IRPF, INSS if 'INSS' in locals() else 0)</field>
+            <field name="custom_amount_python_compute">result = CALCULAR.IRRF(BASE_IRPF, INSS if 'INSS' in locals() else 0)
+
+if 'IRPF_PROPORCIONAL_REGULAR' in locals() or 'IRPF_PROPORCIONAL_FERIAS' in locals():
+    result = IRPF_PROPORCIONAL_REGULAR
+    result += IRPF_PROPORCIONAL_FERIAS</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_BASE_INSS" model="hr.salary.rule">
+            <field name="code">BASE_INSS</field>
+            <field name="name">Base INSS</field>
+            <field name="active">True</field>
+            <field name="sequence">401.0</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = BASE_INSS</field>
+            <field name="custom_amount_python_compute">result = BRUTO</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF" model="hr.salary.rule">
+            <field name="code">BASE_IRPF</field>
+            <field name="name">Base IRRF</field>
+            <field name="active">True</field>
+            <field name="sequence">501.0</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = CALCULAR.BASE_IRRF(BASE_IR, INSS if 'INSS' in locals() else 0)</field>
+            <field name="custom_amount_python_compute">base = BASE_IR
+inss = INSS if 'INSS' in locals() else 0
+
+if 'PENSAO_ALIMENTICIA' in locals():
+    base -= PENSAO_ALIMENTICIA
+
+result = CALCULAR.BASE_IRRF(base, inss)
+
+if 'BASE_IRPF_PROPORCIONAL_REGULAR' in locals() or 'BASE_IRPF_PROPORCIONAL_FERIAS' in locals():
+    result = BASE_IRPF_PROPORCIONAL_REGULAR
+    result += BASE_IRPF_PROPORCIONAL_FERIAS
+</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_TOTAL_DESCONTOS" model="hr.salary.rule">
+            <field name="code">TOTAL_DESCONTOS</field>
+            <field name="name">Total de Descontos</field>
+            <field name="active">True</field>
+            <field name="sequence">701.0</field>
+            <field name="category_id" ref="hr_payroll.LIQUIDO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = categories.DEDUCAO + INSS if 'INSS' in locals() else 0 + IRPF if 'IRPF' in locals() else 0</field>
+            <field name="custom_amount_python_compute">result = categories.DEDUCAO
+result += INSS if 'INSS' in locals() else 0
+result += IRPF if 'IRPF' in locals() else 0</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_BASE_FGTS" model="hr.salary.rule">
+            <field name="code">BASE_FGTS</field>
+            <field name="name">Base FGTS</field>
+            <field name="active">True</field>
+            <field name="sequence">601.0</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = BASE_FGTS</field>
+            <field name="custom_amount_python_compute">result = BASE_FGTS
+
+if 'BASE_INSS_FERIAS' in locals():
+    result += BASE_INSS_FERIAS</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_FGTS" model="hr.salary.rule">
+            <field name="code">FGTS</field>
+            <field name="name">FGTS</field>
+            <field name="active">True</field>
+            <field name="sequence">602.0</field>
+            <field name="category_id" ref="hr_payroll.FGTS"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = BASE_FGTS * 0.08</field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage">8.0</field>
+            <field name="amount_percentage_base">contract.wage</field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_INSS_EMPRESA_BASE" model="hr.salary.rule">
+            <field name="code">INSS_EMPRESA_BASE</field>
+            <field name="name">INSS Empresa Base</field>
+            <field name="active">True</field>
+            <field name="sequence">701.0</field>
+            <field name="category_id" ref="hr_payroll.SEFIP"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result=BASE_INSS
+if 'BASE_INSS_13' in locals():
+    result+=BASE_INSS_13
+            </field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_INSS_DEDUCAO_PREVIDENCARIA" model="hr.salary.rule">
+            <field name="code">INSS_DEDUCAO_PREVIDENCIARIA</field>
+            <field name="name">INSS Dedução Previdenciária</field>
+            <field name="active">True</field>
+            <field name="sequence">702.0</field>
+            <field name="category_id" ref="hr_payroll.SEFIP"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result=0
+if 'SALARIO_FAMILIA' in locals():
+    result+=SALARIO_FAMILIA
+if 'LICENCA_MATERNIDADE' in locals():
+    result+=LICENCA_MATERNIDADE
+            </field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_INSS_EMPRESA" model="hr.salary.rule">
+            <field name="code">INSS_EMPRESA</field>
+            <field name="name">INSS Empresa</field>
+            <field name="active">True</field>
+            <field name="sequence">703.0</field>
+            <field name="category_id" ref="hr_payroll.SEFIP"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result=INSS_EMPRESA_BASE
+result_rate=RAT_FAP.total_rate
+            </field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_INSS_OUTRAS_ENTIDADES" model="hr.salary.rule">
+            <field name="code">INSS_OUTRAS_ENTIDADES</field>
+            <field name="name">INSS Outras Entidades</field>
+            <field name="active">True</field>
+            <field name="sequence">704.0</field>
+            <field name="category_id" ref="hr_payroll.SEFIP"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result=INSS_EMPRESA_BASE
+result_rate=RAT_FAP.other_entities_rate
+            </field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_INSS_RAT_FAP" model="hr.salary.rule">
+            <field name="code">INSS_RAT_FAP</field>
+            <field name="name">INSS RAT/FAP</field>
+            <field name="active">True</field>
+            <field name="sequence">705.0</field>
+            <field name="category_id" ref="hr_payroll.SEFIP"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result=INSS_EMPRESA_BASE
+result_rate=RAT_FAP.rat_rate*RAT_FAP.fap_rate
+            </field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_INSS_EMPRESA_TOTAL" model="hr.salary.rule">
+            <field name="code">INSS_EMPRESA_TOTAL</field>
+            <field name="name">INSS Empresa Total</field>
+            <field name="active">True</field>
+            <field name="sequence">706.0</field>
+            <field name="category_id" ref="hr_payroll.SEFIP"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result=INSS_EMPRESA
+if 'INSS_RAT_FAP' in locals():
+    result+=INSS_RAT_FAP
+if 'INSS_OUTRAS_ENTIDADES' in locals():
+    result+=INSS_OUTRAS_ENTIDADES
+            </field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_INSS_EMPRESA_LIQUIDO" model="hr.salary.rule">
+            <field name="code">INSS_EMPRESA_LIQUIDO</field>
+            <field name="name">INSS Empresa Líquido</field>
+            <field name="active">True</field>
+            <field name="sequence">707.0</field>
+            <field name="category_id" ref="hr_payroll.SEFIP"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result=INSS_EMPRESA_TOTAL-INSS_DEDUCAO_PREVIDENCIARIA
+            </field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_base_FERIAS" model="hr.salary.rule">
+            <field name="code">BASE_FERIAS</field>
+            <field name="name">Base FERIAS</field>
+            <field name="active" eval="False" />
+            <field name="sequence">108.0</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = MEDIAS.SALARIO.media
+            </field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_FERIAS" model="hr.salary.rule">
+            <field name="code">FERIAS</field>
+            <field name="name">FERIAS</field>
+            <field name="active">True</field>
+            <field name="sequence">109.0</field>
+            <field name="category_id" ref="hr_payroll.FERIAS"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = contract.wage / 30
+result_qty =  PEDIDO_FERIAS.DIAS_FERIAS
+            </field>
+            <field name="custom_amount_python_compute">result = Decimal(contract.wage) / Decimal(30)
+#result_qty =  PEDIDO_FERIAS.DIAS_FERIAS</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS">True</field>
+            <field name="compoe_base_IR">True</field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media">valor</field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_1/3_FERIAS" model="hr.salary.rule">
+            <field name="code">1/3_FERIAS</field>
+            <field name="name">1/3 FERIAS</field>
+            <field name="active">True</field>
+            <field name="sequence">110.0</field>
+            <field name="category_id" ref="hr_payroll.FERIAS"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = FERIAS / 3.0
+            </field>
+            <field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)
+
+if 'FERIAS' in locals() and payslip.tipo_de_folha == 'ferias':
+    result = FERIAS / 3.0
+elif not result:
+    result = contract.wage / 3.0 / 12</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS">True</field>
+            <field name="compoe_base_IR">True</field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref=""/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_ABONO_PECUNIARIO" model="hr.salary.rule">
+            <field name="code">ABONO_PECUNIARIO</field>
+            <field name="name">Rubrica do Abono Pecuniario das FERIAS</field>
+            <field name="active">True</field>
+            <field name="sequence">111.0</field>
+            <field name="category_id" ref="hr_payroll.FERIAS"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = PEDIDO_FERIAS.DIAS_ABONO  &gt;  0 </field>
+            <field name="amount_python_compute">result =  contract.wage / 30
+result_qty =  PEDIDO_FERIAS.DIAS_ABONO
+            </field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_1/3_ABONO_PECUNIARIO" model="hr.salary.rule">
+            <field name="code">1/3_ABONO_PECUNIARIO</field>
+            <field name="name">Rubrica do 1/3 Abono Pecuniario</field>
+            <field name="active">True</field>
+            <field name="sequence">112.0</field>
+            <field name="category_id" ref="hr_payroll.FERIAS"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = PEDIDO_FERIAS.DIAS_ABONO  &gt;  0 </field>
+            <field name="amount_python_compute">result = ABONO_PECUNIARIO / 3.0
+            </field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_liquido_ferias" model="hr.salary.rule">
+            <field name="code">LIQUIDO_FERIAS</field>
+            <field name="name">Liquido Férias</field>
+            <field name="active">True</field>
+            <field name="sequence">799.0</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = categories.FERIAS - INSS - IRPF
+            </field>
+            <field name="custom_amount_python_compute">result = BRUTO - TOTAL_DESCONTOS</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_pagamento_ferias" model="hr.salary.rule">
+            <field name="code">PAGAMENTO_FERIAS</field>
+            <field name="name">Pagamento Antecipado de Férias</field>
+            <field name="active">True</field>
+            <field name="sequence">999.0</field>
+            <field name="category_id" ref="hr_payroll.DEDUCAO"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = worked_days.FERIAS.number_of_days  &gt;  0 and PAGAR_FERIAS</field>
+            <field name="amount_python_compute">result = CALCULAR.rubrica_anterior_total(code='LIQUIDO_FERIAS', tipo_de_folha='ferias')
+            </field>
+            <field name="custom_amount_python_compute">result = CALCULAR.rubrica_anterior_total(code='LIQUIDO_FERIAS', tipo_de_folha='ferias')</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_VA_VR" model="hr.salary.rule">
+            <field name="code">VA/VR</field>
+            <field name="name">Vale alimentação/Refeição</field>
+            <field name="active">True</field>
+            <field name="sequence">305.0</field>
+            <field name="category_id" ref="hr_payroll.DEDUCAO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
+            <field name="amount_python_compute">if MEDIAS:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id, MEDIAS)
+else:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="custom_amount_python_compute">if MEDIAS:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id, MEDIAS)
+else:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id)
+</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_FUNCAO_COMISSIONADA" model="hr.salary.rule">
+            <field name="code">SALARIO</field>
+            <field name="name">Função Comissionada</field>
+            <field name="active">True</field>
+            <field name="sequence">101.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = worked_days.DIAS_TRABALHADOS.number_of_days * contract.wage/30</field>
+            <field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)
+
+if not result:
+    result = worked_days.DIAS_TRABALHADOS.number_of_days * contract.wage/30</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS">True</field>
+            <field name="compoe_base_IR">True</field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media">valor</field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_HONORARIO_PRESIDENTE" model="hr.salary.rule">
+            <field name="code">SALARIO</field>
+            <field name="name">Honorario Presidente</field>
+            <field name="active">True</field>
+            <field name="sequence">101.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = worked_days.DIAS_TRABALHADOS.number_of_days * contract.wage/30</field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS">True</field>
+            <field name="compoe_base_IR">True</field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_HONORARIO_DIRETORIA" model="hr.salary.rule">
+            <field name="code">SALARIO</field>
+            <field name="name">Honorario Diretoria</field>
+            <field name="active">True</field>
+            <field name="sequence">101.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = worked_days.DIAS_TRABALHADOS.number_of_days * contract.wage/30</field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS">True</field>
+            <field name="compoe_base_IR">True</field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_HONORARIO_CONSELHO" model="hr.salary.rule">
+            <field name="code">SALARIO</field>
+            <field name="name">Honorario Conselho</field>
+            <field name="active">True</field>
+            <field name="sequence">101.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = worked_days.DIAS_TRABALHADOS.number_of_days * contract.wage/30</field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS">True</field>
+            <field name="compoe_base_IR">True</field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_REMBOLSO_PLANO_SAUDE" model="hr.salary.rule">
+            <field name="code">REMBOLSO_SAUDE</field>
+            <field name="name">Reembolso Plano de Saude</field>
+            <field name="active">True</field>
+            <field name="sequence">102.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
+            <field name="amount_python_compute">if MEDIAS:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id, MEDIAS)
+else:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id)
+            </field>
+            <field name="custom_amount_python_compute">if MEDIAS:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id, MEDIAS)
+else:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_PRIMEIRA_PARCELA_13" model="hr.salary.rule">
+            <field name="code">PRIMEIRA_PARCELA_13</field>
+            <field name="name">Primeira parcela 13 Salario</field>
+            <field name="active">True</field>
+            <field name="sequence">104.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = MEDIAS.SALARIO.media/12.0
+result_qty = MEDIAS.SALARIO.meses
+            </field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_ADIANTAMENTO_13_RESC" model="hr.salary.rule">
+            <field name="code">ADIANTAMENTO_13_RESC</field>
+            <field name="name">Adiantamento 13º Rescisao</field>
+            <field name="active">True</field>
+            <field name="sequence">189</field>
+            <field name="category_id" ref="hr_payroll.DEDUCAO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">#
+# Adiantamento é recebido até maio para quem sair de férias
+#
+result = payslip.tipo_de_folha == 'ferias' and payslip.date_to[5:7]  &lt;=  '05'
+result = result and payslip.holidays_ferias and payslip.holidays_ferias.advance_13_salary</field>
+            <field name="amount_python_compute">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days.
+# inputs: object containing the computed inputs.
+
+# Note: returned value have to be set in the variable 'result'
+
+result = contract.wage * 0.10</field>
+            <field name="custom_amount_python_compute">result = CALCULAR.BUSCAR_ADIANTAMENTO_DECIMO_TERCEIRO()</field>
+            <field name="amount_select">fix</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_ADIANTAMENTO_FERIAS_RESC" model="hr.salary.rule">
+            <field name="code">ADIANTAMENTO_FERIAS_RESC</field>
+            <field name="name">Dedução Adiantamento Férias</field>
+            <field name="category_id" ref="hr_payroll.DEDUCAO"/>
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = CALCULAR.BUSCAR_ADIANTAMENTO_FERIAS()
+            </field>
+            <field name="sequence" eval="190"/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_SEGUNDA_PARCELA_13" model="hr.salary.rule">
+            <field name="code">SEGUNDA_PARCELA_13</field>
+            <field name="name">Segunda parcela 13 Salário</field>
+            <field name="active">True</field>
+            <field name="sequence">105.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = MEDIAS.SALARIO.media/12.0
+result_qty = MEDIAS.SALARIO.meses
+            </field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS">True</field>
+            <field name="compoe_base_IR">True</field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_REMBOLSO_AUXILIO_CRECHE" model="hr.salary.rule">
+            <field name="code">REMBOLSO_AUXILIO_CRECHE</field>
+            <field name="name">Reembolso Auxilio Creche</field>
+            <field name="active">True</field>
+            <field name="sequence">102.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
+            <field name="amount_python_compute">if MEDIAS:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id, MEDIAS)
+else:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id)
+            </field>
+            <field name="custom_amount_python_compute">if MEDIAS:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id, MEDIAS)
+else:
+    result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_AUXILIO_ALIMENTACAO" model="hr.salary.rule">
+            <field name="code">AUXILIO_ALIMENTACAO</field>
+            <field name="name">Auxílio Alimentação - Dir</field>
+            <field name="active">True</field>
+            <field name="sequence">108.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
+            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_AUXILIO_MORADIA" model="hr.salary.rule">
+            <field name="code">AUXILIO_MORADIA</field>
+            <field name="name">Auxílio Moradia</field>
+            <field name="active">True</field>
+            <field name="sequence">108.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
+            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_AUXILIO_SAUDE_DIRETOR" model="hr.salary.rule">
+            <field name="code">AUXILIO_SAUDE_DIRETOR</field>
+            <field name="name">Auxílio Saúde - Diretor</field>
+            <field name="active">True</field>
+            <field name="sequence">108.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
+            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_CONTRIBUICAO_SINDICAL" model="hr.salary.rule">
+            <field name="code">CONTRIBUICAO_SINDICAL</field>
+            <field name="name">Contribuição Sindical</field>
+            <field name="active">True</field>
+            <field name="sequence">304.0</field>
+            <field name="category_id" ref="hr_payroll.DEDUCAO"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
+            <field name="amount_python_compute">result = contract.wage/30</field>
+            <field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)
+
+if not result:
+    result = contract.wage/30</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_DESCONTO_LIGACOES_TELEFONICAS" model="hr.salary.rule">
+            <field name="code">DESCONTO_LIGACOES_TELEFONICAS</field>
+            <field name="name">Desconto Ligações Telefônicas</field>
+            <field name="active">True</field>
+            <field name="sequence">305.0</field>
+            <field name="category_id" ref="hr_payroll.DEDUCAO"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
+            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_DIF_REEMBOLSO_AUXILIO_SAUDE" model="hr.salary.rule">
+            <field name="code">DIF_REEMBOLSO_AUXILIO_SAUDE</field>
+            <field name="name">Diferença Reembolso Auxílio Saúde</field>
+            <field name="active">True</field>
+            <field name="sequence">108.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')
+</field>
+            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)
+</field>
+            <field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_GRATIF_NATALINA_DIRETOR" model="hr.salary.rule">
+            <field name="code">GRATIF_NATALINA_DIRETOR</field>
+            <field name="name">Gratificação Natalina Diretor</field>
+            <field name="active">True</field>
+            <field name="sequence">5.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
+            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)
+</field>
+            <field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS">True</field>
+            <field name="compoe_base_IR">True</field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_DIFERENCA_SALARIOS" model="hr.salary.rule">
+            <field name="code">DIFERENCA_SALARIOS</field>
+            <field name="name">Diferença de salários</field>
+            <field name="active">True</field>
+            <field name="sequence">5.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)
+</field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS">True</field>
+            <field name="compoe_base_IR">True</field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_CONTRIB_CONFEDERATIVA" model="hr.salary.rule">
+            <field name="code">CONTRIB_CONFEDERATIVA</field>
+            <field name="name">Contribuição Confederativa</field>
+            <field name="active">True</field>
+            <field name="sequence">306.0</field>
+            <field name="category_id" ref="hr_payroll.DEDUCAO"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
+            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+			<field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+			<field name="amount_select">code</field>
+			<field name="custom_amount_select">code</field>
+			<field name="compoe_base_INSS"></field>
+			<field name="compoe_base_IR"></field>
+			<field name="compoe_base_FGTS"></field>
+			<field name="amount_fix"></field>
+			<field name="custom_amount_fix"></field>
+			<field name="amount_percentage"></field>
+			<field name="amount_percentage_base"></field>
+			<field name="custom_amount_percentage_base"></field>
+			<field name="custom_amount_percentage"></field>
+			<field name="appears_on_payslip">True</field>
+			<field name="condition_range">contract.wage</field>
+			<field name="condition_range_min"></field>
+			<field name="condition_range_max"></field>
+			<field name="note"></field>
+			<field name="calculo_nao_padrao">True</field>
+			<field name="quantity">1.0</field>
+			<field name="custom_quantity"></field>
+			<field name="tipo_media"></field>
+			<field name="parent_rule_id" ref=""/>
+			<field name="company_id" ref="base.main_company"/>
+			<field name="register_id" ref=""/>
+		</record>
+
+		<record id="hr_salary_rule_PENSAO_ALIMENTICIA" model="hr.salary.rule">
+			<field name="code">PENSAO_ALIMENTICIA</field>
+			<field name="name">Pensão Alimentícia</field>
+			<field name="active">True</field>
+			<field name="sequence">307.0</field>
+			<field name="category_id" ref="hr_payroll.DEDUCAO"/>
+			<field name="condition_select">python</field>
+			<field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
+			<field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id, rubricas_especificas_calculadas=RUBRICAS_ESPEC_CALCULADAS)
+</field>
+			<field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id, rubricas_especificas_calculadas=RUBRICAS_ESPEC_CALCULADAS)
+
+if not result:
+    base = BASE_IR
+    base_ir  = CALCULAR.BASE_IRRF(base, 0)
+    ir = CALCULAR.IRRF(base_ir, 0)
+    result = base - ir
+    result_rate = 10</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_PREV_SUPLEMENTAR" model="hr.salary.rule">
+            <field name="code">PREV_SUPLEMENTAR</field>
+            <field name="name">Previdência Suplementar</field>
+            <field name="active">True</field>
+            <field name="sequence">5.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
+            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)
+</field>
+            <field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_13" model="hr.salary.rule">
+            <field name="code">PROP13</field>
+            <field name="name">Proporcional 13 Salário</field>
+            <field name="active">True</field>
+            <field name="sequence">180.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = CALCULAR.BUSCAR_VALOR_PROPORCIONAL('decimo_terceiro')</field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS">True</field>
+            <field name="compoe_base_IR">True</field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_PAGAMENTO_MES_ANTERIOR" model="hr.salary.rule">
+            <field name="code">PAGAMENTO_MES_ANTERIOR</field>
+            <field name="name">Pagamento bruto do mês anterior</field>
+            <field name="active">True</field>
+            <field name="sequence">801.0</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = CALCULAR.rubrica_anterior_total(code='BRUTO', mes=payslip.mes_do_ano-1, tipo_de_folha='normal')
+            </field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_PROPORCIONAL_FERIAS" model="hr.salary.rule">
+            <field name="code">PROP_FERIAS</field>
+            <field name="name">Proporcional Férias</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = CALCULAR.BUSCAR_VALOR_PROPORCIONAL('ferias')</field>
+            <field name="sequence" eval="182"/>
+            <field name="compoe_base_INSS" eval="False"/>
+            <field name="compoe_base_IR" eval="False"/>
+            <field name="compoe_base_FGTS" eval="False"/>
+        </record>
+
+        <record id="hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS" model="hr.salary.rule">
+            <field name="code">PROP_1/3_FERIAS</field>
+            <field name="name">Proporcional 1/3 de Férias</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = PROP_FERIAS/3</field>
+            <field name="sequence" eval="183"/>
+            <field name="compoe_base_INSS" eval="False"/>
+            <field name="compoe_base_IR" eval="False"/>
+            <field name="compoe_base_FGTS" eval="False"/>
+        </record>
+
+        <record id="hr_salary_rule_FERIAS_VENCIDAS" model="hr.salary.rule">
+            <field name="code">FERIAS_VENCIDAS</field>
+            <field name="name">Férias Vencidas</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = contract.wage / 30
+result_qty =  30</field>
+            <field name="sequence" eval="184"/>
+            <field name="compoe_base_INSS" eval="False"/>
+            <field name="compoe_base_IR" eval="False"/>
+            <field name="compoe_base_FGTS" eval="False"/>
+        </record>
+
+        <record id="hr_salary_rule_FERIAS_VENCIDAS_UM_TERCO" model="hr.salary.rule">
+            <field name="code">FERIAS_VENCIDAS_1/3</field>
+            <field name="name">Férias Vencidas 1/3</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="amount_select">code</field>
+            <field name="condition_select">none</field>
+            <field name="amount_python_compute">result = FERIAS_VENCIDAS/3</field>
+            <field name="sequence" eval="185"/>
+            <field name="compoe_base_INSS" eval="False"/>
+            <field name="compoe_base_IR" eval="False"/>
+            <field name="compoe_base_FGTS" eval="False"/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_AVISO_PREVIO_INDENIZADO" model="hr.salary.rule">
+            <field name="code">AVISO_PREV_IND</field>
+            <field name="name">Aviso Prévio Indenizado</field>
+            <field name="active">True</field>
+            <field name="sequence">186.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = CALCULAR.BUSCAR_VALOR_PROPORCIONAL('aviso_previo')</field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS">True</field>
+            <field name="compoe_base_IR">True</field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_13_AVISO_PREVIO_INDENIZADO" model="hr.salary.rule">
+            <field name="code">PROP_13_AVISO_PREVIO</field>
+            <field name="name">Proporcional 13 Salário Aviso Prévio</field>
+            <field name="active">True</field>
+            <field name="sequence">187.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = CALCULAR.BUSCAR_VALOR_MEDIA_PROVENTO('decimo_terceiro')
+result_qty = round(DIAS_AVISO_PREVIO/30.0)</field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS">True</field>
+            <field name="compoe_base_IR">True</field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_FERIAS_AVISO_PREVIO_INDENIZADO" model="hr.salary.rule">
+            <field name="code">PROP_FERIAS_AVISO_PREVIO</field>
+            <field name="name">Proporcional Férias Aviso Prévio</field>
+            <field name="active">True</field>
+            <field name="sequence">188.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = AVISO_PREV_IND/12
+result_qty = round(DIAS_AVISO_PREVIO/30.0)</field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS">True</field>
+            <field name="compoe_base_IR">True</field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_PROPORCIONAL_UM_TERCO_FERIAS_AVISO_PREVIO_INDENIZADO" model="hr.salary.rule">
+            <field name="code">PROP_1/3_FERIAS_AVISO_PREVIO</field>
+            <field name="name">Proporcional 1/3 Férias Aviso Prévio</field>
+            <field name="active">True</field>
+            <field name="sequence">189.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = PROP_FERIAS_AVISO_PREVIO/3</field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS">True</field>
+            <field name="compoe_base_IR">True</field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_DESCONTO_LIGACOES" model="hr.salary.rule">
+            <field name="code">DESCONTO_LIGACOES_TELEFONICAS</field>
+            <field name="name">Desconto Ligações Telefônicas</field>
+            <field name="active">True</field>
+            <field name="sequence">188.0</field>
+            <field name="category_id" ref="hr_payroll.DEDUCAO"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result=payslip.tipo_de_folha in ('normal','rescisao')</field>
+            <field name="amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao"></field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF_PROPORCIONAL_REGULAR" model="hr.salary.rule">
+            <field name="code">BASE_IRPF_PROPORCIONAL_REGULAR</field>
+            <field name="name">Base IRRF proporcional (regular)</field>
+            <field name="active">True</field>
+            <field name="sequence">503.0</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = payslip.tipo_de_folha == 'normal'</field>
+            <field name="amount_python_compute">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days.
+# inputs: object containing the computed inputs.
+
+# Note: returned value have to be set in the variable 'result'
+
+result = contract.wage * 0.10</field>
+            <field name="custom_amount_python_compute">base = BASE_IR
+inss = INSS_PROPORCIONAL_REGULAR if 'INSS_PROPORCIONAL_REGULAR' in locals() else 0
+pensao = PENSAO_PROPORCIONAL_REGULAR if 'PENSAO_PROPORCIONAL_REGULAR' in locals() else 0
+
+#
+# Para os que recebem 1/3 de férias dentro da folha do mês,
+# retirar da pensão o proporcional ao 1/3,
+# e também fazer a proporção do INSS correspondente
+#
+if '1/3_FERIAS' in locals():
+    terco = locals()['1/3_FERIAS']
+    base -= terco
+
+base -= pensao
+result = CALCULAR.BASE_IRRF(base, inss)</field>
+            <field name="amount_select">fix</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref=""/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF_PROPORCIONAL_FERIAS" model="hr.salary.rule">
+            <field name="code">BASE_IRPF_PROPORCIONAL_FERIAS</field>
+            <field name="name">Base IRRF proporcional (férias)</field>
+            <field name="active">True</field>
+            <field name="sequence">513.0</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = payslip.tipo_de_folha == 'normal'</field>
+            <field name="amount_python_compute">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days.
+# inputs: object containing the computed inputs.
+
+# Note: returned value have to be set in the variable 'result'
+
+result = contract.wage * 0.10</field>
+            <field name="custom_amount_python_compute">base = BASE_IR
+inss = INSS_PROPORCIONAL_FERIAS if 'INSS_PROPORCIONAL_FERIAS' in locals() else 0
+pensao = PENSAO_PROPORCIONAL_FERIAS if 'PENSAO_PROPORCIONAL_FERIAS' in locals() else 0
+
+#
+# Para os que recebem 1/3 de férias dentro da folha do mês,
+# retirar da pensão o proporcional ao 1/3,
+# e também fazer a proporção do INSS correspondente
+#
+if '1/3_FERIAS' in locals():
+    terco = locals()['1/3_FERIAS']
+    base = terco
+    base -= pensao
+else:
+    base = 0
+
+result = CALCULAR.BASE_IRRF(base, inss)
+</field>
+            <field name="amount_select">fix</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_IRPF_PROPORCIONAL_REGULAR" model="hr.salary.rule">
+            <field name="code">IRPF_PROPORCIONAL_REGULAR</field>
+            <field name="name">IRRF proporcional (regular)</field>
+            <field name="active">True</field>
+            <field name="sequence">504.0</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'BASE_IRPF_PROPORCIONAL_REGULAR' in locals()</field>
+            <field name="amount_python_compute">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days.
+# inputs: object containing the computed inputs.
+
+# Note: returned value have to be set in the variable 'result'
+
+result = contract.wage * 0.10</field>
+            <field name="custom_amount_python_compute">result = CALCULAR.IRRF(BASE_IRPF_PROPORCIONAL_REGULAR, INSS_PROPORCIONAL_REGULAR)</field>
+            <field name="amount_select">fix</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_IRPF_PROPORCIONAL_FERIAS" model="hr.salary.rule">
+            <field name="code">IRPF_PROPORCIONAL_FERIAS</field>
+            <field name="name">IRRF proporcional (férias)</field>
+            <field name="active">True</field>
+            <field name="sequence">514.0</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'BASE_IRPF_PROPORCIONAL_FERIAS' in locals()</field>
+            <field name="amount_python_compute">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days.
+# inputs: object containing the computed inputs.
+
+# Note: returned value have to be set in the variable 'result'
+
+result = contract.wage * 0.10</field>
+            <field name="custom_amount_python_compute">result = CALCULAR.IRRF(BASE_IRPF_PROPORCIONAL_FERIAS, INSS_PROPORCIONAL_FERIAS)</field>
+            <field name="amount_select">fix</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_INSS_PROPORCIONAL_REGULAR" model="hr.salary.rule">
+            <field name="code">INSS_PROPORCIONAL_REGULAR</field>
+            <field name="name">INSS proporcional (regular)</field>
+            <field name="active">True</field>
+            <field name="sequence">501.0</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = payslip.tipo_de_folha == 'normal'</field>
+            <field name="amount_python_compute">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days.
+# inputs: object containing the computed inputs.
+
+# Note: returned value have to be set in the variable 'result'
+
+result = contract.wage * 0.10</field>
+            <field name="custom_amount_python_compute">base = BASE_IR
+inss = INSS if 'INSS' in locals() else 0
+
+#
+# Para os que recebem 1/3 de férias dentro da folha do mês,
+# fazer a proporção do INSS correspondente
+#
+if '1/3_FERIAS' in locals():
+    terco = locals()['1/3_FERIAS']
+    proporcao = 1 - (terco / float(base or 1))
+    inss *= proporcao
+
+result = inss</field>
+            <field name="amount_select">fix</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_INSS_PROPORCIONAL_FERIAS" model="hr.salary.rule">
+            <field name="code">INSS_PROPORCIONAL_FERIAS</field>
+            <field name="name">INSS proporcional (férias)</field>
+            <field name="active">True</field>
+            <field name="sequence">511.0</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = payslip.tipo_de_folha == 'normal'</field>
+            <field name="amount_python_compute">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days.
+# inputs: object containing the computed inputs.
+
+# Note: returned value have to be set in the variable 'result'
+
+result = contract.wage * 0.10</field>
+            <field name="custom_amount_python_compute">base = BASE_IR
+inss = INSS if 'INSS' in locals() else 0
+
+#
+# Para os que recebem 1/3 de férias dentro da folha do mês,
+# fazer a proporção do INSS correspondente
+#
+if '1/3_FERIAS' in locals():
+    terco = locals()['1/3_FERIAS']
+    proporcao = (terco / float(base or 1))
+    inss *= proporcao
+
+result = inss</field>
+            <field name="amount_select">fix</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_PENSAO_PROPORCIONAL_REGULAR" model="hr.salary.rule">
+            <field name="code">PENSAO_PROPORCIONAL_REGULAR</field>
+            <field name="name">Pensão proporcional (regular)</field>
+            <field name="active">True</field>
+            <field name="sequence">502.0</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = payslip.tipo_de_folha == 'normal'</field>
+            <field name="amount_python_compute">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days.
+# inputs: object containing the computed inputs.
+
+# Note: returned value have to be set in the variable 'result'
+
+result = contract.wage * 0.10</field>
+            <field name="custom_amount_python_compute">base = BASE_IR
+pensao = PENSAO_ALIMENTICIA if 'PENSAO_ALIMENTICIA' in locals() else 0
+
+#
+# Para os que recebem 1/3 de férias dentro da folha do mês,
+# fazer a proporção do INSS correspondente
+#
+if '1/3_FERIAS' in locals():
+    terco = locals()['1/3_FERIAS']
+    proporcao = 1 - (terco / float(base or 1))
+    pensao *= proporcao
+
+result = pensao</field>
+            <field name="amount_select">fix</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_PENSAO_PROPORCIONAL_FERIAS" model="hr.salary.rule">
+            <field name="code">PENSAO_PROPORCIONAL_FERIAS</field>
+            <field name="name">Pensão proporcional (férias)</field>
+            <field name="active">True</field>
+            <field name="sequence">512.0</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = payslip.tipo_de_folha == 'normal'</field>
+            <field name="amount_python_compute">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days.
+# inputs: object containing the computed inputs.
+
+# Note: returned value have to be set in the variable 'result'
+
+result = contract.wage * 0.10</field>
+            <field name="custom_amount_python_compute">base = BASE_IR
+pensao = PENSAO_ALIMENTICIA if 'PENSAO_ALIMENTICIA' in locals() else 0
+
+#
+# Para os que recebem 1/3 de férias dentro da folha do mês,
+# fazer a proporção do INSS correspondente
+#
+if '1/3_FERIAS' in locals():
+    terco = locals()['1/3_FERIAS']
+    proporcao = (terco / float(base or 1))
+    pensao *= proporcao
+
+result = pensao</field>
+            <field name="amount_select">fix</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_ADIANTAMENTO_13" model="hr.salary.rule">
+            <field name="code">ADIANTAMENTO_13</field>
+            <field name="name">Adiantamento 13º</field>
+            <field name="active">True</field>
+            <field name="sequence">121.0</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">#
+# Adiantamento é recebido até maio para quem sair de férias
+#
+result = payslip.tipo_de_folha == 'ferias' and payslip.date_to[5:7]  &lt;=  '05'
+result = result and payslip.holidays_ferias and payslip.holidays_ferias.advance_13_salary</field>
+            <field name="amount_python_compute">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days.
+# inputs: object containing the computed inputs.
+
+# Note: returned value have to be set in the variable 'result'
+
+result = contract.wage * 0.10</field>
+            <field name="custom_amount_python_compute">result = contract.wage / 2.0
+</field>
+            <field name="amount_select">fix</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_DESCONTO_VIAGEM" model="hr.salary.rule">
+            <field name="code">DESCONTO_VIAGEM</field>
+            <field name="name">Desconto Adiantamento de Diárias de Viagem</field>
+            <field name="active">True</field>
+            <field name="sequence">404.0</field>
+            <field name="category_id" ref="hr_payroll.DEDUCAO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days.
+# inputs: object containing the computed inputs.
+
+# Note: returned value have to be set in the variable 'result'
+
+result = contract.wage * 0.10</field>
+            <field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)</field>
+            <field name="amount_select">fix</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_REF_VALOR_VALE" model="hr.salary.rule">
+            <field name="code">REF_VALOR_VALE</field>
+            <field name="name">Vale Alimentação/Refeição - Valor de Referência</field>
+            <field name="active">True</field>
+            <field name="sequence">120.0</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days.
+# inputs: object containing the computed inputs.
+
+# Note: returned value have to be set in the variable 'result'
+
+result = contract.wage * 0.10</field>
+            <field name="custom_amount_python_compute"></field>
+            <field name="amount_select">fix</field>
+            <field name="custom_amount_select">fix</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix">660.0</field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip"></field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity">1</field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref=""/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_FGTS_RESCISAO" model="hr.salary.rule">
+            <field name="code">FGTS_RESCISAO</field>
+            <field name="name">FGTS A MAIOR</field>
+            <field name="active">True</field>
+            <field name="sequence">460</field>
+            <field name="category_id" ref="hr_payroll.DEDUCAO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = BASE_FGTS * 0.08</field>
+            <field name="custom_amount_python_compute">valor = BASE_FGTS * 0.08
+if valor  &gt;=  0:
+    result = valor
+else:
+    result = -1*valor </field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage">8.0</field>
+            <field name="amount_percentage_base">contract.wage</field>
+            <field name="custom_amount_percentage_base">BASE_FGTS</field>
+            <field name="custom_amount_percentage">0.08</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity">1</field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_INSS_RESCISAO" model="hr.salary.rule">
+            <field name="code">INSS_RESCISAO</field>
+            <field name="name">INSS Dias Trabalhados</field>
+            <field name="active">True</field>
+            <field name="sequence">402</field>
+            <field name="category_id" ref="hr_payroll.INSS"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = CALCULAR.INSS(BASE_INSS)</field>
+            <field name="custom_amount_python_compute">base = SALARIO_RESCISAO
+
+result = CALCULAR.INSS(base)</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="hr_salary_rule_SALARIO_RESCISAO" model="hr.salary.rule">
+            <field name="code">SALARIO_RESCISAO</field>
+            <field name="name">Função Comissionada</field>
+            <field name="active">True</field>
+            <field name="sequence">101</field>
+            <field name="category_id" ref="hr_payroll.PROVENTO"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">result = worked_days.DIAS_TRABALHADOS.number_of_days * contract.wage/30</field>
+            <field name="custom_amount_python_compute">result = CALCULAR.get_specific_rubric_value(rubrica.id)
+
+if not result:
+    result = worked_days.DIAS_TRABALHADOS.number_of_days * contract.wage/30</field>
+            <field name="amount_select">code</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS">True</field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media">valor</field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        <record id="l10n_br_hr_payroll.hr_salary_rule_BASE_INSS_13" model="hr.salary.rule">
+            <field name="code">BASE_INSS_13</field>
+            <field name="name">Base INSS 13</field>
+            <field name="active">True</field>
+            <field name="sequence">505.0</field>
+            <field name="category_id" ref="hr_payroll.REFERENCIA"/>
+            <field name="condition_select">none</field>
+            <field name="condition_python">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days
+# inputs: object containing the computed inputs
+
+# Note: returned value have to be set in the variable 'result'
+
+result = rules.NET  &gt;  categories.NET * 0.10</field>
+            <field name="amount_python_compute">
+# Available variables:
+#----------------------
+# payslip: object containing the payslips
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: object containing the rules code (previously computed)
+# categories: object containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: object containing the computed worked days.
+# inputs: object containing the computed inputs.
+
+# Note: returned value have to be set in the variable 'result'
+
+result = contract.wage * 0.10</field>
+            <field name="custom_amount_python_compute">result = PROP13</field>
+            <field name="amount_select">fix</field>
+            <field name="custom_amount_select">code</field>
+            <field name="compoe_base_INSS"></field>
+            <field name="compoe_base_IR"></field>
+            <field name="compoe_base_FGTS"></field>
+            <field name="amount_fix"></field>
+            <field name="custom_amount_fix"></field>
+            <field name="amount_percentage"></field>
+            <field name="amount_percentage_base"></field>
+            <field name="custom_amount_percentage_base"></field>
+            <field name="custom_amount_percentage"></field>
+            <field name="appears_on_payslip">True</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="condition_range_min"></field>
+            <field name="condition_range_max"></field>
+            <field name="note"></field>
+            <field name="calculo_nao_padrao">True</field>
+            <field name="quantity">1.0</field>
+            <field name="custom_quantity"></field>
+            <field name="tipo_media"></field>
+            <field name="parent_rule_id" ref=""/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="register_id" ref=""/>
+        </record>
+
+        </data>
+    </openerp>
