@@ -55,10 +55,6 @@
                     <attribute name="required">1</attribute>
                 </field>
 
-                <field name="identity_type_id" position="attributes">
-                    <attribute name="required">1</attribute>
-                </field>
-
                 <field name="rg" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
@@ -68,10 +64,6 @@
                 </field>
 
                 <field name="rg_emission" position="attributes">
-                    <attribute name="required">1</attribute>
-                </field>
-
-                <field name="identity_validity" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
 
