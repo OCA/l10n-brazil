@@ -320,6 +320,11 @@ class HrContract(models.Model):
         inverse_name='contrato_id',
         string="Afastamentos"
     )
+    conta_bancaria_id = fields.Many2one(
+        string="Conta bancaria",
+        comodel_name='res.partner.bank',
+        required=True,
+    )
 
 
 class Exame(models.Model):
