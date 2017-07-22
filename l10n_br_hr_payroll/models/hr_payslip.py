@@ -104,39 +104,39 @@ class HrPayslip(models.Model):
             inss = 0.00
             irpf = 0.00
             codigo = {}
-            codigo['BASE_FGTS'] = \
-                holerite.env\
-                .ref('l10n_br_hr_payroll.hr_salary_rule_BASE_FGTS').code
-            codigo['BASE_INSS'] = \
-                holerite.env\
-                .ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS').code
-            codigo['BASE_IRPF'] = \
-                holerite.env\
-                .ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF').code
-            codigo['FGTS'] = \
-                holerite.env\
-                .ref('l10n_br_hr_payroll.hr_salary_rule_FGTS').code
-            codigo['INSS'] = \
-                holerite.env\
-                .ref('l10n_br_hr_payroll.hr_salary_rule_INSS').code
-            codigo['IRPF'] = \
-                holerite.env\
-                .ref('l10n_br_hr_payroll.hr_salary_rule_IRPF').code
+#            codigo['BASE_FGTS'] = \
+#                holerite.env\
+#                .ref('l10n_br_hr_payroll.hr_salary_rule_BASE_FGTS').code
+#            codigo['BASE_INSS'] = \
+#                holerite.env\
+#                .ref('l10n_br_hr_payroll.hr_salary_rule_BASE_INSS').code
+#            codigo['BASE_IRPF'] = \
+#                holerite.env\
+#                .ref('l10n_br_hr_payroll.hr_salary_rule_BASE_IRPF').code
+#            codigo['FGTS'] = \
+#                holerite.env\
+#                .ref('l10n_br_hr_payroll.hr_salary_rule_FGTS').code
+#            codigo['INSS'] = \
+#                holerite.env\
+#                .ref('l10n_br_hr_payroll.hr_salary_rule_INSS').code
+#            codigo['IRPF'] = \
+#                holerite.env\
+#                .ref('l10n_br_hr_payroll.hr_salary_rule_IRPF').code
             for line in holerite.line_ids:
                 total += line.valor_provento - line.valor_deducao
                 total_proventos += line.valor_provento
                 total_descontos += line.valor_deducao
-                if line.code == codigo.get('BASE_FGTS'):
+                if line.code == 'BASE_FGTS':
                     base_fgts = line.total
-                elif line.code == codigo.get('BASE_INSS'):
+                elif line.code == 'BASE_INSS':
                     base_inss = line.total
-                elif line.code == codigo.get('BASE_IRPF'):
+                elif line.code == 'BASE_IRPF':
                     base_irpf = line.total
-                elif line.code == codigo.get('FGTS'):
+                elif line.code == 'FGTS':
                     fgts = line.total
-                elif line.code == codigo.get('INSS'):
+                elif line.code == 'INSS':
                     inss = line.total
-                elif line.code == codigo.get('IRPF'):
+                elif line.code == 'IRPF':
                     irpf = line.total
             holerite.total_folha = total
             holerite.total_proventos = total_proventos
