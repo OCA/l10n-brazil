@@ -63,9 +63,11 @@ class PaymentOrder(models.Model):
         self.write({'state': 'cancel'})
         return True
 
-    @api.multi
+    @api.one
     def financial_payment_import(self):
-        pass
+        print ("dummy")
+        return
+
 
     @api.multi
     def buscar_holerites_wizard(self):

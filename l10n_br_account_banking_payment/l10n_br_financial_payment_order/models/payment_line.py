@@ -46,6 +46,11 @@ class PaymentLine(models.Model):
         default="draft",
     )
 
+    financial_id = fields.Many2one(
+        comodel_name='financial.move',
+        string="Financeiro",
+    )
+
     def _get_info_partner(self, cr, uid, partner_record, context=None):
         # TODO: Melhorar este método
         if not partner_record:
