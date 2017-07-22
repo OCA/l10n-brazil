@@ -16,17 +16,16 @@
         <!--</field>-->
     <!--</record>-->
 
-    <record model="ir.ui.view" id="financial_move_payment_base_form">
+    <record model="ir.ui.view" id="financial_move_payment_one2many_base_form">
         <field name="name">financial.move.payment.one2many.base.form (in financial_account)</field>
         <field name="model">financial.move</field>
         <field name="priority">99999</field>
-        <field name="inherit_id" ref="financial.financial_move_payment_base_form" />
+        <field name="inherit_id" ref="financial.financial_move_payment_one2many_base_form" />
         <field name="type">form</field>
         <field name="arch" type="xml">
-            <xpath expr="//group[@name='document_header']" position="after">
+            <xpath expr="//group[@name='general']" position="after">
                 <group col="4" colspan="4" string="Accounting">
-                    <field name="account_journal_id" />
-                    <field name="account_move_template_id" />
+                    <field name="journal_id" />
                     <field name="account_move_id" readonly="1" />
                     <field name="account_move_template_id" />
                     <newline />
