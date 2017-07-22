@@ -427,7 +427,6 @@ TIPOS_ORDEM_PAGAMENTO = [
     ('debito_automatico', 'Cobrança / Débito automático'),
 ]
 
-
 BOLETO_ESPECIE = [
     ('01', 'DUPLICATA MERCANTIL'),
     ('02', 'NOTA PROMISSÓRIA'),

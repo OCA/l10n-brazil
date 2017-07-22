@@ -11,8 +11,8 @@
         <field name="mode">primary</field>
         <field name="inherit_id" ref="payment_mode_base_form_view"/>
         <field name="arch" type="xml">
-            <field name="type" position="replace">
-                <field name="type" />
+            <field name="tipo_servico" position="after">
+                <field name="tipo_pagamento" />
             </field>
         </field>
     </record>

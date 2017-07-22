@@ -21,12 +21,22 @@ class PaymentMode(models.Model):
     _inherit = b'payment.mode'
 
     boleto_carteira = fields.Char('Carteira', size=3)
+
     boleto_modalidade = fields.Char('Modalidade', size=2)
+
     boleto_convenio = fields.Char('Codigo convênio', size=10)
+
     boleto_variacao = fields.Char('Variação', size=2)
+
     boleto_cnab_code = fields.Char('Código Cnab', size=20)
+
+    boleto_protesto_prazo = fields.Char('Prazo protesto', size=2)
+
     boleto_aceite = fields.Selection(
-        [('S', 'Sim'), ('N', 'Não')], string='Aceite', default='N')
+        string='Aceite',
+        selection=[('S', 'Sim'), ('N', 'Não')],
+        default='N',
+    )
 
     boleto_type = fields.Selection(
         boleto_selection,
@@ -47,7 +57,8 @@ class PaymentMode(models.Model):
         ('7', 'Negativar (Dias Corridos)'),
         ('8', 'Não Negativar')
     ], string='Códigos de Protesto', default='0')
-    boleto_protesto_prazo = fields.Char('Prazo protesto', size=2)
+
+
 
     tipo_pagamento = fields.Selection(
         string="Tipos de Ordem de Pagamento",
