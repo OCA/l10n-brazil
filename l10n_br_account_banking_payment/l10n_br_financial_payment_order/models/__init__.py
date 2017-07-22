@@ -8,3 +8,4 @@ from . import payment_mode
 from . import payment_mode_type
 from . import hr_payslip
 from . import payment_order
+from . import operacoes
