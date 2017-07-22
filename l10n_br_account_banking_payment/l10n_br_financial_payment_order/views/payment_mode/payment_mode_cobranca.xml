@@ -11,12 +11,6 @@
         <field name="mode">primary</field>
         <field name="inherit_id" ref="payment_mode_base_form_view"/>
         <field name="arch" type="xml">
-            <!--<xpath expr="//group[@string='Sequencias']" position="after">-->
-                <!--<group>-->
-                    <!--<field name="sequencia_nosso_numero" required="1" />-->
-                    <!--<field name="proximo_sequencia_nosso_numero" required="1" />-->
-                <!--</group>-->
-            <!--</xpath>-->
             <field name="proximo_sequencia_arquivo" position="after">
                 <field name="sequencia_nosso_numero" required="1" />
                 <field name="proximo_sequencia_nosso_numero" required="1" />
@@ -28,8 +22,8 @@
         <field name="name">Carteira de Cobrança</field>
         <field name="res_model">payment.mode</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('tipo_pagamento', '=', 'cobranca')]</field>
-        <field name="context">{'default_tipo_pagamento': 'cobranca'}</field>
+        <field name="domain">[('tipo_pagamento', '=', 'cobranca'), ('tipo_servico', '=', '01')]</field>
+        <field name="context">{'default_tipo_pagamento': 'cobranca', 'default_tipo_servico': '01'}</field>
     </record>
 
     <record model="ir.ui.menu" id="payment_mode_cobranca_menu">

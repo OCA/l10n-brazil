@@ -11,19 +11,9 @@
         <field name="mode">primary</field>
         <field name="inherit_id" ref="payment_mode_base_form_view"/>
         <field name="arch" type="xml">
-
             <field name="type" position="replace">
                 <field name="type" />
             </field>
-            <!--<xpath expr="//form[1]" position="attributes">-->
-                <!--<attribute name="string">Débito</attribute>-->
-            <!--</xpath>-->
-            <!--<xpath expr="//div[@name='botoes_superiores']" position="inside">-->
-                <!--<h1>TODO: Importar Débitos</h1>-->
-            <!--</xpath>-->
-            <!--<xpath expr="//form/group[@name='informacoes_especificas']" position="inside">-->
-                <!--<h1>TODO: Informações específicas</h1>-->
-            <!--</xpath>-->
         </field>
     </record>
 
@@ -32,8 +22,8 @@
         <field name="name">Pagamento</field>
         <field name="res_model">payment.mode</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('tipo_pagamento', '=', 'payment')]</field>
-        <field name="context">{'default_tipo_pagamento': 'payment'}</field>
+        <field name="domain">[('tipo_pagamento', '=', 'pagamento'), ('tipo_servico', '=', '03')]</field>
+        <field name="context">{'default_tipo_pagamento': 'pagamento', 'default_tipo_servico': '03'}</field>
     </record>
 
     <record model="ir.ui.menu" id="payment_mode_pagamento_menu">
