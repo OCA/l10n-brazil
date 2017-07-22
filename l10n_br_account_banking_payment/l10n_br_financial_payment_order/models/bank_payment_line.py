@@ -15,7 +15,6 @@ STATE = [
 
 
 class BankPaymentLine(models.Model):
-
     _inherit = b'bank.payment.line'
 
     state2 = fields.Selection(

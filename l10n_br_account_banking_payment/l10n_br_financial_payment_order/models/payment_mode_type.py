@@ -6,7 +6,7 @@ from __future__ import division, print_function, unicode_literals
 
 from openerp import api, fields, models, _
 
-from ..constantes import TIPOS_ORDEM_PAGAMENTO
+from ..constantes import TIPO_ORDEM_PAGAMENTO
 
 
 class PaymentModeType(models.Model):
@@ -15,6 +15,6 @@ class PaymentModeType(models.Model):
 
     tipo_pagamento = fields.Selection(
         string="Tipos de Ordem de Pagamento",
-        selection=TIPOS_ORDEM_PAGAMENTO,
+        selection=TIPO_ORDEM_PAGAMENTO,
         help="Tipos de Ordens de Pagamento.",
     )

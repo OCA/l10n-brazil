@@ -6,161 +6,210 @@ from __future__ import division, print_function, unicode_literals
 
 from openerp import api, fields, models, _
 
-from ..constantes import TIPO_SERVICO, FORMA_LANCAMENTO, \
-    COMPLEMENTO_TIPO_SERVICO, CODIGO_FINALIDADE_TED, AVISO_FAVORECIDO, \
-    CODIGO_INSTRUCAO_MOVIMENTO, TIPOS_ORDEM_PAGAMENTO, \
-    BOLETO_ESPECIE
-
+# from ..constantes import TIPO_SERVICO, FORMA_LANCAMENTO, \
+#     TIPO_SERVICO_COMPLEMENTO, CODIGO_FINALIDADE_TED, AVISO_FAVORECIDO, \
+#     INSTRUCAO_MOVIMENTO, TIPO_ORDEM_PAGAMENTO, \
+#     BOLETO_ESPECIE, BOLETO_ESPECIE_DUPLICATA_MERCANTIL, \
+#     BOLETO_EMISSAO, BOLETO_EMISSAO_BENEFICIARIO, \
+#     BOLETO_ENTREGA, BOLETO_ENTREGA_BENEFICIARIO
+from ..constantes import *
 from ..febraban.boleto.document import getBoletoSelection
 
 boleto_selection = getBoletoSelection()
 
 
 class PaymentMode(models.Model):
-
+    '''
+    O objetivo deste model é gerenciar as interações do módulo
+    financeiro com o sistema bancário brasileiro, no que toca 
+    a troca dos chamados arquivos padrão CNAB, tratando de 
+    arquivos de cobrança (vindos do contas a receber, os boletos),
+    e várias modalidades de pagamento (vindos do contas a pagar)
+    '''
     _inherit = b'payment.mode'
+    
+    #
+    # Primeiro, removemos o vínculo fixo da classe com o módulo original 
+    # account
+    #
+    journal = fields.Many2one(
+        required=False,
+    )
+    
+    #
+    # Campos comuns a todas ou pelo menos a maioria dos tipos de arquivo
+    #
+    tipo_pagamento = fields.Selection(
+        string='Tipos da ordem de pagamento',
+        selection=TIPO_ORDEM_PAGAMENTO,
+        help='Tipos de Ordens de Pagamento.',
+    )
+    tipo_servico = fields.Selection(
+        selection=TIPO_SERVICO,
+        string='Tipo de serviço',
+        help='Campo G025 do CNAB'
+    )
+    tipo_servico_complemento = fields.Selection(
+        selection=TIPO_SERVICO_COMPLEMENTO,
+        string='Complemento do tipo de serviço',
+        help='Campo P005 do CNAB'
+    )
+    forma_lancamento = fields.Selection(
+        selection=FORMA_LANCAMENTO,
+        string='Forma de lançamento',
+        help='Campo G029 do CNAB'
+    )
+    convenio = fields.Char(
+        string='Convênio',
+        size=20,
+        help='Campo G007 do CNAB',
+    )
+    instrucao_movimento = fields.Selection(
+        selection=INSTRUCAO_MOVIMENTO,
+        string='Instrução para Movimento',
+        help='Campo G061 do CNAB',
+        default=INSTRUCAO_MOVIMENTO_INCLUSAO_DETALHE_LIBERADO,
+    )
+    aviso_favorecido = fields.Selection(
+        selection=AVISO_FAVORECIDO,
+        string='Aviso ao favorecido',
+        help='Campo P006 do CNAB',
+        default=0,
+    )
+    finalidade_ted = fields.Selection(
+        selection=CODIGO_FINALIDADE_TED,
+        string='Finalidade da TED',
+        help='Campo P011 do CNAB'
+    )
+    finalidade_complementar = fields.Char(
+        string='Finalidade complementar',
+        size=2,
+        help='Campo P013 do CNAB',
+    )
 
-    boleto_carteira = fields.Char('Carteira', size=3)
+    #
+    # Controle dos arquivos e nossos números
+    #
+    sufixo_arquivo = fields.Integer(
+        string='Sufixo do arquivo',
+    )
+    sequence_arquivo_id = fields.Many2one(
+        comodel_name='ir.sequence',
+        string='Sequência do arquivo',
+    )
+    sequence_arquivo_proximo_numero = fields.Integer(
+        related='sequence_arquivo_id.number_next_actual',
+        string='Próximo número do arquivo',
+    )
+    sequence_nosso_numero_id = fields.Many2one(
+        comodel_name='ir.sequence',
+        string='Sequência do Nosso Número',
+    )
+    sequence_nosso_numero_proximo_numero = fields.Integer(
+        string='Próximo nosso número',
+        related='sequence_nosso_numero_id.number_next_actual',
+    )
 
-    boleto_modalidade = fields.Char('Modalidade', size=2)
+    #
+    # Campos antigos que agora são calculados
+    #
+    sale_ok = fields.Boolean(
+        compute='_compute_sale_purchase_ok',
+    )
+    purchase_ok = fields.Boolean(
+        compute='_compute_sale_purchase_ok',
+    )
 
-    boleto_variacao = fields.Char('Variação', size=2)
-
-    boleto_cnab_code = fields.Char('Código Cnab', size=20)
-
-    boleto_protesto_prazo = fields.Char('Prazo protesto', size=2)
-
+    #
+    # Configurações para emissão de boleto
+    #
+    boleto_carteira = fields.Char(
+        string='Carteira', 
+        size=3,
+    )
+    boleto_modalidade = fields.Char(
+        string='Modalidade', 
+        size=2,
+    )
+    boleto_variacao = fields.Char(
+        string='Variação', 
+        size=2,
+    )
+    boleto_codigo_cnab = fields.Char(
+        string='Código Cnab', 
+        size=20,
+    )
+    # boleto_protesto = fields.Selection([
+    #     ('0', 'Sem instrução'),
+    #     ('1', 'Protestar (Dias Corridos)'),
+    #     ('2', 'Protestar (Dias Úteis)'),
+    #     ('3', 'Não protestar'),
+    #     ('7', 'Negativar (Dias Corridos)'),
+    #     ('8', 'Não Negativar')
+    # ], string='Códigos de Protesto', default='0')
+    boleto_dias_protesto = fields.Integer(
+        string='Dias para protesto',
+    )
     boleto_aceite = fields.Selection(
         string='Aceite',
         selection=[('S', 'Sim'), ('N', 'Não')],
         default='N',
     )
-
-    boleto_type = fields.Selection(
-        boleto_selection,
-        string="Boleto"
-    )
-
     boleto_especie = fields.Selection(
         string='Espécie do Título',
         selection=BOLETO_ESPECIE,
-        default='01',
+        default=BOLETO_ESPECIE_DUPLICATA_MERCANTIL,
     )
-
-    boleto_protesto = fields.Selection([
-        ('0', 'Sem instrução'),
-        ('1', 'Protestar (Dias Corridos)'),
-        ('2', 'Protestar (Dias Úteis)'),
-        ('3', 'Não protestar'),
-        ('7', 'Negativar (Dias Corridos)'),
-        ('8', 'Não Negativar')
-    ], string='Códigos de Protesto', default='0')
-
-
-
-    tipo_pagamento = fields.Selection(
-        string="Tipos de Ordem de Pagamento",
-        selection=TIPOS_ORDEM_PAGAMENTO,
-        help="Tipos de Ordens de Pagamento.",
+    boleto_emissao = fields.Selection(
+        selection=BOLETO_EMISSAO,
+        string='Emissão',
+        default=BOLETO_EMISSAO_BENEFICIARIO,
     )
-
-    journal = fields.Many2one(
-        required=False,
+    boleto_entrega = fields.Selection(
+        selection=BOLETO_DISTRIBUICAO,
+        string='Entrega',
+        default=BOLETO_DISTRIBUICAO_BENEFICIARIO,
     )
+    # boleto_type = fields.Selection(
+    #     boleto_selection,
+    #     string='Boleto'
+    # )
 
-    sale_ok = fields.Boolean(
-        compute='_compute_sale_purchase_ok',
-    )
-
-    purchase_ok = fields.Boolean(
-        compute='_compute_sale_purchase_ok',
-    )
-
-    tipo_servico = fields.Selection(
-        selection=TIPO_SERVICO,
-        string=u'Tipo de Serviço',
-        help=u'Campo G025 do CNAB'
-    )
-
-    tipo_pagamento = fields.Selection(
-        string="Tipos de Ordem de Pagamento",
-        selection=TIPOS_ORDEM_PAGAMENTO,
-        help="Tipos de Ordens de Pagamento.",
-    )
-
-    forma_lancamento = fields.Selection(
-        selection=FORMA_LANCAMENTO,
-        string=u'Forma Lançamento',
-        help=u'Campo G029 do CNAB'
-    )
-
-    codigo_convenio = fields.Char(
-        size=20,
-        string=u'Código do Convênio no Banco',
-        help=u'Campo G007 do CNAB',
-    )
-
-    codigo_instrucao_movimento = fields.Selection(
-        selection=CODIGO_INSTRUCAO_MOVIMENTO,
-        string='Código da Instrução para Movimento',
-        help='Campo G061 do CNAB',
-        default='0',
-    )
-
-    aviso_ao_favorecido = fields.Selection(
-        selection=AVISO_FAVORECIDO,
-        string='Aviso ao Favorecido',
-        help='Campo P006 do CNAB',
-        default=0,
-    )
-
-    sufixo_arquivo = fields.Integer(
-        string=u'Sufixo do arquivo',
-    )
-
-    sequencia_arquivo = fields.Many2one(
-        comodel_name='ir.sequence',
-        string=u'Arquivos do CNAB',
-    )
-
-    proximo_sequencia_arquivo = fields.Integer(
-        related='sequencia_arquivo.number_next_actual',
-        string='Próximo valor',
-    )
-
-    sequencia_nosso_numero = fields.Many2one(
-        comodel_name='ir.sequence',
-        string=u'Nosso Número',
-    )
-
-    proximo_sequencia_nosso_numero = fields.Integer(
-        string='Próximo Valor Nosso Número',
-        related='sequencia_nosso_numero.number_next_actual',
-    )
-
-    codigo_finalidade_doc = fields.Selection(
-        selection=COMPLEMENTO_TIPO_SERVICO,
-        string='Complemento do Tipo de Serviço',
-        help='Campo P005 do CNAB'
-    )
-
-    codigo_finalidade_ted = fields.Selection(
-        selection=CODIGO_FINALIDADE_TED,
-        string='Código Finalidade da TED',
-        help='Campo P011 do CNAB'
-    )
-
-    codigo_finalidade_complementar = fields.Char(
-        size=2,
-        string='Código de finalidade complementar',
-        help='Campo P013 do CNAB',
-    )
-
-    @api.multi
     @api.depends('tipo_servico')
     def _compute_sale_purchase_ok(self):
-        for record in self:
-            if record.tipo_servico in ['01']:
-                record.sale_ok = True
-            elif record.tipo_servico in ['03']:
-                record.purchase_ok = True
+        for payment_mode in self:
+            if payment_mode.tipo_servico in ['01']:
+                payment_mode.sale_ok = True
+            elif payment_mode.tipo_servico in ['03']:
+                payment_mode.purchase_ok = True
+
+    @api.depends('tipo_servico')
+    def _onchange_tipo_servico(self):
+        for payment_mode in self:
+            if payment_mode.tipo_servico == TIPO_SERVICO_PAGAMENTO_FORNECEDOR:
+                payment_mode.tipo_servico_complemento = \
+                    TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_FORNECEDORES
+
+            elif payment_mode.tipo_servico == TIPO_SERVICO_PAGAMENTO_SALARIOS:
+                payment_mode.tipo_servico_complemento = \
+                    TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_SALARIOS
+
+            elif payment_mode.tipo_servico == \
+                    TIPO_SERVICO_PAGAMENTO_HONORARIOS:
+                payment_mode.tipo_servico_complemento = \
+                    TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_HONORARIOS
+
+            elif payment_mode.tipo_servico == \
+                    TIPO_SERVICO_PAGAMENTO_BOLSA_AUXILIO:
+                payment_mode.tipo_servico_complemento = \
+                    TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_BOLSA_AUXILIO
+
+            elif payment_mode.tipo_servico == \
+                    TIPO_SERVICO_PAGAMENTO_REMUNERACAO:
+                payment_mode.tipo_servico_complemento = \
+                    TIPO_SERVICO_COMPLEMENTO_REMUNERACAO_COOPERADO
+
+            elif payment_mode.tipo_servico == \
+                    TIPO_SERVICO_PAGAMENTO_PREBENDA:
+                payment_mode.tipo_servico_complemento = \
+                    TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_PREBENDA

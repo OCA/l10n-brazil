@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="financial_move_debt_2pay_form" >
+        <field name="name">financial.move.debt.2pay.form (in l10n_br_financial_payment_order)</field>
+        <field name="model">financial.move</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="financial.financial_move_debt_2pay_form" />
+        <field name="arch" type="xml">
+            <group name="values" position="after">
+                <group name="boleto" colspan="4" col="4">
+                    <group name="codigo_barras" string="Integração Bancária" colspan="4" col="4">
+                        <field name="boleto_linha_digitavel" colspan="4" />
+                        <field name="boleto_codigo_barras" colspan="4" />
+                    </group>
+                </group>
+            </group>
+        </field>
+    </record>
+
+</data>
+</openerp>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="financial_document_type_form" >
+        <field name="name">financial.document.type.form (in l10n_br_financial_payment_order)</field>
+        <field name="model">financial.document.type</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="financial.financial_document_type_form" />
+        <field name="arch" type="xml">
+            <group name="general" position="after">
+                <group colspan="4" col="4">
+                    <group name="cnab_arquivo" string="Arquivo de Integração Bancária" colspan="2" col="2">
+                        <field name="tipo_servico" colspan="2" />
+                        <field name="tipo_servico_complemento" colspan="2" />
+                        <field name="forma_lancamento" colspan="2" />
+                    </group>
+                    <group name="cnab_boleto" string="Boleto (cobrança)" colspan="2" col="2">
+                        <field name="boleto_especie" colspan="2" />
+                    </group>
+                </group>
+            </group>
+        </field>
+    </record>
+
+</data>
+</openerp>

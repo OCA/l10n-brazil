@@ -3,207 +3,268 @@
 from __future__ import division, print_function, unicode_literals
 
 
-COBRANCA = '01'
-BOLETO_PAGAMENTO_ELETRONICO = '03'
-CONCILIACAO_BANCARIA = '04'
-DEBITOS = '05'
-CUSTODIA_CHEQUES = '06'
-GESTAO_CAIXA = '07'
-CONSULTA_INFORMACAO_MARGEM = '08'
-AVERBACAO_CONSIGNACAO_RETENCAO = '09'
-PAGAMENTO_DIVIDENDOS = '10'
-MANUTENCAO_CONSIGNACAO = '11'
-CONSIGNACAO_PARCELAS = '12'
-GLOSA_CONSIGNACAO = '13'
-CONSULTA_TRIBUTOS_PAGAR = '14'
-PAGAMENTO_FORNECEDOR = '20'
-PAGAMENTO_CONTAS_TRIBUTOS_IMPOSTOS = '22'
-INTEROPERABILIDADE_CONTAS = '23'
-COMPROR = '25'
-COMPROR_ROTATIVO = '26'
-ALEGACAO_PAGADOR = '29'
-PAGAMENTO_SALARIOS = '30'
-PAGAMENTO_HONORARIOS = '32'
-PAGAMENTO_BOLSA_AUXILIO = '33'
-PAGAMENTO_PREBENDA = '34'
-VENDOR = '40'
-VENDOR_TERMO = '41'
-PAGAMENTO_SINISTROS_SEGURADOS = '50'
-PAGAMENTO_DESPESAS_VIAJANTE = '60'
-PAGAMENTO_AUTORIZADO = '70'
-PAGAMENTO_CREDENCIADOS = '75'
-PAGAMENTO_REMUNERACAO = '77'
-PAGAMENTO_REPRESENTANTES = '80'
-PAGAMENTO_BENEFICIOS = '90'
-PAGAMENTOS_DIVERSOS = '98'
+TIPO_ORDEM_PAGAMENTO_BOLETO = 'boleto'
+#TIPO_ORDEM_PAGAMENTO_DEBITO_AUTOMATICO = 'debito_automatico'
+TIPO_ORDEM_PAGAMENTO_PAGAMENTO = 'pagamento'
+TIPO_ORDEM_PAGAMENTO_FOLHA = 'folha'
+
+TIPO_ORDEM_PAGAMENTO = [
+    (TIPO_ORDEM_PAGAMENTO_BOLETO, 'Cobrança / Boleto'),
+    #(TIPO_ORDEM_PAGAMENTO_DEBITO_AUTOMATICO, 'Cobrança / Débito automático'),
+    (TIPO_ORDEM_PAGAMENTO_PAGAMENTO, 'Pagamento de contas/impostos'),
+    (TIPO_ORDEM_PAGAMENTO_FOLHA, 'Folha de Pagamento'),
+]
+
+TIPO_SERVICO_COBRANCA = '01'
+TIPO_SERVICO_BOLETO_PAGAMENTO_ELETRONICO = '03'
+TIPO_SERVICO_CONCILIACAO_BANCARIA = '04'
+TIPO_SERVICO_DEBITOS = '05'
+TIPO_SERVICO_CUSTODIA_CHEQUES = '06'
+TIPO_SERVICO_GESTAO_CAIXA = '07'
+TIPO_SERVICO_CONSULTA_INFORMACAO_MARGEM = '08'
+TIPO_SERVICO_AVERBACAO_CONSIGNACAO_RETENCAO = '09'
+TIPO_SERVICO_PAGAMENTO_DIVIDENDOS = '10'
+TIPO_SERVICO_MANUTENCAO_CONSIGNACAO = '11'
+TIPO_SERVICO_CONSIGNACAO_PARCELAS = '12'
+TIPO_SERVICO_GLOSA_CONSIGNACAO = '13'
+TIPO_SERVICO_CONSULTA_TRIBUTOS_PAGAR = '14'
+TIPO_SERVICO_PAGAMENTO_FORNECEDOR = '20'
+TIPO_SERVICO_PAGAMENTO_CONTAS_TRIBUTOS_IMPOSTOS = '22'
+TIPO_SERVICO_INTEROPERABILIDADE_CONTAS = '23'
+TIPO_SERVICO_COMPROR = '25'
+TIPO_SERVICO_COMPROR_ROTATIVO = '26'
+TIPO_SERVICO_ALEGACAO_PAGADOR = '29'
+TIPO_SERVICO_PAGAMENTO_SALARIOS = '30'
+TIPO_SERVICO_PAGAMENTO_HONORARIOS = '32'
+TIPO_SERVICO_PAGAMENTO_BOLSA_AUXILIO = '33'
+TIPO_SERVICO_PAGAMENTO_PREBENDA = '34'
+TIPO_SERVICO_VENDOR = '40'
+TIPO_SERVICO_VENDOR_TERMO = '41'
+TIPO_SERVICO_PAGAMENTO_SINISTROS_SEGURADOS = '50'
+TIPO_SERVICO_PAGAMENTO_DESPESAS_VIAJANTE = '60'
+TIPO_SERVICO_PAGAMENTO_AUTORIZADO = '70'
+TIPO_SERVICO_PAGAMENTO_CREDENCIADOS = '75'
+TIPO_SERVICO_PAGAMENTO_REMUNERACAO = '77'
+TIPO_SERVICO_PAGAMENTO_REPRESENTANTES = '80'
+TIPO_SERVICO_PAGAMENTO_BENEFICIOS = '90'
+TIPO_SERVICO_PAGAMENTOS_DIVERSOS = '98'
 
 TIPO_SERVICO = [
-    (COBRANCA, COBRANCA + ' - Cobrança'),
-    (BOLETO_PAGAMENTO_ELETRONICO, BOLETO_PAGAMENTO_ELETRONICO +
-     ' - Boleto de Pagamento Eletrônico'),
-    (CONCILIACAO_BANCARIA, CONCILIACAO_BANCARIA + ' - Conciliação Bancária'),
-    (DEBITOS, DEBITOS + ' - Débitos'),
-    (CUSTODIA_CHEQUES, CUSTODIA_CHEQUES + ' - Custódia de Cheques'),
-    (GESTAO_CAIXA, GESTAO_CAIXA + ' - Gestão de Caixa'),
-    (CONSULTA_INFORMACAO_MARGEM, CONSULTA_INFORMACAO_MARGEM +
-     ' - Consulta/Informação Margem'),
-    (AVERBACAO_CONSIGNACAO_RETENCAO, AVERBACAO_CONSIGNACAO_RETENCAO +
-     ' - Averbação da Consignação/Retenção'),
-    (PAGAMENTO_DIVIDENDOS, PAGAMENTO_DIVIDENDOS + ' - Pagamento Dividendos'),
-    (MANUTENCAO_CONSIGNACAO, MANUTENCAO_CONSIGNACAO +
-     ' - Manutenção da Consignação'),
-    (CONSIGNACAO_PARCELAS, CONSIGNACAO_PARCELAS +
-     ' - Consignação de Parcelas'),
-    (GLOSA_CONSIGNACAO, GLOSA_CONSIGNACAO +
-     ' -  Glosa da Consignação (INSS)'),
-    (CONSULTA_TRIBUTOS_PAGAR, CONSULTA_TRIBUTOS_PAGAR +
-     ' - Consulta de Tributos a pagar'),
-    (PAGAMENTO_FORNECEDOR, PAGAMENTO_FORNECEDOR +
-     ' - Pagamento Fornecedor'),
-    (PAGAMENTO_CONTAS_TRIBUTOS_IMPOSTOS, PAGAMENTO_CONTAS_TRIBUTOS_IMPOSTOS +
-     ' - Pagamento de Contas, Tributos e Impostos'),
-    (INTEROPERABILIDADE_CONTAS, INTEROPERABILIDADE_CONTAS +
-     ' - Interoperabilidade entre Contas de Instituições de Pagamentos'),
-    (COMPROR, COMPROR + ' - Compror'),
-    (COMPROR_ROTATIVO, COMPROR_ROTATIVO + ' - Compror Rotativo'),
-    (ALEGACAO_PAGADOR, ALEGACAO_PAGADOR + ' - Alegação do Pagador'),
-    (PAGAMENTO_SALARIOS, PAGAMENTO_SALARIOS + ' - Pagamento Salários'),
-    (PAGAMENTO_HONORARIOS, PAGAMENTO_HONORARIOS +
-     ' - Pagamento de honorários'),
-    (PAGAMENTO_BOLSA_AUXILIO, PAGAMENTO_BOLSA_AUXILIO +
-     ' - Pagamento de bolsa auxílio'),
-    (PAGAMENTO_PREBENDA, PAGAMENTO_PREBENDA +
-     ' - Pagamento de prebenda (remuneração a padres e sacerdotes)'),
-    (VENDOR, VENDOR + ' - Vendor'),
-    (VENDOR_TERMO, VENDOR_TERMO + ' - Vendor a Termo'),
-    (PAGAMENTO_SINISTROS_SEGURADOS, PAGAMENTO_SINISTROS_SEGURADOS +
-     ' - Pagamento Sinistros Segurados'),
-    (PAGAMENTO_DESPESAS_VIAJANTE, PAGAMENTO_DESPESAS_VIAJANTE +
-     ' - Pagamento Despesas Viajante em Trânsito'),
-    (PAGAMENTO_AUTORIZADO, PAGAMENTO_AUTORIZADO + ' - Pagamento Autorizado'),
-    (PAGAMENTO_CREDENCIADOS, PAGAMENTO_CREDENCIADOS +
-     ' - Pagamento Credenciados'),
-    (PAGAMENTO_REMUNERACAO, PAGAMENTO_REMUNERACAO +
-     ' - Pagamento de Remuneração'),
-    (PAGAMENTO_REPRESENTANTES, PAGAMENTO_REPRESENTANTES +
-     ' - Pagamento Representantes / Vendedores Autorizados'),
-    (PAGAMENTO_BENEFICIOS, PAGAMENTO_BENEFICIOS + ' - Pagamento Benefícios'),
-    (PAGAMENTOS_DIVERSOS, PAGAMENTOS_DIVERSOS + ' - Pagamentos Diversos'),
+    (TIPO_SERVICO_COBRANCA,
+        '01 - Cobrança'),
+    (TIPO_SERVICO_BOLETO_PAGAMENTO_ELETRONICO,
+        '03 - Boleto de Pagamento Eletrônico'),
+    (TIPO_SERVICO_CONCILIACAO_BANCARIA,
+        '04 - Conciliação Bancária'),
+    (TIPO_SERVICO_DEBITOS,
+        '05 - Débitos'),
+    (TIPO_SERVICO_CUSTODIA_CHEQUES,
+        '06 - Custódia de Cheques'),
+    (TIPO_SERVICO_GESTAO_CAIXA,
+        '07 - Gestão de Caixa'),
+    (TIPO_SERVICO_CONSULTA_INFORMACAO_MARGEM,
+        '08 - Consulta/Informação Margem'),
+    (TIPO_SERVICO_AVERBACAO_CONSIGNACAO_RETENCAO,
+        '09 - Averbação da Consignação/Retenção'),
+    (TIPO_SERVICO_PAGAMENTO_DIVIDENDOS,
+        '10 - Pagamento Dividendos'),
+    (TIPO_SERVICO_MANUTENCAO_CONSIGNACAO,
+        '11 - Manutenção da Consignação'),
+    (TIPO_SERVICO_CONSIGNACAO_PARCELAS,
+        '12 - Consignação de Parcelas'),
+    (TIPO_SERVICO_GLOSA_CONSIGNACAO,
+        '13 - Glosa da Consignação (INSS)'),
+    (TIPO_SERVICO_CONSULTA_TRIBUTOS_PAGAR,
+        '14 - Consulta de Tributos a Pagar'),
+    (TIPO_SERVICO_PAGAMENTO_FORNECEDOR,
+        '20 - Pagamento a Fornecedor'),
+    (TIPO_SERVICO_PAGAMENTO_CONTAS_TRIBUTOS_IMPOSTOS,
+        '22 - Pagamento de Contas, Tributos e Impostos'),
+    (TIPO_SERVICO_INTEROPERABILIDADE_CONTAS,
+        '23 - Interoperabilidade entre Contas de Instituições de Pagamentos'),
+    (TIPO_SERVICO_COMPROR,
+        '25 - Compror'),
+    (TIPO_SERVICO_COMPROR_ROTATIVO,
+        '26 - Compror Rotativo'),
+    (TIPO_SERVICO_ALEGACAO_PAGADOR,
+        '29 - Alegação do Pagador'),
+    (TIPO_SERVICO_PAGAMENTO_SALARIOS,
+        '30 - Pagamento de Salários'),
+    (TIPO_SERVICO_PAGAMENTO_HONORARIOS,
+        '32 - Pagamento de Honorários'),
+    (TIPO_SERVICO_PAGAMENTO_BOLSA_AUXILIO,
+        '33 - Pagamento de Bolsa Auxílio'),
+    (TIPO_SERVICO_PAGAMENTO_PREBENDA,
+        '34 - Pagamento de Prebenda (remuneração a padres e sacerdotes)'),
+    (TIPO_SERVICO_VENDOR,
+        '40 - Vendor'),
+    (TIPO_SERVICO_VENDOR_TERMO,
+        '41 - Vendor a Termo'),
+    (TIPO_SERVICO_PAGAMENTO_SINISTROS_SEGURADOS,
+        '50 - Pagamento de Sinistros Segurados'),
+    (TIPO_SERVICO_PAGAMENTO_DESPESAS_VIAJANTE,
+        '60 - Pagamento de Despesas de Viajante em Trânsito'),
+    (TIPO_SERVICO_PAGAMENTO_AUTORIZADO,
+        '70 - Pagamento Autorizado'),
+    (TIPO_SERVICO_PAGAMENTO_CREDENCIADOS,
+        '75 - Pagamento a Credenciados'),
+    (TIPO_SERVICO_PAGAMENTO_REMUNERACAO,
+        '77 - Pagamento de Remuneração'),
+    (TIPO_SERVICO_PAGAMENTO_REPRESENTANTES,
+        '80 - Pagamento de Representantes / Vendedores Autorizados'),
+    (TIPO_SERVICO_PAGAMENTO_BENEFICIOS,
+        '90 - Pagamento de Benefícios'),
+    (TIPO_SERVICO_PAGAMENTOS_DIVERSOS,
+        '98 - Pagamentos Diversos'),
 ]
 
-CREDITO_CONTA_CORRENTE_SALARIO = (
-    '01', '01 - Crédito em Conta Corrente/Salário')
-CHEQUE_PAGAMENTO_ADMINISTRATIVO = (
-    '02', '02 - Cheque Pagamento / Administrativo')
-DOC_TED = ('03', '03 - DOC/TED (1) (2)')
-CARTAO_SALARIO = (
-    '04', '04 - Cartão Salário (somente para Tipo de Serviço = \'30\')')
-CREDITO_CONTA_POUPANCA = ('05', '05 - Crédito em Conta Poupança')
-OP_A_DISPOSICAO = ('10', '10 - OP à Disposição')
-PAGAMENTO_CONTAS_TRIBUTOS_CODIGO_BARRAS = (
-    '11', '11 - Pagamento de Contas e Tributos com Código de Barras')
-TRIBUTO_DARF_NORMAL = ('16', '16 - Tributo - DARF Normal')
-TRIBUTO_GPS = ('17', '17 - Tributo - GPS (Guia da Previdência Social)')
-TRIBUTO_DARF_SIMPLES = ('18', '18 - Tributo - DARF Simples')
-TRIBUTO_IPTU_PREFEITURAS = ('19', '19 - Tributo - IPTU – Prefeituras')
-PAGAMENTO_AUTENTICACAO = ('20', '20 - Pagamento com Autenticação')
-TRIBUTO_DARJ = ('21', '21 - Tributo – DARJ')
-TRIBUTO_GARE_SP_ICMS = ('22', '22 - Tributo - GARE-SP ICMS')
-TRIBUTO_GARE_SP_DR = ('23', '23 - Tributo - GARE-SP DR')
-TRIBUTO_GARE_SP_ITCMD = ('24', '24 - Tributo - GARE-SP ITCMD')
-TRIBUTO_IPVA = ('25', '25 - Tributo - IPVA')
-TRIBUTO_LICENCIAMENTO = ('26', '26 - Tributo - Licenciamento')
-TRIBUTO_DPVAT = ('27', '27 - Tributo – DPVAT')
-LIQUIDACAO_TITULOS_PROPRIO_BANCO = (
-    '30', '30 - Liquidação de Títulos do Próprio Banco')
-PAGAMENTO_TITULOS_OUTROS_BANCOS = (
-    '31', '31 - Pagamento de Títulos de Outros Bancos')
-EXTRATO_CONTA_CORRENTE = ('40', '40 - Extrato de Conta Corrente')
-TED_OUTRA_TITULARIDADE = ('41', '41 - TED – Outra Titularidade (1)')
-TED_MESMA_TITULARIDADE = ('43', '43 - TED – Mesma Titularidade (1)')
-TED_TRANSFERENCIA_CONTA_INVESTIMENTO = (
-    '44', '44 - TED para Transferência de Conta Investimento')
-DEBITO_CONTA_CORRENTE = ('50', '50 - Débito em Conta Corrente')
-EXTRATO_GESTAO_CAIXA = ('70', '70 - Extrato para Gestão de Caixa')
-DEPOSITO_JUDICIAL_CONTA_CORRENTE = (
-    '71', '71 - Depósito Judicial em Conta Corrente')
-DEPOSITO_JUDICIAL_POUPANCA = ('72', '72 - Depósito Judicial em Poupança')
-EXTRATO_CONTA_INVESTIMENTO = ('73', '73 - Extrato de Conta Investimento')
+TIPO_SERVICO_COMPLEMENTO_CREDITO_EM_CONTA = '01'
+TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_ALUGUEL = '02'
+TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_DUPLICATA_TITULOS = '03'
+TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_DIVIDENDOS = '04'
+TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_MENSALIDADE_ESCOLAR = '05'
+TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_SALARIOS = '06'
+TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_FORNECEDORES = '07'
+TIPO_SERVICO_COMPLEMENTO_OPERACOES_CAMBIOS_FUNDOS_BOLSA = '08'
+TIPO_SERVICO_COMPLEMENTO_REPASSE_ARRECADACAO = '09'
+TIPO_SERVICO_COMPLEMENTO_TRANSFERECIA_INTERNACIONAL_EM_REAL = '10'
+TIPO_SERVICO_COMPLEMENTO_DOC_POUPANCA = '11'
+TIPO_SERVICO_COMPLEMENTO_DOC_DEPOSITO_JUDICIAL = '12'
+TIPO_SERVICO_COMPLEMENTO_OUTROS = '13'
+TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_BOLSA_AUXILIO = '16'
+TIPO_SERVICO_COMPLEMENTO_REMUNERACAO_COOPERADO = '17'
+TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_HONORARIOS = '18'
+TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_PREBENDA = '19'
+
+TIPO_SERVICO_COMPLEMENTO = [
+    (TIPO_SERVICO_COMPLEMENTO_CREDITO_EM_CONTA,
+        '01 - Crédito em Conta'),
+    (TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_ALUGUEL,
+        '02 - Pagamento de Aluguel/Condomínio'),
+    (TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_DUPLICATA_TITULOS,
+        '03 - Pagamento de Duplicata/Títulos'),
+    (TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_DIVIDENDOS,
+        '04 - Pagamento de Dividendos'),
+    (TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_MENSALIDADE_ESCOLAR,
+        '05 - Pagamento de Mensalidade Escolar'),
+    (TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_SALARIOS,
+        '06 - Pagamento de Salários'),
+    (TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_FORNECEDORES,
+        '07 - Pagamento a Fornecedores'),
+    (TIPO_SERVICO_COMPLEMENTO_OPERACOES_CAMBIOS_FUNDOS_BOLSA,
+        '08 - Operações de Câmbios/Fundos/Bolsa de Valores'),
+    (TIPO_SERVICO_COMPLEMENTO_REPASSE_ARRECADACAO,
+        '09 - Repasse de Arrecadação/Pagamento de Tributos'),
+    (TIPO_SERVICO_COMPLEMENTO_TRANSFERECIA_INTERNACIONAL_EM_REAL,
+        '10 - Transferência Internacional em Real'),
+    (TIPO_SERVICO_COMPLEMENTO_DOC_POUPANCA,
+        '11 - DOC para Poupança'),
+    (TIPO_SERVICO_COMPLEMENTO_DOC_DEPOSITO_JUDICIAL,
+        '12 - DOC para Depósito Judicial'),
+    (TIPO_SERVICO_COMPLEMENTO_OUTROS,
+        '13 - Outros'),
+    (TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_BOLSA_AUXILIO,
+        '16 - Pagamento de Bolsa Auxílio'),
+    (TIPO_SERVICO_COMPLEMENTO_REMUNERACAO_COOPERADO,
+        '17 - Remuneração a Cooperado'),
+    (TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_HONORARIOS,
+        '18 - Pagamento de Honorários'),
+    (TIPO_SERVICO_COMPLEMENTO_PAGAMENTO_PREBENDA,
+        '19 - Pagamento de Prebenda (remuneração a padres e sacerdotes)'),
+]
+
+FORMA_LANCAMENTO_CREDITO_CONTA_CORRENTE_SALARIO = '01'
+FORMA_LANCAMENTO_CHEQUE_PAGAMENTO_ADMINISTRATIVO = '02'
+FORMA_LANCAMENTO_DOC_TED = '03'
+FORMA_LANCAMENTO_CARTAO_SALARIO = '04'
+FORMA_LANCAMENTO_CREDITO_CONTA_POUPANCA = '05'
+FORMA_LANCAMENTO_OP_A_DISPOSICAO = '10'
+FORMA_LANCAMENTO_PAGAMENTO_CONTAS_TRIBUTOS_CODIGO_BARRAS = '11'
+FORMA_LANCAMENTO_TRIBUTO_DARF_NORMAL = '16'
+FORMA_LANCAMENTO_TRIBUTO_GPS = '17'
+FORMA_LANCAMENTO_TRIBUTO_DARF_SIMPLES = '18'
+FORMA_LANCAMENTO_TRIBUTO_IPTU_PREFEITURAS = '19'
+FORMA_LANCAMENTO_PAGAMENTO_AUTENTICACAO = '20'
+FORMA_LANCAMENTO_TRIBUTO_DARJ = '21'
+FORMA_LANCAMENTO_TRIBUTO_GARE_SP_ICMS = '22'
+FORMA_LANCAMENTO_TRIBUTO_GARE_SP_DR = '23'
+FORMA_LANCAMENTO_TRIBUTO_GARE_SP_ITCMD = '24'
+FORMA_LANCAMENTO_TRIBUTO_IPVA = '25'
+FORMA_LANCAMENTO_TRIBUTO_LICENCIAMENTO = '26'
+FORMA_LANCAMENTO_TRIBUTO_DPVAT = '27'
+FORMA_LANCAMENTO_LIQUIDACAO_TITULOS_PROPRIO_BANCO = '30'
+FORMA_LANCAMENTO_PAGAMENTO_TITULOS_OUTROS_BANCOS = '31'
+FORMA_LANCAMENTO_EXTRATO_CONTA_CORRENTE = '40'
+FORMA_LANCAMENTO_TED_OUTRA_TITULARIDADE = '41'
+FORMA_LANCAMENTO_TED_MESMA_TITULARIDADE = '43'
+FORMA_LANCAMENTO_TED_TRANSFERENCIA_CONTA_INVESTIMENTO = '44'
+FORMA_LANCAMENTO_DEBITO_CONTA_CORRENTE = '50'
+FORMA_LANCAMENTO_EXTRATO_GESTAO_CAIXA = '70'
+FORMA_LANCAMENTO_DEPOSITO_JUDICIAL_CONTA_CORRENTE = '71'
+FORMA_LANCAMENTO_DEPOSITO_JUDICIAL_POUPANCA = '72'
+FORMA_LANCAMENTO_EXTRATO_CONTA_INVESTIMENTO = '73'
 
 FORMA_LANCAMENTO = [
-    CREDITO_CONTA_CORRENTE_SALARIO,
-    CHEQUE_PAGAMENTO_ADMINISTRATIVO,
-    DOC_TED,
-    CARTAO_SALARIO,
-    CREDITO_CONTA_POUPANCA,
-    OP_A_DISPOSICAO,
-    PAGAMENTO_CONTAS_TRIBUTOS_CODIGO_BARRAS,
-    TRIBUTO_DARF_NORMAL,
-    TRIBUTO_GPS,
-    TRIBUTO_DARF_SIMPLES,
-    TRIBUTO_IPTU_PREFEITURAS,
-    PAGAMENTO_AUTENTICACAO,
-    TRIBUTO_DARJ,
-    TRIBUTO_GARE_SP_ICMS,
-    TRIBUTO_GARE_SP_DR,
-    TRIBUTO_GARE_SP_ITCMD,
-    TRIBUTO_IPVA,
-    TRIBUTO_LICENCIAMENTO,
-    TRIBUTO_DPVAT,
-    LIQUIDACAO_TITULOS_PROPRIO_BANCO,
-    PAGAMENTO_TITULOS_OUTROS_BANCOS,
-    EXTRATO_CONTA_CORRENTE,
-    TED_OUTRA_TITULARIDADE,
-    TED_MESMA_TITULARIDADE,
-    TED_TRANSFERENCIA_CONTA_INVESTIMENTO,
-    DEBITO_CONTA_CORRENTE,
-    EXTRATO_GESTAO_CAIXA,
-    DEPOSITO_JUDICIAL_CONTA_CORRENTE,
-    DEPOSITO_JUDICIAL_POUPANCA,
-    EXTRATO_CONTA_INVESTIMENTO,
-]
-
-CREDITO_EM_CONTA = ('01', '01 - Crédito em Conta')
-PAGAMENTO_ALUGUEL = ('02', '02 - Pagamento de Aluguel/Condomínio')
-PAGAMENTO_DUPLICATA_TITULOS = ('03', '03 - Pagamento de Duplicata/Títulos')
-PAGAMENTO_DIVIDENDOS_C = ('04', '04 - Pagamento de Dividendos')
-PAGAMENTO_MENSALIDADE_ESCOLAR = (
-    '05', '05 - Pagamento de Mensalidade Escolar')
-PAGAMENTO_SALARIOS_C = ('06', '06 - Pagamento de Salários')
-PAGAMENTO_FORNECEDORES = ('07', '07 - Pagamento a Fornecedores')
-OPERACOES_CAMBIOS_FUNDOS_BOLSA = (
-    '08', '08 - Operações de Câmbios/Fundos/Bolsa de Valores')
-REPASSE_ARRECADACAO = (
-    '09', '09 - Repasse de Arrecadação/Pagamento de Tributos')
-TRANSFERECIA_INTERNACIONAL_EM_REAL = (
-    '10', '10 - Transferência Internacional em Real')
-DOC_POUPANCA = ('11', '11 - DOC para Poupança')
-DOC_DEPOSITO_JUDICIAL = ('12', '12 - DOC para Depósito Judicial')
-OUTROS = ('13', '13 - Outros')
-PAGAMENTO_BOLSA_AUXILIO_C = ('16', '16 - Pagamento de bolsa auxílio')
-REMUNERACAO_COOPERADO = ('17', '17 - Remuneração à cooperado')
-PAGAMENTO_HONORARIOS_C = ('18', '18 - Pagamento de honorários')
-PAGAMENTO_PREBENDA_C = (
-    '19', '19 - Pagamento de prebenda (Remuneração a padres e sacerdotes)')
-
-COMPLEMENTO_TIPO_SERVICO = [
-    CREDITO_EM_CONTA,
-    PAGAMENTO_ALUGUEL,
-    PAGAMENTO_DUPLICATA_TITULOS,
-    PAGAMENTO_DIVIDENDOS_C,
-    PAGAMENTO_MENSALIDADE_ESCOLAR,
-    PAGAMENTO_SALARIOS_C,
-    PAGAMENTO_FORNECEDORES,
-    OPERACOES_CAMBIOS_FUNDOS_BOLSA,
-    REPASSE_ARRECADACAO,
-    TRANSFERECIA_INTERNACIONAL_EM_REAL,
-    DOC_POUPANCA,
-    DOC_DEPOSITO_JUDICIAL,
-    OUTROS,
-    PAGAMENTO_BOLSA_AUXILIO_C,
-    REMUNERACAO_COOPERADO,
-    PAGAMENTO_HONORARIOS_C,
-    PAGAMENTO_PREBENDA_C,
+    (FORMA_LANCAMENTO_CREDITO_CONTA_CORRENTE_SALARIO,
+        '01 - Crédito em Conta Corrente/Salário'),
+    (FORMA_LANCAMENTO_CHEQUE_PAGAMENTO_ADMINISTRATIVO,
+        '02 - Cheque Pagamento/Administrativo'),
+    (FORMA_LANCAMENTO_DOC_TED,
+        '03 - DOC/TED'),
+    (FORMA_LANCAMENTO_CARTAO_SALARIO,
+        '04 - Cartão Salário (somente para Tipo de Serviço = "30")'),
+    (FORMA_LANCAMENTO_CREDITO_CONTA_POUPANCA,
+        '05 - Crédito em Conta Poupança'),
+    (FORMA_LANCAMENTO_OP_A_DISPOSICAO,
+        '10 - OP à Disposição'),
+    (FORMA_LANCAMENTO_PAGAMENTO_CONTAS_TRIBUTOS_CODIGO_BARRAS,
+        '11 - Pagamento de Contas e Tributos com Código de Barras'),
+    (FORMA_LANCAMENTO_TRIBUTO_DARF_NORMAL,
+        '16 - Tributo - DARF Normal'),
+    (FORMA_LANCAMENTO_TRIBUTO_GPS,
+        '17 - Tributo - GPS (Guia da Previdência Social)'),
+    (FORMA_LANCAMENTO_TRIBUTO_DARF_SIMPLES,
+        '18 - Tributo - DARF Simples'),
+    (FORMA_LANCAMENTO_TRIBUTO_IPTU_PREFEITURAS,
+        '19 - Tributo - IPTU – Prefeituras'),
+    (FORMA_LANCAMENTO_PAGAMENTO_AUTENTICACAO,
+        '20 - Pagamento com Autenticação'),
+    (FORMA_LANCAMENTO_TRIBUTO_DARJ,
+        '21 - Tributo – DARJ'),
+    (FORMA_LANCAMENTO_TRIBUTO_GARE_SP_ICMS,
+        '22 - Tributo - GARE-SP ICMS'),
+    (FORMA_LANCAMENTO_TRIBUTO_GARE_SP_DR,
+        '23 - Tributo - GARE-SP DR'),
+    (FORMA_LANCAMENTO_TRIBUTO_GARE_SP_ITCMD,
+        '24 - Tributo - GARE-SP ITCMD'),
+    (FORMA_LANCAMENTO_TRIBUTO_IPVA,
+        '25 - Tributo - IPVA'),
+    (FORMA_LANCAMENTO_TRIBUTO_LICENCIAMENTO,
+        '26 - Tributo - Licenciamento'),
+    (FORMA_LANCAMENTO_TRIBUTO_DPVAT,
+        '27 - Tributo – DPVAT'),
+    (FORMA_LANCAMENTO_LIQUIDACAO_TITULOS_PROPRIO_BANCO,
+        '30 - Liquidação de Títulos do Próprio Banco'),
+    (FORMA_LANCAMENTO_PAGAMENTO_TITULOS_OUTROS_BANCOS,
+        '31 - Pagamento de Títulos de Outros Bancos'),
+    (FORMA_LANCAMENTO_EXTRATO_CONTA_CORRENTE,
+        '40 - Extrato de Conta Corrente'),
+    (FORMA_LANCAMENTO_TED_OUTRA_TITULARIDADE,
+        '41 - TED – Outra Titularidade'),
+    (FORMA_LANCAMENTO_TED_MESMA_TITULARIDADE,
+        '43 - TED – Mesma Titularidade'),
+    (FORMA_LANCAMENTO_TED_TRANSFERENCIA_CONTA_INVESTIMENTO,
+        '44 - TED para Transferência de Conta Investimento'),
+    (FORMA_LANCAMENTO_DEBITO_CONTA_CORRENTE,
+        '50 - Débito em Conta Corrente'),
+    (FORMA_LANCAMENTO_EXTRATO_GESTAO_CAIXA,
+        '70 - Extrato para Gestão de Caixa'),
+    (FORMA_LANCAMENTO_DEPOSITO_JUDICIAL_CONTA_CORRENTE,
+        '71 - Depósito Judicial em Conta Corrente'),
+    (FORMA_LANCAMENTO_DEPOSITO_JUDICIAL_POUPANCA,
+        '72 - Depósito Judicial em Poupança'),
+    (FORMA_LANCAMENTO_EXTRATO_CONTA_INVESTIMENTO,
+         '73 - Extrato de Conta Investimento'),
 ]
 
 # Codigo adotado pelo Banco Central para identificar a
@@ -216,42 +277,45 @@ CODIGO_FINALIDADE_TED = [
     ('    ', 'Padrão')
 ]
 
-NAO_EMITE_AVISO = ('0', '0 - Não Emite Aviso')
-EMITE_AVISO_REMETENTE = ('2', '2 - Emite Aviso Somente para o Remetente')
-EMITE_AVISO_FAVORECIDO = ('5', '5 - Emite Aviso Somente para o Favorecido')
-EMITE_AVISO_REMETENTE_FAVORECIDO = \
-    ('6', '6 - Emite Aviso para o Remetente e Favorecido')
-EMITE_AVISO_FAVORECIDO_2_VIAS_REMETENTE = \
-    ('7', '7 - Emite Aviso para o Favorecido e 2 Vias para o Remetente')
+AVISO_FAVORECIDO_NAO_EMITE = '0'
+AVISO_FAVORECIDO_EMITE_AO_REMETENTE = '2'
+AVISO_FAVORECIDO_EMITE_AO_FAVORECIDO = '5'
+AVISO_FAVORECIDO_EMITE_AO_REMETENTE_E_FAVORECIDO = '6'
+AVISO_FAVORECIDO_EMITE_AO_FAVORECIDO_E_2_VIAS_AO_REMETENTE = '7'
 
 AVISO_FAVORECIDO = [
-    NAO_EMITE_AVISO,
-    EMITE_AVISO_REMETENTE,
-    EMITE_AVISO_FAVORECIDO,
-    EMITE_AVISO_REMETENTE_FAVORECIDO,
-    EMITE_AVISO_FAVORECIDO_2_VIAS_REMETENTE,
+    (AVISO_FAVORECIDO_NAO_EMITE,
+        '0 - Não emite'),
+    (AVISO_FAVORECIDO_EMITE_AO_REMETENTE,
+        '2 - Emite aviso somente ao remetente'),
+    (AVISO_FAVORECIDO_EMITE_AO_FAVORECIDO,
+        '5 - Emite aviso somente ao favorecido'),
+    (AVISO_FAVORECIDO_EMITE_AO_REMETENTE_E_FAVORECIDO,
+        '6 - Emite aviso ao remetente e ao favorecido'),
+    (AVISO_FAVORECIDO_EMITE_AO_FAVORECIDO_E_2_VIAS_AO_REMETENTE,
+        '7 - Emite aviso ao favorecido e 2 vias ao remetente'),
 ]
 
-INDICATIVO_FORMA_PAGAMENTO = [
+FORMA_PAGAMENTO = [
     ('01', '01 - Débito em Conta Corrente'),
     ('02', '02 - Débito Empréstimo/Financiamento'),
     ('03', '03 - Débito Cartão de Crédito'),
 ]
 
 TIPO_MOVIMENTO = [
-    ('0', '0 - Indica INCLUSÃO'),
-    ('1', '1 - Indica CONSULTA'),
-    ('2', '2 - Indica SUSPENSÃO'),
-    ('3', '3 - Indica ESTORNO (somente para retorno)'),
-    ('4', '4 - Indica REATIVAÇÃO'),
-    ('5', '5 - Indica ALTERAÇÃO'),
-    ('7', '7 - Indica LIQUIDAÇAO'),
-    ('9', '9 - Indica EXCLUSÃO'),
+    ('0', '0 - Inclusão'),
+    ('1', '1 - Consulta'),
+    ('2', '2 - Suspensão'),
+    ('3', '3 - Estorno (somente para retorno)'),
+    ('4', '4 - Reativação'),
+    ('5', '5 - Alteração'),
+    ('7', '7 - Liquidação'),
+    ('9', '9 - Exclusão'),
 ]
 
-CODIGO_INSTRUCAO_MOVIMENTO = [
-    ('0', '00 - Inclusão de Registro Detalhe Liberado'),
-    ('9', '09 - Inclusão do Registro Detalhe Bloqueado'),
+INSTRUCAO_MOVIMENTO = [
+    ('00', '00 - Inclusão de Registro Detalhe Liberado'),
+    ('09', '09 - Inclusão do Registro Detalhe Bloqueado'),
     ('10', '10 - Alteração do Pagamento Liberado para Bloqueado (Bloqueio)'),
     ('11', '11 - Alteração do Pagamento Bloqueado para Liberado (Liberação)'),
     ('17', '17 - Alteração do Valor do Título'),
@@ -260,10 +324,11 @@ CODIGO_INSTRUCAO_MOVIMENTO = [
     ('25', '25 - Manutenção em Carteira - Não Pagar'),
     ('27', '27 - Retirada de Carteira - Não Pagar'),
     ('33', '33 - Estorno por Devolução da Câmara Centralizadora '
-           '(somente para Tipo de Movimento = \'3\')'),
+           '(somente para Tipo de Movimento = "3")'),
     ('40', '40 - Alegação do Pagador'),
     ('99', '99 - Exclusão do Registro Detalhe Incluído Anteriormente'),
 ]
+INSTRUCAO_MOVIMENTO_INCLUSAO_DETALHE_LIBERADO = '00'
 
 CODIGO_OCORRENCIAS = [
     ('00', '00 - Crédito ou Débito Efetivado'),
@@ -420,26 +485,57 @@ CODIGO_OCORRENCIAS = [
     ('ZK', 'ZK - Boleto já liquidado'),
 ]
 
-TIPOS_ORDEM_PAGAMENTO = [
-    ('pagamento', 'Pagamento'),
-    ('pagamento_folha', 'Folha de Pagamento'),
-    ('cobranca', 'Cobrança / Boleto'),
-    ('debito_automatico', 'Cobrança / Débito automático'),
-]
 
 BOLETO_ESPECIE = [
-    ('01', 'DUPLICATA MERCANTIL'),
-    ('02', 'NOTA PROMISSÓRIA'),
-    ('03', 'NOTA DE SEGURO'),
-    ('04', 'MENSALIDADE ESCOLAR'),
-    ('05', 'RECIBO'),
-    ('06', 'CONTRATO'),
-    ('07', 'COSSEGUROS'),
-    ('08', 'DUPLICATA DE SERVIÇO'),
-    ('09', 'LETRA DE CÂMBIO'),
-    ('13', 'NOTA DE DÉBITOS'),
-    ('15', 'DOCUMENTO DE DÍVIDA'),
-    ('16', 'ENCARGOS CONDOMINIAIS'),
-    ('17', 'CONTA DE PRESTAÇÃO DE SERVIÇOS'),
-    ('99', 'DIVERSOS'),
+    ('01', 'Duplicata Mercantil'),
+    ('02', 'Nota Promissória'),
+    ('03', 'Nota de Seguro'),
+    ('04', 'Mensalidade Escolar'),
+    ('05', 'Recibo'),
+    ('06', 'Contrato'),
+    ('07', 'Cosseguros'),
+    ('08', 'Duplicata de Serviço'),
+    ('09', 'Letra de Câmbio'),
+    ('13', 'Nota de Débitos'),
+    ('15', 'Documento de Dívida'),
+    ('16', 'Encargos Condominiais'),
+    ('17', 'Conta de Prestação de Serviços'),
+    ('99', 'Diversos'),
 ]
+
+BOLETO_ESPECIE_DUPLICATA_MERCANTIL = '01'
+BOLETO_ESPECIE_NOTA_PROMISSORIA = '02'
+BOLETO_ESPECIE_NOTA_SEGURO = '03'
+BOLETO_ESPECIE_MENSALIDADE_ESCOLAR = '04'
+BOLETO_ESPECIE_RECIBO = '05'
+BOLETO_ESPECIE_CONTRATO = '06'
+BOLETO_ESPECIE_COSSEGUROS = '07'
+BOLETO_ESPECIE_DUPLICATA_SERVICO = '08'
+BOLETO_ESPECIE_LETRA_CAMBIO = '09'
+BOLETO_ESPECIE_NOTA_DEBITOS = '13'
+BOLETO_ESPECIE_DOCUMENTO_DIVIDA = '15'
+BOLETO_ESPECIE_ENCARGOS_CONDOMINIAIS = '16'
+BOLETO_ESPECIE_CONTA_PRESTACAO_SERVICOS = '17'
+BOLETO_ESPECIE_DIVERSOS = '99'
+
+
+BOLETO_EMISSAO = [
+    ('1', '1 - Banco emite'),
+    ('2', '2 - Beneficiário emite'),
+    #('3', '3 - Banco pré-emite, beneficiário complementa'),
+    #('4', '4 - Banco reemite'),
+    #('5', '5 - Banco não reemite'),
+    #('7', '7 - Banco emitente - aberta'),
+    #('8', '8 - Banco emitente - auto-envelopável'),
+]
+BOLETO_EMISSAO_BANCO = '1'
+BOLETO_EMISSAO_BENEFICIARIO = '2'
+
+BOLETO_DISTRIBUICAO = [
+    ('1', '1 - Banco distribui'),
+    ('2', '2 - Beneficiário distribui'),
+    ('3', '3 - Banco envia por email'),
+    ('4', '4 - Banco envia por SMS'),
+]
+BOLETO_DISTRIBUICAO_BANCO = '1'
+BOLETO_DISTRIBUICAO_BENEFICIARIO = '2'

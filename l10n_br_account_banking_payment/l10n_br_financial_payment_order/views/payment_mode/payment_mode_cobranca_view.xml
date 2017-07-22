@@ -5,45 +5,45 @@
 <openerp>
 <data>
 
-    <record model="ir.ui.view" id="payment_mode_cobranca_form_view">
+    <record model="ir.ui.view" id="payment_mode_cobranca_form">
         <field name="name">payment.mode.cobranca.form (in l10n_br_financial_payment_order)</field>
         <field name="model">payment.mode</field>
         <field name="mode">primary</field>
-        <field name="inherit_id" ref="payment_mode_base_form_view"/>
+        <field name="inherit_id" ref="payment_mode_base_form"/>
         <field name="arch" type="xml">
-            <field name="proximo_sequencia_arquivo" position="after">
-                <field name="sequencia_nosso_numero" required="1" />
-                <field name="proximo_sequencia_nosso_numero" required="1" />
+            <field name="sequence_arquivo_proximo_numero" position="after">
+                <field name="sequence_nosso_numero_id" string="Nosso número" required="1" />
+                <field name="sequence_nosso_numero_proximo_numero" string="Próximo nosso número" required="1" />
             </field>
         </field>
     </record>
 
     <record model="ir.actions.act_window" id="payment_mode_cobranca_act_window">
-        <field name="name">Carteira de Cobrança</field>
+        <field name="name">Cobrança</field>
         <field name="res_model">payment.mode</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('tipo_pagamento', '=', 'cobranca'), ('tipo_servico', '=', '01')]</field>
-        <field name="context">{'default_tipo_pagamento': 'cobranca', 'default_tipo_servico': '01'}</field>
+        <field name="domain">[('tipo_pagamento', '=', 'boleto'), ('tipo_servico', '=', '01')]</field>
+        <field name="context">{'default_tipo_pagamento': 'boleto', 'default_tipo_servico': '01'}</field>
     </record>
 
     <record model="ir.ui.menu" id="payment_mode_cobranca_menu">
-        <field name="name">Carteira de Cobrança</field>
+        <field name="name">Cobrança</field>
         <field name="parent_id" ref="financial_payment_order_config_menu"/>
         <field name="action" ref="payment_mode_cobranca_act_window"/>
-        <field name="sequence" eval="22"/>
+        <field name="sequence" eval="1"/>
     </record>
 
     <record model="ir.actions.act_window.view" id="payment_mode_cobranca_form_action">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="payment_mode_cobranca_form_view"/>
+        <field name="view_id" ref="payment_mode_cobranca_form"/>
         <field name="act_window_id" ref="payment_mode_cobranca_act_window"/>
     </record>
 
     <record model="ir.actions.act_window.view" id="payment_mode_cobranca_tree_action">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="payment_mode_base_tree_view"/>
+        <field name="view_id" ref="payment_mode_base_tree"/>
         <field name="act_window_id" ref="payment_mode_cobranca_act_window"/>
     </record>
 

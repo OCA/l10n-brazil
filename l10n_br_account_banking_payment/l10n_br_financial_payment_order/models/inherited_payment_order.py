@@ -6,9 +6,9 @@ from __future__ import division, print_function, unicode_literals
 
 from openerp import api, fields, models, _
 from openerp.exceptions import ValidationError
-from openerp.addons.l10n_br_hr_payroll.models.hr_payslip import TIPO_DE_FOLHA
+# from openerp.addons.l10n_br_hr_payroll.models.hr_payslip import TIPO_DE_FOLHA
 
-from ..constantes import TIPOS_ORDEM_PAGAMENTO
+from ..constantes import TIPO_ORDEM_PAGAMENTO
 
 
 class PaymentOrder(models.Model):
@@ -17,7 +17,7 @@ class PaymentOrder(models.Model):
 
     tipo_pagamento = fields.Selection(
         string="Tipos de Ordem de Pagamento",
-        selection=TIPOS_ORDEM_PAGAMENTO,
+        selection=TIPO_ORDEM_PAGAMENTO,
         help="Tipos de Ordens de Pagamento.",
     )
 
@@ -37,11 +37,11 @@ class PaymentOrder(models.Model):
         default='date_document',
         string="Data"
     )
-    tipo_de_folha = fields.Selection(
-        selection=TIPO_DE_FOLHA,
-        string=u'Tipo de folha',
-        default='normal',
-    )
+    # tipo_de_folha = fields.Selection(
+    #     selection=TIPO_DE_FOLHA,
+    #     string=u'Tipo de folha',
+    #     default='normal',
+    # )
 
     @api.multi
     def action_open(self):

@@ -8,17 +8,14 @@ from openerp import api, fields, models, _
 from openerp.exceptions import ValidationError
 from openerp.addons.financial.constants import FINANCIAL_DEBT_2RECEIVE
 
-from ...constantes import TIPOS_ORDEM_PAGAMENTO
-
 
 class PaymentOrder(models.Model):
     _inherit = b'payment.order'
 
-    @api.one
     def financial_payment_import(self):
+        self.ensure_one()
 
         if self.tipo_pagamento == 'cobranca':
-
             financial_move_ids = self.env['financial.move'].search([
                 ('company_id', '=', self.company_id.id),
                 ('type', '=', FINANCIAL_DEBT_2RECEIVE),

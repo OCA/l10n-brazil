@@ -5,8 +5,8 @@
 <openerp>
     <data>
 
-        <record model="ir.ui.view" id="payment_order_base_tree_view">
-            <field name="name">payment.order.tree (in l10n_br_financial_payment_order)</field>
+        <record model="ir.ui.view" id="payment_order_base_tree">
+            <field name="name">payment.order.base.tree (in l10n_br_financial_payment_order)</field>
             <field name="model">payment.order</field>
             <field name="priority">9999</field>
             <field name="mode">primary</field>
@@ -25,8 +25,8 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="payment_order_base_form_view">
-            <field name="name">payment.order.form (in l10n_br_financial_payment_order)</field>
+        <record model="ir.ui.view" id="payment_order_base_form">
+            <field name="name">payment.order.base.form (in l10n_br_financial_payment_order)</field>
             <field name="model">payment.order</field>
             <field name="priority">9999</field>
             <field name="mode">primary</field>
@@ -134,8 +134,8 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="payment_order_base_search_view">
-            <field name="name">payment.order.search (in l10n_br_financial_payment_order)</field>
+        <record model="ir.ui.view" id="payment_order_base_search">
+            <field name="name">payment.order.base.search (in l10n_br_financial_payment_order)</field>
             <field name="model">payment.order</field>
             <field name="priority">9999</field>
             <field name="mode">primary</field>
@@ -155,7 +155,6 @@
                 </search>
             </field>
         </record>
-
 
     </data>
 </openerp>

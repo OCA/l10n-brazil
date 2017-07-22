@@ -5,11 +5,11 @@
 <openerp>
 <data>
 
-    <record model="ir.ui.view" id="payment_mode_pagamento_form_view">
+    <record model="ir.ui.view" id="payment_mode_pagamento_form">
         <field name="name">payment.mode.pagamento.form (in l10n_br_financial_payment_order)</field>
         <field name="model">payment.mode</field>
         <field name="mode">primary</field>
-        <field name="inherit_id" ref="payment_mode_base_form_view"/>
+        <field name="inherit_id" ref="payment_mode_base_form"/>
         <field name="arch" type="xml">
             <field name="bank_id" position="after">
                 <field name="tipo_servico"/>
@@ -30,20 +30,20 @@
         <field name="name">Pagamentos</field>
         <field name="parent_id" ref="financial_payment_order_config_menu"/>
         <field name="action" ref="payment_mode_pagamento_act_window"/>
-        <field name="sequence" eval="20"/>
+        <field name="sequence" eval="10"/>
     </record>
 
     <record model="ir.actions.act_window.view" id="payment_mode_pagamento_form_action">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="payment_mode_pagamento_form_view"/>
+        <field name="view_id" ref="payment_mode_pagamento_form"/>
         <field name="act_window_id" ref="payment_mode_pagamento_act_window"/>
     </record>
 
     <record model="ir.actions.act_window.view" id="payment_mode_pagamento_tree_action">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="payment_mode_base_tree_view"/>
+        <field name="view_id" ref="payment_mode_base_tree"/>
         <field name="act_window_id" ref="payment_mode_pagamento_act_window"/>
     </record>
 

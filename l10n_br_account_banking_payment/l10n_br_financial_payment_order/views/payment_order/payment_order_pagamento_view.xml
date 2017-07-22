@@ -5,11 +5,11 @@
 <openerp>
 <data>
 
-    <record model="ir.ui.view" id="payment_order_pagamento_form_view">
+    <record model="ir.ui.view" id="payment_order_pagamento_form">
         <field name="name">payment.order.pagamento.form (in l10n_br_financial_payment_order)</field>
         <field name="model">payment.order</field>
         <field name="mode">primary</field>
-        <field name="inherit_id" ref="payment_order_base_form_view"/>
+        <field name="inherit_id" ref="payment_order_base_form"/>
         <field name="arch" type="xml">
             <xpath expr="//form[1]" position="attributes">
                 <attribute name="string">Pagamento</attribute>
@@ -26,26 +26,26 @@
         </field>
     </record>
 
-    <!--<record model="ir.ui.view" id="payment_order_search_view">-->
+    <!--<record model="ir.ui.view" id="payment_order_cobranca_search">-->
         <!--<field name="name">payment.order.search (in l10n_br_financial_payment_order)</field>-->
         <!--<field name="model">payment.order</field>-->
         <!--<field name="mode">primary</field>-->
-        <!--<field name="inherit_id" ref="payment_order_base_search_view"/>-->
+        <!--<field name="inherit_id" ref="payment_order_base_search"/>-->
         <!--<field name="arch" type="xml">-->
                 <!---->
         <!--</field>-->
     <!--</record>-->
 
-    <!--<record model="ir.ui.view" id="payment_order_tree_view">-->
+    <!--<record model="ir.ui.view" id="payment_order_tree">-->
         <!--<field name="name">payment.order.tree (in l10n_br_financial_payment_order)</field>-->
         <!--<field name="model">payment.order</field>-->
-        <!--<field name="inherit_id" ref="payment_order_base_tree_view"/>-->
+        <!--<field name="inherit_id" ref="payment_order_base_tree"/>-->
         <!--<field name="arch" type="xml">-->
         <!--</field>-->
     <!--</record>-->
 
     <record model="ir.actions.act_window" id="payment_order_pagamento_act_window">
-        <field name="name">Pagamento</field>
+        <field name="name">Remessa de pagamento</field>
         <field name="res_model">payment.order</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('tipo_pagamento', '=', 'pagamento')]</field>
@@ -53,23 +53,23 @@
     </record>
 
     <record model="ir.ui.menu" id="payment_order_pagamento_menu">
-        <field name="name">Pagamento</field>
+        <field name="name">Remessa de pagamento</field>
         <field name="parent_id" ref="financial_payment_order_menu"/>
         <field name="action" ref="payment_order_pagamento_act_window"/>
-        <field name="sequence" eval="30"/>
+        <field name="sequence" eval="10"/>
     </record>
 
     <record model="ir.actions.act_window.view" id="payment_order_pagamento_form_action">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="payment_order_pagamento_form_view"/>
+        <field name="view_id" ref="payment_order_pagamento_form"/>
         <field name="act_window_id" ref="payment_order_pagamento_act_window"/>
     </record>
 
     <record model="ir.actions.act_window.view" id="payment_order_pagamento_tree_action">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="payment_order_base_tree_view"/>
+        <field name="view_id" ref="payment_order_base_tree"/>
         <field name="act_window_id" ref="payment_order_pagamento_act_window"/>
     </record>
 

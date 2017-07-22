@@ -11,7 +11,6 @@ from openerp.addons.l10n_br_financial_payment_order.models.bank_payment_line \
 
 
 class PaymentLine(models.Model):
-
     _inherit = b'payment.line'
 
     # @api.one
