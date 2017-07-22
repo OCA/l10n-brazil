@@ -21,7 +21,7 @@
         'views/payment_menu.xml',
         'views/bank_payment_line.xml',
         'views/hr_payslip.xml',
-        'hr_payroll_workflow.xml',
+        'workflows/hr_payroll_workflow.xml',
 
         'views/payment_order/payment_order_base.xml',
         'views/payment_order/payment_order_cobranca.xml',
