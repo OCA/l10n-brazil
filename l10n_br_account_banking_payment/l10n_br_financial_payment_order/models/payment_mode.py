@@ -123,21 +123,21 @@ class PaymentMode(models.Model):
 
     sequencia_arquivo = fields.Many2one(
         comodel_name='ir.sequence',
-        string=u'Sequência para arquivos do CNAB',
+        string=u'Arquivos do CNAB',
     )
 
     proximo_sequencia_arquivo = fields.Integer(
         related='sequencia_arquivo.number_next_actual',
-        string='Próximo valor Sequencia do arquivo',
+        string='Próximo valor',
     )
 
     sequencia_nosso_numero = fields.Many2one(
         comodel_name='ir.sequence',
-        string=u'Sequência (Numero do banco)',
+        string=u'Nosso Número',
     )
 
     proximo_sequencia_nosso_numero = fields.Integer(
-        string='Próximo Valor Sequencia nosso Número',
+        string='Próximo Valor Nosso Número',
         related='sequencia_nosso_numero.number_next_actual',
     )
 

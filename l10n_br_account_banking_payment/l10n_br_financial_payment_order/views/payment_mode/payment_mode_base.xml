@@ -43,18 +43,14 @@
                         </group>
                     </group>
 
-                    <group string="Campos que serão escondidos">
-                        <field name="sale_ok" />
-                        <field name="purchase_ok" />
-                        <field name="tipo_servico" />
-                    </group>
+                    <!--<group string="Campos que serão escondidos">-->
+                        <!--<field name="sale_ok" />-->
+                        <!--<field name="purchase_ok" />-->
+                        <!--<field name="tipo_servico" />-->
+                    <!--</group>-->
 
-                    <group name="group_grouping" string="Line grouping">
-                        <field name="group_lines"/>
-                    </group>
-
-                    <group string="CNAB">
-                        <group>
+                    <group>
+                        <group  string="CNAB">
                             <field name="codigo_convenio"/>
                             <field name="codigo_instrucao_movimento"/>
                             <field name="codigo_finalidade_doc"/>
@@ -66,6 +62,10 @@
                             <field name="sequencia_arquivo" required="1"/>
                             <field name="proximo_sequencia_arquivo" required="1"/>
                         </group>
+                    </group>
+
+                    <group name="group_grouping" string="Line grouping">
+                        <field name="group_lines"/>
                     </group>
 
                 </form>
