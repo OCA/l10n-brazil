@@ -422,7 +422,7 @@ CODIGO_OCORRENCIAS = [
 
 TIPOS_ORDEM_PAGAMENTO = [
     ('pagamento', 'Pagamento'),
-    ('pagamento_folha', 'Pagamento Folha'),
+    ('pagamento_folha', 'Folha de Pagamento'),
     ('cobranca', 'Cobrança / Boleto'),
     ('debito_automatico', 'Cobrança / Débito automático'),
 ]

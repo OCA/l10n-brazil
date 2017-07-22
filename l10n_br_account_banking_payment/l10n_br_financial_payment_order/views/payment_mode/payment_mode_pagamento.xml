@@ -11,7 +11,7 @@
         <field name="mode">primary</field>
         <field name="inherit_id" ref="payment_mode_base_form_view"/>
         <field name="arch" type="xml">
-            <field name="tipo_pagamento" position="after">
+            <field name="bank_id" position="after">
                 <field name="tipo_servico"/>
             </field>
         </field>
