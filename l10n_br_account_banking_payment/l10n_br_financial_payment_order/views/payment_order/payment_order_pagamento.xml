@@ -14,10 +14,6 @@
             <xpath expr="//form[1]" position="attributes">
                 <attribute name="string">Pagamento</attribute>
             </xpath>
-            <xpath expr="//div[@name='botoes_superiores']" position="inside">
-                <button class="oe_inline oe_stat_button oe_right" name="%(action_create_payslip_payment_order)d" string="Holerites" Help="Selecionar as linhas dos holerites que vao ser pagas"
-                        type="action" attrs="{'invisible':[('state','=','done')]}" icon="fa-pencil-square-o" widget="statinfo"/>
-            </xpath>
             <xpath expr="//form/group[@name='informacoes_especificas']" position="inside">
                 <h1>TODO: Informações específicas</h1>
             </xpath>
@@ -49,8 +45,8 @@
         <field name="name">Pagamento</field>
         <field name="res_model">payment.order</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('tipo_pagamento', '=', 'payment')]</field>
-        <field name="context">{'default_tipo_pagamento': 'payment'}</field>
+        <field name="domain">[('tipo_pagamento', '=', 'pagamento')]</field>
+        <field name="context">{'default_tipo_pagamento': 'pagamento'}</field>
     </record>
 
     <record model="ir.ui.menu" id="payment_order_pagamento_menu">
