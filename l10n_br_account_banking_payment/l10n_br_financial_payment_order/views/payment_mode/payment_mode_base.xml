@@ -52,6 +52,7 @@
                     <group string="Campos que serão escondidos">
                         <field name="sale_ok" />
                         <field name="purchase_ok" />
+                        <field name="tipo_servico" />
                     </group>
 
                     <group name="group_grouping" string="Line grouping">

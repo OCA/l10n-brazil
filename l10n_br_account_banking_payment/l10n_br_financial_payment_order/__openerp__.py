@@ -23,12 +23,12 @@
         'views/hr_payslip.xml',
         'hr_payroll_workflow.xml',
 
-        'views/payment_order/payment_order_primary.xml',
+        'views/payment_order/payment_order_base.xml',
         'views/payment_order/payment_order_cobranca.xml',
         'views/payment_order/payment_order_debito.xml',
         'views/payment_order/payment_order_pagamento.xml',
 
-        'views/payment_mode/payment_mode_primary.xml',
+        'views/payment_mode/payment_mode_base.xml',
         'views/payment_mode/payment_mode_pagamento.xml',
         'views/payment_mode/payment_mode_pagamento_folha.xml',
         'views/payment_mode/payment_mode_cobranca.xml',
