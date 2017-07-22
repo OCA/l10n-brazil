@@ -11,5 +11,11 @@
         <field name="sequence" eval="20"/>
     </record>
 
+    <record model="ir.ui.menu" id="financial_payment_order_config_menu">
+        <field name="name">Operações</field>
+        <field name="parent_id" ref="financial.financial_config_menu"/>
+        <field name="sequence" eval="60"/>
+    </record>
+
 </data>
 </openerp>

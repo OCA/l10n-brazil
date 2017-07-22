@@ -28,7 +28,7 @@
 
     <record model="ir.ui.menu" id="payment_mode_cobranca_menu">
         <field name="name">Carteira de Cobrança</field>
-        <field name="parent_id" ref="financial.financial_config_menu"/>
+        <field name="parent_id" ref="financial_payment_order_config_menu"/>
         <field name="action" ref="payment_mode_cobranca_act_window"/>
         <field name="sequence" eval="22"/>
     </record>
