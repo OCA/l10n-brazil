@@ -24,8 +24,6 @@ class PaymentMode(models.Model):
 
     boleto_modalidade = fields.Char('Modalidade', size=2)
 
-    boleto_convenio = fields.Char('Codigo convênio', size=10)
-
     boleto_variacao = fields.Char('Variação', size=2)
 
     boleto_cnab_code = fields.Char('Código Cnab', size=20)
@@ -100,7 +98,6 @@ class PaymentMode(models.Model):
         size=20,
         string=u'Código do Convênio no Banco',
         help=u'Campo G007 do CNAB',
-        default=u'0001222130126',
     )
 
     codigo_instrucao_movimento = fields.Selection(
