@@ -14,10 +14,20 @@
             <xpath expr="//form[1]" position="attributes">
                 <attribute name="string">Cobrança</attribute>
             </xpath>
-            <xpath expr="//div[@name='botoes_superiores']" position="inside">
-                <h1>TODO: Importar Cobranças</h1>
+            <xpath expr="//group[@name='criterios_busca']" position="inside">
+                <label string="Data" for="search_date_start"/>
+                <div>
+                    <field name="search_date_start" class="oe_inline"/> - <field name="search_date_stop" class="oe_inline"/>
+                </div>
+                <label string="Tipo" for="search_date_type"/>
+                <div>
+                    <field name="search_date_type"  widget="radio" class="oe_inline"/>
+                </div>
             </xpath>
-            <xpath expr="//form/group[@name='informacoes_especificas']" position="inside">
+            <xpath expr="//group[@name='informacoes_especificas']" position="inside">
+                <h1>TODO: Informações específicas</h1>
+            </xpath>
+            <xpath expr="//group[@name='informacoes_especificas_linha']" position="inside">
                 <h1>TODO: Informações específicas</h1>
             </xpath>
         </field>

@@ -21,6 +21,22 @@ class PaymentOrder(models.Model):
         help="Tipos de Ordens de Pagamento.",
     )
 
+    search_date_start = fields.Date(
+        string="De"
+    )
+    search_date_stop = fields.Date(
+        string="Até"
+    )
+    search_date_type = fields.Selection(
+        selection=[
+            ('date_document', 'Documento'),
+            ('date_maturity', 'Vencimento'),
+            ('date_business_maturity', 'Vencimento útil'),
+            ('date_payment', 'Pagamento'),
+        ],
+        default='date_document',
+        string="Data"
+    )
     tipo_de_folha = fields.Selection(
         selection=TIPO_DE_FOLHA,
         string=u'Tipo de folha',
@@ -46,6 +62,10 @@ class PaymentOrder(models.Model):
                 line.write({'payslip_id': ''})
         self.write({'state': 'cancel'})
         return True
+
+    @api.multi
+    def financial_payment_import(self):
+        pass
 
     @api.multi
     def buscar_holerites_wizard(self):

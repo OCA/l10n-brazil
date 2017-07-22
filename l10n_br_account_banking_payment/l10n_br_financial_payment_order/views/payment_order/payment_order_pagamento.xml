@@ -14,7 +14,10 @@
             <xpath expr="//form[1]" position="attributes">
                 <attribute name="string">Pagamento</attribute>
             </xpath>
-            <xpath expr="//form/group[@name='informacoes_especificas']" position="inside">
+            <xpath expr="//group[@name='informacoes_especificas']" position="inside">
+                <h1>TODO: Informações específicas</h1>
+            </xpath>
+            <xpath expr="//group[@name='informacoes_especificas_linha']" position="inside">
                 <h1>TODO: Informações específicas</h1>
             </xpath>
             <!--<field name="mode" position="after">-->

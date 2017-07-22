@@ -17,7 +17,10 @@
             <xpath expr="//div[@name='botoes_superiores']" position="inside">
                 <h1>TODO: Importar Débitos</h1>
             </xpath>
-            <xpath expr="//form/group[@name='informacoes_especificas']" position="inside">
+            <xpath expr="//group[@name='informacoes_especificas']" position="inside">
+                <h1>TODO: Informações específicas</h1>
+            </xpath>
+            <xpath expr="//group[@name='informacoes_especificas_linha']" position="inside">
                 <h1>TODO: Informações específicas</h1>
             </xpath>
         </field>
