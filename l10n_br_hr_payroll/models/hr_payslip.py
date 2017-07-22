@@ -103,7 +103,7 @@ class HrPayslip(models.Model):
             fgts = 0.00
             inss = 0.00
             irpf = 0.00
-            codigo = {}
+#            codigo = {}
 #            codigo['BASE_FGTS'] = \
 #                holerite.env\
 #                .ref('l10n_br_hr_payroll.hr_salary_rule_BASE_FGTS').code
