@@ -8,7 +8,7 @@ from openerp import api, fields, models, _
 
 from ..constantes import TIPO_SERVICO, FORMA_LANCAMENTO, \
     COMPLEMENTO_TIPO_SERVICO, CODIGO_FINALIDADE_TED, AVISO_FAVORECIDO, \
-    CODIGO_INSTRUCAO_MOVIMENTO, TIPOS_ORDEM_PAGAMENTO, ORIGEM_PAGAMENTO, \
+    CODIGO_INSTRUCAO_MOVIMENTO, TIPOS_ORDEM_PAGAMENTO, \
     BOLETO_ESPECIE
 
 from ..febraban.boleto.document import getBoletoSelection
@@ -73,9 +73,10 @@ class PaymentMode(models.Model):
         help=u'Campo G025 do CNAB'
     )
 
-    origem_pagamento = fields.Selection(
-        selection=ORIGEM_PAGAMENTO,
-        string=u'Origem do pagamento',
+    tipo_pagamento = fields.Selection(
+        string="Tipos de Ordem de Pagamento",
+        selection=TIPOS_ORDEM_PAGAMENTO,
+        help="Tipos de Ordens de Pagamento.",
     )
 
     forma_lancamento = fields.Selection(

@@ -45,8 +45,8 @@
         <field name="name">Cobrança</field>
         <field name="res_model">payment.order</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('payment_order_type', '=', 'cobranca')]</field>
-        <field name="context">{'default_payment_order_type': 'cobranca'}</field>
+        <field name="domain">[('tipo_pagamento', '=', 'cobranca')]</field>
+        <field name="context">{'default_tipo_pagamento': 'cobranca'}</field>
 
     </record>
 

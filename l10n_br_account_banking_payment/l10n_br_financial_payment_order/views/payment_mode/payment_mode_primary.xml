@@ -41,7 +41,7 @@
                         <group>
                             <field name="bank_id"/>
                             <field name="tipo_servico" />
-                            <field name="origem_pagamento" />
+                            <field name="tipo_pagamento" />
                         </group>
                         <group>
                             <field name="company_id" widget='selection' groups="base.group_multi_company"/>
@@ -50,7 +50,6 @@
                     </group>
 
                     <group string="Campos que serão escondidos">
-                        <field name="tipo_pagamento" />
                         <field name="sale_ok" />
                         <field name="purchase_ok" />
                     </group>
