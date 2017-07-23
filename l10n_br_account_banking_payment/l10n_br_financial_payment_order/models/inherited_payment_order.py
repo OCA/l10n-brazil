@@ -179,6 +179,14 @@ class PaymentOrder(models.Model):
             # ('amount_residual', '>', 0), # FIXME
         ]
 
+        if self.search_date_start:
+            domain += [
+                (self.search_date_type, '>=', self.search_date_start),
+            ]
+        if self.search_date_stop:
+            domain += [
+                (self.search_date_type, '<=', self.search_date_stop),
+            ]
         if self.mode.tipo_pagamento == TIPO_ORDEM_PAGAMENTO_BOLETO:
             domain += [
                 ('payment_mode_id', '=', self.mode.id),
@@ -193,16 +201,21 @@ class PaymentOrder(models.Model):
 
     @api.one
     def financial_payment_import(self):
-        """
-        1. Buscar
-        2. Extender
-        3. Filtrar
-        4. Preparar
+        """ A importação de lançamentos financeiros nas payment orders
+        funciona da seguinte maneira:
+
+        1. Prepara o dominio de busca: extend_payment_order_domain
+        2. Realiza a busca
+        3. Filtrar os registros já inseridos em payment.orders:
+            filter_financial_lines
+        4. Preparar: Prepara os dados para inclusão:
+            _prepare_financial_payment_line
         5. Criar
 
         :return:
         """
-        payment_line_obj = self.env['payment.line']
+
+        self.line_ids.unlink()
 
         domain = []
 
@@ -212,7 +225,7 @@ class PaymentOrder(models.Model):
 
         for line in filtered_lines:
             vals = self._prepare_financial_payment_line(line)
-            payment_line_obj.create(vals)
+            self.line_ids.create(vals)
 
         return
 
