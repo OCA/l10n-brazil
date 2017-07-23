@@ -19,13 +19,15 @@ class PaymentOrder(models.Model):
         string="Tipos de Ordem de Pagamento",
         selection=TIPO_ORDEM_PAGAMENTO,
         help="Tipos de Ordens de Pagamento.",
+        states={'done': [('readonly', True)]},
     )
-
     search_date_start = fields.Date(
-        string="De"
+        string="De",
+        states={'done': [('readonly', True)]},
     )
     search_date_stop = fields.Date(
-        string="Até"
+        string="Até",
+        states={'done': [('readonly', True)]},
     )
     search_date_type = fields.Selection(
         selection=[
@@ -35,13 +37,14 @@ class PaymentOrder(models.Model):
             ('date_payment', 'Pagamento'),
         ],
         default='date_document',
-        string="Data"
+        string="Data",
+        states={'done': [('readonly', True)]},
     )
     # tipo_de_folha = fields.Selection(
     #     selection=TIPO_DE_FOLHA,
     #     string=u'Tipo de folha',
     #     default='normal',
-    # )
+    #     states={'done': [('readonly', True)]},
 
     @api.multi
     def action_open(self):

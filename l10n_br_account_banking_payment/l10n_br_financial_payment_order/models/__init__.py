@@ -9,6 +9,9 @@ from . import payment_line
 from . import payment_mode
 from . import payment_mode_type
 # from . import hr_payslip
+#
+# Manter sempre operações abaixo de payment_order
+#
 from . import inherited_payment_order
-from . import l10n_br_cnab
 from . import operacoes
+from . import l10n_br_cnab
