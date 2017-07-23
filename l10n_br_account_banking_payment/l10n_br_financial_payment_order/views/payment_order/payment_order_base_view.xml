@@ -46,7 +46,7 @@
                         </div>
                         <div class=" oe_right oe_button_box" name="botoes_superiores" attrs="{'invisible': [('state', '!=', 'draft')]}">
                             <button class="oe_inline oe_stat_button oe_right" name="financial_payment_import" string="Importar"
-                                type="action" attrs="{'invisible':[('state','=','done')]}" icon="fa-search" widget="statinfo"/>
+                                type="object" attrs="{'invisible':[('state','=','done')]}" icon="fa-search" widget="statinfo"/>
                             <newline/>
                         </div>
                         <group>
@@ -104,8 +104,8 @@
                                                     </div>
                                                     <separator colspan="4" string="Entry Information"/>
                                                     <field name="create_date" readonly="1"/>
-                                                    <field name="ml_maturity_date"/>
-                                                    <field name="ml_inv_ref"/>
+                                                    <field name="ml_maturity_date"/> <!-- TODO: Implementar campo relacinando com o financeiro. -->
+                                                    <field name="financial_id"/>
                                                     <field name="bank_line_id" readonly="1"/>
                                                 </group>
                                             </page>
