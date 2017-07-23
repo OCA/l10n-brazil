@@ -31,6 +31,7 @@
         'views/payment_order/payment_order_cobranca_view.xml',
         'views/payment_order/payment_order_pagamento_view.xml',
 
+        'views/l10n_br_cnab.xml',
         # 'security/payment_mode.xml',
         # 'security/payment_mode_type.xml',
         # 'security/bank_payment_line.xml',

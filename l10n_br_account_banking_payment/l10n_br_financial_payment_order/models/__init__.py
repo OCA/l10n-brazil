@@ -10,4 +10,5 @@ from . import payment_mode
 from . import payment_mode_type
 # from . import hr_payslip
 from . import inherited_payment_order
+from . import l10n_br_cnab
 from . import operacoes
