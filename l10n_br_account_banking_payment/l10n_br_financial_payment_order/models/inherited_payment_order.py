@@ -31,11 +31,11 @@ class PaymentOrder(models.Model):
     )
     search_date_start = fields.Date(
         string="De",
-        states={'done': [('readonly', True)]},
+        states={'draft': [('readonly', False)]},
     )
     search_date_stop = fields.Date(
         string="Até",
-        states={'done': [('readonly', True)]},
+        states={'draft': [('readonly', False)]},
     )
     search_date_type = fields.Selection(
         selection=[
@@ -44,9 +44,8 @@ class PaymentOrder(models.Model):
             ('date_business_maturity', 'Vencimento útil'),
             ('date_payment', 'Pagamento'),
         ],
-        default='date_document',
         string="Data",
-        states={'done': [('readonly', True)]},
+        states={'draft': [('readonly', False)]},
     )
     # tipo_de_folha = fields.Selection(
     #     selection=TIPO_DE_FOLHA,
