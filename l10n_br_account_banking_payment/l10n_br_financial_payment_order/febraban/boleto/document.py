@@ -38,8 +38,7 @@ except ImportError:
 BoletoException = bank.BoletoException
 
 
-class Boleto:
-    boleto = object
+class Boleto(object):
     account_number = ''
     account_digit = ''
 
@@ -50,7 +49,9 @@ class Boleto:
 
     @staticmethod
     def getBoleto(move_line, nosso_numero):
-        boleto_type = move_line.payment_mode_id.boleto_type
+        # boleto_type = move_line.payment_mode_id.boleto_type
+        # Banco Do Brasil
+        boleto_type = '1'
         if boleto_type:
             return dict_boleto[boleto_type][0](move_line, nosso_numero)
         raise BoletoException(u'Configure o tipo de boleto no modo de '
@@ -59,6 +60,7 @@ class Boleto:
     @staticmethod
     def getBoletoClass(move_line):
         bank_code = move_line.payment_mode_id.bank_id.bank.bic
+        bank_code = '001'
         return bank.get_class_for_codigo(bank_code)
 
     def __init__(self, move_line, nosso_numero):
