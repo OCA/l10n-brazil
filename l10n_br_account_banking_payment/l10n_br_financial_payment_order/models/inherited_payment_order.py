@@ -20,7 +20,8 @@ from ..constantes import (
 
 class PaymentOrder(models.Model):
 
-    _inherit = b'payment.order'
+    _name = b'payment.order'
+    _inherit = ['payment.order', 'mail.thread', 'ir.needaction_mixin']
 
     tipo_pagamento = fields.Selection(
         string="Tipos de Ordem de Pagamento",
