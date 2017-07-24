@@ -23,6 +23,8 @@ class PaymentOrder(models.Model):
         string='Holerites',
         comodel_name='hr.payslip',
         inverse_name='payment_order_id',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
 
     @api.multi
@@ -63,6 +65,7 @@ class PaymentOrder(models.Model):
         3. Criar
         """
         self.line_ids.unlink()
+        self.hr_payslip_ids = False
 
         payslip_ids = self.env['hr.payslip'].search([
             ('tipo_de_folha', '=', self.tipo_de_folha),
