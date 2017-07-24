@@ -519,23 +519,7 @@ BOLETO_ESPECIE = [
     ('30', 'Encargos Condominiais'),
     ('31', 'CC Cartão de Crédito'),
     ('32', 'BDP Boleto de Proposta'),
-    ('99', 'Outros'),
-
-
-    ('01', 'Duplicata Mercantil'),
-    ('02', 'Nota Promissória'),
-    ('03', 'Nota de Seguro'),
-    ('04', 'Mensalidade Escolar'),
-    ('05', 'Recibo'),
-    ('06', 'Contrato'),
-    ('07', 'Cosseguros'),
-    ('08', 'Duplicata de Serviço'),
-    ('09', 'Letra de Câmbio'),
-    ('13', 'Nota de Débitos'),
-    ('15', 'Documento de Dívida'),
-    ('16', 'Encargos Condominiais'),
-    ('17', 'Conta de Prestação de Serviços'),
-    ('99', 'Diversos'),
+    ('99', 'Outros')
 ]
 
 BOLETO_ESPECIE_DUPLICATA_MERCANTIL = '01'
