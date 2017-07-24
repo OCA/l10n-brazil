@@ -4,7 +4,7 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from openerp import api, fields, models, _
+from openerp import models, fields, api, exceptions, workflow, _
 from openerp.exceptions import ValidationError
 # from openerp.addons.l10n_br_hr_payroll.models.hr_payslip import TIPO_DE_FOLHA
 from openerp.addons.financial.constants import (
@@ -23,6 +23,28 @@ class PaymentOrder(models.Model):
     _name = b'payment.order'
     _inherit = ['payment.order', 'mail.thread', 'ir.needaction_mixin']
 
+    @api.multi
+    @api.depends('mode.nivel_aprovacao')
+    def _compute_nivel_aprovacao(self):
+        for record in self:
+            record.nivel_aprovacao = int(record.mode.nivel_aprovacao)
+
+    state = fields.Selection(
+        selection=[
+            ('draft', 'Rascunho'),
+            ('waiting', 'Aguardando aprovação'),
+            ('waiting2', 'Aguardando segunda aprovação'),
+            ('open', 'Confirmado'),
+            ('generated', 'Arquivo gerado'),
+            ('done', 'Arquivo enviado ao banco'),  # v10: uploaded
+            ('cancel', 'Cancel'),
+        ],
+        string='Status',
+        readonly=True,
+        copy=False,
+        default='draft',
+        track_visibility='onchange',
+    )
     tipo_pagamento = fields.Selection(
         string="Tipos de Ordem de Pagamento",
         selection=TIPO_ORDEM_PAGAMENTO,
@@ -47,11 +69,10 @@ class PaymentOrder(models.Model):
         string="Data",
         states={'draft': [('readonly', False)]},
     )
-    # tipo_de_folha = fields.Selection(
-    #     selection=TIPO_DE_FOLHA,
-    #     string=u'Tipo de folha',
-    #     default='normal',
-    #     states={'done': [('readonly', True)]},
+    nivel_aprovacao = fields.Integer(
+        compute='_compute_nivel_aprovacao',
+
+    )
 
     @api.multi
     def action_open(self):
@@ -229,6 +250,43 @@ class PaymentOrder(models.Model):
 
         return
 
+    @api.multi
+    def launch_wizard(self):
+        """Search for a wizard to launch according to the type.
+        If type is manual. just confirm the order.
+        Previously (pre-v6) in account_payment/wizard/wizard_pay.py
+        """
+        context = self.env.context.copy()
+        order = self[0]
+        # check if a wizard is defined for the first order
+        if order.mode.type and order.mode.type.ir_model_id:
+            context['active_ids'] = self.ids
+            wizard_model = order.mode.type.ir_model_id.model
+            wizard_obj = self.env[wizard_model]
+            return {
+                'name': wizard_obj._description or _('Payment Order Export'),
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': wizard_model,
+                'domain': [],
+                'context': context,
+                'type': 'ir.actions.act_window',
+                'target': 'new',
+                'nodestroy': True,
+            }
+        else:
+            # should all be manual orders without type or wizard model
+            for order in self[1:]:
+                if order.mode.type and order.mode.type.ir_model_id:
+                    raise exceptions.Warning(
+                        _('Error'),
+                        _('You can only combine payment orders of the same '
+                          'type'))
+            # process manual payments
+            for order_id in self.ids:
+                workflow.trg_validate(self.env.uid, 'payment.order',
+                                      order_id, 'generated', self.env.cr)
+            return {}
 
     @api.multi
     def buscar_holerites_wizard(self):

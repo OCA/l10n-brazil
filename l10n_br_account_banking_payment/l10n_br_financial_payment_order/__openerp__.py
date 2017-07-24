@@ -33,6 +33,7 @@
 
         'views/financial_retorno_bancario.xml',
         'views/financial_move.xml',
+        'workflows/payment_order_workflow.xml',
         # 'security/payment_mode.xml',
         # 'security/payment_mode_type.xml',
         # 'security/bank_payment_line.xml',

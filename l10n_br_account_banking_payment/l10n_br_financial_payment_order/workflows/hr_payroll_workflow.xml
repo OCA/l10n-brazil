@@ -3,6 +3,9 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <openerp>
     <data>
+
+
+
         <record id="hr_payroll.t5" model="workflow.transition">
             <field name="act_from" ref="hr_payroll.act_verify"/>
             <field name="act_to" ref="hr_payroll.act_done"/>
