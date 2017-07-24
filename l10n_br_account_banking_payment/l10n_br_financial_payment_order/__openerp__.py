@@ -18,7 +18,7 @@
     'depends': [
         'account_banking_payment_export',
         'l10n_br_account_product',
-        'financial_account',
+        'financial',
     ],
     'data': [
         'wizards/ordem_pagamento_holerite_wizard.xml',
