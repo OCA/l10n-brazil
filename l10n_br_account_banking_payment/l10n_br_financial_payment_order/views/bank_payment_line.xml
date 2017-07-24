@@ -12,7 +12,7 @@
             <field name="arch" type="xml">
                 <group name="main" position="before">
                     <header>
-                        <button name="set_paid" string="Holerites" type="object" />
+                        <button name="set_paid" string="Pagar" type="object" />
                         <field name="state2" widget="statusbar" nolabel="1" statusbar_visible="draft,wait,paid"/>
                     </header>
                 </group>
