@@ -16,6 +16,12 @@ class HrPayslip(models.Model):
         # domain="[('type', '=', type)]"
     )
 
+    payment_order_id = fields.Many2one(
+        string="Payment Mode",
+        comodel_name='payment.order',
+        # domain="[('type', '=', type)]"
+    )
+
     payment_line_ids = fields.One2many(
         string="Ordens de Pagamento",
         comodel_name="payment.line",
