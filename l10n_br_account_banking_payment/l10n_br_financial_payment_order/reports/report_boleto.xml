@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<openerp>
+    <data>
+        <report id="action_insert_reports_print_button_financial_move"
+                name="l10n_br_financial_payment_order.report"
+                model="financial.move"
+                multi="1"
+                string="Boleto"/>
+
+        <report id="action_insert_reports_print_button_account_invoice"
+                name="l10n_br_account_payment_boleto.report"
+                model="account.invoice"
+                string="Boleto"/>
+    </data>
+</openerp>
