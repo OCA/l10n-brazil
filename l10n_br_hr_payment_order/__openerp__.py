@@ -23,6 +23,7 @@
         'security/ir.model.access.csv',
         'wizard/payslip_payment_create_order_view.xml',
         'views/hr_payslip.xml',
+        'views/payment_mode.xml',
         'views/payment_order.xml',
         'views/res_config_view.xml',
         'views/hr_salary_rule_view.xml',

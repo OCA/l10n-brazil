@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record model="ir.actions.act_window" id="payment_mode_pagamento_folha_act_window">
+        <field name="name">Pagamento Folha</field>
+        <field name="res_model">payment.mode</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('tipo_pagamento', '=', 'folha'), ('tipo_servico', '=', '30')]</field>
+        <field name="context">{'default_tipo_pagamento': 'folha', 'default_tipo_servico': '30'}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="payment_mode_pagamento_folha_menu">
+        <field name="name">Pagamento Folha</field>
+        <field name="parent_id" ref="l10n_br_financial_payment_order.financial_payment_order_config_menu"/>
+        <field name="action" ref="payment_mode_pagamento_folha_act_window"/>
+        <field name="sequence" eval="25"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="payment_mode_pagamento_folha_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="l10n_br_financial_payment_order.payment_mode_base_form"/>
+        <field name="act_window_id" ref="payment_mode_pagamento_folha_act_window"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="payment_mode_pagamento_folha_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="l10n_br_financial_payment_order.payment_mode_base_tree"/>
+        <field name="act_window_id" ref="payment_mode_pagamento_folha_act_window"/>
+    </record>
+
+</data>
+</openerp>
