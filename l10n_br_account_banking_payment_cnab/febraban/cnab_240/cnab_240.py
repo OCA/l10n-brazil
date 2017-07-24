@@ -114,7 +114,8 @@ class Cnab240(Cnab):
             # 09.0
             'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
             # 10.0
-            'cedente_conta': int(self.order.mode.bank_id.acc_number),
+            'cedente_conta':
+                int(punctuation_rm(self.order.mode.bank_id.acc_number)),
             # 11.0
             'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig[0],
             # 12.0
@@ -123,7 +124,9 @@ class Cnab240(Cnab):
                 if len(self.order.mode.bank_id.acc_number_dig) > 1 else '',
             # 13.0
             'cedente_nome':
-                self.order.mode.bank_id.partner_id.legal_name[:30],
+                self.order.mode.bank_id.partner_id.legal_name[:30]
+                if self.order.mode.bank_id.partner_id.legal_name
+                else self.order.mode.bank_id.partner_id.name[:30],
             # 14.0
             'nome_banco': self.order.mode.bank_id.bank_name,
             # 15.0
@@ -195,7 +198,8 @@ class Cnab240(Cnab):
             # 13.1
             'cedente_agencia_dv': self.order.mode.bank_id.bra_number_dig,
             # 14.1
-            'cedente_conta': int(self.order.mode.bank_id.acc_number),
+            'cedente_conta':
+                int(punctuation_rm(self.order.mode.bank_id.acc_number)),
             # 15.1
             'cedente_conta_dv': self.order.mode.bank_id.acc_number_dig[0],
             # 16.1
@@ -204,7 +208,9 @@ class Cnab240(Cnab):
                 if len(self.order.mode.bank_id.acc_number_dig) > 1 else '',
             # 17.1
             'cedente_nome':
-                self.order.mode.bank_id.partner_id.legal_name[:30],
+                self.order.mode.bank_id.partner_id.legal_name[:30]
+                if self.order.mode.bank_id.partner_id.legal_name
+                else self.order.mode.bank_id.partner_id.name[:30],
             # 18.1
             'mensagem1': '',
 
