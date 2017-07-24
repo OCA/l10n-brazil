@@ -68,7 +68,7 @@
                         </group>
                         <notebook>
                             <page string="Items" name="payment-lines">
-                                <field name="line_ids" context="{'order_id': active_id or False}" >
+                                <field name="line_ids" attrs="{'readonly':[('state','!=','draft')]}" context="{'order_id': active_id or False}" >
                                     <form string="Payment Line">
                                         <group name="informacoes_especificas_linha">
                                         </group>
