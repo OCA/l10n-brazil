@@ -10,6 +10,8 @@ from pybrasil.febraban import (valida_codigo_barras, valida_linha_digitavel,
     identifica_codigo_barras, monta_linha_digitavel, monta_codigo_barras,
     formata_linha_digitavel)
 
+import base64
+
 from ..febraban.boleto.document import Boleto
 from ..febraban.boleto.document import BoletoException
 
@@ -32,6 +34,10 @@ class FinancialMove(models.Model):
         comodel_name='payment.mode',
         string='Carteira de cobrança',
         ondelete='restrict',
+    )
+    tipo_pagamento = fields.Selection(
+        related='payment_mode_id.tipo_pagamento',
+        store=True
     )
     #
     # Implementa o nosso número como NUMERIC no Postgres, pois alguns
@@ -106,41 +112,50 @@ class FinancialMove(models.Model):
             move._trata_linha_digitavel()
 
     @api.multi
-    def gera_boleto(self):
+    def button_boleto(self):
+        self.ensure_one()
+        return self.env['report'].get_action(
+            self, b'l10n_br_financial_payment_order.report')
 
-        print ('Chegou AQUI!')
+    @api.multi
+    def gera_boleto(self):
 
         boleto_list = []
 
-        for move_line in self:
+        for financial_move in self:
             try:
 
-                if True:
-                # if move_line.payment_mode_id.type_payment == '00':
-                #     number_type = move_line.company_id.own_number_type
-                #     if not move_line.boleto_own_number:
+                # if True:
+                # if financial_move.payment_mode_id.type_payment == '00':
+                #     number_type = financial_move.company_id.own_number_type
+                #     if not financial_move.boleto_own_number:
                 #         if number_type == '0':
                 #             nosso_numero = self.env['ir.sequence'].next_by_id(
-                #                 move_line.company_id.own_number_sequence.id)
+                #                 financial_move.company_id.own_number_sequence.id)
                 #         elif number_type == '1':
                 #             nosso_numero = \
-                #                 move_line.transaction_ref.replace('/', '')
+                #                 financial_move.transaction_ref.replace('/', '')
                 #         else:
                 #             nosso_numero = self.env['ir.sequence'].next_by_id(
-                #                 move_line.payment_mode_id.
+                #                 financial_move.payment_mode_id.
                 #                 internal_sequence_id.id)
                 #     else:
-                #         nosso_numero = move_line.boleto_own_number
-                    nosso_numero = move_line.nosso_numero
-                    nosso_numero = 3751
+                #         nosso_numero = financial_move.boleto_own_number
 
-                    boleto = Boleto.getBoleto(move_line, nosso_numero)
+                    seq_id = \
+                        financial_move.payment_mode_id.\
+                            sequence_nosso_numero_id.id
+                    nosso_numero = str(int(self.nosso_numero)) or \
+                                   self.env['ir.sequence'].next_by_id(seq_id)
+
+
+                    boleto = Boleto.getBoleto(financial_move, nosso_numero)
 
                     if boleto:
-                        move_line.date_payment_created = date.today()
-                        move_line.transaction_ref = \
-                            boleto.boleto.format_nosso_numero()
-                        move_line.boleto_own_number = nosso_numero
+                    #     financial_move.date_payment_created = date.today()
+                    #     financial_move.transaction_ref = \
+                    #         boleto.boleto.format_nosso_numero()
+                        financial_move.nosso_numero = nosso_numero
 
                     boleto_list.append(boleto.boleto)
             except BoletoException as be:

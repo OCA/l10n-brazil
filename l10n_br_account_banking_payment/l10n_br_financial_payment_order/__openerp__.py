@@ -25,6 +25,7 @@
         'wizards/l10n_br_payment_cnab.xml',
         'views/payment_menu.xml',
         'views/bank_payment_line.xml',
+        'views/financial_move.xml',
 
         'views/inherited_financial_document_type_view.xml',
         'views/inherited_financial_move_debt_2pay_view.xml',
