@@ -14,4 +14,4 @@ from . import payment_mode_type
 #
 from . import inherited_payment_order
 from . import operacoes
-from . import l10n_br_cnab
+from . import financial_retorno_bancario
