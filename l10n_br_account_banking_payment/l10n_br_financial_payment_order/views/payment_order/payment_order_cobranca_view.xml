@@ -25,10 +25,10 @@
                 </div>
             </xpath>
             <xpath expr="//group[@name='informacoes_especificas']" position="inside">
-                <h1>TODO: Informações específicas</h1>
+                <!--<h1>TODO: Informações específicas</h1>-->
             </xpath>
             <xpath expr="//group[@name='informacoes_especificas_linha']" position="inside">
-                <h1>TODO: Informações específicas</h1>
+                <field name="fn_nosso_numero" col="4"/>
             </xpath>
         </field>
     </record>

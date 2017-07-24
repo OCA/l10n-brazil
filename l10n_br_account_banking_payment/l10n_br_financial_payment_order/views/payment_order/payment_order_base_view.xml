@@ -74,6 +74,10 @@
                                         <notebook>
                                             <page string="Payment">
                                                 <group col="4">
+                                                    <field name="reference_id"/>
+                                                    <field name="name"/>
+                                                    <field name="communication"/>
+                                                    <field name="communication2"/>
                                                     <!--<field name="move_line_id" on_change="onchange_move_line(move_line_id,parent.mode,parent.date_prefered,parent.date_scheduled,currency,company_currency)" domain="[('reconcile_id','=', False), ('account_id.reconcile', '=', True)] "/> &lt;!&ndash; we removed the filter on amount_to_pay, because we want to be able to select refunds &ndash;&gt;-->
                                                     <separator colspan="4" string="Transaction Information"/>
                                                     <field name="date"/>
@@ -84,39 +88,36 @@
                                                     </div>
                                                     <field name="partner_id" on_change="onchange_partner(partner_id,parent.mode)"/>
                                                     <field domain="[('partner_id','=',partner_id)]" name="bank_id"/>
-                                                    <separator colspan="2" string="Owner Account"/>
-                                                    <separator colspan="2" string="Partner Bank Account"/>
-                                                    <field colspan="2" name="info_owner" nolabel="1"/>
-                                                    <field colspan="2" name="info_partner" nolabel="1"/>
-                                                    <field colspan="4" name="communication"/>
-                                                    <field colspan="4" name="communication2"/>
-                                                    <field name="name"/>
-                                                    <field name="state"/>
+                                                    <!--<separator colspan="2" string="Pagador" name=""/>-->
+                                                    <!--<separator colspan="2" string="Favorecido"/>-->
+                                                    <!--<field colspan="2" name="info_owner" nolabel="1"/>-->
+                                                    <!--<field colspan="2" name="info_partner" nolabel="1"/>-->
                                                     <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                                                    <field name="state" invisible="1"/>
                                                 </group>
                                             </page>
-                                            <page string="Information">
-                                                <group col="4" string="General Information">
+                                            <page string="Lançamento Financeiro">
+                                                <group col="4">
                                                     <label for="amount" groups="base.group_multi_currency"/>
                                                     <div groups="base.group_multi_currency">
                                                         <field name="amount" class="oe_inline"/>
                                                         <field name="company_currency" class="oe_inline"/>
                                                     </div>
-                                                    <separator colspan="4" string="Entry Information"/>
-                                                    <field name="create_date" readonly="1"/>
-                                                    <field name="ml_maturity_date"/> <!-- TODO: Implementar campo relacinando com o financeiro. -->
                                                     <field name="financial_id"/>
-                                                    <field name="bank_line_id" readonly="1"/>
+                                                    <field name="fn_date_document"/>
+                                                    <field name="fn_date_maturity"/>
+                                                    <field name="fn_date_business_maturity"/>
+                                                    <!--<field name="bank_line_id" readonly="1"/>-->
                                                 </group>
                                             </page>
                                         </notebook>
                                     </form>
                                     <tree string="Payment Line">
-                                        <field name="ml_inv_ref" />
+                                        <field name="reference_id"/>
                                         <field name="partner_id"/>
                                         <field name="communication"/>
                                         <field name="bank_id" domain="[('partner_id', '=', partner_id)]"/>
-                                        <field name="ml_maturity_date"/>
+                                        <field name="fn_date_business_maturity"/>
                                         <field name="date"/>
                                         <field name="amount_currency" string="Amount"/>
                                         <field name="currency"/>
@@ -125,9 +126,9 @@
                                     </tree>
                                 </field>
                             </page>
-                            <!--<page string="Bank Payment Lines" name="bank-payment-lines">-->
-                                <!--<field name="bank_line_ids" context="{'search_payment_order_type': context.get('search_payment_order_type')}"/>-->
-                            <!--</page>-->
+                            <page string="Envios ao banco" name="bank-payment-lines">
+                                <field name="bank_line_ids" context="{'search_payment_order_type': context.get('search_payment_order_type')}"/>
+                            </page>
                         </notebook>
                     </sheet>
                 <div class="oe_chatter">

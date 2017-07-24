@@ -107,7 +107,7 @@ class PaymentOrder(models.Model):
                 else False)
 
         state = 'normal'
-        communication = line.display_name or '-'
+        communication = line.document_number or '-'
         # communication = line.ref or '-'
         # TODO:
         # - Implementar novamente o campo ref? Pois o display name pode
@@ -116,7 +116,7 @@ class PaymentOrder(models.Model):
         # - Podemos inserir com uma moeda diferente da ordem de pagamento?
         #
 
-        amount_currency = line.amount_document
+        amount_currency = line.amount_residual
 
         # TODO: Devemos expressar o valor com sinal negativo em alguns casos?
         # if self.payment_order_type == 'debit':

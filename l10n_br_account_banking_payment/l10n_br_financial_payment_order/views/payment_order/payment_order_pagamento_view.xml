@@ -15,10 +15,11 @@
                 <attribute name="string">Pagamento</attribute>
             </xpath>
             <xpath expr="//group[@name='informacoes_especificas']" position="inside">
-                <h1>TODO: Informações específicas</h1>
+                <!--<h1>TODO: Informações específicas</h1>-->
             </xpath>
             <xpath expr="//group[@name='informacoes_especificas_linha']" position="inside">
-                <h1>TODO: Informações específicas</h1>
+                <field name="fn_boleto_linha_digitavel" col="4"/>
+                <field name="fb_boleto_codigo_barras" col="4"/>
             </xpath>
             <!--<field name="mode" position="after">-->
                 <!--<field name="tipo_de_folha" />-->
