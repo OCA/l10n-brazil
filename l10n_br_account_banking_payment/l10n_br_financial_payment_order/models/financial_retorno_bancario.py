@@ -86,19 +86,13 @@ class FinancialRetornoBancario(models.Model):
 
     name = fields.Char(string='Nome')
 
-    data_arquivo = fields.Datetime(string='Data Criação no Banco')
+    data_arquivo = fields.Date(string='Data Criação no Banco')
     
     num_lotes = fields.Integer(string='Número de Lotes')
 
     num_eventos = fields.Integer(string='Número de Eventos')
 
     codigo_convenio = fields.Char(string='Código Convenio')
-
-    # data = fields.Date(
-    #     string='Data CNAB',
-    #     # required=True,
-    #     # default=datetime.now(),
-    # )
 
     arquivo_retorno = fields.Binary(
         string='Arquivo Retorno',
@@ -229,7 +223,7 @@ class FinancialRetornoBancario(models.Model):
                     if account_bank_id_lote else False
 
                 account_bank_id_infos = \
-                    'Agência: ' + str(evento.favorecido_agencia) +\
+                    'Agência: ' + str(evento.favorecido_agencia) + \
                     '-' + str(evento.favorecido_agencia_dv) + \
                     '\nConta: ' + str(evento.favorecido_conta) + \
                     '-' + str(evento.favorecido_conta_dv)
@@ -340,7 +334,7 @@ class FinancialRetornoBancarioLote(models.Model):
 class FinancialRetornoBancarioEvento(models.Model):
     _name = b'financial.retorno.bancario.evento'
 
-    data_real_pagamento = fields.Datetime(string='Data Real do Pagamento')
+    data_real_pagamento = fields.Date(string='Data Real do Pagamento')
     
     segmento = fields.Char(string='Segmento')
 
