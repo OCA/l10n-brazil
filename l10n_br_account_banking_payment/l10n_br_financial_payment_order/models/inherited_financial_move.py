@@ -6,7 +6,9 @@ from __future__ import division, print_function, unicode_literals
 
 from openerp import api, fields, models, _
 
-from pybrasil.base import modulo11, modulo10
+from pybrasil.febraban import (valida_codigo_barras, valida_linha_digitavel,
+    identifica_codigo_barras, monta_linha_digitavel, monta_codigo_barras,
+    formata_linha_digitavel)
 
 from ..febraban.boleto.document import Boleto
 from ..febraban.boleto.document import BoletoException
@@ -44,74 +46,64 @@ class FinancialMove(models.Model):
     #
     boleto_linha_digitavel = fields.Char(
         string='Linha digitável',
-        size=54,
+        size=55,
     )
     boleto_codigo_barras = fields.Char(
         string='Código de barras',
         size=44,
     )
 
+    def _trata_linha_digitavel(self):
+        self.ensure_one()
+
+        if not self.boleto_linha_digitavel:
+            return
+
+        #
+        # Foi informado o número via leitura do codigo de barras?
+        #
+        if valida_codigo_barras(self.boleto_linha_digitavel):
+            codigo_barras = self.boleto_linha_digitavel
+            linha_digitavel = monta_linha_digitavel(codigo_barras)
+        #
+        # Ou foi informado via digitação mesmo?
+        #
+        elif valida_linha_digitavel(self.boleto_linha_digitavel):
+            codigo_barras = monta_codigo_barras(self.boleto_linha_digitavel)
+            linha_digitavel = \
+                formata_linha_digitavel(self.boleto_linha_digitavel)
+
+        else:
+            return
+            #raise código inválido
+
+        identificacao = identifica_codigo_barras(codigo_barras)
+
+        if identificacao is None:
+            return
+            #raise código inválido
+
+        self.boleto_linha_digitavel = linha_digitavel
+        self.boleto_codigo_barras = codigo_barras
+
+        if 'valor' in identificacao:
+            self.amount_document = identificacao['valor']
+
+        if 'vencimento' in identificacao and \
+                identificacao['vencimento'] is not None:
+            self.date_maturity = str(identificacao['vencimento'])
+
     @api.multi
-    @api.depends('boleto_codigo_barras')
-    def compute_codigo_barras(self):
-        '''
-        Posição  #   Conteúdo
-        01 a 03  03  Número do banco
-        04       01  Código da Moeda - 9 para Real
-        05       01  Digito verificador do Código de Barras
-        06 a 09  04  Data de vencimento em dias partis de 07/10/1997
-        10 a 19  10  Valor do boleto (8 inteiros e 2 decimais)
-        20 a 44  25  Campo Livre definido por cada banco
-        Total    44
-        '''
-
+    @api.onchange('boleto_linha_digitavel')
+    def _onchange_linha_digitavel(self):
         for move in self:
-            if not move.boleto_codigo_barras:
-                continue
+            move._trata_linha_digitavel()
 
-            if len(move.boleto_codigo_barras) != 44:
-                pass
-                # raise
-
-            dv = move.boleto_codigo_barras[4]
-            codigo_barras = move.boleto_codigo_barras[0:4] + \
-                            move.boleto_codigo_barras[5:]
-
-            dv_calculado = modulo11(codigo_barras,
-                                    mapa_digitos={0: 1, 1: 1, 10: 1, 11: 1})
-
-            if dv_calculado != dv:
-                pass
-                # raise
-
-            # valor = move.boleto_codigo_barras[9:17] + '.' + \
-            #     move.boleto_codigo_barras[17:19]
-            # valor = float(valor)
-            # data_vencimento = move.boleto_codigo_barras[5:9]
-
-            #
-            # Monta a linha digitável
-            #
-            campo_1 = move.boleto_codigo_barras[0:4] + \
-                      move.boleto_codigo_barras[19:24]
-            campo_2 = move.boleto_codigo_barras[24:34]
-            campo_3 = move.boleto_codigo_barras[34:44]
-            campo_4 = move.boleto_codigo_barras[4]
-            campo_5 = move.boleto_codigo_barras[5:19]
-
-            #
-            # Dígitos verificadores
-            #
-            campo_1 += str(modulo10(campo_1, modulo=False))
-            campo_2 += str(modulo10(campo_2, modulo=False))
-            campo_3 += str(modulo10(campo_3, modulo=False))
-
-            campo_1 = campo_1[:5] + '.' + campo_1[5:]
-            campo_2 = campo_2[:5] + '.' + campo_2[5:]
-            campo_3 = campo_3[:5] + '.' + campo_3[5:]
-
-            move.boleto_linha_digitavel = ' '.join([campo_1, campo_2, campo_3,
-                                                    campo_4, campo_5])
+    @api.multi
+    @api.depends('boleto_linha_digitavel')
+    def _depends_linha_digitavel(self):
+        for move in self:
+            move._trata_linha_digitavel()
 
     @api.multi
     def gera_boleto(self):

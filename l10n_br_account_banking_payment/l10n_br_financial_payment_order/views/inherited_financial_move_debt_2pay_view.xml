@@ -13,7 +13,7 @@
         <field name="priority">2</field>
         <field name="inherit_id" ref="financial.financial_move_debt_2pay_form" />
         <field name="arch" type="xml">
-            <group name="amounts" position="after">
+            <group name="document_identification" position="before">
                 <group name="boleto" colspan="4" col="4">
                     <group name="codigo_barras" string="Integração Bancária" colspan="4" col="4">
                         <field name="boleto_linha_digitavel" colspan="4" />
