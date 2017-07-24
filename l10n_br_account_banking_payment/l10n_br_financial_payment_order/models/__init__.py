@@ -15,3 +15,5 @@ from . import payment_mode_type
 from . import inherited_payment_order
 from . import operacoes
 from . import financial_retorno_bancario
+from . import res_bank
+from . import res_partner_bank
