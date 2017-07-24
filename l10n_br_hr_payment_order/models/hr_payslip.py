@@ -13,7 +13,7 @@ class HrPayslip(models.Model):
     payment_mode_id = fields.Many2one(
         string="Payment Mode",
         comodel_name='payment.mode',
-        # domain="[('type', '=', type)]"
+        domain="[('tipo_pagamento', '=', 'folha')]"
     )
 
     payment_order_id = fields.Many2one(
@@ -100,7 +100,7 @@ class HrPayslip(models.Model):
         payment_order_model = self.env['payment.order']
 
         for holerite in self:
-            if holerite.state != 'draft':
+            if holerite.state != 'verify':
                 raise UserError(_(
                     "The payslip %s is not in Open state") %
                     holerite.contract_id.nome_contrato)
