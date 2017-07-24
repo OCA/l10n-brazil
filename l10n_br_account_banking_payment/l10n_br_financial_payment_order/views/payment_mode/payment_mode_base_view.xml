@@ -64,10 +64,10 @@
                             </group>
                         </group>
                         <group name="group_configuration" string="Configurações">
-                            <group string="Ordem de Pagamento / Cobrança" name="group_configuration_payment_order">
+                            <group string="Ordem de Pagamento / Cobrança" name="group_configuration_payment_order" colspan="4">
                                 <field name="group_lines"/>
                             </group>
-                            <group string="Permissões" name="group_configuration_permissions">
+                            <group string="Permissões" name="group_configuration_permissions" colspan="4">
                                 <field name="nivel_aprovacao"/>
                                 <field name="aprovacao_grupo_1"
                                        attrs="{'invisible':[('nivel_aprovacao','=','0')],'required':[('nivel_aprovacao', '!=', '0')]}"/>
@@ -75,9 +75,23 @@
                                        attrs="{'invisible':[('nivel_aprovacao','!=','2')],'required':[('nivel_aprovacao','=','2')]}"
                                 />
                             </group>
-                            <group string="Financeiro" name="group_configuration_financial">
-                                <field name="gera_financeiro_remessa"/>
-                                <field name="gera_financeiro_retorno"/>
+                            <group string="Financeiro" name="group_configuration_financial" colspan="4">
+                                <group string="Remessa">
+                                    <field name="gera_financeiro_remessa" string="Gera financeiro"/>
+                                    <field name="remessa_financial_account_id"
+                                     attrs="{'invisible':[('gera_financeiro_remessa','!=',True)],'required':[('gera_financeiro_remessa','=',True)]}"
+                                    />
+                                    <field name="remessa_document_type_id"
+                                     attrs="{'invisible':[('gera_financeiro_remessa','!=',True)],'required':[('gera_financeiro_remessa','=',True)]}"
+                                    />
+                                </group>
+                                <group string="Retorno">
+                                    <field name="gera_financeiro_retorno" string="Gera financeiro"/>
+                                    <field name="retorno_financial_account_id"
+                                     attrs="{'invisible':[('gera_financeiro_retorno','!=',True)],'required':[('gera_financeiro_retorno','=',True)]}"/>
+                                    <field name="retorno_document_type_id"
+                                     attrs="{'invisible':[('gera_financeiro_retorno','!=',True)],'required':[('gera_financeiro_retorno','=',True)]}"/>
+                                </group>
                             </group>
                         </group>
                     </sheet>

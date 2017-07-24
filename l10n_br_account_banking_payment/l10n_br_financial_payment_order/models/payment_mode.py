@@ -187,13 +187,27 @@ class PaymentMode(models.Model):
     gera_financeiro_remessa = fields.Boolean(
         string='Gerar lançamento financeiro ao processar a remessa',
     )
+    remessa_financial_account_id = fields.Many2one(
+        comodel_name='financial.account',
+        string='Conta financeira',
+        domain=[('type', '=', 'A')],
+    )
+    remessa_document_type_id = fields.Many2one(
+        comodel_name='financial.document.type',
+        string='Tipo de documento',
+    )
     gera_financeiro_retorno = fields.Boolean(
         string='Gerar lançamento financeiro ao processar o retorno',
     )
-    # boleto_type = fields.Selection(
-    #     boleto_selection,
-    #     string='Boleto'
-    # )
+    retorno_financial_account_id = fields.Many2one(
+        comodel_name='financial.account',
+        string='Conta financeira',
+        domain=[('type', '=', 'A')],
+    )
+    retorno_document_type_id = fields.Many2one(
+        comodel_name='financial.document.type',
+        string='Tipo de documento',
+    )
 
     @api.depends('tipo_servico')
     def _compute_sale_purchase_ok(self):
