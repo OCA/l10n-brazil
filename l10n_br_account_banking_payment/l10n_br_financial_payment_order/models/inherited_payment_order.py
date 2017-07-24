@@ -29,6 +29,15 @@ class PaymentOrder(models.Model):
         for record in self:
             record.nivel_aprovacao = int(record.mode.nivel_aprovacao)
 
+    @api.multi
+    @api.depends('mode.tipo_pagamento')
+    def _compute_financial_type(self):
+        for record in self:
+            if record.mode.tipo_pagamento == 'boleto':
+                record.financial_type = FINANCIAL_DEBT_2RECEIVE
+            else:
+                record.financial_type = FINANCIAL_DEBT_2PAY
+
     state = fields.Selection(
         selection=[
             ('draft', 'Rascunho'),
@@ -72,6 +81,13 @@ class PaymentOrder(models.Model):
     nivel_aprovacao = fields.Integer(
         compute='_compute_nivel_aprovacao',
 
+    )
+    financial_type = fields.Selection(
+        selection=[
+            (FINANCIAL_DEBT_2RECEIVE,'A receber'),
+            (FINANCIAL_DEBT_2PAY, 'A pagar'),
+         ],
+        compute='_compute_financial_type',
     )
 
     @api.multi
@@ -249,6 +265,48 @@ class PaymentOrder(models.Model):
             self.line_ids.create(vals)
 
         return
+
+    @api.multi
+    def gera_financeiro_remessa(self):
+        for record in self:
+            if len(record.line_ids) == 1:
+                partner = record.line_ids[0].partner_id
+            else:
+                partner = record.company_id.partner_id
+
+            date = record.date_scheduled
+
+            dados = {
+                'date_document': record.date_done,
+                'partner_id': partner.id,
+                'company_id': record.company_id.id,
+                'doc_source_id': 'payment.order,' + str(record.id),
+                'currency_id': record.company_id.currency_id.id,
+                # 'payment_order_id': record.id,
+                'document_type_id':
+                    record.mode.remessa_document_type_id.id,
+                'account_id': record.mode.remessa_financial_account_id.id,
+                'date_maturity': date,
+                'amount_document': record.total,
+                'document_number':
+                    '{0.name}-{1.reference}-({2})'.format(
+                        record.mode, record,
+                        unicode(len(record.line_ids))),
+                'payment_mode_id': record.mode.id,
+                'type': record.financial_type,
+            }
+
+            finacial_move_id = self.env['financial.move'].create(dados)
+            # TODO: Melhorar este metodo!
+
+    @api.multi
+    def action_done(self):
+        result = super(PaymentOrder, self).action_done()
+        
+        # for record in self:
+        #     if record.state == 'done' and record.mode.gera_financeiro_remessa:
+        #         record.gera_financeiro_remessa()
+        return True
 
     @api.multi
     def launch_wizard(self):

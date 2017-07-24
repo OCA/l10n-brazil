@@ -36,9 +36,12 @@
                         <button name="set_done" states="generated" string="Arquivo enviado ao banco" type="object" class="oe_highlight"/>
                         <button name="open" states="draft,waiting,waiting2" string="Confirmar" class="oe_highlight"/>
                         <button name="launch_wizard" states="open" string="Gerar arquivo" type="object" class="oe_highlight"/>
+
                         <button name="set_to_draft" states="cancel" string="Set to draft" type="object"/>
                         <button name="cancel" states="draft,open,waiting,waiting2" string="Cancel Payments"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,open,generated,uploaded"/>
+
+                        <button name="gera_financeiro_remessa" string="Gera Financeiro" type="object" class="oe_highlight"/>
                     </header>
                     <sheet string="Payment order">
                         <div class="oe_title">
@@ -57,7 +60,6 @@
                                 <field name="mode" domain="[('tipo_pagamento', '=', tipo_pagamento)]"/>
                                 <field name="mode_type" invisible="1"/>
                                 <field name="tipo_pagamento" invisible="1"/>
-                                <field name="bank_line_count" attrs="{'invisible': [('state', 'in', ('draft', 'cancel'))]}"/>
                                 <field name="date_prefered"/>
                                 <field name="date_scheduled" attrs="{'readonly':[('date_prefered','!=','fixed')]}"/>
                                 <group name="informacoes_especificas">
@@ -131,6 +133,7 @@
                                 <field name="bank_line_ids" context="{'search_payment_order_type': context.get('search_payment_order_type')}"/>
                             </page>
                         </notebook>
+                        <field name="bank_line_count" string="Quantidade de registros enviados ao banco" attrs="{'invisible': [('state', 'in', ('draft', 'cancel'))]}"/>
                     </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
