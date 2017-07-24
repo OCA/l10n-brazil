@@ -14,8 +14,16 @@
             <xpath expr="//form[1]" position="attributes">
                 <attribute name="string">Pagamento</attribute>
             </xpath>
-            <xpath expr="//group[@name='informacoes_especificas']" position="inside">
-                <!--<h1>TODO: Informações específicas</h1>-->
+            <xpath expr="//group[@name='criterios_busca']" position="inside">
+                <label string="Período" for="search_date_start"/>
+                <div>
+                    <field name="search_date_start" class="oe_inline"/> — <field name="search_date_stop" class="oe_inline"/>
+                </div>
+                <label string="Data" for="search_date_type"/>
+                <div>
+                    <field name="search_date_type"  widget="radio" class="oe_inline"/>
+                </div>
+               <field name="search_financial_document_type_id" widget="selection" class="oe_inline"/>
             </xpath>
             <xpath expr="//group[@name='informacoes_especificas_linha']" position="inside">
                 <field name="fn_boleto_linha_digitavel" col="4"/>

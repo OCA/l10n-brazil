@@ -78,6 +78,10 @@ class PaymentOrder(models.Model):
         string="Data",
         states={'draft': [('readonly', False)]},
     )
+    search_financial_document_type_id = fields.Many2one(
+        comodel_name='financial.document.type',
+        string='Tipo de documento'
+    )
     nivel_aprovacao = fields.Integer(
         compute='_compute_nivel_aprovacao',
 
@@ -223,6 +227,11 @@ class PaymentOrder(models.Model):
         if self.search_date_stop:
             domain += [
                 (self.search_date_type, '<=', self.search_date_stop),
+            ]
+        if self.search_financial_document_type_id:
+            domain += [
+                ('document_type_id', '=',
+                 self.search_financial_document_type_id.id),
             ]
         if self.mode.tipo_pagamento == TIPO_ORDEM_PAGAMENTO_BOLETO:
             domain += [
