@@ -13,9 +13,6 @@ from openerp import api, fields, models, _
 #     BOLETO_EMISSAO, BOLETO_EMISSAO_BENEFICIARIO, \
 #     BOLETO_ENTREGA, BOLETO_ENTREGA_BENEFICIARIO
 from ..constantes import *
-from ..febraban.boleto.document import getBoletoSelection
-
-boleto_selection = getBoletoSelection()
 
 
 class PaymentMode(models.Model):
