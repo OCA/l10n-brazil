@@ -17,6 +17,7 @@
     ],
     'data': [
         'wizards/ordem_pagamento_holerite_wizard.xml',
+        'wizards/l10n_br_payment_cnab.xml',
         'views/payment_menu.xml',
         'views/bank_payment_line.xml',
 
