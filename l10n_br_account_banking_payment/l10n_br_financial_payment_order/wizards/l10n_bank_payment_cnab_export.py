@@ -76,13 +76,15 @@ class L10nPaymentCnab(models.TransientModel):
 
             if order.mode.type.code == '240':
                 self.name = 'CB%s%s.REM' % (
-                    time.strftime('%d%m'), str(order.file_number))
+                    time.strftime('%d%m'),
+                    str(order.mode.sequence_arquivo_proximo_numero))
             # elif order.mode.type.code == '400':
             #     self.name = 'CB%s%s.REM' % (
             #         time.strftime('%d%m'), str(suf_arquivo))
             elif order.mode.type.code == '500':
                 self.name = 'PG%s%s.REM' % (
-                    time.strftime('%d%m'), str(order.file_number))
+                    time.strftime('%d%m'),
+                    str(order.mode.sequence_arquivo_proximo_numero))
             self.state = 'done'
             self.cnab_file = base64.b64encode(remessa)
             order.cnab_file = base64.b64encode(remessa)

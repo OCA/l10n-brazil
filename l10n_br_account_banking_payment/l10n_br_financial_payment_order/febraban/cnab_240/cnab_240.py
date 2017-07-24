@@ -173,7 +173,7 @@ class Cnab240(Cnab):
             # 04.1 # Header do lote sempre 'C'
             'servico_operacao': 'C',
             # 05.1
-            'servico_servico': self.order.tipo_servico,
+            'servico_servico': self.order.order.mode.tipo_servico,
             # 06.1
             'servico_forma_lancamento': 1,
             # 07.1
@@ -188,7 +188,7 @@ class Cnab240(Cnab):
             # 10.1
             'empresa_inscricao_numero': punctuation_rm(empresa.cnpj_cpf),
             # 11.1
-            'cedente_convenio': self.order.codigo_convenio,
+            'cedente_convenio': self.order.mode.convenio,
             # 12.1
             'cedente_agencia':
                 int(self.order.mode.bank_id.bra_number),
@@ -337,9 +337,9 @@ class Cnab240(Cnab):
             # 05.3A
             #   Segmento Código de Segmento do Reg.Detalhe
             # 06.3A
-            'servico_tipo_movimento': self.order.tipo_movimento,
+            'servico_tipo_movimento': self.order.mode.tipo_servico_complemento,
             # 07.3A
-            'servico_codigo_movimento': self.order.codigo_instrucao_movimento,
+            'servico_codigo_movimento': self.order.mode.instrucao_movimento,
 
             # FAVORECIDO
             # 08.3A - 018-TED 700-DOC
@@ -386,11 +386,11 @@ class Cnab240(Cnab):
             # 25.3A
             # 'codigo_finalidade_doc': line.codigo_finalidade_doc,
             # 26.3A
-            'codigo_finalidade_ted': line.codigo_finalidade_ted or '',
+            'codigo_finalidade_ted': self.order.mode.finalidade_ted or ''
             # 27.3A
             'codigo_finalidade_complementar':
-                line.codigo_finalidade_complementar or '',
-            # 28.3A
+                self.order.mode.finalidade_complementar or '',
+        # 28.3A
             # CNAB - Uso Exclusivo FEBRABAN/CNAB
             # 29.3A
             # 'aviso_ao_favorecido': line.aviso_ao_favorecido,
