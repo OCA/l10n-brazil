@@ -60,6 +60,7 @@
                                 <field name="mode" domain="[('tipo_pagamento', '=', tipo_pagamento)]"/>
                                 <field name="mode_type" invisible="1"/>
                                 <field name="tipo_pagamento" invisible="1"/>
+                                <field name="tipo_exportacao" invisible="1"/>
                                 <field name="date_prefered"/>
                                 <field name="date_scheduled" attrs="{'readonly':[('date_prefered','!=','fixed')]}"/>
                                 <group name="informacoes_especificas">

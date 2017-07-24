@@ -60,6 +60,12 @@ class PaymentOrder(models.Model):
         help="Tipos de Ordens de Pagamento.",
         states={'done': [('readonly', True)]},
     )
+    tipo_exportacao = fields.Char(
+        string='Tipo de exportação',
+        related='mode.type.code',
+        size=64,
+        readonly=True,
+    )
     search_date_start = fields.Date(
         string="De",
         states={'draft': [('readonly', False)]},

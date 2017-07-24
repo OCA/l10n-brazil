@@ -67,8 +67,15 @@ write({'state':'generated'})</field>
 
         <record id="account_payment.trans_open_done" model="workflow.transition">
             <field name="act_from" ref="account_payment.act_open"/>
+            <field name="act_to" ref="account_payment.act_done"/>
+            <field name="condition">tipo_exportacao=='BANKMAN'</field>
+        </record>
+
+        <record id="trans_open_generated" model="workflow.transition">
+            <field name="act_from" ref="account_payment.act_open"/>
             <field name="act_to" ref="act_generated"/>
             <field name="signal">generated</field>
+            <field name="condition">tipo_exportacao&lt;&gt;'BANKMAN'</field>
         </record>
 
         <record id="trans_generated_done" model="workflow.transition">
