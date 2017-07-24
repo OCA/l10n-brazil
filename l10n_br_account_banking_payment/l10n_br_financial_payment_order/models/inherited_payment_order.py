@@ -14,7 +14,7 @@ from openerp.addons.financial.constants import (
 from ..constantes import (
     TIPO_ORDEM_PAGAMENTO,
     TIPO_ORDEM_PAGAMENTO_BOLETO,
-    TIPO_ORDEM_PAGAMENTO_PAGAMENTO
+    TIPO_ORDEM_PAGAMENTO_PAGAMENTO,
 )
 
 
@@ -33,7 +33,7 @@ class PaymentOrder(models.Model):
     @api.depends('mode.tipo_pagamento')
     def _compute_financial_type(self):
         for record in self:
-            if record.mode.tipo_pagamento == 'boleto':
+            if record.mode.tipo_pagamento == TIPO_ORDEM_PAGAMENTO_BOLETO:
                 record.financial_type = FINANCIAL_DEBT_2RECEIVE
             else:
                 record.financial_type = FINANCIAL_DEBT_2PAY
