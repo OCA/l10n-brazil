@@ -63,9 +63,22 @@
                                 <field name="sequence_arquivo_proximo_numero" string="Próximo arquivo" required="1"/>
                             </group>
                         </group>
-
-                        <group name="group_grouping" string="Line grouping">
-                            <field name="group_lines"/>
+                        <group name="group_configuration" string="Configurações">
+                            <group string="Ordem de Pagamento / Cobrança" name="group_configuration_payment_order">
+                                <field name="group_lines"/>
+                            </group>
+                            <group string="Permissões" name="group_configuration_permissions">
+                                <field name="nivel_aprovacao"/>
+                                <field name="aprovacao_grupo_1"
+                                       attrs="{'invisible':[('nivel_aprovacao','=','0')],'required':[('nivel_aprovacao', '!=', '0')]}"/>
+                                <field name="aprovacao_grupo_2"
+                                       attrs="{'invisible':[('nivel_aprovacao','!=','2')],'required':[('nivel_aprovacao','=','2')]}"
+                                />
+                            </group>
+                            <group string="Financeiro" name="group_configuration_financial">
+                                <field name="gera_financeiro_remessa"/>
+                                <field name="gera_financeiro_retorno"/>
+                            </group>
                         </group>
                     </sheet>
                 </form>

@@ -170,6 +170,29 @@ class PaymentMode(models.Model):
         string='Entrega',
         default=BOLETO_DISTRIBUICAO_BENEFICIARIO,
     )
+    nivel_aprovacao = fields.Selection(
+        selection=[
+            ('0', 'Nenhuma / Aprovar e gerar o arquivo'),
+            ('1', 'Uma aprovação'),
+            ('2', 'Duas aprovações'),
+        ],
+        required=True,
+        default='0',
+    )
+    aprovacao_grupo_1 = fields.Many2one(
+        comodel_name='res.groups',
+        string='Grupo primeira aprovação'
+    )
+    aprovacao_grupo_2 = fields.Many2one(
+        comodel_name='res.groups',
+        string='Grupo segunda aprovação'
+    )
+    gera_financeiro_remessa = fields.Boolean(
+        string='Gerar lançamento financeiro ao processar a remessa',
+    )
+    gera_financeiro_retorno = fields.Boolean(
+        string='Gerar lançamento financeiro ao processar o retorno',
+    )
     # boleto_type = fields.Selection(
     #     boleto_selection,
     #     string='Boleto'
