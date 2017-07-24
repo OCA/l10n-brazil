@@ -47,6 +47,10 @@
                 </page>
             </xpath>
 
+            <field name="date_scheduled" position="attributes">
+                <attribute name="required">1</attribute>
+            </field>
+
         </field>
     </record>
 
@@ -55,7 +59,7 @@
         <field name="res_model">payment.order</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('tipo_pagamento', '=', 'folha')]</field>
-        <field name="context">{'default_tipo_pagamento': 'folha'}</field>
+        <field name="context">{'default_tipo_pagamento': 'folha', 'default_date_prefered': 'fixed'}</field>
     </record>
 
     <record model="ir.ui.menu" id="payment_order_pagamento_menu">

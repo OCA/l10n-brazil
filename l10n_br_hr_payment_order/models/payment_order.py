@@ -45,9 +45,8 @@ class PaymentOrder(models.Model):
             'communication': communication,
             'state': state,
             # end account banking
-            'date': date_to_pay,
+            'date': self.date_scheduled,
             'payslip_id': line.slip_id.id,
-            # 'financial_id': line.id,
         }
         return res
 
