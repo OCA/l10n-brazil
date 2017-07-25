@@ -2,7 +2,7 @@
 # Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models, _
+from openerp import api, fields, models
 
 from openerp.addons.l10n_br_hr_payroll.models.hr_payslip import (
     TIPO_DE_FOLHA,
@@ -30,7 +30,7 @@ class PaymentOrder(models.Model):
     @api.multi
     def _prepare_folha_payment_line(self, line):
         self.ensure_one()
-        date_to_pay = False  # no payment date => immediate payment
+#        date_to_pay = False  # no payment date => immediate payment
         state = 'normal'
         communication = 'Holerite: ' + line.display_name or '-'
         amount_currency = line.total
@@ -54,12 +54,12 @@ class PaymentOrder(models.Model):
 
     @api.one
     def folha_payment_import(self):
-        """ A importação de holerites nas payment orders funciona da 
+        """ A importação de holerites nas payment orders funciona da
         seguinte maneira:
 
-        1. Busca holerites que estão no status: "Aguardando pagamento" e 
+        1. Busca holerites que estão no status: "Aguardando pagamento" e
         coincidem com o tipo setado no filtro
-        
+
         2. Preparar: Prepara os dados para inclusão:
             _prepare_financial_payment_line
         3. Criar
