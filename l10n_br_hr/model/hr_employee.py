@@ -57,7 +57,6 @@ class HrEmployee(models.Model):
         else:
             raise ValidationError(_('Invalid PIS/PASEP'))
 
-    check_cpf = fields.Boolean('Check CPF', default=True)
     pis_pasep = fields.Char(u'PIS/PASEP', size=15)
     ctps = fields.Char('CTPS', help='CTPS number')
     ctps_series = fields.Char('CTPS series')
@@ -80,8 +79,7 @@ class HrEmployee(models.Model):
                                     inverse_name='employee_id',
                                     string='Dependents')
     rg = fields.Char(string='RG', help='National ID number')
-    cpf = fields.Char(string='CPF', related='address_home_id.cnpj_cpf',
-                      required=True)
+    cpf = fields.Char(string='CPF', required=True)
     organ_exp = fields.Char(string='Dispatcher organ')
     rg_emission = fields.Date(string='Emission date')
     voter_title = fields.Char(string='Voter title')
@@ -136,25 +134,6 @@ class HrEmployee(models.Model):
     country_id = fields.Many2one(comodel_name='res.country',
                                  default=_default_country)
 
-    @api.model
-    @api.onchange('address_home_id')
-    def onchange_address_home_id(self):
-        if self.address_home_id:
-            if self.address_home_id.cnpj_cpf:
-                self.check_cpf = True
-                self.cpf = self.address_home_id.cnpj_cpf
-            else:
-                self.check_cpf = False
-                self.cpf = False
-
-    @api.multi
-    def onchange_user(self, user_id):
-        res = super(HrEmployee, self).onchange_user(user_id)
-        partner = self.env['res.partner'].search(
-            [('user_ids', '=', user_id)], limit=1)
-        res['value'].update({'address_home_id': partner.id})
-        return res
-
 
 class HrEmployeeDependent(models.Model):
     _name = 'hr.employee.dependent'
@@ -184,7 +163,7 @@ class HrEmployeeDependent(models.Model):
     dependent_rg = fields.Char(string='RG')
     dependent_cpf = fields.Char(string='CPF')
 
-    have_alimony = fields.Boolean(string='Have a alimony')
+    have_alimony = fields.Boolean(string='Tem Pensão?')
 
     partner_id = fields.Many2one(
         comodel_name='res.partner',
