@@ -9,7 +9,6 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='identification_id']" position="replace">
-                    <field name="check_cpf" invisible="1"/>
                     <field name="cpf"/>
                     <field name="educational_attainment"/>
                 </xpath>
@@ -33,6 +32,9 @@
                     <field name="talk_to"/>
                     <field name="alternate_email"/>
                 </xpath>
+                <field name="address_home_id" position="attributes">
+                    <attribute name="domain">[('is_company','=',False)]</attribute>
+                </field>
                 <xpath expr="//page[@string='Public Information']" position="after">
                     <page string="Documents">
                         <form string="Documents" version="7.0">
