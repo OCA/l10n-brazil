@@ -15,8 +15,6 @@
         'l10n_br_financial_payment_order',
     ],
     'data': [
-        'data/hr_salary_rule.xml',
-
         'security/hr_payslip.xml',
         'security/payment_order.xml',
         'security/ir.model.access.csv',
@@ -33,6 +31,7 @@
         'payment_order_workflow.xml',
     ],
     'demo': [
+        'demo/hr_salary_rule.xml',
         'demo/hr_payslip.xml',
         'demo/payment_order.xml',
     ],
