@@ -9,4 +9,3 @@ from . import hr_payslip_run
 from . import res_config
 from . import hr_salary_rule
 from . import bank_payment_line
-from . import hr_contract
