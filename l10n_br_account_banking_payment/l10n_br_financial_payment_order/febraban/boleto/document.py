@@ -85,8 +85,10 @@ class Boleto(object):
             self.boleto = BoletoBradesco()
 
         elif banco == '104':
-            if carteira == 'Sigcb':
+            if carteira in ['Sigcb', 'SIND']:
                 self.boleto = BoletoCaixaSigcb()
+            # elif carteira == 'SIND':
+            #     self.boleto = BoletoCaixaSindicato()
             else:
                 self.boleto = BoletoCaixa()
 
