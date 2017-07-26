@@ -17,18 +17,13 @@ except ImportError:
     _logger.info('Cannot import pybrasil')
 
 
-
 @api.cr_uid_id_context
-@py3o_report_extender('l10n_br_financial_payment_order.boleto_py3o')
+@py3o_report_extender('l10n_br_financial_payment_order.py3o_boleto_generico')
 def extender_boleto_sindicato(pool, cr, uid, local_context, context):
-    print ('py3o_report_extender')
     # companylogo = self.env['financial.move'].browse(context['active_id']).company_id.logo
 
     if local_context.get('active_id'):
-
         boleto_list = pool['financial.move'].gera_boleto(cr, uid, local_context.get('active_ids'))
-
-        print boleto_list
 
         vals = {
             'boletos': boleto_list,
@@ -40,11 +35,4 @@ def extender_boleto_sindicato(pool, cr, uid, local_context, context):
             # 'valor_documento':
             #     valor.formata_valor(financial_move.amount_document),
         }
-
         local_context.update(vals)
-
-def get_info_bank(res_partner_bank):
-
-    if not res_partner_bank:
-        return ''
-

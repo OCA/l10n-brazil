@@ -44,7 +44,7 @@
         'workflows/payment_order_workflow.xml',
 
         'reports/report_boleto.xml',
-        'reports/boleto_py3o.xml',
+        'reports/py3o_boleto.xml',
         # 'security/payment_mode.xml',
         # 'security/payment_mode_type.xml',
         # 'security/bank_payment_line.xml',

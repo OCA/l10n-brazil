@@ -112,8 +112,11 @@ class FinancialMove(models.Model):
         # action = self.env['report'].get_action(
         #     self, b'l10n_br_financial_payment_order.report')
 
+        # action = self.env['report'].get_action(
+        #     self, b'l10n_br_financial_payment_order.py3o_boleto_generico')
+
         action = self.env['report'].get_action(
-            self, b'l10n_br_financial_payment_order.boleto_py3o')
+            self, b'l10n_br_financial_payment_order.py3o_boleto_sindicato')
 
         return action
 
