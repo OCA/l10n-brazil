@@ -146,7 +146,6 @@ class Boleto(object):
                 " 0800 726 2492 o Ouvidoria: 0800 725 7474 o caixa.gov.br")
         self.boleto.instrucoes = instrucoes
 
-
     def _payment_mode(self, financial_move):
         """
         :param payment_mode:

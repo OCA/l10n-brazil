@@ -19,6 +19,7 @@
         'account_banking_payment_export',
         'l10n_br_account_product',
         'financial',
+        'report_py3o',
     ],
     'data': [
         'wizards/ordem_pagamento_holerite_wizard.xml',
@@ -41,7 +42,9 @@
         'views/financial_retorno_bancario.xml',
         'views/financial_move.xml',
         'workflows/payment_order_workflow.xml',
+
         'reports/report_boleto.xml',
+        'reports/boleto_py3o.xml',
         # 'security/payment_mode.xml',
         # 'security/payment_mode_type.xml',
         # 'security/bank_payment_line.xml',

@@ -114,8 +114,14 @@ class FinancialMove(models.Model):
     @api.multi
     def button_boleto(self):
         self.ensure_one()
-        return self.env['report'].get_action(
-            self, b'l10n_br_financial_payment_order.report')
+
+        # action = self.env['report'].get_action(
+        #     self, b'l10n_br_financial_payment_order.report')
+
+        action = self.env['report'].get_action(
+            self, b'l10n_br_financial_payment_order.boleto_py3o')
+
+        return action
 
     @api.multi
     def gera_boleto(self):
