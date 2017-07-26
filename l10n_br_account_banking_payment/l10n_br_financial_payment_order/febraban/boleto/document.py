@@ -104,6 +104,7 @@ class Boleto(object):
         self._cedente(cedente)
         self._sacado(sacado)
         self._financial_move(financial_move)
+
         # self.nosso_numero = ''
 
     def getAccountNumber(self):
@@ -135,6 +136,16 @@ class Boleto(object):
         # str("%.2f" % financial_move.amount_currency)
         self.boleto.numero_documento = \
             financial_move.document_number.encode('utf-8')
+        instrucoes = []
+        if financial_move.amount_paid_interest:
+            instrucoes.append('mensagem com juros')
+        if financial_move.payment_mode_id.bank_id.bank_bic == 104:
+            instrucoes.append(
+                "SAC CAIXA: 0800 726 0101 (informações, reclamações, sugestões"
+                " e elogios) Para pessoas com deficiência auditiva ou de fala:"
+                " 0800 726 2492 o Ouvidoria: 0800 725 7474 o caixa.gov.br")
+        self.boleto.instrucoes = instrucoes
+
 
     def _payment_mode(self, financial_move):
         """
@@ -153,14 +164,16 @@ class Boleto(object):
         :param company:
         :return:
         """
-        self.boleto.cedente = partner_id.legal_name.encode('utf-8')
-        self.boleto.cedente_documento = partner_id.cnpj_cpf.encode('utf-8')
-        self.boleto.cedente_bairro = partner_id.district
-        self.boleto.cedente_cep = partner_id.zip
-        self.boleto.cedente_cidade = partner_id.city
+        self.boleto.cedente = partner_id.legal_name \
+            if partner_id.legal_name else ''
+        self.boleto.cedente_documento = partner_id.cnpj_cpf \
+            if partner_id.cnpj_cpf else ''
+        self.boleto.cedente_bairro = partner_id.district or ''
+        self.boleto.cedente_cep = partner_id.zip or ''
+        self.boleto.cedente_cidade = partner_id.city or ''
         self.boleto.cedente_logradouro = partner_id.street + \
             ', ' + (partner_id.number or 'SN')
-        self.boleto.cedente_uf = partner_id.state_id.code
+        self.boleto.cedente_uf = partner_id.state_id.code or ''
         self.boleto.agencia_cedente = self.getBranchNumber()
         self.boleto.conta_cedente = self.getAccountNumber()
 
@@ -176,7 +189,8 @@ class Boleto(object):
         self.boleto.sacado_bairro = partner.district
         self.boleto.sacado_uf = partner.state_id.code
         self.boleto.sacado_cep = partner.zip
-        self.boleto.sacado_nome = partner.legal_name
+        self.boleto.sacado_nome = partner.legal_name \
+            if partner.legal_name else ''
         self.boleto.sacado_documento = partner.cnpj_cpf
 
     @classmethod
