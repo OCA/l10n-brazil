@@ -61,6 +61,14 @@ class PaymentMode(models.Model):
         size=20,
         help='Campo G007 do CNAB',
     )
+    beneficiario_codigo = fields.Char(
+        string='Código do beneficiário',
+        size=20,
+    )
+    beneficiario_digito = fields.Char(
+        string='Dígito do beneficiário',
+        size=1,
+    )
     instrucao_movimento = fields.Selection(
         selection=INSTRUCAO_MOVIMENTO,
         string='Instrução para Movimento',
@@ -122,15 +130,15 @@ class PaymentMode(models.Model):
     #
     boleto_carteira = fields.Char(
         string='Carteira', 
-        size=3,
+        size=10,
     )
     boleto_modalidade = fields.Char(
         string='Modalidade', 
-        size=2,
+        size=3,
     )
     boleto_variacao = fields.Char(
         string='Variação', 
-        size=2,
+        size=3,
     )
     boleto_codigo_cnab = fields.Char(
         string='Código Cnab', 
@@ -167,23 +175,10 @@ class PaymentMode(models.Model):
         string='Entrega',
         default=BOLETO_DISTRIBUICAO_BENEFICIARIO,
     )
-    nivel_aprovacao = fields.Selection(
-        selection=[
-            ('0', 'Nenhuma / Aprovar e gerar o arquivo'),
-            ('1', 'Uma aprovação'),
-            ('2', 'Duas aprovações'),
-        ],
-        required=True,
-        default='0',
-    )
-    aprovacao_grupo_1 = fields.Many2one(
-        comodel_name='res.groups',
-        string='Grupo primeira aprovação'
-    )
-    aprovacao_grupo_2 = fields.Many2one(
-        comodel_name='res.groups',
-        string='Grupo segunda aprovação'
-    )
+
+    #
+    # Controles para os lançamentos financeiros das remessas e retornos
+    #
     gera_financeiro_remessa = fields.Boolean(
         string='Gerar lançamento financeiro ao processar a remessa',
     )
@@ -207,6 +202,28 @@ class PaymentMode(models.Model):
     retorno_document_type_id = fields.Many2one(
         comodel_name='financial.document.type',
         string='Tipo de documento',
+    )
+
+
+    #
+    # Controle de aprovação das ordens de pagamento/arquivos CNAB
+    #
+    nivel_aprovacao = fields.Selection(
+        selection=[
+            ('0', 'Nenhuma / Aprovar e gerar o arquivo'),
+            ('1', 'Uma aprovação'),
+            ('2', 'Duas aprovações'),
+        ],
+        required=True,
+        default='0',
+    )
+    aprovacao_grupo_1 = fields.Many2one(
+        comodel_name='res.groups',
+        string='Grupo primeira aprovação'
+    )
+    aprovacao_grupo_2 = fields.Many2one(
+        comodel_name='res.groups',
+        string='Grupo segunda aprovação'
     )
 
     @api.depends('tipo_servico')

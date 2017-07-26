@@ -53,6 +53,10 @@
                         <group>
                             <group  string="CNAB">
                                 <field name="convenio"/>
+                                <field name="beneficiario_codigo"/>
+                                <field name="beneficiario_digito"/>
+                                <field name="boleto_carteira"/>
+                                <field name="boleto_aceite"/>
                                 <field name="instrucao_movimento"/>
                                 <field name="finalidade_ted"/>
                                 <field name="finalidade_complementar"/>

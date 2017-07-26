@@ -23,14 +23,25 @@
 from datetime import datetime, date
 import logging
 from openerp.addons.financial.constants import (
-FINANCIAL_DEBT_2RECEIVE,
-FINANCIAL_DEBT_2PAY
+    FINANCIAL_DEBT_2RECEIVE,
+    FINANCIAL_DEBT_2PAY
 )
 
 _logger = logging.getLogger(__name__)
 
 try:
-    from pyboleto import bank
+    from pyboleto.bank import BoletoException
+    from pyboleto.bank.bancodobrasil import BoletoBB
+    from pyboleto.bank.banrisul import BoletoBanrisul
+    from pyboleto.bank.bradesco import BoletoBradesco
+    from pyboleto.bank.caixa import BoletoCaixa
+    from pyboleto.bank.caixa_sigcb import BoletoCaixaSigcb
+    from pyboleto.bank.hsbc import BoletoHsbc
+    from pyboleto.bank.itau import BoletoItau
+    from pyboleto.bank.santander import BoletoSantander
+    from pybrasil.data import parse_datetime, hoje
+    from pybrasil.valor.decimal import Decimal
+
 except ImportError as err:
     _logger.debug = err
 
@@ -39,103 +50,153 @@ try:
     from cStringIO import StringIO
 except ImportError:
     from StringIO import StringIO
-BoletoException = bank.BoletoException
+
 
 
 class Boleto(object):
-    account_number = ''
-    account_digit = ''
+    def __init__(self, financial_move, nosso_numero):
+        self.financial_move = financial_move
+        self.nosso_numero = nosso_numero
 
-    branch_number = ''
-    branch_digit = ''
+    def _instancia_boleto(self):
+        banco = self._payment_mode.bank_id.bank.bic
+        carteira = self._payment_mode.boleto_carteira
+        convenio = self._payment_mode.convenio
 
-    nosso_numero = ''
-
-    @staticmethod
-    def getBoleto(financial_move, nosso_numero):
-        payment_mode = financial_move.payment_mode_id
-        carteira = payment_mode.boleto_carteira
-        banco = payment_mode.bank_id.bank.bic
-
-        result = False
+        self.boleto = None
 
         if banco == '001':
-            result = BoletoBB
+            #
+            # O banco do Brasil tem algumas configurações a mais, dependendo
+            # do nº de dígitos do convênio
+            #
+            # Size of convenio 4, 6, 7 or 8
+            # Nosso Numero format. 1 or 2
+            # Used only for convenio=6
+            # 1: Nosso Numero with 5 positions
+            # 2: Nosso Numero with 17 positions
+            tam_convenio = len(convenio or '')
+            self.boleto = BoletoBB(tam_convenio, 2)
+
         elif banco == '041':
-            result = BoletoBarisul
+            self.boleto = BoletoBanrisul()
+
         elif banco == '237':
-            result = BoletoBradesco
+            self.boleto = BoletoBradesco()
+
         elif banco == '104':
             if carteira == 'Sigcb':
-                result = BoletoCaixaSigcb
-            elif carteira in ['SR']:
-                result = BoletoCaixa
+                self.boleto = BoletoCaixaSigcb()
+            else:
+                self.boleto = BoletoCaixa()
+
         elif banco == '399':
-            result = BoletoHsbc
+            self.boleto = BoletoHsbc()
+
         elif banco == '341':
-            if carteira == '157':
-                result = BoletoItau157
-            elif carteira in ['175', '174', '178', '104', '109']:
-                result = BoletoItau
-        elif banco == '356':
-            result = BoletoReal
+            self.boleto = BoletoItau()
+
         elif banco == '033':
-            if carteira == '102':
-                result = BoletoSantander102
-            elif carteira in ['101', '201']:
-                result = BoletoStatander101201
+            self.boleto = BoletoSantander()
 
-        if result:
-            return result(financial_move, nosso_numero)
+        if self.boleto is None:
+            raise BoletoException('Este banco não é suportado.')
+
+    def set_payment_mode(self, payment_mode):
+        self._payment_mode = payment_mode
+        self._bank = payment_mode.bank_id
+        self._instancia_boleto()
+
+        self.boleto.agencia_beneficiario = self._bank.bra_number
+        self.boleto.agencia_beneficiario_digito = \
+            self._bank.bra_number_dig or ''
+
+        self.boleto.convenio = self._payment_mode.convenio
+        self.boleto.aceite = self._payment_mode.boleto_aceite
+        self.boleto.carteira = self._payment_mode.boleto_carteira
+
+        #
+        # Caso haja um código de beneficiário específico na carteira, usamos
+        # este no lugar da conta
+        #
+        if self._payment_mode.beneficiario_codigo:
+            self.boleto.conta_beneficiario = \
+                self._payment_mode.beneficiario_codigo
+            self.boleto.conta_beneficiario_digito = \
+                self._payment_mode.beneficiario_digito or ''
+
         else:
-            raise (BoletoException('Este banco não é suportado.'))
+            self.boleto.conta_beneficiario = self._bank.acc_number
+            self.boleto.conta_beneficiario_digito = \
+                self._bank.acc_number_dig or ''
 
-    @staticmethod
-    def getBoletoClass(financial_move):
-        bank_code = financial_move.payment_mode_id.bank_id.bank.bic
-        return bank.get_class_for_codigo(bank_code)
+        #
+        # O beneficiário é sempre o dono da conta bancária vinculada à carteira
+        #
+        self.beneficiario = self._bank.partner_id
 
-    def __init__(self, financial_move):
-        cedente = financial_move.payment_mode_id.bank_id.partner_id
+    def get_payment_mode(self):
+        return self._payment_mode
+
+    payment_mode = property(get_payment_mode, set_payment_mode)
+
+    def set_financial_move(self, financial_move):
+        self.payment_mode = financial_move.payment_mode_id
+
+        self._financial_move = financial_move
+
+        #
+        # O pagador é o cliente quando o lançamento é a receber, e a empresa
+        # quanto o lançamento é a pagar
+        #
         if financial_move.type == FINANCIAL_DEBT_2RECEIVE:
-            sacado = financial_move.partner_id
+            self.pagador = self._financial_move.partner_id
         elif financial_move.type == FINANCIAL_DEBT_2PAY:
-            sacado = financial_move.company_id
-        self._cedente(cedente)
-        self._sacado(sacado)
-        self._financial_move(financial_move)
+            self.pagador = self._financial_move.company_id
 
-        # self.nosso_numero = ''
+        #
+        # A data de vencimento é a data mesmo, e não a data útil
+        #
+        if self._financial_move.date_maturity:
+            self.boleto.data_vencimento = \
+                parse_datetime(self._financial_move.date_maturity).date()
 
-    def getAccountNumber(self):
-        if self.account_digit:
-            return str(self.account_number + '-' +
-                       self.account_digit).encode('utf-8')
-        return self.account_number.encode('utf-8')
+        if self._financial_move.date_document:
+            self.boleto.data_documento = \
+                parse_datetime(self._financial_move.date_document).date()
 
-    def getBranchNumber(self):
-        if self.branch_digit:
-            return str(self.branch_number + '-' +
-                       self.branch_digit).encode('utf-8')
-        return self.branch_number.encode('utf-8')
-
-    def _financial_move(self, financial_move):
-        self._payment_mode(financial_move)
-        self.boleto.data_vencimento = datetime.date(datetime.strptime(
-            financial_move.date_business_maturity, '%Y-%m-%d'))
-        self.boleto.data_documento = datetime.date(datetime.strptime(
-            financial_move.date_document, '%Y-%m-%d'))
-        self.boleto.data_processamento = date.today()
-        self.boleto.valor = str("%.2f" % financial_move.amount_document)
-        self.boleto.valor_documento = str("%.2f" %
-                                          financial_move.amount_document)
-        self.boleto.especie = (
-            financial_move.currency_id and
-            financial_move.currency_id.symbol or 'R$')
+        #
+        # Usamos a função hoje da pybrasil para retornar a data considerando
+        # *sempre* o fuso horário de Brasília, mesmo que os boletos sejam
+        # gerados depois da 9 da noite (quando o UTC já vira a data pro dia
+        # seguinte)
+        # 
+        self.boleto.data_processamento = hoje()
+        self.boleto.valor = Decimal(financial_move.amount_document)
+        self.boleto.valor_documento = Decimal(financial_move.amount_document)
+        
+        #
+        # A espécie deve ser *sempre* reais, independente da moeda do 
+        # lançamento financeiro; transferências em moeda estrangeiras usam
+        # outro campo do CNAB, e não existem boletos que não sejam em reais
+        #
+        # self.boleto.especie = (
+        #     financial_move.currency_id and
+        #     financial_move.currency_id.symbol or 'R$')
         self.boleto.quantidade = ''
-        # str("%.2f" % financial_move.amount_currency)
-        self.boleto.numero_documento = \
-            financial_move.document_number.encode('utf-8')
+        
+        self.boleto.numero_documento = self._financial_move.document_number
+
+        #
+        # A carteira de sindicato usa o tipo de serviço GRCSU
+        #
+        if self.boleto.carteira == 'SIND':
+            self.boleto.especie_documento = 'GRCSU'
+
+        else:
+            self.boleto.especie_documento = \
+                self._financial_move.document_type_id.boleto_especie
+
         instrucoes = []
         if financial_move.amount_paid_interest:
             instrucoes.append('mensagem com juros')
@@ -146,59 +207,50 @@ class Boleto(object):
                 " 0800 726 2492 o Ouvidoria: 0800 725 7474 o caixa.gov.br")
         self.boleto.instrucoes = instrucoes
 
-    def _payment_mode(self, financial_move):
-        """
-        :param payment_mode:
-        :return:
-        """
-        payment_mode_id = financial_move.payment_mode_id
-        self.boleto.convenio = payment_mode_id.convenio
-        self.boleto.especie_documento = \
-            financial_move.document_type_id.boleto_especie
-        self.boleto.aceite = payment_mode_id.boleto_aceite
-        self.boleto.carteira = payment_mode_id.boleto_carteira
+    def get_financial_move(self):
+        return self._financial_move
 
-    def _cedente(self, partner_id):
-        """
-        :param company:
-        :return:
-        """
-        self.boleto.cedente = partner_id.legal_name \
-            if partner_id.legal_name else ''
-        self.boleto.cedente_documento = partner_id.cnpj_cpf \
-            if partner_id.cnpj_cpf else ''
-        self.boleto.cedente_bairro = partner_id.district or ''
-        self.boleto.cedente_cep = partner_id.zip or ''
-        self.boleto.cedente_cidade = partner_id.city or ''
-        self.boleto.cedente_logradouro = partner_id.street + \
-            ', ' + (partner_id.number or 'SN')
-        self.boleto.cedente_uf = partner_id.state_id.code or ''
-        self.boleto.agencia_cedente = self.getBranchNumber()
-        self.boleto.conta_cedente = self.getAccountNumber()
+    financial_move = property(get_financial_move, set_financial_move)
 
-    def _sacado(self, partner):
-        """
+    def set_beneficiario(self, beneficiario):
+        self._beneficiario = beneficiario
+        
+        self.boleto.beneficiario = self._beneficiario.legal_name \
+            if self._beneficiario.legal_name else ''
+        self.boleto.beneficiario_documento = self._beneficiario.cnpj_cpf \
+            if self._beneficiario.cnpj_cpf else ''
+        self.boleto.beneficiario_bairro = self._beneficiario.district or ''
+        self.boleto.beneficiario_cep = self._beneficiario.zip or ''
+        self.boleto.beneficiario_cidade = self._beneficiario.city or ''
+        self.boleto.beneficiario_logradouro = self._beneficiario.street + \
+            ', ' + (self._beneficiario.number or 'SN')
+        self.boleto.beneficiario_uf = self._beneficiario.state_id.code or ''
 
-        :param partner:
-        :return:
-        """
-        self.boleto.sacado_endereco = partner.street + ', ' + (
-            partner.number or 'SN')
-        self.boleto.sacado_cidade = partner.city
-        self.boleto.sacado_bairro = partner.district
-        self.boleto.sacado_uf = partner.state_id.code
-        self.boleto.sacado_cep = partner.zip
-        self.boleto.sacado_nome = partner.legal_name \
-            if partner.legal_name else ''
-        self.boleto.sacado_documento = partner.cnpj_cpf
+    def get_beneficiario(self):
+        return self._beneficiario
+    
+    beneficiario = property(get_beneficiario, set_beneficiario)
+
+    def set_pagador(self, pagador):
+        self._pagador = pagador
+        
+        self.boleto.pagador_endereco = self._pagador.street + ', ' + (
+            self._pagador.number or 'SN')
+        self.boleto.pagador_cidade = self._pagador.city
+        self.boleto.pagador_bairro = self._pagador.district
+        self.boleto.pagador_uf = self._pagador.state_id.code
+        self.boleto.pagador_cep = self._pagador.zip
+        self.boleto.pagador_nome = self._pagador.legal_name \
+            if self._pagador.legal_name else ''
+        self.boleto.pagador_documento = self._pagador.cnpj_cpf
+
+    def get_pagador(self):
+        return self._pagador
+
+    pagador = property(get_pagador, set_pagador)
 
     @classmethod
     def get_pdfs(cls, boleto_list):
-        """
-
-        :param boletoList:
-        :return:
-        """
         fbuffer = StringIO()
 
         fbuffer.reset()
@@ -213,146 +265,3 @@ class Boleto(object):
 
         fbuffer.close()
         return boleto_file
-
-
-class BoletoBB(Boleto):
-
-    def __init__(self, financial_move, nosso_numero):
-        # TODO: size o convenio and nosso numero, replace (7,2)
-        # Size of convenio 4, 6, 7 or 8
-        # Nosso Numero format. 1 or 2
-        # Used only for convenio=6
-        # 1: Nosso Numero with 5 positions
-        # 2: Nosso Numero with 17 positions
-        self.boleto = Boleto.getBoletoClass(financial_move)(7, 2)
-        self.account_number = financial_move.payment_mode_id.bank_id.acc_number
-        self.branch_number = financial_move.payment_mode_id.bank_id.bra_number
-        Boleto.__init__(self, financial_move)
-        self.boleto.nosso_numero = nosso_numero
-
-
-class BoletoBarisul(Boleto):
-
-    def __init__(self, financial_move, nosso_numero):
-        self.boleto = Boleto.getBoletoClass(financial_move)()
-        self.account_number = financial_move.payment_mode_id.bank_id.acc_number
-        self.branch_number = financial_move.payment_mode_id.bank_id.bra_number
-        Boleto.__init__(self, financial_move)
-        self.boleto.nosso_numero = nosso_numero
-
-
-class BoletoBradesco(Boleto):
-
-    def __init__(self, financial_move, nosso_numero):
-        self.boleto = Boleto.getBoletoClass(financial_move)()
-        self.account_number = financial_move.payment_mode_id.bank_id.acc_number
-        self.branch_number = financial_move.payment_mode_id.bank_id.bra_number
-        # bank specific
-        self.account_digit = \
-            financial_move.payment_mode_id.bank_id.acc_number_dig
-        self.branch_digit = \
-            financial_move.payment_mode_id.bank_id.bra_number_dig
-        # end bank specific
-        Boleto.__init__(self, financial_move)
-        self.boleto.nosso_numero = nosso_numero
-
-
-class BoletoCaixa(Boleto):
-
-    def __init__(self, financial_move, nosso_numero):
-        self.boleto = Boleto.getBoletoClass(financial_move)()
-        self.account_number = financial_move.payment_mode_id.bank_id.acc_number
-        self.branch_number = financial_move.payment_mode_id.bank_id.bra_number
-        # bank specific
-        self.account_digit = \
-            financial_move.payment_mode_id.bank_id.acc_number_dig
-        # end bank specific
-        Boleto.__init__(self, financial_move)
-        self.boleto.nosso_numero = nosso_numero
-
-
-class BoletoHsbc(Boleto):
-
-    def __init__(self, financial_move, nosso_numero):
-        self.boleto = Boleto.getBoletoClass(financial_move)()
-        self.account_number = financial_move.payment_mode_id.bank_id.acc_number
-        self.branch_number = financial_move.payment_mode_id.bank_id.bra_number
-        Boleto.__init__(self, financial_move)
-        self.boleto.nosso_numero = nosso_numero
-
-
-class BoletoItau157(Boleto):
-
-    def __init__(self, financial_move, nosso_numero):
-        self.boleto = Boleto.getBoletoClass(financial_move)()
-        self.account_number = financial_move.payment_mode_id.bank_id.acc_number
-        self.branch_number = financial_move.payment_mode_id.bank_id.bra_number
-        Boleto.__init__(self, financial_move)
-        self.boleto.nosso_numero = nosso_numero
-
-
-class BoletoItau(Boleto):
-
-    def __init__(self, financial_move, nosso_numero):
-        self.boleto = Boleto.getBoletoClass(financial_move)()
-        self.account_number = financial_move.payment_mode_id.bank_id.acc_number
-        self.branch_number = financial_move.payment_mode_id.bank_id.bra_number
-        Boleto.__init__(self, financial_move)
-        self.boleto.nosso_numero = nosso_numero
-
-
-class BoletoReal(Boleto):
-
-    def __init__(self, financial_move, nosso_numero):
-        self.boleto = Boleto.getBoletoClass(financial_move)()
-        self.account_number = financial_move.payment_mode_id.bank_id.acc_number
-        self.branch_number = financial_move.payment_mode_id.bank_id.bra_number
-        Boleto.__init__(self, financial_move)
-        self.boleto.nosso_numero = nosso_numero
-
-
-class BoletoSantander102(Boleto):
-
-    def __init__(self, financial_move, nosso_numero):
-        self.boleto = Boleto.getBoletoClass(financial_move)()
-        self.account_number = financial_move.payment_mode_id.bank_id.acc_number
-        self.branch_number = financial_move.payment_mode_id.bank_id.bra_number
-        Boleto.__init__(self, financial_move)
-        self.boleto.ios = '0'
-        self.boleto.nosso_numero = nosso_numero
-
-
-class BoletoStatander101201(Boleto):
-
-    def __init__(self, financial_move, nosso_numero):
-        self.boleto = Boleto.getBoletoClass(financial_move)()
-        self.account_number = financial_move.payment_mode_id.bank_id.acc_number
-        self.branch_number = financial_move.payment_mode_id.bank_id.bra_number
-        Boleto.__init__(self, financial_move)
-        self.boleto.ios = '0'
-        self.boleto.nosso_numero = nosso_numero
-
-
-class BoletoCaixaSigcb(Boleto):
-
-    def __init__(self, financial_move, nosso_numero):
-        from pyboleto.bank.caixa_sigcb import BoletoCaixaSigcb
-        self.boleto = BoletoCaixaSigcb()
-        self.account_number = financial_move.payment_mode_id.bank_id.acc_number
-        self.branch_number = financial_move.payment_mode_id.bank_id.bra_number
-        # bank specific
-        self.account_digit = \
-            financial_move.payment_mode_id.bank_id.acc_number_dig
-        # end bank specific
-        Boleto.__init__(self, financial_move)
-        self.boleto.nosso_numero = nosso_numero
-
-
-class BoletoSicredi(Boleto):
-
-    def __init__(self, financial_move, nosso_numero):
-        self.boleto = Boleto.getBoletoClass(financial_move)()
-        self.account_number = financial_move.payment_mode_id.bank_id.acc_number
-        self.branch_number = financial_move.payment_mode_id.bank_id.bra_number
-        Boleto.__init__(self, financial_move)
-        self.boleto.nosso_numero = nosso_numero

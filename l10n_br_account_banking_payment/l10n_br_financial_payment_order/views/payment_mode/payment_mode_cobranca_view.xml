@@ -15,9 +15,6 @@
                 <field name="sequence_nosso_numero_id" string="Nosso número" required="1" />
                 <field name="sequence_nosso_numero_proximo_numero" string="Próximo nosso número" required="1" />
                 <!--  CAMPOS PARA A GERACAO DO BOLETO, VERIFICAR SE ESTÃO NO LUGAR CERTO -->
-                <field name="boleto_carteira"/>
-                <field name="boleto_aceite"/>
-
             </field>
         </field>
     </record>

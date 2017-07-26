@@ -9,19 +9,13 @@ from openerp import api, fields, models, _
 from pybrasil.febraban import (valida_codigo_barras, valida_linha_digitavel,
     identifica_codigo_barras, monta_linha_digitavel, monta_codigo_barras,
     formata_linha_digitavel)
-
-import base64
+from pybrasil.inscricao import limpa_formatacao
 
 from ..febraban.boleto.document import Boleto
 from ..febraban.boleto.document import BoletoException
 
-from datetime import date
 import logging
 _logger = logging.getLogger(__name__)
-
-
-from ..constantes import TIPO_SERVICO, TIPO_SERVICO_COMPLEMENTO, \
-    FORMA_LANCAMENTO, BOLETO_ESPECIE
 
 
 class FinancialMove(models.Model):
@@ -125,49 +119,46 @@ class FinancialMove(models.Model):
 
     @api.multi
     def gera_boleto(self):
-
         boleto_list = []
 
         for financial_move in self:
             try:
+                #
+                # Para a carteira da guia sindical, o nosso número é sempre
+                # os 12 primeiros dígitos do CNPJ da empresa
+                #
+                if financial_move.payment_mode_id.boleto_carteira == 'SIND':
+                    nosso_numero = limpa_formatacao(self.company_id.cnpj_cpf)
+                    nosso_numero = nosso_numero[:12]
+                else:
+                    if self.nosso_numero:
+                        nosso_numero = self.nosso_numero
+                    else:
+                        sequence_nosso_numero_id = \
+                            financial_move.payment_mode_id.\
+                                sequence_nosso_numero_id.id
 
-                # if True:
-                # if financial_move.payment_mode_id.type_payment == '00':
-                #     number_type = financial_move.company_id.own_number_type
-                #     if not financial_move.boleto_own_number:
-                #         if number_type == '0':
-                #             nosso_numero = self.env['ir.sequence'].next_by_id(
-                #                 financial_move.company_id.own_number_sequence.id)
-                #         elif number_type == '1':
-                #             nosso_numero = \
-                #                 financial_move.transaction_ref.replace('/', '')
-                #         else:
-                #             nosso_numero = self.env['ir.sequence'].next_by_id(
-                #                 financial_move.payment_mode_id.
-                #                 internal_sequence_id.id)
-                #     else:
-                #         nosso_numero = financial_move.boleto_own_number
+                        nosso_numero = self.env['ir.sequence'].next_by_id(
+                            sequence_nosso_numero_id
+                        )
+                        nosso_numero = str(nosso_numero)
 
-                    seq_id = \
-                        financial_move.payment_mode_id.\
-                            sequence_nosso_numero_id.id
-                    nosso_numero = str(int(self.nosso_numero)) or \
-                                   self.env['ir.sequence'].next_by_id(seq_id)
+                boleto = Boleto(financial_move, nosso_numero)
 
+                if boleto:
+                #     financial_move.date_payment_created = date.today()
+                #     financial_move.transaction_ref = \
+                #         boleto.boleto.format_nosso_numero()
+                    financial_move.nosso_numero = nosso_numero
 
-                    boleto = Boleto.getBoleto(financial_move, nosso_numero)
+                boleto_list.append(boleto.boleto)
 
-                    if boleto:
-                    #     financial_move.date_payment_created = date.today()
-                    #     financial_move.transaction_ref = \
-                    #         boleto.boleto.format_nosso_numero()
-                        financial_move.nosso_numero = nosso_numero
-
-                    boleto_list.append(boleto.boleto)
             except BoletoException as be:
                 _logger.error(be.message or be.value, exc_info=True)
                 continue
+
             except Exception as e:
                 _logger.error(e.message or e.value, exc_info=True)
                 continue
+
         return boleto_list
