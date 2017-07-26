@@ -47,7 +47,13 @@
                 <xpath expr="//notebook" position="replace">
                     <notebook>
                         <page string="Holerite">
-                            <field name="line_resume_ids" colspan="4" nolabel="1">
+                            <field name="line_resume_ids" 
+                                   colspan="4" 
+                                   nolabel="1" 
+                                   readonly="1" 
+                                   context="{'order': 'sequence, 
+                                                       valor_provento desc, 
+                                                       valor_desconto desc'}">
                                 <tree string="Salary Structure"
                                       editable="bottom"
                                       colors="blue:valor_provento > 0;red:valor_deducao > 0">
