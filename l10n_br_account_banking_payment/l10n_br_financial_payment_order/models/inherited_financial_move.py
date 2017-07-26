@@ -107,17 +107,17 @@ class FinancialMove(models.Model):
 
     @api.multi
     def button_boleto(self):
-        self.ensure_one()
+        for financial_move in self:
 
-        # action = self.env['report'].get_action(
-        #     self, b'l10n_br_financial_payment_order.report')
+            # Boleto do Sindicato
+            if financial_move.payment_mode_id.boleto_carteira == 'SIND':
+                action = self.env['report'].get_action(self,
+                    b'l10n_br_financial_payment_order.py3o_boleto_sindicato')
 
-        # action = self.env['report'].get_action(
-        #     self, b'l10n_br_financial_payment_order.py3o_boleto_generico')
-
-        action = self.env['report'].get_action(
-            self, b'l10n_br_financial_payment_order.py3o_boleto_sindicato')
-
+            # Boleto generico
+            else:
+                action = self.env['report'].get_action(self,
+                   b'l10n_br_financial_payment_order.py3o_boleto_generico')
         return action
 
     @api.multi
@@ -125,17 +125,19 @@ class FinancialMove(models.Model):
         boleto_list = []
 
         for financial_move in self:
-            try:
+            # try:
+            if True:
                 #
                 # Para a carteira da guia sindical, o nosso número é sempre
                 # os 12 primeiros dígitos do CNPJ da empresa
                 #
                 if financial_move.payment_mode_id.boleto_carteira == 'SIND':
-                    nosso_numero = limpa_formatacao(self.company_id.cnpj_cpf)
+                    nosso_numero = \
+                        limpa_formatacao(financial_move.company_id.cnpj_cpf)
                     nosso_numero = nosso_numero[:12]
                 else:
-                    if self.nosso_numero:
-                        nosso_numero = self.nosso_numero
+                    if financial_move.nosso_numero:
+                        nosso_numero = financial_move.nosso_numero
                     else:
                         sequence_nosso_numero_id = \
                             financial_move.payment_mode_id.\
@@ -156,12 +158,12 @@ class FinancialMove(models.Model):
 
                 boleto_list.append(boleto.boleto)
 
-            except BoletoException as be:
-                _logger.error(be.message or be.value, exc_info=True)
-                continue
-
-            except Exception as e:
-                _logger.error(e.message or e.value, exc_info=True)
-                continue
+            # except BoletoException as be:
+            #     _logger.error(be.message or be.value, exc_info=True)
+            #     continue
+            #
+            # except Exception as e:
+            #     _logger.error(e.message or e.value, exc_info=True)
+            #     continue
 
         return boleto_list
