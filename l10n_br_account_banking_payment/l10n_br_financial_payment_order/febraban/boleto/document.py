@@ -215,16 +215,16 @@ class Boleto(object):
     def set_beneficiario(self, beneficiario):
         self._beneficiario = beneficiario
         
-        self.boleto.beneficiario = self._beneficiario.legal_name \
+        self.boleto.cedente = self._beneficiario.legal_name \
             if self._beneficiario.legal_name else ''
-        self.boleto.beneficiario_documento = self._beneficiario.cnpj_cpf \
+        self.boleto.cedente_documento = self._beneficiario.cnpj_cpf \
             if self._beneficiario.cnpj_cpf else ''
-        self.boleto.beneficiario_bairro = self._beneficiario.district or ''
-        self.boleto.beneficiario_cep = self._beneficiario.zip or ''
-        self.boleto.beneficiario_cidade = self._beneficiario.city or ''
-        self.boleto.beneficiario_logradouro = self._beneficiario.street + \
+        self.boleto.cedente_bairro = self._beneficiario.district or ''
+        self.boleto.cedente_cep = self._beneficiario.zip or ''
+        self.boleto.cedente_cidade = self._beneficiario.city or ''
+        self.boleto.cedente_logradouro = self._beneficiario.street + \
             ', ' + (self._beneficiario.number or 'SN')
-        self.boleto.beneficiario_uf = self._beneficiario.state_id.code or ''
+        self.boleto.cedente_uf = self._beneficiario.state_id.code or ''
 
     def get_beneficiario(self):
         return self._beneficiario
@@ -234,15 +234,15 @@ class Boleto(object):
     def set_pagador(self, pagador):
         self._pagador = pagador
         
-        self.boleto.pagador_endereco = self._pagador.street + ', ' + (
+        self.boleto.sacado_endereco = self._pagador.street + ', ' + (
             self._pagador.number or 'SN')
-        self.boleto.pagador_cidade = self._pagador.city
-        self.boleto.pagador_bairro = self._pagador.district
-        self.boleto.pagador_uf = self._pagador.state_id.code
-        self.boleto.pagador_cep = self._pagador.zip
-        self.boleto.pagador_nome = self._pagador.legal_name \
+        self.boleto.sacado_cidade = self._pagador.city
+        self.boleto.sacado_bairro = self._pagador.district
+        self.boleto.sacado_uf = self._pagador.state_id.code
+        self.boleto.sacado_cep = self._pagador.zip
+        self.boleto.sacado_nome = self._pagador.legal_name \
             if self._pagador.legal_name else ''
-        self.boleto.pagador_documento = self._pagador.cnpj_cpf
+        self.boleto.sacado_documento = self._pagador.cnpj_cpf
 
     def get_pagador(self):
         return self._pagador
