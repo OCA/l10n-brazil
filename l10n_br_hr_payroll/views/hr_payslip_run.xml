@@ -5,12 +5,27 @@
 <openerp>
     <data>
 
+        <record model="ir.ui.view" id="hr_payslip_run_form_tree">
+            <field name="name">hr.payslip.run.tree</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="inherit_id" ref="hr_payroll.hr_payslip_run_tree"/>
+            <field name="arch" type="xml">
+                <field name="state" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+        
         <record model="ir.ui.view" id="hr_payslip_run_form_view">
             <field name="name">hr.payslip.run.form</field>
             <field name="model">hr.payslip.run</field>
             <field name="priority" eval="105"/>
             <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
             <field name="arch" type="xml">
+                <button name="close_payslip_run" position="replace"/>
+                <field name="state" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
                 <xpath expr="//button[@string='Generate Payslips']" position="replace">
                     <button name="gerar_holerites" type="object" states="draft" string="Generate Payslips" class="oe_highlight"/>
                 </xpath>
