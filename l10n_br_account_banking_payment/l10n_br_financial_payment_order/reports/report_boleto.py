@@ -9,7 +9,7 @@ from openerp.osv import osv
 from openerp.report.interface import report_int
 from openerp.report.render import render
 
-from ..febraban.boleto.document import Boleto
+from ..febraban.boleto.document import BoletoOdoo
 
 class ExternalPdf(render):
 
@@ -53,7 +53,7 @@ class ReportCustom(report_int):
                 'Error !', ('Não é possível gerar os boletos\n'
                             'Certifique-se que a fatura esteja confirmada e o '
                             'forma de pagamento seja duplicatas'))
-        pdf_string = Boleto.get_pdfs(boleto_list)
+        pdf_string = BoletoOdoo.get_pdfs(boleto_list)
         self.obj = ExternalPdf(pdf_string)
         self.obj.render()
         return self.obj.pdf, 'pdf'

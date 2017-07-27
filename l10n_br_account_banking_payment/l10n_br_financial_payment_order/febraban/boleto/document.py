@@ -36,11 +36,14 @@ try:
     from pyboleto.bank.bradesco import BoletoBradesco
     from pyboleto.bank.caixa import BoletoCaixa
     from pyboleto.bank.caixa_sigcb import BoletoCaixaSigcb
+    from pyboleto.bank.caixa_sindicato import BoletoCaixaSindicato
     from pyboleto.bank.hsbc import BoletoHsbc
     from pyboleto.bank.itau import BoletoItau
     from pyboleto.bank.santander import BoletoSantander
+
     from pybrasil.data import parse_datetime, hoje
     from pybrasil.valor.decimal import Decimal
+    from pybrasil.inscricao import limpa_formatacao
 
 except ImportError as err:
     _logger.debug = err
@@ -53,10 +56,10 @@ except ImportError:
 
 
 
-class Boleto(object):
+class BoletoOdoo(object):
     def __init__(self, financial_move, nosso_numero):
-        self.financial_move = financial_move
         self.nosso_numero = nosso_numero
+        self.financial_move = financial_move
 
     def _instancia_boleto(self):
         banco = self._payment_mode.bank_id.bank.bic
@@ -85,10 +88,10 @@ class Boleto(object):
             self.boleto = BoletoBradesco()
 
         elif banco == '104':
-            if carteira in ['Sigcb', 'SIND']:
+            if carteira == 'Sigcb':
                 self.boleto = BoletoCaixaSigcb()
-            # elif carteira == 'SIND':
-            #     self.boleto = BoletoCaixaSindicato()
+            elif carteira == 'SIND':
+                self.boleto = BoletoCaixaSindicato()
             else:
                 self.boleto = BoletoCaixa()
 
@@ -116,20 +119,21 @@ class Boleto(object):
         self.boleto.convenio = self._payment_mode.convenio
         self.boleto.aceite = self._payment_mode.boleto_aceite
         self.boleto.carteira = self._payment_mode.boleto_carteira
+        self.boleto.nosso_numero = self.nosso_numero
 
         #
         # Caso haja um código de beneficiário específico na carteira, usamos
         # este no lugar da conta
         #
         if self._payment_mode.beneficiario_codigo:
-            self.boleto.conta_beneficiario = \
+            self.boleto.conta_cedente = \
                 self._payment_mode.beneficiario_codigo
-            self.boleto.conta_beneficiario_digito = \
+            self.boleto.conta_cedente_digito = \
                 self._payment_mode.beneficiario_digito or ''
 
         else:
-            self.boleto.conta_beneficiario = self._bank.acc_number
-            self.boleto.conta_beneficiario_digito = \
+            self.boleto.conta_cedente = self._bank.acc_number
+            self.boleto.conta_cedente_digito = \
                 self._bank.acc_number_dig or ''
 
         #
@@ -251,6 +255,15 @@ class Boleto(object):
 
     pagador = property(get_pagador, set_pagador)
 
+    def set_cnae(self, cnae):
+        self._cnae = limpa_formatacao(cnae)
+        self.boleto.cnae = self._cnae
+
+    def get_cnae(self):
+        return self.cnae
+
+    cnae = property(get_cnae, set_cnae)
+
     @classmethod
     def get_pdfs(cls, boleto_list):
         fbuffer = StringIO()
@@ -267,3 +280,7 @@ class Boleto(object):
 
         fbuffer.close()
         return boleto_file
+
+    @property
+    def imagem_codigo_barras(self):
+        self.boleto.imagem_codigo_barras

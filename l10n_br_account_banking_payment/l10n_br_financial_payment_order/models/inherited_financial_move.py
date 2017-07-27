@@ -11,8 +11,7 @@ from pybrasil.febraban import (valida_codigo_barras, valida_linha_digitavel,
     formata_linha_digitavel)
 from pybrasil.inscricao import limpa_formatacao
 
-from ..febraban.boleto.document import Boleto
-from ..febraban.boleto.document import BoletoException
+from ..febraban.boleto.document import BoletoOdoo
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -31,7 +30,11 @@ class FinancialMove(models.Model):
     )
     tipo_pagamento = fields.Selection(
         related='payment_mode_id.tipo_pagamento',
-        store=True
+        store=True,
+    )
+    boleto_carteira = fields.Char(
+        related='payment_mode_id.boleto_carteira',
+        store=True,
     )
     #
     # Implementa o nosso número como NUMERIC no Postgres, pois alguns
@@ -148,7 +151,15 @@ class FinancialMove(models.Model):
                         )
                         nosso_numero = str(nosso_numero)
 
-                boleto = Boleto(financial_move, nosso_numero)
+                boleto = BoletoOdoo(financial_move, nosso_numero)
+
+                if financial_move.payment_mode_id.boleto_carteira == 'SIND':
+                    boleto.cnae = financial_move.company_id.cnae_main_id.code
+                    codigo_sindicato = \
+                        financial_move.payment_mode_id.beneficiario_codigo
+                    codigo_sindicato += \
+                        financial_move.payment_mode_id.beneficiario_digito
+                    boleto.boleto.codigo_sindicato = codigo_sindicato
 
                 if boleto:
                 #     financial_move.date_payment_created = date.today()

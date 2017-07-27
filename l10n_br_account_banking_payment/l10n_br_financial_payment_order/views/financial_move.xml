@@ -12,7 +12,8 @@
             <field name="arch" type="xml">
                 <button name="action_confirm" position="before">
                     <field name="tipo_pagamento" invisible="1"/>
-                    <button name="button_boleto" type="object" string="Gerar Boleto" attrs="{'invisible': [('tipo_pagamento','!=','boleto')]}"/>
+                    <field name="boleto_carteira" invisible="1"/>
+                    <button name="button_boleto" type="object" string="Gerar Boleto" attrs="{'invisible': [('tipo_pagamento','!=','boleto'), ('boleto_carteira', '!=', 'SIND')]}"/>
                 </button>
             </field>
         </record>
