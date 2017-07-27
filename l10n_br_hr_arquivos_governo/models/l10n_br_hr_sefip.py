@@ -465,7 +465,7 @@ class L10nBrSefip(models.Model):
         folha_ids = self.env['hr.payslip'].search([
             ('mes_do_ano', '=', self.mes),
             ('ano', '=', self.ano),
-            ('state', '=', 'done'),
+#            ('state', 'in', ['done','verify']),
             ('company_id.partner_id.cnpj_cpf', 'like', raiz)
         ])
         return folha_ids
