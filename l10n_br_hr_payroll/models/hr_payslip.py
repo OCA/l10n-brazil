@@ -51,6 +51,13 @@ TIPO_DE_FOLHA = [
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
     _order = 'employee_id asc, number desc'
+    
+    def hr_verify_sheet(self):
+        return self.write({'state': 'verify'})
+
+    @api.one
+    def reopen_sheet(self):
+        return self.write({'state': 'draft'})
 
     @api.multi
     def name_get(self):
