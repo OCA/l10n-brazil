@@ -746,16 +746,21 @@ class HrPayslip(models.Model):
     @api.model
     def get_contract_specific_rubrics(self, contract_id, rule_ids):
         contract = self.env['hr.contract'].browse(contract_id.id)
-        applied_specific_rule = []
+        applied_specific_rule = {}
         for specific_rule in contract.specific_rule_ids:
             if self.date_from >= specific_rule.date_start:
                 if not specific_rule.date_stop or \
                         self.date_to <= specific_rule.date_stop:
-                    rule_ids.append((specific_rule.rule_id.id,
+                    
+                    rule_ids.append((specific_rule.rule_id.id, 
                                      specific_rule.rule_id.sequence))
-                    applied_specific_rule.append(
-                        (specific_rule.id, specific_rule.rule_id.id)
-                    )
+                    
+                    if specific_rule.rule_id.id not in applied_specific_rule:
+                        applied_specific_rule[specific_rule.rule_id.id] = []
+                        
+                    applied_specific_rule[specific_rule.rule_id.id].append(
+                        specific_rule)
+                    
         return applied_specific_rule
 
     def get_ferias_rubricas(self, payslip, rule_ids):
@@ -1387,7 +1392,7 @@ class HrPayslip(models.Model):
             rule_ids = self.env['hr.payroll.structure'].browse(
                 structure_ids).get_all_rules()
 
-            applied_specific_rule = []
+            applied_specific_rule = {}
             # Caso nao esteja computando holerite de ferias
             # recuperar as regras especificas do contrato
             if not payslip.tipo_de_folha == 'ferias':
@@ -1571,21 +1576,25 @@ class HrPayslip(models.Model):
                     localdict['rubrica'] = rule
                     id_rubrica_especifica = 0
                     beneficiario_id = False
-                    # se a rubrica estiver nas rubricas especificas cadastradas
-                    # no contrato para serem computadas, recuperar o
-                    # beneficiario da rubrica, remover a rubrica da variavel
-                    # local de rubricas_aplicadas a adicionar no localdict
-                    # a rubrica especifica ja computada
-                    if rule.id in [rubrica_id for rubrica_spec, rubrica_id in
-                                   applied_specific_rule]:
-                        for key, value in applied_specific_rule:
-                            if rule.id == value:
-                                regra_especifica = \
-                                    rubricas_spec_model.browse(key)
+                    
+                    #
+                    # Tratamos as rubricas específicas que têm beneficiários
+                    #
+                    if rule.id in applied_specific_rule:
+                        lista_rubricas_especificas = \
+                            applied_specific_rule[rule.id]
+
+                        if len(lista_rubricas_especificas) > 0:
+                            rubrica_especifica = lista_rubricas_especificas[0]
+                            
+                            if rubrica_especifica.partner_id:
                                 beneficiario_id = \
-                                    regra_especifica.partner_id.id
-                                applied_specific_rule.remove((key, value))
-                                id_rubrica_especifica = key
+                                    rubrica_especifica.partner_id.id
+                                
+                            del lista_rubricas_especificas[0]
+                            
+                            applied_specific_rule[rule.id] = \
+                                lista_rubricas_especificas
 
                     # check if the rule can be applied
                     if obj_rule.satisfy_condition(rule.id, localdict) \
@@ -1666,10 +1675,28 @@ class HrPayslip(models.Model):
                             'rate': rate,
                             'partner_id': beneficiario_id or 1,
                         }
+                        
+                        blacklist.append(rule.id)
                     else:
                         rules_seq = rule._model._recursive_search_of_rules(
                             self._cr, self._uid, rule, self._context)
                         blacklist += [id for id, seq in rules_seq]
+                        continue
+                    
+                    if rule.category_id.code == 'DEDUCAO':
+                        if rule.compoe_base_INSS:
+                            localdict['BASE_INSS'] -= tot_rule
+                        if rule.compoe_base_IR:
+                            localdict['BASE_IR'] -= tot_rule
+                        if rule.compoe_base_FGTS:
+                            localdict['BASE_FGTS'] -= tot_rule
+                    else:
+                        if rule.compoe_base_INSS:
+                            localdict['BASE_INSS'] += tot_rule
+                        if rule.compoe_base_IR:
+                            localdict['BASE_IR'] += tot_rule
+                        if rule.compoe_base_FGTS:
+                            localdict['BASE_FGTS'] += tot_rule                    
 
             result = [value for code, value in result_dict.items()]
             return result
