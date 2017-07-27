@@ -270,6 +270,14 @@ class L10nBrSefip(models.Model):
         states={'draft': [('readonly', False)]},
     )
 
+    folha_ids = fields.One2many(
+        string='Holerites',
+        comodel_name='hr.payslip',
+        inverse_name='sefip_id',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
+
     def _valida_tamanho_linha(self, linha):
         """Valida tamanho da linha (sempre igual a 360 posições) e
          adiciona quebra caso esteja correto"""
@@ -553,6 +561,26 @@ class L10nBrSefip(models.Model):
                             record._preencher_registro_32(sefip, folha))
 
             record.sefip += sefip._registro_90_totalizador_do_arquivo()
+            #
+            # Liberar holerites para pagamento
+            #
+            for holerite in folha_ids:
+                holerite.sefip_id = self.id
+                holerite.hr_verify_sheet()
+
+    @api.multi
+    def gerar_boletos(self):
+        '''
+         Criar ordem de pagamento para boleto de sindicato
+        '''
+        contribuicao_sindical_total = 0
+        for record in self:
+            for holerite in self.folha_ids:
+                for line in holerite.line_ids:
+                    if line.code == 'CONTRIBUICAO_SINDICAL':
+                        contribuicao_sindical_total += line.total
+        print ('contribuicao_sindical == ' + str(contribuicao_sindical_total))
+
 
     def _preencher_registro_00(self, sefip):
         sefip.tipo_inscr_resp = '1' if \
