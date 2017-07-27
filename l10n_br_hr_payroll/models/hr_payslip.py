@@ -855,44 +855,43 @@ class HrPayslip(models.Model):
             return self.contract_id.struct_id
         elif self.tipo_de_folha == "decimo_terceiro":
             if self.is_simulacao:
-                estrutura_decimo_terceiro = self.env.ref(
-                    'l10n_br_hr_payroll.'
-                    'hr_salary_structure_SEGUNDA_PARCELA_13'
+                estrutura_decimo_terceiro = \
+                    self.env['hr.payroll.structure'].search(
+                    [('code', '=', 'SEGUNDA_PARCELA_13')], limit=1
                 )
                 return estrutura_decimo_terceiro
             else:
                 if self.mes_do_ano < 12:
-                    estrutura_decimo_terceiro = self.env.ref(
-                        'l10n_br_hr_payroll.'
-                        'hr_salary_structure_PRIMEIRA_PARCELA_13'
+                    estrutura_decimo_terceiro = \
+                        self.env['hr.payroll.structure'].search(
+                        [('code', '=', 'PRIMEIRA_PARCELA_13')], limit=1
                     )
                     return estrutura_decimo_terceiro
                 else:
-                    estrutura_decimo_terceiro = self.env.ref(
-                        'l10n_br_hr_payroll.'
-                        'hr_salary_structure_SEGUNDA_PARCELA_13'
+                    estrutura_decimo_terceiro = \
+                        self.env['hr.payroll.structure'].search(
+                        [('code', '=', 'SEGUNDA_PARCELA_13')], limit=1
                     )
                     return estrutura_decimo_terceiro
         elif self.tipo_de_folha == "ferias":
-            estrutura_ferias = self.env.ref(
-                'l10n_br_hr_payroll.'
-                'hr_salary_structure_FERIAS'
+            estrutura_ferias = self.env['hr.payroll.structure'].search(
+                [('code', '=', 'FERIAS')], limit=1
             )
             return estrutura_ferias
         elif self.tipo_de_folha == "rescisao":
-            estrutura_rescisao = self.env.ref(
-                'l10n_br_hr_payroll.'
-                'hr_salary_structure_RESCISAO'
+            estrutura_rescisao = self.env['hr.payroll.structure'].search(
+                [('code', '=', 'RESCISAO')], limit=1
             )
             return estrutura_rescisao
         elif self.tipo_de_folha == "provisao_ferias":
-            estrutura_provisao_ferias = self.env.ref(
-                'l10n_br_hr_payroll.hr_salary_structure_PROVISAO_FERIAS'
+            estrutura_provisao_ferias = self.env['hr.payroll.structure'].search(
+                [('code', '=', 'PROVISAO_FERIAS')], limit=1
             )
             return estrutura_provisao_ferias
         elif self.tipo_de_folha == "provisao_decimo_terceiro":
-            estrutura_provisao_decimo_terceiro = self.env.ref(
-                'l10n_br_hr_payroll.hr_salary_structure_PROVISAO_13'
+            estrutura_provisao_decimo_terceiro = \
+                self.env['hr.payroll.structure'].search(
+                [('code', '=', 'PROVISAO_13')], limit=1
             )
             return estrutura_provisao_decimo_terceiro
 
