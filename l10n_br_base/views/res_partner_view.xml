@@ -136,6 +136,10 @@
                     </div>
                 </div>
             </xpath>
+            <!-- Código para Sindicatos -->
+            <xpath expr="//field[@name='inscr_mun']" position="after">
+                <field name="union_entity_code"/>
+            </xpath>
         </field>
     </record>
 
