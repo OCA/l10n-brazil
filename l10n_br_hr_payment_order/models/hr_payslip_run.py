@@ -2,8 +2,11 @@
 # Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
+from openerp import exceptions, _
 from openerp import api, models
 
+_logger = logging.getLogger(__name__)
 
 class HrPayslipRun(models.Model):
     _inherit = "hr.payslip.run"
@@ -25,11 +28,13 @@ class HrPayslipRun(models.Model):
                     })
                     payslip._compute_set_dates()
                     payslip.compute_sheet()
+                    _logger.info(u"Holerite " + contrato.name + u" processado com sucesso!")
                     # Mudado o processo para executar o hr_verify_sheet no
                     # botão "Close" do Lote do Holerite ao invés do botão
                     # "Gerar Holerites"
                     # payslip.hr_verify_sheet()
                 except:
+                    _logger.warning(u"Holerite " + contrato.name + u" falhou durante o cálculo!")
                     payslip.unlink()
                     continue
             lote.verificar_holerites_gerados()

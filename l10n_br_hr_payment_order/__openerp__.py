@@ -13,6 +13,7 @@
     'depends': [
         'l10n_br_hr_payroll',
         'l10n_br_financial_payment_order',
+        'account_payment_purchase',
     ],
     'data': [
         'security/hr_payslip.xml',
