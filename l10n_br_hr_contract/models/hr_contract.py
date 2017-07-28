@@ -135,6 +135,15 @@ class HrContract(models.Model):
                                   comodel_name='hr.contract.salary.unit')
     weekly_hours = fields.Float(string='Weekly hours')
     monthly_hours = fields.Float(string='Monthly hours')
+
+    partner_union = fields.Many2one(
+        string='Sindicato',
+        comodel_name='res.partner',
+        domain=[('union_entity_code', '!=', False)],
+        help='Sindicato é um partner que tem código de sindicato '
+             '(union_entity_code) definido.',
+    )
+
     union = fields.Char(string='Union')
     union_cnpj = fields.Char(string='Union CNPJ')
     union_entity_code = fields.Char(string='Union entity code')
