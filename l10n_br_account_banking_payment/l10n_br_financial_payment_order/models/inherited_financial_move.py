@@ -154,12 +154,13 @@ class FinancialMove(models.Model):
                 boleto = BoletoOdoo(financial_move, nosso_numero)
 
                 if financial_move.payment_mode_id.boleto_carteira == 'SIND':
-                    boleto.cnae = financial_move.company_id.cnae_main_id.code
-                    codigo_sindicato = \
+                    boleto.boleto.cnae = \
+                        financial_move.company_id.cnae_main_id.code
+                    codigo_sindical = \
                         financial_move.payment_mode_id.beneficiario_codigo
-                    codigo_sindicato += \
+                    codigo_sindical += \
                         financial_move.payment_mode_id.beneficiario_digito
-                    boleto.boleto.codigo_sindicato = codigo_sindicato
+                    boleto.boleto.codigo_sindical = codigo_sindical
 
                 if boleto:
                 #     financial_move.date_payment_created = date.today()
