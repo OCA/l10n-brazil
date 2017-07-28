@@ -13,9 +13,12 @@
                 </xpath>
                 <xpath expr="//group[@name='duration_group']" position="after">
                     <group name="union" string="Union">
-                        <field name="union"/>
-                        <field name="union_cnpj"/>
-                        <field name="union_entity_code"/>
+                        <field name="partner_union"/>
+
+                        <field name="union" invisible="1"/>
+                        <field name="union_cnpj" invisible="1"/>
+                        <field name="union_entity_code" invisible="1"/>
+
                         <field name="discount_union_contribution"/>
                         <field name="month_base_date"
                                attrs="{'invisible':[('discount_union_contribution','=', False)]}"/>
