@@ -515,29 +515,75 @@ class L10nBrSefip(models.Model):
                   'aplicativo na aba "Arquivos Anexos" para confirmar o envio')
             )
 
+    # Gerar Financial Move apartir do sefip para a contribuição sindical
+    def prepara_financial_move(self, sefip):
+        dados = {
+            'date_document': self.invoice_id.date_invoice,
+    #
+    #         'partner_id': self.union.id,
+    #         'company_id': self.sefip.company_id.id,
+    #
+    #         'doc_source_id': 'l10n_br.hr.sefip,' + str(self.id),
+    #         # 'currency_id': self.invoice_id.currency_id.id,
+    #         # 'sped_invoice_id': self.invoice_id.id,
+    #         # 'sped_documento_duplicata_id': self.id,
+    #         'document_type_id':
+    #             self.invoice_id.fiscal_category_id.
+    #                 financial_document_type_id.id,
+    #         # 'account_id': self.invoice_id.fiscal_category_id.
+    #         #     financial_account_id.id,
+    #         'date_maturity': self.data_vencimento,
+    #         'amount_document': self.valor,
+    #         'document_number':
+    #             '{0.serie_nfe}-{0.number}-{1.numero}/{2}'.format(
+    #                 self.invoice_id, self,
+    #                 unicode(len(self.invoice_id.duplicata_ids))),
+    #         'account_move_id': self.invoice_id.move_id.id,
+    #         'journal_id': self.invoice_id.journal_id.id,
+    #         'payment_term_id': self.invoice_id.payment_term.id,
+    #         'sped_forma_pagamento_id':
+    #             self.invoice_id.payment_term.sped_forma_pagamento_id.id,
+        }
+
+        # if self.invoice_id.type in ('out_invoice', 'out_refund'):
+        #     dados['type'] = FINANCIAL_DEBT_2RECEIVE
+        # else:
+        #     dados['type'] = FINANCIAL_DEBT_2PAY
+        return dados
+
     @api.multi
     def action_sent(self):
+        """
+        Confirmar o Envio do Sefip:
+        1. Validar se o sefip contem o relatorio em anexo
+        2. Chamar a função que muda o status do holerite, liberando para pagamt
+        """
         for record in self:
             record.valida_anexos()
+            # Liberar holerites para pagamento
+            for holerite in record.folha_ids:
+                holerite.hr_verify_sheet()
             super(L10nBrSefip, record).action_sent()
 
     @api.multi
     def action_open(self):
+        """
+        Confirmar a geração do Sefip 
+        """
         for record in self:
             record.criar_anexo_sefip()
-            super(L10nBrSefip, record).action_open()
+        super(L10nBrSefip, record).action_open()
 
     @api.multi
     def gerar_sefip(self):
         for record in self:
+            record.folha_ids = False
             sefip = SEFIP()
             record.sefip = ''
             record.sefip += \
                 self._valida_tamanho_linha(
                     record._preencher_registro_00(sefip))
-
             folha_ids = record._get_folha_ids()
-
             self._valida_centralizadora(folha_ids.mapped('company_id'))
 
             for company_id in folha_ids.mapped('company_id'):
@@ -561,25 +607,44 @@ class L10nBrSefip(models.Model):
                             record._preencher_registro_32(sefip, folha))
 
             record.sefip += sefip._registro_90_totalizador_do_arquivo()
-            #
-            # Liberar holerites para pagamento
-            #
+
+            # Setar a relação entre Holerite e o SEFIP
             for holerite in folha_ids:
-                holerite.sefip_id = self.id
-                holerite.hr_verify_sheet()
+                holerite.sefip_id = record.id
 
     @api.multi
     def gerar_boletos(self):
         '''
-         Criar ordem de pagamento para boleto de sindicato
+        Criar ordem de pagamento para boleto de sindicato
+        1. Configurar os dados para criação das financial.moves
+        2. Criar os financial.moves
         '''
-        contribuicao_sindical_total = 0
+        contribuicao_sindical = {}
         for record in self:
             for holerite in self.folha_ids:
                 for line in holerite.line_ids:
+                    remuneracao = line.slip_id.line_ids.filtered(
+                        lambda x: x.code == 'LIQUIDO')
                     if line.code == 'CONTRIBUICAO_SINDICAL':
-                        contribuicao_sindical_total += line.total
-        print ('contribuicao_sindical == ' + str(contribuicao_sindical_total))
+                        id_sindicato = \
+                            line.slip_id.contract_id.partner_union.id
+                        if id_sindicato in contribuicao_sindical:
+                            contribuicao_sindical[id_sindicato][
+                                'contribuicao_sindicato'] += line.total
+                            contribuicao_sindical[id_sindicato][
+                                'qtd_contribuintes'] += 1
+                            contribuicao_sindical[id_sindicato][
+                                'total_remuneracao'] += remuneracao.total
+                        else:
+                            contribuicao_sindical[id_sindicato] = {}
+                            contribuicao_sindical[id_sindicato][
+                                'contribuicao_sindicato'] = line.total
+                            contribuicao_sindical[id_sindicato][
+                                'qtd_contribuintes'] = 1
+                            contribuicao_sindical[id_sindicato][
+                                'total_remuneracao'] = remuneracao.total
+
+            print ('contribuicao_sindical == ' + str(contribuicao_sindical))
 
 
     def _preencher_registro_00(self, sefip):

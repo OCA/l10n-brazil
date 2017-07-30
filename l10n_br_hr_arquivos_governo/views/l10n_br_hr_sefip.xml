@@ -100,6 +100,11 @@
                                     </field>
                                 </group>
                             </page>
+                            <page string="Holerites">
+                                <group string="Holerites do SEFIP">
+                                    <field nolabel="1" name="folha_ids" readonly="1"/>
+                                </group>
+                            </page>
                         </notebook>
                     </footer>
                     <div class="oe_chatter">
