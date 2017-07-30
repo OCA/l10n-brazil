@@ -1123,6 +1123,9 @@ class L10nBrSefip(models.Model):
         else:
             sefip.data_de_nascimento = '      '
 
+        if not folha.contract_id.job_id:
+            raise ValidationError("Contrato " + folha.contract_id.name + " faltando campo função !")
+
         if codigo_categoria in '06':
             sefip.trabalhador_cbo = '05121'
         else:
