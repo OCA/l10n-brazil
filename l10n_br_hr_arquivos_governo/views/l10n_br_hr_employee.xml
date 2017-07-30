@@ -27,6 +27,7 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="l10n_br_hr.view_l10n_br_hr_employee_form"/>
             <field name="arch" type="xml">
+<!--
                 <field name="ctps" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
@@ -42,7 +43,7 @@
                 <field name="ctps_uf_id" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
-
+-->
                 <field name="pis_pasep" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
