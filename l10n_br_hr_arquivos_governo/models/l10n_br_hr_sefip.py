@@ -1088,35 +1088,36 @@ class L10nBrSefip(models.Model):
         if codigo_categoria in ('01', '03', '04', '05', '06', '07', '11',
                                 '12', '19', '20', '21', '26'):
             sefip.data_admissao = fields.Datetime.from_string(
-                folha.contract_id.date_start).strftime('%d%m%Y')
+                folha.contract_id.date_start).strftime('%d%m%Y') or ''
 
         if codigo_categoria in ('01', '03', '04', '05', '06', '07', '11',
                                 '12', '19', '20', '21'):
-            sefip.categoria_trabalhador = codigo_categoria
+            sefip.categoria_trabalhador = codigo_categoria or ''
 
         sefip.nome_trabalhador = folha.employee_id.name
 
         if codigo_categoria not in (
                 '06', '13', '14', '15', '16', '17', '18', '22', '23',
                 '24', '25'):
-            sefip.matricula_trabalhador = folha.employee_id.registration
+            sefip.matricula_trabalhador = folha.employee_id.registration or ''
 
         if codigo_categoria in ('01', '03', '04', '06', '07', '26'):
-            sefip.num_ctps = folha.employee_id.ctps
-            sefip.serie_ctps = folha.employee_id.ctps_series
+            sefip.num_ctps = folha.employee_id.ctps or ''
+            sefip.serie_ctps = folha.employee_id.ctps_series or ''
         else:
-            sefip.num_ctps = ' ' * 7
-            sefip.serie_ctps = ' ' * 5
+            sefip.num_ctps = ' ' * 7 or ''
+            sefip.serie_ctps = ' ' * 5 or ''
 
         if codigo_categoria in ('01', '03', '04', '05', '06', '07'):
             # Item 13: Data de opção do FGtS, é sempre a data de contratação!
             sefip.data_de_opcao = fields.Datetime.from_string(
-                folha.contract_id.date_start).strftime('%d%m%Y')
+                folha.contract_id.date_start).strftime('%d%m%Y') or ''
         else:
             sefip.data_de_opcao = '      '
 
         if codigo_categoria in ('01', '02', '03', '04', '05', '06', '07',
-                                '12', '19', '20', '21', '26'):
+                                '12', '19', '20', '21', '26') and \
+                folha.employee_id.birthday:
             sefip.data_de_nascimento = fields.Datetime.from_string(
                 folha.employee_id.birthday).strftime('%d%m%Y')
         else:
@@ -1129,23 +1130,23 @@ class L10nBrSefip(models.Model):
                                     folha.contract_id.job_id.cbo_id.code[:4]
         # Revisar daqui para a frente
         sefip.trabalhador_remun_sem_13 = \
-            self._trabalhador_remun_sem_13(folha)
+            self._trabalhador_remun_sem_13(folha) or ''
 
-        sefip.trabalhador_remun_13 = self._trabalhador_remun_13(folha)
+        sefip.trabalhador_remun_13 = self._trabalhador_remun_13(folha) or ''
 
         sefip.trabalhador_classe_contrib = \
-            self._trabalhador_classe_contrib(folha)
+            self._trabalhador_classe_contrib(folha) or ''
 
-        sefip.trabalhador_ocorrencia = self._trabalhador_ocorrencia(folha)
+        sefip.trabalhador_ocorrencia = self._trabalhador_ocorrencia(folha) or ''
         sefip.trabalhador_valor_desc_segurado = \
-            self._trabalhador_valor_desc_segurado(folha)
+            self._trabalhador_valor_desc_segurado(folha) or ''
         sefip.trabalhador_remun_base_calc_contribuicao_previdenciaria = \
             self._trabalhador_remun_base_calc_contribuicao_previdenciaria(
-                folha)
+                folha) or ''
         sefip.trabalhador_base_calc_13_previdencia_competencia = \
-            self._trabalhador_base_calc_13_previdencia_competencia(folha)
+            self._trabalhador_base_calc_13_previdencia_competencia(folha) or ''
         sefip.trabalhador_base_calc_13_previdencia_GPS = \
-            self._trabalhador_base_calc_13_previdencia_GPS(folha)
+            self._trabalhador_base_calc_13_previdencia_GPS(folha) or ''
 
         return sefip._registro_30_registro_do_trabalhador()
 
