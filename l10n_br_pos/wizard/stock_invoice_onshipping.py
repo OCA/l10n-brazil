@@ -5,7 +5,6 @@
 from openerp import models, fields, api
 
 FISCAL_DOC_REF = [
-    ('account.invoice', u'Fatura'),
     ('pos.order', u'Pedido do PDV')
 ]
 
@@ -15,8 +14,13 @@ class StockInvoiceOnShipping(models.TransientModel):
     _inherit = 'stock.invoice.onshipping'
 
     @api.multi
-    def _compute_fiscal_doc_ref(self):
-        result = super(StockInvoiceOnShipping, self)._compute_fiscal_doc_ref()
+    def _fiscal_doc_ref_selection(self):
+        prev = super(StockInvoiceOnShipping, self)._fiscal_doc_ref_selection()
+        return prev + FISCAL_DOC_REF
+
+    @api.multi
+    def _fiscal_doc_ref_default(self):
+        result = super(StockInvoiceOnShipping, self)._fiscal_doc_ref_default()
         id_in_model = result.split(',')[1]
         if id_in_model != '0':
             return result
@@ -33,8 +37,3 @@ class StockInvoiceOnShipping(models.TransientModel):
                     ], limit=1).id
                     result = 'pos.order,%d' % ref_id
             return result
-
-    fiscal_doc_ref = fields.Reference(selection=FISCAL_DOC_REF,
-                                      readonly=False,
-                                      default=_compute_fiscal_doc_ref,
-                                      string=u'Documento Fiscal Relacionado')
