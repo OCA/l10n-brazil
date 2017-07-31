@@ -29,6 +29,17 @@
                             </group>
                         </group>
                     </page>
+
+                    <page string="Sindicato">
+                        <group>
+                            <group>
+                                <field name="financial_account_sindicato_id"/>
+                                <field name="document_type_sindicato_id"/>
+                                <field name="payment_mode_sindicato_id"/>
+                            </group>
+                        </group>
+                    </page>
+
                 </xpath>
             </field>
         </record>

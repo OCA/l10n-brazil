@@ -60,5 +60,24 @@ class ResCompany(models.Model):
     )
 
     centralizadora = fields.Selection(
-        selection=CENTRALIZADORA, string=u'Centralizadora do FGTS'
+        selection=CENTRALIZADORA,
+        string=u'Centralizadora do FGTS'
+    )
+
+    document_type_sindicato_id = fields.Many2one(
+        comodel_name=u'financial.document.type',
+        string=u'Documento Sindicato',
+        help=u'Tipo de documento para boleto do sindicato.',
+    )
+
+    financial_account_sindicato_id = fields.Many2one(
+        comodel_name=u'financial.account',
+        string=u'Conta Sindicato',
+        help=u'Conta para lançamentos do sindicato.',
+    )
+
+    payment_mode_sindicato_id = fields.Many2one(
+        string=u'Carteira para Sindicato',
+        comodel_name=u'payment.mode',
+        help=u'Carteira padrão para geração de boletos do sindicato.',
     )
