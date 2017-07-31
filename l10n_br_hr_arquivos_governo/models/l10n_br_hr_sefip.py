@@ -515,41 +515,90 @@ class L10nBrSefip(models.Model):
                   'aplicativo na aba "Arquivos Anexos" para confirmar o envio')
             )
 
-    # Gerar Financial Move apartir do sefip para a contribuição sindical
-    def prepara_financial_move(self, sefip):
-        dados = {
-            'date_document': self.invoice_id.date_invoice,
-    #
-    #         'partner_id': self.union.id,
-    #         'company_id': self.sefip.company_id.id,
-    #
-    #         'doc_source_id': 'l10n_br.hr.sefip,' + str(self.id),
-    #         # 'currency_id': self.invoice_id.currency_id.id,
-    #         # 'sped_invoice_id': self.invoice_id.id,
-    #         # 'sped_documento_duplicata_id': self.id,
-    #         'document_type_id':
-    #             self.invoice_id.fiscal_category_id.
-    #                 financial_document_type_id.id,
-    #         # 'account_id': self.invoice_id.fiscal_category_id.
-    #         #     financial_account_id.id,
-    #         'date_maturity': self.data_vencimento,
-    #         'amount_document': self.valor,
-    #         'document_number':
-    #             '{0.serie_nfe}-{0.number}-{1.numero}/{2}'.format(
-    #                 self.invoice_id, self,
-    #                 unicode(len(self.invoice_id.duplicata_ids))),
-    #         'account_move_id': self.invoice_id.move_id.id,
-    #         'journal_id': self.invoice_id.journal_id.id,
-    #         'payment_term_id': self.invoice_id.payment_term.id,
-    #         'sped_forma_pagamento_id':
-    #             self.invoice_id.payment_term.sped_forma_pagamento_id.id,
+    def prepara_financial_move(
+            self, partner_id, sindicato_info, sindicato_total_empregados):
+        '''
+         Tratar dados do sefip e criar um dict para criar financial.move de 
+         contribuição sindical.
+        :param partner_id: id do partner do sindicato 
+        :param valor:  float com valor total de contribuição
+        :return: dict com valores para criar financial.move
+        '''
+
+        sequence_id = \
+            self.company_id.payment_mode_sindicato_id.sequence_arquivo_id.id
+        doc_number = str(self.env['ir.sequence'].next_by_id(sequence_id))
+
+        return {
+            'date_document': fields.Date.today(),
+            'partner_id': partner_id,
+            'doc_source_id': 'l10n_br.hr.sefip,' + str(self.id),
+            'company_id': self.company_id.id,
+            'amount_document': sindicato_info.get('contribuicao_sindicato'),
+            'document_number': doc_number,
+            'account_id': self.company_id.financial_account_sindicato_id.id,
+            'document_type_id': self.company_id.document_type_sindicato_id.id,
+            'payment_mode_id': self.company_id.payment_mode_sindicato_id.id,
+            'type': '2pay',
+            'sindicato_total_remuneracao_contribuintes':
+                sindicato_info.get('total_remuneracao'),
+            'sindicato_qtd_contribuintes':
+                sindicato_info.get('qtd_contribuintes'),
+            'sindicato_total_empregados': sindicato_total_empregados,
         }
 
-        # if self.invoice_id.type in ('out_invoice', 'out_refund'):
-        #     dados['type'] = FINANCIAL_DEBT_2RECEIVE
-        # else:
-        #     dados['type'] = FINANCIAL_DEBT_2PAY
-        return dados
+    @api.multi
+    def gerar_boletos(self):
+        '''
+        Criar ordem de pagamento para boleto de sindicato
+        1. Configurar os dados para criação das financial.moves
+        2. Criar os financial.moves
+        '''
+        contribuicao_sindical = {}
+        for record in self:
+            created_ids = []
+            for holerite in self.folha_ids:
+                for line in holerite.line_ids:
+                    remuneracao = line.slip_id.line_ids.filtered(
+                        lambda x: x.code == 'LIQUIDO')
+                    if line.code == 'CONTRIBUICAO_SINDICAL':
+                        id_sindicato = \
+                            line.slip_id.contract_id.partner_union.id or 0
+                        if id_sindicato in contribuicao_sindical:
+                            contribuicao_sindical[id_sindicato][
+                                'contribuicao_sindicato'] += line.total
+                            contribuicao_sindical[id_sindicato][
+                                'qtd_contribuintes'] += 1
+                            contribuicao_sindical[id_sindicato][
+                                'total_remuneracao'] += remuneracao.total
+                        else:
+                            contribuicao_sindical[id_sindicato] = {}
+                            contribuicao_sindical[id_sindicato][
+                                'contribuicao_sindicato'] = line.total
+                            contribuicao_sindical[id_sindicato][
+                                'qtd_contribuintes'] = 1
+                            contribuicao_sindical[id_sindicato][
+                                'total_remuneracao'] = remuneracao.total
+
+            for sindicato in contribuicao_sindical:
+                vals = self.prepara_financial_move(
+                    sindicato, contribuicao_sindical[sindicato], 123)
+
+                financial_move = self.env['financial.move'].create(vals)
+                created_ids.append(financial_move.id)
+
+            return {
+                'domain': "[('id', 'in', %s)]" % created_ids,
+                'name': _("Boletos para sindicatos"),
+                'res_ids': created_ids,
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'auto_search': True,
+                'res_model': 'financial.move',
+                'view_id': False,
+                'search_view_id': False,
+                'type': 'ir.actions.act_window'
+            }
 
     @api.multi
     def action_sent(self):
@@ -611,41 +660,6 @@ class L10nBrSefip(models.Model):
             # Setar a relação entre Holerite e o SEFIP
             for holerite in folha_ids:
                 holerite.sefip_id = record.id
-
-    @api.multi
-    def gerar_boletos(self):
-        '''
-        Criar ordem de pagamento para boleto de sindicato
-        1. Configurar os dados para criação das financial.moves
-        2. Criar os financial.moves
-        '''
-        contribuicao_sindical = {}
-        for record in self:
-            for holerite in self.folha_ids:
-                for line in holerite.line_ids:
-                    remuneracao = line.slip_id.line_ids.filtered(
-                        lambda x: x.code == 'LIQUIDO')
-                    if line.code == 'CONTRIBUICAO_SINDICAL':
-                        id_sindicato = \
-                            line.slip_id.contract_id.partner_union.id
-                        if id_sindicato in contribuicao_sindical:
-                            contribuicao_sindical[id_sindicato][
-                                'contribuicao_sindicato'] += line.total
-                            contribuicao_sindical[id_sindicato][
-                                'qtd_contribuintes'] += 1
-                            contribuicao_sindical[id_sindicato][
-                                'total_remuneracao'] += remuneracao.total
-                        else:
-                            contribuicao_sindical[id_sindicato] = {}
-                            contribuicao_sindical[id_sindicato][
-                                'contribuicao_sindicato'] = line.total
-                            contribuicao_sindical[id_sindicato][
-                                'qtd_contribuintes'] = 1
-                            contribuicao_sindical[id_sindicato][
-                                'total_remuneracao'] = remuneracao.total
-
-            print ('contribuicao_sindical == ' + str(contribuicao_sindical))
-
 
     def _preencher_registro_00(self, sefip):
         sefip.tipo_inscr_resp = '1' if \
