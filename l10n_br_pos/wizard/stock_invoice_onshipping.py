@@ -22,18 +22,8 @@ class StockInvoiceOnShipping(models.TransientModel):
     def _fiscal_doc_ref_default(self):
         result = super(StockInvoiceOnShipping, self)._fiscal_doc_ref_default()
         id_in_model = result.split(',')[1]
-        if id_in_model != '0':
-            return result
-        else:
-            picking_obj = self.env['stock.picking']
-            for record in picking_obj.browse(
-                    self._context.get('active_ids', False)):
-                move = record.move_lines[0]
-                if move.origin_returned_move_id:
-                    ref_id = self.env['pos.order'].search([
-                        ('chave_cfe', '=',
-                         move.origin_returned_move_id.
-                         picking_id.fiscal_document_access_key)
-                    ], limit=1).id
-                    result = 'pos.order,%d' % ref_id
-            return result
+        if id_in_model == '0':
+            return_picking_ids = self.get_returned_picking_ids()
+            ref_id = return_picking_ids.mapped('pos_order_ids')[:1].id
+            result = 'pos.order,%d' % ref_id
+        return result
