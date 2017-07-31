@@ -56,6 +56,21 @@ class FinancialMove(models.Model):
         size=44,
     )
 
+    #
+    # Informações do Boleto para contribuição sindical
+    #
+    sindicato_qtd_contribuintes = fields.Integer(
+        string='Quantidade Total de Contribuintes',
+    )
+
+    sindicato_total_remuneracao_contribuintes = fields.Float(
+        string='Total Remuneração dos contribuintes',
+    )
+
+    sindicato_total_empregados = fields.Integer(
+        string='Quantidade Total de empregados estabelecimentos'
+    )
+
     def _trata_linha_digitavel(self):
         self.ensure_one()
 

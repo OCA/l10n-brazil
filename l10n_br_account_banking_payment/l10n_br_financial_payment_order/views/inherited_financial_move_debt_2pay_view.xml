@@ -20,6 +20,15 @@
                         <field name="boleto_codigo_barras" colspan="4" />
                     </group>
                 </group>
+
+                <group name="Sindicato" colspan="4" col="4" attrs="{'invisible':[('sindicato_qtd_contribuintes','=',0)]}">
+                    <group name="sindicato" string="Sindicato" colspan="4" col="4">
+                        <field name="sindicato_total_empregados" attrs="{'invisible':[('sindicato_total_empregados','=',0)]}" />
+                        <field name="sindicato_qtd_contribuintes" attrs="{'invisible':[('sindicato_qtd_contribuintes','=',0)]}" />
+                        <field name="sindicato_total_remuneracao_contribuintes" attrs="{'invisible':[('sindicato_total_remuneracao_contribuintes','=',0)]}" />
+                    </group>
+                </group>
+
             </group>
         </field>
     </record>
