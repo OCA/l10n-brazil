@@ -228,8 +228,9 @@ class BoletoOdoo(object):
         self.boleto.cedente_bairro = self._beneficiario.district or ''
         self.boleto.cedente_cep = self._beneficiario.zip or ''
         self.boleto.cedente_cidade = self._beneficiario.city or ''
-        self.boleto.cedente_logradouro = (self._beneficiario.street or) '' + \
-            ', ' + (self._beneficiario.number or 'SN')
+        self.boleto.cedente_logradouro = \
+            (self._beneficiario.street or '') + ', ' + \
+            (self._beneficiario.number or 'SN')
         self.boleto.cedente_uf = self._beneficiario.state_id.code or ''
 
     def get_beneficiario(self):

@@ -177,6 +177,14 @@ class FinancialMove(models.Model):
                         financial_move.payment_mode_id.beneficiario_digito
                     boleto.boleto.codigo_sindical = codigo_sindical
 
+                    # Informações boleto para sindicato
+                    boleto.boleto.total_empregados = \
+                        financial_move.sindicato_total_empregados
+                    boleto.boleto.qtd_contribuintes = \
+                        financial_move.sindicato_qtd_contribuintes
+                    boleto.boleto.total_remuneracao_contribuintes = \
+                        financial_move.sindicato_total_remuneracao_contribuintes
+
                 if boleto:
                 #     financial_move.date_payment_created = date.today()
                 #     financial_move.transaction_ref = \
