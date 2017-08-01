@@ -9,6 +9,7 @@ from __future__ import (
 
 import logging
 import base64
+import pybrasil
 from openerp import api, fields, models, _
 from openerp.exceptions import ValidationError
 
@@ -133,23 +134,6 @@ class L10nBrSefip(models.Model):
         if self.codigo_fpas == "639":
             return str("%05d" % self.porcentagem_filantropia * 100)
         return '    '
-
-    def _default_data_vencimento_grcsu(self):
-        if self.ano and self.mes and self.company_id:
-            ultimo_dia_mes = str(self.ano) + '-' + self.mes + '-01'
-            estado = self.company_id.state_id.code
-            municipio = self.company_id.l10n_br_city_id.name
-            print(ultimo_dia_mes)
-            print(estado)
-            print(municipio)
-            return pybrasil.data.dia_util_pagamento(
-                    pybrasil.data.ultimo_dia_mes(ultimo_dia_mes),
-                    estado=estado,
-                    municipio=municipio,
-                    antecipa=True
-            )
-        else:
-            return False
 
     related_attachment_ids = fields.One2many(
         string='Anexos Relacionados',
@@ -288,7 +272,6 @@ class L10nBrSefip(models.Model):
     )
     data_vencimento_grcsu = fields.Date(
         string=u'Data de Vencimento da GRCSU',
-        default=_default_data_vencimento_grcsu
     )
 
     folha_ids = fields.One2many(
@@ -298,6 +281,24 @@ class L10nBrSefip(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]},
     )
+
+    @api.onchange('company_id', 'ano', 'mes')
+    def _onchange_data_vencimento_grcsu(self):
+        self.ensure_one()
+        if not (self.ano and self.mes and self.company_id):
+            return
+
+        ultimo_dia_mes = str(self.ano) + '-' + self.mes + '-01'
+        ultimo_dia_mes = pybrasil.data.mes_que_vem(ultimo_dia_mes)
+        ultimo_dia_mes = pybrasil.data.ultimo_dia_mes(ultimo_dia_mes)
+        estado = self.company_id.state_id.code
+        municipio = self.company_id.l10n_br_city_id.name
+        self.data_vencimento_grcsu = pybrasil.data.dia_util_pagamento(
+                ultimo_dia_mes,
+                estado=estado,
+                municipio=municipio,
+                antecipa=True
+        )
 
     def _valida_tamanho_linha(self, linha):
         """Valida tamanho da linha (sempre igual a 360 posições) e
@@ -960,7 +961,7 @@ class L10nBrSefip(models.Model):
         if folha.tipo_de_folha == 'rescisao':
             # FIXME:
             # return hr.payroll.structure.tipo_afastamento_sefip
-            print ("tipo_afastamento_sefip - Registro 30. Item 19")
+            #print ("tipo_afastamento_sefip - Registro 30. Item 19")
             pass
 
         ocorrencias_no_periodo_ids = self._buscar_ocorrencias(folha)
