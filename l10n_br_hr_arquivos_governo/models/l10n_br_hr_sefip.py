@@ -545,8 +545,7 @@ class L10nBrSefip(models.Model):
                   'aplicativo na aba "Arquivos Anexos" para confirmar o envio')
             )
 
-    def prepara_financial_move(
-            self, partner_id, sindicato_info, sindicato_total_empregados):
+    def prepara_financial_move(self, partner_id, sindicato_info):
         '''
          Tratar dados do sefip e criar um dict para criar financial.move de 
          contribuição sindical.
@@ -558,6 +557,17 @@ class L10nBrSefip(models.Model):
         sequence_id = \
             self.company_id.payment_mode_sindicato_id.sequence_arquivo_id.id
         doc_number = str(self.env['ir.sequence'].next_by_id(sequence_id))
+
+        # Total de contratos ativos na empresa
+        total_contratos = self.env['hr.contract'].search([
+            '&',
+            ('company_id', '=', self.company_id.id),
+            '|',
+            ('date_end', '>', fields.Date.today()),
+            ('date_end', '=', False),
+        ])
+        # Filtrar contratos por usuarios
+        total_funcionarios = len(total_contratos.mapped('employee_id'))
 
         return {
             'date_document': fields.Date.today(),
@@ -574,7 +584,7 @@ class L10nBrSefip(models.Model):
                 sindicato_info.get('total_remuneracao'),
             'sindicato_qtd_contribuintes':
                 sindicato_info.get('qtd_contribuintes'),
-            'sindicato_total_empregados': sindicato_total_empregados,
+            'sindicato_total_empregados': total_funcionarios,
             'date_maturity': self.data_vencimento_grcsu,
             'sefip_id': self.id,
         }
@@ -614,7 +624,7 @@ class L10nBrSefip(models.Model):
 
             for sindicato in contribuicao_sindical:
                 vals = self.prepara_financial_move(
-                    sindicato, contribuicao_sindical[sindicato], 123)
+                    sindicato, contribuicao_sindical[sindicato])
 
                 financial_move = self.env['financial.move'].create(vals)
                 created_ids.append(financial_move.id)
