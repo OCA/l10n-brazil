@@ -567,6 +567,7 @@ class L10nBrSefip(models.Model):
             'sindicato_qtd_contribuintes':
                 sindicato_info.get('qtd_contribuintes'),
             'sindicato_total_empregados': sindicato_total_empregados,
+            'date_maturity': self.data_vencimento_grcsu,
         }
 
     @api.multi
