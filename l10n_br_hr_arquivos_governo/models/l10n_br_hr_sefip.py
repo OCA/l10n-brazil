@@ -134,6 +134,23 @@ class L10nBrSefip(models.Model):
             return str("%05d" % self.porcentagem_filantropia * 100)
         return '    '
 
+    def _default_data_vencimento_grcsu(self):
+        if self.ano and self.mes and self.company_id:
+            ultimo_dia_mes = str(self.ano) + '-' + self.mes + '-01'
+            estado = self.company_id.state_id.code
+            municipio = self.company_id.l10n_br_city_id.name
+            print(ultimo_dia_mes)
+            print(estado)
+            print(municipio)
+            return pybrasil.data.dia_util_pagamento(
+                    pybrasil.data.ultimo_dia_mes(ultimo_dia_mes),
+                    estado=estado,
+                    municipio=municipio,
+                    antecipa=True
+            )
+        else:
+            return False
+
     related_attachment_ids = fields.One2many(
         string='Anexos Relacionados',
         comodel_name='l10n_br.hr.sefip.attachments',
@@ -268,6 +285,10 @@ class L10nBrSefip(models.Model):
         string=u'Prévia do SEFIP',
         readonly=True,
         states={'draft': [('readonly', False)]},
+    )
+    data_vencimento_grcsu = fields.Date(
+        string=u'Data de Vencimento da GRCSU',
+        default=_default_data_vencimento_grcsu
     )
 
     folha_ids = fields.One2many(
