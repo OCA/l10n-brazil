@@ -282,6 +282,14 @@ class L10nBrSefip(models.Model):
         states={'draft': [('readonly', False)]},
     )
 
+    boletos_ids = fields.One2many(
+        string='Guias/Boletos',
+        comodel_name='financial.move',
+        inverse_name='sefip_id',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
+
     @api.onchange('company_id', 'ano', 'mes')
     def _onchange_data_vencimento_grcsu(self):
         self.ensure_one()
@@ -495,7 +503,7 @@ class L10nBrSefip(models.Model):
         folha_ids = self.env['hr.payslip'].search([
             ('mes_do_ano', '=', self.mes),
             ('ano', '=', self.ano),
-#            ('state', 'in', ['done','verify']),
+           # ('state', 'in', ['done','verify']),
             ('company_id.partner_id.cnpj_cpf', 'like', raiz)
         ])
         return folha_ids
@@ -568,6 +576,7 @@ class L10nBrSefip(models.Model):
                 sindicato_info.get('qtd_contribuintes'),
             'sindicato_total_empregados': sindicato_total_empregados,
             'date_maturity': self.data_vencimento_grcsu,
+            'sefip_id': self.id,
         }
 
     @api.multi

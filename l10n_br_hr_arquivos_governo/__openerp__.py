@@ -13,6 +13,7 @@
         'document',
         'l10n_br_hr_payroll',
         'l10n_br_account',
+        'l10n_br_financial_payment_order',
     ],
     'external_dependencies': {
         'python': ['pybrasil'],

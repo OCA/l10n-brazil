@@ -108,6 +108,13 @@
                                     <field nolabel="1" name="folha_ids" readonly="1"/>
                                 </group>
                             </page>
+
+                            <page string="Boletos"  attrs="{'invisible':[('boletos_ids','=',[])]}">
+                                <group string="Boletos Gerados">
+                                    <field nolabel="1" name="boletos_ids" readonly="1"/>
+                                </group>
+                            </page>
+
                         </notebook>
                     </footer>
                     <div class="oe_chatter">
