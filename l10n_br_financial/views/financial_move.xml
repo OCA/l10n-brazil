@@ -14,14 +14,14 @@
     <record model="ir.ui.view" id="financial_move_form_view">
         <field name="name">financial.move.form (in l10n_br_financial)</field>
         <field name="model">financial.move</field>
-        <field name="inherit_id" ref="financial.financial_move_debt_base_form"/>
+        <field name="inherit_id" ref="financial.financial_move_form_view"/>
         <field name="arch" type="xml">
             <field name="date_maturity" position="replace">
                 <field name="date_maturity"
-                       attrs="{'invisible': [('type', 'in', ['money_in', 'money_out'])]}"/>
+                       attrs="{'invisible': [('financial_type', 'in', ['money_in', 'money_out'])]}"/>
             </field>
             <page name="payments" position="attributes">
-                <attribute name="attrs">{'invisible': [('type', 'in', ['money_in', 'money_out'])]}</attribute>
+                <attribute name="attrs">{'invisible': [('financial_type', 'in', ['money_in', 'money_out'])]}</attribute>
             </page>
             <page name="payments" position="after">
                 <page name="cheques" string="Cheques">
@@ -47,7 +47,7 @@
         <field name="name">Entradas</field>
         <field name="res_model">financial.move</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('type','=','money_in')]</field>
+        <field name="domain">[('financial_type','=','money_in')]</field>
         <field name="context" >{'default_type': 'money_in'}</field>
     </record>
 
@@ -55,7 +55,7 @@
         <field name="name">Saídas</field>
         <field name="res_model">financial.move</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('type','=','money_out')]</field>
+        <field name="domain">[('financial_type','=','money_out')]</field>
         <field name="context" >{'default_type': 'money_out'}</field>
     </record>
 

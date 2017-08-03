@@ -101,12 +101,12 @@ class FinanceiroCheque(models.Model):
 
     @api.onchange('codigo')
     def onchange_codigo(self):
-        if self.codigo and len(self.codigo) == 34:
+        if self.codigo and len(self.codigo) >= 30:
             self.banco_id = self.env.get('res.bank').search([
-                ('bic', '=', self.codigo[1:4])
+                ('bic', '=', self.codigo[:3])
             ])
             self.agencia = self.env.get('res.bank.agencia').search([
-                ('name', '=', self.codigo[4:8])
+                ('name', '=', self.codigo[3:7])
             ])
-            self.numero_cheque = self.codigo[13:19]
-            self.conta = self.codigo[26:32]
+            self.numero_cheque = self.codigo[11:17]
+            self.conta = self.codigo[22:-2] + '-' + self.codigo[-2]

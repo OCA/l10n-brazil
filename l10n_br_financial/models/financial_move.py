@@ -13,21 +13,15 @@ class FinancialMove(models.Model):
         comodel_name='financeiro.cheque',
         string=u'Cheques'
     )
-    # amount_paid = fields.Monetary(
-    #     string='Paid',
-    #     compute='_compute_residual',
-    #     store=True,
-    # )
 
     @api.multi
-    @api.depends('state', 'currency_id', 'amount_total',
-                 'payment_ids.amount_total', 'cheque_ids.valor',
+    @api.depends('state', 'currency_id', 'amount_total', 'cheque_ids.valor',
                  'cheque_ids.state')
     def _compute_residual(self):
         for record in self:
             amount_paid = 0.00
-            if record.type in ('2receive', '2pay'):  # FIXME
-                for payment in record.payment_ids:
+            if record.financial_type in ('2receive', '2pay'):  # FIXME
+                for payment in record.related_payment_ids:
                     amount_paid += payment.amount_total
                 for cheque in record.cheque_ids:
                     if cheque.state in ['descontado', 'repassado']:

@@ -83,17 +83,17 @@
         <field name="context">{}</field>
     </record>
 
+    <record model="ir.ui.menu" id="financeiro_cheque_menu">
+        <field name="name">Cheques</field>
+        <field name="parent_id" ref="financial.financial_top_menu"/>
+        <field name="sequence" eval="16"/>
+    </record>
+
     <record model="ir.ui.menu" id="cadastrar_cheque_menu">
         <field name="name">Cadastrar</field>
         <field name="parent_id" ref="financeiro_cheque_menu"/>
         <field name="action" ref="financeiro_cheque_act_window"/>
         <field name="sequence" eval="1"/>
-    </record>
-
-    <record model="ir.ui.menu" id="financeiro_cheque_menu">
-        <field name="name">Cheques</field>
-        <field name="parent_id" ref="financial.financial_top_menu"/>
-        <field name="sequence" eval="16"/>
     </record>
 
 </data>
