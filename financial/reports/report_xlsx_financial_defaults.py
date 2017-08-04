@@ -6,13 +6,21 @@
 #
 
 from __future__ import division, print_function, unicode_literals
-import html2text
-from openerp import _
-from openerp import fields
-from openerp.report import report_sxw
+
+import logging
 from psycopg2.extensions import AsIs
 
+from openerp import fields, _
+from openerp.report import report_sxw
+
 from .report_xlsx_financial_base import ReportXlsxFinancialBase
+
+_logger = logging.getLogger(__name__)
+
+try:
+    import html2text
+except ImportError:
+    _logger.info('Cannot import html2text')
 
 
 class ReportXslxFinancialDefault(ReportXlsxFinancialBase):
