@@ -20,6 +20,7 @@
         'l10n_br_account_product',
         'financial',
         'report_py3o',
+        'l10n_br_hr_payroll',
     ],
     'data': [
         'wizards/ordem_pagamento_holerite_wizard.xml',
