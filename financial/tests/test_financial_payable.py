@@ -5,6 +5,7 @@
 
 
 from openerp import fields
+from openerp.exceptions import ValidationError
 from openerp.addons.financial.tests.financial_test_classes import \
     FinancialTestCase
 
@@ -346,3 +347,17 @@ class ManualFinancialProcess(FinancialTestCase):
         wizard_cancel.doit()
         self.assertEqual(financial_move.state, 'cancelled')
         self.assertEqual(financial_move.amount_residual, 0)
+
+    def test_invalid_financial_payable(self):
+        """Scenario 7: Invalid financial payable """
+        with self.assertRaises(ValidationError):
+            self.create_financial(
+                type='2pay',
+                amount_document=0.0,
+                currency_id=self.currency_eur_id,
+                date_document='2017-01-01',
+                date_maturity='2017-01-01',
+                account_id=self.env.ref(
+                    "financial.financial_account_101001").id,
+                document_number='200/1',
+            )
