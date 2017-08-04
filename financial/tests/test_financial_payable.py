@@ -6,6 +6,7 @@
 
 from openerp import fields
 from openerp.exceptions import ValidationError
+from openerp.exceptions import Warning as UserError
 from openerp.addons.financial.tests.financial_test_classes import \
     FinancialTestCase
 
@@ -349,7 +350,7 @@ class ManualFinancialProcess(FinancialTestCase):
         self.assertEqual(financial_move.amount_residual, 0)
 
     def test_invalid_financial_payable(self):
-        """Scenario 7: Invalid financial payable """
+        """Scenario 7: Invalid financial payable with document_amount = 0"""
         with self.assertRaises(ValidationError):
             self.create_financial(
                 type='2pay',
@@ -361,3 +362,21 @@ class ManualFinancialProcess(FinancialTestCase):
                     "financial.financial_account_101001").id,
                 document_number='200/1',
             )
+
+    def test_do_before_unlink(self):
+        """Scenario 8: do not possible unlink payable state not draft or
+        cancelled  """
+        financial_move = self.create_financial(
+            type='2pay',
+            amount_document=5000,
+            currency_id=self.currency_eur_id,
+            date_document='2017-01-01',
+            date_maturity='2017-01-01',
+            account_id=self.env.ref(
+                "financial.financial_account_101001").id,
+            document_number='200/1',
+        )
+        financial_move.action_confirm()
+
+        with self.assertRaises(UserError):
+            financial_move.unlink()
