@@ -56,6 +56,8 @@ class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
     # see the list of brcobranca boleto fields:
     # https://github.com/kivanio/brcobranca/blob/master/lib/brcobranca/boleto/base.rb
+    # and test a here:
+    # https://github.com/kivanio/brcobranca/blob/master/spec/brcobranca/boleto/itau_spec.rb
 
     @api.multi
     def send_payment(self):
