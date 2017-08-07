@@ -298,6 +298,7 @@ function l10n_br_pos_models(instance, module) {
             result['fiscal_classification_id'] = this.get_product().fiscal_classification_id;
             result['estimated_taxes'] = this.get_product().estimated_taxes ? this.get_product().estimated_taxes < 1 : this.get_product().estimated_taxes/100;
             result['origin'] = this.get_product().origin;
+            result['estimated_taxes'] = produto.estd_national_taxes_perct;
             return result;
         }
     });
@@ -333,9 +334,9 @@ function l10n_br_pos_models(instance, module) {
                 pos_model.models[res_partner_index].fields.push(
                     'fiscal_classification_id',
                     'origin',
-                    'estimated_taxes',
                     'name'
                 );
+                'estd_national_taxes_perct',
         }
 
 

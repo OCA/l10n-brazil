@@ -49,18 +49,24 @@ function l10n_br_pos_devices(instance, module) {
                     }
                    self.message('enviar_cfe_sat',{json: j},{ timeout: 5000 })
                         .then(function(result){
-                            if (!result['excessao']){
-                                currentOrder.set_return_cfe(result['xml']);
-                                currentOrder.set_num_sessao_sat(result['numSessao']);
-                                currentOrder.set_chave_cfe(result['chave_cfe']);
-                                self.pos.push_order(currentOrder);
-                            }else{
+                            if (typeof result === "string"){
                                 self.pos.pos_widget.screen_selector.show_popup('error-traceback',{
                                     'message': _t('Erro SAT: '),
-                                    'comment': _t(result['excessao']),
+                                    'comment': _t(result)
                                 });
+                            }else{
+                                if (!result['excessao']){
+                                    currentOrder.set_return_cfe(result['xml']);
+                                    currentOrder.set_num_sessao_sat(result['numSessao']);
+                                    currentOrder.set_chave_cfe(result['chave_cfe']);
+                                    self.pos.push_order(currentOrder);
+                                }else{
+                                    self.pos.pos_widget.screen_selector.show_popup('error-traceback',{
+                                        'message': _t('Erro SAT: '),
+                                        'comment': _t(result['excessao']),
+                                    });
+                                }
                             }
-
                         },function(error){
                             if (error) {
                                 self.pos.pos_widget.screen_selector.show_popup('error-traceback',{
