@@ -8,6 +8,7 @@
 from __future__ import division, print_function, unicode_literals
 
 import logging
+
 from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
@@ -43,7 +44,7 @@ class SpedDocumentoItem(SpedCalculoImpostoItem, models.Model):
         comodel_name='sped.documento',
         string='Documento',
         ondelete='cascade',
-        required=True
+        required=True,
     )
     regime_tributario = fields.Selection(
         selection=REGIME_TRIBUTARIO,
@@ -73,7 +74,8 @@ class SpedDocumentoItem(SpedCalculoImpostoItem, models.Model):
         comodel_name='sped.operacao',
         string='Operação Fiscal',
         related='documento_id.operacao_id',
-        readonly=True)
+        readonly=True,
+    )
     contribuinte = fields.Selection(
         selection=IE_DESTINATARIO,
         string='Contribuinte',
@@ -89,7 +91,7 @@ class SpedDocumentoItem(SpedCalculoImpostoItem, models.Model):
     data_emissao = fields.Date(
         string='Data de emissão',
         related='documento_id.data_emissao',
-        readonly=True
+        readonly=True,
     )
     entrada_saida = fields.Selection(
         selection=ENTRADA_SAIDA,
