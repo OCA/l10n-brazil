@@ -20,6 +20,9 @@ try:
         CONS_NFE_TODAS, CONS_NFE_EMISSAO_TODOS_EMITENTES)
     from pysped.nfe.leiaute import *
     from pybrasil.inscricao import limpa_formatacao
+    from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
+                               agora)
+    from pybrasil.valor import formata_valor
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -44,10 +47,8 @@ class ConsultaDFe(models.Model):
         string='Última consulta',
     )
 
-    @api.multi
     def busca_documentos(self):
         for consulta in self:
-            # import ipdb; ipdb.set_trace();
 
             processador = self.empresa_id.processador_nfe()
             processador.ambiente = int(AMBIENTE_NFE_PRODUCAO)
@@ -66,15 +67,14 @@ class ConsultaDFe(models.Model):
             _logger.info(processo.resposta.original.encode('utf-8'))
 
             ##
-            # Nenhum documento encontrado
+            ## Nenhum documento encontrado
             ##
             #if processo.resposta.cStat.valor == '137':
                 #uu_obj.write({'ultimo_ns': processo.resposta.ultNSU.valor, 'ultima_consulta': str(UTC.normalize(agora()))})
 
             ##
-            # Consumo indevido, não tem mais documentos para retornar,
-            #  deve esperar
-            # 1 hora para a próxima execução
+            ## Consumo indevido, não tem mais documentos para retornar, deve esperar
+            ## 1 hora para a próxima execução
             ##
             #if processo.resposta.cStat.valor == '656':
                 #uu_obj.write({'ultima_consulta': str(UTC.normalize(agora()))})
@@ -122,3 +122,5 @@ class ConsultaDFe(models.Model):
             #ids = self.pool.get('sped.ultimo_ns').search(cr, uid, [])
 
         #self.pool.get('sped.ultimo_ns').busca_documentos(cr, uid, ids, context)
+
+

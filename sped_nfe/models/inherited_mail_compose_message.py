@@ -8,7 +8,6 @@
 from __future__ import division, print_function, unicode_literals
 
 import os
-import logging
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
@@ -79,34 +78,34 @@ class MailComposeMessage(models.TransientModel):
 
                 else:
                     if documento.modelo == MODELO_FISCAL_NFE and \
-                            empresa.mail_template_nfe_autorizada_id:
+                        empresa.mail_template_nfe_autorizada_id:
                         mail_template = \
                             empresa.mail_template_nfe_autorizada_id
 
                     elif documento.modelo == MODELO_FISCAL_NFCE and \
-                            empresa.mail_template_nfce_autorizada_id:
+                        empresa.mail_template_nfce_autorizada_id:
                         mail_template = \
                             empresa.mail_template_nfce_autorizada_id
 
             elif documento.state_nfe == SITUACAO_NFE_CANCELADA:
                 if documento.modelo == MODELO_FISCAL_NFE and \
-                        empresa.mail_template_nfe_cancelada_id:
+                    empresa.mail_template_nfe_cancelada_id:
                     mail_template = \
                         empresa.mail_template_nfe_cancelada_id
 
                 elif documento.modelo == MODELO_FISCAL_NFCE and \
-                        empresa.mail_template_nfce_cancelada_id:
+                    empresa.mail_template_nfce_cancelada_id:
                     mail_template = \
                         empresa.mail_template_nfce_cancelada_id
 
             elif documento.state_nfe == SITUACAO_NFE_DENEGADA:
                 if documento.modelo == MODELO_FISCAL_NFE and \
-                        empresa.mail_template_nfe_denegada_id:
+                    empresa.mail_template_nfe_denegada_id:
                     mail_template = \
                         empresa.mail_template_nfe_denegada_id
 
                 elif documento.modelo == MODELO_FISCAL_NFCE and \
-                        empresa.mail_template_nfce_denegada_id:
+                    empresa.mail_template_nfce_denegada_id:
                     mail_template = \
                         empresa.mail_template_nfce_denegada_id
 

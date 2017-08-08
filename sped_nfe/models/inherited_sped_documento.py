@@ -345,7 +345,7 @@ class SpedDocumento(models.Model):
         # Notas referenciadas
         #
         for doc_ref in self.documento_referenciado_ids:
-            nfe.infNFe.ide.NFref.append(doc_ref.monta_nfe())
+            nfe.infNFe.ide.NFref.append(docref.monta_nfe())
 
         #
         # Emitente
@@ -427,7 +427,7 @@ class SpedDocumento(models.Model):
                 parse_datetime(self.data_hora_entrada_saida + ' GMT')
             )
         else:
-            self.infNFe.ide.dhSaiEnt.valor = data_hora_horario_brasilia(
+            nfe.infNFe.ide.dhSaiEnt.valor = data_hora_horario_brasilia(
                 parse_datetime(self.data_hora_emissao + ' GMT')
             )
 
@@ -1215,9 +1215,6 @@ class SpedDocumento(models.Model):
         super(SpedDocumento, self).envia_email()
 
         self.ensure_one()
-        import ipdb; ipdb.set_trace();
-        print(mail_template)
-
         dados = mail_template.generate_email([documento.id])
 
     # TODO: FIX ME
@@ -1236,7 +1233,6 @@ class SpedDocumento(models.Model):
         processador = self.processador_nfe()
 
         procNFe = ProcNFe_310()
-        import ipdb; ipdb.set_trace();
         if self.arquivo_xml_autorizacao_id:
             procNFe.xml = \
                 self.arquivo_xml_autorizacao_id.datas.decode('base64')

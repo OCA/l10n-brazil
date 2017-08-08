@@ -194,8 +194,7 @@ class SpedCartaCorrecao(models.Model):
 
         processador = self.documento_id.processador_nfe()
 
-        xml = self.documento_id.arquivo_xml_autorizacao_id.datas.decode(
-            'base64')
+        xml = self.documento_id.arquivo_xml_autorizacao_id.datas.decode('base64')
         xml = xml.decode('utf-8')
 
         procNFe = ProcNFe_310()
@@ -210,9 +209,9 @@ class SpedCartaCorrecao(models.Model):
         evento.infEvento.chNFe.valor = procNFe.NFe.chave
         evento.infEvento.dhEvento.valor = agora()
 
-        # self.correcao =
+        #self.correcao =
         ##
-        # Correção ASP - Cláudia copiou e colou e veio esse caracter esquisito
+        ## Correção ASP - Cláudia copiou e colou e veio esse caracter esquisito
         ##
         #if self.correcao:
             #self.correcao = self.correcao.replace('\u200b', ' ')
@@ -235,8 +234,6 @@ class SpedCartaCorrecao(models.Model):
 
             retevento = procevento.retEvento
 
-            import ipdb
-            ipdb.set_trace()
             if retevento.infEvento.cStat.valor not in ('135', '136'):
                 mensagem = 'Erro na carta de correção'
                 mensagem += '\nCódigo: ' + retevento.infEvento.cStat.valor
@@ -275,4 +272,5 @@ class SpedCartaCorrecao(models.Model):
     @api.onchange('documento_id')
     def _onchange_documento_id(self):
         self.ensure_one()
+
         pass

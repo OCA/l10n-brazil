@@ -9,8 +9,12 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from odoo import api, fields, models
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo import api, models
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFCE,
+)
+
 
 _logger = logging.getLogger(__name__)
 
@@ -27,7 +31,6 @@ except (ImportError, IOError) as err:
 class SpedDocumentoVolume(models.Model):
     _inherit = 'sped.documento.volume'
 
-    @api.multi
     def monta_nfe(self):
         self.ensure_one()
 

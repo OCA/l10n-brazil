@@ -29,7 +29,6 @@ except (ImportError, IOError) as err:
 class SpedDocumentoDuplicata(models.Model):
     _inherit = 'sped.documento.duplicata'
 
-    @api.multi
     def monta_nfe(self):
         self.ensure_one()
 

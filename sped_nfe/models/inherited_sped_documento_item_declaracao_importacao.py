@@ -8,9 +8,11 @@
 from __future__ import division, print_function, unicode_literals
 
 import logging
-
-from odoo import api, fields, models
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo import api, models
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    MODELO_FISCAL_NFCE,
+    MODELO_FISCAL_NFE,
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -30,12 +32,11 @@ except (ImportError, IOError) as err:
 class SpedDocumentoItemDeclaracaoImportacao(models.Model):
     _inherit = 'sped.documento.item.declaracao.importacao'
 
-    @api.multi
     def monta_nfe(self):
         self.ensure_one()
 
-        if (self.documento_id.modelo != MODELO_FISCAL_NFE and
-                self.documento_id.modelo != MODELO_FISCAL_NFCE):
+        if self.documento_id.modelo != MODELO_FISCAL_NFE and \
+                self.documento_id.modelo != MODELO_FISCAL_NFCE:
             return
 
         di = DI_310()
