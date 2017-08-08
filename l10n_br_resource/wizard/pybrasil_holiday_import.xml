@@ -1,8 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<openerp>
-    <data>
+<odoo>
 
-        <record id="view_workalendar_holiday_import" model="ir.ui.view">
+    <record id="view_workalendar_holiday_import" model="ir.ui.view">
             <field name="name">Import Holidays</field>
             <field name="model">wizard.pybrasil.holiday.import</field>
             <field name="arch" type="xml">
@@ -32,5 +31,4 @@
             </field>
         </record>
 
-    </data>
-</openerp>
+</odoo>
