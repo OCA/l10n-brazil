@@ -5,8 +5,7 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-from odoo import api, fields, models, tools, _
-from odoo.exceptions import UserError
+from __future__ import division, print_function, unicode_literals
 
 
 import logging

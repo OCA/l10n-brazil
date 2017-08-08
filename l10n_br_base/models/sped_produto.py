@@ -190,7 +190,7 @@ class SpedProduto(SpedBase, models.Model):
 
         if self.codigo_barras:
             if (not valida_ean(self.codigo_barras)):
-                raise ValidationError('Código de barras inválido!')
+                raise ValidationError(_('Código de barras inválido!'))
 
             valores['codigo_barras'] = self.codigo_barras
 

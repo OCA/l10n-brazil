@@ -6,6 +6,8 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from ..constante_tributaria import (
@@ -218,7 +220,7 @@ class SpedEmpresa(models.Model):
 
         cep = limpa_formatacao(self.cep)
         if (not cep.isdigit()) or len(cep) != 8:
-            raise ValidationError(_(u'CEP inválido!'))
+            raise ValidationError('CEP inválido!')
 
         valores.update(cep=cep[:5] + '-' + cep[5:])
 
@@ -241,7 +243,7 @@ class SpedEmpresa(models.Model):
 
         if self.suframa:
             if not valida_inscricao_estadual(self.suframa, 'SUFRAMA'):
-                raise ValidationError(_(u'Inscrição na SUFRAMA inválida!'))
+                raise ValidationError('Inscrição na SUFRAMA inválida!')
 
             valores.update(suframa=formata_inscricao_estadual(
                 self.suframa, 'SUFRAMA'))
@@ -252,18 +254,18 @@ class SpedEmpresa(models.Model):
 
             else:
                 if not self.municipio_id:
-                    raise ValidationError(_(
-                        u"""Para validação da inscrição estadual é preciso
-                        informar o município!"""))
+                    raise ValidationError(
+                        '''Para validação da inscrição estadual é preciso
+                        informar o município!''')
 
                 if (self.ie.strip().upper()[:6] == 'ISENTO' or
                         self.ie.strip().upper()[:6] == 'ISENTA'):
-                    raise ValidationError(_(
-                        u'Inscrição estadual inválida para contribuinte!'))
+                    raise ValidationError(
+                        'Inscrição estadual inválida para contribuinte!')
 
                 if not valida_inscricao_estadual(
                         self.ie, self.municipio_id.estado_id.uf):
-                    raise ValidationError(_(u'Inscrição estadual inválida!'))
+                    raise ValidationError('Inscrição estadual inválida!')
 
                 valores.update(
                     ie=formata_inscricao_estadual(
@@ -301,7 +303,7 @@ class SpedEmpresa(models.Model):
                     valido = validate_email(e.strip())
                     emails_validos.append(valido['email'])
                 except:
-                    raise ValidationError(_(u'Email %s inválido!' % e.strip()))
+                    raise ValidationError('Email %s inválido!' % e.strip())
 
             valores.update(email=','.join(emails_validos))
 
@@ -320,9 +322,7 @@ class SpedEmpresa(models.Model):
                     valido = validate_email(e.strip())
                     emails_validos.append(valido['email'])
                 except:
-                    raise ValidationError(
-                        _(u'Email %s inválido!' % e.strip())
-                    )
+                    raise ValidationError('Email %s inválido!' % e.strip())
 
             valores.update(email_nfe=','.join(emails_validos))
 

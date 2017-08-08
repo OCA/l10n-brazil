@@ -1957,33 +1957,33 @@ NATUREZA_JURIDICA = (
 
 
 CFOPS_COMPRA_INDUSTRIALIZACAO = [
-    '1101', u'1111', u'1116', u'1120', u'1122', '1401', u'1651',
-    '2101', u'2111', u'2116', u'2120', u'2122', '2401', u'2651',
-    '3101', '3127', '3651'
+    u'1101', u'1111', u'1116', u'1120', u'1122', u'1401', u'1651',
+    u'2101', u'2111', u'2116', u'2120', u'2122', u'2401', u'2651',
+    u'3101', u'3127', u'3651'
 ]
 
 CFOPS_COMPRA_COMERCIALIZACAO = [
-    '1102', u'1113', u'1117', u'1118', u'1121', u'1403', u'1652',
-    '2102', u'2113', u'2117', u'2118', u'2121', u'2403', u'2652',
-    '3102', '3652'
+    u'1102', u'1113', u'1117', u'1118', u'1121', u'1403', u'1652',
+    u'2102', u'2113', u'2117', u'2118', u'2121', u'2403', u'2652',
+    u'3102', u'3652'
 ]
 
 CFOPS_COMPRA_ATIVO = [
-    '1406', u'1551',
-    '2406', u'2551',
-    '3551',
+    u'1406', u'1551',
+    u'2406', u'2551',
+    u'3551',
 ]
 
 CFOPS_USO_CONSUMO = [
-    '1407', u'1556',
-    '2407', u'2556',
-    '3551',
+    u'1407', u'1556',
+    u'2407', u'2556',
+    u'3551',
 ]
 
 CFOPS_COMPRA_SERVICO = [
-    '1933', u'1949',
-    '2933', u'2949',
-    '3949',
+    u'1933', u'1949',
+    u'2933', u'2949',
+    u'3949',
 ]
 
 CFOPS_COMPRA = CFOPS_COMPRA_INDUSTRIALIZACAO + CFOPS_COMPRA_COMERCIALIZACAO + \
@@ -1993,7 +1993,7 @@ CFOPS_COMPRA_CUSTO_VENDA = CFOPS_COMPRA_INDUSTRIALIZACAO + \
 
 
 CFOPS_VENDA_MERCADORIA = [
-    '5101',
+    u'5101',
     u'5102',
     u'5103',
     u'5104',
@@ -2032,7 +2032,7 @@ CFOPS_VENDA_MERCADORIA = [
     u'5655',
     u'5656',
     u'5667',
-    '6102',
+    u'6102',
     u'6103',
     u'6104',
     u'6105',
@@ -2073,7 +2073,7 @@ CFOPS_VENDA_MERCADORIA = [
     u'6656',
     u'6667',
     u'6101',
-    '7101',
+    u'7101',
     u'7102',
     u'7105',
     u'7106',
@@ -2085,13 +2085,13 @@ CFOPS_VENDA_MERCADORIA = [
 ]
 
 CFOPS_VENDA_ATIVO = [
-    '5551',
-    '6551',
-    '7551',
+    u'5551',
+    u'6551',
+    u'7551',
 ]
 
 CFOPS_DEVOLUCAO_VENDA = [
-    '1201',
+    u'1201',
     u'1202',
     u'1203',
     u'1204',
@@ -2103,7 +2103,7 @@ CFOPS_DEVOLUCAO_VENDA = [
     u'1660',
     u'1661',
     u'1662',
-    '2201',
+    u'2201',
     u'2202',
     u'2203',
     u'2204',
@@ -2115,7 +2115,7 @@ CFOPS_DEVOLUCAO_VENDA = [
     u'2660',
     u'2661',
     u'2662',
-    '3201',
+    u'3201',
     u'3202',
     u'3211',
 ]
@@ -2127,7 +2127,7 @@ CFOPS_CUSTO_ESTOQUE_VENDA_DEVOLUCAO = CFOPS_VENDA_MERCADORIA + \
 #  CFOPS_VENDA_MERCADORIA + CFOPS_DEVOLUCAO_VENDA
 
 CFOPS_DEVOLUCAO_COMPRA = [
-    '5201',
+    u'5201',
     u'5202',
     u'5208',
     u'5209',
@@ -2146,7 +2146,7 @@ CFOPS_DEVOLUCAO_COMPRA = [
     u'5918',
     u'5919',
     u'5921',
-    '6201',
+    u'6201',
     u'6202',
     u'6208',
     u'6209',
@@ -2165,7 +2165,7 @@ CFOPS_DEVOLUCAO_COMPRA = [
     u'6918',
     u'6919',
     u'6921',
-    '7201',
+    u'7201',
     u'7202',
     u'7210',
     u'7211',
@@ -2175,7 +2175,7 @@ CFOPS_DEVOLUCAO_COMPRA = [
 ]
 
 CFOPS_RETORNO_ENTRADA = [
-    '1414',
+    u'1414',
     u'1415',
     u'1451',
     u'1452',
@@ -2191,9 +2191,9 @@ CFOPS_RETORNO_ENTRADA = [
     u'1916',
     u'1921',
     u'1925',
-    '2414',
+    u'2414',
     u'2415',
-    '2554',
+    u'2554',
     u'2664',
     u'2902',
     u'2904',
@@ -2208,7 +2208,7 @@ CFOPS_RETORNO_ENTRADA = [
 ]
 
 CFOPS_RETORNO_SAIDA = [
-    '5664',
+    u'5664',
     u'5665',
     u'5902',
     u'5903',
@@ -2218,7 +2218,7 @@ CFOPS_RETORNO_SAIDA = [
     u'5913',
     u'5916',
     u'5925',
-    '6664',
+    u'6664',
     u'6665',
     u'6902',
     u'6903',
@@ -2231,9 +2231,9 @@ CFOPS_RETORNO_SAIDA = [
 ]
 
 CFOPS_VENDA_SERVICO = [
-    '5933', u'5949',
-    '6933', u'6949',
-    '7949',
+    u'5933', u'5949',
+    u'6933', u'6949',
+    u'7949',
 ]
 CFOPS_CALCULA_SIMPLES_CSLL_IRPJ = CFOPS_VENDA_MERCADORIA + \
     CFOPS_VENDA_ATIVO + CFOPS_DEVOLUCAO_VENDA + CFOPS_VENDA_SERVICO

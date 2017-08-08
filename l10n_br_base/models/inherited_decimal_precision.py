@@ -24,6 +24,7 @@ except (ImportError, IOError) as err:
 class DecimalPrecision(models.Model):
     _inherit = b'decimal.precision'
 
+    @api.multi
     def write(self, dados):
         #
         # Validação do número máximo de casas decimais
@@ -57,7 +58,6 @@ class DecimalPrecision(models.Model):
                         )
 
         res = super(DecimalPrecision, self).write(dados)
-        import ipdb; ipdb.set_trace();
 
         for dp in self:
             #

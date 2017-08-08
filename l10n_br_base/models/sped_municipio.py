@@ -15,55 +15,6 @@ class SpedMunicipio(models.Model):
     _description = 'Municípios'
     _order = 'nome, estado'
 
-    # def _descricao(self, cursor, user_id, ids, fields, arg, context=None):
-    # retorno = {}
-
-    # for registro in self.browse(cursor, user_id, ids):
-    # retorno[registro.id] = ''
-
-    # if registro.id != 0:
-    # if registro.nome:
-    # retorno[registro.id] += registro.nome
-
-    # if registro.estado_id:
-    # retorno[registro.id] += ' - ' + registro.estado_id.uf
-
-    # if registro.pais_id and registro.pais_id.nome != 'Brasil':
-    # retorno[registro.id] += ' - ' + registro.pais_id.nome
-
-    # retorno[registro.id] += ' - ' + registro.codigo_ibge_formatado
-
-    # return retorno
-
-    # def _procura_descricao(
-    # self, cursor, user_id, obj, nome_campo, args, context=None):
-    # texto = args[0][2]
-
-    # procura = [
-    # '|',
-    # ('nome', 'ilike', texto),
-    # ('codigo_ibge', 'ilike', texto),
-    # ]
-
-    # return procura
-
-    # def _formata_codigo_ibge(self, codigo):
-    # if codigo:
-    # return codigo[:3] + '.' +
-    # codigo[3:6] + '-' + codigo[6] + '/' + codigo[7:]
-    # else:
-    # return ''
-
-    # def _codigo_ibge_formatado(
-    # self, cursor, user_id, ids, fields, arg, context=None):
-    # retorno = {}
-
-    # for registro in self.browse(cursor, user_id, ids):
-    # retorno[registro.id] =
-    # self._formata_codigo_ibge(registro.codigo_ibge)
-
-    # return retorno
-
     codigo_ibge = fields.Char(
         string='Código IBGE',
         size=11,
@@ -103,11 +54,6 @@ class SpedMunicipio(models.Model):
         required=True,
         index=True
     )
-    # descricao = fields.function(
-    # _descricao, string=u'Município', method=True,
-    # type='Char', fnct_search=_procura_descricao)
-    # codigo_ibge_formatado = fields.function(
-    # _codigo_ibge_formatado, method=True, type='Char')
     ddd = fields.Char(
         string='DDD',
         size=2
@@ -118,8 +64,6 @@ class SpedMunicipio(models.Model):
     )
 
     _sql_constraints = [
-        # ('codigo_ibge_unique', 'unique (codigo_ibge)',
-        # 'O código IBGE não pode se repetir!'),
         (
             'nome_estado_pais_unique',
             'unique (nome, estado_id, pais_id)',
