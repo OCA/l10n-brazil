@@ -146,9 +146,11 @@ class L10nBrHrMedias(models.Model):
         ]
         folhas_periodo = folha_obj.search(domain)
         folhas_periodo = folhas_periodo.sorted(key=lambda r: r.date_from)
+
         medias = {}
         mes_anterior = ''
         for folha in folhas_periodo:
+
             if mes_anterior and mes_anterior == folha.mes_do_ano:
                 continue
             mes_anterior = folha.mes_do_ano
@@ -189,20 +191,22 @@ class L10nBrHrMedias(models.Model):
                 break
 
         mes_cont = 1
-        titulo.update({'meses': len(medias[id_rubrica_salario])})
+        #titulo.update({'meses': len(medias[id_rubrica_salario])})
+        titulo.update({'meses': len(medias)})
         titulo.update({'holerite_id': holerite_id.id})
         titulo.update({'linha_de_titulo': True})
-        for mes in medias[id_rubrica_salario]:
-            titulo.update(
-                {
-                    'mes_' + str(mes_cont):
-                        str(mes['mes'])[:3] + '/' + str(mes['ano']),
-                }
-            )
-            if str(mes['mes']) in meses_titulos:
-                meses_titulos.remove(str(mes['mes']))
-            meses_titulos.append(str(mes['mes']))
-            mes_cont += 1
+        if medias != {}:
+            for mes in medias[id_rubrica_salario]:
+                titulo.update(
+                    {
+                        'mes_' + str(mes_cont):
+                            str(mes['mes'])[:3] + '/' + str(mes['ano']),
+                    }
+                )
+                if str(mes['mes']) in meses_titulos:
+                    meses_titulos.remove(str(mes['mes']))
+                meses_titulos.append(str(mes['mes']))
+                mes_cont += 1
         linha_obj.create(titulo)
 
         # definindo a linha

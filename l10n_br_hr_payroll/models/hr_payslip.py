@@ -676,14 +676,14 @@ class HrPayslip(models.Model):
             'name': 'Salário Mês',
             'code': 'SALARIO_MES',
             'amount': contract._salario_mes(date_from, date_to) if not
-            self.medias_proventos else self.medias_proventos[1].media,
+            self.medias_proventos else self.medias_proventos[0].media,
             'contract_id': contract.id,
         }
         salario_dia_dic = {
             'name': 'Salário Dia',
             'code': 'SALARIO_DIA',
             'amount': contract._salario_dia(date_from, date_to)if not
-            self.medias_proventos else self.medias_proventos[1].media / 30,
+            self.medias_proventos else self.medias_proventos[0].media / 30,
             'contract_id': contract.id,
         }
         salario_hora_dic = {
@@ -691,7 +691,7 @@ class HrPayslip(models.Model):
             'code': 'SALARIO_HORA',
             'amount': contract._salario_hora(date_from, date_to)
             if not self.medias_proventos
-            else self.medias_proventos[1].media / 220,
+            else self.medias_proventos[0].media / 220,
             'contract_id': contract.id,
         }
         res += [salario_mes_dic]
@@ -1373,6 +1373,21 @@ class HrPayslip(models.Model):
             )
         ferias_abono = InputLine(payslip.employee_id.id, dias_abono_ferias)
 
+        # Calcula os Avos do payslip para Provisão de 13º Salário
+        if fields.Date.from_string(payslip.contract_id.date_start) > \
+                fields.Date.from_string(str(payslip.ano)+'-01-01'):
+            dia_inicio_contrato = \
+                fields.Date.from_string(payslip.contract_id.date_start).day
+            mes_inicio_contrato = \
+                fields.Date.from_string(payslip.contract_id.date_start).month
+            avos_13 = int(payslip.mes_do_ano) - int(mes_inicio_contrato)
+            if dia_inicio_contrato > 15:
+                avos_13 -= 1
+        else:
+            avos_13 = payslip.mes_do_ano
+
+        # Obtém os avos do payslip para as Provisão de Férias
+
         baselocaldict = {
             'CALCULAR': payslip, 'BASE_INSS': 0.0, 'BASE_FGTS': 0.0,
             'BASE_IR': 0.0, 'categories': categories_obj, 'rules': rules_obj,
@@ -1381,6 +1396,7 @@ class HrPayslip(models.Model):
             'SALARIO_DIA': salario_dia, 'SALARIO_HORA': salario_hora,
             'RAT_FAP': rat_fap, 'MEDIAS': medias_obj,
             'PEDIDO_FERIAS': ferias_abono, 'PAGAR_FERIAS': False,
+            'AVOS_13': avos_13,
             'DIAS_AVISO_PREVIO': payslip.dias_aviso_previo,
             'RUBRICAS_ESPEC_CALCULADAS': [],
             'locals': locals,
