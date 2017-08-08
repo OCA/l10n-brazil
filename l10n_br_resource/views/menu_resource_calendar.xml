@@ -2,8 +2,7 @@
 <!-- Copyright 2016 KMEE - Luis Felipe Miléo <mileo@kmee.com.br>
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
-<openerp>
-<data>
+<odoo>
 
         <act_window
             id="action_pybrasil_holiday_import"
@@ -22,5 +21,5 @@
                 parent="resource.menu_resource_config"
                 sequence="11"/>
 
-</data>
-</openerp>
+</odoo>
+
