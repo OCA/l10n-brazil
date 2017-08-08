@@ -65,7 +65,7 @@ class PyBrasilHolidayImport(models.TransientModel):
         country = self.env.ref("base.br")
         state = self.env['res.country.state'].search(
             [('country_id', '=', country.id),
-            ('code', '=', holiday.estado.uf)])
+             ('code', '=', holiday.estado.uf)])
         return state or False
 
     @api.multi
@@ -97,7 +97,7 @@ class PyBrasilHolidayImport(models.TransientModel):
         state = self.get_state_from_calendar(holiday)
         if not self.env['resource.calendar'].search_count(
                 [('country_id', '=', country.id),
-                ('state_id', '=', state.id)]):
+                 ('state_id', '=', state.id)]):
             parent_id = self.get_calendar_for_country()
             calendar_id = self.env['resource.calendar'].create({
                 'name': u'Calendário ' + state.name,

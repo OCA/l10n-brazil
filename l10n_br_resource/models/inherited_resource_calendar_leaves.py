@@ -7,11 +7,7 @@
 #
 
 import logging
-<<<<<<< HEAD
 from odoo import fields, models
-=======
-from odoo import api, fields, models, _
->>>>>>> [FEA] Refatorando módulo para localização v10
 
 _logger = logging.getLogger(__name__)
 
