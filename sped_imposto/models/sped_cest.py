@@ -5,6 +5,10 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+from __future__ import division, print_function, unicode_literals
+
+import logging
+
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
@@ -66,3 +70,21 @@ class SpedCEST(models.Model):
 
             if len(cest_ids) > 0:
                 raise ValidationError(_(u'Código CEST já existe na tabela!'))
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        if name and operator in ('=', 'ilike', '=ilike', 'like', 'ilike'):
+            args = list(args or [])
+            args = [
+                '|',
+                ('codigo', '=', name),
+                '|',
+                ('codigo_formatado', '=', mascara(name, '  .   .  ')),
+                ('descricao', operator, name),
+            ] + args
+
+            cest_ids = self.search(args, limit=limit)
+            return cest_ids.name_get()
+
+        return super(SpedCEST, self).name_search(
+            name=name, args=args, operator=operator, limit=limit)

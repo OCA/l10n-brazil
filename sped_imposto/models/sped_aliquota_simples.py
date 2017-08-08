@@ -70,7 +70,7 @@ class SpedAliquotaSIMPLESTeto(SpedBase, models.Model):
                 teto_ids = self.search(
                     [('valor', '=', teto.valor)])
             if teto_ids:
-                raise ValidationError(_(u'Teto já existe na tabela!'))
+                raise ValidationError('Teto já existe na tabela!')
 
 
 class SpedAliquotaSIMPLESAliquota(SpedBase, models.Model):

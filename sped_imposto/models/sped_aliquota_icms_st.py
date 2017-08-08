@@ -21,7 +21,6 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     MODALIDADE_BASE_ICMS_ST_PAUTA,
     MODALIDADE_BASE_ICMS_ST_PRECO_TABELADO_MAXIMO,
 )
-from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
