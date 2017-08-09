@@ -391,7 +391,7 @@ class ReportXslxFinancialMovesStates(ReportXlsxFinancialBase):
                 self.current_row += 1
                 self.write_header()
             elif self.report_wizard.group_by == "partner_id":
-                partner = self.env['res.partner'].browse(move_id)
+                partner = self.env['sped.participante'].browse(move_id)
                 partner_cnpj_cpf = " - " + \
                                    partner.cnpj_cpf if partner.cnpj_cpf else ""
                 partner_email = " - " + \
@@ -417,7 +417,7 @@ class ReportXslxFinancialMovesStates(ReportXlsxFinancialBase):
                         (line_position == 0 or line['partner_id'] !=
                             partner_last_line):
                     partner = \
-                        self.env['res.partner'].browse(line[u'partner_id'])
+                        self.env['sped.participante'].browse(line[u'partner_id'])
                     partner_cnpj_cpf = " - " + \
                                        partner.cnpj_cpf if \
                         partner.cnpj_cpf else ""
