@@ -156,21 +156,36 @@ TIPO_AFASTAMENTO_CEF = (
 class HrPayrollStructure(models.Model):
     _inherit = 'hr.payroll.structure'
 
-    ferias = fields.Many2one(
-        comodel_name='hr.payroll.structure',
-        string='Férias',
-        domain=[('tipo_estrutura', '=', 'ferias')],
-    )
-
     tipo_estrutura = fields.Selection(
         selection=[
-            ('normal', 'Folha Normal'),
-            ('ferias', 'Férias'),
-            ('adiantamento_13', 'Adiantamento do 13º'),
-            ('segunda_parcela_13', 'Segunda Parcela do 13º'),
-            ('rescisao', 'Rescisão'),
+            ('normal', u'Folha Normal'),
+            ('ferias', u'Férias'),
+            ('adiantamento_13', u'Adiantamento do 13º'),
+            ('segunda_parcela_13', u'Segunda Parcela do 13º'),
+            ('rescisao', u'Rescisão'),
+            ('base', u'Base')
         ],
-        string='Tipo de Estrutura de Salários',
+        string=u'Tipo de Estrutura de Salários',
+        required=True,
+        default='base'
+    )
+
+    estrutura_ferias_id = fields.Many2one(
+        'hr.payroll.structure',
+        u'Estrutura de Férias',
+        domain="[('tipo_estrutura','=','ferias')]"
+    )
+
+    estrutura_adiantamento_13_id = fields.Many2one(
+        'hr.payroll.structure',
+        u'Estrutura de 13º Salário - Adiantamento',
+        domain="[('tipo_estrutura','=','adiantamento_13')]"
+    )
+
+    estrutura_13_id = fields.Many2one(
+        'hr.payroll.structure',
+        u'Estrutura de 13º Salário',
+        domain="[('tipo_estrutura','=','segunda_parcela_13')]"
     )
 
     # Aba de rescisão

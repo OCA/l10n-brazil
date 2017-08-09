@@ -6,14 +6,62 @@
 <openerp>
 <data>
 
+    <record model="ir.ui.view" id="l10n_br_hr_payroll_hr_payroll_structure_tree">
+        <field name="name">hr.payroll.structure.view (in l10n_br_hr_payroll)</field>
+        <field name="model">hr.payroll.structure</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payroll_structure_list_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="tipo_estrutura" string="Tipo" />
+            </field>
+            <field name="rule_ids" position="replace" />
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_hr_payroll_hr_payroll_structure_search">
+        <field name="name">hr.payroll.structure.search (in l10n_br_hr_payroll)</field>
+        <field name="model">hr.payroll.structure</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payroll_structure_filter" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <filter name="filtro_normal" string="Normal" domain="[('tipo_estrutura','=','normal')]"/>
+                <filter name="filtro_ferias" string="Férias" domain="[('tipo_estrutura','=','ferias')]"/>
+                <filter name="filtro_adiantamento_13" string="Adiantamento 13º" domain="[('tipo_estrutura','=','adiantamento_13')]"/>
+                <filter name="filtro_segunda_parcela_13" string="13º Salário" domain="[('tipo_estrutura','=','segunda_parcela_13')]"/>
+                <filter name="filtro_rescisao" string="Rescisão" domain="[('tipo_estrutura','=','rescisao')]"/>
+                <filter name="filtro_base" string="Base" domain="[('tipo_estrutura','=','base')]"/>
+                <separator/>
+                <filter name="group_tipo_estrutura" string="Tipo de Estrutura" context="{'group_by': 'tipo_estrutura'}" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="hr_payroll.action_view_hr_payroll_structure_list_form">
+        <field name="context">{'search_default_filtro_normal': 1}</field>
+    </record>
+
     <record model="ir.ui.view" id="l10n_br_hr_payroll_hr_payroll_structure">
         <field name="name">hr.payroll.structure.form (in l10n_br_hr_payroll)</field>
         <field name="model">hr.payroll.structure</field>
         <field name="inherit_id" ref="hr_payroll.view_hr_employee_grade_form"/>
         <field name="arch" type="xml">
-            <field name="parent_id" position="after">
-                <field name="tipo_estrutura"/>
-                <field name="ferias"/>
+            <field name="company_id" position="after">
+                <field name="tipo_estrutura" colspan="4" />
+                <field name="estrutura_ferias_id"
+                       options="{'no_create': 1}" colspan="4"
+                       attrs="{'invisible': [('tipo_estrutura','!=','normal')],
+                               'required': [('tipo_estrutura','=','normal')]}"
+                />
+                <field name="estrutura_adiantamento_13_id"
+                       options="{'no_create': 1}" colspan="4"
+                       attrs="{'invisible': [('tipo_estrutura','!=','normal')],
+                               'required': [('tipo_estrutura','=','normal')]}"
+                />
+                <field name="estrutura_13_id"
+                       options="{'no_create': 1}" colspan="4"
+                       attrs="{'invisible': [('tipo_estrutura','!=','normal')],
+                               'required': [('tipo_estrutura','=','normal')]}"
+                />
             </field>
             <xpath expr="//page[@string='Salary Rules']" position="after">
                 <page string="Rescisão"
