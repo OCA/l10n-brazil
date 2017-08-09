@@ -350,7 +350,7 @@ class ReportXslxFinancialDefault(ReportXlsxFinancialBase):
                             line_position-1]['partner_id']
                     if line_position == 0 or line['partner_id'] != \
                             partner_last_line:
-                        partner = self.env['res.partner'].browse(
+                        partner = self.env['sped.participante'].browse(
                             line[u'partner_id'])
                         partner_cnpj_cpf = " - " + \
                                            partner.cnpj_cpf if \
@@ -430,7 +430,7 @@ class ReportXslxFinancialDefault(ReportXlsxFinancialBase):
                             line_position-1]['partner_id']
                     if line_position == 0 or line['partner_id'] != \
                             partner_last_line:
-                        partner = self.env['res.partner'].browse(
+                        partner = self.env['sped.participante'].browse(
                             line[u'partner_id'])
                         partner_cnpj_cpf = " - " + \
                                            partner.cnpj_cpf if \

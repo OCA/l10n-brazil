@@ -41,7 +41,7 @@ class ReportXlsxFinancialFinancialPartnerStatementWizard(
         string='Company'
     )
     partner_id = fields.Many2one(
-        comodel_name='res.partner',
+        comodel_name='sped.participante',
         required=True,
     )
     date_from = fields.Date(

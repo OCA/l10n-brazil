@@ -42,7 +42,7 @@ class FinancialCashflow(models.Model):
     )
     partner_id = fields.Many2one(
         string=u'Partner',
-        comodel_name='res.partner',
+        comodel_name='sped.participante',
     )
     document_number = fields.Char(
         string=u"Document Nº",

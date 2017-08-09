@@ -80,7 +80,7 @@ class FinancialMove(models.Model):
         track_visibility='_track_visibility_onchange',
     )
     partner_id = fields.Many2one(
-        comodel_name='res.partner',
+        comodel_name='sped.participante',
         string='Partner',
         ondelete='restrict',
         index=True,
