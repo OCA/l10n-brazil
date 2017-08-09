@@ -15,7 +15,7 @@
                 <field name="date" string="Issue"/>
                 <field name="display_name"/>
                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                <field name="partner_id"/>
+                <field name="participante_id"/>
                 <field name="document_number" string="Ref."/>
                 <field name="payment_mode_id" string="Payment method"/>
                 <field name="currency_id" groups="base.group_multi_currency"/>
@@ -74,7 +74,7 @@
                         <group>
                             <field name="bank_id"  options="{'no_create': True, 'no_open': True}" />
                             <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency"/>
-                            <field name="partner_id" domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]" attrs="{'required': [('financial_type', 'in', ('r', 'p', 'rr', 'pp'))], 'invisible': [('financial_type', 'not in', ('r', 'p'))], 'readonly': [('state', '!=', 'draft')]}" context="{'default_is_company': True, 'default_supplier': financial_type == 'p', 'default_customer': financial_type == 'r'}"/>
+                            <field name="participante_id" domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]" attrs="{'required': [('financial_type', 'in', ('r', 'p', 'rr', 'pp'))], 'invisible': [('financial_type', 'not in', ('r', 'p'))], 'readonly': [('state', '!=', 'draft')]}" context="{'default_is_company': True, 'default_supplier': financial_type == 'p', 'default_customer': financial_type == 'r'}"/>
                             <field name="account_id"/>
                             <field name="analytic_account_id"/>
                         </group>
@@ -169,7 +169,7 @@
                     />
                                         <field name="document_number_search" filter_domain="[('document_number', 'ilike', self)]" string="Document number is"/>
                                         <field name="document_item_search" filter_domain="[('document_item', 'ilike', self)]" string="Document item is"/>
-                                        <field name="partner_search" filter_domain="[('partner_id', 'ilike', self)]" string="Partner is"/>
+                                        <field name="partner_search" filter_domain="[('participante_id', 'ilike', self)]" string="Partner is"/>
                                         <field name="date_issue_search" filter_domain="[('date_issue', '&gt;=', self)]" string="Issue from"/>
                                         <field name="date_issue_search" filter_domain="[('date_issue', '&lt;=', self)]" string="Issue to"/>
                                         <field name="date_issue_search" filter_domain="[('date_issue', '=', self)]" string="Issue is"/>
@@ -178,7 +178,7 @@
                                         <field name="date_business_maturity_search" filter_domain="[('date_business_maturity', '=', self)]" string="Maturity is"/>
                                         <field name="payment_mode_search" filter_domain="[('payment_mode_id', 'ilike', self)]" string="Mode is"/>
                                         <field name="account_analytic_search" filter_domain="[('account_analytic_id', 'ilike', self)]" string="Analytic account is"/>
-                                        <filter name="group_partner" string="By partner" context="{'group_by': 'partner_id'}"/>
+                                        <filter name="group_partner" string="By partner" context="{'group_by': 'participante_id'}"/>
                                         <filter name="group_date_payment" string="By payment date" context="{'group_by': 'date_business_maturity'}"/>
                                         <filter name="group_journal" string="By payment journal" context="{'group_by': 'journal_id'}"/>
                </group>

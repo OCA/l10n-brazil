@@ -17,7 +17,7 @@ from .report_xlsx_financial_base import ReportXlsxFinancialBase
 
 class ReportXslxFinancialPartnerStatement(ReportXlsxFinancialBase):
     def define_title(self):
-        partner_name = self.report_wizard.partner_id.razao_social
+        partner_name = self.report_wizard.participante_id.razao_social
         if self.report_wizard.type == '2receive':
             partner_type = 'Client'
         else:
@@ -80,7 +80,7 @@ class ReportXslxFinancialPartnerStatement(ReportXlsxFinancialBase):
                COALESCE(fm.amount_paid_document, 0.0),
                fm.arrears_days,
                COALESCE(fm.amount_residual, 0.0),
-               fm.partner_id,
+               fm.participante_id,
                fm.debt_status,
                COALESCE(fm.amount_paid_total)
             FROM
@@ -89,12 +89,12 @@ class ReportXslxFinancialPartnerStatement(ReportXlsxFinancialBase):
               fm.type = %(type)s
               and fm.date_business_maturity between %(date_from)s and
                %(date_to)s
-              and fm.partner_id = %(partner_id)s
+              and fm.participante_id = %(participante_id)s
             ORDER BY
               fm.date_business_maturity
         '''
         filters = {
-            'partner_id': self.report_wizard.partner_id.id,
+            'participante_id': self.report_wizard.participante_id.id,
             'type': self.report_wizard.type,
             'date_to': self.report_wizard.date_to,
             'date_from': self.report_wizard.date_from,
@@ -116,7 +116,7 @@ class ReportXslxFinancialPartnerStatement(ReportXlsxFinancialBase):
                 'amount_paid': line[5],
                 'arrears_days': line[6],
                 'amount_residual': line[7],
-                'partner_id': line[8],
+                'participante_id': line[8],
                 'debt_status': line[9],
                 'amount_total': line[10],
             }
@@ -176,7 +176,7 @@ class ReportXslxFinancialPartnerStatement(ReportXlsxFinancialBase):
                COALESCE(fm.amount_discount, 0.0),
                fm.arrears_days,
                COALESCE(fm.amount_residual, 0.0),
-               fm.partner_id,
+               fm.participante_id,
                fm.debt_id,
                fm.date_payment,
                COALESCE(fm.amount_total, 0.0)
@@ -188,7 +188,7 @@ class ReportXslxFinancialPartnerStatement(ReportXlsxFinancialBase):
               fm.debt_id
                 '''
         filters = {
-            'partner_id': self.report_wizard.partner_id.id,
+            'participante_id': self.report_wizard.participante_id.id,
             'type': self.report_wizard.type,
             'date_to': self.report_wizard.date_to,
             'date_from': self.report_wizard.date_from,

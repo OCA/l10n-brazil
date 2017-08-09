@@ -44,7 +44,7 @@ class FinancialInstallmentPreview(models.Model):
             'type': self.installment_id.type,
             'company_id': self.installment_id.company_id.id,
             'currency_id': self.installment_id.currency_id.id,
-            'partner_id': self.installment_id.partner_id.id,
+            'participante_id': self.installment_id.participante_id.id,
             'document_type_id': self.installment_id.document_type_id.id,
             'account_id': self.installment_id.account_id.id,
             'date_document': self.installment_id.date_document,

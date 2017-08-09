@@ -72,14 +72,14 @@ class ReportXslxFinancialDefault(ReportXlsxFinancialBase):
                 fm.amount_paid_penalty,
                 fm.amount_paid_interest,
                 fm.amount_paid_total,
-                fm.partner_id,
+                fm.participante_id,
                 fm.debt_status
             FROM
                 financial_move fm
                 join financial_account fa on fa.id = fm.account_id
             WHERE
                 fm.type = '2receive'
-                and fm.partner_id %(selected_partners)s
+                and fm.participante_id %(selected_partners)s
                 and fm.date_business_maturity between %(date_from)s and
                 %(date_to)s
                 and fm.debt_status in ('due_today', 'overdue')
@@ -112,7 +112,7 @@ class ReportXslxFinancialDefault(ReportXlsxFinancialBase):
                 'multa': line[9],
                 'juros': line[10],
                 'parc_total': line[11],
-                'partner_id': line[12],
+                'participante_id': line[12],
 
             }
             if line[13] == "due_today":
@@ -139,7 +139,7 @@ class ReportXslxFinancialDefault(ReportXlsxFinancialBase):
                 join financial_account fa on fa.id = fm.account_id
             WHERE
               fm.type = '2receive'
-              and fm.partner_id %(selected_partners)s
+              and fm.participante_id %(selected_partners)s
               and fm.date_business_maturity between %(date_from)s and
               %(date_to)s
               and fm.debt_status in ('due_today', 'overdue')
@@ -347,11 +347,11 @@ class ReportXslxFinancialDefault(ReportXlsxFinancialBase):
                 for line in self.report_data['lines']['due_today'][move_id]:
                     partner_last_line = \
                         self.report_data['lines']['due_today'][move_id][
-                            line_position-1]['partner_id']
-                    if line_position == 0 or line['partner_id'] != \
+                            line_position-1]['participante_id']
+                    if line_position == 0 or line['participante_id'] != \
                             partner_last_line:
                         partner = self.env['sped.participante'].browse(
-                            line[u'partner_id'])
+                            line[u'participante_id'])
                         partner_cnpj_cpf = " - " + \
                                            partner.cnpj_cpf if \
                             partner.cnpj_cpf else ""
@@ -427,8 +427,8 @@ class ReportXslxFinancialDefault(ReportXlsxFinancialBase):
                 for line in self.report_data['lines']['overdue'][move_id]:
                     partner_last_line = \
                         self.report_data['lines']['overdue'][move_id][
-                            line_position-1]['partner_id']
-                    if line_position == 0 or line['partner_id'] != \
+                            line_position-1]['participante_id']
+                    if line_position == 0 or line['participante_id'] != \
                             partner_last_line:
                         partner = self.env['sped.participante'].browse(
                             line[u'partner_id'])

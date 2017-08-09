@@ -13,7 +13,7 @@
                 <field string="Date" name="date_business_maturity"/>
                 <!-- <field name="create_date"/> -->
                 <!-- <field name="expected_date"/> -->
-                <field name="partner_id"/>
+                <field name="participante_id"/>
                 <field name="account_type_id"/>
                 <field name="document_number"/>
                 <field name="bank_id"/>

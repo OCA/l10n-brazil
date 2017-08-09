@@ -18,7 +18,7 @@
                     <field name="type" />
                 </group>
                 <group>
-                    <field name="partner_id" />
+                    <field name="participante_id" />
                 </group>
                 <group string="Period">
                     <group>

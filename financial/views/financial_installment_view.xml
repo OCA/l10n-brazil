@@ -26,7 +26,7 @@
                         <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency"/>
                     </group>
                     <group>
-                        <field name="partner_id"
+                        <field name="participante_id"
                                domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]" required="True" context="{'default_is_company': True, 'default_supplier': type == '2pay', 'default_customer': type == '2receive'}"/>
                         <field name="account_id"/>
                         <field name="company_id" options="{'no_create': True}"/>
@@ -71,7 +71,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="type"/>
-                <field name="partner_id"/>
+                <field name="participante_id"/>
                 <field name="document_number"/>
                 <field name="date_maturity"/>
                 <field name="amount_document"/>

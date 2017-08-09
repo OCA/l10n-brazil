@@ -16,7 +16,7 @@
                 </group>
                 <group>
                     <field name="group_by"/>
-                    <field name="selected_partners" attrs="{'invisible': [('group_by', '!=', 'partner_id')]}" />
+                    <field name="selected_partners" attrs="{'invisible': [('group_by', '!=', 'participante_id')]}" />
                 </group>
                 <group>
                     <field name="type" />

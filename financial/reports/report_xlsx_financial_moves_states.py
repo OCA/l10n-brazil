@@ -80,13 +80,13 @@ class ReportXslxFinancialMovesStates(ReportXlsxFinancialBase):
                    fm.amount_paid_penalty,
                    fm.amount_paid_interest,
                    fm.amount_paid_total,
-                   fm.partner_id
+                   fm.participante_id
                 FROM
                   financial_move fm
                   join financial_account fa on fa.id = fm.account_id
                 WHERE
                   fm.type = %(type)s
-                  and fm.partner_id in %(selected_partners)s
+                  and fm.participante_id in %(selected_partners)s
                   and fm.date_business_maturity between %(date_from)s and
                   %(date_to)s
                   and fm.state %(state)s
@@ -108,7 +108,7 @@ class ReportXslxFinancialMovesStates(ReportXlsxFinancialBase):
                   fm.amount_paid_penalty,
                   fm.amount_paid_interest,
                   fm.amount_paid_total,
-                  fm.partner_id
+                  fm.participante_id
                FROM
                  financial_move fm
                  join financial_account fa on fa.id = fm.account_id
@@ -120,12 +120,13 @@ class ReportXslxFinancialMovesStates(ReportXlsxFinancialBase):
                ORDER BY
                  fm.%(group_by)s, fm.%(group_by2)s;
            '''
+        # TODO: Nao esta pegando o participante_id
         fm_state = "= '" + self.report_wizard.move_state + "'" if\
             self.report_wizard.move_state else "in ('open', 'paid')"
         filters = {
             'group_by': AsIs(self.report_wizard.group_by),
             'group_by2':
-                AsIs('partner_id') if
+                AsIs('participante_id') if
                 self.report_wizard.group_by == 'date_business_maturity' else
                 AsIs('date_business_maturity'),
             'selected_partners':
@@ -151,22 +152,22 @@ class ReportXslxFinancialMovesStates(ReportXlsxFinancialBase):
                 'multa': line[9],
                 'juros': line[10],
                 'parc_total': line[11],
-                'partner_id': line[12],
+                'participante_id': line[12],
             }
             if self.report_wizard.group_by == "date_business_maturity":
                 if report_data['lines'].get(line[5]):
                     report_data['lines'][line[5]].append(line_dict)
                 else:
                     report_data['lines'][line[5]] = [line_dict]
-            elif self.report_wizard.group_by == "partner_id":
+            elif self.report_wizard.group_by == "participante_id":
                 if report_data['lines'].get(line[12]):
                     report_data['lines'][line[12]].append(line_dict)
                 else:
                     report_data['lines'][line[12]] = [line_dict]
-        if self.report_wizard.group_by == "partner_id":
+        if self.report_wizard.group_by == "participante_id":
             SQL_VALUE = '''
                 SELECT
-                   fm.partner_id,
+                   fm.participante_id,
                    sum(fm.amount_document) as amount_document,
                    sum(fm.amount_paid_discount) as amount_paid_discount,
                    sum(fm.amount_paid_penalty) as amount_paid_penalty,
@@ -203,7 +204,7 @@ class ReportXslxFinancialMovesStates(ReportXlsxFinancialBase):
                     'multa': line[3],
                     'juros': line[4],
                     'parc_total': line[5],
-                    'partner_id': line[0],
+                    'participante_id': line[0],
                 }
                 report_data['total_lines'][line[0]] = line_dict
         elif self.report_wizard.group_by == "date_business_maturity":
@@ -390,7 +391,7 @@ class ReportXslxFinancialMovesStates(ReportXlsxFinancialBase):
                 )
                 self.current_row += 1
                 self.write_header()
-            elif self.report_wizard.group_by == "partner_id":
+            elif self.report_wizard.group_by == "participante_id":
                 partner = self.env['sped.participante'].browse(move_id)
                 partner_cnpj_cpf = " - " + \
                                    partner.cnpj_cpf if partner.cnpj_cpf else ""
@@ -412,12 +413,12 @@ class ReportXslxFinancialMovesStates(ReportXlsxFinancialBase):
             for line in self.report_data['lines'][move_id]:
                 partner_last_line = \
                     self.report_data['lines'][move_id][line_position-1][
-                        'partner_id']
+                        'participante_id']
                 if self.report_wizard.group_by == "date_business_maturity" and\
-                        (line_position == 0 or line['partner_id'] !=
+                        (line_position == 0 or line['participante_id'] !=
                             partner_last_line):
                     partner = \
-                        self.env['sped.participante'].browse(line[u'partner_id'])
+                        self.env['sped.participante'].browse(line[u'participante_id'])
                     partner_cnpj_cpf = " - " + \
                                        partner.cnpj_cpf if \
                         partner.cnpj_cpf else ""
@@ -452,7 +453,7 @@ class ReportXslxFinancialMovesStates(ReportXlsxFinancialBase):
                 self.write_detail(
                     self.report_data['total_lines'][move_id])
                 self.current_row += 1
-            elif self.report_wizard.group_by == "partner_id":
+            elif self.report_wizard.group_by == "participante_id":
                 self.sheet.merge_range(
                     self.current_row, 0,
                     self.current_row + 1,
@@ -463,7 +464,7 @@ class ReportXslxFinancialMovesStates(ReportXlsxFinancialBase):
                 self.current_row += 1
                 self.write_header()
                 self.report_data['total_lines'][move_id].pop(
-                    'partner_id')
+                    'participante_id')
                 self.write_detail(
                     self.report_data['total_lines'][move_id])
                 self.current_row += 1
