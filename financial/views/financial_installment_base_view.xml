@@ -14,7 +14,7 @@
             <tree decoration-info="state == 'draft'">
                 <field name="date_document" />
                 <field name="company_id" groups="base.group_multi_company" />
-                <field name="partner_id"/>
+                <field name="participante_id"/>
                 <field name="document_type_id" />
                 <field name="document_number" />
                 <field name="currency_id" groups="base.group_multi_currency"/>
@@ -48,7 +48,7 @@
                             <field name="document_number"/>
                             <field name="date_document" required="1" />
                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True, 'no_open': True}"/>
-                            <field name="partner_id" required="1" options="{'no_create': True}" domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': type == '2pay', 'default_customer': type == '2receive'}"/>
+                            <field name="participante_id" required="1" options="{'no_create': True}" domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': type == '2pay', 'default_customer': type == '2receive'}"/>
                             <field name="account_id" required="1" />
                         </group>
                         <group>
@@ -94,11 +94,11 @@
                 <filter name="status_confirmed" string="Confirmed" domain="[('state','=','confirmed')]" />
                 <field name="document_number" />
                 <field name="company_id" />
-                <field name="partner_id" />
+                <field name="participante_id" />
                 <field name="date_document" />
                 <group expand="0" string="Group By...">
                     <filter icon="terp-sale" string="State" context="{'group_by': 'state'}" />
-                    <filter name="group_partner" string="Partner" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_partner" string="Partner" context="{'group_by': 'participante_id'}"/>
                </group>
            </search>
         </field>

@@ -26,7 +26,7 @@
                 <field name="amount_total" readonly="1" sum="Total"/>
                 <field name="bank_id" required="1" />
                 <field name="date_credit_debit" />
-                <field name="partner_id"/>
+                <field name="participante_id"/>
                 <field name="company_id" groups="base.group_multi_company" />
                 <field name="debt_id" />
             </tree>
@@ -57,7 +57,7 @@
                                 <field name="document_number"/>
                                 <field name="date_payment" required="1" />
                                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True, 'no_open': True}"/>
-                                <field name="partner_id" required="1" options="{'no_create': True}" domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': type == 'p', 'default_customer': type == 'r'}"/>
+                                <field name="participante_id" required="1" options="{'no_create': True}" domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': type == 'p', 'default_customer': type == 'r'}"/>
                                 <field name="account_id" required="1" />
                                 <field name="bank_id"  options="{'no_create': True, 'no_open': True}" required="1" />
                                 <field name="date_credit_debit" />
@@ -98,11 +98,11 @@
         <field name="arch" type="xml">
             <search string="payments">
                 <field name="document_number" />
-                <field name="partner_id" />
+                <field name="participante_id" />
                 <field name="date_payment" />
                 <group expand="0" string="Group By...">
                     <filter name="group_bank" string="Bank account" context="{'group_by': 'bank_id'}" />
-                    <filter name="group_partner" string="Partner" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_partner" string="Partner" context="{'group_by': 'participante_id'}"/>
                     <filter name="group_date_payment" string="Payment date" context="{'group_by': 'date_payment'}"/>
                </group>
            </search>

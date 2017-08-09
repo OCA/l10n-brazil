@@ -17,7 +17,7 @@
                 <field name="date_document" />
                 <field name="display_name" />
                 <field name="company_id" groups="base.group_multi_company" />
-                <field name="partner_id"/>
+                <field name="participante_id"/>
                 <field name="document_type_id" />
                 <field name="document_number" />
                 <field name="currency_id" groups="base.group_multi_currency"/>
@@ -63,7 +63,7 @@
                             <group name="document_identification" string="Document">
 
                                 <field name="company_id" groups="base.group_multi_company" widget="selection"/>
-                                <field name="partner_id" required="1" options="{'no_create': True}" domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': type == 'p', 'default_customer': type == 'r'}"/>
+                                <field name="participante_id" required="1" options="{'no_create': True}" domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': type == 'p', 'default_customer': type == 'r'}"/>
                                 <field name="document_number"/>
                                 <field name="doc_source_id" />
                                 <field name="date_document" required="1" />
@@ -133,12 +133,12 @@
                 <filter name="payment_due_today" string="Due today" domain="[('debt_status','=', 'due_today')]" />
                 <filter name="payment_overdue" string="Overdue" domain="[('debt_status','=','overdue')]" />
                 <field name="document_number" />
-                <field name="partner_id" />
+                <field name="participante_id" />
                 <field name="date_document" />
                 <field name="date_business_maturity" />
                 <group expand="0" string="Group By...">
                     <filter name="group_debt_status" string="Status" context="{'group_by': 'debt_status'}" />
-                    <filter name="group_partner" string="Partner" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_partner" string="Partner" context="{'group_by': 'participante_id'}"/>
                     <filter name="group_date_business_maturity" string="Business maturity date" context="{'group_by': 'date_business_maturity'}"/>
                </group>
            </search>

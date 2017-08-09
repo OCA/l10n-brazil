@@ -80,6 +80,13 @@ class FinancialMove(models.Model):
         track_visibility='_track_visibility_onchange',
     )
     partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        string='Partner',
+        ondelete='restrict',
+        index=True,
+        required=False,
+    )
+    participante_id = fields.Many2one(
         comodel_name='sped.participante',
         string='Partner',
         ondelete='restrict',
@@ -497,8 +504,8 @@ class FinancialMove(models.Model):
                 if record.document_type_id.name else ''
             doc_number = '/' + record.document_number \
                          if record.document_number else ''
-            partner = '-' + record.partner_id.name \
-                if record.partner_id.name else ''
+            partner = '-' + record.participante_id.name \
+                if record.participante_id.name else ''
 
             record.display_name = (financial_type + doc_type + doc_number) \
                 if not self._context.get('with_partner_name') \
@@ -759,7 +766,7 @@ class FinancialMove(models.Model):
             date_maturity,
             amount_document,
             document_number,
-            partner_id, type, date_document,
+            participante_id, type, date_document,
             bank_id, company_id, currency_id,
             analytic_account_id=False, account_id=False,
             payment_term_id=False,
@@ -769,7 +776,7 @@ class FinancialMove(models.Model):
             company_id=company_id,
             currency_id=currency_id,
             type=type,
-            partner_id=partner_id,
+            participante_id=participante_id,
             document_number=document_number,
             date_document=date_document,
             payment_term_id=payment_term_id,

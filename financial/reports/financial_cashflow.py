@@ -42,7 +42,7 @@ class FinancialCashflow(models.Model):
     )
     partner_id = fields.Many2one(
         string=u'Partner',
-        comodel_name='sped.participante',
+        comodel_name='res.partner',
     )
     document_number = fields.Char(
         string=u"Document Nº",
@@ -137,7 +137,7 @@ class FinancialCashflow(models.Model):
                     financial_move.payment_term_id,
 
                     financial_move.date_maturity,
-                    financial_move.partner_id,
+                    financial_move.participante_id,
                     financial_move.currency_id,
 
                     financial_move.account_type_id,
@@ -175,7 +175,7 @@ class FinancialCashflow(models.Model):
                     financial_move.payment_term_id,
 
                     financial_move.date_maturity,
-                    financial_move.partner_id,
+                    financial_move.participante_id,
                     financial_move.currency_id,
 
                     financial_move.account_type_id,
@@ -212,7 +212,7 @@ class FinancialCashflow(models.Model):
                     NULL as payment_term_id,
 
                     res_partner_bank.date_balance as date_maturity,
-                    NULL as partner_id,
+                    NULL as participante_id,
                     res_partner_bank.currency_id,
                     (
                      select res_id
@@ -247,7 +247,7 @@ class FinancialCashflow(models.Model):
                     financial_move.payment_term_id,
 
                     financial_move.date_maturity,
-                    financial_move.partner_id,
+                    financial_move.participante_id,
                     financial_move.currency_id,
 
                     financial_move.account_type_id,
@@ -287,7 +287,7 @@ class FinancialCashflow(models.Model):
                     financial_move.payment_term_id,
 
                     financial_move.date_maturity,
-                    financial_move.partner_id,
+                    financial_move.participante_id,
                     financial_move.currency_id,
 
                     financial_move.account_type_id,
@@ -322,7 +322,7 @@ class FinancialCashflow(models.Model):
                     c.payment_method_id,
                     c.payment_term_id,
                     c.date_maturity,
-                    c.partner_id,
+                    c.participante_id,
                     c.currency_id,
                     c.account_type_id,
                     c.analytic_account_id,
@@ -349,7 +349,7 @@ class FinancialCashflow(models.Model):
                     crr.payment_method_id,
                     crr.payment_term_id,
                     crr.date_maturity,
-                    crr.partner_id,
+                    crr.participante_id,
                     crr.currency_id,
                     crr.account_type_id,
                     crr.analytic_account_id,
@@ -376,7 +376,7 @@ class FinancialCashflow(models.Model):
                     d.payment_method_id,
                     d.payment_term_id,
                     d.date_maturity,
-                    d.partner_id,
+                    d.participante_id,
                     d.currency_id,
                     d.account_type_id,
                     d.analytic_account_id,
@@ -402,7 +402,7 @@ class FinancialCashflow(models.Model):
                     dpp.payment_method_id,
                     dpp.payment_term_id,
                     dpp.date_maturity,
-                    dpp.partner_id,
+                    dpp.participante_id,
                     dpp.currency_id,
                     dpp.account_type_id,
                     dpp.analytic_account_id,
@@ -429,7 +429,7 @@ class FinancialCashflow(models.Model):
                     b.payment_method_id,
                     b.payment_term_id,
                     b.date_maturity,
-                    b.partner_id,
+                    b.participante_id,
                     b.currency_id,
                     b.account_type_id,
                     b.analytic_account_id,
@@ -457,7 +457,7 @@ class FinancialCashflow(models.Model):
                     b.payment_method_id,
                     b.payment_term_id,
                     b.date_maturity,
-                    b.partner_id,
+                    b.participante_id,
                     b.currency_id,
                     b.account_type_id,
                     b.analytic_account_id,

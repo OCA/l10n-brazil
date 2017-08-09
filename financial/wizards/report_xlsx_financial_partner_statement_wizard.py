@@ -40,7 +40,7 @@ class ReportXlsxFinancialFinancialPartnerStatementWizard(
         default=lambda self: self.env.user.company_id,
         string='Company'
     )
-    partner_id = fields.Many2one(
+    participante_id = fields.Many2one(
         comodel_name='sped.participante',
         required=True,
     )
