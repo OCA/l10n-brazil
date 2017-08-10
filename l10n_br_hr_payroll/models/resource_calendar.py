@@ -143,6 +143,7 @@ class ResourceCalendar(models.Model):
         :return: int : ultimo dia do mes
         relativedelta(months=+1, days=-1)
         """
+
         data_mes = datetime.strptime(str(mes) + '-' + str(ano), '%m-%Y')
         data_final = \
             data_mes + relativedelta(months=1) - relativedelta(days=1)

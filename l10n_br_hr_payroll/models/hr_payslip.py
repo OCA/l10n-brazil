@@ -32,6 +32,7 @@ MES_DO_ANO = [
     (10, u'Outubro'),
     (11, u'Novembro'),
     (12, u'Dezembro'),
+    (13, u'13º Salário'),
 ]
 
 TIPO_DE_FOLHA = [
@@ -863,27 +864,20 @@ class HrPayslip(models.Model):
         elif self.tipo_de_folha == "decimo_terceiro":
             if self.is_simulacao:
                 estrutura_decimo_terceiro = \
-                    self.env['hr.payroll.structure'].search(
-                    [('code', '=', 'SEGUNDA_PARCELA_13')], limit=1
-                )
+                    self.contract_id.struct_id.estrutura_13_id
                 return estrutura_decimo_terceiro
             else:
-                if self.mes_do_ano < 12:
+                if self.mes_do_ano <= 12:
                     estrutura_decimo_terceiro = \
-                        self.env['hr.payroll.structure'].search(
-                        [('code', '=', 'PRIMEIRA_PARCELA_13')], limit=1
-                    )
+                        self.contract_id.struct_id.estrutura_adiantamento_13_id
                     return estrutura_decimo_terceiro
                 else:
                     estrutura_decimo_terceiro = \
-                        self.env['hr.payroll.structure'].search(
-                        [('code', '=', 'SEGUNDA_PARCELA_13')], limit=1
-                    )
+                        self.contract_id.struct_id.estrutura_13_id
                     return estrutura_decimo_terceiro
         elif self.tipo_de_folha == "ferias":
-            estrutura_ferias = self.env['hr.payroll.structure'].search(
-                [('code', '=', 'FERIAS')], limit=1
-            )
+            estrutura_ferias = \
+                self.contract_id.struct_id.estrutura_ferias_id
             return estrutura_ferias
         elif self.tipo_de_folha == "rescisao":
             estrutura_rescisao = self.env['hr.payroll.structure'].search(
@@ -1756,7 +1750,7 @@ class HrPayslip(models.Model):
         )
 
     @api.multi
-    @api.depends('contract_id')
+    @api.depends('contract_id', 'mes_do_ano')
     def _compute_set_employee_id(self):
         for record in self:
             record.struct_id = record.buscar_estruturas_salario()
@@ -1779,12 +1773,16 @@ class HrPayslip(models.Model):
                 record.date_to = record.holidays_ferias.data_fim
                 continue
 
+            mes = record.mes_do_ano
+            if mes > 12:
+                mes = 12
+
             ultimo_dia_do_mes = str(
                 self.env['resource.calendar'].get_ultimo_dia_mes(
-                    record.mes_do_ano, record.ano))
+                    mes, record.ano))
 
             primeiro_dia_do_mes = str(
-                datetime.strptime(str(record.mes_do_ano) + '-' +
+                datetime.strptime(str(mes) + '-' +
                                   str(record.ano), '%m-%Y'))
 
             record.date_from = primeiro_dia_do_mes
