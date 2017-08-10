@@ -15,6 +15,7 @@
                 <field name="tipo_estrutura" string="Tipo" />
             </field>
             <field name="rule_ids" position="replace" />
+            <field name="company_id" position="replace" />
         </field>
     </record>
 
@@ -49,21 +50,28 @@
                 <field name="tipo_estrutura" colspan="4" />
                 <field name="estrutura_ferias_id"
                        options="{'no_create': 1}" colspan="4"
-                       attrs="{'invisible': [('tipo_estrutura','!=','normal')],
-                               'required': [('tipo_estrutura','=','normal')]}"
+                       attrs="{'invisible': [('tipo_estrutura','!=','normal')]}"
                 />
                 <field name="estrutura_adiantamento_13_id"
                        options="{'no_create': 1}" colspan="4"
-                       attrs="{'invisible': [('tipo_estrutura','!=','normal')],
-                               'required': [('tipo_estrutura','=','normal')]}"
+                       attrs="{'invisible': [('tipo_estrutura','!=','normal')]}"
                 />
                 <field name="estrutura_13_id"
                        options="{'no_create': 1}" colspan="4"
-                       attrs="{'invisible': [('tipo_estrutura','!=','normal')],
-                               'required': [('tipo_estrutura','=','normal')]}"
+                       attrs="{'invisible': [('tipo_estrutura','!=','normal')]}"
                 />
             </field>
+            <field name="company_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
             <xpath expr="//page[@string='Salary Rules']" position="after">
+                <page string="Estruturas Herdadas">
+                    <group>
+                        <group>
+                            <field name="children_ids" nolabel="1"/>
+                        </group>
+                    </group>
+                </page>
                 <page string="Rescisão"
                       attrs="{'invisible': [('tipo_estrutura', '!=', 'rescisao')]}">
                     <group>
