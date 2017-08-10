@@ -2,8 +2,8 @@
 # Copyright 2017 KMEE INFORMATICA LTDA - Luis Felipe Miléo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models, _
-from openerp.addons.financial.constants import (
+from odoo import api, fields, models, _
+from odoo.addons.financial.constants import (
     FINANCIAL_DEBT_2PAY,
     FINANCIAL_DEBT_2RECEIVE,
     FINANCIAL_MONEY_IN,

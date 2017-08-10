@@ -4,8 +4,8 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from openerp import api, fields, models, exceptions, _
-from openerp.addons.financial.constants import (
+from odoo import api, fields, models, exceptions, _
+from odoo.addons.financial.constants import (
     FINANCIAL_DEBT_2PAY,
     FINANCIAL_DEBT_2RECEIVE,
     FINANCIAL_MONEY_IN,
