@@ -47,10 +47,16 @@ class SpedCNAE(models.Model):
     def name_search(self, name='', args=None, operator='ilike', limit=100):
         args = args or []
         if name and operator in ('=', 'ilike', '=ilike', 'like'):
+            codigo = name.replace('.', '').replace('-', '').replace(' ', '')
+            codigo = codigo.replace('/', '')
+
             if operator != '=':
                 name = name.strip().replace(' ', '%')
 
-            args += ['|', ('codigo', '=', name), ('descricao', 'ilike', name)]
+            args += ['|',
+                     ('codigo', '=ilike', codigo + '%'),
+                     ('descricao', 'ilike', name),
+            ]
             cnaes = self.search(args, limit=limit)
             return cnaes.name_get()
 

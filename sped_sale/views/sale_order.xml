@@ -18,6 +18,7 @@
                 <field name="partner_id" position="after">
                     <field name="sped_participante_id" string="Customer"
                            domain="[('eh_cliente', '=', True)]"
+                           options="{'no_quick_create': True}"
                            attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
                 </field>
                 <xpath expr="//group/field[@name='company_id']"
