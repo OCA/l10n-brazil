@@ -217,3 +217,7 @@ class HrPayrollStructure(models.Model):
         selection=TIPO_DESLIGAMENTO_RAIS,
         string=u'Código desligamento RAIS:',
     )
+
+    children_ids = fields.One2many(
+        copy=False
+    )
