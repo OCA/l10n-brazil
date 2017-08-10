@@ -364,14 +364,18 @@ class HrCaged(models.Model):
         domain = [
             ('company_id', '=', self.company_id.id),
             ('date_start', '<=', ultimo_dia_do_mes),
-            ('date_start', '>=', primeiro_dia_do_mes)]
+            ('date_start', '>=', primeiro_dia_do_mes),
+            ('categoria', 'not in', ['721', '722'])
+        ]
         contratacoes = contrato_model.search(domain)
 
         # Demissoes do mes
         domain = [
             ('company_id', '=', self.company_id.id),
             ('date_end', '<=', ultimo_dia_do_mes),
-            ('date_end', '>=', primeiro_dia_do_mes)]
+            ('date_end', '>=', primeiro_dia_do_mes),
+            ('categoria', 'not in', ['721', '722'])
+        ]
         demissoes = contrato_model.search(domain)
 
         # Total de movimentações (Registro C)
