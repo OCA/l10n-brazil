@@ -108,15 +108,15 @@ class HrPayslipRun(models.Model):
 
     @api.multi
     def verificar_holerites_gerados(self):
-        dominio_contratos = [
-                ('date_start', '<', lote.date_end),
-                ('company_id', '=', lote.company_id.id),
-            ]
-        if self.tipo_de_folha != 'normal':
-            dominio_contratos += [
-                ('categoria', 'not in', ['721', '722']),
-            ]
         for lote in self:
+            dominio_contratos = [
+                    ('date_start', '<=', lote.date_end),
+                    ('company_id', '=', lote.company_id.id),
+                ]
+            if lote.tipo_de_folha != 'normal':
+                dominio_contratos += [
+                    ('categoria', 'not in', ['721', '722']),
+                ]
             contracts_id = self.env['hr.contract'].search(dominio_contratos)
 
             payslips = self.env['hr.payslip'].search([
