@@ -4,17 +4,16 @@
 
 from __future__ import division, print_function, unicode_literals
 
-
 FINANCIAL_DEBT = [
-    ('2receive', 'Account Receivable'),  # r
-    ('2pay', 'Account Payable'),  # p
+    ('2receive', 'Receivable'),
+    ('2pay', 'Payable'),
 ]
 FINANCIAL_DEBT_2RECEIVE = '2receive'
 FINANCIAL_DEBT_2PAY = '2pay'
 
 FINANCIAL_IN_OUT = [
-    ('receipt_item', 'Receipt Item'),  # rr
-    ('payment_item', 'Payment Item'),  # pp
+    ('receipt_item', 'Receipt Item'),
+    ('payment_item', 'Payment Item'),
     ('money_in', 'Money In'),
     ('money_out', 'Money Out'),
 ]
@@ -33,13 +32,73 @@ FINANCIAL_OUTGOING_MOVE = [
 ]
 
 FINANCIAL_TYPE = FINANCIAL_DEBT + FINANCIAL_IN_OUT
+FINANCIAL_TYPE_DICT = dict(FINANCIAL_TYPE)
+
+FINANCIAL_TYPE_CODE = {
+    FINANCIAL_DEBT_2RECEIVE: 'FR',
+    FINANCIAL_DEBT_2PAY: 'FP',
+    FINANCIAL_RECEIPT: 'RR',
+    FINANCIAL_PAYMENT: 'PP',
+    FINANCIAL_MONEY_IN: 'MI',
+    FINANCIAL_MONEY_OUT: 'MO',
+}
 
 FINANCIAL_STATE = [
     ('draft', 'Draft'),
     ('open', 'Open'),
     ('paid', 'Paid'),
-    ('cancel', 'Cancel'),
+    ('cancelled', 'Cancelled'),
 ]
+FINANCIAL_STATE_DRAFT = 'draft'
+FINANCIAL_STATE_OPEN = 'open'
+FINANCIAL_STATE_PAID = 'paid'
+FINANCIAL_STATE_CANCELLED = 'cancelled'
+
+FINANCIAL_DEBT_STATUS = [
+    ('due', 'Due'),
+    ('due_today', 'Due today'),
+    ('overdue', 'Overdue'),
+    ('paid', 'Paid'),
+    ('paid_partially', 'Partially paid'),
+    ('cancelled', 'Cancelled'),
+    ('cancelled_partially', 'Partially cancelled'),
+]
+
+FINANCIAL_DEBT_STATUS_DUE = 'due'
+FINANCIAL_DEBT_STATUS_DUE_TODAY = 'due_today'
+FINANCIAL_DEBT_STATUS_OVERDUE = 'overdue'
+FINANCIAL_DEBT_STATUS_PAID = 'paid'
+FINANCIAL_DEBT_STATUS_PAID_PARTIALLY = 'paid_partially'
+FINANCIAL_DEBT_STATUS_CANCELLED = 'cancelled'
+FINANCIAL_DEBT_STATUS_CANCELLED_PARTIALLY = 'cancelled_partially'
+
+FINANCIAL_DEBT_STATUS_CONSIDERS_OPEN = [
+    FINANCIAL_DEBT_STATUS_DUE,
+    FINANCIAL_DEBT_STATUS_DUE_TODAY,
+    FINANCIAL_DEBT_STATUS_OVERDUE,
+    FINANCIAL_DEBT_STATUS_PAID_PARTIALLY,
+]
+
+FINANCIAL_DEBT_STATUS_CONSIDERS_PAID = [
+    FINANCIAL_DEBT_STATUS_PAID,
+    FINANCIAL_DEBT_STATUS_PAID_PARTIALLY,
+    FINANCIAL_DEBT_STATUS_CANCELLED_PARTIALLY,
+]
+
+FINANCIAL_DEBT_STATUS_CONSIDERS_CANCELLED = [
+    FINANCIAL_DEBT_STATUS_CANCELLED,
+    FINANCIAL_DEBT_STATUS_CANCELLED_PARTIALLY,
+]
+
+FINANCIAL_DEBT_CONCISE_STATUS = [
+    ('open', 'Open'),
+    ('paid', 'Paid'),
+    ('cancelled', 'Cancelled'),
+]
+
+FINANCIAL_DEBT_CONCISE_STATUS_OPEN = 'open'
+FINANCIAL_DEBT_CONCISE_STATUS_PAID = 'paid'
+FINANCIAL_DEBT_CONCISE_STATUS_CANCELLED = 'cancelled'
 
 FINANCIAL_SEQUENCE = {
     '2receive': 'financial.move.receivable',
@@ -63,3 +122,10 @@ FINANCIAL_MOVE_FIELD = (
     ('amount_paid', 'Paid amount'),
     ('amount_residual', 'Residual amount'),
 )
+
+FINANCIAL_INSTALLMENT_STATE = (
+    ('draft', 'Draft'),
+    ('confirmed', 'Confirmed'),
+)
+FINANCIAL_INSTALLMENT_STATE_DRAFT = 'draft'
+FINANCIAL_INSTALLMENT_STATE_CONFIRMED = 'confirmed'

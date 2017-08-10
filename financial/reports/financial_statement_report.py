@@ -178,37 +178,36 @@ class FinancialStatementReport(models.Model):
     def _compute_account_balance(self, accounts):
         """ compute the balance, debit and credit for the provided accounts
         """
-        mapping = {
-            'balance':
-                """COALESCE(
-                SUM(amount_debit),0) - COALESCE(
-                SUM(amount_credit), 0) as balance""",
-            'debit': "COALESCE(SUM(amount_debit), 0) as debit",
-            'credit': "COALESCE(SUM(amount_credit), 0) as credit",
-        }
+        # mapping = {
+        #     'balance':
+        #         """COALESCE(
+        #         SUM(amount_debit),0) - COALESCE(
+        #         SUM(amount_credit), 0) as balance""",
+        #     'debit': "COALESCE(SUM(amount_debit), 0) as debit",
+        #     'credit': "COALESCE(SUM(amount_credit), 0) as credit",
+        # }
 
         res = {}
-        for account in accounts:
-            res[account.id] = dict((fn, 0.0) for fn in mapping.keys())
-        if accounts:
-            tables, where_clause, where_params = self.env[
-                'financial.cashflow']._query_get()
-            tables = tables.replace('"', '') if \
-                tables else "financial_cashflow"
-            wheres = [""]
-            if where_clause.strip():
-                wheres.append(where_clause.strip())
-            filters = " AND ".join(wheres)
-            request = "SELECT account_type_id as id, " + ', '.join(
-                mapping.values()) + \
-                " FROM " + tables + \
-                " WHERE account_type_id IN %s " \
-                + filters + \
-                " GROUP BY account_type_id"
-            params = (tuple(accounts._ids),) + tuple(where_params)
-            self.env.cr.execute(request, params)
-            for row in self.env.cr.dictfetchall():
-                res[row['id']] = row
+        # for account in accounts:
+        #     res[account.id] = dict((fn, 0.0) for fn in mapping.keys())
+        # if accounts:
+        #     tables, where_clause, where_params = \
+        #         self.env['financial.cashflow']._query_get()
+        #     tables = tables.replace('"', '') if \
+        #         tables else "financial_cashflow"
+        #     wheres = [""]
+        #     if where_clause.strip():
+        #         wheres.append(where_clause.strip())
+        #     filters = " AND ".join(wheres)
+        #     request = "SELECT account_type_id as id, " + \
+        #               ', '.join(mapping.values()) + \
+        #               " FROM %s " \
+        #               " WHERE account_type_id IN %s %s" \
+        #               " GROUP BY account_type_id"
+        #     params = (tuple(accounts._ids),) + tuple(where_params)
+        #     self.env.cr.execute(request, tables, params, filters)
+        #     for row in self.env.cr.dictfetchall():
+        #         res[row['id']] = row
         return res
 
     @api.multi

@@ -8,12 +8,14 @@
 from __future__ import division, print_function, unicode_literals
 
 from odoo.report import report_sxw
+from odoo import fields
 from odoo.addons.report_xlsx.report.report_xlsx import ReportXlsx
 
 from decimal import Decimal
 
 
 class ReportXlsxStyle(object):
+
     def __init__(self, *args, **kwargs):
         self.align_left = None
         self.date = None
@@ -29,20 +31,22 @@ class ReportXlsxStyle(object):
 def _col_number_to_reference(col):
     return chr(ord('A') + col)
 
+
 def col_number_to_reference(col):
     if col >= 26:
         quotient, remaining = divmod(col, 26)
         return _col_number_to_reference(quotient - 1) + \
-               col_number_to_reference(remaining)
+            col_number_to_reference(remaining)
 
     return _col_number_to_reference(col)
 
 
 class ReportXlsxFinancialBase(ReportXlsx):
+
     def __init__(self, name, table, rml=False, parser=report_sxw.rml_parse,
                  header=True, store=False):
-        super(ReportXlsxFinancialBase, self).__init__(name, table, rml=rml,
-            parser=parser, header=header, store=store)
+        super(ReportXlsxFinancialBase, self).__init__(
+            name, table, rml=rml, parser=parser, header=header, store=store)
         self.current_row = 1
         #
         # # main sheet which will contains report
@@ -71,10 +75,11 @@ class ReportXlsxFinancialBase(ReportXlsx):
     def generate_xlsx_report(self, workbook, data, report_wizard):
         self.report_wizard = report_wizard
         self.workbook = workbook
-        
+
         self.current_row = 0
         self.title = self.define_title()
-        self.sheet = self.workbook.add_worksheet(self.title[:31])
+        self.sheet = \
+            self.workbook.add_worksheet(self.title[:31])
         self.define_styles()
         self.report_data = self.prepare_data()
         self.columns = self.define_columns()
@@ -140,6 +145,14 @@ class ReportXlsxFinancialBase(ReportXlsx):
     def define_detail_default_style(self):
         return self.define_default_style()
 
+    def define_detail_center_default_style(self):
+        style = self.define_default_style()
+        style.update({
+            'align': 'center',
+            'valign': 'vcenter',
+        })
+        return style
+
     def define_footer_default_style(self):
         style = self.define_default_style()
         style.update({
@@ -199,6 +212,7 @@ class ReportXlsxFinancialBase(ReportXlsx):
         self.style.group_header = ReportXlsxStyle()
         self.style.header = ReportXlsxStyle()
         self.style.detail = ReportXlsxStyle()
+        self.style.detail_center = ReportXlsxStyle()
         self.style.footer = ReportXlsxStyle()
         self.style.group_footer = ReportXlsxStyle()
 
@@ -212,6 +226,8 @@ class ReportXlsxFinancialBase(ReportXlsx):
                                    self.define_header_default_style())
         self.define_default_styles(self.style.detail,
                                    self.define_detail_default_style())
+        self.define_default_styles(self.style.detail_center,
+                                   self.define_detail_center_default_style())
         self.define_default_styles(self.style.footer,
                                    self.define_footer_default_style())
         self.define_default_styles(self.style.group_footer,
@@ -223,7 +239,7 @@ class ReportXlsxFinancialBase(ReportXlsx):
 
     def write_title(self):
         self.sheet.merge_range(
-            self.current_row, 0, self.current_row + 2, len(self.columns) -1,
+            self.current_row, 0, self.current_row + 2, len(self.columns) - 1,
             self.title, self.style.title.align_center
         )
         self.current_row += 3
@@ -267,10 +283,12 @@ class ReportXlsxFinancialBase(ReportXlsx):
         self.current_row += 1
 
     def write_detail(self, line, columns=None, last_row=None,
-                     formula_changes={}):
+                     formula_changes=None):
+
+        if formula_changes is None:
+            formula_changes = {}
         if columns is None:
             columns = self.columns
-
         if last_row is None:
             first_row = self.current_row
         else:
@@ -313,14 +331,20 @@ class ReportXlsxFinancialBase(ReportXlsx):
                 value = column.get('formula', value)
                 value = value.format(**change)
                 value = '{' + value + '}'
-                self.sheet.write_formula(self.current_row, current_column,
-                                         value, style)
+                self.sheet.write_formula(
+                    self.current_row, current_column, value, style)
 
-            elif column.get('type', 'string') in ('int', 'float', 'decimal',
-                'Decimal', 'currency', 'amount') or \
+            elif column.get('type', 'string') in \
+                    ('int', 'float', 'decimal', 'Decimal',
+                     'currency', 'amount') or \
                     isinstance(value, (int, float, Decimal)):
                 self.sheet.write_number(self.current_row, current_column,
                                         value, style)
+            elif column.get('type', 'string') == 'date':
+                self.sheet.write(
+                    self.current_row, current_column,
+                    fields.Date.from_string(value), style
+                )
             else:
                 self.sheet.write(self.current_row, current_column,
                                  value or '', style)
@@ -382,4 +406,3 @@ class ReportXlsxFinancialBase(ReportXlsx):
 
     def prepare_report_data(self):
         return {}
-

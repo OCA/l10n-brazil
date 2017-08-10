@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from odoo.tests.common import SingleTransactionCase
 from datetime import datetime, timedelta
 import time
+
+from odoo.tests.common import SingleTransactionCase
 
 
 class FinancialTestCase(SingleTransactionCase):
@@ -55,15 +56,15 @@ class FinancialTestCase(SingleTransactionCase):
 
         # {'active_model': 'financial.move', 'active_ids': [financial.id]}
 
-        ctx ={
+        ctx = {
             'default_type': financial.type == '2receive' and 'receipt_item' or
-                'payment_item',
+            'payment_item',
             'default_amount_document': financial.amount_residual,
             'default_account_id': financial.account_id,
             'default_currency_id': financial.currency_id,
         }
 
-        debt = self.financial_model.with_context(ctx).create({
+        self.financial_model.with_context(ctx).create({
             'date_payment': datetime.now(),
             'amount_document': amount_payment,
             'document_type_id': self.DOCUMENTO_FINANCEIRO_BOLETO,

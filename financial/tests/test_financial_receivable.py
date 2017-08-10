@@ -3,12 +3,7 @@
 #   Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import time
-from datetime import datetime, timedelta
-
-
 from odoo import fields
-from odoo.tests.common import SingleTransactionCase
 from odoo.addons.financial.tests.financial_test_classes import \
     FinancialTestCase
 
@@ -47,6 +42,7 @@ class ManualFinancialProcess(FinancialTestCase):
         self.env.ref('base.main_company').write(
             {'currency_id': self.currency_eur_id}
         )
+        self.env.ref('base.main_company').cron_update_reference_date_today()
         self.bank_112358 = self.env.ref('financial.bank_112358_13')
 
         self.DOCUMENTO_FINANCEIRO_TED = self.env.ref(
@@ -97,7 +93,7 @@ class ManualFinancialProcess(FinancialTestCase):
         #  '2017-01-02')
 
     def test_financial_receivable_full_pay_one(self):
-        """Scenario 1: Financial receivable of 100.00
+        """Scenario 2: Financial receivable of 100.00
 
         Given a financial receivable already confirmed of 100.00
         And the amount document of 100.00
@@ -150,7 +146,7 @@ class ManualFinancialProcess(FinancialTestCase):
             sum(amount_credit_debit))
 
     def test_financial_receivable_full_pay_multi(self):
-        """Scenario 1: Financial receivable of 5000.00
+        """Scenario 3: Financial receivable of 5000.00
 
         Given a financial receivable already confirmed of 5000.00
         And the amount document of 100.00
@@ -203,7 +199,7 @@ class ManualFinancialProcess(FinancialTestCase):
             sum(amount_credit_debit))
 
     def test_financial_receivable_partial_pay_one(self):
-        """Scenario 1: Financial receivable of 5000.00
+        """Scenario 4: Financial receivable of 5000.00
 
         Given a financial receivable already confirmed of 5000.00
         And the amount document of 5000.00
@@ -256,7 +252,7 @@ class ManualFinancialProcess(FinancialTestCase):
             sum(amount_credit_debit))
 
     def test_financial_receivable_partial_pay_multi(self):
-        """Scenario 1: Financial receivable of 5000.00
+        """Scenario 5: Financial receivable of 5000.00
 
         Given a financial receivable already confirmed of 5000.00
         And the amount document of 100.00

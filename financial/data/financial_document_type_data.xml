@@ -1,5 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
 <odoo>
-    <data>
+
         <record model="financial.document.type"
                 id="DOCUMENTO_FINANCEIRO_ACORDO">
             <field name="name">Acordo</field>
@@ -214,6 +218,5 @@
                 id="DOCUMENTO_FINANCEIRO_TRANSFERENCIA">
             <field name="name">Transferência</field>
         </record>
-    </data>
 
 </odoo>

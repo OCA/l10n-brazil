@@ -3,12 +3,9 @@
 #   Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import time
-from datetime import datetime, timedelta
-
-
 from odoo import fields
-from odoo.tests.common import SingleTransactionCase
+from odoo.exceptions import ValidationError
+from odoo.exceptions import Warning as UserError
 from odoo.addons.financial.tests.financial_test_classes import \
     FinancialTestCase
 
@@ -47,6 +44,7 @@ class ManualFinancialProcess(FinancialTestCase):
         self.env.ref('base.main_company').write(
             {'currency_id': self.currency_eur_id}
         )
+        self.env.ref('base.main_company').cron_update_reference_date_today()
         self.bank_112358 = self.env.ref('financial.bank_112358_13')
 
         self.DOCUMENTO_FINANCEIRO_TED = self.env.ref(
@@ -95,7 +93,7 @@ class ManualFinancialProcess(FinancialTestCase):
         #  '2017-01-02')
 
     def test_financial_payable_full_pay_one(self):
-        """Scenario 1: Financial payable of 100.00
+        """Scenario 2: Financial payable of 100.00
 
         Given a financial payable already confirmed of 100.00
         And the amount document of 100.00
@@ -148,7 +146,7 @@ class ManualFinancialProcess(FinancialTestCase):
             sum(amount_credit_debit))
 
     def test_financial_payable_full_pay_multi(self):
-        """Scenario 1: Financial payable of 5000.00
+        """Scenario 3: Financial payable of 5000.00
 
         Given a financial payable already confirmed of 5000.00
         And the amount document of 100.00
@@ -201,7 +199,7 @@ class ManualFinancialProcess(FinancialTestCase):
             sum(amount_credit_debit))
 
     def test_financial_payable_partial_pay_one(self):
-        """Scenario 1: Financial payable of 5000.00
+        """Scenario 4: Financial payable of 5000.00
 
         Given a financial payable already confirmed of 5000.00
         And the amount document of 5000.00
@@ -254,7 +252,7 @@ class ManualFinancialProcess(FinancialTestCase):
             sum(amount_credit_debit))
 
     def test_financial_payable_partial_pay_multi(self):
-        """Scenario 1: Financial payable of 5000.00
+        """Scenario 5: Financial payable of 5000.00
 
         Given a financial payable already confirmed of 5000.00
         And the amount document of 100.00
@@ -305,3 +303,79 @@ class ManualFinancialProcess(FinancialTestCase):
         self.check_bank_account_balance(
             bank_account_id, bank_initial_balance,
             sum(amount_credit_debit))
+
+    def test_financial_payable_cancel(self):
+        """Scenario 6: Cancel a Financial Move
+
+        Given a financial payable already confirmed of 5000.00
+        And the amount document of 5000.00
+        And the date of the document is 2017-01-01
+        And tne business maturity date is 2017-01-02
+        And the financial account is 'Receitas com Vendas'
+        And the Document number is 1000/1
+
+        Then the financial payable should be cancel
+        And the user must provide a reason why this financial will be cancel
+        And after that verify if the state of the financial changed to 'cancel'
+        And the Amount Residual change to 0.00 by
+        Amount Document - Amount Cancel = 0.00 in this scenario
+        """
+        financial_move = self.create_financial(
+            type='2pay',
+            amount_document=5000,
+            currency_id=self.currency_eur_id,
+            date_document='2017-01-01',
+            date_maturity='2017-01-01',
+            account_id=self.env.ref(
+                "financial.financial_account_101001").id,
+            document_number='200/1',
+        )
+        financial_move.action_confirm()
+        cancel_reason_01 = \
+            self.env['financial.move.motivo.cancelamento'].create(
+                {'motivo_cancelamento': 'Motivo 01 para o cancelamento'}
+            )
+        wizard_cancel = self.env['financial.cancel'].with_context(
+            active_id=financial_move.id,
+            active_model=financial_move._name
+        ).create(
+            {
+                'motivo_cancelamento_id': cancel_reason_01.id,
+                'obs': 'Observações para o cancelamento',
+            }
+        )
+        wizard_cancel.doit()
+        self.assertEqual(financial_move.state, 'cancelled')
+        self.assertEqual(financial_move.amount_residual, 0)
+
+    def test_invalid_financial_payable(self):
+        """Scenario 7: Invalid financial payable with document_amount = 0"""
+        with self.assertRaises(ValidationError):
+            self.create_financial(
+                type='2pay',
+                amount_document=0.0,
+                currency_id=self.currency_eur_id,
+                date_document='2017-01-01',
+                date_maturity='2017-01-01',
+                account_id=self.env.ref(
+                    "financial.financial_account_101001").id,
+                document_number='200/1',
+            )
+
+    def test_do_before_unlink(self):
+        """Scenario 8: do not possible unlink payable state not draft or
+        cancelled  """
+        financial_move = self.create_financial(
+            type='2pay',
+            amount_document=5000,
+            currency_id=self.currency_eur_id,
+            date_document='2017-01-01',
+            date_maturity='2017-01-01',
+            account_id=self.env.ref(
+                "financial.financial_account_101001").id,
+            document_number='200/1',
+        )
+        financial_move.action_confirm()
+
+        with self.assertRaises(UserError):
+            financial_move.unlink()

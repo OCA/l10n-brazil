@@ -3,16 +3,16 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <odoo>
-<data>
+
 
     <record model="ir.ui.view" id="financial_cancel_form_view">
         <field name="name">financial.cancel.form (in financial)</field>
         <field name="model">financial.cancel</field>
         <field name="arch" type="xml">
             <form string="Financial Cancel">
-                <!-- TODO -->
                 <group>
-                    <field name="reason"/>
+                    <field name="motivo_cancelamento_id"/>
+                    <field name="obs"/>
                 </group>
                 <footer>
                     <button name='doit'
@@ -36,5 +36,5 @@
         <field name="target">new</field>
     </record>
 
-</data>
+
 </odoo>
