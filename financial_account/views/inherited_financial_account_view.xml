@@ -5,8 +5,8 @@
     Copyright 2017 KMEE - Luis Felipe Miléo <mileo@kmee.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
-<openerp>
-<data>
+<odoo>
+
     <record model="ir.ui.view" id="financial_account_form" >
         <field name="name">financial.account.form (in financial_account)</field>
         <field name="model">financial.account</field>
@@ -39,5 +39,5 @@
             </group>
         </field>
     </record>
-</data>
-</openerp>
+
+</odoo>

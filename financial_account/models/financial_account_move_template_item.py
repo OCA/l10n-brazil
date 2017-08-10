@@ -8,8 +8,8 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from openerp import fields, models
-from openerp.addons.financial.constants import FINANCIAL_MOVE_FIELD
+from odoo import fields, models
+from odoo.addons.financial.constants import FINANCIAL_MOVE_FIELD
 
 
 class FinancialAccountMoveTemplateItem(models.Model):

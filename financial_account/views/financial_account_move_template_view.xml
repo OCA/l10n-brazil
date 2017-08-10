@@ -3,8 +3,8 @@
     Copyright 2017 KMEE INFORMATICA LTDA - Aristides Caldeira <aristides.caldeira@kmee.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
-<openerp>
-<data>
+<odoo>
+
     <record model="ir.ui.view" id="financial_account_move_template_form" >
         <field name="name">financial.account.move.template.form</field>
         <field name="model">financial.account.move.template</field>
@@ -85,5 +85,5 @@
         name="Account Move Template"
         parent="financial.financial_config_menu"
         action="financial_account_move_template_acao" />
-</data>
-</openerp>
+
+</odoo>

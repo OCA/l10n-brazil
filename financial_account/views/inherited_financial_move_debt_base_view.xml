@@ -4,8 +4,8 @@
     Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
-<openerp>
-    <data>
+<odoo>
+
 
     <!--<record model="ir.ui.view" id="financial_move_debt_base_tree">-->
         <!--<field name="name">financial.move.debt.base.tree (in financial_account)</field>-->
@@ -51,5 +51,5 @@
         <!--<field name="arch" type="xml">-->
         <!--</field>-->
     <!--</record>-->
-    </data>
-</openerp>
+
+</odoo>
