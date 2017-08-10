@@ -9,15 +9,7 @@ import logging
 from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
 from odoo.exceptions import ValidationError
-from odoo.addons.l10n_br_base.constante_tributaria import (
-    REGIME_TRIBUTARIO,
-    MODELO_FISCAL,
-    IE_DESTINATARIO,
-    TIPO_EMISSAO,
-    ENTRADA_SAIDA,
-    TIPO_CONSUMIDOR_FINAL,
-    ENTRADA_SAIDA_SAIDA,
-)
+from odoo.addons.l10n_br_base.constante_tributaria import *
 from odoo.addons.sped_imposto.models.sped_calculo_imposto_item import (
     SpedCalculoImpostoItem
 )
@@ -54,8 +46,8 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
     operacao_id = fields.Many2one(
         comodel_name='sped.operacao',
         string='Operação Fiscal',
-        related='order_id.sped_operacao_produto_id',
-        readonly=True,
+        _compute='_onchange_produto_id',
+        store=True,
     )
     data_emissao = fields.Datetime(
         string='Data de emissão',
@@ -132,29 +124,57 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
     )
 
     @api.onchange('produto_id')
-    def onchange_product_id_date(self):
-        domain = {}
-        if not self.order_id:
-            return
+    def _onchange_produto_id(self):
+        for item in self:
+            if not item.order_id:
+                item.operacao_id = False
 
-        if not self.data_emissao:
-            warning = {
-                'title': _('Warning!'),
-                'message': _(
-                    'Por favor defina a data da fatura, \n'
-                    'para permtir o cálculo correto dos impostos'),
-            }
-            return {'warning': warning}
-        if not (self.order_id.sped_operacao_produto_id or
-                self.order_id.sped_operacao_servico_id):
-            warning = {
-                'title': _('Warning!'),
-                'message': _(
-                    'Por favor defina a operação'),
-            }
-            return {'warning': warning}
-        if self.produto_id:
-            self.name = self.produto_id.nome
+            if not item.produto_id:
+                item.operacao_id = False
+
+            if item.produto_id.tipo == TIPO_PRODUTO_SERVICO_SERVICOS:
+                if item.order_id.sped_operacao_servico_id:
+                    item.operacao_id = item.order_id.sped_operacao_servico_id
+            else:
+                if item.order_id.sped_operacao_produto_id:
+                    item.operacao_id = item.order_id.sped_operacao_produto_id
+
+            if not item.data_emissao:
+                warning = {
+                    'title': _('Warning!'),
+                    'message': _(
+                        'Por favor, defina a data do pedido \n'
+                        'para permtir o cálculo correto dos impostos'),
+                }
+                return {'warning': warning}
+
+            if not item.operacao_id:
+                warning = {
+                    'title': _('Warning!'),
+                    'message': _(
+                        'Por favor, defina a operação fiscal \n'
+                        'para permitir o cálculo correto dos impostos'),
+                }
+                return {'warning': warning}
+
+            item.name = item.produto_id.nome
+            item.produto_descricao = item.produto_id.nome
+            item.product_id = item.produto_id.product_id
+
+    @api.onchange('price_unit', 'product_uom_qty', 'purchase_price')
+    def _onchange_price_unit_product_uom_qty(self):
+        for item in self:
+            if item.is_brazilian:
+                item.vr_unitario = item.price_unit
+                item.quantidade = item.product_uom_qty
+                item.vr_unitario_custo_comercial = item.purchase_price
+
+    @api.onchange('vr_unitario', 'quantidade', 'vr_unitario_custo_comercial')
+    def _onchange_vr_unitario(self):
+        for item in self:
+            item.price_unit = item.vr_unitario
+            item.product_uom_qty = item.quantidade
+            item.purchase_price = item.vr_unitario_custo_comercial
 
     @api.depends('modelo', 'emissao')
     def _compute_permite_alteracao(self):
