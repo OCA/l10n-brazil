@@ -16,18 +16,18 @@
             <field name="number" position="after">
                 <field name="paid_order"/>
             </field>
-            <field name="credit_note" position="after">
-                <field name="payment_mode_id" />
+            <field name="credit_note" position="replace">
+                <field name="payment_mode_id" options="{'no_create': 1}"/>
             </field>
             <button name="refund_sheet" position="before">
                 <button name="action_done" states="verify" string="Change to Done" class="oe_highlight"/>
             </button>
-            <button name="refund_sheet" position="after">
+            <button name="refund_sheet" position="replace">
                 <button name="create_payment_order" type="object" string="Add 2 Payment Order" states="verify"/>
             </button>
             <xpath expr="//notebook//page[@string='Holerite']" position="after">
                 <page string="Ordens de Pagamento">
-                    <field name="payment_line_ids" />
+                    <field name="payment_line_ids" readonly="1"/>
                 </page>
             </xpath>
             <!--groups="account_payment_order.group_account_payment"-->
