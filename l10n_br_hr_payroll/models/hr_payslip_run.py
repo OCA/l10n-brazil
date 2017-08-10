@@ -80,6 +80,9 @@ class HrPayslipRun(models.Model):
 
     @api.onchange('mes_do_ano', 'ano')
     def buscar_datas_periodo(self):
+        if not self.mes_do_ano:
+            self.mes_do_ano = datetime.now().month
+
         if self.tipo_de_folha == 'adiantamento_13' and self.mes_do_ano == 12:
             self.tipo_de_folha = 'decimo_terceiro'
             self.mes_do_ano = 13
