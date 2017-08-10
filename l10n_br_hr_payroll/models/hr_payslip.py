@@ -35,6 +35,21 @@ MES_DO_ANO = [
     (13, u'13º Salário'),
 ]
 
+MES_DO_ANO2 = [
+    (1, u'Janeiro'),
+    (2, u'Fevereiro'),
+    (3, u'Marco'),
+    (4, u'Abril'),
+    (5, u'Maio'),
+    (6, u'Junho'),
+    (7, u'Julho'),
+    (8, u'Agosto'),
+    (9, u'Setembro'),
+    (10, u'Outubro'),
+    (11, u'Novembro'),
+    (12, u'Dezembro'),
+]
+
 TIPO_DE_FOLHA = [
     ('normal', u'Folha normal'),
     ('rescisao', u'Rescisão'),
@@ -279,6 +294,17 @@ class HrPayslip(models.Model):
         required=True,
         default=datetime.now().month,
     )
+
+    mes_do_ano2 = fields.Selection(
+        selection=MES_DO_ANO2,
+        string=u'Mês',
+        required=True,
+        default=datetime.now().month,
+    )
+
+    @api.onchange('mes_do_ano2')
+    def on_change_mes_do_ano(self):
+        self.mes_do_ano = self.mes_do_ano2
 
     ano = fields.Integer(
         string=u'Ano',
@@ -885,15 +911,12 @@ class HrPayslip(models.Model):
             )
             return estrutura_rescisao
         elif self.tipo_de_folha == "provisao_ferias":
-            estrutura_provisao_ferias = self.env['hr.payroll.structure'].search(
-                [('code', '=', 'PROVISAO_FERIAS')], limit=1
-            )
+            estrutura_provisao_ferias = \
+                self.contract_id.struct_id.estrutura_ferias_id
             return estrutura_provisao_ferias
         elif self.tipo_de_folha == "provisao_decimo_terceiro":
             estrutura_provisao_decimo_terceiro = \
-                self.env['hr.payroll.structure'].search(
-                [('code', '=', 'PROVISAO_13')], limit=1
-            )
+                self.contract_id.struct_id.estrutura_13_id
             return estrutura_provisao_decimo_terceiro
 
     @api.depends('contract_id', 'date_from', 'date_to')

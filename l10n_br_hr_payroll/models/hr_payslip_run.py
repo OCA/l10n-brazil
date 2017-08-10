@@ -7,23 +7,25 @@ from datetime import datetime
 from openerp import api, fields, models
 
 MES_DO_ANO = [
-    (1, u'Jan'),
-    (2, u'Fev'),
-    (3, u'Mar'),
-    (4, u'Abr'),
-    (5, u'Mai'),
-    (6, u'Jun'),
-    (7, u'Jul'),
-    (8, u'Ago'),
-    (9, u'Set'),
-    (10, u'Out'),
-    (11, u'Nov'),
-    (12, u'Dez'),
+    (1, u'Janeiro'),
+    (2, u'Fevereiro'),
+    (3, u'Março'),
+    (4, u'Abril'),
+    (5, u'Maio'),
+    (6, u'Junho'),
+    (7, u'Julho'),
+    (8, u'Agosto'),
+    (9, u'Setembro'),
+    (10, u'Outubro'),
+    (11, u'Novembro'),
+    (12, u'Dezembro'),
+    (13, u'13º Salário')
 ]
 
 TIPO_DE_FOLHA = [
     ('normal', u'Folha normal'),
-    ('decimo_terceiro', u'Décimo terceiro (13º)'),
+    ('adiantamento_13', u'13º Salário - Adiantamento'),
+    ('decimo_terceiro', u'13º Salário'),
     ('provisao_ferias', u'Provisão de Férias'),
     ('provisao_decimo_terceiro', u'Provisão de Décimo Terceiro (13º)'),
 ]
@@ -65,26 +67,54 @@ class HrPayslipRun(models.Model):
         default=lambda self: self.env.user.company_id or '',
     )
 
+    @api.onchange('tipo_de_folha')
+    def fixa_decimo_terceiro(self):
+        if self.tipo_de_folha == 'adiantamento_13' and self.mes_do_ano == 12:
+            self.tipo_de_folha = 'decimo_terceiro'
+            self.mes_do_ano = 13
+        else:
+            if self.tipo_de_folha == 'decimo_terceiro':
+                self.mes_do_ano = 13
+            elif self.mes_do_ano == 13:
+                self.mes_do_ano = datetime.now().month
+
     @api.onchange('mes_do_ano', 'ano')
     def buscar_datas_periodo(self):
+        if self.tipo_de_folha == 'adiantamento_13' and self.mes_do_ano == 12:
+            self.tipo_de_folha = 'decimo_terceiro'
+            self.mes_do_ano = 13
+
+        mes = self.mes_do_ano
+        if mes > 12:
+            mes = 12
+            self.tipo_de_folha = 'decimo_terceiro'
+        elif self.tipo_de_folha == 'decimo_terceiro':
+            self.tipo_de_folha = 'normal'
+
         ultimo_dia_do_mes = str(
             self.env['resource.calendar'].get_ultimo_dia_mes(
-                self.mes_do_ano, self.ano))
+                mes, self.ano))
 
         primeiro_dia_do_mes = str(
-            datetime.strptime(str(self.mes_do_ano) + '-' +
+            datetime.strptime(str(mes) + '-' +
                               str(self.ano), '%m-%Y'))
 
         self.date_start = primeiro_dia_do_mes
         self.date_end = ultimo_dia_do_mes
 
+
     @api.multi
     def verificar_holerites_gerados(self):
-        for lote in self:
-            contracts_id = self.env['hr.contract'].search([
+        dominio_contratos = [
                 ('date_start', '<', lote.date_end),
-                ('company_id', '=', lote.company_id.id)
-            ])
+                ('company_id', '=', lote.company_id.id),
+            ]
+        if self.tipo_de_folha != 'normal':
+            dominio_contratos += [
+                ('categoria', 'not in', ['721', '722']),
+            ]
+        for lote in self:
+            contracts_id = self.env['hr.contract'].search(dominio_contratos)
 
             payslips = self.env['hr.payslip'].search([
                 ('tipo_de_folha', '=', self.tipo_de_folha),

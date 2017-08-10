@@ -205,7 +205,7 @@
                 <xpath expr="//div[@class='oe_title']" position="replace">
                     <label for="contract_id" class="oe_edit_only"/>
                     <h1>
-                        <field name="contract_id"/>
+                        <field name="contract_id" options="{'no_create': 1}"/>
                     </h1>
                 </xpath>
 
@@ -213,7 +213,12 @@
                 <xpath expr="//h1" position="after">
                     <group attrs="{'invisible' : [('tipo_de_folha', '=', 'ferias'), ('is_simulacao', '=', False)]}">
                         <group>
-                            <field name="mes_do_ano"/>
+                            <field name="mes_do_ano"
+                                   attrs="{'invisible': [('tipo_de_folha', '!=', 'decimo_terceiro')]}"
+                            />
+                            <field name="mes_do_ano2"
+                                   attrs="{'invisible': [('tipo_de_folha', '=', 'decimo_terceiro')]}"
+                            />
                         </group>
                         <group>
                             <field name="ano"/>
