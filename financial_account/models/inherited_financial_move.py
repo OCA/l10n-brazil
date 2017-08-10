@@ -85,7 +85,7 @@ class FinancialMove(models.Model):
         comodel_name='account.move.line',
         inverse_name='move_id',
         string='Partidas do lançamento contábil',
-        related='account_move_id.line_id',
+        related='account_move_id.line_ids',
         readonly=True,
     )
     require_accountant_review = fields.Boolean(
@@ -124,7 +124,7 @@ class FinancialMove(models.Model):
             if move.account_move_line_ids:
                 continue
 
-            line_id = []
+            line_ids = []
 
             error = ''
 
@@ -145,7 +145,7 @@ class FinancialMove(models.Model):
             move.create_account_move_line(
                 account_move,
                 move.account_move_template_id,
-                line_id,
+                line_ids,
                 fields_already_accounted=fields_already_accounted
             )
 
@@ -155,7 +155,7 @@ class FinancialMove(models.Model):
                 'partner_id': move.partner_id.id,
                 'company_id': move.company_id.id,
                 'date': move.date_document,
-                'line_id': line_id,
+                'line_ids': line_ids,
                 'journal_id': move.account_journal_id.id,
             }
 
@@ -165,7 +165,7 @@ class FinancialMove(models.Model):
                 move.payment_ids.create_account_move()
 
     @api.multi
-    def create_account_move_line(self, account_move, move_template, line_id,
+    def create_account_move_line(self, account_move, move_template, line_ids,
                                  fields_already_accounted=False):
         self.ensure_one()
 
@@ -245,7 +245,7 @@ class FinancialMove(models.Model):
             else:
                 vals['account_id'] = account_debit.id
 
-            line_id.append((0, 0, vals))
+            line_ids.append((0, 0, vals))
 
             vals = {
                 'move_id': account_move.id,
@@ -294,14 +294,14 @@ class FinancialMove(models.Model):
             else:
                 vals['account_id'] = account_credit.id
 
-            line_id.append((0, 0, vals))
+            line_ids.append((0, 0, vals))
 
             fields_already_accounted.append(template_item.field)
 
         if move_template.parent_id:
             self.create_account_move_line(
                 account_move,
-                move_template.parent_id, line_id,
+                move_template.parent_id, line_ids,
                 fields_already_accounted=fields_already_accounted
             )
 
