@@ -323,7 +323,6 @@ class HrContract(models.Model):
     conta_bancaria_id = fields.Many2one(
         string="Conta bancaria",
         comodel_name='res.partner.bank',
-        required=True,
     )
 
 

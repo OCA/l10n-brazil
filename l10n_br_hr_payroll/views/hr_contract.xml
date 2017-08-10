@@ -16,9 +16,11 @@
             <field name="employee_id" position="after">
                 <field name="company_id"/>
             </field>
+<!--
             <field name="struct_id" position="after">
                 <field name="conta_bancaria_id"/>
             </field>
+-->
             <xpath expr="//page[@string='Resignation']" position="after">
                     <page string="Rubricas específicas">
                         <field name="specific_rule_ids">
