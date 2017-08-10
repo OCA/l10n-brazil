@@ -81,7 +81,7 @@ class FinancialMove(models.Model):
     # The correct name of this field is ... line_ids
     # But only in v10, than we have to migrate it.
     #
-    account_move_line_id = fields.One2many(
+    account_move_line_ids = fields.One2many(
         comodel_name='account.move.line',
         inverse_name='move_id',
         string='Partidas do lançamento contábil',
@@ -121,7 +121,7 @@ class FinancialMove(models.Model):
         account_move = self.env['account.move']
 
         for move in self:
-            if move.account_move_line_id:
+            if move.account_move_line_ids:
                 continue
 
             line_id = []
@@ -309,7 +309,7 @@ class FinancialMove(models.Model):
     def action_confirm(self):
         super(FinancialMove, self).action_confirm()
         for record in self:
-            if record.account_move_line_id:
+            if record.account_move_line_ids:
                 continue
             record._compute_account_move_template_id()
             record.create_account_move()

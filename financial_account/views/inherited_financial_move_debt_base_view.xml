@@ -36,7 +36,7 @@
                         </group>
                     </group>
                     <separator string="Partidas do lançamento contábil"/>
-                    <field name="account_move_line_id" nolabel="1"/>
+                    <field name="account_move_line_ids" nolabel="1"/>
                 </page>
             </page>
         </field>
