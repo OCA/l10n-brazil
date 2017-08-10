@@ -27,7 +27,6 @@ except (ImportError, IOError) as err:
 
 
 class SpedCalculoImpostoItem(SpedBase):
-
     _abstract = False
 
     @api.one
@@ -36,11 +35,18 @@ class SpedCalculoImpostoItem(SpedBase):
         #     self.data_emissao = self.order_id._get_date()
         self.calcula_impostos()
 
+    # documento_id = fields.Many2one(
+    #     comodel_name='sped.calculo.imposto',
+    #     string='Documento',
+    # )
+    documento_id = fields.Reference(
+        string='Documento',
+    )
     operacao_id = fields.Many2one(
         comodel_name='sped.operacao',
         string='Operação Fiscal',
-        # related='documento_id.operacao_id',
-        # readonly=True,
+        related='documento_id.operacao_id',
+        readonly=True,
     )
     regime_tributario = fields.Selection(
         selection=REGIME_TRIBUTARIO,
@@ -57,14 +63,14 @@ class SpedCalculoImpostoItem(SpedBase):
     empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
         string='Empresa',
-        # related='documento_id.empresa_id',
-        # readonly=True,
+        related='documento_id.empresa_id',
+        readonly=True,
     )
     participante_id = fields.Many2one(
         comodel_name='sped.participante',
         string='Destinatário/Remetente',
-        # related='documento_id.participante_id',
-        # readonly=True,
+        related='documento_id.participante_id',
+        readonly=True,
     )
     contribuinte = fields.Selection(
         selection=IE_DESTINATARIO,
@@ -80,8 +86,8 @@ class SpedCalculoImpostoItem(SpedBase):
     )
     data_emissao = fields.Date(
         string='Data de emissão',
-        # related='documento_id.data_emissao',
-        # readonly=True,
+        related='documento_id.data_emissao',
+        readonly=True,
         default=fields.Date.today,
     )
     entrada_saida = fields.Selection(
@@ -1803,16 +1809,6 @@ class SpedCalculoImpostoItem(SpedBase):
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
 
-        self.md_pis_proprio = MODALIDADE_BASE_PIS_ALIQUOTA
-        self.bc_pis_proprio = 0
-        self.al_pis_proprio = 0
-        self.vr_pis_proprio = 0
-
-        self.md_cofins_proprio = MODALIDADE_BASE_COFINS_ALIQUOTA
-        self.bc_cofins_proprio = 0
-        self.al_cofins_proprio = 0
-        self.vr_cofins_proprio = 0
-
         if (self.cst_pis in ST_PIS_CALCULA or
                 self.cst_pis in ST_PIS_CALCULA_CREDITO or
                 (self.cst_pis == ST_PIS_AQUIS_SEM_CREDITO and
@@ -1844,12 +1840,10 @@ class SpedCalculoImpostoItem(SpedBase):
 
             self.md_pis_proprio = md_pis_proprio
             self.bc_pis_proprio = bc_pis_proprio
-            self.al_pis_proprio = self.al_pis_proprio
             self.vr_pis_proprio = vr_pis_proprio
 
             self.md_cofins_proprio = md_cofins_proprio
             self.bc_cofins_proprio = bc_cofins_proprio
-            self.al_cofins_proprio = self.al_cofins_proprio
             self.vr_cofins_proprio = vr_cofins_proprio
 
         return res
