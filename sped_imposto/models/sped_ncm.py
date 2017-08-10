@@ -103,15 +103,20 @@ class SpedNCM(models.Model):
     def name_search(self, name='', args=None, operator='ilike', limit=100):
         if name and operator in ('=', 'ilike', '=ilike', 'like', 'ilike'):
             args = list(args or [])
+            codigo = name.replace('.', '').replace(' ', '')
             args = [
                 '|',
-                ('codigo', '=', name),
+                ('codigo', '=ilike', codigo + '%'),
                 '|',
-                ('codigo_formatado', '=', mascara(name, '  .  .  .  ')),
-                ('descricao', operator, name),
+                ('codigo_formatado', '=ilike', mascara(codigo, '  .  .  .  ') + '%'),
+                ('descricao', 'ilike', name),
             ] + args
 
+            print(args)
+
             ncm_ids = self.search(args, limit=limit)
+            print(ncm_ids)
+
             return ncm_ids.name_get()
 
         return super(SpedNCM, self).name_search(
