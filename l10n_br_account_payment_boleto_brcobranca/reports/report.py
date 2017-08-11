@@ -75,7 +75,7 @@ class ReportCustom(report_int):
             pdf_string = res.content
 #           return res.content
         else:
-           raise UserError(res.text)
+           raise UserError(res.text.encode('utf-8'))
 
 #           pdf_string = Boleto.get_pdfs(boleto_list)
         self.obj = ExternalPdf(pdf_string)
