@@ -12,7 +12,6 @@ from openerp.exceptions import Warning as UserError
 _logger = logging.getLogger(__name__)
 
 
-
 class BoletoWrapper(object):
     def __init__(self, obj, boleto_api_data):
         # wrap the object
@@ -30,25 +29,20 @@ class BoletoWrapper(object):
         return getattr(self._wrapped_obj, attr)
 
 
-dict_brcobranca = {
-    '1': 'banco_brasil',
-    '2': 'banrisul',
-    '3': 'bradesco',
-    '4': 'caixa',
-    '5': 'hsbc',
-    '6': 'itau',
-    '7': 'itau',
-#    '8': (BoletoReal, 'Real 57'),
-    '9': 'santander',
+dict_brcobranca_bank = {
+    '001': 'banco_brasil',
+    '041': 'banrisul',
+    '237': 'bradesco',
+    '104': 'caixa',
+    '399': 'hsbc',
+    '341': 'itau',
+    '033': 'santander',
     '10': 'santander',
-#    '11': (BoletoCaixaSigcb, 'Caixa Sigcb'),
-    '12': 'sicredi',
-
+    '748': 'sicredi',
     # banks implemented in brcobranca but not in Python:
-    '21': 'banco_nordeste',
-    '22': 'banestes',
-    '23': 'sicoob',
-    '24': 'unicred',
+    '004': 'banco_nordeste',
+    '021': 'banestes',
+    '756': 'sicoob',
 }
 
 
