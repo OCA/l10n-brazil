@@ -1090,15 +1090,45 @@ class SpedCalculoImpostoItem(SpedBase):
                     raise ValidationError(_(mensagem_erro))
 
         #
-        # Determinamos agora qual linha da operação será seguida
+        # Determinamos agora qual linha da operação será seguida.
+        # Os critérios de busca vão variando entre o mais específico e o mais
+        # genérico; esta variação está configurada mais abaixo, quais campos
+        # devem ser pesquisados como False, e em qual ordem
         #
         busca_item = [
             ('operacao_id', '=', self.operacao_id.id),
             ('tipo_protocolo', '=', protocolo.tipo),
-            ('protocolo_id', '=', protocolo.id),
             ('cfop_id.posicao', '=', posicao_cfop),
+            #
+            # Os tres campos abaixo variam na pesquisa
+            #
             ('contribuinte', '=', self.participante_id.contribuinte),
+            ('protocolo_id', '=', protocolo.id),
+            ('tipo_produto_servico', '=', self.produto_id.tipo),
         ]
+
+        varia_busca_item_1 = {
+            'contribuinte': self.participante_id.contribuinte,
+            'protocolo_id': protocolo.id,
+            'tipo_produto_servico': self.produto_id.tipo,
+        }
+        varia_busca_item_2 = {
+            'contribuinte': False,
+        }
+        varia_busca_item_3 = {
+            'contribuinte': self.participante_id.contribuinte,
+            'protocolo_id': False,
+        }
+        varia_busca_item_4 = {
+            'protocolo_id': False,
+            'contribuinte': False,
+        }
+
+        # varia_busca_item = [
+        # ]
+        #
+        #
+        # for busca in varia_busca_item
 
         operacao_item_ids = self.operacao_id.item_ids.search(busca_item)
 
@@ -1110,9 +1140,10 @@ class SpedCalculoImpostoItem(SpedBase):
             busca_item = [
                 ('operacao_id', '=', self.operacao_id.id),
                 ('tipo_protocolo', '=', protocolo.tipo),
-                ('protocolo_id', '=', protocolo.id),
                 ('cfop_id.posicao', '=', posicao_cfop),
+                ('protocolo_id', '=', protocolo.id),
                 ('contribuinte', '=', False),
+                ('tipo_produto_servico', '=', self.produto_id.tipo),
             ]
 
             operacao_item_ids = self.operacao_id.item_ids.search(busca_item)
@@ -1126,9 +1157,10 @@ class SpedCalculoImpostoItem(SpedBase):
             busca_item = [
                 ('operacao_id', '=', self.operacao_id.id),
                 ('tipo_protocolo', '=', protocolo.tipo),
-                ('protocolo_id', '=', False),
                 ('cfop_id.posicao', '=', posicao_cfop),
+                ('protocolo_id', '=', False),
                 ('contribuinte', '=', self.participante_id.contribuinte),
+                ('tipo_produto_servico', '=', self.produto_id.tipo),
             ]
 
             operacao_item_ids = self.operacao_id.item_ids.search(busca_item)
@@ -1144,6 +1176,7 @@ class SpedCalculoImpostoItem(SpedBase):
                 ('protocolo_id', '=', False),
                 ('cfop_id.posicao', '=', posicao_cfop),
                 ('contribuinte', '=', False),
+                ('tipo_produto_servico', '=', self.produto_id.tipo),
             ]
 
             operacao_item_ids = self.operacao_id.item_ids.search(busca_item)
