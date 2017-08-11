@@ -6,7 +6,7 @@
 import logging
 from datetime import date
 
-from openerp import models, api
+from openerp import models, api, _
 from openerp.exceptions import Warning as UserError
 
 _logger = logging.getLogger(__name__)
@@ -40,9 +40,9 @@ dict_brcobranca_bank = {
     '10': 'santander',
     '748': 'sicredi',
     # banks implemented in brcobranca but not in Python:
-    '004': 'banco_nordeste',
-    '021': 'banestes',
-    '756': 'sicoob',
+    # '004': 'banco_nordeste',
+    # '021': 'banestes',
+    # '756': 'sicoob',
 }
 
 
@@ -55,20 +55,29 @@ class AccountMoveLine(models.Model):
 
     @api.multi
     def send_payment(self):
-        boleto_list = super(AccountMoveLine, self).send_payment()
         wrapped_boleto_list = []
-        for boleto in boleto_list:
-            boleto_api_data = {
-                  'bank': 'itau', #TODO use dict_brcobranca instead
-                  'valor': boleto.valor,
-                  'cedente': boleto.cedente,
-                  'documento_cedente': boleto.cedente_documento,
-                  'sacado': boleto.sacado_nome,
-                  'sacado_documento': boleto.sacado_documento,
-                  'agencia': boleto.agencia_cedente,
-                  'conta_corrente': boleto.conta_cedente,
-                  'convenio': boleto.convenio,
-                  'numero_documento': boleto.numero_documento
-            }
-            wrapped_boleto_list.append(BoletoWrapper(boleto, boleto_api_data))
+        for move_line in self:
+            if move_line.payment_mode_id.bank_id.bank.bic in \
+                    dict_brcobranca_bank:
+                bank_name_brcobranca = dict_brcobranca_bank[
+                               move_line.payment_mode_id.bank_id.bank.bic],
+            else:
+                raise UserError(
+                    _('The Bank %s is not implemented in BRCobranca.') %
+                    move_line.payment_mode_id.bank_id.bank.name)
+            boleto_list = super(AccountMoveLine, move_line).send_payment()
+            for boleto in boleto_list:
+                boleto_api_data = {
+                      'bank': bank_name_brcobranca[0],
+                      'valor': boleto.valor,
+                      'cedente': boleto.cedente,
+                      'documento_cedente': boleto.cedente_documento,
+                      'sacado': boleto.sacado_nome,
+                      'sacado_documento': boleto.sacado_documento,
+                      'agencia': boleto.agencia_cedente,
+                      'conta_corrente': boleto.conta_cedente,
+                      'convenio': boleto.convenio,
+                      'numero_documento': boleto.numero_documento
+                }
+                wrapped_boleto_list.append(BoletoWrapper(boleto, boleto_api_data))
         return wrapped_boleto_list
