@@ -126,6 +126,15 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
         compute='_compute_permite_alteracao',
     )
 
+    tipo_produto_servico = fields.Selection(
+        selection=[
+            ('p', 'Produto'),
+            ('s', 'Servico'),
+        ],
+        string='Produto ou servico',
+        help='Indica se a operação é com produto ou com serviço.'
+    )
+
     @api.onchange('produto_id')
     def _onchange_produto_id(self):
         for item in self:
