@@ -113,6 +113,7 @@
                                         <newline/>
                                         <field name="vr_frete" colspan="2"
                                                string="Frete"/>
+                                        <field name="tipo_produto_servico" />
                                         <newline/>
                                         <field name="vr_seguro" colspan="2"
                                                string="Seguro"/>
