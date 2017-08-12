@@ -37,7 +37,7 @@ class SpedCalculoImposto(SpedBase):
 
         - Escolha o modelo de negócios que você deseja tornar faturável para o
         Brasil;
-        - Crie um módulo com o padrõa l10n_MODELO ou sped_MODELO
+        - Crie um módulo com o padrão l10n_MODELO ou sped_MODELO
         - Herde a classe que será no futuro o cabeçalho do documento fiscal
          da seguinte forma:
 
