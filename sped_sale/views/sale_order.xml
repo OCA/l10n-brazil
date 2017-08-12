@@ -5,33 +5,136 @@
 <odoo>
     <data>
 
-        <record model="ir.ui.view" id="sale_order_form_view">
+        <!--<record model="ir.ui.view" id="sale_order_form_view">-->
+            <!--<field name="name">sale.order.form (in sped_sale)</field>-->
+            <!--<field name="model">sale.order</field>-->
+            <!--<field name="inherit_id" ref="sale.view_order_form"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<field name="partner_id" position="attributes">-->
+                    <!--<attribute name="attrs">{'invisible': [('is_brazilian',-->
+                        <!--'=', True)]}-->
+                    <!--</attribute>-->
+                <!--</field>-->
+                <!--<field name="partner_id" position="after">-->
+                    <!--<field name="participante_id" string="Customer"-->
+                           <!--domain="[('eh_cliente', '=', True)]"-->
+                           <!--options="{'no_quick_create': True}"-->
+                           <!--attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>-->
+                <!--</field>-->
+
+                <!--<xpath expr="//group/field[@name='company_id']"-->
+                       <!--position="after">-->
+                    <!--<field name="is_brazilian"-->
+                           <!--groups="l10n_br_base.GRUPO_SUPORTE"/>-->
+                    <!--<field name="empresa_id" string="Razão Social"-->
+                           <!--attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>-->
+                <!--</xpath>-->
+                <!--<field name="fiscal_position_id" position="attributes">-->
+                    <!--<attribute name="attrs">{'invisible': [('is_brazilian',-->
+                        <!--'=', True)]}-->
+                    <!--</attribute>-->
+                <!--</field>-->
+                <!--<field name="fiscal_position_id" position="after">-->
+                    <!--<field name="sped_operacao_produto_id"-->
+                           <!--domain="[('emissao', '=', '0')]"-->
+                           <!--attrs="{'required': [('sped_operacao_servico_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>-->
+                    <!--<field name="sped_operacao_servico_id"-->
+                           <!--domain="[('emissao', '=', '0')]"-->
+                           <!--attrs="{'required': [('sped_operacao_produto_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>-->
+                <!--</field>-->
+                <!--<field name="currency_id" position="attributes">-->
+                    <!--<attribute name="domain">[('is_currency', '=', True)]-->
+                    <!--</attribute>-->
+                <!--</field>-->
+                <!--<xpath expr="//field[@name='order_line']"-->
+                       <!--position="attributes">-->
+                    <!--<attribute name="attrs">{'invisible': [('is_brazilian',-->
+                        <!--'=', True)]}-->
+                    <!--</attribute>-->
+                <!--</xpath>-->
+                <!--<xpath expr="//field[@name='order_line']" position="after">-->
+                    <!--<field name="order_line" nolabel="1"-->
+                           <!--attrs="{'readonly': [('state', 'in', ('done','cancel'))], 'invisible': [('is_brazilian', '!=', True)]}"-->
+                           <!--context="{-->
+						<!--'tree_view_ref': 'sped_sale.sale_order_line_brazil_tree',-->
+						<!--'form_view_ref': 'sped_sale.sale_order_line_brazil_form'}"-->
+                    <!--/>-->
+                <!--</xpath>-->
+                <!--<field name="amount_untaxed" position="after">-->
+                    <!--<field name="vr_produtos"/>-->
+                    <!--<field name="vr_simples"/>-->
+                    <!--<field name="vr_frete"/>-->
+                    <!--<field name="vr_seguro"/>-->
+                    <!--<field name="vr_outras"/>-->
+                <!--</field>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <!---->
+
+        <record model="ir.ui.view" id="sales_to_invoice_order_form_view">
             <field name="name">sale.order.form (in sped_sale)</field>
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="mode">primary</field>
             <field name="arch" type="xml">
-                <field name="partner_id" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_brazilian',
-                        '=', True)]}
-                    </attribute>
-                </field>
-                <field name="partner_id" position="after">
-                    <field name="participante_id" string="Customer"
-                           domain="[('eh_cliente', '=', True)]"
-                           options="{'no_quick_create': True}"
-                           attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
-                </field>
-                <xpath expr="//group/field[@name='company_id']"
-                       position="after">
+
+                <xpath expr="//sheet/group" position="replace">
+                    <group col="6">
+                        <group colspan="2">
+                            <field name="is_brazilian" invisible="1"/>
+                            <field name="partner_id" invisible="1"/>
+                            <field name="participante_id" string="Customer"
+                                   domain="[('eh_cliente', '=', True)]"
+                                   options='{"always_reload": True}'
+                                   attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
+                            <field name="partner_shipping_id"/>
+                            <field name="date_order"
+                                   attrs="{'invisible': [('state', 'in', ['sale', 'done', 'cancel'])]}"/>
+                            <field name="pricelist_id"
+                                   groups="product.group_sale_pricelist"/>
+                        </group>
+                        <group name="servicos" colspan="2" attrs="{'invisible': [('sped_operacao_servico_id', '=', False)]}" >
+                            <separator string="Total (Serviços)"/>
+                            <newline/>
+                            <field name="vr_produtos"/>
+                            <field name="vr_iss"/>
+                            <field name="vr_inss_retido"/>
+                            <!--<field name="pis_cofins_retido"/>-->
+                        </group>
+                        <group name="produtos" colspan="2"  attrs="{'invisible': [('sped_operacao_produto_id', '=', False)]}" >
+                            <separator string="Total (Produtos)"/>
+                            <newline/>
+                            <field name="vr_produtos"/>
+                            <field name="vr_frete"/>
+                            <field name="vr_seguro"/>
+                            <field name="vr_simples"/>
+                            <field name="vr_outras"/>
+                        </group>
+                    </group>
+                </xpath>
+
+                <xpath expr="//notebook/page[2]" position="before">
+                    <page string="Produtos" name="product_page"  attrs="{'invisible': [('sped_operacao_produto_id', '=', False)]}" >
+                        <field name="sale_order_line_produto_ids"/>
+                        <!--# TODO: Criar visoes especificas para produto-->
+                    </page>
+                    <page string="Servicos" name="services_page"  attrs="{'invisible': [('sped_operacao_servico_id', '=', False)]}" >
+                        <!--# TODO: Criar visoes especificas para Serviço-->
+                        <field name="sale_order_line_servico_ids"/>
+                    </page>
+                </xpath>
+
+                <xpath expr="//group/field[@name='company_id']" position="after">
                     <field name="is_brazilian" groups="l10n_br_base.GRUPO_SUPORTE"/>
                     <field name="empresa_id" string="Razão Social"
                            attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
                 </xpath>
+
                 <field name="fiscal_position_id" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_brazilian',
-                        '=', True)]}
-                    </attribute>
+                    <attribute name="attrs">{'invisible': [('is_brazilian','=', True)]}</attribute>
                 </field>
+
                 <field name="fiscal_position_id" position="after">
                     <field name="sped_operacao_produto_id"
                            domain="[('emissao', '=', '0')]"
@@ -40,62 +143,55 @@
                            domain="[('emissao', '=', '0')]"
                            attrs="{'required': [('sped_operacao_produto_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
                 </field>
+
                 <field name="currency_id" position="attributes">
-                    <attribute name="domain">[('is_currency', '=', True)]
-                    </attribute>
+                    <attribute name="domain">[('is_currency', '=', True)]</attribute>
                 </field>
-                <xpath expr="//field[@name='order_line']"
-                       position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_brazilian',
-                        '=', True)]}
-                    </attribute>
+
+                <xpath expr="//field[@name='order_line']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_brazilian','=', True)]}</attribute>
                 </xpath>
+
                 <xpath expr="//field[@name='order_line']" position="after">
                     <field name="order_line" nolabel="1"
-                            attrs="{'readonly': [('state', 'in', ('done','cancel'))], 'invisible': [('is_brazilian', '!=', True)]}"
-                            context="{
-						'tree_view_ref': 'sped_sale.sale_order_line_brazil_tree',
-						'form_view_ref': 'sped_sale.sale_order_line_brazil_form'}"
-                    />
+                           attrs="{'readonly': [('state', 'in', ('done','cancel'))], 'invisible': [('is_brazilian', '!=', True)]}"
+                           context="{'tree_view_ref': 'sped_sale.sale_order_line_brazil_tree', 'form_view_ref': 'sped_sale.sale_order_line_brazil_form'}"/>
                 </xpath>
-                <field name="amount_untaxed" position="after">
-                    <field name="vr_produtos" />
-                    <field name="vr_simples" />
-                    <field name="vr_frete" />
-                    <field name="vr_seguro" />
-                    <field name="vr_outras" />
-                </field>
+
             </field>
         </record>
 
-        <!--<record model="ir.ui.view" id="sale_order_search_view">-->
-        <!--<field name="name">sale.order.search (in sped_sale)</field>-->
-        <!--<field name="model">sale.order</field>-->
-        <!--<field name="inherit_id" ref="TODO othermodule.search_view"/>-->
-        <!--<field name="arch" type="xml">-->
-        <!--&lt;!&ndash; TODO &ndash;&gt;-->
-        <!--</field>-->
-        <!--</record>-->
 
-        <!--<record model="ir.ui.view" id="sale_order_tree_view">-->
-        <!--<field name="name">sale.order.tree (in sped_sale)</field>-->
-        <!--<field name="model">sale.order</field>-->
-        <!--<field name="inherit_id" ref="sale.view_order_tree"/>-->
-        <!--<field name="arch" type="xml">-->
-        <!---->
-        <!--</field>-->
-        <!--</record>-->
+        <record model="ir.actions.act_window"
+                id="action_l10n_br_sale_order_invoice">
+            <field name="name">Venda para Faturar BR</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree,form</field>
+            <!--<field name="domain">[('invoice_status','=','to invoice')]</field>-->
+        </record>
 
+        <record model="ir.ui.menu" id="menu_l10n_br_sale_order_invoice">
+            <field name="name">Venda para Faturar BR</field>
+            <field name="parent_id" ref="sale.menu_sale_invoicing"/>
+            <field name="action" ref="action_l10n_br_sale_order_invoice"/>
+            <field name="sequence" eval="3"/>
+        </record>
 
-        <!--<record model="ir.ui.view" id="sale_order_tree_view">-->
-        <!--<field name="name">sale.order.tree (in sped_sale)</field>-->
-        <!--<field name="model">sale.order</field>-->
-        <!--<field name="inherit_id" ref="sale.view_quotation_tree"/>-->
-        <!--<field name="arch" type="xml">-->
+        <record model="ir.actions.act_window.view"
+                id="l10n_br_sale_order_form_action">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sales_to_invoice_order_form_view"/>
+            <field name="act_window_id"
+                   ref="action_l10n_br_sale_order_invoice"/>
+        </record>
 
-        <!--</field>-->
-        <!--</record>-->
-
+        <record model="ir.actions.act_window.view" id="l10n_br_sale_order_tree_action">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="sale.view_order_tree"/>
+            <field name="act_window_id" ref="action_l10n_br_sale_order_invoice"/>
+        </record>
 
     </data>
 </odoo>
