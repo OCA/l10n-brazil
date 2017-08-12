@@ -46,6 +46,22 @@ class SaleOrder(SpedCalculoImposto, models.Model):
         domain=[('modelo', 'in', MODELO_FISCAL_EMISSAO_SERVICO)],
     )
 
+    sale_order_line_produto_ids = fields.One2many(
+        comodel_name='sale.order.line',
+        inverse_name='order_id',
+        string='Produto',
+        copy=True,
+        domain=[('tipo_produto_servico','=','p')],
+    )
+
+    sale_order_line_servico_ids = fields.One2many(
+        comodel_name='sale.order.line',
+        inverse_name='order_id',
+        string='Serviços',
+        copy=True,
+        domain=[('tipo_produto_servico','=','s')],
+    )
+
     @api.depends(
         'order_line.price_total',
         #
