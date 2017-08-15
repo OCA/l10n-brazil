@@ -31,16 +31,19 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
         string=u'Is a Brazilian Invoice?',
         related='order_id.is_brazilian',
     )
-    empresa_id = fields.Many2one(
-        comodel_name='sped.empresa',
-        string='Empresa',
-        related='order_id.sped_empresa_id',
-        readonly=True,
-    )
-    participante_id = fields.Many2one(
-        comodel_name='sped.participante',
-        string='Destinatário/Remetente',
-        related='order_id.sped_participante_id',
+    #
+    # O campo documento_id serve para que a classe SpedCalculoImpostoItem
+    # saiba qual o cabeçalho do documento (venda, compra, NF etc.)
+    # tem as definições da empresa, participante, data de emissão etc.
+    # necessárias aos cálculos dos impostos;
+    # Uma vez definido o documento, a operação pode variar entre produto e
+    # serviço, por isso o compute no campo; a data de emissão também vem
+    # trazida do campo correspondente no model que estamos tratando no momento
+    #
+    documento_id = fields.Many2one(
+        comodel_name='sale.order',
+        string='Pedido de venda',
+        related='order_id',
         readonly=True,
     )
     operacao_id = fields.Many2one(
@@ -51,7 +54,7 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
     )
     data_emissao = fields.Datetime(
         string='Data de emissão',
-        related='order_id.date_order',
+        related='documento_id.date_order',
         readonly=True,
     )
 
@@ -160,6 +163,8 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
             item.name = item.produto_id.nome
             item.produto_descricao = item.produto_id.nome
             item.product_id = item.produto_id.product_id
+
+        super(SaleOrderLine, self)._onchange_produto_id()
 
     @api.onchange('price_unit', 'product_uom_qty', 'purchase_price')
     def _onchange_price_unit_product_uom_qty(self):

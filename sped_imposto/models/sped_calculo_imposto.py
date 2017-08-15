@@ -7,8 +7,6 @@ from __future__ import division, print_function, unicode_literals
 import logging
 
 from odoo import api, fields, models, _
-import odoo.addons.decimal_precision as dp
-from odoo.exceptions import ValidationError
 from openerp.addons.l10n_br_base.tools.misc import calc_price_ratio
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODELO_FISCAL_EMISSAO_PRODUTO,
@@ -18,6 +16,14 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
 from openerp.addons.l10n_br_base.models.sped_base import (
     SpedBase
 )
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from pybrasil.valor.decimal import Decimal as D
+
+except (ImportError, IOError) as err:
+    _logger.debug(err)
 
 
 class SpedCalculoImposto(SpedBase):
@@ -57,9 +63,9 @@ class SpedCalculoImposto(SpedBase):
         def _prepare_invoice(self):
             vals = super(SaleOrder, self)._prepare_invoice()
 
-            vals['sped_empresa_id'] = self.sped_empresa_id.id or False
-            vals['sped_participante_id'] = \
-                self.sped_participante_id.id or False
+            vals['empresa_id'] = self.empresa_id.id or False
+            vals['participante_id'] = \
+                self.participante_id.id or False
             vals['sped_operacao_produto_id'] = \
                 self.sped_operacao_produto_id.id or False
             vals['sped_operacao_servico_id'] = \
@@ -76,145 +82,21 @@ class SpedCalculoImposto(SpedBase):
                 return super(SaleOrder, self)._amount_all()
             return self._amount_all_brazil()
     """
-
     _abstract = False
-
-    # TODO: Remover esta funçã;
-    # Estamos validando a data dentro do calula impostos
-    def _get_date(self):
-        """
-        Return the document date
-        Used in get_info
-
-        Override this method in your document like this:
-
-        @api.multi
-        def _get_date(self):
-            date = super(MyClass, self)._get_date()
-
-            # Your logic
-            if self.your_date_field ... :
-                return self.your_date_field
-            return date
-
-        NOTE: If the date of the tax camputation is important to you,
-        don't forget to send this date to the invoice!
-        """
-        return fields.Date.context_today(self)
-
-    def _amount_all_brazil(self):
-        """ Tratamos os impostos brasileiros """
-        #
-        # amount_untaxed é equivalente ao valor dos produtos
-        #
-        self.amount_untaxed = \
-            sum(item.vr_produtos for item in self.order_line)
-        #
-        # amount_tax são os imposto que são somados no valor total da NF;
-        # no nosso caso, não só impostos, mas todos os valores que entram
-        # no total da NF: outras despesas acessórias, frete etc.
-        # E, como o amount_total é o valor DA FATURA, não da NF, somamos este
-        # primeiro, e listamos o valor dos impostos considerando valores
-        # acessórios, e potencias retenções de imposto que estejam
-        # reduzindo o valor
-        #
-        self.amount_total = \
-            sum(item.vr_fatura for item in self.order_line)
-
-        self.amount_tax = self.amount_total - self.amount_untaxed
-
-
 
     @api.model
     def _default_company_id(self):
         return self.env['res.company']._company_default_get(self._name)
 
-    @api.depends('company_id', 'partner_id')
-    def _compute_is_brazilian(self):
-        for record in self:
-            if record.company_id.country_id:
-                if record.company_id.country_id.id == \
-                        self.env.ref('base.br').id:
-                    record.is_brazilian = True
-
-                    if record.partner_id.sped_participante_id:
-                        record.sped_participante_id = \
-                            record.partner_id.sped_participante_id
-
-                    if record.sped_empresa_id:
-                        if (record.sped_participante_id.tipo_pessoa ==
-                                TIPO_PESSOA_FISICA):
-                            record.sped_operacao_produto_id = \
-                                record.sped_empresa_id.\
-                                operacao_produto_pessoa_fisica_id
-                        else:
-                            record.sped_operacao_produto_id = \
-                                record.sped_empresa_id.operacao_produto_id
-                        record.sped_operacao_servico_id = \
-                            record.sped_empresa_id.operacao_servico_id
-                    continue
-            record.is_brazilian = False
-
-    @api.one
-    def _get_costs_value(self):
-        """ Read the l10n_br specific functional fields. """
-        freight = costs = insurance = 0.0
-        for line in self.order_line:
-            freight += line.vr_frete
-            insurance += line.vr_seguro
-            costs += line.vr_outras
-        self.vr_frete = freight
-        self.vr_outras = costs
-        self.vr_seguro = insurance
-
-    @api.one
-    def _set_amount_freight(self):
-        for line in self.order_line:
-            if not self.vr_frete:
-                break
-            line.write({
-                'vr_frete': calc_price_ratio(
-                    line.vr_nf,
-                    self.vr_frete,
-                    line.order_id.amount_untaxed),
-            })
-        return True
-
-    @api.one
-    def _set_amount_insurance(self):
-        for line in self.order_line:
-            if not self.vr_seguro:
-                break
-            line.write({
-                'vr_seguro': calc_price_ratio(
-                    line.vr_nf,
-                    self.vr_seguro,
-                    line.order_id.amount_untaxed),
-            })
-        return True
-
-    @api.one
-    def _set_amount_costs(self):
-        for line in self.order_line:
-            if not self.vr_outras:
-                break
-            line.write({
-                'vr_outras': calc_price_ratio(
-                    line.vr_nf,
-                    self.vr_outras,
-                    line.order_id.amount_untaxed),
-            })
-        return True
-
     is_brazilian = fields.Boolean(
-        string=u'Is a Brazilian?',
+        string='Is a Brazilian?',
         compute='_compute_is_brazilian',
     )
     company_id = fields.Many2one(
         comodel_name='res.company',
         default=_default_company_id,
     )
-    sped_empresa_id = fields.Many2one(
+    empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
         related='company_id.sped_empresa_id',
         string='Empresa',
@@ -223,45 +105,346 @@ class SpedCalculoImposto(SpedBase):
     partner_id = fields.Many2one(
         comodel_name='res.partner',
     )
-    sped_participante_id = fields.Many2one(
+    participante_id = fields.Many2one(
         comodel_name='sped.participante',
-        string=u'Destinatário/Remetente'
+        string='Destinatário/Remetente'
     )
-    sped_operacao_produto_id = fields.Many2one(
+    operacao_id = fields.Many2one(
         comodel_name='sped.operacao',
-        string=u'Operação Fiscal (produtos)',
-        domain=[('modelo', 'in', MODELO_FISCAL_EMISSAO_PRODUTO)],
-    )
-    sped_operacao_servico_id = fields.Many2one(
-        comodel_name='sped.operacao',
-        string=u'Operação Fiscal (serviços)',
-        domain=[('modelo', 'in', MODELO_FISCAL_EMISSAO_SERVICO)],
+        string='Operação Fiscal',
     )
     condicao_pagamento_id = fields.Many2one(
         comodel_name='account.payment.term',
         string='Condição de pagamento',
         domain=[('forma_pagamento', '!=', False)],
     )
-    vr_frete = fields.Float(
-        compute=_get_costs_value, inverse=_set_amount_freight,
-        string='Frete', default=0.00, digits=dp.get_precision('Account'),
-        readonly=True, states={'draft': [('readonly', False)]})
-    vr_outras = fields.Float(
-        compute=_get_costs_value, inverse=_set_amount_costs,
-        string='Outros Custos', default=0.00,
-        digits=dp.get_precision('Account'),
-        readonly=True, states={'draft': [('readonly', False)]})
-    vr_seguro = fields.Float(
-        compute=_get_costs_value, inverse=_set_amount_insurance,
-        string='Seguro', default=0.00, digits=dp.get_precision('Account'),
-        readonly=True, states={'draft': [('readonly', False)]})
+
+    #
+    # Totais dos itens
+    #
+    vr_produtos = fields.Monetary(
+        string='Valor dos produtos/serviços',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_produtos_tributacao = fields.Monetary(
+        string='Valor dos produtos para tributação',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_frete = fields.Monetary(
+        string='Valor do frete',
+        compute='_compute_soma_itens',
+        store=True,
+        inverse='_inverse_rateio_vr_frete',
+    )
+    vr_seguro = fields.Monetary(
+        string='Valor do seguro',
+        compute='_compute_soma_itens',
+        store=True,
+        inverse='_inverse_rateio_vr_seguro',
+    )
+    vr_desconto = fields.Monetary(
+        string='Valor do desconto',
+        compute='_compute_soma_itens',
+        store=True,
+        inverse='_inverse_rateio_vr_desconto',
+    )
+    vr_outras = fields.Monetary(
+        string='Outras despesas acessórias',
+        compute='_compute_soma_itens',
+        store=True,
+        inverse='_inverse_rateio_vr_outras',
+    )
+    vr_operacao = fields.Monetary(
+        string='Valor da operação',
+        compute='_compute_soma_itens',
+        store=True
+    )
+    vr_operacao_tributacao = fields.Monetary(
+        string='Valor da operação para tributação',
+        compute='_compute_soma_itens',
+        store=True
+    )
+    # ICMS próprio
+    bc_icms_proprio = fields.Monetary(
+        string='Base do ICMS próprio',
+        compute='_compute_soma_itens',
+        store=True
+    )
+    vr_icms_proprio = fields.Monetary(
+        string='Valor do ICMS próprio',
+        compute='_compute_soma_itens',
+        store=True
+    )
+    # ICMS SIMPLES
+    vr_icms_sn = fields.Monetary(
+        string='Valor do crédito de ICMS - SIMPLES Nacional',
+        compute='_compute_soma_itens',
+        store=True
+    )
+    vr_simples = fields.Monetary(
+        string='Valor do SIMPLES Nacional',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    # ICMS ST
+    bc_icms_st = fields.Monetary(
+        string='Base do ICMS ST',
+        compute='_compute_soma_itens',
+        store=True
+    )
+    vr_icms_st = fields.Monetary(
+        string='Valor do ICMS ST',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    # ICMS ST retido
+    bc_icms_st_retido = fields.Monetary(
+        string='Base do ICMS retido anteriormente por '
+               'substituição tributária',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_icms_st_retido = fields.Monetary(
+        string='Valor do ICMS retido anteriormente por '
+               'substituição tributária',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    # IPI
+    bc_ipi = fields.Monetary(
+        string='Base do IPI',
+        compute='_compute_soma_itens',
+        store=True
+    )
+    vr_ipi = fields.Monetary(
+        string='Valor do IPI',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    # Imposto de importação
+    bc_ii = fields.Monetary(
+        string='Base do imposto de importação',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_despesas_aduaneiras = fields.Monetary(
+        string='Despesas aduaneiras',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_ii = fields.Monetary(
+        string='Valor do imposto de importação',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_iof = fields.Monetary(
+        string='Valor do IOF',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    # PIS e COFINS
+    bc_pis_proprio = fields.Monetary(
+        string='Base do PIS próprio',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_pis_proprio = fields.Monetary(
+        string='Valor do PIS próprio',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    bc_cofins_proprio = fields.Monetary(
+        string='Base da COFINS própria',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_cofins_proprio = fields.Monetary(
+        string='Valor do COFINS própria',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    # bc_pis_st = fields.Monetary(
+    # 'Base do PIS ST', compute='_compute_soma_itens', store=True)
+    # vr_pis_st = fields.Monetary(
+    # 'Valor do PIS ST', compute='_compute_soma_itens', store=True)
+    # bc_cofins_st = fields.Monetary(
+    # 'Base da COFINS ST', compute='_compute_soma_itens', store=True)
+    # vr_cofins_st = fields.Monetary(
+    # 'Valor do COFINS ST', compute='_compute_soma_itens', store=True)
+    #
+    # Totais dos itens (grupo ISS)
+    #
+    # ISS
+    bc_iss = fields.Monetary(
+        string='Base do ISS',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_iss = fields.Monetary(
+        string='Valor do ISS',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    # Total da NF e da fatura (podem ser diferentes no caso de operação
+    # triangular)
+    vr_nf = fields.Monetary(
+        string='Valor da NF',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_fatura = fields.Monetary(
+        string='Valor da fatura',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_ibpt = fields.Monetary(
+        string='Valor IBPT',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    bc_inss_retido = fields.Monetary(
+        string='Base do INSS',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_inss_retido = fields.Monetary(
+        string='Valor do INSS',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_custo_comercial = fields.Monetary(
+        string='Custo comercial',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_difal = fields.Monetary(
+        string='Valor do diferencial de alíquota ICMS próprio',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_icms_estado_origem = fields.Monetary(
+        string='Valor do ICMS para o estado origem',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_icms_estado_destino = fields.Monetary(
+        string='Valor do ICMS para o estado destino',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_fcp = fields.Monetary(
+        string='Valor do fundo de combate à pobreza',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+
+    # item_ids = fields.One2many(
+    #     comodel_name='sped.calculo.imposto.item',
+    #     inverse_name='documento_id',
+    #     string='Itens',
+    #     copy=True,
+    # )
+
+    @api.depends('company_id', 'partner_id')
+    def _compute_is_brazilian(self):
+        for documento in self:
+            if documento.company_id.country_id:
+                if documento.company_id.country_id.id == \
+                        self.env.ref('base.br').id:
+                    documento.is_brazilian = True
+
+                    if documento.partner_id.sped_participante_id:
+                        documento.participante_id = \
+                            documento.partner_id.sped_participante_id
+
+                    if documento.empresa_id:
+                        if 'sped_operacao_produto_id' in documento._fields:
+                            if (documento.participante_id.tipo_pessoa ==
+                                    TIPO_PESSOA_FISICA):
+                                documento.sped_operacao_produto_id = \
+                                    documento.empresa_id.\
+                                    operacao_produto_pessoa_fisica_id
+                            else:
+                                documento.sped_operacao_produto_id = \
+                                    documento.empresa_id.operacao_produto_id
+
+                        if 'sped_operacao_servico_id' in documento._fields:
+                            documento.sped_operacao_servico_id = \
+                                documento.empresa_id.operacao_servico_id
+                    continue
+            documento.is_brazilian = False
+
+    @api.depends('item_ids.vr_nf', 'item_ids.vr_fatura')
+    def _compute_soma_itens(self):
+        CAMPOS_SOMA_ITENS = [
+            'vr_produtos', 'vr_produtos_tributacao',
+            'vr_frete', 'vr_seguro', 'vr_desconto', 'vr_outras',
+            'vr_operacao', 'vr_operacao_tributacao',
+            'bc_icms_proprio', 'vr_icms_proprio',
+            'vr_difal', 'vr_icms_estado_origem', 'vr_icms_estado_destino',
+            'vr_fcp',
+            'vr_icms_sn', 'vr_simples',
+            'bc_icms_st', 'vr_icms_st',
+            'bc_icms_st_retido', 'vr_icms_st_retido',
+            'bc_ipi', 'vr_ipi',
+            'bc_ii', 'vr_ii', 'vr_despesas_aduaneiras', 'vr_iof',
+            'bc_pis_proprio', 'vr_pis_proprio',
+            'bc_cofins_proprio', 'vr_cofins_proprio',
+            'bc_iss', 'vr_iss',
+            'vr_nf', 'vr_fatura',
+            'vr_ibpt',
+            'vr_custo_comercial'
+        ]
+
+        for documento in self:
+            dados = {}
+            for campo in CAMPOS_SOMA_ITENS:
+                dados[campo] = D(0)
+
+            for item in documento.item_ids:
+                for campo in CAMPOS_SOMA_ITENS:
+                    dados[campo] += getattr(item, campo, D(0))
+
+            documento.update(dados)
+
+    def _inverse_rateio_campo_total(self, campo):
+        self.ensure_one()
+
+        if not getattr(self, campo, False):
+            return
+
+        for item in self.item_ids:
+            item.write({
+                'vr_frete': calc_price_ratio(
+                    item.vr_nf,
+                    getattr(item, campo, 0),
+                    item.documento_id.vr_nf),
+            })
+
+    def _inverse_rateio_vr_frete(self):
+        self.ensure_one()
+        self._inverse_rateio_campo_total('vr_frete')
+
+    def _inverse_rateio_vr_seguro(self):
+        self.ensure_one()
+        self._inverse_rateio_campo_total('vr_seguro')
+
+    def _inverse_rateio_vr_outras(self):
+        self.ensure_one()
+        self._inverse_rateio_campo_total('vr_outras')
+
+    def _inverse_rateio_vr_desconto(self):
+        self.ensure_one()
+        self._inverse_rateio_campo_total('vr_desconto')
 
     @api.onchange('condicao_pagamento_id')
     def _onchange_condicao_pagamento_id(self):
         self.ensure_one()
         self.payment_term_id = self.condicao_pagamento_id
 
-    @api.onchange('sped_participante_id')
-    def _onchange_sped_participante_id(self):
+    @api.onchange('participante_id')
+    def _onchange_participante_id(self):
         self.ensure_one()
-        self.partner_id = self.sped_participante_id.partner_id
+        self.partner_id = self.participante_id.partner_id
