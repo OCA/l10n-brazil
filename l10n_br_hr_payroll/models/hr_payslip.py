@@ -1083,13 +1083,20 @@ class HrPayslip(models.Model):
             )
             payslip_simulacao = self.env['hr.payslip'].search(domain)
         if len(payslip_simulacao) > 1:
-            raise exceptions.Warning(
-                _(
-                    'Existem duas simulações '
-                    'para %s neste período' % tipo_simulacao
-                )
-            )
-        elif len(payslip_simulacao) == 0:
+            #
+            # Excluir as simulações existentes para forçar uma nova
+            #
+            for payslip in payslip_simulacao:
+                payslip.unlink()
+            #raise exceptions.Warning(
+            #    _(
+            #        'Existem duas simulações '
+            #        'para %s neste período' % tipo_simulacao
+            #    )
+            #)
+            payslip_simulacao = self.env['hr.payslip'].search(domain)
+
+        if len(payslip_simulacao) == 0:
             payslip_simulacao_criada = self.gerar_simulacao(
                 tipo_simulacao, mes_verificacao,
                 ano_verificacao, data_inicio,
