@@ -79,10 +79,10 @@
             <field name="mode">primary</field>
             <field name="arch" type="xml">
 
+
                 <xpath expr="//sheet/group" position="replace">
-                    <group col="6">
-                        <group colspan="2">
-                            <field name="is_brazilian" invisible="1"/>
+                    <group >
+                        <group colspan="4">
                             <field name="partner_id" invisible="1"/>
                             <field name="participante_id" string="Customer"
                                    domain="[('eh_cliente', '=', True)]"
@@ -94,7 +94,19 @@
                             <field name="pricelist_id"
                                    groups="product.group_sale_pricelist"/>
                         </group>
-                        <group name="servicos" colspan="2" attrs="{'invisible': [('sped_operacao_servico_id', '=', False)]}" >
+                    </group>
+
+                    <group colspan="4" class="oe_right">
+                        <group class="o_label_nowrap" name="produtos" attrs="{'invisible': [('sped_operacao_produto_id', '=', False)]}" >
+                            <separator string="Total (Produtos)"/>
+                            <newline/>
+                            <field name="vr_produtos" />
+                            <field name="vr_frete" />
+                            <field name="vr_seguro" />
+                            <field name="vr_outras" />
+                            <field name="vr_simples" />
+                        </group>
+                        <group class="o_label_nowrap" name="servicos" attrs="{'invisible': [('sped_operacao_servico_id', '=', False)]}" >
                             <separator string="Total (Serviços)"/>
                             <newline/>
                             <field name="vr_produtos"/>
@@ -102,26 +114,25 @@
                             <field name="vr_inss_retido"/>
                             <!--<field name="pis_cofins_retido"/>-->
                         </group>
-                        <group name="produtos" colspan="2"  attrs="{'invisible': [('sped_operacao_produto_id', '=', False)]}" >
-                            <separator string="Total (Produtos)"/>
-                            <newline/>
-                            <field name="vr_produtos"/>
-                            <field name="vr_frete"/>
-                            <field name="vr_seguro"/>
-                            <field name="vr_simples"/>
-                            <field name="vr_outras"/>
-                        </group>
                     </group>
                 </xpath>
 
-                <xpath expr="//notebook/page[2]" position="before">
-                    <page string="Produtos" name="product_page"  attrs="{'invisible': [('sped_operacao_produto_id', '=', False)]}" >
-                        <field name="sale_order_line_produto_ids"/>
-                        <!--# TODO: Criar visoes especificas para produto-->
+                <xpath expr="//notebook/page[1]" position="replace">
+                    <page string="Produtos" name="product_page" >
+                        <field name="sale_order_line_produto_ids"
+                               context="{
+                               'default_tipo_produto_servico': 'p',
+                               'tree_view_ref': 'sped_sale.sale_order_line_brazil_produto_tree',
+                               'form_view_ref': 'sped_sale.sale_order_line_brazil_produto_form'}"
+                        />
                     </page>
-                    <page string="Servicos" name="services_page"  attrs="{'invisible': [('sped_operacao_servico_id', '=', False)]}" >
-                        <!--# TODO: Criar visoes especificas para Serviço-->
-                        <field name="sale_order_line_servico_ids"/>
+                    <page string="Servicos" name="services_page" attrs="{'invisible': [('sped_operacao_servico_id', '=', False)]}" >
+                        <field name="sale_order_line_servico_ids"
+                               context="{
+                               'default_tipo_produto_servico': 's',
+                               'tree_view_ref': 'sped_sale.sale_order_line_brazil_servico_tree',
+                               'form_view_ref': 'sped_sale.sale_order_line_brazil_servico_form'}"
+                        />
                     </page>
                 </xpath>
 
@@ -144,34 +155,19 @@
                            attrs="{'required': [('sped_operacao_produto_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
                 </field>
 
-                <field name="currency_id" position="attributes">
-                    <attribute name="domain">[('is_currency', '=', True)]</attribute>
-                </field>
-
-                <xpath expr="//field[@name='order_line']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_brazilian','=', True)]}</attribute>
-                </xpath>
-
-                <xpath expr="//field[@name='order_line']" position="after">
-                    <field name="order_line" nolabel="1"
-                           attrs="{'readonly': [('state', 'in', ('done','cancel'))], 'invisible': [('is_brazilian', '!=', True)]}"
-                           context="{'tree_view_ref': 'sped_sale.sale_order_line_brazil_tree', 'form_view_ref': 'sped_sale.sale_order_line_brazil_form'}"/>
-                </xpath>
-
             </field>
         </record>
 
-
         <record model="ir.actions.act_window"
                 id="action_l10n_br_sale_order_invoice">
-            <field name="name">Venda para Faturar BR</field>
+            <field name="name">Venda para Faturar</field>
             <field name="res_model">sale.order</field>
             <field name="view_mode">tree,form</field>
             <!--<field name="domain">[('invoice_status','=','to invoice')]</field>-->
         </record>
 
         <record model="ir.ui.menu" id="menu_l10n_br_sale_order_invoice">
-            <field name="name">Venda para Faturar BR</field>
+            <field name="name">Venda para Faturar</field>
             <field name="parent_id" ref="sale.menu_sale_invoicing"/>
             <field name="action" ref="action_l10n_br_sale_order_invoice"/>
             <field name="sequence" eval="3"/>
