@@ -18,7 +18,9 @@
 
         # 'security/sale_order.xml',
 
-        'views/sale_order_line.xml',
+        'views/sale_order_line_base.xml',
+        'views/sale_order_line_produto.xml',
+        'views/sale_order_line_servico.xml',
         'views/sale_order.xml',
     ],
     'demo': [
