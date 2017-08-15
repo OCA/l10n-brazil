@@ -9,7 +9,7 @@
         <field name="model">ir.localization</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Localization" delete="true" create="true" edit="true">
+            <form string="Business view/Localization" delete="true" create="true" edit="true">
                 <sheet>
                     <div class="oe_title">
                         <h1>
@@ -30,7 +30,7 @@
         <field name="model">ir.localization</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Localization" delete="true" create="true" edit="true">
+            <tree string="Business view/Localization" delete="true" create="true" edit="true">
                 <field name="name" />
                 <field name="country_id" />
                 <field name="lang_id" />
@@ -42,7 +42,7 @@
         <field name="model">ir.localization</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <search string="Localization">
+            <search string="Business view/Localization">
                 <field name="name" />
                 <field name="country_id" />
                 <field name="lang_id" />
@@ -51,7 +51,7 @@
     </record>
 
     <record  id="action_localization" model="ir.actions.act_window">
-        <field name="name">Localization</field>
+        <field name="name">Business view/Localization</field>
         <field name="res_model">ir.localization</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
