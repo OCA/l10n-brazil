@@ -470,7 +470,7 @@
                                     </group> -->
                                 </group>
                             </page>
-                            <page name="suporte" string="Suporte">
+                            <page name="suporte" string="Suporte" groups="l10n_br_base.GRUPO_SUPORTE">
                                 <group col="4">
                                     <field name="empresa_id" invisible="0"/>
                                     <field name="participante_id" invisible="0"/>
