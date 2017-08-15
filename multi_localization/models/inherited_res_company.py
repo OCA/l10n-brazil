@@ -14,4 +14,4 @@ class ResCompany(models.Model):
 
     # localization_ids = fields.Many2many('ir.localization', 'ir_ui_view_localization', 'view_id', 'localization_id',
     #                                     'Localizations')
-    localization_id = fields.Many2one('ir.localization', 'Localization', ondelete='restrict')
+    localization_id = fields.Many2one('ir.localization', 'Business view/Localization', ondelete='restrict')

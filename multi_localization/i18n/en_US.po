@@ -73,13 +73,13 @@ msgstr "Last Updated on"
 #: model:ir.ui.view,arch_db:multi_localization.view_localization_form
 #: model:ir.ui.view,arch_db:multi_localization.view_localization_search
 #: model:ir.ui.view,arch_db:multi_localization.view_localization_tree
-msgid "Localization"
-msgstr "Localization"
+msgid "Business view/Localization"
+msgstr "Business view/Localization"
 
 #. module: multi_localization
 #: model:ir.model.fields,field_description:multi_localization.field_ir_ui_view_localization_ids
-msgid "Localizations"
-msgstr "Localizations"
+msgid "Business views/Localizations"
+msgstr "Business views/Localizations"
 
 #. module: multi_localization
 #: model:ir.model.fields,field_description:multi_localization.field_ir_localization_name

@@ -18,7 +18,7 @@ class IrUiView(models.Model):
         'ir_ui_view_localization',
         'view_id',
         'localization_id',
-        string='Localizations',
+        string='Business views/Localizations',
     )
 
     #------------------------------------------------------
