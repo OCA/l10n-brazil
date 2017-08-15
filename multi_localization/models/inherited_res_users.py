@@ -13,4 +13,4 @@ from odoo import fields, models
 class ResUsers(models.Model):
     _inherit = 'res.users'
 
-    localization_id = fields.Many2one('ir.localization', 'Localization', ondelete='restrict')
+    localization_id = fields.Many2one('ir.localization', 'Business view/Localization', ondelete='restrict')
