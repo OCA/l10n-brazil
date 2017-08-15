@@ -947,6 +947,21 @@ class SpedCalculoImpostoItem(SpedBase):
                 self.product_uom = self.produto_id.unidade_id.uom_id
             return res
 
+    def busca_linha_operacao(self, domain):
+        busca_item = [
+            ('operacao_id', '=', domain.get('operacao_id', False)),
+            ('tipo_protocolo', '=', domain.get('tipo_protocolo', False)),
+            ('cfop_id.posicao', '=', domain.get('cfop_id_posicao', False)),
+            ('protocolo_id', '=', domain.get('protocolo_id', False)),
+            ('contribuinte', '=', domain.get('contribuinte', False)),
+            ('tipo_produto_servico', '=', domain.get('tipo_produto_servico', False)),
+        ]
+
+        operacao_item_ids = self.operacao_id.item_ids.search(busca_item)
+
+        return operacao_item_ids
+
+
     def _onchange_produto_id_emissao_propria(self):
         self.ensure_one()
 
@@ -1095,58 +1110,26 @@ class SpedCalculoImpostoItem(SpedBase):
         # genérico; esta variação está configurada mais abaixo, quais campos
         # devem ser pesquisados como False, e em qual ordem
         #
-        busca_item = [
-            ('operacao_id', '=', self.operacao_id.id),
-            ('tipo_protocolo', '=', protocolo.tipo),
-            ('cfop_id.posicao', '=', posicao_cfop),
+        busca_item = {
+            'operacao_id': self.operacao_id.id,
+            'tipo_protocolo': protocolo.tipo,
+            'cfop_id_posicao': posicao_cfop,
             #
             # Os tres campos abaixo variam na pesquisa
             #
-            ('contribuinte', '=', self.participante_id.contribuinte),
-            ('protocolo_id', '=', protocolo.id),
-            ('tipo_produto_servico', '=', self.produto_id.tipo),
-        ]
-
-        varia_busca_item_1 = {
             'contribuinte': self.participante_id.contribuinte,
             'protocolo_id': protocolo.id,
             'tipo_produto_servico': self.produto_id.tipo,
         }
-        varia_busca_item_2 = {
-            'contribuinte': False,
-        }
-        varia_busca_item_3 = {
-            'contribuinte': self.participante_id.contribuinte,
-            'protocolo_id': False,
-        }
-        varia_busca_item_4 = {
-            'protocolo_id': False,
-            'contribuinte': False,
-        }
-
-        # varia_busca_item = [
-        # ]
-        #
-        #
-        # for busca in varia_busca_item
-
-        operacao_item_ids = self.operacao_id.item_ids.search(busca_item)
+        operacao_item_ids = self.busca_linha_operacao(busca_item)
 
         #
         # Se não houver um item da operação vinculado ao protocolo e ao tipo
         # contribuinte, tentamos sem o contribuinte
         #
         if len(operacao_item_ids) == 0:
-            busca_item = [
-                ('operacao_id', '=', self.operacao_id.id),
-                ('tipo_protocolo', '=', protocolo.tipo),
-                ('cfop_id.posicao', '=', posicao_cfop),
-                ('protocolo_id', '=', protocolo.id),
-                ('contribuinte', '=', False),
-                ('tipo_produto_servico', '=', self.produto_id.tipo),
-            ]
-
-            operacao_item_ids = self.operacao_id.item_ids.search(busca_item)
+            busca_item.update(contribuinte=False)
+            operacao_item_ids = self.busca_linha_operacao(busca_item)
 
         #
         # Não encontrou item da operação específico para o protocolo,
@@ -1154,32 +1137,17 @@ class SpedCalculoImpostoItem(SpedBase):
         # contribuinte)
         #
         if len(operacao_item_ids) == 0:
-            busca_item = [
-                ('operacao_id', '=', self.operacao_id.id),
-                ('tipo_protocolo', '=', protocolo.tipo),
-                ('cfop_id.posicao', '=', posicao_cfop),
-                ('protocolo_id', '=', False),
-                ('contribuinte', '=', self.participante_id.contribuinte),
-                ('tipo_produto_servico', '=', self.produto_id.tipo),
-            ]
-
-            operacao_item_ids = self.operacao_id.item_ids.search(busca_item)
+            busca_item.update(protocolo_id=False,
+                              contribuinte=self.participante_id.contribuinte)
+            operacao_item_ids = self.busca_linha_operacao(busca_item)
 
         #
         # Ainda não encontrou item da operação específico para o contribuinte,
         # buscamos então o item genérico, sem protocolo nem contribuinte
         #
         if len(operacao_item_ids) == 0:
-            busca_item = [
-                ('operacao_id', '=', self.operacao_id.id),
-                ('tipo_protocolo', '=', protocolo.tipo),
-                ('protocolo_id', '=', False),
-                ('cfop_id.posicao', '=', posicao_cfop),
-                ('contribuinte', '=', False),
-                ('tipo_produto_servico', '=', self.produto_id.tipo),
-            ]
-
-            operacao_item_ids = self.operacao_id.item_ids.search(busca_item)
+            busca_item.update(protocolo_id=False, contribuinte=False)
+            operacao_item_ids = self.busca_linha_operacao(busca_item)
 
         #
         # Não tem item da operação mesmo, ou encontrou mais de um possível?
