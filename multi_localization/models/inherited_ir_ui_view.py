@@ -55,9 +55,6 @@ class IrUiView(models.Model):
                 ['localization_ids', 'in', localization_id],
             ]
 
-        if self.model == 'sped.participante':
-            import ipdb; ipdb.set_trace();
-
         views = self.search(condition)
 
         if len(views) == len(inherited_view_ids):
