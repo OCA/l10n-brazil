@@ -109,7 +109,7 @@
                                 <field name="vr_simples" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                 <field name="vr_icms_st" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                                 <field name="vr_pis_proprio" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                                <field name="vr_cofins_proprio" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <field name="vr_cofins_proprio" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('vr_cofins_proprio', '=', 0)]}" />
 
                                 <div class="oe_subtotal_footer_separator oe_inline o_td_label">
                                     <label string="Valor total" />
