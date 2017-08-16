@@ -947,21 +947,6 @@ class SpedCalculoImpostoItem(SpedBase):
                 self.product_uom = self.produto_id.unidade_id.uom_id
             return res
 
-    def busca_linha_operacao(self, domain):
-        busca_item = [
-            ('operacao_id', '=', domain.get('operacao_id', False)),
-            ('tipo_protocolo', '=', domain.get('tipo_protocolo', False)),
-            ('cfop_id.posicao', '=', domain.get('cfop_id_posicao', False)),
-            ('protocolo_id', '=', domain.get('protocolo_id', False)),
-            ('contribuinte', '=', domain.get('contribuinte', False)),
-            ('tipo_produto_servico', '=', domain.get('tipo_produto_servico', False)),
-        ]
-
-        operacao_item_ids = self.operacao_id.item_ids.search(busca_item)
-
-        return operacao_item_ids
-
-
     def _onchange_produto_id_emissao_propria(self):
         self.ensure_one()
 
@@ -1110,45 +1095,61 @@ class SpedCalculoImpostoItem(SpedBase):
         # genérico; esta variação está configurada mais abaixo, quais campos
         # devem ser pesquisados como False, e em qual ordem
         #
-        busca_item = {
+
+        def busca_operacao(domain):
+            """
+            Busca a operação que sera seguida de acordo com domain.
+            :param domain: dict com domain para busca da operacao  
+            :return: Operação correta
+            """
+            domain_busca_operacao = [
+                ('operacao_id', '=', domain.get('operacao_id', False)),
+                ('tipo_protocolo', '=', domain.get('tipo_protocolo', False)),
+                ('cfop_id.posicao', '=',domain.get('cfop_id_posicao', False)),
+                ('protocolo_id', '=', domain.get('protocolo_id', False)),
+                ('contribuinte', '=', domain.get('contribuinte', False)),
+                ('tipo_produto_servico', '=',
+                 domain.get('tipo_produto_servico', False)),
+            ]
+            operacao_item_ids = \
+                self.operacao_id.item_ids.search(domain_busca_operacao)
+            return operacao_item_ids
+
+        #
+        # Domínio de busca da operação correta.
+        #
+        domain_base = {
             'operacao_id': self.operacao_id.id,
             'tipo_protocolo': protocolo.tipo,
             'cfop_id_posicao': posicao_cfop,
-            #
-            # Os tres campos abaixo variam na pesquisa
-            #
             'contribuinte': self.participante_id.contribuinte,
             'protocolo_id': protocolo.id,
             'tipo_produto_servico': self.produto_id.tipo,
         }
-        operacao_item_ids = self.busca_linha_operacao(busca_item)
+        operacao_item_ids = busca_operacao(domain_base)
 
-        #
-        # Se não houver um item da operação vinculado ao protocolo e ao tipo
-        # contribuinte, tentamos sem o contribuinte
-        #
-        if len(operacao_item_ids) == 0:
-            busca_item.update(contribuinte=False)
-            operacao_item_ids = self.busca_linha_operacao(busca_item)
+        if not operacao_item_ids:
+            variacoes = [
+                # Se não houver um item da operação vinculado ao protocolo e
+                # ao tipo # contribuinte, tentamos sem o contribuinte
+                {'contribuinte': False },
 
-        #
-        # Não encontrou item da operação específico para o protocolo,
-        # buscamos então o item genérico, sem protocolo (mas com o
-        # contribuinte)
-        #
-        if len(operacao_item_ids) == 0:
-            busca_item.update(protocolo_id=False,
-                              contribuinte=self.participante_id.contribuinte)
-            operacao_item_ids = self.busca_linha_operacao(busca_item)
+                # Não encontrou item da operação específico para o protocolo,
+                # buscamos então o item genérico, sem protocolo
+                {'protocolo_id': False },
 
-        #
-        # Ainda não encontrou item da operação específico para o contribuinte,
-        # buscamos então o item genérico, sem protocolo nem contribuinte
-        #
-        if len(operacao_item_ids) == 0:
-            busca_item.update(protocolo_id=False, contribuinte=False)
-            operacao_item_ids = self.busca_linha_operacao(busca_item)
+                # Ainda não encontrou item da operação específico para o
+                # contribuinte, buscamos então o item genérico, sem protocolo
+                # nem contribuinte
+                {'protocolo_id': False, 'contribuinte': False},
+            ]
 
+            for variacao in variacoes:
+                domain = domain_base.copy()
+                domain.update(variacao)
+                operacao_item_ids = busca_operacao(domain)
+                if operacao_item_ids:
+                    break
         #
         # Não tem item da operação mesmo, ou encontrou mais de um possível?
         #
