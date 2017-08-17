@@ -149,7 +149,6 @@
                            attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
                 </xpath>
 
-
                 <field name="fiscal_position_id" position="attributes">
                     <attribute name="attrs">{'invisible': [('is_brazilian','=', True)]}</attribute>
                 </field>

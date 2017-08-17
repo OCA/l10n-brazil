@@ -947,20 +947,48 @@ class SpedCalculoImpostoItem(SpedBase):
                 self.product_uom = self.produto_id.unidade_id.uom_id
             return res
 
-    def busca_linha_operacao(self, domain):
-        busca_item = [
-            ('operacao_id', '=', domain.get('operacao_id', False)),
-            ('tipo_protocolo', '=', domain.get('tipo_protocolo', False)),
-            ('cfop_id.posicao', '=', domain.get('cfop_id_posicao', False)),
-            ('protocolo_id', '=', domain.get('protocolo_id', False)),
-            ('contribuinte', '=', domain.get('contribuinte', False)),
-            ('tipo_produto_servico', '=', domain.get('tipo_produto_servico', False)),
-        ]
+    def busca_operacao_item(self, domain_base):
+        #
+        # As variações abaixo, nos 3 laços for, garantem que todas as
+        # possibilidades de variação dos critérios de pesquisa sejam atendidas
+        # A ordem de anihamento dos laços é inversa à ordem de importância da
+        # variação que queremos, ou seja, a primeira pesquisa é com/sem
+        # contribuinte, a segunda com/sem protocolo, e assim por diante
+        #
+        for varia_tipo_produto_servico in [True, False]:
+            for varia_protocolo in [True, False]:
+                for varia_contribuinte in [True, False]:
+                    variacao = {}
+                    if not varia_contribuinte:
+                        variacao['contribuinte'] = False
+                    if not varia_protocolo:
+                        variacao['protocolo_id'] = False
+                    if not varia_tipo_produto_servico:
+                        variacao['tipo_produto_servico'] = False
 
-        operacao_item_ids = self.operacao_id.item_ids.search(busca_item)
+                    domain = domain_base.copy()
+                    domain.update(variacao)
+
+                    busca_item = [
+                        ('operacao_id', '=', domain.get('operacao_id', False)),
+                        ('tipo_protocolo', '=',
+                             domain.get('tipo_protocolo', False)),
+                        ('cfop_id.posicao', '=',
+                             domain.get('cfop_id_posicao', False)),
+                        ('contribuinte', '=',
+                             domain.get('contribuinte', False)),
+                        ('protocolo_id', '=',
+                             domain.get('protocolo_id', False)),
+                        ('tipo_produto_servico', '=',
+                             domain.get('tipo_produto_servico', False)),
+                    ]
+                    operacao_item_ids = self.operacao_id.item_ids.search(
+                        busca_item)
+
+                    if operacao_item_ids:
+                        break
 
         return operacao_item_ids
-
 
     def _onchange_produto_id_emissao_propria(self):
         self.ensure_one()
@@ -1110,44 +1138,19 @@ class SpedCalculoImpostoItem(SpedBase):
         # genérico; esta variação está configurada mais abaixo, quais campos
         # devem ser pesquisados como False, e em qual ordem
         #
-        busca_item = {
+        domain_base = {
             'operacao_id': self.operacao_id.id,
             'tipo_protocolo': protocolo.tipo,
             'cfop_id_posicao': posicao_cfop,
             #
-            # Os tres campos abaixo variam na pesquisa
+            # Os 3 critérios abaixo serão alternados entre o valor realmente,
+            # ou False, no método busca_operacao_item
             #
             'contribuinte': self.participante_id.contribuinte,
             'protocolo_id': protocolo.id,
             'tipo_produto_servico': self.produto_id.tipo,
         }
-        operacao_item_ids = self.busca_linha_operacao(busca_item)
-
-        #
-        # Se não houver um item da operação vinculado ao protocolo e ao tipo
-        # contribuinte, tentamos sem o contribuinte
-        #
-        if len(operacao_item_ids) == 0:
-            busca_item.update(contribuinte=False)
-            operacao_item_ids = self.busca_linha_operacao(busca_item)
-
-        #
-        # Não encontrou item da operação específico para o protocolo,
-        # buscamos então o item genérico, sem protocolo (mas com o
-        # contribuinte)
-        #
-        if len(operacao_item_ids) == 0:
-            busca_item.update(protocolo_id=False,
-                              contribuinte=self.participante_id.contribuinte)
-            operacao_item_ids = self.busca_linha_operacao(busca_item)
-
-        #
-        # Ainda não encontrou item da operação específico para o contribuinte,
-        # buscamos então o item genérico, sem protocolo nem contribuinte
-        #
-        if len(operacao_item_ids) == 0:
-            busca_item.update(protocolo_id=False, contribuinte=False)
-            operacao_item_ids = self.busca_linha_operacao(busca_item)
+        operacao_item_ids = self.busca_operacao_item(domain_base)
 
         #
         # Não tem item da operação mesmo, ou encontrou mais de um possível?
