@@ -9,13 +9,16 @@ from odoo import api, fields, models, _
 from odoo.addons.sped_imposto.models.sped_calculo_imposto import (
     SpedCalculoImposto
 )
+from odoo.addons.sped_imposto.models.sped_calculo_imposto_produto_servico \
+    import SpedCalculoImpostoProdutoServico
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODELO_FISCAL_EMISSAO_PRODUTO,
     MODELO_FISCAL_EMISSAO_SERVICO,
 )
 
 
-class SaleOrder(SpedCalculoImposto, models.Model):
+class SaleOrder(SpedCalculoImpostoProdutoServico,
+                models.Model):
     _inherit = 'sale.order'
 
     #
@@ -51,7 +54,7 @@ class SaleOrder(SpedCalculoImposto, models.Model):
         inverse_name='order_id',
         string='Produto',
         copy=True,
-        domain=[('tipo_produto_servico','=','p')],
+        domain=[('tipo_produto_servico','=','P')],
     )
 
     sale_order_line_servico_ids = fields.One2many(
@@ -59,7 +62,7 @@ class SaleOrder(SpedCalculoImposto, models.Model):
         inverse_name='order_id',
         string='Serviços',
         copy=True,
-        domain=[('tipo_produto_servico','=','s')],
+        domain=[('tipo_produto_servico','=','S')],
     )
 
     @api.depends(

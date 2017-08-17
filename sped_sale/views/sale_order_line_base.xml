@@ -478,8 +478,8 @@
                                     <field name="data_emissao" invisible="0"/>
 
 
-                                    <field name="order_id" required="0" invisible="0"/>
-                                    <field name="documento_id" required="0" invisible="0"/>
+                                    <field name="order_id" required="0" invisible="1"/>
+                                    <field name="documento_id" required="0" invisible="1"/>
                                     <field name="regime_tributario" invisible="0"/>
                                     <field name="modelo" invisible="0"/>
                                     <field name="emissao" invisible="0"/>
