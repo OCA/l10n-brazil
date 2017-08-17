@@ -486,8 +486,8 @@ class HrPayslip(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]},
         required=True,
-        compute='_compute_set_dates',
-        store=True,
+        #compute='_compute_set_dates',
+        #store=True,
     )
 
     date_to = fields.Date(
@@ -495,8 +495,8 @@ class HrPayslip(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]},
         required=True,
-        compute='_compute_set_dates',
-        store=True,
+        #compute='_compute_set_dates',
+        #store=True,
     )
 
     saldo_para_fins_rescisorios = fields.Float(
@@ -667,14 +667,21 @@ class HrPayslip(models.Model):
             ]
             # se o periodo aquisitivo ja estiver definido, pega o saldo de dias
             if self.periodo_aquisitivo:
-                if self.tipo_de_folha in ['rescisao'] or fields.\
-                        Date.from_string(self.date_from) < fields.Date.\
-                        from_string(self.periodo_aquisitivo.inicio_concessivo):
-                    saldo_ferias = \
-                        self.periodo_aquisitivo.dias_de_direito() *\
-                        self.medias_proventos[0]['meses'] / 12.0
+                #if self.tipo_de_folha in ['rescisao'] or fields.\
+                #        Date.from_string(self.date_from) < fields.Date.\
+                #        from_string(self.periodo_aquisitivo.inicio_concessivo):
+                #    saldo_ferias = \
+                #        self.periodo_aquisitivo.dias_de_direito() *\
+                #        self.medias_proventos[0]['meses'] / 12.0
+                #else:
+                if self.tipo_de_folha == 'ferias' and self.is_simulacao and \
+                        self.date_to and self.date_from:
+                    dias_saldo = fields.Datetime.from_string(self.date_to) - \
+                        fields.Datetime.from_string(self.date_from)
+                    saldo_ferias = dias_saldo.days
                 else:
-                    saldo_ferias = self.periodo_aquisitivo.saldo
+                    saldo_ferias = self.periodo_aquisitivo.avos * 2.5
+
                 result += [
                     self.get_attendances(
                         u'Saldo de dias máximo para Férias', 8,
@@ -934,7 +941,7 @@ class HrPayslip(models.Model):
     @api.multi
     def gerar_simulacao(
             self, tipo_simulacao, mes_do_ano, ano, data_inicio, data_fim,
-            ferias_vencida=None
+            ferias_vencida=None, periodo_aquisitivo=None
     ):
         hr_payslip_obj = self.env['hr.payslip']
         vals = {
@@ -951,18 +958,19 @@ class HrPayslip(models.Model):
             vals.update({'dias_aviso_previo': self.dias_aviso_previo})
         payslip_simulacao_criada = hr_payslip_obj.create(vals)
         if tipo_simulacao == "ferias":
-            periodo_ferias_vencida = False
-            if ferias_vencida:
-                periodo_ferias_vencida = self._verificar_ferias_vencidas()
+            #periodo_ferias_vencida = False
+            #if ferias_vencida:
+            #    periodo_ferias_vencida = self._verificar_ferias_vencidas()
             payslip_simulacao_criada.write(
                 {
-                    'periodo_aquisitivo':
-                        self.contract_id.vacation_control_ids[0].id if
-                        not periodo_ferias_vencida else
-                        periodo_ferias_vencida.id
+                    'periodo_aquisitivo': periodo_aquisitivo.id
+               #         self.contract_id.vacation_control_ids[0].id if
+               #         not periodo_ferias_vencida else
+               #         periodo_ferias_vencida.id
                 }
             )
-            payslip_simulacao_criada._compute_saldo_periodo_aquisitivo()
+            #payslip_simulacao_criada._compute_saldo_periodo_aquisitivo()
+
         if tipo_simulacao in ["ferias", "aviso_previo"]:
             payslip_simulacao_criada.gerar_media_dos_proventos()
         payslip_simulacao_criada._compute_set_employee_id()
@@ -1016,9 +1024,49 @@ class HrPayslip(models.Model):
         data_fim = str(ano) + "-" + str(mes_do_ano) + "-" + str(dias_no_mes[1])
         return mes_do_ano, ano, data_inicio, data_fim
 
+    def _simulacao_ferias(self, ferias_vencida, um_terco_ferias):
+
+        #
+        # Está buscando somente o último periodo aquisitivo, e se tiver férias vencida busca
+        # o penúltimo, essa lógica está incompleta, precisa refatorar esse código para buscar
+        # todos os periodos aquisitivos vencidos (TODO)
+        #
+        if not ferias_vencida:
+            periodo_id = self.contract_id.vacation_control_ids[0].id
+        else:
+            periodo_id = self.contract_id.vacation_control_ids[1].id
+
+        periodo = self.env['hr.vacation.control'].with_context(data_fim = self.data_afastamento).browse(periodo_id)
+
+        data_inicio = self.data_afastamento
+        data_fim = data.parse_datetime(data_inicio) + relativedelta(days=periodo.avos * 2.5)
+
+        domain = [
+            ('tipo_de_folha', '=', 'ferias'),
+            ('is_simulacao', '=', True),
+            ('periodo_aquisitivo', '=', periodo_id)
+        ]
+        payslip_simulacao = self.env['hr.payslip'].search(domain)
+        if payslip_simulacao:
+            payslip_simulacao_criada = payslip_simulacao
+        else:
+            payslip_simulacao_criada = self.gerar_simulacao(
+                'ferias', self.mes_do_ano,
+                self.ano, data_inicio,
+                data_fim, ferias_vencida=ferias_vencida,
+                periodo_aquisitivo=periodo
+            )
+        return self._buscar_valor_bruto_simulacao(
+            payslip_simulacao_criada, um_terco_ferias)
+
     @api.multi
     def BUSCAR_VALOR_PROPORCIONAL(
             self, tipo_simulacao, um_terco_ferias=None, ferias_vencida=None):
+
+        # Se simulação férias, faça e saia (ignorando o resto do método, precisa refatorar) (TODO)
+        if tipo_simulacao=='ferias':
+            return self._simulacao_ferias(ferias_vencida, um_terco_ferias)
+
         mes_verificacao, ano_verificacao, data_inicio, data_fim = \
             self._checar_datas_gerar_simulacoes(
                 self.mes_do_ano, self.ano
@@ -1793,7 +1841,8 @@ class HrPayslip(models.Model):
                 '/' + str(record.ano)
 
     @api.multi
-    @api.depends('mes_do_ano', 'ano', 'holidays_ferias', 'data_afastamento')
+#    @api.depends('mes_do_ano', 'ano', 'holidays_ferias', 'data_afastamento')
+    @api.onchange('mes_do_ano', 'ano', 'data_afastamento')
     def _compute_set_dates(self):
         for record in self:
             if not record.mes_do_ano:
