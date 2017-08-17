@@ -93,22 +93,41 @@
                     </group>
 
                     <group colspan="4" class="oe_right">
-                        <group class="o_label_nowrap" name="produtos" attrs="{'invisible': [('sped_operacao_produto_id', '=', False)]}" >
-                            <separator string="Total (Produtos)"/>
-                            <newline/>
-                            <field name="produtos_vr_produtos" />
-                            <field name="produtos_vr_frete" />
-                            <field name="produtos_vr_seguro" />
-                            <field name="produtos_vr_outras" />
-                            <field name="produtos_vr_nf" />
+                        <group name="produtos" col="2" class="oe_right" style="padding-right:1cm;" attrs="{'invisible': [('sped_operacao_produto_id', '=', False)]}" >
+                            <group class="oe_subtotal_footer oe_right" name="sale_total">
+                                <separator string="Total (Produtos)"/>
+                                <newline/>
+                                <field name="produtos_vr_produtos" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <field name="produtos_vr_frete" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <field name="produtos_vr_seguro" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <field name="produtos_vr_outras" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <!--<field name="vr_simples" widget='monetary' options="{'currency_field': 'currency_id'}"/>-->
+                                <!--<field name="vr_icms_st" widget='monetary' options="{'currency_field': 'currency_id'}"/>-->
+                                <!--<field name="vr_pis_proprio" widget='monetary' options="{'currency_field': 'currency_id'}"/>-->
+                                <!--<field name="vr_cofins_proprio" widget='monetary' options="{'currency_field': 'currency_id'}"/>-->
+
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label string="Valor total" />
+                                    <button name="button_dummy" states="draft,sent" string="(update)" type="object" class="oe_edit_only oe_link"/>
+                                </div>
+
+                                <field name="produtos_vr_nf" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                            </group>
                         </group>
-                        <group class="o_label_nowrap" name="servicos" attrs="{'invisible': [('sped_operacao_servico_id', '=', False)]}" >
-                            <separator string="Total (Serviços)"/>
-                            <newline/>
-                            <field name="servicos_vr_produtos"/>
-                            <field name="servicos_vr_iss"/>
-                            <field name="servicos_vr_inss_retido"/>
-                            <field name="servicos_vr_nf" />
+
+                        <group name="servicos" col="2" class="oe_right" style="padding-right:1cm;" attrs="{'invisible': [('sped_operacao_servico_id', '=', False)]}">
+                            <group class="oe_subtotal_footer oe_right" name="sale_total">
+                                <separator string="Total (Serviços)"/>
+                                <newline/>
+                                <field name="servicos_vr_produtos" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <field name="servicos_vr_iss" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <field name="servicos_vr_inss_retido" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label string="Valor total" />
+                                    <button name="button_dummy" states="draft,sent" string="(update)" type="object" class="oe_edit_only oe_link"/>
+                                </div>
+                                <field name="servicos_vr_nf" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                            </group>
                         </group>
                     </group>
                 </xpath>
@@ -117,7 +136,7 @@
                     <page string="Produtos" name="product_page" >
                         <field name="sale_order_line_produto_ids"
                                context="{
-                               'default_tipo_produto_servico': 'P',
+                               'default_tipo_item': 'P',
                                'tree_view_ref': 'sped_sale.sale_order_line_brazil_produto_tree',
                                'form_view_ref': 'sped_sale.sale_order_line_brazil_produto_form'}"
                         />
@@ -125,7 +144,7 @@
                     <page string="Servicos" name="services_page" attrs="{'invisible': [('sped_operacao_servico_id', '=', False)]}" >
                         <field name="sale_order_line_servico_ids"
                                context="{
-                               'default_tipo_produto_servico': 'S',
+                               'default_tipo_item': 'S',
                                'tree_view_ref': 'sped_sale.sale_order_line_brazil_servico_tree',
                                'form_view_ref': 'sped_sale.sale_order_line_brazil_servico_form'}"
                         />
@@ -170,7 +189,7 @@
             <field name="name">Venda para Faturar</field>
             <field name="res_model">sale.order</field>
             <field name="view_mode">tree,form</field>
-            <!--<field name="domain">[('invoice_status','=','to invoice')]</field>-->
+            <field name="domain">[('invoice_status','=','to invoice')]</field>
         </record>
 
         <record model="ir.ui.menu" id="menu_l10n_br_sale_order_invoice">
