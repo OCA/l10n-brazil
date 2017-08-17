@@ -125,6 +125,25 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
         string='Permite alteração?',
         compute='_compute_permite_alteracao',
     )
+    tipo_produto_servico = fields.Selection(
+        selection=[
+            ('P', 'Produto'),
+            ('S', 'Serviço'),
+            ('M', 'Mensalidade'),
+        ],
+        string='Produto ou serviço',
+        help='Indica o tipo do item',
+        default='P',
+    )
+
+    tipo_produto_servico = fields.Selection(
+        selection=[
+            ('p', 'Produto'),
+            ('s', 'Servico'),
+        ],
+        string='Produto ou servico',
+        help='Indica se a operação é com produto ou com serviço.'
+    )
 
     @api.onchange('produto_id')
     def _onchange_produto_id(self):
@@ -166,20 +185,18 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
 
         super(SaleOrderLine, self)._onchange_produto_id()
 
-    @api.onchange('price_unit', 'product_uom_qty', 'purchase_price')
+    @api.onchange('price_unit', 'product_uom_qty')
     def _onchange_price_unit_product_uom_qty(self):
         for item in self:
             if item.is_brazilian:
                 item.vr_unitario = item.price_unit
                 item.quantidade = item.product_uom_qty
-                item.vr_unitario_custo_comercial = item.purchase_price
 
-    @api.onchange('vr_unitario', 'quantidade', 'vr_unitario_custo_comercial')
+    @api.onchange('vr_unitario', 'quantidade')
     def _onchange_vr_unitario(self):
         for item in self:
             item.price_unit = item.vr_unitario
             item.product_uom_qty = item.quantidade
-            item.purchase_price = item.vr_unitario_custo_comercial
 
     @api.depends('modelo', 'emissao')
     def _compute_permite_alteracao(self):

@@ -18,7 +18,7 @@ class IrUiMenu(models.Model):
         'ir_ui_menu_localization',
         'view_id',
         'localization_id',
-        string='Localizations',
+        string='Business views/Localizations',
     )
 
     @api.multi

@@ -37,7 +37,7 @@ class SpedCalculoImposto(SpedBase):
 
         - Escolha o modelo de negócios que você deseja tornar faturável para o
         Brasil;
-        - Crie um módulo com o padrõa l10n_MODELO ou sped_MODELO
+        - Crie um módulo com o padrão l10n_MODELO ou sped_MODELO
         - Herde a classe que será no futuro o cabeçalho do documento fiscal
          da seguinte forma:
 
@@ -376,6 +376,10 @@ class SpedCalculoImposto(SpedBase):
                     continue
             documento.is_brazilian = False
 
+    @api.onchange('item_ids.vr_nf', 'item_ids.vr_fatura')
+    def _onchange_soma_itens(self):
+        self._compute_soma_itens()
+
     @api.depends('item_ids.vr_nf', 'item_ids.vr_fatura')
     def _compute_soma_itens(self):
         CAMPOS_SOMA_ITENS = [
@@ -402,26 +406,69 @@ class SpedCalculoImposto(SpedBase):
             dados = {}
             for campo in CAMPOS_SOMA_ITENS:
                 dados[campo] = D(0)
+                #
+                # Soma dos campos totalizadores por tipo: produto, serviço
+                # e mensalidade
+                #
+                if 'produtos_' + campo in documento._fields:
+                    dados['produtos_' + campo] = D(0)
+                if 'servicos_' + campo in documento._fields:
+                    dados['servicos_' + campo] = D(0)
+                if 'mensalidades_' + campo in documento._fields:
+                    dados['mensalidades_' + campo] = D(0)
 
             for item in documento.item_ids:
                 for campo in CAMPOS_SOMA_ITENS:
                     dados[campo] += getattr(item, campo, D(0))
 
+                    if 'produtos_' + campo in dados:
+                        if getattr(item, 'tipo_produto_servico', False) == 'P':
+                            dados['produtos_' + campo] += \
+                                getattr(item, campo, D(0))
+
+                    if 'servicos_' + campo in dados:
+                        if getattr(item, 'tipo_produto_servico', False) == 'S':
+                            dados['servicos_' + campo] += \
+                                getattr(item, campo, D(0))
+
+                    if 'mensalidades_' + campo in dados:
+                        if getattr(item, 'tipo_produto_servico', False) == 'M':
+                            dados['mensalidades_' + campo] += \
+                                getattr(item, campo, D(0))
+
             documento.update(dados)
 
-    def _inverse_rateio_campo_total(self, campo):
+    def _inverse_rateio_campo_total(self, campo, tipo_produto_servico=None):
         self.ensure_one()
 
         if not getattr(self, campo, False):
             return
 
         for item in self.item_ids:
-            item.write({
-                'vr_frete': calc_price_ratio(
-                    item.vr_nf,
-                    getattr(item, campo, 0),
-                    item.documento_id.vr_nf),
-            })
+            if tipo_produto_servico is None:
+                item.write({
+                    campo: calc_price_ratio(
+                        item.vr_nf,
+                        getattr(item.documento_id, campo, 0),
+                        item.documento_id.vr_nf),
+                })
+
+            elif getattr(item, 'tipo_produto_servico', False) == \
+                    tipo_produto_servico:
+                if tipo_produto_servico == 'P':
+                    campo_rateio = 'produtos_' + campo
+                elif tipo_produto_servico == 'S':
+                    campo_rateio = 'servicos_' + campo
+                elif tipo_produto_servico == 'M':
+                    campo_rateio = 'mensalidades_' + campo
+
+                item.write({
+                    campo: calc_price_ratio(
+                        item.vr_nf,
+                        getattr(item.documento_id, campo_rateio, 0),
+                        item.documento_id.vr_nf),
+                })
+            item.calcula_impostos()
 
     def _inverse_rateio_vr_frete(self):
         self.ensure_one()

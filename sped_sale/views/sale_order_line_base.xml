@@ -113,6 +113,7 @@
                                         <newline/>
                                         <field name="vr_frete" colspan="2"
                                                string="Frete"/>
+                                        <field name="tipo_produto_servico" invisible="1" />
                                         <newline/>
                                         <field name="vr_seguro" colspan="2"
                                                string="Seguro"/>
@@ -469,7 +470,7 @@
                                     </group> -->
                                 </group>
                             </page>
-                            <page name="suporte" string="Suporte">
+                            <page name="suporte" string="Suporte" groups="l10n_br_base.GRUPO_SUPORTE">
                                 <group col="4">
                                     <field name="empresa_id" invisible="0"/>
                                     <field name="participante_id" invisible="0"/>
@@ -477,8 +478,8 @@
                                     <field name="data_emissao" invisible="0"/>
 
 
-                                    <field name="order_id" required="0" invisible="0"/>
-                                    <field name="documento_id" required="0" invisible="0"/>
+                                    <field name="order_id" required="0" invisible="1"/>
+                                    <field name="documento_id" required="0" invisible="1"/>
                                     <field name="regime_tributario" invisible="0"/>
                                     <field name="modelo" invisible="0"/>
                                     <field name="emissao" invisible="0"/>

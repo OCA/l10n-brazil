@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Sped Vendas',
+    'name': 'Brazilian Localization Participantes Geolocation',
     'summary': """
         Vendas Brasileira""",
     'version': '10.0.1.0.0',
@@ -11,20 +11,12 @@
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'www.kmee.com.br',
     'depends': [
-        'sped_imposto',
-        'sale',
+        'base_geolocalize',
+        'l10n_br_base',
     ],
     'data': [
-
-        # 'security/sale_order.xml',
-
-        'views/sale_order_line_base.xml',
-        'views/sale_order_line_produto.xml',
-        'views/sale_order_line_servico.xml',
-        'views/sale_order.xml',
-    ],
-    'demo': [
-        'demo/sale_order.xml',
+        'views/sped_participante.xml',
     ],
     'installable': True,
 }
+
