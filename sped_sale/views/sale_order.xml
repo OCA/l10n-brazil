@@ -82,7 +82,7 @@
                     <group >
                         <group colspan="4">
                             <field name="partner_id" invisible="1"/>
-                            <field name="participante_id" string="Customer"
+                            <field name="participante_id" string="Cliente"
                                    domain="[('eh_cliente', '=', True)]"
                                    options='{"always_reload": True}'
                                    attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
