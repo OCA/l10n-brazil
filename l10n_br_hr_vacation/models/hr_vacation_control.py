@@ -196,8 +196,15 @@ class HrVacationControl(models.Model):
     def _compute_calcular_avos(self):
         for record in self:
             date_begin = fields.Datetime.from_string(record.inicio_aquisitivo)
-            if fields.Date.today() < record.fim_aquisitivo:
-                date_end = fields.Datetime.from_string(fields.Date.today())
+
+            # Pega data_fim do contexto se existir, para cálculo de simulações
+            if "data_fim" in self.env.context:
+                hoje = self.env.context['data_fim']
+            else:
+                hoje = fields.Date.today()
+
+            if hoje < record.fim_aquisitivo:
+                date_end = fields.Datetime.from_string(hoje)
             else:
                 date_end = fields.Datetime.from_string(record.fim_aquisitivo)
             avos_decimal = (date_end - date_begin).days / 30.0
