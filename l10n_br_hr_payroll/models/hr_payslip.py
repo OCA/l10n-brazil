@@ -1059,6 +1059,29 @@ class HrPayslip(models.Model):
         return self._buscar_valor_bruto_simulacao(
             payslip_simulacao_criada, um_terco_ferias)
 
+    def _simulacao_decimo_terceiro(self):
+
+        data_inicio = self.data_afastamento
+        data_fim = self.data_afastamento
+
+        domain = [
+            ('tipo_de_folha', '=', 'decimo_terceiro'),
+            ('is_simulacao', '=', True),
+            ('date_from', '=', data_inicio),
+            ('date_to', '=', data_fim),
+        ]
+        payslip_simulacao = self.env['hr.payslip'].search(domain)
+        if payslip_simulacao:
+            payslip_simulacao_criada = payslip_simulacao
+        else:
+            payslip_simulacao_criada = self.gerar_simulacao(
+                'decimo_terceiro', self.mes_do_ano,
+                self.ano, data_inicio,
+                data_fim
+            )
+        return self._buscar_valor_bruto_simulacao(
+            payslip_simulacao_criada)
+
     @api.multi
     def BUSCAR_VALOR_PROPORCIONAL(
             self, tipo_simulacao, um_terco_ferias=None, ferias_vencida=None):
@@ -1066,6 +1089,9 @@ class HrPayslip(models.Model):
         # Se simulação férias, faça e saia (ignorando o resto do método, precisa refatorar) (TODO)
         if tipo_simulacao=='ferias':
             return self._simulacao_ferias(ferias_vencida, um_terco_ferias)
+
+        if tipo_simulacao=='decimo_terceiro':
+            return self._simulacao_decimo_terceiro()
 
         mes_verificacao, ano_verificacao, data_inicio, data_fim = \
             self._checar_datas_gerar_simulacoes(
@@ -1427,8 +1453,9 @@ class HrPayslip(models.Model):
                     {'DIAS_ABONO': payslip.holidays_ferias.sold_vacations_days}
                 )
         elif payslip.struct_id.code == "FERIAS" and payslip.is_simulacao:
-            if fields.Date.from_string(payslip.date_from) < fields.Date.\
-                    from_string(payslip.periodo_aquisitivo.inicio_concessivo):
+#            if fields.Date.from_string(payslip.date_from) < fields.Date.\
+#                    from_string(payslip.periodo_aquisitivo.inicio_concessivo):
+            if not payslip.saldo_periodo_aquisitivo:
                 dias_abono_ferias.update(
                     {
                         'DIAS_FERIAS':
