@@ -2,7 +2,8 @@
 # Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class FinanceiroCheque(models.Model):
@@ -105,8 +106,15 @@ class FinanceiroCheque(models.Model):
             self.banco_id = self.env.get('res.bank').search([
                 ('bic', '=', self.codigo[:3])
             ])
+            if not self.banco_id:
+                raise UserError(_("Não foi encontrado banco com código %s")
+                                % self.codigo[:3])
             self.agencia = self.env.get('res.bank.agencia').search([
-                ('name', '=', self.codigo[3:7])
+                ('name', '=', self.codigo[3:7]),
+                ('banco_id', '=', self.banco_id.id)
             ])
+            if not self.agencia:
+                raise UserError(_("Nenhuma agência %s referente ao %s")
+                                % (self.codigo[3:7], self.banco_id.name))
             self.numero_cheque = self.codigo[11:17]
             self.conta = self.codigo[22:-2] + '-' + self.codigo[-2]

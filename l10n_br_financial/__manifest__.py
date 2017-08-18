@@ -14,13 +14,8 @@
         'financial',
     ],
     'data': [
-        'views/financial_move.xml',
         'security/financeiro_cheque.xml',
         'views/financeiro_cheque.xml',
-        'security/account_payment_mode.xml',
-        'views/account_payment_mode.xml',
-        'security/account_payment_method.xml',
-        'views/account_payment_method.xml',
         'views/res_bank_agencia.xml',
     ],
     'demo': [
@@ -29,5 +24,5 @@
         'demo/account_payment_mode.xml',
         'demo/account_payment_method.xml',
     ],
-    'installable': False,
+    'installable': True,
 }

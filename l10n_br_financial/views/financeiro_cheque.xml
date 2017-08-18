@@ -30,16 +30,16 @@
                     </group>
                     <group>
                         <group>
-                            <field name="titular"/>
-                            <field name="banco_id"/>
-                            <field name="agencia"/>
-                            <field name="valor"/>
+                            <field name="titular" required="True"/>
+                            <field name="banco_id" required="True"/>
+                            <field name="agencia" required="True"/>
+                            <field name="valor" required="True"/>
                         </group>
                         <group>
-                            <field name="cpf_titular"/>
+                            <field name="cpf_titular" required="True"/>
                             <field name="pre_datado"/>
-                            <field name="conta"/>
-                            <field name="numero_cheque"/>
+                            <field name="conta" required="True"/>
+                            <field name="numero_cheque" required="True"/>
                         </group>
                     </group>
                 </sheet>
