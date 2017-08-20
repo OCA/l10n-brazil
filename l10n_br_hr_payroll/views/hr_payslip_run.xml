@@ -41,25 +41,11 @@
                     <group expand="0" string="Agrupar Por...">
                         <filter name="group_tipo" string="Tipo de Folha" context="{'group_by': 'tipo_de_folha'}"/>
                     </group>
-
                 </search>
-
-                <!--
-                <search string="Search Payslip Batches">
-                    <field name="name" string="Payslip Batches"/>
-                    <field name="date_start"/>
-                    <field name="date_end"/>
-                    <filter icon="terp-document-new" string="Draft" domain="[('state','=','draft')]" help="Draft Payslip Batches"/>
-                    <filter name="done_filter" icon="terp-camera_test" string="Done" domain="[('state','=','close')]" help="Done Payslip Batches"/>
-                </search>
-                -->
             </field>
         </record>
         
         <record id="hr_payroll.action_hr_payslip_run_tree" model="ir.actions.act_window">
-<!--
-            <field name="name">l10n_br_hr_payroll.action_hr_payslip_run_tree</field>
--->
             <field name="context">{'search_default_group_tipo':1}</field>
         </record>
 

@@ -33,6 +33,7 @@ TIPO_DE_FOLHA = [
 
 class HrPayslipRun(models.Model):
     _inherit = "hr.payslip.run"
+    _order = "ano desc,mes_do_ano desc,tipo_de_folha"
 
     mes_do_ano = fields.Selection(
         selection=MES_DO_ANO,
