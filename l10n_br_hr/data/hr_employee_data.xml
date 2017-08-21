@@ -4,19 +4,19 @@
 
         <!-- ETHNICITY -->
         <record id="ethnicity_1" model="hr.ethnicity">
-            <field name="name">Indigene</field>
+            <field name="name">Indígena</field>
             <field name="code">1</field>
         </record>
         <record id="ethnicity_2" model="hr.ethnicity">
-            <field name="name">White</field>
+            <field name="name">Branco</field>
             <field name="code">2</field>
         </record>
         <record id="ethnicity_4" model="hr.ethnicity">
-            <field name="name">Black</field>
+            <field name="name">Negro</field>
             <field name="code">4</field>
         </record>
         <record id="ethnicity_6" model="hr.ethnicity">
-            <field name="name">Asian</field>
+            <field name="name">Asiático</field>
             <field name="code">6</field>
         </record>
         <record id="ethnicity_8" model="hr.ethnicity">
@@ -24,7 +24,7 @@
             <field name="code">8</field>
         </record>
         <record id="ethnicity_9" model="hr.ethnicity">
-            <field name="name">Not Informed</field>
+            <field name="name">Não informado</field>
             <field name="code">9</field>
         </record>
 
