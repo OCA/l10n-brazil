@@ -10,6 +10,9 @@
         <field name="model">hr.holidays</field>
         <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
         <field name="arch" type="xml">
+            <field name="date_from" position="attributes">
+                <attribute name="string">Período</attribute>
+            </field>
             <field name="employee_id" position="replace">
                 <field name="employee_id" invisible="1"/>
                 <field name="contrato_id" required="1" />
