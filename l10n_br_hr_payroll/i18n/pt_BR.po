@@ -15,3 +15,90 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
+#. module: l10n_br_hr_payroll
+#: field:l10n_br_hr.contract.change,wage:0
+msgid "Salário"
+msgstr "Salário"
+
+#. module: l10n_br_hr_payroll
+#: field:l10n_br_hr.contract.change,salary_unit:0
+msgid "Unidade Salarial "
+msgstr "Unidade Salarial"
+
+#. module: l10n_br_hr_payroll
+#: view:hr.payslip:l10n_br_hr_payroll.hr_payslip_form_view
+#: model:ir.model,name:l10n_br_hr_payroll.model_hr_payroll_structure
+#: field:l10n_br_hr.contract.change,struct_id:0
+msgid "Estrutura do Salário"
+msgstr "Estrutura do Salário"
+
+#. module: l10n_br_hr_payroll
+#: field:l10n_br_hr.contract.change,working_hours:0
+msgid "Cronograma de Trabalho"
+msgstr "Cronograma de Trabalho"
+
+#. module: l10n_br_hr_payroll
+#: field:l10n_br_hr.contract.change,schedule_pay:0
+msgid "Pagamento Agendado"
+msgstr "Pagamento Agendado"
+
+#. module: l10n_br_hr_payroll
+#: field:l10n_br_hr.contract.change,weekly_hours:0
+msgid "Horas Semanais"
+msgstr "Horas Semanais"
+
+#. module: l10n_br_hr_payroll
+#: field:l10n_br_hr.contract.change,monthly_hours:0
+msgid "Horas Mensais"
+msgstr "Horas Mensais"
+
+#. module: l10n_br_hr_payroll
+#: field:l10n_br_hr.contract.change,job_id:0
+msgid "Titulo do Trabalho"
+msgstr "Titulo do Trabalho"
+
+#. module: l10n_br_hr_payroll
+#: field:l10n_br_hr.contract.change,type_id:0
+msgid "Tipo de Contrato"
+msgstr "Tipo de Contrato"
+
+#. module: l10n_br_hr_payroll
+#: field:l10n_br_hr.contract.change,admission_type_id:0
+msgid "Tipo de Admissão"
+msgstr "Tipo de Admissão"
+
+#. module: l10n_br_hr_payroll
+#: field:l10n_br_hr.contract.change,labor_bond_type_id:0
+msgid "Tipo de Vínculo Trabalhista"
+msgstr "Tipo de Vínculo Trabalhista"
+
+#. module: l10n_br_hr_payroll
+#: field:l10n_br_hr.contract.change,labor_regime_id:0
+msgid "Regime de Trabalho"
+msgstr "Regime de Trabalho"
+
+#. module: l10n_br_hr_payroll
+#: field:l10n_br_hr.contract.change,union:0
+msgid "Sindicado"
+msgstr "Sindicado"
+
+#. module: l10n_br_hr_payroll
+#: field:l10n_br_hr.contract.change,union_cnpj:0
+msgid "CNPJ Sindicado"
+msgstr "CNPJ Sindicado"
+
+#. module: l10n_br_hr_payroll
+#: field:l10n_br_hr.contract.change,union_entity_code:0
+msgid "Código do Sindicado"
+msgstr "Código do Sindicado"
+
+#. module: l10n_br_hr_payroll
+#: field:l10n_br_hr.contract.change,discount_union_contribution:0
+msgid "Contribuição Sindical Descontada na Admissão"
+msgstr "Contribuição Sindical Descontada na Admissão"
+
+#. module: l10n_br_hr_payroll
+#: field:l10n_br_hr.contract.change,month_base_date:0
+msgid "Mês Base"
+msgstr "Mês Base"
+
