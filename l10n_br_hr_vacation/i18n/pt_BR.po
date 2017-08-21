@@ -15,6 +15,34 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
+#. module: hr_holidays
+#: model:ir.actions.act_window,name:hr_holidays.open_ask_holidays
+#: model:ir.ui.menu,name:hr_holidays.menu_open_ask_holidays_new
+#: model:ir.actions.act_window,name:hr_holidays.open_company_allocation
+msgid "Leave Request"
+msgstr "Pedido de Férias"
+
+#. module: hr_holidays
+#: model:ir.ui.menu,name:hr_holidays.menu_request_approve_holidays
+msgid "Leave Requests to Approve"
+msgstr "Eventos pendentes de Aprovação"
+
+
+#. module: l10n_br_hr_vacation
+#: field:hr.holidays,advance_13_salary
+msgid "Advance 13th salary"
+msgstr "Adiantamento de 13º Salário"
+
+#. module: l10n_br_hr_vacation
+#: field:hr.holidays,advance_current_salary
+msgid "Advance currente salary"
+msgstr "Adiantamento Salarial"
+
+#. module: hr_holidays
+#: model:ir.ui.menu,name:hr_holidays.menu_open_company_allocation
+msgid "Leaves Summary"
+msgstr "Resumo dos Eventos"
+
 #. module: l10n_br_hr_vacation
 #: field:hr.holidays,advance_13_salary:0
 msgid "Advance 13th salary"

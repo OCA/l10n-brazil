@@ -21,7 +21,7 @@
                 </label>
                 <label string="Duration"
                        position="replace">
-                    <label for="date_from" string="Duração"/>
+                    <label for="date_from" string="Período"/>
                 </label>
                 <field name="date_from" position="replace">
                     <field name="date_from" nolabel="1"
