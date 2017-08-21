@@ -82,6 +82,11 @@ msgid "Compensation 2 hours"
 msgstr "Compensação - 2 horas"
 
 #. module: l10n_br_hr_holiday
+#: field:hr.holidays,contrato_id:0
+msgid "Funcionário"
+msgstr "Funcionário"
+
+#. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_death_of_relatives
 msgid "Death of relatives"
 msgstr "Luto"
@@ -189,15 +194,15 @@ msgstr "Quantidade de horas excedidas!"
 
 #. module: l10n_br_hr_holiday
 #: model:ir.ui.menu,name:l10n_br_hr_holiday.menu_ocorrencias
-msgid "Ocorrencias"
-msgstr "Evento"
+msgid "Eventos"
+msgstr "Eventos"
 
 #. module: l10n_br_hr_holiday
 #: selection:hr.holidays,tipo:0
 #: selection:hr.holidays.status,tipo:0
 #: model:ir.actions.act_window,name:l10n_br_hr_holiday.l10n_br_hr_holiday_action_ocorrencias
-msgid "Ocorrências"
-msgstr "Evento"
+msgid "Eventos"
+msgstr "Eventos"
 
 #. module: l10n_br_hr_holiday
 #: model:hr.holidays.status,name:l10n_br_hr_holiday.holiday_status_paternity_leave
