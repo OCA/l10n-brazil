@@ -18,12 +18,12 @@ msgstr ""
 #. module: l10n_br_hr_vacation
 #: field:hr.holidays,advance_13_salary:0
 msgid "Advance 13th salary"
-msgstr "Advance 13th salary"
+msgstr "Adiantamento de 13º salário"
 
 #. module: l10n_br_hr_vacation
 #: field:hr.holidays,advance_current_salary:0
 msgid "Advance Currente Salary"
-msgstr "Advance Current Salary"
+msgstr "Adiantamento Salarial"
 
 #. module: l10n_br_hr_vacation
 #: view:hr.holidays:l10n_br_hr_vacation.view_l10n_br_hr_vacation_holiday_tree
