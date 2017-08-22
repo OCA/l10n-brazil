@@ -248,12 +248,14 @@
                 <xpath expr="//label[@for='date_from']" position="replace">
                     <label for="date_from" string=""/>
                 </xpath>
+                <!--  attrs="{'readonly': [('is_simulacao', '=', False)]}" -->
                 <field name="date_from" position="replace">
-                    <field name="date_from" attrs="{'readonly': [('is_simulacao', '=', False)]}"/>
+                    <field name="date_from"/>
                     até
                 </field>
+                <!--  attrs="{'readonly': [('is_simulacao', '=', False)]}" -->
                 <field name="date_to" position="replace">
-                    <field name="date_to" attrs="{'readonly': [('is_simulacao', '=', False)]}" />
+                    <field name="date_to"/>
                 </field>
 
                 <!--Adicionando campod o periodo-->

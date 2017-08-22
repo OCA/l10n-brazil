@@ -483,8 +483,8 @@ class HrPayslip(models.Model):
 
     date_from = fields.Date(
         string='Date From',
-        readonly=True,
-        states={'draft': [('readonly', False)]},
+        #readonly=True,
+        #states={'draft': [('readonly', False)]},
         required=True,
         #compute='_compute_set_dates',
         #store=True,
@@ -492,8 +492,8 @@ class HrPayslip(models.Model):
 
     date_to = fields.Date(
         string='Date To',
-        readonly=True,
-        states={'draft': [('readonly', False)]},
+        #readonly=True,
+        #states={'draft': [('readonly', False)]},
         required=True,
         #compute='_compute_set_dates',
         #store=True,
@@ -514,8 +514,8 @@ class HrPayslip(models.Model):
         comodel_name='hr.vacation.control',
         string="Período Aquisitivo",
         domain="[('contract_id','=',contract_id)]",
-        compute='_compute_set_dates',
-        store=True,
+        #compute='_compute_set_dates',
+        #store=True,
     )
 
     # Rescisão
@@ -1867,9 +1867,9 @@ class HrPayslip(models.Model):
             record.data_mes_ano = MES_DO_ANO[record.mes_do_ano - 1][1][:3] + \
                 '/' + str(record.ano)
 
+    # @api.depends('mes_do_ano', 'ano', 'holidays_ferias', 'data_afastamento')
     @api.multi
-#    @api.depends('mes_do_ano', 'ano', 'holidays_ferias', 'data_afastamento')
-    @api.onchange('mes_do_ano', 'ano', 'data_afastamento')
+    @api.onchange('mes_do_ano', 'ano', 'data_afastamento', 'date_from', 'date_to')
     def _compute_set_dates(self):
         for record in self:
             if not record.mes_do_ano:
