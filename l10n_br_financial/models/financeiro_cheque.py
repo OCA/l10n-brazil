@@ -13,9 +13,11 @@ class FinanceiroCheque(models.Model):
 
     name = fields.Char()
 
-    financial_move_ids = fields.Many2many(
+    financial_move_ids = fields.One2many(
+        string=u'Pagamentos',
         comodel_name='financial.move',
-        string=u'Movimentações'
+        inverse_name='cheque_id',
+        readonly=True,
     )
     partner_id = fields.Many2one(
         comodel_name='res.partner',
@@ -70,6 +72,10 @@ class FinanceiroCheque(models.Model):
         default='novo'
     )
 
+    valor_residual = fields.Float(
+        string=u'Valor residual',
+    )
+
     def verificar_cheque(self):
         self.mudar_estado('verificado')
 
@@ -118,3 +124,7 @@ class FinanceiroCheque(models.Model):
                                 % (self.codigo[3:7], self.banco_id.name))
             self.numero_cheque = self.codigo[11:17]
             self.conta = self.codigo[22:-2] + '-' + self.codigo[-2]
+
+    @api.onchange('valor')
+    def _set_valor_residual(self):
+        self.valor_residual = self.valor

@@ -11,33 +11,18 @@
         <field name="sequence" eval="30"/>
     </record>
 
-    <record model="ir.ui.view" id="financial_move_form_view">
+    <record model="ir.ui.view" id="financial_move_payment_one2many_base_form">
         <field name="name">financial.move.form (in l10n_br_financial)</field>
         <field name="model">financial.move</field>
-        <field name="inherit_id" ref="financial.financial_move_form_view"/>
+        <field name="inherit_id" ref="financial.financial_move_payment_one2many_base_form"/>
         <field name="arch" type="xml">
-            <field name="date_maturity" position="replace">
-                <field name="date_maturity"
-                       attrs="{'invisible': [('financial_type', 'in', ['money_in', 'money_out'])]}"/>
+            <field name="date_credit_debit" position="after">
+                <field name="cheque_id"
+                       attrs="{'invisible': [('document_type_id', 'not in',
+                       [%(financial.DOCUMENTO_FINANCEIRO_CHEQUE)d,
+                        %(financial.DOCUMENTO_FINANCEIRO_CHEQUE_DE_TERCEIROS)d,
+                        %(financial.DOCUMENTO_FINANCEIRO_CHEQUE_PRE)d])]}"/>
             </field>
-            <page name="payments" position="attributes">
-                <attribute name="attrs">{'invisible': [('financial_type', 'in', ['money_in', 'money_out'])]}</attribute>
-            </page>
-            <page name="payments" position="after">
-                <page name="cheques" string="Cheques">
-                    <field name="cheque_ids"
-                           context="{'default_partner_id': partner_id, 'default_financial_move_ids': [id]}">
-                        <tree>
-                            <field name="numero_cheque"/>
-                            <field name="data_recebimento"/>
-                            <field name="partner_id"/>
-                            <field name="titular"/>
-                            <field name="valor"/>
-                            <field name="pre_datado"/>
-                        </tree>
-                    </field>
-                </page>
-            </page>
         </field>
     </record>
 

@@ -17,6 +17,7 @@
         'security/financeiro_cheque.xml',
         'views/financeiro_cheque.xml',
         'views/res_bank_agencia.xml',
+        'views/financial_move.xml',
     ],
     'demo': [
         'demo/financeiro_tipo_documento.xml',

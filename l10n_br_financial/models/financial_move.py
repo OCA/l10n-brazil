@@ -3,37 +3,39 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
-from odoo.tools import float_is_zero
 
 
 class FinancialMove(models.Model):
     _inherit = b'financial.move'
 
-    cheque_ids = fields.Many2many(
+    cheque_id = fields.Many2one(
         comodel_name='financeiro.cheque',
         string=u'Cheques'
     )
 
-    @api.multi
-    @api.depends('state', 'currency_id', 'amount_total', 'cheque_ids.valor',
-                 'cheque_ids.state')
-    def _compute_residual(self):
-        for record in self:
-            amount_paid = 0.00
-            if record.financial_type in ('2receive', '2pay'):  # FIXME
-                for payment in record.related_payment_ids:
-                    amount_paid += payment.amount_total
-                for cheque in record.cheque_ids:
-                    if cheque.state in ['descontado', 'repassado']:
-                        amount_paid += cheque.valor
-                amount_residual = record.amount_total - amount_paid
-                digits_rounding_precision = record.currency_id.rounding
+    document_type_id = fields.Many2one(
+        string=u'Tipo de documento',
+    )
 
-                record.amount_residual = amount_residual
-                record.amount_paid = amount_paid
-                if float_is_zero(
-                        amount_residual,
-                        precision_rounding=digits_rounding_precision):
-                    record.reconciled = True
-                else:
-                    record.reconciled = False
+    amount_document = fields.Float(
+        string=u'Valor',
+    )
+
+    @api.onchange('cheque_id', 'cheque_id.valor')
+    def _set_amount_document(self):
+        if self.cheque_id and self.cheque_id.valor:
+            self.amount_document = self.cheque_id.valor
+
+    @api.model
+    def create(self, vals):
+        move = super(FinancialMove, self).create(vals)
+        if move.cheque_id:
+            move.cheque_id.valor_residual -= move.amount_document
+        return move
+
+    @api.multi
+    def unlink(self):
+        for move in self:
+            if move.cheque_id:
+                move.cheque_id.valor_residual += move.amount_document
+        return super(FinancialMove, self).unlink()
