@@ -65,7 +65,7 @@ class Boleto:
         self._cedente(move_line.company_id)
         self._sacado(move_line.partner_id)
         self._move_line(move_line)
-        self.nosso_numero = nosso_numero
+        self.nosso_numero = str(nosso_numero)
 
     def getAccountNumber(self):
         if self.account_digit:
@@ -102,7 +102,7 @@ class Boleto:
         self.boleto.convenio = payment_mode_id.boleto_convenio
         self.boleto.especie_documento = payment_mode_id.boleto_modalidade
         self.boleto.aceite = payment_mode_id.boleto_aceite
-        self.boleto.carteira = payment_mode_id.boleto_carteira
+        self.boleto.carteira = str(payment_mode_id.boleto_carteira)
 
     def _cedente(self, company):
         """
