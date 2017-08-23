@@ -513,3 +513,45 @@ class SpedCalculoImposto(SpedBase):
     def _onchange_participante_id(self):
         self.ensure_one()
         self.partner_id = self.participante_id.partner_id
+
+    @api.multi
+    def _prepare_sped(self, operacao_id):
+        """
+        Prepare the dict of values to create the new fiscal for an invoice.
+
+        This method may be overridden to implement custom fiscal generation
+
+        (making sure to call super() to establish a clean extension chain).
+        """
+        self.ensure_one()
+        infcomplementar = self.comment if 'comment' in self._fields \
+            else self.note or ''
+
+        sped_vals = {
+            'empresa_id': self.sped_empresa_id.id,
+            'operacao_id': operacao_id.id,  # FIXME
+            'participante_id': self.sped_participante_id.id,
+            'payment_term_id': self.condicao_pagamento_id and \
+                               self.condicao_pagamento_id.id or False,
+            'modelo': operacao_id.modelo,
+            'emissao': operacao_id.emissao,
+            'natureza_operacao_id': operacao_id.natureza_operacao_id.id,
+            'infcomplementar': infcomplementar,
+            'journal_id': self.journal_id.id if 'journal_id' in \
+                                                self._fields else False,
+            'serie': operacao_id.serie,
+            # 'duplicata_ids': ,
+            # 'pagamento_ids': ,
+            # 'transportadora_id': ,
+            # 'volume_ids': ,
+            # 'name': self.client_order_ref or '',
+            # 'origin': self.name,
+            # 'type': 'out_invoice',
+            # 'account_id':
+            #   self.partner_invoice_id.property_account_receivable_id.id,
+            # 'partner_shipping_id': self.partner_shipping_id.id,k
+            # 'user_id': self.user_id and self.user_id.id,
+            # 'team_id': self.team_id.id
+        }
+
+        return sped_vals
