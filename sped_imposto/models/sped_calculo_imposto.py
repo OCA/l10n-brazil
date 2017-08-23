@@ -107,21 +107,22 @@ class SpedCalculoImposto(SpedBase):
         #
         # amount_untaxed é equivalente ao valor dos produtos
         #
-        self.amount_untaxed = \
-            sum(item.vr_produtos for item in self.order_line)
-        #
-        # amount_tax são os imposto que são somados no valor total da NF;
-        # no nosso caso, não só impostos, mas todos os valores que entram
-        # no total da NF: outras despesas acessórias, frete etc.
-        # E, como o amount_total é o valor DA FATURA, não da NF, somamos este
-        # primeiro, e listamos o valor dos impostos considerando valores
-        # acessórios, e potencias retenções de imposto que estejam
-        # reduzindo o valor
-        #
-        self.amount_total = \
-            sum(item.vr_fatura for item in self.order_line)
+        if 'order_line' in self._fields:
+            self.amount_untaxed = \
+                sum(item.vr_produtos for item in self.order_line)
+            #
+            # amount_tax são os imposto que são somados no valor total da NF;
+            # no nosso caso, não só impostos, mas todos os valores que entram
+            # no total da NF: outras despesas acessórias, frete etc.
+            # E, como o amount_total é o valor DA FATURA, não da NF, somamos este
+            # primeiro, e listamos o valor dos impostos considerando valores
+            # acessórios, e potencias retenções de imposto que estejam
+            # reduzindo o valor
+            #
+            self.amount_total = \
+                sum(item.vr_fatura for item in self.order_line)
 
-        self.amount_tax = self.amount_total - self.amount_untaxed
+            self.amount_tax = self.amount_total - self.amount_untaxed
 
 
 
@@ -158,52 +159,56 @@ class SpedCalculoImposto(SpedBase):
     @api.one
     def _get_costs_value(self):
         """ Read the l10n_br specific functional fields. """
-        freight = costs = insurance = 0.0
-        for line in self.order_line:
-            freight += line.vr_frete
-            insurance += line.vr_seguro
-            costs += line.vr_outras
-        self.vr_frete = freight
-        self.vr_outras = costs
-        self.vr_seguro = insurance
+        if 'order_line' in self._fields:
+            freight = costs = insurance = 0.0
+            for line in self.order_line:
+                freight += line.vr_frete
+                insurance += line.vr_seguro
+                costs += line.vr_outras
+            self.vr_frete = freight
+            self.vr_outras = costs
+            self.vr_seguro = insurance
 
     @api.one
     def _set_amount_freight(self):
-        for line in self.order_line:
-            if not self.vr_frete:
-                break
-            line.write({
-                'vr_frete': calc_price_ratio(
-                    line.vr_nf,
-                    self.vr_frete,
-                    line.order_id.amount_untaxed),
-            })
+        if 'order_line' in self._fields:
+            for line in self.order_line:
+                if not self.vr_frete:
+                    break
+                line.write({
+                    'vr_frete': calc_price_ratio(
+                        line.vr_nf,
+                        self.vr_frete,
+                        line.order_id.amount_untaxed),
+                })
         return True
 
     @api.one
     def _set_amount_insurance(self):
-        for line in self.order_line:
-            if not self.vr_seguro:
-                break
-            line.write({
-                'vr_seguro': calc_price_ratio(
-                    line.vr_nf,
-                    self.vr_seguro,
-                    line.order_id.amount_untaxed),
-            })
+        if 'order_line' in self._fields:
+            for line in self.order_line:
+                if not self.vr_seguro:
+                    break
+                line.write({
+                    'vr_seguro': calc_price_ratio(
+                        line.vr_nf,
+                        self.vr_seguro,
+                        line.order_id.amount_untaxed),
+                })
         return True
 
     @api.one
     def _set_amount_costs(self):
-        for line in self.order_line:
-            if not self.vr_outras:
-                break
-            line.write({
-                'vr_outras': calc_price_ratio(
-                    line.vr_nf,
-                    self.vr_outras,
-                    line.order_id.amount_untaxed),
-            })
+        if 'order_line' in self._fields:
+            for line in self.order_line:
+                if not self.vr_outras:
+                    break
+                line.write({
+                    'vr_outras': calc_price_ratio(
+                        line.vr_nf,
+                        self.vr_outras,
+                        line.order_id.amount_untaxed),
+                })
         return True
 
     is_brazilian = fields.Boolean(
