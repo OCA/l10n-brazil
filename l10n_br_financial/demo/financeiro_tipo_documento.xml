@@ -6,7 +6,7 @@
 <data noupdate="1">
 
     <!-- TODO
-    <record model="financeiro.tipo_documento" id="financeiro_tipo_documento_demo_1">
+    <record model="financeiro.tipo.documento" id="financeiro_tipo_documento_demo_1">
        <field name="name">...</field>
     </record>
     -->
