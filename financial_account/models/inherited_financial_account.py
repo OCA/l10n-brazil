@@ -4,44 +4,20 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from odoo import api, fields, models, _
+from odoo import fields, models
 
 
 class FinancialAccount(models.Model):
-    _inherit = 'financial.account'
+    _inherit = b'financial.account'
 
-    account_move_template_2receive_id = fields.Many2one(
-        comodel_name='financial.account.move.template',
-        string='Account Move Template when Receivable',
-        ondelete='restrict',
-    )
-    account_move_template_2pay_id = fields.Many2one(
-        comodel_name='financial.account.move.template',
-        string='Account Move Template when Payable',
-        ondelete='restrict',
-    )
-    account_move_template_receipt_item_id = fields.Many2one(
-        comodel_name='financial.account.move.template',
-        string='Account Move Template when Receipt Item',
-        ondelete='restrict',
-    )
-    account_move_template_payment_item_id = fields.Many2one(
-        comodel_name='financial.account.move.template',
-        string='Account Move Template when Payment Item',
-        ondelete='restrict',
-    )
-    account_move_template_money_in_id = fields.Many2one(
-        comodel_name='financial.account.move.template',
-        string='Account Move Template when Money In',
-        ondelete='restrict',
-    )
-    account_move_template_money_out_id = fields.Many2one(
-        comodel_name='financial.account.move.template',
-        string='Account Move Template when Money Out',
-        ondelete='restrict',
-    )
     account_journal_id = fields.Many2one(
         comodel_name='account.journal',
         string='Journal',
+        ondelete='restrict',
+    )
+    account_matrix_ids = fields.One2many(
+        comodel_name='financial.account.move.matrix',
+        inverse_name='account_id',
+        string='Accounting',
         ondelete='restrict',
     )

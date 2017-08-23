@@ -8,7 +8,7 @@ from odoo import fields, models
 
 
 class ResPartnerBank(models.Model):
-    _inherit = 'res.partner.bank'
+    _inherit = b'res.partner.bank'
 
     account_id = fields.Many2one(
         comodel_name='account.account',

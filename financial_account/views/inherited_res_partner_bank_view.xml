@@ -6,6 +6,7 @@
 -->
 <odoo>
 
+
     <record model="ir.ui.view" id="res_partner_bank_form">
         <field name="name">res.partner.bank.form (in financial_account)</field>
         <field name="model">res.partner.bank</field>

@@ -3,7 +3,6 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <odoo>
-<data>
 
     <record model="ir.ui.view" id="account_invoice_form_view">
         <field name="name">account.invoice.form (in financial_account)</field>
@@ -31,5 +30,4 @@
         </field>
     </record>
 
-</data>
 </odoo>

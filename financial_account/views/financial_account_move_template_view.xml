@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    Copyright 2017 KMEE INFORMATICA LTDA - Aristides Caldeira <aristides.caldeira@kmee.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
@@ -85,5 +85,5 @@
         name="Account Move Template"
         parent="financial.financial_config_menu"
         action="financial_account_move_template_acao" />
-    
+
 </odoo>
