@@ -37,12 +37,15 @@ dict_brcobranca_bank = {
     '399': 'hsbc',
     '341': 'itau',
     '033': 'santander',
-    '10': 'santander',
     '748': 'sicredi',
     # banks implemented in brcobranca but not in Python:
     # '004': 'banco_nordeste',
     # '021': 'banestes',
     # '756': 'sicoob',
+}
+
+dict_brcobranca_currency = {
+    'R$': '9',
 }
 
 
@@ -77,7 +80,16 @@ class AccountMoveLine(models.Model):
                       'agencia': boleto.agencia_cedente,
                       'conta_corrente': boleto.conta_cedente,
                       'convenio': boleto.convenio,
-                      'numero_documento': boleto.numero_documento
+                      'numero_documento': move_line.id,
+                      'data_vencimento': boleto.data_vencimento.strftime(
+                          '%Y/%m/%d'),
+                      'data_documento': boleto.data_documento.strftime(
+                          '%Y/%m/%d'),
+                      'especie': boleto.especie,
+                      'moeda': dict_brcobranca_currency[boleto.especie],
+                      'aceite': boleto.aceite,
+                      'sacado_endereco': boleto.sacado_endereco,
                 }
-                wrapped_boleto_list.append(BoletoWrapper(boleto, boleto_api_data))
+                wrapped_boleto_list.append(
+                    BoletoWrapper(boleto, boleto_api_data))
         return wrapped_boleto_list
