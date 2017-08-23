@@ -347,6 +347,25 @@ class SpedCalculoImposto(SpedBase):
     #     copy=True,
     # )
 
+    ind_pres = fields.Selection(
+        selection=[
+            ('0', 'Não se aplica'),
+            ('1', 'Operação presencial'),
+            ('2', 'Operação não presencial, pela Internet'),
+            ('3', 'Operação não presencial, Teleatendimento'),
+            ('4', 'NFC-e em operação com entrega em domicílio'),
+            ('9', 'Operação não presencial, outros')
+        ],
+        string='Tipo de operação',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        required=False,
+        help='Indicador de presença do comprador no estabelecimento '
+             'comercial no momento da operação.',
+        default=lambda
+            self: self.env.user.company_id.sped_empresa_id.ind_pres,
+    )
+
     @api.depends('company_id', 'partner_id')
     def _compute_is_brazilian(self):
         for documento in self:

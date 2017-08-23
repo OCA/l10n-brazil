@@ -202,6 +202,20 @@ class SpedEmpresa(models.Model):
         string='Último lote de RPS'
     )
 
+    ind_pres = fields.Selection(
+        selection=[
+            ('0', 'Não se aplica'),
+            ('1', 'Operação presencial'),
+            ('2', 'Operação não presencial, pela Internet'),
+            ('3', 'Operação não presencial, Teleatendimento'),
+            ('4', 'NFC-e em operação com entrega em domicílio'),
+            ('9', 'Operação não presencial, otros'),
+        ],
+        string='Tipo de operação',
+        help='Indicador de presença do comprador no '
+             '\nestabelecimento comercial no momento da operação.',
+    )
+
     @api.depends('simples_anexo_id', 'simples_anexo_servico_id',
                  'simples_teto_id')
     def _compute_simples_aliquota_id(self):

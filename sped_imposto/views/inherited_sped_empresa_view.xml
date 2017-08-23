@@ -34,6 +34,7 @@
                         <field name="operacao_produto_id" string="Venda" colspan="4" options="{'no_open': True, 'no_create': True}" />
                         <field name="operacao_produto_pessoa_fisica_id" string="Venda pessoa física" colspan="4" options="{'no_open': True, 'no_create': True}" />
                         <field name="operacao_produto_ids" string="Outras operações permitidas" colspan="4" widget="many2many_tags" />
+                        <field name="ind_pres" colspan="4"/>
                         <separator string="Operações Fiscais padrão para serviços" colspan="4" />
                         <field name="operacao_servico_id" string="Venda" colspan="4" options="{'no_open': True, 'no_create': True}" />
                         <field name="operacao_servico_ids" sring="Outras operações permitidas" colspan="4" widget="many2many_tags" />
