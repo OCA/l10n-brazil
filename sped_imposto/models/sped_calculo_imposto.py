@@ -84,10 +84,144 @@ class SpedCalculoImposto(SpedBase):
     """
     _abstract = False
 
+<<<<<<< HEAD
+=======
+    # TODO: Remover esta funçã;
+    # Estamos validando a data dentro do calula impostos
+    def _get_date(self):
+        """
+        Return the document date
+        Used in get_info
+
+        Override this method in your document like this:
+
+        @api.multi
+        def _get_date(self):
+            date = super(MyClass, self)._get_date()
+
+            # Your logic
+            if self.your_date_field ... :
+                return self.your_date_field
+            return date
+
+        NOTE: If the date of the tax camputation is important to you,
+        don't forget to send this date to the invoice!
+        """
+        return fields.Date.context_today(self)
+
+    def _amount_all_brazil(self):
+        """ Tratamos os impostos brasileiros """
+        #
+        # amount_untaxed é equivalente ao valor dos produtos
+        #
+        if 'order_line' in self._fields:
+            self.amount_untaxed = \
+                sum(item.vr_produtos for item in self.order_line)
+            #
+            # amount_tax são os imposto que são somados no valor total da NF;
+            # no nosso caso, não só impostos, mas todos os valores que entram
+            # no total da NF: outras despesas acessórias, frete etc.
+            # E, como o amount_total é o valor DA FATURA, não da NF, somamos este
+            # primeiro, e listamos o valor dos impostos considerando valores
+            # acessórios, e potencias retenções de imposto que estejam
+            # reduzindo o valor
+            #
+            self.amount_total = \
+                sum(item.vr_fatura for item in self.order_line)
+
+            self.amount_tax = self.amount_total - self.amount_untaxed
+
+
+
+>>>>>>> [WIP]Classe SpedCalculoImposto como base para modelos variados
     @api.model
     def _default_company_id(self):
         return self.env['res.company']._company_default_get(self._name)
 
+<<<<<<< HEAD
+=======
+    @api.depends('company_id', 'partner_id')
+    def _compute_is_brazilian(self):
+        for record in self:
+            if record.company_id.country_id:
+                if record.company_id.country_id.id == \
+                        self.env.ref('base.br').id:
+                    record.is_brazilian = True
+
+                    if record.partner_id.sped_participante_id:
+                        record.sped_participante_id = \
+                            record.partner_id.sped_participante_id
+
+                    if record.sped_empresa_id:
+                        if (record.sped_participante_id.tipo_pessoa ==
+                                TIPO_PESSOA_FISICA):
+                            record.sped_operacao_produto_id = \
+                                record.sped_empresa_id.\
+                                operacao_produto_pessoa_fisica_id
+                        else:
+                            record.sped_operacao_produto_id = \
+                                record.sped_empresa_id.operacao_produto_id
+                        record.sped_operacao_servico_id = \
+                            record.sped_empresa_id.operacao_servico_id
+                    continue
+            record.is_brazilian = False
+
+    @api.one
+    def _get_costs_value(self):
+        """ Read the l10n_br specific functional fields. """
+        if 'order_line' in self._fields:
+            freight = costs = insurance = 0.0
+            for line in self.order_line:
+                freight += line.vr_frete
+                insurance += line.vr_seguro
+                costs += line.vr_outras
+            self.vr_frete = freight
+            self.vr_outras = costs
+            self.vr_seguro = insurance
+
+    @api.one
+    def _set_amount_freight(self):
+        if 'order_line' in self._fields:
+            for line in self.order_line:
+                if not self.vr_frete:
+                    break
+                line.write({
+                    'vr_frete': calc_price_ratio(
+                        line.vr_nf,
+                        self.vr_frete,
+                        line.order_id.amount_untaxed),
+                })
+        return True
+
+    @api.one
+    def _set_amount_insurance(self):
+        if 'order_line' in self._fields:
+            for line in self.order_line:
+                if not self.vr_seguro:
+                    break
+                line.write({
+                    'vr_seguro': calc_price_ratio(
+                        line.vr_nf,
+                        self.vr_seguro,
+                        line.order_id.amount_untaxed),
+                })
+        return True
+
+    @api.one
+    def _set_amount_costs(self):
+        if 'order_line' in self._fields:
+            for line in self.order_line:
+                if not self.vr_outras:
+                    break
+                line.write({
+                    'vr_outras': calc_price_ratio(
+                        line.vr_nf,
+                        self.vr_outras,
+                        line.order_id.amount_untaxed),
+                })
+        return True
+
+>>>>>>> [WIP]Classe SpedCalculoImposto como base para modelos variados
     is_brazilian = fields.Boolean(
         string='Is a Brazilian?',
         compute='_compute_is_brazilian',
