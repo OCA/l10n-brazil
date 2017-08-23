@@ -125,7 +125,8 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
         string='Permite alteração?',
         compute='_compute_permite_alteracao',
     )
-    tipo_produto_servico = fields.Selection(
+
+    tipo_item = fields.Selection(
         selection=[
             ('P', 'Produto'),
             ('S', 'Serviço'),
@@ -134,15 +135,6 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
         string='Produto ou serviço',
         help='Indica o tipo do item',
         default='P',
-    )
-
-    tipo_produto_servico = fields.Selection(
-        selection=[
-            ('p', 'Produto'),
-            ('s', 'Servico'),
-        ],
-        string='Produto ou servico',
-        help='Indica se a operação é com produto ou com serviço.'
     )
 
     @api.onchange('produto_id')

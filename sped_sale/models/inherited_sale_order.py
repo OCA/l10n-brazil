@@ -54,7 +54,7 @@ class SaleOrder(SpedCalculoImpostoProdutoServico,
         inverse_name='order_id',
         string='Produto',
         copy=True,
-        domain=[('tipo_produto_servico','=','P')],
+        domain=[('tipo_item','=','P')],
     )
 
     sale_order_line_servico_ids = fields.One2many(
@@ -62,7 +62,7 @@ class SaleOrder(SpedCalculoImpostoProdutoServico,
         inverse_name='order_id',
         string='Serviços',
         copy=True,
-        domain=[('tipo_produto_servico','=','S')],
+        domain=[('tipo_item','=','S')],
     )
 
     @api.depends(
