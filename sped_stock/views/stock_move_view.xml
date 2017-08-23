@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="sped_stock_move_picking_form">
+        <field name="name">stock.move.picking.form (in sped_stock)</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99999</field>
+        <field name="inherit_id" ref="stock.view_move_picking_form"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="replace">
+                <field name="produto_id"/>
+                <field name="product_id" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_stock_move_picking_tree">
+        <field name="name">stock.move.picking.tree (in sped_stock)</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99999</field>
+        <field name="inherit_id" ref="stock.view_move_picking_tree"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="replace">
+                <field name="produto_id"/>
+                <field name="product_id" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_stock_move_form">
+        <field name="name">stock.move.form (in sped_stock)</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99999</field>
+        <field name="inherit_id" ref="stock.view_move_form"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="replace">
+                <field name="produto_id"/>
+                <field name="product_id" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_stock_view_move_tree">
+        <field name="name">stock.move.tree (in sped_stock)</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99999</field>
+        <field name="inherit_id" ref="stock.view_move_tree"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="replace">
+                <field name="produto_id"/>
+                <field name="product_id" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_stock_move_tree">
+        <field name="name">stock.move.tree (in sped_stock)</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99999</field>
+        <field name="inherit_id" ref="stock.stock_move_tree"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="replace">
+                <field name="produto_id"/>
+                <field name="product_id" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_stock_move_tree_receipt">
+        <field name="name">stock.move.tree.receipt (in sped_stock)</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99999</field>
+        <field name="inherit_id" ref="stock.view_move_tree_receipt_picking"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="replace">
+                <field name="produto_id"/>
+                <field name="product_id" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
