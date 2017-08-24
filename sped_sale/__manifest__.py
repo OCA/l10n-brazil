@@ -22,6 +22,7 @@
         'views/sale_order_line_produto.xml',
         'views/sale_order_line_servico.xml',
         'views/sale_order.xml',
+        'views/menu_sale_order.xml',
     ],
     'demo': [
         'demo/sale_order.xml',
