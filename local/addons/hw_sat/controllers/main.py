@@ -216,7 +216,11 @@ class Sat(Thread):
                 'chave_cfe': resposta.chaveConsulta,
             }
         except Exception as e:
-            return e.resposta.mensagem
+            if hasattr(e, 'resposta'):
+                return e.resposta.mensagem
+            else:
+                return "Erro ao validar os dados para o xml! " \
+                       "Contate o suporte técnico."
 
     def __prepare_cancel_cfe(self, chCanc, cnpj, doc_destinatario):
         kwargs = {}
