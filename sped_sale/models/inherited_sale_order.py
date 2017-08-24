@@ -17,8 +17,7 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
 )
 
 
-class SaleOrder(SpedCalculoImpostoProdutoServico,
-                models.Model):
+class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
     _inherit = 'sale.order'
 
     #
