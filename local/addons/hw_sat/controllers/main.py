@@ -206,14 +206,17 @@ class Sat(Thread):
         )
 
     def _send_cfe(self, json):
-        resposta = self.device.enviar_dados_venda(
-            self.__prepare_send_cfe(json))
-        self._print_extrato_venda(resposta.arquivoCFeSAT)
-        return {
-            'xml': resposta.arquivoCFeSAT,
-            'numSessao': resposta.numeroSessao,
-            'chave_cfe': resposta.chaveConsulta,
-        }
+        try:
+            resposta = self.device.enviar_dados_venda(
+                self.__prepare_send_cfe(json))
+            self._print_extrato_venda(resposta.arquivoCFeSAT)
+            return {
+                'xml': resposta.arquivoCFeSAT,
+                'numSessao': resposta.numeroSessao,
+                'chave_cfe': resposta.chaveConsulta,
+            }
+        except Exception as e:
+            return e.resposta.mensagem
 
     def __prepare_cancel_cfe(self, chCanc, cnpj, doc_destinatario):
         kwargs = {}
