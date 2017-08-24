@@ -198,15 +198,15 @@ function l10n_br_pos_models(instance, module) {
             var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
             var result = PosOrderSuper.prototype.export_for_printing.call(this);
             if( sat_status == 'connected') {
-            // Refactory
+                var pos_config = this.pos.config;
                 if (this.pos.company.ambiente_sat == "homologacao") {
-                    company.cnpj = this.pos.config.cnpj_homologacao;
-                    company.ie = this.pos.config.ie_homologacao;
-                    company.cnpj_software_house = this.pos.config.cnpj_software_house;
+                    company.cnpj = pos_config.cnpj_homologacao;
+                    company.ie = pos_config.ie_homologacao;
+                    company.cnpj_software_house = pos_config.cnpj_software_house;
                 } else {
                     company.cnpj = this.pos.company.cnpj_cpf;
                     company.ie = this.pos.company.inscr_est;
-                    company.cnpj_software_house = this.pos.config.cnpj_software_house;
+                    company.cnpj_software_house = pos_config.cnpj_software_house;
                 }
                 result['company'] = {};
                 result['configs_sat'] = {};
@@ -215,11 +215,11 @@ function l10n_br_pos_models(instance, module) {
                 result['company']['cnpj'] = company.cnpj;
                 result['company']['ie'] = company.ie;
                 result['company']['cnpj_software_house'] = company.cnpj_software_house;
-                result['configs_sat']['sat_path'] = this.pos.config.sat_path;
-                result['configs_sat']['numero_caixa'] = this.pos.config.numero_caixa;
-                result['configs_sat']['cod_ativacao'] = this.pos.config.cod_ativacao;
-                result['configs_sat']['impressora'] = this.pos.config.impressora;
-                result['configs_sat']['printer_params'] = this.pos.config.printer_params;
+                result['configs_sat']['sat_path'] = pos_config.sat_path;
+                result['configs_sat']['numero_caixa'] = pos_config.numero_caixa;
+                result['configs_sat']['cod_ativacao'] = pos_config.cod_ativacao;
+                result['configs_sat']['impressora'] = pos_config.impressora;
+                result['configs_sat']['printer_params'] = pos_config.printer_params;
 
                 return result;
             }else{
@@ -239,14 +239,15 @@ function l10n_br_pos_models(instance, module) {
             var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
             var result = PosOrderSuper.prototype.export_as_JSON.call(this);
             if( sat_status == 'connected') {
+                var pos_config = this.pos.config;
                 if (this.pos.company.ambiente_sat == "homologacao") {
-                    company.cnpj = this.pos.config.cnpj_homologacao;
-                    company.ie = this.pos.config.ie_homologacao;
-                    company.cnpj_software_house = this.pos.config.cnpj_software_house;
+                    company.cnpj = pos_config.cnpj_homologacao;
+                    company.ie = pos_config.ie_homologacao;
+                    company.cnpj_software_house = pos_config.cnpj_software_house;
                 } else {
                     company.cnpj = this.pos.company.cnpj_cpf;
                     company.ie = this.pos.company.inscr_est;
-                    company.cnpj_software_house = this.pos.config.cnpj_software_house;
+                    company.cnpj_software_house = pos_config.cnpj_software_house;
                 }
 
                 result['company'] = {};
@@ -254,11 +255,11 @@ function l10n_br_pos_models(instance, module) {
                 result['company']['cnpj'] = company.cnpj;
                 result['company']['ie'] = company.ie;
                 result['company']['cnpj_software_house'] = company.cnpj_software_house;
-                result['configs_sat']['sat_path'] = this.pos.config.sat_path;
-                result['configs_sat']['numero_caixa'] = this.pos.config.numero_caixa;
-                result['configs_sat']['cod_ativacao'] = this.pos.config.cod_ativacao;
-                result['configs_sat']['impressora'] = this.pos.config.impressora;
-                result['configs_sat']['printer_params'] = this.pos.config.printer_params;
+                result['configs_sat']['sat_path'] = pos_config.sat_path;
+                result['configs_sat']['numero_caixa'] = pos_config.numero_caixa;
+                result['configs_sat']['cod_ativacao'] = pos_config.cod_ativacao;
+                result['configs_sat']['impressora'] = pos_config.impressora;
+                result['configs_sat']['printer_params'] = pos_config.printer_params;
                 result['client'] = client ? client.cnpj_cpf : null;
                 result['cfe_return'] = this.get_return_cfe() ? this.get_return_cfe() : false;
                 result['num_sessao_sat'] = this.get_num_sessao_sat() ? this.get_num_sessao_sat() : false;
@@ -283,22 +284,22 @@ function l10n_br_pos_models(instance, module) {
         //used to create a json of the ticket, to be sent to the printer
         export_for_printing: function () {
             var result = OrderlineSuper.prototype.export_as_JSON.call(this);
+            var produto = this.get_product();
             result['quantity'] = this.get_quantity();
             result['unit_name'] = this.get_unit().name;
             result['price'] = this.get_unit_price();
             result['discount'] = this.get_discount();
-            result['product_name'] = this.get_product().name;
+            result['product_name'] = produto.name;
             result['price_display'] = this.get_display_price();
             result['price_with_tax'] = this.get_price_with_tax();
             result['price_without_tax'] = this.get_price_without_tax();
             result['tax'] = this.get_tax();
-            result['product_description'] = this.get_product().description;
-            result['product_description_sale'] = this.get_product().description_sale;
-            result['product_default_code'] = this.get_product().default_code;
-            result['fiscal_classification_id'] = this.get_product().fiscal_classification_id;
-            result['estimated_taxes'] = this.get_product().estimated_taxes ? this.get_product().estimated_taxes < 1 : this.get_product().estimated_taxes/100;
-            result['origin'] = this.get_product().origin;
+            result['product_description'] = produto.description;
+            result['product_description_sale'] = produto.description_sale;
+            result['product_default_code'] = produto.default_code;
+            result['fiscal_classification_id'] = produto.fiscal_classification_id;
             result['estimated_taxes'] = produto.estd_national_taxes_perct;
+            result['origin'] = produto.origin;
             return result;
         }
     });
@@ -326,73 +327,62 @@ function l10n_br_pos_models(instance, module) {
         }
     });
 
-       function arrange_elements(pos_model) {
-            var product_product_model = pos_model.find_model('product.product');
-            if (_.size(product_product_model) == 1) {
-                var res_partner_index =
-                    parseInt(Object.keys(product_product_model)[0]);
-                pos_model.models[res_partner_index].fields.push(
-                    'fiscal_classification_id',
-                    'origin',
-                    'name'
-                );
+    function arrange_elements(pos_model) {
+        var product_product_model = pos_model.find_model('product.product');
+        if (_.size(product_product_model) == 1) {
+            var res_partner_index =
+                parseInt(Object.keys(product_product_model)[0]);
+            pos_model.models[res_partner_index].fields.push(
+                'fiscal_classification_id',
+                'origin',
                 'estd_national_taxes_perct',
+                'name'
+            );
+            pos_model.models[res_partner_index].domain.push(['qty_available', '>', 0]);
+        }
+        var account_journal_model = pos_model.find_model('account.journal');
+        if (_.size(account_journal_model) == 1) {
+            var account_journal_model =
+                parseInt(Object.keys(account_journal_model)[0]);
+            pos_model.models[res_partner_index].fields.push(
+                'sat_payment_mode',
+                'sat_card_accrediting'
+            );
+        }
+        var res_partner_model = pos_model.find_model('res.partner');
+        if (_.size(res_partner_model) == 1) {
+            var res_partner_index =
+                parseInt(Object.keys(res_partner_model)[0]);
+            pos_model.models[res_partner_index].fields.push(
+                'legal_name',
+                'cnpj_cpf',
+                'inscr_est',
+                'inscr_mun',
+                'suframa',
+                'district',
+                'number',
+                'country_id',
+                'state_id',
+                'l10n_br_city_id'
+            );
         }
 
-
-        function arrange_elements(pos_model) {
-            var account_journal_model = pos_model.find_model('account.journal');
-            if (_.size(account_journal_model) == 1) {
-                var account_journal_model =
-                    parseInt(Object.keys(account_journal_model)[0]);
-                pos_model.models[res_partner_index].fields.push(
-                    'sat_payment_mode',
-                    'sat_card_accrediting'
-                );
-            }
-
-            /**
-             * patch models to load some entities
-             * @param pos_model
-             */
-            function arrange_elements(pos_model) {
-                var res_partner_model = pos_model.find_model('res.partner');
-                if (_.size(res_partner_model) == 1) {
-                    var res_partner_index =
-                        parseInt(Object.keys(res_partner_model)[0]);
-                    pos_model.models[res_partner_index].fields.push(
-                        'legal_name',
-                        'cnpj_cpf',
-                        'inscr_est',
-                        'inscr_mun',
-                        'suframa',
-                        'district',
-                        'number',
-                        'country_id',
-                        'state_id',
-                        'l10n_br_city_id'
-                    );
-                }
-
-                var res_company_model = pos_model.find_model('res.company');
-                if (_.size(res_company_model) == 1) {
-                    var res_company_index =
-                        parseInt(Object.keys(res_company_model)[0]);
-                    pos_model.models[res_company_index].fields.push(
-                        'legal_name',
-                        'cnpj_cpf',
-                        'inscr_est',
-                        'inscr_mun',
-                        'suframa',
-                        'district',
-                        'number',
-                        'country_id',
-                        'state_id',
-                        'l10n_br_city_id'
-                    );
-                }
-                ;
-            };
-        };
-    };
+        var res_company_model = pos_model.find_model('res.company');
+        if (_.size(res_company_model) == 1) {
+            var res_company_index =
+                parseInt(Object.keys(res_company_model)[0]);
+            pos_model.models[res_company_index].fields.push(
+                'legal_name',
+                'cnpj_cpf',
+                'inscr_est',
+                'inscr_mun',
+                'suframa',
+                'district',
+                'number',
+                'country_id',
+                'state_id',
+                'l10n_br_city_id'
+            );
+        }
+    }
 }
