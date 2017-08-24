@@ -195,7 +195,7 @@ class Sat(Thread):
 
 
         return CFeVenda(
-            CNPJ=json['company']['cnpj_software_house'],
+            CNPJ=punctuation_rm(json['company']['cnpj_software_house']),
             signAC=self.assinatura,
             numeroCaixa=2,
             emitente=emitente,
