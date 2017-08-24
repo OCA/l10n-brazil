@@ -838,6 +838,17 @@ class SpedCalculoImpostoItem(SpedBase):
         compute='_compute_permite_alteracao',
     )
 
+    tipo_item = fields.Selection(
+        string='Produto ou serviço',
+        selection=[
+            ('P', 'Produto'),
+            ('S', 'Serviço'),
+            ('M', 'Mensalidade'),
+        ],
+        default='P',
+        help='Indica o tipo do item',
+    )
+
     #
     # Funções para manter a sincronia entre as CSTs do PIS e COFINS para
     # entrada ou saída

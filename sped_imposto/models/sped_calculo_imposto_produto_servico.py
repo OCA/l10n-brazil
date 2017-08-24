@@ -459,34 +459,32 @@ class SpedCalculoImpostoProdutoServico(SpedCalculoImposto):
 
     def _inverse_rateio_produtos_vr_frete(self):
         self.ensure_one()
-        self._inverse_rateio_campo_total('vr_frete', tipo_produto_servico='P')
+        self._inverse_rateio_campo_total('vr_frete', tipo_item='P')
 
     def _inverse_rateio_produtos_vr_seguro(self):
         self.ensure_one()
-        self._inverse_rateio_campo_total('vr_seguro', tipo_produto_servico='P')
+        self._inverse_rateio_campo_total('vr_seguro', tipo_item='P')
 
     def _inverse_rateio_produtos_vr_outras(self):
         self.ensure_one()
-        self._inverse_rateio_campo_total('vr_outras', tipo_produto_servico='P')
+        self._inverse_rateio_campo_total('vr_outras', tipo_item='P')
 
     def _inverse_rateio_produtos_vr_desconto(self):
         self.ensure_one()
-        self._inverse_rateio_campo_total('vr_desconto', 
-                                         tipo_produto_servico='P')
+        self._inverse_rateio_campo_total('vr_desconto', tipo_item='P')
 
     # def _inverse_rateio_servicos_vr_frete(self):
     #     self.ensure_one()
-    #     self._inverse_rateio_campo_total('vr_frete', tipo_produto_servico='S')
+    #     self._inverse_rateio_campo_total('vr_frete', tipo_item='S')
     #
     # def _inverse_rateio_servicos_vr_seguro(self):
     #     self.ensure_one()
-    #     self._inverse_rateio_campo_total('vr_seguro', tipo_produto_servico='S')
+    #     self._inverse_rateio_campo_total('vr_seguro', tipo_item='S')
 
     def _inverse_rateio_servicos_vr_outras(self):
         self.ensure_one()
-        self._inverse_rateio_campo_total('vr_outras', tipo_produto_servico='S')
+        self._inverse_rateio_campo_total('vr_outras', tipo_item='S')
 
     def _inverse_rateio_servicos_vr_desconto(self):
         self.ensure_one()
-        self._inverse_rateio_campo_total('vr_desconto', 
-                                         tipo_produto_servico='S')
+        self._inverse_rateio_campo_total('vr_desconto', tipo_item='S')

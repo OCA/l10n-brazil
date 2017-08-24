@@ -441,30 +441,30 @@ class SpedCalculoImposto(SpedBase):
                     dados[campo] += getattr(item, campo, D(0))
 
                     if 'produtos_' + campo in dados:
-                        if getattr(item, 'tipo_produto_servico', False) == 'P':
+                        if getattr(item, 'tipo_item', False) == 'P':
                             dados['produtos_' + campo] += \
                                 getattr(item, campo, D(0))
 
                     if 'servicos_' + campo in dados:
-                        if getattr(item, 'tipo_produto_servico', False) == 'S':
+                        if getattr(item, 'tipo_item', False) == 'S':
                             dados['servicos_' + campo] += \
                                 getattr(item, campo, D(0))
 
                     if 'mensalidades_' + campo in dados:
-                        if getattr(item, 'tipo_produto_servico', False) == 'M':
+                        if getattr(item, 'tipo_item', False) == 'M':
                             dados['mensalidades_' + campo] += \
                                 getattr(item, campo, D(0))
 
             documento.update(dados)
 
-    def _inverse_rateio_campo_total(self, campo, tipo_produto_servico=None):
+    def _inverse_rateio_campo_total(self, campo, tipo_item=None):
         self.ensure_one()
 
         if not getattr(self, campo, False):
             return
 
         for item in self.item_ids:
-            if tipo_produto_servico is None:
+            if tipo_item is None:
                 item.write({
                     campo: calc_price_ratio(
                         item.vr_nf,
@@ -472,13 +472,12 @@ class SpedCalculoImposto(SpedBase):
                         item.documento_id.vr_nf),
                 })
 
-            elif getattr(item, 'tipo_produto_servico', False) == \
-                    tipo_produto_servico:
-                if tipo_produto_servico == 'P':
+            elif getattr(item, 'tipo_item', False) == tipo_item:
+                if tipo_item == 'P':
                     campo_rateio = 'produtos_' + campo
-                elif tipo_produto_servico == 'S':
+                elif tipo_item == 'S':
                     campo_rateio = 'servicos_' + campo
-                elif tipo_produto_servico == 'M':
+                elif tipo_item == 'M':
                     campo_rateio = 'mensalidades_' + campo
 
                 item.write({
