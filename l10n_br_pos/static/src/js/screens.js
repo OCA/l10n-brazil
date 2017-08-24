@@ -258,70 +258,84 @@ function l10n_br_pos_screens(instance, module) {
             options = options || {};
             var currentOrder = this.pos.get('selectedOrder');
 
-            var status = this.pos.proxy.get('status');
-            var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
-            if( sat_status == 'connected'){
-                if(options.invoice){
-                    // deactivate the validation button while we try to send the order
-                    this.pos_widget.action_bar.set_button_disabled('validation',true);
-                    this.pos_widget.action_bar.set_button_disabled('invoice',true);
+            if (this.pos.config.iface_sat_via_proxy){
+                var status = this.pos.proxy.get('status');
+                var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
+                if( sat_status == 'connected'){
+                    if(options.invoice){
+                        // deactivate the validation button while we try to send the order
+                        this.pos_widget.action_bar.set_button_disabled('validation',true);
+                        this.pos_widget.action_bar.set_button_disabled('invoice',true);
 
-                    var invoiced = this.pos.push_and_invoice_order(currentOrder);
+                        var invoiced = this.pos.push_and_invoice_order(currentOrder);
 
-                    invoiced.fail(function(error){
-                        if(error === 'error-no-client'){
-                            this.pos_widget.screen_selector.show_popup('error',{
-                                message: _t('An anonymous order cannot be invoiced'),
-                                comment: _t('Please select a client for this order. This can be done by clicking the order tab'),
-                            });
+                        invoiced.fail(function(error){
+                            if(error === 'error-no-client'){
+                                this.pos_widget.screen_selector.show_popup('error',{
+                                    message: _t('An anonymous order cannot be invoiced'),
+                                    comment: _t('Please select a client for this order. This can be done by clicking the order tab'),
+                                });
+                            }else{
+                                this.pos_widget.screen_selector.show_popup('error',{
+                                    message: _t('The order could not be sent'),
+                                    comment: _t('Check your internet connection and try again.'),
+                                });
+                            }
+                            this.pos_widget.action_bar.set_button_disabled('validation',false);
+                            this.pos_widget.action_bar.set_button_disabled('invoice',false);
+                        });
+
+                        invoiced.done(function(){
+                            this.pos_widget.action_bar.set_button_disabled('validation',false);
+                            this.pos_widget.action_bar.set_button_disabled('invoice',false);
+                            this.pos.get('selectedOrder').destroy();
+                        });
+
+                    }else{
+                        var retorno_sat = {};
+                        if(this.pos.config.iface_sat_via_proxy){
+                            var receipt = currentOrder.export_for_printing();
+                            var json = currentOrder.export_for_printing();
+                            this.pos.proxy.send_order_sat(
+                                currentOrder,
+                                QWeb.render('XmlReceipt',{
+                                receipt: receipt, widget: self,
+                            }), json);
+                            this.pos.get('selectedOrder').destroy();
                         }else{
-                            this.pos_widget.screen_selector.show_popup('error',{
-                                message: _t('The order could not be sent'),
-                                comment: _t('Check your internet connection and try again.'),
-                            });
+                            this.pos.push_order(currentOrder);
                         }
-                        this.pos_widget.action_bar.set_button_disabled('validation',false);
-                        this.pos_widget.action_bar.set_button_disabled('invoice',false);
-                    });
 
-                    invoiced.done(function(){
-                        this.pos_widget.action_bar.set_button_disabled('validation',false);
-                        this.pos_widget.action_bar.set_button_disabled('invoice',false);
-                        this.pos.get('selectedOrder').destroy();
-                    });
-
+                        if(this.pos.config.iface_print_via_proxy){
+                            var receipt = currentOrder.export_for_printing();
+                            this.pos.proxy.print_receipt(
+                                QWeb.render('XmlReceipt',{
+                                receipt: receipt, widget: self,
+                            }));
+                            this.pos.get('selectedOrder').destroy();    //finish order and go back to scan screen
+                        }else{
+                            this.pos_widget.screen_selector.set_current_screen(this.next_screen);
+                        }
+                    }
                 }else{
-                    var retorno_sat = {};
-                    if(this.pos.config.iface_sat_via_proxy){
-                        var receipt = currentOrder.export_for_printing();
-                        var json = currentOrder.export_for_printing();
-                        this.pos.proxy.send_order_sat(
-                            currentOrder,
-                            QWeb.render('XmlReceipt',{
-                            receipt: receipt, widget: self,
-                        }), json);
-                        this.pos.get('selectedOrder').destroy();
-                    }else{
-                        this.pos.push_order(currentOrder);
-                    }
-
-                    if(this.pos.config.iface_print_via_proxy){
-                        var receipt = currentOrder.export_for_printing();
-                        this.pos.proxy.print_receipt(
-                            QWeb.render('XmlReceipt',{
-                            receipt: receipt, widget: self,
-                        }));
-                        this.pos.get('selectedOrder').destroy();    //finish order and go back to scan screen
-                    }else{
-                        this.pos_widget.screen_selector.set_current_screen(this.next_screen);
-                    }
+                    this.pos_widget.screen_selector.show_popup('error',{
+                        message: _t('SAT n\u00e3o est\u00e1 conectado'),
+                        comment: _t('Verifique se existe algum problema com o SAT e tente fazer a requisi\u00e7\u00e3o novamente.'),
+                    });
                 }
             }else{
-                this.pos_widget.screen_selector.show_popup('error',{
-                    message: _t('SAT n\u00e3o est\u00e1 conectado'),
-                    comment: _t('Verifique se existe algum problema com o SAT e tente fazer a requisi\u00e7\u00e3o novamente.'),
-                });
+                this.pos.push_order(currentOrder);
+                if(this.pos.config.iface_print_via_proxy){
+                    var receipt = currentOrder.export_for_printing();
+                    this.pos.proxy.print_receipt(QWeb.render('XmlReceipt',{
+                        receipt: receipt, widget: self,
+                    }));
+                    this.pos.get('selectedOrder').destroy();    //finish order and go back to scan screen
+                }else{
+                    this.pos_widget.screen_selector.set_current_screen(this.next_screen);
+                }
             }
+
         }
     });
 
