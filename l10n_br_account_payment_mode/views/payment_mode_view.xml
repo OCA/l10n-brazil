@@ -42,7 +42,7 @@
                             </page>
                             <page string="Pagamento" attrs="{'invisible': [('purchase_ok', '!=', True)]}">
                                 <group>
-                                    <field name="internal_sequence_id"/>
+                                    <field name="internal_sequence_id" required='True'/>
                                     <field name="instrucoes"
                                            attrs="{'invisible': [('payment_order_type', '!=', 'cobranca')]}"/>
                                     <field name="invoice_print"
