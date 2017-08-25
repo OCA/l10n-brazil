@@ -70,7 +70,7 @@ class HrPayslip(models.Model):
              ', company_id asc, employee_id asc, number desc'
     _sql_constraints = [
         ('holerite_unico',
-         'unique(contract_id, tipo_de_folha, date_from, date_to, is_simulacao)',
+         'unique(contract_id, tipo_de_folha, date_from, date_to, is_simulacao, periodo_aquisitivo)',
          'Este Holerite já existe!')
     ]
     def hr_verify_sheet(self):
@@ -836,11 +836,12 @@ class HrPayslip(models.Model):
             ('date_from', '>=', payslip.date_from),
             ('date_from', '<=', payslip.date_to),
             ('contract_id', '=', payslip.contract_id.id),
-            ('state', '=', 'done')
+            ('state', '=', 'done'),
+            ('is_simulacao', '=', False)
         ])
         if holerite_ferias:
             lines = []
-            for line in holerite_ferias.line_ids:
+            for line in holerite_ferias.line_ids[0]:
                 lines.append(line)
         else:
             return False, False
