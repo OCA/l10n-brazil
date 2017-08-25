@@ -89,7 +89,7 @@
                                string="Descrição alternativa"/>
                         <newline/>
                         <field name="cfop_id" colspan="4"
-                               domain="[('entrada_saida', '=', parent.entrada_saida)]"
+                               domain="[('entrada_saida', '=', entrada_saida)]"
                                options="{'no_create': True}"/>
                         <newline/>
                         <field name="quantidade"/>

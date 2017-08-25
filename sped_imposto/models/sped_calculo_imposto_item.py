@@ -838,6 +838,17 @@ class SpedCalculoImpostoItem(SpedBase):
         compute='_compute_permite_alteracao',
     )
 
+    tipo_item = fields.Selection(
+        string='Produto ou serviço',
+        selection=[
+            ('P', 'Produto'),
+            ('S', 'Serviço'),
+            ('M', 'Mensalidade'),
+        ],
+        default='P',
+        help='Indica o tipo do item',
+    )
+
     #
     # Funções para manter a sincronia entre as CSTs do PIS e COFINS para
     # entrada ou saída
@@ -1658,8 +1669,8 @@ class SpedCalculoImpostoItem(SpedBase):
             self.vr_unitario_tributacao = self.vr_unitario_tributacao.quantize(
                 D('0.001'))
 
-            self.vr_unitario = self.vr_unitario
-            self.vr_unitario_tributacao = self.vr_unitario_tributacao
+            # self.vr_unitario = self.vr_unitario
+            # self.vr_unitario_tributacao = self.vr_unitario_tributacao
 
         #
         # Calcula o valor dos produtos

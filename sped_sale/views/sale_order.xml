@@ -3,218 +3,204 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <odoo>
-    <data>
 
-        <!--<record model="ir.ui.view" id="sale_order_form_view">-->
-            <!--<field name="name">sale.order.form (in sped_sale)</field>-->
-            <!--<field name="model">sale.order</field>-->
-            <!--<field name="inherit_id" ref="sale.view_order_form"/>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<field name="partner_id" position="attributes">-->
-                    <!--<attribute name="attrs">{'invisible': [('is_brazilian',-->
-                        <!--'=', True)]}-->
-                    <!--</attribute>-->
-                <!--</field>-->
-                <!--<field name="partner_id" position="after">-->
-                    <!--<field name="participante_id" string="Customer"-->
-                           <!--domain="[('eh_cliente', '=', True)]"-->
-                           <!--options="{'no_quick_create': True}"-->
-                           <!--attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>-->
-                <!--</field>-->
+    <!--<record model="ir.ui.view" id="sale_order_form_view">-->
+    <!--<field name="name">sale.order.form (in sped_sale)</field>-->
+    <!--<field name="model">sale.order</field>-->
+    <!--<field name="inherit_id" ref="sale.view_order_form"/>-->
+    <!--<field name="arch" type="xml">-->
+    <!--<field name="partner_id" position="attributes">-->
+    <!--<attribute name="attrs">{'invisible': [('is_brazilian',-->
+    <!--'=', True)]}-->
+    <!--</attribute>-->
+    <!--</field>-->
+    <!--<field name="partner_id" position="after">-->
+    <!--<field name="participante_id" string="Customer"-->
+    <!--domain="[('eh_cliente', '=', True)]"-->
+    <!--options="{'no_quick_create': True}"-->
+    <!--attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>-->
+    <!--</field>-->
 
-                <!--<xpath expr="//group/field[@name='company_id']"-->
-                       <!--position="after">-->
-                    <!--<field name="is_brazilian"-->
-                           <!--groups="l10n_br_base.GRUPO_SUPORTE"/>-->
-                    <!--<field name="empresa_id" string="Razão Social"-->
-                           <!--attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>-->
-                <!--</xpath>-->
-                <!--<field name="fiscal_position_id" position="attributes">-->
-                    <!--<attribute name="attrs">{'invisible': [('is_brazilian',-->
-                        <!--'=', True)]}-->
-                    <!--</attribute>-->
-                <!--</field>-->
-                <!--<field name="fiscal_position_id" position="after">-->
-                    <!--<field name="sped_operacao_produto_id"-->
-                           <!--domain="[('emissao', '=', '0')]"-->
-                           <!--attrs="{'required': [('sped_operacao_servico_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>-->
-                    <!--<field name="sped_operacao_servico_id"-->
-                           <!--domain="[('emissao', '=', '0')]"-->
-                           <!--attrs="{'required': [('sped_operacao_produto_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>-->
-                <!--</field>-->
-                <!--<field name="currency_id" position="attributes">-->
-                    <!--<attribute name="domain">[('is_currency', '=', True)]-->
-                    <!--</attribute>-->
-                <!--</field>-->
-                <!--<xpath expr="//field[@name='order_line']"-->
-                       <!--position="attributes">-->
-                    <!--<attribute name="attrs">{'invisible': [('is_brazilian',-->
-                        <!--'=', True)]}-->
-                    <!--</attribute>-->
-                <!--</xpath>-->
-                <!--<xpath expr="//field[@name='order_line']" position="after">-->
-                    <!--<field name="order_line" nolabel="1"-->
-                           <!--attrs="{'readonly': [('state', 'in', ('done','cancel'))], 'invisible': [('is_brazilian', '!=', True)]}"-->
-                           <!--context="{-->
-						<!--'tree_view_ref': 'sped_sale.sale_order_line_brazil_tree',-->
-						<!--'form_view_ref': 'sped_sale.sale_order_line_brazil_form'}"-->
-                    <!--/>-->
-                <!--</xpath>-->
-                <!--<field name="amount_untaxed" position="after">-->
-                    <!--<field name="vr_produtos"/>-->
-                    <!--<field name="vr_simples"/>-->
-                    <!--<field name="vr_frete"/>-->
-                    <!--<field name="vr_seguro"/>-->
-                    <!--<field name="vr_outras"/>-->
-                <!--</field>-->
-            <!--</field>-->
-        <!--</record>-->
+    <!--<xpath expr="//group/field[@name='company_id']"-->
+    <!--position="after">-->
+    <!--<field name="is_brazilian"-->
+    <!--groups="l10n_br_base.GRUPO_SUPORTE"/>-->
+    <!--<field name="empresa_id" string="Razão Social"-->
+    <!--attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>-->
+    <!--</xpath>-->
+    <!--<field name="fiscal_position_id" position="attributes">-->
+    <!--<attribute name="attrs">{'invisible': [('is_brazilian',-->
+    <!--'=', True)]}-->
+    <!--</attribute>-->
+    <!--</field>-->
+    <!--<field name="fiscal_position_id" position="after">-->
+    <!--<field name="sped_operacao_produto_id"-->
+    <!--domain="[('emissao', '=', '0')]"-->
+    <!--attrs="{'required': [('sped_operacao_servico_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>-->
+    <!--<field name="sped_operacao_servico_id"-->
+    <!--domain="[('emissao', '=', '0')]"-->
+    <!--attrs="{'required': [('sped_operacao_produto_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>-->
+    <!--</field>-->
+    <!--<field name="currency_id" position="attributes">-->
+    <!--<attribute name="domain">[('is_currency', '=', True)]-->
+    <!--</attribute>-->
+    <!--</field>-->
+    <!--<xpath expr="//field[@name='order_line']"-->
+    <!--position="attributes">-->
+    <!--<attribute name="attrs">{'invisible': [('is_brazilian',-->
+    <!--'=', True)]}-->
+    <!--</attribute>-->
+    <!--</xpath>-->
+    <!--<xpath expr="//field[@name='order_line']" position="after">-->
+    <!--<field name="order_line" nolabel="1"-->
+    <!--attrs="{'readonly': [('state', 'in', ('done','cancel'))], 'invisible': [('is_brazilian', '!=', True)]}"-->
+    <!--context="{-->
+    <!--'tree_view_ref': 'sped_sale.sale_order_line_brazil_tree',-->
+    <!--'form_view_ref': 'sped_sale.sale_order_line_brazil_form'}"-->
+    <!--/>-->
+    <!--</xpath>-->
+    <!--<field name="amount_untaxed" position="after">-->
+    <!--<field name="vr_produtos"/>-->
+    <!--<field name="vr_simples"/>-->
+    <!--<field name="vr_frete"/>-->
+    <!--<field name="vr_seguro"/>-->
+    <!--<field name="vr_outras"/>-->
+    <!--</field>-->
+    <!--</field>-->
+    <!--</record>-->
 
-        <!---->
+    <!---->
 
-        <record model="ir.ui.view" id="sales_to_invoice_order_form_view">
-            <field name="name">sale.order.form (in sped_sale)</field>
-            <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale.view_order_form"/>
-            <field name="mode">primary</field>
-            <field name="arch" type="xml">
-                <xpath expr="//sheet/group" position="replace">
-                    <group >
-                        <group colspan="4">
-                            <field name="partner_id" invisible="1"/>
-                            <field name="participante_id" string="Cliente"
-                                   domain="[('eh_cliente', '=', True)]"
-                                   options='{"always_reload": True}'
-                                   attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
-                            <field name="partner_shipping_id"/>
-                            <field name="date_order" />
-                            <field name="pricelist_id" groups="product.group_sale_pricelist"/>
-                            <field name="ind_pres" />
-                        </group>
+    <record model="ir.ui.view" id="sales_to_invoice_order_form_view">
+        <field name="name">sale.order.form (in sped_sale)</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group" position="replace">
+                <group>
+                    <group colspan="4">
+                        <field name="partner_id" invisible="1"/>
+                        <field name="participante_id" string="Cliente"
+                               domain="[('eh_cliente', '=', True)]"
+                               options='{"always_reload": True}'
+                               attrs="{'required': [('is_brazilian', '=', True)]}"/>
+                        <field name="partner_shipping_id"/>
+                        <field name="date_order"/>
+                        <field name="pricelist_id"
+                               groups="product.group_sale_pricelist"/>
+                        <field name="ind_pres"/>
                     </group>
+                </group>
+            </xpath>
 
-                    <group colspan="4" class="oe_right">
-                        <group name="produtos" col="2" class="oe_right" style="padding-right:1cm;" attrs="{'invisible': [('sped_operacao_produto_id', '=', False)]}" >
-                            <group class="oe_subtotal_footer oe_right" name="sale_total">
-                                <separator string="Total (Produtos)"/>
-                                <newline/>
-                                <field name="produtos_vr_produtos" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                                <field name="produtos_vr_frete" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                                <field name="produtos_vr_seguro" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                                <field name="produtos_vr_outras" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                                <!--<field name="vr_simples" widget='monetary' options="{'currency_field': 'currency_id'}"/>-->
-                                <!--<field name="vr_icms_st" widget='monetary' options="{'currency_field': 'currency_id'}"/>-->
-                                <!--<field name="vr_pis_proprio" widget='monetary' options="{'currency_field': 'currency_id'}"/>-->
-                                <!--<field name="vr_cofins_proprio" widget='monetary' options="{'currency_field': 'currency_id'}"/>-->
-
-                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                                    <label string="Valor total" />
-                                    <button name="button_dummy" states="draft,sent" string="(update)" type="object" class="oe_edit_only oe_link"/>
-                                </div>
-
-                                <field name="produtos_vr_nf" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                            </group>
-                        </group>
-
-                        <group name="servicos" col="2" class="oe_right" style="padding-right:1cm;" attrs="{'invisible': [('sped_operacao_servico_id', '=', False)]}">
-                            <group class="oe_subtotal_footer oe_right" name="sale_total">
-                                <separator string="Total (Serviços)"/>
-                                <newline/>
-                                <field name="servicos_vr_produtos" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                                <field name="servicos_vr_iss" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                                <field name="servicos_vr_inss_retido" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                                    <label string="Valor total" />
-                                    <button name="button_dummy" states="draft,sent" string="(update)" type="object" class="oe_edit_only oe_link"/>
-                                </div>
-                                <field name="servicos_vr_nf" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                            </group>
-                        </group>
-                    </group>
-                </xpath>
-
-                <xpath expr="//notebook/page[1]" position="replace">
-                    <page string="Produtos" name="product_page" >
-                        <field name="sale_order_line_produto_ids"
-                               context="{
+            <xpath expr="//notebook/page[1]" position="replace">
+                <page string="Produtos" name="product_page">
+                    <field name="sale_order_line_produto_ids"
+                           context="{
                                'default_tipo_item': 'P',
                                'tree_view_ref': 'sped_sale.sale_order_line_brazil_produto_tree',
                                'form_view_ref': 'sped_sale.sale_order_line_brazil_produto_form'}"
-                        />
-                    </page>
-                    <page string="Servicos" name="services_page" attrs="{'invisible': [('sped_operacao_servico_id', '=', False)]}" >
-                        <field name="sale_order_line_servico_ids"
-                               context="{
+                    />
+                    <group name="produtos" col="2" class="oe_right"
+                           style="padding-right:1cm;"
+                           attrs="{'invisible': [('sped_operacao_produto_id', '=', False)]}">
+                        <group class="oe_subtotal_footer oe_right"
+                               name="sale_total">
+                            <field name="produtos_vr_produtos" widget='monetary'
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="produtos_vr_frete" widget='monetary'
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="produtos_vr_seguro" widget='monetary'
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="produtos_vr_outras" widget='monetary'
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <!--<field name="vr_simples" widget='monetary' options="{'currency_field': 'currency_id'}"/>-->
+                            <!--<field name="vr_icms_st" widget='monetary' options="{'currency_field': 'currency_id'}"/>-->
+                            <!--<field name="vr_pis_proprio" widget='monetary' options="{'currency_field': 'currency_id'}"/>-->
+                            <!--<field name="vr_cofins_proprio" widget='monetary' options="{'currency_field': 'currency_id'}"/>-->
+
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label string="Valor total"/>
+                                <button name="button_dummy" states="draft,sent"
+                                        string="(update)" type="object"
+                                        class="oe_edit_only oe_link"/>
+                            </div>
+
+                            <field name="produtos_vr_nf" nolabel="1"
+                                   class="oe_subtotal_footer_separator"
+                                   widget='monetary'
+                                   options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                    </group>
+                </page>
+                <page string="Servicos" name="services_page"
+                      attrs="{'invisible': [('sped_operacao_servico_id', '=', False)]}">
+                    <field name="sale_order_line_servico_ids"
+                           context="{
                                'default_tipo_item': 'S',
                                'tree_view_ref': 'sped_sale.sale_order_line_brazil_servico_tree',
                                'form_view_ref': 'sped_sale.sale_order_line_brazil_servico_form'}"
-                        />
-                    </page>
-                </xpath>
-
-                <xpath expr="//group[@name='sales_person']" position="before">
-                    <group name="pagamento" string="Pagamento">
-                        <field name="payment_term_id" options="{'no_create': True}" context=""/>
-
+                    />
+                    <group name="servicos" col="2" class="oe_right"
+                           style="padding-right:1cm;"
+                           attrs="{'invisible': [('sped_operacao_servico_id', '=', False)]}">
+                        <group class="oe_subtotal_footer oe_right"
+                               name="sale_total">
+                            <field name="servicos_vr_produtos" widget='monetary'
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="servicos_vr_iss" widget='monetary'
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="servicos_vr_inss_retido"
+                                   widget='monetary'
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label string="Valor total"/>
+                                <button name="button_dummy" states="draft,sent"
+                                        string="(update)" type="object"
+                                        class="oe_edit_only oe_link"/>
+                            </div>
+                            <field name="servicos_vr_nf" nolabel="1"
+                                   class="oe_subtotal_footer_separator"
+                                   widget='monetary'
+                                   options="{'currency_field': 'currency_id'}"/>
+                        </group>
                     </group>
-                </xpath>
+                </page>
+            </xpath>
 
-                <xpath expr="//group[@name='sales_person']" position="attributes">
-                    <attribute name="name">Venda e comissão</attribute>
-                </xpath>
+            <xpath expr="//group[@name='sales_person']" position="before">
+                <group name="pagamento" string="Pagamento">
+                    <field name="payment_term_id" options="{'no_create': True}" context=""/>
+                </group>
+            </xpath>
 
-                <xpath expr="//group/field[@name='company_id']" position="after">
-                    <field name="is_brazilian" groups="l10n_br_base.GRUPO_SUPORTE"/>
-                    <field name="empresa_id" string="Razão Social"
-                           attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
-                </xpath>
+            <xpath expr="//group[@name='sales_person']" position="attributes">
+                <attribute name="name">Venda e comissão</attribute>
+            </xpath>
 
-                <field name="fiscal_position_id" position="attributes">
-                    <attribute name="attrs">{'invisible': [('is_brazilian','=', True)]}</attribute>
-                </field>
+            <xpath expr="//group/field[@name='company_id']" position="after">
+                <field name="is_brazilian" groups="l10n_br_base.GRUPO_SUPORTE"/>
+                <field name="empresa_id" string="Razão Social"
+                       attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
+            </xpath>
 
-                <field name="fiscal_position_id" position="after">
-                    <field name="sped_operacao_produto_id"
-                           domain="[('emissao', '=', '0')]"
-                           attrs="{'required': [('sped_operacao_servico_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
-                    <field name="sped_operacao_servico_id"
-                           domain="[('emissao', '=', '0')]"
-                           attrs="{'required': [('sped_operacao_produto_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
-                </field>
-
+            <field name="fiscal_position_id" position="attributes">
+                <attribute name="attrs">{'invisible': [('is_brazilian','=',True)]}
+                </attribute>
             </field>
-        </record>
 
-        <record model="ir.actions.act_window"
-                id="action_l10n_br_sale_order_invoice">
-            <field name="name">Venda para Faturar</field>
-            <field name="res_model">sale.order</field>
-            <field name="view_mode">tree,form</field>
-            <field name="domain">[('invoice_status','=','to invoice')]</field>
-        </record>
+            <field name="fiscal_position_id" position="after">
+                <field name="sped_operacao_produto_id"
+                       domain="[('emissao', '=', '0')]"
+                       attrs="{'required': [('sped_operacao_servico_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
+                <field name="sped_operacao_servico_id"
+                       domain="[('emissao', '=', '0')]"
+                       attrs="{'required': [('sped_operacao_produto_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
+            </field>
 
-        <record model="ir.ui.menu" id="menu_l10n_br_sale_order_invoice">
-            <field name="name">Venda para Faturar</field>
-            <field name="parent_id" ref="sale.menu_sale_invoicing"/>
-            <field name="action" ref="action_l10n_br_sale_order_invoice"/>
-            <field name="sequence" eval="3"/>
-        </record>
+        </field>
+    </record>
 
-        <record model="ir.actions.act_window.view"
-                id="l10n_br_sale_order_form_action">
-            <field eval="2" name="sequence"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="sales_to_invoice_order_form_view"/>
-            <field name="act_window_id"
-                   ref="action_l10n_br_sale_order_invoice"/>
-        </record>
 
-        <record model="ir.actions.act_window.view" id="l10n_br_sale_order_tree_action">
-            <field eval="1" name="sequence"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="sale.view_order_tree"/>
-            <field name="act_window_id" ref="action_l10n_br_sale_order_invoice"/>
-        </record>
-
-    </data>
 </odoo>

@@ -126,17 +126,6 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
         compute='_compute_permite_alteracao',
     )
 
-    tipo_item = fields.Selection(
-        selection=[
-            ('P', 'Produto'),
-            ('S', 'Serviço'),
-            ('M', 'Mensalidade'),
-        ],
-        string='Produto ou serviço',
-        help='Indica o tipo do item',
-        default='P',
-    )
-
     @api.onchange('produto_id')
     def _onchange_produto_id(self):
         for item in self:
@@ -180,15 +169,16 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
     @api.onchange('price_unit', 'product_uom_qty')
     def _onchange_price_unit_product_uom_qty(self):
         for item in self:
-            if item.is_brazilian:
-                item.vr_unitario = item.price_unit
-                item.quantidade = item.product_uom_qty
+            # if item.is_brazilian:
+            item.vr_unitario = item.price_unit
+            item.quantidade = item.product_uom_qty
 
     @api.onchange('vr_unitario', 'quantidade')
     def _onchange_vr_unitario(self):
         for item in self:
             item.price_unit = item.vr_unitario
             item.product_uom_qty = item.quantidade
+            item.product_uom = item.unidade_id.uom_id
 
     @api.depends('modelo', 'emissao')
     def _compute_permite_alteracao(self):
