@@ -84,7 +84,7 @@
                         <field name="participante_id" string="Cliente"
                                domain="[('eh_cliente', '=', True)]"
                                options='{"always_reload": True}'
-                               attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
+                               attrs="{'required': [('is_brazilian', '=', True)]}"/>
                         <field name="partner_shipping_id"/>
                         <field name="date_order"/>
                         <field name="pricelist_id"
