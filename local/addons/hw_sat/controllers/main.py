@@ -228,7 +228,7 @@ class Sat(Thread):
             kwargs['destinatario'] = Destinatario(CPF=doc_destinatario)
         return CFeCancelamento(
             chCanc=chCanc,
-            CNPJ=cnpj,
+            CNPJ=punctuation_rm(cnpj),
             signAC=self.assinatura,
             numeroCaixa=2,
             **kwargs
