@@ -33,7 +33,12 @@ TIPO_DE_FOLHA = [
 
 class HrPayslipRun(models.Model):
     _inherit = "hr.payslip.run"
-    _order = "ano desc,mes_do_ano desc,tipo_de_folha"
+    _order = "ano desc,mes_do_ano desc,tipo_de_folha asc, company_id asc"
+    _sql_constraints = [
+        ('lote_unico',
+         'unique(ano, mes_do_ano, tipo_de_folha, company_id)',
+         'Este Lote de Holerite já existe!')
+    ]
 
     mes_do_ano = fields.Selection(
         selection=MES_DO_ANO,

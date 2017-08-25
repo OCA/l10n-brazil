@@ -66,8 +66,13 @@ TIPO_DE_FOLHA = [
 
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
-    _order = 'employee_id asc, number desc'
-    
+    _order = 'ano desc, mes_do_ano desc, tipo_de_folha asc' + \
+             ', company_id asc, employee_id asc, number desc'
+    _sql_constraints = [
+        ('holerite_unico',
+         'unique(contract_id, tipo_de_folha, date_from, date_to, is_simulacao)',
+         'Este Holerite já existe!')
+    ]
     def hr_verify_sheet(self):
         return self.write({'state': 'verify'})
 
