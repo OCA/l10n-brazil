@@ -1669,8 +1669,8 @@ class SpedCalculoImpostoItem(SpedBase):
             self.vr_unitario_tributacao = self.vr_unitario_tributacao.quantize(
                 D('0.001'))
 
-            self.vr_unitario = self.vr_unitario
-            self.vr_unitario_tributacao = self.vr_unitario_tributacao
+            # self.vr_unitario = self.vr_unitario
+            # self.vr_unitario_tributacao = self.vr_unitario_tributacao
 
         #
         # Calcula o valor dos produtos
