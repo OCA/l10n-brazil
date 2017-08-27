@@ -1044,26 +1044,27 @@ class HrPayslip(models.Model):
 
         periodo = self.env['hr.vacation.control'].with_context(data_fim = self.data_afastamento).browse(periodo_id)
 
-        data_inicio = self.data_afastamento
-        data_fim = data.parse_datetime(data_inicio) + relativedelta(days=periodo.avos * 2.5)
+        if periodo.saldo:
+            data_inicio = self.data_afastamento
+            data_fim = data.parse_datetime(data_inicio) + relativedelta(days=periodo.avos * 2.5)
 
-        domain = [
-            ('tipo_de_folha', '=', 'ferias'),
-            ('is_simulacao', '=', True),
-            ('periodo_aquisitivo', '=', periodo_id)
-        ]
-        payslip_simulacao = self.env['hr.payslip'].search(domain)
-        if payslip_simulacao:
-            payslip_simulacao_criada = payslip_simulacao
-        else:
-            payslip_simulacao_criada = self.gerar_simulacao(
-                'ferias', self.mes_do_ano,
-                self.ano, data_inicio,
-                data_fim, ferias_vencida=ferias_vencida,
-                periodo_aquisitivo=periodo
-            )
-        return self._buscar_valor_bruto_simulacao(
-            payslip_simulacao_criada, um_terco_ferias)
+            domain = [
+                ('tipo_de_folha', '=', 'ferias'),
+                ('is_simulacao', '=', True),
+                ('periodo_aquisitivo', '=', periodo_id)
+            ]
+            payslip_simulacao = self.env['hr.payslip'].search(domain)
+            if payslip_simulacao:
+                payslip_simulacao_criada = payslip_simulacao
+            else:
+                payslip_simulacao_criada = self.gerar_simulacao(
+                    'ferias', self.mes_do_ano,
+                    self.ano, data_inicio,
+                    data_fim, ferias_vencida=ferias_vencida,
+                    periodo_aquisitivo=periodo
+                )
+            return self._buscar_valor_bruto_simulacao(
+                payslip_simulacao_criada, um_terco_ferias)
 
     def _simulacao_decimo_terceiro(self):
 
@@ -1490,6 +1491,11 @@ class HrPayslip(models.Model):
                 avos_13 -= 1
         else:
             avos_13 = payslip.mes_do_ano
+        if payslip.contract_id.date_end:
+            dia_fim_contrato = \
+                fields.Date.from_string(payslip.contract_id.date_end).day
+            if dia_fim_contrato <= 15:
+                avos_13 -= 1
 
         # Obtém os avos do payslip para as Provisão de Férias
 
@@ -1687,9 +1693,12 @@ class HrPayslip(models.Model):
                                 ('code', '=', 'PROP_1/3_FERIAS_AVISO_PREVIO')
                             ]
                         )
-                    sorted_rule_ids.remove(aviso_previo_indenizado.id)
-                    sorted_rule_ids.remove(ferias_aviso_previo.id)
-                    sorted_rule_ids.remove(ferias_1_3_aviso_previo.id)
+                    if aviso_previo_indenizado:
+                        sorted_rule_ids.remove(aviso_previo_indenizado.id)
+                    if ferias_aviso_previo:
+                        sorted_rule_ids.remove(ferias_aviso_previo.id)
+                    if ferias_1_3_aviso_previo:
+                        sorted_rule_ids.remove(ferias_1_3_aviso_previo.id)
 
             for contract in self.env['hr.contract'].browse(contract_ids.ids):
                 employee = contract.employee_id
@@ -2132,16 +2141,25 @@ class HrPayslip(models.Model):
 
     @api.model
     def BUSCAR_VALOR_MEDIA_PROVENTO(self, tipo_simulacao):
-        mes_verificacao, ano_verificacao, data_inicio, data_fim = \
-            self._checar_datas_gerar_simulacoes(
-                self.mes_do_ano, self.ano
-            )
+        #mes_verificacao, ano_verificacao, data_inicio, data_fim = \
+        #    self._checar_datas_gerar_simulacoes(
+        #        self.mes_do_ano, self.ano
+        #    )
+        mes_verificacao = self.mes_do_ano - 1
+        if self.mes_do_ano == 1:
+            mes_verificacao = 12
+        ano_verificacao = self.ano
+        if self.mes_do_ano == 1:
+            ano_verificacao = self.ano - 1
+        dias_no_mes = monthrange(ano_verificacao, mes_verificacao)
+        data_inicio = str(ano_verificacao) + "-" + str(mes_verificacao) + "-" + "01"
+        data_fim = str(ano_verificacao) + "-" + str(ano_verificacao) + "-" + str(dias_no_mes[1])
         if not tipo_simulacao == "ferias":
             payslip_simulacao = self.env['hr.payslip'].search(
                 [
                     ('tipo_de_folha', '=', tipo_simulacao),
                     ('is_simulacao', '=', True),
-                    ('mes_do_ano', '=', mes_verificacao),
+                    ('mes_do_ano', '=', self.mes_do_ano),
                     ('ano', '=', ano_verificacao),
                     ('state', '=', 'done'),
                 ]
@@ -2166,6 +2184,13 @@ class HrPayslip(models.Model):
                     ('state', '=', 'done'),
                 ]
             )
+        if not payslip_simulacao:
+            payslip_simulacao_criada = self.gerar_simulacao(
+                tipo_simulacao, mes_verificacao,
+                ano_verificacao, data_inicio,
+                data_fim, ferias_vencida=ferias_vencida
+            )
+            payslip_simulacao = payslip_simulacao_criada
         media_id = payslip_simulacao.medias_proventos[-1]
         return media_id.media / 12
 
