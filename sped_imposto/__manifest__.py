@@ -38,12 +38,9 @@
         'data/sped_cfop_equivalente_data.xml',
         'data/sped_servico_data.xml',
 
-        'data/sped_natureza_operacao_data.xml',
-        'data/sped_operacao_simples_data.xml',
-        'data/sped_operacao_presumido_data.xml',
         'data/sped_protocolo_data.xml',
         'data/sped_data.yml',
-        'data/sped_empresa.xml',
+
         #
         # Cadastros
         #
@@ -83,5 +80,9 @@
     ],
     'demo': [
         'demo/sped_produto_demo.xml',
+        'demo/sped_natureza_operacao_data.xml',
+        'demo/sped_operacao_simples_data.xml',
+        'demo/sped_operacao_presumido_data.xml',
+        'demo/sped_empresa.xml',
     ],
 }
