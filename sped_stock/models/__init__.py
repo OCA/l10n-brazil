@@ -4,3 +4,4 @@
 
 from . import inherited_stock_picking
 from . import inherited_stock_move
+from . import inherited_sped_operacao
