@@ -17,7 +17,7 @@ class SpedStockPicking(SpedCalculoImposto, models.Model):
 
     entrada_saida = fields.Selection(
         selection=ENTRADA_SAIDA,
-        related='sped_operacao_produto_id.entrada_saida'
+        related='operacao_id.entrada_saida'
     )
     documento_fiscal_criado = fields.Boolean(
         copy=False
@@ -72,10 +72,3 @@ class SpedStockPicking(SpedCalculoImposto, models.Model):
             'view_mode': 'tree,form',
         }
         return action
-
-class SpedStockPickingType(models.Model):
-    _inherit = 'stock.picking.type'
-
-    operacao_id = fields.Many2one(
-        comodel_name='sped.operacao',
-    )
