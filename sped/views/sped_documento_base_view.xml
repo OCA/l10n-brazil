@@ -12,6 +12,9 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <form string="Emissão de NF-e">
+                <header>
+                    <!-- HEADER VAZIO PARA SE ADICIONAR OS BOTOES EM OUTRAS VISOES E MODULOS HERDADOS -->
+                </header>
                 <sheet>
                     <field name="permite_alteracao" invisible="1" />
                     <field name="emissao" invisible="1" />

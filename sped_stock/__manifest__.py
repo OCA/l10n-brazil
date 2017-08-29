@@ -21,6 +21,7 @@
         'views/stock_picking_view.xml',
         'views/stock_move_view.xml',
         'views/sped_operacao_view.xml',
+        'views/sped_documento_view.xml',
     ],
     'demo': [
         # 'demo/sale_order.xml',
