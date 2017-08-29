@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="1">
+
+    <!-- Operações NF-E -->
+
+     <record id="OPERACAO_ITEM_5101_VENDA_PRESUMIDO_NFE" model="sped.operacao.item">
+        <field name="cfop_id" ref="CFOP_5101"/>
+        <field name="tipo_protocolo">P</field>
+    </record>
+
+    <record id="OPERACAO_ITEM_5102_VENDA_PRESUMIDO_NFE" model="sped.operacao.item">
+        <field name="cfop_id" ref="CFOP_5102"/>
+        <field name="tipo_produto_servico">00</field>
+        <field name="tipo_protocolo">P</field>
+    </record>
+
+    <record id="OPERACAO_NFE_VENDA" model="sped.operacao">
+        <field name="nome">Venda</field>
+        <field name="modelo">55</field>
+        <field name="entrada_saida">1</field>
+        <field name="regime_tributario">3</field>
+        <field name="natureza_operacao_id" ref="NATUREZA_VENDA"/>
+        <field name="finalidade_nfe">1</field>
+        <field name="consumidor_final">0</field>
+        <field name="modalidade_frete">4</field>
+        <field name="presenca_comprador">0</field>
+        <field name="infcomplementar"></field>
+        <field name="ind_forma_pagamento">0</field>
+        <field name="item_sem_st_ids" eval="[(6, 0, [ref('OPERACAO_ITEM_5102_VENDA_PRESUMIDO_NFE'),ref('OPERACAO_ITEM_5101_VENDA_PRESUMIDO_NFE'),])]"/>
+    </record>
+
+    <!-- Operações NFC-E -->
+
+     <record id="OPERACAO_ITEM_5101_VENDA_PRESUMIDO_NFE" model="sped.operacao.item">
+        <field name="cfop_id" ref="CFOP_5101"/>
+        <field name="tipo_protocolo">P</field>
+    </record>
+
+    <record id="OPERACAO_ITEM_5102_VENDA_PRESUMIDO_NFE" model="sped.operacao.item">
+        <field name="cfop_id" ref="CFOP_5102"/>
+        <field name="tipo_produto_servico">00</field>
+        <field name="tipo_protocolo">P</field>
+    </record>
+
+    <record id="OPERACAO_NFE_VENDA" model="sped.operacao">
+        <field name="nome">Venda</field>
+        <field name="modelo">65</field>
+        <field name="entrada_saida">1</field>
+        <field name="regime_tributario">3</field>
+        <field name="natureza_operacao_id" ref="NATUREZA_VENDA"/>
+        <field name="finalidade_nfe">1</field>
+        <field name="consumidor_final">0</field>
+        <field name="modalidade_frete">4</field>
+        <field name="presenca_comprador">0</field>
+        <field name="infcomplementar"></field>
+        <field name="ind_forma_pagamento">0</field>
+        <field name="item_sem_st_ids" eval="[(6, 0, [ref('OPERACAO_ITEM_5102_VENDA_PRESUMIDO_NFE'),ref('OPERACAO_ITEM_5101_VENDA_PRESUMIDO_NFE'),])]"/>
+    </record>
+
+    <!-- Operações NFS-E TODO: -->
+
+</odoo>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+<data>
+
+    <!--<record model="ir.ui.view" id="financeiro_cheque_form_view">-->
+        <!--<field name="name">financeiro.cheque.form (in l10n_br_financial)</field>-->
+        <!--<field name="model">financeiro.cheque</field>-->
+        <!--<field name="arch" type="xml">-->
+            <!--<form>-->
+                <!--<header>-->
+                    <!--&lt;!&ndash; TODO &ndash;&gt;-->
+                <!--</header>-->
+                <!--<sheet>-->
+                    <!--&lt;!&ndash; TODO &ndash;&gt;-->
+                    <!--<group>-->
+                        <!--<field name="name"/>-->
+                    <!--</group>-->
+                <!--</sheet>-->
+                <!--<div class="oe_chatter"></div>-->
+            <!--</form>-->
+        <!--</field>-->
+    <!--</record>-->
+
+    <!--<record model="ir.ui.view" id="financeiro_cheque_search_view">-->
+        <!--<field name="name">financeiro.cheque.search (in l10n_br_financial)</field>-->
+        <!--<field name="model">financeiro.cheque</field>-->
+        <!--<field name="arch" type="xml">-->
+            <!--<search>-->
+                <!--&lt;!&ndash; TODO &ndash;&gt;-->
+            <!--</search>-->
+        <!--</field>-->
+    <!--</record>-->
+
+    <!--<record model="ir.ui.view" id="financeiro_cheque_tree_view">-->
+        <!--<field name="name">financeiro.cheque.tree (in l10n_br_financial)</field>-->
+        <!--<field name="model">financeiro.cheque</field>-->
+        <!--<field name="arch" type="xml">-->
+            <!--<tree>-->
+                <!--&lt;!&ndash; TODO &ndash;&gt;-->
+                <!--<field name="name"/>-->
+            <!--</tree>-->
+        <!--</field>-->
+    <!--</record>-->
+
+    <!--<record model="ir.actions.act_window" id="financeiro_cheque_act_window">-->
+        <!--<field name="name">Financeiro Cheque</field> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--<field name="res_model">financeiro.cheque</field>-->
+        <!--<field name="view_mode">tree,form</field>-->
+        <!--<field name="domain">[]</field>-->
+        <!--<field name="context">{}</field>-->
+    <!--</record>-->
+
+    <!--<record model="ir.ui.menu" id="financeiro_cheque_menu">-->
+        <!--<field name="name">Financeiro Cheque</field>-->
+        <!--<field name="parent_id" ref="xmlid of parent menu"/> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--<field name="action" ref="financeiro_cheque_act_window"/>-->
+        <!--<field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
+    <!--</record>-->
+
+</data>
+</odoo>

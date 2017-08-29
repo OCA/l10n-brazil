@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record id="base.action_currency_form" model="ir.actions.act_window">
+        <field name="domain">[('is_currency', '=', True)]</field>
+    </record>
+
+    <record id="base.action_currency_form_company" model="ir.actions.act_window">
+        <field name="domain">[('is_currency', '=', True)]</field>
+    </record>
+
+</odoo>

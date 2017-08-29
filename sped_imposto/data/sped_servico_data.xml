@@ -1,0 +1,973 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="1">
+
+    <record id="SERVICO_0101" model="sped.servico">
+        <field name="codigo">0101</field>
+        <field name="descricao">Análise e desenvolvimento de sistemas</field>
+    </record>
+
+    <record id="SERVICO_0102" model="sped.servico">
+        <field name="codigo">0102</field>
+        <field name="descricao">Programação</field>
+    </record>
+
+    <record id="SERVICO_0103" model="sped.servico">
+        <field name="codigo">0103</field>
+        <field name="descricao">Processamento de dados e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0104" model="sped.servico">
+        <field name="codigo">0104</field>
+        <field name="descricao">Elaboração de programas de computadores, inclusive de jogos eletrônicos</field>
+    </record>
+
+    <record id="SERVICO_0105" model="sped.servico">
+        <field name="codigo">0105</field>
+        <field name="descricao">Licenciamento ou cessão de direito de uso de programas de computação</field>
+    </record>
+
+    <record id="SERVICO_0106" model="sped.servico">
+        <field name="codigo">0106</field>
+        <field name="descricao">Assessoria e consultoria em informática</field>
+    </record>
+
+    <record id="SERVICO_0107" model="sped.servico">
+        <field name="codigo">0107</field>
+        <field name="descricao">Suporte técnico em informática, inclusive instalação, configuração e manutenção de programas de computação e bancos de dados</field>
+    </record>
+
+    <record id="SERVICO_0108" model="sped.servico">
+        <field name="codigo">0108</field>
+        <field name="descricao">Planejamento, confecção, manutenção e atualização de páginas eletrônicas</field>
+    </record>
+
+    <record id="SERVICO_0201" model="sped.servico">
+        <field name="codigo">0201</field>
+        <field name="descricao">Serviços de pesquisas e desenvolvimento de qualquer natureza</field>
+    </record>
+
+    <record id="SERVICO_0302" model="sped.servico">
+        <field name="codigo">0302</field>
+        <field name="descricao">Cessão de direito de uso de marcas e de sinais de propaganda</field>
+    </record>
+
+    <record id="SERVICO_0303" model="sped.servico">
+        <field name="codigo">0303</field>
+        <field name="descricao">Exploração de salões de festas, centro de convenções, escritórios virtuais, stands, quadras esportivas, estádios, ginásios, auditórios, casas de espetáculos, parques de diversões, canchas e congêneres, para realização de eventos ou negócios de qualquer natureza</field>
+    </record>
+
+    <record id="SERVICO_0304" model="sped.servico">
+        <field name="codigo">0304</field>
+        <field name="descricao">Locação, sublocação, arrendamento, direito de passagem ou permissão de uso, compartilhado ou não, de ferrovia, rodovia, postes, cabos, dutos e condutos de qualquer natureza</field>
+    </record>
+
+    <record id="SERVICO_0305" model="sped.servico">
+        <field name="codigo">0305</field>
+        <field name="descricao">Cessão de andaimes, palcos, coberturas e outras estruturas de uso temporário</field>
+    </record>
+
+    <record id="SERVICO_0401" model="sped.servico">
+        <field name="codigo">0401</field>
+        <field name="descricao">Medicina e biomedicina</field>
+    </record>
+
+    <record id="SERVICO_0402" model="sped.servico">
+        <field name="codigo">0402</field>
+        <field name="descricao">Análises clínicas, patologia, eletricidade médica, radioterapia, quimioterapia, ultra-sonografia, ressonância magnética, radiologia, tomografia e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0403" model="sped.servico">
+        <field name="codigo">0403</field>
+        <field name="descricao">Hospitais, clínicas, laboratórios, sanatórios, manicômios, casas de saúde, prontos-socorros, ambulatórios e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0404" model="sped.servico">
+        <field name="codigo">0404</field>
+        <field name="descricao">Instrumentação cirúrgica</field>
+    </record>
+
+    <record id="SERVICO_0405" model="sped.servico">
+        <field name="codigo">0405</field>
+        <field name="descricao">Acupuntura</field>
+    </record>
+
+    <record id="SERVICO_0406" model="sped.servico">
+        <field name="codigo">0406</field>
+        <field name="descricao">Enfermagem, inclusive serviços auxiliares</field>
+    </record>
+
+    <record id="SERVICO_0407" model="sped.servico">
+        <field name="codigo">0407</field>
+        <field name="descricao">Serviços farmacêuticos</field>
+    </record>
+
+    <record id="SERVICO_0408" model="sped.servico">
+        <field name="codigo">0408</field>
+        <field name="descricao">Terapia ocupacional, fisioterapia e fonoaudiologia</field>
+    </record>
+
+    <record id="SERVICO_0409" model="sped.servico">
+        <field name="codigo">0409</field>
+        <field name="descricao">Terapias de qualquer espécie destinadas ao tratamento físico, orgânico e mental</field>
+    </record>
+
+    <record id="SERVICO_0410" model="sped.servico">
+        <field name="codigo">0410</field>
+        <field name="descricao">Nutrição</field>
+    </record>
+
+    <record id="SERVICO_0411" model="sped.servico">
+        <field name="codigo">0411</field>
+        <field name="descricao">Obstetrícia</field>
+    </record>
+
+    <record id="SERVICO_0412" model="sped.servico">
+        <field name="codigo">0412</field>
+        <field name="descricao">Odontologia</field>
+    </record>
+
+    <record id="SERVICO_0413" model="sped.servico">
+        <field name="codigo">0413</field>
+        <field name="descricao">Ortóptica</field>
+    </record>
+
+    <record id="SERVICO_0414" model="sped.servico">
+        <field name="codigo">0414</field>
+        <field name="descricao">Próteses sob encomenda</field>
+    </record>
+
+    <record id="SERVICO_0415" model="sped.servico">
+        <field name="codigo">0415</field>
+        <field name="descricao">Psicanálise</field>
+    </record>
+
+    <record id="SERVICO_0416" model="sped.servico">
+        <field name="codigo">0416</field>
+        <field name="descricao">Psicologia</field>
+    </record>
+
+    <record id="SERVICO_0417" model="sped.servico">
+        <field name="codigo">0417</field>
+        <field name="descricao">Casas de repouso e de recuperação, creches, asilos e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0418" model="sped.servico">
+        <field name="codigo">0418</field>
+        <field name="descricao">Inseminação artificial, fertilização in vitro e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0419" model="sped.servico">
+        <field name="codigo">0419</field>
+        <field name="descricao">Bancos de sangue, leite, pele, olhos, óvulos, sêmen e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0420" model="sped.servico">
+        <field name="codigo">0420</field>
+        <field name="descricao">Coleta de sangue, leite, tecidos, sêmen, órgãos e materiais biológicos de qualquer espécie</field>
+    </record>
+
+    <record id="SERVICO_0421" model="sped.servico">
+        <field name="codigo">0421</field>
+        <field name="descricao">Unidade de atendimento, assistência ou tratamento móvel e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0422" model="sped.servico">
+        <field name="codigo">0422</field>
+        <field name="descricao">Planos de medicina de grupo ou individual e convênios para prestação de assistência médica, hospitalar, odontológica e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0423" model="sped.servico">
+        <field name="codigo">0423</field>
+        <field name="descricao">Outros planos de saúde que se cumpram através de serviços de terceiros contratados, credenciados, cooperados ou apenas pagos pelo operador do plano mediante indicação do beneficiário</field>
+    </record>
+
+    <record id="SERVICO_0501" model="sped.servico">
+        <field name="codigo">0501</field>
+        <field name="descricao">Medicina veterinária e zootecnia</field>
+    </record>
+
+    <record id="SERVICO_0502" model="sped.servico">
+        <field name="codigo">0502</field>
+        <field name="descricao">Hospitais, clínicas, ambulatórios, prontos-socorros e congêneres, na área veterinária</field>
+    </record>
+
+    <record id="SERVICO_0503" model="sped.servico">
+        <field name="codigo">0503</field>
+        <field name="descricao">Laboratórios de análise na área veterinária</field>
+    </record>
+
+    <record id="SERVICO_0504" model="sped.servico">
+        <field name="codigo">0504</field>
+        <field name="descricao">Inseminação artificial, fertilização in vitro e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0505" model="sped.servico">
+        <field name="codigo">0505</field>
+        <field name="descricao">Bancos de sangue e de órgãos e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0506" model="sped.servico">
+        <field name="codigo">0506</field>
+        <field name="descricao">Coleta de sangue, leite, tecidos, sêmen, órgãos e materiais biológicos de qualquer espécie</field>
+    </record>
+
+    <record id="SERVICO_0507" model="sped.servico">
+        <field name="codigo">0507</field>
+        <field name="descricao">Unidade de atendimento, assistência ou tratamento móvel e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0508" model="sped.servico">
+        <field name="codigo">0508</field>
+        <field name="descricao">Guarda, tratamento, amestramento, embelezamento, alojamento e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0509" model="sped.servico">
+        <field name="codigo">0509</field>
+        <field name="descricao">Planos de atendimento e assistência médico-veterinária</field>
+    </record>
+
+    <record id="SERVICO_0601" model="sped.servico">
+        <field name="codigo">0601</field>
+        <field name="descricao">Barbearia, cabeleireiros, manicuros, pedicuros e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0602" model="sped.servico">
+        <field name="codigo">0602</field>
+        <field name="descricao">Esteticistas, tratamento de pele, depilação e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0603" model="sped.servico">
+        <field name="codigo">0603</field>
+        <field name="descricao">Banhos, duchas, sauna, massagens e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0604" model="sped.servico">
+        <field name="codigo">0604</field>
+        <field name="descricao">Ginástica, dança, esportes, natação, artes marciais e demais atividades físicas</field>
+    </record>
+
+    <record id="SERVICO_0605" model="sped.servico">
+        <field name="codigo">0605</field>
+        <field name="descricao">Centros de emagrecimento, spa e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0701" model="sped.servico">
+        <field name="codigo">0701</field>
+        <field name="descricao">Engenharia, agronomia, agrimensura, arquitetura, geologia, urbanismo, paisagismo e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0702" model="sped.servico">
+        <field name="codigo">0702</field>
+        <field name="descricao">Execução, por administração, empreitada ou subempreitada, de obras de construção civil, hidráulica ou elétrica e de outras obras semelhantes</field>
+    </record>
+
+    <record id="SERVICO_0703" model="sped.servico">
+        <field name="codigo">0703</field>
+        <field name="descricao">Elaboração de planos diretores, estudos de viabilidade, estudos organizacionais e outros, relacionados com obras e serviços de engenharia; elaboração de anteprojetos, projetos básicos e projetos executivos para trabalhos de engenharia</field>
+    </record>
+
+    <record id="SERVICO_0704" model="sped.servico">
+        <field name="codigo">0704</field>
+        <field name="descricao">Demolição</field>
+    </record>
+
+    <record id="SERVICO_0705" model="sped.servico">
+        <field name="codigo">0705</field>
+        <field name="descricao">Reparação, conservação e reforma de edifícios, estradas, pontes, portos e congêneres (exceto o fornecimento de mercadorias produzidas pelo prestador dos serviços, fora do local da prestação dos serviços, que fica sujeito ao ICMS)</field>
+    </record>
+
+    <record id="SERVICO_0706" model="sped.servico">
+        <field name="codigo">0706</field>
+        <field name="descricao">Colocação e instalação de tapetes, carpetes, assoalhos, cortinas, revestimentos de parede, vidros, divisórias, placas de gesso e congêneres, com material fornecido pelo tomador do serviço</field>
+    </record>
+
+    <record id="SERVICO_0707" model="sped.servico">
+        <field name="codigo">0707</field>
+        <field name="descricao">Recuperação, raspagem, polimento e lustração de pisos e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0708" model="sped.servico">
+        <field name="codigo">0708</field>
+        <field name="descricao">Calafetação</field>
+    </record>
+
+    <record id="SERVICO_0709" model="sped.servico">
+        <field name="codigo">0709</field>
+        <field name="descricao">Varrição, coleta, remoção, incineração, tratamento, reciclagem, separação e destinação final de lixo, rejeitos e outros resíduos quaisquer</field>
+    </record>
+
+    <record id="SERVICO_0710" model="sped.servico">
+        <field name="codigo">0710</field>
+        <field name="descricao">Limpeza, manutenção e conservação de vias e logradouros públicos, imóveis, chaminés, piscinas, parques, jardins e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0711" model="sped.servico">
+        <field name="codigo">0711</field>
+        <field name="descricao">Decoração e jardinagem, inclusive corte e poda de árvores</field>
+    </record>
+
+    <record id="SERVICO_0712" model="sped.servico">
+        <field name="codigo">0712</field>
+        <field name="descricao">Controle e tratamento de efluentes de qualquer natureza e de agentes físicos, químicos e biológicos</field>
+    </record>
+
+    <record id="SERVICO_0713" model="sped.servico">
+        <field name="codigo">0713</field>
+        <field name="descricao">Dedetização, desinfecção, desinsetização, imunização, higienização, desratização, pulverização e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0716" model="sped.servico">
+        <field name="codigo">0716</field>
+        <field name="descricao">Florestamento, reflorestamento, semeadura, adubação e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0717" model="sped.servico">
+        <field name="codigo">0717</field>
+        <field name="descricao">Escoramento, contenção de encostas e serviços congêneres</field>
+    </record>
+
+    <record id="SERVICO_0718" model="sped.servico">
+        <field name="codigo">0718</field>
+        <field name="descricao">Limpeza e dragagem de rios, portos, canais, baías, lagos, lagoas, represas, açudes e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0719" model="sped.servico">
+        <field name="codigo">0719</field>
+        <field name="descricao">Acompanhamento e fiscalização da execução de obras de engenharia, arquitetura e urbanismo</field>
+    </record>
+
+    <record id="SERVICO_0720" model="sped.servico">
+        <field name="codigo">0720</field>
+        <field name="descricao">Aerofotogrametria (inclusive interpretação), cartografia, mapeamento, levantamentos topográficos, batimétricos, geográficos, geodésicos, geológicos, geofísicos e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0721" model="sped.servico">
+        <field name="codigo">0721</field>
+        <field name="descricao">Pesquisa, perfuração, cimentação, mergulho, perfilagem, concretação, testemunhagem, pescaria, estimulação e outros serviços relacionados com a exploração e explotação de petróleo, gás natural e de outros recursos minerais</field>
+    </record>
+
+    <record id="SERVICO_0722" model="sped.servico">
+        <field name="codigo">0722</field>
+        <field name="descricao">Nucleação e bombardeamento de nuvens e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0801" model="sped.servico">
+        <field name="codigo">0801</field>
+        <field name="descricao">Ensino regular pré-escolar, fundamental, médio e superior</field>
+    </record>
+
+    <record id="SERVICO_0802" model="sped.servico">
+        <field name="codigo">0802</field>
+        <field name="descricao">Instrução, treinamento, orientação pedagógica e educacional, avaliação de conhecimentos de qualquer natureza</field>
+    </record>
+
+    <record id="SERVICO_0901" model="sped.servico">
+        <field name="codigo">0901</field>
+        <field name="descricao">Hospedagem de qualquer natureza em hotéis, apart-service condominiais, flat, apart-hotéis, hotéis residência, residence-service, suite service, hotelaria marítima, motéis, pensões e congêneres; ocupação por temporada com fornecimento de serviço</field>
+    </record>
+
+    <record id="SERVICO_0902" model="sped.servico">
+        <field name="codigo">0902</field>
+        <field name="descricao">Agenciamento, organização, promoção, intermediação e execução de programas de turismo, passeios, viagens, excursões, hospedagens e congêneres</field>
+    </record>
+
+    <record id="SERVICO_0903" model="sped.servico">
+        <field name="codigo">0903</field>
+        <field name="descricao">Guias de turismo</field>
+    </record>
+
+    <record id="SERVICO_1001" model="sped.servico">
+        <field name="codigo">1001</field>
+        <field name="descricao">Agenciamento, corretagem ou intermediação de câmbio, de seguros, de cartões de crédito, de planos de saúde e de planos de previdência privada</field>
+    </record>
+
+    <record id="SERVICO_1002" model="sped.servico">
+        <field name="codigo">1002</field>
+        <field name="descricao">Agenciamento, corretagem ou intermediação de títulos em geral, valores mobiliários e contratos quaisquer</field>
+    </record>
+
+    <record id="SERVICO_1003" model="sped.servico">
+        <field name="codigo">1003</field>
+        <field name="descricao">Agenciamento, corretagem ou intermediação de direitos de propriedade industrial, artística ou literária</field>
+    </record>
+
+    <record id="SERVICO_1004" model="sped.servico">
+        <field name="codigo">1004</field>
+        <field name="descricao">Agenciamento, corretagem ou intermediação de contratos de arrendamento mercantil (leasing), de franquia (franchising) e de faturização (factoring)</field>
+    </record>
+
+    <record id="SERVICO_1005" model="sped.servico">
+        <field name="codigo">1005</field>
+        <field name="descricao">Agenciamento, corretagem ou intermediação de bens móveis ou imóveis, não abrangidos em outros itens ou subitens, inclusive aqueles realizados no âmbito de Bolsas de Mercadorias e Futuros, por quaisquer meios</field>
+    </record>
+
+    <record id="SERVICO_1006" model="sped.servico">
+        <field name="codigo">1006</field>
+        <field name="descricao">Agenciamento marítimo</field>
+    </record>
+
+    <record id="SERVICO_1007" model="sped.servico">
+        <field name="codigo">1007</field>
+        <field name="descricao">Agenciamento de notícias</field>
+    </record>
+
+    <record id="SERVICO_1008" model="sped.servico">
+        <field name="codigo">1008</field>
+        <field name="descricao">Agenciamento de publicidade e propaganda, inclusive o agenciamento de veiculação por quaisquer meios</field>
+    </record>
+
+    <record id="SERVICO_1009" model="sped.servico">
+        <field name="codigo">1009</field>
+        <field name="descricao">Representação de qualquer natureza, inclusive comercial</field>
+    </record>
+
+    <record id="SERVICO_1010" model="sped.servico">
+        <field name="codigo">1010</field>
+        <field name="descricao">Distribuição de bens de terceiros</field>
+    </record>
+
+    <record id="SERVICO_1101" model="sped.servico">
+        <field name="codigo">1101</field>
+        <field name="descricao">Guarda e estacionamento de veículos terrestres automotores, de aeronaves e de embarcações</field>
+    </record>
+
+    <record id="SERVICO_1102" model="sped.servico">
+        <field name="codigo">1102</field>
+        <field name="descricao">Vigilância, segurança ou monitoramento de bens e pessoas</field>
+    </record>
+
+    <record id="SERVICO_1103" model="sped.servico">
+        <field name="codigo">1103</field>
+        <field name="descricao">Escolta, inclusive de veículos e cargas</field>
+    </record>
+
+    <record id="SERVICO_1104" model="sped.servico">
+        <field name="codigo">1104</field>
+        <field name="descricao">Armazenamento, depósito, carga, descarga, arrumação e guarda de bens de qualquer espécie</field>
+    </record>
+
+    <record id="SERVICO_1201" model="sped.servico">
+        <field name="codigo">1201</field>
+        <field name="descricao">Espetáculos teatrais</field>
+    </record>
+
+    <record id="SERVICO_1202" model="sped.servico">
+        <field name="codigo">1202</field>
+        <field name="descricao">Exibições cinematográficas</field>
+    </record>
+
+    <record id="SERVICO_1203" model="sped.servico">
+        <field name="codigo">1203</field>
+        <field name="descricao">Espetáculos circenses</field>
+    </record>
+
+    <record id="SERVICO_1204" model="sped.servico">
+        <field name="codigo">1204</field>
+        <field name="descricao">Programas de auditório</field>
+    </record>
+
+    <record id="SERVICO_1205" model="sped.servico">
+        <field name="codigo">1205</field>
+        <field name="descricao">Parques de diversões, centros de lazer e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1206" model="sped.servico">
+        <field name="codigo">1206</field>
+        <field name="descricao">Boates, taxi-dancing e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1207" model="sped.servico">
+        <field name="codigo">1207</field>
+        <field name="descricao">Shows, ballet, danças, desfiles, bailes, óperas, concertos, recitais, festivais e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1208" model="sped.servico">
+        <field name="codigo">1208</field>
+        <field name="descricao">Feiras, exposições, congressos e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1209" model="sped.servico">
+        <field name="codigo">1209</field>
+        <field name="descricao">Bilhares, boliches e diversões eletrônicas ou não</field>
+    </record>
+
+    <record id="SERVICO_1210" model="sped.servico">
+        <field name="codigo">1210</field>
+        <field name="descricao">Corridas e competições de animais</field>
+    </record>
+
+    <record id="SERVICO_1211" model="sped.servico">
+        <field name="codigo">1211</field>
+        <field name="descricao">Competições esportivas ou de destreza física ou intelectual, com ou sem a participação do espectador</field>
+    </record>
+
+    <record id="SERVICO_1212" model="sped.servico">
+        <field name="codigo">1212</field>
+        <field name="descricao">Execução de música</field>
+    </record>
+
+    <record id="SERVICO_1213" model="sped.servico">
+        <field name="codigo">1213</field>
+        <field name="descricao">Produção, mediante ou sem encomenda prévia, de eventos, espetáculos, entrevistas, shows, ballet, danças, desfiles, bailes, teatros, óperas, concertos, recitais, festivais e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1214" model="sped.servico">
+        <field name="codigo">1214</field>
+        <field name="descricao">Fornecimento de música para ambientes fechados ou não, mediante transmissão por qualquer processo</field>
+    </record>
+
+    <record id="SERVICO_1215" model="sped.servico">
+        <field name="codigo">1215</field>
+        <field name="descricao">Desfiles de blocos carnavalescos ou folclóricos, trios elétricos e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1216" model="sped.servico">
+        <field name="codigo">1216</field>
+        <field name="descricao">Exibição de filmes, entrevistas, musicais, espetáculos, shows, concertos, desfiles, óperas, competições esportivas, de destreza intelectual ou congêneres</field>
+    </record>
+
+    <record id="SERVICO_1217" model="sped.servico">
+        <field name="codigo">1217</field>
+        <field name="descricao">Recreação e animação, inclusive em festas e eventos de qualquer natureza</field>
+    </record>
+
+    <record id="SERVICO_1302" model="sped.servico">
+        <field name="codigo">1302</field>
+        <field name="descricao">Fonografia ou gravação de sons, inclusive trucagem, dublagem, mixagem e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1303" model="sped.servico">
+        <field name="codigo">1303</field>
+        <field name="descricao">Fotografia e cinematografia, inclusive revelação, ampliação, cópia, reprodução, trucagem e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1304" model="sped.servico">
+        <field name="codigo">1304</field>
+        <field name="descricao">Reprografia, microfilmagem e digitalização</field>
+    </record>
+
+    <record id="SERVICO_1305" model="sped.servico">
+        <field name="codigo">1305</field>
+        <field name="descricao">Composição gráfica, fotocomposição, clicheria, zincografia, litografia, fotolitografia</field>
+    </record>
+
+    <record id="SERVICO_1401" model="sped.servico">
+        <field name="codigo">1401</field>
+        <field name="descricao">Lubrificação, limpeza, lustração, revisão, carga e recarga, conserto, restauração, blindagem, manutenção e conservação de máquinas, veículos, aparelhos, equipamentos, motores, elevadores ou de qualquer objeto (exceto peças e partes empregadas, que ficam sujeitas ao ICMS)</field>
+    </record>
+
+    <record id="SERVICO_1402" model="sped.servico">
+        <field name="codigo">1402</field>
+        <field name="descricao">Assistência técnica</field>
+    </record>
+
+    <record id="SERVICO_1403" model="sped.servico">
+        <field name="codigo">1403</field>
+        <field name="descricao">Recondicionamento de motores (exceto peças e partes empregadas, que ficam sujeitas ao ICMS)</field>
+    </record>
+
+    <record id="SERVICO_1404" model="sped.servico">
+        <field name="codigo">1404</field>
+        <field name="descricao">Recauchutagem ou regeneração de pneus</field>
+    </record>
+
+    <record id="SERVICO_1405" model="sped.servico">
+        <field name="codigo">1405</field>
+        <field name="descricao">Restauração, recondicionamento, acondicionamento, pintura, beneficiamento, lavagem, secagem, tingimento, galvanoplastia, anodização, corte, recorte, polimento, plastificação e congêneres, de objetos quaisquer</field>
+    </record>
+
+    <record id="SERVICO_1406" model="sped.servico">
+        <field name="codigo">1406</field>
+        <field name="descricao">Instalação e montagem de aparelhos, máquinas e equipamentos, inclusive montagem industrial, prestados ao usuário final, exclusivamente com material por ele fornecido</field>
+    </record>
+
+    <record id="SERVICO_1407" model="sped.servico">
+        <field name="codigo">1407</field>
+        <field name="descricao">Colocação de molduras e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1408" model="sped.servico">
+        <field name="codigo">1408</field>
+        <field name="descricao">Encadernação, gravação e douração de livros, revistas e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1409" model="sped.servico">
+        <field name="codigo">1409</field>
+        <field name="descricao">Alfaiataria e costura, quando o material for fornecido pelo usuário final, exceto aviamento</field>
+    </record>
+
+    <record id="SERVICO_1410" model="sped.servico">
+        <field name="codigo">1410</field>
+        <field name="descricao">Tinturaria e lavanderia</field>
+    </record>
+
+    <record id="SERVICO_1411" model="sped.servico">
+        <field name="codigo">1411</field>
+        <field name="descricao">Tapeçaria e reforma de estofamentos em geral</field>
+    </record>
+
+    <record id="SERVICO_1412" model="sped.servico">
+        <field name="codigo">1412</field>
+        <field name="descricao">Funilaria e lanternagem</field>
+    </record>
+
+    <record id="SERVICO_1413" model="sped.servico">
+        <field name="codigo">1413</field>
+        <field name="descricao">Carpintaria e serralheria</field>
+    </record>
+
+    <record id="SERVICO_1501" model="sped.servico">
+        <field name="codigo">1501</field>
+        <field name="descricao">Administração de fundos quaisquer, de consórcio, de cartão de crédito ou débito e congêneres, de carteira de clientes, de cheques pré-datados e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1502" model="sped.servico">
+        <field name="codigo">1502</field>
+        <field name="descricao">Abertura de contas em geral, inclusive conta-corrente, conta de investimentos e aplicação e caderneta de poupança, no País e no exterior, bem como a manutenção das referidas contas ativas e inativas</field>
+    </record>
+
+    <record id="SERVICO_1503" model="sped.servico">
+        <field name="codigo">1503</field>
+        <field name="descricao">Locação e manutenção de cofres particulares, de terminais eletrônicos, de terminais de atendimento e de bens e equipamentos em geral</field>
+    </record>
+
+    <record id="SERVICO_1504" model="sped.servico">
+        <field name="codigo">1504</field>
+        <field name="descricao">Fornecimento ou emissão de atestados em geral, inclusive atestado de idoneidade, atestado de capacidade financeira e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1505" model="sped.servico">
+        <field name="codigo">1505</field>
+        <field name="descricao">Cadastro, elaboração de ficha cadastral, renovação cadastral e congêneres, inclusão ou exclusão no Cadastro de Emitentes de Cheques sem Fundos CCF ou em quaisquer outros bancos cadastrais</field>
+    </record>
+
+    <record id="SERVICO_1506" model="sped.servico">
+        <field name="codigo">1506</field>
+        <field name="descricao">Emissão, reemissão e fornecimento de avisos, comprovantes e documentos em geral; abono de firmas; coleta e entrega de documentos, bens e valores; comunicação com outra agência ou com a administração central; licenciamento eletrônico de veículos; transferência de veículos; agenciamento fiduciário ou depositário; devolução de bens em custódia</field>
+    </record>
+
+    <record id="SERVICO_1507" model="sped.servico">
+        <field name="codigo">1507</field>
+        <field name="descricao">Acesso, movimentação, atendimento e consulta a contas em geral, por qualquer meio ou processo; acesso a outro banco e a rede compartilhada; fornecimento de saldo, extrato e demais informações relativas a contas em geral, por qualquer meio ou processo</field>
+    </record>
+
+    <record id="SERVICO_1508" model="sped.servico">
+        <field name="codigo">1508</field>
+        <field name="descricao">Emissão, reemissão, alteração, cessão, substituição, cancelamento e registro de contrato de crédito; estudo, análise e avaliação de operações de crédito; emissão, concessão, alteração ou contratação de aval, fiança, anuência e congêneres; serviços relativos a abertura de crédito, para quaisquer fins</field>
+    </record>
+
+    <record id="SERVICO_1509" model="sped.servico">
+        <field name="codigo">1509</field>
+        <field name="descricao">Arrendamento mercantil (leasing) de quaisquer bens, inclusive cessão de direitos e obrigações, substituição de garantia, alteração, cancelamento e registro de contrato, e demais serviços relacionados ao arrendamento mercantil (leasing)</field>
+    </record>
+
+    <record id="SERVICO_1510" model="sped.servico">
+        <field name="codigo">1510</field>
+        <field name="descricao">Serviços relacionados a cobranças, recebimentos ou pagamentos em geral; fornecimento de posição de cobrança, recebimento ou pagamento; emissão de carnês, fichas de compensação, impressos e documentos em geral</field>
+    </record>
+
+    <record id="SERVICO_1511" model="sped.servico">
+        <field name="codigo">1511</field>
+        <field name="descricao">Devolução de títulos, protesto de títulos, sustação de protesto, manutenção de títulos, reapresentação de títulos, e demais serviços a eles relacionados</field>
+    </record>
+
+    <record id="SERVICO_1512" model="sped.servico">
+        <field name="codigo">1512</field>
+        <field name="descricao">Custódia em geral, inclusive de títulos e valores mobiliários</field>
+    </record>
+
+    <record id="SERVICO_1513" model="sped.servico">
+        <field name="codigo">1513</field>
+        <field name="descricao">Serviços relacionados a operações de câmbio em geral</field>
+    </record>
+
+    <record id="SERVICO_1514" model="sped.servico">
+        <field name="codigo">1514</field>
+        <field name="descricao">Fornecimento, emissão, reemissão, renovação e manutenção de cartão magnético, cartão de crédito, cartão de débito, cartão salário e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1515" model="sped.servico">
+        <field name="codigo">1515</field>
+        <field name="descricao">Compensação de cheques e títulos quaisquer; serviços relacionados a depósito, inclusive depósito identificado, a saque de contas quaisquer, por qualquer meio ou processo, inclusive em terminais eletrônicos e de atendimento</field>
+    </record>
+
+    <record id="SERVICO_1516" model="sped.servico">
+        <field name="codigo">1516</field>
+        <field name="descricao">Emissão, reemissão, liquidação, alteração, cancelamento e baixa de ordens de pagamento, ordens de crédito e similares, por qualquer meio ou processo; serviços relacionados à transferência de valores, dados, fundos, pagamentos e similares, inclusive entre contas em geral</field>
+    </record>
+
+    <record id="SERVICO_1517" model="sped.servico">
+        <field name="codigo">1517</field>
+        <field name="descricao">Emissão, fornecimento, devolução, sustação, cancelamento e oposição de cheques quaisquer, avulso ou por talão</field>
+    </record>
+
+    <record id="SERVICO_1518" model="sped.servico">
+        <field name="codigo">1518</field>
+        <field name="descricao">Serviços relacionados a crédito imobiliário, avaliação e vistoria de imóvel ou obra, análise técnica e jurídica, emissão, reemissão, alteração, transferência e renegociação de contrato, emissão e reemissão do termo de quitação e demais serviços relacionados a crédito imobiliário</field>
+    </record>
+
+    <record id="SERVICO_1601" model="sped.servico">
+        <field name="codigo">1601</field>
+        <field name="descricao">Serviços de transporte de natureza municipal</field>
+    </record>
+
+    <record id="SERVICO_1701" model="sped.servico">
+        <field name="codigo">1701</field>
+        <field name="descricao">Assessoria ou consultoria de qualquer natureza, não contida em outros itens desta lista; análise, exame, pesquisa, coleta, compilação e fornecimento de dados e informações de qualquer natureza, inclusive cadastro e similares</field>
+    </record>
+
+    <record id="SERVICO_1702" model="sped.servico">
+        <field name="codigo">1702</field>
+        <field name="descricao">Datilografia, digitação, estenografia, expediente, secretaria em geral, resposta audível, redação, edição, interpretação, revisão, tradução, apoio e infra-estrutura administrativa e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1703" model="sped.servico">
+        <field name="codigo">1703</field>
+        <field name="descricao">Planejamento, coordenação, programação ou organização técnica, financeira ou administrativa</field>
+    </record>
+
+    <record id="SERVICO_1704" model="sped.servico">
+        <field name="codigo">1704</field>
+        <field name="descricao">Recrutamento, agenciamento, seleção e colocação de mão-de-obra</field>
+    </record>
+
+    <record id="SERVICO_1705" model="sped.servico">
+        <field name="codigo">1705</field>
+        <field name="descricao">Fornecimento de mão-de-obra, mesmo em caráter temporário, inclusive de empregados ou trabalhadores, avulsos ou temporários, contratados pelo prestador de serviço</field>
+    </record>
+
+    <record id="SERVICO_1706" model="sped.servico">
+        <field name="codigo">1706</field>
+        <field name="descricao">Propaganda e publicidade, inclusive promoção de vendas, planejamento de campanhas ou sistemas de publicidade, elaboração de desenhos, textos e demais materiais publicitários</field>
+    </record>
+
+    <record id="SERVICO_1708" model="sped.servico">
+        <field name="codigo">1708</field>
+        <field name="descricao">Franquia (franchising)</field>
+    </record>
+
+    <record id="SERVICO_1709" model="sped.servico">
+        <field name="codigo">1709</field>
+        <field name="descricao">Perícias, laudos, exames técnicos e análises técnicas</field>
+    </record>
+
+    <record id="SERVICO_1710" model="sped.servico">
+        <field name="codigo">1710</field>
+        <field name="descricao">Planejamento, organização e administração de feiras, exposições, congressos e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1711" model="sped.servico">
+        <field name="codigo">1711</field>
+        <field name="descricao">Organização de festas e recepções; bufê (exceto o fornecimento de alimentação e bebidas, que fica sujeito ao ICMS)</field>
+    </record>
+
+    <record id="SERVICO_1712" model="sped.servico">
+        <field name="codigo">1712</field>
+        <field name="descricao">Administração em geral, inclusive de bens e negócios de terceiros</field>
+    </record>
+
+    <record id="SERVICO_1713" model="sped.servico">
+        <field name="codigo">1713</field>
+        <field name="descricao">Leilão e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1714" model="sped.servico">
+        <field name="codigo">1714</field>
+        <field name="descricao">Advocacia</field>
+    </record>
+
+    <record id="SERVICO_1715" model="sped.servico">
+        <field name="codigo">1715</field>
+        <field name="descricao">Arbitragem de qualquer espécie, inclusive jurídica</field>
+    </record>
+
+    <record id="SERVICO_1716" model="sped.servico">
+        <field name="codigo">1716</field>
+        <field name="descricao">Auditoria</field>
+    </record>
+
+    <record id="SERVICO_1717" model="sped.servico">
+        <field name="codigo">1717</field>
+        <field name="descricao">Análise de Organização e Métodos</field>
+    </record>
+
+    <record id="SERVICO_1718" model="sped.servico">
+        <field name="codigo">1718</field>
+        <field name="descricao">Atuária e cálculos técnicos de qualquer natureza</field>
+    </record>
+
+    <record id="SERVICO_1719" model="sped.servico">
+        <field name="codigo">1719</field>
+        <field name="descricao">Contabilidade, inclusive serviços técnicos e auxiliares</field>
+    </record>
+
+    <record id="SERVICO_1720" model="sped.servico">
+        <field name="codigo">1720</field>
+        <field name="descricao">Consultoria e assessoria econômica ou financeira</field>
+    </record>
+
+    <record id="SERVICO_1721" model="sped.servico">
+        <field name="codigo">1721</field>
+        <field name="descricao">Estatística</field>
+    </record>
+
+    <record id="SERVICO_1722" model="sped.servico">
+        <field name="codigo">1722</field>
+        <field name="descricao">Cobrança em geral</field>
+    </record>
+
+    <record id="SERVICO_1723" model="sped.servico">
+        <field name="codigo">1723</field>
+        <field name="descricao">Assessoria, análise, avaliação, atendimento, consulta, cadastro, seleção, gerenciamento de informações, administração de contas a receber ou a pagar e em geral, relacionados a operações de faturização (factoring)</field>
+    </record>
+
+    <record id="SERVICO_1724" model="sped.servico">
+        <field name="codigo">1724</field>
+        <field name="descricao">Apresentação de palestras, conferências, seminários e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1801" model="sped.servico">
+        <field name="codigo">1801</field>
+        <field name="descricao">Serviços de regulação de sinistros vinculados a contratos de seguros; inspeção e avaliação de riscos para cobertura de contratos de seguros; prevenção e gerência de riscos seguráveis e congêneres</field>
+    </record>
+
+    <record id="SERVICO_1901" model="sped.servico">
+        <field name="codigo">1901</field>
+        <field name="descricao">Serviços de distribuição e venda de bilhetes e demais produtos de loteria, bingos, cartões, pules ou cupons de apostas, sorteios, prêmios, inclusive os decorrentes de títulos de capitalização e congêneres</field>
+    </record>
+
+    <record id="SERVICO_2001" model="sped.servico">
+        <field name="codigo">2001</field>
+        <field name="descricao">Serviços portuários, ferroportuários, utilização de porto, movimentação de passageiros, reboque de embarcações, rebocador escoteiro, atracação, desatracação, praticagem, capatazia, armazenagem, serviços acessórios, movimentação de mercadorias, apoio marítimo, movimentação ao largo, serviços de armadores, estiva, conferência, logística e congêneres</field>
+    </record>
+
+    <record id="SERVICO_2002" model="sped.servico">
+        <field name="codigo">2002</field>
+        <field name="descricao">Serviços aeroportuários, utilização de aeroporto, movimentação de passageiros, armazenagem de qualquer natureza, capatazia, movimentação de aeronaves, serviços de apoio aeroportuários, serviços acessórios, movimentação de mercadorias, logística e congêneres</field>
+    </record>
+
+    <record id="SERVICO_2003" model="sped.servico">
+        <field name="codigo">2003</field>
+        <field name="descricao">Serviços de terminais rodoviários, ferroviários, metroviários, movimentação de passageiros, mercadorias, inclusive     suas operações, logística e congêneres</field>
+    </record>
+
+    <record id="SERVICO_2101" model="sped.servico">
+        <field name="codigo">2101</field>
+        <field name="descricao">Serviços de registros públicos, cartorários e notariais</field>
+    </record>
+
+    <record id="SERVICO_2201" model="sped.servico">
+        <field name="codigo">2201</field>
+        <field name="descricao">Serviços de exploração de rodovia mediante cobrança de preço ou pedágio dos usuários, envolvendo execução de serviços de conservação, manutenção, melhoramentos para adequação de capacidade e segurança de trânsito, operação, monitoração, assistência aos usuários e outros serviços, atos de concessão ou de permissão ou em normas oficiais</field>
+    </record>
+
+    <record id="SERVICO_2301" model="sped.servico">
+        <field name="codigo">2301</field>
+        <field name="descricao">Serviços de programação e comunicação visual, desenho industrial e congêneres</field>
+    </record>
+
+    <record id="SERVICO_2401" model="sped.servico">
+        <field name="codigo">2401</field>
+        <field name="descricao">Serviços de chaveiros, confecção de carimbos, placas, sinalização visual, banners, adesivos e congêneres</field>
+    </record>
+
+    <record id="SERVICO_2501" model="sped.servico">
+        <field name="codigo">2501</field>
+        <field name="descricao">Funerais, inclusive fornecimento de caixão, urna ou esquifes; aluguel de capela; transporte do corpo cadavérico; fornecimento de flores, coroas e outros paramentos; desembaraço de certidão de óbito; fornecimento de véu, essa e outros adornos; embalsamento, embelezamento, conservação ou restauração de cadáveres</field>
+    </record>
+
+    <record id="SERVICO_2502" model="sped.servico">
+        <field name="codigo">2502</field>
+        <field name="descricao">Cremação de corpos e partes de corpos cadavéricos</field>
+    </record>
+
+    <record id="SERVICO_2503" model="sped.servico">
+        <field name="codigo">2503</field>
+        <field name="descricao">Planos ou convênio funerários</field>
+    </record>
+
+    <record id="SERVICO_2504" model="sped.servico">
+        <field name="codigo">2504</field>
+        <field name="descricao">Manutenção e conservação de jazigos e cemitérios</field>
+    </record>
+
+    <record id="SERVICO_2601" model="sped.servico">
+        <field name="codigo">2601</field>
+        <field name="descricao">Serviços de coleta, remessa ou entrega de correspondências, documentos, objetos, bens ou valores, inclusive pelos correios e suas agências franqueadas; courrier e congêneres</field>
+    </record>
+
+    <record id="SERVICO_2701" model="sped.servico">
+        <field name="codigo">2701</field>
+        <field name="descricao">Serviços de assistência social</field>
+    </record>
+
+    <record id="SERVICO_2801" model="sped.servico">
+        <field name="codigo">2801</field>
+        <field name="descricao">Serviços de avaliação de bens e serviços de qualquer natureza</field>
+    </record>
+
+    <record id="SERVICO_2901" model="sped.servico">
+        <field name="codigo">2901</field>
+        <field name="descricao">Serviços de biblioteconomia</field>
+    </record>
+
+    <record id="SERVICO_3001" model="sped.servico">
+        <field name="codigo">3001</field>
+        <field name="descricao">Serviços de biologia, biotecnologia e química</field>
+    </record>
+
+    <record id="SERVICO_3101" model="sped.servico">
+        <field name="codigo">3101</field>
+        <field name="descricao">Serviços técnicos em edificações, eletrônica, eletrotécnica, mecânica, telecomunicações e congêneres</field>
+    </record>
+
+    <record id="SERVICO_3201" model="sped.servico">
+        <field name="codigo">3201</field>
+        <field name="descricao">Serviços de desenhos técnicos</field>
+    </record>
+
+    <record id="SERVICO_3301" model="sped.servico">
+        <field name="codigo">3301</field>
+        <field name="descricao">Serviços de desembaraço aduaneiro, comissários, despachantes e congêneres</field>
+    </record>
+
+    <record id="SERVICO_3401" model="sped.servico">
+        <field name="codigo">3401</field>
+        <field name="descricao">Serviços de investigações particulares, detetives e congêneres</field>
+    </record>
+
+    <record id="SERVICO_3501" model="sped.servico">
+        <field name="codigo">3501</field>
+        <field name="descricao">Serviços de reportagem, assessoria de imprensa, jornalismo e relações públicas</field>
+    </record>
+
+    <record id="SERVICO_3601" model="sped.servico">
+        <field name="codigo">3601</field>
+        <field name="descricao">Serviços de meteorologia</field>
+    </record>
+
+    <record id="SERVICO_3701" model="sped.servico">
+        <field name="codigo">3701</field>
+        <field name="descricao">Serviços de artistas, atletas, modelos e manequins</field>
+    </record>
+
+    <record id="SERVICO_3801" model="sped.servico">
+        <field name="codigo">3801</field>
+        <field name="descricao">Serviços de museologia</field>
+    </record>
+
+    <record id="SERVICO_3901" model="sped.servico">
+        <field name="codigo">3901</field>
+        <field name="descricao">Serviços de ourivesaria e lapidação (quando o material for fornecido pelo tomador do serviço)</field>
+    </record>
+
+    <record id="SERVICO_4001" model="sped.servico">
+        <field name="codigo">4001</field>
+        <field name="descricao">Obras de arte sob encomenda</field>
+    </record>
+
+</odoo>

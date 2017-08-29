@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_participante_vincula_partner_form">
+        <field name="name">sped.participante.vincula.partner.form</field>
+        <field name="model">sped.participante</field>
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_participante_base_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form[1]" position="attributes">
+                <attribute name="string">Vincular Participante - Partner</attribute>
+            </xpath>
+            <xpath expr="//field[@name='nome']" position="before">
+                <field name="id" invisible="1" />
+                <field name="partner_id" placeholder="Partner original" required="1" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('id', '!=', False)]}" domain="[('sped_participante_id', '=', False), ('original_company_id', '=', False)]" />
+                <newline />
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_participante_vincula_partner_tree">
+        <field name="name">sped.participante.vincula.partner.tree</field>
+        <field name="model">sped.participante</field>
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_participante_base_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree[1]" position="attributes">
+                <attribute name="string">Vincular Participante - Partner</attribute>
+            </xpath>
+            <xpath expr="//field[@name='nome']" position="before">
+                <field name="partner_id" />
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_participante_vincula_partner_search">
+        <field name="name">sped.participante.vincula.partner.search</field>
+        <field name="model">sped.participante</field>
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_participante_base_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//search[1]" position="attributes">
+                <attribute name="string">Vincular Participante - Partner</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_participante_vincula_partner_acao">
+        <field name="name">Vínculos Participante - Partner</field>
+        <field name="res_model">sped.participante</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="l10n_br_base.sped_participante_vincula_partner_search" />
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_participante_vincula_partner_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_participante_vincula_partner_form"/>
+        <field name="act_window_id" ref="sped_participante_vincula_partner_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_participante_vincula_partner_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_participante_vincula_partner_tree"/>
+        <field name="act_window_id" ref="sped_participante_vincula_partner_acao"/>
+    </record>
+
+    <menuitem
+        id="menu_sped_participante_vincula_partner"
+        sequence="2"
+        name="Participante - Partner"
+        parent="menu_cadastro_vinculo"
+        action="sped_participante_vincula_partner_acao"
+        />
+
+</odoo>

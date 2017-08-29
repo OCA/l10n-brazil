@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="1">
+
+    <record id="NATUREZA_VENDA" model="sped.natureza.operacao">
+        <field name="codigo">01</field>
+        <field name="nome">VENDA</field>
+    </record>
+
+    <record id="NATUREZA_REVENDA" model="sped.natureza.operacao">
+        <field name="codigo">02</field>
+        <field name="nome">REVENDA</field>
+    </record>
+
+    <record id="NATUREZA_BONIFICACAO" model="sped.natureza.operacao">
+        <field name="codigo">03</field>
+        <field name="nome">BONIFICAÇÃO</field>
+    </record>
+
+    <record id="NATUREZA_COMPRA" model="sped.natureza.operacao">
+        <field name="codigo">04</field>
+        <field name="nome">COMPRA</field>
+    </record>
+
+</odoo>

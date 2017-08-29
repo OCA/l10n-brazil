@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_item_emissao_form">
+        <field name="name">sped.documento.item.emissao.form</field>
+        <field name="model">sped.documento.item</field>
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sped.sped_documento_item_base_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form[1]" position="attributes">
+                <attribute name="string">Item do documento</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_item_emissao_tree">
+        <field name="name">sped.documento.item.emissao.tree</field>
+        <field name="model">sped.documento.item</field>
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sped.sped_documento_item_base_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree[1]" position="attributes">
+                <attribute name="string">Itens do documento</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

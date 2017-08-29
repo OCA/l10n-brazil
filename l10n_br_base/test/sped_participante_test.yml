@@ -1,0 +1,66 @@
+-
+    Partner with valid CNPJ and Iscrição Estadual
+-
+  !python {model: sped.participante}: |
+    from openerp.exceptions import ValidationError
+    try:
+        id = self.create({
+            'nome': 'Partner Test 1',
+            'razao_social': 'Partner Testc 1 Ltda',
+            'cnpj_cpf': '00.702.434/0001-33',
+            'ie': '176.754.07-5',
+            'endereco': 'Rod BR-101 Norte Contorno',
+            'numero': '955',
+            'complemento': 'Portão 1',
+            'bairro': 'Jardim da Saudade',
+            'municipio_id': ref('l10n_br_base.MUNICIPIO_32050020000'),
+            'cep': '29161-695',
+            'fone': '+55 27 2916-1695',
+            'email': 'contact@partnertest.com.br',
+            'website': 'www.partnertest.com.br'})
+    except:
+        assert id, "CNPJ Validation Error"
+-
+    Partner with invalid CNPJ
+-
+  !python {model: sped.participante}: |
+    from odoo.exceptions import ValidationError
+    try:
+        id = self.create({
+            'nome': 'Partner Test 2',
+            'razao_social': 'Partner Testc 2 Ltda',
+            'cnpj_cpf': '56.524.912/0001-31',
+            'ie': '538.759.92-5',
+            'endereco': 'Rod BR-101 Norte Contorno',
+            'numero': '955',
+            'complemento': 'Portão 1',
+            'bairro': 'Jardim da Saudade',
+            'municipio_id': ref('l10n_br_base.MUNICIPIO_32050020000'),
+            'cep': '29161-695',
+            'fone': '+55 27 2916-1695',
+            'email': 'contact@partnertest.com.br',
+            'website': 'www.partnertest.com.br'})
+    except ValidationError:
+        assert id, "CNPJ Validation Error"
+-
+    Partner with invalid Iscrição Estadual
+-
+  !python {model: sped.participante}: |
+    from odoo.exceptions import ValidationError
+    try:
+        id = self.create({
+            'nome': 'Partner Test 3',
+            'razao_social': 'Partner Testc 3 Ltda',
+            'cnpj_cpf': '19.069.999/0001-53',
+            'ie': '576.302.93-4',
+            'endereco': 'Rod BR-101 Norte Contorno',
+            'numero': '955',
+            'complemento': 'Portão 1',
+            'bairro': 'Jardim da Saudade',
+            'municipio_id': ref('l10n_br_base.MUNICIPIO_32050020000'),
+            'cep': '29161-695',
+            'fone': '+55 27 2916-1695',
+            'email': 'contact@partnertest.com.br',
+            'website': 'www.partnertest.com.br'})
+    except ValidationError:
+        assert id, "Inscrição Estadual Validation Error"
