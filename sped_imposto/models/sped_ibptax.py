@@ -8,6 +8,7 @@
 from __future__ import division, print_function, unicode_literals
 
 import logging
+import os
 from odoo.addons.l10n_br_base.models.sped_base import SpedBase
 from odoo import api, fields, models
 
@@ -19,6 +20,9 @@ try:
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
+
+
+DIRNAME = os.path.dirname(__file__)
 
 
 class SpedIBPTax(models.Model):
@@ -66,9 +70,10 @@ class SpedIBPTax(models.Model):
         ibptax_nbs = self.env['sped.ibptax.nbs']
         ibptax_servico = self.env['sped.ibptax.servico']
 
-        versao = '17.1.A'
-        arquivo = '/home/ari/tauga/tauga_addons/sped/data/ibptax/' \
-            'TabelaIBPTax{uf}{versao}.csv'.format(
+        versao = '17.2.A'
+        arquivo = os.path.join(DIRNAME,
+                               '../data/ibptax/TabelaIBPTax{uf}{versao}.csv')
+        arquivo = arquivo.format(
                 uf=self.estado_id.uf, versao=versao)
 
         ncm_ids = ibptax_ncm.search([('ibptax_id', '=', self.id)])
