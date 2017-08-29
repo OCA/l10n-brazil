@@ -33,7 +33,8 @@
             <field name="arch" type="xml">
                 <header position="inside">
                     <button name="action_criar_sped_documento" string="Criar documento fiscal" type="object"
-                            attrs="{'invisible': ['|','|',('entrada_saida', '=', 0), ('sped_operacao_produto_id', '=', False),('state','not in', ['assign', 'done'])]}"/>
+                            attrs="{'invisible': ['|','|','|',('entrada_saida', '=', 0), ('sped_operacao_produto_id', '=', False),('state','not in', ['assign', 'done']),
+                            ('documento_fiscal_criado', '=', True)]}"/>
                 </header>
                 <field name="partner_id" position="replace">
                     <field name="sped_participante_id"/>
@@ -42,6 +43,8 @@
                 <field name="picking_type_id" position="after">
                     <field name="sped_operacao_produto_id"/>
                     <field name="entrada_saida" invisible="1"/>
+                    <field name="documento_fiscal_criado" invisible="1"/>
+                    <field name="documento_id" />
                 </field>
 
                 <xpath expr="//page/field[@name='move_lines']/kanban/field[@name='product_id']" position="replace">
