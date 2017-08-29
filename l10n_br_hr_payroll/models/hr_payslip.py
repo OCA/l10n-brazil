@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from lxml import etree
 from openerp import api, fields, models, exceptions, _
+from mako.template import Template
 
 _logger = logging.getLogger(__name__)
 
@@ -553,6 +554,12 @@ class HrPayslip(models.Model):
         comodel_name="res.company",
         related='contract_id.company_id',
         store=True
+    )
+
+    rescisao_ids = fields.One2many(
+        comodel_name='hr.campos.rescisao',
+        inverse_name='slip_id',
+        string=u'Campo de Rescisão'
     )
 
     @api.depends('periodo_aquisitivo')
@@ -1294,6 +1301,27 @@ class HrPayslip(models.Model):
                 return line.total
         return 0
 
+    def busca_adiantamento_13(self, ano):
+        '''Metodo para recuperar valor pago de adiantamento de 13º no ano
+        :param ano:  int -   Ano para buscar
+        :return:     float - Valor pago neste ano
+        '''
+        domain = [
+            ('tipo_de_folha', '=', 'normal'),
+            ('contract_id', '=', self.contract_id.id),
+            ('state', 'in', ['done','verify']),
+            ('ano', '=', ano),
+        ]
+        holerites = self.search(
+            domain, order='mes_do_ano DESC')
+        valor = 0
+        if holerites:
+            for holerite in holerites:
+                for line in holerite.line_ids:
+                    if line.code in ['ADIANTAMENTO_13','ADIANTAMENTO_13_FERIAS']:
+                        valor += line.total
+        return valor
+
     def rubrica_anterior_total(self, code, mes=-1, tipo_de_folha='normal'):
         '''Metodo para recuperar uma rubrica de um mes anterior
         :param code:  string -   Code de identificação da rubrica
@@ -2033,7 +2061,72 @@ class HrPayslip(models.Model):
         self.atualizar_worked_days_inputs()
         super(HrPayslip, self).compute_sheet()
         self._compute_valor_total_folha()
+        self._compute_rescisao_ids()
         return True
+
+    def _compute_rescisao_ids(self):
+        self.rescisao_ids.unlink()
+        rescisao_ids = []
+
+        # Popula variáveis de descrição
+        base = 0
+        uteis = 0
+        ferias = 0
+        abono = 0
+        trabalhado = 0
+        avos = 0
+        peraq = ''
+        for variavel in self.worked_days_line_ids:
+            if variavel.code == 'DIAS_BASE':
+                base = variavel.number_of_days
+            if variavel.code == 'DIAS_UTEIS':
+                uteis = variavel.number_of_days
+            if variavel.code == 'FERIAS':
+                ferias = variavel.number_of_days
+            if variavel.code == 'ABONO_PECUNIARIO':
+                abono = variavel.number_of_days
+            if variavel.code == 'DIAS_TRABALHADOS':
+                trabalhado = variavel.number_of_days
+        if self.ferias_vencidas:
+            peraq = data.formata_data(
+                self.ferias_vencidas.inicio_aquisitivo) + " a " + \
+                    data.formata_data(self.ferias_vencidas.fim_aquisitivo)
+
+        # Roda as linhas do holerite para popular as linhas de rescisão
+        for line in self.line_ids:
+            if line.salary_rule_id.campo_rescisao:
+                codigo = line.salary_rule_id.campo_rescisao.codigo
+                valor = line.total
+                encontrou = False
+                for item in rescisao_ids:
+                    if item['codigo'] == codigo:
+                        item['valor'] += valor
+                        encontrou = True
+
+                if not encontrou:
+
+                    # Interpreta as variáveis na descrição
+                    if self.contract_id.wage != 0.0:
+                        avos = line['valor_provento'] / (self.contract_id.wage / 12)
+                    name = line.salary_rule_id.campo_rescisao.descricao
+                    descricao = Template(name).render(
+                        DIAS_BASE="%d" % (base),
+                        DIAS_UTEIS="%d" % (uteis),
+                        FERIAS="%d" % (ferias),
+                        ABONO_PECUNIARIO="%d" % (abono),
+                        DIAS_TRABALHADOS="%d" % (trabalhado),
+                        PERIODO_FERIAS_VENCIDAS=peraq,
+                        AVOS="%d" % (int(avos)))
+
+                    tipo = line.salary_rule_id.category_id.code
+                    rescisao_ids.append({
+                        'codigo': codigo,
+                        'name': descricao,
+                        'valor': valor,
+                        'tipo': tipo,
+                    })
+        self.rescisao_ids = rescisao_ids
+
 
     def validacao_holerites_anteriores(self, data_inicio, data_fim, contrato):
         """

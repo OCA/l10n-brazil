@@ -20,3 +20,4 @@
 "access_hr_payslip_input_officer","access_hr_payslip_input_officer","hr_payroll.model_hr_payslip_input","base.group_hr_user",1,1,1,1
 "access_hr_rule_input_officer","access_hr_rule_input_officer","hr_payroll.model_hr_rule_input","base.group_hr_user",1,1,1,1
 "access_hr_rule_rat_fap_officer","access_hr_rule_rat_fap_officer","model_l10n_br_hr_rat_fap","base.group_hr_user",1,1,1,1
+"access_hr_campos_rescisao","access_hr_campos_rescisao","model_hr_campos_rescisao","base.group_hr_user",1,1,1,1

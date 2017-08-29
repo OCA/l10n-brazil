@@ -2,6 +2,7 @@
 # Copyright (C) 2016 KMEE (http://www.kmee.com.br)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from . import hr_campos_rescisao
 from . import hr_payslip
 from . import hr_payslip_line
 from . import l10n_br_hr_child_benefit
