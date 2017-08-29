@@ -11,14 +11,12 @@
         <field name="priority">2</field>
         <field name="inherit_id" ref="sped.sped_documento_emissao_nfce_form" />
         <field name="arch" type="xml">
-            <xpath expr="//sheet[1]" position="before">
-                <header>
-                    <button name="envia_nfe" string="Enviar NFC-e" type="object" class="btn-primary"
-                        attrs="{'invisible': [('state_nfe', 'not in', ['em_digitacao', 'rejeitada'])]}" />
-                    <button name="envia_email" string="Enviar email" type="object" class="btn-primary" />
-                    <button name="gera_pdf" string="Gerar PDF" type="object" class="btn-primary" />
-                </header>
-            </xpath>
+            <header position="inside">
+                <button name="envia_nfe" string="Enviar NFC-e" type="object" class="btn-primary"
+                    attrs="{'invisible': [('state_nfe', 'not in', ['em_digitacao', 'rejeitada'])]}" />
+                <button name="envia_email" string="Enviar email" type="object" class="btn-primary" />
+                <button name="gera_pdf" string="Gerar PDF" type="object" class="btn-primary" />
+            </header>
             <xpath expr="//field[@name='empresa_id']" position="before">
                 <field name="state_nfe" readonly="1" colspan="4" string="Situação"
                        decoration-warning="state_nfe == 'denegada' or situacao_fiscal == '04'"
