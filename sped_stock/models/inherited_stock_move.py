@@ -46,11 +46,17 @@ class SpedStockMove(SpedCalculoImpostoItem, models.Model):
         related='picking_id.sped_operacao_produto_id',
         readonly=True,
     )
+    documento_item_id = fields.Many2one(
+        comodel_name='sped.documento.item',
+        string='Item do documento',
+        copy=False
+    )
 
     @api.onchange('produto_id')
     def _onchange_produto_id(self):
         #
-        # SOBREESCREVEMOS ESSE MÉTODO POIS O CORE NAO PERMITE SE ALTERAR O
+        # SOBREESCREVEMOS ESSE MÉTODO DO SpedCalculoImpostoItem
+        # POIS O CORE NAO PERMITE SE ALTERAR O
         # CAMPO product_id APÓS O PICKING SER CONFIRMADO
         #
         return
@@ -76,19 +82,10 @@ class SpedStockMove(SpedCalculoImpostoItem, models.Model):
                     [('product_id', '=', record.product_id.id)]
                 )
 
-    @api.model
-    def create(self, vals):
-        res = super(SpedStockMove, self).create(vals)
-
     @api.multi
-    def write(self, vals):
-        for record in self:
-            super(SpedStockMove, record).write(vals)
-
-    @api.multi
-    def _prepare_sped_line(self):
+    def _prepare_sped_line(self, documento):
         """ """
-        self.calcula_impostos()
+        self.ensure_one()
         res = {
             'produto_id': self.produto_id.id,
             'quantidade':  self.quantidade or self.quantity,
@@ -100,5 +97,7 @@ class SpedStockMove(SpedCalculoImpostoItem, models.Model):
             'vr_seguro': self.vr_seguro,
             'vr_outras': self.vr_outras,
             'vr_frete': self.vr_frete,
+            'stock_move_id': self.id,
+            'documento_id': documento.id,
         }
         return res
