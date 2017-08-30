@@ -7,8 +7,9 @@
     <record model="ir.actions.act_window" id="sale_order_para_faturar_action">
         <field name="name">Pedidos para faturar</field>
         <field name="res_model">sale.order</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,kanban,calendar,pivot,graph</field>
         <field name="domain">[('invoice_status','=','to invoice')]</field>
+        <field name="search_view_id" ref="sale_order_search" />
     </record>
 
     <record model="ir.actions.act_window.view" id="sale_order_para_faturar_tree_action">
@@ -22,6 +23,34 @@
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
         <field name="view_id" ref="sale_order_form"/>
+        <field name="act_window_id" ref="sale_order_para_faturar_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sale_order_para_faturar_kanban_action">
+        <field eval="3" name="sequence"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="sale_order_kanban"/>
+        <field name="act_window_id" ref="sale_order_para_faturar_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sale_order_para_faturar_calendar_action">
+        <field eval="4" name="sequence"/>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="sale_order_calendar"/>
+        <field name="act_window_id" ref="sale_order_para_faturar_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sale_order_para_faturar_pivot_action">
+        <field eval="5" name="sequence"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="sale_order_pivot"/>
+        <field name="act_window_id" ref="sale_order_para_faturar_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sale_order_para_faturar_graph_action">
+        <field eval="6" name="sequence"/>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="sale_order_graph"/>
         <field name="act_window_id" ref="sale_order_para_faturar_action"/>
     </record>
 
