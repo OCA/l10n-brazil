@@ -40,7 +40,7 @@ class PaymentOrder(models.Model):
 
         res = {
             'amount_currency': amount_currency,
-            'bank_id': line.contract_id.conta_bancaria_id.id,
+            'bank_id': line.slip_id.employee_id.bank_account_id.id,
             'order_id': self.id,
             'partner_id': line.partner_id and line.partner_id.id or False,
             # account banking
