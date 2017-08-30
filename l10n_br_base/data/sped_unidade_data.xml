@@ -438,10 +438,10 @@
     <record id="UNIDADE_CAIXA_2" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx2</field>
-        <field name="nome">Caixa com 2 unidades</field>
+        <field name="nome">Caixa com 2</field>
         <field name="genero_masculino" eval="False" />
-        <field name="nome_singular">caixa com 2 unidades</field>
-        <field name="nome_plural">caixas com 2 unidades</field>
+        <field name="nome_singular">caixa com 2</field>
+        <field name="nome_plural">caixas com 2</field>
         <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">2.000000</field>
@@ -453,10 +453,10 @@
     <record id="UNIDADE_CAIXA_3" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx3</field>
-        <field name="nome">Caixa com 3 unidades</field>
+        <field name="nome">Caixa com 3</field>
         <field name="genero_masculino" eval="False" />
-        <field name="nome_singular">caixa com 3 unidades</field>
-        <field name="nome_plural">caixas com 3 unidades</field>
+        <field name="nome_singular">caixa com 3</field>
+        <field name="nome_plural">caixas com 3</field>
         <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">3.000000</field>
@@ -468,10 +468,10 @@
 <!--    <record id="UNIDADE_CAIXA_4" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx4</field>
-        <field name="nome">Caixa com 4 unidades</field>
+        <field name="nome">Caixa com 4</field>
         <field name="genero_masculino" eval="False" />
-        <field name="nome_singular">caixa com 4 unidades</field>
-        <field name="nome_plural">caixas com 4 unidades</field>
+        <field name="nome_singular">caixa com 4</field>
+        <field name="nome_plural">caixas com 4</field>
         <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">4.000000</field>
@@ -483,10 +483,10 @@
     <record id="UNIDADE_CAIXA_5" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx5</field>
-        <field name="nome">Caixa com 5 unidades</field>
+        <field name="nome">Caixa com 5</field>
         <field name="genero_masculino" eval="False" />
-        <field name="nome_singular">caixa com 5 unidades</field>
-        <field name="nome_plural">caixas com 5 unidades</field>
+        <field name="nome_singular">caixa com 5</field>
+        <field name="nome_plural">caixas com 5</field>
         <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">5.000000</field>
@@ -498,10 +498,10 @@
 <!--    <record id="UNIDADE_CAIXA_6" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx6</field>
-        <field name="nome">Caixa com 6 unidades</field>
+        <field name="nome">Caixa com 6</field>
         <field name="genero_masculino" eval="False" />
-        <field name="nome_singular">caixa com 6 unidades</field>
-        <field name="nome_plural">caixas com 6 unidades</field>
+        <field name="nome_singular">caixa com 6</field>
+        <field name="nome_plural">caixas com 6</field>
         <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">6.000000</field>
@@ -513,10 +513,10 @@
 <!--    <record id="UNIDADE_CAIXA_8" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx8</field>
-        <field name="nome">Caixa com 8 unidades</field>
+        <field name="nome">Caixa com 8</field>
         <field name="genero_masculino" eval="False" />
-        <field name="nome_singular">caixa com 8 unidades</field>
-        <field name="nome_plural">caixas com 8 unidades</field>
+        <field name="nome_singular">caixa com 8</field>
+        <field name="nome_plural">caixas com 8</field>
         <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">8.000000</field>
@@ -528,10 +528,10 @@
     <record id="UNIDADE_CAIXA_10" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx10</field>
-        <field name="nome">Caixa com 10 unidades</field>
+        <field name="nome">Caixa com 10</field>
         <field name="genero_masculino" eval="False" />
-        <field name="nome_singular">caixa com 10 unidades</field>
-        <field name="nome_plural">caixas com 10 unidades</field>
+        <field name="nome_singular">caixa com 10</field>
+        <field name="nome_plural">caixas com 10</field>
         <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">10.000000</field>
@@ -543,10 +543,10 @@
 <!--    <record id="UNIDADE_CAIXA_12" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx12</field>
-        <field name="nome">Caixa com 12 unidades</field>
+        <field name="nome">Caixa com 12</field>
         <field name="genero_masculino" eval="False" />
-        <field name="nome_singular">caixa com 12 unidades</field>
-        <field name="nome_plural">caixas com 12 unidades</field>
+        <field name="nome_singular">caixa com 12</field>
+        <field name="nome_plural">caixas com 12</field>
         <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">12.000000</field>
@@ -558,10 +558,10 @@
     <record id="UNIDADE_CAIXA_15" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx15</field>
-        <field name="nome">Caixa com 15 unidades</field>
+        <field name="nome">Caixa com 15</field>
         <field name="genero_masculino" eval="False" />
-        <field name="nome_singular">caixa com 15 unidades</field>
-        <field name="nome_plural">caixas com 15 unidades</field>
+        <field name="nome_singular">caixa com 15</field>
+        <field name="nome_plural">caixas com 15</field>
         <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">15.000000</field>
@@ -573,10 +573,10 @@
 <!--    <record id="UNIDADE_CAIXA_18" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx18</field>
-        <field name="nome">Caixa com 18 unidades</field>
+        <field name="nome">Caixa com 18</field>
         <field name="genero_masculino" eval="False" />
-        <field name="nome_singular">caixa com 18 unidades</field>
-        <field name="nome_plural">caixas com 18 unidades</field>
+        <field name="nome_singular">caixa com 18</field>
+        <field name="nome_plural">caixas com 18</field>
         <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">18.000000</field>
@@ -588,10 +588,10 @@
     <record id="UNIDADE_CAIXA_20" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx20</field>
-        <field name="nome">Caixa com 20 unidades</field>
+        <field name="nome">Caixa com 20</field>
         <field name="genero_masculino" eval="False" />
-        <field name="nome_singular">caixa com 20 unidades</field>
-        <field name="nome_plural">caixas com 20 unidades</field>
+        <field name="nome_singular">caixa com 20</field>
+        <field name="nome_plural">caixas com 20</field>
         <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">20.000000</field>
@@ -603,10 +603,10 @@
 <!--    <record id="UNIDADE_CAIXA_24" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx24</field>
-        <field name="nome">Caixa com 24 unidades</field>
+        <field name="nome">Caixa com 24</field>
         <field name="genero_masculino" eval="False" />
-        <field name="nome_singular">caixa com 24 unidades</field>
-        <field name="nome_plural">caixas com 24 unidades</field>
+        <field name="nome_singular">caixa com 24</field>
+        <field name="nome_plural">caixas com 24</field>
         <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">24.000000</field>
@@ -618,10 +618,10 @@
     <record id="UNIDADE_CAIXA_25" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx25</field>
-        <field name="nome">Caixa com 25 unidades</field>
+        <field name="nome">Caixa com 25</field>
         <field name="genero_masculino" eval="False" />
-        <field name="nome_singular">caixa com 25 unidades</field>
-        <field name="nome_plural">caixas com 25 unidades</field>
+        <field name="nome_singular">caixa com 25</field>
+        <field name="nome_plural">caixas com 25</field>
         <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">25.000000</field>
@@ -633,10 +633,10 @@
     <record id="UNIDADE_CAIXA_50" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx50</field>
-        <field name="nome">Caixa com 50 unidades</field>
+        <field name="nome">Caixa com 50</field>
         <field name="genero_masculino" eval="False" />
-        <field name="nome_singular">caixa com 50 unidades</field>
-        <field name="nome_plural">caixas com 50 unidades</field>
+        <field name="nome_singular">caixa com 50</field>
+        <field name="nome_plural">caixas com 50</field>
         <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">50.000000</field>
@@ -648,10 +648,10 @@
     <record id="UNIDADE_CAIXA_100" model="sped.unidade">
         <field name="tipo">U</field>
         <field name="codigo">cx100</field>
-        <field name="nome">Caixa com 100 unidades</field>
+        <field name="nome">Caixa com 100</field>
         <field name="genero_masculino" eval="False" />
-        <field name="nome_singular">caixa com 100 unidades</field>
-        <field name="nome_plural">caixas com 100 unidades</field>
+        <field name="nome_singular">caixa com 100</field>
+        <field name="nome_plural">caixas com 100</field>
         <field name="usa_virgula" eval="False" />
         <field name="usa_meio" eval="True" />
         <field name="fator_relacao_decimal">100.000000</field>
