@@ -18,6 +18,7 @@
         'nfe_attach',
         'pos_order_picking_link',
         'stock_picking_invoice_link',
+        'l10n_br_stock_account',
     ],
     'data': [
         "wizard/l10n_br_pos_order_return.xml",
