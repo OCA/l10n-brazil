@@ -23,7 +23,7 @@
                         <field name="valor" required="1" />
                         <field name="troco" />
                         <newline />
-                        <field name="payment_term_id" colspan="4" context="{'currency_id': currency_id, 'value': valor}" />
+                        <field name="condicao_pagamento_id" colspan="4" context="{'currency_id': currency_id, 'value': valor}" />
                         <newline />
                         <separator string="Vencimentos" colspan="4" />
                         <field name="duplicata_ids" colspan="4" nolabel="1" >
@@ -49,7 +49,7 @@
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
                 <field name="sequence" widget="handle"/>
-                <field name="payment_term_id" />
+                <field name="condicao_pagamento_id" />
                 <field name="valor" sum="valor" />
                 <field name="troco" sum="troco" />
             </tree>

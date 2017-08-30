@@ -81,7 +81,7 @@ class SpedDocumento(SpedBase, models.Model):
         string='Empresa',
         ondelete='restrict',
         default=lambda self:
-        self.env['sped.empresa']._empresa_ativa('sped.documento')
+        self.env['sped.empresa']._empresa_ativa('sped.empresa')
     )
     empresa_cnpj_cpf = fields.Char(
         string='CNPJ/CPF',
@@ -434,9 +434,9 @@ class SpedDocumento(SpedBase, models.Model):
     #
     # Duplicatas e pagamentos
     #
-    payment_term_id = fields.Many2one(
+    condicao_pagamento_id = fields.Many2one(
         comodel_name='account.payment.term',
-        string='Forma de pagamento',
+        string='Condição de pagamento',
         ondelete='restrict',
         domain=[('forma_pagamento', '!=', False)],
     )
@@ -935,7 +935,7 @@ class SpedDocumento(SpedBase, models.Model):
                         continue
 
     @api.onchange('empresa_id', 'modelo', 'emissao')
-    def onchange_empresa_id(self):
+    def _onchange_empresa_id(self):
         res = {}
         valores = {}
         res['value'] = valores
@@ -1002,7 +1002,7 @@ class SpedDocumento(SpedBase, models.Model):
         return res
 
     @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
-    def onchange_operacao_id(self):
+    def _onchange_operacao_id(self):
         res = {}
         valores = {}
         res['value'] = valores
@@ -1026,9 +1026,9 @@ class SpedDocumento(SpedBase, models.Model):
             valores['regime_tributario'] = self.operacao_id.regime_tributario
             valores['ind_forma_pagamento'] = \
                 self.operacao_id.ind_forma_pagamento
-            if self.operacao_id.payment_term_id:
-                valores['payment_term_id'] = \
-                    self.operacao_id.payment_term_id.id
+            if self.operacao_id.condicao_pagamento_id:
+                valores['condicao_pagamento_id'] = \
+                    self.operacao_id.condicao_pagamento_id.id
             valores['finalidade_nfe'] = self.operacao_id.finalidade_nfe
             valores['modalidade_frete'] = self.operacao_id.modalidade_frete
             valores['infadfisco'] = self.operacao_id.infadfisco
@@ -1067,7 +1067,7 @@ class SpedDocumento(SpedBase, models.Model):
         return res
 
     @api.onchange('empresa_id', 'modelo', 'emissao', 'serie', 'ambiente_nfe')
-    def onchange_serie(self):
+    def _onchange_serie(self):
         res = {}
         valores = {}
         res['value'] = valores
@@ -1087,6 +1087,7 @@ class SpedDocumento(SpedBase, models.Model):
             ('emissao', '=', self.emissao),
             ('modelo', '=', self.modelo),
             ('serie', '=', self.serie.strip()),
+            ('numero', '!=', False),
         ], limit=1, order='numero desc')
 
         valores['serie'] = self.serie.strip()
@@ -1099,7 +1100,7 @@ class SpedDocumento(SpedBase, models.Model):
         return res
 
     @api.onchange('participante_id')
-    def onchange_participante_id(self):
+    def _onchange_participante_id(self):
         res = {}
         valores = {}
         res['value'] = valores
@@ -1121,20 +1122,20 @@ class SpedDocumento(SpedBase, models.Model):
                 valores['transportadora_id'] = \
                     self.participante_id.transportadora_id.id
 
-            if self.participante_id.payment_term_id:
-                valores['payment_term_id'] = \
-                    self.participante_id.payment_term_id.id
+            if self.participante_id.condicao_pagamento_id:
+                valores['condicao_pagamento_id'] = \
+                    self.participante_id.condicao_pagamento_id.id
 
         return res
 
-    @api.onchange('payment_term_id', 'vr_fatura', 'vr_nf', 'data_emissao',
+    @api.onchange('condicao_pagamento_id', 'vr_fatura', 'vr_nf', 'data_emissao',
                   'duplicata_ids')
-    def _onchange_payment_term(self):
+    def _onchange_condicao_pagamento_id(self):
         res = {}
         valores = {}
         res['value'] = valores
 
-        if not (self.payment_term_id and (self.vr_fatura or self.vr_nf) and
+        if not (self.condicao_pagamento_id and (self.vr_fatura or self.vr_nf) and
                 self.data_emissao):
             return res
 
@@ -1147,7 +1148,7 @@ class SpedDocumento(SpedBase, models.Model):
         # o decorator deprecado api.one, pegamos aqui sempre o 1º elemento
         # da lista que vai ser retornada
         #
-        lista_vencimentos = self.payment_term_id.compute(valor,
+        lista_vencimentos = self.condicao_pagamento_id.compute(valor,
                                                          self.data_emissao)[0]
 
         duplicata_ids = [
