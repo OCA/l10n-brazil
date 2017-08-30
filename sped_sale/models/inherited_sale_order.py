@@ -61,19 +61,22 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         copy=True,
         domain=[('tipo_item','=','S')],
     )
-
     sped_documento_ids = fields.One2many(
         comodel_name='sped.documento',
         inverse_name='sale_order_id',
         string='Documentos Fiscais',
         copy=False,
     )
-
     data_pedido = fields.Date(
         string='Data do pedido',
         compute='_compute_data_hora_separadas',
         store=True,
         index=True,
+    )
+    produto_id = fields.Many2one(
+        comodel_name='sped.produto',
+        related='order_line.produto_id',
+        string='Produto',
     )
 
     @api.depends('date_order')
