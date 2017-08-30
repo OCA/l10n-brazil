@@ -219,6 +219,13 @@ class SpedCalculoImpostoItem(SpedBase):
     vr_seguro = fields.Monetary(
         string='Valor do seguro',
     )
+    #al_desconto = fields.Monetary(
+        #string='Percentual de desconto',
+        #currency_field='currency_aliquota_rateio_id',
+        #compute='_compute_al_desconto',
+        #inverse='_inverse_al_desconto',
+        #store=True,
+    #)
     vr_desconto = fields.Monetary(
         string='Valor do desconto',
     )
@@ -842,6 +849,22 @@ class SpedCalculoImpostoItem(SpedBase):
         default='P',
         help='Indica o tipo do item',
     )
+
+    #@api.depends('vr_desconto')
+    #def _compute_al_desconto(self):
+        #for item in self:
+            #al_desconto = D(0)
+            #if item.vr_produtos and item.vr_desconto:
+                #al_desconto = D(item.vr_desconto) / D(item.vr_produtos)
+                #al_desconto *= 100
+            #item.al_desconto = al_desconto
+
+    #def _inverse_al_desconto(self):
+        #for item in self:
+            #al_desconto = D(item.al_desconto) / 100
+            #vr_desconto = D(item.vr_produtos) * al_desconto
+            #vr_desconto = vr_desconto.quantize(D('0.01'))
+            #item.vr_desconto = vr_desconto
 
     #
     # Funções para manter a sincronia entre as CSTs do PIS e COFINS para
@@ -1629,10 +1652,6 @@ class SpedCalculoImpostoItem(SpedBase):
 
         return res
 
-    #
-    # Faz o cálculo propriamente dito
-    #
-
     @api.onchange('vr_unitario', 'quantidade', 'vr_unitario_tributacao',
                   'quantidade_tributacao', 'vr_frete',
                   'vr_seguro', 'vr_desconto', 'vr_outras',
@@ -1671,6 +1690,11 @@ class SpedCalculoImpostoItem(SpedBase):
         #
         vr_produtos = D(self.quantidade) * D(self.vr_unitario)
         vr_produtos = vr_produtos.quantize(D('0.01'))
+
+        #if self.al_desconto:
+            #al_desconto = D(self.al_desconto) / 100
+            #vr_desconto = vr_produtos * al_desconto
+            #self.vr_desconto = vr_desconto
 
         #
         # Até segunda ordem, a quantidade e valor unitário para tributação não
@@ -2259,6 +2283,6 @@ class SpedCalculoImpostoItem(SpedBase):
 
         return
 
-    def prepara_dados_sped_documento_item(self):
+    def prepara_dados_documento_item(self):
         self.ensure_one()
         return {}
