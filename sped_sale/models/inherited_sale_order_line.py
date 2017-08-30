@@ -126,7 +126,7 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
         compute='_compute_permite_alteracao',
     )
 
-    sped_documento_item_ids = fields.One2many(
+    documento_item_ids = fields.One2many(
         comodel_name='sped.documento.item',
         inverse_name='sale_order_line_id',
         string='Itens dos Documentos Fiscais',
@@ -154,20 +154,20 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
     )
 
     @api.depends('invoice_lines.invoice_id.state', 'invoice_lines.quantity',
-                 'sped_documento_item_ids.quantidade')
+                 'documento_item_ids.quantidade')
     def _get_invoice_qty(self):
         for item in self:
             if not item.order_id.is_brazilian:
                 super(SaleOrderLine, self)._get_invoice_qty()
                 continue
 
-            sped_documento_item_ids = item.sped_documento_item_ids.search(
+            documento_item_ids = item.documento_item_ids.search(
                 [('sale_order_line_id', '=', item.id),
                  ('documento_id.situacao_fiscal', 'in',
                   SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
 
             qty_invoiced = 0.0
-            for documento_item in sped_documento_item_ids:
+            for documento_item in documento_item_ids:
                 qty_invoiced += documento_item.quantidade
 
             item.qty_invoiced = qty_invoiced
@@ -182,11 +182,11 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
                 item.operacao_id = False
 
             if item.produto_id.tipo == TIPO_PRODUTO_SERVICO_SERVICOS:
-                if item.order_id.sped_operacao_servico_id:
-                    item.operacao_id = item.order_id.sped_operacao_servico_id
+                if item.order_id.operacao_servico_id:
+                    item.operacao_id = item.order_id.operacao_servico_id
             else:
-                if item.order_id.sped_operacao_produto_id:
-                    item.operacao_id = item.order_id.sped_operacao_produto_id
+                if item.order_id.operacao_produto_id:
+                    item.operacao_id = item.order_id.operacao_produto_id
 
             if not item.data_emissao:
                 warning = {
@@ -279,7 +279,7 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
             res['vr_frete'] = self.vr_frete
         return res
 
-    def prepara_dados_sped_documento_item(self):
+    def prepara_dados_documento_item(self):
         self.ensure_one()
 
         return {

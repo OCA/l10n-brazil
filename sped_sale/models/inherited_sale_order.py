@@ -28,6 +28,17 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         inverse_name='order_id',
         string='Itens da venda',
     )
+    documento_ids = fields.One2many(
+        comodel_name='sped.documento',
+        inverse_name='sale_order_id',
+        string='Documentos Fiscais',
+        copy=False,
+    )
+    produto_id = fields.Many2one(
+        comodel_name='sped.produto',
+        related='order_line.produto_id',
+        string='Produto',
+    )
 
     #
     # As 2 operações fiscais abaixo servem para que se calcule ao mesmo tempo,
@@ -35,17 +46,22 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
     # para produtos e serviços, quando via de regra sairão 2 notas fiscais,
     # uma de produto e outra separada de serviço (pela prefeitura)
     #
-    sped_operacao_produto_id = fields.Many2one(
+    operacao_produto_id = fields.Many2one(
         comodel_name='sped.operacao',
         string='Operação Fiscal (produtos)',
         domain=[('modelo', 'in', MODELO_FISCAL_EMISSAO_PRODUTO)],
     )
-    sped_operacao_servico_id = fields.Many2one(
+    operacao_servico_id = fields.Many2one(
         comodel_name='sped.operacao',
         string='Operação Fiscal (serviços)',
         domain=[('modelo', 'in', MODELO_FISCAL_EMISSAO_SERVICO)],
     )
 
+    #
+    # Os 2 campos abaixo separam os itens da venda ou compra, para que se
+    # informem em telas separadas os produtos dos serviços, mostrando somente
+    # os campos adequados a cada caso
+    #
     sale_order_line_produto_ids = fields.One2many(
         comodel_name='sale.order.line',
         inverse_name='order_id',
@@ -53,7 +69,6 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         copy=True,
         domain=[('tipo_item','=','P')],
     )
-
     sale_order_line_servico_ids = fields.One2many(
         comodel_name='sale.order.line',
         inverse_name='order_id',
@@ -61,22 +76,16 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         copy=True,
         domain=[('tipo_item','=','S')],
     )
-    sped_documento_ids = fields.One2many(
-        comodel_name='sped.documento',
-        inverse_name='sale_order_id',
-        string='Documentos Fiscais',
-        copy=False,
-    )
+
+    #
+    # Datas sem hora no fuso horário de Brasília, para relatórios e pesquisas,
+    # porque data sem hora é vida ;)
+    #
     data_pedido = fields.Date(
         string='Data do pedido',
         compute='_compute_data_hora_separadas',
         store=True,
         index=True,
-    )
-    produto_id = fields.Many2one(
-        comodel_name='sped.produto',
-        related='order_line.produto_id',
-        string='Produto',
     )
 
     @api.depends('date_order')
@@ -122,12 +131,12 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
     def _prepare_invoice(self):
         vals = super(SaleOrder, self)._prepare_invoice()
 
-        vals['sped_empresa_id'] = self.empresa_id.id or False
-        vals['sped_participante_id'] = self.participante_id.id or False
-        vals['sped_operacao_produto_id'] = \
-            self.sped_operacao_produto_id.id or False
-        vals['sped_operacao_servico_id'] = \
-            self.sped_operacao_servico_id.id or False
+        vals['empresa_id'] = self.empresa_id.id or False
+        vals['participante_id'] = self.participante_id.id or False
+        vals['operacao_produto_id'] = \
+            self.operacao_produto_id.id or False
+        vals['operacao_servico_id'] = \
+            self.operacao_servico_id.id or False
         vals['condicao_pagamento_id'] = \
             self.condicao_pagamento_id.id or False
         vals['date_invoice'] = fields.Date.context_today(self)
@@ -135,7 +144,7 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         return vals
 
     @api.depends('state', 'order_line.invoice_status',
-                 'sped_documento_ids.situacao_fiscal')
+                 'documento_ids.situacao_fiscal')
     def _get_invoiced(self):
         for sale in self:
             super(SaleOrder, sale)._get_invoiced()
@@ -143,11 +152,11 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
             if not sale.is_brazilian:
                 continue
 
-            sped_documento_ids = self.sped_documento_ids.search(
+            documento_ids = self.documento_ids.search(
                 [('sale_order_id', '=', sale.id), ('situacao_fiscal', 'in',
                   SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
 
-            invoice_count = len(sped_documento_ids)
+            invoice_count = len(documento_ids)
 
             line_invoice_status = [line.invoice_status for line in
                                    sale.order_line]
@@ -172,26 +181,46 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
             })
 
     @api.multi
-    def action_view_sped_documento(self):
+    def action_view_documento(self):
         action = self.env.ref('sped.sped_documento_emissao_nfe_acao').read()[0]
 
-        if len(self.sped_documento_ids) > 1:
-            action['domain'] = [('id', 'in', self.sped_documento_ids.ids)]
+        if len(self.documento_ids) > 1:
+            action['domain'] = [('id', 'in', self.documento_ids.ids)]
 
-        elif len(self.sped_documento_ids) == 1:
+        elif len(self.documento_ids) == 1:
             action['views'] = [
                 (self.env.ref('sped.sped_documento_emissao_nfe_form').id,
                  'form')]
-            action['res_id'] = self.sped_documento_ids.ids[0]
+            action['res_id'] = self.documento_ids.ids[0]
         else:
             action = {'type': 'ir.actions.act_window_close'}
 
         return action
 
 
-    def prepara_dados_sped_documento(self):
+    def prepara_dados_documento(self):
         self.ensure_one()
 
         return {
             'sale_order_id': self.id,
         }
+
+    @api.onchange('empresa_id', 'participante_id')
+    def _onchange_empresa_operacao_padrao(self):
+        self.ensure_one()
+
+        if not self.presenca_comprador:
+            self.presenca_comprador = self.empresa_id.presenca_comprador
+
+        if self.empresa_id.operacao_produto_id:
+            self.operacao_produto_id = self.empresa_id.operacao_produto_id
+
+        if self.participante_id and \
+           self.empresa_id.operacao_produto_pessoa_fisica_id and \
+            (self.participante_id.eh_consumidor_final or
+             self.participante_id.tipo_pessoa == TIPO_PESSOA_FISICA):
+            self.operacao_produto_id = \
+                self.empresa_id.operacao_produto_pessoa_fisica_id
+
+        if self.empresa_id.operacao_servico_id:
+            self.operacao_servico_id = self.empresa_id.operacao_servico_id

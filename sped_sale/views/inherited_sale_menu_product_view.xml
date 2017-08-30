@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+<!--    <record model="ir.ui.menu" id="menu_sale_produto">
+        <field name="name">Produtos</field>
+        <field name="parent_id" ref="sales_team.menu_sales"/>
+        <field name="action" ref="sale_order_pedido_action"/>
+        <field name="sequence" eval="13"/>
+    </record>-->
+
+    <!-- Temporariamente, substituímos o menu original pelo nosso -->
+    <record model="ir.ui.menu" id="sale.menu_product_template_action">
+        <field name="name">Produtos</field>
+        <field name="parent_id" ref="sales_team.menu_sales"/>
+        <field name="action" ref="l10n_br_base.sped_produto_produto_acao"/>
+        <field name="sequence" eval="13"/>
+    </record>
+
+</odoo>

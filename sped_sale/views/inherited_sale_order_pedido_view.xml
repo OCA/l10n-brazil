@@ -54,7 +54,15 @@
         <field name="act_window_id" ref="sale_order_pedido_action"/>
     </record>
 
-    <record model="ir.ui.menu" id="menu_sale_order_pedido">
+<!--    <record model="ir.ui.menu" id="menu_sale_order_pedido">
+        <field name="name">Pedidos</field>
+        <field name="parent_id" ref="sales_team.menu_sales"/>
+        <field name="action" ref="sale_order_pedido_action"/>
+        <field name="sequence" eval="4"/>
+    </record>-->
+
+    <!-- Temporariamente, substituímos o menu original pelo nosso -->
+    <record model="ir.ui.menu" id="sale.menu_sale_order">
         <field name="name">Pedidos</field>
         <field name="parent_id" ref="sales_team.menu_sales"/>
         <field name="action" ref="sale_order_pedido_action"/>

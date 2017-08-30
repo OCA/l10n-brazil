@@ -18,6 +18,7 @@
 
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
                 <field name="currency_unitario_id" invisible="1"/>
                 <field name="currency_peso_id" invisible="1"/>
                 <field name="currency_unidade_id" invisible="1"/>
@@ -122,8 +123,8 @@
                                             attrs="{'invisible': [('tipo_item', '!=', 'P')]}"
                                             string="Outras"/>
                                     <newline/>
-                                    <field name="vr_desconto" colspan="2"
-                                            string="Desconto"/>
+<!--                                     <field name="al_desconto" string="Desconto" digits="(5,2)" /> -->
+                                    <field name="vr_desconto" string="Desconto" />
                                     <newline/>
                                     <field name="vr_operacao_readonly"
                                             colspan="2" string="Subtotal" />
@@ -530,8 +531,6 @@
                 <field name="currency_unidade_id" invisible="1"/>
                 <field name="unidade_id" invisible="1"/>
                 <field name="cst_ipi" invisible="1"/>
-                <field name="invoice_status"/>
-                <field name="qty_to_invoice"/>
                 <field name="produto_id"/>
                 <field name="quantidade"/>
                 <field name="vr_unitario" string="Unitário"/>

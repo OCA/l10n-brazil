@@ -54,7 +54,15 @@
         <field name="act_window_id" ref="sale_order_para_faturar_action"/>
     </record>
 
-    <record model="ir.ui.menu" id="menu_sale_order_para_faturar">
+<!--    <record model="ir.ui.menu" id="menu_sale_order_para_faturar">
+        <field name="name">Pedidos para faturar</field>
+        <field name="parent_id" ref="sale.menu_sale_invoicing"/>
+        <field name="action" ref="sale_order_para_faturar_action"/>
+        <field name="sequence" eval="3"/>
+    </record>-->
+
+    <!-- Temporariamente, substituímos o menu original pelo nosso -->
+    <record model="ir.ui.menu" id="sale.menu_sale_order_invoice">
         <field name="name">Pedidos para faturar</field>
         <field name="parent_id" ref="sale.menu_sale_invoicing"/>
         <field name="action" ref="sale_order_para_faturar_action"/>
