@@ -848,8 +848,9 @@ class HrPayslip(models.Model):
         ])
         if holerite_ferias:
             lines = []
-            for line in holerite_ferias.line_ids[0]:
-                lines.append(line)
+            for line in holerite_ferias.line_ids:
+                if line.category_id.code == 'PROVENTO':
+                    lines.append(line)
         else:
             return False, False
         return lines, holerite_ferias.holidays_ferias
@@ -1216,7 +1217,9 @@ class HrPayslip(models.Model):
                 ('tipo_de_folha', '=', 'ferias'),
                 ('contract_id', '=', self.contract_id.id),
                 ('date_from', '>=', str(self.ano) + '-01-01'),
-                ('date_to', '<=', self.date_to)
+                ('date_to', '<=', self.date_to),
+                ('state', 'in', ['done','verify']),
+                ('is_simulacao', '=', False),
             ]
         )
         salary_rule_id = self.env['hr.salary.rule'].search(
@@ -1568,6 +1571,8 @@ class HrPayslip(models.Model):
             #  trazer as informações de férias para o holerite mensal.
             if holidays_ferias and worked_days_obj.FERIAS.number_of_days > 0 \
                     and payslip.tipo_de_folha == 'normal':
+                # Atualiza o Holerite para colocar o holidays_ferias correspondente
+                self.env['hr.payslip'].browse(payslip_id).holidays_ferias = holidays_ferias
                 # Atualizar o baselocaldict para informar que tem que pagar
                 # ferias naquele holerite
                 baselocaldict.update({'PAGAR_FERIAS': True})
