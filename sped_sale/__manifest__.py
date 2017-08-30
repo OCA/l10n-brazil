@@ -16,12 +16,12 @@
         'sale',
     ],
     'data': [
-        'views/inherit_sale_order_line_base_view.xml',
-        'views/inherit_sale_order_line_produto_view.xml',
-        'views/inherit_sale_order_line_servico_view.xml',
-        'views/inherit_sale_order_orcamento_view.xml',
-        'views/inherit_sale_order_pedido_view.xml',
-        'views/inherit_sale_order_para_faturar_view.xml',
+        'views/inherited_sale_order_line_base_view.xml',
+        'views/inherited_sale_order_line_produto_view.xml',
+        'views/inherited_sale_order_line_servico_view.xml',
+        'views/inherited_sale_order_orcamento_view.xml',
+        'views/inherited_sale_order_pedido_view.xml',
+        'views/inherited_sale_order_para_faturar_view.xml',
     ],
     'installable': True,
 }
