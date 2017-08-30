@@ -13,9 +13,9 @@ from odoo import api, fields, models
 class SpedOperacao(models.Model):
     _inherit = 'sped.operacao'
 
-    payment_term_id = fields.Many2one(
+    condicao_pagamento_id = fields.Many2one(
         comodel_name='account.payment.term',
-        string='Forma de pagamento',
+        string='Condição de pagamento',
         ondelete='restrict',
         domain=[('forma_pagamento', '!=', False)],
     )

@@ -30,7 +30,7 @@ except (ImportError, IOError) as err:
 class SpedDocumentoPagamento(SpedBase, models.Model):
     _name = b'sped.documento.pagamento'
     _description = 'Pagamentos do Documento Fiscal'
-    _order = 'documento_id, sequence, payment_term_id'
+    _order = 'documento_id, sequence, condicao_pagamento_id'
     # _rec_name = 'numero'
 
     documento_id = fields.Many2one(
@@ -42,9 +42,9 @@ class SpedDocumentoPagamento(SpedBase, models.Model):
     sequence = fields.Integer(
         default=10,
     )
-    payment_term_id = fields.Many2one(
+    condicao_pagamento_id = fields.Many2one(
         comodel_name='account.payment.term',
-        string='Forma de pagamento',
+        string='Condição de pagamento',
         ondelete='restrict',
         domain=[('forma_pagamento', '!=', False)],
     )
@@ -85,13 +85,13 @@ class SpedDocumentoPagamento(SpedBase, models.Model):
         size=18,
     )
 
-    @api.onchange('payment_term_id', 'valor', 'documento_id', 'duplicata_ids')
-    def _onchange_payment_term(self):
+    @api.onchange('condicao_pagamento_id', 'valor', 'documento_id', 'duplicata_ids')
+    def _onchange_condicao_pagamento_id(self):
         res = {}
         valores = {}
         res['value'] = valores
 
-        if not (self.payment_term_id and self.valor and self.documento_id):
+        if not (self.condicao_pagamento_id and self.valor and self.documento_id):
             return res
 
         valor = Decimal(self.valor or 0)
@@ -101,7 +101,7 @@ class SpedDocumentoPagamento(SpedBase, models.Model):
         # o decorator deprecado api.one, pegamos aqui sempre o 1º elemento
         # da lista que vai ser retornada
         #
-        lista_vencimentos = self.payment_term_id.compute(
+        lista_vencimentos = self.condicao_pagamento_id.compute(
             valor,
             self.documento_id.data_emissao,
         )[0]
@@ -121,15 +121,15 @@ class SpedDocumentoPagamento(SpedBase, models.Model):
             parcela += 1
 
         valores['duplicata_ids'] = duplicata_ids
-        valores['forma_pagamento'] = self.payment_term_id.forma_pagamento
-        valores['bandeira_cartao'] = self.payment_term_id.bandeira_cartao
-        valores['integracao_cartao'] = self.payment_term_id.integracao_cartao
+        valores['forma_pagamento'] = self.condicao_pagamento_id.forma_pagamento
+        valores['bandeira_cartao'] = self.condicao_pagamento_id.bandeira_cartao
+        valores['integracao_cartao'] = self.condicao_pagamento_id.integracao_cartao
 
-        if self.payment_term_id.participante_id:
+        if self.condicao_pagamento_id.participante_id:
             valores['participante_id'] = \
-                self.payment_term_id.participante_id.id
+                self.condicao_pagamento_id.participante_id.id
             valores['cnpj_cpf'] = \
-                self.payment_term_id.participante_id.cnpj_cpf
+                self.condicao_pagamento_id.participante_id.cnpj_cpf
         else:
             valores['participante_id'] = False
             valores['cnpj_cpf'] = False

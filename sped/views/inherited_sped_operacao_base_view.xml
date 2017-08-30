@@ -12,7 +12,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='ind_forma_pagamento']" position="after">
                 <newline />
-                <field name="payment_term_id" />
+                <field name="condicao_pagamento_id" />
             </xpath>
         </field>
     </record>
