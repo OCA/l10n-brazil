@@ -24,3 +24,20 @@ class StockInvoiceOnShippingRelatedDocument(models.TransientModel):
         self.document_partner_id = document.partner_id
         self.document_amount = document.amount_total
         self.access_key = document.chave_cfe[3:]
+
+
+class StockInvoiceOnShipping(models.TransientModel):
+    _inherit = 'stock.invoice.onshipping'
+
+    @api.multi
+    def create_invoice(self):
+        result = super(StockInvoiceOnShipping, self).create_invoice()
+        for document in self.related_document_ids:
+            vals = {
+                'invoice_id': result[0],
+                'access_key': document.access_key,
+                'document_type': document.document_type,
+            }
+            self.env['l10n_br_account_product.document.related'].create(vals)
+
+        return result
