@@ -32,6 +32,11 @@ class ResCurrency(models.Model):
         compute='_compute_is_currency',
         store=True,
     )
+    rounding = fields.Float(
+        string='Rounding Factor',
+        digits=(18, 11),
+        default=0.01,
+    )
 
     @api.depends('is_symbol', 'is_index', 'is_uom')
     def _compute_is_currency(self):
