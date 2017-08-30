@@ -856,15 +856,14 @@ class SpedDocumento(SpedBase, models.Model):
     @api.depends('data_hora_emissao', 'data_hora_entrada_saida')
     def _compute_data_hora_separadas(self):
         for documento in self:
-            data_hora_emissao = data_hora_horario_brasilia(
-                parse_datetime(documento.data_hora_emissao))
-            documento.data_emissao = str(data_hora_emissao)[:10]
-            documento.hora_emissao = str(data_hora_emissao)[11:19]
+            data, hora = self._separa_data_hora(documento.data_hora_emissao)
+            documento.data_emissao = data
+            documento.hora_emissao = hora
 
-            data_hora_entrada_saida = data_hora_horario_brasilia(
-                parse_datetime(documento.data_hora_entrada_saida))
-            documento.data_entrada_saida = str(data_hora_entrada_saida)[:10]
-            documento.hora_entrada_saida = str(data_hora_entrada_saida)[11:19]
+            data, hora = \
+                self._separa_data_hora(documento.data_hora_entrada_saida)
+            documento.data_entrada_saida = data
+            documento.hora_entrada_saida = hora
 
     @api.depends(
         'item_ids.vr_nf',
