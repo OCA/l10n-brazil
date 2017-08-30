@@ -133,6 +133,45 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
         copy=False,
     )
 
+    qty_delivered = fields.Monetary(
+        string='Entregue',
+        copy=False,
+        currency_field='currency_unidade_id',
+    )
+    qty_to_invoice = fields.Monetary(
+        string='A faturar',
+        currency_field='currency_unidade_id',
+        compute='_get_to_invoice_qty',
+        store=True,
+        readonly=True,
+    )
+    qty_invoiced = fields.Monetary(
+        string='Faturada',
+        currency_field='currency_unidade_id',
+        compute='_get_invoice_qty',
+        store=True,
+        readonly=True,
+    )
+
+    @api.depends('invoice_lines.invoice_id.state', 'invoice_lines.quantity',
+                 'sped_documento_item_ids.quantidade')
+    def _get_invoice_qty(self):
+        for item in self:
+            if not item.order_id.is_brazilian:
+                super(SaleOrderLine, self)._get_invoice_qty()
+                continue
+
+            sped_documento_item_ids = item.sped_documento_item_ids.search(
+                [('sale_order_line_id', '=', item.id),
+                 ('documento_id.situacao_fiscal', 'in',
+                  SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
+
+            qty_invoiced = 0.0
+            for documento_item in sped_documento_item_ids:
+                qty_invoiced += documento_item.quantidade
+
+            item.qty_invoiced = qty_invoiced
+
     @api.onchange('produto_id')
     def _onchange_produto_id(self):
         for item in self:
@@ -189,10 +228,10 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
             item.product_uom_qty = item.quantidade
             item.product_uom = item.unidade_id.uom_id
 
-    @api.depends('modelo', 'emissao')
-    def _compute_permite_alteracao(self):
-        for item in self:
-            item.permite_alteracao = True
+    #@api.depends('modelo', 'emissao')
+    #def _compute_permite_alteracao(self):
+        #for item in self:
+            #item.permite_alteracao = True
 
     @api.depends('unidade_id', 'unidade_tributacao_id',
                  'vr_produtos', 'vr_operacao',
@@ -246,21 +285,3 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
         return {
             'sale_order_line_id': self.id,
         }
-
-    @api.depends('invoice_lines.invoice_id.state', 'invoice_lines.quantity',
-                 'sped_documento_item_ids.quantidade')
-    def _get_invoice_qty(self):
-        for item in self:
-            if not item.order_id.is_brazilian:
-                super(SaleOrderLine, self)._get_invoice_qty()
-                continue
-
-            sped_documento_item_ids = item.sped_documento_item_ids.search(
-                [('documento_id.situacao_fiscal', 'in',
-                  SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
-
-            qty_invoiced = 0.0
-            for documento_item in sped_documento_item_ids:
-                qty_invoiced += documento_item.quantidade
-
-            item.qty_invoiced = qty_invoiced

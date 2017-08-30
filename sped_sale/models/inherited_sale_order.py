@@ -141,7 +141,7 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
                 continue
 
             sped_documento_ids = self.sped_documento_ids.search(
-                [('situacao_fiscal', 'in',
+                [('sale_order_id', '=', sale.id), ('situacao_fiscal', 'in',
                   SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
 
             invoice_count = len(sped_documento_ids)
@@ -151,11 +151,14 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
 
             if sale.state not in ('sale', 'done'):
                 invoice_status = 'no'
-            elif any(invoice_status == 'to invoice' for invoice_status in line_invoice_status):
+            elif any(invoice_status == 'to invoice' \
+                for invoice_status in line_invoice_status):
                 invoice_status = 'to invoice'
-            elif all(invoice_status == 'invoiced' for invoice_status in line_invoice_status):
+            elif all(invoice_status == 'invoiced' \
+                for invoice_status in line_invoice_status):
                 invoice_status = 'invoiced'
-            elif all(invoice_status in ['invoiced', 'upselling'] for invoice_status in line_invoice_status):
+            elif all(invoice_status in ['invoiced', 'upselling'] \
+                for invoice_status in line_invoice_status):
                 invoice_status = 'upselling'
             else:
                 invoice_status = 'no'

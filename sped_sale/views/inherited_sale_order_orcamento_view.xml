@@ -52,6 +52,7 @@
                         <field name="id" invisible="1"/>
                         <field name="currency_id" invisible="1"/>
                         <field name="currency_aliquota_id" invisible="1"/>
+                        <field name="regime_tributario" invisible="1"/>
                     </group>
                 </group>
             </xpath>

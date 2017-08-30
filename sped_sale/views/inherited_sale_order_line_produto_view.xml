@@ -11,11 +11,11 @@
         <field name="priority">99999</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-                <field name="produto_id" position="attributes">
+            <field name="produto_id" position="attributes">
                 <attribute name="domain">[('tipo', '!=', '09')]</attribute>
                 <attribute name="string">Produto</attribute>
             </field>
-                <field name="vr_produtos_readonly" position="attributes">
+            <field name="vr_produtos_readonly" position="attributes">
                 <attribute name="string">Valor do produto</attribute>
             </field>
         </field>
@@ -28,11 +28,15 @@
         <field name="priority">99999</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-                <field name="produto_id" position="attributes">
+            <field name="produto_id" position="attributes">
                 <attribute name="string">Produto</attribute>
             </field>
-                <field name="vr_produtos" position="attributes">
+            <field name="vr_produtos" position="attributes">
                 <attribute name="string">Valor do produto</attribute>
+            </field>
+            <field name="quantidade" position="after">
+                <field name="qty_delivered" invisible="context.get('hide_sale')" string="Entregue" />
+                <field name="qty_invoiced"  invisible="context.get('hide_sale')" string="Faturada" />
             </field>
         </field>
     </record>
