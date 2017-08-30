@@ -12,6 +12,8 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     MODELO_FISCAL_EMISSAO_PRODUTO,
     MODELO_FISCAL_EMISSAO_SERVICO,
     TIPO_PESSOA_FISICA,
+    REGIME_TRIBUTARIO,
+    REGIME_TRIBUTARIO_SIMPLES,
 )
 from openerp.addons.l10n_br_base.models.sped_base import (
     SpedBase
@@ -117,6 +119,12 @@ class SpedCalculoImposto(SpedBase):
         comodel_name='account.payment.term',
         string='Condição de pagamento',
         domain=[('forma_pagamento', '!=', False)],
+    )
+    regime_tributario = fields.Selection(
+        selection=REGIME_TRIBUTARIO,
+        string='Regime tributário',
+        default=REGIME_TRIBUTARIO_SIMPLES,
+        related='operacao_id.regime_tributario',
     )
 
     #
