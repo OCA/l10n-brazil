@@ -251,7 +251,6 @@ class SpedCalculoImpostoItem(SpedBase):
     )
     al_bc_icms_proprio_partilha = fields.Monetary(
         string='% da base de cálculo da operação própria',
-        digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     estado_partilha_id = fields.Many2one(
@@ -274,7 +273,6 @@ class SpedCalculoImpostoItem(SpedBase):
     )
     rd_icms_proprio = fields.Monetary(
         string='% de redução da base de cálculo do ICMS próprio',
-        digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     bc_icms_proprio_com_ipi = fields.Boolean(
@@ -285,7 +283,6 @@ class SpedCalculoImpostoItem(SpedBase):
     )
     al_icms_proprio = fields.Monetary(
         string='alíquota do ICMS próprio',
-        digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     vr_icms_proprio = fields.Monetary(
@@ -343,7 +340,6 @@ class SpedCalculoImpostoItem(SpedBase):
     )
     al_icms_st = fields.Monetary(
         string='Alíquota do ICMS ST',
-        digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     vr_icms_st = fields.Monetary(
@@ -363,16 +359,15 @@ class SpedCalculoImpostoItem(SpedBase):
         string='Parâmetro da base de cáculo',
         digits=(18, 4),
     )
-    rd_icms_st_retido = fields.Float(
+    rd_icms_st_retido = fields.Monetary(
         string='% de redução da base de cálculo do ICMS retido',
-        digits=(5, 2),
+        currency_field='currency_aliquota_id',
     )
     bc_icms_st_retido = fields.Monetary(
         string='Base do ICMS ST retido na origem',
     )
     al_icms_st_retido = fields.Monetary(
         string='Alíquota do ICMS ST retido na origem',
-        digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     vr_icms_st_retido = fields.Monetary(
@@ -524,7 +519,6 @@ class SpedCalculoImpostoItem(SpedBase):
     )
     al_iss = fields.Monetary(
         string='Alíquota do ISS',
-        digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     vr_iss = fields.Monetary(
@@ -1641,7 +1635,8 @@ class SpedCalculoImpostoItem(SpedBase):
 
     @api.onchange('vr_unitario', 'quantidade', 'vr_unitario_tributacao',
                   'quantidade_tributacao', 'vr_frete',
-                  'vr_seguro', 'vr_desconto', 'vr_outras', 'vr_ii',
+                  'vr_seguro', 'vr_desconto', 'vr_outras',
+                  'vr_ii',
                   'fator_conversao_unidade_tributacao',
                   'peso_bruto_unitario', 'peso_liquido_unitario',
                   'especie', 'fator_quantidade_especie')
@@ -1656,7 +1651,6 @@ class SpedCalculoImpostoItem(SpedBase):
             self.quantity = self.quantidade
         if hasattr(self, 'product_qty'):
             self.quantity = self.quantidade
-
 
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
@@ -2264,3 +2258,7 @@ class SpedCalculoImpostoItem(SpedBase):
         self._onchange_calcula_ibpt()
 
         return
+
+    def prepara_dados_sped_documento_item(self):
+        self.ensure_one()
+        return {}

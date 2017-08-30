@@ -55,6 +55,14 @@ class SpedCalculoImpostoProdutoServico(SpedCalculoImposto):
         store=True,
         inverse='_inverse_rateio_produtos_vr_seguro',
     )
+    produtos_al_desconto = fields.Monetary(
+        string='Alíquota do desconto',
+        currency_field='currency_aliquota_rateio_id',
+        digits=(18, 11),
+        compute='_compute_soma_itens',
+        store=True,
+        inverse='_inverse_rateio_produtos_al_desconto',
+    )
     produtos_vr_desconto = fields.Monetary(
         string='Valor do desconto',
         compute='_compute_soma_itens',
@@ -268,6 +276,14 @@ class SpedCalculoImpostoProdutoServico(SpedCalculoImposto):
     #     store=True,
     #     inverse='_inverse_rateio_servicos_vr_seguro',
     # )
+    servicos_al_desconto = fields.Monetary(
+        string='Alíquota do desconto',
+        currency_field='currency_aliquota_rateio_id',
+        digits=(18, 11),
+        compute='_compute_soma_itens',
+        store=True,
+        inverse='_inverse_rateio_servicos_al_desconto',
+    )
     servicos_vr_desconto = fields.Monetary(
         string='Valor do desconto',
         compute='_compute_soma_itens',
@@ -473,6 +489,10 @@ class SpedCalculoImpostoProdutoServico(SpedCalculoImposto):
         self.ensure_one()
         self._inverse_rateio_campo_total('vr_desconto', tipo_item='P')
 
+    def _inverse_rateio_produtos_al_desconto(self):
+        self.ensure_one()
+        self._inverse_rateio_campo_al_desconto(tipo_item='P')
+
     # def _inverse_rateio_servicos_vr_frete(self):
     #     self.ensure_one()
     #     self._inverse_rateio_campo_total('vr_frete', tipo_item='S')
@@ -488,3 +508,45 @@ class SpedCalculoImpostoProdutoServico(SpedCalculoImposto):
     def _inverse_rateio_servicos_vr_desconto(self):
         self.ensure_one()
         self._inverse_rateio_campo_total('vr_desconto', tipo_item='S')
+
+    def _inverse_rateio_servicos_al_desconto(self):
+        self.ensure_one()
+        self._inverse_rateio_campo_al_desconto(tipo_item='S')
+
+    def gera_sped_documento(self):
+        self.ensure_one()
+
+        if not (self.sped_operacao_produto_id or
+                    self.sped_operacao_servico_id):
+            return None, None  # documento_produto, documento_servico
+
+        item_produto_ids = []
+        item_servico_ids = []
+        item_mensalidade_ids = []
+
+        for item in self.item_ids:
+            if item.tipo_item == 'P':
+                item_produto_ids.append(item)
+            elif item.tipo_item == 'S':
+                item_servico_ids.append(item)
+            elif item.tipo_item == 'M':
+                item_mensalidade_ids.append(item)
+
+        #
+        # Trata o caso de nota conjugada
+        #
+        documento_produto = None
+        documento_servico = None
+        if self.sped_operacao_produto_id and \
+            self.sped_operacao_servico_id and \
+            self.sped_operacao_produto_id.id == \
+                self.sped_operacao_servico_id.id:
+            item_produto_ids += item_servico_ids
+            item_servico_ids = []
+
+        documento_produto = self._gera_sped_documento(
+            self.sped_operacao_produto_id, item_produto_ids)
+        documento_servico = self._gera_sped_documento(
+            self.sped_operacao_servico_id, item_servico_ids)
+
+        return documento_produto, documento_servico
