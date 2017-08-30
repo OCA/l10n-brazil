@@ -302,10 +302,11 @@ class SpedParticipante(models.Model):
         default=REGIME_TRIBUTARIO_SIMPLES,
         index=True,
     )
-    payment_term_id = fields.Many2one(
+    condicao_pagamento_id = fields.Many2one(
         comodel_name='account.payment.term',
         string='Condição de pagamento',
         ondelete='restrict',
+        domain=[('forma_pagamento', '!=', False)],
     )
 
     @api.depends('cnpj_cpf')
