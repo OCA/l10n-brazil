@@ -44,40 +44,53 @@
         </field>
     </record>
 
+<!--    <record model="ir.ui.view" id="sped_participante_cliente_kanban">
+        <field name="name">sped.participante.cliente.kanban</field>
+        <field name="model">sped.participante</field>
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_participante_base_kanban" />
+        <field name="arch" type="xml">
+            <xpath expr="//kanban[1]" position="attributes">
+                <attribute name="string">Cliente</attribute>
+            </xpath>
+        </field>
+    </record>-->
+
     <record model="ir.actions.act_window" id="sped_participante_cliente_acao">
         <field name="name">Clientes</field>
         <field name="domain">[('eh_cliente', '=', True)]</field>
         <field name="context">{'default_eh_cliente': True, 'eh_cliente': True}</field>
         <field name="res_model">sped.participante</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="l10n_br_base.sped_participante_cliente_search" />
     </record>
 
-    <record model="ir.actions.act_window.view" id="sped_participante_cliente_form_acao">
-        <field eval="2" name="sequence"/>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="sped_participante_cliente_form"/>
+    <record model="ir.actions.act_window.view" id="sped_participante_cliente_kanban_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="sped_participante_base_kanban"/>
         <field name="act_window_id" ref="sped_participante_cliente_acao"/>
     </record>
 
     <record model="ir.actions.act_window.view" id="sped_participante_cliente_tree_acao">
-        <field eval="1" name="sequence"/>
+        <field eval="2" name="sequence"/>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="sped_participante_cliente_tree"/>
         <field name="act_window_id" ref="sped_participante_cliente_acao"/>
     </record>
 
-<!--    <record model="ir.actions.act_window.view" id="sped_participante_cliente_kanban_acao">
-        <field eval="1" name="sequence"/>
-        <field name="view_mode">kanban</field>
-        <field name="view_id" ref="sped_participante_cliente_kanban"/>
+    <record model="ir.actions.act_window.view" id="sped_participante_cliente_form_acao">
+        <field eval="3" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_participante_cliente_form"/>
         <field name="act_window_id" ref="sped_participante_cliente_acao"/>
-    </record>-->
+    </record>
 
     <menuitem
         id="menu_sped_participante_cliente"
-        sequence="3"
+        sequence="1"
         name="Clientes"
         parent="menu_cadastro_participante"
         action="sped_participante_cliente_acao"

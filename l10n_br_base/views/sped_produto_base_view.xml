@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_produto_base_form" >
+        <field name="name">sped.produto.base.form</field>
+        <field name="model">sped.produto</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="Produto">
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object"
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <field name="image_medium" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="nome" placeholder="Nome do produto" required="1" />
+                        </h1>
+                        <h2>
+                            <field name="codigo" placeholder="Código" required="1" />
+                        </h2>
+                    </div>
+                    <group col="4">
+                        <field name="unidade_id" required="1" domain="[('tipo', '!=', 'T')]" options="{'no_create': True, 'no_open': True}" colspan="2" />
+                    </group>
+                    <notebook>
+                        <page name="comercial" string="Comercial">
+                            <group col="4">
+                                <field name="codigo_barras" />
+                                <field name="marca" />
+                                <newline />
+                                <field name="preco_venda" />
+                                <field name="preco_custo" />
+                            </group>
+                        </page>
+                        <page name="fiscal" string="Fiscal">
+                            <group col="4">
+                                <field name="org_icms" required="1" />
+                                <field name="tipo" required="1" />
+                            </group>
+                        </page>
+                        <page name="estoque" string="Estoque">
+                            <group col="4">
+                                <field name="peso_bruto" />
+                                <field name="peso_liquido" />
+                                <newline />
+                                <field name="especie" />
+                                <field name="fator_quantidade_especie" />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_produto_base_tree">
+        <field name="name">sped.produto.base.tree</field>
+        <field name="model">sped.produto</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <tree string="Produtos">
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="tipo" invisible="1" />
+                <field name="nome" />
+                <field name="codigo" />
+                <field name="codigo_barras" />
+                <field name="preco_venda" />
+                <field name="unidade_id" />
+<!--                 <field name="marca" /> -->
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_produto_base_search">
+        <field name="name">sped.produto.base.search</field>
+        <field name="model">sped.produto</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <search string="Produtos">
+                <!--                 <field name="nome" filter_domain="['|', '|', ('nome','ilike',self), ('codigo','ilike',self), ('codigo_barras','ilike',self)]" /> -->
+                <field name="codigo" />
+                <field name="nome" />
+                <field name="codigo_barras" />
+                <field name="marca" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_produto_base_kanban" >
+        <field name="name">sped.produto.base.kanban</field>
+        <field name="model">sped.produto</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="nome"/>
+                <field name="codigo"/>
+                <field name="preco_venda"/>
+                <field name="unidade_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <strong>[<field name="codigo" />] <field name="nome"/></strong>
+                                <br />
+                                <ul>
+                                    <li><field name="preco_venda" /> / <field name="unidade_id" /></li>
+                                </ul>
+                                <div name="tags"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>
