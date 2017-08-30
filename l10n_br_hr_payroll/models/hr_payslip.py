@@ -1639,6 +1639,11 @@ class HrPayslip(models.Model):
                     }
                     baselocaldict[line.code + '_FERIAS'] = line.total
 
+                    # sum the amount for its salary category
+                    baselocaldict = _sum_salary_rule_category(
+                        baselocaldict, line.salary_rule_id.category_id,
+                        amount)
+
                     # if line.category_id.code == 'DEDUCAO':
                     #    if line.salary_rule_id.compoe_base_INSS:
                     #        baselocaldict['BASE_INSS'] -= line.total
