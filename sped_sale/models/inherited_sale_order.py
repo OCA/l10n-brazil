@@ -6,14 +6,12 @@ from __future__ import division, print_function, unicode_literals
 
 
 from odoo import api, fields, models, _
-from odoo.addons.sped_imposto.models.sped_calculo_imposto import (
-    SpedCalculoImposto
-)
 from odoo.addons.sped_imposto.models.sped_calculo_imposto_produto_servico \
     import SpedCalculoImpostoProdutoServico
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODELO_FISCAL_EMISSAO_PRODUTO,
     MODELO_FISCAL_EMISSAO_SERVICO,
+    SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO,
 )
 
 
@@ -64,6 +62,27 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         domain=[('tipo_item','=','S')],
     )
 
+    sped_documento_ids = fields.One2many(
+        comodel_name='sped.documento',
+        inverse_name='sale_order_id',
+        string='Documentos Fiscais',
+        copy=False,
+    )
+
+    data_pedido = fields.Date(
+        string='Data do pedido',
+        compute='_compute_data_hora_separadas',
+        store=True,
+        index=True,
+    )
+
+    @api.depends('date_order')
+    def _compute_data_hora_separadas(self):
+        for sale in self:
+            data, hora = self._separa_data_hora(sale.date_order)
+            sale.data_pedido = data
+            #sale.hora_pedido = hora
+
     @api.depends(
         'order_line.price_total',
         #
@@ -111,3 +130,62 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         vals['date_invoice'] = fields.Date.context_today(self)
 
         return vals
+
+    @api.depends('state', 'order_line.invoice_status',
+                 'sped_documento_ids.situacao_fiscal')
+    def _get_invoiced(self):
+        for sale in self:
+            super(SaleOrder, sale)._get_invoiced()
+
+            if not sale.is_brazilian:
+                continue
+
+            sped_documento_ids = self.sped_documento_ids.search(
+                [('situacao_fiscal', 'in',
+                  SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
+
+            invoice_count = len(sped_documento_ids)
+
+            line_invoice_status = [line.invoice_status for line in
+                                   sale.order_line]
+
+            if sale.state not in ('sale', 'done'):
+                invoice_status = 'no'
+            elif any(invoice_status == 'to invoice' for invoice_status in line_invoice_status):
+                invoice_status = 'to invoice'
+            elif all(invoice_status == 'invoiced' for invoice_status in line_invoice_status):
+                invoice_status = 'invoiced'
+            elif all(invoice_status in ['invoiced', 'upselling'] for invoice_status in line_invoice_status):
+                invoice_status = 'upselling'
+            else:
+                invoice_status = 'no'
+
+            sale.update({
+                'invoice_count': invoice_count,
+                'invoice_status': invoice_status
+            })
+
+    @api.multi
+    def action_view_sped_documento(self):
+        action = self.env.ref('sped.sped_documento_emissao_nfe_acao').read()[0]
+
+        if len(self.sped_documento_ids) > 1:
+            action['domain'] = [('id', 'in', self.sped_documento_ids.ids)]
+
+        elif len(self.sped_documento_ids) == 1:
+            action['views'] = [
+                (self.env.ref('sped.sped_documento_emissao_nfe_form').id,
+                 'form')]
+            action['res_id'] = self.sped_documento_ids.ids[0]
+        else:
+            action = {'type': 'ir.actions.act_window_close'}
+
+        return action
+
+
+    def prepara_dados_sped_documento(self):
+        self.ensure_one()
+
+        return {
+            'sale_order_id': self.id,
+        }

@@ -12,20 +12,16 @@
     'website': 'www.kmee.com.br',
     'depends': [
         'sped_imposto',
+        'sped',
         'sale',
     ],
     'data': [
-
-        # 'security/sale_order.xml',
-
-        'views/sale_order_line_base.xml',
-        'views/sale_order_line_produto.xml',
-        'views/sale_order_line_servico.xml',
-        'views/sale_order.xml',
-        'views/menu_sale_order.xml',
-    ],
-    'demo': [
-        'demo/sale_order.xml',
+        'views/inherit_sale_order_line_base_view.xml',
+        'views/inherit_sale_order_line_produto_view.xml',
+        'views/inherit_sale_order_line_servico_view.xml',
+        'views/inherit_sale_order_orcamento_view.xml',
+        'views/inherit_sale_order_pedido_view.xml',
+        'views/inherit_sale_order_para_faturar_view.xml',
     ],
     'installable': True,
 }

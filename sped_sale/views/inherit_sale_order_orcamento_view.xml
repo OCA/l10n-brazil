@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="sale_order_form">
+        <field name="name">sale.order.form (in sped_sale)</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//button[1]" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </xpath>
+            <xpath expr="//button[2]" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </xpath>
+            <xpath expr="//button[2]" position="after">
+                <button type="object" name="gera_sped_documento"
+                        string="Gerar NFes" class="btn-primary"
+                        attrs="{'invisible': [('invoice_status', '!=', 'to invoice')]}" />
+            </xpath>
+            <xpath expr="//button[@name='action_view_invoice']" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_view_invoice']" position="after">
+                <button name="action_view_sped_documento"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-pencil-square-o"
+                    attrs="{'invisible': [('invoice_count', '=', 0)]}">
+                    <field name="invoice_count" widget="statinfo" string="NFes"/>
+                </button>
+            </xpath>
+
+            <xpath expr="//sheet/group" position="replace">
+                <group>
+                    <group colspan="4">
+                        <field name="partner_id" invisible="1"/>
+                        <field name="participante_id" string="Cliente"
+                               domain="[('eh_cliente', '=', True)]"
+                               options='{"always_reload": True}'
+                               attrs="{'required': [('is_brazilian', '=', True)]}"/>
+                        <field name="partner_invoice_id" groups="sale.group_delivery_invoice_address" context="{'default_type':'invoice'}"/>
+                        <field name="partner_shipping_id" groups="sale.group_delivery_invoice_address" context="{'default_type':'delivery'}"/>
+                        <field name="date_order"/>
+                        <field name="pricelist_id"
+                               groups="product.group_sale_pricelist"/>
+                        <field name="ind_pres"/>
+                        <newline />
+                        <field name="id" invisible="1"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="currency_aliquota_id" invisible="1"/>
+                    </group>
+                </group>
+            </xpath>
+
+            <xpath expr="//notebook/page[1]" position="replace">
+                <page string="Produtos" name="product_page">
+                    <field name="sale_order_line_produto_ids"
+                           context="{
+                               'default_tipo_item': 'P',
+                               'tree_view_ref': 'sped_sale.sale_order_line_produto_tree',
+                               'form_view_ref': 'sped_sale.sale_order_line_produto_form'}"
+                    />
+                    <group name="produtos" col="2" class="oe_right"
+                           style="padding-right:1cm;"
+                           attrs="{'invisible': [('sped_operacao_produto_id', '=', False)]}">
+                        <group class="oe_subtotal_footer oe_right"
+                               name="sale_total">
+                            <field name="produtos_vr_produtos" />
+                            <field name="produtos_vr_frete" />
+                            <field name="produtos_vr_seguro" />
+                            <field name="produtos_vr_outras" />
+                            <field name="produtos_vr_desconto" />
+                            <field name="produtos_al_desconto" digits="(5,2)" />
+                            <field name="produtos_vr_icms_st" />
+                            <field name="produtos_vr_ipi" attrs="{'invisible': [('regime_tributario', '=', '1')]}" />
+
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label string="Valor total"/>
+                                <button name="button_dummy" states="draft,sent"
+                                        string="(update)" type="object"
+                                        class="oe_edit_only oe_link"/>
+                            </div>
+
+                            <field name="produtos_vr_nf" nolabel="1"
+                                   class="oe_subtotal_footer_separator" />
+                        </group>
+                    </group>
+                </page>
+                <page string="Servicos" name="services_page"
+                      attrs="{'invisible': [('sped_operacao_servico_id', '=', False)]}">
+                    <field name="sale_order_line_servico_ids"
+                           context="{
+                               'default_tipo_item': 'S',
+                               'tree_view_ref': 'sped_sale.sale_order_line_servico_tree',
+                               'form_view_ref': 'sped_sale.sale_order_line_servico_form'}"
+                    />
+                    <group name="servicos" col="2" class="oe_right"
+                           style="padding-right:1cm;"
+                           attrs="{'invisible': [('sped_operacao_servico_id', '=', False)]}">
+                        <group class="oe_subtotal_footer oe_right"
+                               name="sale_total">
+                            <field name="servicos_vr_produtos" />
+                            <field name="servicos_vr_iss" />
+                            <field name="servicos_vr_inss_retido"/>
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label string="Valor total"/>
+                                <button name="button_dummy" states="draft,sent"
+                                        string="(update)" type="object"
+                                        class="oe_edit_only oe_link"/>
+                            </div>
+                            <field name="servicos_vr_nf" nolabel="1"
+                                   class="oe_subtotal_footer_separator"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath expr="//group[@name='sales_person']" position="before">
+                <group name="pagamento" string="Pagamento">
+                    <field name="payment_term_id" options="{'no_create': True}" context=""/>
+                </group>
+            </xpath>
+
+            <xpath expr="//group[@name='sales_person']" position="attributes">
+                <attribute name="name">Venda e comissão</attribute>
+            </xpath>
+
+            <xpath expr="//group/field[@name='company_id']" position="after">
+                <field name="is_brazilian" groups="l10n_br_base.GRUPO_SUPORTE"/>
+                <field name="empresa_id" string="Razão Social"
+                       attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
+            </xpath>
+
+            <field name="fiscal_position_id" position="attributes">
+                <attribute name="attrs">{'invisible': [('is_brazilian','=',True)]}
+                </attribute>
+            </field>
+
+            <field name="fiscal_position_id" position="after">
+                <field name="sped_operacao_produto_id"
+                       domain="[('emissao', '=', '0')]"
+                       attrs="{'required': [('sped_operacao_servico_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
+                <field name="sped_operacao_servico_id"
+                       domain="[('emissao', '=', '0')]"
+                       attrs="{'required': [('sped_operacao_produto_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sale_order_orcamento_action">
+        <field name="name">Orçamentos</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','in',('draft','sent'))]</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sale_order_orcamento_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sale.view_order_tree"/>
+        <field name="act_window_id" ref="sale_order_orcamento_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sale_order_orcamento_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sale_order_form"/>
+        <field name="act_window_id" ref="sale_order_orcamento_action"/>
+    </record>
+
+    <record model="ir.ui.menu" id="menu_sale_order_orcamento">
+        <field name="name">Orçamentos</field>
+        <field name="parent_id" ref="sales_team.menu_sales"/>
+        <field name="action" ref="sale_order_orcamento_action"/>
+        <field name="sequence" eval="3"/>
+    </record>
+
+</odoo>
