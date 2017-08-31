@@ -62,6 +62,16 @@ class PosOrder(models.Model):
         related='partner_id.cnpj_cpf',
     )
 
+    state = fields.Selection(
+        selection_add=[("devolucoes", "Com Devoluções")]
+    )
+
+    devolucoes_id = fields.One2many(
+        string="Produtos Devolvidos",
+        comodel_name="pos.order.devolucao",
+        inverse_name="pos_order_id"
+    )
+
     @api.one
     def action_invoice(self):
         self.simplified = False
@@ -209,3 +219,18 @@ class PosOrder(models.Model):
         }
 
         return dados_reimpressao
+
+
+class PosOrderDevolucao(models.Model):
+    _name = "pos.order.devolucao"
+
+    product_id = fields.Many2one(
+        string="Produto",
+        comodel_name="product.product",
+    )
+    qty = fields.Integer(
+        string="Quantidade"
+    )
+    pos_order_id = fields.Many2one(
+        comodel_name="pos.order"
+    )
