@@ -15,8 +15,28 @@ class StockPickingReturn(models.TransientModel):
             res.update({'invoice_state': '2binvoiced'})
         return res
 
-class PorOrderReturn(models.TransientModel):
+    @api.multi
+    def create_returns(self):
+        if self.env.context.get('pos_order_id'):
+            result = super(StockPickingReturn, self).create_returns()
+            pos_order = self.env['pos.order'].browse(
+                self.env.context.get('pos_order_id')
+            )
+            pos_order.state = "devolucoes"
+            for product_order_line in self.product_return_moves:
+                self.env['pos.order.devolucao'].create(
+                    {
+                        'product_id': product_order_line.product_id.id,
+                        'qty': product_order_line.quantity,
+                        'pos_order_id': pos_order.id,
+                    }
+                )
+            return result
+        else:
+            return super(StockPickingReturn, self).create_returns()
 
+
+class PorOrderReturn(models.TransientModel):
     _name = 'pos.order.return'
     _description = "Pos Order Return"
 
@@ -66,10 +86,10 @@ class PorOrderReturn(models.TransientModel):
         active_ids = self._context['active_ids']
         order = self.env['pos.order'].browse(active_ids)
         order.partner_id = self.partner_id
-
         self._check_picking_parameters(order)
 
         ctx = dict(self._context)
+        ctx['pos_order_id'] = active_ids
         ctx['active_ids'] = order.picking_id.ids
         ctx['active_id'] = order.picking_id.id
         ctx['contact_display'] = 'partner_address'
