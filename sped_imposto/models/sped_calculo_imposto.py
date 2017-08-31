@@ -682,4 +682,49 @@ class SpedCalculoImposto(SpedBase):
             if product.sped_produto_id:
                 dados['produto_id'] = product.sped_produto_id.id
 
+        if 'product_id' in dados and not 'produto_id' in dados:
+            product = self.env['product.product'].browse(dados['product_id'])
+            if product.sped_produto_id:
+                dados['produto_id'] = product.sped_produto_id.id
+
+        if 'product_uom' in dados and not 'unidade_id' in dados:
+            uom = self.env['product.uom'].browse(dados['product_uom'])
+            if uom.sped_unidade_id:
+                dados['unidade_id'] = uom.sped_unidade_id.id
+
+        if 'uom_id' in dados and not 'unidade_id' in dados:
+            uom = self.env['product.uom'].browse(dados['uom_id'])
+            if uom.sped_unidade_id:
+                dados['unidade_id'] = uom.sped_unidade_id.id
+
+        #
+        # Outros campos não many2one
+        #
+        CAMPOS = [
+            ['price_unit', 'vr_unitario'],
+            ['quantity', 'quantidade'],
+            ['product_qty', 'quantidade'],
+            ['product_uom_qty', 'quantidade'],
+        ]
+        for campo_original, campo_brasil in CAMPOS:
+            if campo_original in dados and not campo_brasil in dados:
+                dados[campo_brasil] = dados[campo_original]
+
         return dados
+
+    @api.multi
+    def action_view_documento(self):
+        action = self.env.ref('sped.sped_documento_emissao_nfe_acao').read()[0]
+
+        if len(self.documento_ids) > 1:
+            action['domain'] = [('id', 'in', self.documento_ids.ids)]
+
+        elif len(self.documento_ids) == 1:
+            action['views'] = [
+                (self.env.ref('sped.sped_documento_emissao_nfe_form').id,
+                 'form')]
+            action['res_id'] = self.documento_ids.ids[0]
+        else:
+            action = {'type': 'ir.actions.act_window_close'}
+
+        return action

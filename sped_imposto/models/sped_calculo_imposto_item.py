@@ -966,6 +966,8 @@ class SpedCalculoImpostoItem(SpedBase):
                 self.product_id = self.produto_id.product_id.id
             if hasattr(self, 'product_uom'):
                 self.product_uom = self.produto_id.unidade_id.uom_id
+            if hasattr(self, 'uom_id'):
+                self.uom_id = self.produto_id.unidade_id.uom_id
             return res
         elif self.emissao == TIPO_EMISSAO_TERCEIROS:
             res = self._onchange_produto_id_recebimento()
@@ -973,6 +975,8 @@ class SpedCalculoImpostoItem(SpedBase):
                 self.product_id = self.produto_id.product_id.id
             if hasattr(self, 'product_uom'):
                 self.product_uom = self.produto_id.unidade_id.uom_id
+            if hasattr(self, 'uom_id'):
+                self.uom_id = self.produto_id.unidade_id.uom_id
             return res
 
     def busca_operacao_item(self, domain_base):
@@ -1669,7 +1673,9 @@ class SpedCalculoImpostoItem(SpedBase):
         if hasattr(self, 'quantity'):
             self.quantity = self.quantidade
         if hasattr(self, 'product_qty'):
-            self.quantity = self.quantidade
+            self.product_qty = self.quantidade
+        if hasattr(self, 'product_uom_qty'):
+            self.product_uom_qty = self.quantidade
 
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
@@ -2302,5 +2308,28 @@ class SpedCalculoImpostoItem(SpedBase):
             product = self.env['product.product'].browse(dados['product_id'])
             if product.sped_produto_id:
                 dados['produto_id'] = product.sped_produto_id.id
+
+        if 'product_uom' in dados and not 'unidade_id' in dados:
+            uom = self.env['product.uom'].browse(dados['product_uom'])
+            if uom.sped_unidade_id:
+                dados['unidade_id'] = uom.sped_unidade_id.id
+
+        if 'uom_id' in dados and not 'unidade_id' in dados:
+            uom = self.env['product.uom'].browse(dados['uom_id'])
+            if uom.sped_unidade_id:
+                dados['unidade_id'] = uom.sped_unidade_id.id
+
+        #
+        # Outros campos não many2one
+        #
+        CAMPOS = [
+            ['price_unit', 'vr_unitario'],
+            ['quantity', 'quantidade'],
+            ['product_qty', 'quantidade'],
+            ['product_uom_qty', 'quantidade'],
+        ]
+        for campo_original, campo_brasil in CAMPOS:
+            if campo_original in dados and not campo_brasil in dados:
+                dados[campo_brasil] = dados[campo_original]
 
         return dados
