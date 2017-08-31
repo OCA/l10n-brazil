@@ -77,8 +77,6 @@ class StockMove(SpedCalculoImpostoItem, models.Model):
 
         return super(StockMove, self)._onchange_produto_id_emissao_propria()
 
-
-
     def prapara_dados_documento_item(self):
         self.ensure_one()
 

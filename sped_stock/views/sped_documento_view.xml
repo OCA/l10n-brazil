@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="sped_stock_documento_form">
+        <field name="name">sped.documento.form (in sped_stock)</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">3</field>
+        <field name="inherit_id" ref="sped.sped_documento_base_form"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="action_relacionar_picking" type="object" string="Relacionar Separação"/>
+            </header>
+        </field>
+    </record>
+
+</odoo>

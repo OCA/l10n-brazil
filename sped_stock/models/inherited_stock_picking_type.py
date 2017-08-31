@@ -7,7 +7,7 @@ from __future__ import division, print_function, unicode_literals
 from odoo import models, fields
 
 
-class SpedStockPickingType(models.Model):
+class StockPickingType(models.Model):
     _inherit = 'stock.picking.type'
 
     operacao_id = fields.Many2one(
