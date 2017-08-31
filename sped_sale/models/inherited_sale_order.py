@@ -224,3 +224,12 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
 
         if self.empresa_id.operacao_servico_id:
             self.operacao_servico_id = self.empresa_id.operacao_servico_id
+
+    @api.model
+    def create(self, dados):
+        dados = self._mantem_sincronia_cadastros(dados)
+        return super(SaleOrder, self).create(dados)
+
+    def write(self, dados):
+        dados = self._mantem_sincronia_cadastros(dados)
+        return super(SaleOrder, self).write(dados)
