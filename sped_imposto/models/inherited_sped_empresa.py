@@ -17,6 +17,8 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     REGIME_TRIBUTARIO_SIMPLES,
     REGIME_TRIBUTARIO_SIMPLES_EXCESSO,
     TIPO_EMISSAO_NFE,
+    INDICADOR_PRESENCA_COMPRADOR,
+    INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
 )
 
 import logging
@@ -201,19 +203,10 @@ class SpedEmpresa(models.Model):
     ultimo_lote_rps = fields.Integer(
         string='Último lote de RPS'
     )
-
-    ind_pres = fields.Selection(
-        selection=[
-            ('0', 'Não se aplica'),
-            ('1', 'Operação presencial'),
-            ('2', 'Operação não presencial, pela Internet'),
-            ('3', 'Operação não presencial, Teleatendimento'),
-            ('4', 'NFC-e em operação com entrega em domicílio'),
-            ('9', 'Operação não presencial, otros'),
-        ],
-        string='Tipo de operação',
-        help='Indicador de presença do comprador no '
-             '\nestabelecimento comercial no momento da operação.',
+    presenca_comprador = fields.Selection(
+        selection=INDICADOR_PRESENCA_COMPRADOR,
+        string='Presença do comprador',
+        default=INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
     )
 
     @api.depends('simples_anexo_id', 'simples_anexo_servico_id',

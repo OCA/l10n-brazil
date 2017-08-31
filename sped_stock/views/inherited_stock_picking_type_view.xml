@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="sped_stock_picking_type_form">
+        <field name="name">stock.picking.type (in sped_stock)</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.view_picking_type_form"/>
+        <field name="arch" type="xml">
+            <field name="warehouse_id" position="after">
+                <field name="operacao_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_stock_picking_type_tree">
+        <field name="name">stock.picking.type (in sped_stock)</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.view_picking_type_list"/>
+        <field name="arch" type="xml">
+            <field name="warehouse_id" position="after">
+                <field name="operacao_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

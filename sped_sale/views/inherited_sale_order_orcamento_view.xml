@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="sale_order_form">
+        <field name="name">sale.order.form (in sped_sale)</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//button[1]" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </xpath>
+            <xpath expr="//button[2]" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </xpath>
+            <xpath expr="//button[2]" position="after">
+                <button type="object" name="gera_documento"
+                        string="Gerar NFes" class="btn-primary"
+                        attrs="{'invisible': [('invoice_status', '!=', 'to invoice')]}" />
+            </xpath>
+            <xpath expr="//button[@name='action_view_invoice']" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_view_invoice']" position="after">
+                <button name="action_view_documento"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-pencil-square-o"
+                    attrs="{'invisible': [('quantidade_documentos', '=', 0)]}">
+                    <field name="quantidade_documentos" widget="statinfo" string="NFes"/>
+                </button>
+            </xpath>
+
+            <xpath expr="//sheet/group" position="replace">
+                <group>
+                    <field name="id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="currency_aliquota_id" invisible="1"/>
+                    <field name="regime_tributario" invisible="1"/>
+                    <field name="vr_fatura" invisible="1"/>
+                    <group colspan="4" col="4">
+                        <field name="partner_id" invisible="1"/>
+                        <newline />
+                        <field name="participante_id" string="Cliente"
+                               colspan="4"
+                               domain="[('eh_cliente', '=', True)]"
+                               options='{"always_reload": True}'
+                               required="1" />
+                        <newline />
+                        <field name="partner_invoice_id" groups="sale.group_delivery_invoice_address" context="{'default_type':'invoice'}"/>
+                        <field name="partner_shipping_id" groups="sale.group_delivery_invoice_address" context="{'default_type':'delivery'}"/>
+                        <newline />
+                        <field name="date_order"/>
+                        <field name="presenca_comprador"/>
+                        <newline />
+                        <field name="pricelist_id"
+                               groups="product.group_sale_pricelist"/>
+                        <newline />
+                    </group>
+                </group>
+            </xpath>
+
+            <xpath expr="//notebook/page[1]" position="replace">
+                <page string="Produtos" name="product_page">
+                    <field name="sale_order_line_produto_ids"
+                           context="{
+                               'default_tipo_item': 'P',
+                               'tree_view_ref': 'sped_sale.sale_order_line_produto_tree',
+                               'form_view_ref': 'sped_sale.sale_order_line_produto_form'}"
+                    />
+                    <group name="produtos" col="2" class="oe_right"
+                           style="padding-right:1cm;"
+                           attrs="{'invisible': [('operacao_produto_id', '=', False)]}">
+                        <group class="oe_subtotal_footer oe_right"
+                               name="sale_total">
+                            <field name="produtos_vr_produtos" />
+                            <field name="produtos_vr_frete" />
+                            <field name="produtos_vr_seguro" />
+                            <field name="produtos_vr_outras" />
+                            <field name="produtos_vr_desconto" />
+                            <field name="produtos_vr_icms_st" />
+                            <field name="produtos_vr_ipi" attrs="{'invisible': [('regime_tributario', '=', '1')]}" />
+
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label string="Valor total"/>
+                                <button name="button_dummy" states="draft,sent"
+                                        string="(atualizar)" type="object"
+                                        class="oe_edit_only oe_link"/>
+                            </div>
+
+                            <field name="produtos_vr_nf" nolabel="1"
+                                   class="oe_subtotal_footer_separator" />
+                        </group>
+                    </group>
+                </page>
+                <page string="Servicos" name="services_page"
+                      attrs="{'invisible': [('operacao_servico_id', '=', False)]}">
+                    <field name="sale_order_line_servico_ids"
+                           context="{
+                               'default_tipo_item': 'S',
+                               'tree_view_ref': 'sped_sale.sale_order_line_servico_tree',
+                               'form_view_ref': 'sped_sale.sale_order_line_servico_form'}"
+                    />
+                    <group name="servicos" col="2" class="oe_right"
+                           style="padding-right:1cm;"
+                           attrs="{'invisible': [('operacao_servico_id', '=', False)]}">
+                        <group class="oe_subtotal_footer oe_right"
+                               name="sale_total">
+                            <field name="servicos_vr_produtos" />
+                            <field name="servicos_vr_iss" />
+                            <field name="servicos_vr_inss_retido"/>
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label string="Valor total"/>
+                                <button name="button_dummy" states="draft,sent"
+                                        string="(atualizar)" type="object"
+                                        class="oe_edit_only oe_link"/>
+                            </div>
+                            <field name="servicos_vr_nf" nolabel="1"
+                                   class="oe_subtotal_footer_separator"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath expr="//group[@name='sales_person']" position="before">
+                <group name="pagamento" string="Pagamento">
+                    <field name="payment_term_id" invisible="1" />
+                    <field name="condicao_pagamento_id" options="{'no_create': True}"
+                        context="{'currency_id': currency_id, 'value': vr_fatura}" />
+                </group>
+            </xpath>
+
+            <xpath expr="//group[@name='sales_person']" position="attributes">
+                <attribute name="name">Venda e comissão</attribute>
+            </xpath>
+
+            <xpath expr="//group/field[@name='company_id']" position="replace">
+                <field name="company_id" invisible="1" />
+                <field name="empresa_id" required="1" />
+            </xpath>
+
+            <field name="fiscal_position_id" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </field>
+
+            <field name="fiscal_position_id" position="after">
+                <field name="operacao_produto_id"
+                       domain="[('emissao', '=', '0')]"
+                       attrs="{'required': [('operacao_servico_id', '=', False)]}"/>
+                <field name="operacao_servico_id"
+                       domain="[('emissao', '=', '0')]"
+                       attrs="{'required': [('operacao_produto_id', '=', False)]}"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sale_order_tree">
+        <field name="name">sale.order.tree (in sped_sale)</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="message_needaction" position="after">
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+            </field>
+            <field name="partner_id" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </field>
+            <field name="partner_id" position="after">
+                <field name="participante_id" string="Cliente" />
+            </field>
+            <field name="amount_total" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </field>
+            <field name="amount_total" position="after">
+                <field name="vr_nf" string="Total" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sale_order_search">
+        <field name="name">sale.order.search (in sped_sale)</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </field>
+            <field name="partner_id" position="after">
+                <field name="participante_id" string="Cliente" operator="child_of" />
+            </field>
+            <field name="product_id" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </field>
+            <field name="product_id" position="after">
+                <field name="produto_id" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sale_order_calendar" >
+        <field name="name">sale.order.calendar (in sped_sale)</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <calendar string="Pedidos" color="state" date_start="date_order">
+                <field name="participante_id"/>
+                <field name="vr_nf" widget="monetary"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sale_order_graph">
+        <field name="name">sale.order.graph (in sped_sale)</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <graph string="Pedidos">
+                <field name="participante_id"/>
+                <field name="vr_nf" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sale_order_pivot">
+        <field name="name">sale.order.pivot (in sped_sale)</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <pivot string="Pedidos">
+                <field name="data_pedido" type="row"/>
+                <field name="vr_nf" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sale_order_kanban">
+        <field name="name">sale.order.kanban (in sped_sale)</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="participante_id"/>
+                <field name="vr_nf"/>
+                <field name="data_pedido"/>
+                <field name="state"/>
+                <field name="currency_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <strong><span><t t-esc="record.participante_id.value"/></span></strong>
+                                </div>
+                                <div class="col-xs-6 pull-right text-right">
+                                    <strong><field name="vr_nf"/></strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6 text-muted">
+                                    <span><t t-esc="record.name.value"/> <t t-esc="record.data_pedido.value"/></span>
+                                </div>
+                                <div class="col-xs-6">
+                                    <span class="pull-right text-right">
+                                        <field name="state" widget="kanban_label_selection" options="{'classes': {'draft': 'default', 'cancel': 'default',
+                                        'done': 'success'}}"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sale_order_orcamento_action">
+        <field name="name">Orçamentos</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">tree,form,kanban,calendar,pivot,graph</field>
+        <field name="domain">[('state','in',('draft','sent'))]</field>
+        <field name="search_view_id" ref="sale_order_search" />
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sale_order_orcamento_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sale.view_order_tree"/>
+        <field name="act_window_id" ref="sale_order_orcamento_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sale_order_orcamento_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sale_order_form"/>
+        <field name="act_window_id" ref="sale_order_orcamento_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sale_order_orcamento_kanban_action">
+        <field eval="3" name="sequence"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="sale_order_kanban"/>
+        <field name="act_window_id" ref="sale_order_orcamento_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sale_order_orcamento_calendar_action">
+        <field eval="4" name="sequence"/>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="sale_order_calendar"/>
+        <field name="act_window_id" ref="sale_order_orcamento_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sale_order_orcamento_pivot_action">
+        <field eval="5" name="sequence"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="sale_order_pivot"/>
+        <field name="act_window_id" ref="sale_order_orcamento_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sale_order_orcamento_graph_action">
+        <field eval="6" name="sequence"/>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="sale_order_graph"/>
+        <field name="act_window_id" ref="sale_order_orcamento_action"/>
+    </record>
+
+<!--    <record model="ir.ui.menu" id="menu_sale_order_orcamento">
+        <field name="name">Orçamentos</field>
+        <field name="parent_id" ref="sales_team.menu_sales"/>
+        <field name="action" ref="sale_order_orcamento_action"/>
+        <field name="sequence" eval="3"/>
+    </record>-->
+
+    <!-- Temporariamente, substituímos o menu original pelo nosso -->
+    <record model="ir.ui.menu" id="sale.menu_sale_quotations">
+        <field name="name">Orçamentos</field>
+        <field name="parent_id" ref="sales_team.menu_sales"/>
+        <field name="action" ref="sale_order_orcamento_action"/>
+        <field name="sequence" eval="3"/>
+    </record>
+
+</odoo>

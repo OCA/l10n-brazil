@@ -8,7 +8,6 @@ import logging
 
 from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
-from odoo.exceptions import ValidationError
 from odoo.addons.l10n_br_base.constante_tributaria import *
 from odoo.addons.sped_imposto.models.sped_calculo_imposto_item import (
     SpedCalculoImpostoItem
@@ -21,6 +20,7 @@ try:
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
+
 
 
 class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
@@ -126,6 +126,52 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
         compute='_compute_permite_alteracao',
     )
 
+    documento_item_ids = fields.One2many(
+        comodel_name='sped.documento.item',
+        inverse_name='sale_order_line_id',
+        string='Itens dos Documentos Fiscais',
+        copy=False,
+    )
+
+    qty_delivered = fields.Monetary(
+        string='Entregue',
+        copy=False,
+        currency_field='currency_unidade_id',
+    )
+    qty_to_invoice = fields.Monetary(
+        string='A faturar',
+        currency_field='currency_unidade_id',
+        compute='_get_to_invoice_qty',
+        store=True,
+        readonly=True,
+    )
+    qty_invoiced = fields.Monetary(
+        string='Faturada',
+        currency_field='currency_unidade_id',
+        compute='_get_invoice_qty',
+        store=True,
+        readonly=True,
+    )
+
+    @api.depends('invoice_lines.invoice_id.state', 'invoice_lines.quantity',
+                 'documento_item_ids.quantidade')
+    def _get_invoice_qty(self):
+        for item in self:
+            if not item.order_id.is_brazilian:
+                super(SaleOrderLine, self)._get_invoice_qty()
+                continue
+
+            documento_item_ids = item.documento_item_ids.search(
+                [('sale_order_line_id', '=', item.id),
+                 ('documento_id.situacao_fiscal', 'in',
+                  SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
+
+            qty_invoiced = 0.0
+            for documento_item in documento_item_ids:
+                qty_invoiced += documento_item.quantidade
+
+            item.qty_invoiced = qty_invoiced
+
     @api.onchange('produto_id')
     def _onchange_produto_id(self):
         for item in self:
@@ -136,11 +182,11 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
                 item.operacao_id = False
 
             if item.produto_id.tipo == TIPO_PRODUTO_SERVICO_SERVICOS:
-                if item.order_id.sped_operacao_servico_id:
-                    item.operacao_id = item.order_id.sped_operacao_servico_id
+                if item.order_id.operacao_servico_id:
+                    item.operacao_id = item.order_id.operacao_servico_id
             else:
-                if item.order_id.sped_operacao_produto_id:
-                    item.operacao_id = item.order_id.sped_operacao_produto_id
+                if item.order_id.operacao_produto_id:
+                    item.operacao_id = item.order_id.operacao_produto_id
 
             if not item.data_emissao:
                 warning = {
@@ -163,15 +209,17 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
             item.name = item.produto_id.nome
             item.produto_descricao = item.produto_id.nome
             item.product_id = item.produto_id.product_id
+            item.price_unit = item.produto_id.preco_venda
+            item.vr_unitario = item.produto_id.preco_venda
 
         super(SaleOrderLine, self)._onchange_produto_id()
 
-    @api.onchange('price_unit', 'product_uom_qty')
-    def _onchange_price_unit_product_uom_qty(self):
-        for item in self:
-            # if item.is_brazilian:
-            item.vr_unitario = item.price_unit
-            item.quantidade = item.product_uom_qty
+    # @api.onchange('price_unit', 'product_uom_qty')
+    # def _onchange_price_unit_product_uom_qty(self):
+    #     for item in self:
+    #         # if item.is_brazilian:
+    #         item.vr_unitario = item.price_unit
+    #         item.quantidade = item.product_uom_qty
 
     @api.onchange('vr_unitario', 'quantidade')
     def _onchange_vr_unitario(self):
@@ -180,10 +228,10 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
             item.product_uom_qty = item.quantidade
             item.product_uom = item.unidade_id.uom_id
 
-    @api.depends('modelo', 'emissao')
-    def _compute_permite_alteracao(self):
-        for item in self:
-            item.permite_alteracao = True
+    #@api.depends('modelo', 'emissao')
+    #def _compute_permite_alteracao(self):
+        #for item in self:
+            #item.permite_alteracao = True
 
     @api.depends('unidade_id', 'unidade_tributacao_id',
                  'vr_produtos', 'vr_operacao',
@@ -230,3 +278,20 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
             res['vr_outras'] = self.vr_outras
             res['vr_frete'] = self.vr_frete
         return res
+
+    def prepara_dados_documento_item(self):
+        self.ensure_one()
+
+        return {
+            'sale_order_line_id': self.id,
+        }
+
+    @api.model
+    def create(self, dados):
+        dados = self._mantem_sincronia_cadastros(dados)
+        return super(SaleOrderLine, self).create(dados)
+
+    def write(self, dados):
+        dados = self._mantem_sincronia_cadastros(dados)
+        return super(SaleOrderLine, self).write(dados)
+

@@ -6,14 +6,12 @@ from __future__ import division, print_function, unicode_literals
 
 
 from odoo import api, fields, models, _
-from odoo.addons.sped_imposto.models.sped_calculo_imposto import (
-    SpedCalculoImposto
-)
 from odoo.addons.sped_imposto.models.sped_calculo_imposto_produto_servico \
     import SpedCalculoImpostoProdutoServico
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODELO_FISCAL_EMISSAO_PRODUTO,
     MODELO_FISCAL_EMISSAO_SERVICO,
+    SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO,
 )
 
 
@@ -30,6 +28,22 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         inverse_name='order_id',
         string='Itens da venda',
     )
+    documento_ids = fields.One2many(
+        comodel_name='sped.documento',
+        inverse_name='sale_order_id',
+        string='Documentos Fiscais',
+        copy=False,
+    )
+    quantidade_documentos = fields.Integer(
+        string='Quantidade de documentos fiscais',
+        compute='_compute_quantidade_documentos_fiscais',
+        readonly=True,
+    )
+    produto_id = fields.Many2one(
+        comodel_name='sped.produto',
+        related='order_line.produto_id',
+        string='Produto',
+    )
 
     #
     # As 2 operações fiscais abaixo servem para que se calcule ao mesmo tempo,
@@ -37,17 +51,22 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
     # para produtos e serviços, quando via de regra sairão 2 notas fiscais,
     # uma de produto e outra separada de serviço (pela prefeitura)
     #
-    sped_operacao_produto_id = fields.Many2one(
+    operacao_produto_id = fields.Many2one(
         comodel_name='sped.operacao',
         string='Operação Fiscal (produtos)',
         domain=[('modelo', 'in', MODELO_FISCAL_EMISSAO_PRODUTO)],
     )
-    sped_operacao_servico_id = fields.Many2one(
+    operacao_servico_id = fields.Many2one(
         comodel_name='sped.operacao',
         string='Operação Fiscal (serviços)',
         domain=[('modelo', 'in', MODELO_FISCAL_EMISSAO_SERVICO)],
     )
 
+    #
+    # Os 2 campos abaixo separam os itens da venda ou compra, para que se
+    # informem em telas separadas os produtos dos serviços, mostrando somente
+    # os campos adequados a cada caso
+    #
     sale_order_line_produto_ids = fields.One2many(
         comodel_name='sale.order.line',
         inverse_name='order_id',
@@ -55,7 +74,6 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         copy=True,
         domain=[('tipo_item','=','P')],
     )
-
     sale_order_line_servico_ids = fields.One2many(
         comodel_name='sale.order.line',
         inverse_name='order_id',
@@ -63,6 +81,33 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         copy=True,
         domain=[('tipo_item','=','S')],
     )
+
+    #
+    # Datas sem hora no fuso horário de Brasília, para relatórios e pesquisas,
+    # porque data sem hora é vida ;)
+    #
+    data_pedido = fields.Date(
+        string='Data do pedido',
+        compute='_compute_data_hora_separadas',
+        store=True,
+        index=True,
+    )
+
+    @api.depends('date_order')
+    def _compute_data_hora_separadas(self):
+        for sale in self:
+            data, hora = self._separa_data_hora(sale.date_order)
+            sale.data_pedido = data
+            #sale.hora_pedido = hora
+
+    @api.depends('documento_ids.situacao_fiscal')
+    def _compute_quantidade_documentos_fiscais(self):
+        for sale in self:
+            documento_ids = self.documento_ids.search(
+                [('sale_order_id', '=', sale.id), ('situacao_fiscal', 'in',
+                  SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
+
+            sale.quantidade_documentos = len(documento_ids)
 
     @api.depends(
         'order_line.price_total',
@@ -100,14 +145,87 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
     def _prepare_invoice(self):
         vals = super(SaleOrder, self)._prepare_invoice()
 
-        vals['sped_empresa_id'] = self.empresa_id.id or False
-        vals['sped_participante_id'] = self.participante_id.id or False
-        vals['sped_operacao_produto_id'] = \
-            self.sped_operacao_produto_id.id or False
-        vals['sped_operacao_servico_id'] = \
-            self.sped_operacao_servico_id.id or False
+        vals['empresa_id'] = self.empresa_id.id or False
+        vals['participante_id'] = self.participante_id.id or False
+        vals['operacao_produto_id'] = \
+            self.operacao_produto_id.id or False
+        vals['operacao_servico_id'] = \
+            self.operacao_servico_id.id or False
         vals['condicao_pagamento_id'] = \
             self.condicao_pagamento_id.id or False
         vals['date_invoice'] = fields.Date.context_today(self)
 
         return vals
+
+    @api.depends('state', 'order_line.invoice_status',
+                 'documento_ids.situacao_fiscal')
+    def _get_invoiced(self):
+        for sale in self:
+            super(SaleOrder, sale)._get_invoiced()
+
+            if not sale.is_brazilian:
+                continue
+
+            documento_ids = self.documento_ids.search(
+                [('sale_order_id', '=', sale.id), ('situacao_fiscal', 'in',
+                  SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
+
+            invoice_count = len(documento_ids)
+
+            line_invoice_status = [line.invoice_status for line in
+                                   sale.order_line]
+
+            if sale.state not in ('sale', 'done'):
+                invoice_status = 'no'
+            elif any(invoice_status == 'to invoice' \
+                for invoice_status in line_invoice_status):
+                invoice_status = 'to invoice'
+            elif all(invoice_status == 'invoiced' \
+                for invoice_status in line_invoice_status):
+                invoice_status = 'invoiced'
+            elif all(invoice_status in ['invoiced', 'upselling'] \
+                for invoice_status in line_invoice_status):
+                invoice_status = 'upselling'
+            else:
+                invoice_status = 'no'
+
+            sale.update({
+                'invoice_count': invoice_count,
+                'invoice_status': invoice_status
+            })
+
+    def prepara_dados_documento(self):
+        self.ensure_one()
+
+        return {
+            'sale_order_id': self.id,
+        }
+
+    @api.onchange('empresa_id', 'participante_id')
+    def _onchange_empresa_operacao_padrao(self):
+        self.ensure_one()
+
+        if not self.presenca_comprador:
+            self.presenca_comprador = self.empresa_id.presenca_comprador
+
+        if self.empresa_id.operacao_produto_id:
+            self.operacao_produto_id = self.empresa_id.operacao_produto_id
+
+        if self.participante_id and \
+           self.empresa_id.operacao_produto_pessoa_fisica_id and \
+            (self.participante_id.eh_consumidor_final or
+             self.participante_id.tipo_pessoa == TIPO_PESSOA_FISICA):
+            self.operacao_produto_id = \
+                self.empresa_id.operacao_produto_pessoa_fisica_id
+
+        if self.empresa_id.operacao_servico_id:
+            self.operacao_servico_id = self.empresa_id.operacao_servico_id
+
+    @api.model
+    def create(self, dados):
+        dados = self._mantem_sincronia_cadastros(dados)
+        return super(SaleOrder, self).create(dados)
+
+    def write(self, dados):
+        dados = self._mantem_sincronia_cadastros(dados)
+        return super(SaleOrder, self).write(dados)

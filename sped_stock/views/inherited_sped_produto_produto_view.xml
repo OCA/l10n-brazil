@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2017 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_produto_produto_form" >
+        <field name="name">sped.produto.produto.form (in sped_stock)</field>
+        <field name="model">sped.produto</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_produto_produto_form" />
+        <field name="arch" type="xml">
+            <header position="inside" >
+                <button name="%(stock.action_view_change_product_quantity)d" string="Atualizar estoque atual" type="action" />
+                <button name="%(stock.act_make_procurement)d" string="Procurement Request" type="action" />
+            </header>
+            <div name="button_box" position="inside">
+                <button class="oe_stat_button" name="%(stock.product_open_quants)d" icon="fa-building-o" type="action">
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="estoque_atual" option="{'currency_field': 'currency_unidade_id'}"/>
+                        </span>
+                        <span class="o_stat_text">Atual</span>
+                    </div>
+                </button>
+                <button type="action" name="%(stock.action_stock_level_forecast_report_product)d" class="oe_stat_button" icon="fa-building-o">
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value"><field name="estoque_previsto" option="{'currency_field': 'currency_unidade_id'}" />
+                            <span attrs="{'invisible':[('estoque_previsto_saida', '=', 0),('estoque_previsto_entrada','=',0)]}" groups="base.group_no_one">
+                                (-<field name="estoque_previsto_saida" option="{'currency_field': 'currency_unidade_id'}" />+<field name="estoque_previsto_entrada" option="{'currency_field': 'currency_unidade_id'}" />)
+                            </span>
+                        </span>
+                        <span class="o_stat_text">Previsto</span>
+                    </div>
+                </button>
+                <button string="Movimentos" type="action" name="%(stock.act_product_stock_move_open)d" class="oe_stat_button" icon="fa-arrows-v" groups="stock.group_stock_user" />
+                <button type="action"
+                    name="%(stock.product_open_orderpoint)d"
+                    attrs="{'invisible':[('nbr_reordering_rules', '==', 1)]}"
+                    class="oe_stat_button" icon="fa-refresh">
+                    <field name="nbr_reordering_rules" widget="statinfo"/>
+                </button>
+                <button name="%(stock.product_open_orderpoint)d" type="action"
+                    attrs="{'invisible':[('nbr_reordering_rules', '!=', 1)]}"
+                    class="oe_stat_button" icon="fa-refresh">
+                    <div class="o_form_field o_stat_info mr4">
+                        <span class="o_stat_text">Mín:</span>
+                        <span class="o_stat_text">Máx:</span>
+                    </div>
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value"><field name="estoque_minimo" option="{'currency_field': 'currency_unidade_id'}"/></span>
+                        <span class="o_stat_value"><field name="estoque_maximo" option="{'currency_field': 'currency_unidade_id'}"/></span>
+                    </div>
+                </button>
+<!--                 <button string="Rotas" type="object" name="action_view_routes" class="oe_stat_button" icon="fa-cogs" groups="stock.group_adv_location"/> -->
+            </div>
+            <field name="fator_quantidade_especie" position="after">
+                <newline />
+                <field name="property_stock_procurement" groups="l10n_br_base.GRUPO_SUPORTE" />
+                <newline />
+                <field name="property_stock_production" groups="l10n_br_base.GRUPO_SUPORTE" />
+                <newline />
+                <field name="property_stock_inventory" groups="l10n_br_base.GRUPO_SUPORTE" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_produto_produto_tree" >
+        <field name="name">sped.produto.produto.tree (in sped_stock)</field>
+        <field name="model">sped.produto</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_produto_produto_tree" />
+        <field name="arch" type="xml">
+            <tree position="attributes">
+                <attribute name="decoration-danger">estoque_atual&lt;0</attribute>
+                <attribute name="decoration-info">estoque_previsto&gt;=0</attribute>
+            </tree>
+            <field name="unidade_id" position="before">
+                <field name="estoque_atual"/>
+                <field name="estoque_previsto"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_produto_produto_kanban" >
+        <field name="name">sped.produto.produto.kanban (in sped_stock)</field>
+        <field name="model">sped.produto</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_produto_produto_kanban" />
+        <field name="arch" type="xml">
+            <ul position="inside">
+                <li>Estoque atual: <field name="estoque_atual" options="{'currency_field': 'currency_unidade_id'}"/></li>
+            </ul>
+        </field>
+    </record>
+
+<!--    <record model="ir.ui.menu" id="menu_stock_produto">
+        <field name="name">Produtos</field>
+        <field name="parent_id" ref="stock.menu_stock_inventory_control"/>
+        <field name="action" ref="sale_order_pedido_action"/>
+        <field name="sequence" eval="1"/>
+    </record>-->
+
+    <!-- Temporariamente, substituímos o menu original pelo nosso -->
+    <record model="ir.ui.menu" id="stock.menu_product_variant_config_stock">
+        <field name="name">Produtos</field>
+        <field name="parent_id" ref="stock.menu_stock_inventory_control"/>
+        <field name="action" ref="l10n_br_base.sped_produto_produto_acao"/>
+        <field name="sequence" eval="1"/>
+    </record>
+
+
+</odoo>

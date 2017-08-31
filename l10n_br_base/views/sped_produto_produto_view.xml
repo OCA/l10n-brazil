@@ -9,94 +9,51 @@
         <field name="name">sped.produto.produto.form</field>
         <field name="model">sped.produto</field>
         <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_produto_base_form" />
         <field name="arch" type="xml">
-            <form string="Produto">
-                <field name="currency_id" invisible="1"/>
-                <field name="currency_aliquota_id" invisible="1"/>
-                <field name="currency_unitario_id" invisible="1"/>
-                <field name="currency_peso_id" invisible="1"/>
-            <sheet>
-<!--                    <div class="oe_button_box" name="button_box">
-                    <button name="toggle_active" type="object"
-                            class="oe_stat_button" icon="fa-archive">
-                    </button>
-                </div>-->
-                <field name="image_medium" widget="image" class="oe_avatar"/>
-                <div class="oe_title">
-                    <h1>
-                        <field name="nome" placeholder="Nome do produto" required="1" />
-                    </h1>
-                    <h2>
-                        <field name="codigo" placeholder="Código" required="1" />
-                    </h2>
-                </div>
-                <group col="4">
-                    <field name="unidade_id" required="1" domain="[('tipo', '!=', 'T')]" options="{'no_create': True, 'no_open': True}" colspan="2" />
-                </group>
-                <notebook>
-                    <page string="Comercial">
-                        <group col="4">
-                            <field name="codigo_barras" />
-                            <field name="marca" />
-                            <newline />
-                            <field name="preco_venda" />
-                            <field name="preco_custo" />
-                            <newline />
-                            <field name="peso_bruto" />
-                            <field name="peso_liquido" />
-                            <newline />
-                            <field name="especie" />
-                            <field name="fator_quantidade_especie" />
-                        </group>
-                    </page>
-                    <page string="Fiscal">
-                        <group col="4">
-                            <field name="org_icms" required="1" />
-                            <field name="tipo" required="1" />
-                        </group>
-                    </page>
-                </notebook>
-            </sheet>
-            <div class="oe_chatter">
-                <field name="message_follower_ids" widget="mail_followers"/>
-                <field name="message_ids" widget="mail_thread"/>
-            </div>
-            </form>
+            <xpath expr="//form[1]" position="attributes">
+                <attribute name="string">Produto</attribute>
+            </xpath>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="sped_produto_produto_tree">
+    <record model="ir.ui.view" id="sped_produto_produto_tree" >
         <field name="name">sped.produto.produto.tree</field>
         <field name="model">sped.produto</field>
         <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_produto_base_tree" />
         <field name="arch" type="xml">
-            <tree string="Produtos">
-                <field name="currency_id" invisible="1"/>
-                <field name="currency_aliquota_id" invisible="1"/>
-                <field name="currency_unitario_id" invisible="1"/>
-                <field name="currency_peso_id" invisible="1"/>
-                <field name="tipo" invisible="1" />
-                <field name="nome" />
-                <field name="codigo" />
-                <field name="codigo_barras" />
-                <field name="preco_venda" />
-<!--                 <field name="marca" /> -->
-            </tree>
+            <xpath expr="//tree[1]" position="attributes">
+                <attribute name="string">Produto</attribute>
+            </xpath>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="sped_produto_produto_search">
+    <record model="ir.ui.view" id="sped_produto_produto_search" >
         <field name="name">sped.produto.produto.search</field>
         <field name="model">sped.produto</field>
         <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_produto_base_search" />
         <field name="arch" type="xml">
-            <search string="Produtos">
-                <!--                 <field name="nome" filter_domain="['|', '|', ('nome','ilike',self), ('codigo','ilike',self), ('codigo_barras','ilike',self)]" /> -->
-                <field name="codigo" />
-                <field name="nome" />
-                <field name="codigo_barras" />
-                <field name="marca" />
-            </search>
+            <xpath expr="//search[1]" position="attributes">
+                <attribute name="string">Produto</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_produto_produto_kanban" >
+        <field name="name">sped.produto.produto.kanban</field>
+        <field name="model">sped.produto</field>
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_produto_base_kanban" />
+        <field name="arch" type="xml">
+            <xpath expr="//kanban[1]" position="attributes">
+                <attribute name="string">Produto</attribute>
+            </xpath>
         </field>
     </record>
 
@@ -106,20 +63,27 @@
         <field name="context">{'default_tipo': '00', 'default_ref_unidade_id': 'l10n_br_base.UNIDADE_UNIDADE'}</field>
         <field name="res_model">sped.produto</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">kanban,tree,form</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="sped_produto_produto_form_acao">
-        <field eval="2" name="sequence"/>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="sped_produto_produto_form"/>
+    <record model="ir.actions.act_window.view" id="sped_produto_produto_kanban_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="sped_produto_produto_kanban"/>
         <field name="act_window_id" ref="sped_produto_produto_acao"/>
     </record>
 
     <record model="ir.actions.act_window.view" id="sped_produto_produto_tree_acao">
-        <field eval="1" name="sequence"/>
+        <field eval="2" name="sequence"/>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="sped_produto_produto_tree"/>
+        <field name="act_window_id" ref="sped_produto_produto_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_produto_produto_form_acao">
+        <field eval="3" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_produto_produto_form"/>
         <field name="act_window_id" ref="sped_produto_produto_acao"/>
     </record>
 

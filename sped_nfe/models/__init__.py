@@ -7,6 +7,7 @@
 
 
 from . import inherited_mail_compose_message
+from . import inherited_mail_template
 
 from . import sped_certificado
 from . import inherited_sped_empresa

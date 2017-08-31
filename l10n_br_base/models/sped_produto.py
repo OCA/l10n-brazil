@@ -144,6 +144,12 @@ class SpedProduto(SpedBase, models.Model):
         comodel_name='sped.unidade',
         string='Unidade',
     )
+    currency_unidade_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Unidade (símbolo)',
+        related='unidade_id.currency_id',
+        readonly=True,
+    )
     #unidade_tributacao_ncm_id = fields.Many2one(
         #comodel_name='sped.unidade',
         #related='ncm_id.unidade_id',

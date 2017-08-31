@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="stock_move_tree">
+        <field name="name">stock.move.tree (in sped_stock)</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99999</field>
+        <field name="inherit_id" ref="stock.view_move_tree"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="replace">
+                <field name="produto_id"/>
+                <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
+            </field>
+            <field name="product_uom_qty" position="replace">
+                <field name="product_uom_qty" invisible="1" />
+                <field name="quantidade" required="1" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="stock_move_form">
+        <field name="name">stock.move.form (in sped_stock)</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99999</field>
+        <field name="inherit_id" ref="stock.view_move_form"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="replace">
+                <field name="produto_id" required="1" />
+                <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
+            </field>
+            <field name="company_id" position="replace">
+                <field name="empresa_id" options="{'no_create': True}" required="1" groups="base.group_multi_company" />
+                <field name="company_id" invisible="1"/>
+            </field>
+            <field name="product_uom_qty" position="replace">
+                <field name="product_uom_qty" invisible="1" />
+                <field name="quantidade" required="1" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="stock_move_pivot">
+        <field name="name">stock.move.pivot (in sped_stock)</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99999</field>
+        <field name="inherit_id" ref="stock.view_move_pivot"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="replace">
+                <field name="produto_id"/>
+                <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="stock_move_graph">
+        <field name="name">stock.move.graph (in sped_stock)</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99999</field>
+        <field name="inherit_id" ref="stock.view_move_graph"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="replace">
+                <field name="produto_id"/>
+                <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="stock_move_picking_tree">
+        <field name="name">stock.move.picking.tree (in sped_stock)</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99999</field>
+        <field name="inherit_id" ref="stock.view_move_picking_tree"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="replace">
+                <field name="produto_id" required="1" />
+                <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
+            </field>
+            <field name="product_uom_qty" position="replace">
+                <field name="product_uom_qty" invisible="1" />
+                <field name="quantidade" required="1" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="stock_move_picking_form">
+        <field name="name">stock.move.picking.form (in sped_stock)</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99999</field>
+        <field name="inherit_id" ref="stock.view_move_picking_form"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="replace">
+                <field name="produto_id" required="1" />
+                <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
+            </field>
+            <field name="product_uom_qty" position="replace">
+                <field name="product_uom_qty" invisible="1" />
+                <field name="quantidade" required="1" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="stock_move_receipt_tree">
+        <field name="name">stock.move.receipt.tree (in sped_stock)</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99999</field>
+        <field name="inherit_id" ref="stock.view_move_tree_receipt_picking"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="replace">
+                <field name="produto_id" required="1" />
+                <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
+            </field>
+            <field name="product_uom_qty" position="replace">
+                <field name="product_uom_qty" invisible="1" />
+                <field name="quantidade" required="1" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="stock_move_receipt_picking_board_tree">
+        <field name="name">stock.move.receipt.tree (in sped_stock)</field>
+        <field name="model">stock.move</field>
+        <field name="priority">99999</field>
+        <field name="inherit_id" ref="stock.view_move_tree_receipt_picking_board"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="replace">
+                <field name="produto_id" required="1" />
+                <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
+            </field>
+            <field name="product_uom_qty" position="replace">
+                <field name="product_uom_qty" invisible="1" />
+                <field name="quantidade" required="1" />
+            </field>
+        </field>
+    </record>
+
+
+
+</odoo>

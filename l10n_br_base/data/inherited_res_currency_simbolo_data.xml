@@ -32,4 +32,13 @@
         <field name="is_symbol" eval="True" />
     </record>
 
+    <record id="SIMBOLO_ALIQUOTA_RATEIO" model="res.currency">
+        <field name="name">ALIQUOTA_RATEIO - SIMBOLO</field>
+        <field name="symbol">%</field>
+        <field name="rounding">0.00000000001</field>
+        <field name="active" eval="True"/>
+        <field name="position">after</field>
+        <field name="is_symbol" eval="True" />
+    </record>
+
 </odoo>

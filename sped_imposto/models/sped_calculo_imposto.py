@@ -12,6 +12,10 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     MODELO_FISCAL_EMISSAO_PRODUTO,
     MODELO_FISCAL_EMISSAO_SERVICO,
     TIPO_PESSOA_FISICA,
+    REGIME_TRIBUTARIO,
+    REGIME_TRIBUTARIO_SIMPLES,
+    INDICADOR_PRESENCA_COMPRADOR,
+    INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
 )
 from openerp.addons.l10n_br_base.models.sped_base import (
     SpedBase
@@ -94,13 +98,11 @@ class SpedCalculoImposto(SpedBase):
     )
     company_id = fields.Many2one(
         comodel_name='res.company',
-        default=_default_company_id,
     )
     empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
-        related='company_id.sped_empresa_id',
         string='Empresa',
-        readonly=True,
+        default=lambda self: self.env['sped.empresa']._empresa_ativa('sped.empresa')
     )
     partner_id = fields.Many2one(
         comodel_name='res.partner',
@@ -117,6 +119,12 @@ class SpedCalculoImposto(SpedBase):
         comodel_name='account.payment.term',
         string='Condição de pagamento',
         domain=[('forma_pagamento', '!=', False)],
+    )
+    regime_tributario = fields.Selection(
+        selection=REGIME_TRIBUTARIO,
+        string='Regime tributário',
+        default=REGIME_TRIBUTARIO_SIMPLES,
+        related='operacao_id.regime_tributario',
     )
 
     #
@@ -144,6 +152,14 @@ class SpedCalculoImposto(SpedBase):
         store=True,
         inverse='_inverse_rateio_vr_seguro',
     )
+    # al_desconto = fields.Monetary(
+    #     string='Alíquota do desconto',
+    #     currency_field='currency_aliquota_rateio_id',
+    #     digits=(18, 11),
+    #     compute='_compute_soma_itens',
+    #     store=True,
+    #     inverse='_inverse_rateio_al_desconto',
+    # )
     vr_desconto = fields.Monetary(
         string='Valor do desconto',
         compute='_compute_soma_itens',
@@ -339,6 +355,10 @@ class SpedCalculoImposto(SpedBase):
         compute='_compute_soma_itens',
         store=True,
     )
+    presenca_comprador = fields.Selection(
+        selection=INDICADOR_PRESENCA_COMPRADOR,
+        string='Presença do comprador',
+    )
 
     # item_ids = fields.One2many(
     #     comodel_name='sped.calculo.imposto.item',
@@ -347,24 +367,6 @@ class SpedCalculoImposto(SpedBase):
     #     copy=True,
     # )
 
-    ind_pres = fields.Selection(
-        selection=[
-            ('0', 'Não se aplica'),
-            ('1', 'Operação presencial'),
-            ('2', 'Operação não presencial, pela Internet'),
-            ('3', 'Operação não presencial, Teleatendimento'),
-            ('4', 'NFC-e em operação com entrega em domicílio'),
-            ('9', 'Operação não presencial, outros')
-        ],
-        string='Tipo de operação',
-        readonly=True,
-        states={'draft': [('readonly', False)]},
-        required=False,
-        help='Indicador de presença do comprador no estabelecimento '
-             'comercial no momento da operação.',
-        default=lambda
-            self: self.env.user.company_id.sped_empresa_id.ind_pres,
-    )
 
     @api.depends('company_id', 'partner_id')
     def _compute_is_brazilian(self):
@@ -379,21 +381,34 @@ class SpedCalculoImposto(SpedBase):
                             documento.partner_id.sped_participante_id
 
                     if documento.empresa_id:
-                        if 'sped_operacao_produto_id' in documento._fields:
+                        if 'operacao_produto_id' in documento._fields:
                             if (documento.participante_id.tipo_pessoa ==
                                     TIPO_PESSOA_FISICA):
-                                documento.sped_operacao_produto_id = \
+                                documento.operacao_produto_id = \
                                     documento.empresa_id.\
                                     operacao_produto_pessoa_fisica_id
                             else:
-                                documento.sped_operacao_produto_id = \
+                                documento.operacao_produto_id = \
                                     documento.empresa_id.operacao_produto_id
 
-                        if 'sped_operacao_servico_id' in documento._fields:
-                            documento.sped_operacao_servico_id = \
+                        if 'operacao_servico_id' in documento._fields:
+                            documento.operacao_servico_id = \
                                 documento.empresa_id.operacao_servico_id
                     continue
             documento.is_brazilian = False
+
+    def _sincroniza_empresa_company_participante_partner(self):
+        for documento in self:
+            documento.company_id = documento.empresa_id.company_id
+            documento.partner_id = documento.participante_id.partner_id
+
+    @api.onchange('empresa_id', 'participante_id')
+    def _onchange_empresa_participante(self):
+        self._sincroniza_empresa_company_participante_partner()
+
+    @api.depends('empresa_id', 'participante_id')
+    def _depends_empresa_participante(self):
+        self._sincroniza_empresa_company_participante_partner()
 
     @api.onchange('item_ids.vr_nf', 'item_ids.vr_fatura')
     def _onchange_soma_itens(self):
@@ -418,7 +433,12 @@ class SpedCalculoImposto(SpedBase):
             'bc_iss', 'vr_iss',
             'vr_nf', 'vr_fatura',
             'vr_ibpt',
-            'vr_custo_comercial'
+            'vr_custo_comercial',
+            # #
+            # # A alíquota/percentual de desconto tem um tratamento diferenciado
+            # # mais abaixo
+            # #
+            # 'al_desconto',
         ]
 
         for documento in self:
@@ -438,55 +458,108 @@ class SpedCalculoImposto(SpedBase):
 
             for item in documento.item_ids:
                 for campo in CAMPOS_SOMA_ITENS:
-                    dados[campo] += getattr(item, campo, D(0))
+                    dados[campo] += D(getattr(item, campo, 0))
 
                     if 'produtos_' + campo in dados:
                         if getattr(item, 'tipo_item', False) == 'P':
                             dados['produtos_' + campo] += \
-                                getattr(item, campo, D(0))
+                                D(getattr(item, campo, 0))
 
                     if 'servicos_' + campo in dados:
                         if getattr(item, 'tipo_item', False) == 'S':
                             dados['servicos_' + campo] += \
-                                getattr(item, campo, D(0))
+                                D(getattr(item, campo, 0))
 
                     if 'mensalidades_' + campo in dados:
                         if getattr(item, 'tipo_item', False) == 'M':
                             dados['mensalidades_' + campo] += \
-                                getattr(item, campo, D(0))
+                                D(getattr(item, campo, 0))
+
+            # #
+            # # Agora, calculamos o percentual de desconto aplicado
+            # #
+            # for tipo in ['', 'produtos_', 'servicos_', 'mensalidades_']:
+            #     campo_vr_produtos = tipo + 'vr_produtos'
+            #     campo_vr_desconto = tipo + 'vr_desconto'
+            #     campo_al_desconto = tipo + 'al_desconto'
+            #
+            #     if campo_vr_produtos in dados:
+            #         al_desconto = D(0)
+            #
+            #         if dados[campo_vr_produtos] > 0 and dados[campo_vr_desconto] > 0:
+            #             al_desconto = dados[campo_vr_desconto] / \
+            #                             dados[campo_vr_produtos]
+            #             al_desconto *= 100
+            #             dados[campo_al_desconto] = al_desconto
 
             documento.update(dados)
 
     def _inverse_rateio_campo_total(self, campo, tipo_item=None):
         self.ensure_one()
 
-        if not getattr(self, campo, False):
-            return
+        campo_rateio = campo
+        campo_total = 'vr_produtos'
+
+        if tipo_item == 'P':
+            campo_rateio = 'produtos_' + campo
+            campo_total = 'produtos_' + campo_total
+        elif tipo_item == 'S':
+            campo_rateio = 'servicos_' + campo
+            campo_total = 'servicos_' + campo_total
+        elif tipo_item == 'M':
+            campo_rateio = 'mensalidades_' + campo
+            campo_total = 'mensalidades_' + campo_total
+
+        #
+        # Guardamos o valor total aqui, pois a medida que os itens forem sendo
+        # alterados, esse valor vai mudar, e vai zicar a proporção mais
+        # abaixo
+        #
+        vr_total = D(getattr(self, campo_total, 0))
+        vr_rateio = D(getattr(self, campo_rateio, 0))
 
         for item in self.item_ids:
-            if tipo_item is None:
-                item.write({
-                    campo: calc_price_ratio(
-                        item.vr_nf,
-                        getattr(item.documento_id, campo, 0),
-                        item.documento_id.vr_nf),
-                })
+            if tipo_item is not None:
+                if item.tipo_item != tipo_item:
+                    continue
 
-            elif getattr(item, 'tipo_item', False) == tipo_item:
-                if tipo_item == 'P':
-                    campo_rateio = 'produtos_' + campo
-                elif tipo_item == 'S':
-                    campo_rateio = 'servicos_' + campo
-                elif tipo_item == 'M':
-                    campo_rateio = 'mensalidades_' + campo
+            if vr_total == 0:
+                proporcao = D(0)
+            else:
+                proporcao = D(item.vr_produtos)
+                proporcao /= vr_total
 
-                item.write({
-                    campo: calc_price_ratio(
-                        item.vr_nf,
-                        getattr(item.documento_id, campo_rateio, 0),
-                        item.documento_id.vr_nf),
-                })
+            valor = vr_rateio * proporcao
+            valor = valor.quantize(D('0.01'))
+            item.write({campo: valor})
             item.calcula_impostos()
+
+    #def _inverse_rateio_campo_al_desconto(self, tipo_item=None):
+        #self.ensure_one()
+
+        #campo_rateio = 'al_desconto'
+        #campo_desconto = 'vr_desconto'
+        #campo_total = 'vr_produtos'
+
+        #if tipo_item == 'P':
+            #campo_rateio = 'produtos_' + campo_rateio
+            #campo_total = 'produtos_' + campo_total
+            #campo_desconto = 'produtos_' + campo_desconto
+        #elif tipo_item == 'S':
+            #campo_rateio = 'servicos_' + campo_rateio
+            #campo_total = 'servicos_' + campo_total
+            #campo_desconto = 'servicos_' + campo_desconto
+        #elif tipo_item == 'M':
+            #campo_rateio = 'mensalidades_' + campo_rateio
+            #campo_total = 'mensalidades_' + campo_total
+            #campo_desconto = 'mensalidades_' + campo_desconto
+
+        #vr_total = D(getattr(self, campo_total, 0))
+        #al_desconto = D(getattr(self, campo_rateio, 0))
+        #vr_desconto = vr_total * al_desconto / 100
+        #vr_desconto = vr_desconto.quantize(D('0.01'))
+
+        #self.write({campo_desconto: vr_desconto})
 
     def _inverse_rateio_vr_frete(self):
         self.ensure_one()
@@ -500,6 +573,10 @@ class SpedCalculoImposto(SpedBase):
         self.ensure_one()
         self._inverse_rateio_campo_total('vr_outras')
 
+    #def _inverse_rateio_al_desconto(self):
+        #self.ensure_one()
+        #self._inverse_rateio_campo_al_desconto()
+
     def _inverse_rateio_vr_desconto(self):
         self.ensure_one()
         self._inverse_rateio_campo_total('vr_desconto')
@@ -507,9 +584,147 @@ class SpedCalculoImposto(SpedBase):
     @api.onchange('condicao_pagamento_id')
     def _onchange_condicao_pagamento_id(self):
         self.ensure_one()
-        self.payment_term_id = self.condicao_pagamento_id
+        if 'payment_term_id' in self._fields:
+            self.payment_term_id = self.condicao_pagamento_id
 
     @api.onchange('participante_id')
     def _onchange_participante_id(self):
         self.ensure_one()
         self.partner_id = self.participante_id.partner_id
+
+    def prapara_dados_documento(self):
+        self.ensure_one()
+        return {}
+
+    def _gera_documento(self, operacao, itens):
+        self.ensure_one()
+
+        if not (operacao and len(itens) > 0):
+            return
+
+        dados = {
+            'empresa_id': self.empresa_id.id,
+            'operacao_id': operacao.id,
+            'modelo': operacao.modelo,
+            'emissao': operacao.emissao,
+            'participante_id': self.participante_id.id,
+            'partner_id': self.partner_id.id,
+            'condicao_pagamento_id': self.condicao_pagamento_id.id if \
+                self.condicao_pagamento_id else False
+        }
+        dados.update(self.prepara_dados_documento())
+
+        #
+        # Criamos o documento e chamados os onchange necessários
+        #
+        documento = self.env['sped.documento'].create(dados)
+        documento.update(documento._onchange_empresa_id()['value'])
+        documento.update(documento._onchange_operacao_id()['value'])
+
+        if self.presenca_comprador:
+            documento.presenca_comprador = self.presenca_comprador
+
+        documento.update(documento._onchange_serie()['value'])
+        documento.update(documento._onchange_participante_id()['value'])
+
+        #
+        # Criamos agora os itens do documento fiscal, e forçamos o recálculo
+        # dos impostos, por segurança, caso alguma operação fiscal, alíquota
+        # etc. tenha sido alterada
+        #
+        for item in itens:
+            dados = {
+                'documento_id': documento.id,
+                'produto_id': item.produto_id.id,
+                'quantidade': item.quantidade,
+                'vr_unitario': item.vr_unitario,
+                'vr_frete': item.vr_frete,
+                'vr_seguro': item.vr_seguro,
+                'vr_desconto': item.vr_desconto,
+                'vr_outras': item.vr_outras,
+            }
+            dados.update(item.prepara_dados_documento_item())
+            documento_item = self.env['sped.documento.item'].create(dados)
+            documento_item.calcula_impostos()
+
+        #
+        # Agora que temos os itens, e por consequência o total do documento,
+        # aplicamos a condição de pagamento
+        #
+        if self.condicao_pagamento_id:
+            documento.condicao_pagamento_id = self.condicao_pagamento_id
+
+        documento.update(documento._onchange_condicao_pagamento_id()['value'])
+
+        return documento
+
+    def gera_documento(self):
+        self.ensure_one()
+
+        if not self.operacao_id:
+            return
+
+        return self._gera_documento(self.operacao_id, self.item_ids)
+
+    def _mantem_sincronia_cadastros(self, dados):
+        if 'company_id' in dados and not 'empresa_id' in dados:
+            company = self.env['res.company'].browse(dados['company_id'])
+            if company.sped_empresa_id:
+                dados['empresa_id'] = company.sped_empresa_id.id
+
+        if 'partner_id' in dados and not 'participante_id' in dados:
+            partner = self.env['res.partner'].browse(dados['partner_id'])
+            if partner.sped_participante_id:
+                dados['participante_id'] = partner.sped_participante_id.id
+
+        if 'product_id' in dados and not 'produto_id' in dados:
+            product = self.env['product.product'].browse(dados['product_id'])
+            if product.sped_produto_id:
+                dados['produto_id'] = product.sped_produto_id.id
+
+        if 'product_id' in dados and not 'produto_id' in dados:
+            product = self.env['product.product'].browse(dados['product_id'])
+            if product.sped_produto_id:
+                dados['produto_id'] = product.sped_produto_id.id
+
+        if 'product_uom' in dados and not 'unidade_id' in dados:
+            uom = self.env['product.uom'].browse(dados['product_uom'])
+            if uom.sped_unidade_id:
+                dados['unidade_id'] = uom.sped_unidade_id.id
+
+        if 'uom_id' in dados and not 'unidade_id' in dados:
+            uom = self.env['product.uom'].browse(dados['uom_id'])
+            if uom.sped_unidade_id:
+                dados['unidade_id'] = uom.sped_unidade_id.id
+
+        #
+        # Outros campos não many2one
+        #
+        CAMPOS = [
+            ['price_unit', 'vr_unitario'],
+            ['quantity', 'quantidade'],
+            ['product_qty', 'quantidade'],
+            ['product_uom_qty', 'quantidade'],
+        ]
+        for campo_original, campo_brasil in CAMPOS:
+            if campo_original in dados and not campo_brasil in dados:
+                dados[campo_brasil] = dados[campo_original]
+
+        return dados
+
+    @api.multi
+    def action_view_documento(self):
+        action = self.env.ref('sped.sped_documento_emissao_nfe_acao').read()[0]
+
+        if len(self.documento_ids) > 1:
+            action['domain'] = [('id', 'in', self.documento_ids.ids)]
+
+        elif len(self.documento_ids) == 1:
+            action['views'] = [
+                (self.env.ref('sped.sped_documento_emissao_nfe_form').id,
+                 'form')]
+            action['res_id'] = self.documento_ids.ids[0]
+        else:
+            action = {'type': 'ir.actions.act_window_close'}
+
+        return action

@@ -219,6 +219,13 @@ class SpedCalculoImpostoItem(SpedBase):
     vr_seguro = fields.Monetary(
         string='Valor do seguro',
     )
+    #al_desconto = fields.Monetary(
+        #string='Percentual de desconto',
+        #currency_field='currency_aliquota_rateio_id',
+        #compute='_compute_al_desconto',
+        #inverse='_inverse_al_desconto',
+        #store=True,
+    #)
     vr_desconto = fields.Monetary(
         string='Valor do desconto',
     )
@@ -251,7 +258,6 @@ class SpedCalculoImpostoItem(SpedBase):
     )
     al_bc_icms_proprio_partilha = fields.Monetary(
         string='% da base de cálculo da operação própria',
-        digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     estado_partilha_id = fields.Many2one(
@@ -274,7 +280,6 @@ class SpedCalculoImpostoItem(SpedBase):
     )
     rd_icms_proprio = fields.Monetary(
         string='% de redução da base de cálculo do ICMS próprio',
-        digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     bc_icms_proprio_com_ipi = fields.Boolean(
@@ -285,7 +290,6 @@ class SpedCalculoImpostoItem(SpedBase):
     )
     al_icms_proprio = fields.Monetary(
         string='alíquota do ICMS próprio',
-        digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     vr_icms_proprio = fields.Monetary(
@@ -343,7 +347,6 @@ class SpedCalculoImpostoItem(SpedBase):
     )
     al_icms_st = fields.Monetary(
         string='Alíquota do ICMS ST',
-        digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     vr_icms_st = fields.Monetary(
@@ -363,16 +366,15 @@ class SpedCalculoImpostoItem(SpedBase):
         string='Parâmetro da base de cáculo',
         digits=(18, 4),
     )
-    rd_icms_st_retido = fields.Float(
+    rd_icms_st_retido = fields.Monetary(
         string='% de redução da base de cálculo do ICMS retido',
-        digits=(5, 2),
+        currency_field='currency_aliquota_id',
     )
     bc_icms_st_retido = fields.Monetary(
         string='Base do ICMS ST retido na origem',
     )
     al_icms_st_retido = fields.Monetary(
         string='Alíquota do ICMS ST retido na origem',
-        digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     vr_icms_st_retido = fields.Monetary(
@@ -524,7 +526,6 @@ class SpedCalculoImpostoItem(SpedBase):
     )
     al_iss = fields.Monetary(
         string='Alíquota do ISS',
-        digits=(5, 2),
         currency_field='currency_aliquota_id',
     )
     vr_iss = fields.Monetary(
@@ -849,6 +850,22 @@ class SpedCalculoImpostoItem(SpedBase):
         help='Indica o tipo do item',
     )
 
+    #@api.depends('vr_desconto')
+    #def _compute_al_desconto(self):
+        #for item in self:
+            #al_desconto = D(0)
+            #if item.vr_produtos and item.vr_desconto:
+                #al_desconto = D(item.vr_desconto) / D(item.vr_produtos)
+                #al_desconto *= 100
+            #item.al_desconto = al_desconto
+
+    #def _inverse_al_desconto(self):
+        #for item in self:
+            #al_desconto = D(item.al_desconto) / 100
+            #vr_desconto = D(item.vr_produtos) * al_desconto
+            #vr_desconto = vr_desconto.quantize(D('0.01'))
+            #item.vr_desconto = vr_desconto
+
     #
     # Funções para manter a sincronia entre as CSTs do PIS e COFINS para
     # entrada ou saída
@@ -949,6 +966,8 @@ class SpedCalculoImpostoItem(SpedBase):
                 self.product_id = self.produto_id.product_id.id
             if hasattr(self, 'product_uom'):
                 self.product_uom = self.produto_id.unidade_id.uom_id
+            if hasattr(self, 'uom_id'):
+                self.uom_id = self.produto_id.unidade_id.uom_id
             return res
         elif self.emissao == TIPO_EMISSAO_TERCEIROS:
             res = self._onchange_produto_id_recebimento()
@@ -956,6 +975,8 @@ class SpedCalculoImpostoItem(SpedBase):
                 self.product_id = self.produto_id.product_id.id
             if hasattr(self, 'product_uom'):
                 self.product_uom = self.produto_id.unidade_id.uom_id
+            if hasattr(self, 'uom_id'):
+                self.uom_id = self.produto_id.unidade_id.uom_id
             return res
 
     def busca_operacao_item(self, domain_base):
@@ -1635,13 +1656,10 @@ class SpedCalculoImpostoItem(SpedBase):
 
         return res
 
-    #
-    # Faz o cálculo propriamente dito
-    #
-
     @api.onchange('vr_unitario', 'quantidade', 'vr_unitario_tributacao',
                   'quantidade_tributacao', 'vr_frete',
-                  'vr_seguro', 'vr_desconto', 'vr_outras', 'vr_ii',
+                  'vr_seguro', 'vr_desconto', 'vr_outras',
+                  'vr_ii',
                   'fator_conversao_unidade_tributacao',
                   'peso_bruto_unitario', 'peso_liquido_unitario',
                   'especie', 'fator_quantidade_especie')
@@ -1655,8 +1673,9 @@ class SpedCalculoImpostoItem(SpedBase):
         if hasattr(self, 'quantity'):
             self.quantity = self.quantidade
         if hasattr(self, 'product_qty'):
-            self.quantity = self.quantidade
-
+            self.product_qty = self.quantidade
+        if hasattr(self, 'product_uom_qty'):
+            self.product_uom_qty = self.quantidade
 
         if self.emissao != TIPO_EMISSAO_PROPRIA:
             return res
@@ -1677,6 +1696,11 @@ class SpedCalculoImpostoItem(SpedBase):
         #
         vr_produtos = D(self.quantidade) * D(self.vr_unitario)
         vr_produtos = vr_produtos.quantize(D('0.01'))
+
+        #if self.al_desconto:
+            #al_desconto = D(self.al_desconto) / 100
+            #vr_desconto = vr_produtos * al_desconto
+            #self.vr_desconto = vr_desconto
 
         #
         # Até segunda ordem, a quantidade e valor unitário para tributação não
@@ -2264,3 +2288,48 @@ class SpedCalculoImpostoItem(SpedBase):
         self._onchange_calcula_ibpt()
 
         return
+
+    def prepara_dados_documento_item(self):
+        self.ensure_one()
+        return {}
+
+    def _mantem_sincronia_cadastros(self, dados):
+        if 'company_id' in dados and not 'empresa_id' in dados:
+            company = self.env['res.company'].browse(dados['company_id'])
+            if company.sped_empresa_id:
+                dados['empresa_id'] = company.sped_empresa_id.id
+
+        if 'partner_id' in dados and not 'participante_id' in dados:
+            partner = self.env['res.partner'].browse(dados['partner_id'])
+            if partner.sped_participante_id:
+                dados['participante_id'] = partner.sped_participante_id.id
+
+        if 'product_id' in dados and not 'produto_id' in dados:
+            product = self.env['product.product'].browse(dados['product_id'])
+            if product.sped_produto_id:
+                dados['produto_id'] = product.sped_produto_id.id
+
+        if 'product_uom' in dados and not 'unidade_id' in dados:
+            uom = self.env['product.uom'].browse(dados['product_uom'])
+            if uom.sped_unidade_id:
+                dados['unidade_id'] = uom.sped_unidade_id.id
+
+        if 'uom_id' in dados and not 'unidade_id' in dados:
+            uom = self.env['product.uom'].browse(dados['uom_id'])
+            if uom.sped_unidade_id:
+                dados['unidade_id'] = uom.sped_unidade_id.id
+
+        #
+        # Outros campos não many2one
+        #
+        CAMPOS = [
+            ['price_unit', 'vr_unitario'],
+            ['quantity', 'quantidade'],
+            ['product_qty', 'quantidade'],
+            ['product_uom_qty', 'quantidade'],
+        ]
+        for campo_original, campo_brasil in CAMPOS:
+            if campo_original in dados and not campo_brasil in dados:
+                dados[campo_brasil] = dados[campo_original]
+
+        return dados

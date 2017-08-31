@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="sale_order_line_servico_form">
+        <field name="name">sale.order.line.servico.form</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="sale_order_line_base_form"/>
+        <field name="priority">99999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+                <field name="produto_id" position="attributes">
+                <attribute name="domain">[('tipo', '=', '09')]</attribute>
+                <attribute name="string">Serviço</attribute>
+            </field>
+                <field name="vr_produtos_readonly" position="attributes">
+                <attribute name="string">Valor do serviço</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sale_order_line_servico_tree">
+        <field name="name">sale.order.line.servico.tree</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="sale_order_line_base_tree"/>
+        <field name="priority">99999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+                <field name="produto_id" position="attributes">
+                <attribute name="string">Serviço</attribute>
+            </field>
+                <field name="vr_produtos" position="attributes">
+                <attribute name="string">Valor do serviço</attribute>
+            </field>
+        </field>
+    </record>
+
+</odoo>
