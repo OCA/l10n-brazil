@@ -9,6 +9,9 @@ from odoo import api, fields, models, _
 from odoo.addons.sped_imposto.models.sped_calculo_imposto import (
     SpedCalculoImposto
 )
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO,
+)
 
 
 class StockPicking(SpedCalculoImposto, models.Model):
@@ -35,12 +38,15 @@ class StockPicking(SpedCalculoImposto, models.Model):
         ondelete='cascade',
         domain=[('emissao', '=', '0'), ('modelo', 'in', ['55', '65', '59', '2D'])]
     )
-
-    sped_documento_ids = fields.One2many(
+    documento_ids = fields.One2many(
         comodel_name='sped.documento',
         inverse_name='stock_picking_id',
         string='Documentos Fiscais',
         copy=False,
+    )
+    quantidade_documentos = fields.Integer(
+        string='Quantidade de documentos fiscais',
+        compute='_compute_quantidade_documentos_fiscais',
     )
     produto_id = fields.Many2one(
         comodel_name='sped.produto',
@@ -76,6 +82,15 @@ class StockPicking(SpedCalculoImposto, models.Model):
             data, hora = self._separa_data_hora(picking.date_done)
             picking.data_conclusao = data
             #picking.hora_conclusao = hora
+
+    @api.depends('documento_ids.situacao_fiscal')
+    def _compute_quantidade_documentos_fiscais(self):
+        for picking in self:
+            documento_ids = self.documento_ids.search(
+                [('stock_picking_id', '=', picking.id), ('situacao_fiscal', 'in',
+                  SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
+
+            picking.quantidade_documentos = len(documento_ids)
 
     @api.onchange('picking_type_id')
     def _onchange_picking_type_id(self):

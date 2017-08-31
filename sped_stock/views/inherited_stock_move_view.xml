@@ -13,6 +13,17 @@
             <field name="product_id" position="replace">
                 <field name="produto_id"/>
                 <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
+            </field>
+            <field name="product_uom_qty" position="replace">
+                <field name="product_uom_qty" invisible="1" />
+                <field name="quantidade" required="1" />
             </field>
         </field>
     </record>
@@ -26,10 +37,21 @@
             <field name="product_id" position="replace">
                 <field name="produto_id" required="1" />
                 <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
             </field>
             <field name="company_id" position="replace">
                 <field name="empresa_id" options="{'no_create': True}" required="1" groups="base.group_multi_company" />
                 <field name="company_id" invisible="1"/>
+            </field>
+            <field name="product_uom_qty" position="replace">
+                <field name="product_uom_qty" invisible="1" />
+                <field name="quantidade" required="1" />
             </field>
         </field>
     </record>
@@ -43,6 +65,13 @@
             <field name="product_id" position="replace">
                 <field name="produto_id"/>
                 <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
             </field>
         </field>
     </record>
@@ -56,6 +85,13 @@
             <field name="product_id" position="replace">
                 <field name="produto_id"/>
                 <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
             </field>
         </field>
     </record>
@@ -69,6 +105,17 @@
             <field name="product_id" position="replace">
                 <field name="produto_id" required="1" />
                 <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
+            </field>
+            <field name="product_uom_qty" position="replace">
+                <field name="product_uom_qty" invisible="1" />
+                <field name="quantidade" required="1" />
             </field>
         </field>
     </record>
@@ -82,6 +129,17 @@
             <field name="product_id" position="replace">
                 <field name="produto_id" required="1" />
                 <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
+            </field>
+            <field name="product_uom_qty" position="replace">
+                <field name="product_uom_qty" invisible="1" />
+                <field name="quantidade" required="1" />
             </field>
         </field>
     </record>
@@ -95,6 +153,17 @@
             <field name="product_id" position="replace">
                 <field name="produto_id" required="1" />
                 <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
+            </field>
+            <field name="product_uom_qty" position="replace">
+                <field name="product_uom_qty" invisible="1" />
+                <field name="quantidade" required="1" />
             </field>
         </field>
     </record>
@@ -108,6 +177,17 @@
             <field name="product_id" position="replace">
                 <field name="produto_id" required="1" />
                 <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
+            </field>
+            <field name="product_uom_qty" position="replace">
+                <field name="product_uom_qty" invisible="1" />
+                <field name="quantidade" required="1" />
             </field>
         </field>
     </record>
