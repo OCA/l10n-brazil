@@ -29,8 +29,8 @@
                     type="object"
                     class="oe_stat_button"
                     icon="fa-pencil-square-o"
-                    attrs="{'invisible': [('invoice_count', '=', 0)]}">
-                    <field name="invoice_count" widget="statinfo" string="NFes"/>
+                    attrs="{'invisible': [('quantidade_documentos', '=', 0)]}">
+                    <field name="quantidade_documentos" widget="statinfo" string="NFes"/>
                 </button>
             </xpath>
 

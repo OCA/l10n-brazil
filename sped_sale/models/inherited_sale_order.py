@@ -34,6 +34,11 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         string='Documentos Fiscais',
         copy=False,
     )
+    quantidade_documentos = fields.Integer(
+        string='Quantidade de documentos fiscais',
+        compute='_compute_quantidade_documentos_fiscais',
+        readonly=True,
+    )
     produto_id = fields.Many2one(
         comodel_name='sped.produto',
         related='order_line.produto_id',
@@ -94,6 +99,15 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
             data, hora = self._separa_data_hora(sale.date_order)
             sale.data_pedido = data
             #sale.hora_pedido = hora
+
+    @api.depends('documento_ids.situacao_fiscal')
+    def _compute_quantidade_documentos_fiscais(self):
+        for sale in self:
+            documento_ids = self.documento_ids.search(
+                [('sale_order_id', '=', sale.id), ('situacao_fiscal', 'in',
+                  SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
+
+            sale.quantidade_documentos = len(documento_ids)
 
     @api.depends(
         'order_line.price_total',
@@ -179,24 +193,6 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
                 'invoice_count': invoice_count,
                 'invoice_status': invoice_status
             })
-
-    @api.multi
-    def action_view_documento(self):
-        action = self.env.ref('sped.sped_documento_emissao_nfe_acao').read()[0]
-
-        if len(self.documento_ids) > 1:
-            action['domain'] = [('id', 'in', self.documento_ids.ids)]
-
-        elif len(self.documento_ids) == 1:
-            action['views'] = [
-                (self.env.ref('sped.sped_documento_emissao_nfe_form').id,
-                 'form')]
-            action['res_id'] = self.documento_ids.ids[0]
-        else:
-            action = {'type': 'ir.actions.act_window_close'}
-
-        return action
-
 
     def prepara_dados_documento(self):
         self.ensure_one()
