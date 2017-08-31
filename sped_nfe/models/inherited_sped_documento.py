@@ -1212,12 +1212,55 @@ class SpedDocumento(models.Model):
             documento.envia_email(mail_template)
 
     def envia_email(self, mail_template):
-        super(SpedDocumento, self).envia_email()
+        self.ensure_one()
+
+        #super(SpedDocumento, self).envia_email(mail_template)
 
         self.ensure_one()
-        dados = mail_template.generate_email([documento.id])
+        mail_template.send_mail(self.id)
 
-    # TODO: FIX ME
+    def envia_email_nfe(self):
+        self.ensure_one()
+
+        if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            return
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            return
+
+        mail_template = None
+
+        if self.state_nfe == SITUACAO_NFE_CANCELADA:
+            if self.modelo == MODELO_FISCAL_NFE and \
+                self.empresa_id.mail_template_nfe_cancelada_id:
+                mail_template = self.empresa_id.mail_template_nfe_cancelada_id
+            elif self.modelo == MODELO_FISCAL_NFCE and \
+                self.empresa_id.mail_template_nfce_cancelada_id:
+                mail_template = self.empresa_id.mail_template_nfce_cancelada_id
+
+        elif self.state_nfe == SITUACAO_NFE_DENEGADA:
+            if self.modelo == MODELO_FISCAL_NFE and \
+                self.empresa_id.mail_template_nfe_denegada_id:
+                mail_template = self.empresa_id.mail_template_nfe_denegada_id
+            elif self.modelo == MODELO_FISCAL_NFCE and \
+                self.empresa_id.mail_template_nfce_denegada_id:
+                mail_template = self.empresa_id.mail_template_nfce_denegada_id
+        else:
+            if self.operacao_id.mail_template_id:
+                mail_template_id = self.operacao_id.mail_template_id
+            elif self.modelo == MODELO_FISCAL_NFE and \
+                self.empresa_id.mail_template_nfe_autorizada_id:
+                mail_template = self.empresa_id.mail_template_nfe_autorizada_id
+            elif self.modelo == MODELO_FISCAL_NFCE and \
+                self.empresa_id.mail_template_nfce_autorizada_id:
+                mail_template = \
+                    self.empresa_id.mail_template_nfce_autorizada_id
+
+        if mail_template is None:
+            raise UserError('Não foi possível determinar o modelo de email '
+                            'para o envio!')
+
+        self.envia_email(mail_template)
 
     def gera_pdf(self):
         super(SpedDocumento, self).gera_pdf()
