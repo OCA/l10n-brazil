@@ -80,6 +80,9 @@ class SpedBase(object):
                 'l10n_br_base.SIMBOLO_PESO').id
 
     def _separa_data_hora(self, data_hora_odoo):
+        if not data_hora_odoo:
+            return None, None
+
         data_hora = data_hora_horario_brasilia(
             parse_datetime(data_hora_odoo + ' UTC'))
         data = str(data_hora)[:10]
