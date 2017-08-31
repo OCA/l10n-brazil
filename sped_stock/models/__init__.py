@@ -2,6 +2,8 @@
 # Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+
+from . import inherited_sped_produto
 from . import inherited_stock_picking_type
 from . import inherited_stock_picking
 from . import inherited_stock_move

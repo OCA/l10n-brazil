@@ -10,9 +10,14 @@
         <field name="priority">3</field>
         <field name="inherit_id" ref="sped.sped_documento_base_form"/>
         <field name="arch" type="xml">
-            <header position="inside">
-                <button name="action_relacionar_picking" type="object" string="Relacionar Separação"/>
-            </header>
+            <field name="id" position="after">
+                <field name="stock_picking_id" invisible="1" />
+            </field>
+            <div name="button_box" position="inside">
+                <button name="action_relacionar_picking" type="object" string="Estoque"
+                        class="oe_stat_button" icon="fa-building-o"
+                        />
+            </div>
         </field>
     </record>
 

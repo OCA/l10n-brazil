@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="stock_picking_form">
+        <field name="name">stock.picking.form (in sped_stock)</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <field name="sped_documento_ids" invisible="1" />
+                <button type="object" name="gera_documento"
+                        string="Gerar NFe" class="btn-primary"
+                        attrs="{'invisible': [('operacao_id', '=', False)]}" />
+            </header>
+            <field name="partner_id" position="replace">
+                <field name="participante_id" options="{'no_create': True}" />
+                <field name="partner_id" invisible="1"/>
+            </field>
+            <field name="company_id" position="replace">
+                <field name="empresa_id" options="{'no_create': True}" required="1" groups="base.group_multi_company" />
+                <field name="company_id" invisible="1"/>
+            </field>
+            <field name="picking_type_id" position="after">
+                <field name="operacao_id" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

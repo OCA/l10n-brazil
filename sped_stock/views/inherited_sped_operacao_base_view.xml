@@ -4,15 +4,16 @@
 
 <odoo>
 
-    <record model="ir.ui.view" id="sped_stock_operacao_form">
-        <field name="name">sped.operacao.form (in sped_stock)</field>
+    <record model="ir.ui.view" id="sped_operacao_base_form" >
+        <field name="name">sped.operacao.base.form (in sped_stock)</field>
         <field name="model">sped.operacao</field>
         <field name="priority">99999</field>
         <field name="inherit_id" ref="sped_imposto.sped_operacao_base_form"/>
         <field name="arch" type="xml">
-            <field name="natureza_operacao_id" position="replace">
-                <field name="natureza_operacao_id" colspan="2" required="1" options="{'no_create': True, 'no_open': True}" />
-                <field name="stock_picking_type_id" colspan="2"/>
+            <field name="natureza_operacao_id" position="after">
+                <newline />
+                <field name="stock_picking_type_id" colspan="4" attrs="{'invisible': ['!', ('modelo', 'in', ['55', '65', '59', '2D'])]}" />
+                <newline />
             </field>
         </field>
     </record>

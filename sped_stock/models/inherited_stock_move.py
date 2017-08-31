@@ -20,7 +20,7 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedStockMove(SpedCalculoImpostoItem, models.Model):
+class StockMove(SpedCalculoImpostoItem, models.Model):
     _inherit = 'stock.move'
     _abstract = False
 
@@ -28,76 +28,70 @@ class SpedStockMove(SpedCalculoImpostoItem, models.Model):
         string=u'Is a Brazilian Invoice?',
         related='picking_id.is_brazilian',
     )
-    empresa_id = fields.Many2one(
-        comodel_name='sped.empresa',
-        string='Empresa',
-        related='picking_id.sped_empresa_id',
+    #
+    # O campo documento_id serve para que a classe SpedCalculoImpostoItem
+    # saiba qual o cabeçalho do documento (venda, compra, NF etc.)
+    # tem as definições da empresa, participante, data de emissão etc.
+    # necessárias aos cálculos dos impostos;
+    # Uma vez definido o documento, a operação pode variar entre produto e
+    # serviço, por isso o compute no campo; a data de emissão também vem
+    # trazida do campo correspondente no model que estamos tratando no momento
+    #
+    documento_id = fields.Many2one(
+        comodel_name='stock.picking',
+        string='Transferência de Estoque',
+        related='picking_id',
         readonly=True,
     )
-    participante_id = fields.Many2one(
-        comodel_name='sped.participante',
-        string='Destinatário/Remetente',
-        related='picking_id.sped_participante_id',
+    data_emissao = fields.Datetime(
+        string='Data de emissão',
+        related='documento_id.date',
         readonly=True,
     )
-    operacao_id = fields.Many2one(
-        comodel_name='sped.operacao',
-        string='Operação Fiscal',
-        related='picking_id.sped_operacao_produto_id',
-        readonly=True,
-    )
-    documento_item_id = fields.Many2one(
+    documento_item_ids = fields.One2many(
         comodel_name='sped.documento.item',
-        string='Item do documento',
-        copy=False
+        inverse_name='stock_move_id',
+        string='Itens dos Documentos Fiscais',
+        copy=False,
     )
 
-    @api.onchange('produto_id')
-    def _onchange_produto_id(self):
-        #
-        # SOBREESCREVEMOS ESSE MÉTODO DO SpedCalculoImpostoItem
-        # POIS O CORE NAO PERMITE SE ALTERAR O
-        # CAMPO product_id APÓS O PICKING SER CONFIRMADO
-        #
-        return
+    data = fields.Date(
+        string='Data',
+        compute='_compute_data_hora_separadas',
+        store=True,
+        index=True,
+    )
 
-    @api.multi
-    @api.onchange('produto_id', 'product_id')
-    def onchange_product_id_date(self):
-        for record in self:
-            if not record.product_id and not record.produto_id:
-                return False
-            if not record.operacao_id:
-                warning = {
-                    'title': _('Warning!'),
-                    'message': _(
-                        'Por favor defina a operação'),
-                }
-                return {'warning': warning}
+    @api.depends('date')
+    def _compute_data_hora_separadas(self):
+        for move in self:
+            data, hora = self._separa_data_hora(move.date)
+            move.data = data
+            #move.hora = hora
 
-            if record.produto_id and not record.product_id:
-                record.product_id = record.produto_id.product_id
-            if record.product_id and not record.produto_id:
-                record.produto_id = record.produto_id.search(
-                    [('product_id', '=', record.product_id.id)]
-                )
-
-    @api.multi
-    def _prepare_sped_line(self, documento):
-        """ """
+    def _onchange_produto_id_emissao_propria(self):
         self.ensure_one()
-        res = {
-            'produto_id': self.produto_id.id,
-            'quantidade':  self.quantidade or self.quantity,
-            'vr_unitario': self.vr_unitario or self.produto_id.preco_venda,
-            'vr_desconto': self.vr_desconto,
-            'unidade_id': self.unidade_id.id,
-            'protocolo_id': self.protocolo_id.id,
-            'operacao_item_id': self.operacao_item_id.id,
-            'vr_seguro': self.vr_seguro,
-            'vr_outras': self.vr_outras,
-            'vr_frete': self.vr_frete,
+
+        if not (self.picking_id and self.picking_id.operacao_id):
+            return
+
+        return super(StockMove, self)._onchange_produto_id_emissao_propria()
+
+
+
+    def prapara_dados_documento_item(self):
+        self.ensure_one()
+
+        return {
             'stock_move_id': self.id,
-            'documento_id': documento.id,
+            'vr_unitario': self.price_unit,
         }
-        return res
+
+    @api.model
+    def create(self, dados):
+        dados = self._mantem_sincronia_cadastros(dados)
+        return super(StockMove, self).create(dados)
+
+    def write(self, dados):
+        dados = self._mantem_sincronia_cadastros(dados)
+        return super(StockMove, self).write(dados)

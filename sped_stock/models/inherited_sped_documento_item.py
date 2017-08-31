@@ -12,6 +12,6 @@ class SpedStockDocumentoItem(models.Model):
 
     stock_move_id = fields.Many2one(
         comodel_name='stock.move',
-        string='Related Stock Move',
+        string='Movimento de Estoque',
         copy=False,
     )

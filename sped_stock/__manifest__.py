@@ -16,13 +16,13 @@
         'stock',
     ],
     'data': [
+        'views/inherited_sped_produto_produto_view.xml',
+        'views/inherited_sped_operacao_base_view.xml',
+        'views/inherited_sped_documento_base_view.xml',
 
-        # 'security/sale_order.xml',
-
-        'views/stock_picking_view.xml',
-        'views/stock_move_view.xml',
-        'views/sped_operacao_view.xml',
-        'views/sped_documento_view.xml',
+        'views/inherited_stock_picking_type_view.xml',
+        'views/inherited_stock_picking_view.xml',
+        'views/inherited_stock_move_view.xml',
     ],
     'demo': [
         # 'demo/sale_order.xml',

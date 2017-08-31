@@ -14,4 +14,5 @@ class SpedStockPickingType(models.Model):
         comodel_name='sped.operacao',
         string='Operação Fiscal',
         ondelete='cascade',
+        domain=[('emissao', '=', '0'), ('modelo', 'in', ['55', '65', '59', '2D'])]
     )
