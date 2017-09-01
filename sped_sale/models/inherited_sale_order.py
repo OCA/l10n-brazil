@@ -226,6 +226,7 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         dados = self._mantem_sincronia_cadastros(dados)
         return super(SaleOrder, self).create(dados)
 
+    @api.model
     def write(self, dados):
         dados = self._mantem_sincronia_cadastros(dados)
         return super(SaleOrder, self).write(dados)

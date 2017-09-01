@@ -128,9 +128,9 @@
                                     <newline/>
                                     <field name="vr_operacao_readonly"
                                             colspan="2" string="Subtotal" />
+                                    <field name="exibe_tributacao"
+                                            invisible="1"/>
                                 </group>
-                                <field name="exibe_tributacao"
-                                        invisible="1"/>
                                 <group colspan="2" col="2"
                                         string="Valores para tributação"
                                         attrs="{'invisible': [('exibe_tributacao', '=', False)]}">
