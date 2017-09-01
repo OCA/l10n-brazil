@@ -313,7 +313,7 @@
             <field name="search_view_id"
                    ref="hr_payroll.view_hr_payslip_filter"/>
             <field name="context">{'default_tipo_de_folha': 'ferias'}</field>
-            <field name="domain">[('tipo_de_folha','=','ferias')]</field>
+            <field name="domain">[('tipo_de_folha','=','ferias'),('is_simulacao','=',False)]</field>
         </record>
 
         <menuitem action="action_view_hr_calculo_medias_view_tree"
