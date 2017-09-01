@@ -25,7 +25,7 @@ class SpedDocumentoDuplicata(models.Model):
     def prepara_financial_move(self):
         dados = {
             'date_document': self.documento_id.data_emissao,
-            'participante_id': self.documento_id.participante_id,
+            'participante_id': self.documento_id.participante_id.id,
             'partner_id': self.documento_id.participante_id.partner_id.id,
             'empresa_id': self.documento_id.empresa_id.id,
             'company_id': self.documento_id.empresa_id.company_id.id,
