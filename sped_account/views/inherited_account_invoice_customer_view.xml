@@ -14,7 +14,7 @@
                  <attribute name="attrs">{'invisible': [('is_brazilian', '=', True)]}</attribute>
             </field>
             <field name="partner_id" position="after">
-                <field name="sped_participante_id" string="Customer"
+                <field name="participante_id" string="Customer"
                        domain="[('eh_cliente', '=', True)]"
                        attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
             </field>
@@ -22,8 +22,8 @@
                    position="after">
                 <!--<field name="is_brazilian" groups="l10n_br_base.GRUPO_SUPORTE"/>-->
                 <field name="is_brazilian"/>
-                <field name="sped_documento_ids" groups="l10n_br_base.GRUPO_SUPORTE"/>
-                <field name="sped_empresa_id" string="Razão Social"
+                <field name="documento_ids" groups="l10n_br_base.GRUPO_SUPORTE"/>
+                <field name="empresa_id" string="Razão Social"
                        attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
             </xpath>
             <field name="fiscal_position_id" position="attributes">

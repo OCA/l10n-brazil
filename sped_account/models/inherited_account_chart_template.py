@@ -16,7 +16,7 @@ class AccountChartTemplate(models.Model):
     is_brazilian = fields.Boolean(
         string=u'Is a Brazilian chart_template?',
     )
-    sped_empresa_id = fields.Many2one(
+    empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
         string='Empresa',
     )
@@ -37,31 +37,38 @@ class AccountChartTemplate(models.Model):
     #                 #
     #                 chart_template.currency_id = self.env.ref('base.BRL').id
     #
-    #                 if chart_template.company_id.sped_empresa_id:
-    #                     chart_template.sped_empresa_id = \
-    #                         chart_template.company_id.sped_empresa_id.id
+    #                 if chart_template.company_id.empresa_id:
+    #                     chart_template.empresa_id = \
+    #                         chart_template.company_id.empresa_id.id
     #
     #                 continue
     #
     #         chart_template.is_brazilian = False
 
-    @api.onchange('sped_empresa_id')
-    def _onchange_sped_empresa_id(self):
+    @api.onchange('empresa_id')
+    def _onchange_empresa_id(self):
         self.ensure_one()
-        self.company_id = self.sped_empresa_id.company_id
+        self.company_id = self.empresa_id.company_id
 
     @api.model
     def create(self, dados):
-        if 'company_id' in dados:
-            if 'sped_empresa_id' not in dados:
-                company = self.env['res.company'].browse(dados['company_id'])
+        if 'company_id' in dados and 'empresa_id' not in dados:
+            company = self.env['res.company'].browse(dados['company_id'])
 
-                if company.sped_empresa_id:
-                    dados['sped_empresa_id'] = company.sped_empresa_id.id
+            if company.empresa_id:
+                dados['empresa_id'] = company.empresa_id.id
 
         return super(AccountChartTemplate, self).create(dados)
 
-    @api.one
+    def write(self, dados):
+        if 'company_id' in dados and 'empresa_id' not in dados:
+            company = self.env['res.company'].browse(dados['company_id'])
+
+            if company.empresa_id:
+                dados['empresa_id'] = company.empresa_id.id
+
+        return super(AccountChartTemplate, self).write(dados)
+
     def try_loading_for_current_company(self):
         self.ensure_one()
 

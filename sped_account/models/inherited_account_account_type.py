@@ -32,7 +32,6 @@ class AccountAccountType(models.Model):
             else:
                 account_type.redutor = False
 
-    @api.multi
     def name_get(self):
         res = []
 

@@ -14,11 +14,11 @@ from ..constantes import CAMPO_DOCUMENTO_FISCAL_ITEM
 class SpedDocumentoItem(models.Model):
     _inherit = 'sped.documento.item'
 
-    account_invoice_ids = fields.Many2many(
-        'account.invoice.line',
-        'invoice_line_documento_rel',
-        'documento_item_id', 'invoice_line_id',
-        string='Invoice Lines', readonly=True, copy=False
+    sale_order_line_id = fields.Many2one(
+        comodel_name='sale.order.line',
+        string='Item do pedido de venda',
+        ondelete='restrict',
+        copy=False,
     )
 
     def gera_account_move_line(self, account_move, move_template, line_ids,
@@ -58,7 +58,7 @@ class SpedDocumentoItem(models.Model):
 
                 dados = {
                     'move_id': account_move.id,
-                    'sped_documento_item_id': item.id,
+                    'documento_item_id': item.id,
                     'name': item.produto_id.nome,
                     'narration': template_item.campo,
                     'debit': valor,
@@ -91,7 +91,7 @@ class SpedDocumentoItem(models.Model):
 
                 dados = {
                     'move_id': account_move.id,
-                    'sped_documento_item_id': item.id,
+                    'documento_item_id': item.id,
                     'name': item.produto_id.nome,
                     'narration': template_item.campo,
                     'credit': valor,

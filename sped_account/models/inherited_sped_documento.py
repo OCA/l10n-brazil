@@ -13,7 +13,11 @@ from odoo import api, fields, models
 class SpedDocumento(models.Model):
     _inherit = 'sped.documento'
 
-    journal_id = fields.Many2one(
+    account_invoice_id = fields.Many2one(
+        comodel_name='account.invoice',
+        string='Fatura',
+    )
+    account_journal_id = fields.Many2one(
         comodel_name='account.journal',
         string='Diário',
         domain=[('is_brazilian', '=', True)],
@@ -33,10 +37,6 @@ class SpedDocumento(models.Model):
         string='Partidas do lançamento contábil',
         related='account_move_id.line_ids',
     )
-    origin = fields.Char(
-        string='Source Document',
-        help="Reference of the document that produced this document.",
-    )
 
     @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
     def onchange_operacao_id(self):
@@ -45,24 +45,8 @@ class SpedDocumento(models.Model):
         if not self.operacao_id:
             return res
 
-        if self.operacao_id.journal_id:
-            res['value']['journal_id'] = self.operacao_id.journal_id.id
-
-        if self.operacao_id.account_move_template_ids:
-            res['value']['account_move_template_id'] = \
-                self.operacao_id.account_move_template_ids[0].id
-
-        return res
-
-    @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
-    def onchange_operacao_id(self):
-        res = super(SpedDocumento, self).onchange_operacao_id()
-
-        if not self.operacao_id:
-            return res
-
-        if self.operacao_id.journal_id:
-            res['value']['journal_id'] = self.operacao_id.journal_id.id
+        if self.operacao_id.account_journal_id:
+            res['value']['account_journal_id'] = self.operacao_id.journal_id.id
 
         if self.operacao_id.account_move_template_ids:
             res['value']['account_move_template_id'] = \
@@ -77,11 +61,11 @@ class SpedDocumento(models.Model):
     def gera_account_move(self):
         for documento in self:
             dados = {
-                'sped_documento_id': documento.id,
-                'journal_id': documento.journal_id.id,
+                'documento_id': documento.id,
+                'journal_id': documento.account_journal_id.id,
                 'ref': documento.descricao,
-                'sped_participante_id': documento.participante_id.id,
-                'sped_empresa_id': documento.empresa_id.id,
+                'participante_id': documento.participante_id.id,
+                'empresa_id': documento.empresa_id.id,
                 'partner_id': documento.participante_id.partner_id.id,
                 'company_id': documento.empresa_id.company_id.id,
                 'date': documento.data_entrada_saida,

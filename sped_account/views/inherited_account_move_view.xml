@@ -16,14 +16,14 @@
                        options="{'no_create': True}"
                        groups="base.group_multi_company"
                        attrs="{'invisible': [('is_brazilian', '=', True)]}"/>
-                <field name="sped_empresa_id"
+                <field name="empresa_id"
                        options="{'no_create': True}"
                        groups="base.group_multi_company"
                        attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
             </field>
             <field name="date" position="after">
                 <newline />
-                <field name="sped_participante_id"
+                <field name="participante_id"
                        options="{'no_create': True}"
                        attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
                 <field name="partner_id"
@@ -76,7 +76,7 @@
         <field name="arch" type="xml">
             <field name="partner_id" position="replace">
                 <field name="partner_id" invisible="1" />
-                <field name="sped_participante_id" />
+                <field name="participante_id" />
             </field>
         </field>
     </record>
@@ -88,10 +88,10 @@
         <field name="arch" type="xml">
             <field name="partner_id" position="replace">
                 <field name="partner_id" invisible="1" />
-                <field name="sped_participante_id" />
+                <field name="participante_id" />
             </field>
             <xpath expr="//search/group/filter[1]" position="replace">
-                <filter string="Participante" domain="[]" context="{'group_by':'sped_participante_id'}"/>
+                <filter string="Participante" domain="[]" context="{'group_by':'participante_id'}"/>
             </xpath>
         </field>
     </record>

@@ -8,16 +8,17 @@
 from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
+from openerp.addons.l10n_br_base.models.sped_base import SpedBase
 from ..constantes import *
 
 
-class AccountAccountTemplate(models.Model):
+class AccountAccountTemplate(SpedBase, models.Model):
     _inherit = 'account.account.template'
 
     is_brazilian = fields.Boolean(
         string=u'Is a Brazilian Account?',
     )
-    sped_empresa_id = fields.Many2one(
+    empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
         string='Empresa',
     )
@@ -45,26 +46,24 @@ class AccountAccountTemplate(models.Model):
                     #
                     account.currency_id = self.env.ref('base.BRL').id
 
-                    if account.company_id.sped_empresa_id:
-                        account.sped_empresa_id = \
-                            account.company_id.sped_empresa_id.id
+                    if account.company_id.empresa_id:
+                        account.empresa_id = \
+                            account.company_id.empresa_id.id
 
                     continue
 
             account.is_brazilian = False
 
-    @api.onchange('sped_empresa_id')
-    def _onchange_sped_empresa_id(self):
+    @api.onchange('empresa_id')
+    def _onchange_empresa_id(self):
         self.ensure_one()
-        self.company_id = self.sped_empresa_id.company_id
+        self.company_id = self.empresa_id.company_id
 
     @api.model
     def create(self, dados):
-        if 'company_id' in dados:
-            if 'sped_empresa_id' not in dados:
-                company = self.env['res.company'].browse(dados['company_id'])
+        dados = self._mantem_sincronia_cadastros(dados)
+        return super(SaleOrder, self).create(dados)
 
-                if company.sped_empresa_id:
-                    dados['sped_empresa_id'] = company.sped_empresa_id.id
-
-        return super(AccountAccountTemplate, self).create(dados)
+    def write(self, dados):
+        dados = self._mantem_sincronia_cadastros(dados)
+        return super(SaleOrder, self).write(dados)

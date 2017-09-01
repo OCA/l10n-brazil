@@ -10,40 +10,108 @@ from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
-from odoo.addons.sped_imposto.models.sped_calculo_imposto import (
-    SpedCalculoImposto
+from odoo.addons.sped_imposto.models.sped_calculo_imposto_produto_servico \
+    import SpedCalculoImpostoProdutoServico
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    MODELO_FISCAL_EMISSAO_PRODUTO,
+    MODELO_FISCAL_EMISSAO_SERVICO,
+    SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO,
 )
 
-
-class AccountInvoice(SpedCalculoImposto, models.Model):
+class AccountInvoice(SpedCalculoImpostoProdutoServico, models.Model):
     _inherit = 'account.invoice'
 
-    sped_documento_ids = fields.Many2one(
-        comodel_name='sped.documento',
+    #
+    # O campo item_ids serve para que a classe SpedCalculoImposto
+    # saiba de quais itens virão os valores que serão somados nos
+    # campos totalizados de impostos, valor do produto e valor da NF e fatura
+    #
+    item_ids = fields.One2many(
+        comodel_name='account.invoice.line',
         inverse_name='invoice_id',
-        string=u'Documentos Fiscais',
+        string='Itens da venda',
     )
-    order_line = fields.One2many(
-        #
-        # Workarrond para termos os mesmos campos nos outros objetos
-        #
-        'account.invoice.line',
-        related='invoice_line_ids',
-        string='Order Lines',
+    documento_ids = fields.One2many(
+        comodel_name='sped.documento',
+        inverse_name='account_invoice_id',
+        string='Documentos Fiscais',
+        copy=False,
+    )
+    quantidade_documentos = fields.Integer(
+        string='Quantidade de documentos fiscais',
+        compute='_compute_quantidade_documentos_fiscais',
         readonly=True,
     )
+    produto_id = fields.Many2one(
+        comodel_name='sped.produto',
+        related='invoice_line_ids.produto_id',
+        string='Produto',
+    )
 
-    def _get_date(self):
-        """
-        Return the document date
-        Used in _amount_all_wrapper
-        """
-        date = super(AccountInvoice, self)._get_date()
-        if self.date_invoice:
-            return self.date_invoice
-        return date
+    #
+    # As 2 operações fiscais abaixo servem para que se calcule ao mesmo tempo,
+    # numa venda ou compra, os impostos de acordo com o documento correto
+    # para produtos e serviços, quando via de regra sairão 2 notas fiscais,
+    # uma de produto e outra separada de serviço (pela prefeitura)
+    #
+    operacao_produto_id = fields.Many2one(
+        comodel_name='sped.operacao',
+        string='Operação Fiscal (produtos)',
+        domain=[('modelo', 'in', MODELO_FISCAL_EMISSAO_PRODUTO)],
+    )
+    operacao_servico_id = fields.Many2one(
+        comodel_name='sped.operacao',
+        string='Operação Fiscal (serviços)',
+        domain=[('modelo', 'in', MODELO_FISCAL_EMISSAO_SERVICO)],
+    )
 
-    @api.one
+    #
+    # Os 2 campos abaixo separam os itens da venda ou compra, para que se
+    # informem em telas separadas os produtos dos serviços, mostrando somente
+    # os campos adequados a cada caso
+    #
+    sale_order_line_produto_ids = fields.One2many(
+        comodel_name='account.invoice.line',
+        inverse_name='invoice_id',
+        string='Produto',
+        copy=True,
+        domain=[('tipo_item','=','P')],
+    )
+    sale_order_line_servico_ids = fields.One2many(
+        comodel_name='account.invoice.line',
+        inverse_name='invoice_id',
+        string='Serviços',
+        copy=True,
+        domain=[('tipo_item','=','S')],
+    )
+
+    #
+    # Datas sem hora no fuso horário de Brasília, para relatórios e pesquisas,
+    # porque data sem hora é vida ;)
+    #
+    data_fatura = fields.Date(
+        string='Data da fatura',
+        compute='_compute_data_hora_separadas',
+        store=True,
+        index=True,
+    )
+
+    @api.depends('date')
+    def _compute_data_hora_separadas(self):
+        for invoice in self:
+            data, hora = self._separa_data_hora(invoice.date_order)
+            invoice.data_fatura = data
+            #invoice.hora_pedido = hora
+
+    @api.depends('documento_ids.situacao_fiscal')
+    def _compute_quantidade_documentos_fiscais(self):
+        for invoice in self:
+            documento_ids = self.documento_ids.search(
+                [('account_invoice_id', '=', invoice.id), ('situacao_fiscal', 'in',
+                  SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
+
+            invoice.quantidade_documentos = len(documento_ids)
+
     @api.depends(
         'invoice_line_ids.price_subtotal',
         'tax_line_ids.amount',
@@ -58,10 +126,29 @@ class AccountInvoice(SpedCalculoImposto, models.Model):
         'invoice_line_ids.vr_fatura',
     )
     def _compute_amount(self):
+        self.ensure_one()
         if not self.is_brazilian:
             return super(AccountInvoice, self)._compute_amount()
-        self._amount_all_brazil()
-        # FIX ME
+
+        #
+        # Aqui repassamos os valores que no core são somados dos itens, mas
+        # buscando da soma dos campos brasileiros;
+        # amount_untaxed é o valor da operação, sem os impostos embutidos
+        # amount_tax é a somas dos impostos que entraram no total da NF
+        # amount_total é o saldo
+        # O core não tem um campo para o nosso conceito de retenção de
+        # impostos, portanto o amount_total, quando houver retenção,
+        # não vai corresponder à soma do amount_untaxed + amount_tax,
+        # porque não existe um campo amount_tax_retention ou
+        # coisa que o valha
+        #
+        dados = {
+            'amount_untaxed': self.vr_operacao,
+            'amount_tax': self.vr_nf - self.vr_operacao,
+            'amount_total': self.vr_fatura,
+        }
+        invoice.update(dados)
+
         amount_total_company_signed = self.amount_total
         amount_untaxed_signed = self.amount_untaxed
         if (self.currency_id and self.company_id and
@@ -79,198 +166,55 @@ class AccountInvoice(SpedCalculoImposto, models.Model):
         self.amount_total_signed = self.amount_total * sign
         self.amount_untaxed_signed = amount_untaxed_signed * sign
 
+    def prepara_dados_documento(self):
+        self.ensure_one()
+
+        return {
+            'account_invoice_id': self.id,
+        }
+
+    @api.onchange('empresa_id', 'participante_id')
+    def _onchange_empresa_operacao_padrao(self):
+        self.ensure_one()
+
+        if not self.presenca_comprador:
+            self.presenca_comprador = self.empresa_id.presenca_comprador
+
+        if self.empresa_id.operacao_produto_id:
+            self.operacao_produto_id = self.empresa_id.operacao_produto_id
+
+        if self.participante_id and \
+           self.empresa_id.operacao_produto_pessoa_fisica_id and \
+            (self.participante_id.eh_consumidor_final or
+             self.participante_id.tipo_pessoa == TIPO_PESSOA_FISICA):
+            self.operacao_produto_id = \
+                self.empresa_id.operacao_produto_pessoa_fisica_id
+
+        if self.empresa_id.operacao_servico_id:
+            self.operacao_servico_id = self.empresa_id.operacao_servico_id
 
     @api.model
     def create(self, dados):
-        invoice = super(AccountInvoice, self).create(dados)
-        return invoice
+        dados = self._mantem_sincronia_cadastros(dados)
+        return super(SaleOrder, self).create(dados)
+
+    def write(self, dados):
+        dados = self._mantem_sincronia_cadastros(dados)
+        return super(SaleOrder, self).write(dados)
 
     @api.multi
     def action_move_create(self):
         for invoice in self:
-            if not invoice.is_brazilian:
-                super(AccountInvoice, self).action_move_create()
+            if invoice.is_brazilian:
                 continue
-                # invoice.sped_documento_id.account_move_create()
+            super(AccountInvoice, self).action_move_create()
         return True
 
-    @api.multi
-    def invoice_validate(self):
-        brazil = self.filtered(lambda inv: inv.is_brazilian)
-        brazil.action_sped_create()
+    #@api.multi
+    #def invoice_validate(self):
+        #brazil = self.filtered(lambda inv: inv.is_brazilian)
+        #brazil.action_sped_create()
 
-        not_brazil = self - brazil
+        #not_brazil = self - brazil
 
-        return super(AccountInvoice, not_brazil | brazil).invoice_validate()
-
-    @api.multi
-    def action_view_sped(self):
-        # FIXME:
-        speds = self.mapped('sped_documento_ids')
-        action = self.env.ref('account.action_invoice_tree1').read()[0]
-        if len(speds) > 1:
-            action['domain'] = [('id', 'in', speds.ids)]
-        elif len(speds) == 1:
-            action['views'] = [
-                (self.env.ref('account.invoice_form').id, 'form')
-            ]
-            action['res_id'] = speds.ids[0]
-        else:
-            action = {'type': 'ir.actions.act_window_close'}
-        return action
-
-    @api.multi
-    def _prepare_sped(self, operacao_id):
-        """
-        Prepare the dict of values to create the new fiscal for an invoice.
-
-        This method may be overridden to implement custom fiscal generation
-
-        (making sure to call super() to establish a clean extension chain).
-        """
-        self.ensure_one()
-
-        sped_vals = {
-            'empresa_id': self.sped_empresa_id.id,
-            'operacao_id': operacao_id.id,  # FIXME
-            'participante_id': self.sped_participante_id.id,
-            'payment_term_id': self.payment_term_id.id,
-            'modelo': operacao_id.modelo,
-            'emissao': operacao_id.emissao,
-            'natureza_operacao_id': operacao_id.natureza_operacao_id.id,
-            'infcomplementar': self.comment or '',
-            'journal_id': self.journal_id.id,
-            # 'duplicata_ids': ,
-            # 'pagamento_ids': ,
-            # 'transportadora_id': ,
-            # 'volume_ids': ,
-            # 'name': self.client_order_ref or '',
-            # 'origin': self.name,
-            # 'type': 'out_invoice',
-            # 'account_id':
-            #   self.partner_invoice_id.property_account_receivable_id.id,
-            # 'partner_shipping_id': self.partner_shipping_id.id,
-            # 'user_id': self.user_id and self.user_id.id,
-            # 'team_id': self.team_id.id
-        }
-        return sped_vals
-
-    def _brazil_group(self, operacao_id):
-        """ Separamos por parceiro, endereço de entrega e operação.
-
-        :param operacao_id:
-        :return:
-        """
-        return (
-            self.sped_participante_id.partner_id.id,
-            self.sped_participante_id.partner_id.address_get(
-                ['delivery'])['delivery'],
-            operacao_id,
-        )
-
-    @api.multi
-    def action_sped_create(self, grouped=False, send=False):
-        """
-        Create the sped documento associated to the invoice
-        :param grouped:
-
-        if True, sped_documento are grouped by invoice id.
-
-        If False, sped_documento are grouped by
-                        (partner_invoice_id, sped_operacao)
-        :param send: if True, electronic document will be automatically sent.
-
-        :returns: list of created documents
-        """
-        sped_obj = self.env['sped.documento']
-        precision = self.env['decimal.precision'].precision_get('Account')
-        documents = {}
-        references = {}
-        for invoice in self:
-            #
-            # FIXME: Não esta faturando em lote.
-            #
-            for operacao in self.order_line.mapped('operacao_id'):
-                #
-                # Verifica as operações das linhas;
-                #
-                # Quando for nota conjugada, devemos implementar algo?
-                #
-                # Melhorar esta lógica
-                #
-                group_key = invoice._brazil_group(operacao.id)
-                for line in invoice.order_line.filtered(
-                        lambda line: line.operacao_id == operacao):
-
-                    if group_key not in documents:
-                        sped_data = invoice._prepare_sped(operacao)
-                        sped_documento = sped_obj.create(sped_data)
-                        sped_documento.calcula_imposto_cabecalho()
-                        references[sped_documento] = invoice
-                        invoice.sped_documento_ids = sped_documento.id
-                        documents[group_key] = sped_documento
-                    elif group_key in documents:
-                        #
-                        # TODO: Verificar a origem do pedido do cliente xPed
-                        #
-                        vals = {}
-
-                        if (invoice.name not in
-                                documents[group_key].origin.split(', ')):
-
-                            vals['origin'] = (
-                                documents[group_key].origin +
-                                ', ' +
-                                invoice.name
-                            )
-
-                        if (invoice.client_invoice_ref and
-                            invoice.client_invoice_ref not in
-                            documents[group_key].name.split(', ') and
-                            invoice.client_invoice_ref !=
-                                documents[group_key].name):
-
-                            vals['name'] = (
-                                documents[group_key].name +
-                                ', ' +
-                                invoice.client_invoice_ref
-                            )
-
-                        documents[group_key].write(vals)
-
-                    line.sped_line_create(documents[group_key].id)
-
-                if references.get(documents.get(group_key)):
-                    if invoice not in references[documents[group_key]]:
-
-                        references[sped_documento] = \
-                            references[sped_documento] | invoice
-
-        if not documents:
-            raise UserError(_('There is no line_ids line.'))
-
-        for sped_documento in documents.values():
-            if not sped_documento.item_ids:
-                raise UserError(_('There is no fiscal line.'))
-
-            for line in sped_documento.item_ids:
-                line._set_additional_fields(sped_documento)
-
-            sped_documento.calcula_imposto()
-
-            # sped_documento.mensagem_enviado_faturamento(
-            #     sped_documento, references[sped_documento])
-            #
-
-        return [doc.id for doc in documents.values()]
-
-    def mensagem_enviado_faturamento(self, sped_documento, references):
-
-        return sped_documento.message_post_with_view(
-            'mail.message_origin_link',
-            values={
-                'self': sped_documento,
-                'origin': references
-            },
-            subtype_id=self.env.ref('mail.mt_note').id
-        )
+        #return super(AccountInvoice, not_brazil | brazil).invoice_validate()

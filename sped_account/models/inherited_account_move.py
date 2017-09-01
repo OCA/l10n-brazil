@@ -8,9 +8,10 @@
 from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
+from openerp.addons.l10n_br_base.models.sped_base import SpedBase
 
 
-class AccountMove(models.Model):
+class AccountMove(SpedBase, models.Model):
     _inherit = 'account.move'
 
     is_brazilian = fields.Boolean(
@@ -18,37 +19,36 @@ class AccountMove(models.Model):
         compute='_compute_is_brazilian',
         store=True,
     )
-    sped_empresa_id = fields.Many2one(
+    empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
         string='Empresa',
-        related='journal_id.sped_empresa_id',
+        related='journal_id.empresa_id',
         store=True,
         readonly=True,
-        default=lambda self: self.env.user.company_id.sped_empresa_id,
+        default=lambda self: self.env.user.company_id.empresa_id,
     )
-    sped_participante_id = fields.Many2one(
+    participante_id = fields.Many2one(
         comodel_name='sped.participante',
         string='Participante',
     )
     partner_id = fields.Many2one(
         comodel_name='res.partner',
         string='Partner',
-        compute='_onchange_sped_participante_id',
+        compute='_onchange_participante_id',
     )
-    sped_documento_id = fields.Many2one(
+    documento_id = fields.Many2one(
         comodel_name='sped.documento',
         string='Documento Fiscal',
         ondelete='restrict',
     )
 
-    @api.depends('journal_id', 'company_id', 'currency_id', 'sped_empresa_id')
+    @api.depends('journal_id', 'company_id', 'currency_id', 'empresa_id')
     def _compute_is_brazilian(self):
         for move in self:
-            if move.sped_documento_id:
+            if move.documento_id:
                 move.is_brazilian = True
-            elif move.company_id.country_id:
-                if move.sped_empresa_id:
-                    move.is_brazilian = True
+            elif move.empresa_id:
+                move.is_brazilian = True
 
             if move.is_brazilian:
                 #
@@ -59,10 +59,21 @@ class AccountMove(models.Model):
 
             move.is_brazilian = False
 
-    @api.depends('sped_participante_id')
-    def _onchange_sped_participante_id(self):
-        for move in self:
-            if move.sped_participante_id:
-                move.partner_id = move.sped_participante_id.partner_id
-            else:
-                move.partner_id = False
+    @api.depends('participante_id')
+    def _onchange_participante_id(self):
+        self.ensure_one()
+        self.partner_id = self.participante_id.partner_id
+
+    @api.onchange('empresa_id')
+    def _onchange_empresa_id(self):
+        self.ensure_one()
+        self.company_id = self.empresa_id.company_id
+
+    @api.model
+    def create(self, dados):
+        dados = self._mantem_sincronia_cadastros(dados)
+        return super(SaleOrder, self).create(dados)
+
+    def write(self, dados):
+        dados = self._mantem_sincronia_cadastros(dados)
+        return super(SaleOrder, self).write(dados)

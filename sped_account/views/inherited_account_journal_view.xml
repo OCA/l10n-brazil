@@ -14,7 +14,7 @@
                 <field name="is_brazilian" invisible="1" />
                 <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"
                        attrs="{'invisible': [('is_brazilian', '=', True)]}"/>
-                <field name="sped_empresa_id" string="Empresa"
+                <field name="empresa_id" string="Empresa"
                        options="{'no_create': True}"
                        groups="base.group_multi_company"
                        attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
@@ -47,7 +47,7 @@
                 <field name="is_brazilian" invisible="1" />
                 <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"
                        attrs="{'invisible': [('is_brazilian', '=', True)]}"/>
-                <field name="sped_empresa_id" string="Empresa"
+                <field name="empresa_id" string="Empresa"
                        options="{'no_create': True}"
                        groups="base.group_multi_company"
                        attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>

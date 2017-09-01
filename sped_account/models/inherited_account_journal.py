@@ -18,7 +18,7 @@ class AccountJournal(models.Model):
         compute='_compute_is_brazilian',
         store=True,
     )
-    sped_empresa_id = fields.Many2one(
+    empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
         string='Empresa',
     )
@@ -36,14 +36,33 @@ class AccountJournal(models.Model):
                     #
                     journal.currency_id = self.env.ref('base.BRL').id
 
-                    if journal.company_id.sped_empresa_id:
-                        journal.sped_empresa_id = journal.company_id.sped_empresa_id
+                    if journal.company_id.empresa_id:
+                        journal.empresa_id = journal.company_id.empresa_id
 
                     continue
 
             journal.is_brazilian = False
 
-    @api.onchange('sped_empresa_id')
-    def _onchange_sped_empresa_id(self):
+    @api.onchange('empresa_id')
+    def _onchange_empresa_id(self):
         self.ensure_one()
-        self.company_id = self.sped_empresa_id.company_id
+        self.company_id = self.empresa_id.company_id
+
+    @api.model
+    def create(self, dados):
+        if 'company_id' in dados and 'empresa_id' not in dados:
+            company = self.env['res.company'].browse(dados['company_id'])
+
+            if company.empresa_id:
+                dados['empresa_id'] = company.empresa_id.id
+
+        return super(AccountJournal, self).create(dados)
+
+    def write(self, dados):
+        if 'company_id' in dados and 'empresa_id' not in dados:
+            company = self.env['res.company'].browse(dados['company_id'])
+
+            if company.empresa_id:
+                dados['empresa_id'] = company.empresa_id.id
+
+        return super(AccountJournal, self).write(dados)
