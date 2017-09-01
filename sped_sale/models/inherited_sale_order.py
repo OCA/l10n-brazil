@@ -8,11 +8,7 @@ from __future__ import division, print_function, unicode_literals
 from odoo import api, fields, models, _
 from odoo.addons.sped_imposto.models.sped_calculo_imposto_produto_servico \
     import SpedCalculoImpostoProdutoServico
-from odoo.addons.l10n_br_base.constante_tributaria import (
-    MODELO_FISCAL_EMISSAO_PRODUTO,
-    MODELO_FISCAL_EMISSAO_SERVICO,
-    SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO,
-)
+from odoo.addons.l10n_br_base.constante_tributaria import *
 
 
 class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
