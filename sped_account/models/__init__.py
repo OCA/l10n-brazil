@@ -7,8 +7,8 @@
 
 from . import sped_account_move_template
 
-# from . import inherited_sped_documento
-# from . import inherited_sped_documento_item
+from . import inherited_sped_documento
+from . import inherited_sped_documento_item
 
 # from . import inherited_account_config_settings
 # from . import inherited_wizard_multi_chart_accounts
