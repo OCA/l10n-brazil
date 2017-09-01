@@ -664,7 +664,8 @@ class SpedCalculoImposto(SpedBase):
         return self._gera_documento(self.operacao_id, self.item_ids)
 
     def _mantem_sincronia_cadastros(self, dados):
-        super(SpedCalculoImposto, self)._mantem_sincronia_cadastros(dados)
+        dados = \
+            super(SpedCalculoImposto, self)._mantem_sincronia_cadastros(dados)
 
         #
         # Outros campos não many2one

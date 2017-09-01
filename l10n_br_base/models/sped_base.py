@@ -114,3 +114,5 @@ class SpedBase(object):
             uom = self.env['product.uom'].browse(dados['uom_id'])
             if uom.sped_unidade_id:
                 dados['unidade_id'] = uom.sped_unidade_id.id
+
+        return dados
