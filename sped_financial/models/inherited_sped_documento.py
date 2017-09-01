@@ -27,14 +27,14 @@ class SpedDocumento(models.Model):
     )
     financial_move_ids = fields.One2many(
         comodel_name='financial.move',
-        inverse_name='sped_documento_id',
+        inverse_name='documento_id',
         string='Lançamentos Financeiros',
         copy=False,
     )
 
     @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
-    def onchange_operacao_id(self):
-        res = super(SpedDocumento, self).onchange_operacao_id()
+    def _onchange_operacao_id(self):
+        res = super(SpedDocumento, self)._onchange_operacao_id()
 
         if not self.operacao_id:
             return res

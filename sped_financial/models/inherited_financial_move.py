@@ -15,12 +15,12 @@ class FinancialMove(models.Model):
     doc_source_id = fields.Reference(
         selection_add=[('sped.documento', 'Documento Fiscal')],
     )
-    sped_documento_id = fields.Many2one(
+    documento_id = fields.Many2one(
         comodel_name='sped.documento',
         string='Documento Fiscal',
         ondelete='restrict',
     )
-    sped_documento_duplicata_id = fields.Many2one(
+    documento_duplicata_id = fields.Many2one(
         comodel_name='sped.documento.duplicata',
         string='Duplicata do Documento Fiscal',
         ondelete='restrict',

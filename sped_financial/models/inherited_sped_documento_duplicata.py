@@ -17,7 +17,7 @@ class SpedDocumentoDuplicata(models.Model):
 
     financial_move_ids = fields.One2many(
         comodel_name='financial.move',
-        inverse_name='sped_documento_duplicata_id',
+        inverse_name='documento_duplicata_id',
         string='Lançamentos Financeiros',
         copy=False
     )
@@ -31,8 +31,8 @@ class SpedDocumentoDuplicata(models.Model):
             'company_id': self.documento_id.empresa_id.company_id.id,
             'doc_source_id': 'sped.documento,' + str(self.documento_id.id),
             'currency_id': self.documento_id.currency_id.id,
-            'sped_documento_id': self.documento_id.id,
-            'sped_documento_duplicata_id': self.id,
+            'documento_id': self.documento_id.id,
+            'documento_duplicata_id': self.id,
             'document_type_id': \
                 self.documento_id.financial_document_type_id.id,
             'account_id': self.documento_id.financial_account_id.id,
