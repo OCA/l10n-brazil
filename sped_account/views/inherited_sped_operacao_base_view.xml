@@ -17,7 +17,7 @@
                 <newline />
                 <separator string="Contabilização" colspan="4" />
                 <newline />
-                <field name="journal_id" />
+                <field name="account_journal_id" />
             </xpath>
         </field>
     </record>

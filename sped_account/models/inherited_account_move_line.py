@@ -15,9 +15,9 @@ from ..constantes import NATUREZA_PARTIDA, NATUREZA_PARTIDA_DEBITO, \
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    is_brazilian_move = fields.Boolean(
+    is_brazilian = fields.Boolean(
         string=u'Is a Brazilian Move?',
-        related='move_id.is_brazilian_move',
+        related='move_id.is_brazilian',
         store=True,
         readonly=True,
     )
@@ -28,17 +28,17 @@ class AccountMoveLine(models.Model):
         store=True,
         readonly=True,
     )
-    sped_empresa_id = fields.Many2one(
+    empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
         string='Empresa',
-        related='move_id.sped_empresa_id',
+        related='move_id.empresa_id',
         store=True,
         readonly=True,
     )
-    sped_participante_id = fields.Many2one(
+    participante_id = fields.Many2one(
         comodel_name='sped.participante',
         string='Participante',
-        related='move_id.sped_participante_id',
+        related='move_id.participante_id',
         store=True,
         readonly=True,
     )
@@ -55,13 +55,13 @@ class AccountMoveLine(models.Model):
         compute='_compute_natureza',
         store=True,
     )
-    sped_documento_id = fields.Many2one(
+    documento_id = fields.Many2one(
         comodel_name='sped.documento',
-        related='move_id.sped_documento_id',
+        related='move_id.documento_id',
         string='Documento Fiscal',
         store=True,
     )
-    sped_documento_item_id = fields.Many2one(
+    documento_item_id = fields.Many2one(
         comodel_name='sped.documento.item',
         string='Item do documento fiscal',
         ondelete='restrict',

@@ -21,17 +21,17 @@ class ReportAccountReportFinancial(models.AbstractModel):
         account_report = self.env['account.financial.report'].search(
             [('id', '=', data['account_report_id'][0])])
 
-        if not account_report.is_brazilian_financial_report:
+        if not account_report.is_brazilian:
             return super(ReportAccountReportFinancial,
                          self)._get_account_lines(data)
 
         lines = []
         child_reports = account_report._get_children_by_order()
         res = self.with_context(data.get('used_context'))._compute_report_balance(
-            child_reports, is_brazilian_financial_report=True)
+            child_reports, is_brazilian=True)
         if data['enable_filter']:
             comparison_res = self.with_context(data.get('comparison_context'))._compute_report_balance(
-                child_reports, is_brazilian_financial_report=True)
+                child_reports, is_brazilian=True)
             for report_id, value in comparison_res.items():
                 res[report_id]['comp_bal'] = value['balance']
                 report_acc = res[report_id].get('account')
@@ -94,8 +94,8 @@ class ReportAccountReportFinancial(models.AbstractModel):
         return lines
 
     def _compute_account_balance(self, accounts,
-                                 is_brazilian_financial_report=True):
-        if not is_brazilian_financial_report:
+                                 is_brazilian=True):
+        if not is_brazilian:
             return super(ReportAccountReportFinancial,
                          self)._compute_account_balance(accounts)
 
@@ -137,8 +137,8 @@ class ReportAccountReportFinancial(models.AbstractModel):
         return res
 
     def _compute_report_balance(self, reports,
-                                is_brazilian_financial_report=True):
-        if not is_brazilian_financial_report:
+                                is_brazilian=True):
+        if not is_brazilian:
             return super(ReportAccountReportFinancial,
                          self)._compute_report_balance(reports)
 
@@ -154,7 +154,7 @@ class ReportAccountReportFinancial(models.AbstractModel):
 
             if report.type == REPORT_TYPE_ACCOUNTS:
                 res[report.id]['account'] = self._compute_account_balance(
-                    report.account_ids, is_brazilian_financial_report=True)
+                    report.account_ids, is_brazilian=True)
 
                 #
                 # Inverte o sinal de todos os valores em caso de item redutor
@@ -182,7 +182,7 @@ class ReportAccountReportFinancial(models.AbstractModel):
                 accounts = self.env['account.account'].search(
                     [('user_type_id', 'in', report.account_type_ids.ids)])
                 res[report.id]['account'] = self._compute_account_balance(
-                    accounts, is_brazilian_financial_report=True)
+                    accounts, is_brazilian=True)
 
                 #
                 # Inverte o sinal de todos os valores em caso de item redutor
@@ -205,7 +205,7 @@ class ReportAccountReportFinancial(models.AbstractModel):
 
             elif report.type == REPORT_TYPE_REPORT_VALUE and report.account_report_id:
                 res2 = self._compute_report_balance(
-                    report.account_report_id, is_brazilian_financial_report=True)
+                    report.account_report_id, is_brazilian=True)
 
                 for key, value in res2.items():
                     for field in fields:
@@ -219,7 +219,7 @@ class ReportAccountReportFinancial(models.AbstractModel):
 
             elif report.type == REPORT_TYPE_VIEW:
                 res2 = self._compute_report_balance(
-                    report.children_ids, is_brazilian_financial_report=True)
+                    report.children_ids, is_brazilian=True)
 
                 for key, value in res2.items():
                     for field in fields:
@@ -234,7 +234,7 @@ class ReportAccountReportFinancial(models.AbstractModel):
             elif report.type == REPORT_TYPE_SUMMARY:
                 for summary in report.summary_report_ids:
                     res_summary = self._compute_report_balance(
-                        summary, is_brazilian_financial_report=True)
+                        summary, is_brazilian=True)
                     for key, value in res_summary.items():
                         for field in fields:
                             if report.redutor:

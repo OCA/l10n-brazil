@@ -14,7 +14,7 @@ from ..constantes import *
 class AccountAccountType(models.Model):
     _inherit = 'account.account.type'
 
-    is_brazilian_account_type = fields.Boolean(
+    is_brazilian = fields.Boolean(
         string=u'Is a Brazilian Account?',
     )
     redutor = fields.Boolean(
@@ -32,14 +32,13 @@ class AccountAccountType(models.Model):
             else:
                 account_type.redutor = False
 
-    @api.multi
     def name_get(self):
         res = []
 
         for account_type in self:
             nome = account_type.name
 
-            if account_type.is_brazilian_account_type:
+            if account_type.is_brazilian:
                 nome += ' - ' + account_type.note
 
             res.append((account_type.id, nome))

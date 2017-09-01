@@ -11,23 +11,23 @@
         <field name="inherit_id" ref="account.view_account_form"/>
         <field name="arch" type="xml">
             <field name="company_id" position="replace">
-                <field name="is_brazilian_account" invisible="1" />
+                <field name="is_brazilian" invisible="1" />
                 <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"
-                       attrs="{'invisible': [('is_brazilian_account', '=', True)]}"/>
-                <field name="sped_empresa_id" string="Empresa"
+                       attrs="{'invisible': [('is_brazilian', '=', True)]}"/>
+                <field name="empresa_id" string="Empresa"
                        options="{'no_create': True}"
                        groups="base.group_multi_company"
-                       attrs="{'required': [('is_brazilian_account', '=', True)], 'invisible': [('is_brazilian_account', '!=', True)]}"/>
+                       attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
             </field>
             <field name="user_type_id" position="replace">
-                <field name="user_type_id" domain="[('is_brazilian_account_type', '=', is_brazilian_account)]" context="{'default_is_brazilian_account_type': is_brazilian_account}" />
+                <field name="user_type_id" domain="[('is_brazilian', '=', is_brazilian)]" context="{'default_is_brazilian': is_brazilian}" />
             </field>
             <field name="currency_id" position="attributes">
                 <attribute name="domain">[('is_currency', '=', True)]</attribute>
-                <attribute name="invisible">[('is_brazilian_account', '=', True)]</attribute>
+                <attribute name="invisible">[('is_brazilian', '=', True)]</attribute>
             </field>
             <xpath expr="//sheet/group/group[2]" position="attributes">
-                <attribute name="attrs">{'invisible': [('is_brazilian_account', '=', True)]}</attribute>
+                <attribute name="attrs">{'invisible': [('is_brazilian', '=', True)]}</attribute>
             </xpath>
             <xpath expr="//sheet/group/group[2]" position="after">
                 <group name="contas_filhas">
@@ -36,7 +36,7 @@
                     <field name="child_ids" readonly="1" />
                 </group>
                 <newline />
-                <group name="dre_balanco" colspan="4" attrs="{'invisible': [('is_brazilian_account', '!=', True)]}">
+                <group name="dre_balanco" colspan="4" attrs="{'invisible': [('is_brazilian', '!=', True)]}">
                    <div class="row" style="background-color: #eee">
                        <p class="text-center">O tipo de conta é usado da seguinte forma:</p>
                        <div class="col-md-5 col-md-offset-1 col-sm-6 no-margin-top">
@@ -149,20 +149,20 @@
         <field name="inherit_id" ref="account.view_account_list"/>
         <field name="arch" type="xml">
             <field name="company_id" position="before">
-                <field name="is_brazilian_account" invisible="1" />
+                <field name="is_brazilian" invisible="1" />
             </field>
             <field name="company_id" position="attributes">
-                <attribute name="invisible">[('is_brazilian_account', '=', True)]</attribute>
+                <attribute name="invisible">[('is_brazilian', '=', True)]</attribute>
             </field>
             <field name="company_id" position="after">
-                <field name="sped_empresa_id" string="Empresa"
+                <field name="empresa_id" string="Empresa"
                        options="{'no_create': True}"
                        groups="base.group_multi_company"
-                       attrs="{'required': [('is_brazilian_account', '=', True)], 'invisible': [('is_brazilian_account', '!=', True)]}"/>
+                       attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
             </field>
             <field name="currency_id" position="attributes">
                 <attribute name="domain">[('is_currency', '=', True)]</attribute>
-                <!--<attribute name="invisible">[('is_brazilian_account', '=', True)]</attribute>-->
+                <!--<attribute name="invisible">[('is_brazilian', '=', True)]</attribute>-->
             </field>
         </field>
     </record>

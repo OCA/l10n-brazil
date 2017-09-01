@@ -31,7 +31,7 @@ class AccountFinancialReport(models.Model):
     # _parent_order = 'sequence, name'
     _order = 'parent_id, sequence'
 
-    is_brazilian_financial_report = fields.Boolean(
+    is_brazilian = fields.Boolean(
         string='Is Brazilian Financial Report?',
     )
     summary_report_ids = fields.Many2many(

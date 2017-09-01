@@ -11,29 +11,29 @@
         <field name="inherit_id" ref="account.view_account_journal_form"/>
         <field name="arch" type="xml">
             <field name="company_id" position="replace">
-                <field name="is_brazilian_journal" invisible="1" />
+                <field name="is_brazilian" invisible="1" />
                 <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"
-                       attrs="{'invisible': [('is_brazilian_journal', '=', True)]}"/>
-                <field name="sped_empresa_id" string="Empresa"
+                       attrs="{'invisible': [('is_brazilian', '=', True)]}"/>
+                <field name="empresa_id" string="Empresa"
                        options="{'no_create': True}"
                        groups="base.group_multi_company"
-                       attrs="{'required': [('is_brazilian_journal', '=', True)], 'invisible': [('is_brazilian_journal', '!=', True)]}"/>
+                       attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
             </field>
             <field name="currency_id" position="attributes">
                 <attribute name="domain">[('is_currency', '=', True)]</attribute>
-                <attribute name="invisible">[('is_brazilian_journal', '=', True)]</attribute>
+                <attribute name="invisible">[('is_brazilian', '=', True)]</attribute>
             </field>
             <field name="default_debit_account_id" position="attributes">
-                <attribute name="domain">[('deprecated', '=', False), ('is_brazilian_account', '=', is_brazilian_journal), ('tipo_sped', '=', 'A')]</attribute>
+                <attribute name="domain">[('deprecated', '=', False), ('is_brazilian', '=', is_brazilian), ('tipo_sped', '=', 'A')]</attribute>
             </field>
             <field name="default_credit_account_id" position="attributes">
-                <attribute name="domain">[('deprecated', '=', False), ('is_brazilian_account', '=', is_brazilian_journal), ('tipo_sped', '=', 'A')]</attribute>
+                <attribute name="domain">[('deprecated', '=', False), ('is_brazilian', '=', is_brazilian), ('tipo_sped', '=', 'A')]</attribute>
             </field>
             <field name="type_control_ids" position="attributes">
-                <attribute name="domain">[('is_brazilian_account_type', '=', is_brazilian_journal)]</attribute>
+                <attribute name="domain">[('is_brazilian', '=', is_brazilian)]</attribute>
             </field>
             <field name="account_control_ids" position="attributes">
-                <attribute name="domain">[('deprecated', '=', False), ('is_brazilian_account', '=', is_brazilian_journal), ('tipo_sped', '=', 'A')]</attribute>
+                <attribute name="domain">[('deprecated', '=', False), ('is_brazilian', '=', is_brazilian), ('tipo_sped', '=', 'A')]</attribute>
             </field>
         </field>
     </record>
@@ -44,17 +44,17 @@
         <field name="inherit_id" ref="account.view_account_bank_journal_form"/>
         <field name="arch" type="xml">
             <field name="company_id" position="replace">
-                <field name="is_brazilian_journal" invisible="1" />
+                <field name="is_brazilian" invisible="1" />
                 <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"
-                       attrs="{'invisible': [('is_brazilian_journal', '=', True)]}"/>
-                <field name="sped_empresa_id" string="Empresa"
+                       attrs="{'invisible': [('is_brazilian', '=', True)]}"/>
+                <field name="empresa_id" string="Empresa"
                        options="{'no_create': True}"
                        groups="base.group_multi_company"
-                       attrs="{'required': [('is_brazilian_journal', '=', True)], 'invisible': [('is_brazilian_journal', '!=', True)]}"/>
+                       attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
             </field>
             <field name="currency_id" position="attributes">
                 <attribute name="domain">[('is_currency', '=', True)]</attribute>
-                <attribute name="invisible">[('is_brazilian_journal', '=', True)]</attribute>
+                <attribute name="invisible">[('is_brazilian', '=', True)]</attribute>
             </field>
         </field>
     </record>

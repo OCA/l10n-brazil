@@ -88,3 +88,29 @@ class SpedBase(object):
         data = str(data_hora)[:10]
         hora = str(data_hora)[11:19]
         return data, hora
+
+    def _mantem_sincronia_cadastros(self, dados):
+        if 'company_id' in dados and not 'empresa_id' in dados:
+            company = self.env['res.company'].browse(dados['company_id'])
+            if company.sped_empresa_id:
+                dados['empresa_id'] = company.sped_empresa_id.id
+
+        if 'partner_id' in dados and not 'participante_id' in dados:
+            partner = self.env['res.partner'].browse(dados['partner_id'])
+            if partner.sped_participante_id:
+                dados['participante_id'] = partner.sped_participante_id.id
+
+        if 'product_id' in dados and not 'produto_id' in dados:
+            product = self.env['product.product'].browse(dados['product_id'])
+            if product.sped_produto_id:
+                dados['produto_id'] = product.sped_produto_id.id
+
+        if 'product_uom' in dados and not 'unidade_id' in dados:
+            uom = self.env['product.uom'].browse(dados['product_uom'])
+            if uom.sped_unidade_id:
+                dados['unidade_id'] = uom.sped_unidade_id.id
+
+        if 'uom_id' in dados and not 'unidade_id' in dados:
+            uom = self.env['product.uom'].browse(dados['uom_id'])
+            if uom.sped_unidade_id:
+                dados['unidade_id'] = uom.sped_unidade_id.id

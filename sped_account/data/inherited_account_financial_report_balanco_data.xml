@@ -18,7 +18,7 @@
         <field name="parent_id" eval="False" />
         <field name="account_type_ids" eval="False" />
         <field name="summary_report_ids" eval="False" />
-        <field name="is_brazilian_financial_report" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_ATIVO" model="account.financial.report">
@@ -30,7 +30,7 @@
         <field name="parent_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_BALANCO" />
         <field name="account_type_ids" eval="False" />
         <field name="summary_report_ids" eval="False" />
-        <field name="is_brazilian_financial_report" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_ATIVO_CIRCULANTE" model="account.financial.report">
@@ -42,7 +42,7 @@
         <field name="parent_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_ATIVO" />
         <field name="account_type_ids" eval="[(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_ATIVO_CIRCULANTE_DISPONIVEL')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_ATIVO_CIRCULANTE_CONTAS_RECEBER')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_ATIVO_CIRCULANTE_ESTOQUES')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_ATIVO_CIRCULANTE_OUTROS_CREDITOS')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_ATIVO_CIRCULANTE_OUTROS_DEPESAS_EXERCICIO_SEGUINTE'))]" />
         <field name="summary_report_ids" eval="False" />
-        <field name="is_brazilian_financial_report" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_ATIVO_REALIZAVEL_LONGO_PRAZO" model="account.financial.report">
@@ -54,7 +54,7 @@
         <field name="parent_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_ATIVO" />
         <field name="account_type_ids" eval="[(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_ATIVO_REALIZAVEL_LONGO_PRAZO_CONTAS_RECEBER')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_ATIVO_REALIZAVEL_LONGO_PRAZO_ESTOQUES'))]" />
         <field name="summary_report_ids" eval="False" />
-        <field name="is_brazilian_financial_report" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_ATIVO_PERMANENTE" model="account.financial.report">
@@ -66,7 +66,7 @@
         <field name="parent_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_ATIVO" />
         <field name="account_type_ids" eval="[(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_ATIVO_PERMANENTE_INVESTIMENTOS')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_ATIVO_PERMANENTE_IMOBILIZADO')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_ATIVO_PERMANENTE_INTANGIVEL')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_ATIVO_PERMANENTE_DIFERIDO')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_ATIVO_PERMANENTE_DEPRECIACAO_AMORTIZACAO'))]" />
         <field name="summary_report_ids" eval="False" />
-        <field name="is_brazilian_financial_report" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_PASSIVO" model="account.financial.report">
@@ -78,7 +78,7 @@
         <field name="parent_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_BALANCO" />
         <field name="account_type_ids" eval="False" />
         <field name="summary_report_ids" eval="False" />
-        <field name="is_brazilian_financial_report" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_PASSIVO_CIRCULANTE" model="account.financial.report">
@@ -90,7 +90,7 @@
         <field name="parent_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_PASSIVO" />
         <field name="account_type_ids" eval="[(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_CIRCULANTE_IMPOSTOS')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_CIRCULANTE_CONTAS_PAGAR')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_CIRCULANTE_LUCROS_DISTRIBUIR')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_CIRCULANTE_EMPRESTIMOS'))]" />
         <field name="summary_report_ids" eval="False" />
-        <field name="is_brazilian_financial_report" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_PASSIVO_EXIGIVEL_LONGO_PRAZO" model="account.financial.report">
@@ -102,7 +102,7 @@
         <field name="parent_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_PASSIVO" />
         <field name="account_type_ids" eval="[(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_EXIGIVEL_LONGO_PRAZO_CONTAS_PAGAR')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_EXIGIVEL_LONGO_PRAZO_FINANCIAMENTOS'))]" />
         <field name="summary_report_ids" eval="False" />
-        <field name="is_brazilian_financial_report" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_PASSIVO_RESULTADO_FUTURO" model="account.financial.report">
@@ -114,7 +114,7 @@
         <field name="parent_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_PASSIVO" />
         <field name="account_type_ids" eval="[(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_RESULTADO_FUTURO_RECEITAS_DIFERIDAS')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_RESULTADO_FUTURO_CUSTOS_DIFERIDOS')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_RESULTADO_FUTURO_DESPESAS_DIFERIDAS'))]" />
         <field name="summary_report_ids" eval="False" />
-        <field name="is_brazilian_financial_report" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_PASSIVO_PATRIMONIO" model="account.financial.report">
@@ -126,7 +126,7 @@
         <field name="parent_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_PASSIVO" />
         <field name="account_type_ids" eval="[(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_PATRIMONIO_CAPITAL_SOCIAL')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_PATRIMONIO_RESERVAS_CAPITAL')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_PATRIMONIO_AJUSTES')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_PATRIMONIO_RESERVA_LUCROS')),(4, ref('sped_account.ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_PATRIMONIO_ACOES_TESOURARIA'))]" />
         <field name="summary_report_ids" eval="False" />
-        <field name="is_brazilian_financial_report" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_PASSIVO_LUCROS_PREJUIZOS" model="account.financial.report">
@@ -139,7 +139,7 @@
         <field name="account_type_ids" eval="False" />
         <field name="summary_report_ids" eval="False" />
         <field name="account_report_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_DRE_LUCRO_PREJUIZO_LIQUIDO" />
-        <field name="is_brazilian_financial_report" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_TOTAL" model="account.financial.report">
@@ -151,7 +151,7 @@
         <field name="parent_id" ref="sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_BALANCO" />
         <field name="account_type_ids" eval="False" />
         <field name="summary_report_ids" eval="[(4, ref('sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_ATIVO')),(4, ref('sped_account.ACCOUNT_FINANCIAL_REPORT_CFC_BALANCO_PASSIVO'))]" />
-        <field name="is_brazilian_financial_report" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
 </odoo>

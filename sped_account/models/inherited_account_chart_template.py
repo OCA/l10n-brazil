@@ -13,10 +13,10 @@ from odoo import api, fields, models
 class AccountChartTemplate(models.Model):
     _inherit = 'account.chart.template'
 
-    is_brazilian_chart_template = fields.Boolean(
+    is_brazilian = fields.Boolean(
         string=u'Is a Brazilian chart_template?',
     )
-    sped_empresa_id = fields.Many2one(
+    empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
         string='Empresa',
     )
@@ -25,47 +25,54 @@ class AccountChartTemplate(models.Model):
     )
 
     # @api.depends('company_id', 'currency_id')
-    # def _compute_is_brazilian_chart_template(self):
+    # def _compute_is_brazilian(self):
     #     for chart_template in self:
     #         if chart_template.company_id.country_id:
     #             if chart_template.company_id.country_id.id == \
     #                     self.env.ref('base.br').id:
-    #                 chart_template.is_brazilian_chart_template = True
+    #                 chart_template.is_brazilian = True
     #
     #                 #
     #                 # Brazilian accounting, by law, must always be in BRL
     #                 #
     #                 chart_template.currency_id = self.env.ref('base.BRL').id
     #
-    #                 if chart_template.company_id.sped_empresa_id:
-    #                     chart_template.sped_empresa_id = \
-    #                         chart_template.company_id.sped_empresa_id.id
+    #                 if chart_template.company_id.empresa_id:
+    #                     chart_template.empresa_id = \
+    #                         chart_template.company_id.empresa_id.id
     #
     #                 continue
     #
-    #         chart_template.is_brazilian_chart_template = False
+    #         chart_template.is_brazilian = False
 
-    @api.onchange('sped_empresa_id')
-    def _onchange_sped_empresa_id(self):
+    @api.onchange('empresa_id')
+    def _onchange_empresa_id(self):
         self.ensure_one()
-        self.company_id = self.sped_empresa_id.company_id
+        self.company_id = self.empresa_id.company_id
 
     @api.model
     def create(self, dados):
-        if 'company_id' in dados:
-            if 'sped_empresa_id' not in dados:
-                company = self.env['res.company'].browse(dados['company_id'])
+        if 'company_id' in dados and 'empresa_id' not in dados:
+            company = self.env['res.company'].browse(dados['company_id'])
 
-                if company.sped_empresa_id:
-                    dados['sped_empresa_id'] = company.sped_empresa_id.id
+            if company.empresa_id:
+                dados['empresa_id'] = company.empresa_id.id
 
         return super(AccountChartTemplate, self).create(dados)
 
-    @api.one
+    def write(self, dados):
+        if 'company_id' in dados and 'empresa_id' not in dados:
+            company = self.env['res.company'].browse(dados['company_id'])
+
+            if company.empresa_id:
+                dados['empresa_id'] = company.empresa_id.id
+
+        return super(AccountChartTemplate, self).write(dados)
+
     def try_loading_for_current_company(self):
         self.ensure_one()
 
-        if not self.is_brazilian_chart_template:
+        if not self.is_brazilian:
             return super(AccountChartTemplate,
                          self).try_loading_for_current_company()
 
@@ -90,7 +97,7 @@ class AccountChartTemplate(models.Model):
                        transfer_account_id=None, account_ref=None, taxes_ref=None):
         self.ensure_one()
 
-        if not self.is_brazilian_chart_template:
+        if not self.is_brazilian:
             return super(AccountChartTemplate, self)._load_template(company,
                                                                     code_digits=code_digits,
                                                                     transfer_account_id=transfer_account_id,
@@ -146,7 +153,7 @@ class AccountChartTemplate(models.Model):
                          company):
         self.ensure_one()
 
-        if not self.is_brazilian_chart_template:
+        if not self.is_brazilian:
             return super(AccountChartTemplate, self).generate_account(
                 tax_template_ref, acc_template_ref, code_digits, company)
 
@@ -175,7 +182,7 @@ class AccountChartTemplate(models.Model):
                           tax_template_ref):
         self.ensure_one()
 
-        if not self.is_brazilian_chart_template:
+        if not self.is_brazilian:
             return super(AccountChartTemplate, self)._get_account_vals(
                 company, account_template, code_acc, tax_template_ref)
 

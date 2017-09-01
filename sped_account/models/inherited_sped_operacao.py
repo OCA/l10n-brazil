@@ -13,10 +13,10 @@ from odoo import api, fields, models
 class SpedOperacao(models.Model):
     _inherit = 'sped.operacao'
 
-    journal_id = fields.Many2one(
+    account_journal_id = fields.Many2one(
         comodel_name='account.journal',
         string='Diário',
-        domain=[('is_brazilian_journal', '=', True)],
+        domain=[('is_brazilian', '=', True)],
     )
     account_move_template_ids = fields.Many2many(
         comodel_name='sped.account.move.template',

@@ -7,7 +7,6 @@ from __future__ import division, print_function, unicode_literals
 import logging
 
 from odoo import api, fields, models, _
-from openerp.addons.l10n_br_base.tools.misc import calc_price_ratio
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODELO_FISCAL_EMISSAO_PRODUTO,
     MODELO_FISCAL_EMISSAO_SERVICO,
@@ -17,9 +16,7 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     INDICADOR_PRESENCA_COMPRADOR,
     INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
 )
-from openerp.addons.l10n_br_base.models.sped_base import (
-    SpedBase
-)
+from openerp.addons.l10n_br_base.models.sped_base import SpedBase
 
 _logger = logging.getLogger(__name__)
 
@@ -667,35 +664,7 @@ class SpedCalculoImposto(SpedBase):
         return self._gera_documento(self.operacao_id, self.item_ids)
 
     def _mantem_sincronia_cadastros(self, dados):
-        if 'company_id' in dados and not 'empresa_id' in dados:
-            company = self.env['res.company'].browse(dados['company_id'])
-            if company.sped_empresa_id:
-                dados['empresa_id'] = company.sped_empresa_id.id
-
-        if 'partner_id' in dados and not 'participante_id' in dados:
-            partner = self.env['res.partner'].browse(dados['partner_id'])
-            if partner.sped_participante_id:
-                dados['participante_id'] = partner.sped_participante_id.id
-
-        if 'product_id' in dados and not 'produto_id' in dados:
-            product = self.env['product.product'].browse(dados['product_id'])
-            if product.sped_produto_id:
-                dados['produto_id'] = product.sped_produto_id.id
-
-        if 'product_id' in dados and not 'produto_id' in dados:
-            product = self.env['product.product'].browse(dados['product_id'])
-            if product.sped_produto_id:
-                dados['produto_id'] = product.sped_produto_id.id
-
-        if 'product_uom' in dados and not 'unidade_id' in dados:
-            uom = self.env['product.uom'].browse(dados['product_uom'])
-            if uom.sped_unidade_id:
-                dados['unidade_id'] = uom.sped_unidade_id.id
-
-        if 'uom_id' in dados and not 'unidade_id' in dados:
-            uom = self.env['product.uom'].browse(dados['uom_id'])
-            if uom.sped_unidade_id:
-                dados['unidade_id'] = uom.sped_unidade_id.id
+        super(SpedCalculoImposto, self)._mantem_sincronia_cadastros(dados)
 
         #
         # Outros campos não many2one
