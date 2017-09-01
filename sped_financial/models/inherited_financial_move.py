@@ -67,9 +67,9 @@ class FinancialMove(SpedBase, models.Model):
     @api.model
     def create(self, dados):
         dados = self._mantem_sincronia_cadastros(dados)
-        return super(FinancialMovet, self).create(dados)
+        return super(FinancialMove, self).create(dados)
 
     @api.model
     def write(self, dados):
         dados = self._mantem_sincronia_cadastros(dados)
-        return super(FinancialMovet, self).write(dados)
+        return super(FinancialMove, self).write(dados)
