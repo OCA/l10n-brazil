@@ -14,7 +14,7 @@ from ..constantes import *
 class AccountAccountTemplate(models.Model):
     _inherit = 'account.account.template'
 
-    is_brazilian_account = fields.Boolean(
+    is_brazilian = fields.Boolean(
         string=u'Is a Brazilian Account?',
     )
     sped_empresa_id = fields.Many2one(
@@ -32,13 +32,13 @@ class AccountAccountTemplate(models.Model):
         index=True,
     )
 
-    @api.depends('company_id', 'currency_id', 'is_brazilian_account')
-    def _compute_is_brazilian_account(self):
+    @api.depends('company_id', 'currency_id', 'is_brazilian')
+    def _compute_is_brazilian(self):
         for account in self:
             if account.company_id.country_id:
                 if account.company_id.country_id.id == \
                         self.env.ref('base.br').id:
-                    account.is_brazilian_account = True
+                    account.is_brazilian = True
 
                     #
                     # Brazilian accounts, by law, must always be in BRL
@@ -51,7 +51,7 @@ class AccountAccountTemplate(models.Model):
 
                     continue
 
-            account.is_brazilian_account = False
+            account.is_brazilian = False
 
     @api.onchange('sped_empresa_id')
     def _onchange_sped_empresa_id(self):

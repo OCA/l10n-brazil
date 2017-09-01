@@ -20,7 +20,7 @@
         <field name="arch" type="xml">
             <tree editable="bottom" string="Partidas do lançamento">
                 <!--<field name="move_id" invisible="1" />-->
-                <field name="account_id" domain="[('deprecated', '=', False), ('is_brazilian_account', '=', parent.is_brazilian_move), ('tipo_sped', '=', 'A')]"/>
+                <field name="account_id" domain="[('deprecated', '=', False), ('is_brazilian', '=', parent.is_brazilian), ('tipo_sped', '=', 'A')]"/>
                 <field name="name"/>
                 <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
                 <field name="amount_currency" groups="base.group_multi_currency"/>

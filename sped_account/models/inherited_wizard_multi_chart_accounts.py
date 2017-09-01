@@ -18,7 +18,7 @@ from odoo import api, fields, models, _
 class WizardMultiChartsAccounts(models.TransientModel):
     _inherit = 'wizard.multi.charts.accounts'
 
-    is_brazilian_chart_template = fields.Boolean(
+    is_brazilian = fields.Boolean(
         string=u'Is a Brazilian chart_template?',
     )
     transfer_account_id = fields.Many2one(
@@ -30,10 +30,10 @@ class WizardMultiChartsAccounts(models.TransientModel):
         res = \
             super(WizardMultiChartsAccounts, self).onchange_chart_template_id()
 
-        self.is_brazilian_chart_template = \
-            self.chart_template_id.is_brazilian_chart_template
+        self.is_brazilian = \
+            self.chart_template_id.is_brazilian
 
-        if self.is_brazilian_chart_template:
+        if self.is_brazilian:
             self.currency_id = self.env.ref('base.BRL').id
         elif self.chart_template_id:
             self.currency_id = self.chart_template_id.currency_id
@@ -42,7 +42,7 @@ class WizardMultiChartsAccounts(models.TransientModel):
 
     @api.multi
     def execute(self):
-        if not self.is_brazilian_chart_template:
+        if not self.is_brazilian:
             return super(WizardMultiChartsAccounts, self).execute()
 
         if not self.env.user._is_admin():

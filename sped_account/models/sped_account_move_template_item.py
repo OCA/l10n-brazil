@@ -31,10 +31,10 @@ class SpedAccountMoveTemplateItem(models.Model):
     account_debito_id = fields.Many2one(
         comodel_name='account.account',
         string='Débito',
-        domain=[('is_brazilian_account', '=', True), ('tipo_sped', '=', 'A')],
+        domain=[('is_brazilian', '=', True), ('tipo_sped', '=', 'A')],
     )
     account_credito_id = fields.Many2one(
         comodel_name='account.account',
         string='Crédito',
-        domain=[('is_brazilian_account', '=', True), ('tipo_sped', '=', 'A')],
+        domain=[('is_brazilian', '=', True), ('tipo_sped', '=', 'A')],
     )

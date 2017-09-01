@@ -18,9 +18,9 @@ class AccountAccount(models.Model):
     # _parent_order = 'code, name'
     # _order = 'parent_left, code'
 
-    is_brazilian_account = fields.Boolean(
+    is_brazilian = fields.Boolean(
         string=u'Is a Brazilian Account?',
-        compute='_compute_is_brazilian_account',
+        compute='_compute_is_brazilian',
     )
     sped_empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
@@ -94,12 +94,12 @@ class AccountAccount(models.Model):
     )
 
     @api.depends('company_id', 'currency_id')
-    def _compute_is_brazilian_account(self):
+    def _compute_is_brazilian(self):
         for account in self:
             if account.company_id.country_id:
                 if account.company_id.country_id.id == \
                         self.env.ref('base.br').id:
-                    account.is_brazilian_account = True
+                    account.is_brazilian = True
 
                     #
                     # Brazilian accounts, by law, must always be in BRL
@@ -112,7 +112,7 @@ class AccountAccount(models.Model):
 
                     continue
 
-            account.is_brazilian_account = False
+            account.is_brazilian = False
 
     def _calcula_nivel(self):
         self.ensure_one()
@@ -177,11 +177,11 @@ class AccountAccount(models.Model):
                     dados['sped_empresa_id'] = company.sped_empresa_id.id
 
         res = super(AccountAccount, self).create(dados)
-        
+
         self.recreate_account_account_tree_analysis()
-        
+
         return res
-    
+
     @api.model
     def write(self, dados):
         res = super(AccountAccount, self).write(dados)

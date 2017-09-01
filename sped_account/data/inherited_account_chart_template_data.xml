@@ -11,12 +11,11 @@
     -->
     <record id="CHART_TEMPLATE_PLANO_SIMPLIFICADO_CFC" model="account.chart.template">
         <field name="name">Plano de Contas Simplificado - Conselho Federal de Contabilidade</field>
-        <field name="is_brazilian_chart_template" eval="True" />
+        <field name="is_brazilian" eval="True" />
         <field name="currency_id" ref="base.BRL" />
         <!--<field name="cash_account_code_prefix">1.1.1.1.0</field>-->
         <!--<field name="bank_account_code_prefix">1.1.1.2.0</field>-->
         <field name="code_digits" eval="1" />
-        <field name="is_brazilian_chart_template" eval="True" />
     </record>
 
 </odoo>

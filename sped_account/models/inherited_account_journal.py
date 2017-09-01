@@ -13,9 +13,9 @@ from odoo import api, fields, models
 class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
-    is_brazilian_journal = fields.Boolean(
+    is_brazilian = fields.Boolean(
         string=u'Is a Brazilian Journal?',
-        compute='_compute_is_brazilian_journal',
+        compute='_compute_is_brazilian',
         store=True,
     )
     sped_empresa_id = fields.Many2one(
@@ -24,12 +24,12 @@ class AccountJournal(models.Model):
     )
 
     @api.depends('company_id', 'currency_id')
-    def _compute_is_brazilian_journal(self):
+    def _compute_is_brazilian(self):
         for journal in self:
             if journal.company_id.country_id:
                 if journal.company_id.country_id.id == \
                         self.env.ref('base.br').id:
-                    journal.is_brazilian_journal = True
+                    journal.is_brazilian = True
 
                     #
                     # Brazilian journals, by law, must always be in BRL
@@ -41,7 +41,7 @@ class AccountJournal(models.Model):
 
                     continue
 
-            journal.is_brazilian_journal = False
+            journal.is_brazilian = False
 
     @api.onchange('sped_empresa_id')
     def _onchange_sped_empresa_id(self):

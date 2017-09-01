@@ -14,7 +14,7 @@
         <field name="note">BALANÇO</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_ATIVO_CIRCULANTE_DISPONIVEL" model="account.account.type">
@@ -22,7 +22,7 @@
         <field name="note">BALANÇO / (+) ATIVO / CIRCULANTE</field>
         <field name="type">liquidity</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_ATIVO_CIRCULANTE_CONTAS_RECEBER" model="account.account.type">
@@ -30,7 +30,7 @@
         <field name="note">BALANÇO / (+) ATIVO / CIRCULANTE</field>
         <field name="type">receivable</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_ATIVO_CIRCULANTE_ESTOQUES" model="account.account.type">
@@ -38,7 +38,7 @@
         <field name="note">BALANÇO / (+) ATIVO / CIRCULANTE</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_ATIVO_CIRCULANTE_OUTROS_CREDITOS" model="account.account.type">
@@ -46,7 +46,7 @@
         <field name="note">BALANÇO / (+) ATIVO / CIRCULANTE</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_ATIVO_CIRCULANTE_OUTROS_DEPESAS_EXERCICIO_SEGUINTE" model="account.account.type">
@@ -54,7 +54,7 @@
         <field name="note">BALANÇO / (+) ATIVO / CIRCULANTE</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_ATIVO_REALIZAVEL_LONGO_PRAZO_CONTAS_RECEBER" model="account.account.type">
@@ -62,7 +62,7 @@
         <field name="note">BALANÇO / (+) ATIVO / REALIZÁVEL A LONGO PRAZO</field>
         <field name="type">receivable</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_ATIVO_REALIZAVEL_LONGO_PRAZO_ESTOQUES" model="account.account.type">
@@ -70,7 +70,7 @@
         <field name="note">BALANÇO / (+) ATIVO / REALIZÁVEL A LONGO PRAZO</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_ATIVO_PERMANENTE_INVESTIMENTOS" model="account.account.type">
@@ -78,7 +78,7 @@
         <field name="note">BALANÇO / (+) ATIVO / PERMANENTE</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_ATIVO_PERMANENTE_IMOBILIZADO" model="account.account.type">
@@ -86,7 +86,7 @@
         <field name="note">BALANÇO / (+) ATIVO / PERMANENTE</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_ATIVO_PERMANENTE_INTANGIVEL" model="account.account.type">
@@ -94,7 +94,7 @@
         <field name="note">BALANÇO / (+) ATIVO / PERMANENTE</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_ATIVO_PERMANENTE_DIFERIDO" model="account.account.type">
@@ -102,7 +102,7 @@
         <field name="note">BALANÇO / (+) ATIVO / PERMANENTE</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_ATIVO_PERMANENTE_DEPRECIACAO_AMORTIZACAO" model="account.account.type">
@@ -110,7 +110,7 @@
         <field name="note">BALANÇO / (+) ATIVO / PERMANENTE</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_CIRCULANTE_IMPOSTOS" model="account.account.type">
@@ -118,7 +118,7 @@
         <field name="note">BALANÇO / (-) PASSIVO / CIRCULANTE</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_CIRCULANTE_CONTAS_PAGAR" model="account.account.type">
@@ -126,7 +126,7 @@
         <field name="note">BALANÇO / (-) PASSIVO / CIRCULANTE</field>
         <field name="type">payable</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_CIRCULANTE_LUCROS_DISTRIBUIR" model="account.account.type">
@@ -134,7 +134,7 @@
         <field name="note">BALANÇO / (-) PASSIVO / CIRCULANTE</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_CIRCULANTE_EMPRESTIMOS" model="account.account.type">
@@ -142,7 +142,7 @@
         <field name="note">BALANÇO / (-) PASSIVO / CIRCULANTE</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_EXIGIVEL_LONGO_PRAZO_CONTAS_PAGAR" model="account.account.type">
@@ -150,7 +150,7 @@
         <field name="note">BALANÇO / (-) PASSIVO / EXIGÍVEL A LONGO PRAZO</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_EXIGIVEL_LONGO_PRAZO_FINANCIAMENTOS" model="account.account.type">
@@ -158,7 +158,7 @@
         <field name="note">BALANÇO / (-) PASSIVO / EXIGÍVEL A LONGO PRAZO</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_RESULTADO_FUTURO_RECEITAS_DIFERIDAS" model="account.account.type">
@@ -166,7 +166,7 @@
         <field name="note">BALANÇO / (-) PASSIVO / RESULTADOS DE EXERCÍCIOS_FUTUROS</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_RESULTADO_FUTURO_CUSTOS_DIFERIDOS" model="account.account.type">
@@ -174,7 +174,7 @@
         <field name="note">BALANÇO / (-) PASSIVO / RESULTADOS DE EXERCÍCIOS_FUTUROS</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_RESULTADO_FUTURO_DESPESAS_DIFERIDAS" model="account.account.type">
@@ -182,7 +182,7 @@
         <field name="note">BALANÇO / (-) PASSIVO / RESULTADOS DE EXERCÍCIOS_FUTUROS</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_PATRIMONIO_CAPITAL_SOCIAL" model="account.account.type">
@@ -190,7 +190,7 @@
         <field name="note">BALANÇO / (-) PASSIVO / PATRIMÔNIO LÍQUIDO</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_PATRIMONIO_RESERVAS_CAPITAL" model="account.account.type">
@@ -198,7 +198,7 @@
         <field name="note">BALANÇO / (-) PASSIVO / PATRIMÔNIO LÍQUIDO</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_PATRIMONIO_AJUSTES" model="account.account.type">
@@ -206,7 +206,7 @@
         <field name="note">BALANÇO / (-) PASSIVO / PATRIMÔNIO LÍQUIDO</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_PATRIMONIO_RESERVA_LUCROS" model="account.account.type">
@@ -214,7 +214,7 @@
         <field name="note">BALANÇO / (-) PASSIVO / PATRIMÔNIO LÍQUIDO</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
     <record id="ACCOUNT_TYPE_CFC_BALANCO_PASSIVO_PATRIMONIO_ACOES_TESOURARIA" model="account.account.type">
@@ -222,7 +222,7 @@
         <field name="note">BALANÇO / (-) PASSIVO / PATRIMÔNIO LÍQUIDO</field>
         <field name="type">other</field>
         <field name="include_initial_balance" eval="False" />
-        <field name="is_brazilian_account_type" eval="True" />
+        <field name="is_brazilian" eval="True" />
     </record>
 
 </odoo>

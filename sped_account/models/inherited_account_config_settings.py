@@ -13,7 +13,7 @@ from odoo import api, fields, models
 class AccountConfigSettings(models.TransientModel):
     _inherit = 'account.config.settings'
 
-    is_brazilian_chart_template = fields.Boolean(
+    is_brazilian = fields.Boolean(
         string=u'Is a Brazilian chart_template?',
     )
 
@@ -21,10 +21,10 @@ class AccountConfigSettings(models.TransientModel):
     def onchange_chart_template_id(self):
         res = super(AccountConfigSettings, self).onchange_chart_template_id()
 
-        self.is_brazilian_chart_template = \
-            self.chart_template_id.is_brazilian_chart_template
+        self.is_brazilian = \
+            self.chart_template_id.is_brazilian
 
-        if self.is_brazilian_chart_template:
+        if self.is_brazilian:
             self.currency_id = self.env.ref('base.BRL').id
         elif self.chart_template_id:
             self.currency_id = self.chart_template_id.currency_id
@@ -33,7 +33,7 @@ class AccountConfigSettings(models.TransientModel):
 
     @api.multi
     def set_chart_of_accounts(self):
-        if not self.is_brazilian_chart_template:
+        if not self.is_brazilian:
             return super(AccountConfigSettings, self).set_chart_of_accounts()
 
         if self.chart_template_id and not self.has_chart_of_accounts and \
@@ -56,6 +56,6 @@ class AccountConfigSettings(models.TransientModel):
                 'currency_id': self.currency_id.id,
                 'bank_account_code_prefix': self.bank_account_code_prefix or self.chart_template_id.bank_account_code_prefix,
                 'cash_account_code_prefix': self.cash_account_code_prefix or self.chart_template_id.cash_account_code_prefix,
-                'is_brazilian_chart_template': self.is_brazilian_chart_template,
+                'is_brazilian': self.is_brazilian,
             })
             wizard.execute()

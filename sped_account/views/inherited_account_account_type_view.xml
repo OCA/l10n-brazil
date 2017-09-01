@@ -11,7 +11,7 @@
         <field name="inherit_id" ref="account.view_account_type_form"/>
         <field name="arch" type="xml">
             <field name="type" position="after">
-                <field name="is_brazilian_account_type" />
+                <field name="is_brazilian" />
             </field>
         </field>
     </record>

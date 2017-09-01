@@ -15,9 +15,9 @@ from ..constantes import NATUREZA_PARTIDA, NATUREZA_PARTIDA_DEBITO, \
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    is_brazilian_move = fields.Boolean(
+    is_brazilian = fields.Boolean(
         string=u'Is a Brazilian Move?',
-        related='move_id.is_brazilian_move',
+        related='move_id.is_brazilian',
         store=True,
         readonly=True,
     )

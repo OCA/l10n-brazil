@@ -21,14 +21,9 @@ class ResPartner(models.Model):
         comodel_name='sped.empresa',
         string='Empresa',
     )
-    is_brazilian_partner = fields.Boolean(
+    is_brazilian = fields.Boolean(
         string='Is a Brazilian partner?',
-        compute='_compute_is_brazilian_partner',
-        store=True,
-    )
-    is_brazilian_company = fields.Boolean(
-        string='Is a Brazilian company?',
-        compute='_compute_is_brazilian_company',
+        compute='_compute_is_brazilian',
         store=True,
     )
     original_company_id = fields.Many2one(
@@ -47,16 +42,9 @@ class ResPartner(models.Model):
     )
 
     @api.depends('sped_participante_id')
-    def _compute_is_brazilian_partner(self):
+    def _compute_is_brazilian(self):
         for partner in self:
-            partner.is_brazilian_partner = partner.sped_participante_id
-
-    @api.depends('sped_participante_id', 'sped_empresa_id')
-    def _compute_is_brazilian_company(self):
-        for partner in self:
-            partner.is_brazilian_company = (
-                partner.sped_participante_id and
-                partner.sped_empresa_id)
+            partner.is_brazilian = partner.sped_participante_id
 
     def _compute_original_company_id(self):
         for partner in self:

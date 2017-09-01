@@ -13,9 +13,9 @@ from odoo import api, fields, models
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    is_brazilian_move = fields.Boolean(
+    is_brazilian = fields.Boolean(
         string=u'Is a Brazilian Move?',
-        compute='_compute_is_brazilian_move',
+        compute='_compute_is_brazilian',
         store=True,
     )
     sped_empresa_id = fields.Many2one(
@@ -42,22 +42,22 @@ class AccountMove(models.Model):
     )
 
     @api.depends('journal_id', 'company_id', 'currency_id', 'sped_empresa_id')
-    def _compute_is_brazilian_move(self):
+    def _compute_is_brazilian(self):
         for move in self:
             if move.sped_documento_id:
-                move.is_brazilian_move = True
+                move.is_brazilian = True
             elif move.company_id.country_id:
                 if move.sped_empresa_id:
-                    move.is_brazilian_move = True
+                    move.is_brazilian = True
 
-            if move.is_brazilian_move:
+            if move.is_brazilian:
                 #
                 # Brazilian moves, by law, must always be in BRL
                 #
                 move.currency_id = self.env.ref('base.BRL').id
                 continue
 
-            move.is_brazilian_move = False
+            move.is_brazilian = False
 
     @api.depends('sped_participante_id')
     def _onchange_sped_participante_id(self):

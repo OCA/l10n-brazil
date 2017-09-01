@@ -11,32 +11,32 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <field name="company_id" position="replace">
-                <field name="is_brazilian_move" invisible="1" />
+                <field name="is_brazilian" invisible="1" />
                 <field name="company_id"
                        options="{'no_create': True}"
                        groups="base.group_multi_company"
-                       attrs="{'invisible': [('is_brazilian_move', '=', True)]}"/>
+                       attrs="{'invisible': [('is_brazilian', '=', True)]}"/>
                 <field name="sped_empresa_id"
                        options="{'no_create': True}"
                        groups="base.group_multi_company"
-                       attrs="{'required': [('is_brazilian_move', '=', True)], 'invisible': [('is_brazilian_move', '!=', True)]}"/>
+                       attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
             </field>
             <field name="date" position="after">
                 <newline />
                 <field name="sped_participante_id"
                        options="{'no_create': True}"
-                       attrs="{'invisible': [('is_brazilian_move', '!=', True)]}"/>
+                       attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
                 <field name="partner_id"
                        options="{'no_create': True}"
-                       attrs="{'invisible': [('is_brazilian_move', '=', True)]}"/>
+                       attrs="{'invisible': [('is_brazilian', '=', True)]}"/>
                 <newline />
             </field>
             <!--<field name="journal_id" position="attributes">-->
-                <!--<attribute name="domain">[('is_brazilian_journal', '=', is_brazilian_move)]</attribute>-->
+                <!--<attribute name="domain">[('is_brazilian', '=', is_brazilian)]</attribute>-->
             <!--</field>-->
             <field name="currency_id" position="attributes">
                 <attribute name="domain">[('is_currency', '=', True)]</attribute>
-                <attribute name="invisible">[('is_brazilian_move', '=', True)]</attribute>
+                <attribute name="invisible">[('is_brazilian', '=', True)]</attribute>
             </field>
 
             <xpath expr="//field[@name='line_ids']" position="attributes">
@@ -49,7 +49,7 @@
                 <attribute name="domain">[('is_currency', '=', True)]</attribute>
             </xpath>
             <xpath expr="//field[@name='line_ids']/tree/field[@name='account_id']" position="attributes">
-                <attribute name="domain">[('deprecated', '=', False), ('is_brazilian_account', '=', parent.is_brazilian_move), ('tipo_sped', '=', 'A')]</attribute>
+                <attribute name="domain">[('deprecated', '=', False), ('is_brazilian', '=', parent.is_brazilian), ('tipo_sped', '=', 'A')]</attribute>
             </xpath>
             <xpath expr="//field[@name='line_ids']/tree/field[@name='partner_id']" position="attributes">
                 <attribute name="invisible">1</attribute>
