@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# © 2016 ACSONE SA/NV (<http://acsone.eu>)
-# © 2016 Akretion (<http://akretion.com>)
+# Copyright 2016-2017 ACSONE SA/NV (<http://acsone.eu>)
+# Copyright 2016 Akretion (<http://akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 
