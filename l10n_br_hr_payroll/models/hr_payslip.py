@@ -679,6 +679,9 @@ class HrPayslip(models.Model):
             ]
             # se o periodo aquisitivo ja estiver definido, pega o saldo de dias
             if self.periodo_aquisitivo:
+                saldo_ferias = 0
+                if self.periodo_aquisitivo:
+                    saldo_ferias = self.periodo_aquisitivo.saldo
                 #if self.tipo_de_folha in ['rescisao'] or fields.\
                 #        Date.from_string(self.date_from) < fields.Date.\
                 #        from_string(self.periodo_aquisitivo.inicio_concessivo):
@@ -686,13 +689,13 @@ class HrPayslip(models.Model):
                 #        self.periodo_aquisitivo.dias_de_direito() *\
                 #        self.medias_proventos[0]['meses'] / 12.0
                 #else:
-                if self.tipo_de_folha == 'ferias' and self.is_simulacao and \
-                        self.date_to and self.date_from:
-                    dias_saldo = fields.Datetime.from_string(self.date_to) - \
-                        fields.Datetime.from_string(self.date_from)
-                    saldo_ferias = dias_saldo.days
-                else:
-                    saldo_ferias = self.periodo_aquisitivo.avos * 2.5
+                #if self.tipo_de_folha == 'ferias' and self.is_simulacao and \
+                #        self.date_to and self.date_from:
+                #    dias_saldo = fields.Datetime.from_string(self.date_to) - \
+                #        fields.Datetime.from_string(self.date_from)
+                #    saldo_ferias = dias_saldo.days
+                #else:
+                #    saldo_ferias = self.periodo_aquisitivo.avos * 2.5
 
                 result += [
                     self.get_attendances(
