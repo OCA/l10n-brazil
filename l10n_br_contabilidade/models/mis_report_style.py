@@ -215,8 +215,10 @@ class MisReportKpiStyle(models.Model):
                 delta = AccountingNone
         elif type == TYPE_NUM:
             if value and average_value:
+                # pylint: disable=redefined-variable-type
                 value = value / float(average_value)
             if base_value and average_base_value:
+                # pylint: disable=redefined-variable-type
                 base_value = base_value / float(average_base_value)
             if compare_method == CMP_DIFF:
                 delta = value - base_value
@@ -244,10 +246,10 @@ class MisReportKpiStyle(models.Model):
 
     @api.model
     def to_xlsx_style(self, props, no_indent=False):
-        num_format = '0'
+        num_format = u'0'
         if props.dp:
-            num_format += '.'
-            num_format += '0' * props.dp
+            num_format += u'.'
+            num_format += u'0' * props.dp
         if props.prefix:
             num_format = u'"{} "{}'.format(props.prefix, num_format)
         if props.suffix:
