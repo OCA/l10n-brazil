@@ -191,7 +191,7 @@
                             <field name="rescisao_ids" colspan="4" nolabel="1">
                                 <tree>
                                     <field name="tipo"/>
-                                    <field name="codigo"/>
+                                    <field name="codigo_fmt"/>
                                     <field name="name"/>
                                     <field name="valor"/>
                                 </tree>
