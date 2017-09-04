@@ -19,6 +19,17 @@
         <field name="act_window_id" ref="sale_order_para_faturar_action"/>
     </record>
 
+    <record id="view_order_tree" model="ir.ui.view">
+        <field name="name">sale.order.tree (in sped_sale)</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="replace">
+                <field name="participante_id" string="Cliente"/>
+            </field>
+        </field>
+    </record>
+
     <record model="ir.actions.act_window.view" id="sale_order_para_faturar_form_action">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
