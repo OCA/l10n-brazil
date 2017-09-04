@@ -1,0 +1,12 @@
+<odoo>
+    <record model="ir.ui.view" id="sped_account_payment_term_form" >
+        <field name="name">sped.account.payment.term.form</field>
+        <field name="model">account.payment.term</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_account_payment_term_form"/>
+        <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="vende_acima_limite_cliente"/>
+                </field>
+        </field>
+    </record>
+</odoo>

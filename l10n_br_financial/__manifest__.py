@@ -12,12 +12,17 @@
     'website': 'www.odoobrasil.org.br',
     'depends': [
         'financial',
+        'sped_sale',
+        'l10n_br_base',
     ],
     'data': [
         'security/financeiro_cheque.xml',
         'views/financeiro_cheque.xml',
         'views/res_bank_agencia.xml',
         'views/financial_move.xml',
+        'views/account_payment_term.xml',
+        'views/sped_participante.xml',
+        'views/sale_order.xml',
     ],
     'demo': [
         'demo/financeiro_tipo_documento.xml',
