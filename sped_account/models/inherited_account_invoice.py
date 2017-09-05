@@ -99,7 +99,7 @@ class AccountInvoice(SpedCalculoImpostoProdutoServico, models.Model):
     @api.depends('date')
     def _compute_data_hora_separadas(self):
         for invoice in self:
-            data, hora = self._separa_data_hora(invoice.date_order)
+            data, hora = self._separa_data_hora(invoice.date_invoice)
             invoice.data_fatura = data
             #invoice.hora_pedido = hora
 
@@ -147,7 +147,7 @@ class AccountInvoice(SpedCalculoImpostoProdutoServico, models.Model):
             'amount_tax': self.vr_nf - self.vr_operacao,
             'amount_total': self.vr_fatura,
         }
-        invoice.update(dados)
+        self.update(dados)
 
         amount_total_company_signed = self.amount_total
         amount_untaxed_signed = self.amount_untaxed

@@ -191,7 +191,7 @@ class AccountAccount(models.Model):
 
         res = super(AccountAccount, self).write(dados)
 
-        self.recreate_financial_account_tree_analysis()
+        self.recreate_account_account_tree_analysis()
 
         return res
 
@@ -199,6 +199,6 @@ class AccountAccount(models.Model):
     def unlink(self):
         res = super(AccountAccount, self).unlink()
 
-        self.recreate_financial_account_tree_analysis()
+        self.recreate_account_account_tree_analysis()
 
         return res

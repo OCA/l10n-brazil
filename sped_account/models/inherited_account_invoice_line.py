@@ -49,13 +49,32 @@ class AccountInvoiceLine(SpedCalculoImpostoItem, models.Model):
         related='invoice_id',
         readonly=True,
     )
+
+    vr_nf = fields.Monetary(
+        compute='_amount_price_brazil'
+    )
+    vr_fatura = fields.Monetary(
+        compute='_amount_price_brazil'
+    )
+    empresa_id = fields.Many2one(
+        comodel_name='sped.empresa',
+        string='Empresa',
+        related='invoice_id.empresa_id',
+        readonly=True,
+    )
+    participante_id = fields.Many2one(
+        comodel_name='sped.participante',
+        string='Destinatário/Remetente',
+        related='invoice_id.participante_id',
+        readonly=True,
+    )
     operacao_id = fields.Many2one(
         comodel_name='sped.operacao',
         string='Operação Fiscal',
         _compute='_onchange_produto_id',
         store=True,
     )
-    data_emissao = fields.Datetime(
+    data_emissao = fields.Date(
         string='Data de emissão',
         related='documento_id.date',
         readonly=True,
@@ -129,12 +148,12 @@ class AccountInvoiceLine(SpedCalculoImpostoItem, models.Model):
         compute='_compute_permite_alteracao',
     )
 
-    documento_item_ids = fields.One2many(
-        comodel_name='sped.documento.item',
-        inverse_name='account_invoice_line_id',
-        string='Itens dos Documentos Fiscais',
-        copy=False,
-    )
+    # documento_item_ids = fields.One2many(
+    #     comodel_name='sped.documento.item',
+    #     inverse_name='account_invoice_line_id',
+    #     string='Itens dos Documentos Fiscais',
+    #     copy=False,
+    # )
 
     @api.onchange('produto_id')
     def _onchange_produto_id(self):
@@ -217,7 +236,7 @@ class AccountInvoiceLine(SpedCalculoImpostoItem, models.Model):
         self.ensure_one()
 
         return {
-            'account_invoice_line_id': self.id,
+            # 'account_invoice_line_id': self.id,
         }
 
     @api.model
