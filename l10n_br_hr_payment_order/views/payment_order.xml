@@ -6,7 +6,7 @@
 <data>
 
 
-    <record model="ir.ui.view" id="payment_order_foha_form">
+    <record model="ir.ui.view" id="payment_order_folha_form">
         <field name="name">payment.order.folha.form (in l10n_br_financial_payment_order)</field>
         <field name="model">payment.order</field>
         <field name="mode">primary</field>
@@ -72,7 +72,7 @@
     <record model="ir.actions.act_window.view" id="payment_order_pagamento_form_action">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="payment_order_foha_form"/>
+        <field name="view_id" ref="payment_order_folha_form"/>
         <field name="act_window_id" ref="payment_order_folha_act_window"/>
     </record>
 
