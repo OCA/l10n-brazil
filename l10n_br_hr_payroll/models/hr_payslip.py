@@ -1648,20 +1648,20 @@ class HrPayslip(models.Model):
                         baselocaldict, line.salary_rule_id.category_id,
                         line.total)
 
-                    # if line.category_id.code == 'DEDUCAO':
-                    #    if line.salary_rule_id.compoe_base_INSS:
-                    #        baselocaldict['BASE_INSS'] -= line.total
-                    #    if line.salary_rule_id.compoe_base_IR:
-                    #        baselocaldict['BASE_IR'] -= line.total
-                    #    if line.salary_rule_id.compoe_base_FGTS:
-                    #        baselocaldict['BASE_FGTS'] -= line.total
-                    # else:
-                    #    if line.salary_rule_id.compoe_base_INSS:
-                    #        baselocaldict['BASE_INSS'] += line.total
-                    #    if line.salary_rule_id.compoe_base_IR:
-                    #        baselocaldict['BASE_IR'] += line.total
-                    #    if line.salary_rule_id.compoe_base_FGTS:
-                    #        baselocaldict['BASE_FGTS'] += line.total
+                    if line.category_id.code == 'DEDUCAO':
+                       if line.salary_rule_id.compoe_base_INSS:
+                           baselocaldict['BASE_INSS'] -= line.total
+                       if line.salary_rule_id.compoe_base_IR:
+                           baselocaldict['BASE_IR'] -= line.total
+                       if line.salary_rule_id.compoe_base_FGTS:
+                           baselocaldict['BASE_FGTS'] -= line.total
+                    else:
+                       if line.salary_rule_id.compoe_base_INSS:
+                           baselocaldict['BASE_INSS'] += line.total
+                       if line.salary_rule_id.compoe_base_IR:
+                           baselocaldict['BASE_IR'] += line.total
+                       if line.salary_rule_id.compoe_base_FGTS:
+                           baselocaldict['BASE_FGTS'] += line.total
 
                     # Cria ajuste de INSS (Provento) proporcional às ferias
                     # Como ja foi pago o INSS no aviso de ferias, É criado
