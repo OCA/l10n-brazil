@@ -16,30 +16,26 @@ class SpedParticipante(models.Model):
     available_credit_limit = fields.Float(
         string=u'Limite de Crédito Disponível',
         digits=(16, 2),
-        compute='_compute_credit',
         store=True,
     )
     credit = fields.Float(
         string=u'Saldo devedor',
         digits=(16, 2),
-        compute='_compute_credit',
         store=True,
     )
 
-    @api.depends('credit_limit')
+    @api.onchange('credit_limit')
     def _compute_credit(self):
         for participante in self:
-            credito = 0.00
-            contas = self.env['financial.move'].search([
-                ('participante_id', '=',
-                 participante.env.context.get('params').get('id') or
-                 participante.id
-                 ),
-                ('type', '=', '2receive'),
-                ('state', '=', 'open'),
-            ])
-            for conta in contas:
-                credito += conta.amount_residual
-            participante.credit = credito
+            if participante.id:
+                credito = 0.00
+                contas = self.env['financial.move'].search([
+                    ('participante_id', '=', participante.id),
+                    ('type', '=', '2receive'),
+                    ('state', '=', 'open'),
+                ])
+                for conta in contas:
+                    credito += conta.amount_residual
+                participante.credit = credito
             participante.available_credit_limit = \
-                participante.credit_limit - credito
+                participante.credit_limit - participante.credit

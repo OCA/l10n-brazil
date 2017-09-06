@@ -64,11 +64,11 @@
         <field name="inherit_id" ref="l10n_br_base.sped_participante_base_form"/>
         <field name="arch" type="xml">
             <field name="eh_cliente" position="after">
-                <field name="credit"
+                <field name="credit" readonly="True"
                        attrs="{'invisible': [('eh_cliente', '=', False)]}"/>
                 <field name="credit_limit"
                        attrs="{'invisible': [('eh_cliente', '=', False)]}"/>
-                <field name="available_credit_limit"
+                <field name="available_credit_limit" readonly="True"
                        attrs="{'invisible': [('eh_cliente', '=', False)]}"/>
             </field>
         </field>

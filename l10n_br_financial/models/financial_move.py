@@ -19,9 +19,11 @@ class FinancialMove(models.Model):
 
     amount_document = fields.Float(
         string=u'Valor',
+        compute='_set_amount_document',
+        store=True,
     )
 
-    @api.onchange('cheque_id', 'cheque_id.valor')
+    @api.depends('cheque_id', 'cheque_id.valor')
     def _set_amount_document(self):
         if self.cheque_id and self.cheque_id.valor:
             self.amount_document = self.cheque_id.valor
