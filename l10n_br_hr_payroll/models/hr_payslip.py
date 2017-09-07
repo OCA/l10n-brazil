@@ -74,12 +74,18 @@ class HrPayslip(models.Model):
          'unique(contract_id, tipo_de_folha, date_from, date_to, is_simulacao, periodo_aquisitivo)',
          'Este Holerite já existe!')
     ]
-    def hr_verify_sheet(self):
-        return self.write({'state': 'verify'})
 
-    @api.one
-    def reopen_sheet(self):
-        return self.write({'state': 'draft'})
+    @api.multi
+    def hr_verify_sheet(self):
+        for holerite in self:
+            if holerite.state == 'draft':
+                holerite.write({'state': 'verify'})
+
+    @api.multi
+    def draft(self):
+        for holerite in self:
+            if holerite.state == 'verify':
+                holerite.write({'state': 'draft'})
 
     @api.multi
     def name_get(self):

@@ -43,9 +43,15 @@
             <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
             <field name="priority" eval="105"/>
             <field name="arch" type="xml">
+
+                <!-- Altera botões -->
                 <button name="cancel_sheet" position="replace"/>
-                <button name="hr_verify_sheet" position="after">
-                    <button name="reopen_sheet" string="Reabrir" states="waiting" groups="base.group_no_one"/>
+                <button name="hr_verify_sheet" position="attributes">
+                    <attribute name="type">object</attribute>
+                </button>
+                <button name="draft" position="attributes">
+                    <attribute name="states">verify</attribute>
+                    <attribute name="type">object</attribute>
                 </button>
                 <!-- Adiciona abas -->
                 <xpath expr="//notebook" position="replace">
@@ -295,7 +301,7 @@
                 <tree string="Payslips">
                     <field name="number"/>
                     <field name="employee_id"/>
-                    <field name="name"/>
+                    <field name="data_mes_ano"/>
                     <field name="date_from"/>
                     <field name="date_to"/>
                     <field name="state"/>
@@ -328,7 +334,7 @@
                 <tree string="Payslips">
                     <field name="number"/>
                     <field name="employee_id"/>
-                    <field name="name"/>
+                    <field name="data_mes_ano"/>
                     <field name="date_from"/>
                     <field name="date_to"/>
                     <field name="state"/>
