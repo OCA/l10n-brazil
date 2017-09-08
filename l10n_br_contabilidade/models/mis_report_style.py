@@ -229,7 +229,7 @@ class MisReportKpiStyle(models.Model):
             elif compare_method == CMP_PCT:
                 if base_value and round(base_value, style_props.dp or 0) != 0:
                     delta = (value - base_value) / abs(base_value)
-                    if delta and round(delta, 1) != 0:
+                    if delta and round(delta, 3) != 0:
                         style_r.update(dict(
                             divider=0.01, dp=1, prefix='', suffix='%'))
                     else:
