@@ -36,7 +36,7 @@ CALCULO_FOLHA_PT_BR = {
 class HrSalaryRule(models.Model):
     _inherit = 'hr.salary.rule'
 
-    sequence = fields.Float(
+    sequence = fields.Integer(
         string=u'Sequence',
     )
     compoe_base_INSS = fields.Boolean(

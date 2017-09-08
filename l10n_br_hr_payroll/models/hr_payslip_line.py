@@ -38,9 +38,9 @@ class HrPayslipeLine(models.Model):
         compute='_compute_arredondamento'
     )
 
-    sequence = fields.Float(
-        string=u'Sequence',
-    )
+    #sequence = fields.Integer(
+    #    string=u'Sequence',
+    #)
 
     rate = fields.Float(
         digits=(18, 11),
