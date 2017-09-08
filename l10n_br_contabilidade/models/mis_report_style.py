@@ -148,11 +148,7 @@ class MisReportKpiStyle(models.Model):
             else:
                 for prop in PROPS:
                     inherit = getattr(style, prop + '_inherit', None)
-                    if inherit is None:
-                        value = getattr(style, prop)
-                        if value:
-                            r[prop] = value
-                    elif not inherit:
+                    if not inherit:
                         value = getattr(style, prop)
                         r[prop] = value
         return r
