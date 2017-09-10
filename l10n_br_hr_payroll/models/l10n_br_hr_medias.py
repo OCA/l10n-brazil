@@ -142,7 +142,7 @@ class L10nBrHrMedias(models.Model):
             ('date_to', '<=', data_fim),
             ('contract_id', '=', holerite_id.contract_id.id),
             ('tipo_de_folha', '=', 'normal'),
-            ('state', '=', 'done'),
+            ('state', 'in', ['done', 'verify']),
         ]
         folhas_periodo = folha_obj.search(domain)
         folhas_periodo = folhas_periodo.sorted(key=lambda r: r.date_from)
