@@ -37,73 +37,54 @@ function l10n_br_pos_screens(instance, module) {
             this.el.querySelector('.busca-cpf-cnpj').addEventListener('keydown',this.search_handler);
             $('.busca-cpf-cnpj', this.el).keydown(function(e){
                 if(e.which == 13){
-                    var documento = $('.busca-cpf-cnpj').val().replace(/[^\d]+/g,'');
-                    if (self.verificar_cpf_cnpj(documento)){
-                        partner = self.pos.db.get_partner_by_identification(self.pos.partners, documento);
-                        self.old_client = partner;
-                        self.new_client = self.old_client;
-                        if (partner){
-                            self.pos.get('selectedOrder').set_client(self.new_client);
-                        }else{
-                            if (self.pos.config.save_identity_automatic){
-                                new_partner = {};
-                                new_partner["name"] = documento;
-                                if (new_partner["name"].length > 11){
-                                    new_partner["is_company"] = true;
-                                }
-                                new_partner["cnpj_cpf"] = documento;
-                                // new_partner["property_account_receivable"] = 9;
-                                // new_partner["property_account_payable"] = 17;
-                                self.pos_widget.order_widget.save_client_details(new_partner);
-                            }
-                        }
-                    } else {
-                        self.pos_widget.screen_selector.show_popup('error',{
-                            message: _t('CPF/CNPJ digitado esta incorreto!'),
-                        });
-                    }
+                    self.search_client_by_cpf_cnpj($('.busca-cpf-cnpj').val().replace(/[^\d]+/g,''));
                 }
             });
 
             this.el.querySelector('.btn-busca-cpf-cnpj').addEventListener('click',this.search_handler);
             $('.btn-busca-cpf-cnpj', this.el).click(function(e){
-                var documento = $('.busca-cpf-cnpj').val().replace(/[^\d]+/g,'');
-                if (self.verificar_cpf_cnpj(documento)){
-                    partner = self.pos.db.get_partner_by_identification(self.pos.partners, documento);
-                    self.old_client = partner;
-                    self.new_client = self.old_client;
-                    if (partner){
-                        self.pos.get('selectedOrder').set_client(self.new_client);
-                    }else{
-                        if (self.pos.config.save_identity_automatic){
-                            new_partner = {};
-                            new_partner["name"] = documento;
-                            if (new_partner["name"].length > 11){
-                                new_partner["is_company"] = true;
-                            }
-                            new_partner["cnpj_cpf"] = documento;
-                            self.pos_widget.order_widget.save_client_details(new_partner);
-                        }
-                    }
-                } else {
-                    self.pos_widget.screen_selector.show_popup('error',{
-                        message: _t('CPF/CNPJ digitado esta incorreto!'),
-                    });
-                }
+                self.search_client_by_cpf_cnpj($('.busca-cpf-cnpj').val().replace(/[^\d]+/g,''));
             });
 
          },
+        search_client_by_cpf_cnpj: function(documento) {
+            var self = this;
+
+            if (self.verificar_cpf_cnpj(documento)){
+                pos_db = self.pos.db;
+                partner = pos_db.get_partner_by_identification(self.pos.partners, documento);
+                self.old_client = partner;
+                self.new_client = self.old_client;
+                if (partner){
+                    self.pos.get('selectedOrder').set_client(self.new_client);
+                }else{
+                    if (self.pos.config.save_identity_automatic){
+                        new_partner = {};
+                        new_partner["name"] = pos_db.add_pontuation_document(documento);
+                        if (new_partner["name"].length > 14){
+                            new_partner["is_company"] = true;
+                        }
+                        new_partner["cnpj_cpf"] = pos_db.add_pontuation_document(documento);
+                        self.pos_widget.order_widget.save_client_details(new_partner);
+                    }
+                }
+            } else {
+                self.pos_widget.screen_selector.show_popup('error',{
+                    message: _t('CPF/CNPJ digitado esta incorreto!'),
+                });
+            }
+        },
         save_client_details: function(partner) {
             var self = this;
 
-            var fields = {}
+            var fields = {};
             this.$('.client-details-contents .detail').each(function(idx,el){
                 fields[el.name] = el.value;
             });
 
             if (!partner.name) {
                 this.pos_widget.screen_selector.show_popup('error',{
-                    message: _t('Um nome de usu?rio ? obrigat?rio'),
+                    message: _t('Um nome de usuário é obrigatório'),
                 });
                 return;
             }
@@ -129,13 +110,14 @@ function l10n_br_pos_screens(instance, module) {
                     if (self.pos.config.pricelist_id){
                         self.pos.pricelist_engine.update_products_ui(self.new_client);
                     }
+                    self.pos.partners.push(new_partner);
                     return true;
                 });
             },function(err,event){
                 event.preventDefault();
                 self.pos_widget.screen_selector.show_popup('error',{
-                    'message':_t('Error: N?o foi poss?vel salvar o cpf'),
-                    'comment':_t('O cpf j? existe no sistema ou n?o foi poss?vel cadastra-lo no banco de dados.'),
+                    'message':_t('Error: Não foi possível salvar o cpf'),
+                    'comment':_t('O cpf já existe no sistema ou não foi possível cadastrá-lo no banco de dados.'),
                 });
                 return false;
             });
