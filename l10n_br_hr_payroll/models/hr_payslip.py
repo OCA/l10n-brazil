@@ -1391,7 +1391,7 @@ class HrPayslip(models.Model):
                 return line.total
         return 0
 
-    def busca_adiantamento_13(self, ano):
+    def busca_adiantamento_13(self):
         '''Metodo para recuperar valor pago de adiantamento de 13º no ano
         :param ano:  int -   Ano para buscar
         :return:     float - Valor pago neste ano
@@ -1400,7 +1400,8 @@ class HrPayslip(models.Model):
             ('tipo_de_folha', '=', 'normal'),
             ('contract_id', '=', self.contract_id.id),
             ('state', 'in', ['done','verify']),
-            ('ano', '=', ano),
+            ('ano', '=', self.ano.ano),
+            ('mes', '<=', self.mes_do_ano),
         ]
         holerites = self.search(
             domain, order='mes_do_ano DESC')
