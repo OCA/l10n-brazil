@@ -1400,7 +1400,7 @@ class HrPayslip(models.Model):
             ('tipo_de_folha', '=', 'normal'),
             ('contract_id', '=', self.contract_id.id),
             ('state', 'in', ['done','verify']),
-            ('ano', '=', self.ano.ano),
+            ('ano', '=', self.ano),
             ('mes', '<=', self.mes_do_ano),
         ]
         holerites = self.search(
