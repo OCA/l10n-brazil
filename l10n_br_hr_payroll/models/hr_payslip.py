@@ -1611,10 +1611,12 @@ class HrPayslip(models.Model):
         else:
             avos_13 = payslip.mes_do_ano
         if payslip.contract_id.date_end:
-            dia_fim_contrato = \
-                fields.Date.from_string(payslip.contract_id.date_end).day
-            if dia_fim_contrato <= 15:
-                avos_13 -= 1
+            if datetime.strptime(payslip.contract_id.date_end, '%Y-%m-%d').month \
+                    == payslip.mes_do_ano:
+                dia_fim_contrato = \
+                    fields.Date.from_string(payslip.contract_id.date_end).day
+                if dia_fim_contrato <= 15:
+                    avos_13 -= 1
 
         # Obtém os avos do payslip para as Provisão de Férias
 
