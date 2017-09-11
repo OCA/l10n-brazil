@@ -37,19 +37,19 @@ function l10n_br_pos_screens(instance, module) {
             this.el.querySelector('.busca-cpf-cnpj').addEventListener('keydown',this.search_handler);
             $('.busca-cpf-cnpj', this.el).keydown(function(e){
                 if(e.which == 13){
-                    self.search_client_by_cpf_cnpj();
+                    self.search_client_by_cpf_cnpj($('.busca-cpf-cnpj').val().replace(/[^\d]+/g,''));
                 }
             });
 
             this.el.querySelector('.btn-busca-cpf-cnpj').addEventListener('click',this.search_handler);
             $('.btn-busca-cpf-cnpj', this.el).click(function(e){
-                self.search_client_by_cpf_cnpj();
+                self.search_client_by_cpf_cnpj($('.busca-cpf-cnpj').val().replace(/[^\d]+/g,''));
             });
 
          },
-        search_client_by_cpf_cnpj: function() {
+        search_client_by_cpf_cnpj: function(documento) {
             var self = this;
-            var documento = $('.busca-cpf-cnpj').val().replace(/[^\d]+/g,'');
+
             if (self.verificar_cpf_cnpj(documento)){
                 pos_db = self.pos.db;
                 partner = pos_db.get_partner_by_identification(self.pos.partners, documento);
@@ -84,7 +84,7 @@ function l10n_br_pos_screens(instance, module) {
 
             if (!partner.name) {
                 this.pos_widget.screen_selector.show_popup('error',{
-                    message: _t('Um nome de usu?rio ? obrigat?rio'),
+                    message: _t('Um nome de usuário é obrigatório'),
                 });
                 return;
             }
@@ -116,8 +116,8 @@ function l10n_br_pos_screens(instance, module) {
             },function(err,event){
                 event.preventDefault();
                 self.pos_widget.screen_selector.show_popup('error',{
-                    'message':_t('Error: N?o foi poss?vel salvar o cpf'),
-                    'comment':_t('O cpf j? existe no sistema ou n?o foi poss?vel cadastra-lo no banco de dados.'),
+                    'message':_t('Error: Não foi possível salvar o cpf'),
+                    'comment':_t('O cpf já existe no sistema ou não foi possível cadastrá-lo no banco de dados.'),
                 });
                 return false;
             });
