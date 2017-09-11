@@ -1401,7 +1401,7 @@ class HrPayslip(models.Model):
             ('contract_id', '=', self.contract_id.id),
             ('state', 'in', ['done','verify']),
             ('ano', '=', self.ano),
-            ('mes', '<=', self.mes_do_ano),
+            ('mes_do_ano', '<=', self.mes_do_ano),
         ]
         holerites = self.search(
             domain, order='mes_do_ano DESC')
