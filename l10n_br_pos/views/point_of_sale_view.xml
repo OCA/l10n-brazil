@@ -110,6 +110,7 @@
         </field>
         <field name="iface_invoicing" position="after">
             <field name="save_identity_automatic"/>
+            <field name="cpf_nota"/>
         </field>
         <field name="iface_print_via_proxy" position="after">
             <field name="iface_sat_via_proxy"/>

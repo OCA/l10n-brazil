@@ -47,6 +47,11 @@ class PosConfig(models.Model):
         default=True
     )
 
+    cpf_nota = fields.Boolean(
+        string=u'Inserir CPF na nota',
+        default=False
+    )
+
     iface_sat_via_proxy = fields.Boolean(
         string=u'SAT',
         help=u"Ao utilizar o SAT é necessário ativar esta opção"
