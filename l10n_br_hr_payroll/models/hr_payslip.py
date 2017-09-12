@@ -2024,6 +2024,10 @@ class HrPayslip(models.Model):
                     record.holidays_ferias.controle_ferias[0]
                 record.date_from = record.holidays_ferias.data_inicio
                 record.date_to = record.holidays_ferias.data_fim
+                record.mes_do_ano = \
+                    datetime.strptime(record.date_from, '%Y-%m-%d').month
+                record.ano = \
+                    datetime.strptime(record.date_from, '%Y-%m-%d').year
                 continue
 
             mes = record.mes_do_ano
