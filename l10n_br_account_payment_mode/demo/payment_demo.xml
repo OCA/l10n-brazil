@@ -70,7 +70,7 @@
             <field name="bra_number">1565</field>
             <field name="bra_number_dig">1</field>
             <field name="state">bank</field>
-            <field name="bank" ref="l10n_br_data_base.res_bank_43"/>
+            <field name="bank" ref="l10n_br_data_base.res_bank_38"/>
             <field name="partner_id" ref="base.main_partner"/>
             <field name="bank_name">CAIXA ECONOMICA FEDERAL</field>
             <field name="bank_bic">104</field>
