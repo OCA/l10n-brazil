@@ -2013,11 +2013,11 @@ class HrPayslip(models.Model):
 
     # @api.depends('mes_do_ano', 'ano', 'holidays_ferias', 'data_afastamento')
     @api.multi
-    @api.onchange('mes_do_ano', 'ano', 'data_afastamento', 'date_from', 'date_to')
+    @api.onchange('mes_do_ano', 'ano', 'data_afastamento', 'date_from', 'date_to', 'holidays_ferias')
     def _compute_set_dates(self):
         for record in self:
             if not record.mes_do_ano:
-                record.mes_do_ano = datetime.now().month
+                record.mes_do_ano = datetime.now().months
                 record.mes_do_ano2 = datetime.now().month
             if record.tipo_de_folha == 'ferias' and record.holidays_ferias:
                 record.periodo_aquisitivo =\

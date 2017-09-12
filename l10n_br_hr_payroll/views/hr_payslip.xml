@@ -253,7 +253,7 @@
                                    attrs="{'readonly': False, 'required': [('tipo_de_folha', '=', 'ferias'), ('is_simulacao', '=', False)]}"/>
 
                             <field name="periodo_aquisitivo"
-                                   attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')], 'readonly': [('is_simulacao', '=', False)]}" />
+                                   attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}" />
 
                             <field name="saldo_periodo_aquisitivo"
                                    attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
