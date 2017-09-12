@@ -173,6 +173,11 @@ function l10n_br_pos_models(instance, module) {
     var PosOrderSuper = module.Order;
 
     module.Order = module.Order.extend({
+        initialize: function(attributes){
+            PosOrderSuper.prototype.initialize.apply(this, arguments);
+            this.attributes.cpf_nota = null;
+            return this;
+        },
         get_return_cfe: function () {
             return this.cfe_return;
         },
@@ -211,7 +216,7 @@ function l10n_br_pos_models(instance, module) {
                 result['company'] = {};
                 result['configs_sat'] = {};
                 result['pos_session_id'] = this.pos.pos_session.id;
-                result['client'] = client ? client.cnpj_cpf : null;
+                result['client'] = this.attributes.cpf_nota;
                 result['company']['cnpj'] = company.cnpj;
                 result['company']['ie'] = company.ie;
                 result['company']['cnpj_software_house'] = company.cnpj_software_house;
@@ -224,7 +229,7 @@ function l10n_br_pos_models(instance, module) {
                 return result;
             }else{
                 result['pos_session_id'] = this.pos.pos_session.id;
-                result['client'] = client ? client.cnpj_cpf : null;
+                result['client'] = this.attributes.cpf_nota;
                 result['cfe_return'] = this.get_return_cfe() ? this.get_return_cfe() : false;
                 result['num_sessao_sat'] = this.get_num_sessao_sat() ? this.get_num_sessao_sat() : false;
                 result['chave_cfe'] = this.get_chave_cfe() ? this.get_chave_cfe() : false;
@@ -260,7 +265,7 @@ function l10n_br_pos_models(instance, module) {
                 result['configs_sat']['cod_ativacao'] = pos_config.cod_ativacao;
                 result['configs_sat']['impressora'] = pos_config.impressora;
                 result['configs_sat']['printer_params'] = pos_config.printer_params;
-                result['client'] = client ? client.cnpj_cpf : null;
+                result['client'] = this.attributes.cpf_nota;
                 result['cfe_return'] = this.get_return_cfe() ? this.get_return_cfe() : false;
                 result['num_sessao_sat'] = this.get_num_sessao_sat() ? this.get_num_sessao_sat() : false;
                 result['chave_cfe'] = this.get_chave_cfe() ? this.get_chave_cfe() : false;
@@ -268,7 +273,7 @@ function l10n_br_pos_models(instance, module) {
                 return result;
             }else{
                 result['pos_session_id'] = this.pos.pos_session.id;
-                result['client'] = client ? client.cnpj_cpf : null;
+                result['client'] = this.attributes.cpf_nota;
                 result['cfe_return'] = this.get_return_cfe() ? this.get_return_cfe() : false;
                 result['num_sessao_sat'] = this.get_num_sessao_sat() ? this.get_num_sessao_sat() : false;
                 result['chave_cfe'] = this.get_chave_cfe() ? this.get_chave_cfe() : false;
