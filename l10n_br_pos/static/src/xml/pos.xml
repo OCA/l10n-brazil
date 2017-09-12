@@ -213,6 +213,25 @@
         </tr>
     </t>
 
+    <t t-name="CPFNaNota">
+        <div class="modal-dialog">
+            <div class="popup popup-confirm">
+                <p class="message"><t t-esc=" widget.message" /></p>
+                <div clss="paymentline">
+                    <input class='busca-cpf-cnpj-popup' name="busca-cpf-cnpj-popup" placeholder="Insira o CPF/CNPJ" t-att-value="widget.cpf_nota" />
+                </div>
+                <div class="footer">
+                    <div class="button nao">
+                        Não
+                    </div>
+                    <div class="button sim">
+                        Sim
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
     <t t-name="PosOrderListScreenWidget">
         <div class="clientlist-screen screen">
             <div class="screen-content">

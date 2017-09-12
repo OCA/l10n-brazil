@@ -199,6 +199,44 @@ function l10n_br_pos_screens(instance, module) {
         }
     });
 
+    module.CPFNaNotaPopupWidget = module.PopUpWidget.extend({
+        template: 'CPFNaNota',
+        show: function(options){
+            var self = this;
+            this._super();
+
+            this.message = options.message || '';
+            this.comment = options.comment || '';
+            var cliente_cpf = '';
+            var currentOrder = this.pos.get('selectedOrder').attributes;
+            if (currentOrder.client) {
+                cliente_cpf = currentOrder.client.cnpj_cpf;
+            }
+            this.cpf_nota = cliente_cpf;
+            this.renderElement();
+
+            this.$('.button.sim').click(function(){
+                var cpf = $('.busca-cpf-cnpj-popup').val();
+                if (cpf){
+                    self.pos_widget.screen_selector.close_popup();
+                    if (!currentOrder.client) {
+                        self.pos_widget.order_widget.search_client_by_cpf_cnpj(cpf.replace(/[^\d]+/g,''));
+                    }
+                    currentOrder = self.pos.get('selectedOrder').attributes;
+                    currentOrder["cpf_nota"] = currentOrder.client.cnpj_cpf;
+                    self.pos_widget.payment_screen.validate_order();
+                } else {
+                    alert('O cpf deve ser inserido no campo para que seja transmitido no cupom fiscal.');
+                }
+            });
+
+            this.$('.button.nao').click(function(){
+                self.pos_widget.screen_selector.close_popup();
+                self.pos_widget.payment_screen.validate_order();
+            });
+        }
+    });
+
     module.PosOrderListWidget = module.PosBaseWidget.extend({
         template: 'PosOrderListWidget',
         renderElement: function() {
@@ -235,6 +273,12 @@ function l10n_br_pos_screens(instance, module) {
     });
 
     module.PaymentScreenWidget = module.PaymentScreenWidget.extend({
+        validar_cpf_nota: function() {
+            var self = this;
+            self.pos_widget.screen_selector.show_popup('cpf_nota_sat_popup',{
+                message: _t('Deseja inserir o cpf no cupom fiscal?')
+            });
+        },
         validate_order: function(options) {
             this._super();
             options = options || {};
@@ -243,6 +287,9 @@ function l10n_br_pos_screens(instance, module) {
             if (this.pos.config.iface_sat_via_proxy){
                 var status = this.pos.proxy.get('status');
                 var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
+                if (this.pos.config.cpf_nota) {
+                    this.pos_widget.action_bar.set_button_disabled('validation', true);
+                }
                 if( sat_status == 'connected'){
                     if(options.invoice){
                         // deactivate the validation button while we try to send the order
@@ -263,12 +310,21 @@ function l10n_br_pos_screens(instance, module) {
                                     comment: _t('Check your internet connection and try again.'),
                                 });
                             }
-                            this.pos_widget.action_bar.set_button_disabled('validation',false);
+                            if (this.pos.config.cpf_nota) {
+                                this.pos_widget.action_bar.set_button_disabled('validation',true);
+                            } else {
+                                this.pos_widget.action_bar.set_button_disabled('validation',false);
+                            }
+
                             this.pos_widget.action_bar.set_button_disabled('invoice',false);
                         });
 
                         invoiced.done(function(){
-                            this.pos_widget.action_bar.set_button_disabled('validation',false);
+                            if (this.pos.config.cpf_nota) {
+                                this.pos_widget.action_bar.set_button_disabled('validation',true);
+                            } else {
+                                this.pos_widget.action_bar.set_button_disabled('validation',false);
+                            }
                             this.pos_widget.action_bar.set_button_disabled('invoice',false);
                             this.pos.get('selectedOrder').destroy();
                         });
@@ -276,6 +332,8 @@ function l10n_br_pos_screens(instance, module) {
                     }else{
                         var retorno_sat = {};
                         if(this.pos.config.iface_sat_via_proxy){
+                            this.pos_widget.action_bar.set_button_disabled('validation',true);
+                            this.pos_widget.action_bar.set_button_disabled('validation',true);
                             var receipt = currentOrder.export_for_printing();
                             var json = currentOrder.export_for_printing();
                             this.pos.proxy.send_order_sat(
@@ -318,6 +376,37 @@ function l10n_br_pos_screens(instance, module) {
                 }
             }
 
+        },
+        show: function(){
+            this._super();
+            var self = this;
+            if (this.pos.config.cpf_nota) {
+                this.pos_widget.action_bar.destroy_buttons();
+                this.add_action_button({
+                    label: _t('Back'),
+                    icon: '/point_of_sale/static/src/img/icons/png48/go-previous.png',
+                    click: function(){
+                        self.back();
+                    }
+                });
+                this.add_action_button({
+                    label: _t('Venda SAT'),
+                    name: 'venda_sat',
+                    icon: '/point_of_sale/static/src/img/icons/png48/validate.png',
+                    click: function () {
+                        self.validar_cpf_nota();
+                    }
+                });
+                this.update_payment_summary();
+            }
+        },
+        update_payment_summary: function() {
+            this._super();
+            var self = this;
+
+            if(self.pos_widget.action_bar){
+                self.pos_widget.action_bar.set_button_disabled('venda_sat', !self.is_paid());
+            }
         }
     });
 
