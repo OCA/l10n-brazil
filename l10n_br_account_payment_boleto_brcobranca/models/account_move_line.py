@@ -77,8 +77,8 @@ class AccountMoveLine(models.Model):
                       'documento_cedente': boleto.cedente_documento,
                       'sacado': boleto.sacado_nome,
                       'sacado_documento': boleto.sacado_documento,
-                      'agencia': boleto.agencia_cedente,
-                      'conta_corrente': boleto.conta_cedente,
+                      'agencia': move_line.payment_mode_id.bank_id.bra_number,
+                      'conta_corrente': move_line.payment_mode_id.bank_id.acc_number,
                       'convenio': boleto.convenio,
                       'numero_documento': move_line.id,
                       'data_vencimento': boleto.data_vencimento.strftime(
