@@ -21,6 +21,7 @@
         'l10n_br_stock_account',
     ],
     'data': [
+        'security/ir.model.access.csv',
         "wizard/l10n_br_pos_order_return.xml",
         "views/pos_template.xml",
         "views/point_of_sale_view.xml",
