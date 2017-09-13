@@ -100,6 +100,8 @@
                         <group>
                             <group string="Vendas" name="vendas">
                                 <field name="eh_cliente" />
+                                <newline />
+                                <field name="user_id" string="Representante" />
                             </group>
                             <group string="Compras" name="compras">
                                 <field name="eh_fornecedor" />
