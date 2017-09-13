@@ -12,6 +12,8 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     MODELO_FISCAL_EMISSAO_PRODUTO,
     MODELO_FISCAL_EMISSAO_SERVICO,
     TIPO_PESSOA_FISICA,
+    REGIME_TRIBUTARIO,
+    REGIME_TRIBUTARIO_SIMPLES,
 )
 from openerp.addons.l10n_br_base.models.sped_base import (
     SpedBase
@@ -29,6 +31,29 @@ from .sped_calculo_imposto import SpedCalculoImposto
 
 class SpedCalculoImpostoProdutoServico(SpedCalculoImposto):
     _abstract = False
+
+    #
+    # As 2 operações fiscais abaixo servem para que se calcule ao mesmo tempo,
+    # numa venda ou compra, os impostos de acordo com o documento correto
+    # para produtos e serviços, quando via de regra sairão 2 notas fiscais,
+    # uma de produto e outra separada de serviço (pela prefeitura)
+    #
+    operacao_produto_id = fields.Many2one(
+        comodel_name='sped.operacao',
+        string='Operação Fiscal (produtos)',
+        domain=[('modelo', 'in', MODELO_FISCAL_EMISSAO_PRODUTO)],
+    )
+    operacao_servico_id = fields.Many2one(
+        comodel_name='sped.operacao',
+        string='Operação Fiscal (serviços)',
+        domain=[('modelo', 'in', MODELO_FISCAL_EMISSAO_SERVICO)],
+    )
+    regime_tributario = fields.Selection(
+        selection=REGIME_TRIBUTARIO,
+        string='Regime tributário',
+        default=REGIME_TRIBUTARIO_SIMPLES,
+        related='operacao_produto_id.regime_tributario',
+    )
 
     #
     # Totais dos itens que são produtos
