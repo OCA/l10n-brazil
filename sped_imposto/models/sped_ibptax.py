@@ -70,7 +70,7 @@ class SpedIBPTax(models.Model):
         ibptax_nbs = self.env['sped.ibptax.nbs']
         ibptax_servico = self.env['sped.ibptax.servico']
 
-        versao = '17.2.A'
+        versao = '17.2.B'
         arquivo = os.path.join(DIRNAME,
                                '../data/ibptax/TabelaIBPTax{uf}{versao}.csv')
         arquivo = arquivo.format(
