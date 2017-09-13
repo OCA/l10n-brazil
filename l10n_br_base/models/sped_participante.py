@@ -107,6 +107,9 @@ class SpedParticipante(models.Model):
     eh_funcionario = fields.Boolean(
         string='É funcionário?'
     )
+    eh_vendedor = fields.Boolean(
+        string='É vendedor/representante?'
+    )
     cnpj_cpf = fields.Char(
         string='CNPJ/CPF',
         size=18,
@@ -291,6 +294,12 @@ class SpedParticipante(models.Model):
     #
     # Para o faturamento
     #
+    #representante_id = fields.Many2one(
+        #comodel_name='sped.participante',
+        #string='Representante',
+        #ondelete='restrict',
+        #domain=[('eh_vendedor', '=', True)],
+    #)
     transportadora_id = fields.Many2one(
         comodel_name='sped.participante',
         string='Transportadora',
@@ -819,3 +828,18 @@ class SpedParticipante(models.Model):
             valores['eh_usuario'] = True
         else:
             valores['eh_usuario'] = False
+
+    #@api.depends('representante_id')
+    #def onchange_representante_id(self):
+        #res = {}
+        #valores = {}
+        #res['value'] = valores
+
+        #if self.representante_id:
+            #valores['user_id'] = self.representante_id.partner_id.id
+        #else:
+            #valores['user_id'] = False
+
+        #return res
+
+
