@@ -62,6 +62,8 @@ class AccountMoveLine(models.Model):
                     else:
                         nosso_numero = move_line.boleto_own_number
 
+                    nosso_numero = int(''.join(
+                        i for i in nosso_numero if i.isdigit()))
                     boleto = Boleto.getBoleto(move_line, nosso_numero)
                     if boleto:
                         move_line.date_payment_created = date.today()
