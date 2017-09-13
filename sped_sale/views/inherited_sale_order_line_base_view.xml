@@ -94,20 +94,25 @@
                             options="{'no_create': True}"/>
                     <newline/>
                     <field name="quantidade" required="1" />
+                    <field name="quantidade_especie_readonly" string="Qtd. de embalagens" />
+                    <newline/>
                     <field name="unidade_readonly_id"
                             options="{'no_open': True, 'no_create': True}"
                             invisible="1"/>
                     <newline/>
-                    <field name="vr_unitario" required="1" />
+                    <field name="vr_unitario_readonly" />
+                    <field name="descricao_especie" string="Apresentação" />
+                    <newline/>
+                    <field name="vr_unitario" invisible="1" />
+                    <newline/>
+                    <field name="vr_produtos_readonly" string="Valor do item"/>
+                    <newline/>
+                    <field name="vr_fatura_readonly" string="Subtotal na fatura" groups="l10n_br_base.GRUPO_SUPORTE" />
+                    <newline/>
                     <field name="vr_nf_readonly" string="Subtotal na NF"/>
                     <newline/>
-                    <field name="vr_produtos_readonly"
-                            string="Valor do item"/>
-                    <field name="vr_fatura_readonly"
-                            string="Subtotal na fatura"/>
-                    <newline/>
                     <notebook colspan="4">
-                        <page string="Valores acessórios" name="valores">
+                        <page string="Valores acessórios" name="valores" groups="l10n_br_base.GRUPO_SUPORTE">
                             <group colspan="4" col="4">
                                 <group colspan="2" col="2">
                                     <newline/>
@@ -447,9 +452,7 @@
                                     <field name="marca"/>
                                     <newline/>
                                     <field name="fator_quantidade_especie"/>
-                                    <field name="quantidade_especie_readonly"/>
-                                    <field name="quantidade_especie"
-                                            invisible="1"/>
+                                    <field name="quantidade_especie" invisible="1"/>
                                 </group>
                             </group>
                         </page>

@@ -8,7 +8,7 @@
         <field name="name">sale.order.line.produto.form</field>
         <field name="model">sale.order.line</field>
         <field name="inherit_id" ref="sale_order_line_base_form"/>
-        <field name="priority">99999</field>
+        <field name="priority">9999</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <field name="produto_id" position="attributes">
@@ -25,7 +25,7 @@
         <field name="name">sale.order.line.produto.tree</field>
         <field name="model">sale.order.line</field>
         <field name="inherit_id" ref="sale_order_line_base_tree"/>
-        <field name="priority">99999</field>
+        <field name="priority">9999</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <field name="produto_id" position="attributes">
@@ -34,10 +34,10 @@
             <field name="vr_produtos" position="attributes">
                 <attribute name="string">Valor do produto</attribute>
             </field>
-            <field name="quantidade" position="after">
+<!--            <field name="quantidade" position="after">
                 <field name="qty_delivered" invisible="context.get('hide_sale')" string="Entregue" />
                 <field name="qty_invoiced"  invisible="context.get('hide_sale')" string="Faturada" />
-            </field>
+            </field>-->
         </field>
     </record>
 

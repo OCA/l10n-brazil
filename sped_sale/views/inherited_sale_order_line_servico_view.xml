@@ -8,7 +8,7 @@
         <field name="name">sale.order.line.servico.form</field>
         <field name="model">sale.order.line</field>
         <field name="inherit_id" ref="sale_order_line_base_form"/>
-        <field name="priority">99999</field>
+        <field name="priority">9999</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
                 <field name="produto_id" position="attributes">
@@ -25,7 +25,7 @@
         <field name="name">sale.order.line.servico.tree</field>
         <field name="model">sale.order.line</field>
         <field name="inherit_id" ref="sale_order_line_base_tree"/>
-        <field name="priority">99999</field>
+        <field name="priority">9999</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
                 <field name="produto_id" position="attributes">

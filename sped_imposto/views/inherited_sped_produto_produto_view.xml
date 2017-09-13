@@ -20,7 +20,7 @@
                 <newline />
                 <field name="ncm_id" required="1" options="{'no_create': True, 'no_open': False}" colspan="4" />
                 <newline />
-                <field name="cest_id" domain="[('id', 'in', cest_ids[0][2])]" attrs="{'invisible': [('exige_cest', '=', False)], 'required': [('exige_cest', '=', True)]}" options="{'no_create': True, 'no_open': False}" colspan="4" />
+                <field name="cest_id" domain="[('id', 'in', cest_ids)]" attrs="{'invisible': [('exige_cest', '=', False)], 'required': [('exige_cest', '=', True)]}" options="{'no_create': True, 'no_open': False}" colspan="4" />
                 <newline />
             </xpath>
             <xpath expr="//field[@name='tipo']" position="after">

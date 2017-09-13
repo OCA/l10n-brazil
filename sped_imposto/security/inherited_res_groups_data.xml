@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="True">
+
+    <record id="CATEGORIA_MODULO_FISCAL" model="ir.module.category">
+        <field name="name">Fiscal</field>
+        <field name="description">Fiscal brasileiro</field>
+        <field name="sequence">-99</field>
+    </record>
+
+    <record id="GRUPO_FISCAL_LEITURA" model="res.groups">
+        <field name="name">Fiscal (somente leitura)</field>
+        <field name="category_id" ref="sped_imposto.CATEGORIA_MODULO_FISCAL"/>
+    </record>
+
+    <record id="GRUPO_FISCAL_GERAL" model="res.groups">
+        <field name="name">Fiscal</field>
+        <field name="category_id" ref="sped_imposto.CATEGORIA_MODULO_FISCAL"/>
+    </record>
+
+    <record id="GRUPO_FISCAL_GERENTE" model="res.groups">
+        <field name="name">Fiscal (gerente)</field>
+        <field name="category_id" ref="sped_imposto.CATEGORIA_MODULO_FISCAL"/>
+    </record>
+
+</odoo>

@@ -42,23 +42,6 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
     )
 
     #
-    # As 2 operações fiscais abaixo servem para que se calcule ao mesmo tempo,
-    # numa venda ou compra, os impostos de acordo com o documento correto
-    # para produtos e serviços, quando via de regra sairão 2 notas fiscais,
-    # uma de produto e outra separada de serviço (pela prefeitura)
-    #
-    operacao_produto_id = fields.Many2one(
-        comodel_name='sped.operacao',
-        string='Operação Fiscal (produtos)',
-        domain=[('modelo', 'in', MODELO_FISCAL_EMISSAO_PRODUTO)],
-    )
-    operacao_servico_id = fields.Many2one(
-        comodel_name='sped.operacao',
-        string='Operação Fiscal (serviços)',
-        domain=[('modelo', 'in', MODELO_FISCAL_EMISSAO_SERVICO)],
-    )
-
-    #
     # Os 2 campos abaixo separam os itens da venda ou compra, para que se
     # informem em telas separadas os produtos dos serviços, mostrando somente
     # os campos adequados a cada caso
@@ -69,6 +52,8 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         string='Produto',
         copy=True,
         domain=[('tipo_item','=','P')],
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
     sale_order_line_servico_ids = fields.One2many(
         comodel_name='sale.order.line',
@@ -76,6 +61,8 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         string='Serviços',
         copy=True,
         domain=[('tipo_item','=','S')],
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
 
     #
@@ -195,6 +182,7 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
 
         return {
             'sale_order_id': self.id,
+            'infcomplementar': self.note,
         }
 
     @api.onchange('empresa_id', 'participante_id')
@@ -222,7 +210,6 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         dados = self._mantem_sincronia_cadastros(dados)
         return super(SaleOrder, self).create(dados)
 
-    @api.model
     def write(self, dados):
         dados = self._mantem_sincronia_cadastros(dados)
         return super(SaleOrder, self).write(dados)

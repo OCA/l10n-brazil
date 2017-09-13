@@ -7,6 +7,7 @@
 
 {
     'name': u'SPED',
+    'category': 'Fiscal',
     'version': '10.0.1.0.0',
     'author': u'Odoo Community Association (OCA), Ari Caldeira',
     'category': u'Base',
@@ -47,6 +48,11 @@
 
         'views/sped_documento_item_emissao_servico_view.xml',
         # 'views/sped_documento_recebimento_nfe_view.xml',
+
+        #
+        # Grupos e permissões
+        #
+        'security/ir.model.access.csv',
     ],
     'external_dependencies': {
         'python': [

@@ -51,10 +51,10 @@ class DecimalPrecision(models.Model):
 
                 elif dp.id == \
                         self.env.ref('l10n_br_base.CASAS_DECIMAIS_PESO').id:
-                    if dados['digits'] > 4:
+                    if dados['digits'] > 6:
                         raise ValidationError(
                             'O número máximo de casas decimais para os ' +
-                            'campos de peso é 4!'
+                            'campos de peso é 6!'
                         )
 
         res = super(DecimalPrecision, self).write(dados)

@@ -16,6 +16,7 @@
         'sped',
         'sales_team',
         'sale',
+        'sale_stock',
     ],
     'data': [
         'views/inherited_sale_order_line_base_view.xml',
@@ -26,9 +27,14 @@
         'views/inherited_sale_order_para_faturar_view.xml',
         'views/inherited_sale_order_para_vender_view.xml',
 
-        'views/inherited_sale_order_quotations_salesteams_view.xml',
+        'views/inherited_sale_order_orders_view.xml',
+        'views/inherited_sale_order_orders_to_invoice_view.xml',
+        'views/inherited_sale_order_orders_upselling_view.xml',
+        'views/inherited_sale_order_quotations_view.xml',
+
         'views/inherited_sale_order_orders_salesteams_view.xml',
         'views/inherited_sale_order_orders_to_invoice_salesteams_view.xml',
+        'views/inherited_sale_order_quotations_salesteams_view.xml',
 
         'views/inherited_sale_menu_partner_view.xml',
         'views/inherited_sale_menu_product_view.xml',

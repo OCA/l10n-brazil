@@ -73,6 +73,16 @@ class SpedCEST(models.Model):
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
+        for i in range(len(args)):
+            arg = args[i]
+            if arg[0] == 'id' and isinstance(arg[2], (list, tuple)):
+                if len(arg[2][0]) >= 3:
+                    lista_ids = []
+                    for item in arg[2]:
+                        lista_ids.append(item[1])
+
+                        args[i] = ['id', arg[1], lista_ids]
+
         if name and operator in ('=', 'ilike', '=ilike', 'like', 'ilike'):
             args = list(args or [])
             args = [

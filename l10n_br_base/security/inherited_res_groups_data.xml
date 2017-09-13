@@ -5,20 +5,29 @@
 -->
 <odoo noupdate="True">
 
+    <record id="CATEGORIA_MODULO_CADASTROS" model="ir.module.category">
+        <field name="name">Cadastros</field>
+        <field name="description">Cadastros brasileiros</field>
+        <field name="sequence">-100</field>
+    </record>
+
     <record id="GRUPO_SUPORTE" model="res.groups">
         <field name="name">Suporte técnico</field>
     </record>
 
     <record id="GRUPO_CADASTRO_LEITURA" model="res.groups">
         <field name="name">Cadastro (somente leitura)</field>
+        <field name="category_id" ref="l10n_br_base.CATEGORIA_MODULO_CADASTROS"/>
     </record>
 
     <record id="GRUPO_CADASTRO_GERAL" model="res.groups">
         <field name="name">Cadastro</field>
+        <field name="category_id" ref="l10n_br_base.CATEGORIA_MODULO_CADASTROS"/>
     </record>
 
     <record id="GRUPO_CADASTRO_GERENTE" model="res.groups">
         <field name="name">Cadastro (gerente)</field>
+        <field name="category_id" ref="l10n_br_base.CATEGORIA_MODULO_CADASTROS"/>
     </record>
 
 </odoo>

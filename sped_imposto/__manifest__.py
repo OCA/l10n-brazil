@@ -4,6 +4,7 @@
 
 {
     'name': 'Sped Imposto',
+    'category': 'Fiscal',
     'summary': """
         Definições de impostos brasileiros""",
     'version': '10.0.1.0.0',
@@ -77,6 +78,12 @@
         'views/sped_operacao_emissao_nfse_view.xml',
         'views/sped_operacao_emissao_nfce_view.xml',
         # 'views/sped_operacao_recebimento_nfe_view.xml',
+
+        #
+        # Grupos e permissões
+        #
+        'security/inherited_res_groups_data.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [
         'demo/sped_produto_demo.xml',
