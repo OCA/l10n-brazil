@@ -11,13 +11,13 @@ from odoo import api, fields, models, _
 class SpedProduto(models.Model):
     _inherit = 'sped.produto'
 
-    estoque_atual = fields.Monetary(
-        string='Estoque atual',
+    estoque_em_maos = fields.Monetary(
+        string='Estoque em mãos',
         currency_field='currency_unidade_id',
         compute='_compute_estoque',
     )
-    estoque_previsto = fields.Monetary(
-        string='Estoque previsto',
+    estoque_disponivel = fields.Monetary(
+        string='Estoque disponível',
         currency_field='currency_unidade_id',
         compute='_compute_estoque',
     )
@@ -26,8 +26,8 @@ class SpedProduto(models.Model):
         currency_field='currency_unidade_id',
         compute='_compute_estoque',
     )
-    estoque_previsto_saida = fields.Monetary(
-        string='Estoque previsto (saídas)',
+    estoque_comprometido_saida = fields.Monetary(
+        string='Estoque comprometido (saídas)',
         currency_field='currency_unidade_id',
         compute='_compute_estoque',
     )
@@ -44,9 +44,9 @@ class SpedProduto(models.Model):
 
     def _compute_estoque(self):
         for produto in self:
-            produto.estoque_atual = produto.qty_available
-            produto.estoque_previsto = produto.virtual_available
+            produto.estoque_em_maos = produto.qty_available
+            produto.estoque_disponivel = produto.virtual_available
             produto.estoque_previsto_entrada = produto.incoming_qty
-            produto.estoque_previsto_saida = produto.outgoing_qty
+            produto.estoque_comprometido_saida = produto.outgoing_qty
             produto.estoque_minimo = produto.reordering_min_qty
             produto.estoque_maximo = produto.reordering_max_qty

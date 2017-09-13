@@ -18,16 +18,16 @@
                 <button class="oe_stat_button" name="%(stock.product_open_quants)d" icon="fa-building-o" type="action">
                     <div class="o_form_field o_stat_info">
                         <span class="o_stat_value">
-                            <field name="estoque_atual" option="{'currency_field': 'currency_unidade_id'}"/>
+                            <field name="estoque_em_maos" option="{'currency_field': 'currency_unidade_id'}"/>
                         </span>
-                        <span class="o_stat_text">Atual</span>
+                        <span class="o_stat_text">Em mãos</span>
                     </div>
                 </button>
                 <button type="action" name="%(stock.action_stock_level_forecast_report_product)d" class="oe_stat_button" icon="fa-building-o">
                     <div class="o_form_field o_stat_info">
-                        <span class="o_stat_value"><field name="estoque_previsto" option="{'currency_field': 'currency_unidade_id'}" />
-                            <span attrs="{'invisible':[('estoque_previsto_saida', '=', 0),('estoque_previsto_entrada','=',0)]}" groups="base.group_no_one">
-                                (-<field name="estoque_previsto_saida" option="{'currency_field': 'currency_unidade_id'}" />+<field name="estoque_previsto_entrada" option="{'currency_field': 'currency_unidade_id'}" />)
+                        <span class="o_stat_value"><field name="estoque_disponivel" option="{'currency_field': 'currency_unidade_id'}" />
+                            <span attrs="{'invisible':[('estoque_comprometido_saida', '=', 0),('estoque_previsto_entrada','=',0)]}" groups="base.group_no_one">
+                                (-<field name="estoque_comprometido_saida" option="{'currency_field': 'currency_unidade_id'}" />+<field name="estoque_previsto_entrada" option="{'currency_field': 'currency_unidade_id'}" />)
                             </span>
                         </span>
                         <span class="o_stat_text">Previsto</span>
@@ -71,12 +71,12 @@
         <field name="inherit_id" ref="l10n_br_base.sped_produto_produto_tree" />
         <field name="arch" type="xml">
             <tree position="attributes">
-                <attribute name="decoration-danger">estoque_atual&lt;0</attribute>
-                <attribute name="decoration-info">estoque_previsto&gt;=0</attribute>
+                <attribute name="decoration-danger">estoque_em_maos&lt;0</attribute>
+                <attribute name="decoration-info">estoque_disponivel&gt;=0</attribute>
             </tree>
             <field name="unidade_id" position="before">
-                <field name="estoque_atual"/>
-                <field name="estoque_previsto"/>
+                <field name="estoque_em_maos"/>
+                <field name="estoque_disponivel"/>
             </field>
         </field>
     </record>
@@ -87,7 +87,7 @@
         <field name="inherit_id" ref="l10n_br_base.sped_produto_produto_kanban" />
         <field name="arch" type="xml">
             <ul position="inside">
-                <li>Estoque atual: <field name="estoque_atual" options="{'currency_field': 'currency_unidade_id'}"/></li>
+                <li>Estoque atual: <field name="estoque_em_maos" options="{'currency_field': 'currency_unidade_id'}"/></li>
             </ul>
         </field>
     </record>
