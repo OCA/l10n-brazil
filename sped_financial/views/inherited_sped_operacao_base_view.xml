@@ -13,8 +13,8 @@
             <xpath expr="//field[@name='ind_forma_pagamento']" position="after">
                 <newline />
                 <separator string="Financeiro" colspan="4" />
-                <field name="financial_document_type_id" attrs="{'required': [('ind_forma_pagamento', '!=', '9')]}" />
-                <field name="financial_account_id" attrs="{'required': [('ind_forma_pagamento', '!=', '9')]}" />
+                <field name="financial_document_type_id" attrs="{'required': [('ind_forma_pagamento', '!=', '2')]}" />
+                <field name="financial_account_id" attrs="{'required': [('ind_forma_pagamento', '!=', '2')]}" />
             </xpath>
         </field>
     </record>
