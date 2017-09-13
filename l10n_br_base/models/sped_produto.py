@@ -87,6 +87,10 @@ class SpedProduto(SpedBase, models.Model):
         string='Preço de custo',
         currency_field='currency_unitario_id',
     )
+    preco_transferencia = fields.Monetary(
+        string='Preço de transferência',
+        currency_field='currency_unitario_id',
+    )
     peso_bruto = fields.Monetary(
         string='Peso bruto',
         currency_field='currency_peso_id',

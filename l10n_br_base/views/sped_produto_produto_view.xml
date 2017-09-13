@@ -15,6 +15,12 @@
             <xpath expr="//form[1]" position="attributes">
                 <attribute name="string">Produto</attribute>
             </xpath>
+            <field name="preco_custo" position="after">
+                <newline />
+                <label string="" />
+                <label string="" />
+                <field name="preco_transferencia" />
+            </field>
         </field>
     </record>
 
