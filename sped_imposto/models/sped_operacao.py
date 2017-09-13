@@ -201,6 +201,7 @@ class SpedOperacaoFiscal(models.Model):
         selection=[
             ('V', 'Venda'),
             ('C', 'Custo'),
+            ('T', 'Transferência'),
         ],
         string='Traz preço automático?',
     )

@@ -21,6 +21,7 @@ _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil.valor.decimal import Decimal as D
+    from pybrasil.valor import formata_valor
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -768,12 +769,23 @@ class SpedCalculoImpostoItem(SpedBase):
         digits=dp.get_precision('SPED - Quantidade'),
     )
     quantidade_especie = fields.Float(
-        string='Quantidade por espécie/embalagem',
+        string='Quantidade em espécie/embalagem',
         digits=dp.get_precision('SPED - Quantidade'),
+    )
+    descricao_especie = fields.Char(
+        string='Apresentação/embalagem',
+        size=60,
+        compute='_compute_descricao_especie',
+        store=True,
     )
     #
     # Campos readonly
     #
+    vr_unitario_readonly = fields.Monetary(
+        string='Valor unitário',
+        currency_field='currency_unitario_id',
+        compute='_compute_readonly',
+    )
     unidade_readonly_id = fields.Many2one(
         comodel_name='sped.unidade',
         string='Unidade',
@@ -827,6 +839,21 @@ class SpedCalculoImpostoItem(SpedBase):
     peso_liquido_readonly = fields.Monetary(
         string='Peso líquido',
         currency_field='currency_peso_id',
+        compute='_compute_readonly',
+    )
+    especie_readonly = fields.Char(
+        string='Espécie/embalagem',
+        size=60,
+        compute='_compute_readonly',
+    )
+    marca_readonly = fields.Char(
+        string='Marca',
+        size=60,
+        compute='_compute_readonly',
+    )
+    fator_quantidade_especie_readonly = fields.Float(
+        string='Quantidade por espécie/embalagem',
+        digits=dp.get_precision('SPED - Quantidade'),
         compute='_compute_readonly',
     )
     quantidade_especie_readonly = fields.Float(
@@ -1075,6 +1102,11 @@ class SpedCalculoImpostoItem(SpedBase):
 
         elif self.operacao_id.preco_automatico == 'C':
             self.vr_unitario = self.produto_id.preco_custo
+
+        elif self.operacao_id.preco_automatico == 'T':
+            self.vr_unitario = self.produto_id.preco_transferencia
+
+        self.vr_unitario_readonly = self.vr_unitario
 
         self.peso_bruto_unitario = self.produto_id.peso_bruto
         self.peso_liquido_unitario = self.produto_id.peso_liquido
@@ -1708,7 +1740,12 @@ class SpedCalculoImpostoItem(SpedBase):
         #
         quantidade_tributacao = self.quantidade * \
             self.fator_conversao_unidade_tributacao
-        vr_unitario_tributacao = vr_produtos / quantidade_tributacao
+
+        if quantidade_tributacao > 0:
+            vr_unitario_tributacao = vr_produtos / quantidade_tributacao
+        else:
+            vr_unitario_tributacao = D(self.vr_unitario)
+
         vr_unitario_tributacao = vr_unitario_tributacao.quantize(
             D('0.0000000001'))
         vr_produtos_tributacao = quantidade_tributacao * vr_unitario_tributacao
@@ -2229,13 +2266,18 @@ class SpedCalculoImpostoItem(SpedBase):
         for item in self:
             item.permite_alteracao = True
 
-    @api.depends('unidade_id', 'unidade_tributacao_id',
+    @api.depends('vr_unitario', 'unidade_id', 'unidade_tributacao_id',
                  'vr_produtos', 'vr_operacao',
                  'vr_produtos_tributacao', 'vr_operacao_tributacao',
                  'vr_nf', 'vr_fatura',
-                 'vr_unitario_custo_comercial', 'vr_custo_comercial')
+                 'vr_unitario_custo_comercial', 'vr_custo_comercial',
+                 'peso_bruto', 'peso_liquido',
+                 'especie', 'marca', 'fator_quantidade_especie',
+                 'quantidade_especie')
     def _compute_readonly(self):
         for item in self:
+            item.vr_unitario_readonly = item.vr_unitario
+
             item.unidade_readonly_id = \
                 item.unidade_id.id if item.unidade_id else False
             if item.unidade_tributacao_id:
@@ -2255,7 +2297,29 @@ class SpedCalculoImpostoItem(SpedBase):
             item.vr_custo_comercial_readonly = item.vr_custo_comercial
             item.peso_bruto_readonly = item.peso_bruto
             item.peso_liquido_readonly = item.peso_liquido
+            item.especie_readonly = item.especie
+            item.marca_readonly = item.marca
+            item.fator_quantidade_especie_readonly = \
+                item.fator_quantidade_especie
             item.quantidade_especie_readonly = item.quantidade_especie
+
+    @api.depends('especie', 'fator_quantidade_especie', 'unidade_id')
+    def _compute_descricao_especie(self):
+        casas_decimais = self.env.ref('l10n_br_base.CASAS_DECIMAIS_QUANTIDADE')
+
+        for item in self:
+            descricao_especie = ''
+
+            if item.especie and item.fator_quantidade_especie:
+                descricao_especie = item.especie
+                descricao_especie += ' com '
+                descricao_especie += \
+                    formata_valor(item.fator_quantidade_especie,
+                                  casas_decimais=casas_decimais.digits)
+                descricao_especie += ' '
+                descricao_especie += item.unidade_id.codigo
+
+            item.descricao_especie = descricao_especie
 
     def calcula_impostos(self):
         self.ensure_one()
