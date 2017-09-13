@@ -9,7 +9,7 @@
 
 {
     'name': 'Brazilian Localization Base',
-    'category': 'Localisation',
+    'category': 'Cadastros',
     'license': 'AGPL-3',
     'author': 'Odoo Community Association (OCA), Akretion',
     'website': 'http://odoo-brasil.org',
