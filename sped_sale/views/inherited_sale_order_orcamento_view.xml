@@ -9,6 +9,7 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="mode">primary</field>
+        <field name="priority">1</field>
         <field name="arch" type="xml">
             <xpath expr="//button[1]" position="attributes">
                 <attribute name="attrs">{'invisible': True}</attribute>
@@ -48,23 +49,26 @@
                                colspan="4"
                                domain="[('eh_cliente', '=', True)]"
                                options='{"always_reload": True}'
-                               required="1" />
+                               required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
                         <newline />
-                        <field name="partner_invoice_id" groups="sale.group_delivery_invoice_address" context="{'default_type':'invoice'}"/>
-                        <field name="partner_shipping_id" groups="sale.group_delivery_invoice_address" context="{'default_type':'delivery'}"/>
+                        <field name="partner_invoice_id" groups="sale.group_delivery_invoice_address" context="{'default_type':'invoice'}" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                        <field name="partner_shipping_id" groups="sale.group_delivery_invoice_address" context="{'default_type':'delivery'}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                         <newline />
-                        <field name="date_order"/>
-                        <field name="presenca_comprador"/>
+                        <field name="date_order" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="presenca_comprador" attrs="{'readonly': [('state', '!=', 'draft')]}" />
                         <newline />
-                        <field name="pricelist_id"
-                               groups="product.group_sale_pricelist"/>
+                        <field name="pricelist_id" groups="product.group_sale_pricelist"/>
+                        <field name="payment_term_id" invisible="1" />
+                        <newline />
+                        <field name="condicao_pagamento_id" required="1" options="{'no_create': True}"
+                            context="{'currency_id': currency_id, 'value': vr_fatura}" attrs="{'readonly': [('state', '!=', 'draft')]}" />
                         <newline />
                     </group>
                 </group>
             </xpath>
 
             <xpath expr="//notebook/page[1]" position="replace">
-                <page string="Produtos" name="product_page">
+                <page string="Produtos" name="produtos">
                     <field name="sale_order_line_produto_ids"
                            context="{
                                'default_tipo_item': 'P',
@@ -79,10 +83,10 @@
                         <group class="oe_subtotal_footer oe_right"
                                name="sale_total">
                             <field name="produtos_vr_produtos" />
-                            <field name="produtos_vr_frete" />
-                            <field name="produtos_vr_seguro" />
-                            <field name="produtos_vr_outras" />
-                            <field name="produtos_vr_desconto" />
+                            <field name="produtos_vr_frete" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                            <field name="produtos_vr_seguro" attrs="{'readonly': [('state', '!=', 'draft')]}" invisible="1" />
+                            <field name="produtos_vr_outras" attrs="{'readonly': [('state', '!=', 'draft')]}" invisible="1" />
+                            <field name="produtos_vr_desconto" attrs="{'readonly': [('state', '!=', 'draft')]}" />
                             <field name="produtos_vr_icms_st" />
                             <field name="produtos_vr_ipi" attrs="{'invisible': [('regime_tributario', '=', '1')]}" />
 
@@ -98,7 +102,7 @@
                         </group>
                     </group>
                 </page>
-                <page string="Servicos" name="services_page"
+                <page string="Servicos" name="servicos"
                       attrs="{'invisible': [('operacao_servico_id', '=', False)]}">
                     <field name="sale_order_line_servico_ids"
                            context="{
@@ -129,21 +133,23 @@
                 </page>
             </xpath>
 
-            <xpath expr="//group[@name='sales_person']" position="before">
-                <group name="pagamento" string="Pagamento">
-                    <field name="payment_term_id" invisible="1" />
-                    <field name="condicao_pagamento_id" options="{'no_create': True}"
-                        context="{'currency_id': currency_id, 'value': vr_fatura}" />
-                </group>
+            <xpath expr="//group[@name='sale_pay']" position="attributes">
+                <attribute name="groups">sales_team.group_sale_manager</attribute>
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
             </xpath>
-
             <xpath expr="//group[@name='sales_person']" position="attributes">
                 <attribute name="name">Venda e comissão</attribute>
+                <attribute name="groups">sales_team.group_sale_manager</attribute>
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+            </xpath>
+            <xpath expr="//group[@name='technical']" position="attributes">
+                <attribute name="groups">sales_team.group_sale_manager</attribute>
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
             </xpath>
 
             <xpath expr="//group/field[@name='company_id']" position="replace">
                 <field name="company_id" invisible="1" />
-                <field name="empresa_id" required="1" />
+                <field name="empresa_id" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
             </xpath>
 
             <field name="fiscal_position_id" position="attributes">
@@ -153,33 +159,55 @@
             <field name="fiscal_position_id" position="after">
                 <field name="operacao_produto_id"
                        domain="[('emissao', '=', '0')]"
-                       attrs="{'required': [('operacao_servico_id', '=', False)]}"/>
+                       attrs="{'required': [('operacao_servico_id', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="operacao_servico_id"
                        domain="[('emissao', '=', '0')]"
-                       attrs="{'required': [('operacao_produto_id', '=', False)]}"/>
+                       attrs="{'required': [('operacao_produto_id', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
             </field>
 
         </field>
     </record>
+
+    <record model="ir.ui.view" id="sale_order_form_stock">
+        <field name="name">sale.order.form.stock (in sped_sale)</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_stock.view_order_form_inherit_sale_stock"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='sale_shipping']" position="before">
+                <group name="obs" colspan="4" col="4">
+                    <separator string="Informações complementares" colspan="4" />
+                    <field name="note" colspan="4" nolabel="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                </group>
+                <newline />
+            </xpath>
+            <xpath expr="//group[@name='sale_shipping']" position="attributes">
+<!--                 <attribute name="groups">sales_team.group_sale_manager</attribute> -->
+                <attribute name="groups">l10n_br_base.GRUPO_SUPORTE</attribute>
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
 
     <record model="ir.ui.view" id="sale_order_tree">
         <field name="name">sale.order.tree (in sped_sale)</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_quotation_tree"/>
         <field name="mode">primary</field>
+        <field name="priority">1</field>
         <field name="arch" type="xml">
             <field name="message_needaction" position="after">
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
             </field>
             <field name="partner_id" position="attributes">
-                <attribute name="attrs">{'invisible': True}</attribute>
+                <attribute name="invisible">1</attribute>
             </field>
             <field name="partner_id" position="after">
                 <field name="participante_id" string="Cliente" />
             </field>
             <field name="amount_total" position="attributes">
-                <attribute name="attrs">{'invisible': True}</attribute>
+                <attribute name="invisible">1</attribute>
             </field>
             <field name="amount_total" position="after">
                 <field name="vr_nf" string="Total" />
@@ -192,6 +220,7 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_sales_order_filter"/>
         <field name="mode">primary</field>
+        <field name="priority">1</field>
         <field name="arch" type="xml">
             <field name="partner_id" position="attributes">
                 <attribute name="attrs">{'invisible': True}</attribute>
@@ -211,6 +240,7 @@
     <record model="ir.ui.view" id="sale_order_calendar" >
         <field name="name">sale.order.calendar (in sped_sale)</field>
         <field name="model">sale.order</field>
+        <field name="priority">1</field>
         <field name="arch" type="xml">
             <calendar string="Pedidos" color="state" date_start="date_order">
                 <field name="participante_id"/>
@@ -222,6 +252,7 @@
     <record model="ir.ui.view" id="sale_order_graph">
         <field name="name">sale.order.graph (in sped_sale)</field>
         <field name="model">sale.order</field>
+        <field name="priority">1</field>
         <field name="arch" type="xml">
             <graph string="Pedidos">
                 <field name="participante_id"/>
@@ -233,6 +264,7 @@
     <record model="ir.ui.view" id="sale_order_pivot">
         <field name="name">sale.order.pivot (in sped_sale)</field>
         <field name="model">sale.order</field>
+        <field name="priority">1</field>
         <field name="arch" type="xml">
             <pivot string="Pedidos">
                 <field name="data_pedido" type="row"/>
@@ -244,6 +276,7 @@
     <record model="ir.ui.view" id="sale_order_kanban">
         <field name="name">sale.order.kanban (in sped_sale)</field>
         <field name="model">sale.order</field>
+        <field name="priority">1</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile">
                 <field name="name"/>
@@ -292,7 +325,7 @@
     <record model="ir.actions.act_window.view" id="sale_order_orcamento_tree_action">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="sale.view_order_tree"/>
+        <field name="view_id" ref="sale_order_tree"/>
         <field name="act_window_id" ref="sale_order_orcamento_action"/>
     </record>
 
@@ -344,63 +377,6 @@
         <field name="parent_id" ref="sales_team.menu_sales"/>
         <field name="action" ref="sale_order_orcamento_action"/>
         <field name="sequence" eval="3"/>
-    </record>
-
-
-    <record model="ir.actions.act_window" id="sale.action_quotations_salesteams">
-        <field name="name">Orçamentos</field>
-        <field name="res_model">sale.order</field>
-        <field name="view_mode">tree,form,calendar,graph</field>
-        <field name="context">{
-                'hide_sale': True,
-                'search_default_team_id': [active_id],
-                'default_team_id': active_id,
-                'show_address': 1,
-            }
-        </field>
-        <field name="search_view_id" ref="sale_order_search" />
-    </record>
-
-    <record model="ir.actions.act_window.view" id="sale_order_orcamento_tree_action">
-        <field eval="1" name="sequence"/>
-        <field name="view_mode">tree</field>
-        <field name="view_id" ref="sale.view_order_tree"/>
-        <field name="act_window_id" ref="sale.action_quotations_salesteams"/>
-    </record>
-
-    <record model="ir.actions.act_window.view" id="sale_order_orcamento_form_action">
-        <field eval="2" name="sequence"/>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="sale_order_form"/>
-        <field name="act_window_id" ref="sale.action_quotations_salesteams"/>
-    </record>
-
-    <record model="ir.actions.act_window.view" id="sale_order_orcamento_kanban_action">
-        <field eval="3" name="sequence"/>
-        <field name="view_mode">kanban</field>
-        <field name="view_id" ref="sale_order_kanban"/>
-        <field name="act_window_id" ref="sale.action_quotations_salesteams"/>
-    </record>
-
-    <record model="ir.actions.act_window.view" id="sale_order_orcamento_calendar_action">
-        <field eval="4" name="sequence"/>
-        <field name="view_mode">calendar</field>
-        <field name="view_id" ref="sale_order_calendar"/>
-        <field name="act_window_id" ref="sale.action_quotations_salesteams"/>
-    </record>
-
-    <record model="ir.actions.act_window.view" id="sale_order_orcamento_pivot_action">
-        <field eval="5" name="sequence"/>
-        <field name="view_mode">pivot</field>
-        <field name="view_id" ref="sale_order_pivot"/>
-        <field name="act_window_id" ref="sale.action_quotations_salesteams"/>
-    </record>
-
-    <record model="ir.actions.act_window.view" id="sale_order_orcamento_graph_action">
-        <field eval="6" name="sequence"/>
-        <field name="view_mode">graph</field>
-        <field name="view_id" ref="sale_order_graph"/>
-        <field name="act_window_id" ref="sale.action_quotations_salesteams"/>
     </record>
 
 </odoo>

@@ -61,6 +61,11 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
     #
     # Campos readonly
     #
+    vr_unitario_readonly = fields.Monetary(
+        string='Valor unitário',
+        currency_field='currency_unitario_id',
+        compute='_compute_readonly',
+    )
     unidade_readonly_id = fields.Many2one(
         comodel_name='sped.unidade',
         string='Unidade',
@@ -116,8 +121,23 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
         currency_field='currency_peso_id',
         compute='_compute_readonly',
     )
-    quantidade_especie_readonly = fields.Float(
+    especie_readonly = fields.Char(
+        string='Espécie/embalagem',
+        size=60,
+        compute='_compute_readonly',
+    )
+    marca_readonly = fields.Char(
+        string='Marca',
+        size=60,
+        compute='_compute_readonly',
+    )
+    fator_quantidade_especie_readonly = fields.Float(
         string='Quantidade por espécie/embalagem',
+        digits=dp.get_precision('SPED - Quantidade'),
+        compute='_compute_readonly',
+    )
+    quantidade_especie_readonly = fields.Float(
+        string='Quantidade em espécie/embalagem',
         digits=dp.get_precision('SPED - Quantidade'),
         compute='_compute_readonly',
     )
@@ -209,8 +229,7 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
             item.name = item.produto_id.nome
             item.produto_descricao = item.produto_id.nome
             item.product_id = item.produto_id.product_id
-            item.price_unit = item.produto_id.preco_venda
-            item.vr_unitario = item.produto_id.preco_venda
+            item.price_unit = item.vr_unitario
 
         super(SaleOrderLine, self)._onchange_produto_id()
 
@@ -221,13 +240,18 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
             item.product_uom_qty = item.quantidade
             item.product_uom = item.unidade_id.uom_id
 
-    @api.depends('unidade_id', 'unidade_tributacao_id',
+    @api.depends('vr_unitario', 'unidade_id', 'unidade_tributacao_id',
                  'vr_produtos', 'vr_operacao',
                  'vr_produtos_tributacao', 'vr_operacao_tributacao',
                  'vr_nf', 'vr_fatura',
-                 'vr_unitario_custo_comercial', 'vr_custo_comercial')
+                 'vr_unitario_custo_comercial', 'vr_custo_comercial',
+                 'peso_bruto', 'peso_liquido',
+                 'especie', 'marca', 'fator_quantidade_especie',
+                 'quantidade_especie')
     def _compute_readonly(self):
         for item in self:
+            item.vr_unitario_readonly = item.vr_unitario
+
             item.unidade_readonly_id = \
                 item.unidade_id.id if item.unidade_id else False
             if item.unidade_tributacao_id:
@@ -247,6 +271,10 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
             item.vr_custo_comercial_readonly = item.vr_custo_comercial
             item.peso_bruto_readonly = item.peso_bruto
             item.peso_liquido_readonly = item.peso_liquido
+            item.especie_readonly = item.especie
+            item.marca_readonly = item.marca
+            item.fator_quantidade_especie_readonly = \
+                item.fator_quantidade_especie
             item.quantidade_especie_readonly = item.quantidade_especie
 
     @api.multi
