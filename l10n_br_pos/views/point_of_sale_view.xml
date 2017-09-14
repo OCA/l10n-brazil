@@ -42,16 +42,6 @@
         <field name="state" position="replace">
             <field name="state" widget="statusbar" statusbar_visible="draft,paid,devolucoes,done" statusbar_colors='{"cancel":"red"}'/>
         </field>
-        <xpath expr="//page[@string='Products']" position="after">
-            <page string="Produtos Devolvidos" attrs="{'invisible': [('state', '!=', 'devolucoes')]}">
-                <field name="devolucoes_id" colspan="4" nolabel="1">
-                    <tree editable="0">
-                        <field name="product_id" />
-                        <field name="qty" />
-                    </tree>
-                </field>
-            </page>
-        </xpath>
     </field>
 </record>
 
