@@ -55,22 +55,15 @@ class PosOrder(models.Model):
 
     chave_cfe_cancelamento = fields.Char('Chave da Cfe Cancelamento')
 
-    num_sessao_sat_cancelamento = fields.Char(u'Número Sessão SAT Cancelamento')
+    num_sessao_sat_cancelamento = fields.Char(
+        u'Número Sessão SAT Cancelamento'
+    )
 
     cnpj_cpf = fields.Char(
         string=u'CNPJ/CPF',
         related='partner_id.cnpj_cpf',
     )
 
-    state = fields.Selection(
-        selection_add=[("devolucoes", "Com Devoluções")]
-    )
-
-    devolucoes_id = fields.One2many(
-        string="Produtos Devolvidos",
-        comodel_name="pos.order.devolucao",
-        inverse_name="pos_order_id"
-    )
 
     @api.one
     def action_invoice(self):
@@ -221,16 +214,28 @@ class PosOrder(models.Model):
         return dados_reimpressao
 
 
-class PosOrderDevolucao(models.Model):
-    _name = "pos.order.devolucao"
+class PosOrderLine(models.Model):
+    _inherit = 'pos.order.line'
 
-    product_id = fields.Many2one(
-        string="Produto",
-        comodel_name="product.product",
-    )
-    qty = fields.Integer(
-        string="Quantidade"
-    )
-    pos_order_id = fields.Many2one(
-        comodel_name="pos.order"
+    @api.multi
+    def _buscar_produtos_devolvidos(self):
+        for record in self:
+            if record.order_id.chave_cfe:
+                rel_documentos = self.env[
+                    'l10n_br_account_product.document.related'].search(
+                    [
+                        ('access_key', '=', record.order_id.chave_cfe[3:])
+                    ]
+                )
+                qtd_devolvidas = 0
+                for documento in rel_documentos:
+                    if documento.invoice_id.state in ('open', 'sefaz_export'):
+                        for line in documento.invoice_id.invoice_line:
+                            if record.product_id == line.product_id:
+                                qtd_devolvidas += line.quantity
+                record.qtd_produtos_devolvidos = qtd_devolvidas
+
+    qtd_produtos_devolvidos = fields.Integer(
+        string="Quantidade devolvida",
+        compute=_buscar_produtos_devolvidos
     )
