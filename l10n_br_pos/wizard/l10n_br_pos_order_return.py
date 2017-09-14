@@ -2,7 +2,8 @@
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning
 
 
 class StockPickingReturn(models.TransientModel):
@@ -18,22 +19,18 @@ class StockPickingReturn(models.TransientModel):
     @api.multi
     def create_returns(self):
         if self.env.context.get('pos_order_id'):
-            result = super(StockPickingReturn, self).create_returns()
             pos_order = self.env['pos.order'].browse(
-                self.env.context.get('pos_order_id')
+                self.env.context['pos_order_id']
             )
-            pos_order.state = "devolucoes"
-            for product_order_line in self.product_return_moves:
-                self.env['pos.order.devolucao'].create(
-                    {
-                        'product_id': product_order_line.product_id.id,
-                        'qty': product_order_line.quantity,
-                        'pos_order_id': pos_order.id,
-                    }
-                )
-            return result
-        else:
-            return super(StockPickingReturn, self).create_returns()
+            for product_line in self.product_return_moves:
+                for line in pos_order.lines:
+                    if line.product_id == product_line.product_id:
+                        if line.qtd_produtos_devolvidos + product_line.quantity > line.qty:
+                            raise Warning(
+                                _('Esta quantidade do produto %s não pode '
+                                'ser devolvida') % (line.product_id.display_name))
+
+        return super(StockPickingReturn, self).create_returns()
 
 
 class PorOrderReturn(models.TransientModel):
