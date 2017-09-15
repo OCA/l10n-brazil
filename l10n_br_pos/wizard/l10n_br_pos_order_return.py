@@ -84,6 +84,21 @@ class PorOrderReturn(models.TransientModel):
         order = self.env['pos.order'].browse(active_ids)
         order.partner_id = self.partner_id
         self._check_picking_parameters(order)
+        obj_fp_rule = self.env['account.fiscal.position.rule']
+        kwargs = {
+            'partner_id': self.partner_id.id,
+            'partner_invoice_id':
+                self.partner_id.id,
+            'partner_shipping_id':
+                self.partner_id.id,
+            'fiscal_category_id':
+                order.picking_id.fiscal_category_id.id,
+            'company_id': self.env.user.company_id.id,
+        }
+        fiscal_position_id = obj_fp_rule.apply_fiscal_mapping(
+            {'value': {}}, **kwargs
+        )['value']['fiscal_position']
+        order.picking_id.fiscal_position = fiscal_position_id
 
         ctx = dict(self._context)
         ctx['pos_order_id'] = active_ids
