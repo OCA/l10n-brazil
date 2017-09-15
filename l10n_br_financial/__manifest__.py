@@ -16,8 +16,6 @@
         'l10n_br_base',
     ],
     'data': [
-        'views/financeiro_cheque.xml',
-        'views/res_bank_agencia.xml',
         'views/financial_move.xml',
         'views/account_payment_term.xml',
         'views/sped_participante.xml',
@@ -26,8 +24,6 @@
     ],
     'demo': [
         'demo/financeiro_tipo_documento.xml',
-        'demo/account_payment_mode.xml',
-        'demo/account_payment_method.xml',
     ],
     'installable': True,
 }
