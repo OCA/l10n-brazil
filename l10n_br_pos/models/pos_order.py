@@ -64,7 +64,6 @@ class PosOrder(models.Model):
         related='partner_id.cnpj_cpf',
     )
 
-
     @api.one
     def action_invoice(self):
         self.simplified = False
@@ -102,6 +101,17 @@ class PosOrder(models.Model):
         order = super(PosOrder, self).create(vals)
         order.simplified_limit_check()
         return order
+
+    @api.multi
+    def create_picking(self):
+        super(PosOrder, self).create_picking()
+        fiscal_category = self.session_id.config_id.fiscal_category_id
+        self.picking_id.fiscal_category_id = \
+            fiscal_category.id
+        for fiscal_position in fiscal_category.fiscal_position_ids:
+            if "dentro do estado" in fiscal_position.name:
+                self.picking_id.fiscal_position_id = fiscal_position.id
+        return True
 
     @api.model
     def return_orders_from_session(self, **kwargs):
