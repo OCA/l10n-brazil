@@ -19,31 +19,4 @@
 #
 ##############################################################################
 
-
-{
-    'name': 'Import CNAB Bank Statement',
-    'version': '8.0.1.0.0',
-    'category': 'Banking addons',
-    'license': 'AGPL-3',
-    'author': 'KMEE',
-    'website': 'http://www.kmee.com.br',
-    'external_dependencies': {
-        'python': ['cnab240'],
-    },
-    'depends': [
-        'account_bank_statement_import',
-        'l10n_br_account',
-    ],
-    'data': [
-        'views/cnab_import_view.xml',
-    ],
-    'active': False,
-    "installable": False,
-    "auto_install": False,
-    'description': """
-    Allows to import CNAB (Centro Nacional de Automação Bancária) statement
-     files.
-
-    It requires python PyCNAB library to work.
-    """,
-}
+from . import account_bank_statement_import
