@@ -129,7 +129,17 @@ function l10n_br_pos_screens(instance, module) {
                 var Soma;
                 var Resto;
                 Soma = 0;
-                if (documento == "00000000000") return false;
+                if (documento == "00000000000" ||
+                    documento == "11111111111" ||
+                    documento == "22222222222" ||
+                    documento == "33333333333" ||
+                    documento == "44444444444" ||
+                    documento == "55555555555" ||
+                    documento == "66666666666" ||
+                    documento == "77777777777" ||
+                    documento == "88888888888" ||
+                    documento == "99999999999")
+                    return false;
 
                 for (i=1; i<=9; i++) Soma = Soma + parseInt(documento.substring(i-1, i)) * (11 - i);
                 Resto = (Soma * 10) % 11;
@@ -220,11 +230,51 @@ function l10n_br_pos_screens(instance, module) {
                 if (cpf){
                     self.pos_widget.screen_selector.close_popup();
                     if (!currentOrder.client) {
-                        self.pos_widget.order_widget.search_client_by_cpf_cnpj(cpf.replace(/[^\d]+/g,''));
+                        if (self.pos_widget.order_widget.verificar_cpf_cnpj(cpf.replace(/[^\d]+/g,''))) {
+                            pos_db = self.pos.db;
+                            partner = pos_db.get_partner_by_identification(self.pos.partners, cpf.replace(/[^\d]+/g, ''));
+                            if (partner) {
+                                self.pos.get('selectedOrder').set_client(partner);
+                            } else {
+                                new_partner = {};
+                                new_partner["name"] = cpf;
+                                if (new_partner["name"].length > 14) {
+                                    new_partner["is_company"] = true;
+                                }
+                                new_partner["cnpj_cpf"] = cpf;
+
+                                new instance.web.Model('res.partner').call('create_from_ui', [new_partner]).then(function (partner_id) {
+                                    self.pos.pos_widget.clientlist_screen.reload_partners().then(function () {
+                                        var new_partner = self.pos.db.get_partner_by_id(partner_id);
+                                        new_partner['cnpj_cpf'] = new_partner['name'];
+                                        if (self.pos.config.pricelist_id) {
+                                            new_partner['property_product_pricelist'][0] = self.pos.pricelist.id;
+                                        }
+                                        self.old_client = new_partner;
+                                        self.new_client = self.old_client;
+                                        self.pos.get('selectedOrder').set_client(self.new_client);
+                                        if (self.pos.config.pricelist_id) {
+                                            self.pos.pricelist_engine.update_products_ui(self.new_client);
+                                        }
+                                        self.pos.partners.push(new_partner);
+                                        return true;
+                                    }).then(function () {
+                                        currentOrder = self.pos.get('selectedOrder').attributes;
+                                        currentOrder["cpf_nota"] = cpf;
+                                        self.pos_widget.payment_screen.validate_order();
+                                    });
+                                });
+                            }
+                        } else {
+                            self.pos_widget.screen_selector.show_popup('error',{
+                                message: _t('CPF/CNPJ digitado esta incorreto!'),
+                            });
+                        }
+                    } else {
+                        currentOrder = self.pos.get('selectedOrder').attributes;
+                        currentOrder["cpf_nota"] = currentOrder.client.cnpj_cpf;
+                        self.pos_widget.payment_screen.validate_order();
                     }
-                    currentOrder = self.pos.get('selectedOrder').attributes;
-                    currentOrder["cpf_nota"] = currentOrder.client.cnpj_cpf;
-                    self.pos_widget.payment_screen.validate_order();
                 } else {
                     alert('O cpf deve ser inserido no campo para que seja transmitido no cupom fiscal.');
                 }
@@ -480,14 +530,16 @@ function l10n_br_pos_screens(instance, module) {
 
             var contents = this.$el[0].querySelector('.client-list-contents');
             contents.innerHTML = "";
-            for(var i = 0; i < orders_vals.length; i++){
-                var order    = orders_vals[i];
-                var clientline_html = QWeb.render('OrderLine',{widget: this, order:orders_vals[i]});
-                var clientline = document.createElement('tbody');
-                clientline.innerHTML = clientline_html;
-                clientline = clientline.childNodes[1];
+            if (orders_vals) {
+                for(var i = 0; i < orders_vals.length; i++){
+                    var order    = orders_vals[i];
+                    var clientline_html = QWeb.render('OrderLine',{widget: this, order:orders_vals[i]});
+                    var clientline = document.createElement('tbody');
+                    clientline.innerHTML = clientline_html;
+                    clientline = clientline.childNodes[1];
 
-                contents.appendChild(clientline);
+                    contents.appendChild(clientline);
+                }
             }
         },
         cancel_last_order_sat: function(order){
