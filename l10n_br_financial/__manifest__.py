@@ -16,7 +16,6 @@
         'l10n_br_base',
     ],
     'data': [
-        'security/financeiro_cheque.xml',
         'views/financeiro_cheque.xml',
         'views/res_bank_agencia.xml',
         'views/financial_move.xml',
@@ -27,7 +26,6 @@
     ],
     'demo': [
         'demo/financeiro_tipo_documento.xml',
-        'demo/financeiro_cheque.xml',
         'demo/account_payment_mode.xml',
         'demo/account_payment_method.xml',
     ],
