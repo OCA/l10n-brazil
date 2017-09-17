@@ -13,28 +13,28 @@
         <field name="arch" type="xml">
             <header position="inside">
                 <button name="envia_nfe" string="Enviar NFC-e" type="object" class="btn-primary"
-                    attrs="{'invisible': [('state_nfe', 'not in', ['em_digitacao', 'rejeitada'])]}" />
+                    attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada'])]}" />
                 <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-primary" />
                 <button name="gera_pdf" string="Gerar PDF" type="object" class="btn-primary" />
             </header>
             <xpath expr="//field[@name='empresa_id']" position="before">
-                <field name="state_nfe" readonly="1" colspan="4" string="Situação"
-                       decoration-warning="state_nfe == 'denegada' or situacao_fiscal == '04'"
-                       decoration-danger="state_nfe == 'rejeitada'"
+                <field name="situacao_nfe" readonly="1" colspan="4" string="Situação"
+                       decoration-warning="situacao_nfe == 'denegada' or situacao_fiscal == '04'"
+                       decoration-danger="situacao_nfe == 'rejeitada'"
                        />
-                <field name="mensagem_nfe" readonly="1" colspan="4" attrs="{'invisible': [('state_nfe', '!=', 'rejeitada')]}"
-                       decoration-warning="state_nfe == 'denegada' or situacao_fiscal == '04'"
-                       decoration-danger="state_nfe == 'rejeitada'"
+                <field name="mensagem_nfe" readonly="1" colspan="4" attrs="{'invisible': [('situacao_nfe', '!=', 'rejeitada')]}"
+                       decoration-warning="situacao_nfe == 'denegada' or situacao_fiscal == '04'"
+                       decoration-danger="situacao_nfe == 'rejeitada'"
                        />
             </xpath>
             <page name="financeiro" position="after">
                 <page name="detalhe_nfe" string="NFC-e">
                     <field name="permite_cancelamento" invisible="1" />
-                    <group col="4" attrs="{'invisible': [('permite_cancelamento', '=', False), ('state_nfe', '!=', 'cancelada')]}">
+                    <group col="4" attrs="{'invisible': [('permite_cancelamento', '=', False), ('situacao_nfe', '!=', 'cancelada')]}">
                         <separator string="Cancelamento" colspan="4" />
-                        <field name="justificativa" colspan="4" attrs="{'readonly': [('state_nfe', '=', 'cancelada')]}" />
+                        <field name="justificativa" colspan="4" attrs="{'readonly': [('situacao_nfe', '=', 'cancelada')]}" />
                         <button name="cancela_nfe" string="Cancelar NFC-e" type="object" class="btn-primary"
-                            attrs="{'invisible': ['|', ('permite_cancelamento', '=', 'False'), ('state_nfe', '=', 'cancelada')]}" />
+                            attrs="{'invisible': ['|', ('permite_cancelamento', '=', 'False'), ('situacao_nfe', '=', 'cancelada')]}" />
                     </group>
                 </page>
                 <page name="suporte" string="Suporte">
@@ -46,7 +46,7 @@
                         <field name="arquivo_xml_autorizacao_id" colspan="4" string="Processo" />
                         <field name="arquivo_pdf_id" colspan="4" string="DANFCE" />
                     </group>
-                    <group col="4" attrs="{'invisible': [('state_nfe', '!=', 'cancelada')]}">
+                    <group col="4" attrs="{'invisible': [('situacao_nfe', '!=', 'cancelada')]}">
                         <separator string="Cancelamento" colspan="4" />
                         <field name="data_hora_cancelamento" />
                         <field name="protocolo_cancelamento" />
@@ -73,14 +73,14 @@
                         danger (vermelho): rejeitada
                         success (verde):
                 -->
-                <attribute name="decoration-warning">state_nfe == 'denegada' or situacao_fiscal == '04'</attribute>
-                <attribute name="decoration-muted">state_nfe in ('cancelada', 'inutilizada') or situacao_fiscal in ('02', '03', '05', 'NC', 'MR')</attribute>
-                <attribute name="decoration-info">state_nfe == 'a_enviar'</attribute>
-                <attribute name="decoration-primary">state_nfe == 'enviada'</attribute>
-                <attribute name="decoration-danger">state_nfe == 'rejeitada'</attribute>
+                <attribute name="decoration-warning">situacao_nfe == 'denegada' or situacao_fiscal == '04'</attribute>
+                <attribute name="decoration-muted">situacao_nfe in ('cancelada', 'inutilizada') or situacao_fiscal in ('02', '03', '05', 'NC', 'MR')</attribute>
+                <attribute name="decoration-info">situacao_nfe == 'a_enviar'</attribute>
+                <attribute name="decoration-primary">situacao_nfe == 'enviada'</attribute>
+                <attribute name="decoration-danger">situacao_nfe == 'rejeitada'</attribute>
             </xpath>
             <xpath expr="//field[@name='empresa_id']" position="before">
-                <field name="state_nfe" string="Situação" />
+                <field name="situacao_nfe" string="Situação" />
             </xpath>
         </field>
     </record>

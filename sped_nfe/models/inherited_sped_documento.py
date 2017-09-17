@@ -73,7 +73,7 @@ class SpedDocumento(models.Model):
         string='Mensagem',
         copy=False,
     )
-    state_nfe = fields.Selection(
+    situacao_nfe = fields.Selection(
         selection=SITUACAO_NFE,
         string='Situação NF-e',
         default=SITUACAO_NFE_EM_DIGITACAO,
@@ -132,7 +132,7 @@ class SpedDocumento(models.Model):
                     parse_datetime(documento.data_hora_cancelamento))
                 documento.data_cancelamento = str(data_hora_cancelamento)[:10]
 
-    @api.depends('modelo', 'emissao', 'state_nfe')
+    @api.depends('modelo', 'emissao', 'situacao_nfe')
     def _compute_permite_alteracao(self):
         for documento in self:
             if documento.modelo not in (MODELO_FISCAL_NFE,
@@ -149,7 +149,7 @@ class SpedDocumento(models.Model):
             # somente quando estiver em digitação ou rejeitada
             #
             documento.permite_alteracao = \
-                documento.state_nfe in (SITUACAO_NFE_EM_DIGITACAO,
+                documento.situacao_nfe in (SITUACAO_NFE_EM_DIGITACAO,
                                         SITUACAO_NFE_REJEITADA)
 
     def _check_permite_alteracao(self, operacao='create', dados={}):
@@ -161,7 +161,7 @@ class SpedDocumento(models.Model):
             'protocolo_cancelamento',
             'arquivo_pdf_id',
             'situacao_fiscal',
-            'state_nfe',
+            'situacao_nfe',
         ]
         for documento in self:
             if documento.modelo not in (MODELO_FISCAL_NFE,
@@ -187,7 +187,7 @@ class SpedDocumento(models.Model):
             # Trata alguns campos que é permitido alterar depois da nota
             # autorizada
             #
-            if documento.state_nfe == SITUACAO_NFE_AUTORIZADA:
+            if documento.situacao_nfe == SITUACAO_NFE_AUTORIZADA:
                 for campo in CAMPOS_PERMITIDOS:
                     if campo in dados:
                         permite_alteracao = True
@@ -202,7 +202,7 @@ class SpedDocumento(models.Model):
             )
 
     @api.depends('data_hora_autorizacao', 'modelo', 'emissao', 'justificativa',
-                 'state_nfe')
+                 'situacao_nfe')
     def _compute_permite_cancelamento(self):
         #
         # Este método deve ser alterado por módulos integrados, para verificar
@@ -229,7 +229,7 @@ class SpedDocumento(models.Model):
                 tempo_autorizado -= \
                     parse_datetime(documento.data_hora_autorizacao + ' GMT')
 
-                if (documento.state_nfe == SITUACAO_NFE_AUTORIZADA and
+                if (documento.situacao_nfe == SITUACAO_NFE_AUTORIZADA and
                         tempo_autorizado.days < 1):
                     documento.permite_cancelamento = True
 
@@ -876,7 +876,7 @@ class SpedDocumento(models.Model):
         # que ele não está online...
         #
         if processo.webservice == WS_NFE_SITUACAO:
-            self.state_nfe = SITUACAO_NFE_EM_DIGITACAO
+            self.situacao_nfe = SITUACAO_NFE_EM_DIGITACAO
         #
         # Se o último processo foi a consulta da nota, significa que ela já
         # está emitida
@@ -885,16 +885,16 @@ class SpedDocumento(models.Model):
             if processo.resposta.cStat.valor in ('100', '150'):
                 self.chave = processo.resposta.chNFe.valor
                 self.executa_antes_autorizar()
-                self.state_nfe = SITUACAO_NFE_AUTORIZADA
+                self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
                 self.executa_depois_autorizar()
             elif processo.resposta.cStat.valor in ('110', '301', '302'):
                 self.chave = processo.resposta.chNFe.valor
                 self.executa_antes_denegar()
                 self.situacao_fiscal = SITUACAO_FISCAL_DENEGADO
-                self.state_nfe = SITUACAO_NFE_DENEGADA
+                self.situacao_nfe = SITUACAO_NFE_DENEGADA
                 self.executa_depois_denegar()
             else:
-                self.state_nfe = SITUACAO_NFE_EM_DIGITACAO
+                self.situacao_nfe = SITUACAO_NFE_EM_DIGITACAO
 
         #
         # Se o último processo foi o envio do lote, significa que a consulta
@@ -912,7 +912,7 @@ class SpedDocumento(models.Model):
                 mensagem += '\nMensagem: ' + \
                             processo.resposta.xMotivo.valor
                 self.mensagem_nfe = mensagem
-                self.state_nfe = SITUACAO_NFE_REJEITADA
+                self.situacao_nfe = SITUACAO_NFE_REJEITADA
         #
         # Se o último processo foi o retorno do recibo, a nota foi rejeitada,
         # denegada, autorizada, ou ainda não tem resposta
@@ -922,7 +922,7 @@ class SpedDocumento(models.Model):
             # Consulta ainda sem resposta, a nota ainda não foi processada
             #
             if processo.resposta.cStat.valor == '105':
-                self.state_nfe = SITUACAO_NFE_ENVIADA
+                self.situacao_nfe = SITUACAO_NFE_ENVIADA
             #
             # Lote processado
             #
@@ -952,12 +952,12 @@ class SpedDocumento(models.Model):
 
                     if protNFe.infProt.cStat.valor in ('100', '150'):
                         self.executa_antes_autorizar()
-                        self.state_nfe = SITUACAO_NFE_AUTORIZADA
+                        self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
                         self.executa_depois_autorizar()
                     else:
                         self.executa_antes_denegar()
                         self.situacao_fiscal = SITUACAO_FISCAL_DENEGADO
-                        self.state_nfe = SITUACAO_NFE_DENEGADA
+                        self.situacao_nfe = SITUACAO_NFE_DENEGADA
                         self.executa_depois_denegar()
 
                 else:
@@ -966,7 +966,7 @@ class SpedDocumento(models.Model):
                     mensagem += '\nMensagem: ' + \
                                 protNFe.infProt.xMotivo.valor
                     self.mensagem_nfe = mensagem
-                    self.state_nfe = SITUACAO_NFE_REJEITADA
+                    self.situacao_nfe = SITUACAO_NFE_REJEITADA
             else:
                 #
                 # Rejeitada por outros motivos, falha no schema etc. etc.
@@ -976,7 +976,7 @@ class SpedDocumento(models.Model):
                 mensagem += '\nMensagem: ' + \
                             processo.resposta.xMotivo.valor
                 self.mensagem_nfe = mensagem
-                self.state_nfe = SITUACAO_NFE_REJEITADA
+                self.situacao_nfe = SITUACAO_NFE_REJEITADA
 
     def cancela_nfe(self):
         super(SpedDocumento, self).cancela_nfe()
@@ -1067,10 +1067,10 @@ class SpedDocumento(models.Model):
 
             if procevento.retEvento.infEvento.cStat.valor == '155':
                 self.situacao_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
-                self.state_nfe = SITUACAO_NFE_CANCELADA
+                self.situacao_nfe = SITUACAO_NFE_CANCELADA
             elif procevento.retEvento.infEvento.cStat.valor == '135':
                 self.situacao_fiscal = SITUACAO_FISCAL_CANCELADO
-                self.state_nfe = SITUACAO_NFE_CANCELADA
+                self.situacao_nfe = SITUACAO_NFE_CANCELADA
 
             self.executa_depois_cancelar()
 
@@ -1230,7 +1230,7 @@ class SpedDocumento(models.Model):
 
         mail_template = None
 
-        if self.state_nfe == SITUACAO_NFE_CANCELADA:
+        if self.situacao_nfe == SITUACAO_NFE_CANCELADA:
             if self.modelo == MODELO_FISCAL_NFE and \
                 self.empresa_id.mail_template_nfe_cancelada_id:
                 mail_template = self.empresa_id.mail_template_nfe_cancelada_id
@@ -1238,7 +1238,7 @@ class SpedDocumento(models.Model):
                 self.empresa_id.mail_template_nfce_cancelada_id:
                 mail_template = self.empresa_id.mail_template_nfce_cancelada_id
 
-        elif self.state_nfe == SITUACAO_NFE_DENEGADA:
+        elif self.situacao_nfe == SITUACAO_NFE_DENEGADA:
             if self.modelo == MODELO_FISCAL_NFE and \
                 self.empresa_id.mail_template_nfe_denegada_id:
                 mail_template = self.empresa_id.mail_template_nfe_denegada_id
