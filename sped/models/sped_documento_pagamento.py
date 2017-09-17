@@ -21,7 +21,7 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
 _logger = logging.getLogger(__name__)
 
 try:
-    from pybrasil.valor.decimal import Decimal
+    from pybrasil.valor.decimal import Decimal as D
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -77,6 +77,7 @@ class SpedDocumentoPagamento(SpedBase, models.Model):
         default=INTEGRACAO_CARTAO_NAO_INTEGRADO,
     )
     participante_id = fields.Many2one(
+        comodel_name='sped.participante',
         string='Operadora do cartão',
         ondelete='restrict',
     )
@@ -85,45 +86,26 @@ class SpedDocumentoPagamento(SpedBase, models.Model):
         size=18,
     )
 
-    @api.onchange('condicao_pagamento_id', 'valor', 'documento_id', 'duplicata_ids')
+    @api.onchange('condicao_pagamento_id', 'valor', 'documento_id',
+                  'duplicata_ids')
     def _onchange_condicao_pagamento_id(self):
         res = {}
         valores = {}
         res['value'] = valores
 
-        if not (self.condicao_pagamento_id and self.valor and self.documento_id):
+        if not (self.condicao_pagamento_id and
+                self.valor and self.documento_id):
             return res
 
-        valor = Decimal(self.valor or 0)
+        valor = D(self.valor or 0)
 
-        #
-        # Para a compatibilidade com a chamada original (super), que usa
-        # o decorator deprecado api.one, pegamos aqui sempre o 1º elemento
-        # da lista que vai ser retornada
-        #
-        lista_vencimentos = self.condicao_pagamento_id.compute(
-            valor,
-            self.documento_id.data_emissao,
-        )[0]
-
-        duplicata_ids = [
-            [5, False, {}],
-        ]
-
-        parcela = 1
-        for data_vencimento, valor in lista_vencimentos:
-            duplicata = {
-                'numero': str(parcela),
-                'data_vencimento': data_vencimento,
-                'valor': valor,
-            }
-            duplicata_ids.append([0, False, duplicata])
-            parcela += 1
-
+        duplicata_ids = self.condicao_pagamento_id.gera_parcela_ids(valor,
+            self.documento_id.data_emissao)
         valores['duplicata_ids'] = duplicata_ids
         valores['forma_pagamento'] = self.condicao_pagamento_id.forma_pagamento
         valores['bandeira_cartao'] = self.condicao_pagamento_id.bandeira_cartao
-        valores['integracao_cartao'] = self.condicao_pagamento_id.integracao_cartao
+        valores['integracao_cartao'] = \
+            self.condicao_pagamento_id.integracao_cartao
 
         if self.condicao_pagamento_id.participante_id:
             valores['participante_id'] = \
