@@ -1,18 +1,24 @@
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
 <odoo>
+
     <record model="ir.ui.view" id="sale_order_form">
         <field name="name">sale.order.form (in sped_credit_control)</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sped_sale.sale_order_form"/>
         <field name="arch" type="xml">
-            <field name="payment_term_id" position="after">
-                <field name="ultrapassa_limite_credito" invisible="True"/>
+            <field name="id" position="after">
+                <field name="ultrapassa_limite_credito" invisible="1"/>
             </field>
             <field name="condicao_pagamento_id" position="attributes">
                 <attribute name="domain">
-                    ['|', ('vende_acima_limite_cliente', '=', ultrapassa_limite_credito),
-                     ('vende_acima_limite_cliente', '=', True)]
+                    ['|', ('vende_acima_limite_credito', '=', ultrapassa_limite_credito),
+                     ('vende_acima_limite_credito', '=', True)]
                 </attribute>
             </field>
         </field>
     </record>
+
 </odoo>
