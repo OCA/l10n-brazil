@@ -18,11 +18,11 @@
                             <field name="banco" required="1" />
                             <field name="tipo" required="1" />
                             <newline />
-                            <field name="agencia" required="1" />
-                            <field name="agencia_digito" string="Dígito" />
+                            <field name="agencia" attrs="{'required': [('banco', '!=', '000')], 'invisible': [('banco', '=', '000')]}" />
+                            <field name="agencia_digito" string="Dígito" attrs="{'invisible': [('banco', '=', '000')]}" />
                             <newline />
                             <field name="conta" required="1" />
-                            <field name="conta_digito" string="Dígito" required="1" />
+                            <field name="conta_digito" string="Dígito" attrs="{'required': [('banco', '!=', '000')], 'invisible': [('banco', '=', '000')]}" />
                             <newline />
                             <field name="titular_id" colspan="4" required="1" options="{'no_create': True}" />
                             <newline />

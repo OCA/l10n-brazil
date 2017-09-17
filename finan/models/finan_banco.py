@@ -26,7 +26,6 @@ class FinanBanco(SpedBase, models.Model):
     agencia = fields.Char(
         string='Agência',
         size=5,
-        required=True,
     )
     agencia_digito = fields.Char(
         string='Dígito da agência',
@@ -40,7 +39,6 @@ class FinanBanco(SpedBase, models.Model):
     conta_digito = fields.Char(
         string='Dígito da conta',
         size=1,
-        required=True,
     )
     tipo = fields.Selection(
         selection=FINAN_TIPO_CONTA_BANCARIA,
@@ -89,17 +87,21 @@ class FinanBanco(SpedBase, models.Model):
             nome = FINAN_BANCO_DICT[banco.banco][6:]
             nome += ' / '
             nome += FINAN_TIPO_CONTA_BANCARIA_DICT[banco.tipo]
-            nome += ' / '
-            nome += ' ag. '
-            nome += banco.agencia
+
+            if banco.banco != FINAN_BANCO_INTERNO:
+                nome += ' / '
+                nome += ' ag. '
+                nome += banco.agencia
+
             nome += ' / '
             nome += banco.conta
-            nome += '-'
-            nome += banco.conta_digito
 
-            #if not self._context.get('banco_sem_titular'):
-                #nome += ' / '
-                #nome += banco.titular_id.name_get()[0][1]
+            if banco.banco != FINAN_BANCO_INTERNO:
+                nome += '-'
+                nome += banco.conta_digito
+
+            nome += ' / '
+            nome += banco.titular_id.name_get()[0][1]
 
             banco.nome = nome
 
@@ -116,17 +118,22 @@ class FinanBanco(SpedBase, models.Model):
             nome = FINAN_BANCO_DICT[banco.banco][6:]
             nome += ' / '
             nome += FINAN_TIPO_CONTA_BANCARIA_DICT[banco.tipo]
-            nome += ' / '
-            nome += ' ag. '
-            nome += banco.agencia
+
+            if banco.banco != FINAN_BANCO_INTERNO:
+                nome += ' / '
+                nome += ' ag. '
+                nome += banco.agencia
+
             nome += ' / '
             nome += banco.conta
-            nome += '-'
-            nome += banco.conta_digito
 
-            #if not self._context.get('banco_sem_titular'):
-                #nome += ' / '
-                #nome += banco.titular_id.name_get()[0][1]
+            if banco.banco != FINAN_BANCO_INTERNO:
+                nome += '-'
+                nome += banco.conta_digito
+
+            if not self._context.get('banco_sem_titular'):
+                nome += ' / '
+                nome += banco.titular_id.name_get()[0][1]
 
             res.append((banco.id, nome))
 
