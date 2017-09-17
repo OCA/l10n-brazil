@@ -234,6 +234,11 @@ class FinanRelatorioFluxoCaixa(ReportXlsxBase):
         self.env.cr.execute(SQL_VALOR_INICIAL, filtros)
         dados = self.env.cr.fetchall()
 
+        if not dados:
+            raise exceptions.Warning(
+                'Não foram encontrados dados com os filtros informados'
+            )
+
         for conta_codigo, valor in dados:
             if conta_codigo in report_data['linhas']:
                 report_data['linhas'][conta_codigo][

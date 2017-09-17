@@ -539,7 +539,12 @@ class FinanLancamento(SpedBase, models.Model):
                     vr_quitado_baixado += pagamento.vr_baixado
                     vr_quitado_total += pagamento.vr_total
 
-                lancamento.vr_saldo = vr_total - vr_quitado_documento
+                vr_saldo = vr_total - vr_quitado_documento
+
+                if vr_saldo < 0:
+                    vr_saldo = 0
+
+                lancamento.vr_saldo = vr_saldo
 
                 if lancamento.data_baixa:
                     lancamento.vr_baixado = vr_saldo
@@ -699,7 +704,7 @@ class FinanLancamento(SpedBase, models.Model):
     @api.constrains('vr_documento',
                     'vr_juros', 'vr_multa', 'vr_outros_creditos',
                     'vr_desconto', 'vr_outros_debitos', 'vr_tarifas',
-                    'vr_total')
+                    'vr_total', 'vr_adiantado')
     def _check_amount(self):
         for lancamento in self:
             if lancamento.vr_documento < 0:
@@ -736,6 +741,17 @@ class FinanLancamento(SpedBase, models.Model):
             if lancamento.vr_total < 0:
                 raise ValidationError('O valor total precisa ser maior'
                     ' do que zero!')
+
+            #
+            # Quando houver o consumo do adiantamento, esse não pode ser maior
+            # do que o valor do documento em valores absolutos
+            #
+            if lancamento.vr_adiantado < 0:
+                if (lancamento.vr_adiantado * -1) > lancamento.vr_documento:
+                    raise ValidationError('O valor utilizado do saldo de '
+                        'adiantamento não pode ser maior do que o valor '
+                        'do documento!')
+
 
     #@api.model
     #def _avaliable_transition(self, old_state, new_state):

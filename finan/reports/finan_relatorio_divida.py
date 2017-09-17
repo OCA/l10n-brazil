@@ -10,11 +10,12 @@ from __future__ import division, print_function, unicode_literals
 import logging
 
 from collections import OrderedDict
+from psycopg2.extensions import AsIs
+
 from odoo import _
 from odoo import fields
 from odoo.report import report_sxw
-from psycopg2.extensions import AsIs
-
+from ..constantes import *
 from .report_xlsx_base import ReportXlsxBase
 
 _logger = logging.getLogger(__name__)
@@ -58,6 +59,11 @@ class FinanRelatorioDivida(ReportXlsxBase):
             1: {
                 'title': 'Empresa',
                 'value': self.report_wizard.empresa_id.name_get()[0][1],
+            },
+            2: {
+                'title': 'Situação',
+                'value': FINAN_SITUACAO_DIVIDA_SIMPLES_DICT[
+                        self.report_wizard.situacao_divida_simples],
             },
 
         }
@@ -125,6 +131,11 @@ class FinanRelatorioDivida(ReportXlsxBase):
 
         self.env.cr.execute(SQL_ANALITICO, filtros)
         dados = self.env.cr.dictfetchall()
+
+        if not dados:
+            raise exceptions.Warning(
+                'Não foram encontrados dados com os filtros informados'
+            )
 
         for linha in dados:
             participante = \
@@ -301,7 +312,7 @@ class FinanRelatorioDivida(ReportXlsxBase):
             4: {
                 'header': 'Pagamento',
                 'field': 'data_pagamento',
-                'width': 10,
+                'width': 15,
                 'style': 'date',
                 'type': 'date',
 
@@ -356,7 +367,7 @@ class FinanRelatorioDivida(ReportXlsxBase):
             result[0] = {
                 'header': 'Vencimento',
                 'field': 'data_vencimento_util',
-                'width': 10,
+                'width': 15,
                 'style': 'date',
                 'type': 'date',
             }
@@ -415,7 +426,7 @@ class FinanRelatorioDivida(ReportXlsxBase):
             result[0] = {
                 'header': 'Vencimento',
                 'field': 'titulo_total',
-                'width': 10,
+                'width': 15,
                 'style': 'date',
                 'type': 'date',
             }
