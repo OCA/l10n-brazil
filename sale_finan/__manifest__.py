@@ -20,4 +20,5 @@
         'views/inherited_sale_order_orcamento_view.xml',
     ],
     'installable': True,
+    'auto_install': True,
 }
