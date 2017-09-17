@@ -8,7 +8,7 @@
 from __future__ import division, print_function, unicode_literals
 
 
-from . import report_xlsx_finan_fluxo_caixa_wizard
+from . import finan_relatorio_wizard
 
 #from . import financial_cancel
 # from . import financial_edit

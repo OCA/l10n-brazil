@@ -6,13 +6,13 @@
 -->
 <odoo>
 
-    <record model="ir.actions.report.xml" id="report_xlsx_finan_fluxo_caixa_action">
+    <record model="ir.actions.report.xml" id="finan_relatorio_fluxo_caixa_action">
         <field name="name">Fluxo de caixa</field>
         <field name="type">ir.actions.report.xml</field>
-        <!-- model is where the data for the report will come from -->
-        <field name="model">report.xlsx.finan.fluxo.caixa.wizard</field>
-        <!-- name must *never* be preceeded by "report.", it will be added automaticaly -->
-        <field name="report_name">report_xlsx_finan_fluxo_caixa</field>
+        <!-- model que vai filtrar os dados do relatório -->
+        <field name="model">finan.relatorio.wizard</field>
+        <!-- o name *NUNCA* pode ser precedido por "report.", vai ser adicionado automaticamente -->
+        <field name="report_name">finan_relatorio_fluxo_caixa</field>
         <field name="report_type">xlsx</field>
         <field name="auto" eval="False"/>
     </record>

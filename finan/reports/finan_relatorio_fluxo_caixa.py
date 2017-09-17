@@ -7,17 +7,27 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from psycopg2.extensions import AsIs
+import logging
 
+from psycopg2.extensions import AsIs
 from dateutil.relativedelta import relativedelta
+
 from odoo import _
 from odoo import fields
 from odoo.report import report_sxw
 
 from .report_xlsx_base import ReportXlsxBase
 
+_logger = logging.getLogger(__name__)
 
-class ReportXslxFinancialCashflow(ReportXlsxBase):
+try:
+    from pybrasil.data import agora, formata_data
+
+except (ImportError, IOError) as err:
+    _logger.debug(err)
+
+
+class FinanRelatorioFluxoCaixa(ReportXlsxBase):
 
     def define_title(self):
         if self.report_wizard.periodo == 'dias':
@@ -195,26 +205,24 @@ class ReportXslxFinancialCashflow(ReportXlsxBase):
                     " fl.data_pagamento), 'YYYY-MM-01')"
 
         SQL_VALOR_INICIAL = '''
-            select
-                fc.codigo,
-                coalesce(sum(coalesce(fl.vr_total, 0) * coalesce(fl.sinal, 1)), 0)
-            from
-                finan_lancamento fl
-                join finan_conta_arvore fca
-                    on fca.conta_relacionada_id = fl.conta_id
-                join finan_conta fc
-                    on fc.id = fca.conta_superior_id
-            where
-                fl.provisorio != True
-                and fl.empresa_id = %(empresa_id)s
-                and fl.tipo %(tipo)s ('a_receber', 'a_pagar')
-                and fl.%(periodo)s < %(data_inicial)s
+        select
+            fc.codigo,
+            coalesce(sum(coalesce(fl.vr_total, 0) * coalesce(fl.sinal, 1)), 0)
+        from
+            finan_lancamento fl
+            join finan_conta_arvore fca on fca.conta_relacionada_id = fl.conta_id
+            join finan_conta fc on fc.id = fca.conta_superior_id
+        where
+            fl.provisorio != True
+            and fl.empresa_id = %(empresa_id)s
+            and fl.tipo %(tipo)s ('a_receber', 'a_pagar')
+            and fl.%(periodo)s < %(data_inicial)s
 
-            group by
-                fc.codigo
+        group by
+            fc.codigo
 
-            order by
-                fc.codigo
+        order by
+            fc.codigo
         '''
 
         filtros = {
@@ -224,40 +232,38 @@ class ReportXslxFinancialCashflow(ReportXlsxBase):
             'empresa_id': filtro_sql.get('empresa_id'),
         }
         self.env.cr.execute(SQL_VALOR_INICIAL, filtros)
-        data = self.env.cr.fetchall()
+        dados = self.env.cr.fetchall()
 
-        for conta_codigo, valor in data:
+        for conta_codigo, valor in dados:
             if conta_codigo in report_data['linhas']:
                 report_data['linhas'][conta_codigo][
-                    'valor_inicial'] = valor or 0
-                report_data['linhas'][conta_codigo]['valor_final'] = valor or 0
+                    'valor_inicial'] = valor
+                report_data['linhas'][conta_codigo]['valor_final'] = valor
 
             if conta_codigo in report_data['resumos']:
-                report_data['resumos_total']['valor_inicial'] += valor or 0
-                report_data['resumos_total']['valor_final'] += valor or 0
+                report_data['resumos_total']['valor_inicial'] += valor
+                report_data['resumos_total']['valor_final'] += valor
 
         SQL_DADOS = '''
-            select
-                fc.codigo,
-                %(data_periodo)s as data_periodo,
-                coalesce(sum(coalesce(fl.vr_total, 0) * coalesce(fl.sinal, 1)), 0)
-            from
-                finan_lancamento fl
-                join finan_conta_arvore fca
-                    on fca.conta_relacionada_id = fl.conta_id
-                join finan_conta fc
-                    on fc.id = fca.conta_superior_id
-            where
-                fl.provisorio != True
-                and fl.empresa_id = %(empresa_id)s
-                and fl.tipo %(tipo)s ('a_receber', 'a_pagar')
-                and fl.%(periodo)s between %(data_inicial)s and %(data_final)s
+        select
+            fc.codigo,
+            %(data_periodo)s as data_periodo,
+            coalesce(sum(coalesce(fl.vr_total, 0) * coalesce(fl.sinal, 1)), 0)
+        from
+            finan_lancamento fl
+            join finan_conta_arvore fca on fca.conta_relacionada_id = fl.conta_id
+            join finan_conta fc on fc.id = fca.conta_superior_id
+        where
+            fl.provisorio != True
+            and fl.empresa_id = %(empresa_id)s
+            and fl.tipo %(tipo)s ('a_receber', 'a_pagar')
+            and fl.%(periodo)s between %(data_inicial)s and %(data_final)s
 
-            group by
-                fc.id, fc.codigo, data_periodo
+        group by
+            fc.id, fc.codigo, data_periodo
 
-            order by
-                fc.codigo, data_periodo
+        order by
+            fc.codigo, data_periodo
         '''
 
         filtros = {
@@ -269,9 +275,9 @@ class ReportXslxFinancialCashflow(ReportXlsxBase):
             'empresa_id': filtro_sql.get('empresa_id'),
         }
         self.env.cr.execute(SQL_DADOS, filtros)
-        data = self.env.cr.fetchall()
+        dados = self.env.cr.fetchall()
 
-        for conta_codigo, data_periodo, valor in data:
+        for conta_codigo, data_periodo, valor in dados:
             data_periodo = 'valor_' + data_periodo.replace('-', '_')
             if conta_codigo not in report_data['linhas']:
                 # raise ?
@@ -281,14 +287,12 @@ class ReportXslxFinancialCashflow(ReportXlsxBase):
                 # raise ?
                 continue
 
-            report_data['linhas'][conta_codigo][data_periodo] = valor or 0
-            report_data['linhas'][conta_codigo]['valor_final'] += valor or 0
+            report_data['linhas'][conta_codigo][data_periodo] = valor
+            report_data['linhas'][conta_codigo]['valor_final'] += valor
 
             if conta_codigo in report_data['resumos']:
-                report_data['resumos_total'][data_periodo] += \
-                    valor or 0
-                report_data['resumos_total']['valor_final'] += \
-                    valor or 0
+                report_data['resumos_total'][data_periodo] += valor
+                report_data['resumos_total']['valor_final'] += valor
 
         return report_data
 
@@ -552,6 +556,7 @@ class ReportXslxFinancialCashflow(ReportXlsxBase):
     def write_content(self):
         self.sheet.set_zoom(85)
 
+        self.write_header()
         #
         # Resumo
         #
@@ -560,10 +565,10 @@ class ReportXslxFinancialCashflow(ReportXlsxBase):
 
         self.sheet.merge_range(
             self.current_row, 0, self.current_row + 1, len(self.columns) - 1,
-            'Resumo', self.style.header.align_center
+            'CONTAS SINTÉTICAS', self.style.header.align_center
         )
         self.current_row += 2
-        self.write_header()
+        #self.write_header()
 
         primeira_linha_dados = self.current_row + 1
         for conta_codigo in sorted(self.report_data['resumos'].keys()):
@@ -589,10 +594,10 @@ class ReportXslxFinancialCashflow(ReportXlsxBase):
         self.current_row += 1
         self.sheet.merge_range(
             self.current_row, 0, self.current_row + 1, len(self.columns) - 1,
-            'Detalhes', self.style.header.align_center
+            'CONTAS ANALÍTICAS', self.style.header.align_center
         )
         self.current_row += 2
-        self.write_header()
+        #self.write_header()
 
         primeira_linha_dados = self.current_row
         for conta_codigo in sorted(self.report_data['linhas'].keys()):
@@ -604,14 +609,15 @@ class ReportXslxFinancialCashflow(ReportXlsxBase):
                           colunas_acumuladas, formula_changes=formula_changes)
 
     def generate_xlsx_report(self, workbook, data, report_wizard):
-        super(ReportXslxFinancialCashflow, self).generate_xlsx_report(
+        super(FinanRelatorioFluxoCaixa, self).generate_xlsx_report(
             workbook, data, report_wizard)
 
         workbook.set_properties({
+            'filename': 'Fluxo_de_Caixa.xlsx',
             'title': self.title,
             'company': self.report_wizard.empresa_id.name_get()[0][1],
-            'comments': 'Criado pelo módulo financeiro em {agora}'.format(
-                agora=fields.Datetime.now())
+            'comments': 'Criado pelo módulo financeiro dia {agora}'.format(
+                agora=formata_data(agora(), '%d/%m/%Y às %H:%M:%S'))
         })
 
         #
@@ -628,17 +634,17 @@ class ReportXslxFinancialCashflow(ReportXlsxBase):
         self.sheet.set_margins(1 / 2.54, 1 / 2.54, 1 / 2.54, 1 / 2.54)
 
 
-ReportXslxFinancialCashflow(
+FinanRelatorioFluxoCaixa(
     #
     # Nome do relatório, no campo "name",
     # no arquivo report_xlsx_finan_fluxo_caixa_data.xml,
     # *SEMPRE* precedido por "report."
     #
-    'report.report_xlsx_finan_fluxo_caixa',
+    'report.finan_relatorio_fluxo_caixa',
     #
     # O model usado para filtrar os dados do relatório, ou de onde vão vir os
     # dados
     #
-    'report.xlsx.finan.fluxo.caixa.wizard',
+    'finan.relatorio.wizard',
     parser=report_sxw.rml_parse
 )

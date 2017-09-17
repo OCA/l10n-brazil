@@ -5,17 +5,17 @@
 from __future__ import division, print_function, unicode_literals
 
 FINAN_DIVIDA = [
-    ('a_receber', 'Conta a receber'),
-    ('a_pagar', 'Conta a pagar'),
+    ('a_receber', 'Contas a receber'),
+    ('a_pagar', 'Contas a pagar'),
 ]
 FINAN_DIVIDA_A_RECEBER= 'a_receber'
 FINAN_DIVIDA_A_PAGAR = 'a_pagar'
 
 FINAN_ENTRADA_SAIDA_CAIXA = [
-    ('recebimento', 'Recebimento'),
-    ('pagamento', 'Pagamento'),
-    ('entrada', 'Entrada'),
-    ('saida', 'Saída'),
+    ('recebimento', 'Recebimentos'),
+    ('pagamento', 'Pagamentos'),
+    ('entrada', 'Entradas'),
+    ('saida', 'Saídas'),
 ]
 FINAN_RECEBIMENTO = 'recebimento'
 FINAN_PAGAMENTO = 'pagamento'

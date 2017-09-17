@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="finan_relatorio_wizard_fluxo_caixa_form">
+        <field name="name">finan.relatorio.fluxo.caixa.wizard.form</field>
+        <field name="model">finan.relatorio.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group col="4">
+                    <field name="empresa_id" required="1" options="{'no_create': True, 'no_open': True}" />
+                    <newline />
+                    <separator string="Período" />
+                    <newline />
+                    <field name="data_periodo" required="1" />
+                    <field name="periodo" required="1" />
+                    <newline />
+                    <field name="data_inicial" required="1" />
+                    <field name="data_final" required="1" />
+                </group>
+                <footer>
+                    <button name="gera_relatorio_fluxo_caixa" string="Gerar fluxo de caixa" type="object"/>
+                    <button string="Fechar" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="finan_relatorio_wizard_fluxo_caixa_action">
+        <field name="name">Fluxo de caixa</field>
+        <field name="res_model">finan.relatorio.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="finan_relatorio_wizard_fluxo_caixa_form_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="finan_relatorio_wizard_fluxo_caixa_form"/>
+        <field name="act_window_id" ref="finan_relatorio_wizard_fluxo_caixa_action"/>
+    </record>
+
+    <record model="ir.ui.menu" id="menu_finan_relatorio_wizard_fluxo_caixa">
+        <field name="name">Fluxo de caixa</field>
+        <field name="parent_id" ref="finan.menu_finan_relatorio"/>
+        <field name="action" ref="finan_relatorio_wizard_fluxo_caixa_action"/>
+        <field name="sequence" eval="2"/>
+    </record>
+
+</odoo>
