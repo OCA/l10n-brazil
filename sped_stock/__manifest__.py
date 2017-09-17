@@ -5,7 +5,7 @@
 {
     'name': 'Sped Estoque',
     'summary': """
-        Estoque Brasileira""",
+        Estoque Brasileiro""",
     'version': '10.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'KMEE,Odoo Community Association (OCA)',
@@ -24,8 +24,6 @@
         'views/inherited_stock_picking_view.xml',
         'views/inherited_stock_move_view.xml',
     ],
-    'demo': [
-        # 'demo/sale_order.xml',
-    ],
     'installable': True,
+    'auto_install': True,
 }
