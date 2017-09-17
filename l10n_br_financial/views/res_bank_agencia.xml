@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="res_bank_agencia_form">
+            <field name="name">res.bank.agencia.form</field>
+            <field name="model">res.bank.agencia</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="pais_id"/>
+                                <field name="estado_id"/>
+                                <field name="cidade_id"/>
+                            </group>
+                            <group>
+                                <field name="banco_id"/>
+                                <field name="bairro"/>
+                                <field name="rua"/>
+                                <field name="numero"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

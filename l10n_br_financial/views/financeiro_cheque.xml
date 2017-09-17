@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+<data>
+
+    <record model="ir.ui.view" id="financeiro_cheque_form_view">
+        <field name="name">financeiro.cheque.form (in l10n_br_financial)</field>
+        <field name="model">financeiro.cheque</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="verificar_cheque" class="oe_highlight" type="object" states="novo" string="Verificar"/>
+                    <button name="cheque_recebido" class="oe_highlight" type="object" states="verificado" string="Recebido"/>
+                    <button name="cheque_descontado" class="oe_highlight" type="object" states="recebido" string="Descontado"/>
+                    <button name="cheque_repassado" class="oe_highlight" type="object" states="recebido" string="Repassado"/>
+                    <button name="cheque_devolvido_banco" class="oe_highlight" type="object" states="recebido" string="Devolvido pelo banco"/>
+                    <button name="cheque_devolvido_parceiro" class="oe_highlight" type="object" states="devolvido_b" string="Devolvido ao Parceiro"/>
+                    <field name="state" widget="statusbar" statusbar_visible="novo,verificado,recebido"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" invisible="True"/>
+                        <field name="codigo"/>
+                        <field name="data_recebimento"
+                               attrs="{'invisible': [('state', 'in', ['novo','verificado'])]}"/>
+                        <field name="partner_id"
+                               attrs="{'invisible': [('state', 'in', ['novo','verificado'])]}"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="titular" required="True"/>
+                            <field name="banco_id" required="True"/>
+                            <field name="agencia" required="True"/>
+                            <field name="valor" required="True"/>
+                        </group>
+                        <group>
+                            <field name="cpf_titular" required="True"/>
+                            <field name="pre_datado"/>
+                            <field name="conta" required="True"/>
+                            <field name="numero_cheque" required="True"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <field name="financial_move_ids"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!--<record model="ir.ui.view" id="financeiro_cheque_search_view">-->
+        <!--<field name="name">financeiro.cheque.search (in l10n_br_financial)</field>-->
+        <!--<field name="model">financeiro.cheque</field>-->
+        <!--<field name="arch" type="xml">-->
+            <!--<search>-->
+                <!--&lt;!&ndash; TODO &ndash;&gt;-->
+            <!--</search>-->
+        <!--</field>-->
+    <!--</record>-->
+
+    <record model="ir.ui.view" id="financeiro_cheque_tree_view">
+        <field name="name">financeiro.cheque.tree (in l10n_br_financial)</field>
+        <field name="model">financeiro.cheque</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="titular"/>
+                <field name="banco_id"/>
+                <field name="agencia"/>
+                <field name="conta"/>
+                <field name="pre_datado"/>
+                <field name="valor"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="financeiro_cheque_act_window">
+        <field name="name">Cheque</field>
+        <field name="res_model">financeiro.cheque</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="financeiro_cheque_menu">
+        <field name="name">Cheques</field>
+        <field name="parent_id" ref="financial.financial_top_menu"/>
+        <field name="sequence" eval="16"/>
+    </record>
+
+    <record model="ir.ui.menu" id="cadastrar_cheque_menu">
+        <field name="name">Cadastrar</field>
+        <field name="parent_id" ref="financeiro_cheque_menu"/>
+        <field name="action" ref="financeiro_cheque_act_window"/>
+        <field name="sequence" eval="1"/>
+    </record>
+
+</data>
+</odoo>

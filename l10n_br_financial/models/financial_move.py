@@ -19,11 +19,9 @@ class FinancialMove(models.Model):
 
     amount_document = fields.Float(
         string=u'Valor',
-        compute='_set_amount_document',
-        store=True,
     )
 
-    @api.depends('cheque_id', 'cheque_id.valor')
+    @api.onchange('cheque_id', 'cheque_id.valor')
     def _set_amount_document(self):
         if self.cheque_id and self.cheque_id.valor:
             self.amount_document = self.cheque_id.valor
@@ -41,10 +39,3 @@ class FinancialMove(models.Model):
             if move.cheque_id:
                 move.cheque_id.valor_residual += move.amount_document
         return super(FinancialMove, self).unlink()
-
-    @api.multi
-    def action_confirm(self):
-        for record in self:
-            record.change_state('open')
-            if record.participante_id:
-                record.participante_id._compute_credit()

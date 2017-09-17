@@ -11,19 +11,20 @@
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'www.odoobrasil.org.br',
     'depends': [
-        'financial',
-        'sped_sale',
-        'l10n_br_base',
+        #'financial',
     ],
-    'data': [
+    'data': [],
+    #'data': [
+        #'security/financeiro_cheque.xml',
+        #'views/financeiro_cheque.xml',
+        #'views/res_bank_agencia.xml',
         #'views/financial_move.xml',
-        #'views/account_payment_term.xml',
-        #'views/sped_participante.xml',
-        #'views/sale_order.xml',
-        #'views/financial_installment.xml',
-    ],
-    'demo': [
+    #],
+    #'demo': [
         #'demo/financeiro_tipo_documento.xml',
-    ],
+        #'demo/financeiro_cheque.xml',
+        #'demo/account_payment_mode.xml',
+        #'demo/account_payment_method.xml',
+    #],
     'installable': True,
 }
