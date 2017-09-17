@@ -1,0 +1,1262 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* financial
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-22 02:10+0000\n"
+"PO-Revision-Date: 2017-07-22 02:10+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_form
+#: view:financial.move:financial.financial_move_payment_base_form
+msgid "(+) Interest"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_form
+#: view:financial.move:financial.financial_move_payment_base_form
+msgid "(+) Other credits"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_form
+#: view:financial.move:financial.financial_move_payment_base_form
+msgid "(+) Penaly"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_form
+#: view:financial.move:financial.financial_move_payment_base_form
+msgid "(-) Bank fees"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_form
+#: view:financial.move:financial.financial_move_payment_base_form
+msgid "(-) Discount"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_form
+#: view:financial.move:financial.financial_move_payment_base_form
+msgid "(-) Other debits"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_form
+msgid "(-) Paid"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_form
+msgid "(=) Residual"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_form
+#: view:financial.move:financial.financial_move_payment_base_form
+msgid "(=) Total paid"
+msgstr ""
+
+#. module: financial
+#: field:financial.account,complete_name:0
+#: field:financial.document.type,account_id:0
+#: field:financial.installment,account_id:0
+#: field:financial.move,account_id:0
+#: model:ir.actions.act_window,name:financial.financial_document_type_action
+msgid "Account"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_base_form
+#: view:financial.move:financial.financial_move_debt_base_form
+#: view:financial.move:financial.financial_move_payment_base_form
+msgid "Amount"
+msgstr ""
+
+#. module: financial
+#: selection:financial.account,type:0
+msgid "Analytic"
+msgstr ""
+
+#. module: financial
+#: view:res.partner.bank:financial.res_partner_bank_form
+msgid "Balance"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,bank_id:0
+msgid "Bank Account"
+msgstr ""
+
+#. module: financial
+#: model:ir.actions.act_window,name:financial.res_partner_bank_action
+#: model:ir.model,name:financial.model_res_partner_bank
+#: model:ir.ui.menu,name:financial.res_partner_bank_menu
+msgid "Bank Accounts"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_payment_base_search
+msgid "Bank account"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_bank_fees:0
+msgid "Bank fees"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_search
+#: field:financial.move,date_business_maturity:0
+msgid "Business maturity date"
+msgstr ""
+
+#. module: financial
+#: field:report.xlsx.financial.cashflow.wizard,time_span:0
+msgid "By time span in"
+msgstr ""
+
+#. module: financial
+#: view:financial.cancel:financial.financial_cancel_form_view
+#: view:financial.move:financial.financial_move_debt_base_form
+#: model:ir.actions.act_window,name:financial.financial_cancel_act_window
+#: view:report.xlsx.financial.cashflow.wizard:financial.report_xlsx_financial_cashflow_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,date_cancel:0
+msgid "Cancel date"
+msgstr ""
+
+#. module: financial
+#: field:financial.cancel,reason:0
+msgid "Cancel reason"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_search
+#: selection:financial.move,debt_concise_status:0
+#: selection:financial.move,debt_status:0
+#: selection:financial.move,state:0
+msgid "Cancelled"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_cancel:0
+msgid "Cancelled amount"
+msgstr ""
+
+#. module: financial
+#: model:ir.actions.act_window,name:financial.report_xlsx_financial_cashflow_wizard_action
+#: model:ir.actions.report.xml,name:financial.report_xlsx_financial_cashflow_action
+#: model:ir.ui.menu,name:financial.report_xlsx_financial_cashflow_wizard_menu
+msgid "Cashflow"
+msgstr ""
+
+#. module: financial
+#: field:financial.account,child_ids:0
+msgid "Child Accounts"
+msgstr ""
+
+#. module: financial
+#: field:financial.account.tree.analysis,child_account_id:0
+msgid "Child account"
+msgstr ""
+
+#. module: financial
+#: field:financial.account,code:0
+msgid "Code"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_form
+#: view:financial.move:financial.financial_move_payment_base_form
+msgid "Communication..."
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:55
+#: field:financial.installment,company_id:0
+#: field:financial.move,company_id:0
+#: field:report.xlsx.financial.cashflow.wizard,company_id:0
+#, python-format
+msgid "Company"
+msgstr ""
+
+#. module: financial
+#: model:ir.ui.menu,name:financial.financial_config_menu
+msgid "Configuration"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_base_form
+msgid "Confirm"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_base_search
+#: selection:financial.installment,state:0
+msgid "Confirmed"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:289
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:335
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:389
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:442
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:494
+#, python-format
+msgid "Conta"
+msgstr ""
+
+#. module: financial
+#: field:financial.account,create_uid:0
+#: field:financial.cancel,create_uid:0
+#: field:financial.document.type,create_uid:0
+#: field:financial.installment,create_uid:0
+#: field:financial.installment.simulation,create_uid:0
+#: field:financial.move,create_uid:0
+#: field:report.xlsx.financial.cashflow.wizard,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: financial
+#: field:financial.account,create_date:0
+#: field:financial.cancel,create_date:0
+#: field:financial.document.type,create_date:0
+#: field:financial.installment,create_date:0
+#: field:financial.installment.simulation,create_date:0
+#: field:financial.move,create_date:0
+#: field:report.xlsx.financial.cashflow.wizard,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:604
+#, python-format
+msgid "Created with Financial app on {now}"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,date_credit_debit:0
+msgid "Credit/debit date"
+msgstr ""
+
+#. module: financial
+#: field:financial.installment,currency_id:0
+#: field:financial.installment.simulation,currency_id:0
+#: field:financial.move,currency_id:0
+msgid "Currency"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:49
+#, python-format
+msgid "Date"
+msgstr ""
+
+#. module: financial
+#: field:res.partner.bank,date_balance:0
+msgid "Date balance"
+msgstr ""
+
+#. module: financial
+#: field:report.xlsx.financial.cashflow.wizard,date_from:0
+msgid "Date from"
+msgstr ""
+
+#. module: financial
+#: help:financial.move,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr ""
+
+#. module: financial
+#: field:report.xlsx.financial.cashflow.wizard,date_to:0
+msgid "Date to"
+msgstr ""
+
+#. module: financial
+#: selection:report.xlsx.financial.cashflow.wizard,time_span:0
+msgid "Days"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_payment_base_form
+#: field:financial.move,debt_id:0
+msgid "Debt"
+msgstr ""
+
+#. module: financial
+#: model:ir.actions.act_window,name:financial.financial_move_debt_base_action
+msgid "Debt (base)"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,debt_concise_status:0
+msgid "Debt Concise Status"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,debt_status:0
+msgid "Debt Status"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,debt_ids:0
+msgid "Debt ids"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_search
+msgid "Debts"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:583
+#, python-format
+msgid "Detail"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_payment_base_tree
+#: view:financial.move:financial.financial_move_payment_one2many_base_tree
+#: field:financial.move,amount_discount:0
+msgid "Discount"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_discount_forecast:0
+msgid "Discount forecast"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,date_discount:0
+msgid "Discount up to"
+msgstr ""
+
+#. module: financial
+#: field:financial.account,display_name:0
+#: field:financial.account.tree.analysis,display_name:0
+#: field:financial.cancel,display_name:0
+#: field:financial.document.type,display_name:0
+#: field:financial.installment,display_name:0
+#: field:financial.installment.simulation,display_name:0
+#: field:report.xlsx.financial.cashflow.wizard,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_base_form
+#: view:financial.installment:financial.financial_installment_base_tree
+#: view:financial.move:financial.financial_move_debt_base_form
+#: view:financial.move:financial.financial_move_debt_base_tree
+#: view:financial.move:financial.financial_move_payment_base_tree
+#: view:financial.move:financial.financial_move_payment_one2many_base_tree
+msgid "Document"
+msgstr ""
+
+#. module: financial
+#: field:financial.installment,amount_document:0
+#: field:financial.move,amount_document:0
+msgid "Document Amount"
+msgstr ""
+
+#. module: financial
+#: view:financial.document.type:financial.financial_document_type_form
+#: field:financial.document.type,name:0
+#: model:ir.ui.menu,name:financial.financial_document_type_menu
+msgid "Document Type"
+msgstr ""
+
+#. module: financial
+#: field:financial.installment.simulation,amount_document:0
+msgid "Document amount"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,original_currency_amount:0
+msgid "Document amount in original currency"
+msgstr ""
+
+#. module: financial
+#: field:financial.installment,date_document:0
+#: field:financial.move,date_document:0
+msgid "Document date"
+msgstr ""
+
+#. module: financial
+#: field:financial.installment,document_number:0
+#: field:financial.move,document_number:0
+msgid "Document number"
+msgstr ""
+
+#. module: financial
+#: view:financial.document.type:financial.financial_document_type_search
+#: view:financial.document.type:financial.financial_document_type_tree
+#: field:financial.installment,document_type_id:0
+#: field:financial.move,document_type_id:0
+msgid "Document type"
+msgstr ""
+
+#. module: financial
+#: selection:financial.installment,state:0
+#: selection:financial.move,state:0
+msgid "Draft"
+msgstr ""
+
+#. module: financial
+#: selection:financial.move,debt_status:0
+msgid "Due"
+msgstr ""
+
+#. module: financial
+#: field:financial.installment.simulation,date_maturity:0
+msgid "Due date"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_search
+#: selection:financial.move,debt_status:0
+msgid "Due today"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:25
+#, python-format
+msgid "Expected Dayly Cashflow"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:35
+#, python-format
+msgid "Expected Monthly Cashflow"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:30
+#, python-format
+msgid "Expected Weekly Cashflow"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:321
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:375
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:428
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:480
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:532
+#, python-format
+msgid "Final"
+msgstr ""
+
+#. module: financial
+#: model:ir.ui.menu,name:financial.financial_top_menu
+msgid "Financial"
+msgstr ""
+
+#. module: financial
+#: model:ir.model,name:financial.model_financial_account
+msgid "Financial Account"
+msgstr ""
+
+#. module: financial
+#: model:ir.model,name:financial.model_financial_account_tree_analysis
+msgid "Financial Account Tree Analysis"
+msgstr ""
+
+#. module: financial
+#: model:ir.actions.act_window,name:financial.financial_account_action
+#: model:ir.ui.menu,name:financial.financial_account_menu
+msgid "Financial Accounts"
+msgstr ""
+
+#. module: financial
+#: view:financial.cancel:financial.financial_cancel_form_view
+msgid "Financial Cancel"
+msgstr ""
+
+#. module: financial
+#: model:ir.model,name:financial.model_financial_document_type
+msgid "Financial Document Type"
+msgstr ""
+
+#. module: financial
+#: model:ir.model,name:financial.model_financial_installment
+msgid "Financial Installment"
+msgstr ""
+
+#. module: financial
+#: model:ir.model,name:financial.model_financial_installment_simulation
+msgid "Financial Installment Simulation"
+msgstr ""
+
+#. module: financial
+#: model:ir.model,name:financial.model_financial_move
+msgid "Financial Move"
+msgstr ""
+
+#. module: financial
+#: field:financial.installment,move_ids:0
+msgid "Financial Moves"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,display_name:0
+msgid "Financial Reference"
+msgstr ""
+
+#. module: financial
+#: field:financial.installment,type:0
+#: field:financial.move,type:0
+msgid "Financial Type"
+msgstr ""
+
+#. module: financial
+#: field:financial.installment.simulation,move_id:0
+msgid "Financial move"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,message_follower_ids:0
+msgid "Followers"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:50
+#, python-format
+msgid "From %s to %s"
+msgstr ""
+
+#. module: financial
+#: view:report.xlsx.financial.cashflow.wizard:financial.report_xlsx_financial_cashflow_wizard_form
+msgid "Generate cashflow"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_base_search
+#: view:financial.move:financial.financial_move_debt_base_search
+#: view:financial.move:financial.financial_move_payment_base_search
+msgid "Group By..."
+msgstr ""
+
+#. module: financial
+#: help:financial.move,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr ""
+
+#. module: financial
+#: field:financial.account,id:0
+#: field:financial.account.tree.analysis,id:0
+#: field:financial.cancel,id:0
+#: field:financial.document.type,id:0
+#: field:financial.installment,id:0
+#: field:financial.installment.simulation,id:0
+#: field:financial.move,id:0
+#: field:report.xlsx.financial.cashflow.wizard,id:0
+msgid "ID"
+msgstr ""
+
+#. module: financial
+#: help:financial.move,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:299
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:347
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:401
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:454
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:506
+#, python-format
+msgid "Initial"
+msgstr ""
+
+#. module: financial
+#: field:res.partner.bank,initial_balance:0
+msgid "Initial balance"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_base_form
+#: field:financial.installment.simulation,installment_id:0
+#: field:financial.move,installment_id:0
+msgid "Installment"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,installment_simulation_id:0
+msgid "Installment simulation"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_base_form
+#: view:financial.installment:financial.financial_installment_base_search
+#: model:ir.ui.menu,name:financial.financial_installment_2pay_menu
+#: model:ir.ui.menu,name:financial.financial_installment_2receive_menu
+msgid "Installments"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_base_form
+#: field:financial.installment,simulation_ids:0
+msgid "Installments (simulation)"
+msgstr ""
+
+#. module: financial
+#: model:ir.actions.act_window,name:financial.financial_installment_2pay_action
+msgid "Installments to pay"
+msgstr ""
+
+#. module: financial
+#: model:ir.actions.act_window,name:financial.financial_installment_2receive_action
+msgid "Installments to receive"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_payment_base_tree
+#: view:financial.move:financial.financial_move_payment_one2many_base_tree
+#: field:financial.move,amount_interest:0
+msgid "Interest"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_interest_forecast:0
+msgid "Interest forecast"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,interest_rate:0
+msgid "Interest rate"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,date_interest:0
+msgid "Interest since"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,message_is_follower:0
+msgid "Is a Follower"
+msgstr ""
+
+#. module: financial
+#: field:financial.account,is_reduction:0
+msgid "Is reduction account?"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,message_last_post:0
+msgid "Last Message Date"
+msgstr ""
+
+#. module: financial
+#: field:financial.account,__last_update:0
+#: field:financial.account.tree.analysis,__last_update:0
+#: field:financial.cancel,__last_update:0
+#: field:financial.document.type,__last_update:0
+#: field:financial.installment,__last_update:0
+#: field:financial.installment.simulation,__last_update:0
+#: field:financial.move,__last_update:0
+#: field:report.xlsx.financial.cashflow.wizard,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: financial
+#: field:financial.account,write_uid:0
+#: field:financial.cancel,write_uid:0
+#: field:financial.document.type,write_uid:0
+#: field:financial.installment,write_uid:0
+#: field:financial.installment.simulation,write_uid:0
+#: field:financial.move,write_uid:0
+#: field:report.xlsx.financial.cashflow.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: financial
+#: field:financial.account,write_date:0
+#: field:financial.cancel,write_date:0
+#: field:financial.document.type,write_date:0
+#: field:financial.installment,write_date:0
+#: field:financial.installment.simulation,write_date:0
+#: field:financial.move,write_date:0
+#: field:report.xlsx.financial.cashflow.wizard,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: financial
+#: field:financial.account,parent_left:0
+msgid "Left Parent"
+msgstr ""
+
+#. module: financial
+#: field:financial.account,level:0
+#: field:financial.account.tree.analysis,level:0
+msgid "Level"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_tree
+msgid "Maturity"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,date_maturity:0
+msgid "Maturity date"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,communication:0
+msgid "Memo"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,message_ids:0
+msgid "Messages"
+msgstr ""
+
+#. module: financial
+#: help:financial.move,message_ids:0
+msgid "Messages and communication history"
+msgstr ""
+
+#. module: financial
+#: selection:financial.installment,type:0
+#: selection:financial.move,type:0
+msgid "Money In"
+msgstr ""
+
+#. module: financial
+#: selection:financial.installment,type:0
+#: selection:financial.move,type:0
+msgid "Money Out"
+msgstr ""
+
+#. module: financial
+#: selection:report.xlsx.financial.cashflow.wizard,time_span:0
+msgid "Months"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:294
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:341
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:395
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:448
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:500
+#: field:financial.account,name:0
+#, python-format
+msgid "Name"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/models/financial_move.py:564
+#: code:addons/financial/models/financial_move.py:604
+#: code:addons/financial/models/financial_move.py:610
+#, python-format
+msgid "New"
+msgstr ""
+
+#. module: financial
+#: field:financial.installment,note:0
+#: field:financial.move,note:0
+msgid "Note"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_base_form
+msgid "Notes ..."
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_form
+#: view:financial.move:financial.financial_move_payment_base_form
+msgid "Notes..."
+msgstr ""
+
+#. module: financial
+#: field:financial.installment.simulation,number:0
+msgid "Number"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_base_search
+#: view:financial.move:financial.financial_move_debt_base_search
+#: selection:financial.move,debt_concise_status:0
+#: selection:financial.move,state:0
+msgid "Open"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,original_currency_id:0
+msgid "Original currecy"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_other_credits:0
+msgid "Other credits"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_other_debits:0
+msgid "Other debits"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_search
+#: selection:financial.move,debt_status:0
+msgid "Overdue"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_search
+#: view:financial.move:financial.financial_move_debt_base_tree
+#: selection:financial.move,debt_concise_status:0
+#: selection:financial.move,debt_status:0
+#: selection:financial.move,state:0
+msgid "Paid"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_paid_bank_fees:0
+msgid "Paid Bank fees"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_paid_discount:0
+msgid "Paid Discount"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_paid_document:0
+msgid "Paid Document Amount"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_paid_interest:0
+msgid "Paid Interest"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_paid_other_credits:0
+msgid "Paid Other credits"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_paid_other_debits:0
+msgid "Paid Other debits"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_paid_penalty:0
+msgid "Paid Penalty"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_paid_total:0
+msgid "Paid Total"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_form
+#: view:financial.move:financial.financial_move_payment_base_form
+msgid "Paid Values"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,reconciled:0
+msgid "Paid/Reconciled"
+msgstr ""
+
+#. module: financial
+#: field:financial.account,parent_id:0
+#: field:financial.account.tree.analysis,parent_account_id:0
+msgid "Parent account"
+msgstr ""
+
+#. module: financial
+#: selection:financial.move,debt_status:0
+msgid "Partially cancelled"
+msgstr ""
+
+#. module: financial
+#: selection:financial.move,debt_status:0
+msgid "Partially paid"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_base_search
+#: field:financial.installment,partner_id:0
+#: view:financial.move:financial.financial_move_debt_base_search
+#: view:financial.move:financial.financial_move_payment_base_search
+#: field:financial.move,partner_id:0
+msgid "Partner"
+msgstr ""
+
+#. module: financial
+#: selection:financial.installment,type:0
+#: view:financial.move:financial.financial_move_debt_2pay_form
+#: selection:financial.move,type:0
+#: model:ir.actions.act_window,name:financial.financial_move_debt_2pay_action
+#: model:ir.ui.menu,name:financial.financial_move_debt_2pay_menu
+msgid "Payable"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_2pay_search
+#: view:financial.move:financial.financial_move_debt_2pay_tree
+#: model:ir.ui.menu,name:financial.financial_payable_menu
+msgid "Payables"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_payment_base_form
+msgid "Payment"
+msgstr ""
+
+#. module: financial
+#: model:ir.actions.act_window,name:financial.financial_move_payment_base_action
+msgid "Payment (base)"
+msgstr ""
+
+#. module: financial
+#: selection:financial.installment,type:0
+#: selection:financial.move,type:0
+#: model:ir.ui.menu,name:financial.financial_move_payment_payment_item_menu
+msgid "Payment Item"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_payment_payment_item_form
+#: view:financial.move:financial.financial_move_payment_payment_item_search
+#: view:financial.move:financial.financial_move_payment_payment_item_tree
+msgid "Payment Items"
+msgstr ""
+
+#. module: financial
+#: field:financial.installment,payment_term_id:0
+msgid "Payment Term"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_payment_base_search
+#: field:financial.move,date_payment:0
+msgid "Payment date"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,payment_ids:0
+msgid "Payment ids"
+msgstr ""
+
+#. module: financial
+#: model:ir.actions.act_window,name:financial.financial_move_payment_payment_item_action
+msgid "Payment item"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_form
+msgid "Payments"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_penalty:0
+msgid "Penalty"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_penalty_forecast:0
+msgid "Penalty forecast"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,discount_rate:0
+#: field:financial.move,penalty_rate:0
+msgid "Penalty rate"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,date_penalty:0
+msgid "Penalty since"
+msgstr ""
+
+#. module: financial
+#: field:report.xlsx.financial.cashflow.wizard,period:0
+msgid "Period"
+msgstr ""
+
+#. module: financial
+#: view:report.xlsx.financial.cashflow.wizard:financial.report_xlsx_financial_cashflow_wizard_form
+msgid "Period Info"
+msgstr ""
+
+#. module: financial
+#: selection:report.xlsx.financial.cashflow.wizard,period:0
+msgid "Período Previsto"
+msgstr ""
+
+#. module: financial
+#: selection:report.xlsx.financial.cashflow.wizard,period:0
+msgid "Período Realizado"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:27
+#, python-format
+msgid "Realized Dayly Cashflow"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:37
+#, python-format
+msgid "Realized Monthly Cashflow"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:32
+#, python-format
+msgid "Realized Weekly Cashflow"
+msgstr ""
+
+#. module: financial
+#: selection:financial.installment,type:0
+#: selection:financial.move,type:0
+#: model:ir.ui.menu,name:financial.financial_move_payment_receipt_item_menu
+msgid "Receipt Item"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_payment_receipt_item_form
+#: view:financial.move:financial.financial_move_payment_receipt_item_search
+#: view:financial.move:financial.financial_move_payment_receipt_item_tree
+msgid "Receipt Items"
+msgstr ""
+
+#. module: financial
+#: model:ir.actions.act_window,name:financial.financial_move_payment_receipt_item_action
+msgid "Receipt item"
+msgstr ""
+
+#. module: financial
+#: selection:financial.installment,type:0
+#: view:financial.move:financial.financial_move_debt_2receive_form
+#: selection:financial.move,type:0
+#: model:ir.actions.act_window,name:financial.financial_move_debt_2receive_action
+#: model:ir.ui.menu,name:financial.financial_move_debt_2receive_menu
+msgid "Receivable"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_2pay_form
+#: view:financial.installment:financial.financial_installment_2receive_form
+msgid "Receivable installment"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_2pay_search
+#: view:financial.installment:financial.financial_installment_2pay_tree
+#: view:financial.installment:financial.financial_installment_2receive_search
+#: view:financial.installment:financial.financial_installment_2receive_tree
+msgid "Receivable installments"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_2receive_search
+#: view:financial.move:financial.financial_move_debt_2receive_tree
+#: model:ir.ui.menu,name:financial.financial_receivable_menu
+msgid "Receivables"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,ref:0
+msgid "Ref"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_refund:0
+msgid "Refund amount"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,date_refund:0
+msgid "Refund date"
+msgstr ""
+
+#. module: financial
+#: model:ir.model,name:financial.model_report_xlsx_financial_cashflow_wizard
+msgid "Report Xlsx Financial Cashflow Wizard"
+msgstr ""
+
+#. module: financial
+#: model:ir.ui.menu,name:financial.financial_report_menu
+msgid "Reports"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_tree
+#: field:financial.move,amount_residual:0
+msgid "Residual"
+msgstr ""
+
+#. module: financial
+#: field:financial.account,parent_right:0
+msgid "Right Parent"
+msgstr ""
+
+#. module: financial
+#: field:financial.account,sign:0
+#: field:financial.move,sign:0
+msgid "Sign"
+msgstr ""
+
+#. module: financial
+#: selection:financial.account,type:0
+msgid "Sinthetic"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,doc_source_id:0
+msgid "Source Document"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_base_search
+msgid "State"
+msgstr ""
+
+#. module: financial
+#: field:financial.installment,state:0
+#: view:financial.move:financial.financial_move_debt_base_search
+#: field:financial.move,state:0
+msgid "Status"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,message_summary:0
+msgid "Summary"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/reports/report_xlsx_financial_cashflow.py:554
+#, python-format
+msgid "Summmary"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/models/financial_move.py:587
+#, python-format
+msgid "The payment amount must be strictly positive."
+msgstr ""
+
+#. module: financial
+#: help:financial.cancel,reason:0
+msgid "The reason will be saved in record history"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/models/financial_move.py:683
+#, python-format
+msgid "This state transition is not allowed"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_tree
+#: view:financial.move:financial.financial_move_payment_base_tree
+#: view:financial.move:financial.financial_move_payment_one2many_base_tree
+#: field:financial.move,amount_total:0
+msgid "Total"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,amount_total_forecast:0
+msgid "Total forecast"
+msgstr ""
+
+#. module: financial
+#: field:financial.account,type:0
+msgid "Type"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,message_unread:0
+msgid "Unread Messages"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_form
+msgid "Validate"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_base_form
+msgid "Value"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_base_form
+msgid "Values"
+msgstr ""
+
+#. module: financial
+#: selection:report.xlsx.financial.cashflow.wizard,time_span:0
+msgid "Weeks"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/models/financial_move.py:658
+#, python-format
+msgid "You cannot delete an financial move which is \n"
+"related to another document \n"
+"try to cancel the related document"
+msgstr ""
+
+#. module: financial
+#: code:addons/financial/models/financial_move.py:662
+#, python-format
+msgid "You cannot delete an financial move which is not \n"
+"draft or cancelled"
+msgstr ""
+
+#. module: financial
+#: view:financial.cancel:financial.financial_cancel_form_view
+msgid "or"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_payment_base_search
+msgid "payments"
+msgstr ""
+
+#. module: financial
+#: field:financial.move,ref_item:0
+msgid "ref item"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_2pay_form
+msgid "{'default_type': 'payment_item', 'default_amount_document': amount_residual, 'default_partner_id': partner_id, 'default_account_id': account_id, 'default_currency_id': currency_id, 'default_document_type_id': document_type_id, 'tree_view_ref': 'financial.financial_move_payment_one2many_base_tree', 'form_view_ref': 'financial.financial_move_payment_one2many_base_form'}"
+msgstr ""
+
+#. module: financial
+#: view:financial.move:financial.financial_move_debt_2receive_form
+msgid "{'default_type': 'receipt_item', 'default_amount_document': amount_residual, 'default_partner_id': partner_id, 'default_account_id': account_id, 'default_currency_id': currency_id, 'default_document_type_id': document_type_id, 'tree_view_ref': 'financial.financial_move_payment_one2many_base_tree', 'form_view_ref': 'financial.financial_move_payment_one2many_base_form'}"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_2pay_form
+msgid "{'tree_view_ref': 'financial.financial_move_debt_2pay_tree', 'form_view_ref': 'financial.financial_move_debt_2pay_form'}"
+msgstr ""
+
+#. module: financial
+#: view:financial.installment:financial.financial_installment_2receive_form
+msgid "{'tree_view_ref': 'financial.financial_move_debt_2receive_tree', 'form_view_ref': 'financial.financial_move_debt_2receive_form'}"
+msgstr ""
+
