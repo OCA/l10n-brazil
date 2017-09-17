@@ -191,24 +191,27 @@ class AccountPaymentTerm(SpedBase, models.Model):
         default=INTEGRACAO_CARTAO_NAO_INTEGRADO,
     )
     participante_id = fields.Many2one(
+        comodel_name='sped.participante',
         string='Operadora do cartão',
         ondelete='restrict',
     )
 
     @api.multi
     def _compute_nome_comercial(self):
-        if self.env.context.get('currency_id'):
-            currency = self.env['res.currency'].browse(
-                self.env.context['currency_id'])
-        else:
-            currency = self.env.user.company_id.currency_id
+        currency = self.env.ref('base.BRL')
+        #if self.env.context.get('currency_id'):
+            #currency = self.env['res.currency'].browse(
+                #self.env.context['currency_id'])
+        #else:
+            #currency = self.env.user.company_id.currency_id
 
-        if self.env.context.get('lang'):
-            lang = self.env['res.lang']._lang_get(self.env.context.get('lang'))
-        else:
-            lang = self.env['res.lang']._lang_get('pt_BR')
+        lang = self.env['res.lang']._lang_get('pt_BR')
+        #if self.env.context.get('lang'):
+            #lang = self.env['res.lang']._lang_get(self.env.context.get('lang'))
+        #else:
+            #lang = self.env['res.lang']._lang_get('pt_BR')
 
-        valor = D(self.env.context.get('value') or 0)
+        valor = D(self.env.context.get('valor') or 0)
 
         for payment_term in self:
             nome_comercial = ''
@@ -236,12 +239,13 @@ class AccountPaymentTerm(SpedBase, models.Model):
                 if payment_term.com_entrada:
                     nome_comercial += ' com entrada '
 
-                if payment_term.com_juros and payment_term.al_juros:
-                    nome_comercial += ', com juros de '
-                    nome_comercial += lang.format('%.2f',
-                                                  payment_term.al_juros,
-                                                  True, True)
-                    nome_comercial += '%'
+                if payment_term.em_parcelas_mensais:
+                    if payment_term.com_juros and payment_term.al_juros:
+                        nome_comercial += ', com juros de '
+                        nome_comercial += lang.format('%.2f',
+                                                    payment_term.al_juros,
+                                                    True, True)
+                        nome_comercial += '%'
 
                 payment_term.nome_comercial = nome_comercial
                 continue
@@ -303,12 +307,7 @@ class AccountPaymentTerm(SpedBase, models.Model):
         if self.somente_dias_uteis:
             if self.env.user.company_id.sped_empresa_id:
                 empresa = self.env.user.company_id.sped_empresa_id
-                if self.antecipa_dia_util == self.ANTECIPA_DIA_UTIL:
-                    data = dia_util_pagamento(data, empresa.estado,
-                                              empresa.cidade, antecipa=True)
-                else:
-                    data = dia_util_pagamento(data, empresa.estado,
-                                              empresa.cidade)
+                data = empresa.dia_util(data, self.antecipa_dia_util)
             else:
                 if self.antecipa_dia_util == self.ANTECIPA_DIA_UTIL:
                     data = dia_util_pagamento(data, antecipa=True)
@@ -347,7 +346,7 @@ class AccountPaymentTerm(SpedBase, models.Model):
         #
         # Tratamento dos juros
         #
-        if self.com_juros and self.al_juros:
+        if self.em_parcelas_mensais and self.com_juros and self.al_juros:
             al_juros = D(self.al_juros) / 100
             valor_parcela = D(0)
 
@@ -382,7 +381,6 @@ class AccountPaymentTerm(SpedBase, models.Model):
             valor_parcela = valor_parcela.quantize(D('0.01'))
             diferenca = valor - (valor_parcela * meses)
 
-
         return valor_parcela, diferenca
 
     def compute(self, value, date_ref=False, entrada=0):
@@ -411,7 +409,7 @@ class AccountPaymentTerm(SpedBase, models.Model):
             if entrada:
                 valor_entrada = D(entrada or 0)
             elif self.env.context.get('valor_entrada'):
-                valor_entrada = D(self.env.context['currency_id'] or 0)
+                valor_entrada = D(self.env.context['valor_entrada'] or 0)
             elif self.al_entrada:
                 valor_entrada = valor * D(self.al_entrada) / 100
 
@@ -454,3 +452,34 @@ class AccountPaymentTerm(SpedBase, models.Model):
         # numa lista com um único elemento
         #
         return [res]
+
+    def gera_parcela_ids(self, valor, data_base):
+        self.ensure_one()
+
+        parcela_ids = [
+            [5, False, {}],
+        ]
+
+        if not data_base:
+            return parcela_ids
+
+        valor = D(valor or 0)
+
+        #
+        # Para a compatibilidade com a chamada original (super), que usa
+        # o decorator deprecado api.one, pegamos aqui sempre o 1º elemento
+        # da lista que vai ser retornada
+        #
+        lista_vencimentos = self.compute(valor, data_base)[0]
+
+        parcela = 1
+        for data_vencimento, valor in lista_vencimentos:
+            duplicata = {
+                'numero': str(parcela),
+                'data_vencimento': data_vencimento,
+                'valor': valor,
+            }
+            parcela_ids.append([0, False, duplicata])
+            parcela += 1
+
+        return parcela_ids
