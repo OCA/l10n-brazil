@@ -317,7 +317,7 @@
                                     <field name="ind_forma_pagamento" required="1" colspan="4" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
                                     <newline />
                                     <field name="condicao_pagamento_id" colspan="4"
-                                           context="{'currency_id': currency_id, 'value': vr_fatura}"
+                                           context="{'valor': vr_fatura}"
                                            domain="[('forma_pagamento', '!=', False)]"
                                            attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
                                     <separator name="vencimentos" string="Vencimentos" colspan="4" />

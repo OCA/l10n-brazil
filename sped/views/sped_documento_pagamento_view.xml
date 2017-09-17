@@ -23,7 +23,7 @@
                         <field name="valor" required="1" />
                         <field name="troco" />
                         <newline />
-                        <field name="condicao_pagamento_id" colspan="4" context="{'currency_id': currency_id, 'value': valor}" />
+                        <field name="condicao_pagamento_id" colspan="4" context="{'valor': valor}" />
                         <newline />
                         <separator string="Vencimentos" colspan="4" />
                         <field name="duplicata_ids" colspan="4" nolabel="1" >
