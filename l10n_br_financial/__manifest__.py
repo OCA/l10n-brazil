@@ -16,14 +16,14 @@
         'l10n_br_base',
     ],
     'data': [
-        'views/financial_move.xml',
-        'views/account_payment_term.xml',
-        'views/sped_participante.xml',
-        'views/sale_order.xml',
-        'views/financial_installment.xml',
+        #'views/financial_move.xml',
+        #'views/account_payment_term.xml',
+        #'views/sped_participante.xml',
+        #'views/sale_order.xml',
+        #'views/financial_installment.xml',
     ],
     'demo': [
-        'demo/financeiro_tipo_documento.xml',
+        #'demo/financeiro_tipo_documento.xml',
     ],
     'installable': True,
 }
