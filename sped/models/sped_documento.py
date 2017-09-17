@@ -1143,28 +1143,8 @@ class SpedDocumento(SpedBase, models.Model):
         if not valor:
             valor = D(self.vr_nf or 0)
 
-        #
-        # Para a compatibilidade com a chamada original (super), que usa
-        # o decorator deprecado api.one, pegamos aqui sempre o 1º elemento
-        # da lista que vai ser retornada
-        #
-        lista_vencimentos = self.condicao_pagamento_id.compute(valor,
-                                                         self.data_emissao)[0]
-
-        duplicata_ids = [
-            [5, False, {}],
-        ]
-
-        parcela = 1
-        for data_vencimento, valor in lista_vencimentos:
-            duplicata = {
-                'numero': str(parcela),
-                'data_vencimento': data_vencimento,
-                'valor': valor,
-            }
-            duplicata_ids.append([0, False, duplicata])
-            parcela += 1
-
+        duplicata_ids = self.condicao_pagamento_id.gera_parcela_ids(valor,
+                                                         self.data_emissao)
         valores['duplicata_ids'] = duplicata_ids
 
         return res
@@ -1182,7 +1162,7 @@ class SpedDocumento(SpedBase, models.Model):
             # Trata alguns campos que é permitido alterar depois da nota
             # autorizada
             #
-            if documento.state_nfe == SITUACAO_NFE_AUTORIZADA:
+            if documento.situacao_nfe == SITUACAO_NFE_AUTORIZADA:
                 for campo in CAMPOS_PERMITIDOS:
                     if campo in dados:
                         permite_alteracao = True
