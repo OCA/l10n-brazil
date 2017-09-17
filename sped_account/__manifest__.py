@@ -6,7 +6,10 @@
 #
 
 {
-    'name': u'SPED - Account',
+    'name': u'* [OLD] SPED - Account',
+    'summary': '''
+        * [OLD] Do not install this module, it is here for migration only
+        ''',
     'version': '10.0.1.0.0',
     'author': u'"Odoo Community Association (OCA), Ari Caldeira',
     'category': u'Base',
