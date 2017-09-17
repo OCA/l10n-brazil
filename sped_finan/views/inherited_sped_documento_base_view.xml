@@ -12,10 +12,10 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='condicao_pagamento_id']" position="after">
                 <newline />
-                <field name="financial_document_type_id" attrs="{'required': [('ind_forma_pagamento', '!=', '9')]}" />
-                <field name="financial_account_id" attrs="{'required': [('ind_forma_pagamento', '!=', '9')]}" />
+                <field name="finan_documento_id" attrs="{'required': [('ind_forma_pagamento', '!=', '9')]}" />
+                <field name="finan_conta_id" attrs="{'required': [('ind_forma_pagamento', '!=', '9')]}" />
                 <newline />
-                <button type="object" name="gera_financial_move" string="Gerar lançamentos financeiros" />
+                <button type="object" name="gera_finan_lancamento" string="Regerar lançamentos financeiros" />
             </xpath>
         </field>
     </record>

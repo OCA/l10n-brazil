@@ -8,26 +8,26 @@ from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models, _
 from odoo.addons.l10n_br_base.constante_tributaria import *
-from odoo.addons.financial.constants import FINANCIAL_DEBT_2RECEIVE
+from odoo.addons.finan.constantes import FINAN_DIVIDA_A_RECEBER
 
 
 class SpedDocumento(models.Model):
     _inherit = 'sped.documento'
 
-    financial_document_type_id = fields.Many2one(
-        comodel_name='financial.document.type',
+    finan_documento_id = fields.Many2one(
+        comodel_name='finan.documento',
         string='Tipo de documento',
         ondelete='restrict',
     )
-    financial_account_id = fields.Many2one(
-        comodel_name='financial.account',
+    finan_conta_id = fields.Many2one(
+        comodel_name='finan.conta',
         string='Conta financeira',
         ondelete='restrict',
-        domain=[('type', '=', 'A')],
+        domain=[('tipo', '=', 'A')],
     )
-    financial_move_ids = fields.One2many(
-        comodel_name='financial.move',
-        inverse_name='documento_id',
+    finan_lancamento_ids = fields.One2many(
+        comodel_name='finan.lancamento',
+        inverse_name='sped_documento_id',
         string='Lançamentos Financeiros',
         copy=False,
     )
@@ -39,17 +39,17 @@ class SpedDocumento(models.Model):
         if not self.operacao_id:
             return res
 
-        if self.operacao_id.financial_document_type_id:
-            res['value']['financial_document_type_id'] = \
-                self.operacao_id.financial_document_type_id.id
+        if self.operacao_id.finan_documento_id:
+            res['value']['finan_documento_id'] = \
+                self.operacao_id.finan_documento_id.id
 
-        if self.operacao_id.financial_account_id:
-            res['value']['financial_account_id'] = \
-                self.operacao_id.financial_account_id.id
+        if self.operacao_id.finan_conta_id:
+            res['value']['finan_conta_id'] = \
+                self.operacao_id.finan_conta_id.id
 
         return res
 
-    def gera_financial_move(self):
+    def gera_finan_lancamento(self):
         """ Cria o lançamento financeiro do documento fiscal
         :return:
         """
@@ -66,14 +66,13 @@ class SpedDocumento(models.Model):
             #
             # Temporariamente, apagamos todos os lançamentos anteriores
             #
-            self.financial_move_ids.unlink()
+            self.finan_lancamento_ids.unlink()
 
             for duplicata in self.duplicata_ids:
-                dados = duplicata.prepara_financial_move()
-                financial_move = \
-                    self.env['financial.move'].create(dados)
-                financial_move.action_confirm()
+                dados = duplicata.prepara_finan_lancamento()
+                finan_lancamento = \
+                    self.env['finan.lancamento'].create(dados)
 
     def executa_depois_autorizar(self):
         super(SpedDocumento, self).executa_depois_autorizar()
-        self.gera_financial_move()
+        self.gera_finan_lancamento()
