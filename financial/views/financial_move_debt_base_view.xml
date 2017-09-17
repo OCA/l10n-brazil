@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="financial_move_debt_base_tree">
+        <field name="name">financial.move.debt.base.tree (in financial)</field>
+        <field name="model">financial.move</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancelled'">
+                <field name="date_business_maturity" string="Maturity"/>
+                <field name="date_document" />
+                <field name="display_name" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="participante_id"/>
+                <field name="document_type_id" />
+                <field name="document_number" />
+                <field name="currency_id" groups="base.group_multi_currency"/>
+                <field name="amount_document" sum="Document"/>
+                <field name="amount_total" sum="Total"/>
+                <field name="date_payment"/>
+                <field name="amount_paid_document" sum="Paid"/>
+                <field name="amount_residual" sum="Residual"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="financial_move_debt_base_form">
+        <field name="name">financial.move.debt.base.form (in financial)</field>
+        <field name="model">financial.move</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="type" invisible="1"/>
+                <header>
+                    <button name="action_confirm" type="object" states="draft,budget" string="Validate" class="oe_highlight"/>
+                    <button name="%(financial_cancel_act_window)d" type="action" states="open" string="Cancel" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,paid" />
+                </header>
+                <sheet>
+                    <div>
+                        <h1 name="document_name">
+                            <field name="display_name" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                        </h1>
+                        <h2>
+                            <group>
+                                <field name="motivo_cancelamento_id" options='{"no_open": True}'
+                                       class="oe_inline"
+                                       attrs="{'invisible':[('motivo_cancelamento_id','=', False)]}"/>
+                            </group>
+                        </h2>
+                    </div>
+
+                    <group>
+                        <group name="document_header" colspan="4">
+                            <group name="document_identification" string="Document">
+
+                                <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                                <field name="participante_id" required="1" options="{'no_create': True}" domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': type == 'p', 'default_customer': type == 'r'}"/>
+                                <field name="document_number"/>
+                                <field name="doc_source_id" />
+                                <field name="date_document" required="1" />
+                                <field name="account_id" required="1"  options="{'no_create': True}"/>
+                                <field name="document_type_id" required="1" widget="selection"/>
+                                <field name="date_maturity" required="1" />
+                                <field name="date_business_maturity"/>
+                                <field name="debt_status"/>
+                                <field name="date_payment" attrs="{'invisible': [('state', '=', 'draft')]}" readonly="1" />
+                                <field name="date_credit_debit" attrs="{'invisible': [('state', '=', 'draft')]}" readonly="1"/>
+                                <field name="reconciled" attrs="{'invisible': [('state', '=', 'draft')]}" readonly="1" />
+                                <field name="payment_mode_id" widget="selection"/>
+                                <!--<field name="payment_term_id"/> # Removido da visão, verificar comentário no arquivo python-->
+                            </group>
+                            <group name="document_amounts">
+                                <separator string="Values" />
+                                <group name="amounts" colspan="2" class="oe_center">
+                                    <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency"/>
+                                    <field name="amount_document" string="Amount" required="1" />
+                                    <field name="amount_paid_document" string="(-) Paid" readonly="1" />
+                                    <!--<field name="amount_refund" string="(-) Refund" readonly="1"/>-->
+                                    <!--<field name="amount_cancel" string="(-) Cancel" readonly="1"/>-->
+                                    <field name="amount_residual" string="(=) Residual" class="oe_subtotal_footer_separator" readonly="1" />
+                                </group>
+                                <newline />
+                                <separator string="Paid Values" />
+                                <group name="paid_amounts" colspan="2" class="oe_subtotal_footer oe_center">
+                                    <field name="amount_paid_interest" string="(+) Interest" />
+                                    <field name="amount_paid_penalty" string="(+) Penaly" />
+                                    <field name="amount_paid_other_credits" string="(+) Other credits" />
+                                    <field name="amount_paid_discount" string="(-) Discount" />
+                                    <field name="amount_paid_other_debits" string="(-) Other debits" />
+                                    <field name="amount_paid_bank_fees" string="(-) Bank fees" />
+                                    <field name="amount_paid_total" string="(=) Total paid" class="oe_subtotal_footer_separator" readonly="1" />
+                                </group>
+                            </group>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Payments" name="payments">
+                            <field name="payment_ids" context="{'default_account_id': account_id, 'form_view_ref': 'financial.financial_move_payment_base_one2many_form', 'tree_view_ref': 'financial.financial_move_payment_base_one2many_tree', 'search_view_id': 'financial.financial_move_payment_base_one2many_search'}" />
+                        </page>
+                    </notebook>
+                    <div>
+                        <field name="communication" placeholder="Communication..."/>
+                        <field name="note" placeholder="Notes..."/>
+                    </div>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="financial_move_debt_base_search">
+        <field name="name">financial.move.debt.base.search (in financial)</field>
+        <field name="model">financial.move</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <search string="Debts">
+                <filter name="status_draft" string="Open" domain="[('debt_concise_status','=','open')]" />
+                <filter name="status_open" string="Paid" domain="[('debt_concise_status','=','paid')]" />
+                <filter name="status_paid" string="Cancelled" domain="[('debt_concise_status','=','cancelled')]" />
+                <filter name="payment_due_today" string="Due today" domain="[('debt_status','=', 'due_today')]" />
+                <filter name="payment_overdue" string="Overdue" domain="[('debt_status','=','overdue')]" />
+                <field name="document_number" />
+                <field name="participante_id" />
+                <field name="date_document" />
+                <field name="date_business_maturity" />
+                <group expand="0" string="Group By...">
+                    <filter name="group_debt_status" string="Status" context="{'group_by': 'debt_status'}" />
+                    <filter name="group_partner" string="Partner" context="{'group_by': 'participante_id'}"/>
+                    <filter name="group_date_business_maturity" string="Business maturity date" context="{'group_by': 'date_business_maturity'}"/>
+               </group>
+           </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="financial_move_debt_base_action">
+        <field name="name">Debt (base)</field>
+        <field name="res_model">financial.move</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('type', 'in', ('2receive', '2pay'))]</field>
+        <field name="context">{}</field>
+        <field name="search_view_id" ref="financial.financial_move_debt_base_search" />
+    </record>
+
+    <record model="ir.actions.act_window.view" id="financial_move_debt_base_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="financial_move_debt_base_tree"/>
+        <field name="act_window_id" ref="financial_move_debt_base_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="financial_move_debt_base_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="financial_move_debt_base_form"/>
+        <field name="act_window_id" ref="financial_move_debt_base_action"/>
+    </record>
+
+    <!--<record model="ir.ui.menu" id="financial_move_debt_base_menu">-->
+        <!--<field name="name">Debt</field>-->
+        <!--<field name="parent_id" ref="financial_dashboard_menu"/>-->
+        <!--<field name="action" ref="financial_move_debt_base_action"/>-->
+        <!--<field name="sequence" eval="1"/>-->
+    <!--</record>-->
+
+</odoo>
