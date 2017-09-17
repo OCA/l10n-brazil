@@ -12,70 +12,67 @@
     'website': 'www.kmee.com.br',
     'depends': [
         'base',
-        'l10n_br_resource',  # FIXME: Implementar esta funcionalidade no core
+        'l10n_br_base',
         'mail',
         'report_xlsx',
-        # 'account_payment_mode' # FIXME: Modulo da OCA/bank-payment in v10
-        # Estamos temporariamente dependendo deste módulo pois na v8 o model
-        # payment.mode esta no core.
-        'account_payment_mode',
-        #
-        # Em um futuro distante não deveremos mais depender de account, pois os
-        # models:
-        #   - account.payment.term
-        #   - account.payment.mode
-        # Estarão em um módulo separado
-        #
-        # TODO: Criar um PR no core separando models do módulo account
-        #
-        'account',
     ],
     'external_dependencies': {
         'python': ['html2text'],
     },
     'data': [
-        'views/financial_menu.xml',
+        'views/finan_view.xml',
 
-        'data/financial_document_type_data.xml',
-        'data/interest_data.xml',
-        # 'data/financial_move_data.xml',
+        #
+        # Cadastros e configurações
+        #
+        'views/finan_banco_view.xml',
+        'views/finan_conta_view.xml',
+        'views/finan_documento_view.xml',
+        'views/finan_forma_pagamento_view.xml',
+        'views/inherited_sped_account_payment_term_view.xml',
+        'views/inherited_sped_participante_base_view.xml',
 
-        'wizards/financial_cancel.xml',
-        # 'wizards/financial_edit.xml',
-        # 'wizards/financial_pay_receive.xml',
-        'wizards/report_xlsx_financial_cashflow_wizard_view.xml',
-        'wizards/report_xlsx_financial_moves_states_wizard.xml',
-        'wizards/report_xlsx_financial_defaults_wizard.xml',
-        'wizards/report_xlsx_financial_partner_statement_wizard.xml',
+        #
+        # Lançamentos
+        #
+        'views/finan_lancamento_pagamento_one2many_base_view.xml',
+        'views/finan_lancamento_pagamento_one2many_recebimento_view.xml',
+        'views/finan_lancamento_pagamento_one2many_pagamento_view.xml',
 
-        'views/financial_move_payment_one2many_base_view.xml',
-        'views/financial_move_debt_base_view.xml',
-        'views/financial_move_debt_2receive_view.xml',
-        'views/financial_move_debt_2pay_view.xml',
+        'views/finan_lancamento_divida_base_view.xml',
+        'views/finan_lancamento_divida_a_receber_view.xml',
+        'views/finan_lancamento_divida_a_pagar_view.xml',
 
-        'views/financial_move_payment_base_view.xml',
-        'views/financial_move_payment_receipt_item_view.xml',
-        'views/financial_move_payment_payment_item_view.xml',
+        #'views/finan_lancamento_pagamento_base_view.xml',
 
-        'views/financial_installment_base_view.xml',
-        'views/financial_installment_2receive_view.xml',
-        'views/financial_installment_2pay_view.xml',
 
-        'views/financial_document_type_view.xml',
-        'views/financial_account_view.xml',
-        'views/inherited_res_partner_bank_view.xml',
+        ##'data/financial_document_type_data.xml',
+        ##'data/interest_data.xml',
 
-        # 'report/financial_cashflow.xml',
-        # 'report/financial_statement_report.xml',
-        # 'report/report_financial.xml',
-        'reports/report_xlsx_financial_cashflow_data.xml',
-        'reports/report_xlsx_financial_moves_states_data.xml',
+        #'wizards/financial_cancel.xml',
+        ## 'wizards/financial_edit.xml',
+        ## 'wizards/financial_pay_receive.xml',
 
-        'reports/report_xlsx_financial_defaults_data.xml',
-        'reports/report_xlsx_financial_partner_statement_data.xml',
+        #'wizards/report_xlsx_financial_cashflow_wizard_view.xml',
+        #'wizards/report_xlsx_financial_moves_states_wizard.xml',
+        #'wizards/report_xlsx_financial_defaults_wizard.xml',
+        #'wizards/report_xlsx_financial_partner_statement_wizard.xml',
 
-        # 'security/inherited_res_partner_bank_security.xml',
-        'security/ir.model.access.csv',
+        #'views/financial_installment_base_view.xml',
+        #'views/financial_installment_2receive_view.xml',
+        #'views/financial_installment_2pay_view.xml',
+
+        ## 'report/financial_cashflow.xml',
+        ## 'report/financial_statement_report.xml',
+        ## 'report/report_financial.xml',
+        #'reports/report_xlsx_financial_cashflow_data.xml',
+        #'reports/report_xlsx_financial_moves_states_data.xml',
+
+        #'reports/report_xlsx_financial_defaults_data.xml',
+        #'reports/report_xlsx_financial_partner_statement_data.xml',
+
+        ## 'security/inherited_res_partner_bank_security.xml',
+        #'security/ir.model.access.csv',
     ],
     'demo': [
         # 'demo/financial_move.xml',
@@ -83,6 +80,6 @@
         # 'demo/financial_demo.yml'
     ],
     'test': [
-        'test/financial_move_test.yml',
+        #'test/financial_move_test.yml',
     ]
 }

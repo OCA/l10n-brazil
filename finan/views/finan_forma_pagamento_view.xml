@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="finan_forma_pagamento_form" >
+        <field name="name">finan.forma.pagamento.form</field>
+        <field name="model">finan.forma.pagamento</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Forma de pagamento">
+                <sheet>
+                    <group>
+                        <group name="geral" colspan="4" col="4">
+                            <field name="nome" required="1" colspan="2" />
+                            <newline />
+                            <field name="forma_pagamento" colspan="2" />
+                            <newline />
+                            <label string="Exige número de documento no lançamento dos recebimentos/pagamentos?" />
+                            <field name="exige_numero" nolabel="1" />
+                            <newline />
+                            <field name="documento_id" colspan="2" />
+                            <newline />
+                            <newline />
+                            <label string="Considerar dívidas quitadas somente após a confirmação da data de crédito/débito?" />
+                            <field name="quitado_somente_com_data_credito_debito" nolabel="1" />
+                        </group>
+<!--                        <group name="cartao" attrs="{'invisible': [('forma_pagamento', 'not in', ('03', '04'))]}">
+                            <separator string="Cartão de crédito/débito" />
+                            <newline />
+                            <field name="bandeira_cartao" attrs="{'required': [('forma_pagamento', 'in', ('03', '04'))]}" string="Bandeira" />
+                            <field name="integracao_cartao" attrs="{'required': [('forma_pagamento', 'in', ('03', '04'))]}" string="Integração" />
+                            <newline />
+                            <field name="participante_id" domain="[('cnpj_cpf', '!=', False)]" attrs="{'required': [('forma_pagamento', 'in', ('03', '04'))]}" string="Operadora" />
+                        </group>-->
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="finan_forma_pagamento_tree">
+        <field name="name">finan.forma.pagamento.tree</field>
+        <field name="model">finan.forma.pagamento</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Forma de pagamento">
+                <field name="nome" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="finan_forma_pagamento_search">
+        <field name="name">finan.forma.pagamento.search</field>
+        <field name="model">finan.forma.pagamento</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Forma de pagamento">
+                <field name="nome" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="finan_forma_pagamento_action">
+        <field name="name">Forma de pagamento</field>
+        <field name="res_model">finan.forma.pagamento</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="finan_forma_pagamento_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="finan_forma_pagamento_tree"/>
+        <field name="act_window_id" ref="finan_forma_pagamento_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="finan_forma_pagamento_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="finan_forma_pagamento_form"/>
+        <field name="act_window_id" ref="finan_forma_pagamento_action"/>
+    </record>
+
+    <record model="ir.ui.menu" id="menu_finan_forma_pagamento">
+        <field name="name">Forma de pagamento</field>
+        <field name="parent_id" ref="menu_finan_configuracao"/>
+        <field name="action" ref="finan_forma_pagamento_action"/>
+        <field name="sequence" eval="4"/>
+    </record>
+
+</odoo>

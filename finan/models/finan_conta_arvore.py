@@ -9,202 +9,202 @@ from odoo import api, fields, models, _
 from odoo.tools.sql import drop_view_if_exists
 
 
-SQL_ACCOUNT_TREE_ANALYSIS_VIEW = '''
-create or replace view financial_account_tree_analysis_view as
+SQL_FINAN_CONTA_ARVORE_VIEW = '''
+create or replace view finan_conta_arvore_view as
 select
-    a1.id as parent_account_id,
-    a1.id as child_account_id,
-    1 as level
+    a1.id as conta_superior_id,
+    a1.id as conta_relacionada_id,
+    1 as nivel
 from
-    financial_account a1
-    
-union all
-
-select
-    a2.id as parent_account_id,
-    a1.id as child_account_id,
-    2 as level
-from
-    financial_account a1
-    join financial_account a2 on a1.parent_id = a2.id
+    finan_conta a1
 
 union all
 
 select
-    a3.id as parent_account_id,
-    a1.id as child_account_id,
-    3 as level
+    a2.id as conta_superior_id,
+    a1.id as conta_relacionada_id,
+    2 as nivel
 from
-    financial_account a1
-    join financial_account a2 on a1.parent_id = a2.id
-    join financial_account a3 on a2.parent_id = a3.id
+    finan_conta a1
+    join finan_conta a2 on a1.conta_superior_id = a2.id
 
 union all
 
 select
-    a4.id as parent_account_id,
-    a1.id as child_account_id,
-    4 as level
+    a3.id as conta_superior_id,
+    a1.id as conta_relacionada_id,
+    3 as nivel
 from
-    financial_account a1
-    join financial_account a2 on a1.parent_id = a2.id
-    join financial_account a3 on a2.parent_id = a3.id
-    join financial_account a4 on a3.parent_id = a4.id
+    finan_conta a1
+    join finan_conta a2 on a1.conta_superior_id = a2.id
+    join finan_conta a3 on a2.conta_superior_id = a3.id
 
 union all
 
 select
-    a5.id as parent_account_id,
-    a1.id as child_account_id,
-    5 as level
+    a4.id as conta_superior_id,
+    a1.id as conta_relacionada_id,
+    4 as nivel
 from
-    financial_account a1
-    join financial_account a2 on a1.parent_id = a2.id
-    join financial_account a3 on a2.parent_id = a3.id
-    join financial_account a4 on a3.parent_id = a4.id
-    join financial_account a5 on a4.parent_id = a5.id
+    finan_conta a1
+    join finan_conta a2 on a1.conta_superior_id = a2.id
+    join finan_conta a3 on a2.conta_superior_id = a3.id
+    join finan_conta a4 on a3.conta_superior_id = a4.id
 
 union all
 
 select
-    a6.id as parent_account_id,
-    a1.id as child_account_id,
-    6 as level
+    a5.id as conta_superior_id,
+    a1.id as conta_relacionada_id,
+    5 as nivel
 from
-    financial_account a1
-    join financial_account a2 on a1.parent_id = a2.id
-    join financial_account a3 on a2.parent_id = a3.id
-    join financial_account a4 on a3.parent_id = a4.id
-    join financial_account a5 on a4.parent_id = a5.id
-    join financial_account a6 on a5.parent_id = a6.id
+    finan_conta a1
+    join finan_conta a2 on a1.conta_superior_id = a2.id
+    join finan_conta a3 on a2.conta_superior_id = a3.id
+    join finan_conta a4 on a3.conta_superior_id = a4.id
+    join finan_conta a5 on a4.conta_superior_id = a5.id
 
 union all
 
 select
-    a7.id as parent_account_id,
-    a1.id as child_account_id,
-    7 as level
+    a6.id as conta_superior_id,
+    a1.id as conta_relacionada_id,
+    6 as nivel
 from
-    financial_account a1
-    join financial_account a2 on a1.parent_id = a2.id
-    join financial_account a3 on a2.parent_id = a3.id
-    join financial_account a4 on a3.parent_id = a4.id
-    join financial_account a5 on a4.parent_id = a5.id
-    join financial_account a6 on a5.parent_id = a6.id
-    join financial_account a7 on a6.parent_id = a7.id
+    finan_conta a1
+    join finan_conta a2 on a1.conta_superior_id = a2.id
+    join finan_conta a3 on a2.conta_superior_id = a3.id
+    join finan_conta a4 on a3.conta_superior_id = a4.id
+    join finan_conta a5 on a4.conta_superior_id = a5.id
+    join finan_conta a6 on a5.conta_superior_id = a6.id
 
 union all
 
 select
-    a8.id as parent_account_id,
-    a1.id as child_account_id,
-    8 as level
+    a7.id as conta_superior_id,
+    a1.id as conta_relacionada_id,
+    7 as nivel
 from
-    financial_account a1
-    join financial_account a2 on a1.parent_id = a2.id
-    join financial_account a3 on a2.parent_id = a3.id
-    join financial_account a4 on a3.parent_id = a4.id
-    join financial_account a5 on a4.parent_id = a5.id
-    join financial_account a6 on a5.parent_id = a6.id
-    join financial_account a7 on a6.parent_id = a7.id
-    join financial_account a8 on a7.parent_id = a8.id
+    finan_conta a1
+    join finan_conta a2 on a1.conta_superior_id = a2.id
+    join finan_conta a3 on a2.conta_superior_id = a3.id
+    join finan_conta a4 on a3.conta_superior_id = a4.id
+    join finan_conta a5 on a4.conta_superior_id = a5.id
+    join finan_conta a6 on a5.conta_superior_id = a6.id
+    join finan_conta a7 on a6.conta_superior_id = a7.id
 
 union all
 
 select
-    a9.id as parent_account_id,
-    a1.id as child_account_id,
-    9 as level
+    a8.id as conta_superior_id,
+    a1.id as conta_relacionada_id,
+    8 as nivel
 from
-    financial_account a1
-    join financial_account a2 on a1.parent_id = a2.id
-    join financial_account a3 on a2.parent_id = a3.id
-    join financial_account a4 on a3.parent_id = a4.id
-    join financial_account a5 on a4.parent_id = a5.id
-    join financial_account a6 on a5.parent_id = a6.id
-    join financial_account a7 on a6.parent_id = a7.id
-    join financial_account a8 on a7.parent_id = a8.id
-    join financial_account a9 on a8.parent_id = a9.id
+    finan_conta a1
+    join finan_conta a2 on a1.conta_superior_id = a2.id
+    join finan_conta a3 on a2.conta_superior_id = a3.id
+    join finan_conta a4 on a3.conta_superior_id = a4.id
+    join finan_conta a5 on a4.conta_superior_id = a5.id
+    join finan_conta a6 on a5.conta_superior_id = a6.id
+    join finan_conta a7 on a6.conta_superior_id = a7.id
+    join finan_conta a8 on a7.conta_superior_id = a8.id
 
 union all
 
 select
-    a10.id as parent_account_id,
-    a1.id as child_account_id,
-    10 as level
+    a9.id as conta_superior_id,
+    a1.id as conta_relacionada_id,
+    9 as nivel
 from
-    financial_account a1
-    join financial_account a2 on a1.parent_id = a2.id
-    join financial_account a3 on a2.parent_id = a3.id
-    join financial_account a4 on a3.parent_id = a4.id
-    join financial_account a5 on a4.parent_id = a5.id
-    join financial_account a6 on a5.parent_id = a6.id
-    join financial_account a7 on a6.parent_id = a7.id
-    join financial_account a8 on a7.parent_id = a8.id
-    join financial_account a9 on a8.parent_id = a9.id
-    join financial_account a10 on a9.parent_id = a10.id;
+    finan_conta a1
+    join finan_conta a2 on a1.conta_superior_id = a2.id
+    join finan_conta a3 on a2.conta_superior_id = a3.id
+    join finan_conta a4 on a3.conta_superior_id = a4.id
+    join finan_conta a5 on a4.conta_superior_id = a5.id
+    join finan_conta a6 on a5.conta_superior_id = a6.id
+    join finan_conta a7 on a6.conta_superior_id = a7.id
+    join finan_conta a8 on a7.conta_superior_id = a8.id
+    join finan_conta a9 on a8.conta_superior_id = a9.id
+
+union all
+
+select
+    a10.id as conta_superior_id,
+    a1.id as conta_relacionada_id,
+    10 as nivel
+from
+    finan_conta a1
+    join finan_conta a2 on a1.conta_superior_id = a2.id
+    join finan_conta a3 on a2.conta_superior_id = a3.id
+    join finan_conta a4 on a3.conta_superior_id = a4.id
+    join finan_conta a5 on a4.conta_superior_id = a5.id
+    join finan_conta a6 on a5.conta_superior_id = a6.id
+    join finan_conta a7 on a6.conta_superior_id = a7.id
+    join finan_conta a8 on a7.conta_superior_id = a8.id
+    join finan_conta a9 on a8.conta_superior_id = a9.id
+    join finan_conta a10 on a9.conta_superior_id = a10.id;
 '''
 
 DROP_TABLE = '''
-    DROP TABLE IF EXISTS financial_account_tree_analysis
+    DROP TABLE IF EXISTS finan_conta_arvore
 '''
 
-SQL_SELECT_ACCOUNT_TREE_ANALYSIS = '''
+SQL_SELECT_FINAN_CONTA_ARVORE = '''
 select
   row_number() over() as id,
-  child_account_id,
-  parent_account_id,
-  level
-  
+  conta_relacionada_id,
+  conta_superior_id,
+  nivel
+
 from
-  financial_account_tree_analysis_view
-  
+  finan_conta_arvore_view
+
 order by
-  child_account_id,
-  parent_account_id;
+  conta_relacionada_id,
+  conta_superior_id;
 '''
 
-SQL_ACCOUNT_TREE_ANALYSIS_TABLE = '''
-create table financial_account_tree_analysis as
-''' + SQL_SELECT_ACCOUNT_TREE_ANALYSIS + '''
-  
-create index financial_account_tree_analysis_child_account_id
-  on financial_account_tree_analysis
-  (child_account_id);
+SQL_FINAN_CONTA_ARVORE_TABLE = '''
+create table finan_conta_arvore as
+''' + SQL_SELECT_FINAN_CONTA_ARVORE + '''
 
-create index financial_account_tree_analysis_parent_account_id
-  on financial_account_tree_analysis
-  (parent_account_id);
-  
-create index financial_account_tree_analysis_level
-  on financial_account_tree_analysis
-  (level);
+create index finan_conta_arvore_conta_relacionada_id
+  on finan_conta_arvore
+  (conta_relacionada_id);
+
+create index finan_conta_arvore_conta_superior_id
+  on finan_conta_arvore
+  (conta_superior_id);
+
+create index finan_conta_arvore_nivel
+  on finan_conta_arvore
+  (nivel);
 '''
 
 
-class FinancialAccountTreeAnalysis(models.Model):
-    _name = b'financial.account.tree.analysis'
-    _description = 'Financial Account Tree Analysis'
+class FinanContaArvore(models.Model):
+    _name = b'finan.conta.arvore'
+    _description = 'Conta Financeira - Árvore de Análise'
     _auto = False
 
     @api.model_cr
     def init(self):
-        drop_view_if_exists(self._cr, 'financial_account_tree_analysis_view')
+        drop_view_if_exists(self._cr, 'finan_conta_arvore_view')
         self._cr.execute(DROP_TABLE)
-        self._cr.execute(SQL_ACCOUNT_TREE_ANALYSIS_VIEW)
-        self._cr.execute(SQL_ACCOUNT_TREE_ANALYSIS_TABLE)
+        self._cr.execute(SQL_FINAN_CONTA_ARVORE_VIEW)
+        self._cr.execute(SQL_FINAN_CONTA_ARVORE_TABLE)
 
-    parent_account_id = fields.Many2one(
-        comodel_name='financial.account',
-        string='Parent account',
+    conta_superior_id = fields.Many2one(
+        comodel_name='finan.conta',
+        string='Conta superior',
         index=True,
     )
-    child_account_id = fields.Many2one(
-        comodel_name='financial.account',
-        string='Child account',
+    conta_relacionada_id = fields.Many2one(
+        comodel_name='finan.conta',
+        string='Conta relacionada',
         index=True,
     )
-    level = fields.Integer(
-        string='Level',
+    nivel = fields.Integer(
+        string='Nível',
         index=True,
     )

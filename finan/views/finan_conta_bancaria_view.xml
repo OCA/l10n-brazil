@@ -16,8 +16,6 @@
                     <group>
                         <group name="geral" colspan="4" col="2">
                             <field name="nome" required="1" colspan="2" />
-                            <newline />
-                            <field name="antecipa_vencimento" colspan="2" />
                         </group>
                     </group>
                 </sheet>
@@ -71,7 +69,7 @@
         <field name="name">Tipo de documento</field>
         <field name="parent_id" ref="menu_finan_configuracao"/>
         <field name="action" ref="finan_documento_action"/>
-        <field name="sequence" eval="5"/>
+        <field name="sequence" eval="2"/>
     </record>
 
 </odoo>

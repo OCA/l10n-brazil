@@ -10,155 +10,155 @@ from __future__ import division, print_function, unicode_literals
 from odoo import api, fields, models
 
 
-class FinancialAccount(models.Model):
-    _name = b'financial.account'
-    _description = 'Financial Account'
-    _parent_name = 'parent_id'
-    # _parent_store = True
-    # _parent_order = 'code, name'
-    _rec_name = 'complete_name'
-    _order = 'code, complete_name'
+class FinanConta(models.Model):
+    _name = b'finan.conta'
+    _description = 'Conta Financeira'
+    _rec_name = 'nome_completo'
+    _order = 'codigo, nome_completo'
 
-    code = fields.Char(
+    codigo = fields.Char(
         string='Code',
         size=20,
         index=True,
         required=True,
     )
-    name = fields.Char(
+    nome = fields.Char(
         string='Name',
         size=60,
         index=True,
         required=True,
     )
-    parent_id = fields.Many2one(
-        comodel_name='financial.account',
-        string='Parent account',
-        ondelete='restrict',
+    conta_superior_id = fields.Many2one(
+        comodel_name='finan.conta',
+        string='Conta superior',
+        ondelete='cascade',
         index=True,
     )
-    parent_left = fields.Integer(
-        string='Left Parent',
-        index=True,
+    conta_relacionada_ids = fields.One2many(
+        comodel_name='finan.conta',
+        inverse_name='conta_superior_id',
+        string='Contas relacionadas',
     )
-    parent_right = fields.Integer(
-        string='Right Parent',
-        index=True,
-    )
-    child_ids = fields.One2many(
-        comodel_name='financial.account',
-        inverse_name='parent_id',
-        string='Child Accounts',
-    )
-    level = fields.Integer(
-        string='Level',
-        compute='_compute_account',
+    nivel = fields.Integer(
+        string='Nível',
+        compute='_compute_conta',
         store=True,
         index=True,
     )
-    is_reduction = fields.Boolean(
-        string='Is reduction account?',
-        compute='_compute_account',
+    eh_redutora = fields.Boolean(
+        string='É redutora?',
+        compute='_compute_conta',
         store=True,
     )
-    sign = fields.Integer(
-        string='Sign',
-        compute='_compute_account',
+    sinal = fields.Integer(
+        string='Sinal',
+        compute='_compute_conta',
         store=True,
     )
-    complete_name = fields.Char(
-        string='Account',
+    nome_completo = fields.Char(
+        string='Conta',
         size=500,
-        compute='_compute_account',
+        compute='_compute_conta',
         store=True,
     )
-    type = fields.Selection(
+    tipo = fields.Selection(
         selection=[
-            ('A', 'Analytic'),
-            ('S', 'Sinthetic')
+            ('A', 'Analítica'),
+            ('S', 'Sintética')
         ],
-        string='Type',
-        compute='_compute_account',
+        string='Tipo',
+        compute='_compute_conta',
         store=True,
         index=True,
     )
 
-    def _compute_level(self):
+    def _compute_nivel(self):
         self.ensure_one()
 
-        level = 1
-        if self.parent_id:
-            level += self.parent_id._compute_level()
+        nivel = 1
+        if self.conta_superior_id:
+            nivel += self.conta_superior_id._compute_nivel()
 
-        return level
+        return nivel
 
-    def _compute_complete_name(self):
+    def _compute_nome_completo(self):
         self.ensure_one()
 
-        name = self.name
+        nome = self.nome
 
-        if self.parent_id:
-            name = self.parent_id._compute_complete_name() + ' / ' + name
+        if self.conta_superior_id:
+            nome = self.conta_superior_id._compute_nome_completo() + \
+                ' / ' + nome
 
-        return name
+        return nome
 
-    @api.depends('parent_id', 'code', 'name', 'child_ids.parent_id')
-    def _compute_account(self):
-        for account in self:
-            account.level = account._compute_level()
+    @api.depends('conta_superior_id', 'codigo', 'nome',
+                 'conta_relacionada_ids.conta_superior_id')
+    def _compute_conta(self):
+        for conta in self:
+            conta.nivel = conta._compute_nivel()
 
-            if account.name and \
-                    account.name.startswith('(-)') or \
-                    account.name.startswith('( - )'):
-                account.is_reduction = True
-                account.sign = -1
+            if conta.nome and \
+                    conta.nome.startswith('(-)') or \
+                    conta.nome.startswith('( - )'):
+                conta.eh_redutora = True
+                conta.sinal = -1
             else:
-                account.is_reduction = False
-                account.sign = 1
+                conta.eh_redutora = False
+                conta.sinal = 1
 
-            if len(account.child_ids) > 0:
-                account.type = 'S'
+            if len(conta.conta_relacionada_ids) > 0:
+                conta.tipo = 'S'
             else:
-                account.type = 'A'
+                conta.tipo = 'A'
 
-            if account.code and account.name:
-                account.complete_name = account.code + ' - ' + \
-                    account._compute_complete_name()
+            if conta.codigo and conta.nome:
+                conta.nome_completo = conta.codigo + ' - ' + \
+                    conta._compute_nome_completo()
 
-    def recreate_financial_account_tree_analysis(self):
-        # from .financial_account_tree_analysis import \
-        #     SQL_SELECT_ACCOUNT_TREE_ANALYSIS
-        SQL_RECREATE_FINANCIAL_ACCOUNT_TREE_ANALYSIS = '''
-        delete from financial_account_tree_analysis;
-        insert into financial_account_tree_analysis (id, child_account_id,
-          parent_account_id, level)
-          select row_number() over()
-           as id, child_account_id, parent_account_id, level
-           from financial_account_tree_analysis_view
-           order by child_account_id, parent_account_id;
+    def recria_finan_conta_arvore(self):
+        SQL_RECRIA_FINAN_CONTA_ARVORE = '''
+        delete from finan_conta_arvore;
+
+        insert into finan_conta_arvore (
+          id,
+          conta_relacionada_id,
+          conta_superior_id,
+          nivel
+        )
+        select
+           row_number() over() as id,
+           conta_relacionada_id,
+           conta_superior_id,
+           nivel
+        from
+            finan_conta_arvore_view
+        order by
+            conta_relacionada_id,
+            conta_superior_id;
         '''
-        self.env.cr.execute(SQL_RECREATE_FINANCIAL_ACCOUNT_TREE_ANALYSIS)
+        self.env.cr.execute(SQL_RECRIA_FINAN_CONTA_ARVORE)
 
     @api.model
     def create(self, vals):
-        res = super(FinancialAccount, self).create(vals)
+        res = super(FinanConta, self).create(vals)
 
-        self.recreate_financial_account_tree_analysis()
+        self.recria_finan_conta_arvore()
 
         return res
 
     @api.multi
     def write(self, vals):
-        res = super(FinancialAccount, self).write(vals)
+        res = super(FinanConta, self).write(vals)
 
-        self.recreate_financial_account_tree_analysis()
+        self.recria_finan_conta_arvore()
 
         return res
 
     @api.multi
     def unlink(self):
-        res = super(FinancialAccount, self).unlink()
+        res = super(FinanConta, self).unlink()
 
-        self.recreate_financial_account_tree_analysis()
+        self.recria_finan_conta_arvore()
 
         return res

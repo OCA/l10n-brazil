@@ -4,848 +4,881 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from datetime import datetime
+import logging
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.exceptions import Warning as UserError
+from odoo.addons.l10n_br_base.models.sped_base import SpedBase
+from ..constantes import *
 
-from ..constants import (
-    FINANCIAL_DEBT_2RECEIVE,
-    FINANCIAL_DEBT_2PAY,
-    FINANCIAL_STATE,
-    FINANCIAL_TYPE,
-    FINANCIAL_TYPE_CODE,
-    FINANCIAL_DEBT_STATUS,
-    FINANCIAL_DEBT_STATUS_DUE,
-    FINANCIAL_DEBT_STATUS_DUE_TODAY,
-    FINANCIAL_DEBT_STATUS_OVERDUE,
-    FINANCIAL_DEBT_STATUS_PAID,
-    FINANCIAL_DEBT_STATUS_PAID_PARTIALLY,
-    FINANCIAL_DEBT_STATUS_CANCELLED,
-    FINANCIAL_DEBT_STATUS_CANCELLED_PARTIALLY,
-    FINANCIAL_DEBT_STATUS_CONSIDERS_OPEN,
-    FINANCIAL_DEBT_STATUS_CONSIDERS_PAID,
-    FINANCIAL_DEBT_STATUS_CONSIDERS_CANCELLED,
-    FINANCIAL_DEBT_CONCISE_STATUS,
-    FINANCIAL_DEBT_CONCISE_STATUS_OPEN,
-    FINANCIAL_DEBT_CONCISE_STATUS_PAID,
-    FINANCIAL_DEBT_CONCISE_STATUS_CANCELLED,
-)
+_logger = logging.getLogger(__name__)
+
+try:
+    from pybrasil.data import parse_datetime, hoje
+
+except (ImportError, IOError) as err:
+    _logger.debug(err)
 
 
-class FinancialMove(models.Model):
-    _name = b'financial.move'
-    _description = 'Financial Move'
+class FinanLancamento(SpedBase, models.Model):
+    _name = b'finan.lancamento'
+    _description = 'Lançamento Financeiro'
     _inherit = ['mail.thread']
-    _order = 'date_business_maturity desc, ' \
-             'ref desc, ref_item desc, document_number, id desc'
-    _rec_name = 'display_name'
+    _order = 'data_vencimento_util, numero, id desc'
+    _rec_name = 'nome'
 
     #
-    # Move identification
+    # Identificação do lançamento
     #
-    type = fields.Selection(
-        string='Financial Type',
-        selection=FINANCIAL_TYPE,
+    tipo = fields.Selection(
+        string='Tipo',
+        selection=FINAN_TIPO,
         required=True,
         index=True,
     )
-    sign = fields.Integer(
-        string='Sign',
-        compute='_compute_sign',
+    sinal = fields.Integer(
+        string='Sinal',
+        compute='_compute_sinal',
         store=True,
     )
-    state = fields.Selection(
-        selection=FINANCIAL_STATE,
-        string='Status',
+    empresa_id = fields.Many2one(
+        comodel_name='sped.empresa',
+        string='Empresa',
+        required=True,
+        ondelete='restrict',
+        default=lambda self: self.env['sped.empresa']._empresa_ativa('sped.empresa'),
         index=True,
-        readonly=True,
-        default='draft',
-        track_visibility='onchange',
-        copy=False,
     )
     company_id = fields.Many2one(
         comodel_name='res.company',
-        string='Company',
-        required=True,
-        ondelete='restrict',
-        default=lambda self: self.env.user.company_id.id,
+        string='Company original',
+        related='empresa_id.company_id',
+        store=True,
+        readonly=True,
+    )
+    cnpj_cpf = fields.Char(
+        string='CNPJ/CPF',
+        compute='_compute_cnpj_cpf',
+        store=True,
         index=True,
     )
-    currency_id = fields.Many2one(
-        string='Currency',
-        comodel_name='res.currency',
-        default=lambda self: self.env.user.company_id.currency_id,
-        track_visibility='_track_visibility_onchange',
-    )
-    partner_id = fields.Many2one(
-        comodel_name='res.partner',
-        string='Partner',
-        ondelete='restrict',
+    cnpj_cpf_raiz = fields.Char(
+        string='Raiz do CNPJ/CPF',
+        compute='_compute_cnpj_cpf',
+        store=True,
         index=True,
-        required=False,
     )
     participante_id = fields.Many2one(
         comodel_name='sped.participante',
-        string='Partner',
+        string='Participante',
         ondelete='restrict',
         index=True,
     )
-    document_type_id = fields.Many2one(
-        comodel_name='financial.document.type',
-        string='Document type',
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        string='Partner original',
+        related='participante_id.partner_id',
+        store=True,
+        readonly=True,
+    )
+    documento_id = fields.Many2one(
+        comodel_name='finan.documento',
+        string='Tipo de documento',
         ondelete='restrict',
         index=True,
-        required=True,
     )
-    document_number = fields.Char(
-        string='Document number',
+    forma_pagamento_id = fields.Many2one(
+        comodel_name='finan.forma.pagamento',
+        string='Forma de pagamento',
+        ondelete='restrict',
+        index=True,
+    )
+    exige_numero = fields.Boolean(
+        string='Exige número de documento?',
+        related='forma_pagamento_id.exige_numero',
+        readonly=True,
+    )
+    numero = fields.Char(
+        string='Número do documento',
+        index=True,
+    )
+    conta_id = fields.Many2one(
+        comodel_name='finan.conta',
+        string='Conta',
         index=True,
         required=True,
-    )
-    account_id = fields.Many2one(
-        comodel_name='financial.account',
-        string='Account',
-        index=True,
-        required=True,
-        domain=[('type', '=', 'A')],
+        domain=[('tipo', '=', 'A')],
     )
 
     #
     # Move dates; there are those five date fields, controlling, respectively:
-    # date_document - when de document to which the move refers was created
-    # date_maturity - up to when the debt must be paid
-    # date_business_maturity - if date_maturity is a weekend, when banks don't
+    # data_documento - when de document to which the lancamento refers was created
+    # data_vencimento - up to when the debt must be paid
+    # data_vencimento_util - if data_vencimento is a weekend, when banks don't
     #    regularly open, or is on a weekday, that happens to be a holiday,
-    #    moves the *real* date_maturity to the next business day; when
+    #    lancamento.s the *real* data_vencimento to the next business day; when
     #    controlling customers' payments' regularity, if the customer pays
-    #    his/her debt on the date_business_maturity, it must still be
+    #    his/her debt on the data_vencimento_util, it must still be
     #    considered a regular paying customer
-    # date_payment - when the debt was actually paid
-    # date_credit_debit - when *the bank* credits/debits the actual money
+    # data_pagamento - when the debt was actually paid
+    # data_credito_debito - when *the bank* credits/debits the actual money
     #    in/out of the bank account (in certain cases, there is a 1 or 2 day
-    #    delay between the customer payment and the actual liquidity of the
-    #    payment on the bank account
+    #    delay between the customer pagamento and the actual liquidity of the
+    #    pagamento on the bank account
     #
-    date_document = fields.Date(
-        string='Document date',
+    data_documento = fields.Date(
+        string='Data do documento',
         default=fields.Date.context_today,
         index=True,
     )
-    date_maturity = fields.Date(
-        string='Maturity date',
+    data_vencimento = fields.Date(
+        string='Data de vencimento',
         index=True,
     )
-    date_business_maturity = fields.Date(
-        string='Business maturity date',
+    data_vencimento_util = fields.Date(
+        string='Data de vencimento útil',
         store=True,
-        compute='_compute_date_business_maturity',
+        compute='_compute_data_vencimento_util',
         index=True,
     )
-    date_payment = fields.Date(
-        string='Payment date',
+    dias_atraso = fields.Integer(
+        string='Dias de atraso',
+        compute='_compute_dias_atraso',
+        store=True,
+    )
+    data_pagamento = fields.Date(
+        string='Data de pagamento',
         copy=False,
+        default=lambda lancamento: False if lancamento.tipo not in
+            FINAN_TIPO_PAGAMENTO else fields.Date.context_today
     )
-    date_credit_debit = fields.Date(
-        string='Credit/debit date',
+    data_credito_debito = fields.Date(
+        string='Data de crédito/débito',
     )
-    date_cancel = fields.Date(
-        string='Cancel date',
-    )
-    date_refund = fields.Date(
-        string='Refund date',
+    data_baixa = fields.Date(
+        string='Data de baixa',
     )
 
     #
-    # Move amounts
+    # Valores do lançamento
     #
-    amount_document = fields.Float(
-        string='Document Amount',
-        digits=(18, 2),
+    vr_documento = fields.Monetary(
+        string='Valor do documento',
     )
-    amount_interest = fields.Monetary(
-        string='Interest',
-        digits=(18, 2),
+    vr_juros = fields.Monetary(
+        string='Valor de juros',
     )
-    amount_penalty = fields.Monetary(
-        string='Penalty',
-        digits=(18, 2),
+    vr_multa = fields.Monetary(
+        string='Valor de multa',
     )
-    amount_other_credits = fields.Monetary(
-        string='Other credits',
-        digits=(18, 2),
+    vr_outros_creditos = fields.Monetary(
+        string='Outros créditos',
     )
-    amount_discount = fields.Monetary(
-        string='Discount',
-        digits=(18, 2),
+    vr_desconto = fields.Monetary(
+        string='Valor de desconto',
     )
-    amount_other_debits = fields.Monetary(
-        string='Other debits',
-        digits=(18, 2),
+    vr_outros_debitos = fields.Monetary(
+        string='Outros débitos',
     )
-    amount_bank_fees = fields.Monetary(
-        string='Bank fees',
-        digits=(18, 2),
+    vr_tarifas = fields.Monetary(
+        string='Tarifas',
     )
-    amount_refund = fields.Float(
-        string='Refund amount',
-        compute='_compute_total_and_residual',
+    vr_adiantado = fields.Monetary(
+        string='Valor adiantado',
+    )
+    vr_baixado = fields.Monetary(
+        string='Valor baixado',
+        compute='_compute_total_saldo',
         store=True,
-        digits=(18, 2),
     )
-    amount_cancel = fields.Float(
-        string='Cancelled amount',
-        compute='_compute_total_and_residual',
-        store=True,
-        digits=(18, 2),
-    )
-    amount_total = fields.Monetary(
+    vr_total = fields.Monetary(
         string='Total',
-        compute='_compute_total_and_residual',
+        compute='_compute_total',
         store=True,
-        digits=(18, 2),
     )
 
     #
-    # Amount fields to sum up all payments linked to a debt
+    # Campos de valor que somam todos os pagamentos relacionados a uma dívida
     #
-    amount_paid_document = fields.Float(
-        string='Paid Document Amount',
-        compute='_compute_total_and_residual',
+    vr_quitado_documento = fields.Monetary(
+        string='Valor quitado do documento',
+        compute='_compute_total_saldo',
         store=True,
-        digits=(18, 2),
     )
-    amount_paid_interest = fields.Float(
-        string='Paid Interest',
-        compute='_compute_total_and_residual',
+    vr_quitado_juros = fields.Monetary(
+        string='Valor quitado de juros',
+        compute='_compute_total_saldo',
         store=True,
-        digits=(18, 2),
     )
-    amount_paid_penalty = fields.Float(
-        string='Paid Penalty',
-        compute='_compute_total_and_residual',
+    vr_quitado_multa = fields.Monetary(
+        string='Valor quitado de multa',
+        compute='_compute_total_saldo',
         store=True,
-        digits=(18, 2),
     )
-    amount_paid_other_credits = fields.Float(
-        string='Paid Other credits',
-        compute='_compute_total_and_residual',
+    vr_quitado_outros_creditos = fields.Monetary(
+        string='Valor quitado de outros créditos',
+        compute='_compute_total_saldo',
         store=True,
-        digits=(18, 2),
     )
-    amount_paid_discount = fields.Float(
-        string='Paid Discount',
-        compute='_compute_total_and_residual',
+    vr_quitado_desconto = fields.Monetary(
+        string='Valor quitado de desconto',
+        compute='_compute_total_saldo',
         store=True,
-        digits=(18, 2),
     )
-    amount_paid_other_debits = fields.Float(
-        string='Paid Other debits',
-        compute='_compute_total_and_residual',
+    vr_quitado_outros_debitos = fields.Monetary(
+        string='Valor quitado de outros débitos',
+        compute='_compute_total_saldo',
         store=True,
-        digits=(18, 2),
     )
-    amount_paid_bank_fees = fields.Float(
-        string='Paid Bank fees',
-        compute='_compute_total_and_residual',
+    vr_quitado_tarifas = fields.Monetary(
+        string='Valor quitado de tarifas',
+        compute='_compute_total_saldo',
         store=True,
-        digits=(18, 2),
     )
-    amount_paid_total = fields.Float(
-        string='Paid Total',
-        compute='_compute_total_and_residual',
+    vr_quitado_adiantado = fields.Monetary(
+        string='Valor quitado adiantado',
+        compute='_compute_total_saldo',
         store=True,
-        digits=(18, 2),
     )
-    amount_residual = fields.Float(
-        string='Residual',
-        compute='_compute_total_and_residual',
+    vr_quitado_baixado = fields.Monetary(
+        string='Valor quitado baixado',
+        compute='_compute_total_saldo',
         store=True,
-        digits=(18, 2),
+    )
+    vr_quitado_total = fields.Monetary(
+        string='Valor quitado total',
+        compute='_compute_total_saldo',
+        store=True,
+    )
+    vr_saldo = fields.Monetary(
+        string='Saldo',
+        compute='_compute_total_saldo',
+        store=True,
     )
 
     #
-    # Move interest and discount forecast
+    # Previsão de juros e multa do lançamento
     #
-    interest_rate = fields.Float(
-        string='Interest rate',
-        digits=(18, 10),
+    al_juros = fields.Monetary(
+        string='Taxa de juros',
+        currency_field='currency_aliquota_id'
     )
-    date_interest = fields.Date(
-        string='Interest since',
+    data_juros = fields.Date(
+        string='Juros a partir de',
     )
-    amount_interest_forecast = fields.Monetary(
-        string='Interest forecast',
-        digits=(18, 2),
+    vr_juros_previsto = fields.Monetary(
+        string='Valor de juros previsto',
     )
-    penalty_rate = fields.Float(
-        string='Penalty rate',
-        digits=(18, 10),
+    al_multa = fields.Monetary(
+        string='Percentual de multa',
+        currency_field='currency_aliquota_id'
     )
     date_penalty = fields.Date(
-        string='Penalty since',
+        string='Multa a partir de',
     )
-    amount_penalty_forecast = fields.Monetary(
-        string='Penalty forecast',
-        digits=(18, 2),
+    vr_multa_previsto = fields.Monetary(
+        string='Valor de multa previsto',
     )
-    discount_rate = fields.Float(
-        string='Penalty rate',
-        digits=(18, 10),
+    al_desconto = fields.Monetary(
+        string='Percentual de desconto',
+        currency_field='currency_aliquota_id'
     )
-    date_discount = fields.Date(
-        string='Discount up to',
+    data_desconto = fields.Date(
+        string='Desconto até',
     )
-    amount_discount_forecast = fields.Monetary(
-        string='Discount forecast',
-        digits=(18, 2),
+    vr_desconto_previsto = fields.Monetary(
+        string='Valor de desconto previsto',
     )
-    amount_total_forecast = fields.Monetary(
-        string='Total forecast',
-        digits=(18, 2),
+    vr_total_previsto = fields.Monetary(
+        string='Total previsto',
     )
 
     #
-    # Relations to other debts and payments
+    # Relação com outras dívidas e pagamentos
     #
-    debt_id = fields.Many2one(
-        comodel_name='financial.move',
-        string='Debt',
-        domain=[('type', 'in', (
-            FINANCIAL_DEBT_2RECEIVE,
-            FINANCIAL_DEBT_2PAY,
-        ))],
+    divida_id = fields.Many2one(
+        comodel_name='finan.lancamento',
+        string='Dívida',
+        domain=[('tipo', 'in', FINAN_TIPO_DIVIDA)],
         index=True,
     )
-    payment_ids = fields.One2many(
-        comodel_name='financial.move',
-        inverse_name='debt_id',
+    pagamento_ids = fields.One2many(
+        comodel_name='finan.lancamento',
+        inverse_name='divida_id',
     )
-    debt_ids = fields.One2many(
-        comodel_name='financial.move',
-        compute='_compute_debt_ids',
+    divida_ids = fields.One2many(
+        comodel_name='finan.lancamento',
+        compute='_compute_divida_ids',
     )
 
     #
-    # Debt status
+    # Situação da dívida
     #
-    debt_status = fields.Selection(
-        string='Debt Status',
-        selection=FINANCIAL_DEBT_STATUS,
-        compute='_compute_debt_status',
+    situacao_divida = fields.Selection(
+        string='Situação da dívida',
+        selection=FINAN_SITUACAO_DIVIDA,
+        compute='_compute_situacao_divida',
         store=True,
         index=True,
     )
-    debt_concise_status = fields.Selection(
-        string='Debt Concise Status',
-        selection=FINANCIAL_DEBT_CONCISE_STATUS,
-        compute='_compute_debt_status',
+    situacao_divida_simples = fields.Selection(
+        string='Situação simples da dívida',
+        selection=FINAN_SITUACAO_DIVIDA_SIMPLES,
+        compute='_compute_situacao_divida',
         store=True,
         index=True,
     )
-    reconciled = fields.Boolean(
-        string='Paid/Reconciled',
-        compute='_compute_debt_status',
+    provisorio = fields.Boolean(
+        string='É provisório?',
+    )
+    state = fields.Selection(
+        string='State',
+        selection=FINAN_STATE,
+        compute='_compute_situacao_divida',
         store=True,
         index=True,
     )
 
     #
-    # Bank account where the money movement has taken place
+    # Conta bancária/caixa onde o dinheiro entrou ou de onde saiu
     #
-    bank_id = fields.Many2one(
-        comodel_name='res.partner.bank',
-        string='Bank Account',
+    banco_id = fields.Many2one(
+        comodel_name='finan.banco',
+        string='Conta bancária',
         ondelete='restrict',
         index=True,
     )
 
     #
-    # Notes
+    # Histórico do lançamento
     #
-    communication = fields.Char(
-        string='Memo',
-        track_visibility='_track_visibility_onchange',
-    )
-    note = fields.Text(
-        string='Note',
-        track_visibility='_track_visibility_onchange',
+    historico = fields.Text(
+        string='Histórico',
     )
 
     #
-    # Installments control
+    # Controle de parcelamentos
     #
-    installment_simulation_id = fields.Many2one(
-        comodel_name='financial.installment.simulation',
-        string='Installment simulation',
-        index=True,
-        ondelete='restrict',
-    )
-    installment_id = fields.Many2one(
-        comodel_name='financial.installment',
-        string='Installment',
-        related='installment_simulation_id.installment_id',
-        readonly=True,
-        store=True,
-        index=True,
-        ondelete='restrict',
-    )
+    #parcelamento_simulacao_id = fields.Many2one(
+        #comodel_name='finan.installment.simulation',
+        #string='Installment simulation',
+        #index=True,
+        #ondelete='restrict',
+    #)
+    #parcelamento_id = fields.Many2one(
+        #comodel_name='finan.installment',
+        #string='Installment',
+        #related='parcelamento_simulacao_id.parcelamento_id',
+        #readonly=True,
+        #store=True,
+        #index=True,
+        #ondelete='restrict',
+    #)
 
     #
-    # Original currency and amount
+    # Controle de dívidas em outras moedas
     #
-    original_currency_id = fields.Many2one(
+    currency_original_id = fields.Many2one(
         comodel_name='res.currency',
-        string='Original currecy',
+        string='Moeda original da dívida',
+        domain=[('is_currency', '=', True)]
     )
-    original_currency_amount = fields.Float(
-        string='Document amount in original currency',
-        digits=(18, 2),
+    vr_documento_original = fields.Monetary(
+        string='Valor do documento na moeda original',
+        currency_field='currency_original_id',
     )
 
     #
     #
-    # Payment term and Payment mode
+    # Condições de pagamento
     #
-    payment_mode_id = fields.Many2one(
-        comodel_name='account.payment.mode',
-        string="Payment Mode",
-    )
-    # Este campo esta sendo inserido somente para fins gerenciais e não será
-    # exibido na visão por enquanto.
-    # TODO: Implementar um relatório que proporcione informações sobre o
-    # ganho associado a diferentes condições de pagamentos.
-    #
-    payment_term_id = fields.Many2one(
+    condicao_pagamento_id = fields.Many2one(
         comodel_name='account.payment.term',
-        string="Payment term",
+        string="Condição de pagamento",
+        ondelete='restrict',
+        domain=[('forma_pagamento', '!=', False)],
     )
 
-    @api.depends('type')
-    def _compute_sign(self):
-        for move in self:
-            if move.type in ['2receive', 'receipt_item', 'money_in']:
-                move.sign = 1
+    #
+    # Descrição do lançamento
+    #
+    nome = fields.Char(
+        string='Lançamento',
+        compute='_compute_nome',
+        store=True,
+        index=True,
+    )
+
+    #
+    # Documento relacionado (campo genérico)
+    #
+    referencia_id = fields.Reference(
+        selection=[],
+        string='Documento relacionado',
+        readonly=True,
+    )
+
+    #
+    # Controle de baixa
+    #
+    permite_baixa = fields.Boolean(
+        string='Permite baixa?',
+        #compute='_compute_permite_baixa',
+    )
+    #motivo_baixa_id = fields.Many2one(
+        #comodel_name='finan.motivo.baixa',
+        #string="Motivo da baixa",
+    #)
+
+    @api.depends('tipo')
+    def _compute_sinal(self):
+        for lancamento in self:
+            if lancamento.tipo in FINAN_TIPO_ENTRADA:
+                lancamento.sinal = 1
             else:
-                move.sign = -1
+                lancamento.sinal = -1
 
-    @api.depends('amount_document',
-                 'amount_interest', 'amount_penalty', 'amount_other_credits',
-                 'amount_discount', 'amount_other_debits', 'amount_bank_fees',
-                 'payment_ids.amount_document',
-                 'payment_ids.amount_interest', 'payment_ids.amount_penalty',
-                 'payment_ids.amount_other_credits',
-                 'payment_ids.amount_discount',
-                 'payment_ids.amount_other_debits',
-                 'payment_ids.amount_bank_fees',
+    @api.depends('empresa_id', 'empresa_id.cnpj_cpf')
+    def _compute_cnpj_cpf(self):
+        for lancamento in self:
+            lancamento.cnpj_cpf = lancamento.empresa_id.cnpj_cpf
+            lancamento.cnpj_cpf_raiz = lancamento.empresa_id.cnpj_cpf_raiz
+
+    @api.depends('tipo', 'documento_id', 'numero', 'participante_id')
+    def _compute_nome(self):
+        for lancamento in self:
+            nome = ''
+
+            #if self._context.get('com_tipo'):
+                #nome += FINAN_TIPO_CODIGO[lancamento.tipo]
+                #nome += ' / '
+
+            if lancamento.tipo in FINAN_TIPO_PAGAMENTO:
+                if lancamento.forma_pagamento_id:
+                    nome += lancamento.forma_pagamento_id.nome
+                    nome += ' / '
+
+            else:
+                if lancamento.documento_id:
+                    nome += lancamento.documento_id.nome
+                    nome += ' / '
+
+            nome += lancamento.numero or ''
+
+            if self._context.get('com_participante'):
+                nome += ' - '
+                nome += lancamento_id.participante_id.name_get()[0][1]
+
+            lancamento.nome = nome
+
+    @api.depends('vr_documento',
+                 'vr_juros', 'vr_multa', 'vr_outros_creditos',
+                 'vr_desconto', 'vr_outros_debitos', 'vr_tarifas',
+                 'vr_adiantado')
+    def _compute_total(self):
+        for lancamento in self:
+            vr_total = lancamento.vr_documento
+            vr_total += lancamento.vr_juros
+            vr_total += lancamento.vr_multa
+            vr_total += lancamento.vr_outros_creditos
+            vr_total += lancamento.vr_adiantado
+            vr_total -= lancamento.vr_desconto
+            vr_total -= lancamento.vr_outros_debitos
+            vr_total -= lancamento.vr_tarifas
+            vr_total -= lancamento.vr_baixado
+            lancamento.vr_total = vr_total
+
+    @api.depends('vr_documento',
+                 'vr_juros', 'vr_multa', 'vr_outros_creditos',
+                 'vr_desconto', 'vr_outros_debitos', 'vr_tarifas',
+                 'vr_adiantado',
+                 'pagamento_ids.vr_documento',
+                 'pagamento_ids.vr_juros', 'pagamento_ids.vr_multa',
+                 'pagamento_ids.vr_outros_creditos',
+                 'pagamento_ids.vr_desconto',
+                 'pagamento_ids.vr_outros_debitos',
+                 'pagamento_ids.vr_tarifas',
+                 'pagamento_ids.vr_adiantado',
+                 'pagamento_ids.situacao_divida'
                  )
-    def _compute_total_and_residual(self):
-        for move in self:
-            amount_total = move.amount_document
-            amount_total += move.amount_interest
-            amount_total += move.amount_penalty
-            amount_total += move.amount_other_credits
-            amount_total -= move.amount_discount
-            amount_total -= move.amount_other_debits
-            amount_total -= move.amount_bank_fees
+    def _compute_total_saldo(self):
+        for lancamento in self:
+            vr_quitado_documento = 0
+            vr_quitado_juros = 0
+            vr_quitado_multa = 0
+            vr_quitado_outros_creditos = 0
+            vr_quitado_desconto = 0
+            vr_quitado_outros_debitos = 0
+            vr_quitado_tarifas = 0
+            vr_quitado_adiantado = 0
+            vr_quitado_baixado = 0
+            vr_quitado_total = 0
 
-            amount_paid_document = 0
-            amount_paid_interest = 0
-            amount_paid_penalty = 0
-            amount_paid_other_credits = 0
-            amount_paid_discount = 0
-            amount_paid_other_debits = 0
-            amount_paid_bank_fees = 0
-            amount_paid_total = 0
+            vr_total = lancamento.vr_total
+            vr_saldo = 0
 
-            amount_residual = 0
-            amount_cancel = 0
-            amount_refund = 0
+            if lancamento.tipo in FINAN_TIPO_DIVIDA:
+                for pagamento in lancamento.pagamento_ids:
+                    #
+                    # Não considera pagamentos que tenham controle de data
+                    # da crédito/débito exigido pela forma de pagamento
+                    #
+                    if pagamento.situacao_divida != \
+                        FINAN_SITUACAO_DIVIDA_QUITADO:
+                        continue
 
-            if move.type in (FINANCIAL_DEBT_2RECEIVE, FINANCIAL_DEBT_2PAY):
-                for payment in move.payment_ids:
-                    amount_paid_document += payment.amount_document
-                    amount_paid_interest += payment.amount_interest
-                    amount_paid_penalty += payment.amount_penalty
-                    amount_paid_other_credits += payment.amount_other_credits
-                    amount_paid_discount += payment.amount_discount
-                    amount_paid_other_debits += payment.amount_other_debits
-                    amount_paid_bank_fees += payment.amount_bank_fees
-                    amount_paid_total += payment.amount_total
+                    vr_quitado_documento += pagamento.vr_documento
+                    vr_quitado_juros += pagamento.vr_juros
+                    vr_quitado_multa += pagamento.vr_multa
+                    vr_quitado_outros_creditos += pagamento.vr_outros_creditos
+                    vr_quitado_desconto += pagamento.vr_desconto
+                    vr_quitado_outros_debitos += pagamento.vr_outros_debitos
+                    vr_quitado_tarifas += pagamento.vr_tarifas
+                    vr_quitado_adiantado += pagamento.vr_adiantado
+                    vr_quitado_baixado += pagamento.vr_baixado
+                    vr_quitado_total += pagamento.vr_total
 
-                amount_residual = amount_total - amount_paid_document
+                lancamento.vr_saldo = vr_total - vr_quitado_documento
 
-                if move.date_cancel:
-                    amount_cancel = amount_residual
+                if lancamento.data_baixa:
+                    lancamento.vr_baixado = vr_saldo
 
-                if amount_residual < 0:
-                    amount_refund = amount_residual * -1
-                    amount_residual = 0
+                lancamento.vr_adiantado = vr_quitado_adiantado
 
-            move.amount_total = amount_total
-            move.amount_residual = amount_residual
-            move.amount_cancel = amount_cancel
-            move.amount_refund = amount_refund
-            move.amount_paid_document = amount_paid_document
-            move.amount_paid_interest = amount_paid_interest
-            move.amount_paid_penalty = amount_paid_penalty
-            move.amount_paid_other_credits = amount_paid_other_credits
-            move.amount_paid_discount = amount_paid_discount
-            move.amount_paid_other_debits = amount_paid_other_debits
-            move.amount_paid_bank_fees = amount_paid_bank_fees
-            move.amount_paid_total = amount_paid_total
+            lancamento.vr_quitado_documento = vr_quitado_documento
+            lancamento.vr_quitado_juros = vr_quitado_juros
+            lancamento.vr_quitado_multa = vr_quitado_multa
+            lancamento.vr_quitado_outros_creditos = vr_quitado_outros_creditos
+            lancamento.vr_quitado_desconto = vr_quitado_desconto
+            lancamento.vr_quitado_outros_debitos = vr_quitado_outros_debitos
+            lancamento.vr_quitado_tarifas = vr_quitado_tarifas
+            lancamento.vr_quitado_adiantado = vr_quitado_adiantado
+            lancamento.vr_quitado_baixado = vr_quitado_baixado
+            lancamento.vr_quitado_total = vr_quitado_total
 
-    @api.depends('ref', 'ref_item', 'type')
-    def _compute_display_name(self):
-        for record in self:
-            financial_type = FINANCIAL_TYPE_CODE.get(record.type) or ''
-            doc_type = '/' + record.document_type_id.name \
-                if record.document_type_id.name else ''
-            doc_number = '/' + record.document_number \
-                         if record.document_number else ''
-            partner = '-' + record.participante_id.name \
-                if record.participante_id.name else ''
-
-            record.display_name = (financial_type + doc_type + doc_number) \
-                if not self._context.get('with_partner_name') \
-                else (financial_type + doc_type + doc_number + partner)
-
-    @api.depends('date_maturity')
-    def _compute_date_business_maturity(self):
-        # for move in self:
-        #     if move.date_maturity:
-        #         move.date_business_maturity = move.date_maturity
-        # # TODO: refactory for global OCA use avoiding l10n_br_resource
-        for record in self:
-            if record.date_maturity:
-                record.date_business_maturity = self.env[
-                    'resource.calendar'].proximo_dia_util_bancario(
-                    fields.Date.from_string(record.date_maturity))
-
-    @api.depends('date_business_maturity', 'amount_total', 'amount_document',
-                 'amount_residual', 'amount_paid_document', 'date_cancel')
-    def _compute_debt_status(self):
-        for move in self:
-            if move.type not in (FINANCIAL_DEBT_2RECEIVE, FINANCIAL_DEBT_2PAY):
+    @api.depends('data_vencimento', 'documento_id.antecipa_vencimento',
+                 'empresa_id.municipio_id')
+    def _compute_data_vencimento_util(self):
+        for lancamento in self:
+            if not lancamento.data_vencimento:
                 continue
 
-            if move.date_cancel:
-                if move.amount_paid_document > 0:
-                    move.debt_status = \
-                        FINANCIAL_DEBT_STATUS_CANCELLED_PARTIALLY
-                else:
-                    move.debt_status = FINANCIAL_DEBT_STATUS_CANCELLED
+            data_vencimento_util = lancamento.empresa_id.dia_util(
+                lancamento.data_vencimento,
+                lancamento.documento_id.antecipa_vencimento
+            )
+            lancamento.data_vencimento_util = data_vencimento_util
 
-            elif move.amount_paid_document > 0:
-                if move.amount_residual > 0:
-                    move.debt_status = FINANCIAL_DEBT_STATUS_PAID_PARTIALLY
+    @api.depends('data_vencimento_util', 'vr_total', 'vr_documento',
+                 'vr_saldo', 'vr_quitado_documento', 'data_baixa',
+                 'data_credito_debito', 'provisorio')
+    def _compute_situacao_divida(self):
+        for lancamento in self:
+            if lancamento.tipo in FINAN_TIPO_DIVIDA:
+                if lancamento.data_baixa:
+                    if lancamento.vr_quitado_documento > 0:
+                        lancamento.situacao_divida = \
+                            FINAN_SITUACAO_DIVIDA_BAIXADO_PARCIALMENTE
+                    else:
+                        lancamento.situacao_divida = \
+                            FINAN_SITUACAO_DIVIDA_BAIXADO
+
+                elif lancamento.vr_quitado_documento > 0:
+                    if lancamento.vr_saldo > 0:
+                        lancamento.situacao_divida = \
+                            FINAN_SITUACAO_DIVIDA_QUITADO_PARCIALMENTE
+                    else:
+                        lancamento.situacao_divida = \
+                            FINAN_SITUACAO_DIVIDA_QUITADO
+
+                elif lancamento.data_vencimento_util:
+                    data_hoje = hoje()
+                    data_vencimento = parse_datetime(
+                        lancamento.data_vencimento_util).date()
+
+                    if data_vencimento < data_hoje:
+                        lancamento.situacao_divida = \
+                            FINAN_SITUACAO_DIVIDA_VENCIDO
+
+                    elif data_vencimento == data_hoje:
+                        lancamento.situacao_divida = \
+                            FINAN_SITUACAO_DIVIDA_VENCE_HOJE
+
+                    else:
+                        lancamento.situacao_divida = \
+                            FINAN_SITUACAO_DIVIDA_A_VENCER
+
                 else:
-                    move.debt_status = FINANCIAL_DEBT_STATUS_PAID
+                    lancamento.situacao_divida = \
+                        FINAN_SITUACAO_DIVIDA_A_VENCER
+
+            #
+            # Controla a situação das formas de pagamento que exigem a
+            # informação da data de crédito/débito (caso dos cheques)
+            #
+            elif lancamento.tipo in FINAN_TIPO_PAGAMENTO:
+                if lancamento.forma_pagamento_id.quitado_somente_com_data_credito_debito:
+                    if lancamento.data_credito_debito:
+                        lancamento.situacao_divida = \
+                            FINAN_SITUACAO_DIVIDA_QUITADO
+                    else:
+                        lancamento.situacao_divida = \
+                            FINAN_SITUACAO_DIVIDA_VENCIDO
+                else:
+                    lancamento.situacao_divida = FINAN_SITUACAO_DIVIDA_QUITADO
+
+            if lancamento.situacao_divida in \
+                FINAN_SITUACAO_DIVIDA_CONSIDERA_ABERTO:
+                lancamento.situacao_divida_simples = \
+                    FINAN_SITUACAO_DIVIDA_SIMPLES_ABERTO
+
+            elif lancamento.situacao_divida in \
+                FINAN_SITUACAO_DIVIDA_CONSIDERA_QUITADO:
+                lancamento.situacao_divida_simples = \
+                    FINAN_SITUACAO_DIVIDA_SIMPLES_QUITADO
+
+            elif lancamento.situacao_divida in \
+                FINAN_SITUACAO_DIVIDA_CONSIDERA_BAIXADO:
+                lancamento.situacao_divida_simples = \
+                    FINAN_SITUACAO_DIVIDA_SIMPLES_BAIXADO
+
+            if lancamento.situacao_divida == \
+                FINAN_SITUACAO_DIVIDA_QUITADO:
+                lancamento.state = FINAN_STATE_PAID
+
+            elif lancamento.situacao_divida_simples == \
+                FINAN_SITUACAO_DIVIDA_SIMPLES_BAIXADO:
+                lancamento.state = FINAN_STATE_CANCELLED
+
+            elif lancamento.provisorio:
+                lancamento.state = FINAN_STATE_DRAFT
 
             else:
-                today = fields.Date.context_today(move)
-                due_date = move.date_business_maturity
+                lancamento.state = FINAN_STATE_OPEN
 
-                if due_date > today:
-                    move.debt_status = FINANCIAL_DEBT_STATUS_DUE
-
-                elif due_date == today:
-                    move.debt_status = FINANCIAL_DEBT_STATUS_DUE_TODAY
-
-                else:
-                    move.debt_status = FINANCIAL_DEBT_STATUS_OVERDUE
-
-            if move.debt_status in FINANCIAL_DEBT_STATUS_CONSIDERS_OPEN:
-                move.debt_concise_status = FINANCIAL_DEBT_CONCISE_STATUS_OPEN
-            elif move.debt_status in FINANCIAL_DEBT_STATUS_CONSIDERS_PAID:
-                move.debt_concise_status = FINANCIAL_DEBT_CONCISE_STATUS_PAID
-            elif move.debt_status in FINANCIAL_DEBT_STATUS_CONSIDERS_CANCELLED:
-                move.debt_concise_status = \
-                    FINANCIAL_DEBT_CONCISE_STATUS_CANCELLED
-
-            if move.debt_status == FINANCIAL_DEBT_STATUS_PAID:
-                move.reconciled = True
+    @api.depends('divida_id')
+    def _compute_divida_ids(self):
+        for pagamento in self:
+            if pagamento.divida_id:
+                pagamento.divida_ids = [pagamento.divida_id.id]
             else:
-                move.reconciled = False
+                pagamento.divida_ids = False
 
-    @api.depends('debt_id')
-    def _compute_debt_ids(self):
-        for payment in self:
-            if payment.debt_id:
-                payment.debt_ids = [payment.debt_id.id]
+    @api.onchange('empresa_id')
+    def _onchange_empresa_id(self):
+        for lancamento in self:
+            lancamento.cnpj_cpf = lancamento.empresa_id.cnpj_cpf
+            lancamento.cnpj_cpf_raiz = lancamento.empresa_id.cnpj_cpf_raiz
+
+    @api.onchange('forma_pagamento_id')
+    def _onchange_forma_pagamento_id(self):
+        for lancamento in self:
+            if lancamento.forma_pagamento_id.documento_id:
+                lancamento.documento_id = \
+                    lancamento.forma_pagamento_id.documento_id
+
+    @api.depends('empresa_id.data_referencia_financeira')
+    def _compute_dias_atraso(self):
+        for lancamento in self:
+            if lancamento.tipo not in FINAN_TIPO_DIVIDA:
+                continue
+
+            data_vencimento_util = \
+                parse_datetime(lancamento.data_vencimento_util).date()
+
+            if lancamento.data_pagamento:
+                data_base = parse_datetime(lancamento.data_pagamento).date()
             else:
-                payment.debt_ids = False
+                data_base = hoje()
 
-    def _readonly_state(self):
-        return {'draft': [('readonly', False)]}
+            dias_atraso = (data_base - data_vencimento_util).days
 
-    def _required_fields(self):
-        return True
+            lancamento.dias_atraso = dias_atraso
 
-    def _track_visibility_onchange(self):
-        return 'onchange'
-
-    @api.depends('company_id.today_date')
-    def _compute_arrears_days(self):
-        def date_value(date_str):
-            return fields.Date.from_string(date_str)
-        for record in self:
-            date_diference = False
-            if record.debt_status == 'paid':
-                date_diference = \
-                    date_value(record.date_payment) - date_value(
-                        record.date_business_maturity)
-            elif record.debt_status == 'overdue':
-                date_diference = \
-                    date_value(record.company_id.today_date) - date_value(
-                        record.date_business_maturity)
-            arrears = date_diference and date_diference.days or 0
-            record.arrears_days = arrears
-
-    ref = fields.Char(
-        required=True,
-        copy=False,
-        readonly=True,
-        states='_readonly_state',
-        index=True,
-        default=lambda self: _('New')
-    )
-    ref_item = fields.Char(
-        string='ref item',
-        readonly=True,
-        states='_readonly_state',
-    )
-    display_name = fields.Char(
-        string='Financial Reference',
-        compute='_compute_display_name',
-        store=True,
-    )
-    doc_source_id = fields.Reference(
-        selection=[],
-        string='Source Document',
-        readonly=True,
-    )
-    motivo_cancelamento_id = fields.Many2one(
-        comodel_name="financial.move.motivo.cancelamento",
-        string="Motivo do Cancelamento",
-    )
-    arrears_days = fields.Integer(
-        string='Arrears Days',
-        compute='_compute_arrears_days',
-        store=True
-    )
-
-    @api.multi
-    @api.constrains('amount_document')
+    @api.constrains('vr_documento',
+                    'vr_juros', 'vr_multa', 'vr_outros_creditos',
+                    'vr_desconto', 'vr_outros_debitos', 'vr_tarifas',
+                    'vr_total')
     def _check_amount(self):
-        for record in self:
-            if not (record.amount_document > 0.0 and
-                    record.state not in 'cancel'):
-                raise ValidationError(_(
-                    'The payment amount must be strictly positive.'
-                ))
+        for lancamento in self:
+            if lancamento.vr_documento < 0:
+                raise ValidationError('O valor do documento precisa ser maior'
+                    ' do que zero!')
+            elif lancamento.vr_documento == 0:
+                raise ValidationError('O valor do documento não pode ser'
+                    ' zero!')
+
+            if lancamento.vr_juros < 0:
+                raise ValidationError('O valor dos juros precisa ser maior'
+                    ' do que zero!')
+
+            if lancamento.vr_multa < 0:
+                raise ValidationError('O valor da multa precisa ser maior'
+                    ' do que zero!')
+
+            if lancamento.vr_outros_creditos < 0:
+                raise ValidationError('O valor de outros créditos precisa ser '
+                    'maior do que zero!')
+
+            if lancamento.vr_desconto < 0:
+                raise ValidationError('O valor do desconto precisa ser maior'
+                    ' do que zero!')
+
+            if lancamento.vr_outros_debitos < 0:
+                raise ValidationError('O valor de outros débitos precisa ser '
+                    'maior do que zero!')
+
+            if lancamento.vr_tarifas < 0:
+                raise ValidationError('O valor das tarifas precisa ser maior'
+                    ' do que zero!')
+
+            if lancamento.vr_total < 0:
+                raise ValidationError('O valor total precisa ser maior'
+                    ' do que zero!')
+
+    #@api.model
+    #def _avaliable_transition(self, old_state, new_state):
+        #allowed = [
+            #('draft', 'open'),
+            #('open', 'paid'),
+            #('open', 'cancelled'),
+            #('paid', 'open'),
+        #]
+        #return (old_state, new_state) in allowed
+
+    def executa_antes_create(self, dados):
+        return dados
 
     @api.model
-    def _avaliable_transition(self, old_state, new_state):
-        allowed = [
-            ('draft', 'open'),
-            ('open', 'paid'),
-            ('open', 'cancelled'),
-            ('paid', 'open'),
-        ]
-        return (old_state, new_state) in allowed
+    def create(self, dados):
+        dados = self.executa_antes_create(dados)
+        res = super(FinanLancamento, self).create(dados)
+        return self.executa_depois_create(res, dados)
 
-    def do_before_create(self, values):
-        return values
-
-    @api.model
-    def create(self, values):
-        values = self.do_before_create(values)
-        result = super(FinancialMove, self).create(values)
-        return self.do_after_create(result, values)
-
-    def do_after_create(self, result, values):
+    def executa_depois_create(self, result, dados):
         return result
 
-    def do_before_write(self, values):
-        return values
+    def executa_antes_write(self, dados):
+        return dados
 
-    @api.multi
-    def _write(self, vals):
-        pre_not_reconciled = self.filtered(
-            lambda financial: not financial.reconciled)
-        pre_reconciled = self - pre_not_reconciled
-        res = super(FinancialMove, self)._write(vals)
-        reconciled = self.filtered(lambda financial: financial.reconciled)
-        not_reconciled = self - reconciled
-        (reconciled & pre_reconciled).filtered(
-            lambda financial: financial.state == 'open').action_paid()
-        (not_reconciled & pre_not_reconciled).filtered(
-            lambda invoice: invoice.state == 'paid').action_estorno()
-        return res
+    def write(self, dados):
+        self.executa_antes_write(dados)
+        result = super(FinanLancamento, self).write(dados)
+        return self.executa_depois_write(result, dados)
 
-    def do_after_write(self, result, values):
+    def executa_depois_write(self, result, dados):
         return result
 
-    def do_before_unlink(self):
-        for financial in self:
-            if financial.state not in ('draft', 'cancel'):
-                if financial.doc_source_id:
-                    # TODO: Improve this validation!
-                    raise UserError(
-                        _('You cannot delete an financial move which is \n'
-                          'related to another document \n'
-                          'try to cancel the related document'))
-                raise UserError(
-                    _('You cannot delete an financial move which is not \n'
-                      'draft or cancelled'))
+    def executa_antes_unlink(self):
+        for lancamento in self:
+            if lancamento.referencia_id:
+                raise UserError('Você não pode excuir um lançamento '
+                    'relacionado a outro documento; verifique se é possível '
+                    'cancelar o documento relacionado.')
 
-    @api.multi
+            if lancamento.provisorio:
+                continue
+
+            if lancamento.situacao_divida_simples == \
+                FINAN_SITUACAO_DIVIDA_SIMPLES_ABERTO:
+                continue
+
+            if lancamento.situacao_divida_simples == \
+                FINAN_SITUACAO_DIVIDA_SIMPLES_BAIXADO:
+                raise UserError('Você não pode excuir um lançamento baixado!')
+
+            if lancamento.situacao_divida_simples == \
+                FINAN_SITUACAO_DIVIDA_SIMPLES_QUITADO:
+                raise UserError('Você não pode excuir um lançamento com '
+                                'pagamentos!')
+
     def unlink(self):
-        self.do_before_unlink()
-        result = super(FinancialMove, self).unlink()
-        result = self.do_after_unlink(result)
+        self.executa_antes_unlink()
+        res = super(FinanLancamento, self).unlink()
+        return self.execute_depois_unlink(res)
+
+    def execute_depois_unlink(self, result):
         return result
 
-    def do_after_unlink(self, result):
-        return result
+    def confirma_lancamento(self):
+        for lancamento in self:
+            if lancamento.provisorio:
+                lancamento.provisorio = False
 
-    @api.multi
-    def change_state(self, new_state):
-        for record in self:
-            if record._avaliable_transition(record.state, new_state):
-                record.state = new_state
-            elif record.state == new_state:
-                return True
-            else:
-                raise UserError(_('This state transition is not allowed'))
+    def reabre_lancamento(self):
+        for lancamento in self:
+            if not lancamento.provisorio:
+                if lancamento.situacao_divida_simples == \
+                    FINAN_SITUACAO_DIVIDA_SIMPLES_ABERTO:
+                    lancamento.provisorio = True
+                else:
+                    if lancamento.situacao_divida_simples == \
+                        FINAN_SITUACAO_DIVIDA_SIMPLES_BAIXADO:
+                        mensagem = 'Você não pode reabrir um lançamento ' + \
+                                   'já baixado!'
+                    else:
+                        mensagem = 'Você não pode reabrir um lançamento ' + \
+                                   'com pagamentos!'
 
-    @api.multi
-    def action_confirm(self):
-        for record in self:
-            record.change_state('open')
-
-    @api.multi
-    def action_budget(self):
-        for record in self:
-            record.change_state('budget')
-
-    @api.multi
-    def action_paid(self):
-        for record in self:
-            record.change_state('paid')
-            if record.state == 'paid':
-                date_payment = \
-                    max([x.date_payment for x in record.payment_ids])
-                record.date_payment = date_payment
-
-    @api.multi
-    def action_estorno(self):
-        for record in self:
-            record.change_state('open')
-
-    @api.multi
-    def action_cancel(self, motivo_id, obs):
-        for record in self:
-            record.change_state('cancelled')
-            if record.note:
-                new_note = record.note + '\n' + obs
-            else:
-                new_note = obs
-            record.write({
-                'motivo_cancelamento_id': motivo_id,
-                'amount_cancel': record.amount_document,
-                'note': new_note,
-                'amount_residual': 0,
-            })
-            record.with_context(no_email=True).message_post(body=new_note)
+                    raise UserError(mensagem)
 
     @staticmethod
-    def _prepare_financial_move(
-            date_maturity,
-            amount_document,
-            document_number,
-            participante_id, type, date_document,
-            bank_id, company_id, currency_id,
-            analytic_account_id=False, account_id=False,
+    def _prepare_financial_lancamento(
+            data_vencimento,
+            vr_documento,
+            numero,
+            participante_id, type, data_documento,
+            bank_id, empresa_id, currency_id,
+            analytic_conta_id=False, conta_id=False,
             payment_term_id=False,
             **kwargs):
         return dict(
             bank_id=bank_id,
-            company_id=company_id,
+            empresa_id=empresa_id,
             currency_id=currency_id,
             type=type,
             participante_id=participante_id,
-            document_number=document_number,
-            date_document=date_document,
+            numero=numero,
+            data_documento=data_documento,
             payment_term_id=payment_term_id,
-            analytic_account_id=analytic_account_id,
-            account_id=account_id,
-            date_maturity=date_maturity,
-            amount_document=amount_document,
+            analytic_conta_id=analytic_conta_id,
+            conta_id=conta_id,
+            data_vencimento=data_vencimento,
+            vr_documento=vr_documento,
             **kwargs
         )
 
-    @api.multi
-    def action_view_financial(self, type):
-        if type == '2receive':
-            action = self.env.ref(
-                'financial.financial_move_debt_2receive_form_action').read()[0]
-        elif type == '2pay':
-            action = self.env.ref(
-                'financial.financial_move_debt_2pay_form_action').read()[0]
-        if len(self) > 1:
-            action['domain'] = [('id', 'in', self.ids)]
-        elif len(self) == 1:
-            # action['views'] = \
-            #     [(
-            #         self.env.ref('financial.financial_move_form_view').id,
-            #         'form',
-            #     )]
-            action['res_id'] = self.ids[0]
-        else:
-            action = {'type': 'ir.actions.act_window_close'}
-        return action
+    #def action_view_financial(self, type):
+        #if type == '2receive':
+            #action = self.env.ref(
+                #'finan.financial_lancamento._debt_2receive_form_action').read()[0]
+        #elif type == '2pay':
+            #action = self.env.ref(
+                #'finan.financial_lancamento._debt_2pay_form_action').read()[0]
+        #if len(self) > 1:
+            #action['domain'] = [('id', 'in', self.ids)]
+        #elif len(self) == 1:
+            ## action['views'] = \
+            ##     [(
+            ##         self.env.ref('finan.financial_lancamento._form_view').id,
+            ##         'form',
+            ##     )]
+            #action['res_id'] = self.ids[0]
+        #else:
+            #action = {'type': 'ir.actions.act_window_close'}
+        #return action
 
-    def cron_interest(self):
-        if self.env['resource.calendar'].data_eh_dia_util_bancario(
-                datetime.today()):
-            record = self.search([
-                ('state', '=', 'open'),
-                ('date_business_maturity', '<', datetime.today())])
-            # record._compute_interest()
-            record._compute_debt_status()
 
-    @api.depends('payment_mode_id', 'amount_document',
-                 'date_business_maturity')
-    def _compute_interest(self):
-        for record in self:
-            if self.env['resource.calendar']. \
-                    data_eh_dia_util_bancario(datetime.today()) and record. \
-                    state == 'open' and \
-                    (datetime.today() > datetime.strptime
-                        (record.date_business_maturity, '%Y-%m-%d')):
-                day = (
-                    datetime.today() - datetime.strptime(
-                        record.date_maturity,
-                        '%Y-%m-%d'))
-                interest = record.amount_document * \
-                    (record.payment_mode_id.interest_percent * day.days) / 100
-
-                delay_fee = (record.payment_mode_id.
-                             delay_fee_percent / 100) * record.amount_document
-                record.amount_interest = interest + delay_fee
-
-    # def _create_from_dict(self, move_dict):
+    # def _create_from_dict(self, lancamento._dict):
     #     '''How to use:
     #
     # def _prepare_lancamento_item(self, item):
     #      return {
-    #          'document_number':
+    #          'numero':
     #              '{0.serie}-{0.numero:0.0f}-{1.numero}/{2}'.format(
     #                  self, item, len(self.duplicata_ids)),
-    #          'date_maturity': item.data_vencimento,
+    #          'data_vencimento': item.data_vencimento,
     #          'amount': item.valor
     #      }
     #
@@ -855,15 +888,15 @@ class FinancialMove(models.Model):
     #          'type': '2receive',
     #          'partner_id':
     #              self.participante_id and self.participante_id.partner_id.id,
-    #          'doc_source_id': self._name + ',' + str(self.id),
+    #          'referencia_id': self._name + ',' + str(self.id),
     #          'bank_id': 1,
-    #          'company_id': self.empresa_id and self.empresa_id.company_id.id,
+    #          'empresa_id': self.empresa_id and self.empresa_id.empresa_id.id,
     #          'currency_id': self.currency_id.id,
     #          'payment_term_id':
     #              self.payment_term_id and self.payment_term_id.id or False,
     #          # 'account_type_id':
-    #          # 'analytic_account_id':
-    #          # 'payment_mode_id:
+    #          # 'analytic_conta_id':
+    #          # 'condicao_pagamento_id:
     #          'lines': [self._prepara_lancamento_item(parcela)
     #                    for parcela in self.duplicata_ids],
     #      }
@@ -871,42 +904,124 @@ class FinancialMove(models.Model):
     #  def action_financial_create(self):
     #
     #      p = self._prepare_lancamento_financeiro()
-    #      financial_move_ids = self.env['financial.move']._create_from_dict(p)
-    #      financial_move_ids.action_confirm()
+    #      financial_lancamento._ids = self.env['finan.lancamento']._create_from_dict(p)
+    #      financial_lancamento._ids.action_confirm()
     #
-    #      :param move_dict:
-    #      :return: a record set of financial.move
+    #      :param lancamento._dict:
+    #      :return: a lancamento set of finan.lancamento
     #      '''
-    #      lines = move_dict.pop('lines')
+    #      lines = lancamento._dict.pop('lines')
     #
-    #      financial_move_ids = self.env['financial.move']
+    #      financial_lancamento._ids = self.env['finan.lancamento']
     #
     #      for item in lines:
-    #          date_maturity = item.pop('date_maturity')
-    #          amount_document = item.pop('amount_document')
-    #          document_number = item.pop('document_number')
+    #          data_vencimento = item.pop('data_vencimento')
+    #          vr_documento = item.pop('vr_documento')
+    #          numero = item.pop('numero')
     #          #
-    #          # Override move_dict with item data!
+    #          # Override lancamento._dict with item data!
     #          #
-    #          kwargs = move_dict.copy()
+    #          kwargs = lancamento._dict.copy()
     #          kwargs.update(item)
     #
-    #          values = self._prepare_financial_move(
-    #              date_maturity=date_maturity,
-    #              amount_document=amount_document,
-    #              document_number=document_number,
+    #          values = self._prepare_financial_lancamento(
+    #              data_vencimento=data_vencimento,
+    #              vr_documento=vr_documento,
+    #              numero=numero,
     #              **kwargs
     #          )
     #          financial = self.create(values)
-    #          financial_move_ids |= financial
-    #      return financial_move_ids
+    #          financial_lancamento._ids |= financial
+    #      return financial_lancamento._ids
+
+    #def _readonly_state(self):
+        #return {'draft': [('readonly', False)]}
+
+    #def _required_fields(self):
+        #return True
+
+    #def _track_visibility_onchange(self):
+        #return 'onchange'
+
+    #def cron_interest(self):
+        #if self.env['resource.calendar'].data_eh_dia_util_bancario(
+                #datetime.data_hoje()):
+            #lancamento = self.search([
+                #('state', '=', 'open'),
+                #('data_vencimento_util', '<', datetime.data_hoje())])
+            ## lancamento._compute_interest()
+            #lancamento._compute_situacao_divida()
+
+    #@api.depends('condicao_pagamento_id', 'vr_documento',
+                 #'data_vencimento_util')
+    #def _compute_interest(self):
+        #for lancamento in self:
+            #if self.env['resource.calendar']. \
+                    #data_eh_dia_util_bancario(datetime.data_hoje()) and lancamento. \
+                    #state == 'open' and \
+                    #(datetime.data_hoje() > datetime.strptime
+                        #(lancamento.data_vencimento_util, '%Y-%m-%d')):
+                #day = (
+                    #datetime.data_hoje() - datetime.strptime(
+                        #lancamento.data_vencimento,
+                        #'%Y-%m-%d'))
+                #interest = lancamento.vr_documento * \
+                    #(lancamento.condicao_pagamento_id.interest_percent * day.days) / 100
+
+                #delay_fee = (lancamento.condicao_pagamento_id.
+                             #delay_fee_percent / 100) * lancamento.vr_documento
+                #lancamento.vr_juros = interest + delay_fee
+
+    #def change_state(self, new_state):
+        #for lancamento in self:
+            #if lancamento._avaliable_transition(lancamento.state, new_state):
+                #lancamento.state = new_state
+            #elif lancamento.state == new_state:
+                #return True
+            #else:
+                #raise UserError(_('This state transition is not allowed'))
+
+    #def action_confirm(self):
+        #for lancamento in self:
+            #lancamento.change_state('open')
+
+    #def action_budget(self):
+        #for lancamento in self:
+            #lancamento.change_state('budget')
+
+    #def action_paid(self):
+        #for lancamento in self:
+            #lancamento.change_state('paid')
+            #if lancamento.state == 'paid':
+                #data_pagamento = \
+                    #max([x.data_pagamento for x in lancamento.pagamento_ids])
+                #lancamento.data_pagamento = data_pagamento
+
+    #def action_estorno(self):
+        #for lancamento in self:
+            #lancamento.change_state('open')
+
+    #def action_cancel(self, motivo_id, obs):
+        #for lancamento in self:
+            #lancamento.change_state('cancelled')
+            #if lancamento.note:
+                #new_note = lancamento.note + '\n' + obs
+            #else:
+                #new_note = obs
+            #lancamento.write({
+                #'motivo_baixa_id': motivo_id,
+                #'vr_baixado': lancamento.vr_documento,
+                #'note': new_note,
+                #'vr_saldo': 0,
+            #})
+            #lancamento.with_context(no_email=True).message_post(body=new_note)
 
 
-class FinancialMoveMotivoCancelamento(models.Model):
-    _name = b'financial.move.motivo.cancelamento'
-    _rec_name = 'motivo_cancelamento'
+#class FinanLancamentoMotivoCancelamento(models.Model):
+    #_name = b'finan.lancamento.motivo.cancelamento'
+    #_rec_name = 'motivo_cancelamento'
 
-    motivo_cancelamento = fields.Char(
-        string="Motivo do Cancelamento",
-        required=True,
-    )
+    #motivo_cancelamento = fields.Char(
+        #string="Motivo do Cancelamento",
+        #required=True,
+    #)

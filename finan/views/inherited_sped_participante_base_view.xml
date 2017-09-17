@@ -1,76 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record model="ir.ui.view" id="l10n_br_base.sped_participante_base_kanban">
-        <field name="name">sped.participante.base.kanban</field>
-        <field name="model">sped.participante</field>
-        <field name="priority">9999</field>
-        <field name="arch" type="xml">
-            <kanban class="o_sped_participante_kanban">
-                <field name="color"/>
-                <field name="image"/>
-                <field name="nome"/>
-                <field name="cnpj_cpf"/>
-                <field name="tipo_pessoa"/>
-                <field name="endereco"/>
-                <field name="numero"/>
-                <field name="complemento"/>
-                <field name="bairro"/>
-                <field name="municipio_id"/>
-                <field name="cep"/>
-                <field name="fone"/>
-                <field name="celular"/>
-                <field name="email"/>
-                <field name="available_credit_limit"/>
-                <templates>
-                    <t t-name="kanban-box">
-                        <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>
-                        <div t-att-class="color + ' oe_kanban_global_click'">
-                            <div class="o_kanban_image">
-                                <img t-if="record.image.raw_value" t-att-src="'data:image/png;base64,'+record.image.raw_value"/>
-                                <t t-if="!record.image.raw_value">
-                                    <t t-if="record.tipo_pessoa.raw_value === 'F'">
-                                        <img t-att-src='_s + "/base/static/src/img/avatar.png"'/>
-                                    </t>
-                                    <t t-if="record.tipo_pessoa.raw_value != 'F'">
-                                        <img t-att-src='_s + "/base/static/src/img/company_image.png"'/>
-                                    </t>
-                                </t>
-                            </div>
-                            <div class="oe_kanban_details">
-                                <t t-if="record.cnpj_cpf.raw_value">
-                                    <strong class="o_text_overflow"><field name="nome" /> – <field name="cnpj_cpf"/></strong>
-                                </t>
-                                <t t-if="!record.cnpj_cpf.raw_value">
-                                    <strong class="oe_partner_heading"><field name="nome"/></strong>
-                                </t>
-                                <ul>
-                                    <li t-if="record.fone.raw_value" class="o_text_overflow">• <field name="fone"/></li>
-                                    <li t-if="record.celular.raw_value" class="o_text_overflow">• <field name="celular"/></li>
-                                    <li t-if="record.email.raw_value" class="o_text_overflow">• <field name="email"/></li>
-                                    <li t-if="record.municipio_id.raw_value"><field name="municipio_id"/></li>
-                                    <li class="o_text_overflow">Crédito disponível: <field name="available_credit_limit"/></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </t>
-                </templates>
-            </kanban>
-        </field>
-    </record>
 
     <record model="ir.ui.view" id="sped_participante_base_form" >
-        <field name="name">sped.participante.base.form</field>
+        <field name="name">sped.participante.base.form (in finan)</field>
         <field name="model">sped.participante</field>
         <field name="inherit_id" ref="l10n_br_base.sped_participante_base_form"/>
         <field name="arch" type="xml">
             <field name="eh_cliente" position="after">
-                <field name="credit" readonly="True"
-                       attrs="{'invisible': [('eh_cliente', '=', False)]}"/>
-                <field name="credit_limit"
-                       attrs="{'invisible': [('eh_cliente', '=', False)]}"/>
-                <field name="available_credit_limit" readonly="True"
-                       attrs="{'invisible': [('eh_cliente', '=', False)]}"/>
+                <newline />
+                <field name="limite_credito" />
+                <newline />
+                <field name="limite_credito_disponivel" />
+                <newline />
+                <field name="saldo_a_receber" string="Saldo devedor" />
+                <newline />
+                <field name="adiantamento_a_pagar" string="Adiantamentos" />
+                <newline />
+            </field>
+            <field name="eh_fornecedor" position="after">
+                <newline />
+                <field name="saldo_a_pagar" string="Saldo devedor" />
+                <newline />
+                <field name="adiantamento_a_receber" string="Adiantamentos" />
+                <newline />
             </field>
         </field>
     </record>
+
+    <record model="ir.ui.view" id="sped_participante_base_kanban">
+        <field name="name">sped.participante.base.kanban (in finan)</field>
+        <field name="model">sped.participante</field>
+        <field name="priority">9999</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_participante_base_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban/field[@name='email']" position="after">
+                <field name="limite_credito" />
+                <field name="limite_credito_disponivel" />
+                <field name="saldo_a_receber" />
+                <field name="saldo_a_pagar" />
+                <field name="adiantamento_a_pagar" />
+                <field name="adiantamento_a_receber" />
+            </xpath>
+            <xpath expr="//li[@t-if='record.municipio_id.raw_value']" position="after">
+                <t t-if="record.limite_credito.raw_value">
+                    <t t-if="record.limite_credito_disponivel.raw_value &lt;= 0">
+                        <strong>
+                            <li class="badge" style="background-color: #F16567;">
+                                Limite disponível: <field name="limite_credito_disponivel" />
+                            </li>
+                        </strong>
+                    </t>
+                    <t t-if="record.limite_credito_disponivel.raw_value &gt; 0">
+                        <li class="badge" style="background-color: #5cb85c">
+                            <strong>
+                                Limite disponível: <field name="limite_credito_disponivel" />
+                            </strong>
+                        </li>
+                    </t>
+                </t>
+                <li class="badge" style="background-color: #5bc0de;" t-if="record.adiantamento_a_pagar.raw_value">
+                    <strong>
+                        Adiantamentos: <field name="adiantamento_a_pagar"/>
+                    </strong>
+                </li>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

@@ -7,18 +7,18 @@ from __future__ import division, print_function, unicode_literals
 from odoo import fields, models
 
 
-class FinancialDocumentType(models.Model):
-    _name = b'financial.document.type'
-    _description = 'Financial Document Type'
+class FinanDocumento(models.Model):
+    _name = b'finan.documento'
+    _description = 'Tipo de Documento'
+    _rec_name = 'nome'
+    _order = 'nome'
 
-    name = fields.Char(
-        string='Document Type',
+    nome = fields.Char(
+        string='Tipo de documento',
         size=30,
         required=True,
         index=True,
     )
-    account_id = fields.Many2one(
-        comodel_name='financial.account',
-        string='Account',
-        ondelete='restrict',
+    antecipa_vencimento = fields.Boolean(
+        string='Antecipa vencimento?',
     )

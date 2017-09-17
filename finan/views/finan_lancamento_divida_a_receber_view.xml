@@ -6,72 +6,102 @@
 -->
 <odoo>
 
-    <record model="ir.ui.view" id="financial_move_debt_2receive_form">
-        <field name="name">financial.move.debt.2receive.form (in financial)</field>
-        <field name="model">financial.move</field>
+    <record model="ir.ui.view" id="finan_lancamento_divida_a_receber_form">
+        <field name="name">finan.lancamento.divida.a.receber.form</field>
+        <field name="model">finan.lancamento</field>
         <field name="mode">primary</field>
-        <field name="inherit_id" ref="financial.financial_move_debt_base_form" />
+        <field name="inherit_id" ref="finan_lancamento_divida_base_form" />
         <field name="arch" type="xml">
-            <xpath expr="//form[1]" position="attributes">
-                <attribute name="string">Receivable</attribute>
+            <xpath expr="//button[@name='confirma_lancamento']" position="before">
+                <button name="%(financial.finan_lancamento_pagamento_recebimento_action)d" string="Novo recebimento" class="btn-primary" type="action"
+                    attrs="{'invisible': ['|', ('provisorio', '=', True), ('situacao_divida', 'in', ['quitado', 'baixado', 'baixado_parcialmente'])]}"
+                    context="{'default_divida_id': id, 'default_tipo': 'recebimento', 'default_conta_id': conta_id, 'default_empresa_id': empresa_id, 'default_participante_id': participante_id, 'default_vr_documento': vr_saldo}" />
             </xpath>
-            <field name="payment_ids" position="attributes">
-                <attribute name="context">{'default_type': 'receipt_item', 'default_amount_document': amount_residual, 'default_participante_id': participante_id, 'default_account_id': account_id, 'default_currency_id': currency_id, 'default_document_type_id': document_type_id, 'tree_view_ref': 'financial.financial_move_payment_one2many_base_tree', 'form_view_ref': 'financial.financial_move_payment_one2many_base_form'}</attribute>
+
+            <xpath expr="//form[1]" position="attributes">
+                <attribute name="string">Conta a receber</attribute>
+            </xpath>
+            <field name="participante_id" position="attributes">
+                <attribute name="string">Cliente</attribute>
+            </field>
+            <xpath expr="//separator[@name='valores_pagos']" position="attributes">
+                <attribute name="string">Valores recebidos</attribute>
+            </xpath>
+            <field name="vr_quitado_documento" position="attributes">
+                <attribute name="string">(-) Recebido</attribute>
+            </field>
+            <field name="vr_quitado_total" position="attributes">
+                <attribute name="string">(=) Total Recebido</attribute>
+            </field>
+            <page name="pagamentos" position="attributes">
+                <attribute name="string">Recebimentos</attribute>
+            </page>
+            <field name="pagamento_ids" position="attributes">
+                <attribute name="context">{
+                    'default_tipo': 'recebimento', 'default_conta_id': conta_id, 'default_empresa_id': empresa_id, 'default_participante_id': participante_id, 'default_vr_documento': vr_saldo,
+                    'form_view_ref': 'financial.finan_lancamento_pagamento_one2many_recebimento_form', 'tree_view_ref': 'financial.finan_lancamento_pagamento_one2many_recebimento_tree'
+                }</attribute>
             </field>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="financial_move_debt_2receive_tree">
-        <field name="name">financial.move.debt.2receive.tree (in financial)</field>
-        <field name="model">financial.move</field>
+    <record model="ir.ui.view" id="finan_lancamento_divida_a_receber_tree">
+        <field name="name">finan.lancamento.divida.a.receber.tree</field>
+        <field name="model">finan.lancamento</field>
         <field name="mode">primary</field>
-        <field name="inherit_id" ref="financial.financial_move_debt_base_tree" />
+        <field name="inherit_id" ref="finan_lancamento_divida_base_tree" />
         <field name="arch" type="xml">
             <xpath expr="//tree[1]" position="attributes">
-                <attribute name="string">Receivables</attribute>
+                <attribute name="string">Contas a receber</attribute>
             </xpath>
+            <field name="participante_id" position="attributes">
+                <attribute name="string">Cliente</attribute>
+            </field>
+            <field name="vr_quitado_documento" position="attributes">
+                <attribute name="string">Recebido</attribute>
+            </field>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="financial_move_debt_2receive_search">
-        <field name="name">financial.move.debt.2receive.search (in financial)</field>
-        <field name="model">financial.move</field>
+    <record model="ir.ui.view" id="finan_lancamento_divida_a_receber_search">
+        <field name="name">finan.lancamento.divida.a.receber.search</field>
+        <field name="model">finan.lancamento</field>
         <field name="mode">primary</field>
-        <field name="inherit_id" ref="financial.financial_move_debt_base_search" />
+        <field name="inherit_id" ref="finan_lancamento_divida_base_search" />
         <field name="arch" type="xml">
             <xpath expr="//search[1]" position="attributes">
-                <attribute name="string">Receivables</attribute>
+                <attribute name="string">Contas a receber</attribute>
             </xpath>
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="financial_move_debt_2receive_action">
-        <field name="name">Receivable</field>
-        <field name="res_model">financial.move</field>
+    <record model="ir.actions.act_window" id="finan_lancamento_divida_a_receber_action">
+        <field name="name">Contas a receber</field>
+        <field name="res_model">finan.lancamento</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('type', '=', '2receive')]</field>
-        <field name="context">{'default_type': '2receive'}</field>
-        <field name="search_view_id" ref="financial.financial_move_debt_2receive_search" />
+        <field name="domain">[('tipo', '=', 'a_receber')]</field>
+        <field name="context">{'default_tipo': 'a_receber', 'default_provisorio': True, 'search_default_situacao_vence_hoje': True, 'search_default_situacao_vencido': True}</field>
+        <field name="search_view_id" ref="finan_lancamento_divida_a_receber_search" />
     </record>
 
-    <record model="ir.actions.act_window.view" id="financial_move_debt_2receive_tree_action">
+    <record model="ir.actions.act_window.view" id="finan_lancamento_divida_a_receber_tree_action">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="financial_move_debt_2receive_tree"/>
-        <field name="act_window_id" ref="financial_move_debt_2receive_action"/>
+        <field name="view_id" ref="finan_lancamento_divida_a_receber_tree"/>
+        <field name="act_window_id" ref="finan_lancamento_divida_a_receber_action"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="financial_move_debt_2receive_form_action">
+    <record model="ir.actions.act_window.view" id="finan_lancamento_divida_a_receber_form_action">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="financial_move_debt_2receive_form"/>
-        <field name="act_window_id" ref="financial_move_debt_2receive_action"/>
+        <field name="view_id" ref="finan_lancamento_divida_a_receber_form"/>
+        <field name="act_window_id" ref="finan_lancamento_divida_a_receber_action"/>
     </record>
 
-    <record model="ir.ui.menu" id="financial_move_debt_2receive_menu">
-        <field name="name">Receivable</field>
-        <field name="parent_id" ref="financial_receivable_menu"/>
-        <field name="action" ref="financial_move_debt_2receive_action"/>
+    <record model="ir.ui.menu" id="menu_finan_lancamento_divida_a_receber">
+        <field name="name">Contas a receber</field>
+        <field name="parent_id" ref="menu_finan_receber"/>
+        <field name="action" ref="finan_lancamento_divida_a_receber_action"/>
         <field name="sequence" eval="1"/>
     </record>
 
