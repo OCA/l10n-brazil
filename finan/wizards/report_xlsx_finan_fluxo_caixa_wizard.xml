@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="report_xlsx_finan_fluxo_caixa_wizard_form">
+        <field name="name">report.xlsx.finan.fluxo.caixa.wizard.form</field>
+        <field name="model">report.xlsx.finan.fluxo.caixa.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group name="main_info">
+                    <field name="empresa_id" options="{'no_create': True, 'no_open': True}" />
+                </group>
+                <group string="Período">
+                    <field name="data_periodo"/>
+                    <field name="periodo"/>
+                </group>
+                <group>
+                    <group>
+                        <field name="data_inicial"/>
+                    </group>
+                    <group>
+                        <field name="data_final"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="gera_relatorio" string="Gerar fluxo de caixa" type="object"/>
+                    <button string="Fechar" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="report_xlsx_finan_fluxo_caixa_wizard_action">
+        <field name="name">Fluxo de caixa</field>
+        <field name="res_model">report.xlsx.finan.fluxo.caixa.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record model="ir.ui.menu" id="report_xlsx_finan_fluxo_caixa_wizard_menu">
+        <field name="name">Fluxo de caixa</field>
+        <field name="parent_id" ref="finan.menu_finan_relatorio"/>
+        <field name="action" ref="report_xlsx_finan_fluxo_caixa_wizard_action"/>
+        <field name="sequence" eval="2"/>
+    </record>
+
+</odoo>

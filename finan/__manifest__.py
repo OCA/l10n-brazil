@@ -3,9 +3,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Financial',
+    'name': 'Financeiro',
     'summary': """
-        Financial""",
+        Controle Financeiro Brasileiro""",
     'version': '10.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'KMEE,Odoo Community Association (OCA)',
@@ -45,15 +45,18 @@
 
         #'views/finan_lancamento_pagamento_base_view.xml',
 
+        #
+        # Relatórios
+        #
+        'reports/report_xlsx_finan_fluxo_caixa_data.xml',
+        'wizards/report_xlsx_finan_fluxo_caixa_wizard.xml',
 
         ##'data/financial_document_type_data.xml',
         ##'data/interest_data.xml',
 
         #'wizards/financial_cancel.xml',
         ## 'wizards/financial_edit.xml',
-        ## 'wizards/financial_pay_receive.xml',
 
-        #'wizards/report_xlsx_financial_cashflow_wizard_view.xml',
         #'wizards/report_xlsx_financial_moves_states_wizard.xml',
         #'wizards/report_xlsx_financial_defaults_wizard.xml',
         #'wizards/report_xlsx_financial_partner_statement_wizard.xml',
@@ -62,16 +65,11 @@
         #'views/financial_installment_2receive_view.xml',
         #'views/financial_installment_2pay_view.xml',
 
-        ## 'report/financial_cashflow.xml',
-        ## 'report/financial_statement_report.xml',
-        ## 'report/report_financial.xml',
-        #'reports/report_xlsx_financial_cashflow_data.xml',
         #'reports/report_xlsx_financial_moves_states_data.xml',
 
         #'reports/report_xlsx_financial_defaults_data.xml',
         #'reports/report_xlsx_financial_partner_statement_data.xml',
 
-        ## 'security/inherited_res_partner_bank_security.xml',
         #'security/ir.model.access.csv',
     ],
     'demo': [

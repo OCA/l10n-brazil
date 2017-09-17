@@ -136,7 +136,7 @@
         <field name="view_mode">tree,form</field>
         <field name="domain">[('tipo', 'in', ('recebimento', 'pagamento'))]</field>
         <field name="context">{}</field>
-        <field name="search_view_id" ref="financial.finan_lancamento_pagamento_base_search" />
+        <field name="search_view_id" ref="finan.finan_lancamento_pagamento_base_search" />
     </record>
 
     <record model="ir.actions.act_window.view" id="finan_lancamento_pagamento_base_tree_action">

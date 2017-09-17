@@ -59,7 +59,7 @@
                 <field name="provisorio" invisible="1" />
                 <header>
                     <button name="confirma_lancamento" string="Confirmar" class="btn-primary" type="object" attrs="{'invisible': [('provisorio', '!=', True)]}" />
-                    <button name="reabre_lancamento" string="Reabrir" class="btn-primary" type="object" attrs="{'invisible': [('provisorio', '=', True), ('situacao_divida_simples', '=', 'aberto')]}" />
+                    <button name="reabre_lancamento" string="Reabrir" class="btn-primary" type="object" attrs="{'invisible': ['|', ('provisorio', '=', True), ('situacao_divida_simples', '!=', 'aberto')]}" />
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed" />
                 </header>
                 <sheet>
@@ -119,7 +119,7 @@
                     <notebook>
                         <page string="Pagamentos" name="pagamentos">
                             <field name="pagamento_ids" context="{'default_conta_id': conta_id, 'default_empresa_id': empresa_id, 'default_participante_id': participante_id, 'default_vr_documento': vr_saldo,
- 'form_view_ref': 'financial.finan_lancamento_pagamento_one2many_base_form', 'tree_view_ref': 'financial.finan_lancamento_pagamento_one2many_base_tree'}"
+ 'form_view_ref': 'finan.finan_lancamento_pagamento_one2many_base_form', 'tree_view_ref': 'finan.finan_lancamento_pagamento_one2many_base_tree'}"
                             attrs="{'readonly': [('state', 'in', ['draft', 'cancelled'])]}" />
                         </page>
                     </notebook>
@@ -172,7 +172,7 @@
         <field name="view_mode">tree,form</field>
         <field name="domain">[('tipo', 'in', ('a_receber', 'a_pagar'))]</field>
         <field name="context">{}</field>
-        <field name="search_view_id" ref="financial.finan_lancamento_divida_base_search" />
+        <field name="search_view_id" ref="finan.finan_lancamento_divida_base_search" />
     </record>
 
     <record model="ir.actions.act_window.view" id="finan_lancamento_divida_base_tree_action">

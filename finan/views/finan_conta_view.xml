@@ -50,7 +50,7 @@
         <field name="name">Contas financeiras</field>
         <field name="res_model">finan.conta</field>
         <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="financial.finan_conta_search" />
+        <field name="search_view_id" ref="finan.finan_conta_search" />
     </record>
 
     <record model="ir.actions.act_window.view" id="finan_conta_tree_action">

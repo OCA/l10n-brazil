@@ -41,11 +41,11 @@ def col_number_to_reference(col):
     return _col_number_to_reference(col)
 
 
-class ReportXlsxFinancialBase(ReportXlsx):
+class ReportXlsxBase(ReportXlsx):
 
     def __init__(self, name, table, rml=False, parser=report_sxw.rml_parse,
                  header=True, store=False):
-        super(ReportXlsxFinancialBase, self).__init__(
+        super(ReportXlsxBase, self).__init__(
             name, table, rml=rml, parser=parser, header=header, store=store)
         self.current_row = 1
         #

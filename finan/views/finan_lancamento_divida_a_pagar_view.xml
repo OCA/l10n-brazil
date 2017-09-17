@@ -13,7 +13,7 @@
         <field name="inherit_id" ref="finan_lancamento_divida_base_form" />
         <field name="arch" type="xml">
             <xpath expr="//button[@name='confirma_lancamento']" position="before">
-                <button name="%(financial.finan_lancamento_pagamento_pagamento_action)d" string="Novo pagamento" class="btn-primary" type="action"
+                <button name="%(finan.finan_lancamento_pagamento_pagamento_action)d" string="Novo pagamento" class="btn-primary" type="action"
                     attrs="{'invisible': ['|', ('provisorio', '=', True), ('situacao_divida', 'in', ['quitado', 'baixado', 'baixado_parcialmente'])]}"
                     context="{'default_divida_id': id, 'default_tipo': 'pagamento', 'default_conta_id': conta_id, 'default_empresa_id': empresa_id, 'default_participante_id': participante_id, 'default_vr_documento': vr_saldo}" />
             </xpath>
@@ -39,7 +39,7 @@
             <field name="pagamento_ids" position="attributes">
                 <attribute name="context">{
                     'default_tipo': 'pagamento', 'default_conta_id': conta_id, 'default_empresa_id': empresa_id, 'default_participante_id': participante_id, 'default_vr_documento': vr_saldo,
-                    'form_view_ref': 'financial.finan_lancamento_pagamento_one2many_pagamento_form', 'tree_view_ref': 'financial.finan_lancamento_pagamento_one2many_pagamento_tree'
+                    'form_view_ref': 'finan.finan_lancamento_pagamento_one2many_pagamento_form', 'tree_view_ref': 'finan.finan_lancamento_pagamento_one2many_pagamento_tree'
                 }</attribute>
             </field>
         </field>
