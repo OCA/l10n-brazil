@@ -10,6 +10,7 @@ from __future__ import division, print_function, unicode_literals
 import logging
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
+from .sped_base import SpedBase
 from ..constante_tributaria import (
     INDICADOR_IE_DESTINATARIO,
     INDICADOR_IE_DESTINATARIO_ISENTO,
@@ -40,7 +41,7 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedParticipante(models.Model):
+class SpedParticipante(SpedBase, models.Model):
     _name = b'sped.participante'
     _description = 'Participantes'
     _inherits = {'res.partner': 'partner_id'}
@@ -116,6 +117,13 @@ class SpedParticipante(models.Model):
         index=True,
         help=u"""Para participantes estrangeiros, usar EX9999,
         onde 9999 é um número a sua escolha"""
+    )
+    cnpj_cpf_raiz = fields.Char(
+        string='Raiz do CNPJ/CPF',
+        size=14,
+        compute='_compute_tipo_pessoa',
+        store=True,
+        index=True,
     )
     tipo_pessoa = fields.Char(
         string='Tipo pessoa',
@@ -321,26 +329,31 @@ class SpedParticipante(models.Model):
     @api.depends('cnpj_cpf')
     def _compute_tipo_pessoa(self):
         for participante in self:
-            participante.tipo_pessoa = 'I'
+            if not participante.cnpj_cpf:
+                participante.tipo_pessoa = 'I'
+                participante.cnpj_cpf_raiz = ''
+                continue
 
-            if participante.cnpj_cpf:
-                if participante.cnpj_cpf[:2] == 'EX':
-                    participante.tipo_pessoa = 'E'
-                    participante.contribuinte = (
-                        INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
-                    )
+            if participante.cnpj_cpf[:2] == 'EX':
+                participante.tipo_pessoa = 'E'
+                participante.contribuinte = (
+                    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
+                )
+                participante.cnpj_cpf_raiz = participante.cnpj_cpf
 
-                elif len(participante.cnpj_cpf) == 18:
-                    participante.tipo_pessoa = 'J'
-                    participante.contribuinte = (
-                        INDICADOR_IE_DESTINATARIO_ISENTO
-                    )
+            elif len(participante.cnpj_cpf) == 18:
+                participante.tipo_pessoa = 'J'
+                participante.contribuinte = (
+                    INDICADOR_IE_DESTINATARIO_ISENTO
+                )
+                participante.cnpj_cpf_raiz = participante.cnpj_cpf[:10]
 
-                else:
-                    participante.tipo_pessoa = 'F'
-                    participante.contribuinte = (
-                        INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
-                    )
+            else:
+                participante.tipo_pessoa = 'F'
+                participante.contribuinte = (
+                    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
+                )
+                participante.cnpj_cpf_raiz = participante.cnpj_cpf
 
     @api.depends('eh_consumidor_final', 'endereco', 'numero', 'complemento',
                  'bairro', 'municipio_id', 'cep', 'eh_cliente',
