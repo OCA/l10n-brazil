@@ -411,7 +411,26 @@ class SpedCalculoImposto(SpedBase):
     def _onchange_soma_itens(self):
         self._compute_soma_itens()
 
-    @api.depends('item_ids.vr_nf', 'item_ids.vr_fatura')
+    api.depends('item_ids.vr_produtos', 'item_ids.vr_produtos_tributacao',
+                'item_ids.vr_frete', 'item_ids.vr_seguro',
+                'item_ids.vr_desconto', 'item_ids.vr_outras',
+                'item_ids.vr_operacao', 'item_ids.vr_operacao_tributacao',
+                'item_ids.bc_icms_proprio', 'item_ids.vr_icms_proprio',
+                'item_ids.vr_difal', 'item_ids.vr_icms_estado_origem',
+                'item_ids.vr_icms_estado_destino',
+                'item_ids.vr_fcp',
+                'item_ids.vr_icms_sn', 'item_ids.vr_simples',
+                'item_ids.bc_icms_st', 'item_ids.vr_icms_st',
+                'item_ids.bc_icms_st_retido', 'item_ids.vr_icms_st_retido',
+                'item_ids.bc_ipi', 'item_ids.vr_ipi',
+                'item_ids.bc_ii', 'item_ids.vr_ii',
+                'item_ids.vr_despesas_aduaneiras', 'item_ids.vr_iof',
+                'item_ids.bc_pis_proprio', 'item_ids.vr_pis_proprio',
+                'item_ids.bc_cofins_proprio', 'item_ids.vr_cofins_proprio',
+                'item_ids.bc_iss', 'item_ids.vr_iss',
+                'item_ids.vr_nf', 'item_ids.vr_fatura',
+                'item_ids.vr_ibpt',
+                'item_ids.vr_custo_comercial')
     def _compute_soma_itens(self):
         CAMPOS_SOMA_ITENS = [
             'vr_produtos', 'vr_produtos_tributacao',
@@ -643,6 +662,11 @@ class SpedCalculoImposto(SpedBase):
             dados.update(item.prepara_dados_documento_item())
             documento_item = self.env['sped.documento.item'].create(dados)
             documento_item.calcula_impostos()
+
+        #
+        # Se certifica de que todos os campos foram totalizados
+        #
+        documento._compute_soma_itens()
 
         #
         # Agora que temos os itens, e por consequência o total do documento,
