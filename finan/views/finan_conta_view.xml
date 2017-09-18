@@ -13,7 +13,8 @@
             <tree decoration-bf="tipo == 'S'">
                 <field name="conta_superior_id" invisible="1" />
                 <field name="tipo" invisible="1" />
-                <field name="nome_completo" />
+                <field name="codigo" />
+                <field name="nome" />
             </tree>
         </field>
     </record>
@@ -29,7 +30,7 @@
                         <newline />
                         <field name="nome" required="1" />
                         <newline />
-                        <field name="conta_superior_id" domain="[('codigo', '!=', codigo)]" />
+                        <field name="conta_superior_id" domain="[('codigo', '!=', codigo)]" groups="l10n_br_base.GRUPO_SUPORTE" />
                     </group>
                 </sheet>
             </form>
