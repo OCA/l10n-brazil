@@ -235,6 +235,9 @@ function l10n_br_pos_screens(instance, module) {
                             partner = pos_db.get_partner_by_identification(self.pos.partners, cpf.replace(/[^\d]+/g, ''));
                             if (partner) {
                                 self.pos.get('selectedOrder').set_client(partner);
+                                currentOrder = self.pos.get('selectedOrder').attributes;
+                                currentOrder["cpf_nota"] = cpf;
+                                self.pos_widget.payment_screen.validate_order();
                             } else {
                                 new_partner = {};
                                 new_partner["name"] = cpf;
