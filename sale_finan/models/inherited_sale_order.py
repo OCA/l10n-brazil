@@ -18,8 +18,8 @@ class SaleOrder(models.Model):
     @api.depends('vr_nf')
     def _compute_ultrapassa_limite_credito(self):
         for sale in self:
-            if sale.participante.limite_credito:
+            if sale.participante_id.limite_credito:
                 sale.ultrapassa_limite_credito = sale.vr_nf > \
-                    sale.participante.limite_credito_disponivel
+                    sale.participante_id.limite_credito_disponivel
             else:
                 sale.ultrapassa_limite_credito = False
