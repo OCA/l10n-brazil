@@ -17,13 +17,13 @@ class FinanConta(models.Model):
     _order = 'codigo, nome_completo'
 
     codigo = fields.Char(
-        string='Code',
+        string='Código',
         size=20,
         index=True,
         required=True,
     )
     nome = fields.Char(
-        string='Name',
+        string='Nome',
         size=60,
         index=True,
         required=True,
@@ -116,7 +116,38 @@ class FinanConta(models.Model):
                 conta.nome_completo = conta.codigo + ' - ' + \
                     conta._compute_nome_completo()
 
+    def ajusta_agrupamento(self):
+        sql = "update finan_conta set conta_superior_id = null, tipo='A';"
+        self.env.cr.execute(sql)
+
+        sql = '''
+        update finan_conta set
+            conta_superior_id = %(conta_id)s
+
+        where
+            id != %(conta_id)s
+            and codigo like %(conta_codigo)s;
+        '''
+
+        for conta in self.search([]):
+            filtros = {
+                'conta_id': conta.id,
+                'conta_codigo': conta.codigo + '%',
+            }
+            self.env.cr.execute(sql, filtros)
+
+        sql = """
+        update finan_conta set
+            tipo='S'
+
+        where
+            id in (select distinct conta_superior_id from finan_conta);
+        """
+        self.env.cr.execute(sql)
+
     def recria_finan_conta_arvore(self):
+        self.ajusta_agrupamento()
+
         SQL_RECRIA_FINAN_CONTA_ARVORE = '''
         delete from finan_conta_arvore;
 

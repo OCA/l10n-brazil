@@ -10,7 +10,7 @@
         <field name="name">finan.conta.tree</field>
         <field name="model">finan.conta</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree decoration-bf="tipo == 'S'">
                 <field name="conta_superior_id" invisible="1" />
                 <field name="tipo" invisible="1" />
                 <field name="nome_completo" />
@@ -29,7 +29,7 @@
                         <newline />
                         <field name="nome" required="1" />
                         <newline />
-                        <field name="conta_superior_id" />
+                        <field name="conta_superior_id" domain="[('codigo', '!=', codigo)]" />
                     </group>
                 </sheet>
             </form>
