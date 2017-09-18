@@ -17,6 +17,20 @@ class StockPickingReturn(models.TransientModel):
         return res
 
     @api.multi
+    def _buscar_valor_total_devolucao(self, pos_order):
+        precos_produtos_pos_order = {}
+        for line in pos_order.lines:
+            precos_produtos_pos_order.update({
+                line.product_id.id: line.price_unit
+            })
+        valor_total_devolucao = 0.00
+        for line in self.product_return_moves:
+            valor_total_devolucao += \
+                precos_produtos_pos_order[line.product_id.id] * line.quantity
+
+        return valor_total_devolucao
+
+    @api.multi
     def create_returns(self):
         if self.env.context.get('pos_order_id'):
             pos_order = self.env['pos.order'].browse(
@@ -29,6 +43,12 @@ class StockPickingReturn(models.TransientModel):
                             raise Warning(
                                 _('Esta quantidade do produto %s não pode '
                                 'ser devolvida') % (line.product_id.display_name))
+            res = super(StockPickingReturn, self).create_returns()
+            valor_total_devolucao = self._buscar_valor_total_devolucao(
+                pos_order
+            )
+            pos_order.partner_id.credit_limit = valor_total_devolucao
+            return res
 
         return super(StockPickingReturn, self).create_returns()
 
