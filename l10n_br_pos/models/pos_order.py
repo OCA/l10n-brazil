@@ -102,6 +102,15 @@ class PosOrder(models.Model):
         order.simplified_limit_check()
         return order
 
+    @api.model
+    def _process_order(self, order):
+        order_id = super(PosOrder, self)._process_order(order)
+        order_id = self.browse(order_id)
+        for statement in order_id.statement_ids:
+            if statement.journal_id.sat_payment_mode == "05":
+                order_id.partner_id.credit_limit -= statement.amount
+        return order_id.id
+
     @api.multi
     def create_picking(self):
         super(PosOrder, self).create_picking()
