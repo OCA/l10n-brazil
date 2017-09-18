@@ -185,19 +185,30 @@ function l10n_br_pos_models(instance, module) {
                 self.attributes.client['credit_limit'] = result;
             });
         },
+        verificar_pagamento_limite_credito: function() {
+            var linhas_pagamento = this.attributes.paymentLines.models;
+            for (var i = 0; i < linhas_pagamento.length; i++) {
+                if (linhas_pagamento[i].cashregister.journal.sat_payment_mode == "05"){
+                    return true;
+                }
+            }
+            return false;
+        },
         addPaymentline: function(cashregister) {
             if (cashregister.journal.sat_payment_mode == "05" && this.attributes.client) {
-                var paymentLines = this.get('paymentLines');
-                var currentOrder = this.pos.get('selectedOrder');
-                var total = currentOrder.getTotalTaxIncluded();
-                var newPaymentline = new module.Paymentline({},{cashregister:cashregister, pos:this.pos});
-                if (this.attributes.client['credit_limit'] >= total) {
-                    newPaymentline.set_amount(total);
-                } else {
-                    newPaymentline.set_amount(this.attributes.client['credit_limit']);
+                if (!this.verificar_pagamento_limite_credito()){
+                    var paymentLines = this.get('paymentLines');
+                    var currentOrder = this.pos.get('selectedOrder');
+                    var total = currentOrder.getTotalTaxIncluded();
+                    var newPaymentline = new module.Paymentline({},{cashregister:cashregister, pos:this.pos});
+                    if (this.attributes.client['credit_limit'] >= total) {
+                        newPaymentline.set_amount(total);
+                    } else {
+                        newPaymentline.set_amount(this.attributes.client['credit_limit']);
+                    }
+                    paymentLines.add(newPaymentline);
+                    this.selectPaymentline(newPaymentline);
                 }
-                paymentLines.add(newPaymentline);
-                this.selectPaymentline(newPaymentline);
             } else if (cashregister.journal.sat_payment_mode == "05" && !this.attributes.client){
                 alert("Para usar esse pagamento é preciso selecionar um cliente para a venda!")
             } else {
