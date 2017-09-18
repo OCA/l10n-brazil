@@ -198,7 +198,7 @@ function l10n_br_pos_models(instance, module) {
                 }
                 paymentLines.add(newPaymentline);
                 this.selectPaymentline(newPaymentline);
-            } else if (!this.attributes.client){
+            } else if (cashregister.journal.sat_payment_mode == "05" && !this.attributes.client){
                 alert("Para usar esse pagamento é preciso selecionar um cliente para a venda!")
             } else {
                 PosOrderSuper.prototype.addPaymentline.apply(this, arguments);
