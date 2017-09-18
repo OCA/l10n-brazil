@@ -796,6 +796,13 @@ class FinanLancamento(SpedBase, models.Model):
             if lancamento.provisorio:
                 continue
 
+            #
+            # Pagamentos podem ser excluídos desde que o caixa não tenha
+            # fechado
+            #
+            if lancamento.tipo in FINAN_TIPO_PAGAMENTO:
+                continue
+
             if lancamento.situacao_divida_simples == \
                 FINAN_SITUACAO_DIVIDA_SIMPLES_ABERTO:
                 continue
