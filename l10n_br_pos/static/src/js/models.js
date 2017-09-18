@@ -178,6 +178,32 @@ function l10n_br_pos_models(instance, module) {
             this.attributes.cpf_nota = null;
             return this;
         },
+        set_client: function(client){
+            PosOrderSuper.prototype.set_client.apply(this, arguments);
+            var self = this;
+            new instance.web.Model('res.partner').call('get_credit_limit', [this.attributes.client['id']]).then(function (result) {
+                self.attributes.client['credit_limit'] = result;
+            });
+        },
+        addPaymentline: function(cashregister) {
+            if (cashregister.journal.sat_payment_mode == "05" && this.attributes.client) {
+                var paymentLines = this.get('paymentLines');
+                var currentOrder = this.pos.get('selectedOrder');
+                var total = currentOrder.getTotalTaxIncluded();
+                var newPaymentline = new module.Paymentline({},{cashregister:cashregister, pos:this.pos});
+                if (this.attributes.client['credit_limit'] >= total) {
+                    newPaymentline.set_amount(total);
+                } else {
+                    newPaymentline.set_amount(this.attributes.client['credit_limit']);
+                }
+                paymentLines.add(newPaymentline);
+                this.selectPaymentline(newPaymentline);
+            } else if (!this.attributes.client){
+                alert("Para usar esse pagamento é preciso selecionar um cliente para a venda!")
+            } else {
+                PosOrderSuper.prototype.addPaymentline.apply(this, arguments);
+            }
+        },
         get_return_cfe: function () {
             return this.cfe_return;
         },

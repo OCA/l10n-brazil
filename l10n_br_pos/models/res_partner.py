@@ -9,6 +9,11 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     @api.model
+    def get_credit_limit(self, partner):
+        partner_id = self.browse(partner)
+        return partner_id.credit_limit
+
+    @api.model
     def create_from_ui(self, partner):
         res = super(ResPartner, self).create_from_ui(partner)
         partner_id = self.browse(res)
