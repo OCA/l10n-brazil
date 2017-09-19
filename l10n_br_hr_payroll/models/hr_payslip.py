@@ -807,81 +807,133 @@ class HrPayslip(models.Model):
             return 0
 
     def MEDIA_RUBRICA(self, codigo):
-        #
-        # Calcular o período desejado e a quantidade de meses
-        # Para ser usado no cálculo da média
-        #
-        meses = 12
-        if self.tipo_de_folha in \
-                ['ferias', 'aviso_previo', 'provisao_ferias']:
-            if self.tipo_de_folha in ['provisao_ferias', 'aviso_previo']:
-                periodo_aquisitivo = \
-                    self.contract_id.vacation_control_ids[0]
-            else:
-                periodo_aquisitivo = self.periodo_aquisitivo
 
-            if self.tipo_de_folha in ['aviso_previo']:
-                data_de_inicio = fields.Date.from_string(
-                    self.date_from) - relativedelta(months=12)
-                data_inicio_mes = fields.Date.from_string(
-                    self.date_from).replace(day=1) - relativedelta(
-                    months=12)
-            else:
-                data_de_inicio = fields.Date.from_string(
-                    periodo_aquisitivo.inicio_aquisitivo)
-                data_inicio_mes = fields.Date.from_string(
-                    periodo_aquisitivo.inicio_aquisitivo).replace(day=1)
+        if self.tipo_de_folha == 'provisao_ferias':
+            #
+            #  Identifica os períodos aquisitivos com saldo de férias
+            #
+            media = 0
+            periodos_aquisitivos = []
+            for periodo in self.contract_id.vacation_control_ids:
+                if periodo.saldo != 0:
+                    periodos_aquisitivos.append(periodo)
+                    #
+                    #  Buscar Holerites do Período
+                    #
+                    inicio = datetime.strptime(
+                        periodo.inicio_aquisitivo, '%Y-%m-%d')
+                    fim = datetime.strptime(
+                        periodo.fim_aquisitivo, '%Y-%m-%d')
+                    r = relativedelta(fim, inicio)
+                    meses = r.months
+                    if r.days >= 15:
+                        meses += 1
+                    folha_obj = self.env['hr.payslip']
+                    data_fim = min([fim,
+                                    datetime.strptime(self.date_to,
+                                                      '%Y-%m-%d')])
+                    domain = [
+                        ('date_from', '>=', periodo.inicio_aquisitivo),
+                        ('date_from', '<=', data_fim),
+                    #    ('date_to', '>=', periodo.inicio_aquisitivo),
+                    #    ('date_to', '<=', periodo.fim_aquisitivo),
+                        ('contract_id', '=', self.contract_id.id),
+                        ('tipo_de_folha', '=', 'normal'),
+                        ('state', 'in', ['done', 'verify']),
+                    ]
+                    folhas_periodo = folha_obj.search(domain)
+                    folhas_periodo = folhas_periodo.sorted(key=lambda r: r.date_from)
 
-            # Se trabalhou mais do que 15 dias, contabilizar o mes corrente
-            if (data_de_inicio - data_inicio_mes).days < 15:
-                data_de_inicio = data_inicio_mes
-                # Senão começar contabilizar medias apartir do mes seguinte
-            else:
-                data_de_inicio = data_inicio_mes + relativedelta(months=1)
-            if self.tipo_de_folha in ['provisao_ferias']:
+                    #
+                    # Obter os valores das rubricas especificadas nos holerites
+                    #
+                    valor = 0
+                    for holerite in folhas_periodo:
+                        for linha in holerite.line_ids:
+                            if linha.code == codigo:
+                                valor += linha.total
+
+                    if meses != 0:
+                        media += ((valor / meses) / 30) * periodo.saldo
+
+            return media
+
+        else:
+            #
+            # Calcular o período desejado e a quantidade de meses
+            # Para ser usado no cálculo da média
+            #
+            meses = 12
+            if self.tipo_de_folha in \
+                    ['ferias', 'aviso_previo']:
+                if self.tipo_de_folha in ['provisao_ferias', 'aviso_previo']:
+                    periodo_aquisitivo = \
+                        self.contract_id.vacation_control_ids[0]
+                else:
+                    periodo_aquisitivo = self.periodo_aquisitivo
+
+                if self.tipo_de_folha in ['aviso_previo']:
+                    data_de_inicio = fields.Date.from_string(
+                        self.date_from) - relativedelta(months=12)
+                    data_inicio_mes = fields.Date.from_string(
+                        self.date_from).replace(day=1) - relativedelta(
+                        months=12)
+                else:
+                    data_de_inicio = fields.Date.from_string(
+                        periodo_aquisitivo.inicio_aquisitivo)
+                    data_inicio_mes = fields.Date.from_string(
+                        periodo_aquisitivo.inicio_aquisitivo).replace(day=1)
+
+                # Se trabalhou mais do que 15 dias, contabilizar o mes corrente
+                if (data_de_inicio - data_inicio_mes).days < 15:
+                    data_de_inicio = data_inicio_mes
+                    # Senão começar contabilizar medias apartir do mes seguinte
+                else:
+                    data_de_inicio = data_inicio_mes + relativedelta(months=1)
+                if self.tipo_de_folha in ['provisao_ferias']:
+                    data_final = self.date_to
+                else:
+                    data_final = data_inicio_mes + relativedelta(months=12)
+
+                dtstart = datetime.strptime(data_de_inicio, '%Y-%m-%d')
+                dtend = datetime.strptime(data_final, '%Y-%m-%d')
+                dates = [dt for dt in rrule(MONTHLY, dtstart=dtstart, until=dtend)]
+                meses = len(dates)
+
+            elif self.tipo_de_folha in [
+                'decimo_terceiro', 'provisao_decimo_terceiro'
+            ]:
+                if self.contract_id.date_start > str(self.ano) + '-01-01':
+                    data_de_inicio = self.contract_id.date_start
+                else:
+                    data_de_inicio = str(self.ano) + '-01-01'
                 data_final = self.date_to
-            else:
-                data_final = data_inicio_mes + relativedelta(months=12)
 
-            dtstart = datetime.strptime(data_de_inicio, '%Y-%m-%d')
-            dtend = datetime.strptime(data_final, '%Y-%m-%d')
-            dates = [dt for dt in rrule(MONTHLY, dtstart=dtstart, until=dtend)]
-            meses = len(dates)
+            #
+            #  Buscar Holerites do Período
+            #
+            folha_obj = self.env['hr.payslip']
+            domain = [
+                ('date_from', '>=', data_de_inicio),
+                ('date_to', '<=', data_final),
+                ('contract_id', '=', self.contract_id.id),
+                ('tipo_de_folha', '=', 'normal'),
+                ('state', 'in', ['done', 'verify']),
+            ]
+            folhas_periodo = folha_obj.search(domain)
+            folhas_periodo = folhas_periodo.sorted(key=lambda r: r.date_from)
 
-        elif self.tipo_de_folha in [
-            'decimo_terceiro', 'provisao_decimo_terceiro'
-        ]:
-            if self.contract_id.date_start > str(self.ano) + '-01-01':
-                data_de_inicio = self.contract_id.date_start
-            else:
-                data_de_inicio = str(self.ano) + '-01-01'
-            data_final = self.date_to
+            #
+            # Buscar dentro dos holerites pela rubrica requerida
+            #
+            valor = 0
+            for folha in folhas_periodo:
+                for linha in folha.line_ids:
+                    if linha.salary_rule_id.code == codigo:
+                        valor += linha.total
 
-        #
-        #  Buscar Holerites do Período
-        #
-        folha_obj = self.env['hr.payslip']
-        domain = [
-            ('date_from', '>=', data_de_inicio),
-            ('date_to', '<=', data_final),
-            ('contract_id', '=', self.contract_id.id),
-            ('tipo_de_folha', '=', 'normal'),
-            ('state', 'in', ['done', 'verify']),
-        ]
-        folhas_periodo = folha_obj.search(domain)
-        folhas_periodo = folhas_periodo.sorted(key=lambda r: r.date_from)
-
-        #
-        # Buscar dentro dos holerites pela rubrica requerida
-        #
-        valor = 0
-        for folha in folhas_periodo:
-            for linha in folha.line_ids:
-                if linha.salary_rule_id.code == codigo:
-                    valor += linha.total
-
-        media = valor / meses
-        return media
+            media = valor / meses
+            return media
 
     @api.model
     def get_contract_specific_rubrics(self, contract_id, rule_ids):
