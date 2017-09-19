@@ -538,7 +538,7 @@ class SpedCalculoImpostoProdutoServico(SpedCalculoImposto):
         #self.ensure_one()
         #self._inverse_rateio_campo_al_desconto(tipo_item='S')
 
-    def gera_documento(self):
+    def gera_documento(self, soh_produtos=False, soh_servicos=False):
         self.ensure_one()
 
         if not (self.operacao_produto_id or
@@ -560,18 +560,20 @@ class SpedCalculoImpostoProdutoServico(SpedCalculoImposto):
         #
         # Trata o caso de nota conjugada
         #
-        documento_produto = None
-        documento_servico = None
-        if self.operacao_produto_id and \
-            self.operacao_servico_id and \
-            self.operacao_produto_id.id == \
-                self.operacao_servico_id.id:
+        if self.operacao_produto_id and self.operacao_servico_id and \
+            self.operacao_produto_id.id == self.operacao_servico_id.id:
             item_produto_ids += item_servico_ids
             item_servico_ids = []
 
-        documento_produto = self._gera_documento(
-            self.operacao_produto_id, item_produto_ids)
-        documento_servico = self._gera_documento(
-            self.operacao_servico_id, item_servico_ids)
+        documento_produto = None
+        documento_servico = None
+
+        if not soh_servicos:
+            documento_produto = self._gera_documento(
+                self.operacao_produto_id, item_produto_ids)
+
+        if not soh_produtos:
+            documento_servico = self._gera_documento(
+                self.operacao_servico_id, item_servico_ids)
 
         return documento_produto, documento_servico

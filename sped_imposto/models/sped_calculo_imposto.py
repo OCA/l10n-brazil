@@ -411,7 +411,7 @@ class SpedCalculoImposto(SpedBase):
     def _onchange_soma_itens(self):
         self._compute_soma_itens()
 
-    api.depends('item_ids.vr_produtos', 'item_ids.vr_produtos_tributacao',
+    @api.depends('item_ids.vr_produtos', 'item_ids.vr_produtos_tributacao',
                 'item_ids.vr_frete', 'item_ids.vr_seguro',
                 'item_ids.vr_desconto', 'item_ids.vr_outras',
                 'item_ids.vr_operacao', 'item_ids.vr_operacao_tributacao',
@@ -722,3 +722,30 @@ class SpedCalculoImposto(SpedBase):
             action = {'type': 'ir.actions.act_window_close'}
 
         return action
+
+    def _grava_anexo(self, nome_arquivo='', conteudo='',
+                     tipo='application/xml', model='sped.documento'):
+        self.ensure_one()
+
+        attachment = self.env['ir.attachment']
+
+        busca = [
+            ('res_model', '=', model),
+            ('res_id', '=', self.id),
+            ('name', '=', nome_arquivo),
+        ]
+        attachment_ids = attachment.search(busca)
+        attachment_ids.unlink()
+
+        dados = {
+            'name': nome_arquivo,
+            'datas_fname': nome_arquivo,
+            'res_model': model,
+            'res_id': self.id,
+            'datas': conteudo.encode('base64'),
+            'mimetype': tipo,
+        }
+
+        anexo_id = self.env['ir.attachment'].create(dados)
+
+        return anexo_id
