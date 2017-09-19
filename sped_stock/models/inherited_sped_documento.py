@@ -16,6 +16,92 @@ class SpedDocumento(models.Model):
         copy=False,
     )
 
+    @api.multi
+    def action_view_picking(self):
+        action = \
+            self.env.ref('stock.action_picking_tree_all').read()[0]
+
+        if self.stock_picking_id:
+            action['views'] = [
+                (self.env.ref('stock.view_picking_form').id, 'form')]
+            action['res_id'] = self.stock_picking_id.id
+        else:
+            action = {'type': 'ir.actions.act_window_close'}
+
+        return action
+
+    def _confirma_estoque(self):
+        self.ensure_one()
+        #
+        # Vamos concluir a entrega
+        #
+        if self.stock_picking_id:
+            #
+            # Leva o DANFE para o picking
+            #
+            if self.arquivo_pdf_id:
+                pdf_anexo = self.arquivo_pdf_id
+                nome_arquivo = pdf_anexo.datas_fname
+                pdf = pdf_anexo.datas.decode('base64')
+                self.stock_picking_id._grava_anexo(
+                    nome_arquivo=nome_arquivo,
+                    conteudo=pdf,
+                    tipo='application/pdf',
+                    model='stock.picking',
+                )
+
+            self.stock_picking_id.action_confirm()
+            self.stock_picking_id.force_assign()
+
+            #
+            # Confirmando todas as saídas
+            #
+            for pack in self.stock_picking_id.pack_operation_ids:
+                if pack.product_qty > 0:
+                    pack.write({'qty_done': pack.product_qty})
+                else:
+                    pack.unlink()
+
+            self.stock_picking_id.do_transfer()
+            self.stock_picking_id.state = 'done'
+
+    def _cancela_estoque(self):
+        #
+        # Vamos cancelar a venda?
+        #
+        if self.stock_picking_id:
+            #
+            # Leva o DANFE para o picking
+            #
+            if self.arquivo_pdf_id:
+                pdf_anexo = self.arquivo_pdf_id
+                nome_arquivo = pdf_anexo.datas_fname
+                pdf = pdf_anexo.datas.decode('base64')
+                self.stock_picking_id._grava_anexo(
+                    nome_arquivo=nome_arquivo,
+                    conteudo=pdf,
+                    tipo='application/pdf',
+                    model='stock.picking',
+                )
+
+            self.stock_picking_id.action_cancel()
+            self.stock_picking_id.state = 'cancel'
+
+    def executa_depois_autorizar(self):
+        self.ensure_one()
+        super(SpedDocumento, self).executa_depois_autorizar()
+        self._confirma_estoque()
+
+    def executa_depois_cancelar(self):
+        self.ensure_one()
+        super(SpedDocumento, self).executa_depois_cancelar()
+        self._cancela_estoque()
+
+    def executa_depois_denegar(self):
+        self.ensure_one()
+        super(SpedDocumento, self).executa_depois_denegar()
+        self._cancela_estoque()
+
     #@api.multi
     #def action_relacionar_picking(self):
         #for record in self:

@@ -72,6 +72,10 @@ class StockPicking(SpedCalculoImposto, models.Model):
         index=True,
     )
 
+    move_type = fields.Selection(
+        default='one',
+    )
+
     @api.depends('date', 'date_done')
     def _compute_data_hora_separadas(self):
         for picking in self:
@@ -86,7 +90,7 @@ class StockPicking(SpedCalculoImposto, models.Model):
     @api.depends('documento_ids.situacao_fiscal')
     def _compute_quantidade_documentos_fiscais(self):
         for picking in self:
-            documento_ids = self.documento_ids.search(
+            documento_ids = picking.documento_ids.search(
                 [('stock_picking_id', '=', picking.id), ('situacao_fiscal', 'in',
                   SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
 
@@ -114,3 +118,14 @@ class StockPicking(SpedCalculoImposto, models.Model):
     def write(self, dados):
         dados = self._mantem_sincronia_cadastros(dados)
         return super(StockPicking, self).write(dados)
+
+    def gera_documento(self, soh_produtos=False, soh_servicos=False):
+        self.ensure_one()
+
+        documento = super(StockPicking, self).gera_documento()
+
+        if documento is not None:
+            if documento.operacao_id.enviar_pelo_estoque:
+                documento.envia_nfe()
+
+        return documento

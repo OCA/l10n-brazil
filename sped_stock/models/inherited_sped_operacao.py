@@ -14,3 +14,6 @@ class SpedOperacao(models.Model):
         comodel_name='stock.picking.type',
         string='Operação de Estoque'
     )
+    enviar_pelo_estoque = fields.Boolean(
+        string='Autorizar a partir do estoque?',
+    )

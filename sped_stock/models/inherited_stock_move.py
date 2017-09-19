@@ -93,3 +93,12 @@ class StockMove(SpedCalculoImpostoItem, models.Model):
     def write(self, dados):
         dados = self._mantem_sincronia_cadastros(dados)
         return super(StockMove, self).write(dados)
+
+    def product_price_update_after_done(self):
+        pass
+
+    def product_price_update_before_done(self):
+        pass
+
+    def _prepare_account_move_line(self, qty, cost, credit_account_id, debit_account_id):
+        return []

@@ -14,8 +14,9 @@
                 <field name="stock_picking_id" invisible="1" />
             </field>
             <div name="button_box" position="inside">
-                <button name="action_relacionar_picking" type="object" string="Estoque"
+                <button name="action_view_picking" type="object" string="Estoque"
                         class="oe_stat_button" icon="fa-building-o"
+                        attrs="{'invisible': [('stock_picking_id', '=', False)]}"
                         />
             </div>
         </field>

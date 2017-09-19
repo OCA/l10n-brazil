@@ -13,6 +13,7 @@
     'depends': [
         'sped_imposto',
         'sped',
+        'sped_nfe',
         'stock',
     ],
     'data': [
