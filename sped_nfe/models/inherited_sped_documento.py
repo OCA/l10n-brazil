@@ -270,7 +270,7 @@ class SpedDocumento(models.Model):
         return processador
 
     def _grava_anexo(self, nome_arquivo='', conteudo='',
-                     tipo='application/xml'):
+                     tipo='application/xml', model='sped.documento'):
         self.ensure_one()
 
         attachment = self.env['ir.attachment']
