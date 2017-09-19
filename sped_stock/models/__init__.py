@@ -7,6 +7,7 @@ from . import inherited_sped_produto
 from . import inherited_stock_picking_type
 from . import inherited_stock_picking
 from . import inherited_stock_move
+from . import inherited_stock_quant
 from . import inherited_sped_documento
 from . import inherited_sped_documento_item
 from . import inherited_sped_operacao
