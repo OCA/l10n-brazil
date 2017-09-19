@@ -213,3 +213,21 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
     def write(self, dados):
         dados = self._mantem_sincronia_cadastros(dados)
         return super(SaleOrder, self).write(dados)
+
+    def gera_documento(self, soh_produtos=False, soh_servicos=False):
+        self.ensure_one()
+
+        documento_produto, documento_servico = \
+            super(SaleOrder, self).gera_documento(
+                soh_produtos=soh_produtos, soh_servicos=soh_servicos
+            )
+
+        if documento_produto is not None:
+            if documento_produto.operacao_id.enviar_pela_venda:
+                documento_produto.envia_nfe()
+
+        #if documento_servico is not None:
+            #if documento_servico.operacao_id.enviar_pela_venda:
+                #documento_servico.envia_nfse()
+
+        return documento_produto, documento_servico

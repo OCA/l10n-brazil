@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="sped_operacao_base_form" >
+        <field name="name">sped.operacao.base.form (in sped_stock)</field>
+        <field name="model">sped.operacao</field>
+        <field name="priority">99999</field>
+        <field name="inherit_id" ref="sped_imposto.sped_operacao_base_form"/>
+        <field name="arch" type="xml">
+            <field name="preco_automatico" position="after">
+                <newline />
+                <field name="enviar_pela_venda" colspan="4" attrs="{'invisible': ['!', ('modelo', 'in', ['55', '65', '59', 'SE'])]}" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

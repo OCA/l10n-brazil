@@ -19,7 +19,7 @@
             </xpath>
             <xpath expr="//button[2]" position="after">
                 <button type="object" name="gera_documento"
-                        string="Gerar NFes" class="btn-primary"
+                        string="Gerar NFe" class="btn-primary"
                         attrs="{'invisible': [('invoice_status', '!=', 'to invoice')]}" />
             </xpath>
             <xpath expr="//button[@name='action_view_invoice']" position="attributes">
