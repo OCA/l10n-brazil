@@ -10,6 +10,13 @@
         <field name="model">hr.contract</field>
         <field name="inherit_id" ref="l10n_br_hr_contract.l10n_br_hr_contract_view_form"/>
         <field name="arch" type="xml">
+            <field name="wage" position="after">
+                <field name="is_editable" invisible="1"/>
+            </field>
+            <field name="wage" position="attributes">
+                <attribute name="attrs">{'readonly': [
+                           ('is_editable', '=', False)]}</attribute>
+            </field>
             <xpath expr="//label[@for='name']" position="before">
                 <h1><field name="codigo_contrato"/></h1>
             </xpath>
@@ -38,19 +45,27 @@
                     <page string="Alterações Contratuais">
                         <notebook>
                             <page string="Remuneração">
-                                <field name="change_salary_ids"/>
+                                <field name="change_salary_ids" readonly="1">
+                                    <tree editable="false">
+                                        <field name="change_date"/>
+                                        <field name="change_reason_id"/>
+                                        <field name="wage"/>
+                                        <field name="salary_unit"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
                             </page>
                             <page string="Jornada">
-                                <field name="change_workdays_ids"/>
+                                <field name="change_workdays_ids" readonly="1"/>
                             </page>
                             <page string="Atividade/Cargo">
-                                <field name="change_job_ids"/>
+                                <field name="change_job_ids" readonly="1"/>
                             </page>
                             <page string="Filiação Sindical">
-                                <field name="change_labor_union_ids"/>
+                                <field name="change_labor_union_ids" readonly="1"/>
                             </page>
                             <page string="Lotação/Local de trabalho">
-                                <field name="change_place_ids"/>
+                                <field name="change_place_ids" readonly="1"/>
                             </page>
                         </notebook>
                     </page>

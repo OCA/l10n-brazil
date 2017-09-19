@@ -18,6 +18,31 @@ class HrContract(models.Model):
         readonly=True
     )
 
+    is_editable = fields.Boolean(
+        string="Pode Alterar ?",
+        compute="_is_editable",
+        default=True,
+        store=True,
+    )
+    payslip_ids_confirmados = fields.One2many(
+        "hr.payslip",
+        "contract_id",
+        "Holerites Confirmados",
+        domain=[
+            ('state', '!=', 'draft'),
+            ('is_simulacao', '=', False)
+        ]
+    )
+
+    @api.multi
+    @api.depends('payslip_ids_confirmados', 'payslip_ids_confirmados.state')
+    def _is_editable(self):
+        for contrato in self:
+            if len(contrato.payslip_ids_confirmados) != 0:
+                contrato.is_editable = False
+            else:
+                contrato.is_editable = True
+
     @api.model
     def create(self, vals):
         if vals.get('codigo_contrato', '/') == '/':
