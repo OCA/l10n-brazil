@@ -152,7 +152,8 @@ class SpedDocumento(models.Model):
                 documento.situacao_nfe in (SITUACAO_NFE_EM_DIGITACAO,
                                         SITUACAO_NFE_REJEITADA)
 
-    def _check_permite_alteracao(self, operacao='create', dados={}):
+    def _check_permite_alteracao(self, operacao='create', dados={},
+                                 campos_proibidos=[]):
         CAMPOS_PERMITIDOS = [
             'justificativa',
             'arquivo_xml_cancelamento_id',
@@ -188,10 +189,12 @@ class SpedDocumento(models.Model):
             # autorizada
             #
             if documento.situacao_nfe == SITUACAO_NFE_AUTORIZADA:
-                for campo in CAMPOS_PERMITIDOS:
-                    if campo in dados:
+                for campo in dados:
+                    if campo in CAMPOS_PERMITIDOS:
                         permite_alteracao = True
                         break
+                    elif campo not in campos_proibidos:
+                        campos_proibidos.append(campo)
 
             if permite_alteracao:
                 continue
@@ -199,6 +202,7 @@ class SpedDocumento(models.Model):
             super(SpedDocumento, documento)._check_permite_alteracao(
                 operacao,
                 dados,
+                campos_proibidos
             )
 
     @api.depends('data_hora_autorizacao', 'modelo', 'emissao', 'justificativa',
@@ -293,12 +297,14 @@ class SpedDocumento(models.Model):
         return anexo_id
 
     def grava_xml(self, nfe):
+        self.ensure_one()
         nome_arquivo = nfe.chave + '-nfe.xml'
         conteudo = nfe.xml.encode('utf-8')
         self.arquivo_xml_id = False
         self.arquivo_xml_id = self._grava_anexo(nome_arquivo, conteudo).id
 
     def grava_pdf(self, nfe, danfe_pdf):
+        self.ensure_one()
         nome_arquivo = nfe.chave + '.pdf'
         conteudo = danfe_pdf
         self.arquivo_pdf_id = False
@@ -306,6 +312,7 @@ class SpedDocumento(models.Model):
                                                 tipo='application/pdf').id
 
     def grava_xml_autorizacao(self, procNFe):
+        self.ensure_one()
         nome_arquivo = procNFe.NFe.chave + '-proc-nfe.xml'
         conteudo = procNFe.xml.encode('utf-8')
         self.arquivo_xml_autorizacao_id = False
@@ -313,6 +320,7 @@ class SpedDocumento(models.Model):
             self._grava_anexo(nome_arquivo, conteudo).id
 
     def grava_xml_cancelamento(self, chave, canc):
+        self.ensure_one()
         nome_arquivo = chave + '-01-can.xml'
         conteudo = canc.xml.encode('utf-8')
         self.arquivo_xml_cancelamento_id = False
@@ -320,6 +328,7 @@ class SpedDocumento(models.Model):
             self._grava_anexo(nome_arquivo, conteudo).id
 
     def grava_xml_autorizacao_cancelamento(self, chave, canc):
+        self.ensure_one()
         nome_arquivo = chave + '-01-proc-can.xml'
         conteudo = canc.xml.encode('utf-8')
         self.arquivo_xml_autorizacao_cancelamento_id = False
@@ -980,7 +989,6 @@ class SpedDocumento(models.Model):
 
     def cancela_nfe(self):
         super(SpedDocumento, self).cancela_nfe()
-
         self.ensure_one()
 
         processador = self.processador_nfe()
@@ -1079,6 +1087,7 @@ class SpedDocumento(models.Model):
         # Este método deve ser alterado por módulos integrados, para realizar
         # tarefas de integração necessárias antes de autorizar uma NF-e
         #
+        self.ensure_one()
         return super(SpedDocumento, self).executa_antes_autorizar()
 
     def executa_depois_autorizar(self):
@@ -1088,38 +1097,37 @@ class SpedDocumento(models.Model):
         # por exemplo, criar lançamentos financeiros, movimentações de
         # estoque etc.
         #
+        self.ensure_one()
         super(SpedDocumento, self).executa_depois_autorizar()
 
-        for documento in self:
-            if documento.modelo not in (MODELO_FISCAL_NFE,
-                                        MODELO_FISCAL_NFCE):
-                super(SpedDocumento, documento)._compute_permite_cancelamento()
-                continue
+        if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            super(SpedDocumento, self)._compute_permite_cancelamento()
+            return
 
-            if documento.emissao != TIPO_EMISSAO_PROPRIA:
-                super(SpedDocumento, documento)._compute_permite_cancelamento()
-                continue
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            super(SpedDocumento, self)._compute_permite_cancelamento()
+            return
 
-            #
-            # Envia o email da nota para o cliente
-            #
-            mail_template = None
-            if documento.operacao_id.mail_template_id:
-                mail_template = documento.operacao_id.mail_template_id
-            else:
-                if documento.modelo == MODELO_FISCAL_NFE and \
-                        documento.empresa_id.mail_template_nfe_autorizada_id:
-                    mail_template = \
-                        documento.empresa_id.mail_template_nfe_autorizada_id
-                elif documento.modelo == MODELO_FISCAL_NFCE and \
-                        documento.empresa_id.mail_template_nfce_autorizada_id:
-                    mail_template = \
-                        documento.empresa_id.mail_template_nfce_autorizada_id
+        #
+        # Envia o email da nota para o cliente
+        #
+        mail_template = None
+        if self.operacao_id.mail_template_id:
+            mail_template = self.operacao_id.mail_template_id
+        else:
+            if self.modelo == MODELO_FISCAL_NFE and \
+                    self.empresa_id.mail_template_nfe_autorizada_id:
+                mail_template = \
+                    self.empresa_id.mail_template_nfe_autorizada_id
+            elif self.modelo == MODELO_FISCAL_NFCE and \
+                    self.empresa_id.mail_template_nfce_autorizada_id:
+                mail_template = \
+                    self.empresa_id.mail_template_nfce_autorizada_id
 
-            if mail_template is None:
-                continue
+        if mail_template is None:
+            return
 
-            documento.envia_email(mail_template)
+        self.envia_email(mail_template)
 
     def executa_antes_cancelar(self):
         #
@@ -1139,33 +1147,33 @@ class SpedDocumento(models.Model):
         # estoque etc.
         #
         super(SpedDocumento, self).executa_depois_cancelar()
-        for documento in self:
-            if documento.modelo not in (MODELO_FISCAL_NFE,
-                                        MODELO_FISCAL_NFCE):
-                super(SpedDocumento, documento)._compute_permite_cancelamento()
-                continue
+        self.ensure_one()
 
-            if documento.emissao != TIPO_EMISSAO_PROPRIA:
-                super(SpedDocumento, documento)._compute_permite_cancelamento()
-                continue
+        if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            super(SpedDocumento, self)._compute_permite_cancelamento()
+            return
 
-            #
-            # Envia o email da nota para o cliente
-            #
-            mail_template = None
-            if documento.modelo == MODELO_FISCAL_NFE and \
-                    documento.empresa_id.mail_template_nfe_cancelada_id:
-                mail_template = \
-                    documento.empresa_id.mail_template_nfe_cancelada_id
-            elif documento.modelo == MODELO_FISCAL_NFCE and \
-                    documento.empresa_id.mail_template_nfce_cancelada_id:
-                mail_template = \
-                    documento.empresa_id.mail_template_nfce_cancelada_id
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            super(SpedDocumento, self)._compute_permite_cancelamento()
+            return
 
-            if mail_template is None:
-                continue
+        #
+        # Envia o email da nota para o cliente
+        #
+        mail_template = None
+        if self.modelo == MODELO_FISCAL_NFE and \
+                self.empresa_id.mail_template_nfe_cancelada_id:
+            mail_template = \
+                self.empresa_id.mail_template_nfe_cancelada_id
+        elif self.modelo == MODELO_FISCAL_NFCE and \
+                self.empresa_id.mail_template_nfce_cancelada_id:
+            mail_template = \
+                self.empresa_id.mail_template_nfce_cancelada_id
 
-            documento.envia_email(mail_template)
+        if mail_template is None:
+            return
+
+        self.envia_email(mail_template)
 
     def executa_antes_denegar(self):
         #
@@ -1182,34 +1190,33 @@ class SpedDocumento(models.Model):
         # etc.
         #
         super(SpedDocumento, self).executa_depois_denegar()
+        self.ensure_one()
 
-        for documento in self:
-            if documento.modelo not in (MODELO_FISCAL_NFE,
-                                        MODELO_FISCAL_NFCE):
-                super(SpedDocumento, documento)._compute_permite_cancelamento()
-                continue
+        if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            super(SpedDocumento, self)._compute_permite_cancelamento()
+            return
 
-            if documento.emissao != TIPO_EMISSAO_PROPRIA:
-                super(SpedDocumento, documento)._compute_permite_cancelamento()
-                continue
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            super(SpedDocumento, self)._compute_permite_cancelamento()
+            return
 
-            #
-            # Envia o email da nota para o cliente
-            #
-            mail_template = None
-            if documento.modelo == MODELO_FISCAL_NFE and \
-                    documento.empresa_id.mail_template_nfe_denegada_id:
-                mail_template = \
-                    documento.empresa_id.mail_template_nfe_denegada_id
-            elif documento.modelo == MODELO_FISCAL_NFCE and \
-                    documento.empresa_id.mail_template_nfce_denegada_id:
-                mail_template = \
-                    documento.empresa_id.mail_template_nfce_denegada_id
+        #
+        # Envia o email da nota para o cliente
+        #
+        mail_template = None
+        if self.modelo == MODELO_FISCAL_NFE and \
+                self.empresa_id.mail_template_nfe_denegada_id:
+            mail_template = \
+                self.empresa_id.mail_template_nfe_denegada_id
+        elif self.modelo == MODELO_FISCAL_NFCE and \
+                self.empresa_id.mail_template_nfce_denegada_id:
+            mail_template = \
+                self.empresa_id.mail_template_nfce_denegada_id
 
-            if mail_template is None:
-                continue
+        if mail_template is None:
+            return
 
-            documento.envia_email(mail_template)
+        self.envia_email(mail_template)
 
     def envia_email(self, mail_template):
         self.ensure_one()
