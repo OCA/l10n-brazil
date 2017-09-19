@@ -6,3 +6,4 @@ from . import inherited_sped_documento
 from . import inherited_sped_documento_item
 from . import inherited_sale_order
 from . import inherited_sale_order_line
+from . import inherited_sale_config_settings
