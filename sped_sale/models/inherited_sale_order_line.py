@@ -173,6 +173,24 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
         readonly=True,
     )
 
+    @api.model
+    def _get_customer_lead(self):
+        for record in self:
+            ir_values = self.env['ir.values']
+            dias_definidos = ir_values.get_default('sale.config.settings',
+                                            'dias_vencimento_cotacao')
+            record.customer_lead = dias_definidos
+
+    customer_lead = fields.Float(
+        'Dias de vencimento da cotação',
+        required=True,
+        default=0.0,
+        help="Número de dias em que será criado a data de vencimento da"
+             "cotação após a sua criação.",
+        oldname="delay",
+        compute=_get_customer_lead
+    )
+
     @api.depends('invoice_lines.invoice_id.state', 'invoice_lines.quantity',
                  'documento_item_ids.quantidade')
     def _get_invoice_qty(self):

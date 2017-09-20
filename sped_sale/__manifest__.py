@@ -17,8 +17,11 @@
         'sales_team',
         'sale',
         'sale_stock',
+        'sale_order_dates',
     ],
     'data': [
+        'views/inherited_sale_config_settings_view.xml',
+
         'views/inherited_sale_order_line_base_view.xml',
         'views/inherited_sale_order_line_produto_view.xml',
         'views/inherited_sale_order_line_servico_view.xml',

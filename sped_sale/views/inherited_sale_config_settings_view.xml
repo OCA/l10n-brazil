@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="view_sales_config">
+        <field name="name">sale.config.settings.form (in sped_sale)</field>
+        <field name="model">sale.config.settings</field>
+        <field name="inherit_id" ref="sale.view_sales_config"/>
+        <field name="arch" type="xml">
+            <group name="quotations_sales" position="inside">
+                <field name="dias_vencimento_cotacao" />
+            </group>
+        </field>
+    </record>
+
+</odoo>
