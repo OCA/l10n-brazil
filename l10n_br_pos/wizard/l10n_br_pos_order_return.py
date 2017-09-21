@@ -4,6 +4,7 @@
 
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
+from openerp.tools.safe_eval import safe_eval
 
 
 class StockPickingReturn(models.TransientModel):
@@ -44,6 +45,22 @@ class StockPickingReturn(models.TransientModel):
                                 _('Esta quantidade do produto %s não pode '
                                 'ser devolvida') % (line.product_id.display_name))
             res = super(StockPickingReturn, self).create_returns()
+            result_domain = safe_eval(res['domain'])
+            picking_ids = result_domain and result_domain[0] and \
+                          result_domain[0][2]
+            picking_devolucao = self.env['stock.picking'].browse(picking_ids)
+            cat_fiscal_devolucao = picking_devolucao.fiscal_category_id
+            obj_fp_rule = self.env['account.fiscal.position.rule']
+            kwargs = {
+                'partner_id': picking_devolucao.company_id.partner_id.id,
+                'partner_shipping_id':
+                    picking_devolucao.company_id.partner_id.id,
+                'fiscal_category_id': cat_fiscal_devolucao.id,
+                'company_id': picking_devolucao.company_id.id,
+            }
+            picking_devolucao.fiscal_position = obj_fp_rule.apply_fiscal_mapping(
+                {'value': {}}, **kwargs
+            )['value']['fiscal_position']
             valor_total_devolucao = self._buscar_valor_total_devolucao(
                 pos_order
             )
@@ -104,21 +121,6 @@ class PorOrderReturn(models.TransientModel):
         order = self.env['pos.order'].browse(active_ids)
         order.partner_id = self.partner_id
         self._check_picking_parameters(order)
-        obj_fp_rule = self.env['account.fiscal.position.rule']
-        kwargs = {
-            'partner_id': self.partner_id.id,
-            'partner_invoice_id':
-                self.partner_id.id,
-            'partner_shipping_id':
-                self.partner_id.id,
-            'fiscal_category_id':
-                order.picking_id.fiscal_category_id.id,
-            'company_id': self.env.user.company_id.id,
-        }
-        fiscal_position_id = obj_fp_rule.apply_fiscal_mapping(
-            {'value': {}}, **kwargs
-        )['value']['fiscal_position']
-        order.picking_id.fiscal_position = fiscal_position_id
 
         ctx = dict(self._context)
         ctx['pos_order_id'] = active_ids
