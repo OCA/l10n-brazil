@@ -119,7 +119,7 @@ class PosOrder(models.Model):
             fiscal_category.id
         for fiscal_position in fiscal_category.fiscal_position_ids:
             if "dentro do estado" in fiscal_position.name:
-                self.picking_id.fiscal_position_id = fiscal_position.id
+                self.picking_id.fiscal_position = fiscal_position.id
         return True
 
     @api.model
