@@ -117,9 +117,16 @@ class PosOrder(models.Model):
         fiscal_category = self.session_id.config_id.fiscal_category_id
         self.picking_id.fiscal_category_id = \
             fiscal_category.id
-        for fiscal_position in fiscal_category.fiscal_position_ids:
-            if "dentro do estado" in fiscal_position.name:
-                self.picking_id.fiscal_position = fiscal_position.id
+        obj_fp_rule = self.env['account.fiscal.position.rule']
+        kwargs = {
+            'partner_id': self.picking_id.company_id.partner_id.id,
+            'partner_shipping_id': self.picking_id.company_id.partner_id.id,
+            'fiscal_category_id': fiscal_category.id,
+            'company_id': self.picking_id.company_id.id,
+        }
+        self.picking_id.fiscal_position = obj_fp_rule.apply_fiscal_mapping(
+            {'value': {}}, **kwargs
+        )['value']['fiscal_position']
         return True
 
     @api.model
