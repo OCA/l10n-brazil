@@ -15,7 +15,7 @@
 
         <!-- Simples Nacional -->
         <record id="l10n_br_account.partner_fiscal_type_3" model="l10n_br_account.partner.fiscal.type">
-            <field name="ind_ie_dest">9</field>
+            <field name="ind_ie_dest">1</field>
         </record>
 
         <!-- Não Contribuinte -->
