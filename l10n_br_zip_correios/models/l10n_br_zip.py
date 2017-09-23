@@ -3,11 +3,10 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import models, api
-from openerp.addons.l10n_br_zip_correios.models.webservice_client\
-    import WebServiceClient
+from .webservice_client import WebServiceClient
 
 
-class L10nBrZip(models.Model, WebServiceClient):
+class L10nBrZip(models.Model):
 
     _inherit = 'l10n_br.zip'
 
@@ -16,6 +15,10 @@ class L10nBrZip(models.Model, WebServiceClient):
                          state_id=False, l10n_br_city_id=False,
                          district=False, street=False, zip_code=False):
 
-        self.get_address(zip_code)
+        zip_str = zip_code.replace('-', '')
+
+        if len(zip_str) == 8:
+            WebServiceClient(self).get_address(zip_str)
+
         return super(L10nBrZip, self).zip_search_multi(
             country_id, state_id, l10n_br_city_id, district, street, zip_code)
