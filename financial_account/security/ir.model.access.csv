@@ -1,0 +1,4 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+financial_account.access_financial_account_move_template,access_financial_account_move_template,financial_account.model_financial_account_move_template,base.group_user,1,1,1,1
+financial_account.access_financial_account_move_template_item,access_financial_account_move_template_item,financial_account.model_financial_account_move_template_item,base.group_user,1,1,1,1
+financial_account.financial_account_move_matrix_access_name,financial.account.move.matrix access name,financial_account.model_financial_account_move_matrix,base.group_user,1,1,1,1

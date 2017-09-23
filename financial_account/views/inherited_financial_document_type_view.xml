@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+<data>
+    <record model="ir.ui.view" id="financial_document_type_form" >
+        <field name="name">financial.document.type.form (in financial_account)</field>
+        <field name="model">financial.document.type</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="financial.financial_document_type_form" />
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <newline />
+                <field name="journal_id" colspan="2" />
+                <newline />
+                <separator string="Account Move Templates" colspan="2" />
+                <group string="Incoming moves">
+                    <field name="account_move_template_2receive_id" string="Receivable" />
+                    <field name="account_move_template_receipt_item_id" string="Receipt" />
+                    <field name="account_move_template_money_in_id" string="Money in" />
+                </group>
+                <group string="Outgoing moves">
+                    <field name="account_move_template_2pay_id" string="Payable" />
+                    <field name="account_move_template_payment_item_id" string="Payment" />
+                    <field name="account_move_template_money_out_id" string="Money out" />
+                </group>
+            </field>
+        </field>
+    </record>
+</data>
+</openerp>

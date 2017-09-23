@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="financial_move_form_view">
+        <field name="name">financial.move.form (in financial_account)</field>
+        <field name="model">financial.move</field>
+        <field name="inherit_id" ref="financial.financial_move_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='payments']" position="after">
+                    <page string="Accounting">
+                        <group>
+                            <group>
+                                <field name="move_id"/>
+                            </group>
+                            <group>
+                                <field name="financial_account_move_line_id"/>
+                            </group>
+                        </group>
+                        <field name="payment_receivable_ids"/>
+                    </page>
+            </xpath>
+
+        </field>
+    </record>
+</data>
+</openerp>
