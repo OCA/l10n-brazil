@@ -119,6 +119,19 @@ class AccountFiscalPosition(models.Model):
             product_ncm_tax_def = product_fc.sale_tax_definition_line
 
         else:
+            if self.env.context.get('fiscal_type', 'product') == 'product':
+                company_taxes = \
+                    self.company_id.purchase_product_tax_definition_line
+                for tax_def in company_taxes:
+                    if tax_def.tax_id:
+                        taxes |= tax_def.tax_id
+                        result[tax_def.tax_id.domain] = {
+                            'tax': tax_def.tax_id,
+                            'tax_code': tax_def.tax_code_id,
+                            'icms_relief': tax_def.tax_icms_relief_id,
+                            'ipi_guideline':  tax_def.tax_ipi_guideline_id,
+                        }
+
             # FIXME se tiver com o admin pegar impostos de outras empresas
             product_ncm_tax_def = product_fc.purchase_tax_definition_line
 
