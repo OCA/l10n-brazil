@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+    <record model="ir.ui.view" id="financial_cashflow_tree_view">
+        <field name="name">financial.cashflow.tree (in financial)</field>
+        <field name="model">financial.cashflow</field>
+        <field name="arch" type="xml">
+            <tree string="Cashflow" create="0" delete="0" colors="black:financial_type in ('receipt_item', 'payment_item');gray:financial_type in ('2recieve', '2pay')">
+            <!-- <tree string="Cashflow" create="0" delete="0"> -->
+                <field string="Date" name="date_business_maturity"/>
+                <!-- <field name="create_date"/> -->
+                <!-- <field name="expected_date"/> -->
+                <field name="partner_id"/>
+                <field name="account_type_id"/>
+                <field name="document_number"/>
+                <field name="bank_id"/>
+                <field name="payment_method_id"/>
+                <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+                <field name="currency_id" groups="base.group_multi_currency"/>
+                <field name="amount_total" invisible="1"/>
+                <!-- <field name="balance"/> -->
+                <field name="state" invisible="1"/>
+                <field name="financial_type" invisible="1"/>
+                <field name="amount_credit"/>
+                <field name="amount_debit"/>
+                <field name="amount_cumulative_balance"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="financial_cashflow_search_view">
+        <field name="name">financial.cashflow.search (in financial)</field>
+        <field name="model">financial.cashflow</field>
+        <field name="arch" type="xml">
+            <search string="Search Moves">
+               <group col='10' colspan='4'>
+                    <field name="bank_id" filter_domain="[('bank_id', 'ilike', self)]" string="Bank account is"/>
+                    <field name="date_business_maturity" filter_domain="[('date_business_maturity', '=', self)]" string="Date is"/>
+                    <field name="date_business_maturity" filter_domain="[('date_business_maturity', '&gt;=', self)]" string="Date from"/>
+                    <field name="date_business_maturity" filter_domain="[('date_business_maturity', '&lt;=', self)]" string="Date to"/>
+                    <filter string="Effective payments" domain="[('financial_type', 'in', ['payment_item', 'receipt_item', 'open'])]"/>
+                    <filter string="Projected payments" domain="[('financial_type', 'in', ['2receive', '2receive', 'open'])]"/>
+               </group>
+                <newline/>
+                <group expand="0" string="Group By...">
+               </group>
+           </search>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="financial_cashflow_pivot">
+        <field name="name">financial.cashflow.pivot</field>
+        <field name="model">financial.cashflow</field>
+        <field name="arch" type="xml">
+            <pivot string="Cash Flow" display_quantity="true">
+                <field name="account_type_id"/>
+                <field name="date_maturity" interval="month" type="col"/>
+                <field name="amount_paid" type="measure"/>
+                <field name="amount_cumulative_balance" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="financial_cashflow_graph">
+        <field name="name">financial.cashflow.graph</field>
+        <field name="model">financial.cashflow</field>
+        <field name="arch" type="xml">
+            <graph string="Cash Flow" type="line">
+                <field name="date_maturity"  type="row" interval="day"/>
+                <field name="amount_cumulative_balance" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="financial_cashflow_act_window">
+        <field name="name">Cashflow</field>
+        <field name="res_model">financial.cashflow</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="domain">[]</field>
+        <field name="context">{'graph_mode':'line'}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="financial_cashflow_menu">
+        <field name="name">Cashflow</field>
+        <field name="parent_id" ref="financial_report_menu"/>
+        <field name="action" ref="financial_cashflow_act_window"/>
+        <field name="sequence" eval="16"/>
+    </record>
+
+    <record model="ir.actions.act_window" id="financial_statement_act_window">
+        <field name="name">Statement</field>
+        <field name="res_model">financial.cashflow</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="financial_statement_menu">
+        <field name="name">Statement</field>
+        <field name="parent_id" ref="financial_report_menu"/>
+        <field name="action" ref="financial_statement_act_window"/>
+        <field name="sequence" eval="10"/>
+    </record>
+
+</data>
+</openerp>

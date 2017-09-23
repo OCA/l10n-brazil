@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data noupdate="1">
+
+    <!-- Bank Account Fibonnaci -->
+
+    <record model="res.partner.bank" id="bank_112358_13">
+            <field name="acc_number">112358-13</field>
+            <field name="acc_type">bank</field>
+            <field name="partner_id" ref="base.main_partner" />
+            <field name="bank_id" ref="base.res_bank_1"/>
+            <field name="initial_balance">20094.40</field>
+            <!-- V8 -->
+            <field name="state">bank</field>
+    </record>
+
+</data>
+</openerp>
