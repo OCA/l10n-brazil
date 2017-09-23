@@ -7,6 +7,11 @@
             <field name="model">res.company</field>
             <field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_company_form"/>
             <field name="arch" type="xml">
+                <field name="fiscal_type" position="after">
+                    <field name="ret"/>
+                    <field name="issqn_exigibilidade"/>
+                    <field name="issqn_suspension_process" attrs="{'invisible':[('issqn_exigibilidade','not in',['6','7'])]}"/>
+                </field>
                 <page string="Certificados" position="inside">
                     <group col="2" string="NFe">
                         <field name="nfe_a1_file"/>
@@ -60,6 +65,25 @@
                                 </group>
                             </page>
                         </notebook>
+                    </page>
+                    <page string="Retenções">
+                        <group>
+                            <group col="2" string="Retenção Impostos sobre serviços:">
+                                <group>
+                                    <field name="issqn_wh"/>
+                                    <field name="irrf_wh"/>
+                                    <field name="irrf_wh_base"/>
+                                    <field name="inss_wh"/>
+                                    <field name="inss_wh_base"/>
+                                </group>
+                                <group>
+                                    <field name="cofins_csll_pis_wh_base"/>
+                                    <field name="pis_wh"/>
+                                    <field name="cofins_wh"/>
+                                    <field name="csll_wh"/>
+                                </group>
+                            </group>
+                        </group>
                     </page>
                 </page>
             </field>

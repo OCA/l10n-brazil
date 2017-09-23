@@ -21,8 +21,17 @@
                 <field name="default" position="after">
                     <field name="ind_ie_dest"/>
                 </field>
+                <field name="ipi" position="after">
+                    <separator string="Retenção Impostos sobre serviços:" colspan="4"/>
+                    <field name="issqn_wh"/>
+                    <field name="inss_wh"/>
+                    <field name="pis_wh"/>
+                    <field name="cofins_wh"/>
+                    <field name="csll_wh"/>
+                    <field name="irrf_wh"/>
+                    <field name="irrf_wh_percent"/>
+                </field>
             </field>
         </record>
-
     </data>
 </openerp>

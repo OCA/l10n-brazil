@@ -9,7 +9,18 @@ from openerp.exceptions import Warning as UserError
 from openerp.addons import decimal_precision as dp
 
 from openerp.addons.l10n_br_base.tools import fiscal
-from openerp.addons.l10n_br_account.models.l10n_br_account import TYPE
+from openerp.addons.l10n_br_account.models.l10n_br_account import (
+    TYPE, L10nBrTaxDefinition)
+
+EXIGIBILIDADE = [
+    ('1','Exigivel'),
+    ('2',u'Não incidência'),
+    ('3',u'Isenção'),
+    ('4',u'Exportação'),
+    ('5','Imunidade'),
+    ('6',u'Suspensa por decisão judicial'),
+    ('7','Suspensa por processo administrativo'),
+]
 
 PRODUCT_FISCAL_TYPE = [
     ('product', 'Produto')
@@ -81,6 +92,15 @@ class L10nBrAccountServiceType(models.Model):
     _name = 'l10n_br_account.service.type'
     _description = u'Cadastro de Operações Fiscais de Serviço'
 
+    @api.multi
+    @api.depends('service_tax_definition_line.tax_id')
+    def _compute_taxes(self):
+        for service_type in self:
+            service_taxes = self.env['account.tax']
+            for tax in service_type.service_tax_definition_line:
+                service_taxes += tax.tax_id
+            service_type.service_tax_ids = service_taxes
+
     code = fields.Char(u'Código', size=16, required=True)
     name = fields.Char(u'Descrição', size=256, required=True)
     parent_id = fields.Many2one(
@@ -91,6 +111,21 @@ class L10nBrAccountServiceType(models.Model):
     internal_type = fields.Selection(
         [('view', u'Visualização'), ('normal', 'Normal')], 'Tipo Interno',
         required=True, default='normal')
+    issqn_exigibilidade = fields.Selection(string="Exigibilidade do ISSQN",
+                                           selection=EXIGIBILIDADE)
+    issqn_suspension_process = fields.Char(
+        string=u"Número do processo de suspensão")
+    service_tax_definition_line = fields.One2many(
+        'l10n_br_tax.definition.service.type',
+        'service_type_id',
+        'Taxes Definitions'
+    )
+    service_tax_ids = fields.Many2many(
+        'account.tax',
+        string='Service Taxes',
+        compute='_compute_taxes',
+        store=True
+    )
 
     @api.multi
     def name_get(self):
@@ -101,6 +136,21 @@ class L10nBrAccountServiceType(models.Model):
                 name = record['code'] + ' - ' + name
             result.append((record['id'], name))
         return result
+
+
+class L10nBrTaxDefinitionServiceType(L10nBrTaxDefinition, models.Model):
+    _name = 'l10n_br_tax.definition.service.type'
+
+    service_type_id = fields.Many2one(
+        'l10n_br_account.service.type',
+        u'Typo de serviço'
+    )
+
+    _sql_constraints = [
+        ('l10n_br_tax_definition_tax_id_uniq',
+         'unique (tax_id, service_type_id)',
+         u'Imposto já existente para esse tipo de serviço!')
+    ]
 
 
 class L10nbrAccountDocumentRelated(models.Model):

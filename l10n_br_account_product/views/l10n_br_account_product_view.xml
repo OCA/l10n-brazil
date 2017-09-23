@@ -90,20 +90,21 @@
         <menuitem id="l10n_br_account_product_cfop_menu" name="CFOP" parent="l10n_br_account.menu_l10n_br_account_fiscal_manager" action="l10n_br_account_product_cfop_action" sequence="10" />
         <menuitem id="l10n_br_account_product_cfop_structure_menu" name="Estrutura do CFOP" parent="l10n_br_account.menu_l10n_br_account_fiscal_manager" action="l10n_br_account_product_cfop_structure_action" sequence="20" />
 
-        <record id="view_l10n_br_account_service_type_form" model="ir.ui.view">
+        <record id="view_l10n_br_account_product_service_type_form" model="ir.ui.view">
             <field name="name">l10n_br_account.service.type.form</field>
             <field name="model">l10n_br_account.service.type</field>
+            <field name="inherit_id" ref="l10n_br_account.view_l10n_br_account_service_type_form"/>
             <field name="arch" type="xml">
-                <form string="Tipo de Serviço">
-                                <sheet>
-                        <group>
-                            <field name="code"/>
-                            <field name="name"/>
-                            <field name="internal_type"/>
-                            <field name="parent_id"/>
-                        </group>
-                                </sheet>
-                </form>
+                <field name="parent_id" position="after">
+                    <field name="issqn_exigibilidade"/>
+                    <field name="issqn_suspension_process" attrs="{'invisible': [('issqn_exigibilidade','not in', ['6','7'])]}"/>
+                    <field name="service_tax_definition_line" >
+                        <tree>
+                            <field name="tax_id"/>
+                            <field name="tax_code_id"/>
+                        </tree>
+                    </field>
+                </field>
             </field>
         </record>
 

@@ -3,10 +3,21 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import models, fields, api
+from openerp.addons import decimal_precision as dp
 
 from openerp.addons.l10n_br_account.models.l10n_br_account import (
     L10nBrTaxDefinition
 )
+from .account_invoice import EXIGIBILIDADE
+
+RET = [
+    ('1','Microempresa Municipal'),
+    ('2','Estimativa'),
+    ('3','Sociedade de Profissionais'),
+    ('4','Cooperativa'),
+    ('5',u'Microempresário Individual (MEI)'),
+    ('6',u'Microempresário e Empresa de Pequeno Porte (ME/EPP)'),
+]
 
 
 class ResCompany(models.Model):
@@ -79,6 +90,31 @@ class ResCompany(models.Model):
         'account.tax', string='Other Costs Sale Tax',
         domain=[('domain', '=', 'other_costs')])
     accountant_cnpj_cpf = fields.Char(size=18, string='CNPJ/CPF Contador')
+    cofins_csll_pis_wh_base = fields.Float(
+        u'Valor mínimo COFINS/CSLL/PIS', default=0.0,
+        digits_compute=dp.get_precision('Account'))
+    irrf_wh_base = fields.Float(
+        u'Valor mínimo IRRF', default=10.0,
+        digits_compute=dp.get_precision('Account'))
+    inss_wh_base = fields.Float(
+        u'Valor mínimo INSS', default=10.0,
+        digits_compute=dp.get_precision('Account'))
+    irrf_wh_percent = fields.Float(
+        u'Taxa de IR(%)',
+        digits_compute=dp.get_precision('Discount'),
+        default=11.0)
+    irrf_wh = fields.Boolean(u'Retém IRRF')
+    issqn_wh = fields.Boolean(u'Retém ISSQN')
+    inss_wh = fields.Boolean(u'Retém INSS')
+    pis_wh = fields.Boolean(u'Retém PIS')
+    cofins_wh = fields.Boolean(u'Retém COFINS')
+    csll_wh = fields.Boolean(u'Retém CSLL')
+    ret = fields.Selection(string=u"Regime especial de tributação",
+                           selection=RET)
+    issqn_exigibilidade = fields.Selection(string="Exigibilidade do ISSQN",
+                                           selection=EXIGIBILIDADE)
+    issqn_suspension_process = fields.Char(
+        string=u"Número do processo de suspensão")
 
 
 class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinition, models.Model):
