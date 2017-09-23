@@ -12,12 +12,21 @@ from .l10n_br_account_product import (
 )
 
 
+FISCAL_CATEGORY_PURPOSE = [
+    ('1', 'Normal'),
+    ('2', 'Complementar'),
+    ('3', 'Ajuste'),
+    ('4', u'Devolução de Mercadoria')]
+
+
 class L10nBrAccountFiscalCategory(models.Model):
     _inherit = 'l10n_br_account.fiscal.category'
 
     fiscal_type = fields.Selection(
         PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
         default=PRODUCT_FISCAL_TYPE_DEFAULT)
+
+    purpose = fields.Selection(FISCAL_CATEGORY_PURPOSE, u'Finalidade')
 
 
 class L10nBrAccountDocumentSerie(models.Model):
