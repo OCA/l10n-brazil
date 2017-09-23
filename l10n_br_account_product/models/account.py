@@ -123,6 +123,10 @@ class AccountTax(models.Model):
         totaldc = icms_value = 0.0
         ipi_value = 0.0
         calculed_taxes = []
+        id_dest = u''
+        if fiscal_position:
+            id_dest = (fiscal_position.cfop_id and
+                       fiscal_position.cfop_id.id_dest or False)
 
         for tax in result['taxes']:
             tax_list = [tx for tx in taxes if tx.id == tax['id']]
@@ -143,38 +147,89 @@ class AccountTax(models.Model):
 
         common_taxes = [tx for tx in result['taxes'] if tx[
             'domain'] not in ['icms', 'icmsst', 'ipi', 'icmsinter',
-                              'icmsfcp']]
+                              'icmsfcp', 'ii', 'pis', 'cofins']]
         result_tax = self._compute_tax(cr, uid, common_taxes, result['total'],
                                        product, quantity, precision, base_tax)
         totaldc += result_tax['tax_discount']
         calculed_taxes += result_tax['taxes']
 
+        # Adiciona frete seguro e outras despesas na base
+        total_base = (result['total'] + insurance_value + freight_value)
+
+        # Calcula o II
+        specific_ii = [tx for tx in result['taxes'] if tx['domain'] == 'ii']
+        result_ii = self._compute_tax(cr, uid, specific_ii, total_base,
+                                      product, quantity, precision, base_tax)
+        totaldc += result_ii['tax_discount']
+        calculed_taxes += result_ii['taxes']
+        ii_value = sum(ii['amount'] for ii in result_ii['taxes'])
+
         # Calcula o IPI
         specific_ipi = [tx for tx in result['taxes'] if tx['domain'] == 'ipi']
-        result_ipi = self._compute_tax(cr, uid, specific_ipi, result['total'],
+
+        if id_dest == '3':
+            base_ipi = total_base
+        else:
+            base_ipi = result['total']
+
+        result_ipi = self._compute_tax(cr, uid, specific_ipi, base_ipi,
                                        product, quantity, precision, base_tax)
         totaldc += result_ipi['tax_discount']
         calculed_taxes += result_ipi['taxes']
-        for ipi in result_ipi['taxes']:
-            ipi_value += ipi['amount']
+        ipi_value = sum(ipi['amount'] for ipi in result_ipi['taxes'])
+
+        # Calcula PIS e COFINS
+        specific_pis = [tx for tx in result['taxes']
+                        if tx['domain'] == 'pis']
+
+        specific_cofins = [tx for tx in result['taxes']
+                           if tx['domain'] == 'cofins']
+
+        if id_dest == '3':
+            base_pis_cofins = total_base - ii_value
+        else:
+            base_pis_cofins = result['total']
+
+        result_pis = self._compute_tax(cr, uid, specific_pis, base_pis_cofins,
+                                       product, quantity, precision, base_tax)
+
+        totaldc += result_pis['tax_discount']
+        calculed_taxes += result_pis['taxes']
+        pis_value = sum(pis['amount'] for pis in result_pis['taxes'])
+
+        result_cofins = self._compute_tax(cr, uid, specific_cofins,
+                                          base_pis_cofins, product, quantity,
+                                          precision, base_tax)
+
+        totaldc += result_cofins['tax_discount']
+        calculed_taxes += result_cofins['taxes']
+        cofins_value = sum(cofins['amount'] for
+                           cofins in result_cofins['taxes'])
 
         # Calcula ICMS
         specific_icms = [tx for tx in result['taxes']
                          if tx['domain'] == 'icms']
 
-        # Adiciona frete seguro e outras despesas na base do ICMS
-        total_base = (result['total'] + insurance_value +
-                      freight_value + other_costs_value)
-
         # Em caso de operação de ativo adiciona o IPI na base de ICMS
         if fiscal_position and fiscal_position.asset_operation:
             total_base += ipi_value
+
+        if id_dest == '3':
+            base_icms = (total_base + ii_value + ipi_value +
+                         pis_value + cofins_value)
+
+            # Calcupa o própio ICMS
+            if specific_icms:
+                base_icms = base_icms / (1 - specific_icms[0].get('percent'))
+
+        else:
+            base_icms = total_base
 
         result_icms = self._compute_tax(
             cr,
             uid,
             specific_icms,
-            total_base,
+            base_icms,
             product,
             quantity,
             precision,
@@ -207,7 +262,7 @@ class AccountTax(models.Model):
 
         if (specific_icms_inter and fiscal_position and
                 partner.partner_fiscal_type_id.ind_ie_dest == '9'):
-            if fiscal_position.cfop_id.id_dest == '2':
+            if id_dest == '2':
 
                 # Calcula o DIFAL total
                 result_icms_inter['taxes'][0]['amount'] = round(
