@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+
+        <record model="ir.ui.view" id="l10n_br_sped_fiscal_invoice_tree_view">
+            <field name="name">l10n_br.sped.fiscal.tree</field>
+            <field name="model">l10n_br.sped.fiscal.invoice</field>
+            <field name="arch" type="xml">
+                <tree string="Invoices" editable="bottom">
+                    <field name="date_due" />
+                    <field name="invoice_id" />
+                    <field name="partner_id"/>
+                    <field name="journal_id" />
+                    <field name="base_amount" sum="Total Base" />
+                    <field name="tax_amount" sum="Total Taxes" />
+                    <field name="total_amount" sum="Total" />
+                    <field name="residual_amount" sum="Total Residual" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <!--<record model="ir.ui.view" id="l10n_br_sped_fiscal_bloco_zero_tree_view">-->
+            <!--<field name="name">l10n_br.sped.fiscal.bloco.zero.tree</field>-->
+            <!--<field name="model">l10n_br.sped.fiscal.bloco.zero</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<tree string="Bloco Zero" editable="bottom">-->
+                    <!--<field name="REG" />-->
+                    <!--<field name="FANTASIA" />-->
+                    <!--<field name="END"/>-->
+                    <!--<field name="NUM" />-->
+                    <!--<field name="BAIRRO" />-->
+                    <!--<field name="NUM" />-->
+                    <!--<field name="FONE" />-->
+                    <!--<field name="FAX" />-->
+                    <!--<field name="EMAIL"/>-->
+                <!--</tree>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <record model="ir.ui.view" id="l10n_br_sped_fiscal_bloco_um_tree_view">
+            <field name="name">l10n_br.sped.fiscal.bloco.um.tree</field>
+            <field name="model">l10n_br.sped.fiscal.bloco.um</field>
+            <field name="arch" type="xml">
+                <tree string="Bloco Um" editable="bottom">
+                    <field name="REG" />
+                    <field name="COD_PART" />
+                    <field name="NOME"/>
+                    <field name="COD_PAIS" />
+                    <field name="CNPJ" />
+                    <field name="CPF" />
+                    <field name="IE" />
+                    <field name="COD_MUN" />
+                    <field name="SUFRAMA"/>
+                    <field name="END"/>
+                    <field name="NUM"/>
+                    <field name="COMPL"/>
+                    <field name="BAIRRO"/>
+                </tree>
+            </field>
+        </record>
+        <!--<record model="ir.ui.view" id="l10n_br_sped_fiscal_line_tree_view">-->
+            <!--<field name="name">l10n_br.sped.fiscal.line.tree</field>-->
+            <!--<field name="model">l10n_br.sped.fiscal.line</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<tree string="Sped Fiscal Line" editable="bottom">-->
+                    <!--<field name="date" />-->
+                    <!--<field name="line_type" />-->
+                    <!--<field name="name" />-->
+                    <!--<field name="partner_id" domain="[('supplier', '=', True)]"/>-->
+                    <!--<field name="amount" sum="Total Amount" />-->
+                <!--</tree>-->
+            <!--</field>-->
+        <!--</record>-->
+
+
+        <record model="ir.ui.view" id="l10n_br_sped_fiscal_search_view">
+            <field name="name">l10n_br.sped.fiscal.search.view</field>
+            <field name="model">l10n_br.sped.fiscal</field>
+            <field name="arch" type="xml">
+                <search string="Sped Fiscal">
+                    <field name="name" />
+                    <field name="start_date" />
+                    <field name="end_date" />
+                </search>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="l10n_br_sped_fiscal_tree_view">
+            <field name="name">l10n_br.sped.fiscal.tree</field>
+            <field name="model">l10n_br.sped.fiscal</field>
+            <field name="arch" type="xml">
+                <tree string="Sped Fiscal">
+                    <field name="name" />
+                    <field name="start_date" />
+                    <field name="end_date" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="l10n_br_sped_fiscal_form_view">
+            <field name="name">l10n_br.sped.fiscal.form</field>
+            <field name="model">l10n_br.sped.fiscal</field>
+            <field name="arch" type="xml">
+                <form string="Sped Fiscal">
+                    <separator string="Account Sped Fiscal" colspan="4"/>
+                    <group colspan="4" col="4">
+                    <group colspan="4" col="4" >
+                        <field name="name" colspan="4"/>
+                        <!--<field name="template_id" colspan="4"/>-->
+                        <field name="start_date" colspan="2" />
+                        <field name="end_date" colspan="2" />
+                        <field name="file" colspan="2" />
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Out invoices">
+                            <field name="out_invoice_ids" nolabel="1" />
+                        </page>
+                        <page string="In invoices">
+                            <field name="in_invoice_ids" nolabel="1" />
+                        </page>
+                        <page string="Bloco 0">
+                            <field name="bloco_zero" nolabel="1" />
+                        </page>
+                        <page string="Bloco C">
+                            <field name="bloco_c" nolabel="1" />
+                        </page>
+                        <page string="Bloco D">
+                            <field name="bloco_d" nolabel="1" />
+                        </page>
+                        <page string="Bloco E">
+                            <field name="bloco_e" nolabel="1" />
+                        </page>
+                        <page string="Bloco G">
+                            <field name="bloco_g" nolabel="1" />
+                        </page>
+                        <page string="Bloco H">
+                            <field name="bloco_h" nolabel="1" />
+                        </page>
+                        <page string="Bloco K">
+                            <field name="bloco_k" nolabel="1" />
+                        </page>
+                        <page string="Bloco 1">
+                            <field name="bloco_um" nolabel="1" />
+                        </page>
+                        <page string="Bloco 9">
+                            <field name="bloco_nove" nolabel="1" />
+                        </page>
+                    </notebook>
+                    <group col="2" colspan="2">
+                        <separator string="Filters" colspan="4" />
+                         <field name="check_draft" colspan="2" />
+                         <field name="check_proforma" colspan="2" />
+                         <field name="check_open" colspan="2" />
+                        <separator string="" colspan="4" />
+                        <button name="button_calculate" class="oe_highlight"
+                            string="Get Data" type="object" colspan="4"
+                            confirm="This button will do some actions. First, removes all lines. Next, loads invoices by selected states and dates. If there is not any state checked, the system will not load any invoice. By last, loads template lines by dates or lines without date."/>
+                    </group>
+                    <!--<group col="2" colspan="2">-->
+                        <!--<separator string="Calculate" colspan="2" />-->
+                        <!--<field name="start_amount" colspan="2" />-->
+                        <!--<field name="final_amount" colspan="2" />-->
+                    <!--</group>-->
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_l10n_br_sped_fiscal_form" model="ir.actions.act_window">
+            <field name="name">Sped Fiscal</field>
+            <field name="res_model">l10n_br.sped.fiscal</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help">Sped Fiscal</field>
+        </record>
+
+        <menuitem id="menu_l10n_br_sped_fiscal" name="SPED"
+            parent="account.menu_finance" sequence="9" groups="account.group_account_user"/>
+        <menuitem action="action_l10n_br_sped_fiscal_form" id="menu_l10n_br_sped_fiscal_form"
+            parent="menu_l10n_br_sped_fiscal" groups="account.group_account_user"/>
+
+    </data>
+</openerp>
