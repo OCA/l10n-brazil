@@ -1,0 +1,2 @@
+group_id/id,model_id/id,name,id,perm_read,perm_create,perm_write,perm_unlink
+base.group_user,sped_stock.model_stock_move_entrada_saida,Movimento de Estoque - Entradas e Saídas,sped_stock_entrada_saida_group_user,True,False,False,False
