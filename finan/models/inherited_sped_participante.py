@@ -60,6 +60,9 @@ class SpedParticipante(models.Model):
                   'pagamento_ids.situacao_divida_simples')
     def _compute_limite_credito(self):
         for participante in self:
+            if not participante.id:
+                continue
+
             sql_dividas = '''
             select
                 coalesce(sum(coalesce(fl.vr_saldo, 0)), 0) as saldo
