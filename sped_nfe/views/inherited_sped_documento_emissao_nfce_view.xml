@@ -37,7 +37,7 @@
                             attrs="{'invisible': ['|', ('permite_cancelamento', '=', 'False'), ('situacao_nfe', '=', 'cancelada')]}" />
                     </group>
                 </page>
-                <page name="suporte" string="Suporte">
+                <page name="suporte" string="Suporte" groups="l10n_br_base.GRUPO_SUPORTE">
                     <group col="4">
                         <separator string="Autorização" colspan="4" />
                         <field name="data_hora_autorizacao" />
