@@ -12,9 +12,9 @@
         <field name="arch" type="xml">
             <field name="preco_automatico" position="after">
                 <newline />
-                <field name="stock_picking_type_id" colspan="4" attrs="{'invisible': ['!', ('modelo', 'in', ['55', '65', '59', '2D'])]}" />
+                <field name="enviar_pelo_estoque" attrs="{'invisible': ['!', ('modelo', 'in', ['55', '65', '59'])]}" />
+                <field name="stock_picking_type_id" attrs="{'invisible': ['!', ('modelo', 'in', ['55', '65', '59', '2D'])]}" options="{'no_create': True, 'no_open': True}" />
                 <newline />
-                <field name="enviar_pelo_estoque" colspan="4" attrs="{'invisible': ['!', ('modelo', 'in', ['55', '65', '59'])]}" />
             </field>
         </field>
     </record>
