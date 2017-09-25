@@ -32,6 +32,11 @@ class SpedDocumento(models.Model):
 
     def _confirma_estoque(self):
         self.ensure_one()
+        sql_confirma_estoque = '''
+        update stock_picking set state = 'done' where id = %(picking_id)s;
+        update stock_move set state = 'done' where picking_id = %(picking_id)s;
+        update stock_pack_operation set qty_done = product_qty where picking_id = %(picking_id)s;
+        '''
         #
         # Vamos concluir a entrega
         #
@@ -50,8 +55,9 @@ class SpedDocumento(models.Model):
                     model='stock.picking',
                 )
 
-            self.stock_picking_id.action_confirm()
-            self.stock_picking_id.force_assign()
+            if self.stock_picking_id.state == 'draft':
+                self.stock_picking_id.action_confirm()
+                self.stock_picking_id.force_assign()
 
             #
             # Confirmando todas as saídas
@@ -62,10 +68,28 @@ class SpedDocumento(models.Model):
                 else:
                     pack.unlink()
 
-            self.stock_picking_id.do_transfer()
-            self.stock_picking_id.state = 'done'
+            self.stock_picking_id.action_done()
+            #self.stock_picking_id.state = 'done'
 
     def _cancela_estoque(self):
+        sql_cancela_estoque = '''
+        -- update stock_picking set state = 'cancel' where id = %(picking_id)s;
+        delete from stock_pack_operation where picking_id = %(picking_id)s;
+        update stock_move set state = 'cancel' where picking_id = %(picking_id)s;
+        '''
+        sql_cancela_quant = '''
+        --
+        -- Apaga os stock_quant
+        --
+        delete from stock_quant where id in
+            (select
+                sqm.quant_id
+            from
+                stock_quant_move_rel sqm
+            where
+                sqm.move_id = %(move_id)s
+            );
+        '''
         #
         # Vamos cancelar a venda?
         #
@@ -84,8 +108,17 @@ class SpedDocumento(models.Model):
                     model='stock.picking',
                 )
 
+            #
+            # Para cancelar, precisamos forçar os moves para draft pelo banco,
+            # e excluir os stock_quant, pois o core não permite cancelamento
+            # depois da confirmação, e não tem recurso para isso
+            #
+            for move in self.stock_picking_id.move_lines:
+                self.env.cr.execute(sql_cancela_quant, {'move_id': move.id})
+
+            self.env.cr.execute(sql_cancela_estoque,
+                                {'picking_id': self.stock_picking_id.id})
             self.stock_picking_id.action_cancel()
-            self.stock_picking_id.state = 'cancel'
 
     def executa_depois_autorizar(self):
         self.ensure_one()
@@ -101,75 +134,3 @@ class SpedDocumento(models.Model):
         self.ensure_one()
         super(SpedDocumento, self).executa_depois_denegar()
         self._cancela_estoque()
-
-    #@api.multi
-    #def action_relacionar_picking(self):
-        #for record in self:
-            #if not record.stock_picking_id:
-                #related_picking = self.env['stock.picking'].search(
-                    #[('documento_id', '=', record.id)]
-                #)
-                #if related_picking:
-                    #record.stock_picking_id = related_picking
-                #else:
-                    #record._action_criar_picking()
-
-    #@api.multi
-    #def _action_criar_picking(self):
-        #for record in self:
-            #vals = {}
-            #vals = record._monta_dados_picking()
-            #picking = self.env['stock.picking'].create(vals)
-            #return picking
-
-    #def _get_valor(self, record, campo):
-        #valor = getattr(record, campo)
-        #if hasattr(valor, 'ids'):
-            #valor =  valor.ids
-
-        #return valor
-
-    #def _monta_dados_picking(self):
-        #vals = {}
-        ## Dados comuns ao stock_picking e o sped_documento
-        #for field in self._fields:
-            #if field in self.env['stock.picking']._fields and not field == 'id':
-                #valor = self._get_valor(self, field)
-                #vals.update({field: valor})
-
-        ## Dados específicos do stock_picking
-        #vals.update(self._get_campos_picking(self.operacao_id))
-
-        ## Dados do stock_move
-        #vals.update({'move_lines': []})
-        #for item in self.item_ids:
-            #move_line = {}
-            #for field in self.item_ids._fields:
-                #if field in self.env['stock.move']._fields and not \
-                                #field == 'id':
-                    #valor = self._get_valor(item, field)
-                    #move_line.update({field: valor})
-            #vals['move_lines'].append((0, 0, move_line))
-
-        #return vals
-
-    #def _get_campos_picking(self, operacao):
-        #customer_loc, supplier_loc = self.env[
-            #'stock.warehouse']._get_partner_locations()
-
-        #location_dest_id = customer_loc if \
-            #self.entrada_saida == '1' else supplier_loc
-
-        #location_src_id = customer_loc if \
-            #self.entrada_saida == '0' else supplier_loc
-
-        #return {
-            #'picking_type_id': operacao.stock_picking_type_id.id,
-            #'warehouse_id': operacao.stock_picking_type_id.warehouse_id.id,
-            #'location_id':
-                #operacao.stock_picking_type_id.default_location_src_id.id or
-                #location_src_id.id,
-            #'location_dest_id':
-                #operacao.stock_picking_type_id.default_location_dest_id.id or
-                #location_dest_id.id,
-        #}
