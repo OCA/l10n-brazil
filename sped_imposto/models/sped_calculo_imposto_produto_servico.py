@@ -577,3 +577,14 @@ class SpedCalculoImpostoProdutoServico(SpedCalculoImposto):
                 self.operacao_servico_id, item_servico_ids)
 
         return documento_produto, documento_servico
+
+    @api.onchange('participante_id')
+    def _onchange_participante_id(self):
+        self.ensure_one()
+        super(SpedCalculoImpostoProdutoServico,
+              self)._onchange_participante_id()
+
+        if self.participante_id.operacao_produto_id:
+            self.operacao_produto_id = self.participante_id.operacao_produto_id
+        if self.participante_id.operacao_servico_id:
+            self.operacao_servico_id = self.participante_id.operacao_servico_id
