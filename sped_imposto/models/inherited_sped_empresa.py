@@ -206,7 +206,6 @@ class SpedEmpresa(models.Model):
     presenca_comprador = fields.Selection(
         selection=INDICADOR_PRESENCA_COMPRADOR,
         string='Presença do comprador',
-        default=INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
     )
 
     @api.depends('simples_anexo_id', 'simples_anexo_servico_id',
