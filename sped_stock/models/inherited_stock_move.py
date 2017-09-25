@@ -62,6 +62,18 @@ class StockMove(SpedCalculoImpostoItem, models.Model):
         index=True,
     )
 
+    sped_documento_id = fields.Many2one(
+        comodel_name='sped.documento',
+        string='Documento Fiscal',
+        ondelete='restrict',
+    )
+    sped_documento_item_id = fields.Many2one(
+        comodel_name='sped.documento.item',
+        string='Item do Documento Fiscal',
+        ondelete='restrict',
+    )
+
+
     @api.depends('date')
     def _compute_data_hora_separadas(self):
         for move in self:
@@ -77,7 +89,7 @@ class StockMove(SpedCalculoImpostoItem, models.Model):
 
         return super(StockMove, self)._onchange_produto_id_emissao_propria()
 
-    def prapara_dados_documento_item(self):
+    def prepara_dados_documento_item(self):
         self.ensure_one()
 
         return {
