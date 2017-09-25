@@ -91,10 +91,9 @@
                             </group>
                         </group>
                     </page>
-                    <!--                    <page string="Contatos e endereços" autofocus="autofocus">
-                        <field name="address_ids"
-                                context="{'default_endereco': endereco, 'default_numero': numero, 'default_complemento': complemento, 'default_bairro': bairro, 'default_municipio_id': municipio_id, 'default_cep': cep}" />
-                    </page>-->
+                    <page name="contatos" string="Contatos e endereços">
+                        <field name="endereco_ids" context="{'default_endereco': endereco, 'default_numero': numero, 'default_complemento': complemento, 'default_bairro': bairro, 'default_municipio_id': municipio_id, 'default_cep': cep}" />
+                    </page>
 <!--                        <page name='internal_notes' string="Anotações internas">
                         <field name="comment" placeholder="Anotações internas..."/>
                     </page>-->

@@ -179,6 +179,15 @@ class SpedParticipante(SpedBase, models.Model):
         string='CEP',
         size=9
     )
+    endereco_completo = fields.Char(
+        string='Endereço',
+        compute='_compute_endereco_completo',
+    )
+    endereco_ids = fields.One2many(
+        comodel_name='sped.endereco',
+        inverse_name='participante_id',
+        string='Endereços',
+    )
     #
     # Telefone e email para a emissão da NF-e
     #
@@ -362,17 +371,44 @@ class SpedParticipante(SpedBase, models.Model):
         for participante in self:
             if not participante.eh_consumidor_final or \
                     participante.eh_fornecedor:
-                self.exige_cnpj_cpf = True
-                self.exige_endereco = True
+                participante.exige_cnpj_cpf = True
+                participante.exige_endereco = True
                 continue
 
-            self.exige_cnpj_cpf = False
+            participante.exige_cnpj_cpf = False
 
-            if (self.endereco or self.numero or self.complemento or
-                    self.bairro or self.cep):
-                self.exige_endereco = True
+            if (participante.endereco or participante.numero or
+                participante.complemento or
+                participante.bairro or participante.cep):
+                participante.exige_endereco = True
             else:
-                self.exige_endereco = False
+                participante.exige_endereco = False
+
+    @api.depends('endereco', 'numero', 'complemento', 'bairro',
+                 'municipio_id', 'cep')
+    def _compute_endereco_completo(self):
+        for participante in self:
+            if not participante.endereco:
+                participante.endereco_completo = ''
+                continue
+
+            endereco = participante.endereco
+            endereco += ', '
+            endereco += participante.numero
+
+            if participante.complemento:
+                endereco += ' - '
+                endereco += participante.complemento
+
+            endereco += ' - '
+            endereco += participante.bairro
+            endereco += ' - '
+            endereco += participante.cidade
+            endereco += '-'
+            endereco += participante.estado
+            endereco += ' - '
+            endereco += participante.cep
+            participante.endereco_completo = endereco
 
     @api.multi
     def name_get(self):

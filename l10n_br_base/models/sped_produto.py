@@ -267,26 +267,6 @@ class SpedProduto(SpedBase, models.Model):
             if len(produto_ids) > 0:
                 raise ValidationError('Nome de produto já existe!')
 
-    @api.onchange('ncm_id')
-    def onchange_ncm(self):
-        if len(self.ncm_id.cest_ids) == 1:
-            return {'value': {
-                'cest_id': self.ncm_id.cest_ids[0].id,
-                'exige_cest': True
-            }}
-
-        elif len(self.ncm_id.cest_ids) > 1:
-            return {'value': {
-                'cest_id': False,
-                'exige_cest': True
-            }}
-
-        else:
-            return {'value': {
-                'cest_id': False,
-                'exige_cest': False
-            }}
-
     def prepare_sync_to_product(self):
         self.ensure_one()
 
