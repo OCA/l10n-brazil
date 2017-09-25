@@ -17,6 +17,8 @@
         'stock',
     ],
     'data': [
+        'views/stock_move_entrada_saida_view.xml',
+
         'views/inherited_sped_produto_produto_view.xml',
         'views/inherited_sped_operacao_base_view.xml',
         'views/inherited_sped_documento_base_view.xml',
@@ -24,6 +26,11 @@
         'views/inherited_stock_picking_type_view.xml',
         'views/inherited_stock_picking_view.xml',
         'views/inherited_stock_move_view.xml',
+
+        #
+        # Permissões e grupos
+        #
+        'security/ir.model.access.csv',
     ],
     'installable': True,
     'auto_install': True,

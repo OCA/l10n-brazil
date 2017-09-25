@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2017 Taŭga Tecnologia - Aristides Caldeira <ari.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="stock_move_entrada_saida_form" >
+        <field name="name">stock.move.entrada.saida.form</field>
+        <field name="model">stock.move.entrada.saida</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="Movimento de Estoque - Entradas e Saídas"
+                  create="false" edit="false" delete="false">
+                <sheet>
+                    <div class="oe_title">
+                    </div>
+                    <group>
+                        <group colspan="4" col="4">
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="stock_move_entrada_saida_tree">
+        <field name="name">stock.move.entrada.saida.tree</field>
+        <field name="model">stock.move.entrada.saida</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <tree string="Movimento de Estoque - Entradas e Saídas"
+                  create="false" edit="false" delete="false"
+                  decoration-danger="sinal == -1">
+                <field name="unidade_id" invisible="1" />
+                <field name="currency_unidade_id" invisible="1" />
+                <field name="currency_id" invisible="1" />
+                <field name="currency_unitario_id" invisible="1" />
+                <field name="sinal" invisible="1" />
+                <field name="vr_unitario" invisible="1" />
+                <field name="produto_id" />
+                <field name="data" />
+                <field name="quantidade" />
+                <field name="vr_produtos" />
+                <field name="empresa_id" invisible="1" />
+                <field name="location_id" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="stock_move_entrada_saida_search">
+        <field name="name">stock.move.entrada.saida.search</field>
+        <field name="model">stock.move.entrada.saida</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <search string="Movimento de Estoque - Entradas e Saídas">
+                <field name="produto_id"/>
+                <field name="location_id"/>
+
+                <group expand='0' string='Filters'>
+                    <filter name='locais_internos' string="Locais internos" domain="[('location_id.usage','=', 'internal')]"/>
+                    <filter name='locais_em_transito' string="Locais em trânsito" domain="[('location_id.usage' ,'=', 'transit')]"/>
+                    <separator/>
+                    <filter name="entrada" string="Entradas" domain="[('sinal', '=', 1)]"/>
+                    <filter name="saida" string="Saídas" domain="[('sinal', '=', -1)]"/>
+                </group>
+
+                <group expand='0' string='Group by...'>
+                    <filter string='Local' name="agrupa_local" domain="[]" context="{'group_by': 'location_id'}"/>
+                    <filter string='Produto' name="agrupa_produto" context="{'group_by': 'produto_id'}"/>
+               </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="stock_move_entrada_saida_produto_em_maos_action">
+        <field name="name">Estoque em mãos</field>
+        <field name="context">{'search_default_locais_internos': True, 'search_default_agrupa_local': True}</field>
+        <field name="domain">[('produto_id', '=', active_id)]</field>
+        <field name="res_model">stock.move.entrada.saida</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="stock_move_entrada_saida_produtos_no_local_action">
+        <field name="context">{'search_default_agrupa_produto': True}</field>
+        <field name="domain">[('location_id', 'child_of', active_ids)]</field>
+        <field name="name">Estoque em mãos</field>
+        <field name="res_model">stock.move.entrada.saida</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="stock_move_entrada_saida_action">
+        <field name="name">Valores do estoque</field>
+        <field name="res_model">stock.move.entrada.saida</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_locais_internos': True, 'group_by': ['produto_id', 'location_id']}</field>
+    </record>
+
+    <menuitem
+        id="stock.menu_quants"
+        sequence="120"
+        name="Valores do estoque"
+        parent="stock.menu_warehouse_report"
+        action="stock_move_entrada_saida_action" />
+
+</odoo>
