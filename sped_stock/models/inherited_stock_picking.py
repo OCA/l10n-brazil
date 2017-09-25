@@ -6,6 +6,7 @@ from __future__ import division, print_function, unicode_literals
 
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 from odoo.addons.sped_imposto.models.sped_calculo_imposto import (
     SpedCalculoImposto
 )
@@ -76,6 +77,15 @@ class StockPicking(SpedCalculoImposto, models.Model):
         default='one',
     )
 
+    #
+    # Volumes da NF-e
+    #
+    volume_ids = fields.One2many(
+        comodel_name='sped.documento.volume',
+        inverse_name='stock_picking_id',
+        string='Volumes'
+    )
+
     @api.depends('date', 'date_done')
     def _compute_data_hora_separadas(self):
         for picking in self:
@@ -119,13 +129,35 @@ class StockPicking(SpedCalculoImposto, models.Model):
         dados = self._mantem_sincronia_cadastros(dados)
         return super(StockPicking, self).write(dados)
 
-    def gera_documento(self, soh_produtos=False, soh_servicos=False):
+    def gera_documento(self):
         self.ensure_one()
 
         documento = super(StockPicking, self).gera_documento()
 
-        if documento is not None:
-            if documento.operacao_id.enviar_pelo_estoque:
-                documento.envia_nfe()
+        if documento is None:
+            return documento
+
+        if self.volume_ids:
+            for volume in self.volume_ids:
+                volume.documento_id = documento.id
+
+        if documento.operacao_id.enviar_pelo_estoque:
+            documento.envia_nfe()
 
         return documento
+
+    def unlink(self):
+        #
+        # Não permitimos excluir picking concluído ou cancelado
+        #
+        for picking in self:
+            if picking.state == 'done':
+                raise UserError(
+                    'Você não pode excluir movimentações de estoque '
+                    'concluídas!')
+            elif picking.state == 'cancel':
+                raise UserError(
+                    'Você não pode excluir movimentações de estoque '
+                    'canceladas!')
+
+        return super(StockPicking, self).unlink()
