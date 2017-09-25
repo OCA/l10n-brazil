@@ -322,10 +322,10 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
 
     @api.model
     def create(self, dados):
-        dados = self._mantem_sincronia_cadastros(dados)
+        #dados = self._mantem_sincronia_cadastros(dados)
         return super(SaleOrderLine, self).create(dados)
 
     def write(self, dados):
-        dados = self._mantem_sincronia_cadastros(dados)
+        #dados = self._mantem_sincronia_cadastros(dados)
         return super(SaleOrderLine, self).write(dados)
 
