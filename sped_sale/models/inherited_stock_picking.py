@@ -19,30 +19,59 @@ class StockPicking(models.Model):
         string='Pedido de Venda',
     )
 
-    def _sincroniza_sale_order(self, dados):
+    def _sincroniza_sale_order(self):
         for picking in self:
-            if not picking.group_id:
+            if not picking.group_id and not picking.origin:
                 continue
 
-            busca = [('procurement_group_id', '=', picking.group_id.id)]
-            sale_order = self.env['sale.order'].search(busca)
+            sale_order = None
+
+            if picking.group_id:
+                busca = [('procurement_group_id', '=', picking.group_id.id)]
+                sale_order = self.env['sale.order'].search(busca)
+
+            if not sale_order:
+                busca = [('name', '=', picking.origin)]
+                sale_order = self.env['sale.order'].search(busca)
 
             if sale_order:
-                dados['sale_order_id'] = sale_order.id
+                dados = {
+                    'sale_order_id': sale_order.id,
+                    'stock_picking_id': picking.id,
+                    'note': sale_order.obs_estoque or '',
+                }
 
                 if sale_order.operacao_produto_id:
                     dados['operacao_id'] = sale_order.operacao_produto_id.id
+                    sql = '''
+                    update stock_picking set
+                        sale_order_id = %(sale_order_id)s,
+                        operacao_id = %(operacao_id)s,
+                        note = %(note)s
+                    where
+                        id = %(stock_picking_id)s;
+                    '''
+                else:
+                    sql = '''
+                    update stock_picking set
+                        sale_order_id = %(sale_order_id)s,
+                        note = %(note)s
+                    where
+                        id = %(stock_picking_id)s;
+                    '''
 
-        return dados
+                self.env.cr.execute(sql, dados)
 
     @api.model
     def create(self, dados):
-        dados = self._sincroniza_sale_order(dados)
-        return super(StockPicking, self).create(dados)
+        picking = super(StockPicking, self).create(dados)
+        picking._sincroniza_sale_order()
+        return picking
 
     def write(self, dados):
-        dados = self._sincroniza_sale_order(dados)
-        return super(StockPicking, self).write(dados)
+        res = super(StockPicking, self).write(dados)
+        self._sincroniza_sale_order()
+        return res
 
     def action_view_sale(self):
         action = \
@@ -60,18 +89,40 @@ class StockPicking(models.Model):
     def gera_documento(self):
         self.ensure_one()
 
-        if self.sale_order_id:
-            documento, nfse = \
-                self.sale_order_id.gera_documento(soh_produtos=True)
-            documento.stock_picking_id = self.id
+        if not self.sale_order_id:
+            return super(StockPicking, self).gera_documento()
 
-            if documento.situacao_nfe == SITUACAO_NFE_AUTORIZADA:
-                documento._confirma_estoque()
-            elif documento.situacao_nfe in \
-                (SITUACAO_NFE_CANCELADA, SITUACAO_NFE_DENEGADA):
-                documento._cancela_estoque()
+        documento, nfse = \
+                self.sale_order_id.gera_documento(soh_produtos=True,
+                                                  stock_picking=self)
 
-        else:
-            documento = super(StockPicking, self).gera_documento()
+        if documento is None:
+            return documento
+
+        documento.stock_picking_id = self.id
+
+        if self.modalidade_frete:
+            documento.modalidade_frete = self.modalidade_frete
+
+        if self.transportadora_id:
+            documento.transportadora_id = self.transportadora_id.id
+
+        if self.volume_ids:
+            for volume in self.volume_ids:
+                volume.documento_id = documento.id
+
+        if documento.operacao_id.enviar_pelo_estoque:
+            documento.envia_nfe()
 
         return documento
+
+    def action_cancel(self):
+        res = super(StockPicking, self).action_cancel()
+        #
+        # Reabre o pedido de venda
+        #
+        for picking in self:
+            if not picking.sale_order_id:
+                continue
+
+            picking.sale_order_id.state = 'draft'
