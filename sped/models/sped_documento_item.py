@@ -20,9 +20,9 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     ENTRADA_SAIDA,
     TIPO_CONSUMIDOR_FINAL,
 )
-from odoo.addons.sped_imposto.models.sped_calculo_imposto_item import (
+from odoo.addons.sped_imposto.models.sped_calculo_imposto_item import \
     SpedCalculoImpostoItem
-)
+
 
 _logger = logging.getLogger(__name__)
 
