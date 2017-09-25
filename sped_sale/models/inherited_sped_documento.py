@@ -60,48 +60,21 @@ class SpedDocumento(models.Model):
         self.ensure_one()
         super(SpedDocumento, self).executa_depois_cancelar()
         #
-        # Vamos cancelar a venda?
+        # Reabre a venda
         #
         if self.sale_order_id:
-            #
-            # Leva o DANFE para a venda
-            #
-            if self.arquivo_pdf_id:
-                pdf_anexo = self.arquivo_pdf_id
-                nome_arquivo = pdf_anexo.datas_fname
-                pdf = pdf_anexo.datas.decode('base64')
-                self.sale_order_id._grava_anexo(
-                    nome_arquivo=nome_arquivo,
-                    conteudo=pdf,
-                    tipo='application/pdf',
-                    model='sale.order',
-                )
-            self.sale_order_id.state = 'cancel'
+            self.sale_order_id.state = 'draft'
         self._cancela_estoque()
 
     def executa_depois_denegar(self):
         self.ensure_one()
         super(SpedDocumento, self).executa_depois_denegar()
         #
-        # Vamos cancelar a venda?
+        # Reabre a venda?
         #
         if self.sale_order_id:
-            #
-            # Leva o DANFE para a venda
-            #
-            if self.arquivo_pdf_id:
-                pdf_anexo = self.arquivo_pdf_id
-                nome_arquivo = pdf_anexo.datas_fname
-                pdf = pdf_anexo.datas.decode('base64')
-                self.sale_order_id._grava_anexo(
-                    nome_arquivo=nome_arquivo,
-                    conteudo=pdf,
-                    tipo='application/pdf',
-                    model='sale.order',
-                )
-            self.sale_order_id.state = 'cancel'
+            self.sale_order_id.state = 'draft'
         self._cancela_estoque()
-
 
     def _check_permite_alteracao(self, operacao='create', dados={},
                                  campos_proibidos=[]):
