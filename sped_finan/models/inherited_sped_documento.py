@@ -49,29 +49,39 @@ class SpedDocumento(models.Model):
 
         return res
 
+    def exclui_finan_lancamento(self):
+        for documento in self:
+            #
+            # Para excluir os lançamentos vinculados à nota, precisamos
+            # primeiro quebrar o vínculo de segurança
+            #
+            lancamentos = []
+
+            for lancamento in documento.finan_lancamento_ids:
+                lancamento.sped_documento_duplicata_id = False
+                lancamento.sped_documento_id = False
+                lancamento.referencia_id = False
+                lancamentos.append(lancamento)
+
+            for lancamento in lancamentos:
+                lancamento.unlink()
+
     def gera_finan_lancamento(self):
-        """ Cria o lançamento financeiro do documento fiscal
-        :return:
-        """
         for documento in self:
             if documento.situacao_fiscal not in \
                     SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO:
-                # documento.apaga_financial_move()
                 continue
 
             if documento.emissao == TIPO_EMISSAO_PROPRIA and \
                 documento.entrada_saida == ENTRADA_SAIDA_ENTRADA:
                 continue
 
-            #
-            # Temporariamente, apagamos todos os lançamentos anteriores
-            #
-            self.finan_lancamento_ids.unlink()
+            documento.duplicata_ids.gera_lancamento_financeiro()
 
-            for duplicata in self.duplicata_ids:
-                dados = duplicata.prepara_finan_lancamento()
-                finan_lancamento = \
-                    self.env['finan.lancamento'].create(dados)
+    def regera_finan_lancamento(self):
+        for documento in self:
+            documento.exclui_finan_lancamento()
+            documento.gera_finan_lancamento()
 
     def executa_depois_autorizar(self):
         super(SpedDocumento, self).executa_depois_autorizar()

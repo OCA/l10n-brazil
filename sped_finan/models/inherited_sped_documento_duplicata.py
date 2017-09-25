@@ -47,3 +47,9 @@ class SpedDocumentoDuplicata(models.Model):
             dados['tipo'] = FINAN_DIVIDA_A_PAGAR
 
         return dados
+
+    def gera_lancamento_financeiro(self):
+        for duplicata in self:
+            dados = duplicata.prepara_finan_lancamento()
+            finan_lancamento = \
+                self.env['finan.lancamento'].create(dados)
