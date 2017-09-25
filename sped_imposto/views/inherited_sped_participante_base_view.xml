@@ -13,6 +13,10 @@
             <xpath expr="//field[@name='eh_funcionario']" position="after">
                <field name="cnae_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
             </xpath>
+            <xpath expr="//field[@name='condicao_pagamento_id']" position="after">
+                <field name="operacao_produto_id" string="Operação para venda de produtos" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                <field name="operacao_servico_id" string="Operação para venda de serviços" colspan="4" options="{'no_open': True, 'no_create': True}" />
+            </xpath>
         </field>
     </record>
 
