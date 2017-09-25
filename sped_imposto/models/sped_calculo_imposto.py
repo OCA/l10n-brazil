@@ -7,15 +7,7 @@ from __future__ import division, print_function, unicode_literals
 import logging
 
 from odoo import api, fields, models, _
-from odoo.addons.l10n_br_base.constante_tributaria import (
-    MODELO_FISCAL_EMISSAO_PRODUTO,
-    MODELO_FISCAL_EMISSAO_SERVICO,
-    TIPO_PESSOA_FISICA,
-    REGIME_TRIBUTARIO,
-    REGIME_TRIBUTARIO_SIMPLES,
-    INDICADOR_PRESENCA_COMPRADOR,
-    INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
-)
+from odoo.addons.l10n_br_base.constante_tributaria import *
 from openerp.addons.l10n_br_base.models.sped_base import SpedBase
 
 _logger = logging.getLogger(__name__)
@@ -352,6 +344,38 @@ class SpedCalculoImposto(SpedBase):
         compute='_compute_soma_itens',
         store=True,
     )
+    #
+    # Total do peso
+    #
+    peso_bruto = fields.Monetary(
+        string='Peso bruto',
+        currency_field='currency_peso_id',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    peso_liquido = fields.Monetary(
+        string='Peso líquido',
+        currency_field='currency_peso_id',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    #
+    # Transporte
+    #
+    modalidade_frete = fields.Selection(
+        selection=MODALIDADE_FRETE,
+        string='Modalidade do frete',
+    )
+    transportadora_id = fields.Many2one(
+        comodel_name='sped.participante',
+        string='Transportadora',
+        ondelete='restrict',
+    )
+    veiculo_id = fields.Many2one(
+        comodel_name='sped.veiculo',
+        string='Veículo',
+        ondelete='restrict',
+    )
     presenca_comprador = fields.Selection(
         selection=INDICADOR_PRESENCA_COMPRADOR,
         string='Presença do comprador',
@@ -407,7 +431,7 @@ class SpedCalculoImposto(SpedBase):
     def _depends_empresa_participante(self):
         self._sincroniza_empresa_company_participante_partner()
 
-    @api.onchange('item_ids.vr_nf', 'item_ids.vr_fatura')
+    @api.onchange('item_ids')
     def _onchange_soma_itens(self):
         self._compute_soma_itens()
 
@@ -430,7 +454,8 @@ class SpedCalculoImposto(SpedBase):
                 'item_ids.bc_iss', 'item_ids.vr_iss',
                 'item_ids.vr_nf', 'item_ids.vr_fatura',
                 'item_ids.vr_ibpt',
-                'item_ids.vr_custo_comercial')
+                'item_ids.vr_custo_comercial',
+                'item_ids.peso_bruto', 'item_ids.peso_liquido')
     def _compute_soma_itens(self):
         CAMPOS_SOMA_ITENS = [
             'vr_produtos', 'vr_produtos_tributacao',
@@ -450,11 +475,7 @@ class SpedCalculoImposto(SpedBase):
             'vr_nf', 'vr_fatura',
             'vr_ibpt',
             'vr_custo_comercial',
-            # #
-            # # A alíquota/percentual de desconto tem um tratamento diferenciado
-            # # mais abaixo
-            # #
-            # 'al_desconto',
+            'peso_bruto', 'peso_liquido'
         ]
 
         for documento in self:
@@ -490,23 +511,6 @@ class SpedCalculoImposto(SpedBase):
                         if getattr(item, 'tipo_item', False) == 'M':
                             dados['mensalidades_' + campo] += \
                                 D(getattr(item, campo, 0))
-
-            # #
-            # # Agora, calculamos o percentual de desconto aplicado
-            # #
-            # for tipo in ['', 'produtos_', 'servicos_', 'mensalidades_']:
-            #     campo_vr_produtos = tipo + 'vr_produtos'
-            #     campo_vr_desconto = tipo + 'vr_desconto'
-            #     campo_al_desconto = tipo + 'al_desconto'
-            #
-            #     if campo_vr_produtos in dados:
-            #         al_desconto = D(0)
-            #
-            #         if dados[campo_vr_produtos] > 0 and dados[campo_vr_desconto] > 0:
-            #             al_desconto = dados[campo_vr_desconto] / \
-            #                             dados[campo_vr_produtos]
-            #             al_desconto *= 100
-            #             dados[campo_al_desconto] = al_desconto
 
             documento.update(dados)
 
@@ -608,7 +612,15 @@ class SpedCalculoImposto(SpedBase):
         self.ensure_one()
         self.partner_id = self.participante_id.partner_id
 
-    def prapara_dados_documento(self):
+        if self.participante_id.condicao_pagamento_id:
+            self.condicao_pagamento_id = \
+                self.participante_id.condicao_pagamento_id
+        if self.participante_id.operacao_produto_id:
+            self.operacao_id = self.participante_id.operacao_produto_id
+        if self.participante_id.transportadora_id:
+            self.operacao_id = self.participante_id.transportador_id
+
+    def prepara_dados_documento(self):
         self.ensure_one()
         return {}
 
@@ -626,7 +638,10 @@ class SpedCalculoImposto(SpedBase):
             'participante_id': self.participante_id.id,
             'partner_id': self.partner_id.id,
             'condicao_pagamento_id': self.condicao_pagamento_id.id if \
-                self.condicao_pagamento_id else False
+                self.condicao_pagamento_id else False,
+            'transportadora_id': self.transportadora_id.id if \
+                self.transportadora_id else False,
+            'modalidade_frete': self.modalidade_frete,
         }
         dados.update(self.prepara_dados_documento())
 
@@ -660,7 +675,17 @@ class SpedCalculoImposto(SpedBase):
                 'vr_outras': item.vr_outras,
             }
             dados.update(item.prepara_dados_documento_item())
-            documento_item = self.env['sped.documento.item'].create(dados)
+            #
+            # Passamos o vr_unitario no contexto para evitar que as
+            # configurações da operação redefinam o valor unitário durante
+            # o cáculo dos impostos
+            #
+            contexto = {
+                'forca_vr_unitario': dados['vr_unitario']
+            }
+            sped_documento_item = \
+                self.env['sped.documento.item'].with_context(contexto)
+            documento_item = sped_documento_item.create(dados)
             documento_item.calcula_impostos()
 
         #
