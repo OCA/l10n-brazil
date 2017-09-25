@@ -12,7 +12,8 @@
         <field name="arch" type="xml">
             <field name="preco_automatico" position="after">
                 <newline />
-                <field name="enviar_pela_venda" colspan="4" attrs="{'invisible': ['!', ('modelo', 'in', ['55', '65', '59', 'SE'])]}" />
+                <field name="enviar_pela_venda" attrs="{'invisible': ['!', ('modelo', 'in', ['55', '65', '59', 'SE'])]}" />
+                <newline />
             </field>
         </field>
     </record>
