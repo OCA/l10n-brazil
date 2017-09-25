@@ -12,46 +12,7 @@ import logging
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.addons.l10n_br_base.models.sped_base import SpedBase
-from odoo.addons.l10n_br_base.constante_tributaria import (
-    TIPO_EMISSAO_NFE,
-    TIPO_EMISSAO,
-    MODELO_FISCAL,
-    ENTRADA_SAIDA,
-    ENTRADA_SAIDA_SAIDA,
-    SITUACAO_FISCAL,
-    SITUACAO_FISCAL_REGULAR,
-    AMBIENTE_NFE,
-    AMBIENTE_NFE_HOMOLOGACAO,
-    SITUACAO_NFE_AUTORIZADA,
-    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL,
-    INDICADOR_IE_DESTINATARIO,
-    TIPO_CONSUMIDOR_FINAL_NORMAL,
-    MODELO_FISCAL_NFCE,
-    MODELO_FISCAL_NFE,
-    MODELO_FISCAL_NFSE,
-    TIPO_EMISSAO_PROPRIA,
-    AMBIENTE_NFE_PRODUCAO,
-    TIPO_EMISSAO_NFE_NORMAL,
-    ENTRADA_SAIDA_ENTRADA,
-    ENTRADA_SAIDA_DICT,
-    TIPO_EMISSAO_DICT,
-    IE_DESTINATARIO,
-    ST_ISS,
-    NATUREZA_TRIBUTACAO_NFSE,
-    LIMITE_RETENCAO_PIS_COFINS_CSLL,
-    MODALIDADE_FRETE_DESTINATARIO_PROPRIO,
-    MODALIDADE_FRETE,
-    INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
-    INDICADOR_PRESENCA_COMPRADOR,
-    TIPO_CONSUMIDOR_FINAL,
-    FINALIDADE_NFE_NORMAL,
-    FINALIDADE_NFE,
-    IND_FORMA_PAGAMENTO,
-    IND_FORMA_PAGAMENTO_A_VISTA,
-    REGIME_TRIBUTARIO,
-    REGIME_TRIBUTARIO_SIMPLES,
-    INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
-)
+from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 
@@ -210,7 +171,7 @@ class SpedDocumento(SpedBase, models.Model):
     modalidade_frete = fields.Selection(
         selection=MODALIDADE_FRETE,
         string='Modalidade do frete',
-        default=MODALIDADE_FRETE_DESTINATARIO_PROPRIO,
+        default=MODALIDADE_FRETE_DESTINATARIO_FOB,
     )
     natureza_operacao_id = fields.Many2one(
         comodel_name='sped.natureza.operacao',
@@ -452,13 +413,26 @@ class SpedDocumento(SpedBase, models.Model):
     )
 
     #
+    # Endereços de entrega e retirada
+    #
+    endereco_retirada_id = fields.Many2one(
+        comodel_name='sped.endereco',
+        string='Endereço de retirada',
+        ondelete='restrict'
+    )
+    endereco_entrega_id = fields.Many2one(
+        comodel_name='sped.endereco',
+        string='Endereço de entrega',
+        ondelete='restrict'
+    )
+
+    #
     # Transporte
     #
     transportadora_id = fields.Many2one(
-        comodel_name='res.partner',
+        comodel_name='sped.participante',
         string='Transportadora',
         ondelete='restrict',
-        domain=[['cnpj_cpf', '!=', False]],
     )
     veiculo_id = fields.Many2one(
         comodel_name='sped.veiculo',
@@ -778,6 +752,22 @@ class SpedDocumento(SpedBase, models.Model):
     # 'bc_iss_retido = CampoDinheiro('Base do ISS'),
     # 'vr_iss_retido = CampoDinheiro('Valor do ISS'),
 
+    #
+    # Total do peso
+    #
+    peso_bruto = fields.Monetary(
+        string='Peso bruto',
+        currency_field='currency_peso_id',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    peso_liquido = fields.Monetary(
+        string='Peso líquido',
+        currency_field='currency_peso_id',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+
     item_ids = fields.One2many(
         comodel_name='sped.documento.item',
         inverse_name='documento_id',
@@ -884,7 +874,8 @@ class SpedDocumento(SpedBase, models.Model):
                 'item_ids.bc_iss', 'item_ids.vr_iss',
                 'item_ids.vr_nf', 'item_ids.vr_fatura',
                 'item_ids.vr_ibpt',
-                'item_ids.vr_custo_comercial')
+                'item_ids.vr_custo_comercial',
+                'item_ids.peso_bruto', 'item_ids.peso_liquido')
     def _compute_soma_itens(self):
         CAMPOS_SOMA_ITENS = [
             'vr_produtos', 'vr_produtos_tributacao',
@@ -903,7 +894,8 @@ class SpedDocumento(SpedBase, models.Model):
             'bc_iss', 'vr_iss',
             'vr_nf', 'vr_fatura',
             'vr_ibpt',
-            'vr_custo_comercial'
+            'vr_custo_comercial',
+            'peso_bruto', 'peso_liquido'
         ]
 
         for documento in self:
