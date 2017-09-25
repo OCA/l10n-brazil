@@ -76,6 +76,29 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         index=True,
     )
 
+    #
+    # Corrige os states
+    #
+    state = fields.Selection(
+        selection=[
+            ('draft', 'Orçamento'),
+            ('sent', 'Enviado ao cliente'),
+            ('sale', 'Pedido'),
+            ('done', 'Concluído'),
+            ('cancel', 'Cancelado'),
+        ],
+        string='Status',
+        readonly=True,
+        copy=False,
+        index=True,
+        track_visibility='onchange',
+        default='draft',
+    )
+
+    obs_estoque = fields.Text(
+        string='Obs. para o estoque',
+    )
+
     @api.depends('date_order')
     def _compute_data_hora_separadas(self):
         for sale in self:
@@ -214,7 +237,8 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         dados = self._mantem_sincronia_cadastros(dados)
         return super(SaleOrder, self).write(dados)
 
-    def gera_documento(self, soh_produtos=False, soh_servicos=False):
+    def gera_documento(self, soh_produtos=False, soh_servicos=False,
+                       stock_picking=None):
         self.ensure_one()
 
         documento_produto, documento_servico = \
@@ -223,8 +247,18 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
             )
 
         if documento_produto is not None:
-            if documento_produto.operacao_id.enviar_pela_venda:
-                documento_produto.envia_nfe()
+            #
+            # Setamos a transportadora e a modalidade
+            #
+            if self.modalidade_frete:
+                documento_produto.modalidade_frete = self.modalidade_frete
+
+            if self.transportadora_id:
+                documento_produto.transportadora_id = self.transportadora_id.id
+
+            if stock_picking is None:
+                if documento_produto.operacao_id.enviar_pela_venda:
+                    documento_produto.envia_nfe()
 
         #if documento_servico is not None:
             #if documento_servico.operacao_id.enviar_pela_venda:
