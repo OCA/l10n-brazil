@@ -11,6 +11,9 @@ class DataError(Exception):
         self.name = name
         self.msg = msg
 
+    def __repr__(self):
+        return '{}({})'.format(self.__class__.__name__, repr(self.name))
+
 
 class NameDataError(DataError):
     pass
