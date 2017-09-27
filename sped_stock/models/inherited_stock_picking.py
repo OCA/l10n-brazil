@@ -161,3 +161,22 @@ class StockPicking(SpedCalculoImposto, models.Model):
                     'canceladas!')
 
         return super(StockPicking, self).unlink()
+
+    def action_cancel(self):
+        res = super(StockPicking, self).action_cancel()
+
+        for picking in self:
+            if not picking.group_id:
+                continue
+
+            #
+            # Apaga os procurement.order vinculados ao picking, pois isso
+            # está causando sérios problemas no fluxo da venda, pois
+            # cancelar o picking não cancela efetivamente o *efeito*
+            # do procurement, e o core interpreta a alteração da
+            # quantidade pedida de forma incorreta
+            #
+            self.env.cr.execute(
+                'delete from procurement_order where group_id = %(group_id)s',
+                {'group_id': picking.group_id.id}
+            )
