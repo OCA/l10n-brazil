@@ -13,10 +13,10 @@ _logger = logging.getLogger(__name__)
 
 
 class BoletoWrapper(object):
-    def __init__(self, obj, boleto_api_data):
+    def __init__(self, obj, boleto_cnab_api_data):
         # wrap the object
         self._wrapped_obj = obj
-        self.boleto_api_data = boleto_api_data
+        self.boleto_cnab_api_data = boleto_cnab_api_data
 
     def __getattr__(self, attr):
         # see if this object has attr
@@ -70,7 +70,7 @@ class AccountMoveLine(models.Model):
                     move_line.payment_mode_id.bank_id.bank.name)
             boleto_list = super(AccountMoveLine, move_line).send_payment()
             for boleto in boleto_list:
-                boleto_api_data = {
+                boleto_cnab_api_data = {
                       'bank': bank_name_brcobranca[0],
                       'valor': boleto.valor,
                       'cedente': boleto.cedente,
@@ -91,5 +91,5 @@ class AccountMoveLine(models.Model):
                       'sacado_endereco': boleto.sacado_endereco,
                 }
                 wrapped_boleto_list.append(
-                    BoletoWrapper(boleto, boleto_api_data))
+                    BoletoWrapper(boleto, boleto_cnab_api_data))
         return wrapped_boleto_list

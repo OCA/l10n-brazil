@@ -61,14 +61,14 @@ class ReportCustom(report_int):
                             'Certifique-se que a fatura esteja confirmada e o '
                             'forma de pagamento seja duplicatas'))
 
-        boletos = [b.boleto_api_data for b in boleto_list]
+        boletos = [b.boleto_cnab_api_data for b in boleto_list]
         content = json.dumps(boletos)
         print content
         f = open(tempfile.mktemp(), 'w')
         f.write(content)
         f.close()
         files = {'data': open(f.name, 'rb')}
-        res = requests.post("http://boleto_api:9292/api/boleto/multi",
+        res = requests.post("http://boleto_cnab_api:9292/api/boleto/multi",
                             data={'type': 'pdf'}, files=files)
         print "AAAAAAAA", res.status_code
         if str(res.status_code)[0] == '2':
