@@ -1284,8 +1284,8 @@ class SpedDocumento(models.Model):
 
         procNFe = ProcNFe_310()
         if self.arquivo_xml_autorizacao_id:
-            procNFe.xml = \
-                self.arquivo_xml_autorizacao_id.datas.decode('base64')
+            xml = self.arquivo_xml_autorizacao_id.datas.decode('base64')
+            procNFe.xml = xml.decode('utf-8')
         else:
             procNFe.NFe = self.monta_nfe()
             procNFe.NFe.gera_nova_chave()
@@ -1294,9 +1294,10 @@ class SpedDocumento(models.Model):
 
         procevento = ProcEventoCancNFe_100()
         if self.arquivo_xml_autorizacao_cancelamento_id:
-            procevento.xml = \
+            xml = \
                 self.arquivo_xml_autorizacao_cancelamento_id.datas.decode(
                     'base64')
+            procevento.xml = xml.decode('utf-8')
 
         #
         # Gera o DANFE, com a tarja de cancelamento quando necessário
