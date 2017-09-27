@@ -100,10 +100,30 @@ class StockMove(SpedCalculoImpostoItem, models.Model):
     @api.model
     def create(self, dados):
         dados = self._mantem_sincronia_cadastros(dados)
+
+        if 'produto_id' in dados:
+            produto = self.env['sped.produto'].browse(dados['produto_id'])
+            dados['product_id'] = produto.product_id.id
+
+        if 'product_id' in dados and not 'produto_id' in dados:
+            product = self.env['product.product'].browse(dados['product_id'])
+            if product.sped_produto_id:
+                dados['produto_id'] = product.sped_produto_id.id
+
         return super(StockMove, self).create(dados)
 
     def write(self, dados):
         dados = self._mantem_sincronia_cadastros(dados)
+
+        if 'produto_id' in dados:
+            produto = self.env['sped.produto'].browse(dados['produto_id'])
+            dados['product_id'] = produto.product_id.id
+
+        if 'product_id' in dados and not 'produto_id' in dados:
+            product = self.env['product.product'].browse(dados['product_id'])
+            if product.sped_produto_id:
+                dados['produto_id'] = product.sped_produto_id.id
+
         return super(StockMove, self).write(dados)
 
     def product_price_update_after_done(self):
@@ -114,3 +134,17 @@ class StockMove(SpedCalculoImpostoItem, models.Model):
 
     def _prepare_account_move_line(self, qty, cost, credit_account_id, debit_account_id):
         return []
+
+    @api.onchange('produto_id')
+    def _onchange_produto_id(self):
+        self.ensure_one()
+        res = super(StockMove, self)._onchange_produto_id()
+
+        if hasattr(self, 'product_id'):
+            self.product_id = self.produto_id.product_id.id
+        if hasattr(self, 'product_uom'):
+            self.product_uom = self.produto_id.unidade_id.uom_id
+        if hasattr(self, 'uom_id'):
+            self.uom_id = self.produto_id.unidade_id.uom_id
+
+        return res
