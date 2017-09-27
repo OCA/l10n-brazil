@@ -80,7 +80,9 @@ class AccountMoveLine(models.Model):
                       'agencia': move_line.payment_mode_id.bank_id.bra_number,
                       'conta_corrente': move_line.payment_mode_id.bank_id.acc_number,
                       'convenio': boleto.convenio,
-                      'numero_documento': move_line.id,
+                      'nosso_numero': int(''.join(
+                          i for i in move_line.name if i.isdigit())),
+                      'numero_documento': str(move_line.name).encode('utf-8'),
                       'data_vencimento': boleto.data_vencimento.strftime(
                           '%Y/%m/%d'),
                       'data_documento': boleto.data_documento.strftime(
