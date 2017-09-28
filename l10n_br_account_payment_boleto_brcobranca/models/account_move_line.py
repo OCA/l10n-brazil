@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
-from datetime import date
+from datetime import datetime
 
 from openerp import models, api, _
 from openerp.exceptions import Warning as UserError
@@ -72,25 +72,34 @@ class AccountMoveLine(models.Model):
             for boleto in boleto_list:
                 boleto_cnab_api_data = {
                       'bank': bank_name_brcobranca[0],
-                      'valor': boleto.valor,
-                      'cedente': boleto.cedente,
-                      'documento_cedente': boleto.cedente_documento,
-                      'sacado': boleto.sacado_nome,
-                      'sacado_documento': boleto.sacado_documento,
+                      'valor': str("%.2f" % move_line.debit),
+                      'cedente': move_line.company_id.partner_id.legal_name,
+                      'documento_cedente': move_line.company_id.cnpj_cpf,
+                      'sacado': move_line.partner_id.legal_name,
+                      'sacado_documento': move_line.partner_id.cnpj_cpf,
                       'agencia': move_line.payment_mode_id.bank_id.bra_number,
                       'conta_corrente': move_line.payment_mode_id.bank_id.acc_number,
-                      'convenio': boleto.convenio,
+                      'convenio': move_line.payment_mode_id.boleto_convenio,
+                      'carteira': str(move_line.payment_mode_id.boleto_carteira),
                       'nosso_numero': int(''.join(
-                          i for i in move_line.name if i.isdigit())),
+                          i for i in move_line.boleto_own_number if i.isdigit())),
                       'numero_documento': str(move_line.name).encode('utf-8'),
-                      'data_vencimento': boleto.data_vencimento.strftime(
+                      'data_vencimento': datetime.strptime(
+                          move_line.date_maturity, '%Y-%m-%d').strftime('%Y/%m/%d'),
+                      'data_documento': datetime.strptime(
+                          move_line.invoice.date_invoice, '%Y-%m-%d').strftime(
                           '%Y/%m/%d'),
-                      'data_documento': boleto.data_documento.strftime(
-                          '%Y/%m/%d'),
-                      'especie': boleto.especie,
+                      'especie': move_line.payment_mode_id.boleto_especie,
                       'moeda': dict_brcobranca_currency[boleto.especie],
-                      'aceite': boleto.aceite,
-                      'sacado_endereco': boleto.sacado_endereco,
+                      'aceite': move_line.payment_mode_id.boleto_aceite,
+                      'sacado_endereco':
+                          move_line.partner_id.street + ', ' +
+                          move_line.partner_id.number + ' ' +
+                          move_line.partner_id.l10n_br_city_id.name + ' - ' +
+                          move_line.partner_id.state_id.name,
+                      'data_processamento': datetime.strptime(
+                          move_line.invoice.date_invoice, '%Y-%m-%d').strftime(
+                          '%Y/%m/%d'),
                 }
                 wrapped_boleto_list.append(
                     BoletoWrapper(boleto, boleto_cnab_api_data))
