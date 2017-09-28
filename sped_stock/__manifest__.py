@@ -27,6 +27,11 @@
         'views/inherited_stock_picking_view.xml',
         'views/inherited_stock_move_view.xml',
 
+        'views/inherited_stock_inventory_view.xml',
+
+        'wizards/inherited_make_procurement_view.xml',
+        'wizards/inherited_change_product_quantity_view.xml',
+
         #
         # Permissões e grupos
         #

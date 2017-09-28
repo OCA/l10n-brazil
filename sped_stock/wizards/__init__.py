@@ -6,5 +6,5 @@
 #
 
 
-from . import models
-from . import wizards
+from . import inherited_make_procurement
+from . import inherited_change_product_quantity
