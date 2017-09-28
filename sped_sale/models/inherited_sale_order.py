@@ -109,7 +109,7 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
     @api.depends('documento_ids.situacao_fiscal')
     def _compute_quantidade_documentos_fiscais(self):
         for sale in self:
-            documento_ids = self.documento_ids.search(
+            documento_ids = self.env['sped.documento'].search(
                 [('sale_order_id', '=', sale.id), ('situacao_fiscal', 'in',
                   SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
 
@@ -172,7 +172,7 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
             if not sale.is_brazilian:
                 continue
 
-            documento_ids = self.documento_ids.search(
+            documento_ids = self.env['sped.documento'].search(
                 [('sale_order_id', '=', sale.id), ('situacao_fiscal', 'in',
                   SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
 
