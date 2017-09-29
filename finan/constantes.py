@@ -138,18 +138,21 @@ FINAN_CONTRATO_STATE_CONFIRMED = 'confirmed'
 FINAN_CONTRATO_STATE_CANCELLED = 'cancelled'
 
 
-FINAN_BANCO = (
-    ('000', '000 - Interno'),
-    ('001', '001 - Brasil'),
-    ('033', '033 - Santander'),
-    ('085', '085 - Viacredi'),
-    ('104', '104 - Caixa'),
-    ('136', '136 - Unicred'),
-    ('237', '237 - Bradesco'),
-    ('341', '341 - Itaú'),
-    ('748', '748 - Sicredi'),
-    ('756', '756 - Sicoob'),
-)
+FINAN_BANCO_CHEQUE_BOLETO = [
+    ['001', '001 - Brasil'],
+    ['033', '033 - Santander'],
+    ['085', '085 - Viacredi'],
+    ['104', '104 - Caixa'],
+    ['136', '136 - Unicred'],
+    ['237', '237 - Bradesco'],
+    ['341', '341 - Itaú'],
+    ['748', '748 - Sicredi'],
+    ['756', '756 - Sicoob'],
+]
+
+FINAN_BANCO = [
+    ['000', '000 - Interno'],
+] + FINAN_BANCO_CHEQUE_BOLETO
 FINAN_BANCO_DICT = dict(FINAN_BANCO)
 
 FINAN_BANCO_INTERNO = '000'
