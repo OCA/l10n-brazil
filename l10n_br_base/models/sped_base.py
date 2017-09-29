@@ -30,7 +30,7 @@ class SpedBase(object):
         comodel_name='res.currency',
         string='Moeda',
         compute='_compute_currency_id',
-        default=lambda self: self.env.ref('base.BRL'),
+        default=lambda self: self.env.ref('base.BRL').id,
     )
     currency_aliquota_id = fields.Many2one(
         comodel_name='res.currency',
