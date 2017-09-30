@@ -24,6 +24,8 @@
             <field name="product_uom_qty" position="replace">
                 <field name="product_uom_qty" invisible="1" />
                 <field name="quantidade" required="1" />
+                <field name="quantidade_especie" />
+                <field name="descricao_especie" />
             </field>
         </field>
     </record>
@@ -52,6 +54,8 @@
             <field name="product_uom_qty" position="replace">
                 <field name="product_uom_qty" invisible="1" />
                 <field name="quantidade" required="1" />
+                <field name="quantidade_especie" />
+                <field name="descricao_especie" />
             </field>
         </field>
     </record>
@@ -116,6 +120,8 @@
             <field name="product_uom_qty" position="replace">
                 <field name="product_uom_qty" invisible="1" />
                 <field name="quantidade" required="1" />
+                <field name="quantidade_especie" />
+                <field name="descricao_especie" />
             </field>
         </field>
     </record>
@@ -140,6 +146,8 @@
             <field name="product_uom_qty" position="replace">
                 <field name="product_uom_qty" invisible="1" />
                 <field name="quantidade" required="1" />
+                <field name="quantidade_especie" />
+                <field name="descricao_especie" />
             </field>
         </field>
     </record>
@@ -164,6 +172,8 @@
             <field name="product_uom_qty" position="replace">
                 <field name="product_uom_qty" invisible="1" />
                 <field name="quantidade" required="1" />
+                <field name="quantidade_especie" />
+                <field name="descricao_especie" />
             </field>
         </field>
     </record>
@@ -188,6 +198,8 @@
             <field name="product_uom_qty" position="replace">
                 <field name="product_uom_qty" invisible="1" />
                 <field name="quantidade" required="1" />
+                <field name="quantidade_especie" />
+                <field name="descricao_especie" />
             </field>
         </field>
     </record>

@@ -7,6 +7,7 @@ from __future__ import division, print_function, unicode_literals
 import logging
 
 from odoo import api, fields, models, _
+import odoo.addons.decimal_precision as dp
 from odoo.addons.sped_imposto.models.sped_calculo_imposto_item import (
     SpedCalculoImpostoItem
 )
@@ -73,6 +74,28 @@ class StockMove(SpedCalculoImpostoItem, models.Model):
         ondelete='restrict',
     )
 
+    especie = fields.Char(
+        string='Espécie/embalagem',
+        size=60,
+        related='produto_id.especie',
+    )
+    fator_quantidade_especie = fields.Float(
+        string='Quantidade por espécie/embalagem',
+        digits=dp.get_precision('SPED - Quantidade'),
+        related='produto_id.fator_quantidade_especie',
+    )
+    quantidade_especie = fields.Float(
+        string='Quantidade em espécie/embalagem',
+        digits=dp.get_precision('SPED - Quantidade'),
+        compute='_compute_quantidade_especie',
+        store=False,
+    )
+    descricao_especie = fields.Char(
+        string='Apresentação/embalagem',
+        size=60,
+        compute='_compute_descricao_especie',
+        store=False,
+    )
 
     @api.depends('date')
     def _compute_data_hora_separadas(self):
@@ -132,7 +155,8 @@ class StockMove(SpedCalculoImpostoItem, models.Model):
     def product_price_update_before_done(self):
         pass
 
-    def _prepare_account_move_line(self, qty, cost, credit_account_id, debit_account_id):
+    def _prepare_account_move_line(self, qty, cost, credit_account_id,
+                                   debit_account_id):
         return []
 
     @api.onchange('produto_id')
@@ -147,4 +171,21 @@ class StockMove(SpedCalculoImpostoItem, models.Model):
         if hasattr(self, 'uom_id'):
             self.uom_id = self.produto_id.unidade_id.uom_id
 
+        self.fator_quantidade_especie = \
+            self.produto_id.fator_quantidade_especie
+
         return res
+
+    @api.depends('produto_id', 'quantidade', 'fator_quantidade_especie',
+                 'especie')
+    def _compute_quantidade_especie(self):
+        for item in self:
+            if item.fator_quantidade_especie > 0 and item.especie:
+                quantidade_especie = D(item.quantidade) / \
+                    D(item.fator_quantidade_especie)
+                quantidade_especie = quantidade_especie.quantize(D('0.0001'))
+
+            else:
+                quantidade_especie = 0
+
+            item.quantidade_especie = quantidade_especie
