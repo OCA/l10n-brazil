@@ -15,7 +15,7 @@
             <field name="name">mis.report.style.view.form</field>
             <field name="model">mis.report.style</field>
             <field name="arch" type="xml">
-                <form string="MIS Report Style" version="7.0">
+                <form string="MIS Report Style">
                 <sheet>
                     <group string="Style" col="2">
                         <field name="name" />
