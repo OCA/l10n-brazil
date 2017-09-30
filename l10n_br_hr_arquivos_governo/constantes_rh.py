@@ -86,9 +86,9 @@ MESES = [
     ('08', u'Agosto'),
     ('09', u'Setembro'),
     ('10', u'Outubro'),
-    ('11', u'NOvembro'),
+    ('11', u'Novembro'),
     ('12', u'Dezembro'),
-    ('13', u'Décimo Terceiro'),
+    ('13', u'13º Salário'),
 ]
 
 MODALIDADE_ARQUIVO = [
