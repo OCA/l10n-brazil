@@ -81,3 +81,39 @@ class ResCompany(models.Model):
         comodel_name=u'payment.mode',
         help=u'Carteira padrão para geração de boletos do sindicato.',
     )
+
+    darf_account_id = fields.Many2one(
+        string=u'Conta',
+        comodel_name=u'financial.account',
+        help=u'Conta para lançamentos da DARF'
+    )
+    darf_document_type = fields.Many2one(
+        string=u'Tipo do documento',
+        comodel_name=u'financial.document.type',
+        help=u'Tipo do documento que irá aparecer no lançamento financeiro'
+    )
+    darf_carteira_cobranca = fields.Many2one(
+        string=u'Carteira de cobrança',
+        comodel_name=u'payment.mode',
+        help=u'Nome da carteira de cobrança caso exista'
+    )
+    darf_dia_vencimento = fields.Integer(
+        string=u'Dia de vencimento',
+        help=u'Dia de vencimento da guia do DARF de todo mês'
+    )
+
+    gps_account_id = fields.Many2one(
+        string=u'Conta',
+        comodel_name=u'financial.account',
+        help=u'Conta para lançamentos da DARF'
+    )
+    gps_document_type = fields.Many2one(
+        string=u'Tipo do documento',
+        comodel_name=u'financial.document.type',
+        help=u'Tipo do documento que irá aparecer no lançamento financeiro'
+    )
+    gps_carteira_cobranca = fields.Many2one(
+        string=u'Carteira de cobrança',
+        comodel_name=u'payment.mode',
+        help=u'Nome da carteira de cobrança caso exista'
+    )

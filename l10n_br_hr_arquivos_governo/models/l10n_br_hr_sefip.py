@@ -10,6 +10,7 @@ from __future__ import (
 import logging
 import base64
 import pybrasil
+from datetime import timedelta
 from openerp import api, fields, models, _
 from openerp.exceptions import ValidationError
 
@@ -590,6 +591,63 @@ class L10nBrSefip(models.Model):
             'sefip_id': self.id,
         }
 
+    def prepara_financial_move_darf(self, DARF):
+        '''
+         Tratar dados do sefip e criar um dict para criar financial.move de
+         guia DARF.
+        :param DARF:  float com valor total do recolhimento
+        :return: dict com valores para criar financial.move
+        '''
+        date = fields.Date.from_string(fields.Date.today())
+        date = date + timedelta(days=31)
+        data_vencimento = fields.Date.from_string(
+            str(date.year) + '-' + str(date.month) + '-' +
+            str(self.company_id.darf_dia_vencimento)
+        )
+
+        return {
+            'date_document': fields.Date.today(),
+            'partner_id': self.env.ref('base.user_root').id,
+            'doc_source_id': 'l10n_br.hr.sefip,' + str(self.id),
+            'company_id': self.company_id.id,
+            'amount_document': DARF,
+            'document_number': '1234',
+            'account_id': self.company_id.darf_account_id.id,
+            'document_type_id': self.company_id.darf_document_type.id,
+            'type': '2pay',
+            'date_maturity': data_vencimento,
+            'payment_mode_id': self.company_id.darf_carteira_cobranca.id,
+            'sefip_id': self.id,
+        }
+
+    def prepara_financial_move_gps(self, GPS):
+        '''
+         Tratar dados do sefip e criar um dict para criar financial.move de
+         guia GPS.
+        :param GPS:  float com valor total do recolhimento
+        :return: dict com valores para criar financial.move
+        '''
+        date = fields.Date.from_string(fields.Date.today())
+        date = date + timedelta(days=31)
+        data_vencimento = fields.Date.from_string(
+            str(date.year) + '-' + str(date.month) + '-' +
+            str(self.company_id.darf_dia_vencimento)
+        )
+
+        return {
+            'date_document': fields.Date.today(),
+            'partner_id': self.env.ref('base.user_root').id,
+            'doc_source_id': 'l10n_br.hr.sefip,' + str(self.id),
+            'company_id': self.company_id.id,
+            'amount_document': GPS,
+            'document_number': '1234',
+            'account_id': self.company_id.gps_account_id.id,
+            'document_type_id': self.company_id.gps_document_type.id,
+            'type': '2pay',
+            'date_maturity': data_vencimento,
+            'payment_mode_id': self.company_id.gps_carteira_cobranca.id,
+            'sefip_id': self.id,
+        }
     @api.multi
     def gerar_boletos(self):
         '''
@@ -600,7 +658,18 @@ class L10nBrSefip(models.Model):
         contribuicao_sindical = {}
         for record in self:
             created_ids = []
+            empresas = {}
             for holerite in self.folha_ids:
+                if not empresas.get(holerite.company_id.id):
+                    empresas.update({
+                        holerite.company_id.id: {
+                            'INSS_funcionarios': 0.00,
+                            'INSS_empresa': 0.00,
+                            'INSS_outras_entidades': 0.00,
+                            'INSS_rat_fap': 0.00,
+                            'DARF': 0.00,
+                        }
+                    })
                 for line in holerite.line_ids:
                     remuneracao = line.slip_id.line_ids.filtered(
                         lambda x: x.code == 'LIQUIDO')
@@ -622,6 +691,22 @@ class L10nBrSefip(models.Model):
                                 'qtd_contribuintes'] = 1
                             contribuicao_sindical[id_sindicato][
                                 'total_remuneracao'] = remuneracao.total
+                    elif line.code == 'INSS':
+                        empresas[line.slip_id.company_id.id][
+                            'INSS_funcionarios'] += line.total
+                    elif line.code == 'INSS_EMPRESA':
+                        empresas[line.slip_id.company_id.id][
+                            'INSS_empresa'] += line.total
+                    elif line.code == 'INSS_OUTRAS_ENTIDADES':
+                        empresas[line.slip_id.company_id.id][
+                            'INSS_outras_entidades'] += line.total
+                    elif line.code == 'INSS_RAT_FAP':
+                        empresas[line.slip_id.company_id.id][
+                            'INSS_rat_fap'] += line.total
+                    elif line.code == 'IRPF':
+                        empresas[line.slip_id.company_id.id][
+                            'DARF'] += line.total
+
 
             for sindicato in contribuicao_sindical:
                 vals = self.prepara_financial_move(
@@ -629,6 +714,14 @@ class L10nBrSefip(models.Model):
 
                 financial_move = self.env['financial.move'].create(vals)
                 created_ids.append(financial_move.id)
+
+            vals_darf = self.prepara_financial_move_darf(DARF)
+            financial_move_darf = self.env['financial.move'].create(vals_darf)
+            created_ids.append(financial_move_darf.id)
+            vals_gps = self.prepara_financial_move_gps(GPS)
+            financial_move_darf = self.env['financial.move'].create(vals_gps)
+            created_ids.append(financial_move_darf.id)
+
 
             return {
                 'domain': "[('id', 'in', %s)]" % created_ids,

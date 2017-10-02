@@ -27,7 +27,21 @@
                             <group>
                                 <field name="centralizadora"/>
                             </group>
+                            <group>
+                                <separator string="DARF"/>
+                                <field name="darf_account_id" />
+                                <field name="darf_document_type" />
+                                <field name="darf_carteira_cobranca" />
+                                <field name="darf_dia_vencimento" />
+                            </group>
+                            <group>
+                                <separator string="Guia GPS"/>
+                                <field name="gps_account_id" />
+                                <field name="gps_document_type" />
+                                <field name="gps_carteira_cobranca" />
+                            </group>
                         </group>
+
                     </page>
 
                     <page string="Sindicato">
