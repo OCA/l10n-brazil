@@ -97,6 +97,10 @@ class ResCompany(models.Model):
         comodel_name=u'payment.mode',
         help=u'Nome da carteira de cobrança caso exista'
     )
+    darf_sequence_id = fields.Many2one(
+        string=u'Sequencia dos documentos',
+        comodel_name=u'ir.sequence'
+    )
     darf_dia_vencimento = fields.Integer(
         string=u'Dia de vencimento',
         help=u'Dia de vencimento da guia do DARF de todo mês'
@@ -116,4 +120,8 @@ class ResCompany(models.Model):
         string=u'Carteira de cobrança',
         comodel_name=u'payment.mode',
         help=u'Nome da carteira de cobrança caso exista'
+    )
+    gps_sequence_id = fields.Many2one(
+        string=u'Sequencia dos documentos',
+        comodel_name=u'ir.sequence'
     )

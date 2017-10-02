@@ -591,63 +591,72 @@ class L10nBrSefip(models.Model):
             'sefip_id': self.id,
         }
 
-    def prepara_financial_move_darf(self, DARF):
+    def prepara_financial_move_darf(self, empresa_id, dados_empresa):
         '''
          Tratar dados do sefip e criar um dict para criar financial.move de
          guia DARF.
         :param DARF:  float com valor total do recolhimento
         :return: dict com valores para criar financial.move
         '''
-        date = fields.Date.from_string(fields.Date.today())
-        date = date + timedelta(days=31)
-        data_vencimento = fields.Date.from_string(
-            str(date.year) + '-' + str(date.month) + '-' +
-            str(self.company_id.darf_dia_vencimento)
+        data = self.ano + '-' + self.mes + '-' + str(
+            self.company_id.darf_dia_vencimento)
+        data_vencimento = fields.Date.from_string(data
         )
+        data_vencimento = data_vencimento + timedelta(days=31)
+
+        empresa = self.env['res.company'].browse(empresa_id)
+
+        sequence_id = empresa.darf_sequence_id.id
+        doc_number = str(self.env['ir.sequence'].next_by_id(sequence_id))
 
         return {
             'date_document': fields.Date.today(),
             'partner_id': self.env.ref('base.user_root').id,
             'doc_source_id': 'l10n_br.hr.sefip,' + str(self.id),
-            'company_id': self.company_id.id,
-            'amount_document': DARF,
-            'document_number': '1234',
-            'account_id': self.company_id.darf_account_id.id,
-            'document_type_id': self.company_id.darf_document_type.id,
+            'company_id': empresa_id,
+            'amount_document': dados_empresa['DARF'],
+            'document_number': 'DARF-' + str(doc_number),
+            'account_id': empresa.darf_account_id.id,
+            'document_type_id': empresa.darf_document_type.id,
             'type': '2pay',
             'date_maturity': data_vencimento,
-            'payment_mode_id': self.company_id.darf_carteira_cobranca.id,
+            'payment_mode_id': empresa.darf_carteira_cobranca.id,
             'sefip_id': self.id,
         }
 
-    def prepara_financial_move_gps(self, GPS):
+    def prepara_financial_move_gps(self, empresa_id, dados_empresa):
         '''
          Tratar dados do sefip e criar um dict para criar financial.move de
          guia GPS.
         :param GPS:  float com valor total do recolhimento
         :return: dict com valores para criar financial.move
         '''
-        date = fields.Date.from_string(fields.Date.today())
-        date = date + timedelta(days=31)
-        data_vencimento = fields.Date.from_string(
-            str(date.year) + '-' + str(date.month) + '-' +
-            str(self.company_id.darf_dia_vencimento)
-        )
+
+        empresa = self.env['res.company'].browse(empresa_id)
+
+        sequence_id = empresa.darf_sequence_id.id
+        doc_number = str(self.env['ir.sequence'].next_by_id(sequence_id))
+
+        GPS = dados_empresa['INSS_funcionarios'] + \
+              dados_empresa['INSS_empresa'] + \
+              dados_empresa['INSS_outras_entidades'] + \
+              dados_empresa['INSS_rat_fap']
 
         return {
             'date_document': fields.Date.today(),
             'partner_id': self.env.ref('base.user_root').id,
             'doc_source_id': 'l10n_br.hr.sefip,' + str(self.id),
-            'company_id': self.company_id.id,
+            'company_id': empresa_id,
             'amount_document': GPS,
-            'document_number': '1234',
-            'account_id': self.company_id.gps_account_id.id,
-            'document_type_id': self.company_id.gps_document_type.id,
+            'document_number': 'GPS-' + str(doc_number),
+            'account_id': empresa.gps_account_id.id,
+            'document_type_id': empresa.gps_document_type.id,
             'type': '2pay',
-            'date_maturity': data_vencimento,
-            'payment_mode_id': self.company_id.gps_carteira_cobranca.id,
+            'date_maturity': self.data_recolhimento_gps,
+            'payment_mode_id': empresa.gps_carteira_cobranca.id,
             'sefip_id': self.id,
         }
+
     @api.multi
     def gerar_boletos(self):
         '''
@@ -715,13 +724,20 @@ class L10nBrSefip(models.Model):
                 financial_move = self.env['financial.move'].create(vals)
                 created_ids.append(financial_move.id)
 
-            vals_darf = self.prepara_financial_move_darf(DARF)
-            financial_move_darf = self.env['financial.move'].create(vals_darf)
-            created_ids.append(financial_move_darf.id)
-            vals_gps = self.prepara_financial_move_gps(GPS)
-            financial_move_darf = self.env['financial.move'].create(vals_gps)
-            created_ids.append(financial_move_darf.id)
-
+            for company in empresas:
+                dados_empresa = empresas[company]
+                vals_darf = self.prepara_financial_move_darf(
+                    company, dados_empresa)
+                financial_move_darf = self.env['financial.move'].create(
+                    vals_darf
+                )
+                created_ids.append(financial_move_darf.id)
+                vals_gps = self.prepara_financial_move_gps(
+                    company, dados_empresa)
+                financial_move_darf = self.env['financial.move'].create(
+                    vals_gps
+                )
+                created_ids.append(financial_move_darf.id)
 
             return {
                 'domain': "[('id', 'in', %s)]" % created_ids,
