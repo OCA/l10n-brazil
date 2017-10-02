@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<!-- POS order search -->
+<record id="view_l10n_br_pos_search" model="ir.ui.view">
+    <field name="name">l10n_br_pos.order.search</field>
+    <field name="model">pos.order</field>
+    <field name="inherit_id" ref="point_of_sale.view_pos_order_filter" />
+    <field name="arch" type="xml">
+        <field name="name" position="after">
+            <field name="chave_cfe" string="Chave CFE" />
+            <field name="cnpj_cpf" string="CNPJ/CPF"/>
+        </field>
+    </field>
+</record>
+<!-- POS order form -->
+<record model="ir.ui.view" id="view_pos_pos_form">
+    <field name="name">POS Order (remove invoice button)</field>
+    <field name="model">pos.order</field>
+    <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//button[@name='refund']" position="replace">
+        </xpath>
+        <xpath expr="//button[@string='Reprint']" position="replace">
+            <button name="%(act_l10n_br_pos_return)d" string="Devolução" states="done,paid" type="action" groups="base.group_user"/>
+        </xpath>
+        <field name="partner_id" position="after">
+            <field name="cfe_return" />
+            <field name="chave_cfe" />
+            <field name="num_sessao_sat" />
+            <field name="canceled_order" />
+            <field name="pos_order_associated" />
+            <field name="cfe_cancelamento_return" />
+            <field name="chave_cfe_cancelamento" />
+            <field name="num_sessao_sat_cancelamento" />
+        </field>
+        <button name="action_invoice" position="attributes">
+            <attribute name="invisible">1</attribute>
+            <attribute name="states" />
+        </button>
+    </field>
+</record>
+
+<!-- POS order tree -->
+<record model="ir.ui.view" id="view_pos_order_tree">
+    <field name="name">POS Order (hide invoice ID and show simplified fields)</field>
+    <field name="model">pos.order</field>
+    <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+    <field name="arch" type="xml">
+        <field name="invoice_id" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </field>
+        <field name="invoice_id" position="after">
+            <field name="simplified" string="Simplified"/>
+            <field name="fiscal_document_type" string="Type"/>
+        </field>
+    </field>
+</record>
+
+<!-- POS order tree -->
+<record model="ir.ui.view" id="view_pos_order_form">
+    <field name="name">POS Order (Show Invoice type)</field>
+    <field name="model">pos.order</field>
+    <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+    <field name="arch" type="xml">
+        <field name="sale_journal" position="after">
+            <field name="fiscal_document_type"/>
+        </field>
+    </field>
+</record>
+
+<!-- POS order search -->
+<record id="view_pos_order_filter" model="ir.ui.view">
+    <field name="name">POS Order (add filters for simplified field)</field>
+    <field name="model">pos.order</field>
+    <field name="inherit_id" ref="point_of_sale.view_pos_order_filter"/>
+    <field name="priority">20</field>
+    <field name="arch" type="xml">
+        <filter string="Posted" position="after">
+            <separator/>
+            <filter string="Invoices" name="invoices" domain="[('simplified', '=', False)]"/>
+            <filter string="Simplified invoices" name="invoices" domain="[('simplified', '=', True)]"/>
+        </filter>
+    </field>
+</record>
+
+<!-- POS config form -->
+<record id="view_pos_config_form" model="ir.ui.view">
+    <field name="name">POS Order (add simplified invoice limit option)</field>
+    <field name="model">pos.config</field>
+    <field name="inherit_id" ref="pos_pricelist.view_pos_config_form_pos_pricelist"/>
+    <field name="arch" type="xml">
+        <field name="display_price_with_taxes" position="after">
+            <field name="simplified_invoice_limit"/>
+            <field name="simplified_invoice_type"/>
+        </field>
+        <field name="iface_invoicing" position="after">
+            <field name="save_identity_automatic"/>
+        </field>
+        <field name="iface_print_via_proxy" position="after">
+            <field name="iface_sat_via_proxy"/>
+        </field>
+        <group string="Hardware Proxy" position="after" >
+            <group string="Configuraçoes SAT" attrs="{'invisible': [('iface_sat_via_proxy', '=', False)]}">
+                <group>
+                    <field name='sat_ambiente' invisible='1'/>
+                    <field name="cnpj_homologacao" attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"/>
+                    <field name="ie_homologacao" attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"/>
+                    <field name="cnpj_software_house" />
+                    <field name="sat_path" />
+                    <field name="cod_ativacao" />
+                    <field name="numero_caixa" />
+                    <field name="impressora" />
+                    <field name="printer_params" />
+                    <field name="out_pos_fiscal_category_id" />
+                    <field name="refund_pos_fiscal_category_id" />
+                    <field name="assinatura_sat" />
+                </group>
+                <group>
+                    <field name="fiscal_category_id" required="1"/>
+                </group>
+            </group>
+        </group>
+    </field>
+</record>
+
+</data>
+</openerp>
