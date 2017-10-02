@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+
+    <record model="ir.ui.view" id="finan_lancamento_pagamento_one2many_base_tree">
+        <field name="name">finan.lancamento.pagamento.base.one2many.tree</field>
+        <field name="model">finan.lancamento</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <!-- Muda a cor para:
+                    muted (cinza): cancelada ou inutilizada, ou mercadoria não circulou ou não recebida
+                    warning (marrom cocô): denegada
+                    info (azul petróleo): aguardando envio para SEFAZ
+                    primary (lilás/roxinho): aguardando resposta da SEFAZ
+                    danger (vermelho): rejeitada
+                    success (verde):
+            -->
+            <tree string="Pagamentos">
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="tipo" invisible="1" />
+                <field name="nome" invisible="1" />
+                <field name="situacao_divida_simples" invisible="1" />
+                <field name="situacao_divida" invisible="1" />
+                <field name="conta_id" invisible="1"/>
+                <field name="cnpj_cpf" invisible="1" />
+                <field name="cnpj_cpf_raiz" invisible="1" />
+                <field name="empresa_id" invisible="1" />
+                <field name="participante_id" invisible="1" />
+
+                <field name="forma_pagamento_id" />
+                <field name="exige_numero" invisible="1" />
+                <field name="documento_id" string="Documento" attrs="{'required': [('exige_numero', '=', True)]}" />
+                <field name="numero" string="Número" attrs="{'required': [('exige_numero', '=', True)]}" />
+                <field name="data_pagamento" />
+                <field name="banco_id" context="{'banco_sem_titular': True}" />
+                <field name="data_credito_debito" />
+                <field name="vr_documento" string="Valor" sum="vr_documento" />
+                <field name="vr_juros" string="Juros" sum="vr_juros" />
+                <field name="vr_multa" string="Multa" sum="vr_multa" />
+                <field name="vr_desconto" string="Desconto" sum="vr_desconto" />
+                <field name="vr_tarifas" string="Tarifas" sum="vr_tarifas" />
+                <field name="vr_adiantado" string="Adiant." sum="vr_adiantado" />
+                <field name="vr_total" string="Total" sum="vr_total"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="finan_lancamento_pagamento_one2many_base_form">
+        <field name="name">finan.lancamento.pagamento.one2many.base.form</field>
+        <field name="model">finan.lancamento</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="Pagamento">
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="tipo" invisible="1" />
+                <field name="nome" invisible="1" />
+                <field name="situacao_divida_simples" invisible="1" />
+                <field name="situacao_divida" invisible="1" />
+                <field name="conta_id" invisible="1"/>
+                <field name="cnpj_cpf" invisible="1" />
+                <field name="cnpj_cpf_raiz" invisible="1" />
+                <field name="empresa_id" invisible="1" />
+                <field name="participante_id" invisible="1" />
+                <field name="divida_id" invisible="1" />
+                <sheet>
+                    <group>
+                        <group name="dados_basicos" colspan="4">
+                            <group name="documento" string="Pagamento">
+                                <field name="forma_pagamento_id" required="1" options="{'no_create': True, 'no_open': True}" />
+                                <field name="exige_numero" invisible="1" />
+                                <field name="documento_id" string="Documento" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('exige_numero', '=', True)]}" />
+                                <field name="numero" string="Número" attrs="{'required': [('exige_numero', '=', True)]}" />
+                                <field name="data_pagamento" required="1" />
+                                <field name="banco_id" required="1" options="{'no_create': True, 'no_open': True}" domain="[('cnpj_cpf_raiz', '=', cnpj_cpf_raiz)]"
+                                context="{'banco_sem_titular': True}" />
+                                <field name="data_credito_debito" />
+                            </group>
+                            <group name="valores">
+                                <separator name="valores_pagos" string="Valores pagos" />
+                                <group name="valores_pagos" colspan="2" class="oe_center">
+                                    <field name="vr_documento" string="Valor" required="1" />
+                                    <field name="vr_juros" string="(+) Juros" />
+                                    <field name="vr_multa" string="(+) Multa" />
+                                    <field name="vr_adiantado" string="(+) Adiantamento" />
+                                    <field name="vr_desconto" string="(-) Desconto" />
+                                    <field name="vr_tarifas" string="(-) Tarifas" />
+                                    <field name="vr_total" string="(=) Total" class="oe_subtotal_footer_separator" />
+                                </group>
+                            </group>
+                        </group>
+                    </group>
+                    <div>
+                        <field name="historico" placeholder="Histórico do pagamento..."/>
+                    </div>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,18 @@
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_account_payment_term_form" >
+        <field name="name">sped.account.payment.term.form (in sale_finan)</field>
+        <field name="model">account.payment.term</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_account_payment_term_form"/>
+        <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="vende_acima_limite_credito"/>
+                </field>
+        </field>
+    </record>
+
+</odoo>

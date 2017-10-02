@@ -240,29 +240,35 @@
                         <page name="transporte" string="Transporte">
                             <group>
                                 <group colspan="4" col="4">
-                                    <separator string="Frete e transporte" colspan="4" />
-                                    <field name="modalidade_frete" attrs="{'required': '1', 'readonly': [('permite_alteracao', '=', False)]}" colspan="2" />
+                                    <separator string="Frete e transporte" />
+                                    <newline />
+                                    <field name="modalidade_frete" attrs="{'required': '1', 'readonly': [('permite_alteracao', '=', False)]}" />
                                     <newline />
                                     <field name="transportadora_id" colspan="4" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': ['!', ('modalidade_frete', 'in', ['0', '1', '2'])], 'readonly': [('permite_alteracao', '=', False)]}" />
                                     <newline />
-                                    <field name="veiculo_id" colspan="2" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
-                                    <field name="reboque_1_id" colspan="2" attrs="{'invisible': [('veiculo_id', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id])]" />
+                                    <field name="veiculo_id" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <field name="reboque_1_id" attrs="{'invisible': [('veiculo_id', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id])]" />
                                     <newline />
-                                    <field name="reboque_2_id" colspan="2" attrs="{'invisible': [('reboque_1_id', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id])]" />
-                                    <field name="reboque_3_id" colspan="2" attrs="{'invisible': [('reboque_2_id', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id])]" />
+                                    <field name="reboque_2_id" attrs="{'invisible': [('reboque_1_id', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id])]" />
+                                    <field name="reboque_3_id" attrs="{'invisible': [('reboque_2_id', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id])]" />
                                     <newline />
-                                    <field name="reboque_4_id" colspan="2" attrs="{'invisible': [('reboque_3_id', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id, reboque_3_id])]" />
-                                    <field name="reboque_5_id" colspan="2" attrs="{'invisible': [('reboque_4_id', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id, reboque_3_id, reboque_4_id])]" />
+                                    <field name="reboque_4_id" attrs="{'invisible': [('reboque_3_id', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id, reboque_3_id])]" />
+                                    <field name="reboque_5_id" attrs="{'invisible': [('reboque_4_id', '=', False)], 'readonly': [('permite_alteracao', '=', False)]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id, reboque_3_id, reboque_4_id])]" />
                                     <newline />
-                                    <separator string="Volumes" colspan="4" />
+                                    <field name="endereco_retirada_id" colspan="4" domain="[('participante_id', '=', participante_id)]" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': ['!', ('modalidade_frete', 'in', ['0', '1', '2'])], 'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <newline />
+                                    <field name="endereco_entrega_id" colspan="4" domain="[('participante_id', '=', participante_id)]" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': ['!', ('modalidade_frete', 'in', ['0', '1', '2'])], 'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <newline />
+                                    <separator string="Volumes" />
+                                    <newline />
                                     <field name="volume_ids" colspan="4" nolabel="1" attrs="{'readonly': [('permite_alteracao', '=', False)]}">
                                         <tree string="Volumes" editable="bottom">
                                             <field name="quantidade" />
+                                            <field name="peso_bruto" />
+                                            <field name="peso_liquido" />
                                             <field name="especie" />
                                             <field name="marca" />
                                             <field name="numero" />
-                                            <field name="peso_liquido" />
-                                            <field name="peso_bruto" />
                                         </tree>
                                     </field>
                                     <group name="Exportação" colspan="4" col="4" attrs="{'invisible': ['|', ('entrada_saida', '!=', '1'), ('participante_estado', '!=', 'EX')]}">
@@ -317,7 +323,7 @@
                                     <field name="ind_forma_pagamento" required="1" colspan="4" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
                                     <newline />
                                     <field name="condicao_pagamento_id" colspan="4"
-                                           context="{'currency_id': currency_id, 'value': vr_fatura}"
+                                           context="{'valor': vr_fatura}"
                                            domain="[('forma_pagamento', '!=', False)]"
                                            attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
                                     <separator name="vencimentos" string="Vencimentos" colspan="4" />

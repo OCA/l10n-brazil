@@ -14,9 +14,11 @@
         'l10n_br_base',
         'sped_imposto',
         'sped',
+        'sped_nfe',
         'sales_team',
         'sale',
         'sale_stock',
+        'sped_stock',
         'sale_order_dates',
     ],
     'data': [
@@ -41,6 +43,11 @@
 
         'views/inherited_sale_menu_partner_view.xml',
         'views/inherited_sale_menu_product_view.xml',
+
+        'views/inherited_sped_operacao_base_view.xml',
+        'views/inherited_sped_documento_base_view.xml',
+        'views/inherited_stock_picking_view.xml',
     ],
     'installable': True,
+    'auto_install': True,
 }

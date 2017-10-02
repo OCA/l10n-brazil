@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 Taŭga Tecnologia - Aristides Caldeira <ari.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="stock_inventory_form">
+        <field name="name">stock.inventory.form (in sped_stock)</field>
+        <field name="model">stock.inventory</field>
+        <field name="priority">99999</field>
+        <field name="inherit_id" ref="stock.view_inventory_form"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="replace">
+                <field name="empresa_id" required="1" options="{'no_create': True, 'no_open': True}" />
+                <field name="company_id" invisible="1" />
+            </field>
+            <field name="product_id" position="replace">
+                <field name="produto_id" domain="[('type','=','product')]" attrs="{'invisible': [('filter', 'not in', ('product', 'product_owner'))], 'required': [('filter', 'in', ('product', 'product_owner'))]}"/>
+                <field name="product_id" invisible="1" />
+            </field>
+            <field name="partner_id" position="replace">
+                <field name="participante_id" attrs="{'invisible': [('filter', 'not in', ('owner', 'product_owner'))], 'required': [('filter', 'in', ('owner', 'product_owner'))]}" groups="stock.group_tracking_owner"/>
+                <field name="partner_id" invisible="1" />
+            </field>
+
+
+
+        </field>
+    </record>
+
+</odoo>

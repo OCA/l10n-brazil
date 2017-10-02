@@ -1097,7 +1097,10 @@ class SpedCalculoImpostoItem(SpedBase):
             self.unidade_tributacao_id = self.produto_id.unidade_id.id
             self.fator_conversao_unidade_tributacao = 1
 
-        if self.operacao_id.preco_automatico == 'V':
+        if 'forca_vr_unitario' in self.env.context:
+            self.vr_unitario = self.env.context['forca_vr_unitario']
+
+        elif self.operacao_id.preco_automatico == 'V':
             self.vr_unitario = self.produto_id.preco_venda
 
         elif self.operacao_id.preco_automatico == 'C':

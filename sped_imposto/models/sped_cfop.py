@@ -100,67 +100,83 @@ class SpedCFOP(models.Model):
     )
     eh_compra = fields.Boolean(
         string='É compra?',
-        compute='_compute_eh_compra_venda'
+        compute='_compute_eh_compra_venda',
+        store=True,
     )
     eh_compra_industrializacao = fields.Boolean(
         string='É compra para industrialização?',
         compute='_compute_eh_compra_venda',
+        store=True,
     )
     eh_compra_comercializacao = fields.Boolean(
         string='É compra para comercialização?',
-        compute='_compute_eh_compra_venda'
+        compute='_compute_eh_compra_venda',
+        store=True,
     )
     eh_compra_ativo = fields.Boolean(
         string='É compra de ativo?',
-        compute='_compute_eh_compra_venda'
+        compute='_compute_eh_compra_venda',
+        store=True,
     )
     eh_compra_uso_consumo = fields.Boolean(
         string='É compra para uso e consumo?',
-        compute='_compute_eh_compra_venda'
+        compute='_compute_eh_compra_venda',
+        store=True,
     )
     eh_compra_servico = fields.Boolean(
         string='É compra de serviço?',
-        compute='_compute_eh_compra_venda'
+        compute='_compute_eh_compra_venda',
+        store=True,
     )
     custo_venda = fields.Boolean(
         string='Compõe custo para venda?',
         compute='_compute_eh_compra_venda',
+        store=True,
     )
     eh_venda = fields.Boolean(
         string='É venda?',
-        compute='_compute_eh_compra_venda'
+        compute='_compute_eh_compra_venda',
+        store=True,
     )
     eh_venda_mercadoria = fields.Boolean(
         string='É venda de mercadoria?',
-        compute='_compute_eh_compra_venda'
+        compute='_compute_eh_compra_venda',
+        store=True,
     )
     eh_venda_ativo = fields.Boolean(
         string='É venda de ativo?',
-        compute='_compute_eh_compra_venda'
+        compute='_compute_eh_compra_venda',
+        store=True,
     )
     eh_venda_servico = fields.Boolean(
         string='É venda de serviço?',
-        compute='_compute_eh_compra_venda'
+        compute='_compute_eh_compra_venda',
+        store=True,
     )
     eh_devolucao_compra = fields.Boolean(
         string='É devolução de compra?',
-        compute='_compute_eh_compra_venda'
+        compute='_compute_eh_compra_venda',
+        store=True,
     )
     eh_devolucao_venda = fields.Boolean(
         string='É devolução de venda?',
-        compute='_compute_eh_compra_venda'
+        compute='_compute_eh_compra_venda',
+        store=True,
     )
     eh_retorno_entrada = fields.Boolean(
         string='É retorno entrada?',
-        compute='_compute_eh_compra_venda'
+        compute='_compute_eh_compra_venda',
+        store=True,
     )
     eh_retorno_saida = fields.Boolean(
         string='É retorno saída?',
-        compute='_compute_eh_compra_venda'
+        compute='_compute_eh_compra_venda',
+        store=True,
     )
     calcula_simples_csll_irpj = fields.Boolean(
         string='Calcula SIMPLES, CSLL e IRPJ?',
-        compute='_compute_eh_compra_venda'
+        compute='_compute_eh_compra_venda',
+        store=True,
     )
 
     @api.multi

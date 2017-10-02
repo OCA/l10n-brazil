@@ -153,22 +153,48 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
         copy=False,
     )
 
+    quantidade_entregue = fields.Monetary(
+        string='Entregue',
+        copy=False,
+        currency_field='currency_unidade_id',
+        compute='_compute_quantidade_entregue_faturada',
+        store=True,
+        readonly=True,
+    )
+    quantidade_faturada = fields.Monetary(
+        string='Faturada',
+        currency_field='currency_unidade_id',
+        compute='_compute_quantidade_entregue_faturada',
+        store=True,
+        readonly=True,
+    )
+    quantidade_a_faturar = fields.Monetary(
+        string='A faturar',
+        currency_field='currency_unidade_id',
+        compute='_compute_quantidade_entregue_faturada',
+        store=True,
+        readonly=True,
+    )
+
     qty_delivered = fields.Monetary(
         string='Entregue',
         copy=False,
         currency_field='currency_unidade_id',
+        compute='_compute_quantidade_entregue_faturada',
+        store=True,
+        readonly=True,
     )
     qty_to_invoice = fields.Monetary(
         string='A faturar',
         currency_field='currency_unidade_id',
-        compute='_get_to_invoice_qty',
+        compute='_compute_quantidade_entregue_faturada',
         store=True,
         readonly=True,
     )
     qty_invoiced = fields.Monetary(
         string='Faturada',
         currency_field='currency_unidade_id',
-        compute='_get_invoice_qty',
+        compute='_compute_quantidade_entregue_faturada',
         store=True,
         readonly=True,
     )
@@ -191,24 +217,26 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
         compute=_get_customer_lead
     )
 
-    @api.depends('invoice_lines.invoice_id.state', 'invoice_lines.quantity',
-                 'documento_item_ids.quantidade')
-    def _get_invoice_qty(self):
+    @api.depends('documento_item_ids.quantidade',
+                 'documento_item_ids.documento_id.situacao_nfe',
+                 'documento_item_ids.documento_id.situacao_fiscal')
+    def _compute_quantidade_entregue_faturada(self):
         for item in self:
-            if not item.order_id.is_brazilian:
-                super(SaleOrderLine, self)._get_invoice_qty()
-                continue
-
-            documento_item_ids = item.documento_item_ids.search(
+            documento_item_ids = self.env['sped.documento.item'].search(
                 [('sale_order_line_id', '=', item.id),
                  ('documento_id.situacao_fiscal', 'in',
                   SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
 
-            qty_invoiced = 0.0
+            quantidade_faturada = D(0)
             for documento_item in documento_item_ids:
-                qty_invoiced += documento_item.quantidade
+                quantidade_faturada += D(documento_item.quantidade)
 
-            item.qty_invoiced = qty_invoiced
+            item.quantidade_entregue = quantidade_faturada
+            item.quantidade_faturada = quantidade_faturada
+            item.quantidade_a_faturar = item.quantidade - quantidade_faturada
+            item.qty_delivered = item.quantidade_entregue
+            item.qty_invoiced = item.quantidade_faturada
+            item.qty_to_invoice = item.quantidade_a_faturar
 
     @api.onchange('produto_id')
     def _onchange_produto_id(self):
@@ -322,10 +350,9 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
 
     @api.model
     def create(self, dados):
-        dados = self._mantem_sincronia_cadastros(dados)
+        #dados = self._mantem_sincronia_cadastros(dados)
         return super(SaleOrderLine, self).create(dados)
 
     def write(self, dados):
-        dados = self._mantem_sincronia_cadastros(dados)
+        #dados = self._mantem_sincronia_cadastros(dados)
         return super(SaleOrderLine, self).write(dados)
-

@@ -26,7 +26,7 @@
 <!--                 <separator string="Contato" /> -->
                 <group>
                     <group col="4" colspan="4">
-                        <field name="documento_id" required="1" domain="[('emissao', '=', '0'), ('modelo', 'in', ('55', '65', '57')), ('state_nfe', '=', 'autorizada'), ('situacao_fiscal', 'not in', ('02', '03', '04', '05', 'NC', 'MR'))]}" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                        <field name="documento_id" required="1" domain="[('emissao', '=', '0'), ('modelo', 'in', ('55', '65', '57')), ('situacao_nfe', '=', 'autorizada'), ('situacao_fiscal', 'not in', ('02', '03', '04', '05', 'NC', 'MR'))]}" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
                         <newline />
                         <field name="sequencia" required="1" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
                         <newline />

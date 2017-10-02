@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="finan_documento_form" >
+        <field name="name">finan.documento.form</field>
+        <field name="model">finan.documento</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Tipo de documento">
+                <sheet>
+                    <group>
+                        <group name="geral" colspan="4" col="2">
+                            <field name="nome" required="1" colspan="2" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="finan_documento_tree">
+        <field name="name">finan.documento.tree</field>
+        <field name="model">finan.documento</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Tipo de documento">
+                <field name="nome" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="finan_documento_search">
+        <field name="name">finan.documento.search</field>
+        <field name="model">finan.documento</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Tipo de documento">
+                <field name="nome" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="finan_documento_action">
+        <field name="name">Tipo de documento</field>
+        <field name="res_model">finan.documento</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="finan_documento_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="finan_documento_tree"/>
+        <field name="act_window_id" ref="finan_documento_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="finan_documento_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="finan_documento_form"/>
+        <field name="act_window_id" ref="finan_documento_action"/>
+    </record>
+
+    <record model="ir.ui.menu" id="menu_finan_documento">
+        <field name="name">Tipo de documento</field>
+        <field name="parent_id" ref="menu_finan_configuracao"/>
+        <field name="action" ref="finan_documento_action"/>
+        <field name="sequence" eval="2"/>
+    </record>
+
+</odoo>

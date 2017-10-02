@@ -17,11 +17,11 @@
             <xpath expr="//button[2]" position="attributes">
                 <attribute name="attrs">{'invisible': True}</attribute>
             </xpath>
-            <xpath expr="//button[2]" position="after">
+<!--            <xpath expr="//button[2]" position="after">
                 <button type="object" name="gera_documento"
-                        string="Gerar NFes" class="btn-primary"
+                        string="Gerar NFe" class="btn-primary"
                         attrs="{'invisible': [('invoice_status', '!=', 'to invoice')]}" />
-            </xpath>
+            </xpath>-->
             <xpath expr="//button[@name='action_view_invoice']" position="attributes">
                 <attribute name="attrs">{'invisible': True}</attribute>
             </xpath>
@@ -38,6 +38,7 @@
             <xpath expr="//sheet/group" position="replace">
                 <group>
                     <field name="id" invisible="1"/>
+                    <field name="id" invisible="1"/>
                     <field name="currency_id" invisible="1"/>
                     <field name="currency_aliquota_id" invisible="1"/>
                     <field name="regime_tributario" invisible="1"/>
@@ -49,19 +50,19 @@
                                colspan="4"
                                domain="[('eh_cliente', '=', True)]"
                                options='{"always_reload": True}'
-                               required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                               required="1" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" />
                         <newline />
-                        <field name="partner_invoice_id" groups="sale.group_delivery_invoice_address" context="{'default_type':'invoice'}" attrs="{'readonly': [('state', '!=', 'draft')]}" />
-                        <field name="partner_shipping_id" groups="sale.group_delivery_invoice_address" context="{'default_type':'delivery'}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="partner_invoice_id" groups="sale.group_delivery_invoice_address" context="{'default_type':'invoice'}" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" />
+                        <field name="partner_shipping_id" groups="sale.group_delivery_invoice_address" context="{'default_type':'delivery'}" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}"/>
                         <newline />
-                        <field name="date_order" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                        <field name="presenca_comprador" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                        <field name="date_order" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}"/>
+                        <field name="presenca_comprador" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" />
                         <newline />
                         <field name="pricelist_id" groups="product.group_sale_pricelist"/>
                         <field name="payment_term_id" invisible="1" />
                         <newline />
                         <field name="condicao_pagamento_id" required="1" options="{'no_create': True}"
-                            context="{'currency_id': currency_id, 'value': vr_fatura}" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                            context="{'currency_id': currency_id, 'value': vr_fatura}" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" />
                         <newline />
                     </group>
                 </group>
@@ -77,18 +78,37 @@
                                'tree_view_ref': 'sped_sale.sale_order_line_produto_tree',
                                'form_view_ref': 'sped_sale.sale_order_line_produto_form'}"
                     />
-                    <group name="produtos" col="2" class="oe_right"
+                    <group colspan="4" col="4">
+                    <group name="estoque" col="2" attrs="{'invisible': [('operacao_produto_id', '=', False)]}">
+                        <group name="total_peso" colspan="4" col="4">
+                            <field name="peso_bruto" />
+                            <newline />
+                            <field name="peso_liquido" />
+                            <newline />
+                        </group>
+                    </group>
+                    <group name="produtos" colspan="2" class="oe_right"
                            style="padding-right:1cm;"
                            attrs="{'invisible': [('operacao_produto_id', '=', False)]}">
-                        <group class="oe_subtotal_footer oe_right"
-                               name="sale_total">
+                        <group class="oe_subtotal_footer oe_right" name="total_produtos">
                             <field name="produtos_vr_produtos" />
-                            <field name="produtos_vr_frete" attrs="{'readonly': [('state', '!=', 'draft')]}" />
-                            <field name="produtos_vr_seguro" attrs="{'readonly': [('state', '!=', 'draft')]}" invisible="1" />
-                            <field name="produtos_vr_outras" attrs="{'readonly': [('state', '!=', 'draft')]}" invisible="1" />
-                            <field name="produtos_vr_desconto" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                            <newline />
+                            <button name="button_dummy" attrs="{'invisible': [('id', '!=', False)]}" string="Adicionar frete" type="object" colspan="2" class="oe_edit_only oe_link" />
+                            <newline />
+                            <field name="produtos_vr_frete" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])], 'invisible': [('id', '=', False)]}" />
+                            <newline />
+                            <field name="produtos_vr_seguro" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" invisible="1" />
+                            <newline />
+                            <field name="produtos_vr_outras" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" invisible="1" />
+                            <newline />
+                            <newline />
+                            <button name="button_dummy" attrs="{'invisible': [('id', '!=', False)]}" string="Adicionar desconto" type="object" colspan="2" class="oe_edit_only oe_link" />
+                            <field name="produtos_vr_desconto" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])], 'invisible': [('id', '=', False)]}" />
+                            <newline />
                             <field name="produtos_vr_icms_st" />
+                            <newline />
                             <field name="produtos_vr_ipi" attrs="{'invisible': [('regime_tributario', '=', '1')]}" />
+                            <newline />
 
                             <div class="oe_subtotal_footer_separator oe_inline o_td_label">
                                 <label string="Valor total"/>
@@ -96,10 +116,10 @@
                                         string="(atualizar)" type="object"
                                         class="oe_edit_only oe_link"/>
                             </div>
-
                             <field name="produtos_vr_nf" nolabel="1"
                                    class="oe_subtotal_footer_separator" />
                         </group>
+                    </group>
                     </group>
                 </page>
                 <page string="Servicos" name="servicos"
@@ -116,7 +136,7 @@
                            style="padding-right:1cm;"
                            attrs="{'invisible': [('operacao_servico_id', '=', False)]}">
                         <group class="oe_subtotal_footer oe_right"
-                               name="sale_total">
+                               name="total_servicos">
                             <field name="servicos_vr_produtos" />
                             <field name="servicos_vr_iss" />
                             <field name="servicos_vr_inss_retido"/>
@@ -131,27 +151,71 @@
                         </group>
                     </group>
                 </page>
+                <page name="transporte" string="Transporte">
+                    <group>
+                        <group colspan="4" col="4">
+                            <separator string="Frete e transporte" colspan="4" />
+                            <field name="modalidade_frete" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" colspan="2" />
+                            <newline />
+                            <field name="transportadora_id" colspan="4" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" />
+                            <newline />
+                            <separator string="Obs. para o estoque" colspan="4" />
+                            <newline />
+                            <field name="obs_estoque" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" colspan="4" />
+<!--                             <field name="veiculo_id" colspan="2" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" /> -->
+<!--                            <field name="reboque_1_id" colspan="2" attrs="{'invisible': [('veiculo_id', '=', False)], 'readonly': [('state', 'not in', ['draft', 'sent'])]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id])]" />
+                            <newline />
+                            <field name="reboque_2_id" colspan="2" attrs="{'invisible': [('reboque_1_id', '=', False)], 'readonly': [('state', 'not in', ['draft', 'sent'])]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id])]" />
+                            <field name="reboque_3_id" colspan="2" attrs="{'invisible': [('reboque_2_id', '=', False)], 'readonly': [('state', 'not in', ['draft', 'sent'])]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id])]" />
+                            <newline />
+                            <field name="reboque_4_id" colspan="2" attrs="{'invisible': [('reboque_3_id', '=', False)], 'readonly': [('state', 'not in', ['draft', 'sent'])]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id, reboque_3_id])]" />
+                            <field name="reboque_5_id" colspan="2" attrs="{'invisible': [('reboque_4_id', '=', False)], 'readonly': [('state', 'not in', ['draft', 'sent'])]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id, reboque_3_id, reboque_4_id])]" />-->
+<!--                             <newline /> -->
+<!--                                    <field name="endereco_retirada_id" colspan="4" domain="[('participante_id', '=', participante_id)]" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': ['!', ('modalidade_frete', 'in', ['0', '1', '2'])], 'readonly': [('state', 'not in', ['draft', 'sent'])]}" />
+                            <newline />-->
+<!--                            <field name="endereco_entrega_id" colspan="4" domain="[('participante_id', '=', participante_id)]" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': ['!', ('modalidade_frete', 'in', ['0', '1', '2'])], 'readonly': [('state', 'not in', ['draft', 'sent'])]}" />
+                            <newline />-->
+<!--                            <separator string="Volumes" colspan="4" />
+                            <field name="volume_ids" colspan="4" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}">
+                                <tree string="Volumes" editable="bottom">
+                                    <field name="quantidade" />
+                                    <field name="peso_bruto" />
+                                    <field name="especie" />
+                                    <field name="marca" />
+                                    <field name="numero" />
+                                    <field name="peso_liquido" />
+                                </tree>
+                            </field>-->
+<!--                            <group name="Exportação" colspan="4" col="4" attrs="{'invisible': ['|', ('entrada_saida', '!=', '1'), ('participante_estado', '!=', 'EX')]}">
+                                <separator string="Exportação" colspan="4" />
+                                <field name="exportacao_estado_embarque_id" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" />
+                                <newline />
+                                <field name="exportacao_local_embarque" colspan="4" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" />
+                            </group>-->
+                        </group>
+                    </group>
+                </page>
             </xpath>
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="commitment_date" string="Validade do Orçamento" />
             </xpath>
             <xpath expr="//group[@name='sale_pay']" position="attributes">
                 <attribute name="groups">sales_team.group_sale_manager</attribute>
-                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                <attribute name="attrs">{'readonly': [('state', 'not in', ['draft', 'sent'])]}</attribute>
             </xpath>
             <xpath expr="//group[@name='sales_person']" position="attributes">
                 <attribute name="name">Venda e comissão</attribute>
                 <attribute name="groups">sales_team.group_sale_manager</attribute>
-                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                <attribute name="attrs">{'readonly': [('state', 'not in', ['draft', 'sent'])]}</attribute>
             </xpath>
             <xpath expr="//group[@name='technical']" position="attributes">
                 <attribute name="groups">sales_team.group_sale_manager</attribute>
-                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                <attribute name="attrs">{'readonly': [('state', 'not in', ['draft', 'sent'])]}</attribute>
             </xpath>
 
             <xpath expr="//group/field[@name='company_id']" position="replace">
                 <field name="company_id" invisible="1" />
-                <field name="empresa_id" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                <field name="empresa_id" required="1" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" />
             </xpath>
 
             <field name="fiscal_position_id" position="attributes">
@@ -161,10 +225,10 @@
             <field name="fiscal_position_id" position="after">
                 <field name="operacao_produto_id"
                        domain="[('emissao', '=', '0')]"
-                       attrs="{'required': [('operacao_servico_id', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                       attrs="{'required': [('operacao_servico_id', '=', False)], 'readonly': [('state', 'not in', ['draft', 'sent'])]}"/>
                 <field name="operacao_servico_id"
                        domain="[('emissao', '=', '0')]"
-                       attrs="{'required': [('operacao_produto_id', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                       attrs="{'required': [('operacao_produto_id', '=', False)], 'readonly': [('state', 'not in', ['draft', 'sent'])]}"/>
             </field>
 
         </field>
@@ -178,14 +242,14 @@
             <xpath expr="//group[@name='sale_shipping']" position="before">
                 <group name="obs" colspan="4" col="4">
                     <separator string="Informações complementares" colspan="4" />
-                    <field name="note" colspan="4" nolabel="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                    <field name="note" colspan="4" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" />
                 </group>
                 <newline />
             </xpath>
             <xpath expr="//group[@name='sale_shipping']" position="attributes">
 <!--                 <attribute name="groups">sales_team.group_sale_manager</attribute> -->
                 <attribute name="groups">l10n_br_base.GRUPO_SUPORTE</attribute>
-                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                <attribute name="attrs">{'readonly': [('state', 'not in', ['draft', 'sent'])]}</attribute>
             </xpath>
         </field>
     </record>

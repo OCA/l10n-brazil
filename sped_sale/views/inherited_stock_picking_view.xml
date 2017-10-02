@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="stock_picking_form">
+        <field name="name">stock.picking.form (in sped_stock)</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="sped_stock.stock_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_see_move_scrap']" position="after">
+                <button name="action_view_sale"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-pencil-square-o"
+                    attrs="{'invisible': [('sale_order_id', '=', False)]}"
+                    string="Venda" >
+                </button>
+                <field name="sale_order_id" invisible="1" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

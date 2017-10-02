@@ -11,7 +11,7 @@
         <field name="inherit_id" ref="stock.view_move_tree"/>
         <field name="arch" type="xml">
             <field name="product_id" position="replace">
-                <field name="produto_id"/>
+                <field name="produto_id" required="1" string="Produto" />
                 <field name="product_id" invisible="1"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
@@ -24,6 +24,8 @@
             <field name="product_uom_qty" position="replace">
                 <field name="product_uom_qty" invisible="1" />
                 <field name="quantidade" required="1" />
+                <field name="quantidade_especie" />
+                <field name="descricao_especie" />
             </field>
         </field>
     </record>
@@ -35,7 +37,7 @@
         <field name="inherit_id" ref="stock.view_move_form"/>
         <field name="arch" type="xml">
             <field name="product_id" position="replace">
-                <field name="produto_id" required="1" />
+                <field name="produto_id" required="1" string="Produto" />
                 <field name="product_id" invisible="1"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
@@ -52,6 +54,8 @@
             <field name="product_uom_qty" position="replace">
                 <field name="product_uom_qty" invisible="1" />
                 <field name="quantidade" required="1" />
+                <field name="quantidade_especie" />
+                <field name="descricao_especie" />
             </field>
         </field>
     </record>
@@ -63,7 +67,7 @@
         <field name="inherit_id" ref="stock.view_move_pivot"/>
         <field name="arch" type="xml">
             <field name="product_id" position="replace">
-                <field name="produto_id"/>
+                <field name="produto_id" string="Produto" />
                 <field name="product_id" invisible="1"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
@@ -83,7 +87,7 @@
         <field name="inherit_id" ref="stock.view_move_graph"/>
         <field name="arch" type="xml">
             <field name="product_id" position="replace">
-                <field name="produto_id"/>
+                <field name="produto_id" string="Produto" />
                 <field name="product_id" invisible="1"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
@@ -103,7 +107,7 @@
         <field name="inherit_id" ref="stock.view_move_picking_tree"/>
         <field name="arch" type="xml">
             <field name="product_id" position="replace">
-                <field name="produto_id" required="1" />
+                <field name="produto_id" required="1" string="Produto" />
                 <field name="product_id" invisible="1"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
@@ -116,6 +120,8 @@
             <field name="product_uom_qty" position="replace">
                 <field name="product_uom_qty" invisible="1" />
                 <field name="quantidade" required="1" />
+                <field name="quantidade_especie" />
+                <field name="descricao_especie" />
             </field>
         </field>
     </record>
@@ -127,7 +133,7 @@
         <field name="inherit_id" ref="stock.view_move_picking_form"/>
         <field name="arch" type="xml">
             <field name="product_id" position="replace">
-                <field name="produto_id" required="1" />
+                <field name="produto_id" required="1" string="Produto" />
                 <field name="product_id" invisible="1"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
@@ -140,6 +146,8 @@
             <field name="product_uom_qty" position="replace">
                 <field name="product_uom_qty" invisible="1" />
                 <field name="quantidade" required="1" />
+                <field name="quantidade_especie" />
+                <field name="descricao_especie" />
             </field>
         </field>
     </record>
@@ -151,7 +159,7 @@
         <field name="inherit_id" ref="stock.view_move_tree_receipt_picking"/>
         <field name="arch" type="xml">
             <field name="product_id" position="replace">
-                <field name="produto_id" required="1" />
+                <field name="produto_id" required="1" string="Produto" />
                 <field name="product_id" invisible="1"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
@@ -164,6 +172,8 @@
             <field name="product_uom_qty" position="replace">
                 <field name="product_uom_qty" invisible="1" />
                 <field name="quantidade" required="1" />
+                <field name="quantidade_especie" />
+                <field name="descricao_especie" />
             </field>
         </field>
     </record>
@@ -175,7 +185,7 @@
         <field name="inherit_id" ref="stock.view_move_tree_receipt_picking_board"/>
         <field name="arch" type="xml">
             <field name="product_id" position="replace">
-                <field name="produto_id" required="1" />
+                <field name="produto_id" required="1" string="Produto" />
                 <field name="product_id" invisible="1"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
@@ -188,10 +198,10 @@
             <field name="product_uom_qty" position="replace">
                 <field name="product_uom_qty" invisible="1" />
                 <field name="quantidade" required="1" />
+                <field name="quantidade_especie" />
+                <field name="descricao_especie" />
             </field>
         </field>
     </record>
-
-
 
 </odoo>

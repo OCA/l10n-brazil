@@ -10,6 +10,7 @@ from __future__ import division, print_function, unicode_literals
 import logging
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
+from .sped_base import SpedBase
 from ..constante_tributaria import (
     INDICADOR_IE_DESTINATARIO,
     INDICADOR_IE_DESTINATARIO_ISENTO,
@@ -40,7 +41,7 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedParticipante(models.Model):
+class SpedParticipante(SpedBase, models.Model):
     _name = b'sped.participante'
     _description = 'Participantes'
     _inherits = {'res.partner': 'partner_id'}
@@ -117,6 +118,13 @@ class SpedParticipante(models.Model):
         help=u"""Para participantes estrangeiros, usar EX9999,
         onde 9999 é um número a sua escolha"""
     )
+    cnpj_cpf_raiz = fields.Char(
+        string='Raiz do CNPJ/CPF',
+        size=14,
+        compute='_compute_tipo_pessoa',
+        store=True,
+        index=True,
+    )
     tipo_pessoa = fields.Char(
         string='Tipo pessoa',
         size=1,
@@ -170,6 +178,15 @@ class SpedParticipante(models.Model):
     cep = fields.Char(
         string='CEP',
         size=9
+    )
+    endereco_completo = fields.Char(
+        string='Endereço',
+        compute='_compute_endereco_completo',
+    )
+    endereco_ids = fields.One2many(
+        comodel_name='sped.endereco',
+        inverse_name='participante_id',
+        string='Endereços',
     )
     #
     # Telefone e email para a emissão da NF-e
@@ -321,26 +338,31 @@ class SpedParticipante(models.Model):
     @api.depends('cnpj_cpf')
     def _compute_tipo_pessoa(self):
         for participante in self:
-            participante.tipo_pessoa = 'I'
+            if not participante.cnpj_cpf:
+                participante.tipo_pessoa = 'I'
+                participante.cnpj_cpf_raiz = ''
+                continue
 
-            if participante.cnpj_cpf:
-                if participante.cnpj_cpf[:2] == 'EX':
-                    participante.tipo_pessoa = 'E'
-                    participante.contribuinte = (
-                        INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
-                    )
+            if participante.cnpj_cpf[:2] == 'EX':
+                participante.tipo_pessoa = 'E'
+                participante.contribuinte = (
+                    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
+                )
+                participante.cnpj_cpf_raiz = participante.cnpj_cpf
 
-                elif len(participante.cnpj_cpf) == 18:
-                    participante.tipo_pessoa = 'J'
-                    participante.contribuinte = (
-                        INDICADOR_IE_DESTINATARIO_ISENTO
-                    )
+            elif len(participante.cnpj_cpf) == 18:
+                participante.tipo_pessoa = 'J'
+                participante.contribuinte = (
+                    INDICADOR_IE_DESTINATARIO_ISENTO
+                )
+                participante.cnpj_cpf_raiz = participante.cnpj_cpf[:10]
 
-                else:
-                    participante.tipo_pessoa = 'F'
-                    participante.contribuinte = (
-                        INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
-                    )
+            else:
+                participante.tipo_pessoa = 'F'
+                participante.contribuinte = (
+                    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
+                )
+                participante.cnpj_cpf_raiz = participante.cnpj_cpf
 
     @api.depends('eh_consumidor_final', 'endereco', 'numero', 'complemento',
                  'bairro', 'municipio_id', 'cep', 'eh_cliente',
@@ -349,17 +371,44 @@ class SpedParticipante(models.Model):
         for participante in self:
             if not participante.eh_consumidor_final or \
                     participante.eh_fornecedor:
-                self.exige_cnpj_cpf = True
-                self.exige_endereco = True
+                participante.exige_cnpj_cpf = True
+                participante.exige_endereco = True
                 continue
 
-            self.exige_cnpj_cpf = False
+            participante.exige_cnpj_cpf = False
 
-            if (self.endereco or self.numero or self.complemento or
-                    self.bairro or self.cep):
-                self.exige_endereco = True
+            if (participante.endereco or participante.numero or
+                participante.complemento or
+                participante.bairro or participante.cep):
+                participante.exige_endereco = True
             else:
-                self.exige_endereco = False
+                participante.exige_endereco = False
+
+    @api.depends('endereco', 'numero', 'complemento', 'bairro',
+                 'municipio_id', 'cep')
+    def _compute_endereco_completo(self):
+        for participante in self:
+            if not participante.endereco:
+                participante.endereco_completo = ''
+                continue
+
+            endereco = participante.endereco
+            endereco += ', '
+            endereco += participante.numero
+
+            if participante.complemento:
+                endereco += ' - '
+                endereco += participante.complemento
+
+            endereco += ' - '
+            endereco += participante.bairro
+            endereco += ' - '
+            endereco += participante.cidade
+            endereco += '-'
+            endereco += participante.estado
+            endereco += ' - '
+            endereco += participante.cep
+            participante.endereco_completo = endereco
 
     @api.multi
     def name_get(self):

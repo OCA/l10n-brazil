@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Luiz Felipe do Divino <luiz.divino@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+
+    <record model="ir.ui.view" id="finan_relatorio_wizard_divida_form">
+        <field name="name">finan.relatorio.wizard.divida.form</field>
+        <field name="model">finan.relatorio.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="tipo_divida" invisible="1" />
+                <group col="4">
+                    <field name="empresa_id" required="1" options="{'no_create': True, 'no_open': True}" />
+                    <newline />
+                    <field name="situacao_divida_simples" required="1" />
+                    <field name="group_by" required="1" />
+                    <newline />
+                    <separator string="Período" />
+                    <newline />
+                    <field name="data_inicial" required="1" />
+                    <field name="data_final" required="1" />
+                    <newline />
+                    <field name="participante_ids" widget="many2many_tags" options="{'no_create': True, 'no_open': True}" />
+                </group>
+                <footer>
+                    <button name="gera_relatorio_divida" string="Gerar relatório" type="object"/>
+                    <button string="Fechar" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="finan_relatorio_wizard_divida_a_receber_action">
+        <field name="name">Contas a receber</field>
+        <field name="res_model">finan.relatorio.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_tipo_divida': 'a_receber'}</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="finan_relatorio_wizard_divida_a_receber_form_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="finan_relatorio_wizard_divida_form"/>
+        <field name="act_window_id" ref="finan_relatorio_wizard_divida_a_receber_action"/>
+    </record>
+
+    <record model="ir.ui.menu" id="menu_finan_relatorio_wizard_divida_a_receber">
+        <field name="name">Contas a receber</field>
+        <field name="parent_id" ref="finan.menu_finan_relatorio"/>
+        <field name="action" ref="finan_relatorio_wizard_divida_a_receber_action"/>
+        <field name="sequence" eval="2"/>
+    </record>
+
+    <record model="ir.actions.act_window" id="finan_relatorio_wizard_divida_a_pagar_action">
+        <field name="name">Contas a pagar</field>
+        <field name="res_model">finan.relatorio.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_tipo_divida': 'a_pagar'}</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="finan_relatorio_wizard_divida_a_pagar_form_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="finan_relatorio_wizard_divida_form"/>
+        <field name="act_window_id" ref="finan_relatorio_wizard_divida_a_pagar_action"/>
+    </record>
+
+    <record model="ir.ui.menu" id="menu_finan_relatorio_wizard_divida_a_pagar">
+        <field name="name">Contas a pagar</field>
+        <field name="parent_id" ref="finan.menu_finan_relatorio"/>
+        <field name="action" ref="finan_relatorio_wizard_divida_a_pagar_action"/>
+        <field name="sequence" eval="3"/>
+    </record>
+
+</openerp>

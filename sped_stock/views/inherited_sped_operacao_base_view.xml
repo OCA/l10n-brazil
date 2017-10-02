@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2017 KMEE
-     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
+<!--
+    Copyright 2017 Taŭga Tecnologia - Aristides Caldeira <ari.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
 <odoo>
 
     <record model="ir.ui.view" id="sped_operacao_base_form" >
@@ -10,9 +11,10 @@
         <field name="priority">99999</field>
         <field name="inherit_id" ref="sped_imposto.sped_operacao_base_form"/>
         <field name="arch" type="xml">
-            <field name="natureza_operacao_id" position="after">
+            <field name="preco_automatico" position="after">
                 <newline />
-                <field name="stock_picking_type_id" colspan="4" attrs="{'invisible': ['!', ('modelo', 'in', ['55', '65', '59', '2D'])]}" />
+                <field name="enviar_pelo_estoque" attrs="{'invisible': ['!', ('modelo', 'in', ['55', '65', '59'])]}" />
+                <field name="stock_picking_type_id" attrs="{'invisible': ['!', ('modelo', 'in', ['55', '65', '59', '2D'])]}" options="{'no_create': True, 'no_open': True}" />
                 <newline />
             </field>
         </field>

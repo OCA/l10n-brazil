@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="finan_lancamento_divida_base_tree">
+        <field name="name">finan.lancamento.divida.base.tree</field>
+        <field name="model">finan.lancamento</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <tree
+                decoration-warning="provisorio == True"
+                decoration-muted="situacao_divida_simples == 'baixado'"
+                decoration-danger="situacao_divida == 'vencido'"
+                decoration-info="situacao_divida == 'vence_hoje'"
+                decoration-success="situacao_divida_simples == 'quitado'"
+                  >
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="tipo" invisible="1" />
+                <field name="nome" invisible="1" />
+                <field name="situacao_divida_simples" invisible="1" />
+                <field name="cnpj_cpf" invisible="1" />
+                <field name="cnpj_cpf_raiz" invisible="1" />
+                <field name="provisorio" invisible="1" />
+
+                <field name="empresa_id" />
+                <field name="participante_id"/>
+                <field name="documento_id" string="Documento" />
+                <field name="numero" string="Número" />
+                <field name="data_documento" string="Data" />
+                <field name="data_vencimento_util" string="Vencimento"/>
+                <field name="situacao_divida" string="Situação" />
+                <field name="vr_documento" string="Valor" sum="vr_documento"/>
+                <field name="vr_quitado_documento" string="Valor pago" sum="vr_quitado_documento"/>
+                <field name="vr_saldo" sum="vr_saldo"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="finan_lancamento_divida_base_form">
+        <field name="name">finan.lancamento.divida.base.form</field>
+        <field name="model">finan.lancamento</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="tipo" invisible="1" />
+                <field name="cnpj_cpf" invisible="1" />
+                <field name="cnpj_cpf_raiz" invisible="1" />
+                <field name="situacao_divida_simples" invisible="1" />
+                <field name="data_baixa" invisible="1" />
+                <field name="provisorio" invisible="1" />
+                <header>
+                    <button name="confirma_lancamento" string="Confirmar" class="btn-primary" type="object" attrs="{'invisible': [('provisorio', '!=', True)]}" />
+                    <button name="reabre_lancamento" string="Reabrir" class="btn-primary" type="object" attrs="{'invisible': ['|', ('provisorio', '=', True), ('situacao_divida_simples', '!=', 'aberto')]}" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed" />
+                </header>
+                <sheet>
+                    <div>
+                        <h1 name="nome">
+                            <field name="nome" />
+                        </h1>
+<!--                        <h2>
+                            <group>
+                                <field name="motivo_baixa_id" options="{'no_create': True, 'no_open': True}"
+                                       class="oe_inline"
+                                       attrs="{'invisible':[('motivo_baixa_id','=', False)]}"/>
+                                 <field name="referencia_id" />
+                                <field name="data_baixa" attrs="{'invisible': [('situacao_divida_simples', '!=', 'baixado')]}"/>
+                            </group>
+                        </h2> -->
+                    </div>
+
+                    <group>
+                        <group name="dados_basicos" colspan="4">
+                            <group name="documento" string="Documento">
+                                <field name="situacao_divida" string="Situação" readonly="1"
+                                    decoration-muted="situacao_divida_simples == 'baixado'"
+                                    decoration-danger="situacao_divida == 'vencido'"
+                                    decoration-info="situacao_divida == 'vence_hoje'"
+                                    decoration-success="situacao_divida_simples == 'quitado'"
+                                />
+                                <field name="empresa_id" required="1" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="participante_id" required="1" options="{'no_create': True, 'no_open': True}" domain="[('cnpj_cpf', '!=', cnpj_cpf)]" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="documento_id" string="Documento" required="1" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="numero" required="1" string="Número" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="data_documento" required="1" string="Data" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="conta_id" required="1" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="data_vencimento" required="1" string="Vencimento" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                            </group>
+                            <group name="valores">
+                                <separator string="Valores" />
+                                <group name="valores_devidos" colspan="2" class="oe_center oe_subtotal_footer">
+                                    <field name="vr_documento" string="Valor" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                    <field name="vr_quitado_documento" string="(-) Pago" readonly="1" />
+                                    <field name="vr_baixado" string="(-) Baixado" readonly="1" attrs="{'invisible': [('data_baixa', '=', False)]}"/>
+                                    <field name="vr_saldo" string="(=) Saldo" class="oe_subtotal_footer_separator" readonly="1" />
+                                </group>
+                                <newline />
+                                <separator name="valores_pagos" string="Valores pagos" />
+                                <group name="valores_pagos" colspan="2" class="oe_subtotal_footer oe_center">
+                                    <field name="vr_quitado_juros" string="(+) Juros" />
+                                    <field name="vr_quitado_multa" string="(+) Multa" />
+                                    <field name="vr_quitado_adiantado" string="(+) Adiantamento" />
+                                    <field name="vr_quitado_desconto" string="(-) Desconto" />
+                                    <field name="vr_quitado_tarifas" string="(-) Tarifas" />
+                                    <field name="vr_quitado_total" string="(=) Total pago" class="oe_subtotal_footer_separator" readonly="1" />
+                                </group>
+                            </group>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Pagamentos" name="pagamentos">
+                            <field name="pagamento_ids" context="{'default_conta_id': conta_id, 'default_empresa_id': empresa_id, 'default_participante_id': participante_id, 'default_vr_documento': vr_saldo,
+ 'form_view_ref': 'finan.finan_lancamento_pagamento_one2many_base_form', 'tree_view_ref': 'finan.finan_lancamento_pagamento_one2many_base_tree'}"
+                            attrs="{'readonly': [('state', 'in', ['draft', 'cancelled'])]}" />
+                        </page>
+                    </notebook>
+                    <div>
+                        <field name="historico" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                    </div>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="finan_lancamento_divida_base_search">
+        <field name="name">finan.lancamento.divida.base.search</field>
+        <field name="model">finan.lancamento</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <search string="Dívida">
+                <filter name="situacao_vencido" string="Vencido" domain="[('situacao_divida','=','vencido')]" />
+                <filter name="situacao_vence_hoje" string="Vence hoje" domain="[('situacao_divida','=', 'vence_hoje')]" />
+                <filter name="situacao_a_vencer" string="A vencer" domain="[('situacao_divida','=', 'a_vencer')]" />
+                <separator string="" />
+                <filter name="situacao_aberto" string="Aberto" domain="[('situacao_divida_simples','=','aberto')]" />
+                <filter name="situacao_pago" string="Pago" domain="[('situacao_divida_simples','=','quitado')]" />
+                <filter name="situacao_baixado" string="Baixado" domain="[('situacao_divida_simples','=','baixado')]" />
+                <separator string="" />
+                <filter name="confirmado" string="Confirmado" domain="[('provisorio','!=',True)]" />
+                <filter name="provisorio" string="Provisório" domain="[('provisorio','=',True)]" />
+                <separator string="" />
+
+                <field name="numero" />
+                <field name="participante_id" />
+                <field name="data_documento" />
+                <field name="data_vencimento_util" string="Vencimento" />
+
+                <filter name="group_situacao_divida" string="Situação" context="{'group_by': 'situacao_divida'}" />
+                <filter name="group_participante" string="Participante" context="{'group_by': 'participante_id'}"/>
+                <filter name="group_data_vencimento_util" string="Vencimento" context="{'group_by': 'data_vencimento_util'}"/>
+           </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="finan_lancamento_divida_base_action">
+        <field name="name">Dívida</field>
+        <field name="res_model">finan.lancamento</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('tipo', 'in', ('a_receber', 'a_pagar'))]</field>
+        <field name="context">{}</field>
+        <field name="search_view_id" ref="finan.finan_lancamento_divida_base_search" />
+    </record>
+
+    <record model="ir.actions.act_window.view" id="finan_lancamento_divida_base_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="finan_lancamento_divida_base_tree"/>
+        <field name="act_window_id" ref="finan_lancamento_divida_base_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="finan_lancamento_divida_base_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="finan_lancamento_divida_base_form"/>
+        <field name="act_window_id" ref="finan_lancamento_divida_base_action"/>
+    </record>
+
+<!--    <record model="ir.ui.menu" id="menu_finan_lancamento_divida_base">
+        <field name="name">Dívida</field>
+        <field name="parent_id" ref="menu_finan"/>
+        <field name="action" ref="finan_lancamento_divida_base_action"/>
+        <field name="sequence" eval="1"/>
+    </record>-->
+
+</odoo>

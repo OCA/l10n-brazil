@@ -29,7 +29,7 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     INDICADOR_PRESENCA_COMPRADOR,
     INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
     ST_ISS,
-    MODALIDADE_FRETE_DESTINATARIO_PROPRIO,
+    MODALIDADE_FRETE_DESTINATARIO_FOB,
 )
 
 
@@ -95,7 +95,7 @@ class SpedOperacaoFiscal(models.Model):
     modalidade_frete = fields.Selection(
         selection=MODALIDADE_FRETE,
         string='Modalidade do frete',
-        default=MODALIDADE_FRETE_DESTINATARIO_PROPRIO
+        default=MODALIDADE_FRETE_DESTINATARIO_FOB
     )
     natureza_operacao_id = fields.Many2one(
         comodel_name='sped.natureza.operacao',

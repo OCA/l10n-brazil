@@ -23,6 +23,7 @@ class SpedProduto(models.Model):
     )
     exige_cest = fields.Boolean(
         string='Exige código CEST?',
+        compute='_compute_exige_cest',
     )
     cest_id = fields.Many2one(
         comodel_name='sped.cest',
@@ -75,22 +76,27 @@ class SpedProduto(models.Model):
                 produto.exige_fator_conversao_unidade_tributacao_ncm = False
                 produto.fator_conversao_unidade_tributacao_ncm = 1
 
+    def _ajusta_cest(self):
+        for produto in self:
+            if not produto.ncm_id:
+                produto.exige_cest = False
+                produto.cest_id = False
+                continue
+
+            if len(produto.ncm_id.cest_ids) == 0:
+                produto.exige_cest = False
+                produto.cest_id = False
+                continue
+
+            produto.exige_cest = True
+
+            if len(produto.ncm_id.cest_ids) == 1:
+                produto.cest_id = produto.ncm_id.cest_ids[0].id
+
+    @api.depends('ncm_id')
+    def _compute_exige_cest(self):
+        self._ajusta_cest()
+
     @api.onchange('ncm_id')
     def onchange_ncm(self):
-        if len(self.ncm_id.cest_ids) == 1:
-            return {'value': {
-                'cest_id': self.ncm_id.cest_ids[0].id,
-                'exige_cest': True
-            }}
-
-        elif len(self.ncm_id.cest_ids) > 1:
-            return {'value': {
-                'cest_id': False,
-                'exige_cest': True
-            }}
-
-        else:
-            return {'value': {
-                'cest_id': False,
-                'exige_cest': False
-            }}
+        self._ajusta_cest()

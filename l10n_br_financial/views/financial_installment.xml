@@ -1,0 +1,18 @@
+<odoo>
+    <record model="ir.ui.view" id="financial_installment_base_form">
+        <field name="name">financial.installment.base.form (in l10n_br_financial)</field>
+        <field name="model">financial.installment</field>
+        <field name="inherit_id" ref="financial.financial_installment_base_form"/>
+        <field name="arch" type="xml">
+            <field name="payment_term_id" position="after">
+                <field name="ultrapassa_limite_credito" invisible="True"/>
+            </field>
+            <field name="payment_term_id" position="attributes">
+                <attribute name="domain">
+                    ['|', ('vende_acima_limite_cliente', '=', ultrapassa_limite_credito),
+                     ('vende_acima_limite_cliente', '=', True)]
+                </attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

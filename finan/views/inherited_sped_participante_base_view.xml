@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="sped_participante_base_form" >
+        <field name="name">sped.participante.base.form (in finan)</field>
+        <field name="model">sped.participante</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_participante_base_form"/>
+        <field name="arch" type="xml">
+            <field name="eh_cliente" position="after">
+                <newline />
+                <field name="limite_credito" />
+                <newline />
+                <field name="limite_credito_disponivel" />
+                <newline />
+                <field name="saldo_a_receber" string="Saldo devedor" />
+                <newline />
+                <field name="adiantamento_a_pagar" string="Adiantamentos" />
+                <newline />
+            </field>
+            <field name="eh_fornecedor" position="after">
+                <newline />
+                <field name="saldo_a_pagar" string="Saldo devedor" />
+                <newline />
+                <field name="adiantamento_a_receber" string="Adiantamentos" />
+                <newline />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_participante_base_kanban">
+        <field name="name">sped.participante.base.kanban (in finan)</field>
+        <field name="model">sped.participante</field>
+        <field name="priority">9999</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_participante_base_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban/field[@name='email']" position="after">
+                <field name="limite_credito" />
+                <field name="limite_credito_disponivel" />
+                <field name="saldo_a_receber" />
+                <field name="saldo_a_pagar" />
+                <field name="adiantamento_a_pagar" />
+                <field name="adiantamento_a_receber" />
+            </xpath>
+            <xpath expr="//li[@t-if='record.municipio_id.raw_value']" position="after">
+                <t t-if="record.limite_credito.raw_value">
+                    <t t-if="record.limite_credito_disponivel.raw_value &lt;= 0">
+                        <strong>
+                            <li class="badge" style="background-color: #F16567;">
+                                Limite disponível: <field name="limite_credito_disponivel" />
+                            </li>
+                        </strong>
+                    </t>
+                    <t t-if="record.limite_credito_disponivel.raw_value &gt; 0">
+                        <li class="badge" style="background-color: #5cb85c">
+                            <strong>
+                                Limite disponível: <field name="limite_credito_disponivel" />
+                            </strong>
+                        </li>
+                    </t>
+                </t>
+                <li class="badge" style="background-color: #5bc0de;" t-if="record.adiantamento_a_pagar.raw_value">
+                    <strong>
+                        Adiantamentos: <field name="adiantamento_a_pagar"/>
+                    </strong>
+                </li>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

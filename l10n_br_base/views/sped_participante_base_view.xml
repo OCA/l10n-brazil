@@ -14,6 +14,8 @@
             <form string="Participantes">
                 <field name="exige_cnpj_cpf" invisible="1" />
                 <field name="exige_endereco" invisible="1" />
+                <field name="currency_id" invisible="1" />
+                <field name="currency_aliquota_id" invisible="1" />
             <sheet>
 <!--                    <div class="oe_button_box" name="button_box">
                     <button name="toggle_active" type="object"
@@ -89,10 +91,9 @@
                             </group>
                         </group>
                     </page>
-                    <!--                    <page string="Contatos e endereços" autofocus="autofocus">
-                        <field name="address_ids"
-                                context="{'default_endereco': endereco, 'default_numero': numero, 'default_complemento': complemento, 'default_bairro': bairro, 'default_municipio_id': municipio_id, 'default_cep': cep}" />
-                    </page>-->
+                    <page name="contatos" string="Contatos e endereços">
+                        <field name="endereco_ids" context="{'default_endereco': endereco, 'default_numero': numero, 'default_complemento': complemento, 'default_bairro': bairro, 'default_municipio_id': municipio_id, 'default_cep': cep}" />
+                    </page>
 <!--                        <page name='internal_notes' string="Anotações internas">
                         <field name="comment" placeholder="Anotações internas..."/>
                     </page>-->
@@ -144,6 +145,8 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <tree string="Participantes">
+                <field name="currency_id" invisible="1" />
+                <field name="currency_aliquota_id" invisible="1" />
                 <field name="nome" />
                 <field name="cnpj_cpf" />
                 <field name="fone" />
@@ -173,6 +176,8 @@
         <field name="priority">9999</field>
         <field name="arch" type="xml">
             <kanban class="o_sped_participante_kanban">
+                <field name="currency_id" />
+                <field name="currency_aliquota_id" />
                 <field name="color"/>
                 <field name="image"/>
                 <field name="nome"/>
@@ -204,15 +209,15 @@
                             </div>
                             <div class="oe_kanban_details">
                                 <t t-if="record.cnpj_cpf.raw_value">
-                                    <strong class="o_text_overflow"><field name="nome" /> – <field name="cnpj_cpf"/></strong>
+                                    <strong><field name="nome" /> – <field name="cnpj_cpf"/></strong>
                                 </t>
                                 <t t-if="!record.cnpj_cpf.raw_value">
                                     <strong class="oe_partner_heading"><field name="nome"/></strong>
                                 </t>
                                 <ul>
-                                    <li t-if="record.fone.raw_value" class="o_text_overflow">• <field name="fone"/></li>
+                                    <li t-if="record.fone.raw_value" class="o_text_overflow"><field name="fone"/></li>
                                     <li t-if="record.celular.raw_value" class="o_text_overflow">• <field name="celular"/></li>
-                                    <li t-if="record.email.raw_value" class="o_text_overflow">• <field name="email"/></li>
+                                    <li t-if="record.email.raw_value"><field name="email"/></li>
                                     <li t-if="record.municipio_id.raw_value"><field name="municipio_id"/></li>
                                 </ul>
                             </div>

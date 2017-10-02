@@ -12,46 +12,7 @@ import logging
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.addons.l10n_br_base.models.sped_base import SpedBase
-from odoo.addons.l10n_br_base.constante_tributaria import (
-    TIPO_EMISSAO_NFE,
-    TIPO_EMISSAO,
-    MODELO_FISCAL,
-    ENTRADA_SAIDA,
-    ENTRADA_SAIDA_SAIDA,
-    SITUACAO_FISCAL,
-    SITUACAO_FISCAL_REGULAR,
-    AMBIENTE_NFE,
-    AMBIENTE_NFE_HOMOLOGACAO,
-    SITUACAO_NFE_AUTORIZADA,
-    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL,
-    INDICADOR_IE_DESTINATARIO,
-    TIPO_CONSUMIDOR_FINAL_NORMAL,
-    MODELO_FISCAL_NFCE,
-    MODELO_FISCAL_NFE,
-    MODELO_FISCAL_NFSE,
-    TIPO_EMISSAO_PROPRIA,
-    AMBIENTE_NFE_PRODUCAO,
-    TIPO_EMISSAO_NFE_NORMAL,
-    ENTRADA_SAIDA_ENTRADA,
-    ENTRADA_SAIDA_DICT,
-    TIPO_EMISSAO_DICT,
-    IE_DESTINATARIO,
-    ST_ISS,
-    NATUREZA_TRIBUTACAO_NFSE,
-    LIMITE_RETENCAO_PIS_COFINS_CSLL,
-    MODALIDADE_FRETE_DESTINATARIO_PROPRIO,
-    MODALIDADE_FRETE,
-    INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
-    INDICADOR_PRESENCA_COMPRADOR,
-    TIPO_CONSUMIDOR_FINAL,
-    FINALIDADE_NFE_NORMAL,
-    FINALIDADE_NFE,
-    IND_FORMA_PAGAMENTO,
-    IND_FORMA_PAGAMENTO_A_VISTA,
-    REGIME_TRIBUTARIO,
-    REGIME_TRIBUTARIO_SIMPLES,
-    INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
-)
+from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 
@@ -210,7 +171,7 @@ class SpedDocumento(SpedBase, models.Model):
     modalidade_frete = fields.Selection(
         selection=MODALIDADE_FRETE,
         string='Modalidade do frete',
-        default=MODALIDADE_FRETE_DESTINATARIO_PROPRIO,
+        default=MODALIDADE_FRETE_DESTINATARIO_FOB,
     )
     natureza_operacao_id = fields.Many2one(
         comodel_name='sped.natureza.operacao',
@@ -452,13 +413,26 @@ class SpedDocumento(SpedBase, models.Model):
     )
 
     #
+    # Endereços de entrega e retirada
+    #
+    endereco_retirada_id = fields.Many2one(
+        comodel_name='sped.endereco',
+        string='Endereço de retirada',
+        ondelete='restrict'
+    )
+    endereco_entrega_id = fields.Many2one(
+        comodel_name='sped.endereco',
+        string='Endereço de entrega',
+        ondelete='restrict'
+    )
+
+    #
     # Transporte
     #
     transportadora_id = fields.Many2one(
-        comodel_name='res.partner',
+        comodel_name='sped.participante',
         string='Transportadora',
         ondelete='restrict',
-        domain=[['cnpj_cpf', '!=', False]],
     )
     veiculo_id = fields.Many2one(
         comodel_name='sped.veiculo',
@@ -778,6 +752,22 @@ class SpedDocumento(SpedBase, models.Model):
     # 'bc_iss_retido = CampoDinheiro('Base do ISS'),
     # 'vr_iss_retido = CampoDinheiro('Valor do ISS'),
 
+    #
+    # Total do peso
+    #
+    peso_bruto = fields.Monetary(
+        string='Peso bruto',
+        currency_field='currency_peso_id',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    peso_liquido = fields.Monetary(
+        string='Peso líquido',
+        currency_field='currency_peso_id',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+
     item_ids = fields.One2many(
         comodel_name='sped.documento.item',
         inverse_name='documento_id',
@@ -865,10 +855,27 @@ class SpedDocumento(SpedBase, models.Model):
             documento.data_entrada_saida = data
             documento.hora_entrada_saida = hora
 
-    @api.depends(
-        'item_ids.vr_nf',
-        'item_ids.vr_fatura',
-    )
+    @api.depends('item_ids.vr_produtos', 'item_ids.vr_produtos_tributacao',
+                'item_ids.vr_frete', 'item_ids.vr_seguro',
+                'item_ids.vr_desconto', 'item_ids.vr_outras',
+                'item_ids.vr_operacao', 'item_ids.vr_operacao_tributacao',
+                'item_ids.bc_icms_proprio', 'item_ids.vr_icms_proprio',
+                'item_ids.vr_difal', 'item_ids.vr_icms_estado_origem',
+                'item_ids.vr_icms_estado_destino',
+                'item_ids.vr_fcp',
+                'item_ids.vr_icms_sn', 'item_ids.vr_simples',
+                'item_ids.bc_icms_st', 'item_ids.vr_icms_st',
+                'item_ids.bc_icms_st_retido', 'item_ids.vr_icms_st_retido',
+                'item_ids.bc_ipi', 'item_ids.vr_ipi',
+                'item_ids.bc_ii', 'item_ids.vr_ii',
+                'item_ids.vr_despesas_aduaneiras', 'item_ids.vr_iof',
+                'item_ids.bc_pis_proprio', 'item_ids.vr_pis_proprio',
+                'item_ids.bc_cofins_proprio', 'item_ids.vr_cofins_proprio',
+                'item_ids.bc_iss', 'item_ids.vr_iss',
+                'item_ids.vr_nf', 'item_ids.vr_fatura',
+                'item_ids.vr_ibpt',
+                'item_ids.vr_custo_comercial',
+                'item_ids.peso_bruto', 'item_ids.peso_liquido')
     def _compute_soma_itens(self):
         CAMPOS_SOMA_ITENS = [
             'vr_produtos', 'vr_produtos_tributacao',
@@ -887,7 +894,8 @@ class SpedDocumento(SpedBase, models.Model):
             'bc_iss', 'vr_iss',
             'vr_nf', 'vr_fatura',
             'vr_ibpt',
-            'vr_custo_comercial'
+            'vr_custo_comercial',
+            'peso_bruto', 'peso_liquido'
         ]
 
         for documento in self:
@@ -1143,33 +1151,14 @@ class SpedDocumento(SpedBase, models.Model):
         if not valor:
             valor = D(self.vr_nf or 0)
 
-        #
-        # Para a compatibilidade com a chamada original (super), que usa
-        # o decorator deprecado api.one, pegamos aqui sempre o 1º elemento
-        # da lista que vai ser retornada
-        #
-        lista_vencimentos = self.condicao_pagamento_id.compute(valor,
-                                                         self.data_emissao)[0]
-
-        duplicata_ids = [
-            [5, False, {}],
-        ]
-
-        parcela = 1
-        for data_vencimento, valor in lista_vencimentos:
-            duplicata = {
-                'numero': str(parcela),
-                'data_vencimento': data_vencimento,
-                'valor': valor,
-            }
-            duplicata_ids.append([0, False, duplicata])
-            parcela += 1
-
+        duplicata_ids = self.condicao_pagamento_id.gera_parcela_ids(valor,
+                                                         self.data_emissao)
         valores['duplicata_ids'] = duplicata_ids
 
         return res
 
-    def _check_permite_alteracao(self, operacao='create', dados={}):
+    def _check_permite_alteracao(self, operacao='create', dados={},
+                                 campos_proibidos=[]):
         CAMPOS_PERMITIDOS = [
             'message_follower_ids',
         ]
@@ -1182,11 +1171,13 @@ class SpedDocumento(SpedBase, models.Model):
             # Trata alguns campos que é permitido alterar depois da nota
             # autorizada
             #
-            if documento.state_nfe == SITUACAO_NFE_AUTORIZADA:
-                for campo in CAMPOS_PERMITIDOS:
-                    if campo in dados:
+            if documento.situacao_nfe == SITUACAO_NFE_AUTORIZADA:
+                for campo in dados:
+                    if campo in CAMPOS_PERMITIDOS:
                         permite_alteracao = True
                         break
+                    elif campo not in campos_proibidos:
+                        campos_proibidos.append(campo)
 
             if permite_alteracao:
                 continue
@@ -1201,6 +1192,10 @@ class SpedDocumento(SpedBase, models.Model):
                 mensagem = \
                     'Não é permitido criar este documento fiscal!'
 
+            if campos_proibidos:
+                mensagem += '\nCampos proibidos: '
+                mensagem += unicode(campos_proibidos)
+
             raise ValidationError(_(mensagem))
 
     def unlink(self):
@@ -1212,17 +1207,17 @@ class SpedDocumento(SpedBase, models.Model):
         return super(SpedDocumento, self).write(dados)
 
     def envia_nfe(self):
-        pass
+        self.ensure_one()
 
     def cancela_nfe(self):
-        pass
+        self.ensure_one()
 
     def executa_antes_autorizar(self):
         #
         # Este método deve ser alterado por módulos integrados, para realizar
         # tarefas de integração necessárias antes de autorizar uma NF-e
         #
-        pass
+        self.ensure_one()
 
     def executa_depois_autorizar(self):
         #
@@ -1231,7 +1226,7 @@ class SpedDocumento(SpedBase, models.Model):
         # por exemplo, criar lançamentos financeiros, movimentações de
         # estoque etc.
         #
-        pass
+        self.ensure_one()
 
     def executa_antes_cancelar(self):
         #
@@ -1241,7 +1236,7 @@ class SpedDocumento(SpedBase, models.Model):
         # se o botão de cancelamento vai estar disponível para o usuário na
         # interface
         #
-        pass
+        self.ensure_one()
 
     def executa_depois_cancelar(self):
         #
@@ -1250,14 +1245,14 @@ class SpedDocumento(SpedBase, models.Model):
         # por exemplo, excluir lançamentos financeiros, movimentações de
         # estoque etc.
         #
-        pass
+        self.ensure_one()
 
     def executa_antes_denegar(self):
         #
         # Este método deve ser alterado por módulos integrados, para realizar
         # tarefas de integração necessárias antes de denegar uma NF-e
         #
-        pass
+        self.ensure_one()
 
     def executa_depois_denegar(self):
         #
@@ -1266,10 +1261,10 @@ class SpedDocumento(SpedBase, models.Model):
         # por exemplo, invalidar pedidos de venda e movimentações de estoque
         # etc.
         #
-        pass
+        self.ensure_one()
 
     def envia_email(self, mail_template):
-        pass
+        self.ensure_one()
 
     def gera_pdf(self):
-        pass
+        self.ensure_one()

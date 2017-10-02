@@ -17,9 +17,12 @@
             </xpath>
             <field name="preco_custo" position="after">
                 <newline />
-                <label string="" />
-                <label string="" />
+                <group name="em_branco">
+                    <separator string="" />
+                </group>
                 <field name="preco_transferencia" />
+                <newline />
+                <field name="attribute_value_ids" widget="many2many_tags" colspan="4" groups="product.group_product_variant" options="{'no_create': True, 'no_open': True}" />
             </field>
         </field>
     </record>

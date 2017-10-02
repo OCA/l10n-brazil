@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="finan_lancamento_pagamento_base_tree">
+        <field name="name">finan.lancamento.pagamento.base.tree</field>
+        <field name="model">finan.lancamento</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <!-- Muda a cor para:
+                    muted (cinza): cancelada ou inutilizada, ou mercadoria não circulou ou não recebida
+                    warning (marrom cocô): denegada
+                    info (azul petróleo): aguardando envio para SEFAZ
+                    primary (lilás/roxinho): aguardando resposta da SEFAZ
+                    danger (vermelho): rejeitada
+                    success (verde):
+            -->
+            <tree
+                decoration-danger="situacao_divida == 'vencido'"
+                decoration-success="data_credito_debito != False"
+                delete="false" create="false" edit="false">
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="tipo" invisible="1" />
+                <field name="nome" invisible="1" />
+                <field name="situacao_divida_simples" invisible="1" />
+                <field name="conta_id" invisible="1"/>
+                <field name="cnpj_cpf" invisible="1" />
+                <field name="cnpj_cpf_raiz" invisible="1" />
+                <field name="divida_id" invisible="1" />
+
+                <field name="empresa_id" />
+                <field name="participante_id"/>
+                <field name="forma_pagamento_id" />
+                <field name="documento_id" />
+                <field name="numero" />
+                <field name="data_pagamento" />
+                <field name="banco_id" context="{'banco_sem_titular': True}" />
+                <field name="data_credito_debito" />
+                <field name="vr_documento" sum="vr_documento" />
+                <field name="vr_juros" sum="vr_juros" />
+                <field name="vr_multa" sum="vr_multa" />
+                <field name="vr_desconto" sum="vr_desconto" />
+                <field name="vr_total" sum="vr_total"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="finan_lancamento_pagamento_base_form">
+        <field name="name">finan.lancamento.pagamento.base.form</field>
+        <field name="model">finan.lancamento</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form delete="false" create="false" edit="false">
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="tipo" invisible="1" />
+                <field name="nome" invisible="1" />
+                <field name="situacao_divida_simples" invisible="1" />
+                <field name="conta_id" invisible="1"/>
+                <field name="cnpj_cpf" invisible="1" />
+                <field name="cnpj_cpf_raiz" invisible="1" />
+                <header>
+                </header>
+                <sheet>
+                    <div>
+                        <label for="divida_id" string="Dívida" />
+                        <h1 name="document_name">
+                            <field name="divida_id" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="dados_basicos" colspan="4">
+                            <group name="documento" string="Pagamento">
+                                <field name="empresa_id" options="{'no_create': True, 'no_open': True}" />
+                                <field name="participante_id" options="{'no_create': True}" />
+                                <field name="forma_pagamento_id" options="{'no_create': True}" />
+                                <field name="documento_id" roptions="{'no_create': True}" />
+                                <field name="numero"/>
+                                <field name="data_pagamento" />
+                                <field name="banco_id" context="{'banco_sem_titular': True}" />
+                                <field name="data_credito_debito" />
+                            </group>
+                            <group name="valores">
+                                <separator string="Valores pagos" />
+                                <group name="valores_pagos" colspan="2" class="oe_center">
+                                    <field name="vr_documento" string="Valor" required="1" />
+                                    <field name="vr_juros" string="(+) Juros" readonly="1" />
+                                    <field name="vr_multa" string="(+) Multa" readonly="1" />
+                                    <field name="vr_desconto" string="(-) Desconto" readonly="1"/>
+                                    <field name="vr_adiantado" string="(-) Adiantamento" readonly="1"/>
+                                    <field name="vr_total" string="(=) Total" class="oe_subtotal_footer_separator" readonly="1" />
+                                </group>
+                            </group>
+                        </group>
+                    </group>
+                    <div>
+                        <field name="historico" placeholder="Histórico do pagamento..."/>
+                    </div>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="finan_lancamento_pagamento_base_search">
+        <field name="name">finan.lancamento.pagamento.base.search</field>
+        <field name="model">finan.lancamento</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <search string="Pagamento">
+                <field name="numero" />
+                <field name="participante_id" />
+                <field name="data_pagamento" />
+
+                <filter name="group_banco" string="Banco" context="{'group_by': 'banco_id'}" />
+                <filter name="group_participante" string="Participante" context="{'group_by': 'participante_id'}"/>
+                <filter name="group_data_pagamento" string="Pagamento" context="{'group_by': 'data_pagamento'}"/>
+           </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="finan_lancamento_pagamento_base_action">
+        <field name="name">Pagamento</field>
+        <field name="res_model">finan.lancamento</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('tipo', 'in', ('recebimento', 'pagamento'))]</field>
+        <field name="context">{}</field>
+        <field name="search_view_id" ref="finan.finan_lancamento_pagamento_base_search" />
+    </record>
+
+    <record model="ir.actions.act_window.view" id="finan_lancamento_pagamento_base_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="finan_lancamento_pagamento_base_tree"/>
+        <field name="act_window_id" ref="finan_lancamento_pagamento_base_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="finan_lancamento_pagamento_base_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="finan_lancamento_pagamento_base_form"/>
+        <field name="act_window_id" ref="finan_lancamento_pagamento_base_action"/>
+    </record>
+
+<!--    <record model="ir.ui.menu" id="menu_finan_lancamento_pagamento_base">
+        <field name="name">Pagamento</field>
+        <field name="parent_id" ref="menu_finan"/>
+        <field name="action" ref="finan_lancamento_pagamento_base_action"/>
+        <field name="sequence" eval="2"/>
+    </record>-->
+
+</odoo>

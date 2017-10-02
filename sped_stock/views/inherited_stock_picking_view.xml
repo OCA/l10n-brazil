@@ -9,11 +9,77 @@
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
-            <header position="inside">
+            <!-- O requisito correto do nosso fluxo no Brasil é que, a saída
+                    do produto do estoque só seja confirmada após a emissão e
+                    autorização da NF-e, nunca antes;
+
+                    Para isso, escondemos os botões do picking e liberamos
+                    somente quando não houver emissão de NF-e para o caso;
+            -->
+            <header position="replace">
+                <header>
+                    <button type="object" name="gera_documento"
+                            string="Gerar NFe" class="btn-primary"
+                            attrs="{'invisible': ['|', ('state', '!=', 'assigned'), '|', ('operacao_id', '=', False), ('quantidade_documentos', '!=', 0)]}" />
+                    <button name="action_confirm" attrs="{'invisible': ['|', ('operacao_id', '!=', False), ('state', 'in', ['cancel', 'done'])]}" string="Confirmar" type="object" class="oe_highlight" groups="base.group_user" />
+<!--                     <button name="action_assign" attrs="{'invisible': ['|', ('operacao_id', '!=', False), ('state', 'not in', ['confirmed', 'waiting'])]}" string="Reservar" type="object" class="oe_highlight" groups="base.group_user"/> -->
+                    <button name="action_assign" attrs="{'invisible': ['|', ('operacao_id', '!=', False), ('state', '!=', 'partially_available')]}" string="Verificar disponibilidade" type="object" groups="base.group_user"/>
+                    <button name="force_assign" attrs="{'invisible': ['|', '&amp;', ('operacao_id', '!=', False), ('state', 'not in', ['draft', 'confirmed']), ('state', 'not in', ['confirmed', 'waiting', 'partially_available'])]}"  string="Forçar disponibilidade" type="object" groups="stock.group_stock_manager"/>
+                    <button name="do_new_transfer" attrs="{'invisible': ['|', ('operacao_id', '!=', False), ('state', 'not in', ['draft', 'assigned', 'partially_available'])]}" string="Validar" groups="stock.group_stock_user" type="object" class="oe_highlight"/>
+                    <button name="do_print_picking" string="Imprimir" groups="stock.group_stock_user" type="object" attrs="{'invisible': [('state', 'not in', ('assigned', 'partially_available'))]}"/>
+                    <button name="%(stock.action_report_delivery)d" string="Imprimir" states="done" type="action" groups="base.group_user"/>
+<!--                     <button name="%(stock.act_stock_return_picking)d" string="Retornar" attrs="{'invisible': ['|', ('operacao_id', '!=', False), ('state', '!=', 'done')]}" type="action" groups="base.group_user"/> -->
+                    <button name="action_cancel" attrs="{'invisible': ['|', '&amp;', ('operacao_id', '!=', False), ('state', 'not in', ['draft', 'confirmed', 'assigned']), ('state', 'not in', ['draft', 'assigned', 'confirmed', 'waiting', 'partially_available', 'waiting'])]}" string="Cancelar" groups="base.group_user" type="object"/>
+<!--                     <button name="do_unreserve" string="Cancelar reserva" groups="base.group_user" type="object" attrs="{'invisible': [('quant_reserved_exist', '=', False)]}"/> -->
+<!--                    <button name="do_prepare_partial" attrs="{'invisible': ['|', ('operacao_id', '!=', False), '|', ('launch_pack_operations', '=', True), '|', ('state', 'not in', ('assigned', 'partially_available')), ('pack_operation_ids', '!=', [])]}"
+                            string="Redefinir operações" type="object"/>-->
+<!--                     <field name="launch_pack_operations" invisible="1"/> -->
+<!--                     <button name="button_scrap" type="object" string="Sucata" attrs="{'invisible': ['|', ('operacao_id', '!=', False), '|', ('state', 'in', ('draft', 'cancel')), '&amp;', ('picking_type_code', '=', 'incoming'), ('state', '!=', 'done')]}"/> -->
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,partially_available,assigned,done" />
+                </header>
+
+            </header>
+
+<!--            <xpath expr="//button[@name='action_confirm']" position="attributes">
+                <attribute name="attrs">{'invisible': [('operacao_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_assign']" position="attributes">
+                <attribute name="attrs">{'invisible': [('operacao_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_assign']" position="attributes">
+                <attribute name="attrs">{'invisible': [('operacao_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='force_assign']" position="attributes">
+                <attribute name="attrs">{'invisible': [('operacao_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='do_new_transfer']" position="attributes">
+                <attribute name="attrs">{'invisible': [('operacao_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_cancel']" position="attributes">
+                <attribute name="attrs">{'invisible': [('operacao_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='do_unreserve']" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='do_prepare_partial']" position="attributes">
+                <attribute name="attrs">{'invisible': [('operacao_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_scrap']" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[8]" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='action_confirm']" position="before">
                 <button type="object" name="gera_documento"
                         string="Gerar NFe" class="btn-primary"
                         attrs="{'invisible': ['|', ('quantidade_documentos', '!=', 0), ('operacao_id', '=', False)]}" />
-            </header>
+            </xpath>-->
+
             <div name="button_box" position="inside">
                 <button name="action_view_documento"
                     type="object"
@@ -23,17 +89,72 @@
                     <field name="quantidade_documentos" widget="statinfo" string="NFes"/>
                 </button>
             </div>
+
             <field name="partner_id" position="replace">
-                <field name="participante_id" options="{'no_create': True}" />
+                <field name="participante_id" options="{'no_create': True}" attrs="{'readonly': [('state', 'in', ['cancel', 'done'])]}" />
                 <field name="partner_id" invisible="1"/>
             </field>
             <field name="company_id" position="replace">
-                <field name="empresa_id" options="{'no_create': True}" required="1" groups="base.group_multi_company" />
+                <field name="empresa_id" options="{'no_create': True, 'no_open': True}" required="1" attrs="{'readonly': [('state', 'in', ['cancel', 'done'])]}"  />
                 <field name="company_id" invisible="1"/>
             </field>
-            <field name="picking_type_id" position="after">
-                <field name="operacao_id" />
+            <field name="move_type" position="replace">
+                <field name="move_type" attrs="{'invisible': True, 'readonly': [('state', 'in', ['cancel', 'done'])]}" />
             </field>
+            <field name="priority" position="replace">
+                <field name="priority" attrs="{'invisible': True, 'readonly': [('state', 'in', ['cancel', 'done'])]}" />
+            </field>
+            <field name="picking_type_id" position="replace">
+                <field name="picking_type_id" attrs="{'readonly': [('state', 'in', ['cancel', 'done'])]}" />
+                <field name="operacao_id" attrs="{'readonly': [('state', 'in', ['cancel', 'done'])]}" />
+            </field>
+
+            <xpath expr="//page[1]" position="attributes">
+                <attribute name="attrs">{'invisible': [('state', 'in', ('cancel', 'draft', 'confirmed', 'waiting'))]}</attribute>
+            </xpath>
+            <xpath expr="//page[3]" position="before">
+                <page name="transporte" string="Transporte">
+                    <group>
+                        <group colspan="4" col="4">
+                            <separator string="Frete e transporte" colspan="4" />
+                            <field name="modalidade_frete" attrs="{'readonly': [('state', 'in', ['cancel', 'done'])]}" colspan="2" />
+                            <newline />
+                            <field name="transportadora_id" colspan="4" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', 'in', ['cancel', 'done'])]}" />
+                            <newline />
+                            <field name="veiculo_id" colspan="2" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', 'in', ['cancel', 'done'])]}" />
+<!--                            <field name="reboque_1_id" colspan="2" attrs="{'invisible': [('veiculo_id', '=', False)], 'readonly': [('state', 'in', ['cancel', 'done'])]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id])]" />
+                            <newline />
+                            <field name="reboque_2_id" colspan="2" attrs="{'invisible': [('reboque_1_id', '=', False)], 'readonly': [('state', 'in', ['cancel', 'done'])]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id])]" />
+                            <field name="reboque_3_id" colspan="2" attrs="{'invisible': [('reboque_2_id', '=', False)], 'readonly': [('state', 'in', ['cancel', 'done'])]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id])]" />
+                            <newline />
+                            <field name="reboque_4_id" colspan="2" attrs="{'invisible': [('reboque_3_id', '=', False)], 'readonly': [('state', 'in', ['cancel', 'done'])]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id, reboque_3_id])]" />
+                            <field name="reboque_5_id" colspan="2" attrs="{'invisible': [('reboque_4_id', '=', False)], 'readonly': [('state', 'in', ['cancel', 'done'])]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id, reboque_3_id, reboque_4_id])]" />-->
+                            <newline />
+<!--                                    <field name="endereco_retirada_id" colspan="4" domain="[('participante_id', '=', participante_id)]" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': ['!', ('modalidade_frete', 'in', ['0', '1', '2'])], 'readonly': [('state', 'in', ['cancel', 'done'])]}" />
+                            <newline />-->
+<!--                            <field name="endereco_entrega_id" colspan="4" domain="[('participante_id', '=', participante_id)]" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': ['!', ('modalidade_frete', 'in', ['0', '1', '2'])], 'readonly': [('state', 'in', ['cancel', 'done'])]}" />
+                            <newline />-->
+                            <separator string="Volumes" colspan="4" />
+                            <field name="volume_ids" colspan="4" nolabel="1" attrs="{'readonly': [('state', 'in', ['cancel', 'done'])]}">
+                                <tree string="Volumes" editable="bottom">
+                                    <field name="quantidade" />
+                                    <field name="peso_bruto" />
+                                    <field name="peso_liquido" />
+                                    <field name="especie" />
+                                    <field name="marca" />
+                                    <field name="numero" />
+                                </tree>
+                            </field>
+<!--                            <group name="Exportação" colspan="4" col="4" attrs="{'invisible': ['|', ('entrada_saida', '!=', '1'), ('participante_estado', '!=', 'EX')]}">
+                                <separator string="Exportação" colspan="4" />
+                                <field name="exportacao_estado_embarque_id" attrs="{'readonly': [('state', 'in', ['cancel', 'done'])]}" />
+                                <newline />
+                                <field name="exportacao_local_embarque" colspan="4" attrs="{'readonly': [('state', 'in', ['cancel', 'done'])]}" />
+                            </group>-->
+                        </group>
+                    </group>
+                </page>
+            </xpath>
         </field>
     </record>
 
