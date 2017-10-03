@@ -6,6 +6,7 @@
 from openerp import models, fields, api, _
 from openerp.exceptions import except_orm
 from openerp.addons import decimal_precision as dp
+from openerp.addons.l10n_br_base.tools.misc import calc_price_ratio
 
 
 class PurchaseOrder(models.Model):
@@ -13,20 +14,33 @@ class PurchaseOrder(models.Model):
 
     @api.one
     @api.depends('order_line.price_unit', 'order_line.product_qty',
-                 'order_line.taxes_id')
+                 'order_line.taxes_id', 'order_line.freight_value',
+                 'order_line.other_costs_value', 'order_line.insurance_value',
+                 )
     def _compute_amount(self):
         amount_untaxed = 0.0
         amount_tax = 0.0
+        amount_freight = 0.0
+        amount_costs = 0.0
+        amount_insurance = 0.0
 
         for line in self.order_line:
             price = line._calc_line_base_price(line)
             qty = line._calc_line_quantity(line)
             taxes = line.taxes_id.compute_all(
                 price, qty,
-                product=line.product_id, partner=self.partner_id,
-                fiscal_position=self.fiscal_position)
+                product=line.product_id,
+                partner=self.partner_id,
+                fiscal_position=self.fiscal_position,
+                insurance_value=self.amount_insurance,
+                freight_value=self.amount_freight,
+                other_costs_value=self.amount_costs,
+            )
 
             amount_untaxed += line.price_subtotal
+            amount_freight += line.freight_value
+            amount_costs += line.other_costs_value
+            amount_insurance += line.insurance_value
 
             for tax in taxes['taxes']:
                 tax_brw = self.env['account.tax'].browse(tax['id'])
@@ -38,6 +52,7 @@ class PurchaseOrder(models.Model):
         self.amount_tax = self.pricelist_id.currency_id.round(amount_tax)
         self.amount_total = self.pricelist_id.currency_id.round(
             amount_untaxed + amount_tax)
+        self.amount_total += (amount_freight + amount_costs + amount_insurance)
 
     @api.model
     @api.returns('l10n_br_account.fiscal_category')
@@ -71,6 +86,62 @@ class PurchaseOrder(models.Model):
         string=u'Inscrição Estadual',
         related='partner_id.inscr_est',
     )
+
+    @api.one
+    def _set_amount_freight(self):
+        for line in self.order_line:
+            line.write({
+                'freight_value': calc_price_ratio(
+                    line.price_subtotal,
+                    self.amount_freight,
+                    self.amount_untaxed),
+                })
+
+    @api.one
+    def _set_amount_costs(self):
+        for line in self.order_line:
+            line.write({
+                'other_costs_value': calc_price_ratio(
+                    line.price_subtotal,
+                    self.amount_costs,
+                    self.amount_untaxed),
+                })
+
+    @api.one
+    def _set_amount_insurance(self):
+        for line in self.order_line:
+            line.write({
+                'insurance_value': calc_price_ratio(
+                    line.price_subtotal,
+                    self.amount_insurance,
+                    self.amount_untaxed),
+                })
+
+    @api.one
+    def _get_costs_value(self):
+        freight = costs = insurance = 0
+        for line in self.order_line:
+            freight += line.freight_value
+            costs += line.other_costs_value
+            insurance += line.insurance_value
+
+        self.amount_freight = freight
+        self.amount_costs = costs
+        self.amount_insurance = insurance
+
+    amount_freight = fields.Float(
+        compute=_get_costs_value, inverse=_set_amount_freight,
+        string='Frete', default=0.00, digits=dp.get_precision('Account'),
+        readonly=True, states={'draft': [('readonly', False)]})
+    amount_costs = fields.Float(
+        compute=_get_costs_value, inverse=_set_amount_costs,
+        string='Outros Custos', default=0.00,
+        digits=dp.get_precision('Account'),
+        readonly=True, states={'draft': [('readonly', False)]})
+    amount_insurance = fields.Float(
+        compute=_get_costs_value, inverse=_set_amount_insurance,
+        string='Seguro', default=0.00, digits=dp.get_precision('Account'),
+        readonly=True, states={'draft': [('readonly', False)]})
 
     @api.model
     def _fiscal_position_map(self, result, **kwargs):
@@ -135,6 +206,9 @@ class PurchaseOrder(models.Model):
         result['partner_id'] = order_line.partner_id.id
         result['company_id'] = order_line.company_id.id
 
+        result['insurance_value'] = order_line.insurance_value
+        result['other_costs_value'] = order_line.other_costs_value
+        result['freight_value'] = order_line.freight_value
         return result
 
     @api.model
@@ -205,6 +279,18 @@ class PurchaseOrderLine(models.Model):
     fiscal_position = fields.Many2one(
         'account.fiscal.position', u'Posição Fiscal',
         domain="[('fiscal_category_id', '=', fiscal_category_id)]")
+    freight_value = fields.Float(
+        string='Freight',
+        default=0.0,
+        digits_compute=dp.get_precision('Account'))
+    other_costs_value = fields.Float(
+        string='Other costs',
+        default=0.0,
+        digits_compute=dp.get_precision('Account'))
+    insurance_value = fields.Float(
+        'Insurance',
+        default=0.0,
+        digits=dp.get_precision('Account'))
 
     @api.model
     def _fiscal_position_map(self, result, **kwargs):
