@@ -83,6 +83,15 @@
             <field name="state">approved</field>
         </record>
 
+        <record id="fc_compras_para_com" model="l10n_br_account.fiscal.category">
+            <field name="code">Compras para Com</field>
+            <field name="name">Compras para Comercialização</field>
+            <field name="type">input</field>
+            <field name="fiscal_type">product</field>
+            <field name="journal_type">purchase</field>
+            <field name="state">approved</field>
+        </record>
+
         <record id="fc_d9132a81edff5374f33560f58666b792" model="l10n_br_account.fiscal.category">
             <field name="code">Entrada de Remessa</field>
             <field name="name">Entrada de Remessa</field>
