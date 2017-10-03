@@ -110,8 +110,8 @@ class StockMove(models.Model):
             result, **kwargs)
 
     @api.multi
-    def onchange_product_id(self, product_id, location_id,
-                            location_dest_id, partner_id):
+    def onchange_product_id(self, prod_id, loc_id,
+                            loc_dest_id, partner_id):
         context = dict(self.env.context)
         parent_fiscal_category_id = context.get('parent_fiscal_category_id')
         if context.get('company_id'):
@@ -122,11 +122,11 @@ class StockMove(models.Model):
         result = {'value': {}}
         result['value']['invoice_state'] = context.get('parent_invoice_state')
 
-        if parent_fiscal_category_id and product_id and partner_id:
+        if parent_fiscal_category_id and prod_id and partner_id:
 
             kwargs = {
                 'partner_id': partner_id,
-                'product_id': product_id,
+                'product_id': prod_id,
                 'partner_invoice_id': partner_id,
                 'partner_shipping_id': partner_id,
                 'fiscal_category_id': parent_fiscal_category_id,
@@ -137,7 +137,8 @@ class StockMove(models.Model):
             result.update(self._fiscal_position_map(result, **kwargs))
 
         result_super = super(StockMove, self).onchange_product_id(
-            product_id, location_id, location_dest_id, partner_id)
+            prod_id=prod_id, loc_id=loc_id,
+            loc_dest_id=loc_dest_id, partner_id=partner_id)
 
         if result_super.get('value'):
             result_super.get('value').update(result['value'])
