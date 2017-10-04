@@ -14,7 +14,6 @@
         'l10n_br_hr_payroll',
         'l10n_br_account',
         'l10n_br_financial_payment_order',
-        'report_py3o',
     ],
     'external_dependencies': {
         'python': ['pybrasil'],
