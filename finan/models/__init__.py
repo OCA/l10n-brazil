@@ -12,5 +12,5 @@ from . import inherited_account_payment_term
 from . import inherited_sped_empresa
 from . import finan_lancamento
 from . import inherited_sped_participante
-#from . import financial_installment
-#from . import financial_installment_simulation
+from . import finan_banco_extrato
+from . import finan_banco_saldo

@@ -73,12 +73,12 @@ class FinanBanco(SpedBase, models.Model):
         store=True,
         index=True,
     )
-    data_saldo_inicial = fields.Date(
-        string='Data do saldo inicial',
-    )
-    saldo_inicial = fields.Monetary(
-        string='Saldo inicial',
-    )
+    #data_saldo_inicial = fields.Date(
+        #string='Data do saldo inicial',
+    #)
+    #saldo_inicial = fields.Monetary(
+        #string='Saldo inicial',
+    #)
 
     @api.depends('banco', 'agencia', 'conta', 'conta_digito', 'tipo',
                  'titular_id')

@@ -16,6 +16,7 @@ _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil.data import parse_datetime, hoje
+    from pybrasil.valor.decimal import Decimal as D
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -150,14 +151,26 @@ class FinanLancamento(SpedBase, models.Model):
     data_pagamento = fields.Date(
         string='Data de pagamento',
         copy=False,
+        index=True,
         default=lambda lancamento: False if lancamento.tipo not in
             FINAN_TIPO_PAGAMENTO else fields.Date.context_today
     )
     data_credito_debito = fields.Date(
         string='Data de crédito/débito',
+        copy=False,
+        index=True,
     )
     data_baixa = fields.Date(
         string='Data de baixa',
+        copy=False,
+        index=True,
+    )
+    data_extrato = fields.Date(
+        string='Data no extrato banco/caixa',
+        compute='_compute_data_extrato',
+        copy=False,
+        store=True,
+        index=True,
     )
 
     #
@@ -349,6 +362,15 @@ class FinanLancamento(SpedBase, models.Model):
         ondelete='restrict',
         index=True,
     )
+    extrato_id = fields.One2many(
+        comodel_name='finan.banco.extrato',
+        inverse_name='lancamento_id',
+        string='Extrato banco/caixa',
+    )
+    vr_saldo_banco = fields.Monetary(
+        string='Saldo banco/caixa após lançamento',
+        related='extrato_id.saldo',
+    )
 
     #
     # Histórico do lançamento
@@ -478,15 +500,15 @@ class FinanLancamento(SpedBase, models.Model):
                  'vr_adiantado')
     def _compute_total(self):
         for lancamento in self:
-            vr_total = lancamento.vr_documento
-            vr_total += lancamento.vr_juros
-            vr_total += lancamento.vr_multa
-            vr_total += lancamento.vr_outros_creditos
-            vr_total += lancamento.vr_adiantado
-            vr_total -= lancamento.vr_desconto
-            vr_total -= lancamento.vr_outros_debitos
-            vr_total -= lancamento.vr_tarifas
-            vr_total -= lancamento.vr_baixado
+            vr_total = D(lancamento.vr_documento)
+            vr_total += D(lancamento.vr_juros)
+            vr_total += D(lancamento.vr_multa)
+            vr_total += D(lancamento.vr_outros_creditos)
+            vr_total += D(lancamento.vr_adiantado)
+            vr_total -= D(lancamento.vr_desconto)
+            vr_total -= D(lancamento.vr_outros_debitos)
+            vr_total -= D(lancamento.vr_tarifas)
+            vr_total -= D(lancamento.vr_baixado)
             lancamento.vr_total = vr_total
 
     @api.depends('vr_documento',
@@ -504,19 +526,19 @@ class FinanLancamento(SpedBase, models.Model):
                  )
     def _compute_total_saldo(self):
         for lancamento in self:
-            vr_quitado_documento = 0
-            vr_quitado_juros = 0
-            vr_quitado_multa = 0
-            vr_quitado_outros_creditos = 0
-            vr_quitado_desconto = 0
-            vr_quitado_outros_debitos = 0
-            vr_quitado_tarifas = 0
-            vr_quitado_adiantado = 0
-            vr_quitado_baixado = 0
-            vr_quitado_total = 0
+            vr_quitado_documento = D(0)
+            vr_quitado_juros = D(0)
+            vr_quitado_multa = D(0)
+            vr_quitado_outros_creditos = D(0)
+            vr_quitado_desconto = D(0)
+            vr_quitado_outros_debitos = D(0)
+            vr_quitado_tarifas = D(0)
+            vr_quitado_adiantado = D(0)
+            vr_quitado_baixado = D(0)
+            vr_quitado_total = D(0)
 
-            vr_total = lancamento.vr_total
-            vr_saldo = 0
+            vr_total = D(lancamento.vr_total)
+            vr_saldo = D(0)
 
             if lancamento.tipo in FINAN_TIPO_DIVIDA:
                 for pagamento in lancamento.pagamento_ids:
@@ -528,21 +550,22 @@ class FinanLancamento(SpedBase, models.Model):
                         FINAN_SITUACAO_DIVIDA_QUITADO:
                         continue
 
-                    vr_quitado_documento += pagamento.vr_documento
-                    vr_quitado_juros += pagamento.vr_juros
-                    vr_quitado_multa += pagamento.vr_multa
-                    vr_quitado_outros_creditos += pagamento.vr_outros_creditos
-                    vr_quitado_desconto += pagamento.vr_desconto
-                    vr_quitado_outros_debitos += pagamento.vr_outros_debitos
-                    vr_quitado_tarifas += pagamento.vr_tarifas
-                    vr_quitado_adiantado += pagamento.vr_adiantado
-                    vr_quitado_baixado += pagamento.vr_baixado
-                    vr_quitado_total += pagamento.vr_total
+                    vr_quitado_documento += D(pagamento.vr_documento)
+                    vr_quitado_juros += D(pagamento.vr_juros)
+                    vr_quitado_multa += D(pagamento.vr_multa)
+                    vr_quitado_outros_creditos += \
+                        D(pagamento.vr_outros_creditos)
+                    vr_quitado_desconto += D(pagamento.vr_desconto)
+                    vr_quitado_outros_debitos += D(pagamento.vr_outros_debitos)
+                    vr_quitado_tarifas += D(pagamento.vr_tarifas)
+                    vr_quitado_adiantado += D(pagamento.vr_adiantado)
+                    vr_quitado_baixado += D(pagamento.vr_baixado)
+                    vr_quitado_total += D(pagamento.vr_total)
 
                 vr_saldo = vr_total - vr_quitado_documento
 
                 if vr_saldo < 0:
-                    vr_saldo = 0
+                    vr_saldo = D(0)
 
                 lancamento.vr_saldo = vr_saldo
 
@@ -574,6 +597,16 @@ class FinanLancamento(SpedBase, models.Model):
                 lancamento.documento_id.antecipa_vencimento
             )
             lancamento.data_vencimento_util = data_vencimento_util
+
+    @api.depends('data_documento', 'data_pagamento', 'data_credito_debito')
+    def _compute_data_extrato(self):
+        for lancamento in self:
+            if lancamento.data_credito_debito:
+                lancamento.data_extrato = lancamento.data_credito_debito
+            elif lancamento.data_pagamento:
+                lancamento.data_extrato = lancamento.data_pagamento
+            elif lancamento.data_documento:
+                lancamento.data_extrato = lancamento.data_documento
 
     @api.depends('data_vencimento_util', 'vr_total', 'vr_documento',
                  'vr_saldo', 'vr_quitado_documento', 'data_baixa',
@@ -763,7 +796,25 @@ class FinanLancamento(SpedBase, models.Model):
         #]
         #return (old_state, new_state) in allowed
 
-    def executa_antes_create(self, dados):
+    def _verifica_ajusta_extrato_saldo(self, bancos={}):
+        for lancamento in self:
+            if not (lancamento.tipo in FINAN_LANCAMENTO_ENTRADA or \
+                lancamento.tipo in FINAN_LANCAMENTO_SAIDA):
+                continue
+
+            banco_id = lancamento.banco_id.id
+            if banco_id not in bancos:
+                bancos[banco_id] = lancamento.data_extrato
+            elif bancos[banco_id] > lancamento.data_extrato:
+                bancos[banco_id] = lancamento.data_extrato
+
+    def _ajusta_extrato_saldo(self, bancos={}):
+        for banco_id in bancos:
+            data = bancos[banco_id]
+            self.env['finan.banco.extrato'].ajusta_extrato(banco_id, data)
+            self.env['finan.banco.saldo'].ajusta_saldo(banco_id, data)
+
+    def executa_antes_create(self, dados, bancos={}):
         return dados
 
     @api.model
@@ -773,20 +824,27 @@ class FinanLancamento(SpedBase, models.Model):
         return self.executa_depois_create(res, dados)
 
     def executa_depois_create(self, result, dados):
+        bancos = {}
+        result._verifica_ajusta_extrato_saldo(bancos)
+        self._ajusta_extrato_saldo(bancos)
         return result
 
-    def executa_antes_write(self, dados):
+    def executa_antes_write(self, dados, bancos={}):
+        self._verifica_ajusta_extrato_saldo(bancos)
         return dados
 
     def write(self, dados):
-        self.executa_antes_write(dados)
+        bancos = {}
+        self.executa_antes_write(dados, bancos)
         result = super(FinanLancamento, self).write(dados)
-        return self.executa_depois_write(result, dados)
+        return self.executa_depois_write(result, dados, bancos)
 
-    def executa_depois_write(self, result, dados):
+    def executa_depois_write(self, result, dados, bancos={}):
+        self._verifica_ajusta_extrato_saldo(bancos)
+        self._ajusta_extrato_saldo(bancos)
         return result
 
-    def executa_antes_unlink(self):
+    def executa_antes_unlink(self, bancos={}):
         for lancamento in self:
             if lancamento.referencia_id:
                 raise UserError('Você não pode excuir um lançamento '
@@ -816,12 +874,16 @@ class FinanLancamento(SpedBase, models.Model):
                 raise UserError('Você não pode excuir um lançamento com '
                                 'pagamentos!')
 
-    def unlink(self):
-        self.executa_antes_unlink()
-        res = super(FinanLancamento, self).unlink()
-        return self.execute_depois_unlink(res)
+            lancamento._verifica_ajusta_extrato_saldo(bancos)
 
-    def execute_depois_unlink(self, result):
+    def unlink(self):
+        bancos = {}
+        self.executa_antes_unlink(bancos)
+        res = super(FinanLancamento, self).unlink()
+        return self.execute_depois_unlink(res, bancos)
+
+    def execute_depois_unlink(self, result, bancos={}):
+        self._ajusta_extrato_saldo(bancos)
         return result
 
     def confirma_lancamento(self):
