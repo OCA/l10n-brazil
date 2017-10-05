@@ -218,6 +218,8 @@ class Sat(Thread):
         except Exception as e:
             if hasattr(e, 'resposta'):
                 return e.resposta.mensagem
+            elif hasattr(e, 'message'):
+                return e.message
             else:
                 return "Erro ao validar os dados para o xml! " \
                        "Contate o suporte técnico."
