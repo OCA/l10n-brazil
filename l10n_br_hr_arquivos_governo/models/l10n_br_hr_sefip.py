@@ -591,7 +591,7 @@ class L10nBrSefip(models.Model):
             'sefip_id': self.id,
         }
 
-    def prepara_financial_move_darf(self, empresa_id, dados_empresa):
+    def prepara_financial_move_darf(self, valor):
         '''
          Tratar dados do sefip e criar um dict para criar financial.move de
          guia DARF.
@@ -604,23 +604,21 @@ class L10nBrSefip(models.Model):
         )
         data_vencimento = data_vencimento + timedelta(days=31)
 
-        empresa = self.env['res.company'].browse(empresa_id)
-
-        sequence_id = empresa.darf_sequence_id.id
+        sequence_id = self.company_id.darf_sequence_id.id
         doc_number = str(self.env['ir.sequence'].next_by_id(sequence_id))
 
         return {
             'date_document': fields.Date.today(),
             'partner_id': self.env.ref('base.user_root').id,
             'doc_source_id': 'l10n_br.hr.sefip,' + str(self.id),
-            'company_id': empresa_id,
-            'amount_document': dados_empresa['DARF'],
+            'company_id': self.company_id.id,
+            'amount_document': valor,
             'document_number': 'DARF-' + str(doc_number),
-            'account_id': empresa.darf_account_id.id,
-            'document_type_id': empresa.darf_document_type.id,
+            'account_id': self.company_id.darf_account_id.id,
+            'document_type_id': self.company_id.darf_document_type.id,
             'type': '2pay',
             'date_maturity': data_vencimento,
-            'payment_mode_id': empresa.darf_carteira_cobranca.id,
+            'payment_mode_id': self.company_id.darf_carteira_cobranca.id,
             'sefip_id': self.id,
         }
 
@@ -668,6 +666,7 @@ class L10nBrSefip(models.Model):
         for record in self:
             created_ids = []
             empresas = {}
+            darfs = {}
             for holerite in self.folha_ids:
                 if not empresas.get(holerite.company_id.id):
                     empresas.update({
@@ -676,7 +675,6 @@ class L10nBrSefip(models.Model):
                             'INSS_empresa': 0.00,
                             'INSS_outras_entidades': 0.00,
                             'INSS_rat_fap': 0.00,
-                            'DARF': 0.00,
                         }
                     })
                 for line in holerite.line_ids:
@@ -713,9 +711,15 @@ class L10nBrSefip(models.Model):
                         empresas[line.slip_id.company_id.id][
                             'INSS_rat_fap'] += line.total
                     elif line.code == 'IRPF':
-                        empresas[line.slip_id.company_id.id][
-                            'DARF'] += line.total
-
+                        if darfs.get(line.salary_rule_id.codigo_darf):
+                            darfs[line.salary_rule_id.codigo_darf] += \
+                                line.total
+                        else:
+                            darfs.update(
+                                {
+                                    line.salary_rule_id.codigo_darf: line.total
+                                }
+                            )
 
             for sindicato in contribuicao_sindical:
                 vals = self.prepara_financial_move(
@@ -726,16 +730,17 @@ class L10nBrSefip(models.Model):
 
             for company in empresas:
                 dados_empresa = empresas[company]
-                vals_darf = self.prepara_financial_move_darf(
-                    company, dados_empresa)
-                financial_move_darf = self.env['financial.move'].create(
-                    vals_darf
-                )
-                created_ids.append(financial_move_darf.id)
                 vals_gps = self.prepara_financial_move_gps(
                     company, dados_empresa)
-                financial_move_darf = self.env['financial.move'].create(
+                financial_move_gps = self.env['financial.move'].create(
                     vals_gps
+                )
+                created_ids.append(financial_move_gps.id)
+
+            for cod_darf in darfs:
+                vals_darf = self.prepara_financial_move_darf(darfs[cod_darf])
+                financial_move_darf = self.env['financial.move'].create(
+                    vals_darf
                 )
                 created_ids.append(financial_move_darf.id)
 
