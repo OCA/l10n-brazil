@@ -11,3 +11,4 @@ from . import l10n_br_hr_contract
 from . import l10n_br_hr_payslip
 from . import res_company
 from . import l10n_br_hr_sefip
+from . import inherited_hr_salary_rule
