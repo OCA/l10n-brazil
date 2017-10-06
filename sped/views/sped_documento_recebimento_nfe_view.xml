@@ -17,9 +17,13 @@
             </xpath>
             <xpath expr="//separator[@name='pagamentos']" position="replace" />
             <xpath expr="//field[@name='pagamento_ids']" position="replace" />
+            <field name="item_ids" position="attributes" >
+                <attribute name="context">{'form_view_ref' : 'sped.sped_documento_item_emissao_form', 'tree_view_ref' : 'sped.sped_documento_item_emissao_tree', 'manual': True}</attribute>
+            </field>
             <field name="entrada_saida" position="attributes" >
                 <attribute name="attrs">{'invisible': [('emissao', '=', '1')]}</attribute>
             </field>
+
         </field>
     </record>
 
@@ -52,7 +56,7 @@
     <record model="ir.actions.act_window" id="sped_documento_recebimento_nfe_acao">
         <field name="name">Emissão de NF-e</field>
         <field name="domain">[('emissao', '=', '1'), ('modelo', '=', '55'), ('entrada_saida', '=', '0')]</field>
-        <field name="context">{'default_emissao': '1',  'default_entrada_saida': '0', 'default_modelo': '55'}</field>
+        <field name="context">{'default_emissao': '1',  'default_entrada_saida': '0', 'default_modelo': '55', 'manual': True}</field>
         <field name="res_model">sped.documento</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>

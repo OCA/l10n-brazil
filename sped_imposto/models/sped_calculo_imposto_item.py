@@ -997,7 +997,10 @@ class SpedCalculoImpostoItem(SpedBase):
                 self.uom_id = self.produto_id.unidade_id.uom_id
             return res
         elif self.emissao == TIPO_EMISSAO_TERCEIROS:
-            res = self._onchange_produto_id_recebimento()
+            if self.env.context.get('manual'):
+                res = self._onchange_produto_id_emissao_propria()
+            else:
+                res = self._onchange_produto_id_recebimento()
             if hasattr(self, 'product_id'):
                 self.product_id = self.produto_id.product_id.id
             if hasattr(self, 'product_uom'):
@@ -1505,7 +1508,8 @@ class SpedCalculoImpostoItem(SpedBase):
         # Na nota de terceiros, respeitamos o IPI enviado no XML original,
         # e não recalculamos
         #
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
+        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
+                self.env.context.get('manual'):
             return res
 
         if (self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES and
@@ -1556,7 +1560,8 @@ class SpedCalculoImpostoItem(SpedBase):
         avisos = {}
         res['warning'] = avisos
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
+        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
+                self.env.context.get('manual'):
             return res
 
         if not self.protocolo_id:
@@ -1712,7 +1717,8 @@ class SpedCalculoImpostoItem(SpedBase):
         if hasattr(self, 'product_uom_qty'):
             self.product_uom_qty = self.quantidade
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
+        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
+                self.env.context.get('manual'):
             return res
 
         #
@@ -1799,7 +1805,8 @@ class SpedCalculoImpostoItem(SpedBase):
     def _onchange_calcula_ipi(self):
         res = {}
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
+        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
+                self.env.context.get('manual'):
             return res
 
         self.bc_ipi = 0
@@ -1842,7 +1849,8 @@ class SpedCalculoImpostoItem(SpedBase):
     def _onchange_calcula_icms_sn(self):
         res = {}
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
+        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
+                self.env.context.get('manual'):
             return res
 
         self.vr_icms_sn = 0
@@ -1885,7 +1893,8 @@ class SpedCalculoImpostoItem(SpedBase):
     def _onchange_calcula_pis_cofins(self):
         res = {}
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
+        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
+                self.env.context.get('manual'):
             return res
 
         if (self.cst_pis in ST_PIS_CALCULA or
@@ -1949,7 +1958,8 @@ class SpedCalculoImpostoItem(SpedBase):
     def _onchange_calcula_icms_proprio(self):
         self.ensure_one()
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
+        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
+                self.env.context.get('manual'):
             return
 
         self.bc_icms_proprio = 0
@@ -2032,7 +2042,8 @@ class SpedCalculoImpostoItem(SpedBase):
     def _onchange_calcula_icms_st(self):
         self.ensure_one()
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
+        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
+                self.env.context.get('manual'):
             return
 
         self.bc_icms_st = 0
@@ -2109,7 +2120,8 @@ class SpedCalculoImpostoItem(SpedBase):
 
         res = {}
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
+        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
+                self.env.context.get('manual'):
             return res
 
         self.al_difal = 0
@@ -2150,7 +2162,8 @@ class SpedCalculoImpostoItem(SpedBase):
 
         res = {}
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
+        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
+                self.env.context.get('manual'):
             return res
 
         if self.al_simples:
@@ -2166,7 +2179,8 @@ class SpedCalculoImpostoItem(SpedBase):
 
         res = {}
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
+        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
+                self.env.context.get('manual'):
             return res
 
         if self.al_ibpt:
@@ -2183,7 +2197,8 @@ class SpedCalculoImpostoItem(SpedBase):
 
         res = {}
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
+        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
+                self.env.context.get('manual'):
             return res
 
         vr_nf = self.vr_operacao + self.vr_ipi + self.vr_icms_st + self.vr_ii
