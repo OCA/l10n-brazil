@@ -25,7 +25,7 @@ class AccountMove(SpedBase, models.Model):
         related='journal_id.empresa_id',
         store=True,
         readonly=True,
-        default=lambda self: self.env.user.company_id.empresa_id,
+        default=lambda self: self.env.user.sped_empresa_id,
     )
     participante_id = fields.Many2one(
         comodel_name='sped.participante',

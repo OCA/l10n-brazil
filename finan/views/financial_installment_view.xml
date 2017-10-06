@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+
+    <record model="ir.ui.view" id="financial_create_form_view">
+        <field name="name">financial_installment.form (in financial)</field>
+        <field name="model">financial.installment</field>
+        <field name="arch" type="xml">
+            <form string="Financial_create">
+                <header>
+                    <button name='compute'
+                                string='Compute'
+                                class='btn-primary oe_highlight'
+                                type='object'
+                                attrs="{'invisible': [('moves_created', '=', True)]}"
+                            />
+                </header>
+                <group>
+                    <group>
+                        <field name="type" readonly="1"/>
+                        <field name="document_type_id"/>
+                        <field name="bank_id"  options="{'no_create': True, 'no_open': True}"/>
+                        <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency"/>
+                    </group>
+                    <group>
+                        <field name="participante_id"
+                               domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]" required="True" context="{'default_is_company': True, 'default_supplier': type == '2pay', 'default_customer': type == '2receive'}"/>
+                        <field name="account_id"/>
+                        <field name="company_id" options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <field name="document_number"/>
+                        <field name="date_document"/>
+                        <field name="payment_term_id"/>
+                    </group>
+                    <group class="oe_subtotal_footer oe_center">
+                        <field name="amount_document"/>
+                        <field name="amount_discount" string="Discount (-)"/>
+                        <field name="amount_total" class="oe_subtotal_footer_separator"/>
+                    </group>
+                    <field name="moves_created" invisible="1"/>
+                    <notebook colspan="4">
+                        <page  attrs="{'invisible': [('moves_created', '=', True)]}" string="Simulation Lines">
+                            <field nolabel="1" name="line_ids">
+                                <tree>
+                                    <field name="document_item"/>
+                                    <field name="date_maturity"/>
+                                    <field name="amount_document"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page attrs="{'invisible': [('moves_created', '=', False)] }" string="Generated Lines">
+                            <field nolabel="1" name="move_created_id" />
+                        </page>
+                    </notebook>
+                    <div>
+                        <field name="note" placeholder="Notes ..."/>
+                    </div>
+                </group>
+
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="financial_create_tree_view">
+        <field name="name">financial_installment.form (in financial)</field>
+        <field name="model">financial.installment</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="type"/>
+                <field name="participante_id"/>
+                <field name="document_number"/>
+                <field name="date_maturity"/>
+                <field name="amount_document"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="financial_create_2pay_act_window">
+        <field name="name">Parcelamento</field>
+        <field name="res_model">financial.installment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('type', '=', '2pay')]</field>
+        <field name="context">{'default_type': '2pay'}</field>
+        <field name="target">current</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="financial_create_2receive_act_window">
+        <field name="name">Parcelamento</field>
+        <field name="res_model">financial.installment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('type', '=', '2receive')]</field>
+        <field name="context">{'default_type': '2receive'}</field>
+        <field name="target">current</field>
+    </record>
+
+    <record model="ir.ui.menu" id="financial_2receive_menu">
+        <field name="name">Parcelamento</field>
+        <field name="parent_id" ref="financial.financial_receivable_menu"/>
+        <field name="action" ref="financial_create_2receive_act_window"/>
+        <field name="sequence" eval="25"/>
+    </record>
+
+    <record model="ir.ui.menu" id="financial_2pay_menu">
+        <field name="name">Parcelamento</field>
+        <field name="parent_id" ref="financial.financial_payable_menu"/>
+        <field name="action" ref="financial_create_2pay_act_window"/>
+        <field name="sequence" eval="25"/>
+    </record>
+
+
+</odoo>

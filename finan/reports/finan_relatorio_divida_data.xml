@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Luiz Felipe do Divino <luiz.divino@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.actions.report.xml" id="finan_relatorio_divida_action">
+        <field name="name">Dívidas - a receber e a pagar</field>
+        <field name="type">ir.actions.report.xml</field>
+        <!-- model que vai filtrar os dados do relatório -->
+        <field name="model">finan.relatorio.wizard</field>
+        <!-- o name *NUNCA* pode ser precedido por "report.", vai ser adicionado automaticamente -->
+        <field name="report_name">finan_relatorio_divida</field>
+        <field name="report_type">xlsx</field>
+        <field name="auto" eval="False"/>
+    </record>
+
+</odoo>

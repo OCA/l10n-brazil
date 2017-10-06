@@ -20,13 +20,13 @@
                         <field name="active" string="Ativa?" />
                     </group>
                     <newline />
-                    <group attrs="{'invisible': [('forma_pagamento', 'not in', ('02', '03'))]}">
+                    <group name="cartao" attrs="{'invisible': [('forma_pagamento', 'not in', ('03', '04'))]}">
                         <separator string="Cartão de crédito/débito" />
                         <newline />
-                        <field name="bandeira_cartao" attrs="{'required': [('forma_pagamento', 'in', ('02', '03'))]}" string="Bandeira" />
-                        <field name="integracao_cartao" attrs="{'required': [('forma_pagamento', 'in', ('02', '03'))]}" string="Integração" />
+                        <field name="bandeira_cartao" attrs="{'required': [('forma_pagamento', 'in', ('03', '04'))]}" string="Bandeira" />
+                        <field name="integracao_cartao" attrs="{'required': [('forma_pagamento', 'in', ('03', '04'))]}" string="Integração" />
                         <newline />
-                        <field name="participante_id" domain="[('cnpj_cpf', '!=', False)]" attrs="{'required': [('forma_pagamento', 'in', ('02', '03'))]}" string="Operadora" />
+                        <field name="participante_id" domain="[('cnpj_cpf', '!=', False)]" attrs="{'required': [('forma_pagamento', 'in', ('03', '04'))]}" string="Operadora" />
                     </group>
                     <newline />
                     <group col="4" colspan="4">
@@ -55,13 +55,13 @@
                         <newline />
                         <field name="com_entrada" />
                         <field name="al_entrada" attrs="{'invisible': [('com_entrada', '=', False)]}" />
-                        <field name="com_juros" />
+                        <field name="com_juros" attrs="{'invisible': [('em_parcelas_mensais', '!=', True)]}" />
                         <field name="al_juros" attrs="{'invisible': [('com_juros', '=', False)]}" />
                         <newline />
                     </group>
-                    <newline />
+<!--                    <newline />
                     <label for="note" string="Descrição" />
-                    <field name="note" nolabel="1" placeholder="Descrição da condição de pagamento para o cliente..."/>
+                    <field name="note" nolabel="1" placeholder="Descrição da condição de pagamento para o cliente..."/>-->
                     <newline />
                     <group attrs="{'invisible': [('em_parcelas_mensais', '=', True)]}">
                         <separator string="Termos manuais" />
@@ -104,7 +104,7 @@
     <record model="ir.actions.act_window" id="sped_account_payment_term_acao">
         <field name="name">Condições de Pagamento</field>
         <field name="domain">[]</field>
-        <field name="context">{}</field>
+        <field name="context">{'default_em_parcelas_mensais': True}</field>
         <field name="res_model">account.payment.term</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>

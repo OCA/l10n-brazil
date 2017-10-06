@@ -50,7 +50,7 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         comodel_name='sale.order.line',
         inverse_name='order_id',
         string='Produto',
-        copy=True,
+        copy=False,
         domain=[('tipo_item','=','P')],
         readonly=True,
         states={'draft': [('readonly', False)]},
@@ -59,7 +59,7 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         comodel_name='sale.order.line',
         inverse_name='order_id',
         string='Serviços',
-        copy=True,
+        copy=False,
         domain=[('tipo_item','=','S')],
         readonly=True,
         states={'draft': [('readonly', False)]},
@@ -76,6 +76,29 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         index=True,
     )
 
+    #
+    # Corrige os states
+    #
+    state = fields.Selection(
+        selection=[
+            ('draft', 'Orçamento'),
+            ('sent', 'Enviado ao cliente'),
+            ('sale', 'Pedido'),
+            ('done', 'Concluído'),
+            ('cancel', 'Cancelado'),
+        ],
+        string='Status',
+        readonly=True,
+        copy=False,
+        index=True,
+        track_visibility='onchange',
+        default='draft',
+    )
+
+    obs_estoque = fields.Text(
+        string='Obs. para o estoque',
+    )
+
     @api.depends('date_order')
     def _compute_data_hora_separadas(self):
         for sale in self:
@@ -86,7 +109,7 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
     @api.depends('documento_ids.situacao_fiscal')
     def _compute_quantidade_documentos_fiscais(self):
         for sale in self:
-            documento_ids = self.documento_ids.search(
+            documento_ids = self.env['sped.documento'].search(
                 [('sale_order_id', '=', sale.id), ('situacao_fiscal', 'in',
                   SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
 
@@ -149,7 +172,7 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
             if not sale.is_brazilian:
                 continue
 
-            documento_ids = self.documento_ids.search(
+            documento_ids = self.env['sped.documento'].search(
                 [('sale_order_id', '=', sale.id), ('situacao_fiscal', 'in',
                   SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
 
@@ -213,3 +236,32 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
     def write(self, dados):
         dados = self._mantem_sincronia_cadastros(dados)
         return super(SaleOrder, self).write(dados)
+
+    def gera_documento(self, soh_produtos=False, soh_servicos=False,
+                       stock_picking=None):
+        self.ensure_one()
+
+        documento_produto, documento_servico = \
+            super(SaleOrder, self).gera_documento(
+                soh_produtos=soh_produtos, soh_servicos=soh_servicos
+            )
+
+        if documento_produto is not None:
+            #
+            # Setamos a transportadora e a modalidade
+            #
+            if self.modalidade_frete:
+                documento_produto.modalidade_frete = self.modalidade_frete
+
+            if self.transportadora_id:
+                documento_produto.transportadora_id = self.transportadora_id.id
+
+            if stock_picking is None:
+                if documento_produto.operacao_id.enviar_pela_venda:
+                    documento_produto.envia_nfe()
+
+        #if documento_servico is not None:
+            #if documento_servico.operacao_id.enviar_pela_venda:
+                #documento_servico.envia_nfse()
+
+        return documento_produto, documento_servico

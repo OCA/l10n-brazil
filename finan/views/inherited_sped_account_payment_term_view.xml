@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_account_payment_term_form" >
+        <field name="name">sped.account.payment.term.form (in finan)</field>
+        <field name="model">account.payment.term</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_account_payment_term_form" />
+        <field name="arch" type="xml">
+            <field name="forma_pagamento" position="replace">
+                <field name="forma_pagamento_id" required="1" />
+                <newline />
+                <field name="forma_pagamento" invisible="1" />
+            </field>
+<!--            <group name="cartao" position="replace">
+                <group name="cartao" attrs="{'invisible': True}">
+                    <separator string="Cartão de crédito/débito" />
+                    <newline />
+                    <field name="bandeira_cartao" string="Bandeira" />
+                    <field name="integracao_cartao" string="Integração" />
+                    <newline />
+                    <field name="participante_id" domain="[('cnpj_cpf', '!=', False)]" string="Operadora" />
+                </group>
+            </group>-->
+        </field>
+    </record>
+
+    <menuitem
+        parent="menu_finan_configuracao"
+        sequence="2"
+        id="menu_finan_account_payment_term"
+        name="Cond. pagamento"
+        action="l10n_br_base.sped_account_payment_term_acao" />
+
+</odoo>

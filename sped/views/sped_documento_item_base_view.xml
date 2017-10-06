@@ -362,6 +362,7 @@
                                 <field name="bc_icms_st_com_ipi" />
                                 <separator string="Configuração da apuração" colspan="4" />
                                 <field name="movimentacao_fisica" />
+                                <newline />
                             </group>
                         </page>
                     </notebook>

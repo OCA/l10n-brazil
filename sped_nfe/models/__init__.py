@@ -18,6 +18,7 @@ from . import inherited_sped_documento_item_declaracao_importacao
 from . import inherited_sped_documento_referenciado
 from . import inherited_sped_documento_duplicata
 from . import inherited_sped_documento_pagamento
+from . import inherited_sped_documento_volume
 from . import sped_documento_carta_correcao
 
 from . import sped_consulta_dfe

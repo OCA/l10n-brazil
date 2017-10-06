@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="make_procurement_form">
+        <field name="name">make.procurement.form (in sped_stock)</field>
+        <field name="model">make.procurement</field>
+        <field name="inherit_id" ref="stock.view_make_procurment_wizard"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="replace">
+                <field name="produto_id" required="1" widget="selection"
+                       domain="[('product_tmpl_id', '=', product_tmpl_id)]"
+                       attrs="{'readonly': [('product_variant_count', '=', 1)]}" />
+                <newline />
+                <field name="product_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_aliquota_rateio_id" invisible="1"/>
+                <field name="currency_unitario_id" invisible="1"/>
+                <field name="currency_peso_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="unidade_id" invisible="1" />
+            </field>
+            <field name="uom_id" position="replace">
+                <field name="uom_id" invisible="1" />
+            </field>
+            <field name="qty" position="replace">
+                <field name="quantidade" required="1" />
+                <newline />
+                <field name="qty" invisible="1" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

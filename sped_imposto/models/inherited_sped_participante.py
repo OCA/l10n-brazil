@@ -17,3 +17,15 @@ class SpedParticipante(models.Model):
         comodel_name='sped.cnae',
         string='CNAE principal'
     )
+    operacao_produto_id = fields.Many2one(
+        comodel_name='sped.operacao',
+        string='Operação padrão para venda',
+        ondelete='restrict',
+        domain=[('modelo', 'in', ('55', '65', '2D')), ('emissao', '=', '0')],
+    )
+    operacao_servico_id = fields.Many2one(
+        comodel_name='sped.operacao',
+        string='Operação padrão para venda',
+        ondelete='restrict',
+        domain=[('modelo', 'in', ('SE', 'RL')), ('emissao', '=', '0')],
+    )

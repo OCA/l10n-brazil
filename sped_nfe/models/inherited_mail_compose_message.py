@@ -72,7 +72,7 @@ class MailComposeMessage(models.TransientModel):
 
         mail_template = None
         if model == 'sped.documento':
-            if documento.state_nfe == SITUACAO_NFE_AUTORIZADA:
+            if documento.situacao_nfe == SITUACAO_NFE_AUTORIZADA:
                 if documento.operacao_id.mail_template_id:
                     mail_template = documento.operacao_id.mail_template_id
 
@@ -87,7 +87,7 @@ class MailComposeMessage(models.TransientModel):
                         mail_template = \
                             empresa.mail_template_nfce_autorizada_id
 
-            elif documento.state_nfe == SITUACAO_NFE_CANCELADA:
+            elif documento.situacao_nfe == SITUACAO_NFE_CANCELADA:
                 if documento.modelo == MODELO_FISCAL_NFE and \
                     empresa.mail_template_nfe_cancelada_id:
                     mail_template = \
@@ -98,7 +98,7 @@ class MailComposeMessage(models.TransientModel):
                     mail_template = \
                         empresa.mail_template_nfce_cancelada_id
 
-            elif documento.state_nfe == SITUACAO_NFE_DENEGADA:
+            elif documento.situacao_nfe == SITUACAO_NFE_DENEGADA:
                 if documento.modelo == MODELO_FISCAL_NFE and \
                     empresa.mail_template_nfe_denegada_id:
                     mail_template = \

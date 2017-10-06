@@ -10,6 +10,7 @@ from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
+from .sped_base import SpedBase
 from ..constante_tributaria import (
     AMBIENTE_NFE,
     INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
@@ -30,6 +31,8 @@ try:
     from email_validator import validate_email
 
     from pybrasil.base import mascara, primeira_maiuscula
+    from pybrasil.data import parse_datetime, dia_util_pagamento, \
+        data_hora_horario_brasilia
     from pybrasil.inscricao import (
         formata_cnpj, formata_cpf, limpa_formatacao,
         formata_inscricao_estadual, valida_cnpj, valida_cpf,
@@ -44,7 +47,7 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedEmpresa(models.Model):
+class SpedEmpresa(SpedBase, models.Model):
     _name = b'sped.empresa'
     _description = 'Empresas e filiais'
     _inherits = {'sped.participante': 'participante_id'} # , 'res.company': 'company_id'}
@@ -509,3 +512,25 @@ class SpedEmpresa(models.Model):
             return company.partner_id.sped_empresa_id
         else:
             return False
+
+    def dia_util(self, data_referencia, antecipa=False):
+        self.ensure_one()
+
+        if not data_referencia:
+            return data_referencia
+
+        if isinstance(data_referencia, (str, unicode)):
+            #
+            # Caso venha uma data e hora, assumimos que veio em UTC
+            #
+            if len(data_referencia) > 10:
+                data_referencia = data_hora_horario_brasilia(
+                    parse_datetime(data_referencia + ' UTC'))
+
+        data_referencia = parse_datetime(data_referencia)
+        estado = self.estado
+        municipio = self.cidade
+
+        data_util = dia_util_pagamento(data_referencia, estado, municipio,
+                                       antecipa)
+        return data_util

@@ -74,6 +74,9 @@
         'views/sped_natureza_operacao_view.xml',
         'views/sped_operacao_item_view.xml',
         'views/sped_operacao_base_view.xml',
+        #
+        # Emissão de documento
+        #
         'views/sped_operacao_emissao_nfe_view.xml',
         'views/sped_operacao_emissao_nfse_view.xml',
         'views/sped_operacao_emissao_nfce_view.xml',

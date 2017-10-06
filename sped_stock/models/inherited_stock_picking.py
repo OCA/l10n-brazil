@@ -6,6 +6,7 @@ from __future__ import division, print_function, unicode_literals
 
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 from odoo.addons.sped_imposto.models.sped_calculo_imposto import (
     SpedCalculoImposto
 )
@@ -72,6 +73,19 @@ class StockPicking(SpedCalculoImposto, models.Model):
         index=True,
     )
 
+    move_type = fields.Selection(
+        default='one',
+    )
+
+    #
+    # Volumes da NF-e
+    #
+    volume_ids = fields.One2many(
+        comodel_name='sped.documento.volume',
+        inverse_name='stock_picking_id',
+        string='Volumes'
+    )
+
     @api.depends('date', 'date_done')
     def _compute_data_hora_separadas(self):
         for picking in self:
@@ -86,7 +100,7 @@ class StockPicking(SpedCalculoImposto, models.Model):
     @api.depends('documento_ids.situacao_fiscal')
     def _compute_quantidade_documentos_fiscais(self):
         for picking in self:
-            documento_ids = self.documento_ids.search(
+            documento_ids = picking.documento_ids.search(
                 [('stock_picking_id', '=', picking.id), ('situacao_fiscal', 'in',
                   SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
 
@@ -114,3 +128,55 @@ class StockPicking(SpedCalculoImposto, models.Model):
     def write(self, dados):
         dados = self._mantem_sincronia_cadastros(dados)
         return super(StockPicking, self).write(dados)
+
+    def gera_documento(self):
+        self.ensure_one()
+
+        documento = super(StockPicking, self).gera_documento()
+
+        if documento is None:
+            return documento
+
+        if self.volume_ids:
+            for volume in self.volume_ids:
+                volume.documento_id = documento.id
+
+        if documento.operacao_id.enviar_pelo_estoque:
+            documento.envia_nfe()
+
+        return documento
+
+    def unlink(self):
+        #
+        # Não permitimos excluir picking concluído ou cancelado
+        #
+        for picking in self:
+            if picking.state == 'done':
+                raise UserError(
+                    'Você não pode excluir movimentações de estoque '
+                    'concluídas!')
+            elif picking.state == 'cancel':
+                raise UserError(
+                    'Você não pode excluir movimentações de estoque '
+                    'canceladas!')
+
+        return super(StockPicking, self).unlink()
+
+    def action_cancel(self):
+        res = super(StockPicking, self).action_cancel()
+
+        for picking in self:
+            if not picking.group_id:
+                continue
+
+            #
+            # Apaga os procurement.order vinculados ao picking, pois isso
+            # está causando sérios problemas no fluxo da venda, pois
+            # cancelar o picking não cancela efetivamente o *efeito*
+            # do procurement, e o core interpreta a alteração da
+            # quantidade pedida de forma incorreta
+            #
+            self.env.cr.execute(
+                'delete from procurement_order where group_id = %(group_id)s',
+                {'group_id': picking.group_id.id}
+            )

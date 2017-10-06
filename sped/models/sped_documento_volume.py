@@ -22,7 +22,6 @@ class SpedDocumentoVolume(SpedBase, models.Model):
         comodel_name='sped.documento',
         string='Documento',
         ondelete='cascade',
-        required=True,
     )
     especie = fields.Char(
         string='Espécie',
@@ -33,11 +32,11 @@ class SpedDocumentoVolume(SpedBase, models.Model):
         size=60
     )
     numero = fields.Char(
-        string='Número', size=60
+        string='Número',
+        size=60
     )
-    quantidade = fields.Float(
+    quantidade = fields.Integer(
         string='Quantidade',
-        digits=dp.get_precision('SPED - Quantidade')
     )
     peso_liquido = fields.Monetary(
         string='Peso líquido',

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_endereco_base_form" >
+        <field name="name">sped.endereco.base.form</field>
+        <field name="model">sped.endereco</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="Endereços">
+            <sheet>
+                <separator string="Endereço" />
+                <group col="6">
+                    <field name="endereco" colspan="6" required="1" />
+                    <field name="numero" required="1" />
+                    <field name="complemento" colspan="4" />
+                    <field name="bairro" colspan="6" required="1" />
+                    <field name="municipio_id" options="{'no_open': True, 'no_create': True}" colspan="6" required="1" />
+                    <field name="cep" placeholder="99999-999" required="1" />
+                </group>
+                <separator string="Contato" />
+                <group col="4">
+                    <field name="nome" placeholder="Nome (uso interno)" />
+                    <field name="cnpj_cpf" placeholder="CNPJ ou CPF" />
+                    <field name="tipo_pessoa" invisible="1" />
+                    <newline />
+                    <field name="razao_social" colspan="4" string="Nome completo Razão Social" />
+                    <field name="fantasia" colspan="4" attrs="{'invisible': [('tipo_pessoa', '=', 'F')]}" />
+                </group>
+                <group col="2">
+                    <field name="fone" widget="phone" placeholder="(99) 9999-9999" />
+                    <newline />
+                    <field name="celular" widget="phone" placeholder="(99) 999-999-999" />
+                    <newline />
+                    <field name="fone_comercial" widget="phone" placeholder="(99) 9999-9999" />
+                    <newline />
+                    <field name="email" />
+                </group>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+            </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_endereco_base_tree">
+        <field name="name">sped.endereco.base.tree</field>
+        <field name="model">sped.endereco</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <tree string="Endereços">
+                <field name="nome" />
+                <field name="endereco_completo" />
+                <field name="cnpj_cpf" />
+                <field name="fone" />
+                <field name="celular" />
+                <field name="email" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_endereco_base_search">
+        <field name="name">sped.endereco.base.search</field>
+        <field name="model">sped.endereco</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <search string="Endereços">
+                <field name="nome" filter_domain="['|', '|', '|', ('nome','ilike',self), ('endereco','ilike',self), ('bairro','ilike',self), ('cidade','ilike',self)]" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_endereco_base_kanban">
+        <field name="name">sped.endereco.base.kanban</field>
+        <field name="model">sped.endereco</field>
+        <field name="priority">9999</field>
+        <field name="arch" type="xml">
+            <kanban class="o_sped_endereco_kanban">
+                <field name="color"/>
+                <field name="nome"/>
+                <field name="cnpj_cpf"/>
+                <field name="endereco_completo"/>
+                <field name="fone"/>
+                <field name="celular"/>
+                <field name="email"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>
+                        <div t-att-class="color + ' oe_kanban_global_click'">
+                            <div class="oe_kanban_details">
+                                <t t-if="record.nome.raw_value">
+                                    <t t-if="record.cnpj_cpf.raw_value">
+                                        <strong><field name="nome" /> – <field name="cnpj_cpf"/></strong>
+                                    </t>
+                                    <t t-if="!record.cnpj_cpf.raw_value">
+                                        <strong class="oe_partner_heading"><field name="nome"/></strong>
+                                    </t>
+                                </t>
+                                <ul>
+                                    <li t-if="record.endereco_completo.raw_value" class="o_text_overflow"><field name="endereco_completo"/></li>
+                                    <li t-if="record.fone.raw_value" class="o_text_overflow"><field name="fone"/></li>
+                                    <li t-if="record.celular.raw_value" class="o_text_overflow">• <field name="celular"/></li>
+                                    <li t-if="record.email.raw_value"><field name="email"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_endereco_base_acao">
+        <field name="name">Endereços</field>
+        <field name="res_model">sped.endereco</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="search_view_id" ref="l10n_br_base.sped_endereco_base_search" />
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_endereco_base_kanban_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="sped_endereco_base_kanban"/>
+        <field name="act_window_id" ref="sped_endereco_base_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_endereco_base_tree_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_endereco_base_tree"/>
+        <field name="act_window_id" ref="sped_endereco_base_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_endereco_base_form_acao">
+        <field eval="3" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_endereco_base_form"/>
+        <field name="act_window_id" ref="sped_endereco_base_acao"/>
+    </record>
+
+<!--    <menuitem
+        id="menu_sped_endereco_base"
+        sequence="100"
+        name="Endereços"
+        parent="menu_cadastro_participante"
+        action="sped_endereco_base_acao"
+        />-->
+
+</odoo>

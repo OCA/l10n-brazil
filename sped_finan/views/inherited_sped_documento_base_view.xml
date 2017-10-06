@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_base_inherited_form" >
+        <field name="name">sped.documento.base.inherited_form</field>
+        <field name="model">sped.documento</field>
+        <field name="inherit_id" ref="sped.sped_documento_base_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='condicao_pagamento_id']" position="after">
+                <newline />
+                <field name="finan_documento_id" attrs="{'required': [('ind_forma_pagamento', '!=', '9')], 'readonly': [('permite_alteracao', '=', False)]}" />
+                <field name="finan_conta_id" attrs="{'required': [('ind_forma_pagamento', '!=', '9')], 'readonly': [('permite_alteracao', '=', False)]}" />
+                <newline />
+                <button type="object" name="regera_finan_lancamento" string="Regerar lançamentos financeiros" groups="l10n_br_base.GRUPO_SUPORTE" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

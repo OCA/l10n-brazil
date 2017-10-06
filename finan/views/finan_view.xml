@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.menu" id="menu_finan">
+        <field name="name">Financeiro</field>
+        <field name="sequence" eval="3"/>
+    </record>
+
+    <record model="ir.ui.menu" id="menu_finan_receber">
+        <field name="name">Contas a receber</field>
+        <field name="parent_id" ref="menu_finan"/>
+        <field name="sequence" eval="1"/>
+    </record>
+    <record model="ir.ui.menu" id="menu_finan_pagar">
+        <field name="name">Contas a pagar</field>
+        <field name="parent_id" ref="menu_finan"/>
+        <field name="sequence" eval="20"/>
+    </record>
+
+    <record model="ir.ui.menu" id="menu_finan_relatorio">
+        <field name="name">Relatórios</field>
+        <field name="parent_id" ref="menu_finan"/>
+        <field name="sequence" eval="40"/>
+    </record>
+
+    <record model="ir.ui.menu" id="menu_finan_configuracao">
+        <field name="name">Configuração</field>
+        <field name="parent_id" ref="menu_finan"/>
+        <field name="sequence" eval="100"/>
+    </record>
+
+</odoo>
