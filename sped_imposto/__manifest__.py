@@ -77,7 +77,7 @@
         'views/sped_operacao_emissao_nfe_view.xml',
         'views/sped_operacao_emissao_nfse_view.xml',
         'views/sped_operacao_emissao_nfce_view.xml',
-        # 'views/sped_operacao_recebimento_nfe_view.xml',
+        'views/sped_operacao_recebimento_nfe_view.xml',
 
         #
         # Grupos e permissões
