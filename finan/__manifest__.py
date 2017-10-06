@@ -26,10 +26,11 @@
         # Cadastros e configurações
         #
         'views/finan_banco_view.xml',
+        'views/finan_carteira_view.xml',
+        'views/inherited_sped_account_payment_term_view.xml',
         'views/finan_conta_view.xml',
         'views/finan_documento_view.xml',
         'views/finan_forma_pagamento_view.xml',
-        'views/inherited_sped_account_payment_term_view.xml',
         'views/inherited_sped_participante_base_view.xml',
 
         #

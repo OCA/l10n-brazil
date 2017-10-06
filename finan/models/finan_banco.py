@@ -16,7 +16,7 @@ class FinanBanco(SpedBase, models.Model):
     _name = b'finan.banco'
     _description = 'Conta Bancária'
     _rec_name = 'nome'
-    _order = 'nome'
+    #_order = 'nome'
 
     banco = fields.Selection(
         selection=FINAN_BANCO,
@@ -51,8 +51,8 @@ class FinanBanco(SpedBase, models.Model):
         string='Conta bancária',
         size=500,
         compute='_compute_banco',
-        store=True,
-        index=True,
+        #store=True,
+        #index=True,
     )
     titular_id = fields.Many2one(
         comodel_name='sped.participante',
@@ -121,7 +121,6 @@ class FinanBanco(SpedBase, models.Model):
 
             if banco.banco != FINAN_BANCO_INTERNO:
                 nome += ' / '
-                nome += ' ag. '
                 nome += banco.agencia
 
             nome += ' / '
@@ -131,7 +130,7 @@ class FinanBanco(SpedBase, models.Model):
                 nome += '-'
                 nome += banco.conta_digito
 
-            if not self._context.get('banco_sem_titular'):
+            if not self.env.context.get('banco_sem_titular'):
                 nome += ' / '
                 nome += banco.titular_id.name_get()[0][1]
 

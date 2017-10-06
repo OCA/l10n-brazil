@@ -80,3 +80,10 @@ class FinanFormaPagamento(models.Model):
         comodel_name='finan.documento',
         string='Tipo de documento',
     )
+    #
+    # Carteira pra automatizar emissão de boletos
+    #
+    carteira_id = fields.Many2one(
+        comodel_name='finan.carteira',
+        string='Carteira',
+    )

@@ -18,11 +18,27 @@
                     context="{'default_divida_id': id, 'default_tipo': 'recebimento', 'default_conta_id': conta_id, 'default_empresa_id': empresa_id, 'default_participante_id': participante_id, 'default_vr_documento': vr_saldo}" />
             </xpath>
 
+            <!-- Controle de forma de pagamento e cobrança -->
+            <field name="data_vencimento" position="after">
+                <field name="forma_pagamento_id" options="{'no_create': True, 'no_open': True}" />
+                <newline />
+                <field name="forma_pagamento" invisible="1" />
+                <newline />
+                <field name="banco_id" options="{'no_create': True, 'no_open': True}" domain="[('cnpj_cpf_raiz', '=', cnpj_cpf_raiz)]" />
+                <newline />
+                <field name="banco" invisible="1" />
+                <newline />
+                <field name="carteira_id" domain="[('banco_id', '=', banco_id)]" attrs="{'invisible': ['|', ('banco_id', '=', False), ('banco', '=', '000'), ('forma_pagamento', '!=', '15')]}" options="{'no_create': True, 'no_open': True}" />
+                <newline />
+                <field name="nosso_numero" attrs="{'invisible': ['|', ('banco_id', '=', False), ('carteira_id', '=', False)]}" />
+            </field>
+
             <xpath expr="//form[1]" position="attributes">
                 <attribute name="string">Conta a receber</attribute>
             </xpath>
             <field name="participante_id" position="attributes">
                 <attribute name="string">Cliente</attribute>
+                <attribute name="default_focus">1</attribute>
             </field>
             <xpath expr="//separator[@name='valores_pagos']" position="attributes">
                 <attribute name="string">Valores recebidos</attribute>
@@ -80,7 +96,7 @@
         <field name="res_model">finan.lancamento</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('tipo', '=', 'a_receber')]</field>
-        <field name="context">{'default_tipo': 'a_receber', 'default_provisorio': True, 'search_default_situacao_vence_hoje': True, 'search_default_situacao_vencido': True}</field>
+        <field name="context">{'banco_sem_titular': True, 'default_tipo': 'a_receber', 'default_provisorio': True, 'search_default_situacao_vence_hoje': True, 'search_default_situacao_vencido': True}</field>
         <field name="search_view_id" ref="finan_lancamento_divida_a_receber_search" />
     </record>
 

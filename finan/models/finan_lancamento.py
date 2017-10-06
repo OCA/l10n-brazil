@@ -10,6 +10,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.exceptions import Warning as UserError
 from odoo.addons.l10n_br_base.models.sped_base import SpedBase
+from odoo.addons.l10n_br_base.constante_tributaria import FORMA_PAGAMENTO
 from ..constantes import *
 
 _logger = logging.getLogger(__name__)
@@ -94,6 +95,12 @@ class FinanLancamento(SpedBase, models.Model):
         string='Forma de pagamento',
         ondelete='restrict',
         index=True,
+    )
+    forma_pagamento = fields.Selection(
+        selection=FORMA_PAGAMENTO,
+        string='Forma de pagamento fiscal',
+        related='forma_pagamento_id.forma_pagamento',
+        readonly=True,
     )
     exige_numero = fields.Boolean(
         string='Exige número de documento?',
@@ -274,7 +281,7 @@ class FinanLancamento(SpedBase, models.Model):
     # Previsão de juros e multa do lançamento
     #
     al_juros = fields.Monetary(
-        string='Taxa de juros',
+        string='Taxa de juros (mensal)',
         currency_field='currency_aliquota_id'
     )
     data_juros = fields.Date(
@@ -287,7 +294,7 @@ class FinanLancamento(SpedBase, models.Model):
         string='Percentual de multa',
         currency_field='currency_aliquota_id'
     )
-    date_penalty = fields.Date(
+    data_multa = fields.Date(
         string='Multa a partir de',
     )
     vr_multa_previsto = fields.Monetary(
@@ -362,6 +369,11 @@ class FinanLancamento(SpedBase, models.Model):
         ondelete='restrict',
         index=True,
     )
+    banco = fields.Selection(
+        selection=FINAN_BANCO,
+        related='banco_id.banco',
+        readonly=True,
+    )
     extrato_id = fields.One2many(
         comodel_name='finan.banco.extrato',
         inverse_name='lancamento_id',
@@ -370,6 +382,20 @@ class FinanLancamento(SpedBase, models.Model):
     vr_saldo_banco = fields.Monetary(
         string='Saldo banco/caixa após lançamento',
         related='extrato_id.saldo',
+    )
+
+    #
+    # Carteira de cobrança/boletos
+    #
+    carteira_id = fields.Many2one(
+        comodel_name='finan.carteira',
+        string='Carteira',
+        ondelete='restrict',
+        index=True,
+    )
+    nosso_numero = fields.Char(
+        string='Nosso número',
+        size=20,
     )
 
     #
