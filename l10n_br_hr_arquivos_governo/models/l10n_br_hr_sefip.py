@@ -803,8 +803,11 @@ class L10nBrSefip(models.Model):
                     self._preencher_registro_12(company_id, sefip))
 
                 for folha in folhas_da_empresa.sorted(
-                        key=lambda folha: punctuation_rm(
-                            folha.employee_id.pis_pasep)):
+                        key=lambda folha:
+                        (
+                                punctuation_rm(folha.employee_id.pis_pasep),
+                                folha.contract_id.categoria_sefip
+                        )):
                     record.sefip += self._valida_tamanho_linha(
                         record._preencher_registro_30(sefip, folha))
 
