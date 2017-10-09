@@ -124,6 +124,8 @@
                         </page>
                     </notebook>
                     <div>
+                        <label string="Histórico" />
+                        <newline />
                         <field name="historico" attrs="{'readonly': [('state', '!=', 'draft')]}" />
                     </div>
                 </sheet>
