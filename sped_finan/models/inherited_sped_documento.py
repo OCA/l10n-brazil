@@ -86,3 +86,35 @@ class SpedDocumento(models.Model):
     def executa_depois_autorizar(self):
         super(SpedDocumento, self).executa_depois_autorizar()
         self.gera_finan_lancamento()
+
+    def executa_depois_create(self):
+        for documento in self:
+            documento.gera_finan_lancamento()
+
+    @api.model
+    def create(self, dados):
+        res = super(SpedDocumento, self).create(dados)
+        res.executa_depois_create()
+        return res
+
+    def executa_antes_write(self):
+        for documento in self:
+            documento.exclui_finan_lancamento()
+
+    def executa_depois_write(self):
+        for documento in self:
+            documento.gera_finan_lancamento()
+
+    def write(self, dados):
+        self.executa_antes_write()
+        res = super(SpedDocumento, self).write(dados)
+        self.executa_depois_write()
+        return res
+
+    def executa_antes_unlink(self):
+        for documento in self:
+            documento.exclui_finan_lancamento()
+
+    def unlink(self):
+        self.executa_antes_unlink()
+        return super(SpedDocumento, self).unlink()
