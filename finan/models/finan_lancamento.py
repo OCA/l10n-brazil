@@ -351,6 +351,7 @@ class FinanLancamento(SpedBase, models.Model):
     )
     provisorio = fields.Boolean(
         string='É provisório?',
+        index=True,
     )
     state = fields.Selection(
         string='State',
