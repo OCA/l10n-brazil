@@ -134,3 +134,42 @@ class SpedDocumento(models.Model):
         self.ensure_one()
         super(SpedDocumento, self).executa_depois_denegar()
         self._cancela_estoque()
+
+    def _criar_picking_entrada(self):
+        stock_obj = self.env['stock.picking']
+        for documento in self:
+            doc_picking_type = documento.operacao_id.stock_picking_type_id
+            move_lines = []
+            for line in documento.item_ids:
+                vals_produtos = [0, False, {
+                    'produto_id': line.produto_id.id,
+                    'product_uom': 1,
+                    'product_uom_qty': line.quantidade,
+                    'name': "[" + line.produto_id.codigo + "] " +
+                            line.produto_id.nome,
+                    'date_expected': documento.data_hora_entrada_saida,
+                    'location_id': doc_picking_type.default_location_src_id.id,
+                    'location_dest_id':
+                        doc_picking_type.default_location_dest_id.id,
+                }]
+                move_lines.append(vals_produtos)
+            vals = {
+                'participante_id': documento.participante_id.id,
+                'min_date': documento.data_hora_entrada_saida,
+                'origin': 'NFe-' + str(documento.numero)[:-2],
+                'empresa_id': documento.empresa_id.id,
+                'picking_type_id': doc_picking_type.id,
+                'location_id': doc_picking_type.default_location_src_id.id,
+                'location_dest_id':
+                    doc_picking_type.default_location_dest_id.id,
+                'move_lines': move_lines,
+            }
+            res = stock_obj.create(vals)
+            documento.stock_picking_id = res.id
+            documento._confirma_estoque()
+
+    def executa_depois_create(self):
+        super(SpedDocumento, self).executa_depois_create()
+        for documento in self:
+            if documento.entrada_saida == "0":
+                documento._criar_picking_entrada()
