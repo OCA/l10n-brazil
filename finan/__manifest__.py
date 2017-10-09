@@ -23,6 +23,11 @@
         'views/finan_view.xml',
 
         #
+        # Dashboards
+        #
+        #'views/finan_banco_saldo_view.xml',
+
+        #
         # Cadastros e configurações
         #
         'views/finan_banco_view.xml',
@@ -45,6 +50,10 @@
         'views/finan_lancamento_divida_a_pagar_view.xml',
 
         #'views/finan_lancamento_pagamento_base_view.xml',
+
+        'views/finan_lancamento_transacao_base_view.xml',
+        'views/finan_lancamento_transacao_entrada_view.xml',
+        'views/finan_lancamento_transacao_saida_view.xml',
 
         #
         # Relatórios
