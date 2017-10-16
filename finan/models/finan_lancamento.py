@@ -872,7 +872,27 @@ class FinanLancamento(SpedBase, models.Model):
             **kwargs
         )
 
-    #def action_view_financial(self, type):
+    @api.multi
+    def create_lancamento(self):
+        if not self.id:
+            super(FinanLancamento, self).create()
+        context = dict(self.env.context)
+
+        form = self.env.ref('finan.finan_lancamento_pagamento_one2many_recebimento2_form',
+                            True)
+        return {
+            'view_type': 'form',
+            'view_id': [form.id],
+            'view_mode': 'form',
+            'res_model': 'finan.lancamento.wizard',
+            'views': [(form.id, 'form')],
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'context': context,
+        }
+
+
+            #def action_view_financial(self, type):
         #if type == '2receive':
             #action = self.env.ref(
                 #'finan.financial_lancamento._debt_2receive_form_action').read()[0]

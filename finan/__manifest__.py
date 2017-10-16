@@ -53,6 +53,7 @@
 
         'reports/finan_relatorio_divida_data.xml',
         'wizards/finan_relatorio_divida_wizard.xml',
+        'wizards/wizard_finan_lancamento.xml',
 
         ##'data/financial_document_type_data.xml',
         ##'data/interest_data.xml',
