@@ -59,7 +59,8 @@ class StockInventory(SpedBase, models.Model):
         ]
 
         #if self.user_has_groups('stock.group_tracking_owner'):
-            #res_filter += [('owner', _('One owner only')), ('product_owner', _('One product for a specific owner'))]
+            #res_filter += [('owner', _('One owner only')),
+        # ('product_owner', _('One product for a specific owner'))]
         #if self.user_has_groups('stock.group_production_lot'):
             #res_filter.append(('lot', _('One Lot/Serial Number')))
         #if self.user_has_groups('stock.group_tracking_lot'):
@@ -86,4 +87,6 @@ class StockInventory(SpedBase, models.Model):
             if product_id.sped_produto_id.preco_custo:
                 line['vr_unitario_custo'] = \
                     product_id.sped_produto_id.preco_custo
+                line['vr_total_custo'] = \
+                    line['vr_unitario_custo'] * line.get('product_qty', 0)
         return lines

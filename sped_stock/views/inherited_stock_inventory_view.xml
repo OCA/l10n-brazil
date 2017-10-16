@@ -30,6 +30,7 @@
             </xpath>
             <xpath expr="//tree/field[@name='product_qty']" position="after">
                 <field name="vr_unitario_custo" />
+                <field name="vr_total_custo" />
             </xpath>
 
         </field>
