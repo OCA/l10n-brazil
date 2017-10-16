@@ -66,3 +66,16 @@ class StockInventory(SpedBase, models.Model):
             #res_filter.append(('pack', _('A Pack')))
 
         return res_filter
+
+    def _get_inventory_lines_values(self):
+        """
+        Sobrescrita da função do core que retorna as quantidades de produtos
+        para o inventário. Nessa sobrescrita adicionamos trazemos a informação 
+        do sped_produto_id em cada linha do inventário.         
+        """
+        product_obj = self.env['product.product']
+        lines = super(StockInventory, self)._get_inventory_lines_values()
+        for line in lines:
+            product_id = product_obj.browse(line.get('product_id'))
+            line['produto_id'] = product_id.sped_produto_id.id
+        return lines
