@@ -9,13 +9,26 @@ from openerp import models, fields, api
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
+    pos_order_line = fields.Many2one(
+        string="Pos Order Line",
+        comodel_name="pos.order.line"
+    )
+
+    @api.model
+    def create(self, vals):
+        res = super(StockMove, self).create(vals)
+        if self.env.context.get('pos_order_id') and not res.pos_order_line:
+            pos_order_line = self.env['pos.order.line'].search([
+                ('order_id', '=', self.env.context['pos_order_id']),
+                ('product_id', '=', vals['product_id'])
+            ])
+            res.pos_order_line = pos_order_line.id
+
+        return res
+
     @api.model
     def _get_price_unit_invoice(self, move, type):
         res = super(StockMove, self)._get_price_unit_invoice(move, type)
-        if move.env.context.get('pos_order_id'):
-            pos_order_id = move.env.context['pos_order_id']
-            pos_order = self.env['pos.order'].browse(pos_order_id)
-            for line in pos_order.lines:
-                if line.product_id.id == move.product_id.id:
-                    return line.price_unit
+        if move.pos_order_line:
+            return move.pos_order_line.price_unit
         return res
