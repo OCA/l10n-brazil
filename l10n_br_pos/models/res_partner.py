@@ -17,6 +17,7 @@ class ResPartner(models.Model):
     def create_from_ui(self, partner):
         res = super(ResPartner, self).create_from_ui(partner)
         partner_id = self.browse(res)
+        partner_id.legal_name = partner['name']
         fiscal_type = self.env['l10n_br_account.partner.fiscal.type'].search(
             [('name', '=', 'Não Contribuinte PF')]
         )
