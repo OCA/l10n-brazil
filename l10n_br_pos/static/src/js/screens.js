@@ -236,7 +236,7 @@ function l10n_br_pos_screens(instance, module) {
                             if (partner) {
                                 self.pos.get('selectedOrder').set_client(partner);
                                 currentOrder = self.pos.get('selectedOrder').attributes;
-                                currentOrder["cpf_nota"] = cpf;
+                                currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
                                 self.pos_widget.payment_screen.validate_order();
                             } else {
                                 new_partner = {};
@@ -263,7 +263,7 @@ function l10n_br_pos_screens(instance, module) {
                                         return true;
                                     }).then(function () {
                                         currentOrder = self.pos.get('selectedOrder').attributes;
-                                        currentOrder["cpf_nota"] = cpf;
+                                        currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
                                         self.pos_widget.payment_screen.validate_order();
                                     });
                                 });
