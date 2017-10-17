@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record id="group_cnab_cobranca" model="res.groups">
+            <field name="name">CNAB Cobranca</field>
+            <field name="category_id" ref="base.module_category_accounting_and_finance"/>
+        </record>
+
+    </data>
+</openerp>

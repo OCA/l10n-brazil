@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+        <!--<record id="view_guia_recolhimento_form" model="ir.ui.view">-->
+			<!--<field name="name">guia.recolhimento</field>-->
+			<!--<field name="model">guia.recolhimento</field>-->
+			<!--<field name="arch" type="xml">-->
+				<!--<form string="Guia de Recolhimento">-->
+                    <!--<sheet>-->
+                        <!--<group>-->
+					        <!--<field name="codigo" string="Codigo"/>-->
+					        <!--<field name="descricao" string="Descriçao"/>-->
+                        <!--</group>-->
+                    <!--</sheet>-->
+				<!--</form>-->
+			<!--</field>-->
+		<!--</record>-->
+
+        <!--<record id="view_guia_recolhimento_tree" model="ir.ui.view">-->
+			<!--<field name="name">guia.recolhimento</field>-->
+			<!--<field name="model">guia.recolhimento</field>-->
+			<!--<field name="arch" type="xml">-->
+				<!--<tree string="Guia de Recolhimento">-->
+					<!--<field name="codigo"/>-->
+					<!--<field name="descricao"/>-->
+				<!--</tree>-->
+			<!--</field>-->
+		<!--</record>-->
+
+        <!--<record id="action_guia_recolhimento_form" model="ir.actions.act_window">-->
+			<!--<field name="name">Guia de Recolhimento</field>-->
+			<!--<field name="type">ir.actions.act_window</field>-->
+			<!--<field name="res_model">guia.recolhimento</field>-->
+			<!--<field name="view_mode">tree,form</field>-->
+			<!--<field name="view_type">form</field>-->
+			<!--<field name="view_id" ref="view_guia_recolhimento_tree"/>-->
+		<!--</record>-->
+
+        <!--<menuitem id="menu_action_guia_recolhimento_form"-->
+                  <!--name="Guia de Recolhimento"-->
+                  <!--parent="l10n_br_account.menu_l10n_br_account_configuration_fiscal"-->
+                  <!--action="action_guia_recolhimento_form"/>-->
+
+
+
+		<!--<record id="view_icmsst_account_invoice_form" model="ir.ui.view">-->
+			<!--<field name="name">icmsst.account.invoice.form</field>-->
+			<!--<field name="model">account.invoice</field>-->
+			<!--<field name="inherit_id" ref="account.invoice_form" />-->
+			<!--<field name="arch" type="xml">-->
+				<!--<xpath expr="//field[@name='payment_term']" position="after">-->
+					<!--<field name="gerar_gnre" invisible="1"/>-->
+					<!--<field name="icms_st_value_total" readonly="True" attrs="{'invisible': [('gerar_gnre', '=', False)]}"/>-->
+				<!--</xpath>-->
+			<!--</field>-->
+        <!--</record>-->
+
+	</data>
+</openerp>

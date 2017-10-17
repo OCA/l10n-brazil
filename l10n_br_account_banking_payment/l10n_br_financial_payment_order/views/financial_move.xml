@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="l10n_br_financial_payment_order_financial_move_form" model="ir.ui.view">
+            <field name="name">financial.move in (l10n_br_financial_payment_order)</field>
+            <field name="model">financial.move</field>
+            <field name="inherit_id" ref="financial.financial_move_debt_base_form"/>
+            <field name="arch" type="xml">
+                <button name="action_confirm" position="before">
+                    <field name="tipo_pagamento" invisible="1"/>
+                    <field name="boleto_carteira" invisible="1"/>
+                    <button name="button_boleto" type="object" string="Gerar Boleto" attrs="{'invisible': [('tipo_pagamento','!=','boleto'), ('boleto_carteira', '!=', 'SIND')]}"/>
+                </button>
+            </field>
+        </record>
+
+    </data>
+</openerp>

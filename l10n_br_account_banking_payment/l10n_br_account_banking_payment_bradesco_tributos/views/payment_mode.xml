@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_payment_mode_tax_form_inherit_l10n_br_payment" model="ir.ui.view">
+            <field name="name">payment.mode.tax.l10n_br_payment.form.inherit</field>
+            <field name="model">payment.mode</field>
+            <field name="inherit_id" ref="l10n_br_account_payment_mode.view_payment_mode_form_inherit_l10n_br_payment"/>
+            <field name="priority" eval="17"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@string='Pagamento']" position="after">
+                    <page string="Tributos" attrs="{'invisible': [('payment_order_type', '!=', 'tax')]}">
+                        <group>
+                            <field name="gnre_value_field"/>
+                            <field name="gnre_type"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

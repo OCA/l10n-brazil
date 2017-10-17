@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="hr_payslip_form_view">
+            <field name="name">hr.payslip.form (in l10n_br_hr_payment_order)</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="l10n_br_hr_payroll.hr_payslip_form_view"/>
+            <field name="arch" type="xml">
+                <button name="hr_verify_sheet" position="replace">
+                    <button string="Confirm" name="hr_verify_sheet" states="draft" class="oe_highlight" type="workflow"/>
+                </button>
+                <field name="number" position="after">
+                    <field name="paid_order"/>
+                </field>
+                <field name="credit_note" position="after">
+                    <field name="payment_mode_id" />
+                </field>
+                <button name="refund_sheet" position="before">
+                    <button name="action_done" states="verify" string="Change to Done" class="oe_highlight"/>
+                </button>
+                <button name="refund_sheet" position="after">
+                    <button name="create_payment_order" type="object" string="Add to Payment Order" />
+                </button>
+                <xpath expr="//notebook//page[@string='Holerite']" position="after">
+                    <page string="Orderns de Pagamento">
+                        <field name="payment_line_ids" />
+                    </page>
+                </xpath>
+                <!--groups="account_payment_order.group_account_payment"-->
+                    <!--attrs="{'invisible': ['|', ('payment_order_ok', '=', False), ('state', '!=', 'open')]}"-->
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

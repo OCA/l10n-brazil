@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="payment_order_cobranca_form">
+        <field name="name">payment.order.cobranca.form (in l10n_br_financial_payment_order)</field>
+        <field name="model">payment.order</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="payment_order_base_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form[1]" position="attributes">
+                <attribute name="string">Cobrança</attribute>
+            </xpath>
+            <xpath expr="//group[@name='criterios_busca']" position="inside">
+                <label string="Período" for="search_date_start"/>
+                <div>
+                    <field name="search_date_start" class="oe_inline"/> — <field name="search_date_stop" class="oe_inline"/>
+                </div>
+                <label string="Data" for="search_date_type"/>
+                <div>
+                    <field name="search_date_type"  widget="radio" class="oe_inline"/>
+                </div>
+            </xpath>
+            <xpath expr="//group[@name='informacoes_especificas']" position="inside">
+                <!--<h1>TODO: Informações específicas</h1>-->
+            </xpath>
+            <xpath expr="//group[@name='informacoes_especificas_linha']" position="inside">
+                <field name="fn_nosso_numero" col="4"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!--<record model="ir.ui.view" id="payment_order_search">-->
+        <!--<field name="name">payment.order.cobranca.search (in l10n_br_financial_payment_order)</field>-->
+        <!--<field name="model">payment.order</field>-->
+        <!--<field name="mode">primary</field>-->
+        <!--<field name="inherit_id" ref="payment_order_base_search"/>-->
+        <!--<field name="arch" type="xml">-->
+                <!---->
+        <!--</field>-->
+    <!--</record>-->
+
+    <!--<record model="ir.ui.view" id="payment_order_tree">-->
+        <!--<field name="name">payment.order.cobranca.tree (in l10n_br_financial_payment_order)</field>-->
+        <!--<field name="model">payment.order</field>-->
+        <!--<field name="inherit_id" ref="payment_order_base_cobranca_tree"/>-->
+        <!--<field name="arch" type="xml">-->
+        <!--</field>-->
+    <!--</record>-->
+
+    <record model="ir.actions.act_window" id="payment_order_cobranca_act_window">
+        <field name="name">Remessa de cobrança</field>
+        <field name="res_model">payment.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('tipo_pagamento', '=', 'boleto')]</field>
+        <field name="context">{'default_tipo_pagamento': 'boleto'}</field>
+
+    </record>
+
+    <record model="ir.ui.menu" id="payment_order_cobranca_menu">
+        <field name="name">Remessa de cobrança</field>
+        <field name="parent_id" ref="financial_payment_order_menu"/>
+        <field name="action" ref="payment_order_cobranca_act_window"/>
+        <field name="sequence" eval="1"/>
+    </record>
+
+
+    <record model="ir.actions.act_window.view" id="payment_order_cobranca_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="payment_order_cobranca_form"/>
+        <field name="act_window_id" ref="payment_order_cobranca_act_window"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="payment_order_cobranca_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="payment_order_base_tree"/>
+        <field name="act_window_id" ref="payment_order_cobranca_act_window"/>
+    </record>
+
+</data>
+</openerp>

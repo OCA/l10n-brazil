@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- distinguish between payment orders and debit orders in the menu -->
+        <record id="account_payment.action_payment_order_tree" model="ir.actions.act_window">
+            <field name="domain">[('payment_order_type', '=', 'payment')]</field>
+            <field name="context">{'search_payment_order_type': 'payment'}</field>
+        </record>
+
+        <record id="action_tax_tree" model="ir.actions.act_window">
+        <field name="name">Pagamento de Tributos</field>
+            <field name="res_model">payment.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_payment_order_type': 'tax',
+                                   'default_payment_order_type': 'tax'}</field>
+            <field name="search_view_id" ref="account_payment.view_payment_order_search"/>
+            <field name="domain">[('payment_order_type', '=', 'tax')]</field>
+            <field name="help">Crie ordens de pagamento de Tributos</field>
+        </record>
+
+        <menuitem action="action_tax_tree" id="menu_action_tax_tree" parent="account_payment.menu_main_payment" sequence="25"/>
+
+        <record id="view_payment_order_form" model="ir.ui.view">
+            <field name="name">payment.order.form</field>
+            <field name="model">payment.order</field>
+            <field name="inherit_id" ref="account_payment.view_payment_order_form"/>
+            <field name="priority" eval="60"/>
+            <field name="arch" type="xml">
+                <data>
+                    <form position="inside">
+                        <field name="payment_order_type" invisible="1"/>
+                    </form>
+                    <!--<button string="Invoices" position="attributes">-->
+                        <!--<attribute name="attrs">{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'tax')]}</attribute>-->
+                    <!--</button>-->
+                    <!--<div class=" oe_right oe_button_box" position="inside">-->
+                        <!--<button name="%(account_payment.action_create_payment_order)s"-->
+                                <!--class="oe_inline oe_stat_button oe_right"-->
+                                <!--string="Invoices"-->
+                                <!--help="Select invoices to collect"-->
+                                <!--type="action"-->
+                                <!--attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'tax')]}"-->
+                                <!--icon="fa-pencil-square-o"-->
+                                <!--widget="statinfo"/>-->
+                    <!--</div>-->
+                    <field name="mode" position="attributes">
+                        <attribute name="domain">[('payment_order_type', '=', payment_order_type)]</attribute>
+                    </field>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</openerp>

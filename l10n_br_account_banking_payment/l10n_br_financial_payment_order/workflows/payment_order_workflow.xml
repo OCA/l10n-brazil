@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+         <record id="act_waiting" model="workflow.activity">
+            <field name="name">waiting</field>
+            <field name="wkf_id" ref="account_payment.wkf_payment_order"/>
+            <field name="action">action_open()
+write({'state':'waiting'})</field>
+            <field name="kind">function</field>
+        </record>
+
+         <record id="act_waiting2" model="workflow.activity">
+            <field name="name">waiting2</field>
+            <field name="wkf_id" ref="account_payment.wkf_payment_order"/>
+            <field name="action">action_open()
+write({'state':'waiting2'})</field>
+            <field name="kind">function</field>
+        </record>
+
+         <record id="act_generated" model="workflow.activity">
+            <field name="name">generated</field>
+            <field name="wkf_id" ref="account_payment.wkf_payment_order"/>
+            <field name="action">action_open()
+write({'state':'generated'})</field>
+            <field name="kind">function</field>
+        </record>
+
+        <!-- Transition -->
+        <record id="account_payment.trans_draft_open" model="workflow.transition">
+            <field name="act_from" ref="account_payment.act_draft"/>
+            <field name="act_to" ref="account_payment.act_open"/>
+            <field name="signal">open</field>
+            <field name="condition">nivel_aprovacao==0</field>
+        </record>
+
+
+        <record id="trans_draft_waiting" model="workflow.transition">
+            <field name="act_from" ref="account_payment.act_draft"/>
+            <field name="act_to" ref="act_waiting"/>
+            <field name="signal">open</field>
+            <field name="condition">nivel_aprovacao&gt;0</field>
+        </record>
+
+        <record id="trans_waiting_waiting2" model="workflow.transition">
+            <field name="act_from" ref="act_waiting"/>
+            <field name="act_to" ref="act_waiting2"/>
+            <field name="signal">open</field>
+            <field name="condition">nivel_aprovacao&gt;1</field>
+        </record>
+
+        <record id="trans_waiting_open" model="workflow.transition">
+            <field name="act_from" ref="act_waiting"/>
+            <field name="act_to" ref="account_payment.act_open"/>
+            <field name="signal">open</field>
+            <field name="condition">nivel_aprovacao==1</field>
+        </record>
+
+        <record id="trans_waiting2_open" model="workflow.transition">
+            <field name="act_from" ref="act_waiting2"/>
+            <field name="act_to" ref="account_payment.act_open"/>
+            <field name="signal">open</field>
+            <field name="condition">nivel_aprovacao==2</field>
+        </record>
+
+        <record id="account_payment.trans_open_done" model="workflow.transition">
+            <field name="act_from" ref="account_payment.act_open"/>
+            <field name="act_to" ref="account_payment.act_done"/>
+            <field name="signal">generated</field>
+            <field name="condition">tipo_exportacao=='BANKMAN'</field>
+        </record>
+
+        <record id="trans_open_generated" model="workflow.transition">
+            <field name="act_from" ref="account_payment.act_open"/>
+            <field name="act_to" ref="act_generated"/>
+            <field name="signal">generated</field>
+            <field name="condition">tipo_exportacao&lt;&gt;'BANKMAN'</field>
+        </record>
+
+        <record id="trans_generated_done" model="workflow.transition">
+            <field name="act_from" ref="act_generated"/>
+            <field name="act_to" ref="account_payment.act_done"/>
+            <field name="signal">done</field>
+        </record>
+
+        <record id="trans_waiting_cancel" model="workflow.transition">
+            <field name="act_from" ref="act_waiting"/>
+            <field name="act_to" ref="account_payment.act_cancel"/>
+            <field name="signal">cancel</field>
+        </record>
+
+        <record id="trans_waiting2_cancel" model="workflow.transition">
+            <field name="act_from" ref="act_waiting2"/>
+            <field name="act_to" ref="account_payment.act_cancel"/>
+            <field name="signal">cancel</field>
+        </record>
+
+        <record id="trans_generated_cancel" model="workflow.transition">
+            <field name="act_from" ref="act_generated"/>
+            <field name="act_to" ref="account_payment.act_cancel"/>
+            <field name="signal">cancel</field>
+        </record>
+
+    </data>
+</openerp>

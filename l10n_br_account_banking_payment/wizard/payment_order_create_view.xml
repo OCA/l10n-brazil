@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2013 Akretion (http://www.akretion.com)
+  @author: Alexis de Lattre <alexis.delattre@akretion.com>
+  The licence is in the file __openerp__.py
+-->
+<openerp>
+    <data>
+
+        <record id="view_create_payment_order" model="ir.ui.view">
+            <field name="name">payment.order.create.form.export</field>
+            <field name="model">payment.order.create</field>
+            <field name="inherit_id" ref="account_banking_payment_export.view_create_payment_order"/>
+            <field name="arch" type="xml">
+                <field name="duedate" position="after">
+                    <field name="schedule_date"/>
+                    <field name="all_posted_moves"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_create_payment_order_lines" model="ir.ui.view">
+            <field name="name">add.context.to.display.maturity.date</field>
+            <field name="model">payment.order.create</field>
+            <field name="inherit_id" ref="account_payment.view_create_payment_order_lines"/>
+            <field name="arch" type="xml">
+                <field name="entries" position="attributes">
+                    <attribute name="context">{'display_credit': context.get('display_credit', False),'display_debit': context.get('display_debit', False),'journal_type': 'sale', 'tree_view_ref' : 'account_banking_payment_export.payment_order_populate_view_move_line_tree'}</attribute>
+                    <attribute name="nolabel">1</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="payment_order_populate_view_move_line_tree" model="ir.ui.view">
+            <field name="name">payment.order.populate.account.move.line.tree</field>
+            <field name="model">account.move.line</field>
+            <field name="arch" type="xml">
+                <tree string="Journal Items">
+                    <field name="journal_id" />
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="ref"/>
+                    <field name="partner_id" />
+                    <field name="account_id" />
+                    <field name="journal_entry_ref" string="Journal Entry" />
+                    <field name="debit" sum="Total Debit" invisible="not context.get('display_debit', False)"/>
+                    <field name="credit" sum="Total Credit" invisible="not context.get('display_credit', False)"/>
+                    <field name="amount_residual" />
+                    <field name="date_maturity" invisible="context.get('journal_type', False) not in ['sale','sale_refund','purchase','purchase_refund']" />
+                    <field name="reconcile_ref"/>
+                    <field name="amount_currency" invisible="not context.get('currency',False)"/>
+                    <field name="currency_id" invisible="not context.get('currency',False)" />
+                </tree>
+            </field>
+        </record>
+        
+
+    </data>
+</openerp>
