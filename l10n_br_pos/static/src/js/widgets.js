@@ -65,6 +65,31 @@ function l10n_br_pos_widgets(instance, module){
         }
     });
 
+    var PaypadButtonWidget = module.PosBaseWidget;
+
+    module.PaypadButtonWidget = module.PaypadButtonWidget.extend({
+        renderElement: function() {
+            var self = this;
+            PaypadButtonWidget.prototype.renderElement.apply(this);
+
+            this.$el.click(function() {
+                if (self.pos.get('selectedOrder').get('orderLines').length == 0){
+                    self.pos.pos_widget.screen_selector.show_popup('error',{
+                        message: 'Nenhum produto selecionado!',
+                        comment: 'Você precisa selecionar pelo menos um produto para abrir a tela de pagamentos',
+                    });
+                } else {
+                    if (self.pos.get('selectedOrder').get('screen') === 'receipt'){  //TODO Why ?
+                        console.warn('TODO should not get there...?');
+                        return;
+                    }
+                    self.pos.get('selectedOrder').addPaymentline(self.cashregister);
+                    self.pos_widget.screen_selector.set_current_screen('payment');
+                }
+            });
+        }
+    });
+
     module.PosWidget = module.PosWidget.extend({
         build_widgets: function(){
             this._super();
