@@ -46,8 +46,7 @@ FOURPLACES = Decimal(10) ** -4
 
 
 def punctuation_rm(string_value):
-    tmp_value = (
-        re.sub('[%s]' % re.escape(string.punctuation), '', string_value or ''))
+    tmp_value = string_value.translate(None, string.punctuation)
     return tmp_value
 
 
@@ -227,7 +226,7 @@ class Sat(Thread):
     def __prepare_cancel_cfe(self, chCanc, cnpj, doc_destinatario):
         kwargs = {}
         if doc_destinatario:
-            kwargs['destinatario'] = Destinatario(CPF=doc_destinatario)
+            kwargs['destinatario'] = Destinatario(CPF=punctuation_rm(doc_destinatario))
         return CFeCancelamento(
             chCanc=chCanc,
             CNPJ=punctuation_rm(cnpj),
