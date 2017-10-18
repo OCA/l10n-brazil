@@ -23,7 +23,7 @@
         <xpath expr="//button[@name='refund']" position="replace">
         </xpath>
         <xpath expr="//button[@string='Reprint']" position="replace">
-            <button name="%(act_l10n_br_pos_return)d" string="Devolução" states="done,paid" type="action" groups="base.group_user"/>
+            <button name="%(act_l10n_br_pos_return)d" string="Devolução" type="action" groups="base.group_user" attrs="{'invisible': ['|',('state', 'not in', ['done', 'paid']), ('canceled_order', '=', True)]}"/>
         </xpath>
         <field name="partner_id" position="after">
             <field name="cfe_return" />
