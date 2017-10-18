@@ -80,9 +80,6 @@
         'views/sped_operacao_emissao_nfe_view.xml',
         'views/sped_operacao_emissao_nfse_view.xml',
         'views/sped_operacao_emissao_nfce_view.xml',
-        #
-        # Recebimento de documento
-        #
         'views/sped_operacao_recebimento_nfe_view.xml',
 
         #
