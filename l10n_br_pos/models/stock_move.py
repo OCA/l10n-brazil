@@ -17,9 +17,9 @@ class StockMove(models.Model):
     @api.model
     def create(self, vals):
         res = super(StockMove, self).create(vals)
-        if self.env.context.get('pos_order_id') and not res.pos_order_line:
+        if res.picking_id.pos_order_ids and not res.pos_order_line:
             pos_order_line = self.env['pos.order.line'].search([
-                ('order_id', '=', self.env.context['pos_order_id']),
+                ('order_id', '=', res.picking_id.pos_order_ids.ids),
                 ('product_id', '=', vals['product_id'])
             ])
             res.pos_order_line = pos_order_line.id
