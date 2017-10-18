@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="codigo_pagamento_form_view">
+        <field name="name">codigo.pagamento.form (in sped-reinf)</field>
+        <field name="model">codigo.pagamento</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="classificacao_rendimento"/>
+                        <field name="cod_rendimento"/>
+                        <field name="descricao"/>
+                        <field name="beneficiario_pj"/>
+                        <field name="beneficiario_pf"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="codigo_pagamento_tree_view">
+        <field name="name">codigo.pagamento.tree (in sped-reinf)</field>
+        <field name="model">codigo.pagamento</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="classificacao_rendimento"/>
+                <field name="cod_rendimento"/>
+                <field name="descricao"/>
+                <field name="beneficiario_pj"/>
+                <field name="beneficiario_pf"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="codigo_pagamento_act_window">
+        <field name="name">Codigo Pagamento</field>
+        <field name="res_model">codigo.pagamento</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="codigo_pagamento_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="codigo_pagamento_tree_view"/>
+        <field name="act_window_id" ref="codigo_pagamento_act_window"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="codigo_pagamento_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="codigo_pagamento_form_view"/>
+        <field name="act_window_id" ref="codigo_pagamento_act_window"/>
+    </record>
+
+    <menuitem
+        action="codigo_pagamento_act_window"
+        id="menu_codigo_pagamento"
+        name="01-Codigo de Pagamento"
+        parent="menu_reinf_tabelas"
+        sequence="1"
+    />
+
+</odoo>
