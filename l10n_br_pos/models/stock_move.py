@@ -9,26 +9,17 @@ from openerp import models, fields, api
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    pos_order_line = fields.Many2one(
-        string="Pos Order Line",
-        comodel_name="pos.order.line"
-    )
-
-    @api.model
-    def create(self, vals):
-        res = super(StockMove, self).create(vals)
-        if res.picking_id.pos_order_ids and not res.pos_order_line:
-            pos_order_line = self.env['pos.order.line'].search([
-                ('order_id', '=', res.picking_id.pos_order_ids.ids),
-                ('product_id', '=', vals['product_id'])
-            ])
-            res.pos_order_line = pos_order_line.id
-
-        return res
-
-    @api.model
-    def _get_price_unit_invoice(self, move, type):
-        res = super(StockMove, self)._get_price_unit_invoice(move, type)
-        if move.pos_order_line:
-            return move.pos_order_line.price_unit
-        return res
+    @api.multi
+    def _get_price_unit_invoice(self, type):
+        # No link between the pos.order.line and its stock.move
+        for record in self.ids:
+            pos_order_line_product_price_map  = dict(record.mapped(
+                'origin_returned_move_id.picking_id.pos_order_ids.lines'
+            ).mapped(
+                lambda order_line: (order_line.product_id, order_line.price_unit)
+            ))
+            return (
+                pos_order_line_product_price_map.get(record.product_id)
+                if record.product_id in pos_order_line_product_price_map
+                else super(StockMove, self)._get_price_unit_invoice(type)
+            )
