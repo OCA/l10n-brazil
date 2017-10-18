@@ -158,11 +158,7 @@
                             <field name="modalidade_frete" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" colspan="2" />
                             <newline />
                             <field name="transportadora_id" colspan="4" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" />
-                            <newline />
-                            <separator string="Obs. para o estoque" colspan="4" />
-                            <newline />
-                            <field name="obs_estoque" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" colspan="4" />
-<!--                             <field name="veiculo_id" colspan="2" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" /> -->
+                            <!--                             <field name="veiculo_id" colspan="2" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" /> -->
 <!--                            <field name="reboque_1_id" colspan="2" attrs="{'invisible': [('veiculo_id', '=', False)], 'readonly': [('state', 'not in', ['draft', 'sent'])]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id])]" />
                             <newline />
                             <field name="reboque_2_id" colspan="2" attrs="{'invisible': [('reboque_1_id', '=', False)], 'readonly': [('state', 'not in', ['draft', 'sent'])]}" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id])]" />
@@ -195,6 +191,12 @@
                         </group>
                     </group>
                 </page>
+            </xpath>
+            <xpath expr="//notebook" position="after">
+            <newline />
+                <separator string="Observações" colspan="4" />
+                <newline />
+                <field name="obs_estoque" nolabel="1" attrs="{'readonly': [('state', 'not in', ['draft', 'sent'])]}" colspan="4" />
             </xpath>
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="commitment_date" string="Validade do Orçamento" />
