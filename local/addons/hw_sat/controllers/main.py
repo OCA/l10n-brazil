@@ -236,20 +236,29 @@ class Sat(Thread):
         )
 
     def _cancel_cfe(self, order):
-        resposta = self.device.cancelar_ultima_venda(
-            order['chaveConsulta'],
-            self.__prepare_cancel_cfe(order['chaveConsulta'],
-                                      order['cnpj_software_house'],
-                                      order['doc_destinatario'])
-        )
-        self._print_extrato_cancelamento(
-            order['xml_cfe_venda'], resposta.arquivoCFeBase64)
-        return {
-            'order_id': order['order_id'],
-            'xml': resposta.arquivoCFeBase64,
-            'numSessao': resposta.numeroSessao,
-            'chave_cfe': resposta.chaveConsulta,
-        }
+        try:
+            resposta = self.device.cancelar_ultima_venda(
+                order['chaveConsulta'],
+                self.__prepare_cancel_cfe(
+                    order['chaveConsulta'], order['cnpj_software_house']
+                )
+            )
+            self._print_extrato_cancelamento(
+                order['xml_cfe_venda'], resposta.arquivoCFeBase64)
+            return {
+                'order_id': order['order_id'],
+                'xml': resposta.arquivoCFeBase64,
+                'numSessao': resposta.numeroSessao,
+                'chave_cfe': resposta.chaveConsulta,
+            }
+        except Exception as e:
+            if hasattr(e, 'resposta'):
+                return e.resposta.mensagem
+            elif hasattr(e, 'message'):
+                return e.message
+            else:
+                return "Erro ao validar os dados para o xml! " \
+                       "Contate o suporte técnico."
 
     def action_call_sat(self, task, json=False):
 
