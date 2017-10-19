@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <!--Regras de acesso para lançamento financeiros -->
+    <record id="ir_rule_financeiro_lancamento" model="ir.rule">
+        <field name="name">Apenas seus Lançamentos Financeiros</field>
+        <field name="model_id" ref="model_finan_lancamento"/>
+        <field name="domain_force">['|',('empresa_id','=',False),('empresa_id.company_id','in',user.company_ids._ids)]
+        </field>
+    </record>
+
+</odoo>
