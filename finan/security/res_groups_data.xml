@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE - Hendrix Costa
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="True">
+
+    <!-- Regas de acesso para cadastros -->
+    <record id="CATEGORIA_MODULO_FINAN" model="ir.module.category">
+        <field name="name">Financeiro</field>
+        <field name="description">Lançamentos Financeiro</field>
+        <field name="sequence">-98</field>
+    </record>
+
+    <record id="GRUPO_FINAN_LEITURA" model="res.groups">
+        <field name="name">Financeiro (somente leitura)</field>
+        <field name="category_id" ref="CATEGORIA_MODULO_FINAN"/>
+    </record>
+
+    <record id="GRUPO_CADASTRO_GERAL" model="res.groups">
+        <field name="name">Financeiro </field>
+        <field name="category_id" ref="CATEGORIA_MODULO_FINAN"/>
+    </record>
+
+    <record id="GRUPO_CADASTRO_GERENTE" model="res.groups">
+        <field name="name">Financeiro (gerente)</field>
+        <field name="category_id" ref="CATEGORIA_MODULO_FINAN"/>
+    </record>
+
+</odoo>
