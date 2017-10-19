@@ -52,6 +52,7 @@
         #
         # Grupos e permissões
         #
+        'security/sped_documento_ir_rule.xml',
         'security/ir.model.access.csv',
     ],
     'external_dependencies': {
