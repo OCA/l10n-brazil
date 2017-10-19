@@ -91,7 +91,7 @@ function l10n_br_pos_models(instance, module) {
             });
             this.models.push({
                 model:  'res.partner',
-                fields: ['name', 'cnpj_cpf', 'street','city','state_id','country_id','vat','phone','zip','mobile','email','ean13','write_date', 'debit', 'credit', 'credit_limit'],
+                fields: ['name', 'cnpj_cpf', 'street','city','state_id','country_id','vat','phone','zip','mobile','email','ean13','write_date', 'debit', 'credit', 'credit_limit', 'user_ids'],
                 domain: [['customer','=',true]],
                 loaded: function(self,partners){
                     self.partners = partners;
@@ -194,23 +194,40 @@ function l10n_br_pos_models(instance, module) {
             }
             return false;
         },
+        add_payment_credito_loja: function(cashregister) {
+            var paymentLines = this.get('paymentLines');
+            var currentOrder = this.pos.get('selectedOrder');
+            var total = currentOrder.getTotalTaxIncluded();
+            var newPaymentline = new module.Paymentline({},{cashregister:cashregister, pos:this.pos});
+            if (cashregister.journal.pagamento_funcionarios) {
+                newPaymentline.set_amount(total);
+            } else {
+                if (this.attributes.client['credit_limit'] >= total) {
+                    newPaymentline.set_amount(total);
+                } else {
+                    newPaymentline.set_amount(this.attributes.client['credit_limit']);
+                }
+            }
+            paymentLines.add(newPaymentline);
+            this.selectPaymentline(newPaymentline);
+        },
         addPaymentline: function(cashregister) {
             if (cashregister.journal.sat_payment_mode == "05" && this.attributes.client) {
-                if (!this.verificar_pagamento_limite_credito()){
-                    var paymentLines = this.get('paymentLines');
-                    var currentOrder = this.pos.get('selectedOrder');
-                    var total = currentOrder.getTotalTaxIncluded();
-                    var newPaymentline = new module.Paymentline({},{cashregister:cashregister, pos:this.pos});
-                    if (this.attributes.client['credit_limit'] >= total) {
-                        newPaymentline.set_amount(total);
+                if (cashregister.journal.pagamento_funcionarios) {
+                    if (this.attributes.client.user_ids) {
+                        this.add_payment_credito_loja(cashregister);
                     } else {
-                        newPaymentline.set_amount(this.attributes.client['credit_limit']);
+                        alert("Somente funcionários podem utilizar esta forma de pagamento!");
                     }
-                    paymentLines.add(newPaymentline);
-                    this.selectPaymentline(newPaymentline);
+                } else {
+                    if (!this.verificar_pagamento_limite_credito()){
+                        this.add_payment_credito_loja(cashregister);
+                    } else {
+                        alert("Este cliente não possui limite de crédito na loja!");
+                    }
                 }
             } else if (cashregister.journal.sat_payment_mode == "05" && !this.attributes.client){
-                alert("Para usar esse pagamento é preciso selecionar um cliente para a venda!")
+                alert("Para usar esse pagamento é preciso selecionar um cliente para a venda!");
             } else {
                 PosOrderSuper.prototype.addPaymentline.apply(this, arguments);
             }
