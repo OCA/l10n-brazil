@@ -121,11 +121,11 @@
             <field name="model">hr.holidays</field>
             <field name="inherit_id" ref="hr_holidays.view_holiday_new_calendar"/>
             <field name="arch" type="xml">
-                <xpath expr="//calendar[@name='date_start']" position="attributes">
-                    <attribute name="attrs">data_inicio</attribute>
+                <xpath expr="//calendar" position="attributes">
+                    <attribute name="date_from">data_inicio</attribute>
                 </xpath>
-                <xpath expr="//calendar[@name='date_to']" position="attributes">
-                    <attribute name="attrs">data_fim</attribute>
+                <xpath expr="//calendar" position="attributes">
+                    <attribute name="date_to">data_fim</attribute>
                 </xpath>
             </field>
         </record>
