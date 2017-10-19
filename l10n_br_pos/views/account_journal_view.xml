@@ -10,6 +10,7 @@
                 <xpath expr="//field[@name='amount_authorized_diff']" position="after">
                     <field name="sat_payment_mode"/>
                     <field name="sat_card_accrediting"/>
+                    <field name="pagamento_funcionarios" />
                 </xpath>
             </field>
         </record>
