@@ -83,6 +83,12 @@
                     <field name="vacations_days" string="Dias de Gozo" class="oe_inline"/>
                     <field name="sold_vacations_days" string="Sold Vacations Days" class="oe_inline"/>
                 </field>
+                <field name="date_from" position="replace">
+                    <field name="data_inicio" />
+                </field>
+                <field name="date_to" position="replace">
+                    <field name="data_fim" />
+                </field>
                 <field name="number_of_days" position="replace">
                     <field name="number_of_days" string="Total Vacation Days" />
                 </field>
@@ -98,9 +104,29 @@
                     <field name="vacations_days_temp" string="Dias de Gozo" class="oe_inline"/>
                     <field name="sold_vacations_days_temp" string="Sold Vacations Days" class="oe_inline"/>
                 </field>
+                <field name="date_from" position="replace">
+                    <field name="data_inicio" />
+                </field>
+                <field name="date_to" position="replace">
+                    <field name="data_fim" />
+                </field>
                 <field name="number_of_days" position="replace">
                     <field name="number_of_days" string="Total Vacation Days" />
                 </field>
+            </field>
+        </record>
+
+        <record id="view_l10n_br_hr_vacation_holiday_calendar" model="ir.ui.view">
+            <field name="name">l10n_br_hr_vacation.holiday.calendar</field>
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.view_holiday_new_calendar"/>
+            <field name="arch" type="xml">
+                <xpath expr="//calendar[@name='date_start']" position="attributes">
+                    <attribute name="attrs">data_inicio</attribute>
+                </xpath>
+                <xpath expr="//calendar[@name='date_to']" position="attributes">
+                    <attribute name="attrs">data_fim</attribute>
+                </xpath>
             </field>
         </record>
 
