@@ -120,12 +120,15 @@
             <field name="name">l10n_br_hr_vacation.holiday.calendar</field>
             <field name="model">hr.holidays</field>
             <field name="inherit_id" ref="hr_holidays.view_holiday_new_calendar"/>
+            <field name="priority">-20</field>
             <field name="arch" type="xml">
-                <xpath expr="//calendar" position="attributes">
-                    <attribute name="date_from">data_inicio</attribute>
-                </xpath>
-                <xpath expr="//calendar" position="attributes">
-                    <attribute name="date_to">data_fim</attribute>
+                <xpath expr="//calendar" position="replace">
+                    <calendar string="Leave Request2" color="employee_id"
+                          date_start="data_inicio" date_stop="data_fim"
+                          quick_add="False" avatar_model="hr.employee">
+                        <field name="employee_id"/>
+                        <field name="holiday_status_id"/>
+                    </calendar>
                 </xpath>
             </field>
         </record>
