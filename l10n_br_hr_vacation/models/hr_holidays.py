@@ -17,6 +17,27 @@ except ImportError:
 class HrHolidays(models.Model):
     _inherit = 'hr.holidays'
 
+    @api.multi
+    def _check_date(self):
+        for holiday in self:
+            domain = [
+                ('data_inicio', '<=', holiday.data_inicio),
+                ('data_fim', '>=', holiday.data_fim),
+                ('employee_id', '=', holiday.employee_id.id),
+                ('id', '!=', holiday.id),
+                ('type', '=', holiday.type),
+                ('state', 'not in', ['cancel', 'refuse']),
+            ]
+            nholidays = self.search_count(domain)
+            if nholidays:
+                return False
+        return True
+
+    _constraints = [
+        (_check_date, 'You can not have 2 leaves that overlaps on same day!',
+         ['data_inicio', 'data_fim']),
+    ]
+
     sell_vacation = fields.Boolean(
         string=u'Sell Vacation',
         help=u'Indicates if the employee desires to sell some of its '
