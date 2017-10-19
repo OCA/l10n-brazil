@@ -801,8 +801,8 @@ class L10nBrSefip(models.Model):
         #
         # Excluir registros financeiros anteriores
         #
-        for id in self.
-            id.unlink()
+        #for id in self.
+        #    id.unlink()
 
         contribuicao_sindical = {}
         for record in self:
