@@ -74,6 +74,7 @@
         #'reports/report_xlsx_financial_partner_statement_data.xml',
 
         #'security/ir.model.access.csv',
+        'security/res_groups_data.xml',
     ],
     'demo': [
         # 'demo/financial_move.xml',
