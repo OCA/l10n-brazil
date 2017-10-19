@@ -598,7 +598,7 @@ class L10nBrSefip(models.Model):
             'sefip_id': self.id,
         }
 
-    def prepara_financial_move_darf(self, valor):
+    def prepara_financial_move_darf(self, codigo_receita, valor):
         '''
          Tratar dados do sefip e criar um dict para criar financial.move de
          guia DARF.
@@ -614,7 +614,46 @@ class L10nBrSefip(models.Model):
         sequence_id = self.company_id.darf_sequence_id.id
         doc_number = str(self.env['ir.sequence'].next_by_id(sequence_id))
 
-        return {
+        dir_base = os.path.dirname(os.path.dirname(os.path.dirname(CURDIR)))
+        arquivo_template_darf = os.path.join(dir_base,
+                                            'kmee_odoo_addons',
+                                            'l10n_br_hr_payroll_report',
+                                            'data',
+                                            'darf.odt'
+                                            )
+
+        if os.path.exists(arquivo_template_darf):
+
+            template_darf = open(arquivo_template_darf, 'rb')
+            arquivo_temporario = tempfile.NamedTemporaryFile(delete=False)
+
+            vals_impressao = {
+                'vias': '11',
+                'razao_social': self.company_id.legal_name or '',
+                'telefone': self.company_id.phone or '',
+                'mes': self.mes or '',
+                'ano': self.ano or '',
+                'cnpj_cpf': self.company_id.cnpj_cpf or '',
+                'codigo_receita': codigo_receita or '',
+                'referencia': '',
+                'vencimento': formata_data(data_vencimento) or '',
+                'valor': formata_valor(valor) or '',
+                'multa': formata_valor(0) or '',
+                'juros': formata_valor(0) or '',
+                'total': formata_valor(valor) or '',
+            }
+
+            template = Template(template_darf, arquivo_temporario.name)
+            template.render(vals_impressao)
+            sh.libreoffice('--headless', '--invisible', '--convert-to', 'pdf',
+                           '--outdir', '/tmp', arquivo_temporario.name)
+
+            pdf = open(arquivo_temporario.name + '.pdf', 'rb').read()
+
+            os.remove(arquivo_temporario.name + '.pdf')
+            os.remove(arquivo_temporario.name)
+
+        vals_darf =  {
             'date_document': fields.Date.today(),
             'partner_id': self.env.ref('base.user_root').id,
             'doc_source_id': 'l10n_br.hr.sefip,' + str(self.id),
@@ -628,6 +667,27 @@ class L10nBrSefip(models.Model):
             'payment_mode_id': self.company_id.darf_carteira_cobranca.id,
             'sefip_id': self.id,
         }
+
+        financial_move_darf = self.env['financial.move'].create(
+            vals_darf
+        )
+
+        if os.path.exists(arquivo_template_darf):
+            vals_anexo = {
+                'name': 'DARF.pdf',
+                'datas_fname': 'DARF.pdf',
+                'res_model': 'financial.move',
+                'res_id': financial_move_darf.id,
+                'datas': pdf.encode('base64'),
+                'mimetype': 'application/pdf',
+            }
+
+            anexo = self.env['ir.attachment'].create(
+                vals_anexo
+            )
+
+        return financial_move_darf
+
 
     def prepara_financial_move_gps(self, empresa_id, dados_empresa):
         '''
@@ -737,6 +797,13 @@ class L10nBrSefip(models.Model):
         1. Configurar os dados para criação das financial.moves
         2. Criar os financial.moves
         '''
+
+        #
+        # Excluir registros financeiros anteriores
+        #
+        for id in self.
+            id.unlink()
+
         contribuicao_sindical = {}
         for record in self:
             created_ids = []
@@ -786,13 +853,18 @@ class L10nBrSefip(models.Model):
                         empresas[line.slip_id.company_id.id][
                             'INSS_rat_fap'] += line.total
                     elif line.code == 'IRPF':
-                        if darfs.get(line.salary_rule_id.codigo_darf):
-                            darfs[line.salary_rule_id.codigo_darf] += \
-                                line.total
+                        if line.slip_id.contract_id.categoria in \
+                                ['721', '722']:
+                            codigo_darf = '0588'
+                        else:
+                            codigo_darf = '0561'
+
+                        if darfs.get(codigo_darf):
+                            darfs[codigo_darf] += line.total
                         else:
                             darfs.update(
                                 {
-                                    line.salary_rule_id.codigo_darf: line.total
+                                    codigo_darf: line.total
                                 }
                             )
 
@@ -810,10 +882,8 @@ class L10nBrSefip(models.Model):
                 created_ids.append(financial_move_gps.id)
 
             for cod_darf in darfs:
-                vals_darf = self.prepara_financial_move_darf(darfs[cod_darf])
-                financial_move_darf = self.env['financial.move'].create(
-                    vals_darf
-                )
+                financial_move_darf = \
+                    self.prepara_financial_move_darf(cod_darf, darfs[cod_darf])
                 created_ids.append(financial_move_darf.id)
 
             return {
