@@ -75,6 +75,7 @@
 
         #'security/ir.model.access.csv',
         'security/res_groups_data.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [
         # 'demo/financial_move.xml',
