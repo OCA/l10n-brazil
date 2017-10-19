@@ -123,7 +123,7 @@
             <field name="priority">-20</field>
             <field name="arch" type="xml">
                 <xpath expr="//calendar" position="replace">
-                    <calendar string="Leave Request2" color="employee_id"
+                    <calendar string="Leave Request" color="employee_id"
                           date_start="data_inicio" date_stop="data_fim"
                           quick_add="False" avatar_model="hr.employee">
                         <field name="employee_id"/>
