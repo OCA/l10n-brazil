@@ -87,6 +87,7 @@
         #
         'security/inherited_res_groups_data.xml',
         'security/ir.model.access.csv',
+        'security/sped_operacao_ir_rule.xml',
     ],
     'demo': [
         'demo/sped_produto_demo.xml',
