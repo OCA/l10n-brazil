@@ -1085,25 +1085,25 @@ class L10nBrSefip(models.Model):
         #
         if folha.tipo_de_folha == 'decimo_terceiro':
             return result
-        # #
-        # # As remunerações pagas após rescisão do contrato de trabalho e
-        # # conforme determinação do Art. 466 da CLT,
-        # # não devem vir acompanhadas das respectivas movimentações.
-        # #
-        # elif False:
-        #     # TODO:
-        #     result = 0.00
+        #
+        # As remunerações pagas após rescisão do contrato de trabalho e
+        # conforme determinação do Art. 466 da CLT,
+        # não devem vir acompanhadas das respectivas movimentações.
+        #
+        #elif False:
+        #    # TODO:
+        #    result = 0.00
 
-        # #
-        # # Obrigatório
-        # #
+        #
+        # Obrigatório
+        #
         # elif folha.contract_id.categoria_sefip in (
         #         '05', '11', '13', '14', '15', '16', '17', '18', '22', '23',
         #         '24', '25'):
         #     result = folha.base_inss
-        # #
-        # # Opcional
-        # #
+        #
+        # Opcional
+        #
         # elif folha.contract_id.categoria_sefip in (
         #         '01', '02', '03', '04', '06', '07', '12', '19', '20', '21',
         #         '26'):
@@ -1449,7 +1449,7 @@ class L10nBrSefip(models.Model):
                                     folha.contract_id.job_id.cbo_id.code[:4]
         # Revisar daqui para a frente
         sefip.trabalhador_remun_sem_13 = \
-            self._trabalhador_remun_sem_13(folha) or ''
+                self._trabalhador_remun_sem_13(folha) or ''
 
         sefip.trabalhador_remun_13 = self._trabalhador_remun_13(folha) or ''
 
