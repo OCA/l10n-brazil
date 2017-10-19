@@ -66,3 +66,7 @@ class AccountJournal(models.Model):
     sat_card_accrediting = fields.Selection(
         CREDENCIADORAS_CARTAO, 'Credenciadora do Cartão'
     )
+    pagamento_funcionarios = fields.Boolean(
+        string=u"Somente para funcionários",
+        default=False
+    )
