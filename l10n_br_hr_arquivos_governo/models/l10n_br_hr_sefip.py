@@ -7,12 +7,18 @@ from __future__ import (
     division, print_function, unicode_literals, absolute_import
 )
 
+import os
+import tempfile
 import logging
 import base64
 import pybrasil
+import sh
+from py3o.template import Template
 from datetime import timedelta
 from openerp import api, fields, models, _
 from openerp.exceptions import ValidationError
+from pybrasil.valor import formata_valor
+from pybrasil.data import formata_data
 
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 
@@ -26,6 +32,7 @@ from ..constantes_rh import (
 )
 
 _logger = logging.getLogger(__name__)
+CURDIR = os.path.dirname(os.path.abspath(__file__))
 
 
 class SefipAttachments(models.Model):
@@ -624,10 +631,9 @@ class L10nBrSefip(models.Model):
 
     def prepara_financial_move_gps(self, empresa_id, dados_empresa):
         '''
-         Tratar dados do sefip e criar um dict para criar financial.move de
-         guia GPS.
-        :param GPS:  float com valor total do recolhimento
-        :return: dict com valores para criar financial.move
+         Criar financial.move de guia GPS, imprimir GPS e anexá-la ao move.
+        :param GPS: float com valor total do recolhimento
+        :return: financial.move
         '''
 
         empresa = self.env['res.company'].browse(empresa_id)
@@ -640,7 +646,56 @@ class L10nBrSefip(models.Model):
               dados_empresa['INSS_outras_entidades'] + \
               dados_empresa['INSS_rat_fap']
 
-        return {
+        INSS = dados_empresa['INSS_funcionarios'] + \
+               dados_empresa['INSS_empresa'] + \
+               dados_empresa['INSS_rat_fap']
+
+        TERCEIROS = dados_empresa['INSS_outras_entidades']
+
+        dir_base = os.path.dirname(os.path.dirname(os.path.dirname(CURDIR)))
+        arquivo_template_gps = os.path.join(dir_base,
+                                            'kmee_odoo_addons',
+                                            'l10n_br_hr_payroll_report',
+                                            'data',
+                                            'gps.odt'
+                                            )
+
+        if os.path.exists(arquivo_template_gps):
+
+            template_gps = open(arquivo_template_gps, 'rb')
+            arquivo_temporario = tempfile.NamedTemporaryFile(delete=False)
+
+            vals_impressao = {
+                'codigo': self.codigo_recolhimento_gps or '',
+                'cnpj_cpf': self.company_id.cnpj_cpf or '',
+                'legal_name': self.company_id.legal_name or '',
+                'endereco': self.company_id.street or '' +
+                            self.company_id.number or '',
+                'telefone': self.company_id.phone or '',
+                'bairro': self.company_id.district or '',
+                'cidade': self.company_id.l10n_br_city_id.name or '',
+                'estado': self.company_id.state_id.name or '',
+                'cep': self.company_id.zip or '',
+                'data_vencimento':
+                    formata_data(self.data_recolhimento_gps),
+                'mes_do_ano': self.mes or '',
+                'ano': self.ano or '',
+                'valor_inss': formata_valor(INSS),
+                'total_bruto_inss_terceiros': formata_valor(TERCEIROS),
+                'total_liquido_inss': formata_valor(GPS),
+            }
+
+            template = Template(template_gps, arquivo_temporario.name)
+            template.render(vals_impressao)
+            sh.libreoffice('--headless', '--invisible', '--convert-to', 'pdf',
+                           '--outdir', '/tmp', arquivo_temporario.name)
+
+            pdf = open(arquivo_temporario.name + '.pdf', 'rb').read()
+
+            os.remove(arquivo_temporario.name + '.pdf')
+            os.remove(arquivo_temporario.name)
+
+        vals_gps = {
             'date_document': fields.Date.today(),
             'partner_id': self.env.ref('base.user_root').id,
             'doc_source_id': 'l10n_br.hr.sefip,' + str(self.id),
@@ -654,6 +709,26 @@ class L10nBrSefip(models.Model):
             'payment_mode_id': empresa.gps_carteira_cobranca.id,
             'sefip_id': self.id,
         }
+
+        financial_move_gps = self.env['financial.move'].create(
+            vals_gps
+        )
+
+        if os.path.exists(arquivo_template_gps):
+            vals_anexo = {
+                'name': 'GPS.pdf',
+                'datas_fname': 'GPS.pdf',
+                'res_model': 'financial.move',
+                'res_id': financial_move_gps.id,
+                'datas': pdf.encode('base64'),
+                'mimetype': 'application/pdf',
+            }
+
+            anexo = self.env['ir.attachment'].create(
+                vals_anexo
+            )
+
+        return financial_move_gps
 
     @api.multi
     def gerar_boletos(self):
@@ -730,11 +805,8 @@ class L10nBrSefip(models.Model):
 
             for company in empresas:
                 dados_empresa = empresas[company]
-                vals_gps = self.prepara_financial_move_gps(
+                financial_move_gps = self.prepara_financial_move_gps(
                     company, dados_empresa)
-                financial_move_gps = self.env['financial.move'].create(
-                    vals_gps
-                )
                 created_ids.append(financial_move_gps.id)
 
             for cod_darf in darfs:
