@@ -66,11 +66,14 @@ class CrmLeadTest(TransactionCase):
             self.env.ref("base.res_partner_2").id)
 
         # Check details of converted opportunity
-        self.assertEqual(self.crm_lead_company.type, 'opportunity',
+        self.assertEqual(
+            self.crm_lead_company.type, 'opportunity',
             'Lead is not converted to opportunity!')
-        self.assertEqual(self.crm_lead_company.partner_id.id,
+        self.assertEqual(
+            self.crm_lead_company.partner_id.id,
             self.env.ref("base.res_partner_2").id, 'Partner mismatch!')
-        self.assertEqual(self.crm_lead_company.stage_id.id,
+        self.assertEqual(
+            self.crm_lead_company.stage_id.id,
             self.env.ref("crm.stage_lead1").id,
             'Stage of opportunity is incorrect!')
 
@@ -83,15 +86,15 @@ class CrmLeadTest(TransactionCase):
             self.partner_id)
 
         self.assertTrue(self.obj_partner.name,
-            'The creation of the partner have problems.')
+                        'The creation of the partner have problems.')
         self.assertTrue(self.obj_partner.legal_name,
-            'The field Razão Social not was filled.')
+                        'The field Razão Social not was filled.')
         self.assertTrue(self.obj_partner.cnpj_cpf,
-            'The field CNPJ not was filled.')
+                        'The field CNPJ not was filled.')
         self.assertTrue(self.obj_partner.inscr_est,
-            'The field Inscrição Estadual not was filled')
+                        'The field Inscrição Estadual not was filled')
         self.assertTrue(self.obj_partner.inscr_mun,
-            'The field Inscrição Municipal not was filled')
+                        'The field Inscrição Municipal not was filled')
 
 # TODO fix up .case_mark_won()
     def test_lead_won(self):
@@ -111,18 +114,22 @@ class CrmLeadTest(TransactionCase):
             'stage_id': self.env.ref('crm.stage_lead1').id
             })
         # Check if the lead stage is "Open".
-        self.assertEqual(self.crm_lead_contact.stage_id.sequence, 1,
+        self.assertEqual(
+            self.crm_lead_contact.stage_id.sequence, 1,
             'Lead stage did not Open')
         # Convert lead into opportunity for exiting customer
-        self.crm_lead_contact.convert_opportunity(s
-            elf.env.ref("base.res_partner_2").id)
+        self.crm_lead_contact.convert_opportunity(
+            self.env.ref("base.res_partner_2").id)
 
         # Check details of converted opportunity
-        self.assertEqual(self.crm_lead_contact.type, 'opportunity',
+        self.assertEqual(
+            self.crm_lead_contact.type, 'opportunity',
             'Lead is not converted to opportunity!')
-        self.assertEqual(self.crm_lead_contact.partner_id.id,
+        self.assertEqual(
+            self.crm_lead_contact.partner_id.id,
             self.env.ref("base.res_partner_2").id, 'Partner mismatch!')
-        self.assertEqual(self.crm_lead_contact.stage_id.id,
+        self.assertEqual(
+            self.crm_lead_contact.stage_id.id,
             self.env.ref("crm.stage_lead1").id,
             'Stage of opportunity is incorrect!')
 
@@ -164,16 +171,16 @@ class CrmLeadTest(TransactionCase):
             self.partner_id)
 
         self.assertTrue(self.obj_partner.name,
-            'The creation of the partner have problems.')
+                        'The creation of the partner have problems.')
         self.assertTrue(self.obj_partner.legal_name,
-            'The field Razão Social not was filled.')
+                        'The field Razão Social not was filled.')
         self.assertTrue(self.obj_partner.cnpj_cpf,
-            'The field CNPJ not was filled.')
+                        'The field CNPJ not was filled.')
         self.assertTrue(self.obj_partner.inscr_est,
-            'The field Inscrição Estadual not was filled')
+                        'The field Inscrição Estadual not was filled')
         self.assertTrue(self.obj_partner.inscr_mun,
-            'The field Inscrição Municipal not was filled')
+                        'The field Inscrição Municipal not was filled')
         self.assertTrue(self.obj_partner.country_id,
-            'The field Country not was filled')
+                        'The field Country not was filled')
         self.assertTrue(self.obj_partner.state_id,
-            'The field State not was filled')
+                        'The field State not was filled')
