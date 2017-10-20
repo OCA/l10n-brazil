@@ -140,7 +140,7 @@ class CrmLeadTest(TransactionCase):
         self.obj_partner = self.env['res.partner'].browse(self.partner_id)
 
         self.assertTrue(self.obj_partner.name,
-            'The creation of the partner have problems.')
+                        'The creation of the partner have problems.')
 
 # TODO CPF and RG not found. In :
     # self.assertTrue(self.obj_partner.cnpj_cpf, ...)
