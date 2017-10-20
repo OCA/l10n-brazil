@@ -214,7 +214,7 @@ function l10n_br_pos_models(instance, module) {
         addPaymentline: function(cashregister) {
             if (cashregister.journal.sat_payment_mode == "05" && this.attributes.client) {
                 if (cashregister.journal.pagamento_funcionarios) {
-                    if (this.attributes.client.user_ids.indexOf(this.pos.cashier.id) != -1) {
+                    if (this.attributes.client.user_ids) {
                         this.add_payment_credito_loja(cashregister);
                     } else {
                         alert("Somente funcionários podem utilizar esta forma de pagamento!");
