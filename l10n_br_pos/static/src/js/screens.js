@@ -221,9 +221,14 @@ function l10n_br_pos_screens(instance, module) {
                     comment:_t('Um cpf é obrigatório.')
                 });
             } else {
-               this._super();
+               this._super(partner);
             }
         },
+        re_update_products: function(partner) {
+            if (!partner.cnpj_cpf){
+               this._super(partner);
+            }
+        }
     });
 
     module.CPFNaNotaPopupWidget = module.PopUpWidget.extend({
