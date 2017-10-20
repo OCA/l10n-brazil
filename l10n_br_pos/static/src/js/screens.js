@@ -224,6 +224,11 @@ function l10n_br_pos_screens(instance, module) {
                this._super();
             }
         },
+        re_update_products: function(partner) {
+            if (!partner.cnpj_cpf){
+               this._super();
+            }
+        }
     });
 
     module.CPFNaNotaPopupWidget = module.PopUpWidget.extend({
