@@ -209,6 +209,23 @@ function l10n_br_pos_screens(instance, module) {
         }
     });
 
+    module.ClientListScreenWidget = module.ClientListScreenWidget.extend({
+        save_client_details: function(partner) {
+            var fields = {}
+            this.$('.client-details-contents .detail').each(function(idx,el){
+                fields[el.name] = el.value;
+            });
+            if (!fields.cnpj_cpf){
+                this.pos_widget.screen_selector.show_popup('error',{
+                    message: _t('Erro no cadastro!'),
+                    comment:_t('Um cpf é obrigatório.')
+                });
+            } else {
+               this._super();
+            }
+        },
+    });
+
     module.CPFNaNotaPopupWidget = module.PopUpWidget.extend({
         template: 'CPFNaNota',
         show: function(options){
