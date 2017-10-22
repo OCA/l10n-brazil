@@ -62,6 +62,21 @@ class L10nBrSefip(models.Model):
     _inherit = [b'abstract.arquivos.governo.workflow', b'mail.thread']
 
     @api.multi
+    @api.onchange('company_id')
+    def onchange_company_id(self):
+        for sefip in self:
+            if sefip.responsible_user_id:
+                if sefip.responsible_user_id.parent_id != \
+                        sefip.company_id.partner_id:
+                    sefip.responsible_user_id = False
+            return {
+                'domain': {
+                    'responsible_user_id':
+                        [('parent_id', '=', sefip.company_id.partner_id.id)]
+                }
+            }
+
+    @api.multi
     def name_get(self):
         result = []
         meses = dict(MESES)
@@ -607,8 +622,7 @@ class L10nBrSefip(models.Model):
         '''
         data = self.ano + '-' + self.mes + '-' + str(
             self.company_id.darf_dia_vencimento)
-        data_vencimento = fields.Date.from_string(data
-        )
+        data_vencimento = fields.Date.from_string(data)
         data_vencimento = data_vencimento + timedelta(days=31)
 
         sequence_id = self.company_id.darf_sequence_id.id
@@ -992,9 +1006,21 @@ class L10nBrSefip(models.Model):
         sefip.data_recolh_ps = fields.Datetime.from_string(
             self.data_recolhimento_gps).strftime('%d%m%Y') \
             if self.data_recolhimento_gps else ''
+        if not self.company_id.supplier_partner_id:
+            raise ValidationError(
+                'Campo "Fornecedor do Sistema" não está preenchido nesta '
+                'Empresa ! - Favor preenchê-lo antes de gerar a SEFIP'
+            )
+        elif not self.company_id.supplier_partner_id.cnpj_cpf:
+            raise ValidationError(
+                'Campo "CNPJ/CPF" do Fornecedor do Sistema '
+                'não está preenchido! - Favor preenchê-lo '
+                'antes de gerar a SEFIP'
+            )
         sefip.tipo_inscr_fornec = (
             '1' if self.company_id.supplier_partner_id.is_company else '3')
         sefip.inscr_fornec = self.company_id.supplier_partner_id.cnpj_cpf
+
         return sefip._registro_00_informacoes_responsavel()
 
     def _preencher_registro_10(self, company_id, sefip):

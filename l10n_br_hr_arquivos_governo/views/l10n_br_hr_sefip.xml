@@ -41,30 +41,37 @@
                     </header>
                     <group cols="4" string="SEFIP">
                         <group string="Responsável" colspan="4">
-                            <field name="responsible_user_id"/>
-                            <field name="company_id"/>
-                            <field name="mes"/>
-                            <field name="ano"/>
-                            <field name="modalidade_arquivo"/>
+                            <field name="company_id"
+                                   required="1"
+                                   options="{'no_create': True}"
+                            />
+                            <field name="responsible_user_id"
+                                   attrs="{'readonly': [('company_id', '=', False)]}"
+                                   options="{'no_create': True}"
+                                   required="1"
+                            />
+                            <field name="mes" required="1"/>
+                            <field name="ano" required="1"/>
+                            <field name="modalidade_arquivo" required="1"/>
                          </group>
                         <group  string="FGTS" colspan="4">
-                            <field name="codigo_recolhimento"/>
-                            <field name="recolhimento_fgts"/>
-                            <field name="data_recolhimento_fgts"/>
+                            <field name="codigo_recolhimento" required="1"/>
+                            <field name="recolhimento_fgts" required="1"/>
+                            <field name="data_recolhimento_fgts" required="1"/>
                         </group>
                         <group string="GPS" colspan="4">
-                            <field name="codigo_recolhimento_gps"/>
-                            <field name="recolhimento_gps"/>
-                            <field name="data_recolhimento_gps"/>
+                            <field name="codigo_recolhimento_gps" required="1"/>
+                            <field name="recolhimento_gps" required="1"/>
+                            <field name="data_recolhimento_gps" required="1"/>
                         </group>
                         <group string="FPAS" colspan="4">
-                            <field name="codigo_fpas"/>
-                            <field name="eh_obrigatorio_codigo_outras_entidades" invisible="1"/>
+                            <field name="codigo_fpas" required="1"/>
+                            <field name="eh_obrigatorio_codigo_outras_entidades" invisible="1" required="1"/>
                             <field name="codigo_outras_entidades" attrs="{'required':[('eh_obrigatorio_codigo_outras_entidades', '=', True)]}"/>
                             <field name="data_geracao"/>
                         </group>
                         <group string="GRCSU (Guia de Contribuição Sindical Urbana)" colspan="4">
-                            <field name="data_vencimento_grcsu"/>
+                            <field name="data_vencimento_grcsu" required="1"/>
                         </group>
                         <field name="eh_obrigatorio_informacoes_processo" invisible="1"/>
                         <group string="Processo, convenção ou coletiva" colspan="4"  attrs="{'invisible':[('eh_obrigatorio_informacoes_processo', '!=', True)]}" >
