@@ -361,7 +361,7 @@ function l10n_br_pos_models(instance, module) {
             result['product_description_sale'] = produto.description_sale;
             result['product_default_code'] = produto.default_code;
             result['fiscal_classification_id'] = produto.fiscal_classification_id;
-            result['estimated_taxes'] = produto.estd_national_taxes_perct;
+            result['estimated_taxes'] = produto.estd_national_taxes_perct/100;
             result['origin'] = produto.origin;
             return result;
         }
