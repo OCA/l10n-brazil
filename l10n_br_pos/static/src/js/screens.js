@@ -348,6 +348,26 @@ function l10n_br_pos_screens(instance, module) {
     });
 
     module.PaymentScreenWidget = module.PaymentScreenWidget.extend({
+        init: function(parent, options) {
+            var self = this;
+            this._super(parent, options);
+
+            this.hotkey_handler = function(event){
+                if (self.pos.config.cpf_nota) {
+                    if(event.which === 13){
+                        self.validar_cpf_nota();
+                    }else if(event.which === 27){
+                        self.back();
+                    }
+                } else {
+                    if(event.which === 13){
+                        self.validate_order();
+                    }else if(event.which === 27){
+                        self.back();
+                    }
+                }
+            };
+        },
         validar_cpf_nota: function() {
             var self = this;
             self.pos_widget.screen_selector.show_popup('cpf_nota_sat_popup',{
