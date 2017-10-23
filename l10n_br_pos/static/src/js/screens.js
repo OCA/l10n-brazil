@@ -218,10 +218,18 @@ function l10n_br_pos_screens(instance, module) {
             if (!fields.cnpj_cpf){
                 this.pos_widget.screen_selector.show_popup('error',{
                     message: _t('Erro no cadastro!'),
-                    comment:_t('Um cpf é obrigatório.')
+                    comment:_t('Um CPF é obrigatório.')
                 });
             } else {
-               this._super(partner);
+                var cliente_cpf = fields.cnpj_cpf;
+                if (self.pos_widget.order_widget.verificar_cpf_cnpj(cliente_cpf)){
+                    this._super(partner);
+                } else {
+                   this.pos_widget.screen_selector.show_popup('error',{
+                        message: _t('Erro no cadastro!'),
+                        comment:_t('CPF inválido!.')
+                    });
+                }
             }
         },
         re_update_products: function(partner) {
