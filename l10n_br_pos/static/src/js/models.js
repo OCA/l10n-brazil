@@ -227,7 +227,11 @@ function l10n_br_pos_models(instance, module) {
                     }
                 }
             } else if (cashregister.journal.sat_payment_mode == "05" && !this.attributes.client){
-                alert("Para usar esse pagamento é preciso selecionar um cliente para a venda!");
+                if (cashregister.journal.pagamento_funcionarios) {
+                    alert("Para usar esse pagamento é preciso selecionar um funcionário para a venda!");
+                } else {
+                    alert("Para usar esse pagamento é preciso selecionar um cliente para a venda!");
+                }
             } else {
                 PosOrderSuper.prototype.addPaymentline.apply(this, arguments);
             }
