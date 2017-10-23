@@ -154,9 +154,11 @@ class SpedDocumento(models.Model):
                 }]
                 move_lines.append(vals_produtos)
             vals = {
+                'partner_id': documento.participante_id.partner_id.id,
                 'participante_id': documento.participante_id.id,
                 'min_date': documento.data_hora_entrada_saida,
                 'origin': 'NFe-' + str(documento.numero)[:-2],
+                'company_id': documento.empresa_id.company_id.id,
                 'empresa_id': documento.empresa_id.id,
                 'picking_type_id': doc_picking_type.id,
                 'location_id': doc_picking_type.default_location_src_id.id,
