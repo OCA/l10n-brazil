@@ -35,9 +35,15 @@ class SEFIP(AbstractArquivosGoverno):
         registro_00 += self._validar(self.cod_recolhimento, 3, 'N')
         registro_00 += self._validar(self.indic_recolhimento_fgts, 1, 'N')
         registro_00 += self._validar(self.modalidade_arq, 1, 'N')
-        registro_00 += self._validar(self.data_recolhimento_fgts, 8, 'D')
+        if self.indic_recolhimento_fgts in ['2', '3', '5', '6']:
+            registro_00 += self._validar(self.data_recolhimento_fgts, 8, 'D')
+        else:
+            registro_00 += self._validar(False, 8, 'D')
         registro_00 += self._validar(self.indic_recolh_ps, 1, 'N')
-        registro_00 += self._validar(self.data_recolh_ps, 8, 'D')
+        if self.indic_recolh_ps == '2':
+            registro_00 += self._validar(self.data_recolh_ps, 8, 'D')
+        else:
+            registro_00 += self._validar(False, 8, 'D')
         registro_00 += self._validar(self.indice_recolh_atraso_ps, 7, 'N')
         registro_00 += self._validar(self.tipo_inscr_fornec, 1, 'N')
         registro_00 += self._validar(self.inscr_fornec, 14, 'N')
