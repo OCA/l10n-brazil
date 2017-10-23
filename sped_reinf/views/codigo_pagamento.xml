@@ -5,8 +5,8 @@
 <odoo>
 
     <record model="ir.ui.view" id="codigo_pagamento_form_view">
-        <field name="name">codigo.pagamento.form (in sped-reinf)</field>
-        <field name="model">codigo.pagamento</field>
+        <field name="name">codigo_pagamento_form_view</field>
+        <field name="model">reinf.codigo_pagamento</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -24,8 +24,8 @@
 
 
     <record model="ir.ui.view" id="codigo_pagamento_tree_view">
-        <field name="name">codigo.pagamento.tree (in sped-reinf)</field>
-        <field name="model">codigo.pagamento</field>
+        <field name="name">codigo_pagamento_tree_view</field>
+        <field name="model">reinf.codigo_pagamento</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="classificacao_rendimento"/>
@@ -39,7 +39,7 @@
 
     <record model="ir.actions.act_window" id="codigo_pagamento_act_window">
         <field name="name">Codigo Pagamento</field>
-        <field name="res_model">codigo.pagamento</field>
+        <field name="res_model">reinf.codigo_pagamento</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>

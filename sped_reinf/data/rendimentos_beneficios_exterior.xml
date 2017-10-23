@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<odoo>
+<record id="tab03_10" model="reinf.rendimentos_beneficios_exterior">
+  <field name="codigo">10</field>
+  <field name="descricao">Retenção do IRRF - alíquota padrão.</field>
+</record>
+<record id="tab03_11" model="reinf.rendimentos_beneficios_exterior">
+  <field name="codigo">11</field>
+  <field name="descricao">Retenção do IRRF - alíquota da tabela progressiva.</field>
+</record>
+<record id="tab03_12" model="reinf.rendimentos_beneficios_exterior">
+  <field name="codigo">12</field>
+  <field name="descricao">Retenção do IRRF - alíquota diferenciada (países com tributação favorecida).</field>
+</record>
+<record id="tab03_13" model="reinf.rendimentos_beneficios_exterior">
+  <field name="codigo">13</field>
+  <field name="descricao">Retenção do IRRF - alíquota limitada conforme cláusula em convênio.</field>
+</record>
+<record id="tab03_30" model="reinf.rendimentos_beneficios_exterior">
+  <field name="codigo">30</field>
+  <field name="descricao">Retenção do IRRF - outras hipóteses.</field>
+</record>
+<record id="tab03_40" model="reinf.rendimentos_beneficios_exterior">
+  <field name="codigo">40</field>
+  <field name="descricao">Não retenção do IRRF - isenção estabelecida em convênio.</field>
+</record>
+<record id="tab03_41" model="reinf.rendimentos_beneficios_exterior">
+  <field name="codigo">41</field>
+  <field name="descricao">Não retenção do IRRF - isenção prevista em lei interna</field>
+</record>
+<record id="tab03_42" model="reinf.rendimentos_beneficios_exterior">
+  <field name="codigo">42</field>
+  <field name="descricao">Não retenção do IRRF - alíquota Zero prevista em lei interna</field>
+</record>
+<record id="tab03_43" model="reinf.rendimentos_beneficios_exterior">
+  <field name="codigo">43</field>
+  <field name="descricao">Não retenção do IRRF - pagamento antecipado do imposto</field>
+</record>
+<record id="tab03_44" model="reinf.rendimentos_beneficios_exterior">
+  <field name="codigo">44</field>
+  <field name="descricao">Não retenção do IRRF - medida Judicial</field>
+</record>
+<record id="tab03_50" model="reinf.rendimentos_beneficios_exterior">
+  <field name="codigo">50</field>
+  <field name="descricao">Não retenção do IRRF - outras hipóteses</field>
+</record>
+</odoo>

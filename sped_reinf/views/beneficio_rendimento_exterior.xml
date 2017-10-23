@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="beneficio_rendimento_exterior_form">
+        <field name="name">beneficio_rendimento_exterior_form</field>
+        <field name="model">reinf.beneficio_rendimento_exterior</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Rendimentos de Beneficiários no Exterior"
+            edit="false" delete="false" create="false">
+                <sheet>
+                    <group>
+                        <group name="geral" colspan="2" col="2">
+                            <field name="codigo"/>
+                            <field name="descricao" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="beneficio_rendimento_exterior_tree">
+        <field name="name">beneficio_rendimento_exterior_view</field>
+        <field name="model">reinf.beneficio_rendimento_exterior</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Rendimentos de Beneficiários no Exterior"
+            edit="false" create="false" delete="false">
+                <field name="codigo" />
+                <field name="descricao" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="beneficio_rendimento_exterior_search">
+        <field name="name">beneficio_rendimento_exterior_search</field>
+        <field name="model">reinf.beneficio_rendimento_exterior</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Rendimentos de Beneficiários no Exterior">
+                <field name="codigo" />
+                <field name="descricao" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="beneficio_rendimento_exterior_action">
+        <field name="name">Agente Causador do Acidente de Trabalho</field>
+        <field name="res_model">reinf.beneficio_rendimento_exterior</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="beneficio_rendimento_exterior_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="beneficio_rendimento_exterior_tree"/>
+        <field name="act_window_id" ref="beneficio_rendimento_exterior_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="beneficio_rendimento_exterior_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="beneficio_rendimento_exterior_form"/>
+        <field name="act_window_id" ref="beneficio_rendimento_exterior_action"/>
+    </record>
+
+    <menuitem
+        action="beneficio_rendimento_exterior_action"
+        id="menu_beneficio_rendimento_exterior"
+        name="03-Rendimentos de Beneficiários no Exterior"
+        parent="menu_reinf_tabelas"
+        sequence="3"
+    />
+
+</odoo>

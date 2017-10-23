@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<odoo>
+<record id="tab8_1" model="reinf.eventos_EFD">
+  <field name="codigo">1</field>
+  <field name="descricao">Empresa  enquadrada  no  regime  de  tributação  Simples  Nacional  com  tributação  previdenciária substituída</field>
+</record>
+<record id="tab8_2" model="reinf.eventos_EFD">
+  <field name="codigo">2</field>
+  <field name="descricao">Empresa enquadrada no regime de tributação Simples Nacional com tributação previdenciária não substituída</field>
+</record>
+<record id="tab8_3" model="reinf.eventos_EFD">
+  <field name="codigo">3</field>
+  <field name="descricao">Empresa  enquadrada  no  regime  de  tributação  Simples  Nacional  com  tributação  previdenciária substituída e não substituída</field>
+</record>
+<record id="tab8_4" model="reinf.eventos_EFD">
+  <field name="codigo">4</field>
+  <field name="descricao">MEI - Micro Empreendedor Individual</field>
+</record>
+<record id="tab8_6" model="reinf.eventos_EFD">
+  <field name="codigo">6</field>
+  <field name="descricao">Agroindústria</field>
+</record>
+<record id="tab8_7" model="reinf.eventos_EFD">
+  <field name="codigo">7</field>
+  <field name="descricao">Produtor Rural Pessoa Jurídica</field>
+</record>
+<record id="tab8_8" model="reinf.eventos_EFD">
+  <field name="codigo">8</field>
+  <field name="descricao">Consórcio Simplificado de Produtores Rurais</field>
+</record>
+<record id="tab8_9" model="reinf.eventos_EFD">
+  <field name="codigo">9</field>
+  <field name="descricao">Órgão Gestor de Mão de Obra</field>
+</record>
+<record id="tab8_10" model="reinf.eventos_EFD">
+  <field name="codigo">10</field>
+  <field name="descricao">Entidade Sindical a que se refere a Lei 12.023/2009</field>
+</record>
+<record id="tab8_11" model="reinf.eventos_EFD">
+  <field name="codigo">11</field>
+  <field name="descricao">Associação Desportiva que mantém Clube de Futebol Profissional</field>
+</record>
+<record id="tab8_13" model="reinf.eventos_EFD">
+  <field name="codigo">13</field>
+  <field name="descricao">Banco,  caixa  econômica,  sociedade  de  crédito,  financiamento  e  investimento  e  demais  empresas relacionadas no parágrafo 1º do art. 22 da Lei 8.212./91</field>
+</record>
+<record id="tab8_14" model="reinf.eventos_EFD">
+  <field name="codigo">14</field>
+  <field name="descricao">Sindicatos em geral, exceto aquele classificado no código [10]</field>
+</record>
+<record id="tab8_21" model="reinf.eventos_EFD">
+  <field name="codigo">21</field>
+  <field name="descricao">Pessoa Física, exceto Segurado Especial</field>
+</record>
+<record id="tab8_22" model="reinf.eventos_EFD">
+  <field name="codigo">22</field>
+  <field name="descricao">Segurado Especial</field>
+</record>
+<record id="tab8_60" model="reinf.eventos_EFD">
+  <field name="codigo">60</field>
+  <field name="descricao">Missão Diplomática ou Repartição Consular de carreira estrangeira</field>
+</record>
+<record id="tab8_70" model="reinf.eventos_EFD">
+  <field name="codigo">70</field>
+  <field name="descricao">Empresa de que trata o Decreto 5.436/2005</field>
+</record>
+<record id="tab8_80" model="reinf.eventos_EFD">
+  <field name="codigo">80</field>
+  <field name="descricao">Entidade Imune ou Isenta</field>
+</record>
+<record id="tab8_85" model="reinf.eventos_EFD">
+  <field name="codigo">85</field>
+  <field name="descricao">Ente Federativo, Órgãos da União, Autarquias e Fundações Públicas</field>
+</record>
+<record id="tab8_99" model="reinf.eventos_EFD">
+  <field name="codigo">99</field>
+  <field name="descricao">Pessoas Jurídicas em Geral</field>
+</record>
+</odoo>

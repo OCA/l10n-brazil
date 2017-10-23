@@ -1,0 +1,992 @@
+<?xml version="1.0"?>
+<odoo>
+<record id="tab07_001" model="reinf.paises">
+  <field name="codigo">001</field>
+  <field name="pais">Brasil</field>
+</record>
+<record id="tab07_013" model="reinf.paises">
+  <field name="codigo">013</field>
+  <field name="pais">Afeganistão</field>
+</record>
+<record id="tab07_017" model="reinf.paises">
+  <field name="codigo">017</field>
+  <field name="pais">Albânia, República da</field>
+</record>
+<record id="tab07_023" model="reinf.paises">
+  <field name="codigo">023</field>
+  <field name="pais">Alemanha</field>
+</record>
+<record id="tab07_031" model="reinf.paises">
+  <field name="codigo">031</field>
+  <field name="pais">Burkina Faso</field>
+</record>
+<record id="tab07_037" model="reinf.paises">
+  <field name="codigo">037</field>
+  <field name="pais">Andorra</field>
+</record>
+<record id="tab07_040" model="reinf.paises">
+  <field name="codigo">040</field>
+  <field name="pais">Angola</field>
+</record>
+<record id="tab07_041" model="reinf.paises">
+  <field name="codigo">041</field>
+  <field name="pais">Anguilla</field>
+</record>
+<record id="tab07_043" model="reinf.paises">
+  <field name="codigo">043</field>
+  <field name="pais">Antigua E Barbuda</field>
+</record>
+<record id="tab07_047" model="reinf.paises">
+  <field name="codigo">047</field>
+  <field name="pais">Antilhas Holandesas</field>
+</record>
+<record id="tab07_053" model="reinf.paises">
+  <field name="codigo">053</field>
+  <field name="pais">Arábia Saudita</field>
+</record>
+<record id="tab07_059" model="reinf.paises">
+  <field name="codigo">059</field>
+  <field name="pais">Argélia</field>
+</record>
+<record id="tab07_063" model="reinf.paises">
+  <field name="codigo">063</field>
+  <field name="pais">Argentina</field>
+</record>
+<record id="tab07_064" model="reinf.paises">
+  <field name="codigo">064</field>
+  <field name="pais">Armênia, República da</field>
+</record>
+<record id="tab07_065" model="reinf.paises">
+  <field name="codigo">065</field>
+  <field name="pais">Aruba</field>
+</record>
+<record id="tab07_069" model="reinf.paises">
+  <field name="codigo">069</field>
+  <field name="pais">Austrália</field>
+</record>
+<record id="tab07_072" model="reinf.paises">
+  <field name="codigo">072</field>
+  <field name="pais">Áustria</field>
+</record>
+<record id="tab07_073" model="reinf.paises">
+  <field name="codigo">073</field>
+  <field name="pais">Azerbaijão, República do</field>
+</record>
+<record id="tab07_077" model="reinf.paises">
+  <field name="codigo">077</field>
+  <field name="pais">Bahamas, Ilhas</field>
+</record>
+<record id="tab07_080" model="reinf.paises">
+  <field name="codigo">080</field>
+  <field name="pais">Bahrein, Ilhas</field>
+</record>
+<record id="tab07_081" model="reinf.paises">
+  <field name="codigo">081</field>
+  <field name="pais">Bangladesh</field>
+</record>
+<record id="tab07_083" model="reinf.paises">
+  <field name="codigo">083</field>
+  <field name="pais">Barbados</field>
+</record>
+<record id="tab07_085" model="reinf.paises">
+  <field name="codigo">085</field>
+  <field name="pais">Belarus, República da</field>
+</record>
+<record id="tab07_087" model="reinf.paises">
+  <field name="codigo">087</field>
+  <field name="pais">Bélgica</field>
+</record>
+<record id="tab07_088" model="reinf.paises">
+  <field name="codigo">088</field>
+  <field name="pais">Belize</field>
+</record>
+<record id="tab07_090" model="reinf.paises">
+  <field name="codigo">090</field>
+  <field name="pais">Bermudas</field>
+</record>
+<record id="tab07_093" model="reinf.paises">
+  <field name="codigo">093</field>
+  <field name="pais">Mianmar (Birmânia)</field>
+</record>
+<record id="tab07_097" model="reinf.paises">
+  <field name="codigo">097</field>
+  <field name="pais">Bolívia</field>
+</record>
+<record id="tab07_098" model="reinf.paises">
+  <field name="codigo">098</field>
+  <field name="pais">Bosnia-Herzegovina
+(República da)</field>
+</record>
+<record id="tab07_101" model="reinf.paises">
+  <field name="codigo">101</field>
+  <field name="pais">Botsuana</field>
+</record>
+<record id="tab07_108" model="reinf.paises">
+  <field name="codigo">108</field>
+  <field name="pais">Brunei</field>
+</record>
+<record id="tab07_111" model="reinf.paises">
+  <field name="codigo">111</field>
+  <field name="pais">Bulgária, República da</field>
+</record>
+<record id="tab07_115" model="reinf.paises">
+  <field name="codigo">115</field>
+  <field name="pais">Burundi</field>
+</record>
+<record id="tab07_119" model="reinf.paises">
+  <field name="codigo">119</field>
+  <field name="pais">Butão</field>
+</record>
+<record id="tab07_127" model="reinf.paises">
+  <field name="codigo">127</field>
+  <field name="pais">Cabo Verde, República
+de</field>
+</record>
+<record id="tab07_137" model="reinf.paises">
+  <field name="codigo">137</field>
+  <field name="pais">Cayman, Ilhas</field>
+</record>
+<record id="tab07_141" model="reinf.paises">
+  <field name="codigo">141</field>
+  <field name="pais">Camboja</field>
+</record>
+<record id="tab07_145" model="reinf.paises">
+  <field name="codigo">145</field>
+  <field name="pais">Camarões</field>
+</record>
+<record id="tab07_149" model="reinf.paises">
+  <field name="codigo">149</field>
+  <field name="pais">Canadá</field>
+</record>
+<record id="tab07_150" model="reinf.paises">
+  <field name="codigo">150</field>
+  <field name="pais">Jersey, Ilha do Canal</field>
+</record>
+<record id="tab07_151" model="reinf.paises">
+  <field name="codigo">151</field>
+  <field name="pais">Canárias, Ilhas</field>
+</record>
+<record id="tab07_153" model="reinf.paises">
+  <field name="codigo">153</field>
+  <field name="pais">Cazaquistao, República
+do</field>
+</record>
+<record id="tab07_154" model="reinf.paises">
+  <field name="codigo">154</field>
+  <field name="pais">Catar</field>
+</record>
+<record id="tab07_" model="reinf.paises">
+  <field name="codigo"></field>
+  <field name="pais"></field>
+</record>
+<record id="tab07_158" model="reinf.paises">
+  <field name="codigo">158</field>
+  <field name="pais">Chile</field>
+</record>
+<record id="tab07_160" model="reinf.paises">
+  <field name="codigo">160</field>
+  <field name="pais">China, República Popular</field>
+</record>
+<record id="tab07_161" model="reinf.paises">
+  <field name="codigo">161</field>
+  <field name="pais">Formosa (Taiwan)</field>
+</record>
+<record id="tab07_163" model="reinf.paises">
+  <field name="codigo">163</field>
+  <field name="pais">Chipre</field>
+</record>
+<record id="tab07_165" model="reinf.paises">
+  <field name="codigo">165</field>
+  <field name="pais">Cocos-Keeling, Ilhas</field>
+</record>
+<record id="tab07_169" model="reinf.paises">
+  <field name="codigo">169</field>
+  <field name="pais">Colômbia</field>
+</record>
+<record id="tab07_173" model="reinf.paises">
+  <field name="codigo">173</field>
+  <field name="pais">Comores, Ilhas</field>
+</record>
+<record id="tab07_177" model="reinf.paises">
+  <field name="codigo">177</field>
+  <field name="pais">Congo</field>
+</record>
+<record id="tab07_183" model="reinf.paises">
+  <field name="codigo">183</field>
+  <field name="pais">Cook, Ilhas</field>
+</record>
+<record id="tab07_187" model="reinf.paises">
+  <field name="codigo">187</field>
+  <field name="pais">Coréia,
+Rep.Pop.Democrática</field>
+</record>
+<record id="tab07_190" model="reinf.paises">
+  <field name="codigo">190</field>
+  <field name="pais">Coréia, República da</field>
+</record>
+<record id="tab07_193" model="reinf.paises">
+  <field name="codigo">193</field>
+  <field name="pais">Costa do Marfim</field>
+</record>
+<record id="tab07_195" model="reinf.paises">
+  <field name="codigo">195</field>
+  <field name="pais">Croácia, República da</field>
+</record>
+<record id="tab07_196" model="reinf.paises">
+  <field name="codigo">196</field>
+  <field name="pais">Costa Rica</field>
+</record>
+<record id="tab07_198" model="reinf.paises">
+  <field name="codigo">198</field>
+  <field name="pais">Coveite</field>
+</record>
+<record id="tab07_199" model="reinf.paises">
+  <field name="codigo">199</field>
+  <field name="pais">Cuba</field>
+</record>
+<record id="tab07_229" model="reinf.paises">
+  <field name="codigo">229</field>
+  <field name="pais">Benin</field>
+</record>
+<record id="tab07_232" model="reinf.paises">
+  <field name="codigo">232</field>
+  <field name="pais">Dinamarca</field>
+</record>
+<record id="tab07_235" model="reinf.paises">
+  <field name="codigo">235</field>
+  <field name="pais">Dominica, Ilha</field>
+</record>
+<record id="tab07_239" model="reinf.paises">
+  <field name="codigo">239</field>
+  <field name="pais">Equador</field>
+</record>
+<record id="tab07_240" model="reinf.paises">
+  <field name="codigo">240</field>
+  <field name="pais">Egito</field>
+</record>
+<record id="tab07_243" model="reinf.paises">
+  <field name="codigo">243</field>
+  <field name="pais">Eritreia</field>
+</record>
+<record id="tab07_244" model="reinf.paises">
+  <field name="codigo">244</field>
+  <field name="pais">Emirados Árabes Unidos</field>
+</record>
+<record id="tab07_245" model="reinf.paises">
+  <field name="codigo">245</field>
+  <field name="pais">Espanha</field>
+</record>
+<record id="tab07_246" model="reinf.paises">
+  <field name="codigo">246</field>
+  <field name="pais">Eslovênia, República da</field>
+</record>
+<record id="tab07_247" model="reinf.paises">
+  <field name="codigo">247</field>
+  <field name="pais">Eslovaca, República</field>
+</record>
+<record id="tab07_249" model="reinf.paises">
+  <field name="codigo">249</field>
+  <field name="pais">Estados Unidos</field>
+</record>
+<record id="tab07_251" model="reinf.paises">
+  <field name="codigo">251</field>
+  <field name="pais">Estônia, República da</field>
+</record>
+<record id="tab07_253" model="reinf.paises">
+  <field name="codigo">253</field>
+  <field name="pais">Etiópia</field>
+</record>
+<record id="tab07_255" model="reinf.paises">
+  <field name="codigo">255</field>
+  <field name="pais">Falkland (Ilhas Malvinas)</field>
+</record>
+<record id="tab07_259" model="reinf.paises">
+  <field name="codigo">259</field>
+  <field name="pais">Feroe, Ilhas</field>
+</record>
+<record id="tab07_267" model="reinf.paises">
+  <field name="codigo">267</field>
+  <field name="pais">Filipinas</field>
+</record>
+<record id="tab07_271" model="reinf.paises">
+  <field name="codigo">271</field>
+  <field name="pais">Finlândia</field>
+</record>
+<record id="tab07_275" model="reinf.paises">
+  <field name="codigo">275</field>
+  <field name="pais">França</field>
+</record>
+<record id="tab07_281" model="reinf.paises">
+  <field name="codigo">281</field>
+  <field name="pais">Gabão</field>
+</record>
+<record id="tab07_285" model="reinf.paises">
+  <field name="codigo">285</field>
+  <field name="pais">Gambia</field>
+</record>
+<record id="tab07_289" model="reinf.paises">
+  <field name="codigo">289</field>
+  <field name="pais">Gana</field>
+</record>
+<record id="tab07_291" model="reinf.paises">
+  <field name="codigo">291</field>
+  <field name="pais">Geórgia, República da</field>
+</record>
+<record id="tab07_293" model="reinf.paises">
+  <field name="codigo">293</field>
+  <field name="pais">Gibraltar</field>
+</record>
+<record id="tab07_297" model="reinf.paises">
+  <field name="codigo">297</field>
+  <field name="pais">Granada</field>
+</record>
+<record id="tab07_301" model="reinf.paises">
+  <field name="codigo">301</field>
+  <field name="pais">Grécia</field>
+</record>
+<record id="tab07_305" model="reinf.paises">
+  <field name="codigo">305</field>
+  <field name="pais">Groenlândia</field>
+</record>
+<record id="tab07_309" model="reinf.paises">
+  <field name="codigo">309</field>
+  <field name="pais">Guadalupe</field>
+</record>
+<record id="tab07_313" model="reinf.paises">
+  <field name="codigo">313</field>
+  <field name="pais">Guam</field>
+</record>
+<record id="tab07_317" model="reinf.paises">
+  <field name="codigo">317</field>
+  <field name="pais">Guatemala</field>
+</record>
+<record id="tab07_325" model="reinf.paises">
+  <field name="codigo">325</field>
+  <field name="pais">Guiana Francesa</field>
+</record>
+<record id="tab07_329" model="reinf.paises">
+  <field name="codigo">329</field>
+  <field name="pais">Guiné</field>
+</record>
+<record id="tab07_331" model="reinf.paises">
+  <field name="codigo">331</field>
+  <field name="pais">Guiné-Equatorial</field>
+</record>
+<record id="tab07_334" model="reinf.paises">
+  <field name="codigo">334</field>
+  <field name="pais">Guiné-Bissau</field>
+</record>
+<record id="tab07_337" model="reinf.paises">
+  <field name="codigo">337</field>
+  <field name="pais">Guiana</field>
+</record>
+<record id="tab07_341" model="reinf.paises">
+  <field name="codigo">341</field>
+  <field name="pais">Haiti</field>
+</record>
+<record id="tab07_345" model="reinf.paises">
+  <field name="codigo">345</field>
+  <field name="pais">Honduras</field>
+</record>
+<record id="tab07_351" model="reinf.paises">
+  <field name="codigo">351</field>
+  <field name="pais">Hong Kong</field>
+</record>
+<record id="tab07_355" model="reinf.paises">
+  <field name="codigo">355</field>
+  <field name="pais">Hungria, República da</field>
+</record>
+<record id="tab07_357" model="reinf.paises">
+  <field name="codigo">357</field>
+  <field name="pais">Iemen</field>
+</record>
+<record id="tab07_359" model="reinf.paises">
+  <field name="codigo">359</field>
+  <field name="pais">Man, Ilha de</field>
+</record>
+<record id="tab07_361" model="reinf.paises">
+  <field name="codigo">361</field>
+  <field name="pais">Índia</field>
+</record>
+<record id="tab07_365" model="reinf.paises">
+  <field name="codigo">365</field>
+  <field name="pais">Indonésia</field>
+</record>
+<record id="tab07_369" model="reinf.paises">
+  <field name="codigo">369</field>
+  <field name="pais">Iraque</field>
+</record>
+<record id="tab07_372" model="reinf.paises">
+  <field name="codigo">372</field>
+  <field name="pais">Irã, República Islâmica do</field>
+</record>
+<record id="tab07_375" model="reinf.paises">
+  <field name="codigo">375</field>
+  <field name="pais">Irlanda</field>
+</record>
+<record id="tab07_379" model="reinf.paises">
+  <field name="codigo">379</field>
+  <field name="pais">Islândia</field>
+</record>
+<record id="tab07_383" model="reinf.paises">
+  <field name="codigo">383</field>
+  <field name="pais">Israel</field>
+</record>
+<record id="tab07_386" model="reinf.paises">
+  <field name="codigo">386</field>
+  <field name="pais">Itália</field>
+</record>
+<record id="tab07_391" model="reinf.paises">
+  <field name="codigo">391</field>
+  <field name="pais">Jamaica</field>
+</record>
+<record id="tab07_396" model="reinf.paises">
+  <field name="codigo">396</field>
+  <field name="pais">Johnston, Ilhas</field>
+</record>
+<record id="tab07_399" model="reinf.paises">
+  <field name="codigo">399</field>
+  <field name="pais">Japão</field>
+</record>
+<record id="tab07_403" model="reinf.paises">
+  <field name="codigo">403</field>
+  <field name="pais">Jordânia</field>
+</record>
+<record id="tab07_411" model="reinf.paises">
+  <field name="codigo">411</field>
+  <field name="pais">Kiribati</field>
+</record>
+<record id="tab07_420" model="reinf.paises">
+  <field name="codigo">420</field>
+  <field name="pais">Laos, Rep.Pop.Democr.do</field>
+</record>
+<record id="tab07_423" model="reinf.paises">
+  <field name="codigo">423</field>
+  <field name="pais">Lebuan, Ilhas</field>
+</record>
+<record id="tab07_426" model="reinf.paises">
+  <field name="codigo">426</field>
+  <field name="pais">Lesoto</field>
+</record>
+<record id="tab07_427" model="reinf.paises">
+  <field name="codigo">427</field>
+  <field name="pais">Letônia, República da</field>
+</record>
+<record id="tab07_431" model="reinf.paises">
+  <field name="codigo">431</field>
+  <field name="pais">Líbano</field>
+</record>
+<record id="tab07_434" model="reinf.paises">
+  <field name="codigo">434</field>
+  <field name="pais">Libéria</field>
+</record>
+<record id="tab07_438" model="reinf.paises">
+  <field name="codigo">438</field>
+  <field name="pais">Líbia</field>
+</record>
+<record id="tab07_440" model="reinf.paises">
+  <field name="codigo">440</field>
+  <field name="pais">Liechtenstein</field>
+</record>
+<record id="tab07_442" model="reinf.paises">
+  <field name="codigo">442</field>
+  <field name="pais">Lituânia, República da</field>
+</record>
+<record id="tab07_445" model="reinf.paises">
+  <field name="codigo">445</field>
+  <field name="pais">Luxemburgo</field>
+</record>
+<record id="tab07_447" model="reinf.paises">
+  <field name="codigo">447</field>
+  <field name="pais">Macau</field>
+</record>
+<record id="tab07_449" model="reinf.paises">
+  <field name="codigo">449</field>
+  <field name="pais">Macedônia,</field>
+</record>
+<record id="tab07_" model="reinf.paises">
+  <field name="codigo"></field>
+  <field name="pais">Ant.Rep.Iugoslava</field>
+</record>
+<record id="tab07_450" model="reinf.paises">
+  <field name="codigo">450</field>
+  <field name="pais">Madagascar</field>
+</record>
+<record id="tab07_452" model="reinf.paises">
+  <field name="codigo">452</field>
+  <field name="pais">Madeira, Ilha da</field>
+</record>
+<record id="tab07_455" model="reinf.paises">
+  <field name="codigo">455</field>
+  <field name="pais">Malásia</field>
+</record>
+<record id="tab07_458" model="reinf.paises">
+  <field name="codigo">458</field>
+  <field name="pais">Malavi</field>
+</record>
+<record id="tab07_461" model="reinf.paises">
+  <field name="codigo">461</field>
+  <field name="pais">Maldivas</field>
+</record>
+<record id="tab07_464" model="reinf.paises">
+  <field name="codigo">464</field>
+  <field name="pais">Mali</field>
+</record>
+<record id="tab07_467" model="reinf.paises">
+  <field name="codigo">467</field>
+  <field name="pais">Malta</field>
+</record>
+<record id="tab07_472" model="reinf.paises">
+  <field name="codigo">472</field>
+  <field name="pais">Marianas do Norte</field>
+</record>
+<record id="tab07_474" model="reinf.paises">
+  <field name="codigo">474</field>
+  <field name="pais">Marrocos</field>
+</record>
+<record id="tab07_476" model="reinf.paises">
+  <field name="codigo">476</field>
+  <field name="pais">Marshall, Ilhas</field>
+</record>
+<record id="tab07_477" model="reinf.paises">
+  <field name="codigo">477</field>
+  <field name="pais">Martinica</field>
+</record>
+<record id="tab07_485" model="reinf.paises">
+  <field name="codigo">485</field>
+  <field name="pais">Maurício</field>
+</record>
+<record id="tab07_488" model="reinf.paises">
+  <field name="codigo">488</field>
+  <field name="pais">Mauritânia</field>
+</record>
+<record id="tab07_490" model="reinf.paises">
+  <field name="codigo">490</field>
+  <field name="pais">Midway, Ilhas</field>
+</record>
+<record id="tab07_493" model="reinf.paises">
+  <field name="codigo">493</field>
+  <field name="pais">México</field>
+</record>
+<record id="tab07_494" model="reinf.paises">
+  <field name="codigo">494</field>
+  <field name="pais">Moldavia, República da</field>
+</record>
+<record id="tab07_495" model="reinf.paises">
+  <field name="codigo">495</field>
+  <field name="pais">Mônaco</field>
+</record>
+<record id="tab07_497" model="reinf.paises">
+  <field name="codigo">497</field>
+  <field name="pais">Mongólia</field>
+</record>
+<record id="tab07_498" model="reinf.paises">
+  <field name="codigo">498</field>
+  <field name="pais">Montenegro</field>
+</record>
+<record id="tab07_499" model="reinf.paises">
+  <field name="codigo">499</field>
+  <field name="pais">Micronésia</field>
+</record>
+<record id="tab07_501" model="reinf.paises">
+  <field name="codigo">501</field>
+  <field name="pais">Montserrat, Ilhas</field>
+</record>
+<record id="tab07_505" model="reinf.paises">
+  <field name="codigo">505</field>
+  <field name="pais">Moçambique</field>
+</record>
+<record id="tab07_507" model="reinf.paises">
+  <field name="codigo">507</field>
+  <field name="pais">Namíbia</field>
+</record>
+<record id="tab07_508" model="reinf.paises">
+  <field name="codigo">508</field>
+  <field name="pais">Nauru</field>
+</record>
+<record id="tab07_511" model="reinf.paises">
+  <field name="codigo">511</field>
+  <field name="pais">Christmas,Ilhas (Navidad)</field>
+</record>
+<record id="tab07_517" model="reinf.paises">
+  <field name="codigo">517</field>
+  <field name="pais">Nepal</field>
+</record>
+<record id="tab07_521" model="reinf.paises">
+  <field name="codigo">521</field>
+  <field name="pais">Nicarágua</field>
+</record>
+<record id="tab07_525" model="reinf.paises">
+  <field name="codigo">525</field>
+  <field name="pais">Niger</field>
+</record>
+<record id="tab07_528" model="reinf.paises">
+  <field name="codigo">528</field>
+  <field name="pais">Nigéria</field>
+</record>
+<record id="tab07_531" model="reinf.paises">
+  <field name="codigo">531</field>
+  <field name="pais">Niue, Ilha</field>
+</record>
+<record id="tab07_535" model="reinf.paises">
+  <field name="codigo">535</field>
+  <field name="pais">Norfolk, Ilha</field>
+</record>
+<record id="tab07_538" model="reinf.paises">
+  <field name="codigo">538</field>
+  <field name="pais">Noruega</field>
+</record>
+<record id="tab07_542" model="reinf.paises">
+  <field name="codigo">542</field>
+  <field name="pais">Nova Caledônia</field>
+</record>
+<record id="tab07_545" model="reinf.paises">
+  <field name="codigo">545</field>
+  <field name="pais">Papua Nova Guiné</field>
+</record>
+<record id="tab07_548" model="reinf.paises">
+  <field name="codigo">548</field>
+  <field name="pais">Nova Zelândia</field>
+</record>
+<record id="tab07_551" model="reinf.paises">
+  <field name="codigo">551</field>
+  <field name="pais">Vanuatu</field>
+</record>
+<record id="tab07_556" model="reinf.paises">
+  <field name="codigo">556</field>
+  <field name="pais">Omã</field>
+</record>
+<record id="tab07_566" model="reinf.paises">
+  <field name="codigo">566</field>
+  <field name="pais">Pacífico, Ilhas do
+(possessão dos EUA)</field>
+</record>
+<record id="tab07_573" model="reinf.paises">
+  <field name="codigo">573</field>
+  <field name="pais">Países Baixos (Holanda)</field>
+</record>
+<record id="tab07_575" model="reinf.paises">
+  <field name="codigo">575</field>
+  <field name="pais">Palau</field>
+</record>
+<record id="tab07_576" model="reinf.paises">
+  <field name="codigo">576</field>
+  <field name="pais">Paquistão</field>
+</record>
+<record id="tab07_580" model="reinf.paises">
+  <field name="codigo">580</field>
+  <field name="pais">Panamá</field>
+</record>
+<record id="tab07_586" model="reinf.paises">
+  <field name="codigo">586</field>
+  <field name="pais">Paraguai</field>
+</record>
+<record id="tab07_589" model="reinf.paises">
+  <field name="codigo">589</field>
+  <field name="pais">Peru</field>
+</record>
+<record id="tab07_593" model="reinf.paises">
+  <field name="codigo">593</field>
+  <field name="pais">Pitcairn, Ilha De</field>
+</record>
+<record id="tab07_599" model="reinf.paises">
+  <field name="codigo">599</field>
+  <field name="pais">Polinésia Francesa</field>
+</record>
+<record id="tab07_603" model="reinf.paises">
+  <field name="codigo">603</field>
+  <field name="pais">Polônia, República da</field>
+</record>
+<record id="tab07_607" model="reinf.paises">
+  <field name="codigo">607</field>
+  <field name="pais">Portugal</field>
+</record>
+<record id="tab07_611" model="reinf.paises">
+  <field name="codigo">611</field>
+  <field name="pais">Porto Rico</field>
+</record>
+<record id="tab07_623" model="reinf.paises">
+  <field name="codigo">623</field>
+  <field name="pais">Quênia</field>
+</record>
+<record id="tab07_625" model="reinf.paises">
+  <field name="codigo">625</field>
+  <field name="pais">Quirguiz, República da</field>
+</record>
+<record id="tab07_628" model="reinf.paises">
+  <field name="codigo">628</field>
+  <field name="pais">Reino Unido</field>
+</record>
+<record id="tab07_640" model="reinf.paises">
+  <field name="codigo">640</field>
+  <field name="pais">República Centro-Africana</field>
+</record>
+<record id="tab07_647" model="reinf.paises">
+  <field name="codigo">647</field>
+  <field name="pais">República Dominicana</field>
+</record>
+<record id="tab07_660" model="reinf.paises">
+  <field name="codigo">660</field>
+  <field name="pais">Reunião, Ilha</field>
+</record>
+<record id="tab07_665" model="reinf.paises">
+  <field name="codigo">665</field>
+  <field name="pais">Zimbabue</field>
+</record>
+<record id="tab07_670" model="reinf.paises">
+  <field name="codigo">670</field>
+  <field name="pais">Romênia</field>
+</record>
+<record id="tab07_675" model="reinf.paises">
+  <field name="codigo">675</field>
+  <field name="pais">Ruanda</field>
+</record>
+<record id="tab07_676" model="reinf.paises">
+  <field name="codigo">676</field>
+  <field name="pais">Rússia, Federação da</field>
+</record>
+<record id="tab07_677" model="reinf.paises">
+  <field name="codigo">677</field>
+  <field name="pais">Salomão, Ilhas</field>
+</record>
+<record id="tab07_678" model="reinf.paises">
+  <field name="codigo">678</field>
+  <field name="pais">Saint Kitts e Nevis</field>
+</record>
+<record id="tab07_685" model="reinf.paises">
+  <field name="codigo">685</field>
+  <field name="pais">Saara Ocidental</field>
+</record>
+<record id="tab07_687" model="reinf.paises">
+  <field name="codigo">687</field>
+  <field name="pais">El Salvador</field>
+</record>
+<record id="tab07_690" model="reinf.paises">
+  <field name="codigo">690</field>
+  <field name="pais">Samoa</field>
+</record>
+<record id="tab07_691" model="reinf.paises">
+  <field name="codigo">691</field>
+  <field name="pais">Samoa Americana</field>
+</record>
+<record id="tab07_695" model="reinf.paises">
+  <field name="codigo">695</field>
+  <field name="pais">São Cristovão e Neves,
+Ilhas</field>
+</record>
+<record id="tab07_697" model="reinf.paises">
+  <field name="codigo">697</field>
+  <field name="pais">San Marino</field>
+</record>
+<record id="tab07_700" model="reinf.paises">
+  <field name="codigo">700</field>
+  <field name="pais">São Pedro e Miquelon</field>
+</record>
+<record id="tab07_705" model="reinf.paises">
+  <field name="codigo">705</field>
+  <field name="pais">São Vicente e Granadinas</field>
+</record>
+<record id="tab07_710" model="reinf.paises">
+  <field name="codigo">710</field>
+  <field name="pais">Santa Helena</field>
+</record>
+<record id="tab07_715" model="reinf.paises">
+  <field name="codigo">715</field>
+  <field name="pais">Santa Lúcia</field>
+</record>
+<record id="tab07_720" model="reinf.paises">
+  <field name="codigo">720</field>
+  <field name="pais">São Tomé e Príncipe, Ilhas</field>
+</record>
+<record id="tab07_728" model="reinf.paises">
+  <field name="codigo">728</field>
+  <field name="pais">Senegal</field>
+</record>
+<record id="tab07_731" model="reinf.paises">
+  <field name="codigo">731</field>
+  <field name="pais">Seychelles</field>
+</record>
+<record id="tab07_735" model="reinf.paises">
+  <field name="codigo">735</field>
+  <field name="pais">Serra Leoa</field>
+</record>
+<record id="tab07_737" model="reinf.paises">
+  <field name="codigo">737</field>
+  <field name="pais">Servia</field>
+</record>
+<record id="tab07_741" model="reinf.paises">
+  <field name="codigo">741</field>
+  <field name="pais">Cingapura</field>
+</record>
+<record id="tab07_744" model="reinf.paises">
+  <field name="codigo">744</field>
+  <field name="pais">Síria, República Árabe da</field>
+</record>
+<record id="tab07_748" model="reinf.paises">
+  <field name="codigo">748</field>
+  <field name="pais">Somália</field>
+</record>
+<record id="tab07_750" model="reinf.paises">
+  <field name="codigo">750</field>
+  <field name="pais">Sri Lanka</field>
+</record>
+<record id="tab07_754" model="reinf.paises">
+  <field name="codigo">754</field>
+  <field name="pais">Suazilândia</field>
+</record>
+<record id="tab07_" model="reinf.paises">
+  <field name="codigo"></field>
+  <field name="pais"></field>
+</record>
+<record id="tab07_756" model="reinf.paises">
+  <field name="codigo">756</field>
+  <field name="pais">África do Sul</field>
+</record>
+<record id="tab07_759" model="reinf.paises">
+  <field name="codigo">759</field>
+  <field name="pais">Sudão</field>
+</record>
+<record id="tab07_764" model="reinf.paises">
+  <field name="codigo">764</field>
+  <field name="pais">Suécia</field>
+</record>
+<record id="tab07_767" model="reinf.paises">
+  <field name="codigo">767</field>
+  <field name="pais">Suíça</field>
+</record>
+<record id="tab07_770" model="reinf.paises">
+  <field name="codigo">770</field>
+  <field name="pais">Suriname</field>
+</record>
+<record id="tab07_772" model="reinf.paises">
+  <field name="codigo">772</field>
+  <field name="pais">Tadjiquistão, República do</field>
+</record>
+<record id="tab07_776" model="reinf.paises">
+  <field name="codigo">776</field>
+  <field name="pais">Tailândia</field>
+</record>
+<record id="tab07_780" model="reinf.paises">
+  <field name="codigo">780</field>
+  <field name="pais">Tanzania, Rep. Unida da</field>
+</record>
+<record id="tab07_782" model="reinf.paises">
+  <field name="codigo">782</field>
+  <field name="pais">Território Britânico no Oceano Índico</field>
+</record>
+<record id="tab07_783" model="reinf.paises">
+  <field name="codigo">783</field>
+  <field name="pais">Djibuti</field>
+</record>
+<record id="tab07_788" model="reinf.paises">
+  <field name="codigo">788</field>
+  <field name="pais">Chade</field>
+</record>
+<record id="tab07_791" model="reinf.paises">
+  <field name="codigo">791</field>
+  <field name="pais">Tcheca, República</field>
+</record>
+<record id="tab07_795" model="reinf.paises">
+  <field name="codigo">795</field>
+  <field name="pais">Timor Leste</field>
+</record>
+<record id="tab07_800" model="reinf.paises">
+  <field name="codigo">800</field>
+  <field name="pais">Togo</field>
+</record>
+<record id="tab07_805" model="reinf.paises">
+  <field name="codigo">805</field>
+  <field name="pais">Toquelau, Ilhas</field>
+</record>
+<record id="tab07_810" model="reinf.paises">
+  <field name="codigo">810</field>
+  <field name="pais">Tonga</field>
+</record>
+<record id="tab07_815" model="reinf.paises">
+  <field name="codigo">815</field>
+  <field name="pais">Trinidad e Tobago</field>
+</record>
+<record id="tab07_820" model="reinf.paises">
+  <field name="codigo">820</field>
+  <field name="pais">Tunísia</field>
+</record>
+<record id="tab07_823" model="reinf.paises">
+  <field name="codigo">823</field>
+  <field name="pais">Turcas e Caicos, Ilhas</field>
+</record>
+<record id="tab07_824" model="reinf.paises">
+  <field name="codigo">824</field>
+  <field name="pais">Turcomenistão, República
+do</field>
+</record>
+<record id="tab07_827" model="reinf.paises">
+  <field name="codigo">827</field>
+  <field name="pais">Turquia</field>
+</record>
+<record id="tab07_828" model="reinf.paises">
+  <field name="codigo">828</field>
+  <field name="pais">Tuvalu</field>
+</record>
+<record id="tab07_831" model="reinf.paises">
+  <field name="codigo">831</field>
+  <field name="pais">Ucrânia</field>
+</record>
+<record id="tab07_833" model="reinf.paises">
+  <field name="codigo">833</field>
+  <field name="pais">Uganda</field>
+</record>
+<record id="tab07_845" model="reinf.paises">
+  <field name="codigo">845</field>
+  <field name="pais">Uruguai</field>
+</record>
+<record id="tab07_847" model="reinf.paises">
+  <field name="codigo">847</field>
+  <field name="pais">Uzbequistão, República do</field>
+</record>
+<record id="tab07_848" model="reinf.paises">
+  <field name="codigo">848</field>
+  <field name="pais">Vaticano, Est. da Cidade do</field>
+</record>
+<record id="tab07_850" model="reinf.paises">
+  <field name="codigo">850</field>
+  <field name="pais">Venezuela</field>
+</record>
+<record id="tab07_858" model="reinf.paises">
+  <field name="codigo">858</field>
+  <field name="pais">Vietnã</field>
+</record>
+<record id="tab07_863" model="reinf.paises">
+  <field name="codigo">863</field>
+  <field name="pais">Virgens, Ilhas (Britânicas)</field>
+</record>
+<record id="tab07_866" model="reinf.paises">
+  <field name="codigo">866</field>
+  <field name="pais">Virgens, Ilhas (E.U.A.)</field>
+</record>
+<record id="tab07_870" model="reinf.paises">
+  <field name="codigo">870</field>
+  <field name="pais">Fiji</field>
+</record>
+<record id="tab07_873" model="reinf.paises">
+  <field name="codigo">873</field>
+  <field name="pais">Wake, Ilha</field>
+</record>
+<record id="tab07_875" model="reinf.paises">
+  <field name="codigo">875</field>
+  <field name="pais">Wallis e Futuna, Ilhas</field>
+</record>
+<record id="tab07_888" model="reinf.paises">
+  <field name="codigo">888</field>
+  <field name="pais">Congo, República
+Democrática do</field>
+</record>
+<record id="tab07_890" model="reinf.paises">
+  <field name="codigo">890</field>
+  <field name="pais">Zâmbia</field>
+</record>
+<record id="tab07_998" model="reinf.paises">
+  <field name="codigo">998</field>
+  <field name="pais">Delegação Especial da
+Palestina</field>
+</record>
+</odoo>

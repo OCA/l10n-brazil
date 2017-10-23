@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<odoo>
+<record id="tab10_R1000" model="reinf.eventos_EFD">
+  <field name="codigo">R-1000</field>
+  <field name="descricao">Informações do Contribuinte</field>
+</record>
+<record id="tab10_R1070" model="reinf.eventos_EFD">
+  <field name="codigo">R-1070</field>
+  <field name="descricao">Tabela de Processos Administrativos/Judiciais</field>
+</record>
+<record id="tab10_R2010" model="reinf.eventos_EFD">
+  <field name="codigo">R-2010</field>
+  <field name="descricao">Retenção Contribuição Previdenciária - Tomadores de Serviços</field>
+</record>
+<record id="tab10_R2020" model="reinf.eventos_EFD">
+  <field name="codigo">R-2020</field>
+  <field name="descricao">Retenção Contribuição Previdenciária – Prestadores de Serviços</field>
+</record>
+<record id="tab10_R2030" model="reinf.eventos_EFD">
+  <field name="codigo">R-2030</field>
+  <field name="descricao">Recursos Recebidos por Associação Desportiva</field>
+</record>
+<record id="tab10_R2040" model="reinf.eventos_EFD">
+  <field name="codigo">R-2040</field>
+  <field name="descricao">Recursos Repassados para Associação Desportiva</field>
+</record>
+<record id="tab10_R2050" model="reinf.eventos_EFD">
+  <field name="codigo">R-2050</field>
+  <field name="descricao">Comercialização da Produção por Produtor Rural PJ/Agroindústria</field>
+</record>
+<record id="tab10_R2060" model="reinf.eventos_EFD">
+  <field name="codigo">R-2060</field>
+  <field name="descricao">Contribuição Previdenciária sobre a Receita Bruta - CPRB</field>
+</record>
+<record id="tab10_R2070" model="reinf.eventos_EFD">
+  <field name="codigo">R-2070</field>
+  <field name="descricao">Retenções na Fonte - IR, CSLL, Cofins, PIS/PASEP</field>
+</record>
+<record id="tab10_R2098" model="reinf.eventos_EFD">
+  <field name="codigo">R-2098</field>
+  <field name="descricao">Reabertura dos Eventos Periódicos</field>
+</record>
+<record id="tab10_R2099" model="reinf.eventos_EFD">
+  <field name="codigo">R-2099</field>
+  <field name="descricao">Fechamento dos Eventos Periódicos</field>
+</record>
+<record id="tab10_R3010" model="reinf.eventos_EFD">
+  <field name="codigo">R-3010</field>
+  <field name="descricao">Receita de Espetáculo Desportivo</field>
+</record>
+<record id="tab10_R5001" model="reinf.eventos_EFD">
+  <field name="codigo">R-5001</field>
+  <field name="descricao">Informações das bases e dos tributos consolidados por contribuinte</field>
+</record>
+<record id="tab10_R9000" model="reinf.eventos_EFD">
+  <field name="codigo">R-9000</field>
+  <field name="descricao">Exclusão de Eventos</field>
+</record>
+</odoo>

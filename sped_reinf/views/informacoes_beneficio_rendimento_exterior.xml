@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Aristides Caldeira <aristides.caldeira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="inf_beneficio_rendimento_form">
+        <field name="name">inf_beneficio_rendimento_form</field>
+        <field name="model">reinf.inf_beneficio_rendimento</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Informações sobre os beneficiários de Rendimentos no Exterior"
+            edit="false" delete="false" create="false">
+                <sheet>
+                    <group>
+                        <group name="geral" colspan="2" col="2">
+                            <field name="codigo"/>
+                            <field name="descricao" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="inf_beneficio_rendimento_tree">
+        <field name="name">inf_beneficio_rendimento_view</field>
+        <field name="model">reinf.inf_beneficio_rendimento</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Informações sobre os beneficiários de Rendimentos no Exterior"
+            edit="false" create="false" delete="false">
+                <field name="codigo" />
+                <field name="descricao" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="inf_beneficio_rendimento_search">
+        <field name="name">inf_beneficio_rendimento_search</field>
+        <field name="model">reinf.inf_beneficio_rendimento</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Informações sobre os beneficiários de Rendimentos no Exterior">
+                <field name="codigo" />
+                <field name="descricao" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="inf_beneficio_rendimento_action">
+        <field name="name">Informações sobre os beneficiários de Rendimentos no Exterior</field>
+        <field name="res_model">reinf.inf_beneficio_rendimento</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="inf_beneficio_rendimento_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="inf_beneficio_rendimento_tree"/>
+        <field name="act_window_id" ref="inf_beneficio_rendimento_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="inf_beneficio_rendimento_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="inf_beneficio_rendimento_form"/>
+        <field name="act_window_id" ref="inf_beneficio_rendimento_action"/>
+    </record>
+
+    <menuitem
+        action="inf_beneficio_rendimento_action"
+        id="menu_inf_beneficio_rendimento"
+        name="05-Informações sobre os beneficiários de Rendimentos no Exterior"
+        parent="menu_reinf_tabelas"
+        sequence="5"
+    />
+
+</odoo>

@@ -5,37 +5,25 @@
 from odoo import api, fields, models, _
 
 
-class CodigoPagamento(models.Model):
+class RendimentosBeneficiosExterior(models.Model):
 
-    _name = 'reinf.codigo_pagamento'
-    _description = 'Codigo Pagamento'
+    _name = 'reinf.rendimentos_beneficios_exterior'
+    _description = 'Forma de Tributação para rendimentos de beneficiários no Exterior'
     _sql_constraints = [
-        ('cod_rendimento',
-         'unique(cod_rendimento)',
+        ('codigo',
+         'unique(codigo)',
          'Este código já existe !'
          )
     ]
 
 
     name = fields.Char()
-    classificacao_rendimento = fields.Selection(
-        selection=[('brasil', 'Beneficiários no Brasil'),
-                   ('rra', 'Beneficiários no Brasil e Justiça – RRA '),
-                   ('exterior', 'Remessa Exterior')],
-        string='Classificação do rendimento'
-    )
-    cod_rendimento = fields.Char(
-        size=4,
-        string='Código de Rendimento'
+    codigo = fields.Char(
+        size=2,
+        string='Código'
     )
     descricao = fields.Char(
         string='Descrição'
-    )
-    beneficiario_pj = fields.Boolean(
-        string='Beneficiário PJ'
-    )
-    beneficiario_pf = fields.Boolean(
-        string='Beneficiário PF'
     )
 
     @api.onchange('codigo')
@@ -53,8 +41,8 @@ class CodigoPagamento(models.Model):
                     codigop.codigo = False
                     return res
 
-    @api.depends('codigo', 'nome')
+    @api.depends('descricao', 'codigo')
     def _compute_name(self):
         for codigop in self:
-            codigop.name = codigop.codigo + '-' + codigop.nome
+            codigop.name = codigop.codigo + '-' + codigop.descricao
 
