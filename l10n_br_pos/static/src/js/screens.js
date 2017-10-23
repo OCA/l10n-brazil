@@ -218,10 +218,18 @@ function l10n_br_pos_screens(instance, module) {
             if (!fields.cnpj_cpf){
                 this.pos_widget.screen_selector.show_popup('error',{
                     message: _t('Erro no cadastro!'),
-                    comment:_t('Um cpf é obrigatório.')
+                    comment:_t('Um CPF é obrigatório.')
                 });
             } else {
-               this._super(partner);
+                var cliente_cpf = fields.cnpj_cpf;
+                if (self.pos_widget.order_widget.verificar_cpf_cnpj(cliente_cpf)){
+                    this._super(partner);
+                } else {
+                   this.pos_widget.screen_selector.show_popup('error',{
+                        message: _t('Erro no cadastro!'),
+                        comment:_t('CPF inválido!.')
+                    });
+                }
             }
         },
         re_update_products: function(partner) {
@@ -233,6 +241,66 @@ function l10n_br_pos_screens(instance, module) {
 
     module.CPFNaNotaPopupWidget = module.PopUpWidget.extend({
         template: 'CPFNaNota',
+        hotkeys_handlers: {},
+        cpf_cupom_fiscal: function(currentOrder){
+            self = this;
+            var cpf = $('.busca-cpf-cnpj-popup').val();
+            if (cpf){
+                self.pos_widget.screen_selector.close_popup();
+                if (!currentOrder.client) {
+                    if (self.pos_widget.order_widget.verificar_cpf_cnpj(cpf.replace(/[^\d]+/g,''))) {
+                        pos_db = self.pos.db;
+                        partner = pos_db.get_partner_by_identification(self.pos.partners, cpf.replace(/[^\d]+/g, ''));
+                        if (partner) {
+                            self.pos.get('selectedOrder').set_client(partner);
+                            currentOrder = self.pos.get('selectedOrder').attributes;
+                            currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
+                            self.pos_widget.payment_screen.validate_order();
+                        } else {
+                            new_partner = {};
+                            new_partner["name"] = cpf;
+                            if (new_partner["name"].length > 14) {
+                                new_partner["is_company"] = true;
+                            }
+                            new_partner["cnpj_cpf"] = cpf;
+
+                            new instance.web.Model('res.partner').call('create_from_ui', [new_partner]).then(function (partner_id) {
+                                self.pos.pos_widget.clientlist_screen.reload_partners().then(function () {
+                                    var new_partner = self.pos.db.get_partner_by_id(partner_id);
+                                    new_partner['cnpj_cpf'] = new_partner['name'];
+                                    if (self.pos.config.pricelist_id) {
+                                        new_partner['property_product_pricelist'][0] = self.pos.pricelist.id;
+                                    }
+                                    self.old_client = new_partner;
+                                    self.new_client = self.old_client;
+                                    self.pos.get('selectedOrder').set_client(self.new_client);
+                                    if (self.pos.config.pricelist_id) {
+                                        self.pos.pricelist_engine.update_products_ui(self.new_client);
+                                    }
+                                    self.pos.partners.push(new_partner);
+                                    return true;
+                                }).then(function () {
+                                    currentOrder = self.pos.get('selectedOrder').attributes;
+                                    currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
+                                    self.pos_widget.payment_screen.validate_order();
+                                });
+                            });
+                        }
+                    } else {
+                        alert('CPF/CNPJ digitado esta incorreto!');
+                        // self.pos_widget.screen_selector.show_popup('error',{
+                        //     message: _t('CPF/CNPJ digitado esta incorreto!'),
+                        // });
+                    }
+                } else {
+                    currentOrder = self.pos.get('selectedOrder').attributes;
+                    currentOrder["cpf_nota"] = currentOrder.client.cnpj_cpf.replace(/[^\d]+/g,'');
+                    self.pos_widget.payment_screen.validate_order();
+                }
+            } else {
+                alert('O cpf deve ser inserido no campo para que seja transmitido no cupom fiscal.');
+            }
+        },
         show: function(options){
             var self = this;
             this._super();
@@ -247,62 +315,16 @@ function l10n_br_pos_screens(instance, module) {
             this.cpf_nota = cliente_cpf;
             this.renderElement();
 
-            this.$('.button.sim').click(function(){
-                var cpf = $('.busca-cpf-cnpj-popup').val();
-                if (cpf){
-                    self.pos_widget.screen_selector.close_popup();
-                    if (!currentOrder.client) {
-                        if (self.pos_widget.order_widget.verificar_cpf_cnpj(cpf.replace(/[^\d]+/g,''))) {
-                            pos_db = self.pos.db;
-                            partner = pos_db.get_partner_by_identification(self.pos.partners, cpf.replace(/[^\d]+/g, ''));
-                            if (partner) {
-                                self.pos.get('selectedOrder').set_client(partner);
-                                currentOrder = self.pos.get('selectedOrder').attributes;
-                                currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
-                                self.pos_widget.payment_screen.validate_order();
-                            } else {
-                                new_partner = {};
-                                new_partner["name"] = cpf;
-                                if (new_partner["name"].length > 14) {
-                                    new_partner["is_company"] = true;
-                                }
-                                new_partner["cnpj_cpf"] = cpf;
-
-                                new instance.web.Model('res.partner').call('create_from_ui', [new_partner]).then(function (partner_id) {
-                                    self.pos.pos_widget.clientlist_screen.reload_partners().then(function () {
-                                        var new_partner = self.pos.db.get_partner_by_id(partner_id);
-                                        new_partner['cnpj_cpf'] = new_partner['name'];
-                                        if (self.pos.config.pricelist_id) {
-                                            new_partner['property_product_pricelist'][0] = self.pos.pricelist.id;
-                                        }
-                                        self.old_client = new_partner;
-                                        self.new_client = self.old_client;
-                                        self.pos.get('selectedOrder').set_client(self.new_client);
-                                        if (self.pos.config.pricelist_id) {
-                                            self.pos.pricelist_engine.update_products_ui(self.new_client);
-                                        }
-                                        self.pos.partners.push(new_partner);
-                                        return true;
-                                    }).then(function () {
-                                        currentOrder = self.pos.get('selectedOrder').attributes;
-                                        currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
-                                        self.pos_widget.payment_screen.validate_order();
-                                    });
-                                });
-                            }
-                        } else {
-                            self.pos_widget.screen_selector.show_popup('error',{
-                                message: _t('CPF/CNPJ digitado esta incorreto!'),
-                            });
-                        }
-                    } else {
-                        currentOrder = self.pos.get('selectedOrder').attributes;
-                        currentOrder["cpf_nota"] = currentOrder.client.cnpj_cpf.replace(/[^\d]+/g,'');
-                        self.pos_widget.payment_screen.validate_order();
-                    }
-                } else {
-                    alert('O cpf deve ser inserido no campo para que seja transmitido no cupom fiscal.');
+            this.hotkey_handler = function (event) {
+                if (event.which === 13) {
+                    self.cpf_cupom_fiscal(currentOrder);
                 }
+            };
+
+            $('.busca-cpf-cnpj-popup').on('keyup',this.hotkey_handler);
+
+            this.$('.button.sim').click(function(){
+                self.cpf_cupom_fiscal(currentOrder);
             });
 
             this.$('.button.nao').click(function(){
@@ -348,6 +370,26 @@ function l10n_br_pos_screens(instance, module) {
     });
 
     module.PaymentScreenWidget = module.PaymentScreenWidget.extend({
+        init: function(parent, options) {
+            var self = this;
+            this._super(parent, options);
+
+            this.hotkey_handler = function(event){
+                if (self.pos.config.cpf_nota) {
+                    if(event.which === 13){
+                        self.validar_cpf_nota();
+                    }else if(event.which === 27){
+                        self.back();
+                    }
+                } else {
+                    if(event.which === 13){
+                        self.validate_order();
+                    }else if(event.which === 27){
+                        self.back();
+                    }
+                }
+            };
+        },
         validar_cpf_nota: function() {
             var self = this;
             self.pos_widget.screen_selector.show_popup('cpf_nota_sat_popup',{
