@@ -378,6 +378,7 @@ function l10n_br_pos_screens(instance, module) {
                 if (self.pos.config.cpf_nota) {
                     if(event.which === 13){
                         self.validar_cpf_nota();
+                        $('.busca-cpf-cnpj-popup').focus();
                     }else if(event.which === 27){
                         self.back();
                     }
@@ -463,7 +464,7 @@ function l10n_br_pos_screens(instance, module) {
                                         receipt: receipt, widget: self,
                                     }), json);
                                     self.pos.get('selectedOrder').destroy();
-                                    });
+                                });
                             } else {
                                 self.pos.proxy.send_order_sat(
                                     currentOrder,
