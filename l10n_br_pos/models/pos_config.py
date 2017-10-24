@@ -124,6 +124,10 @@ class PosConfig(models.Model):
         'Assinatura no CFe'
     )
 
+    enviar_pedido_cupom_fiscal = fields.Boolean(
+        string='Enviar pedido no cupom fiscal'
+    )
+
     @api.multi
     def retornar_dados(self):
         if self.ambiente_sat == 'homologacao':
