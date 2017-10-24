@@ -140,8 +140,8 @@ class HrPayslipRun(models.Model):
             contratos_sem_holerite = [
                 contrato.id for contrato in contracts_id
                 if (contrato.id not in contratos_com_holerites)
-                   and (contrato.date_start <= lote.date_start)
-                   and ((contrato.date_end >= lote.date_end)
+                   and (contrato.date_start <= lote.date_end)
+                   and ((contrato.date_end >= lote.date_start)
                    or (not contrato.date_end))]
 
             lote.write({
