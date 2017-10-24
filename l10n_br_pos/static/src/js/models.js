@@ -283,6 +283,7 @@ function l10n_br_pos_models(instance, module) {
                 result['configs_sat']['cod_ativacao'] = pos_config.cod_ativacao;
                 result['configs_sat']['impressora'] = pos_config.impressora;
                 result['configs_sat']['printer_params'] = pos_config.printer_params;
+                result['informacoes_adicionais'] = '';
 
                 return result;
             }else{
@@ -291,6 +292,7 @@ function l10n_br_pos_models(instance, module) {
                 result['cfe_return'] = this.get_return_cfe() ? this.get_return_cfe() : false;
                 result['num_sessao_sat'] = this.get_num_sessao_sat() ? this.get_num_sessao_sat() : false;
                 result['chave_cfe'] = this.get_chave_cfe() ? this.get_chave_cfe() : false;
+                result['informacoes_adicionais'] = '';
 
                 return result;
             }
@@ -327,6 +329,7 @@ function l10n_br_pos_models(instance, module) {
                 result['cfe_return'] = this.get_return_cfe() ? this.get_return_cfe() : false;
                 result['num_sessao_sat'] = this.get_num_sessao_sat() ? this.get_num_sessao_sat() : false;
                 result['chave_cfe'] = this.get_chave_cfe() ? this.get_chave_cfe() : false;
+                result['informacoes_adicionais'] = '';
 
                 return result;
             }else{
@@ -335,6 +338,7 @@ function l10n_br_pos_models(instance, module) {
                 result['cfe_return'] = this.get_return_cfe() ? this.get_return_cfe() : false;
                 result['num_sessao_sat'] = this.get_num_sessao_sat() ? this.get_num_sessao_sat() : false;
                 result['chave_cfe'] = this.get_chave_cfe() ? this.get_chave_cfe() : false;
+                result['informacoes_adicionais'] = '';
 
                 return result;
             }
