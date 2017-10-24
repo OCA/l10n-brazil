@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<odoo>
+<record id="tab03_100" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">100</field>
+  <field name="descricao">Rendas de propriedade imobiliária</field>
+</record>
+<record id="tab03_110" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">110</field>
+  <field name="descricao">Rendas do transporte internacional</field>
+</record>
+<record id="tab03_120" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">120</field>
+  <field name="descricao">Lucros e dividendos distribuídos</field>
+</record>
+<record id="tab03_130" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">130</field>
+  <field name="descricao">Juros</field>
+</record>
+<record id="tab03_140" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">140</field>
+  <field name="descricao">Royalties</field>
+</record>
+<record id="tab03_150" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">150</field>
+  <field name="descricao">Ganhos de Capital</field>
+</record>
+<record id="tab03_160" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">160</field>
+  <field name="descricao">Rendas do trabalho sem vínculo empregatício</field>
+</record>
+<record id="tab03_170" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">170</field>
+  <field name="descricao">Renda do trabalho com vínculo empregatício</field>
+</record>
+<record id="tab03_180" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">180</field>
+  <field name="descricao">Remuneração de administradores</field>
+</record>
+<record id="tab03_190" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">190</field>
+  <field name="descricao">Rendas de artistas e de esportistas</field>
+</record>
+<record id="tab03_200" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">200</field>
+  <field name="descricao">Pensões</field>
+</record>
+<record id="tab03_210" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">210</field>
+  <field name="descricao">Pagamentos governamentais</field>
+</record>
+<record id="tab03_220" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">220</field>
+  <field name="descricao">Rendas de professores e pesquisadores</field>
+</record>
+<record id="tab03_230" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">230</field>
+  <field name="descricao">Rendas de estudantes e aprendizes</field>
+</record>
+<record id="tab03_240" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">240</field>
+  <field name="descricao">Rendimentos de empregados ou contratados - COPA</field>
+</record>
+<record id="tab03_250" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">250</field>
+  <field name="descricao">Prêmios de árbitros, jogadores de futebol e outros membros das delegações - COPA</field>
+</record>
+<record id="tab03_300" model="reinf.beneficio_rendimento_exterior">
+  <field name="codigo">300</field>
+  <field name="descricao">Outras rendas</field>
+</record>
+</odoo>

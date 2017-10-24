@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="tab01_0916" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">0916</field>
+        <field name="descricao">Prêmios obtidos em concursos e sorteios</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_0924" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">0924</field>
+        <field name="descricao">Fundos de Investimento Cultural e Artístico (Ficart) e demais Rendimentos de Capital </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_1708" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">1708</field>
+        <field name="descricao">Remuneração de serviços profissionais prestados
+por Pessoa Jurídica </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_3208" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">3208</field>
+        <field name="descricao">Aluguéis e royalties</field>
+        <field name="beneficiario_pj">False</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_3223" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">3223</field>
+        <field name="descricao">Resgate de Previdência Complementar - Modalidade Contribuição Definida/Variável - Não Optante pela Tributação Exclusiva</field>
+        <field name="beneficiario_pj">False</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_3426" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">3426</field>
+        <field name="descricao">Aplicações Financeiras de Renda Fixa, exceto em Fundos de Investimento - Pessoa Jurídica</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_3533" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">3533</field>
+        <field name="descricao">Aposentadoria, Reserva, Reforma ou Pensão Pagos por Previdência Pública </field>
+        <field name="beneficiario_pj">False</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_3540" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">3540</field>
+        <field name="descricao">Benefício de Previdência Complementar - Não Optante pela Tributação Exclusiva</field>
+        <field name="beneficiario_pj">False</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_3556" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">3556</field>
+        <field name="descricao">Resgate de Previdência Complementar- Modalidade Benefício Definido - Não Optante pela Tributação Exclusiva </field>
+        <field name="beneficiario_pj">False</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_3579" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">3579</field>
+        <field name="descricao">Regaste de Previdência Complementar - Optante pela Tributação Exclusiva</field>
+        <field name="beneficiario_pj">False</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_3277" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">3277</field>
+        <field name="descricao">Rendimentos de partes beneficiárias ou de fundador</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_3280" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">3280</field>
+        <field name="descricao">Remuneração de serviços pessoais prestados por associados de cooperativas de trabalho</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_3746" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">3746</field>
+        <field name="descricao">Cofins – pagamentos para pessoas jurídicas referidas na Lei nº 10.485/2002 </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_3770" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">3770 </field>
+        <field name="descricao">Contribuição Pis/Pasep – pagamentos para pessoas jurídicas referidas na Lei º 10.485/2002 </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_4085" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">4085</field>
+        <field name="descricao">Retenções Contribuições – Pagamentos efetuados pelos Estados, Municípios e DF pela aquisição de bens e serviços. </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_4397" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">4397</field>
+        <field name="descricao">CSLL – Pagamentos efetuados pelos Estados, Municípios e DF pela aquisição de bens e serviços.</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_4407" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">4407</field>
+        <field name="descricao">COFINS – Pagamentos efetuados pelos Estados, Municípios e DF pela aquisição de bens e serviços. </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_4409" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">4409</field>
+        <field name="descricao">PIS – Pagamentos efetuados pelos Estados, Municípios e DF pela aquisição de bens e serviços. </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_5204" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">5204</field>
+        <field name="descricao">Juros e indenizações por lucros cessantes </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_5217" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">5217</field>
+        <field name="descricao">Pagamentos a beneficiários não identificados </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_5232" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">5232</field>
+        <field name="descricao">Fundos de Investimento Imobiliário </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_5273" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">5273</field>
+        <field name="descricao">Operações de Swap </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_5557" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">5557</field>
+        <field name="descricao">Mercado de Renda Variável </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_5565" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">5565</field>
+        <field name="descricao">Benefício de Previdência Complementar – Tributação Exclusiva </field>
+        <field name="beneficiario_pj">False</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_5706" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">5706</field>
+        <field name="descricao">Juros sobre o capital próprio </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_5944 " model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">5944 </field>
+        <field name="descricao">Pagamento de PJ a PJ por serviços Factoring </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_5952" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">5952</field>
+        <field name="descricao">Retenções de Contribuições pagamento PJ a PJ de Direito Privado</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_5960" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">5960</field>
+        <field name="descricao">CONFIS – Retenção pagamento PJ a PJ de Direito Privado </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_5979" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">5979</field>
+        <field name="descricao">PIS/PASEP – Retenção pagamento PJ a PJ de Direito Privado</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_5987" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">5987</field>
+        <field name="descricao">CSLL – Retenção pagamento PJ a PJ de Direito Privado</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_6147" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">6147</field>
+        <field name="descricao">Alimentação, energia elétrica, transporte de cargas, bens em geral, serviços c/ forn. de bens</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_6175" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">6175</field>
+        <field name="descricao">Passagens aéreas, rodoviárias e demais serviços de transporte de passageiros</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_6190" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">6190</field>
+        <field name="descricao">Água, telefone, correios, vigilância, limpeza, locação de mão-de-obra, locação e demais serviços</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_6228" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">6228</field>
+        <field name="descricao">CSLL – isenção ou suspensão amparada por lei, de PIS/Pasep e/ou Cofins e/ou IRPJ </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_6230" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">6230</field>
+        <field name="descricao">PIS/PASEP – isenção ou suspensão amparada por lei, de CSLL e/ou Cofins e/ou IRPJ</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_6243" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">6243</field>
+        <field name="descricao">COFINS – isenção ou suspensão amparada por lei, de CSLL e/ou PIS/Pasep e/ou IRPJ </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_6256" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">6256</field>
+        <field name="descricao">IRPJ – isenção ou suspensão amparada por lei, de CSLL e/ou PIS/Pasp e/ou Cofins</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_6800" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">6800</field>
+        <field name="descricao">Fundos de Investimento e Fundos de Investimento em Quotas de Fundos de Investimento</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_6813" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">6813</field>
+        <field name="descricao">Fundos de Investimento em Ações e Fundos de Investimento em Quotas de Fundos de Investimento em Ações</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_6904" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">6904</field>
+        <field name="descricao">Indenização por Dano Morais</field>
+        <field name="beneficiario_pj">False</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_8045" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">8045</field>
+        <field name="descricao">Comissões e corretagens pagos à PJ e serviços de propaganda prestados por PJ (Art. 53, Lei 7.450/85)</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_8053" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">8053</field>
+        <field name="descricao">Aplicações Financeiras de Renda Fixa, exceto em Fundos de Investimento - Pessoa Física </field>
+        <field name="beneficiario_pj">False</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_8468" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">8468</field>
+        <field name="descricao">Operações Day Trade </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_8673" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">8673</field>
+        <field name="descricao">Prêmios em sorteios dos jogos de bingo</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_8739" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">8739</field>
+        <field name="descricao">Gasolina, óleo diesel e GLP, adq. de distrib. e varej. e álcool adq. de varej.</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_8767" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">8767</field>
+        <field name="descricao">Medicamentos e prod. de perfumaria etc...(TIPI) adq. distrib. Ou varej. </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_8850" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">8850</field>
+        <field name="descricao">Transporte internacional de passageiros efetuado por empresas nacionais. </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_8863" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">8863</field>
+        <field name="descricao">Bens serviços adquiridos de sociedades coop. e ass. Profissionais ou assemelhados.</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_9060" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">9060</field>
+        <field name="descricao">Querosene de aviação adquirido de produtor o importador </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_9385" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">brasil</field>
+        <field name="cod_rendimento">9385</field>
+        <field name="descricao">Multas e vantagens </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_1889" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">rra</field>
+        <field name="cod_rendimento">1889</field>
+        <field name="descricao">Rendimentos Recebidos Acumuladamente </field>
+        <field name="beneficiario_pj">False</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_0422" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">exterior</field>
+        <field name="cod_rendimento">0422</field>
+        <field name="descricao">Royalties e Pagamentos de Assistência Técnica </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_0473" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">exterior</field>
+        <field name="cod_rendimento">0473</field>
+        <field name="descricao">Renda e Proventos de Qualquer Natureza</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_0481" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">exterior</field>
+        <field name="cod_rendimento">0481</field>
+        <field name="descricao">Juros e Comissões em Geral </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_0490" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">exterior</field>
+        <field name="cod_rendimento">0490</field>
+        <field name="descricao">Rendimentos de Aplicações em Fundos de Investimento de Conversão de Débitos Externos </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_0610" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">exterior</field>
+        <field name="cod_rendimento">0610</field>
+        <field name="descricao">Transporte Rodoviário Internacional de Carga por autônomo, residente no Paraguai</field>
+        <field name="beneficiario_pj">False</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_5192" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">exterior</field>
+        <field name="cod_rendimento">5192</field>
+        <field name="descricao">Obras Audiovisuais, Cinematográficas e Videofônicas</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_5286" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">exterior</field>
+        <field name="cod_rendimento">5286</field>
+        <field name="descricao">Aplicações em Fundos ou Entidades de Investimento Coletivo/Aplicações em Carteiras de Valores Mobiliários/ Aplicações Financeiras nos Mercados de Renda Fixa ou Renda Variável</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_9412" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">exterior</field>
+        <field name="cod_rendimento">9412</field>
+        <field name="descricao">Fretes Internacionais</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">False</field>
+    </record>
+    <record id="tab01_9427" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">exterior</field>
+        <field name="cod_rendimento">9427</field>
+        <field name="descricao">Remuneração de Direitos</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_9453" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">exterior</field>
+        <field name="cod_rendimento">9453</field>
+        <field name="descricao">Juros sobre o Capital Próprio</field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_9478" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">exterior</field>
+        <field name="cod_rendimento">9478</field>
+        <field name="descricao">Aluguel e Arrendamento </field>
+        <field name="beneficiario_pj">True</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+    <record id="tab01_" model="reinf.codigo_pagamento">
+        <field name="classificacao_rendimento">exterior</field>
+        <field name="cod_rendimento">9466</field>
+        <field name="descricao">Previdência Privada e Fapi</field>
+        <field name="beneficiario_pj">False</field>
+        <field name="beneficiario_pf">True</field>
+    </record>
+</odoo>

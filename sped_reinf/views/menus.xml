@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2016 KMEE - Luis Felipe Miléo <mileo@kmee.com.br>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+        <menuitem
+                id="menu_reinf"
+                name="Reinf"
+                sequence="20"/>
+
+        <menuitem
+                id="menu_reinf_configuracoes"
+                name="Configurações"
+                parent="menu_reinf"
+                sequence="50"/>
+
+        <menuitem
+                id="menu_reinf_tabelas"
+                name="Tabelas"
+                parent="menu_reinf_configuracoes"
+                sequence="50"/>
+
+</odoo>
