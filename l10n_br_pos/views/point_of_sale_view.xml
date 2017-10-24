@@ -8,7 +8,7 @@
     <field name="model">pos.order</field>
     <field name="inherit_id" ref="point_of_sale.view_pos_order_filter" />
     <field name="arch" type="xml">
-        <field name="name" position="after">
+        <field name="name" position="before">
             <field name="chave_cfe" string="Chave CFE" />
             <field name="cnpj_cpf" string="CNPJ/CPF"/>
         </field>
@@ -126,6 +126,7 @@
         <field name="iface_invoicing" position="after">
             <field name="save_identity_automatic"/>
             <field name="cpf_nota"/>
+            <field name="enviar_pedido_cupom_fiscal" />
         </field>
         <field name="iface_print_via_proxy" position="after">
             <field name="iface_sat_via_proxy"/>
