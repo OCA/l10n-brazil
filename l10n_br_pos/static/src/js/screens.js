@@ -378,6 +378,7 @@ function l10n_br_pos_screens(instance, module) {
                 if (self.pos.config.cpf_nota) {
                     if(event.which === 13){
                         self.validar_cpf_nota();
+                        $('.busca-cpf-cnpj-popup').focus();
                     }else if(event.which === 27){
                         self.back();
                     }
@@ -455,7 +456,7 @@ function l10n_br_pos_screens(instance, module) {
                             var receipt = currentOrder.export_for_printing();
                             var json = currentOrder.export_for_printing();
                             if (self.pos.config.enviar_pedido_cupom_fiscal) {
-                                new instance.web.Model('pos.order').call('get_sequence_name', [this.pos.session.uid]).then(function (order_name) {
+                                new instance.web.Model('pos.order').call('get_sequence_name', [this.pos.pos_session.id]).then(function (order_name) {
                                     json['informacoes_adicionais'] = order_name;
                                     self.pos.proxy.send_order_sat(
                                         currentOrder,
@@ -463,7 +464,7 @@ function l10n_br_pos_screens(instance, module) {
                                         receipt: receipt, widget: self,
                                     }), json);
                                     self.pos.get('selectedOrder').destroy();
-                                    });
+                                });
                             } else {
                                 self.pos.proxy.send_order_sat(
                                     currentOrder,
