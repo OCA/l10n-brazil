@@ -239,6 +239,11 @@ class PosOrder(models.Model):
 
         return dados_reimpressao
 
+    @api.model
+    def get_sequence_name(self, session_id):
+        session = self.env['pos.session'].browse(session_id)
+        return session.config_id.sequence_id._next()
+
 
 class PosOrderLine(models.Model):
     _inherit = 'pos.order.line'
