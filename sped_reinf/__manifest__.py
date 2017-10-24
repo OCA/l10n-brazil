@@ -4,12 +4,11 @@
 
 {
     'name': 'Sped - Reinf',
-    'description': """
-        Tabelas REINF""",
+    'description': """""",
     'version': '11.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'KMEE',
-    'website': 'kmee.com.br',
+    'website': 'https://www.kmee.com.br',
     'depends': [
     ],
     'data': [
