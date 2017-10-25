@@ -42,7 +42,7 @@ class CrmLeadTest(TransactionCase):
             'inscr_est': '041.092.540.590',
             'inscr_mun': '99999999',
             'country_id': self.env.ref('base.br').id,
-            'state_id': self.env.ref('l10n_br_base.br_sp').id
+            'state_id': self.env.ref('base.state_br_sp').id
             })
 
     # Tests on crm_lead_company
