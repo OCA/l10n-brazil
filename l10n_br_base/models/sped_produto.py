@@ -237,7 +237,7 @@ class SpedProduto(SpedBase, models.Model):
             nome_unico = tira_acentos(nome_unico)
             produto.nome_unico = nome_unico
 
-    @api.depends('codigo')
+    @api.constrains('codigo')
     def _check_codigo(self):
         for produto in self:
             if produto.id:
@@ -253,7 +253,7 @@ class SpedProduto(SpedBase, models.Model):
             if len(produto_ids) > 0:
                 raise ValidationError('Código de produto já existe!')
 
-    @api.depends('nome')
+    @api.constrains('nome')
     def _check_nome(self):
         for produto in self:
             if produto.id:
