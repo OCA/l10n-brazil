@@ -907,9 +907,9 @@ class FinanLancamento(SpedBase, models.Model):
         bancos = {}
         self.executa_antes_unlink(bancos)
         res = super(FinanLancamento, self).unlink()
-        return self.execute_depois_unlink(res, bancos)
+        return self.executa_depois_unlink(res, bancos)
 
-    def execute_depois_unlink(self, result, bancos={}):
+    def executa_depois_unlink(self, result, bancos={}):
         self._ajusta_extrato_saldo(bancos)
         return result
 
