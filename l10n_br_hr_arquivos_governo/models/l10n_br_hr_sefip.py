@@ -1254,6 +1254,9 @@ class L10nBrSefip(models.Model):
          -
 
         """
+        if folha.contract_id.cnpj_empregador_cedente:
+            return '05'
+
         folha_ids = self._get_folha_ids()
         count = 0
         for folha_id in folha_ids:
