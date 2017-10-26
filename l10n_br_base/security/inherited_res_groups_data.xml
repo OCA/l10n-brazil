@@ -5,6 +5,7 @@
 -->
 <odoo noupdate="True">
 
+    <!-- Regas de acesso para cadastros -->
     <record id="CATEGORIA_MODULO_CADASTROS" model="ir.module.category">
         <field name="name">Cadastros</field>
         <field name="description">Cadastros brasileiros</field>

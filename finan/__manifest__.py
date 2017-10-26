@@ -74,7 +74,10 @@
         #'reports/report_xlsx_financial_defaults_data.xml',
         #'reports/report_xlsx_financial_partner_statement_data.xml',
 
-        #'security/ir.model.access.csv',
+        # Security
+        'security/res_groups_data.xml',
+        'security/finan_lancamento_ir_rule.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [
         # 'demo/financial_move.xml',

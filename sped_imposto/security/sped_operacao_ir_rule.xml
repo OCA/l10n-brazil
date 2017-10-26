@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <!--Regras de acesso para sped_operacao-->
+    <record id="ir_rule_sped_operacao" model="ir.rule">
+        <field name="name">Apenas suas operações</field>
+        <field name="model_id" ref="model_sped_operacao"/>
+        <field name="domain_force">['|',('empresa_id','=',False),('empresa_id.company_id','in',user.company_ids._ids)]
+        </field>
+    </record>
+
+</odoo>

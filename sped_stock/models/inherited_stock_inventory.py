@@ -59,10 +59,34 @@ class StockInventory(SpedBase, models.Model):
         ]
 
         #if self.user_has_groups('stock.group_tracking_owner'):
-            #res_filter += [('owner', _('One owner only')), ('product_owner', _('One product for a specific owner'))]
+            #res_filter += [('owner', _('One owner only')),
+        # ('product_owner', _('One product for a specific owner'))]
         #if self.user_has_groups('stock.group_production_lot'):
             #res_filter.append(('lot', _('One Lot/Serial Number')))
         #if self.user_has_groups('stock.group_tracking_lot'):
             #res_filter.append(('pack', _('A Pack')))
 
         return res_filter
+
+    def _get_inventory_lines_values(self):
+        """
+        Sobrescrita da função do core que retorna as quantidades de produtos
+        para o inventário. Nessa sobrescrita:
+            - adicionamos info do sped_produto_id em cada linha do inventário.         
+            - adicionamos valor do preço de custo médio do produto.         
+        """
+        product_obj = self.env['product.product']
+        lines = super(StockInventory, self)._get_inventory_lines_values()
+
+        for line in lines:
+            product_id = product_obj.browse(line.get('product_id'))
+            line['produto_id'] = product_id.sped_produto_id.id
+            # Calcular valor do preço de custo que esta no cadastro do produto.
+            # Futuramente sera implementado o conceito de preço de
+            # custo médio do estoque.
+            if product_id.sped_produto_id.preco_custo:
+                line['vr_unitario_custo'] = \
+                    product_id.sped_produto_id.preco_custo
+                line['vr_total_custo'] = \
+                    line['vr_unitario_custo'] * line.get('product_qty', 0)
+        return lines
