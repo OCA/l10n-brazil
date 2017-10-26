@@ -61,7 +61,10 @@ class StockPickingReturn(models.TransientModel):
             picking_devolucao.fiscal_position = obj_fp_rule.apply_fiscal_mapping(
                 {'value': {}}, **kwargs
             )['value']['fiscal_position']
-
+            valor_total_devolucao = self._buscar_valor_total_devolucao(
+                pos_order
+            )
+            pos_order.partner_id.credit_limit += valor_total_devolucao
             return res
 
         return super(StockPickingReturn, self).create_returns()
