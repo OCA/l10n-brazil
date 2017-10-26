@@ -5,6 +5,7 @@
 from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models, _
+from odoo.addons.l10n_br_base.constante_tributaria import *
 
 
 class SpedDocumento(models.Model):
@@ -135,7 +136,7 @@ class SpedDocumento(models.Model):
         super(SpedDocumento, self).executa_depois_denegar()
         self._cancela_estoque()
 
-    def _criar_picking_entrada(self):
+    def _criar_picking(self):
         stock_obj = self.env['stock.picking']
         for documento in self:
             doc_picking_type = documento.operacao_id.stock_picking_type_id
@@ -170,8 +171,12 @@ class SpedDocumento(models.Model):
             documento.stock_picking_id = res.id
             documento._confirma_estoque()
 
-    def executa_depois_create(self):
-        super(SpedDocumento, self).executa_depois_create()
+    def executa_depois_create(self, result, dados):
+        result = super(SpedDocumento, self).executa_depois_create(
+            result, dados)
+
         for documento in self:
-            if documento.entrada_saida == "0":
-                documento._criar_picking_entrada()
+            if documento.entrada_saida == ENTRADA_SAIDA_ENTRADA:
+                documento._criar_picking()
+
+        return result
