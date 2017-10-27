@@ -26,6 +26,17 @@
                             <field name="modalidade" />
                             <field name="convenio" />
                             <newline />
+                            <field name="al_multa" />
+                            <field name="al_juros" />
+                            <newline />
+<!--                            <field name="dias_protesto" />
+                            <field name="dias_nao_recebimento" />
+                            <newline />
+                            <field name="dias_negativacao" />
+                            <newline />-->
+                            <field name="proximo_nosso_numero" />
+                            <newline />
+                            <field name="proxima_remessa" />
                         </group>
                     </group>
                 </sheet>
