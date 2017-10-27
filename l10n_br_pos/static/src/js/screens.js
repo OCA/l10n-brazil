@@ -47,26 +47,42 @@ function l10n_br_pos_screens(instance, module) {
             });
 
          },
+        active_client: function (self, documento, partner) {
+            pos_db = self.pos.db;
+            self.old_client = partner;
+            self.new_client = self.old_client;
+            if (partner) {
+                self.pos.get('selectedOrder').set_client(self.new_client);
+            } else {
+                if (self.pos.config.save_identity_automatic) {
+                    new_partner = {};
+                    new_partner["name"] = pos_db.add_pontuation_document(documento);
+                    if (new_partner["name"].length > 14) {
+                        new_partner["is_company"] = true;
+                    }
+                    new_partner["cnpj_cpf"] = pos_db.add_pontuation_document(documento);
+                    self.pos_widget.order_widget.save_client_details(new_partner);
+                }
+            }
+        },
         search_client_by_cpf_cnpj: function(documento) {
             var self = this;
 
             if (self.verificar_cpf_cnpj(documento)){
                 pos_db = self.pos.db;
                 partner = pos_db.get_partner_by_identification(self.pos.partners, documento);
-                self.old_client = partner;
-                self.new_client = self.old_client;
-                if (partner){
-                    self.pos.get('selectedOrder').set_client(self.new_client);
-                }else{
-                    if (self.pos.config.save_identity_automatic){
-                        new_partner = {};
-                        new_partner["name"] = pos_db.add_pontuation_document(documento);
-                        if (new_partner["name"].length > 14){
-                            new_partner["is_company"] = true;
+                if(partner){
+                    this.active_client(self, documento, partner);
+                } else {
+                    documento_pontuacao = pos_db.add_pontuation_document(documento);
+                    return new instance.web.Model("res.partner").get_func("search_read")([['cnpj_cpf', '=', documento_pontuacao]], ['name', 'cnpj_cpf', 'country_id']).then(function(res) {
+                        if (res){
+                            pos_db.add_partners(res);
                         }
-                        new_partner["cnpj_cpf"] = pos_db.add_pontuation_document(documento);
-                        self.pos_widget.order_widget.save_client_details(new_partner);
-                    }
+                        self.active_client(self, documento, res[0]);
+                    },function(err,event) {
+                        self.active_client(self, documento, partner);
+                    });
                 }
             } else {
                 self.pos_widget.screen_selector.show_popup('error',{
