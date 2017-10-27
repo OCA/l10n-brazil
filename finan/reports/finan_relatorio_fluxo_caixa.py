@@ -9,12 +9,11 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from psycopg2.extensions import AsIs
 from dateutil.relativedelta import relativedelta
-
-from odoo import _
 from odoo import fields
+from odoo.exceptions import Warning
 from odoo.report import report_sxw
+from psycopg2.extensions import AsIs
 
 from .report_xlsx_base import ReportXlsxBase
 
@@ -235,7 +234,7 @@ class FinanRelatorioFluxoCaixa(ReportXlsxBase):
         dados = self.env.cr.fetchall()
 
         if not dados:
-            raise exceptions.Warning(
+            raise Warning(
                 'Não foram encontrados dados com os filtros informados'
             )
 
