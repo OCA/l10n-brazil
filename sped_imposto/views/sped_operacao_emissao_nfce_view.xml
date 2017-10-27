@@ -79,7 +79,7 @@
 
     <menuitem
         id="menu_sped_operacao_emissao_nfce"
-        sequence="2"
+        sequence="11"
         name="NFC-e"
         parent="menu_sped_operacao_emissao"
         action="sped_operacao_emissao_nfce_acao" />

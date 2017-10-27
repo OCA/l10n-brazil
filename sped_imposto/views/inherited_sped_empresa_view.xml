@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    Copyright 2016 KMEE INFORMATICA LTDA - Luis Felipe Miléo <mileo@kmee.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
@@ -95,6 +96,27 @@
                         <newline />
                         <field name="ultimo_rps" />
                         <field name="ultimo_lote_rps" />
+                    </group>
+                </page>
+                <page string="CF-E - MFE/SAT">
+                    <group col="4">
+                        <separator string="Ambiente" colspan="4" />
+                        <field name="ambiente_cfe" string="Ambiente" />
+                        <field name="tipo_emissao_cfe" string="Tipo de emissão" />
+                        <newline />
+                        <separator string="Emissão normal" colspan="4" />
+                        <separator string="Produção" colspan="2" />
+                        <separator string="Homologação" colspan="2" />
+                        <field name="serie_cfe_producao" string="Série" />
+                        <field name="serie_cfe_homologacao" string="Série" />
+                        <newline />
+                        <separator string="Emissão em contingência" colspan="4" />
+                        <field name="tipo_emissao_cfe_contingencia" string="Tipo de emissão" />
+                        <newline />
+                        <separator string="Produção" colspan="2" />
+                        <separator string="Homologação" colspan="2" />
+                        <field name="serie_cfe_contingencia_producao" string="Série" />
+                        <field name="serie_cfe_contingencia_homologacao" string="Série" />
                     </group>
                 </page>
             </xpath>
