@@ -242,7 +242,7 @@ class PosOrder(models.Model):
     @api.model
     def get_sequence_name(self, session_id):
         session = self.env['pos.session'].browse(session_id)
-        return session.config_id.sequence_id._next()
+        return session.config_id.sequence_id.number_next_actual
 
 
 class PosOrderLine(models.Model):
