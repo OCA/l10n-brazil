@@ -16,7 +16,7 @@ from ..constantes import *
 _logger = logging.getLogger(__name__)
 
 try:
-    from pybrasil.data import parse_datetime, hoje
+    from pybrasil.data import parse_datetime, hoje, formata_data
     from pybrasil.valor.decimal import Decimal as D
 
 except (ImportError, IOError) as err:
@@ -967,8 +967,10 @@ class FinanLancamento(SpedBase, models.Model):
             super(FinanLancamento, self).create()
         context = dict(self.env.context)
 
-        form = self.env.ref('finan.finan_lancamento_pagamento_one2many_recebimento2_form',
-                            True)
+        form = self.env.ref(
+            'finan.finan_lancamento_pagamento_one2many_recebimento2_form',
+            True
+        )
         return {
             'view_type': 'form',
             'view_id': [form.id],
@@ -980,180 +982,30 @@ class FinanLancamento(SpedBase, models.Model):
             'context': context,
         }
 
+    def gera_boleto(self, sem_anexo=False):
+        self.ensure_one()
 
-            #def action_view_financial(self, type):
-        #if type == '2receive':
-            #action = self.env.ref(
-                #'finan.financial_lancamento._debt_2receive_form_action').read()[0]
-        #elif type == '2pay':
-            #action = self.env.ref(
-                #'finan.financial_lancamento._debt_2pay_form_action').read()[0]
-        #if len(self) > 1:
-            #action['domain'] = [('id', 'in', self.ids)]
-        #elif len(self) == 1:
-            ## action['views'] = \
-            ##     [(
-            ##         self.env.ref('finan.financial_lancamento._form_view').id,
-            ##         'form',
-            ##     )]
-            #action['res_id'] = self.ids[0]
-        #else:
-            #action = {'type': 'ir.actions.act_window_close'}
-        #return action
+        if self.tipo != FINAN_DIVIDA_A_RECEBER:
+            return
 
+        if not self.carteira_id:
+            return
 
-    # def _create_from_dict(self, lancamento._dict):
-    #     '''How to use:
-    #
-    # def _prepare_lancamento_item(self, item):
-    #      return {
-    #          'numero':
-    #              '{0.serie}-{0.numero:0.0f}-{1.numero}/{2}'.format(
-    #                  self, item, len(self.duplicata_ids)),
-    #          'data_vencimento': item.data_vencimento,
-    #          'amount': item.valor
-    #      }
-    #
-    #  def _prepare_lancamento_financeiro(self):
-    #      return {
-    #          'date': self.data_emissao,
-    #          'type': '2receive',
-    #          'partner_id':
-    #              self.participante_id and self.participante_id.partner_id.id,
-    #          'referencia_id': self._name + ',' + str(self.id),
-    #          'bank_id': 1,
-    #          'empresa_id': self.empresa_id and self.empresa_id.empresa_id.id,
-    #          'currency_id': self.currency_id.id,
-    #          'payment_term_id':
-    #              self.payment_term_id and self.payment_term_id.id or False,
-    #          # 'account_type_id':
-    #          # 'analytic_conta_id':
-    #          # 'condicao_pagamento_id:
-    #          'lines': [self._prepara_lancamento_item(parcela)
-    #                    for parcela in self.duplicata_ids],
-    #      }
-    #
-    #  def action_financial_create(self):
-    #
-    #      p = self._prepare_lancamento_financeiro()
-    #      financial_lancamento._ids = self.env['finan.lancamento']._create_from_dict(p)
-    #      financial_lancamento._ids.action_confirm()
-    #
-    #      :param lancamento._dict:
-    #      :return: a lancamento set of finan.lancamento
-    #      '''
-    #      lines = lancamento._dict.pop('lines')
-    #
-    #      financial_lancamento._ids = self.env['finan.lancamento']
-    #
-    #      for item in lines:
-    #          data_vencimento = item.pop('data_vencimento')
-    #          vr_documento = item.pop('vr_documento')
-    #          numero = item.pop('numero')
-    #          #
-    #          # Override lancamento._dict with item data!
-    #          #
-    #          kwargs = lancamento._dict.copy()
-    #          kwargs.update(item)
-    #
-    #          values = self._prepare_financial_lancamento(
-    #              data_vencimento=data_vencimento,
-    #              vr_documento=vr_documento,
-    #              numero=numero,
-    #              **kwargs
-    #          )
-    #          financial = self.create(values)
-    #          financial_lancamento._ids |= financial
-    #      return financial_lancamento._ids
+        boleto = self.carteira_id.gera_boleto(self)
 
-    #def _readonly_state(self):
-        #return {'draft': [('readonly', False)]}
+        if sem_anexo:
+            return boleto
 
-    #def _required_fields(self):
-        #return True
+        nome_arquivo = 'Boleto_'
+        nome_arquivo += boleto.nosso_numero
+        nome_arquivo += '_'
+        banco = FINAN_BANCO_DICT[boleto.banco.codigo][6:]
+        nome_arquivo += banco
+        nome_arquivo += '.pdf'
+        self._grava_anexo(nome_arquivo=nome_arquivo, conteudo=boleto.pdf)
 
-    #def _track_visibility_onchange(self):
-        #return 'onchange'
+        return boleto
 
-    #def cron_interest(self):
-        #if self.env['resource.calendar'].data_eh_dia_util_bancario(
-                #datetime.data_hoje()):
-            #lancamento = self.search([
-                #('state', '=', 'open'),
-                #('data_vencimento_util', '<', datetime.data_hoje())])
-            ## lancamento._compute_interest()
-            #lancamento._compute_situacao_divida()
-
-    #@api.depends('condicao_pagamento_id', 'vr_documento',
-                 #'data_vencimento_util')
-    #def _compute_interest(self):
-        #for lancamento in self:
-            #if self.env['resource.calendar']. \
-                    #data_eh_dia_util_bancario(datetime.data_hoje()) and lancamento. \
-                    #state == 'open' and \
-                    #(datetime.data_hoje() > datetime.strptime
-                        #(lancamento.data_vencimento_util, '%Y-%m-%d')):
-                #day = (
-                    #datetime.data_hoje() - datetime.strptime(
-                        #lancamento.data_vencimento,
-                        #'%Y-%m-%d'))
-                #interest = lancamento.vr_documento * \
-                    #(lancamento.condicao_pagamento_id.interest_percent * day.days) / 100
-
-                #delay_fee = (lancamento.condicao_pagamento_id.
-                             #delay_fee_percent / 100) * lancamento.vr_documento
-                #lancamento.vr_juros = interest + delay_fee
-
-    #def change_state(self, new_state):
-        #for lancamento in self:
-            #if lancamento._avaliable_transition(lancamento.state, new_state):
-                #lancamento.state = new_state
-            #elif lancamento.state == new_state:
-                #return True
-            #else:
-                #raise UserError(_('This state transition is not allowed'))
-
-    #def action_confirm(self):
-        #for lancamento in self:
-            #lancamento.change_state('open')
-
-    #def action_budget(self):
-        #for lancamento in self:
-            #lancamento.change_state('budget')
-
-    #def action_paid(self):
-        #for lancamento in self:
-            #lancamento.change_state('paid')
-            #if lancamento.state == 'paid':
-                #data_pagamento = \
-                    #max([x.data_pagamento for x in lancamento.pagamento_ids])
-                #lancamento.data_pagamento = data_pagamento
-
-    #def action_estorno(self):
-        #for lancamento in self:
-            #lancamento.change_state('open')
-
-    #def action_cancel(self, motivo_id, obs):
-        #for lancamento in self:
-            #lancamento.change_state('cancelled')
-            #if lancamento.note:
-                #new_note = lancamento.note + '\n' + obs
-            #else:
-                #new_note = obs
-            #lancamento.write({
-                #'motivo_baixa_id': motivo_id,
-                #'vr_baixado': lancamento.vr_documento,
-                #'note': new_note,
-                #'vr_saldo': 0,
-            #})
-            #lancamento.with_context(no_email=True).message_post(body=new_note)
-
-
-#class FinanLancamentoMotivoCancelamento(models.Model):
-    #_name = b'finan.lancamento.motivo.cancelamento'
-    #_rec_name = 'motivo_cancelamento'
-
-    #motivo_cancelamento = fields.Char(
-        #string="Motivo do Cancelamento",
-        #required=True,
-    #)
+    def imprime_boleto(self):
+        for lancamento in self:
+            lancamento.gera_boleto()

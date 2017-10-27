@@ -16,6 +16,9 @@
                 <button name="create_lancamento" string="Novo recebimento" class="btn-primary" type="object"
                     attrs="{'invisible': ['|', ('provisorio', '=', True), ('situacao_divida', 'in', ['quitado', 'baixado', 'baixado_parcialmente'])]}"
                     context="{'default_divida_id': id, 'default_tipo': 'recebimento', 'default_conta_id': conta_id, 'default_empresa_id': empresa_id, 'default_participante_id': participante_id, 'default_vr_documento': vr_saldo}" />
+
+                <button name="imprime_boleto" string="Imprime boleto" class="btn-primary" type="object"
+                    attrs="{'invisible': ['|', ('carteira_id', '=', False), '|', ('provisorio', '=', True), ('situacao_divida', 'in', ['quitado', 'baixado', 'baixado_parcialmente'])]}" />
             </xpath>
 
             <!-- Controle de forma de pagamento e cobrança -->
@@ -119,6 +122,45 @@
         <field name="parent_id" ref="menu_finan_receber"/>
         <field name="action" ref="finan_lancamento_divida_a_receber_action"/>
         <field name="sequence" eval="1"/>
+    </record>
+
+    <!-- Outras views mais específicas para alguns casos -->
+
+    <record model="ir.ui.view" id="finan_lancamento_divida_boleto_tree">
+        <field name="name">finan.lancamento.divida.boleto.tree</field>
+        <field name="model">finan.lancamento</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <tree
+                decoration-warning="provisorio == True"
+                decoration-muted="situacao_divida_simples == 'baixado'"
+                decoration-danger="situacao_divida == 'vencido'"
+                decoration-info="situacao_divida == 'vence_hoje'"
+                decoration-success="situacao_divida_simples == 'quitado'"
+                editable="bottom"
+                  >
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="tipo" invisible="1" />
+                <field name="nome" invisible="1" />
+                <field name="situacao_divida_simples" invisible="1" />
+                <field name="cnpj_cpf" invisible="1" />
+                <field name="cnpj_cpf_raiz" invisible="1" />
+                <field name="provisorio" invisible="1" />
+                <field name="provisorio" invisible="1" />
+                <field name="situacao_divida" invisible="1" />
+                <field name="situacao_divida_simples" invisible="1" />
+
+                <field name="nosso_numero" />
+                <field name="participante_id" string="Cliente" />
+                <field name="documento_id" string="Documento" />
+                <field name="numero" string="Número" />
+                <field name="data_documento" string="Data" />
+                <field name="data_vencimento" string="Vencimento" />
+                <field name="vr_documento" string="Valor" sum="vr_documento"/>
+            </tree>
+        </field>
     </record>
 
 </odoo>
