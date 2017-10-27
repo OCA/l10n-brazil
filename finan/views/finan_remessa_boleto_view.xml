@@ -15,14 +15,12 @@
                     <button name="gera_arquivo" string="Gera arquivo" class="btn-primary" type="object" />
                 </header>
                 <sheet>
-                    <group>
-                        <group name="geral" colspan="4" col="4">
+                    <group col="4" colspan="4">
+                        <group colspan="4" col="4">
                             <field name="carteira_id" colspan="4" options="{'no_create': True}" />
                             <newline />
-                            <field name="data" />
-                            <newline />
-                            <field name="numero"  />
-                            <newline />
+                            <field name="data" colspan="2" />
+                            <field name="numero" colspan="2" />
                         </group>
                         <group name="boletos" string="Boletos" colspan="4" col="4">
                             <field name="lancamento_ids" nolabel="1" colspan="4" domain="[('carteira_id', '=', carteira_id), ('tipo', '=', 'a_receber')]" context="{'form_view_ref': 'finan.finan_lancamento_divida_a_receber_form', 'search_view_ref': 'finan.finan_lancamento_divida_a_receber_search', 'tree_view_ref': 'finan.finan_lancamento_divida_boleto_tree', 'order': 'nosso_numero desc', 'default_order': 'nosso_numero desc'}" />
