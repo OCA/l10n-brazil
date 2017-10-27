@@ -310,7 +310,7 @@ function l10n_br_pos_screens(instance, module) {
                     }
                 } else {
                     currentOrder = self.pos.get('selectedOrder').attributes;
-                    currentOrder["cpf_nota"] = currentOrder.client.cnpj_cpf.replace(/[^\d]+/g,'');
+                    currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
                     self.pos_widget.payment_screen.validate_order();
                 }
             } else {
