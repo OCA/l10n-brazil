@@ -15,3 +15,4 @@ from . import finan_lancamento
 from . import inherited_sped_participante
 from . import finan_banco_extrato
 from . import finan_banco_saldo
+from . import finan_remessa

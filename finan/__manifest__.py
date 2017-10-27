@@ -17,7 +17,7 @@
         'report_xlsx',
     ],
     'external_dependencies': {
-        'python': ['html2text'],
+        'python': ['html2text', 'pybrasil', 'numpy'],
     },
     'data': [
         'views/finan_view.xml',
@@ -54,6 +54,8 @@
         'views/finan_lancamento_transacao_base_view.xml',
         'views/finan_lancamento_transacao_entrada_view.xml',
         'views/finan_lancamento_transacao_saida_view.xml',
+
+        'views/finan_remessa_boleto_view.xml',
 
         #
         # Relatórios
