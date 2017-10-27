@@ -30,6 +30,7 @@ FINAN_LANCAMENTO_SAIDA = [
     FINAN_PAGAMENTO,
     FINAN_SAIDA,
 ]
+FINAN_LANCAMENTO_EXTRATO = FINAN_LANCAMENTO_ENTRADA + FINAN_LANCAMENTO_SAIDA
 
 FINAN_TIPO = FINAN_DIVIDA + FINAN_ENTRADA_SAIDA_CAIXA
 FINAN_TIPO_DIVIDA = [FINAN_DIVIDA_A_RECEBER, FINAN_DIVIDA_A_PAGAR]
@@ -168,13 +169,11 @@ FINAN_BANCO_SICOOB = '756'
 
 
 FINAN_TIPO_CONTA_BANCARIA = (
-    #('adiantamento', 'Adiantamento'),
     ('aplicacao', 'Aplicação'),
     ('caixa', 'Caixa'),
-    ('capital', 'Capital'),
     ('cobranca', 'Cobrança'),
     ('corrente', 'Corrente'),
-    #('devolucao', 'Devolução'),
+    ('credito', 'Crédito'),
     ('poupanca', 'Poupança'),
     ('provisao', 'Provisão'),
 )

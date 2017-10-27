@@ -17,19 +17,25 @@
         'report_xlsx',
     ],
     'external_dependencies': {
-        'python': ['html2text'],
+        'python': ['html2text', 'pybrasil', 'numpy'],
     },
     'data': [
         'views/finan_view.xml',
 
         #
+        # Dashboards
+        #
+        #'views/finan_banco_saldo_view.xml',
+
+        #
         # Cadastros e configurações
         #
         'views/finan_banco_view.xml',
+        'views/finan_carteira_view.xml',
+        'views/inherited_sped_account_payment_term_view.xml',
         'views/finan_conta_view.xml',
         'views/finan_documento_view.xml',
         'views/finan_forma_pagamento_view.xml',
-        'views/inherited_sped_account_payment_term_view.xml',
         'views/inherited_sped_participante_base_view.xml',
 
         #
@@ -45,6 +51,12 @@
 
         #'views/finan_lancamento_pagamento_base_view.xml',
 
+        'views/finan_lancamento_transacao_base_view.xml',
+        'views/finan_lancamento_transacao_entrada_view.xml',
+        'views/finan_lancamento_transacao_saida_view.xml',
+
+        'views/finan_remessa_boleto_view.xml',
+
         #
         # Relatórios
         #
@@ -53,6 +65,7 @@
 
         'reports/finan_relatorio_divida_data.xml',
         'wizards/finan_relatorio_divida_wizard.xml',
+        'wizards/wizard_finan_lancamento.xml',
 
         ##'data/financial_document_type_data.xml',
         ##'data/interest_data.xml',
@@ -73,7 +86,10 @@
         #'reports/report_xlsx_financial_defaults_data.xml',
         #'reports/report_xlsx_financial_partner_statement_data.xml',
 
-        #'security/ir.model.access.csv',
+        # Security
+        'security/res_groups_data.xml',
+        'security/finan_lancamento_ir_rule.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [
         # 'demo/financial_move.xml',

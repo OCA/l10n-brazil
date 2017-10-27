@@ -1,8 +1,30 @@
-id,name,model_id/id,group_id/id,perm_read,perm_unlink,perm_create,perm_unlink
-financial.financial_account_access_name,financial.account,financial.model_financial_account,base.group_user,1,1,1,1
-financial.financial_document_type_access_name,financial.document.type,financial.model_financial_document_type,base.group_user,1,1,1,1
-financial.financial_installment_access_name,financial.installment,financial.model_financial_installment,base.group_user,1,1,1,1
-financial.financial_installment_simulation_access_name,financial.installment.simulation,financial.model_financial_installment_simulation,base.group_user,1,1,1,1
-financial.financial_move_access_name,financial.move,financial.model_financial_move,base.group_user,1,1,1,1
-financial.financial_tree_analysis_access_name,financial.account.tree.analysis,financial.model_financial_account_tree_analysis,base.group_user,1,1,1,1
-access_financial_move_motivo_cancelamento,access_financial_move_motivo_cancelamento,model_financial_move_motivo_cancelamento,base.group_user,1,1,1,1
+group_id/id,model_id/id,name,id,perm_read,perm_create,perm_write,perm_unlink
+l10n_br_base.GRUPO_SUPORTE,model_finan_banco,Conta bancaria (suporte),finan_banco_grupo_suporte,True,True,True,True
+finan.GRUPO_FINAN_LEITURA,model_finan_banco,Conta Bancária (somente leitura),finan_banco_grupo_finan_leitura,True,False,False,False
+finan.GRUPO_CADASTRO_GERAL,model_finan_banco,Conta Bancária (geral),finan_banco_grupo_finan_geral,True,False,False,False
+finan.GRUPO_CADASTRO_GERENTE,model_finan_banco,Conta Bancária (Gerente),finan_banco_grupo_finan_gerente,True,True,True,True
+
+l10n_br_base.GRUPO_SUPORTE,model_finan_conta,Conta Financeira (suporte),finan_conta_grupo_suporte,True,True,True,True
+finan.GRUPO_FINAN_LEITURA,model_finan_conta,Conta Financeira (somente leitura),finan_conta_grupo_finan_leitura,True,False,False,False
+finan.GRUPO_CADASTRO_GERAL,model_finan_conta,Conta Financeira (geral),finan_conta_grupo_finan_geral,True,False,False,False
+finan.GRUPO_CADASTRO_GERENTE,model_finan_conta,Conta Financeira (Gerente),finan_conta_grupo_finan_gerente,True,True,True,True
+
+l10n_br_base.GRUPO_SUPORTE,model_finan_conta_arvore,Àrvore de Análise (suporte),finan_conta_arvore_grupo_suporte,True,True,True,True
+finan.GRUPO_FINAN_LEITURA,model_finan_conta_arvore,Àrvore de Análise (somente leitura),finan_conta_arvore_grupo_finan_leitura,True,False,False,False
+finan.GRUPO_CADASTRO_GERAL,model_finan_conta_arvore,Àrvore de Análise (geral),finan_conta_arvore_grupo_finan_geral,True,False,False,False
+finan.GRUPO_CADASTRO_GERENTE,model_finan_conta_arvore,Àrvore de Análise (Gerente),finan_conta_arvore_grupo_finan_gerente,True,True,True,True
+
+l10n_br_base.GRUPO_SUPORTE,model_finan_documento,Tipo de Documento (suporte),finan_documento_grupo_suporte,True,True,True,True
+finan.GRUPO_FINAN_LEITURA,model_finan_documento,Tipo de Documento (somente leitura),finan_documento_grupo_finan_leitura,True,False,False,False
+finan.GRUPO_CADASTRO_GERAL,model_finan_documento,Tipo de Documento (geral),finan_documento_grupo_finan_geral,True,True,True,False
+finan.GRUPO_CADASTRO_GERENTE,model_finan_documento,Tipo de Documento (Gerente),finan_documento_grupo_finan_gerente,True,True,True,True
+
+l10n_br_base.GRUPO_SUPORTE,model_finan_forma_pagamento,Forma de Pagamento (suporte),finan_forma_pagamento_grupo_suporte,True,True,True,True
+finan.GRUPO_FINAN_LEITURA,model_finan_forma_pagamento,Forma de Pagamento (somente leitura),finan_forma_pagamento_grupo_finan_leitura,True,False,False,False
+finan.GRUPO_CADASTRO_GERAL,model_finan_forma_pagamento,Forma de Pagamento (geral),finan_forma_pagamento_grupo_finan_geral,True,True,True,False
+finan.GRUPO_CADASTRO_GERENTE,model_finan_forma_pagamento,Forma de Pagamento (Gerente),finan_forma_pagamento_grupo_finan_gerente,True,True,True,True
+
+l10n_br_base.GRUPO_SUPORTE,model_finan_lancamento,Lançamento Financeiro (suporte),finan_lancamento_grupo_suporte,True,True,True,True
+finan.GRUPO_FINAN_LEITURA,model_finan_lancamento,Lançamento Financeiro (somente leitura),finan_lancamento_grupo_finan_leitura,True,False,False,False
+finan.GRUPO_CADASTRO_GERAL,model_finan_lancamento,Lançamento Financeiro (geral),finan_lancamento_grupo_finan_geral,True,True,True,False
+finan.GRUPO_CADASTRO_GERENTE,model_finan_lancamento,Lançamento Financeiro (Gerente),finan_lancamento_grupo_finan_gerente,True,True,True,True

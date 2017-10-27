@@ -80,9 +80,6 @@
         'views/sped_operacao_emissao_nfe_view.xml',
         'views/sped_operacao_emissao_nfse_view.xml',
         'views/sped_operacao_emissao_nfce_view.xml',
-        #
-        # Recebimento de documento
-        #
         'views/sped_operacao_recebimento_nfe_view.xml',
 
         #
@@ -90,6 +87,7 @@
         #
         'security/inherited_res_groups_data.xml',
         'security/ir.model.access.csv',
+        'security/sped_operacao_ir_rule.xml',
     ],
     'demo': [
         'demo/sped_produto_demo.xml',

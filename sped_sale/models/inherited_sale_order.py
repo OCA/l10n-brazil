@@ -218,12 +218,14 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
         if self.empresa_id.operacao_produto_id:
             self.operacao_produto_id = self.empresa_id.operacao_produto_id
 
-        if self.participante_id and \
-           self.empresa_id.operacao_produto_pessoa_fisica_id and \
-            (self.participante_id.eh_consumidor_final or
-             self.participante_id.tipo_pessoa == TIPO_PESSOA_FISICA):
-            self.operacao_produto_id = \
-                self.empresa_id.operacao_produto_pessoa_fisica_id
+        if self.participante_id:
+            if self.empresa_id.operacao_produto_pessoa_fisica_id and \
+                (self.participante_id.eh_consumidor_final or
+                 self.participante_id.tipo_pessoa == TIPO_PESSOA_FISICA):
+                self.operacao_produto_id = \
+                 self.empresa_id.operacao_produto_pessoa_fisica_id
+            if self.participante_id.comment:
+                self.obs_estoque = self.participante_id.comment
 
         if self.empresa_id.operacao_servico_id:
             self.operacao_servico_id = self.empresa_id.operacao_servico_id

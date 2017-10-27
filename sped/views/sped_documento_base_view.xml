@@ -92,7 +92,7 @@
                         <page name="itens" string="Itens">
                             <group>
                                 <group colspan="4" col="4">
-                                    <field name="item_ids" nolabel="1" colspan="4" context="{'form_view_ref' : 'sped.sped_documento_item_emissao_form', 'tree_view_ref' : 'sped.sped_documento_item_emissao_tree'}" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <field name="item_ids" nolabel="1" colspan="4" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
                                 </group>
                             </group>
                         </page>

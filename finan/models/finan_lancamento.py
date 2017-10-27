@@ -10,12 +10,14 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.exceptions import Warning as UserError
 from odoo.addons.l10n_br_base.models.sped_base import SpedBase
+from odoo.addons.l10n_br_base.constante_tributaria import FORMA_PAGAMENTO
 from ..constantes import *
 
 _logger = logging.getLogger(__name__)
 
 try:
-    from pybrasil.data import parse_datetime, hoje
+    from pybrasil.data import parse_datetime, hoje, formata_data
+    from pybrasil.valor.decimal import Decimal as D
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -94,6 +96,12 @@ class FinanLancamento(SpedBase, models.Model):
         ondelete='restrict',
         index=True,
     )
+    forma_pagamento = fields.Selection(
+        selection=FORMA_PAGAMENTO,
+        string='Forma de pagamento fiscal',
+        related='forma_pagamento_id.forma_pagamento',
+        readonly=True,
+    )
     exige_numero = fields.Boolean(
         string='Exige número de documento?',
         related='forma_pagamento_id.exige_numero',
@@ -150,14 +158,26 @@ class FinanLancamento(SpedBase, models.Model):
     data_pagamento = fields.Date(
         string='Data de pagamento',
         copy=False,
+        index=True,
         default=lambda lancamento: False if lancamento.tipo not in
             FINAN_TIPO_PAGAMENTO else fields.Date.context_today
     )
     data_credito_debito = fields.Date(
         string='Data de crédito/débito',
+        copy=False,
+        index=True,
     )
     data_baixa = fields.Date(
         string='Data de baixa',
+        copy=False,
+        index=True,
+    )
+    data_extrato = fields.Date(
+        string='Data no extrato banco/caixa',
+        compute='_compute_data_extrato',
+        copy=False,
+        store=True,
+        index=True,
     )
 
     #
@@ -261,7 +281,7 @@ class FinanLancamento(SpedBase, models.Model):
     # Previsão de juros e multa do lançamento
     #
     al_juros = fields.Monetary(
-        string='Taxa de juros',
+        string='Taxa de juros (mensal)',
         currency_field='currency_aliquota_id'
     )
     data_juros = fields.Date(
@@ -274,7 +294,7 @@ class FinanLancamento(SpedBase, models.Model):
         string='Percentual de multa',
         currency_field='currency_aliquota_id'
     )
-    date_penalty = fields.Date(
+    data_multa = fields.Date(
         string='Multa a partir de',
     )
     vr_multa_previsto = fields.Monetary(
@@ -331,6 +351,7 @@ class FinanLancamento(SpedBase, models.Model):
     )
     provisorio = fields.Boolean(
         string='É provisório?',
+        index=True,
     )
     state = fields.Selection(
         string='State',
@@ -348,6 +369,34 @@ class FinanLancamento(SpedBase, models.Model):
         string='Conta bancária',
         ondelete='restrict',
         index=True,
+    )
+    banco = fields.Selection(
+        selection=FINAN_BANCO,
+        related='banco_id.banco',
+        readonly=True,
+    )
+    extrato_id = fields.One2many(
+        comodel_name='finan.banco.extrato',
+        inverse_name='lancamento_id',
+        string='Extrato banco/caixa',
+    )
+    vr_saldo_banco = fields.Monetary(
+        string='Saldo banco/caixa após lançamento',
+        related='extrato_id.saldo',
+    )
+
+    #
+    # Carteira de cobrança/boletos
+    #
+    carteira_id = fields.Many2one(
+        comodel_name='finan.carteira',
+        string='Carteira',
+        ondelete='restrict',
+        index=True,
+    )
+    nosso_numero = fields.Char(
+        string='Nosso número',
+        size=20,
     )
 
     #
@@ -478,15 +527,15 @@ class FinanLancamento(SpedBase, models.Model):
                  'vr_adiantado')
     def _compute_total(self):
         for lancamento in self:
-            vr_total = lancamento.vr_documento
-            vr_total += lancamento.vr_juros
-            vr_total += lancamento.vr_multa
-            vr_total += lancamento.vr_outros_creditos
-            vr_total += lancamento.vr_adiantado
-            vr_total -= lancamento.vr_desconto
-            vr_total -= lancamento.vr_outros_debitos
-            vr_total -= lancamento.vr_tarifas
-            vr_total -= lancamento.vr_baixado
+            vr_total = D(lancamento.vr_documento)
+            vr_total += D(lancamento.vr_juros)
+            vr_total += D(lancamento.vr_multa)
+            vr_total += D(lancamento.vr_outros_creditos)
+            vr_total += D(lancamento.vr_adiantado)
+            vr_total -= D(lancamento.vr_desconto)
+            vr_total -= D(lancamento.vr_outros_debitos)
+            vr_total -= D(lancamento.vr_tarifas)
+            vr_total -= D(lancamento.vr_baixado)
             lancamento.vr_total = vr_total
 
     @api.depends('vr_documento',
@@ -504,19 +553,19 @@ class FinanLancamento(SpedBase, models.Model):
                  )
     def _compute_total_saldo(self):
         for lancamento in self:
-            vr_quitado_documento = 0
-            vr_quitado_juros = 0
-            vr_quitado_multa = 0
-            vr_quitado_outros_creditos = 0
-            vr_quitado_desconto = 0
-            vr_quitado_outros_debitos = 0
-            vr_quitado_tarifas = 0
-            vr_quitado_adiantado = 0
-            vr_quitado_baixado = 0
-            vr_quitado_total = 0
+            vr_quitado_documento = D(0)
+            vr_quitado_juros = D(0)
+            vr_quitado_multa = D(0)
+            vr_quitado_outros_creditos = D(0)
+            vr_quitado_desconto = D(0)
+            vr_quitado_outros_debitos = D(0)
+            vr_quitado_tarifas = D(0)
+            vr_quitado_adiantado = D(0)
+            vr_quitado_baixado = D(0)
+            vr_quitado_total = D(0)
 
-            vr_total = lancamento.vr_total
-            vr_saldo = 0
+            vr_total = D(lancamento.vr_total)
+            vr_saldo = D(0)
 
             if lancamento.tipo in FINAN_TIPO_DIVIDA:
                 for pagamento in lancamento.pagamento_ids:
@@ -528,21 +577,22 @@ class FinanLancamento(SpedBase, models.Model):
                         FINAN_SITUACAO_DIVIDA_QUITADO:
                         continue
 
-                    vr_quitado_documento += pagamento.vr_documento
-                    vr_quitado_juros += pagamento.vr_juros
-                    vr_quitado_multa += pagamento.vr_multa
-                    vr_quitado_outros_creditos += pagamento.vr_outros_creditos
-                    vr_quitado_desconto += pagamento.vr_desconto
-                    vr_quitado_outros_debitos += pagamento.vr_outros_debitos
-                    vr_quitado_tarifas += pagamento.vr_tarifas
-                    vr_quitado_adiantado += pagamento.vr_adiantado
-                    vr_quitado_baixado += pagamento.vr_baixado
-                    vr_quitado_total += pagamento.vr_total
+                    vr_quitado_documento += D(pagamento.vr_documento)
+                    vr_quitado_juros += D(pagamento.vr_juros)
+                    vr_quitado_multa += D(pagamento.vr_multa)
+                    vr_quitado_outros_creditos += \
+                        D(pagamento.vr_outros_creditos)
+                    vr_quitado_desconto += D(pagamento.vr_desconto)
+                    vr_quitado_outros_debitos += D(pagamento.vr_outros_debitos)
+                    vr_quitado_tarifas += D(pagamento.vr_tarifas)
+                    vr_quitado_adiantado += D(pagamento.vr_adiantado)
+                    vr_quitado_baixado += D(pagamento.vr_baixado)
+                    vr_quitado_total += D(pagamento.vr_total)
 
                 vr_saldo = vr_total - vr_quitado_documento
 
                 if vr_saldo < 0:
-                    vr_saldo = 0
+                    vr_saldo = D(0)
 
                 lancamento.vr_saldo = vr_saldo
 
@@ -574,6 +624,16 @@ class FinanLancamento(SpedBase, models.Model):
                 lancamento.documento_id.antecipa_vencimento
             )
             lancamento.data_vencimento_util = data_vencimento_util
+
+    @api.depends('data_documento', 'data_pagamento', 'data_credito_debito')
+    def _compute_data_extrato(self):
+        for lancamento in self:
+            if lancamento.data_credito_debito:
+                lancamento.data_extrato = lancamento.data_credito_debito
+            elif lancamento.data_pagamento:
+                lancamento.data_extrato = lancamento.data_pagamento
+            elif lancamento.data_documento:
+                lancamento.data_extrato = lancamento.data_documento
 
     @api.depends('data_vencimento_util', 'vr_total', 'vr_documento',
                  'vr_saldo', 'vr_quitado_documento', 'data_baixa',
@@ -763,7 +823,25 @@ class FinanLancamento(SpedBase, models.Model):
         #]
         #return (old_state, new_state) in allowed
 
-    def executa_antes_create(self, dados):
+    def _verifica_ajusta_extrato_saldo(self, bancos={}):
+        for lancamento in self:
+            if not (lancamento.tipo in FINAN_LANCAMENTO_ENTRADA or \
+                lancamento.tipo in FINAN_LANCAMENTO_SAIDA):
+                continue
+
+            banco_id = lancamento.banco_id.id
+            if banco_id not in bancos:
+                bancos[banco_id] = lancamento.data_extrato
+            elif bancos[banco_id] > lancamento.data_extrato:
+                bancos[banco_id] = lancamento.data_extrato
+
+    def _ajusta_extrato_saldo(self, bancos={}):
+        for banco_id in bancos:
+            data = bancos[banco_id]
+            self.env['finan.banco.extrato'].ajusta_extrato(banco_id, data)
+            self.env['finan.banco.saldo'].ajusta_saldo(banco_id, data)
+
+    def executa_antes_create(self, dados, bancos={}):
         return dados
 
     @api.model
@@ -773,20 +851,27 @@ class FinanLancamento(SpedBase, models.Model):
         return self.executa_depois_create(res, dados)
 
     def executa_depois_create(self, result, dados):
+        bancos = {}
+        result._verifica_ajusta_extrato_saldo(bancos)
+        self._ajusta_extrato_saldo(bancos)
         return result
 
-    def executa_antes_write(self, dados):
+    def executa_antes_write(self, dados, bancos={}):
+        self._verifica_ajusta_extrato_saldo(bancos)
         return dados
 
     def write(self, dados):
-        self.executa_antes_write(dados)
+        bancos = {}
+        self.executa_antes_write(dados, bancos)
         result = super(FinanLancamento, self).write(dados)
-        return self.executa_depois_write(result, dados)
+        return self.executa_depois_write(result, dados, bancos)
 
-    def executa_depois_write(self, result, dados):
+    def executa_depois_write(self, result, dados, bancos={}):
+        self._verifica_ajusta_extrato_saldo(bancos)
+        self._ajusta_extrato_saldo(bancos)
         return result
 
-    def executa_antes_unlink(self):
+    def executa_antes_unlink(self, bancos={}):
         for lancamento in self:
             if lancamento.referencia_id:
                 raise UserError('Você não pode excuir um lançamento '
@@ -816,12 +901,16 @@ class FinanLancamento(SpedBase, models.Model):
                 raise UserError('Você não pode excuir um lançamento com '
                                 'pagamentos!')
 
-    def unlink(self):
-        self.executa_antes_unlink()
-        res = super(FinanLancamento, self).unlink()
-        return self.execute_depois_unlink(res)
+            lancamento._verifica_ajusta_extrato_saldo(bancos)
 
-    def execute_depois_unlink(self, result):
+    def unlink(self):
+        bancos = {}
+        self.executa_antes_unlink(bancos)
+        res = super(FinanLancamento, self).unlink()
+        return self.executa_depois_unlink(res, bancos)
+
+    def executa_depois_unlink(self, result, bancos={}):
+        self._ajusta_extrato_saldo(bancos)
         return result
 
     def confirma_lancamento(self):
@@ -872,179 +961,51 @@ class FinanLancamento(SpedBase, models.Model):
             **kwargs
         )
 
-    #def action_view_financial(self, type):
-        #if type == '2receive':
-            #action = self.env.ref(
-                #'finan.financial_lancamento._debt_2receive_form_action').read()[0]
-        #elif type == '2pay':
-            #action = self.env.ref(
-                #'finan.financial_lancamento._debt_2pay_form_action').read()[0]
-        #if len(self) > 1:
-            #action['domain'] = [('id', 'in', self.ids)]
-        #elif len(self) == 1:
-            ## action['views'] = \
-            ##     [(
-            ##         self.env.ref('finan.financial_lancamento._form_view').id,
-            ##         'form',
-            ##     )]
-            #action['res_id'] = self.ids[0]
-        #else:
-            #action = {'type': 'ir.actions.act_window_close'}
-        #return action
+    @api.multi
+    def create_lancamento(self):
+        if not self.id:
+            super(FinanLancamento, self).create()
+        context = dict(self.env.context)
 
+        form = self.env.ref(
+            'finan.finan_lancamento_pagamento_one2many_recebimento2_form',
+            True
+        )
+        return {
+            'view_type': 'form',
+            'view_id': [form.id],
+            'view_mode': 'form',
+            'res_model': 'finan.lancamento.wizard',
+            'views': [(form.id, 'form')],
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'context': context,
+        }
 
-    # def _create_from_dict(self, lancamento._dict):
-    #     '''How to use:
-    #
-    # def _prepare_lancamento_item(self, item):
-    #      return {
-    #          'numero':
-    #              '{0.serie}-{0.numero:0.0f}-{1.numero}/{2}'.format(
-    #                  self, item, len(self.duplicata_ids)),
-    #          'data_vencimento': item.data_vencimento,
-    #          'amount': item.valor
-    #      }
-    #
-    #  def _prepare_lancamento_financeiro(self):
-    #      return {
-    #          'date': self.data_emissao,
-    #          'type': '2receive',
-    #          'partner_id':
-    #              self.participante_id and self.participante_id.partner_id.id,
-    #          'referencia_id': self._name + ',' + str(self.id),
-    #          'bank_id': 1,
-    #          'empresa_id': self.empresa_id and self.empresa_id.empresa_id.id,
-    #          'currency_id': self.currency_id.id,
-    #          'payment_term_id':
-    #              self.payment_term_id and self.payment_term_id.id or False,
-    #          # 'account_type_id':
-    #          # 'analytic_conta_id':
-    #          # 'condicao_pagamento_id:
-    #          'lines': [self._prepara_lancamento_item(parcela)
-    #                    for parcela in self.duplicata_ids],
-    #      }
-    #
-    #  def action_financial_create(self):
-    #
-    #      p = self._prepare_lancamento_financeiro()
-    #      financial_lancamento._ids = self.env['finan.lancamento']._create_from_dict(p)
-    #      financial_lancamento._ids.action_confirm()
-    #
-    #      :param lancamento._dict:
-    #      :return: a lancamento set of finan.lancamento
-    #      '''
-    #      lines = lancamento._dict.pop('lines')
-    #
-    #      financial_lancamento._ids = self.env['finan.lancamento']
-    #
-    #      for item in lines:
-    #          data_vencimento = item.pop('data_vencimento')
-    #          vr_documento = item.pop('vr_documento')
-    #          numero = item.pop('numero')
-    #          #
-    #          # Override lancamento._dict with item data!
-    #          #
-    #          kwargs = lancamento._dict.copy()
-    #          kwargs.update(item)
-    #
-    #          values = self._prepare_financial_lancamento(
-    #              data_vencimento=data_vencimento,
-    #              vr_documento=vr_documento,
-    #              numero=numero,
-    #              **kwargs
-    #          )
-    #          financial = self.create(values)
-    #          financial_lancamento._ids |= financial
-    #      return financial_lancamento._ids
+    def gera_boleto(self, sem_anexo=False):
+        self.ensure_one()
 
-    #def _readonly_state(self):
-        #return {'draft': [('readonly', False)]}
+        if self.tipo != FINAN_DIVIDA_A_RECEBER:
+            return
 
-    #def _required_fields(self):
-        #return True
+        if not self.carteira_id:
+            return
 
-    #def _track_visibility_onchange(self):
-        #return 'onchange'
+        boleto = self.carteira_id.gera_boleto(self)
 
-    #def cron_interest(self):
-        #if self.env['resource.calendar'].data_eh_dia_util_bancario(
-                #datetime.data_hoje()):
-            #lancamento = self.search([
-                #('state', '=', 'open'),
-                #('data_vencimento_util', '<', datetime.data_hoje())])
-            ## lancamento._compute_interest()
-            #lancamento._compute_situacao_divida()
+        if sem_anexo:
+            return boleto
 
-    #@api.depends('condicao_pagamento_id', 'vr_documento',
-                 #'data_vencimento_util')
-    #def _compute_interest(self):
-        #for lancamento in self:
-            #if self.env['resource.calendar']. \
-                    #data_eh_dia_util_bancario(datetime.data_hoje()) and lancamento. \
-                    #state == 'open' and \
-                    #(datetime.data_hoje() > datetime.strptime
-                        #(lancamento.data_vencimento_util, '%Y-%m-%d')):
-                #day = (
-                    #datetime.data_hoje() - datetime.strptime(
-                        #lancamento.data_vencimento,
-                        #'%Y-%m-%d'))
-                #interest = lancamento.vr_documento * \
-                    #(lancamento.condicao_pagamento_id.interest_percent * day.days) / 100
+        nome_arquivo = 'Boleto_'
+        nome_arquivo += boleto.nosso_numero
+        nome_arquivo += '_'
+        banco = FINAN_BANCO_DICT[boleto.banco.codigo][6:]
+        nome_arquivo += banco
+        nome_arquivo += '.pdf'
+        self._grava_anexo(nome_arquivo=nome_arquivo, conteudo=boleto.pdf)
 
-                #delay_fee = (lancamento.condicao_pagamento_id.
-                             #delay_fee_percent / 100) * lancamento.vr_documento
-                #lancamento.vr_juros = interest + delay_fee
+        return boleto
 
-    #def change_state(self, new_state):
-        #for lancamento in self:
-            #if lancamento._avaliable_transition(lancamento.state, new_state):
-                #lancamento.state = new_state
-            #elif lancamento.state == new_state:
-                #return True
-            #else:
-                #raise UserError(_('This state transition is not allowed'))
-
-    #def action_confirm(self):
-        #for lancamento in self:
-            #lancamento.change_state('open')
-
-    #def action_budget(self):
-        #for lancamento in self:
-            #lancamento.change_state('budget')
-
-    #def action_paid(self):
-        #for lancamento in self:
-            #lancamento.change_state('paid')
-            #if lancamento.state == 'paid':
-                #data_pagamento = \
-                    #max([x.data_pagamento for x in lancamento.pagamento_ids])
-                #lancamento.data_pagamento = data_pagamento
-
-    #def action_estorno(self):
-        #for lancamento in self:
-            #lancamento.change_state('open')
-
-    #def action_cancel(self, motivo_id, obs):
-        #for lancamento in self:
-            #lancamento.change_state('cancelled')
-            #if lancamento.note:
-                #new_note = lancamento.note + '\n' + obs
-            #else:
-                #new_note = obs
-            #lancamento.write({
-                #'motivo_baixa_id': motivo_id,
-                #'vr_baixado': lancamento.vr_documento,
-                #'note': new_note,
-                #'vr_saldo': 0,
-            #})
-            #lancamento.with_context(no_email=True).message_post(body=new_note)
-
-
-#class FinanLancamentoMotivoCancelamento(models.Model):
-    #_name = b'finan.lancamento.motivo.cancelamento'
-    #_rec_name = 'motivo_cancelamento'
-
-    #motivo_cancelamento = fields.Char(
-        #string="Motivo do Cancelamento",
-        #required=True,
-    #)
+    def imprime_boleto(self):
+        for lancamento in self:
+            lancamento.gera_boleto()

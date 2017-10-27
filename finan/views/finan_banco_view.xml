@@ -27,11 +27,11 @@
                             <field name="titular_id" colspan="4" required="1" options="{'no_create': True}" />
                             <newline />
                         </group>
-                        <group name="saldo" string="Saldo inicial">
+<!--                        <group name="saldo" string="Saldo inicial">
                             <field name="data_saldo_inicial" />
                             <newline />
                             <field name="saldo_inicial" />
-                        </group>
+                        </group>-->
                     </group>
                 </sheet>
             </form>

@@ -31,7 +31,7 @@
 
     <menuitem
         parent="menu_finan_configuracao"
-        sequence="2"
+        sequence="3"
         id="menu_finan_account_payment_term"
         name="Cond. pagamento"
         action="l10n_br_base.sped_account_payment_term_acao" />

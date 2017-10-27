@@ -24,7 +24,14 @@
                 <field name="partner_id" invisible="1" />
             </field>
 
-
+            <!-- Adicionar campo na visão tree embutida  do stock.inventory.line -->
+            <xpath expr="//tree/field[@name='product_id']" position="replace">
+                <field name="produto_id" />
+            </xpath>
+            <xpath expr="//tree/field[@name='product_qty']" position="after">
+                <field name="vr_unitario_custo" />
+                <field name="vr_total_custo" />
+            </xpath>
 
         </field>
     </record>

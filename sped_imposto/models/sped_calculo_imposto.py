@@ -618,7 +618,7 @@ class SpedCalculoImposto(SpedBase):
         if self.participante_id.operacao_produto_id:
             self.operacao_id = self.participante_id.operacao_produto_id
         if self.participante_id.transportadora_id:
-            self.operacao_id = self.participante_id.transportador_id
+            self.transportadora_id = self.participante_id.transportadora_id
 
     def prepara_dados_documento(self):
         self.ensure_one()

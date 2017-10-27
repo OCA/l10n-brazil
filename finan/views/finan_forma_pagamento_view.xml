@@ -27,6 +27,8 @@
                             <newline />
                             <label string="Considerar dívidas quitadas somente após a confirmação da data de crédito/débito?" />
                             <field name="quitado_somente_com_data_credito_debito" nolabel="1" />
+                            <newline />
+                            <field name="carteira_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('forma_pagamento', '!=', '15')]}" />
                         </group>
 <!--                        <group name="cartao" attrs="{'invisible': [('forma_pagamento', 'not in', ('03', '04'))]}">
                             <separator string="Cartão de crédito/débito" />
@@ -89,7 +91,7 @@
         <field name="name">Forma de pagamento</field>
         <field name="parent_id" ref="menu_finan_configuracao"/>
         <field name="action" ref="finan_forma_pagamento_action"/>
-        <field name="sequence" eval="4"/>
+        <field name="sequence" eval="5"/>
     </record>
 
 </odoo>

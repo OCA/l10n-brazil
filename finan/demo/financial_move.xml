@@ -4,9 +4,7 @@
 
 <odoo>
 
-
     <!-- Bank Account Fibonnaci -->
-
     <record model="res.partner.bank" id="bank_112358_13">
             <field name="acc_number">112358-13</field>
             <field name="acc_type">bank</field>

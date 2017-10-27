@@ -12,8 +12,11 @@
         <field name="inherit_id" ref="sped_imposto.sped_operacao_base_form" />
         <field name="arch" type="xml">
             <xpath expr="//form[1]" position="attributes">
-                <attribute name="string">Operação Fiscal para Recebimento de NF-e</attribute>
+                <attribute name="string">Operação Fiscal para Emissão de NF-e</attribute>
             </xpath>
+            <field name="entrada_saida" position="attributes" >
+                <attribute name="attrs">{'invisible': [('emissao', '=', '1')]}</attribute>
+            </field>
         </field>
     </record>
 
@@ -44,7 +47,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="sped_operacao_recebimento_nfe_acao">
-        <field name="name">Operação Fiscal - Recebimento de NF-e</field>
+        <field name="name">Operação Fiscal para Emissão de NF-e</field>
         <field name="domain">[('emissao', '=', '1'), ('modelo', '=', '55'), ('entrada_saida', '=', '0')]</field>
         <field name="context">{'default_emissao': '1', 'default_modelo': '55', 'default_entrada_saida': '0'}</field>
         <field name="res_model">sped.operacao</field>

@@ -30,6 +30,7 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
     ST_ISS,
     MODALIDADE_FRETE_DESTINATARIO_FOB,
+    AMBIENTE_NFE
 )
 
 
@@ -76,6 +77,10 @@ class SpedOperacaoFiscal(models.Model):
     serie = fields.Char(
         string='Série',
         size=3
+    )
+    ambiente_nfe = fields.Selection(
+        selection=AMBIENTE_NFE,
+        string='Ambiente da NF-e',
     )
     regime_tributario = fields.Selection(
         selection=REGIME_TRIBUTARIO,

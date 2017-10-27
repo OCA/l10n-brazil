@@ -72,7 +72,7 @@
         <field name="name">Contas financeiras</field>
         <field name="parent_id" ref="menu_finan_configuracao"/>
         <field name="action" ref="finan_conta_action"/>
-        <field name="sequence" eval="3"/>
+        <field name="sequence" eval="4"/>
     </record>
 
 </odoo>

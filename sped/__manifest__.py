@@ -47,11 +47,12 @@
         'views/sped_documento_emissao_nfse_view.xml',
 
         'views/sped_documento_item_emissao_servico_view.xml',
-        # 'views/sped_documento_recebimento_nfe_view.xml',
+        'views/sped_documento_recebimento_nfe_view.xml',
 
         #
         # Grupos e permissões
         #
+        'security/sped_documento_ir_rule.xml',
         'security/ir.model.access.csv',
     ],
     'external_dependencies': {
