@@ -8,6 +8,7 @@
 from __future__ import division, print_function, unicode_literals
 
 import logging
+import base64
 
 from odoo import fields, models
 
@@ -116,3 +117,33 @@ class SpedBase(object):
                 dados['unidade_id'] = uom.sped_unidade_id.id
 
         return dados
+
+    def _grava_anexo(self, nome_arquivo='', conteudo='',
+                     tipo='application/pdf', model=None):
+        self.ensure_one()
+
+        if model is None:
+            model = self._name
+
+        attachment = self.env['ir.attachment']
+
+        busca = [
+            ('res_model', '=', model),
+            ('res_id', '=', self.id),
+            ('name', '=', nome_arquivo),
+        ]
+        attachment_ids = attachment.search(busca)
+        attachment_ids.unlink()
+
+        dados = {
+            'name': nome_arquivo,
+            'datas_fname': nome_arquivo,
+            'res_model': model,
+            'res_id': self.id,
+            'datas': base64.b64encode(conteudo),
+            'mimetype': tipo,
+        }
+
+        anexo = self.env['ir.attachment'].create(dados)
+
+        return anexo
