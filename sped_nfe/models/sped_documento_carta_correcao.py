@@ -263,11 +263,11 @@ class SpedCartaCorrecao(models.Model):
 
     def unlink(self):
         self._check_permite_alteracao(operacao='unlink')
-        return super(CartaCorrecao, self).unlink()
+        return super(SpedCartaCorrecao, self).unlink()
 
     def write(self, dados):
         self._check_permite_alteracao(operacao='write', dados=dados)
-        return super(CartaCorrecao, self).write(dados)
+        return super(SpedCartaCorrecao, self).write(dados)
 
     @api.onchange('documento_id')
     def _onchange_documento_id(self):
