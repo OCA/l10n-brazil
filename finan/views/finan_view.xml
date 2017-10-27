@@ -21,6 +21,11 @@
         <field name="parent_id" ref="menu_finan"/>
         <field name="sequence" eval="20"/>
     </record>
+    <record model="ir.ui.menu" id="menu_finan_transacao">
+        <field name="name">Transações</field>
+        <field name="parent_id" ref="menu_finan"/>
+        <field name="sequence" eval="30"/>
+    </record>
 
     <record model="ir.ui.menu" id="menu_finan_relatorio">
         <field name="name">Relatórios</field>

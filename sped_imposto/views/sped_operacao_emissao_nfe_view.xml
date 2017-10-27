@@ -12,6 +12,9 @@
         <field name="mode">primary</field>
         <field name="inherit_id" ref="sped_imposto.sped_operacao_base_form" />
         <field name="arch" type="xml">
+            <field name="serie" position="after">
+                <field name="ambiente_nfe" />
+            </field>
             <xpath expr="//form[1]" position="attributes">
                 <attribute name="string">Operação Fiscal para Emissão de NF-e</attribute>
             </xpath>

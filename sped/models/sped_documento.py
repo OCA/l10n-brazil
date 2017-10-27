@@ -942,6 +942,36 @@ class SpedDocumento(SpedBase, models.Model):
                         self.eh_devolucao_compra = True
                         continue
 
+    def _serie_padrao_nfe(self, empresa, ambiente_nfe, tipo_emissao_nfe):
+        if tipo_emissao_nfe == TIPO_EMISSAO_NFE_NORMAL:
+            if ambiente_nfe == AMBIENTE_NFE_PRODUCAO:
+                serie = empresa.serie_nfe_producao
+            else:
+                serie = empresa.serie_nfe_homologacao
+
+        else:
+            if ambiente_nfe == AMBIENTE_NFE_PRODUCAO:
+                serie = empresa.serie_nfe_contingencia_producao
+            else:
+                serie = empresa.serie_nfe_contingencia_homologacao
+
+        return serie
+
+    def _serie_padrao_nfce(self, empresa, ambiente_nfce, tipo_emissao_nfce):
+        if tipo_emissao_nfce == TIPO_EMISSAO_NFE_NORMAL:
+            if ambiente_nfce == AMBIENTE_NFE_PRODUCAO:
+                serie = empresa.serie_nfce_producao
+            else:
+                serie = empresa.serie_nfce_homologacao
+
+        else:
+            if ambiente_nfce == AMBIENTE_NFE_PRODUCAO:
+                serie = empresa.serie_nfce_contingencia_producao
+            else:
+                serie = empresa.serie_nfce_contingencia_homologacao
+
+        return serie
+
     @api.onchange('empresa_id', 'modelo', 'emissao')
     def _onchange_empresa_id(self):
         res = {}
@@ -961,42 +991,51 @@ class SpedDocumento(SpedBase, models.Model):
         if self.modelo == MODELO_FISCAL_NFE:
             valores['ambiente_nfe'] = self.empresa_id.ambiente_nfe
             valores['tipo_emissao_nfe'] = self.empresa_id.tipo_emissao_nfe
+            valores['serie'] = self._serie_padrao_nfe(
+                self.empresa_id,
+                self.empresa_id.ambiente_nfe,
+                self.empresa_id.tipo_emissao_nfe
+            )
+            #if self.empresa_id.tipo_emissao_nfe == TIPO_EMISSAO_NFE_NORMAL:
+                #if self.empresa_id.ambiente_nfe == AMBIENTE_NFE_PRODUCAO:
+                    #valores['serie'] = self.empresa_id.serie_nfe_producao
+                #else:
+                    #valores['serie'] = self.empresa_id.serie_nfe_homologacao
 
-            if self.empresa_id.tipo_emissao_nfe == TIPO_EMISSAO_NFE_NORMAL:
-                if self.empresa_id.ambiente_nfe == AMBIENTE_NFE_PRODUCAO:
-                    valores['serie'] = self.empresa_id.serie_nfe_producao
-                else:
-                    valores['serie'] = self.empresa_id.serie_nfe_homologacao
-
-            else:
-                if self.empresa_id.ambiente_nfe == AMBIENTE_NFE_PRODUCAO:
-                    valores['serie'] = (
-                        self.empresa_id.serie_nfe_contingencia_producao
-                    )
-                else:
-                    valores['serie'] = (
-                        self.empresa_id.serie_nfe_contingencia_homologacao
-                    )
+            #else:
+                #if self.empresa_id.ambiente_nfe == AMBIENTE_NFE_PRODUCAO:
+                    #valores['serie'] = (
+                        #self.empresa_id.serie_nfe_contingencia_producao
+                    #)
+                #else:
+                    #valores['serie'] = (
+                        #self.empresa_id.serie_nfe_contingencia_homologacao
+                    #)
 
         elif self.modelo == MODELO_FISCAL_NFCE:
             valores['ambiente_nfe'] = self.empresa_id.ambiente_nfce
             valores['tipo_emissao_nfe'] = self.empresa_id.tipo_emissao_nfce
+            valores['serie'] = self._serie_padrao_nfce(
+                self.empresa_id,
+                self.empresa_id.ambiente_nfce,
+                self.empresa_id.tipo_emissao_nfce
+            )
 
-            if self.empresa_id.tipo_emissao_nfce == TIPO_EMISSAO_NFE_NORMAL:
-                if self.empresa_id.ambiente_nfce == AMBIENTE_NFE_PRODUCAO:
-                    valores['serie'] = self.empresa_id.serie_nfce_producao
-                else:
-                    valores['serie'] = self.empresa_id.serie_nfce_homologacao
+            #if self.empresa_id.tipo_emissao_nfce == TIPO_EMISSAO_NFE_NORMAL:
+                #if self.empresa_id.ambiente_nfce == AMBIENTE_NFE_PRODUCAO:
+                    #valores['serie'] = self.empresa_id.serie_nfce_producao
+                #else:
+                    #valores['serie'] = self.empresa_id.serie_nfce_homologacao
 
-            else:
-                if self.empresa_id.ambiente_nfce == AMBIENTE_NFE_PRODUCAO:
-                    valores['serie'] = (
-                        self.empresa_id.serie_nfce_contingencia_producao
-                    )
-                else:
-                    valores['serie'] = (
-                        self.empresa_id.serie_nfce_contingencia_homologacao
-                    )
+            #else:
+                #if self.empresa_id.ambiente_nfce == AMBIENTE_NFE_PRODUCAO:
+                    #valores['serie'] = (
+                        #self.empresa_id.serie_nfce_contingencia_producao
+                    #)
+                #else:
+                    #valores['serie'] = (
+                        #self.empresa_id.serie_nfce_contingencia_homologacao
+                    #)
 
         elif self.modelo == MODELO_FISCAL_NFSE:
             valores['ambiente_nfe'] = self.empresa_id.ambiente_nfse
@@ -1024,12 +1063,44 @@ class SpedDocumento(SpedBase, models.Model):
 
         if self.emissao == TIPO_EMISSAO_PROPRIA:
             if self.operacao_id.natureza_operacao_id:
-                valores['natureza_operacao_id'] = (
+                valores['natureza_operacao_id'] = \
                     self.operacao_id.natureza_operacao_id.id
-                )
 
             if self.operacao_id.serie:
                 valores['serie'] = self.operacao_id.serie
+
+            if self.operacao_id.ambiente_nfe:
+                valores['ambiente_nfe'] = self.operacao_id.ambiente_nfe
+
+                if self.ambiente_nfe != self.operacao_id.ambiente_nfe:
+                    if not self.operacao_id.serie:
+                        if self.modelo == MODELO_FISCAL_NFE:
+                            valores['serie'] = self._serie_padrao_nfe(
+                                self.empresa_id,
+                                valores['ambiente_nfe'],
+                                self.tipo_emissao_nfe
+                            )
+                        elif self.modelo == MODELO_FISCAL_NFCE:
+                            valores['serie'] = self._serie_padrao_nfce(
+                                self.empresa_id,
+                                valores['ambiente_nfe'],
+                                self.tipo_emissao_nfe
+                            )
+
+            #else:
+                #if not self.operacao_id.serie:
+                    #if self.modelo == MODELO_FISCAL_NFE:
+                        #valores['serie'] = self._serie_padrao_nfe(
+                            #self.empresa_id,
+                            #self.empresa_id.ambiente_nfe,
+                            #self.empresa_id.tipo_emissao_nfe
+                        #)
+                    #elif self.modelo == MODELO_FISCAL_NFCE:
+                        #valores['serie'] = self._serie_padrao_nfce(
+                            #self.empresa_id,
+                            #self.empresa_id.ambiente_nfce,
+                            #self.empresa_id.tipo_emissao_nfce
+                        #)
 
             valores['regime_tributario'] = self.operacao_id.regime_tributario
             valores['ind_forma_pagamento'] = \
@@ -1198,14 +1269,6 @@ class SpedDocumento(SpedBase, models.Model):
 
             raise ValidationError(_(mensagem))
 
-    def unlink(self):
-        self._check_permite_alteracao(operacao='unlink')
-        return super(SpedDocumento, self).unlink()
-
-    def write(self, dados):
-        self._check_permite_alteracao(operacao='write', dados=dados)
-        return super(SpedDocumento, self).write(dados)
-
     def envia_nfe(self):
         self.ensure_one()
 
@@ -1268,3 +1331,38 @@ class SpedDocumento(SpedBase, models.Model):
 
     def gera_pdf(self):
         self.ensure_one()
+
+    def executa_antes_create(self, dados):
+        return dados
+
+    @api.model
+    def create(self, dados):
+        dados = self.executa_antes_create(dados)
+        res = super(SpedDocumento, self).create(dados)
+        return self.executa_depois_create(res, dados)
+
+    def executa_depois_create(self, result, dados):
+        return result
+
+    def executa_antes_write(self, dados):
+        self._check_permite_alteracao(operacao='write', dados=dados)
+        return dados
+
+    def write(self, dados):
+        self.executa_antes_write(dados)
+        result = super(SpedDocumento, self).write(dados)
+        return self.executa_depois_write(result, dados)
+
+    def executa_depois_write(self, result, dados):
+        return result
+
+    def executa_antes_unlink(self):
+        self._check_permite_alteracao(operacao='unlink')
+
+    def unlink(self):
+        self.executa_antes_unlink()
+        res = super(SpedDocumento, self).unlink()
+        return self.executa_depois_unlink(res)
+
+    def executa_depois_unlink(self, result):
+        return result

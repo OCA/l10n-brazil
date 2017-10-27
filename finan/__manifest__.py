@@ -17,19 +17,25 @@
         'report_xlsx',
     ],
     'external_dependencies': {
-        'python': ['html2text'],
+        'python': ['html2text', 'pybrasil', 'numpy'],
     },
     'data': [
         'views/finan_view.xml',
 
         #
+        # Dashboards
+        #
+        #'views/finan_banco_saldo_view.xml',
+
+        #
         # Cadastros e configurações
         #
         'views/finan_banco_view.xml',
+        'views/finan_carteira_view.xml',
+        'views/inherited_sped_account_payment_term_view.xml',
         'views/finan_conta_view.xml',
         'views/finan_documento_view.xml',
         'views/finan_forma_pagamento_view.xml',
-        'views/inherited_sped_account_payment_term_view.xml',
         'views/inherited_sped_participante_base_view.xml',
 
         #
@@ -44,6 +50,12 @@
         'views/finan_lancamento_divida_a_pagar_view.xml',
 
         #'views/finan_lancamento_pagamento_base_view.xml',
+
+        'views/finan_lancamento_transacao_base_view.xml',
+        'views/finan_lancamento_transacao_entrada_view.xml',
+        'views/finan_lancamento_transacao_saida_view.xml',
+
+        'views/finan_remessa_boleto_view.xml',
 
         #
         # Relatórios

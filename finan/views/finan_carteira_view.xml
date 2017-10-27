@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 Taŭga Tecnologia - Ari Caldeira <ari.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="finan_carteira_form" >
+        <field name="name">finan.carteira.form</field>
+        <field name="model">finan.carteira</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Carteira">
+                <sheet>
+                    <group>
+                        <group name="geral" colspan="4" col="4">
+                            <field name="banco_id" colspan="4" />
+                            <newline />
+                            <field name="banco" invisible="1" />
+                            <newline />
+                            <field name="carteira" />
+                            <newline />
+                            <field name="beneficiario"  />
+                            <field name="beneficiario_digito" string="Dígito" />
+                            <newline />
+                            <field name="modalidade" />
+                            <field name="convenio" />
+                            <newline />
+                            <field name="al_multa" />
+                            <field name="al_juros" />
+                            <newline />
+<!--                            <field name="dias_protesto" />
+                            <field name="dias_nao_recebimento" />
+                            <newline />
+                            <field name="dias_negativacao" />
+                            <newline />-->
+                            <field name="proximo_nosso_numero" />
+                            <newline />
+                            <field name="proxima_remessa" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="finan_carteira_tree">
+        <field name="name">finan.carteira.tree</field>
+        <field name="model">finan.carteira</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Carteira">
+                <field name="nome" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="finan_carteira_search">
+        <field name="name">finan.carteira.search</field>
+        <field name="model">finan.carteira</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Carteira">
+                <field name="nome" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="finan_carteira_action">
+        <field name="name">Carteira</field>
+        <field name="res_model">finan.carteira</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="finan_carteira_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="finan_carteira_tree"/>
+        <field name="act_window_id" ref="finan_carteira_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="finan_carteira_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="finan_carteira_form"/>
+        <field name="act_window_id" ref="finan_carteira_action"/>
+    </record>
+
+    <record model="ir.ui.menu" id="menu_finan_carteira">
+        <field name="name">Carteira</field>
+        <field name="parent_id" ref="menu_finan_configuracao"/>
+        <field name="action" ref="finan_carteira_action"/>
+        <field name="sequence" eval="2"/>
+    </record>
+
+</odoo>

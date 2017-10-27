@@ -40,7 +40,7 @@
                 <field name="documento_id" />
                 <field name="numero" />
                 <field name="data_pagamento" />
-                <field name="banco_id" context="{'banco_sem_titular': True}" />
+                <field name="banco_id" context="{'banco_sem_titular': True}"  domain="[('cnpj_cpf_raiz', '=', cnpj_cpf_raiz)]" />
                 <field name="data_credito_debito" />
                 <field name="vr_documento" sum="vr_documento" />
                 <field name="vr_juros" sum="vr_juros" />
@@ -84,7 +84,7 @@
                                 <field name="documento_id" roptions="{'no_create': True}" />
                                 <field name="numero"/>
                                 <field name="data_pagamento" />
-                                <field name="banco_id" context="{'banco_sem_titular': True}" />
+                                <field name="banco_id" context="{'banco_sem_titular': True}" domain="[('cnpj_cpf_raiz', '=', cnpj_cpf_raiz)]" />
                                 <field name="data_credito_debito" />
                             </group>
                             <group name="valores">

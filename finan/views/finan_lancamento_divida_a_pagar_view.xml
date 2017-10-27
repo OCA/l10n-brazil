@@ -80,7 +80,7 @@
         <field name="res_model">finan.lancamento</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('tipo', '=', 'a_pagar')]</field>
-        <field name="context">{'default_tipo': 'a_pagar', 'default_provisorio': True, 'search_default_situacao_vence_hoje': True, 'search_default_situacao_vencido': True}</field>
+        <field name="context">{'banco_sem_titular': True, 'default_tipo': 'a_pagar', 'default_provisorio': True, 'search_default_situacao_vence_hoje': True, 'search_default_situacao_vencido': True}</field>
         <field name="search_view_id" ref="finan_lancamento_divida_a_pagar_search" />
     </record>
 

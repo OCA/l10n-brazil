@@ -99,6 +99,8 @@
                         </group>
                     </group>
                     <div>
+                        <label string="Histórico" />
+                        <newline />
                         <field name="historico" placeholder="Histórico do pagamento..."/>
                     </div>
                 </sheet>

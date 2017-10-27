@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 Taŭga Tecnologia - Ari Caldeira <ari.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="finan_banco_dashboard_saldo_hoje">
+        <field name="name">finan.banco.dashboard.saldo.hoje</field>
+        <field name="model">finan.banco</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <kanban create="false" class="o_kanban_dashboard o_finan_kanban">
+                <field name="id" />
+                <field name="tipo" />
+                <field name="nome" />
+                <field name="currency_id" />
+                <field name="dashboard_saldo_hoje" />
+                <templates>
+
+                    <t t-name="TemplateCabecalhoSaldo">
+                        <div class="o_kanban_card_header">
+                            <div class="o_kanban_card_header_title">
+                                <div class="o_primary" t-att-title="dashboard.banco">
+                                    <a type="object" name="open_action"><field name="nome"/></a>
+                                </div>
+                                <div class="o_secondary" t-att-title="dashboard.titulo">
+                                    <field name="tipo"/>
+                                </div>
+                            </div>
+<!--                            <div class="o_kanban_manage_button_section">
+                                <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
+                            </div>-->
+                        </div>
+                    </t>
+
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{kanban_color(0)}">
+                            <t t-value="JSON.parse(record.dashboard_saldo_hoje.raw_value)" t-set="dashboard"/>
+                            <t t-call="TemplateCabecalhoSaldo" />
+                        </div>
+
+                        <div class="container o_kanban_card_content">
+                            <div class="row">
+                                <div class="col-xs-6 o_kanban_primary_left">
+                                </div>
+                                <div class="col-xs-6 o_kanban_primary_right">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <span title="Saldo agora no sistema">Saldo agora</span>
+                                        </div>
+                                        <div class="col-xs-6 text-right">
+                                            <span><t t-esc="dashboard.saldo"/></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </t>
+                </templates>
+
+            </kanban>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="finan_banco_dashboard_saldo_hoje_action">
+        <field name="name">Saldos de bancos/caixas</field>
+        <field name="res_model">finan.banco</field>
+        <field name="view_mode">kanban</field>
+        <field name="usage">menu</field>
+        <field name="context">{'banco_sem_titular': True}</field>
+<!--        <field name="context">{'search_default_dashboard':1}</field>-->
+        <field name="view_id" ref="finan_banco_dashboard_saldo_hoje" />
+    </record>
+
+    <record model="ir.ui.menu" id="menu_finan_banco_saldo_dashboard">
+        <field name="name">Painel</field>
+        <field name="parent_id" ref="menu_finan"/>
+        <field name="action" ref="finan_banco_dashboard_saldo_hoje_action"/>
+        <field name="sequence" eval="-1"/>
+    </record>
+
+</odoo>

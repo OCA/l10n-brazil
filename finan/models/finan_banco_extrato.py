@@ -26,10 +26,49 @@ create or replace function finan_banco_extrato_function(_banco_id integer)
     $BODY$
         declare
             valor numeric := 0;
+            ultima_data date := '2000-01-01';
+
         begin
             ordem := 0;
             saldo := 0;
 
+            --
+            -- Primeiro, trazemos o extrato que já está salvo
+            --
+            for
+                ordem,
+                lancamento_id,
+                data,
+                entrada,
+                saida,
+                saldo
+
+            in
+            select
+                fbe.ordem,
+                fbe.lancamento_id,
+                fbe.data,
+                fbe.entrada,
+                fbe.saida,
+                fbe.saldo
+
+            from
+                finan_banco_extrato fbe
+
+            where
+                fbe.banco_id = _banco_id
+
+            order by
+                fbe.ordem
+
+            loop
+                ultima_data := data;
+                return next;
+            end loop;
+
+            --
+            -- Agora recalculamos da última data em diante
+            --
             for
                 lancamento_id,
                 data,
@@ -53,18 +92,20 @@ create or replace function finan_banco_extrato_function(_banco_id integer)
                     * coalesce(fl.sinal, 1) as numeric(18, 2)) as valor
 
             from
-                            finan_lancamento fl
+                finan_lancamento fl
 
             where
                 fl.banco_id = _banco_id
                 and fl.tipo in ('recebimento', 'pagamento', 'entrada', 'saida')
+                and (fl.provisorio is null or fl.provisorio = False)
+                and fl.data_extrato > ultima_data
 
             order by
                 fl.data_extrato,
                 coalesce(fl.vr_total, 0) * coalesce(fl.sinal, 1) desc
 
             loop
-                saldo := saldo + valor;
+                saldo := coalesce(saldo, 0) + valor;
                 ordem := ordem + 1;
                 return next;
             end loop;
@@ -73,6 +114,13 @@ create or replace function finan_banco_extrato_function(_banco_id integer)
 LANGUAGE plpgsql VOLATILE;
 '''
 
+SQL_INDICES = '''
+create index if not exists finan_banco_extrato_banco_id_ordem_index
+    on finan_banco_extrato (banco_id, ordem);
+
+create index if not exists finan_banco_extrato_banco_id_data_index
+    on finan_banco_extrato (banco_id, data);
+'''
 
 class FinanBancoExtrato(SpedBase, models.Model):
     _name = b'finan.banco.extrato'
@@ -112,6 +160,7 @@ class FinanBancoExtrato(SpedBase, models.Model):
     @api.model_cr
     def init(self):
         self.env.cr.execute(SQL_FINAN_BANCO_EXTRATO_FUNCTION)
+        self.env.cr.execute(SQL_INDICES)
 
     def ajusta_extrato(self, banco_id, data):
         sql = '''

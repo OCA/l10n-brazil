@@ -22,9 +22,45 @@ create or replace function finan_banco_saldo_function(_banco_id integer)
         saldo numeric
     ) as
     $BODY$
+        declare
+            ultima_data date := '2000-01-01';
+
         begin
             saldo := 0;
 
+            --
+            -- Primeiro, trazemos os saldos que já estão salvos
+            --
+            for
+                data,
+                entrada,
+                saida,
+                saldo
+
+            in
+            select
+                fbs.data,
+                fbs.entrada,
+                fbs.saida,
+                fbs.saldo
+
+            from
+                finan_banco_saldo fbs
+
+            where
+                fbs.banco_id = _banco_id
+
+            order by
+                fbs.data
+
+            loop
+                ultima_data := data;
+                return next;
+            end loop;
+
+            --
+            -- Agora recalculamos da última data em diante
+            --
             for
                 data,
                 entrada,
@@ -41,6 +77,7 @@ create or replace function finan_banco_saldo_function(_banco_id integer)
 
             where
                 fbe.banco_id = _banco_id
+                and fbe.data > ultima_data
 
             group by
                 fbe.data
@@ -49,12 +86,17 @@ create or replace function finan_banco_saldo_function(_banco_id integer)
                 fbe.data
 
             loop
-                saldo := saldo + entrada - saida;
+                saldo := coalesce(saldo, 0) + entrada - saida;
                 return next;
             end loop;
         end
     $BODY$
 LANGUAGE plpgsql VOLATILE;
+'''
+
+SQL_INDICES = '''
+create index if not exists finan_banco_saldo_banco_id_data_index
+    on finan_banco_saldo (banco_id, data);
 '''
 
 
@@ -69,6 +111,11 @@ class FinanBancoSaldo(SpedBase, models.Model):
         string='Banco/caixa',
         index=True,
         ondelete='restrict',
+    )
+    tipo = fields.Selection(
+        selection=FINAN_TIPO_CONTA_BANCARIA,
+        string='Tipo',
+        related='banco_id.tipo',
     )
     data = fields.Date(
         string='Data',
@@ -87,6 +134,7 @@ class FinanBancoSaldo(SpedBase, models.Model):
     @api.model_cr
     def init(self):
         self.env.cr.execute(SQL_FINAN_BANCO_SALDO_FUNCTION)
+        self.env.cr.execute(SQL_INDICES)
 
     def ajusta_saldo(self, banco_id, data):
         sql = '''
