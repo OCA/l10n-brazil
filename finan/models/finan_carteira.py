@@ -10,7 +10,7 @@ from ..constantes import *
 
 from pybrasil.data import parse_datetime, hoje, formata_data
 from pybrasil.valor.decimal import Decimal as D
-from numpy import base_repr
+#from numpy import base_repr
 from pybrasil.febraban import *
 from pybrasil.valor import formata_valor, valor_por_extenso_unidade
 from dateutil.relativedelta import relativedelta
@@ -238,7 +238,8 @@ class FinanCarteira(SpedBase, models.Model):
         # A identificação é o próprio id da dívida, para simplificar o
         # tratamento do retorno depois
         #
-        boleto.identificacao = 'ID' + base_repr(divida.id, 36)
+        #boleto.identificacao = 'ID' + base_repr(divida.id, 36)
+        boleto.identificacao = 'N' + str(divida.id)
         boleto.data_vencimento = divida.data_vencimento
         boleto.data_processamento = hoje()
 
