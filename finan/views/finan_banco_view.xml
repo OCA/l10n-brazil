@@ -26,12 +26,21 @@
                             <newline />
                             <field name="titular_id" colspan="4" required="1" options="{'no_create': True}" />
                             <newline />
+                            <field name="saldo_atual" />
                         </group>
-<!--                        <group name="saldo" string="Saldo inicial">
-                            <field name="data_saldo_inicial" />
-                            <newline />
-                            <field name="saldo_inicial" />
-                        </group>-->
+                        <group name="extrato" string="Extrato" colspan="4">
+                            <field name="extrato_ids" nolabel="1" colspan="4">
+                                <tree>
+                                    <field name="currency_id" invisible="1" />
+                                    <field name="ordem" invisible="1" />
+                                    <field name="data" />
+                                    <field name="lancamento_id" />
+                                    <field name="entrada" />
+                                    <field name="saida" />
+                                    <field name="saldo" />
+                                </tree>
+                            </field>
+                        </group>
                     </group>
                 </sheet>
             </form>
@@ -44,7 +53,9 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <tree string="Banco/Caixa">
+                <field name="currency_id" invisible="1" />
                 <field name="nome" />
+                <field name="saldo_atual" sum="saldo_atual" />
             </tree>
         </field>
     </record>

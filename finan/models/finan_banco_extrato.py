@@ -106,7 +106,7 @@ create or replace function finan_banco_extrato_function(_banco_id integer)
 
             loop
                 saldo := coalesce(saldo, 0) + valor;
-                ordem := ordem + 1;
+                ordem := coalesce(ordem, 0) + 1;
                 return next;
             end loop;
         end

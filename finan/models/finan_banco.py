@@ -93,6 +93,15 @@ class FinanBanco(SpedBase, models.Model):
     #saldo_inicial = fields.Monetary(
         #string='Saldo inicial',
     #)
+    saldo_atual = fields.Monetary(
+        string='Saldo atual',
+        compute='_compute_saldo_atual',
+    )
+    extrato_ids = fields.One2many(
+        comodel_name='finan.banco.extrato',
+        inverse_name='banco_id',
+        readonly=True,
+    )
 
     #
     # Dashboards
@@ -106,6 +115,16 @@ class FinanBanco(SpedBase, models.Model):
     def _compute_banco(self):
         for banco in self:
             banco.nome = banco.name_get()[0][1]
+
+    def _compute_saldo_atual(self):
+        for banco in self:
+            saldo = self.env['finan.banco.saldo'].search([
+                ('banco_id', '=', banco.id),
+                ('data', '<=', str(hoje())),
+                ], limit=1, order='data desc')
+
+            if saldo:
+                banco.saldo_atual = saldo.saldo
 
     @api.depends('titular_id', 'titular_id.cnpj_cpf')
     def _compute_cnpj_cpf(self):
