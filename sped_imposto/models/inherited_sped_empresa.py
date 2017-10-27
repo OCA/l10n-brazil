@@ -2,6 +2,8 @@
 #
 # Copyright 2016 Taŭga Tecnologia
 #   Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 KMEE INFORMATICA LTDA
+#   Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -11,12 +13,14 @@ from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.addons.l10n_br_base.constante_tributaria import (
     AMBIENTE_NFE,
+    AMBIENTE_CFE,
     INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
     REGIME_TRIBUTARIO_LUCRO_PRESUMIDO,
     REGIME_TRIBUTARIO_LUCRO_REAL,
     REGIME_TRIBUTARIO_SIMPLES,
     REGIME_TRIBUTARIO_SIMPLES_EXCESSO,
     TIPO_EMISSAO_NFE,
+    TIPO_EMISSAO_CFE,
     INDICADOR_PRESENCA_COMPRADOR,
     INDICADOR_PRESENCA_COMPRADOR_NAO_SE_APLICA,
 )
@@ -181,6 +185,38 @@ class SpedEmpresa(models.Model):
     csc_codigo = fields.Char(
         string='Código CSC',
         size=36,
+    )
+    ambiente_cfe = fields.Selection(
+        selection=AMBIENTE_NFE,
+        string='Ambiente NFC-e'
+    )
+    tipo_emissao_cfe = fields.Selection(
+        selection=TIPO_EMISSAO_CFE,
+        string='Tipo de emissão CF-e'
+    )
+    serie_cfe_producao = fields.Char(
+        selection='Série em produção',
+        size=3,
+        default='1'
+    )
+    serie_cfe_homologacao = fields.Char(
+        string='Série em homologação',
+        size=3,
+        default='100'
+    )
+    serie_cfe_contingencia_producao = fields.Char(
+        string='Série em homologação',
+        size=3,
+        default='900'
+    )
+    serie_cfe_contingencia_homologacao = fields.Char(
+        string='Série em produção',
+        size=3,
+        default='999'
+    )
+    tipo_emissao_cfe_contingencia = fields.Selection(
+        selection=TIPO_EMISSAO_CFE,
+        string='Tipo de emissão CF-e contingência'
     )
     ambiente_nfse = fields.Selection(
         selection=AMBIENTE_NFE,
