@@ -103,7 +103,7 @@ class FinanRelatorioFluxoCaixa(ReportXlsxBase):
                 titulo = data_atual.strftime('%d/%m/%Y')
                 data_periodo = 'valor_' + str(data_atual).replace('-', '_')
                 report_data['titulo_data_periodo'][data_periodo] = titulo
-                data_atual += relativedelta(dias=1)
+                data_atual += relativedelta(days=1)
 
         elif self.report_wizard.periodo == 'semanas':
             data_atual = data_inicial
