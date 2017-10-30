@@ -9,12 +9,11 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from psycopg2.extensions import AsIs
 from dateutil.relativedelta import relativedelta
-
-from odoo import _
 from odoo import fields
+from odoo.exceptions import Warning
 from odoo.report import report_sxw
+from psycopg2.extensions import AsIs
 
 from .report_xlsx_base import ReportXlsxBase
 
@@ -104,7 +103,7 @@ class FinanRelatorioFluxoCaixa(ReportXlsxBase):
                 titulo = data_atual.strftime('%d/%m/%Y')
                 data_periodo = 'valor_' + str(data_atual).replace('-', '_')
                 report_data['titulo_data_periodo'][data_periodo] = titulo
-                data_atual += relativedelta(dias=1)
+                data_atual += relativedelta(days=1)
 
         elif self.report_wizard.periodo == 'semanas':
             data_atual = data_inicial
@@ -235,7 +234,7 @@ class FinanRelatorioFluxoCaixa(ReportXlsxBase):
         dados = self.env.cr.fetchall()
 
         if not dados:
-            raise exceptions.Warning(
+            raise Warning(
                 'Não foram encontrados dados com os filtros informados'
             )
 
