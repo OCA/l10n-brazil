@@ -215,7 +215,7 @@ class FinanRelatorioFluxoCaixa(ReportXlsxBase):
             fl.provisorio != True
             and fl.empresa_id = %(empresa_id)s
             and fl.tipo %(tipo)s ('a_receber', 'a_pagar')
-            and fl.%(periodo)s < %(data_inicial)s
+            and fl.%(periodo)s between %(data_inicial)s and %(data_final)s
 
         group by
             fc.codigo
@@ -228,6 +228,7 @@ class FinanRelatorioFluxoCaixa(ReportXlsxBase):
             'tipo': AsIs(filtro_sql.get('tipo')),
             'periodo': AsIs(filtro_sql.get('periodo')),
             'data_inicial': filtro_sql.get('data_inicial'),
+            'data_final': filtro_sql.get('data_final'),
             'empresa_id': filtro_sql.get('empresa_id'),
         }
         self.env.cr.execute(SQL_VALOR_INICIAL, filtros)
