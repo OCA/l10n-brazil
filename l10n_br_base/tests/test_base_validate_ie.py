@@ -126,9 +126,6 @@ class ValidateIETest(TransactionCase):
                     validate_ie(est, inscr_est),
                     'Error on validate %s inscr_est' % (est)
                     )
-# TODO the `%s` is not working
-# in case of `validate_ie(est, inscr_est)` False,
-# the log just show ` Error on validate %s inscr_est' % (est) `
 
     def test_inscr_valid(self):
         for est in valid_ie:
@@ -137,5 +134,3 @@ class ValidateIETest(TransactionCase):
                     validate_ie(est, inscr_est),
                     'Error on validate %s inscr_est' % (est)
                     )
-
-# TODO, idem
