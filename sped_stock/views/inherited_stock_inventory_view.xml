@@ -16,17 +16,17 @@
                 <field name="company_id" invisible="1" />
             </field>
             <field name="product_id" position="replace">
-                <field name="produto_id" domain="[('type','=','product')]" attrs="{'invisible': [('filter', 'not in', ('product', 'product_owner'))], 'required': [('filter', 'in', ('product', 'product_owner'))]}"/>
+                <field name="produto_id" domain="[('type','=','product')]" attrs="{'invisible': [('filter', 'not in', ('product', 'product_owner'))], 'required': [('filter', 'in', ('product', 'product_owner'))]}" options="{'no_create': True}" />
                 <field name="product_id" invisible="1" />
             </field>
             <field name="partner_id" position="replace">
-                <field name="participante_id" attrs="{'invisible': [('filter', 'not in', ('owner', 'product_owner'))], 'required': [('filter', 'in', ('owner', 'product_owner'))]}" groups="stock.group_tracking_owner"/>
+                <field name="participante_id" attrs="{'invisible': [('filter', 'not in', ('owner', 'product_owner'))], 'required': [('filter', 'in', ('owner', 'product_owner'))]}" groups="stock.group_tracking_owner" options="{'no_create': True}" />
                 <field name="partner_id" invisible="1" />
             </field>
 
             <!-- Adicionar campo na visão tree embutida  do stock.inventory.line -->
             <xpath expr="//tree/field[@name='product_id']" position="replace">
-                <field name="produto_id" />
+                <field name="produto_id" options="{'no_create': True}" />
             </xpath>
             <xpath expr="//tree/field[@name='product_qty']" position="after">
                 <field name="vr_unitario_custo" />
