@@ -10,7 +10,7 @@ from __future__ import division, print_function, unicode_literals
 import logging
 
 from dateutil.relativedelta import relativedelta
-from odoo import fields
+from odoo import fields, exceptions
 from odoo.exceptions import Warning
 from odoo.report import report_sxw
 from psycopg2.extensions import AsIs
