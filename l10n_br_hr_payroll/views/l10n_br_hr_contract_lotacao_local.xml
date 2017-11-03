@@ -43,6 +43,7 @@
                     <field name="contract_id" required="True"/>
                     <field name="change_date"/>
                     <field name="change_reason_id"/>
+                    <field name="state" string="Situação"/>
                 </tree>
             </field>
      </record>
@@ -53,7 +54,8 @@
         <field name="res_model">l10n_br_hr.contract.change</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('change_type','=','lotacao-local')]</field>
-        <field name="context">{'search_default_current':1, 'change_type': 'lotacao-local'}</field>
+        <field name="context">{'search_default_state_draft':1, 'change_type': 'lotacao-local'}</field>
+        <field name="search_view_id" ref="l10n_br_hr_payroll.l10n_br_hr_contract_change_remuneracao_filter"/>
     </record>
 
     <record model="ir.ui.menu" id="l10n_br_hr_contract_change_lotacao_local_menu">

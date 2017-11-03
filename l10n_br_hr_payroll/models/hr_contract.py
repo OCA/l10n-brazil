@@ -3,8 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
-from datetime import datetime
-
+from openerp import exceptions
+from datetime import datetime, timedelta
 
 class HrContract(models.Model):
 
@@ -85,44 +85,102 @@ class HrContract(models.Model):
     @api.multi
     def _buscar_salario_vigente_periodo(self, data_inicio, data_fim):
         contract_change_obj = self.env['l10n_br_hr.contract.change']
+
+        #
+        # Checa se há alterações contratuais em estado Rascunho
+        # Não continua se houver
+        #
         change = contract_change_obj.search(
             [
-                ('change_date', '>=', data_inicio),
-                ('change_date', '<=', data_fim),
-                ('wage', '>', 0),
+                ('contract_id', '=', self.id),
+                ('change_type', '=', 'remuneracao'),
+                ('state', '=', 'draft'),
             ],
             order="change_date DESC",
-            limit=1,
         )
-        return change.wage
+        if change:
+            raise exceptions.ValidationError(
+                "Há alteração de remuneração em estado Rascunho "
+                "neste contrato, por favor exclua o alteração "
+                "contratual ou Aplique-a para torná-la efetiva "
+                "antes de calcular um holerite!"
+            )
+
+        # Busca todas as alterações de remuneração deste contrato
+        #
+        change = contract_change_obj.search(
+            [
+                ('contract_id', '=', self.id),
+                ('change_type', '=', 'remuneracao'),
+                ('state', '=', 'applied'),
+            ],
+            order="change_date DESC",
+        )
+
+        # Calcular o salário proporcional dentro do período especificado
+        # Pega o salário do contrato caso nunca tenha havido uma alteração
+        # contratual
+        #
+        salario_medio = self.wage
+        for i in range(len(change)):
+
+            # Dentro deste período houve alteração contratual ?
+            #
+            if change[i].change_date >= data_inicio and \
+                change[i].change_date <= data_fim:
+                i_2 = i + 1
+                data_mudanca = \
+                    datetime.strptime(change[i].change_date, "%Y-%m-%d")
+                d_inicio = datetime.strptime(data_inicio, "%Y-%m-%d")
+                d_fim = datetime.strptime(data_fim, "%Y-%m-%d")
+
+                # Calcula o número de dias dentro do período e quantos dias
+                # são de cada lado da alteração contratual
+                #
+                dias = (d_fim - d_inicio) + timedelta(days=1)
+                dias_2 = dias.days - data_mudanca.day
+                dias_1 = (data_mudanca.day - d_inicio.day) + 1
+
+                # Calcula cada valor de salário nos dias em com valores
+                # diferentes
+                #
+                salario_dia_2 = change[i].wage / dias.days
+                salario_dia_1 = change[i_2].wage / dias.days
+                salario_medio_2 = salario_dia_2 * dias_2
+                salario_medio_1 = salario_dia_1 * dias_1
+
+                # Soma os 2 lados e temos o salário proporcional dentro
+                # do período
+                #
+                salario_medio = salario_medio_2 + salario_medio_1
+                break
+
+            # Houve alteração contratual anterior ao período atual
+            #
+            elif change[i].change_date < data_inicio:
+                salario_medio = change[i].wage
+                break
+
+        return salario_medio
 
     @api.multi
     def _salario_dia(self, data_inicio, data_fim):
-        if data_inicio >= self.date_start and \
-                (data_fim <= self.date_end or not self.date_end):
-            return self.wage / 30
-        else:
-            return self._buscar_salario_vigente_periodo(
-                data_inicio, data_fim) / 30
+        return self._salario_mes_proporcional(
+            data_inicio, data_fim) / 30
 
     @api.multi
     def _salario_hora(self, data_inicio, data_fim):
-        if data_inicio >= self.date_start and \
-                (data_fim <= self.date_end or not self.date_end):
-            return self.wage / (
-                220 if not self.monthly_hours else self.monthly_hours)
-        else:
-            wage = self._buscar_salario_vigente_periodo(data_inicio, data_fim)
-            hours_total = 220 if not self.monthly_hours else self.monthly_hours
-            return wage / hours_total
+        wage = self._salario_mes_proporcional(data_inicio, data_fim)
+        hours_total = 220 if not self.monthly_hours else self.monthly_hours
+        return wage / hours_total
 
     @api.multi
     def _salario_mes(self, data_inicio, data_fim):
-        if data_inicio >= self.date_start and \
-                (data_fim <= self.date_end or not self.date_end):
-            return self.wage
-        else:
-            return self._buscar_salario_vigente_periodo(data_inicio, data_fim)
+        return self._buscar_salario_vigente_periodo(data_inicio, data_fim)
+
+    @api.multi
+    def _salario_mes_proporcional(self, data_inicio, data_fim):
+        return self._buscar_salario_vigente_periodo(data_inicio, data_fim)
 
     specific_rule_ids = fields.One2many(
         comodel_name='hr.contract.salary.rule',

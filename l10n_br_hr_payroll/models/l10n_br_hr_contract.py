@@ -22,6 +22,7 @@ class HrContractChange(models.Model):
     _name = 'l10n_br_hr.contract.change'
     _description = u"Alteração contratual"
     _inherit = 'hr.contract'
+    _order = 'change_date desc, contract_id'
 
     def _get_default_type(self):
         change_type = self._context.get('change_type', False)
@@ -124,6 +125,7 @@ class HrContractChange(models.Model):
                         'change_reason_id': change.change_reason_id.id,
                         'wage': contract.wage,
                         'struct_id': change.struct_id.id,
+                        'state': 'applied',
                     }
                     self.env['l10n_br_hr.contract.change'].create(vals)
                 contract.wage = self.wage
@@ -140,6 +142,7 @@ class HrContractChange(models.Model):
                         'wage': contract.wage,
                         'working_hours': contract.working_hours.id,
                         'struct_id': change.struct_id.id,
+                        'state': 'applied',
                     }
                     self.env['l10n_br_hr.contract.change'].create(vals)
                 contract.working_hours = self.working_hours
@@ -161,6 +164,7 @@ class HrContractChange(models.Model):
                         'labor_bond_type_id': contract.labor_bond_type_id.id,
                         'labor_regime_id': contract.labor_regime_id.id,
                         'struct_id': change.struct_id.id,
+                        'state': 'applied',
                     }
                     self.env['l10n_br_hr.contract.change'].create(vals)
                 contract.job_id = self.job_id
@@ -184,6 +188,7 @@ class HrContractChange(models.Model):
                             contract.discount_union_contribution,
                         'month_base_date': contract.month_base_date,
                         'struct_id': change.struct_id.id,
+                        'state': 'applied',
                     }
                     self.env['l10n_br_hr.contract.change'].create(vals)
                 contract.union = self.union

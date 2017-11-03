@@ -5,6 +5,27 @@
 <openerp>
 <data>
 
+     <record id="l10n_br_hr_contract_change_remuneracao_filter" model="ir.ui.view">
+            <field name="name">l10n_br_hr.contract.change.form (searches)</field>
+            <field name="model">l10n_br_hr.contract.change</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Alterações Contratuais">
+                    <field name="state" />
+                    <field name="change_date" />
+                    <field name="change_reason_id" />
+                    <field name="user_id" />
+                    <filter name="state_draft" string="Rascunho" domain="[('state', '=', 'draft')]" />
+                    <filter name="state_applied" string="Aplicada" domain="[('state', '=', 'applied')]" />
+                    <group expand="0" string="Group By">
+                        <filter string="Situação" name="state" context="{'group_by': 'state'}" />
+                        <filter string="Data" name="change_date" context="{'group_by': 'change_date'}" />
+                        <filter string="Motivo" name="change_reason_id" context="{'group_by': 'change_reason_id'}" />
+                        <filter string="Alterado por" name="user_id" context="{'group_by': 'user_id'}" />
+                    </group>
+                </search>
+            </field>
+     </record>
+
      <record id="l10n_br_hr_contract_change_remuneracao_form" model="ir.ui.view">
             <field name="name">l10n_br_hr.contract.change.form (remuneracao)</field>
             <field name="model">l10n_br_hr.contract.change</field>
@@ -50,6 +71,7 @@
                     <field name="wage"/>
                     <field name="salary_unit"/>
                     <field name="struct_id"/>
+                    <field name="state" string="Situação"/>
                 </tree>
             </field>
      </record>
@@ -59,8 +81,10 @@
         <field name="res_model">l10n_br_hr.contract.change</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('change_type','=','remuneracao')]</field>
-        <field name="context">{'search_default_current':1, 'change_type': 'remuneracao'}</field>
+        <field name="context">{'search_default_state_draft':1, 'change_type': 'remuneracao'}</field>
+        <field name="search_view_id" ref="l10n_br_hr_payroll.l10n_br_hr_contract_change_remuneracao_filter"/>
     </record>
+
     <record model="ir.actions.act_window.view" id="l10n_br_hr_contract_change_remuneracao_tree_action">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>

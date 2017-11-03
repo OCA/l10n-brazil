@@ -49,13 +49,14 @@
             <field name="arch" type="xml">
                 <tree string="Alterações contratual: Filiação Sindical">
                     <field name="contract_id" required="True"/>
-                        <field name="change_date"/>
-                        <field name="change_reason_id"/>
-                        <field name="union"/>
-                        <field name="union_cnpj"/>
-                        <field name="union_entity_code"/>
-                        <field name="discount_union_contribution"/>
-                        <field name="month_base_date"/>
+                    <field name="change_date"/>
+                    <field name="change_reason_id"/>
+                    <field name="union"/>
+                    <field name="union_cnpj"/>
+                    <field name="union_entity_code"/>
+                    <field name="discount_union_contribution"/>
+                    <field name="month_base_date"/>
+                    <field name="state" string="Situação"/>
                 </tree>
             </field>
     </record>
@@ -66,7 +67,8 @@
         <field name="res_model">l10n_br_hr.contract.change</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('change_type','=','filiacao-sindical')]</field>
-        <field name="context">{'search_default_current':1, 'change_type': 'filiacao-sindical'}</field>
+        <field name="context">{'search_default_state_draft':1, 'change_type': 'filiacao-sindical'}</field>
+        <field name="search_view_id" ref="l10n_br_hr_payroll.l10n_br_hr_contract_change_remuneracao_filter"/>
     </record>
 
     <record model="ir.ui.menu" id="l10n_br_hr_contract_change_filiacao_sindical_menu">

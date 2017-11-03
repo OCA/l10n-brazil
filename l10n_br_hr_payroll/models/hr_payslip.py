@@ -24,7 +24,7 @@ except ImportError:
 MES_DO_ANO = [
     (1, u'Janeiro'),
     (2, u'Fevereiro'),
-    (3, u'Marco'),
+    (3, u'Março'),
     (4, u'Abril'),
     (5, u'Maio'),
     (6, u'Junho'),
@@ -40,7 +40,7 @@ MES_DO_ANO = [
 MES_DO_ANO2 = [
     (1, u'Janeiro'),
     (2, u'Fevereiro'),
-    (3, u'Marco'),
+    (3, u'Março'),
     (4, u'Abril'),
     (5, u'Maio'),
     (6, u'Junho'),
@@ -531,6 +531,18 @@ class HrPayslip(models.Model):
         #store=True,
     )
 
+    data_inicio_periodo_aquisitivo = fields.Date(
+        string="Inicio do Período Aquisitivo",
+        related="periodo_aquisitivo.inicio_aquisitivo",
+        store=True,
+    )
+
+    data_fim_periodo_aquisitivo = fields.Date(
+        string="Fim do Período Aquisitivo",
+        related="periodo_aquisitivo.fim_aquisitivo",
+        store=True,
+    )
+
     # Rescisão
     data_afastamento = fields.Date(
         string="Data do afastamento"
@@ -731,25 +743,28 @@ class HrPayslip(models.Model):
         salario_mes_dic = {
             'name': 'Salário Mês',
             'code': 'SALARIO_MES',
-            'amount': contract._salario_mes(date_from, date_to) if not
-            self.medias_proventos else self.medias_proventos[0].media,
+            'amount': contract._salario_mes(date_from, date_to),
             'contract_id': contract.id,
         }
         salario_dia_dic = {
             'name': 'Salário Dia',
             'code': 'SALARIO_DIA',
-            'amount': contract._salario_dia(date_from, date_to)if not
-            self.medias_proventos else self.medias_proventos[0].media / 30,
+            'amount': contract._salario_dia(date_from, date_to),
             'contract_id': contract.id,
         }
         salario_hora_dic = {
             'name': 'Salário Hora',
             'code': 'SALARIO_HORA',
-            'amount': contract._salario_hora(date_from, date_to)
-            if not self.medias_proventos
-            else self.medias_proventos[0].media / 220,
+            'amount': contract._salario_hora(date_from, date_to),
             'contract_id': contract.id,
         }
+        salario_mes_proporcional_dic = {
+            'name': 'Salário Mês Proporcional',
+            'code': 'SALARIO_MES_PROPORCIONAL',
+            'amount': contract._salario_mes_proporcional(date_from, date_to),
+            'contract_id': contract.id,
+        }
+        res += [salario_mes_proporcional_dic]
         res += [salario_mes_dic]
         res += [salario_dia_dic]
         res += [salario_hora_dic]
@@ -961,7 +976,7 @@ class HrPayslip(models.Model):
             ('date_from', '>=', payslip.date_from),
             ('date_from', '<=', payslip.date_to),
             ('contract_id', '=', payslip.contract_id.id),
-            ('state', '=', 'done')
+            ('state', 'in', ['done', 'verify'])
         ])
         if holerite_ferias:
             for line in holerite_ferias.line_ids:
@@ -982,7 +997,7 @@ class HrPayslip(models.Model):
             ('date_from', '>=', payslip.date_from),
             ('date_from', '<=', payslip.date_to),
             ('contract_id', '=', payslip.contract_id.id),
-            ('state', '=', 'done'),
+            ('state', 'in', ['done', 'verify']),
             ('is_simulacao', '=', False)
         ])
         if holerite_ferias:
@@ -1260,7 +1275,7 @@ class HrPayslip(models.Model):
                         ('is_simulacao', '=', True),
                         ('mes_do_ano', '=', mes_verificacao),
                         ('ano', '=', ano_verificacao),
-                        ('state', '=', 'done'),
+                        ('state', 'in', ['done', 'verify']),
                     ]
                 )
             else:
@@ -1277,7 +1292,7 @@ class HrPayslip(models.Model):
                     ('is_simulacao', '=', True),
                     ('mes_do_ano', '=', mes_verificacao),
                     ('ano', '=', ano_verificacao),
-                    ('state', '=', 'done'),
+                    ('state', 'in', ['done', 'verify']),
                 ]
 
                 domain.append(
@@ -1301,7 +1316,7 @@ class HrPayslip(models.Model):
                 ('is_simulacao', '=', True),
                 ('mes_do_ano', '=', mes_verificacao),
                 ('ano', '=', ano_verificacao),
-                ('state', '=', 'done'),
+                ('state', 'in', ['done', 'verify']),
             ]
             domain.append(
                 ('periodo_aquisitivo', '=',
@@ -1476,7 +1491,7 @@ class HrPayslip(models.Model):
         domain = [
             ('tipo_de_folha', '=', tipo_de_folha),
             ('contract_id', '=', self.contract_id.id),
-            ('state', '=', 'done')
+            ('state', 'in', ['done', 'verify'])
         ]
         if mes and mes > 0:
             domain.append(('mes_do_ano', '=', mes))
@@ -1788,7 +1803,7 @@ class HrPayslip(models.Model):
                         line.total)
 
                     if line.category_id.code == 'DEDUCAO':
-                       if line.salary_rule_id.compoe_base_INSS:
+                       if line.salary_rule_id.compoeq:
                            baselocaldict['BASE_INSS'] -= line.total
                        if line.salary_rule_id.compoe_base_IR:
                            baselocaldict['BASE_IR'] -= line.total
@@ -2126,7 +2141,7 @@ class HrPayslip(models.Model):
                      self.periodo_aquisitivo.inicio_aquisitivo),
                     ('date_to', '<=', self.periodo_aquisitivo.fim_aquisitivo),
                     ('tipo_de_folha', '=', 'normal'),
-                    ('state', '=', 'done'),
+                    ('state', 'in', ['done', 'verify']),
                 ]
             )
             return payslips
@@ -2137,7 +2152,7 @@ class HrPayslip(models.Model):
             [
                 ('contract_id', '=', self.contract_id.id),
                 ('tipo_de_folha', '=', 'normal'),
-                ('state', '=', 'done')
+                ('state', 'in', ['done', 'verify'])
             ]
         )
 
@@ -2299,7 +2314,7 @@ class HrPayslip(models.Model):
             ('date_from', '<=', data_fim),
             ('contract_id', '=', contrato.id),
             ('tipo_de_folha', '=', 'normal'),
-            ('state', '=', 'done'),
+            ('state', 'in', ['done', 'verify']),
         ]
         folhas_periodo = folha_obj.search(domain)
 
@@ -2411,7 +2426,7 @@ class HrPayslip(models.Model):
                     ('is_simulacao', '=', True),
                     ('mes_do_ano', '=', self.mes_do_ano),
                     ('ano', '=', ano_verificacao),
-                    ('state', '=', 'done'),
+                    ('state', 'in', ['done', 'verify']),
                 ]
             )
         else:
@@ -2431,7 +2446,7 @@ class HrPayslip(models.Model):
                     ('ano', '=', ano_verificacao),
                     ('periodo_aquisitivo', '=',
                      periodos_ferias_simulacao[0].id),
-                    ('state', '=', 'done'),
+                    ('state', 'in', ['done', 'verify']),
                 ]
             )
         if not payslip_simulacao:

@@ -55,6 +55,7 @@
                 <field name="admission_type_id"/>
                 <field name="labor_bond_type_id"/>
                 <field name="labor_regime_id"/>
+                <field name="state" string="Situação" />
             </tree>
         </field>
     </record>
@@ -64,7 +65,8 @@
         <field name="res_model">l10n_br_hr.contract.change</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('change_type','=','cargo-atividade')]</field>
-        <field name="context">{'search_default_current':1, 'change_type': 'cargo-atividade'}</field>
+        <field name="context">{'search_default_state_draft':1, 'change_type': 'cargo-atividade'}</field>
+        <field name="search_view_id" ref="l10n_br_hr_payroll.l10n_br_hr_contract_change_remuneracao_filter"/>
     </record>
 
     <record model="ir.ui.menu" id="l10n_br_hr_contract_change_cargo_atividade_menu">
