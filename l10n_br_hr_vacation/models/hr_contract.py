@@ -129,10 +129,57 @@ class HrContract(models.Model):
     def action_button_update_controle_ferias(self):
         """
         Ação disparada pelo botão na view, que atualiza as linhas de controle
-        de férias desde que nao contenham férias atreladas a elas
+        de férias
         """
-        self.verificar_controle_ferias()
-        self.atualizar_linhas_controle_ferias(self.date_start)
+
+        for contrato in self:
+
+            # Apagar todos os períodos aquisitivos do contrato
+            #
+            for periodo_aquisitivo in contrato.vacation_control_ids:
+                periodo_aquisitivo.unlink()
+
+            # Criar os períodos aquisitivos
+            #
+            inicio = fields.Date.from_string(contrato.date_start)
+            hoje = fields.Date.from_string(fields.Date.today())
+            lista_controle_ferias = []
+            controle_ferias_obj = self.env['hr.vacation.control']
+
+            while inicio <= hoje:
+                vals = \
+                    controle_ferias_obj.calcular_datas_aquisitivo_concessivo(
+                        str(inicio)
+                    )
+                controle_ferias = controle_ferias_obj.create(vals)
+                inicio = inicio + relativedelta(years=1)
+                lista_controle_ferias.append(controle_ferias.id)
+            self.vacation_control_ids = sorted(lista_controle_ferias,
+                                               reverse=True)
+
+            # Buscar Férias registradas e atualizar os períodos aquisitivos
+            #
+            domain = [
+                ('contract_id', '=', contrato.id),
+                ('tipo_de_folha', '=', 'ferias'),
+                ('is_simulacao', '=', False),
+                ('state', 'in', ['done', 'verify']),
+            ]
+            holerites_ids = \
+                self.env['hr.payslip'].search(domain, order='date_from')
+
+            #for holerite in holerites_ids:
+
+
+            # Atualizar último periodo aquisitivo caso a data de demissão
+            # esteja definida
+            #
+            self.atualizar_data_demissao()
+
+
+
+
+            # self.atualizar_linhas_controle_ferias(self.date_start)
 
     @api.multi
     def atualizar_linhas_controle_ferias(self, date_start):

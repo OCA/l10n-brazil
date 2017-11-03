@@ -10,7 +10,7 @@ from openerp import api, models, fields
 
 class HrVacationControl(models.Model):
     _name = 'hr.vacation.control'
-    _order = 'inicio_aquisitivo desc'
+    _order = 'inicio_aquisitivo desc, inicio_gozo desc'
     _rec_name = 'display_name'
 
     inicio_aquisitivo = fields.Date(
@@ -118,6 +118,7 @@ class HrVacationControl(models.Model):
         column1='hr_vacation_control_id',
         column2='holiday_id',
         string=u'Período Aquisitivo',
+        ondelete='set null',
     )
 
     display_name = fields.Char(
@@ -275,12 +276,12 @@ class HrVacationControl(models.Model):
         for controle in self:
             controle.gerar_holidays_ferias()
 
-    @api.multi
-    def unlink(self):
-        """
-        Se excluir o controle de ferias, excluir todos os holidays atrelados
-        FIXTO: utilizar o ondelete=cascade na definição do campo
-        """
-        for holidays in self.hr_holiday_ids:
-            holidays.unlink()
-        return super(HrVacationControl, self).unlink()
+    # @api.multi
+    # def unlink(self):
+    #     """
+    #    Se excluir o controle de ferias, excluir todos os holidays atrelados
+    #     FIXTO: utilizar o ondelete=cascade na definição do campo
+    #    """
+    #     for holidays in self.hr_holiday_ids:
+    #        holidays.unlink()
+    #     return super(HrVacationControl, self).unlink()
