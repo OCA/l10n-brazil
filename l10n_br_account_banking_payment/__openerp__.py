@@ -14,6 +14,7 @@
     'depends': [
         'l10n_br_account',
         'account_banking_payment_export',
+        'account_due_list',
     ],
     'data': [
         'views/account_due_list.xml',
