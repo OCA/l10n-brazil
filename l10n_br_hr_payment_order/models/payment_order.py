@@ -106,7 +106,7 @@ class PaymentOrder(models.Model):
                     banco_holerite = False
             else:
                 banco_holerite = \
-                    line.slip_id.employee_id.bank_account_id.bank.id,
+                    line.slip_id.employee_id.bank_account_id.bank.id
 
             if banco_holerite and banco == banco_holerite:
                 vals = self._prepare_folha_payment_line(line)
