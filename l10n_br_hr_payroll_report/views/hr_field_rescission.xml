@@ -1,0 +1,46 @@
+<openerp>
+    <data>
+
+        <record id="hr_field_rescission_tree_view" model="ir.ui.view">
+            <field name="name">hr_field_rescission_tree</field>
+            <field name="model">hr.field.rescission</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="codigo_fmt" string="codigo"/>
+                    <field name="descricao" string="descrição"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hr_field_rescission_form_view" model="ir.ui.view">
+            <field name="name">hr_field_rescission_form</field>
+            <field name="model">hr.field.rescission</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="codigo"/>
+                            <field name="descricao"/>
+                            <field name="variaveis"/>
+                            <field name="rule" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_field_rescission"
+                    name="Campos de Rescisão"
+                    res_model="hr.field.rescission"
+                    view_mode="tree,form"
+        />
+        <menuitem id="menu_field_rescission"
+                  name="Campos de Rescisão"
+                  action="action_field_rescission"
+                  groups="base.group_hr_user"
+                  parent="hr_payroll.payroll_configure"
+                  sequence="200"
+        />
+
+    </data>
+</openerp>
