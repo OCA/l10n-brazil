@@ -108,7 +108,7 @@ class PaymentOrder(models.Model):
                 banco_holerite = \
                     line.slip_id.employee_id.bank_account_id.bank.id,
 
-            if banco == banco_holerite:
+            if banco and banco == banco_holerite:
                 vals = self._prepare_folha_payment_line(line)
                 self.env['payment.line'].create(vals)
 
