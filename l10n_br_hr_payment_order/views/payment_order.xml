@@ -28,13 +28,18 @@
                 </div>
             </xpath>
 
+            <field name="date_scheduled" position="after">
+                <field name="mesmo_banco"/>
+                <field name="total"/>
+            </field>
+
             <xpath expr="//group[@name='informacoes_especificas_linha']" position="inside">
                 <field name="payslip_id" invisible="1" />
             </xpath>
 
             <xpath expr="//notebook" position="inside">
                 <page string="Holerites">
-                    <field name="hr_payslip_ids">
+                    <field name="hr_payslip_ids" readonly="1">
                         <tree>
                             <field name="number" />
                             <field name="contract_id" />
@@ -49,6 +54,14 @@
 
             <field name="date_scheduled" position="attributes">
                 <attribute name="required">1</attribute>
+            </field>
+
+            <field name="user_id" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </field>
+
+            <field name="mode" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
             </field>
 
         </field>

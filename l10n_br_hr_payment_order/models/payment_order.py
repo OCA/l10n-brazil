@@ -27,6 +27,11 @@ class PaymentOrder(models.Model):
         states={'draft': [('readonly', False)]},
     )
 
+    mesmo_banco = fields.Boolean(
+        string="Somente para Mesmo Banco ?",
+        default=True,
+    )
+
     @api.multi
     def _prepare_folha_payment_line(self, line):
         self.ensure_one()
@@ -38,9 +43,14 @@ class PaymentOrder(models.Model):
         # Seta no Holerite em qual remessa esta o pagamento
         line.slip_id.payment_order_id = self.id
 
+        if line.partner_id != line.slip_id.employee_id.address_home_id:
+            banco = line.partner_id.bank_ids[0].id,
+        else:
+            banco = line.slip_id.employee_id.bank_account_id.id,
+
         res = {
             'amount_currency': amount_currency,
-            'bank_id': line.slip_id.employee_id.bank_account_id.id,
+            'bank_id': banco,
             'order_id': self.id,
             'partner_id': line.partner_id and line.partner_id.id or False,
             # account banking
@@ -64,6 +74,10 @@ class PaymentOrder(models.Model):
             _prepare_financial_payment_line
         3. Criar
         """
+
+        # Identifica o banco de pagamento
+        banco = self.mode.bank_id.bank.id
+
         self.line_ids.unlink()
         self.hr_payslip_ids = False
 
@@ -83,7 +97,16 @@ class PaymentOrder(models.Model):
 
         # Populate the current payment with new lines:
         for line in payslip_line_ids:
-            vals = self._prepare_folha_payment_line(line)
-            self.env['payment.line'].create(vals)
+
+            # Identifica o banco de pagamento do holerite
+            if line.partner_id != line.slip_id.employee_id.address_home_id:
+                banco_holerite = line.partner_id.bank_ids[0].bank.id
+            else:
+                banco_holerite = \
+                    line.slip_id.employee_id.bank_account_id.bank.id,
+
+            if banco == banco_holerite:
+                vals = self._prepare_folha_payment_line(line)
+                self.env['payment.line'].create(vals)
 
         return
