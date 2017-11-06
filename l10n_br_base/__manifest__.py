@@ -28,12 +28,6 @@
         'demo/l10n_br_base_demo.xml',
         'demo/res_partner_demo.xml',
     ],
-    'test': [
-        'test/base_inscr_est_valid.yml',
-        'test/base_inscr_est_invalid.yml',
-        'test/res_partner_test.yml',
-        'test/res_company_test.yml',
-    ],
     'installable': True,
     'auto_install': False,
     'external_dependencies': {
