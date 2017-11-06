@@ -100,7 +100,10 @@ class PaymentOrder(models.Model):
 
             # Identifica o banco de pagamento do holerite
             if line.partner_id != line.slip_id.employee_id.address_home_id:
-                banco_holerite = line.partner_id.bank_ids[0].bank.id
+                if line.partner_id.bank_ids:
+                    banco_holerite = line.partner_id.bank_ids[0].bank.id
+                else:
+                    banco_holerite = False
             else:
                 banco_holerite = \
                     line.slip_id.employee_id.bank_account_id.bank.id,
