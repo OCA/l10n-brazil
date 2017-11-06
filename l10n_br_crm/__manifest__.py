@@ -18,9 +18,6 @@
         'views/crm_opportunity_view.xml',
     ],
     'demo': [],
-    'test': [
-        'test/crm_lead.yml',
-    ],
     'installable': True,
     'auto_install': True,
 }
