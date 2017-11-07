@@ -183,6 +183,9 @@ class FinanLancamento(SpedBase, models.Model):
     #
     # Valores do lançamento
     #
+    vr_movimentado = fields.Monetary(
+        string='Valor movimentado',
+    )
     vr_documento = fields.Monetary(
         string='Valor do documento',
     )
@@ -565,7 +568,6 @@ class FinanLancamento(SpedBase, models.Model):
             vr_quitado_total = D(0)
 
             vr_total = D(lancamento.vr_total)
-            vr_saldo = D(0)
 
             if lancamento.tipo in FINAN_TIPO_DIVIDA:
                 for pagamento in lancamento.pagamento_ids:
@@ -812,6 +814,50 @@ class FinanLancamento(SpedBase, models.Model):
                         'adiantamento não pode ser maior do que o valor '
                         'do documento!')
 
+    @api.onchange('vr_movimentado', 'vr_documento',
+                  'vr_juros', 'vr_multa', 'vr_adiantado', 'vr_outros_creditos',
+                  'vr_desconto', 'vr_tarifas', 'vr_baixado',
+                  'vr_outros_debitos')
+    def _onchange_vr_movimentado(self):
+        for lancamento in self:
+            diferenca = D(lancamento.vr_movimentado)
+            diferenca -= D(lancamento.vr_documento)
+            diferenca -= D(lancamento.vr_juros)
+            diferenca -= D(lancamento.vr_multa)
+            diferenca -= D(lancamento.vr_outros_creditos)
+            diferenca += D(lancamento.vr_tarifas)
+            diferenca += D(lancamento.vr_baixado)
+            diferenca += D(lancamento.vr_outros_debitos)
+
+            adiantamento = D(0)
+            if lancamento.tipo == FINAN_RECEBIMENTO:
+                if self.participante_id.adiantamento_a_pagar:
+                    if self.participante_id.adiantamento_a_pagar <= \
+                            self.vr_documento:
+                        adiantamento = \
+                            self.participante_id.adiantamento_a_pagar * -1
+                    else:
+                        adiantamento = self.vr_documento * -1
+
+            elif lancamento.tipo == FINAN_DIVIDA_A_PAGAR:
+                if self.participante_id.adiantamento_a_receber:
+                    if self.participante_id.adiantamento_a_receber <= \
+                            self.vr_documento:
+                        adiantamento = \
+                            self.participante_id.adiantamento_a_receber * -1
+                    else:
+                        adiantamento = self.vr_documento * -1
+
+            if adiantamento:
+                lancamento.vr_adiantado = adiantamento
+
+            elif diferenca > 0:
+                lancamento.vr_adiantado = diferenca
+                lancamento.vr_desconto = D(0)
+
+            else:
+                lancamento.vr_adiantado = D(0)
+                lancamento.vr_desconto = diferenca * -1
 
     #@api.model
     #def _avaliable_transition(self, old_state, new_state):
@@ -825,6 +871,9 @@ class FinanLancamento(SpedBase, models.Model):
 
     def _verifica_ajusta_extrato_saldo(self, bancos={}):
         for lancamento in self:
+            if lancamento._name != 'finan.lancamento':
+                continue
+
             if not (lancamento.tipo in FINAN_LANCAMENTO_ENTRADA or \
                 lancamento.tipo in FINAN_LANCAMENTO_SAIDA):
                 continue
@@ -962,20 +1011,57 @@ class FinanLancamento(SpedBase, models.Model):
         )
 
     @api.multi
-    def create_lancamento(self):
-        if not self.id:
-            super(FinanLancamento, self).create()
+    def cria_pagamento(self):
+        #if not self.id:
+            #super(FinanLancamento, self).create()
         context = dict(self.env.context)
 
-        form = self.env.ref(
-            'finan.finan_lancamento_pagamento_one2many_recebimento2_form',
-            True
-        )
+        dados = {
+            'conta_id': self.conta_id.id,
+            'empresa_id': self.empresa_id.id,
+            'participante_id': self.participante_id.id,
+            'vr_documento': self.vr_saldo,
+            'vr_movimentado': self.vr_saldo,
+            'data_pagamento': str(hoje()),
+            'divida_id': self.id,
+        }
+
+        if self.tipo == FINAN_DIVIDA_A_RECEBER:
+            form = self.env.ref(
+                'finan.finan_lancamento_novo_recebimento_form',
+                True
+            )
+            dados['tipo'] = FINAN_RECEBIMENTO
+            if self.participante_id.adiantamento_a_pagar:
+                if self.participante_id.adiantamento_a_pagar <= \
+                    self.vr_saldo:
+                    dados['vr_adiantado'] = \
+                        self.participante_id.adiantamento_a_pagar * -1
+                else:
+                    dados['vr_adiantado'] = self.vr_saldo * -1
+
+        else:
+            form = self.env.ref(
+                'finan.finan_lancamento_novo_pagamento_form',
+                True
+            )
+            dados['tipo'] = FINAN_PAGAMENTO
+            if self.participante_id.adiantamento_a_receber:
+                if self.participante_id.adiantamento_a_receber <= \
+                    self.vr_saldo:
+                    dados['vr_adiantado'] = \
+                        self.participante_id.adiantamento_a_receber * -1
+                else:
+                    dados['vr_adiantado'] = self.vr_saldo * -1
+
+        wizard = self.env['finan.lancamento.wizard'].create(dados)
+
         return {
             'view_type': 'form',
             'view_id': [form.id],
             'view_mode': 'form',
             'res_model': 'finan.lancamento.wizard',
+            'res_id': wizard.id,
             'views': [(form.id, 'form')],
             'type': 'ir.actions.act_window',
             'target': 'new',

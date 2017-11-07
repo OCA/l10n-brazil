@@ -22,7 +22,13 @@
                 <attribute name="string">Valores recebidos</attribute>
             </xpath>
             <field name="vr_documento" position="attributes">
-                <attribute name="string">Valor recebido</attribute>
+                <attribute name="string">Valor abatido</attribute>
+            </field>
+            <field name="vr_total" position="attributes">
+                <attribute name="string">(=) Total recebido</attribute>
+            </field>
+            <field name="vr_movimentado" position="attributes">
+                <attribute name="string">Total recebido</attribute>
             </field>
         </field>
     </record>
@@ -34,7 +40,10 @@
         <field name="inherit_id" ref="finan_lancamento_pagamento_one2many_base_tree" />
         <field name="arch" type="xml">
             <field name="vr_documento" position="attributes">
-                <attribute name="string">Valor recebido</attribute>
+                <attribute name="string">Valor abatido</attribute>
+            </field>
+            <field name="vr_total" position="attributes">
+                <attribute name="string">Total recebido</attribute>
             </field>
             <field name="data_credito_debito" position="attributes">
                 <attribute name="string">Data de crédito</attribute>

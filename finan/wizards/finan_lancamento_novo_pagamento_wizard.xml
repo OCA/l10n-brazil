@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Bruna Maria Braga <bruna.braga@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="finan_lancamento_novo_recebimento_form">
+        <field name="name">finan.lancamento.novo.recebimento.form</field>
+        <field name="model">finan.lancamento.wizard</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="finan_lancamento_pagamento_one2many_recebimento_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_chatter']" position="after">
+                <footer>
+                    <button name="create_lancamento"
+                            string="Criar"
+                            class='btn-primary oe_highlight'
+                            type='object'/>
+                    or
+                    <button string='Cancel'
+                            class='btn-default oe_link'
+                            special='cancel'/>
+                </footer>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="finan_lancamento_novo_pagamento_form">
+        <field name="name">finan.lancamento.novo.pagamento.form</field>
+        <field name="model">finan.lancamento.wizard</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="finan_lancamento_pagamento_one2many_pagamento_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_chatter']" position="after">
+                <footer>
+                    <button name="create_lancamento"
+                            string="Criar"
+                            class='btn-primary oe_highlight'
+                            type='object'/>
+                    or
+                    <button string='Cancel'
+                            class='btn-default oe_link'
+                            special='cancel'/>
+                </footer>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

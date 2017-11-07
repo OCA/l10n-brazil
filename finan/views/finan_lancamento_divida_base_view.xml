@@ -118,7 +118,7 @@
                     </group>
                     <notebook>
                         <page string="Pagamentos" name="pagamentos">
-                            <field name="pagamento_ids" context="{'default_conta_id': conta_id, 'default_empresa_id': empresa_id, 'default_participante_id': participante_id, 'default_vr_documento': vr_saldo,
+                            <field name="pagamento_ids" context="{'default_conta_id': conta_id, 'default_empresa_id': empresa_id, 'default_participante_id': participante_id, 'default_vr_movimentado': vr_saldo, 'default_vr_documento': vr_saldo,
  'form_view_ref': 'finan.finan_lancamento_pagamento_one2many_base_form', 'tree_view_ref': 'finan.finan_lancamento_pagamento_one2many_base_tree'}"
                             attrs="{'readonly': [('state', 'in', ['draft', 'cancelled'])]}" />
                         </page>

@@ -87,6 +87,7 @@
                             <group name="valores">
                                 <separator name="valores_pagos" string="Valores pagos" />
                                 <group name="valores_pagos" colspan="2" class="oe_center">
+                                    <field name="vr_movimentado" string="Valor" required="1" />
                                     <field name="vr_documento" string="Valor" required="1" />
                                     <field name="vr_juros" string="(+) Juros" />
                                     <field name="vr_multa" string="(+) Multa" />
