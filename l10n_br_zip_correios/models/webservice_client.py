@@ -28,8 +28,7 @@ class WebServiceClient(object):
 
     def __init__(self, l10n_br_zip_record):
         self.obj_zip = l10n_br_zip_record
-        self.url = 'https://apps.correios.com.br/SigepMasterJPA' \
-                   '/AtendeClienteService/AtendeCliente?wsdl'
+        self.url = 'https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl' # noqa
 
     def search_zip_code(self, cep):
         return Client(self.url).service.consultaCEP(cep)

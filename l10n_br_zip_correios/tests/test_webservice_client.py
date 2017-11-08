@@ -6,10 +6,10 @@ import mock
 from suds import WebFault
 from suds.client import TransportError
 
-from openerp.tests.common import TransactionCase
-from openerp.exceptions import Warning as UserError
+from odoo.tests.common import TransactionCase
+from odoo.exceptions import Warning as UserError
 
-from openerp.addons.l10n_br_zip_correios.models.webservice_client\
+from odoo.addons.l10n_br_zip_correios.models.webservice_client\
     import WebServiceClient
 
 
@@ -56,7 +56,7 @@ class TestWebServiceClient(TransactionCase):
         self.assertEqual(record.district, bairro,
                          'Get address returns wrong neighborhood')
 
-        mock_api_call.side_effect = UserError("", "")
+        mock_api_call.side_effect = UserError("")
         self.assertRaises(UserError, web_client.get_address, 70002901)
 
         self.assertEqual(web_client.get_address('70002900'), None,
