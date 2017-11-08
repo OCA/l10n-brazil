@@ -806,6 +806,10 @@ class SpedDocumento(SpedBase, models.Model):
         string='Permite cancelamento?',
         compute='_compute_permite_cancelamento',
     )
+    permite_inutilizacao = fields.Boolean(
+        string='Permite inutilização?',
+        compute='_compute_permite_inutilizacao',
+    )
 
     @api.depends('emissao', 'entrada_saida', 'modelo', 'serie', 'numero',
                  'data_emissao', 'participante_id')
@@ -842,6 +846,11 @@ class SpedDocumento(SpedBase, models.Model):
     def _compute_permite_cancelamento(self):
         for documento in self:
             documento.permite_cancelamento = True
+
+    @api.depends('modelo', 'emissao')
+    def _compute_permite_inutilizacao(self):
+        for documento in self:
+            documento.permite_inutilizacao = True
 
     @api.depends('data_hora_emissao', 'data_hora_entrada_saida')
     def _compute_data_hora_separadas(self):
@@ -1294,7 +1303,7 @@ class SpedDocumento(SpedBase, models.Model):
     def executa_antes_cancelar(self):
         #
         # Este método deve ser alterado por módulos integrados, para realizar
-        # tarefas de integração necessárias antes de autorizar uma NF-e;
+        # tarefas de integração necessárias antes de cancelar uma NF-e;
         # não confundir com o método _compute_permite_cancelamento, que indica
         # se o botão de cancelamento vai estar disponível para o usuário na
         # interface
@@ -1305,6 +1314,25 @@ class SpedDocumento(SpedBase, models.Model):
         #
         # Este método deve ser alterado por módulos integrados, para realizar
         # tarefas de integração necessárias depois de cancelar uma NF-e,
+        # por exemplo, excluir lançamentos financeiros, movimentações de
+        # estoque etc.
+        #
+        self.ensure_one()
+
+    def executa_antes_inutilizar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias antes de inutilizar uma NF-e;
+        # não confundir com o método _compute_permite_cancelamento, que indica
+        # se o botão de cancelamento vai estar disponível para o usuário na
+        # interface
+        #
+        self.ensure_one()
+
+    def executa_depois_inutilizar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias depois de inutilizar uma NF-e,
         # por exemplo, excluir lançamentos financeiros, movimentações de
         # estoque etc.
         #
