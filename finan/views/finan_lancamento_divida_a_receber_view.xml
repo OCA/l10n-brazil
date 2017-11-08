@@ -13,7 +13,7 @@
         <field name="inherit_id" ref="finan_lancamento_divida_base_form" />
         <field name="arch" type="xml">
             <xpath expr="//button[@name='confirma_lancamento']" position="before">
-                <button name="create_lancamento" string="Novo recebimento" class="btn-primary" type="object"
+                <button name="cria_pagamento" string="Novo recebimento" class="btn-primary" type="object"
                     attrs="{'invisible': ['|', ('provisorio', '=', True), ('situacao_divida', 'in', ['quitado', 'baixado', 'baixado_parcialmente'])]}"
                     context="{'default_divida_id': id, 'default_tipo': 'recebimento', 'default_conta_id': conta_id, 'default_empresa_id': empresa_id, 'default_participante_id': participante_id, 'default_vr_documento': vr_saldo}" />
 
@@ -57,7 +57,7 @@
             </page>
             <field name="pagamento_ids" position="attributes">
                 <attribute name="context">{
-                    'default_tipo': 'recebimento', 'default_conta_id': conta_id, 'default_empresa_id': empresa_id, 'default_participante_id': participante_id, 'default_vr_documento': vr_saldo,
+                    'default_tipo': 'recebimento', 'default_conta_id': conta_id, 'default_empresa_id': empresa_id, 'default_participante_id': participante_id, 'default_vr_documento': vr_saldo, 'default_vr_movimentado': vr_saldo,
                     'form_view_ref': 'finan.finan_lancamento_pagamento_one2many_recebimento_form', 'tree_view_ref': 'finan.finan_lancamento_pagamento_one2many_recebimento_tree'
                 }</attribute>
             </field>

@@ -17,4 +17,4 @@ from . import finan_relatorio_wizard
 #from . import report_xlsx_financial_moves_states_wizard
 #from . import report_xlsx_financial_defaults_wizard
 #from . import report_xlsx_financial_partner_statement_wizard
-from . import wizard_finan_lancamento
+from . import finan_lancamento_novo_pagamento_wizard
