@@ -63,6 +63,18 @@ class SpedDocumento(models.Model):
         ondelete='restrict',
         copy=False,
     )
+    arquivo_xml_inutilizacao_id = fields.Many2one(
+        comodel_name='ir.attachment',
+        string='XML de inutilização',
+        ondelete='restrict',
+        copy=False,
+    )
+    arquivo_xml_autorizacao_inutilizacao_id = fields.Many2one(
+        comodel_name='ir.attachment',
+        string='XML de inutilização',
+        ondelete='restrict',
+        copy=False,
+    )
     arquivo_pdf_id = fields.Many2one(
         comodel_name='ir.attachment',
         string='PDF DANFE/DANFCE',
@@ -99,6 +111,16 @@ class SpedDocumento(models.Model):
         store=True,
         index=True,
     )
+    data_hora_inutilizacao = fields.Datetime(
+        string='Data de inutilização',
+        index=True,
+    )
+    data_inutilizacao = fields.Date(
+        string='Data de inutilização',
+        compute='_compute_data_hora_separadas',
+        store=True,
+        index=True,
+    )
     justificativa = fields.Char(
         string='Justificativa',
         size=60,
@@ -113,6 +135,10 @@ class SpedDocumento(models.Model):
     )
     protocolo_cancelamento = fields.Char(
         string='Protocolo de cancelamento',
+        size=60,
+    )
+    protocolo_inutilizacao = fields.Char(
+        string='Protocolo de inutilização',
         size=60,
     )
 
@@ -131,6 +157,11 @@ class SpedDocumento(models.Model):
                 data_hora_cancelamento = data_hora_horario_brasilia(
                     parse_datetime(documento.data_hora_cancelamento))
                 documento.data_cancelamento = str(data_hora_cancelamento)[:10]
+
+            if documento.data_hora_inutilizacao:
+                data_hora_inutilizacao = data_hora_horario_brasilia(
+                    parse_datetime(documento.data_hora_inutilizacao))
+                documento.data_inutilizacao = str(data_hora_inutilizacao)[:10]
 
     @api.depends('modelo', 'emissao', 'situacao_nfe')
     def _compute_permite_alteracao(self):
@@ -237,6 +268,32 @@ class SpedDocumento(models.Model):
                         tempo_autorizado.days < 1):
                     documento.permite_cancelamento = True
 
+    @api.depends('modelo', 'emissao', 'justificativa', 'situacao_nfe')
+    def _compute_permite_cancelamento(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para verificar
+        # regras de negócio que proíbam a inutilização de um documento fiscal,
+        # como por exemplo, a existência de boletos emitidos no financeiro,
+        # que precisariam ser cancelados antes, caso tenham sido enviados
+        # para o banco, a verificação de movimentações de estoque confirmadas,
+        # a contabilização definitiva do documento etc.
+        #
+        for documento in self:
+            if documento.modelo not in (MODELO_FISCAL_NFE,
+                                        MODELO_FISCAL_NFCE):
+                super(SpedDocumento, documento)._compute_permite_inutilizacao()
+                continue
+
+            if documento.emissao != TIPO_EMISSAO_PROPRIA:
+                super(SpedDocumento, documento)._compute_permite_inutilizacao()
+                continue
+
+            documento.permite_inutilizacao = False
+
+            if documento.situacao_nfe in (SITUACAO_NFE_EM_DIGITACAO,
+                                          SITUACAO_NFE_REJEITADA):
+                documento.permite_inutilizacao = True
+
     def processador_nfe(self):
         self.ensure_one()
 
@@ -333,6 +390,22 @@ class SpedDocumento(models.Model):
         conteudo = canc.xml.encode('utf-8')
         self.arquivo_xml_autorizacao_cancelamento_id = False
         self.arquivo_xml_autorizacao_cancelamento_id = \
+            self._grava_anexo(nome_arquivo, conteudo).id
+
+    def grava_xml_inutilizacao(self, chave, inut):
+        self.ensure_one()
+        nome_arquivo = chave + '-inu.xml'
+        conteudo = inut.xml.encode('utf-8')
+        self.arquivo_xml_inutilizacao_id = False
+        self.arquivo_xml_inutilizacao_id = \
+            self._grava_anexo(nome_arquivo, conteudo).id
+
+    def grava_xml_autorizacao_inutilizacao(self, chave, inut):
+        self.ensure_one()
+        nome_arquivo = chave + '-proc-inu.xml'
+        conteudo = inut.xml.encode('utf-8')
+        self.arquivo_xml_autorizacao_inutilizacao_id = False
+        self.arquivo_xml_autorizacao_inutilizacao_id = \
             self._grava_anexo(nome_arquivo, conteudo).id
 
     def monta_nfe(self, processador=None):
@@ -1082,6 +1155,51 @@ class SpedDocumento(models.Model):
 
             self.executa_depois_cancelar()
 
+    def inutiliza_nfe(self):
+        super(SpedDocumento, self).cancela_nfe()
+        self.ensure_one()
+
+        processador = self.processador_nfe()
+
+        cnpj = limpa_formatacao(self.empresa_id.cnpj_cpf)
+        serie = str(self.serie or '')
+        numero = int(self.numero)
+        motivo = self.justificativa or \
+            'AVANÇO ACIDENTAL NO CONTROLE DE NUMERAÇÃO NO SISTEMA'
+
+        processo = processador.inutilizar_nota(cnpj=cnpj, serie=serie,
+                                               numero_inicial=numero,
+                                               justificativa=motivo)
+
+        retInut = processo.resposta
+
+        if retInut.infInut.cStat.valor != '102':
+            #
+            # Inutilização rejeitada, falha no schema etc. etc.
+            #
+            mensagem = 'Código de retorno: ' + retInut.infInut.cStat.valor
+            mensagem += '\nMensagem: ' + retInut.infInut.xMotivo.valor
+            self.mensagem_nfe = mensagem
+            self.situacao_nfe = SITUACAO_NFE_REJEITADA
+
+        else:
+            procInut = processo.processo_inutilizacao_nfe
+
+            self.chave = processo.envio.chave
+            self.grava_xml_inutilizacao(self.chave, procInut.inutNFe)
+            self.grava_xml_autorizacao_inutilizacao(self.chave, procInut)
+
+            data_inutilizacao = retInut.infInut.dhRecbto.valor
+            data_inutilizacao = UTC.normalize(data_inutilizacao)
+
+            self.data_hora_inutilizacao = data_inutilizacao
+            self.protocolo_inutilizacao = retInut.infInut.nProt.valor
+
+            self.executa_antes_inutilizar()
+            self.situacao_fiscal = SITUACAO_FISCAL_INUTILIZADO
+            self.situacao_nfe = SITUACAO_NFE_INUTILIZADA
+            self.executa_depois_inutilizar()
+
     def executa_antes_autorizar(self):
         #
         # Este método deve ser alterado por módulos integrados, para realizar
@@ -1174,6 +1292,23 @@ class SpedDocumento(models.Model):
             return
 
         self.envia_email(mail_template)
+
+    def executa_antes_inutilizar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias antes de inutilizar uma NF-e
+        #
+        super(SpedDocumento, self).executa_antes_inutilizar()
+
+    def executa_depois_inutilizar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias depois de inutilizar uma NF-e,
+        # por exemplo, invalidar pedidos de venda e movimentações de estoque
+        # etc.
+        #
+        super(SpedDocumento, self).executa_depois_inutilizar()
+        self.ensure_one()
 
     def executa_antes_denegar(self):
         #

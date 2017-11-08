@@ -87,6 +87,18 @@ class SpedDocumento(models.Model):
         super(SpedDocumento, self).executa_depois_autorizar()
         self.gera_finan_lancamento()
 
+    def executa_depois_cancelar(self):
+        super(SpedDocumento, self).executa_depois_cancelar()
+        self.exclui_finan_lancamento()
+
+    def executa_depois_inutilizar(self):
+        super(SpedDocumento, self).executa_depois_inutilizar()
+        self.exclui_finan_lancamento()
+
+    def executa_depois_denegar(self):
+        super(SpedDocumento, self).executa_depois_denegar()
+        self.exclui_finan_lancamento()
+
     def executa_depois_create(self, result, dados):
         result = super(SpedDocumento, self).executa_depois_create(
             result, dados)

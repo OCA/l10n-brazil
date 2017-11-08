@@ -131,6 +131,11 @@ class SpedDocumento(models.Model):
         super(SpedDocumento, self).executa_depois_cancelar()
         self._cancela_estoque()
 
+    def executa_depois_inutilizar(self):
+        self.ensure_one()
+        super(SpedDocumento, self).executa_depois_inutilizar()
+        self._cancela_estoque()
+
     def executa_depois_denegar(self):
         self.ensure_one()
         super(SpedDocumento, self).executa_depois_denegar()
