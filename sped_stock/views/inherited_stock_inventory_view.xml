@@ -26,7 +26,8 @@
 
             <!-- Adicionar campo na visão tree embutida  do stock.inventory.line -->
             <xpath expr="//tree/field[@name='product_id']" position="replace">
-                <field name="produto_id" options="{'no_create': True}" />
+                <field name="product_id" invisible="1" />
+                <field name="produto_id" required="1" options="{'no_create': True}" />
             </xpath>
             <xpath expr="//tree/field[@name='product_qty']" position="after">
                 <field name="vr_unitario_custo" />
