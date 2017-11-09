@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+        <!-- Copyright 2017 KMEE
+             License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+        <!--Form-->
+        <record id="l10n_br_hr_contract_change_filiacao_sindical_form" model="ir.ui.view">
+            <field name="name">l10n_br_hr.contract.change.form (filiacao sindical)</field>
+            <field name="model">l10n_br_hr.contract.change</field>
+            <field name="inherit_id" ref="l10n_br_hr_contract_change_base_form"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='secundary_group']" position="after">
+                    <group>
+                        <field name="union" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="union_cnpj" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="union_entity_code" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                    </group>
+                    <group>
+                        <field name="month_base_date" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                        <field name="discount_union_contribution" attrs="{'readonly': [('state', '=', 'applied')]}"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@string='Motivo']" position="after">
+                    <field name="union"/>
+                    <field name="union_cnpj"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--Tree-->
+        <record id="l10n_br_hr_contract_change_filiacao_sindical_tree" model="ir.ui.view">
+            <field name="name">l10n_br_hr.contract.change.tree (filiacao sindical)</field>
+            <field name="model">l10n_br_hr.contract.change</field>
+            <field name="inherit_id" ref="l10n_br_hr_contract_change_base_tree"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <field name="change_reason_id" position="after">
+                    <field name="union"/>
+                    <field name="union_cnpj"/>
+                    <field name="union_entity_code"/>
+                    <field name="discount_union_contribution"/>
+                    <field name="month_base_date"/>
+                </field>
+            </field>
+        </record>
+
+        <!--Action-->
+        <record model="ir.actions.act_window" id="l10n_br_hr_contract_change_filiacao_sindical_action">
+            <field name="name">Filiação Sindical</field>
+            <field name="res_model">l10n_br_hr.contract.change</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('change_type','=','filiacao-sindical')]</field>
+            <field name="context">{'search_default_state_draft':1,'change_type': 'filiacao-sindical'}</field>
+            <field name="search_view_id" ref="l10n_br_hr_payroll.l10n_br_hr_contract_change_search"/>
+        </record>
+
+        <!--action tree-->
+        <record model="ir.actions.act_window.view" id="l10n_br_hr_contract_change_filiacao_sindical_tree_action">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="l10n_br_hr_contract_change_filiacao_sindical_action"/>
+            <field name="view_id" ref="l10n_br_hr_contract_change_filiacao_sindical_tree"/>
+        </record>
+
+        <!--action form-->
+        <record model="ir.actions.act_window.view" id="l10n_br_hr_contract_change_filiacao_sindical_form_action">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="act_window_id" ref="l10n_br_hr_contract_change_filiacao_sindical_action"/>
+            <field name="view_id" ref="l10n_br_hr_contract_change_filiacao_sindical_form"/>
+        </record>
+
+        <!--Menu-->
+        <record model="ir.ui.menu" id="l10n_br_hr_contract_change_filiacao_sindical_menu">
+            <field name="name">Filiação Sindical</field>
+            <field name="parent_id" ref="hr_contract_change_menu"/>
+            <field name="action" ref="l10n_br_hr_contract_change_filiacao_sindical_action"/>
+            <field name="sequence" eval="4"/>
+        </record>
+
+    </data>
+</openerp>
