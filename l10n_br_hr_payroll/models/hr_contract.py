@@ -49,31 +49,12 @@ class HrContract(models.Model):
             vals['codigo_contrato'] = self.env['ir.sequence'].get(self._name)
             return super(HrContract, self).create(vals)
 
-    @api.depends('employee_id', 'date_start')
+    @api.depends('employee_id')
     def _compute_nome_contrato(self):
         for contrato in self:
             nome = contrato.employee_id.name
-            inicio_contrato = contrato.date_start
-            fim_contrato = contrato.date_end
-
-            if inicio_contrato:
-                inicio_contrato = datetime.strptime(inicio_contrato,
-                                                    '%Y-%m-%d')
-                inicio_contrato = inicio_contrato.strftime('%d/%m/%y')
-
-            if fim_contrato:
-                fim_contrato = datetime.strptime(fim_contrato, '%Y-%m-%d')
-                fim_contrato = fim_contrato.strftime('%d/%m/%y')
-                if fim_contrato > fields.Date.today():
-                    fim_contrato = "- D. %s" % fim_contrato
-                else:
-                    fim_contrato = "- %s" % fim_contrato
-            else:
-                fim_contrato = ''
             matricula = contrato.codigo_contrato
-            nome_contrato = '[%s] %s - %s %s' % (matricula,
-                                                 nome, inicio_contrato,
-                                                 fim_contrato)
+            nome_contrato = '[%s] %s' % (matricula, nome)
             contrato.nome_contrato = nome_contrato if nome else ''
 
     nome_contrato = fields.Char(
