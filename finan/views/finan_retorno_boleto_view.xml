@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 Taŭga Tecnologia - Ari Caldeira <ari.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="finan_retorno_boleto_form" >
+        <field name="name">finan.retorno.boleto.form</field>
+        <field name="model">finan.retorno</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Retorno de Boletos">
+                <header>
+                    <button name="processa_retorno" string="Processar" class="btn-primary" type="object" />
+                </header>
+                <sheet>
+                    <group col="4" colspan="4">
+                        <group colspan="4" col="4">
+                            <field name="carteira_id" colspan="4" options="{'no_create': True}" />
+                            <newline />
+                            <field name="data" colspan="2" />
+                            <field name="numero_arquivo" />
+                            <field name="arquivo_binario" />
+                        </group>
+                        <group name="boletos" string="Itens de Retorno" colspan="4" col="4">
+                            <field name="lancamento_ids" nolabel="1" colspan="4" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="finan_retorno_boleto_tree">
+        <field name="name">finan.retorno.boleto.tree</field>
+        <field name="model">finan.retorno</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Retorno de Boletos">
+                <field name="carteira_id" />
+                <field name="data" />
+                <field name="numero_arquivo" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="finan_retorno_boleto_search">
+        <field name="name">finan.retorno.boleto.search</field>
+        <field name="model">finan.retorno</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Retorno de Boletos">
+                <field name="carteira_id" />
+                <field name="data" />
+                <field name="numero_arquivo" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="finan_retorno_boleto_action">
+        <field name="name">Retorno de Boletos</field>
+        <field name="res_model">finan.retorno</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="finan_retorno_boleto_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="finan_retorno_boleto_tree"/>
+        <field name="act_window_id" ref="finan_retorno_boleto_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="finan_retorno_boleto_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="finan_retorno_boleto_form"/>
+        <field name="act_window_id" ref="finan_retorno_boleto_action"/>
+    </record>
+
+    <record model="ir.ui.menu" id="menu_finan_retorno_boleto">
+        <field name="name">Retorno de Boletos</field>
+        <field name="parent_id" ref="menu_finan_transacao"/>
+        <field name="action" ref="finan_retorno_boleto_action"/>
+        <field name="sequence" eval="4"/>
+    </record>
+
+</odoo>
