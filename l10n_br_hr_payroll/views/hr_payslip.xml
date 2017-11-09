@@ -78,6 +78,8 @@
                                         <field name="valor_deducao"/>
                                     </group>
                                 </form>
+                                <field name="inicio_aquisitivo" invisible="1"/>
+                                <field name="fim_aquisitivo" invisible="1"/>
                             </field>
                             <group class="oe_subtotal_footer oe_right" colspan="2">
                                 <field name="total_folha"/>

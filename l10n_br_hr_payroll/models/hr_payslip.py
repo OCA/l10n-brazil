@@ -464,6 +464,27 @@ class HrPayslip(models.Model):
         compute='_compute_valor_total_folha',
     )
 
+    inicio_aquisitivo = fields.Date(
+        string=u'Início do Período Aquisitivo',
+        compute='_compute_periodo_aquisitivo',
+        store=True,
+    )
+    fim_aquisitivo = fields.Date(
+        string=u'Fim do Período Aquisitivo',
+        compute='_compute_periodo_aquisitivo',
+        store=True,
+    )
+
+    @api.multi
+    @api.depends('periodo_aquisitivo')
+    def _compute_periodo_aquisitivo(self):
+        for holerite in self:
+            if holerite.periodo_aquisitivo:
+                holerite.inicio_aquisitivo = \
+                    holerite.periodo_aquisitivo.inicio_aquisitivo
+                holerite.fim_aquisitivo = \
+                    holerite.periodo_aquisitivo.fim_aquisitivo
+
     inicio_aquisitivo_fmt = fields.Char(
         string=u'Inicio do Período Aquisitivo Formatado',
         compute='_compute_valor_total_folha',
