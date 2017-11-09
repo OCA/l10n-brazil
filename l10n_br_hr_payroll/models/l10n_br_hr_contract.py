@@ -2,11 +2,23 @@
 # Copyright 2017 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, fields, models
+from openerp import api, fields, models, _
 from openerp.exceptions import Warning as UserError
+from openerp.exceptions import ValidationError
+from pybrasil.data import formata_data
 
-STATES = [('draft', 'Rascunho'),
-          ('applied', 'Aplicada')]
+STATES = [
+    ('draft', 'Rascunho'),
+    ('applied', 'Aplicada')
+]
+
+CHANGE_TYPE = [
+    ('remuneracao', u'Remuneração'),
+    ('jornada', u'Jornada'),
+    ('cargo-atividade', u'Cargo/Atividade'),
+    ('filiacao-sindical', u'Filiação Sindical'),
+    ('lotacao-local', u'Lotação/Local de trabalho'),
+]
 
 
 class HrContractChangeReason(models.Model):
@@ -20,9 +32,67 @@ class HrContractChangeReason(models.Model):
 class HrContractChange(models.Model):
 
     _name = 'l10n_br_hr.contract.change'
-    _description = u"Alteração contratual"
+    _rec_name = 'nome_alteracao'
+    _description = u'Alteração contratual'
     _inherit = 'hr.contract'
     _order = 'change_date desc, contract_id'
+
+    nome_alteracao = fields.Char(
+        string='Nome de exibição',
+    )
+
+    contract_id = fields.Many2one(
+        comodel_name='hr.contract',
+        string='Contrato',
+        ondelete='cascade',
+    )
+
+    change_type = fields.Selection(
+        selection=CHANGE_TYPE,
+        string=u"Tipo de alteração contratual",
+        default=lambda self: self._get_default_type(),
+    )
+
+    change_reason_id = fields.Many2one(
+        comodel_name='l10n_br_hr.contract.change_reason',
+        string=u"Motivo", required=True,
+    )
+
+    change_date = fields.Date(
+        string=u'Data da alteração',
+        required=True,
+    )
+
+    change_history_ids = fields.Many2many(
+        comodel_name='l10n_br_hr.contract.change',
+        inverse_name='contract_id',
+        string=u"Histórico",
+        compute='_get_change_history',
+    )
+
+    employee_id = fields.Many2one(
+        string='Employee',
+        comodel_name='hr.employee',
+        required=False
+    )
+
+    type_id = fields.Many2one(
+        string='Contract Type',
+        comodel_name='hr.contract.type',
+        required=False
+    )
+
+    state = fields.Selection(
+        string=u'Alteração aplicada',
+        selection=STATES,
+        default='draft'
+    )
+
+    user_id = fields.Many2one(
+        comodel_name='res.users',
+        string='Alterado por',
+        default=lambda self: self.env.user,
+    )
 
     def _get_default_type(self):
         change_type = self._context.get('change_type', False)
@@ -40,70 +110,27 @@ class HrContractChange(models.Model):
              ('state', '=', 'applied')])
         self.change_history_ids = full_history
 
-    contract_id = fields.Many2one(
-        'hr.contract',
-        string="Contrato"
-    )
-    change_type = fields.Selection(
-        selection=[
-            ('remuneracao', u'Remuneração'),
-            ('jornada', u'Jornada'),
-            ('cargo-atividade', u'Cargo/Atividade'),
-            ('filiacao-sindical', u'Filiação Sindical'),
-            ('lotacao-local', u'Lotação/Local de trabalho'),
-        ],
-        string=u"Tipo de alteração contratual",
-        default=_get_default_type
-    )
-    change_reason_id = fields.Many2one(
-        comodel_name='l10n_br_hr.contract.change_reason',
-        string=u"Motivo", required=True,
-    )
-    change_date = fields.Date(u'Data da alteração')
-    change_history_ids = fields.Many2many(
-        comodel_name='l10n_br_hr.contract.change',
-        inverse_name='contract_id',
-        string=u"Histórico",
-        compute=_get_change_history,
-    )
-    name = fields.Char(string='Contract Reference', required=False)
-    employee_id = fields.Many2one(string='Employee',
-                                  comodel_name='hr.employee',
-                                  required=False)
-    type_id = fields.Many2one(string='Contract Type',
-                              comodel_name='hr.contract.type',
-                              required=False)
-    state = fields.Selection(string=u'Alteração aplicada', selection=STATES,
-                             default='draft')
-    user_id = fields.Many2one(
-        comodel_name='res.users',
-        string='Alterado por',
-    )
-
     @api.onchange('contract_id')
     def _onchange_contract_id(self):
         contract = self.contract_id
-        self.change_date = fields.datetime.now()
+        self.change_date = fields.Date.today()
         self.notes = contract.notes
+        self.wage = contract.wage
         if self.change_type == 'remuneracao':
-            self.wage = contract.wage
             self.salary_unit = contract.salary_unit
             self.struct_id = contract.struct_id
         elif self.change_type == 'jornada':
-            self.wage = contract.wage
             self.working_hours = contract.working_hours
             self.schedule_pay = contract.schedule_pay
             self.monthly_hours = contract.monthly_hours
             self.weekly_hours = contract.weekly_hours
         elif self.change_type == 'cargo-atividade':
-            self.wage = contract.wage
             self.job_id = contract.job_id
             self.type_id = contract.type_id
             self.admission_type_id = contract.admission_type_id
             self.labor_bond_type_id = contract.labor_bond_type_id
             self.labor_regime_id = contract.labor_regime_id
         elif self.change_type == 'filiacao-sindical':
-            self.wage = contract.wage
             self.union = contract.union
             self.union_cnpj = contract.union_cnpj
             self.union_entity_code = contract.union_entity_code
@@ -112,94 +139,179 @@ class HrContractChange(models.Model):
             self.month_base_date = contract.month_base_date
 
     @api.multi
-    def apply_contract_changes(self):
+    def verificar_primeira_alteracao(self):
+        """
+        Se for primeira alteração do contrato criar uma alteração para 
+        registrar dados iniciais do contrato
+        :return: 
+        """
         for change in self:
             contract = change.contract_id
-            if self.change_type == 'remuneracao':
-                if not self.env['l10n_br_hr.contract.change'].search(
-                        [('wage', '>', 0),
-                         ('change_date', '<', change.change_date)]):
-                    vals = {
-                        'contract_id': contract.id,
-                        'change_date': contract.date_start,
-                        'change_reason_id': change.change_reason_id.id,
-                        'wage': contract.wage,
-                        'struct_id': change.struct_id.id,
-                        'state': 'applied',
-                    }
-                    self.env['l10n_br_hr.contract.change'].create(vals)
-                contract.wage = self.wage
-                contract.salary_unit = self.salary_unit
-                contract.struct_id = self.struct_id
-            elif self.change_type == 'jornada':
-                if not self.env['l10n_br_hr.contract.change'].search(
-                        [('working_hours', '!=', False),
-                         ('change_date', '<', change.change_date)]):
-                    vals = {
-                        'contract_id': contract.id,
-                        'change_date': contract.date_start,
-                        'change_reason_id': change.change_reason_id.id,
-                        'wage': contract.wage,
-                        'working_hours': contract.working_hours.id,
-                        'struct_id': change.struct_id.id,
-                        'state': 'applied',
-                    }
-                    self.env['l10n_br_hr.contract.change'].create(vals)
-                contract.working_hours = self.working_hours
-                contract.schedule_pay = self.schedule_pay
-                contract.monthly_hours = self.monthly_hours
-                contract.weekly_hours = self.weekly_hours
-            elif self.change_type == 'cargo-atividade':
-                if not self.env['l10n_br_hr.contract.change'].search(
-                        [('job_id', '!=', False),
-                         ('change_date', '<', change.change_date)]):
-                    vals = {
-                        'contract_id': contract.id,
-                        'change_date': contract.date_start,
-                        'change_reason_id': change.change_reason_id.id,
-                        'wage': contract.wage,
-                        'job_id': contract.job_id.id,
-                        'type_id': contract.type_id.id,
-                        'adminission_type_id': contract.admission_type_id.id,
-                        'labor_bond_type_id': contract.labor_bond_type_id.id,
-                        'labor_regime_id': contract.labor_regime_id.id,
-                        'struct_id': change.struct_id.id,
-                        'state': 'applied',
-                    }
-                    self.env['l10n_br_hr.contract.change'].create(vals)
-                contract.job_id = self.job_id
-                contract.type_id = self.type_id
-                contract.admission_type_id = self.admission_type_id
-                contract.labor_bond_type_id = self.labor_bond_type_id
-                contract.labor_regime_id = self.labor_regime_id
-            elif self.change_type == 'filiacao-sindical':
-                if not self.env['l10n_br_hr.contract.change'].search(
-                        [('union', '!=', False),
-                         ('change_date', '<', change.change_date)]):
-                    vals = {
-                        'contract_id': contract.id,
-                        'change_date': contract.date_start,
-                        'change_reason_id': change.change_reason_id.id,
-                        'wage': contract.wage,
-                        'union': contract.union,
-                        'union_cnpj': contract.union_cnpj,
-                        'union_entity_code': contract.union_entity_code,
-                        'discount_union_contribution':
+            # Buscar se existe alterações anteriores
+            domain = [
+                ('id', '!=', change.id),
+                ('change_type', '=', change.change_type),
+                ('contract_id', '=', contract.id),
+                ('state', '=', 'applied'),
+            ]
+            alteracoes_anteriores = self.search_count(domain)
+
+            # se nao existir alterações anteriores, criar a primeira alteração
+            # com registro dos dados iniciais do contrato.
+            if not alteracoes_anteriores:
+                vals = {
+                    'contract_id': contract.id,
+                    'change_date': contract.date_start,
+                    'change_reason_id': change.change_reason_id.id,
+                    'wage': contract.wage,
+                    'struct_id': change.struct_id.id,
+                    'state': 'applied',
+                }
+
+                if change.change_type == 'jornada':
+                    vals.update(working_hours=contract.working_hours.id)
+                elif change.change_type == 'cargo-atividade':
+                    vals.update(
+                        job_id= contract.job_id.id,
+                        type_id= contract.type_id.id,
+                        adminission_type_id= contract.admission_type_id.id,
+                        labor_bond_type_id= contract.labor_bond_type_id.id,
+                        labor_regime_id= contract.labor_regime_id.id,
+                    )
+                elif change.change_type == 'filiacao-sindical':
+                    vals.update(
+                        union=contract.union,
+                        union_cnpj=contract.union_cnpj,
+                        union_entity_code=contract.union_entity_code,
+                        discount_union_contribution=
                             contract.discount_union_contribution,
-                        'month_base_date': contract.month_base_date,
-                        'struct_id': change.struct_id.id,
-                        'state': 'applied',
-                    }
-                    self.env['l10n_br_hr.contract.change'].create(vals)
-                contract.union = self.union
-                contract.union_cnpj = self.union_cnpj
-                contract.union_entity_code = self.union_entity_code
+                        month_base_date=contract.month_base_date
+                    )
+                # Criar o registro inicial
+                self.create(vals)
+
+    @api.multi
+    def apply_contract_changes(self):
+        """
+        Aplica a alteração no contrato, e se for a primeira alteração daquele 
+        tipo cria um registro de alteração inicial.  
+        :return: 
+        """
+        for alteracao in self:
+            # Verificar se ja existe alguma alteracao do mesmo tipo
+            alteracao.verificar_primeira_alteracao()
+            # alias para o contrato corrente
+            contract = alteracao.contract_id
+            if alteracao.change_type == 'remuneracao':
+                contract.wage = alteracao.wage
+                contract.salary_unit = alteracao.salary_unit
+                contract.struct_id = alteracao.struct_id
+            elif alteracao.change_type == 'jornada':
+                contract.working_hours = alteracao.working_hours
+                contract.schedule_pay = alteracao.schedule_pay
+                contract.monthly_hours = alteracao.monthly_hours
+                contract.weekly_hours = alteracao.weekly_hours
+            elif alteracao.change_type == 'cargo-atividade':
+                contract.job_id = alteracao.job_id
+                contract.type_id = alteracao.type_id
+                contract.admission_type_id = alteracao.admission_type_id
+                contract.labor_bond_type_id = alteracao.labor_bond_type_id
+                contract.labor_regime_id = alteracao.labor_regime_id
+            elif self.change_type == 'filiacao-sindical':
+                contract.union = alteracao.union
+                contract.union_cnpj = alteracao.union_cnpj
+                contract.union_entity_code = alteracao.union_entity_code
                 contract.discount_union_contribution = \
-                    self.discount_union_contribution
-                contract.month_base_date = self.month_base_date
+                    alteracao.discount_union_contribution
+                contract.month_base_date = alteracao.month_base_date
             self.state = 'applied'
+
+    @api.multi
+    def action_back_to_draft(self):
+        """
+        Permitir Suporte Voltar alterações para Rascunho, 
+        desfazendo a alteração no contrato
+        :return: 
+        """
+        for alteracao in self:
+            # verificar se selecionou a ultima alteracao, pois nao sera
+            # possível desfazer alterações que nao forem a ultima
+            ultima_alteracao = self.search([
+                ('change_type', '=', alteracao.change_type),
+                ('contract_id', '=', alteracao.contract_id.id),
+                ('state', '=', 'applied'),
+            ], order='change_date DESC', limit=1)
+
+            if not ultima_alteracao.id == self.id:
+                raise UserError(
+                    u'Só é possível desfazer a última alteração contratual.'
+                    u'\nA última alteração é do dia %s' %
+                    formata_data(ultima_alteracao.change_date))
+
+            # Aplicar a penultima alteração contratual
+            penultima_alteracao = self.search([
+                ('id', '!=', alteracao.id),
+                ('change_type', '=', alteracao.change_type),
+                ('contract_id', '=', alteracao.contract_id.id),
+                ('state', '=', 'applied'),
+            ], order='change_date DESC', limit=1)
+
+            # Se nao tiver uma alteração anterior, isso é,
+            # se for a primeira alteração contratual não é possível desfazer
+            if not penultima_alteracao:
+                raise UserError(
+                    u'Não é possível desfazer a primeira alteração contratual.'
+                    u'\nA primeira alteração contem as informações iniciais '
+                    u'do contrato.')
+
+            penultima_alteracao.apply_contract_changes()
+            self.state = 'draft'
 
     @api.model
     def create(self, vals):
-        vals.update({'user_id': self.env.user.id})
+        # Criação de um nome para o _rec_name
+        # PS.: Nao consegui criar um campo computed. =(
+        if vals.get('change_type') and vals.get('contract_id') and \
+                vals.get('change_date'):
+            contrato_id = \
+                self.env['hr.contract'].browse(vals.get('contract_id'))
+            nome_contrato = \
+                'Contrato ' + contrato_id.nome_contrato[:6] + ' ' + \
+                contrato_id.employee_id.name
+            vals.update({
+                'nome_alteracao' :
+                    u'Alteração de ' +
+                    dict(CHANGE_TYPE).get(vals.get('change_type')) + ' ' +
+                    'em ' + formata_data(vals.get('change_date')) + ' ' +
+                    nome_contrato
+            })
         return super(HrContractChange, self).create(vals)
+
+    @api.multi
+    def unlink(self):
+        for alteracao in self:
+            if alteracao.state in ['applied']:
+                raise ValidationError(_('You can\'t delete applied changes!'))
+        return super(HrContractChange, self).unlink()
+
+    @api.constrains('change_date')
+    def _check_date(self):
+        '''
+        Não permitir incluir uma alteração de remuneração 
+        com data anterior a última
+        :return: 
+        '''
+        ultima_alteracao = self.search([
+            ('id', '!=', self.id),
+            ('change_type', '=', self.change_type),
+            ('contract_id', '=', self.contract_id.id),
+            ('state', '=', 'applied'),
+        ], order='change_date DESC', limit=1)
+
+        if ultima_alteracao and \
+                        self.change_date <= ultima_alteracao.change_date:
+            raise UserError(
+                u'Não é possível criar uma alteração contratual com '
+                u'data inferior à última alteração.'
+                u'\n Data da última alteração contratual: %s' %
+                formata_data(ultima_alteracao.change_date))
