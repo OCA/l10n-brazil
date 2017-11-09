@@ -2,24 +2,26 @@
 <openerp>
     <data>
 
-    <menuitem id="hr_payroll.menu_hr_root_payroll" groups="base.group_hr_user" />
+        <menuitem id="hr_payroll.menu_hr_root_payroll" groups="base.group_hr_user"/>
 
-    <!-- Deletar regra com "no-update True"-->
-    <delete id="hr_payroll.property_rule_employee_payslip" model="ir.rule"/>
+        <!-- Deletar regra com "no-update True"-->
+        <delete id="hr_payroll.property_rule_employee_payslip" model="ir.rule"/>
 
-    <record id="hr_payroll.property_rule_employee_payslip" model="ir.rule">
-        <field name="name">Employee Payslip</field>
-        <field name="model_id" ref="model_hr_payslip"/>
-        <field name="domain_force">['|', ('employee_id.user_id', '=', user.id), ('employee_id.department_id.manager_id.user_id', '=', user.id)]</field>
-        <field name="groups" eval="[(4,ref('base.group_user'))]"/>
-    </record>
+        <!--Recriar regra de acesso aos holerites -->
+        <record id="hr_payroll.property_rule_employee_payslip" model="ir.rule">
+            <field name="name">Employee Payslip</field>
+            <field name="model_id" ref="model_hr_payslip"/>
+            <field name="domain_force">['|', ('employee_id.user_id', '=',user.id), ('employee_id.department_id.manager_id.user_id', '=',user.id)]</field>
+            <field name="groups" eval="[(4,ref('base.group_user'))]"/>
+        </record>
 
-    <record id="property_rule_employee_payslip_official" model="ir.rule">
-        <field name="name">Official Payslip test</field>
-        <field name="model_id" ref="model_hr_payslip"/>
-        <field name="domain_force">[(1,'=',1)]</field>
-        <field name="groups" eval="[(4,ref('base.group_hr_user'))]"/>
-    </record>
+        <!--Regra de acesso ao holerite do grupo manager-->
+        <record id="property_rule_employee_payslip_official" model="ir.rule">
+            <field name="name">Official Payslip test</field>
+            <field name="model_id" ref="model_hr_payslip"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4,ref('base.group_hr_user'))]"/>
+        </record>
 
-</data>
+    </data>
 </openerp>
