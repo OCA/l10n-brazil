@@ -8,6 +8,7 @@ from odoo import api, fields, models, _
 from odoo.addons.sped_imposto.models.sped_calculo_imposto import (
     SpedCalculoImposto
 )
+from odoo.addons.l10n_br_base.constante_tributaria import SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO
 
 
 class PurchaseOrder(SpedCalculoImposto, models.Model):
@@ -30,6 +31,22 @@ class PurchaseOrder(SpedCalculoImposto, models.Model):
 
     operacao_servico_id = fields.Many2one(
         comodel_name='sped.operacao'
+    )
+
+    quantidade_documentos = fields.Integer(
+        compute='_compute_invoice',
+        string='# de documentos',
+        copy=False,
+        default=0,
+        store=True
+    )
+
+    documento_ids = fields.Many2many(
+        comodel_name='sped.documento',
+        compute='_compute_documento',
+        string='Faturas de Fornecedor',
+        copy=False,
+        store=True
     )
 
     @api.model
@@ -71,3 +88,66 @@ class PurchaseOrder(SpedCalculoImposto, models.Model):
                 documento.is_brazilian = True
             else:
                 super(PurchaseOrder, self)._compute_is_brazilian()
+
+    def prepara_dados_documento(self):
+        self.ensure_one()
+
+        return {
+            'purchase_order_id': self.id,
+        }
+
+    @api.depends('documento_ids.situacao_fiscal')
+    def _compute_quantidade_documentos_fiscais(self):
+        for purchase in self:
+            documento_ids = self.env['sped.documento'].search(
+                [('purchase_id', '=', purchase.id),
+                 ('situacao_fiscal', 'in',
+                  SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
+
+            purchase.quantidade_documentos = len(documento_ids)
+
+    @api.depends('order_line.documento_item_ids.documento_id')
+    def _compute_documento(self):
+        for ordem in self:
+            documentos = self.env['sped.documento']
+            for linha in ordem.order_line:
+                documentos |= linha.documento_item_ids.mapped('documento_id')
+            ordem.documento_ids = documentos
+
+    @api.multi
+    def visualizar_documentos(self):
+        '''
+        This function returns an action that display existing vendor bills of given purchase order ids.
+        When only one found, show the vendor bill immediately.
+        '''
+        action = self.env.ref('sped.sped_documento_emissao_nfe_acao')
+        result = action.read()[0]
+
+        # override the context to get rid of the default filtering
+        result['context'] = {
+            'default_emissao': '1',
+            'default_entrada_saida': '0',
+            'default_modelo': '55',
+            'manual': True,
+            'default_purchase_order_id': self.id,
+        }
+
+        if len(self.documento_ids) > 1:
+            result['domain'] = "[('id', 'in', " + str(self.documento_ids.ids) + ")]"
+        elif len(self.documento_ids) == 1:
+            res = self.env.ref('sped_purchase.sped_documento_emissao_nfe_form_view', False)
+            result['views'] = [(res and res.id or False, 'form')]
+            result['res_id'] = self.documento_ids.id
+        return result
+
+    @api.multi
+    def button_confirm(self):
+        if super(PurchaseOrder, self).button_confirm():
+            for ordem in self:
+                ordem.invoice_status = 'to invoice'
+            return True
+        return False
+
+    @api.multi
+    def button_approve(self, force=False):
+        self.write({'state': 'purchase'})

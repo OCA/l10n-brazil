@@ -5,3 +5,5 @@
 from . import inherited_purchase_order
 from . import inherited_purchase_order_line
 from . import inherited_account_invoice
+from . import sped_documento_item
+from . import sped_documento

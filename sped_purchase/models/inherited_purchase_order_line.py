@@ -111,6 +111,19 @@ class PurchaseOrderLine(SpedCalculoImpostoItem, models.Model):
         readonly=True,
     )
 
+    documento_item_ids = fields.One2many(
+        comodel_name='sped.documento.item',
+        inverse_name='purchase_line_id',
+    )
+
+    def prepara_dados_documento_item(self):
+        self.ensure_one()
+
+        return {
+            'purchase_line_id': self.id,
+            'purchase_id': self.order_id.id,
+        }
+
     @api.onchange('produto_id')
     def onchange_product_id_date(self):
         if not self.order_id:

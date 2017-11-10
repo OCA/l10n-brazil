@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_item_form" >
+        <field name="name">sped.documento.item.base.form</field>
+        <field name="model">sped.documento.item</field>
+        <field name="inherit_id" ref="sped.sped_documento_item_base_form"/>
+        <field name="arch" type="xml">
+            <field name="documento_id" position="before">
+                <field name="purchase_line_id" required="0" invisible="1"/>
+                <field name="purchase_id" required="0" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_item_base_tree">
+        <field name="name">sped.documento.item.base.tree</field>
+        <field name="model">sped.documento.item</field>
+        <field name="inherit_id" ref="sped.sped_documento_item_base_tree"/>
+        <field name="arch" type="xml">
+            <tree position="inside">
+                <field name="purchase_line_id" required="0" invisible="1"/>
+                <field name="purchase_id" required="0" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="sped_documento_emissao_nfe_form_view" >
+        <field name="name">sped.documento.emissao.nfe.form (in sped_purchase)</field>
+        <field name="model">sped.documento</field>
+        <field name="inherit_id" ref="sped_nfe.sped_documento_emissao_nfe_inherited_form" />
+        <field name="arch" type="xml">
+            <field name="situacao_nfe" position="replace"/>
+            <group position="before">
+                <group colspan="4">
+                    <group>
+                        <field name="purchase_order_id"/>
+                    </group>
+                    <group>
+                        <field name="situacao_nfe" readonly="1" colspan="4" string="Situação"
+                           decoration-warning="situacao_nfe == 'denegada' or situacao_fiscal == '04'"
+                           decoration-danger="situacao_nfe == 'rejeitada'"
+                           />
+                    </group>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>
