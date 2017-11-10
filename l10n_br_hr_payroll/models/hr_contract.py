@@ -126,7 +126,10 @@ class HrContract(models.Model):
                 # diferentes
                 #
                 salario_dia_2 = change[i].wage / dias.days
-                salario_dia_1 = change[i_2].wage / dias.days
+                if len(change) >= 2:
+                    salario_dia_1 = change[i_2].wage / dias.days
+                else:
+                    salario_dia_1 = change[i].wage / dias.days
                 salario_medio_2 = salario_dia_2 * dias_2
                 salario_medio_1 = salario_dia_1 * dias_1
 
