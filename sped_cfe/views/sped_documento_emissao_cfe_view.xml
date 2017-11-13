@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA <mileo@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_cfe_form">
+        <field name="name">sped.documento.emissao.cfe.form</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sped.sped_documento_base_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form[1]" position="attributes">
+                <attribute name="string">Emissão de CF-e</attribute>
+            </xpath>
+            <page name="participante" position="attributes">
+                <attribute name="string">Consumidor</attribute>
+            </page>
+            <page name="empenho" position="replace" />
+            <page name="retencoes" position="replace" />
+            <page name="transporte" position="replace" />
+            <xpath expr="//separator[@name='vencimentos']" position="attributes">
+                <attribute name="attrs">{'invisible': [('condicao_pagamento_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='pagamento_ids']" position="attributes">
+                <attribute name="attrs">{'invisible': [('condicao_pagamento_id', '!=', False)]}</attribute>
+            </xpath>
+            <header position="inside">
+                <button name="envia_nfe" string="Enviar CF-e" type="object" class="btn-primary"
+                    attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada'])]}" />
+                <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-primary" />
+                <button name="gera_pdf" string="Gerar PDF" type="object" class="btn-primary" />
+            </header>
+            <xpath expr="//field[@name='empresa_id']" position="before">
+                <field name="situacao_nfe" readonly="1" colspan="4" string="Situação"
+                       decoration-warning="situacao_nfe == 'denegada' or situacao_fiscal == '04'"
+                       decoration-danger="situacao_nfe == 'rejeitada'"
+                       />
+                <field name="mensagem_nfe" readonly="1" colspan="4" attrs="{'invisible': [('situacao_nfe', '!=', 'rejeitada')]}"
+                       decoration-warning="situacao_nfe == 'denegada' or situacao_fiscal == '04'"
+                       decoration-danger="situacao_nfe == 'rejeitada'"
+                       />
+            </xpath>
+            <page name="financeiro" position="after">
+                <page name="detalhe_nfe" string="CF-e">
+                    <field name="permite_cancelamento" invisible="1" />
+                    <group col="4" attrs="{'invisible': [('permite_cancelamento', '=', False), ('situacao_nfe', '!=', 'cancelada')]}">
+                        <separator string="Cancelamento" colspan="4" />
+                        <field name="justificativa" colspan="4" attrs="{'readonly': [('situacao_nfe', '=', 'cancelada')]}" />
+                        <button name="cancela_nfe" string="Cancelar CF-e" type="object" class="btn-primary"
+                            attrs="{'invisible': ['|', ('permite_cancelamento', '=', 'False'), ('situacao_nfe', '=', 'cancelada')]}" />
+                    </group>
+                </page>
+                <page name="suporte" string="Suporte" groups="l10n_br_base.GRUPO_SUPORTE">
+                    <group col="4">
+                        <separator string="Autorização" colspan="4" />
+                        <field name="data_hora_autorizacao" />
+                        <field name="protocolo_autorizacao" />
+                        <field name="arquivo_xml_id" colspan="4" string="CF-e" />
+                        <field name="arquivo_xml_autorizacao_id" colspan="4" string="Processo" />
+                        <field name="arquivo_pdf_id" colspan="4" string="Extrato CF-e" />
+                    </group>
+                    <group col="4" attrs="{'invisible': [('situacao_nfe', '!=', 'cancelada')]}">
+                        <separator string="Cancelamento" colspan="4" />
+                        <field name="data_hora_cancelamento" />
+                        <field name="protocolo_cancelamento" />
+                        <field name="arquivo_xml_cancelamento_id" colspan="4" string="Cancelamento" />
+                        <field name="arquivo_xml_autorizacao_cancelamento_id" colspan="4" string="Autorização" />
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_cfe_tree">
+        <field name="name">sped.documento.emissao.cfe.tree</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sped.sped_documento_base_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree[1]" position="attributes">
+                <attribute name="string">Emissão de CF-e</attribute>
+                <attribute name="decoration-warning">situacao_nfe == 'denegada' or situacao_fiscal == '04'</attribute>
+                <attribute name="decoration-muted">situacao_nfe in ('cancelada', 'inutilizada') or situacao_fiscal in ('02', '03', '05', 'NC', 'MR')</attribute>
+                <attribute name="decoration-info">situacao_nfe == 'a_enviar'</attribute>
+                <attribute name="decoration-primary">situacao_nfe == 'enviada'</attribute>
+                <attribute name="decoration-danger">situacao_nfe == 'rejeitada'</attribute>
+            </xpath>
+            <field name="participante_id" position="attributes">
+                <attribute name="string">Consumidor</attribute>
+            </field>
+            <field name="data_entrada_saida" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <xpath expr="//field[@name='empresa_id']" position="before">
+                <field name="situacao_nfe" string="Situação" />
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_cfe_search">
+        <field name="name">sped.documento.emissao.cfe.search</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sped.sped_documento_base_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//search[1]" position="attributes">
+                <attribute name="string">Emissão de CF-e</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_documento_emissao_cfe_acao">
+        <field name="name">Emissão de CF-e</field>
+        <field name="domain">[('emissao', '=', '0'), ('modelo', '=', '59')]</field>
+        <field name="context">{'default_emissao': '0', 'default_modelo': '59'}</field>
+        <field name="res_model">sped.documento</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="sped.sped_documento_emissao_nfe_search" />
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_documento_emissao_cfe_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_documento_emissao_cfe_tree"/>
+        <field name="act_window_id" ref="sped_documento_emissao_cfe_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_documento_emissao_cfe_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_documento_emissao_cfe_form"/>
+        <field name="act_window_id" ref="sped_documento_emissao_cfe_acao"/>
+    </record>
+
+    <menuitem
+        id="menu_sped_documento_emissao_cfe"
+        sequence="9"
+        name="CF-e"
+        parent="sped.menu_sped_documento_emissao"
+        action="sped_documento_emissao_cfe_acao" />
+
+</odoo>

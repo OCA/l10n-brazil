@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA <mileo@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_operacao_emissao_cfe_form">
+        <field name="name">sped.operacao.emissao.cfe.form</field>
+        <field name="model">sped.operacao</field>
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sped_imposto.sped_operacao_base_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form[1]" position="attributes">
+                <attribute name="string">Operação Fiscal para Emissão de CF-e</attribute>
+            </xpath>
+<!--            <xpath expr="//field[@name='entrada_saida']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='consumidor_final']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>-->
+            <page name="retencoes" position="replace" />
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_operacao_emissao_cfe_tree">
+        <field name="name">sped.operacao.emissao.cfe.tree</field>
+        <field name="model">sped.operacao</field>
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sped_imposto.sped_operacao_base_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree[1]" position="attributes">
+                <attribute name="string">Operação Fiscal para Emissão de CF-e</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_operacao_emissao_cfe_search">
+        <field name="name">sped.operacao.emissao.cfe.search</field>
+        <field name="model">sped.operacao</field>
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sped_imposto.sped_operacao_base_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//search[1]" position="attributes">
+                <attribute name="string">Operação Fiscal para Emissão de CF-e</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_operacao_emissao_cfe_acao">
+        <field name="name">Operação Fiscal para Emissão de CF-e</field>
+        <field name="domain">[('emissao', '=', '0'), ('modelo', '=', '59')]</field>
+        <field name="context">{'default_emissao': '0', 'default_modelo': '59', 'default_consumidor_final': '1', 'default_presenca_comprador': '1', 'default_modalidade_frete': '9'}</field>
+        <field name="res_model">sped.operacao</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_operacao_emissao_cfe_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_operacao_emissao_cfe_tree"/>
+        <field name="act_window_id" ref="sped_operacao_emissao_cfe_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_operacao_emissao_cfe_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_operacao_emissao_cfe_form"/>
+        <field name="act_window_id" ref="sped_operacao_emissao_cfe_acao"/>
+    </record>
+
+    <menuitem
+        id="menu_sped_operacao_emissao_cfe"
+        sequence="9"
+        name="CF-e"
+        parent="sped_imposto.menu_sped_operacao_emissao"
+        action="sped_operacao_emissao_cfe_acao" />
+
+</odoo>
