@@ -32,6 +32,13 @@ class PaymentOrder(models.Model):
         default=True,
     )
 
+    cnab_file = fields.Binary(
+        string='CNAB File',
+        readonly=True,
+    )
+
+    cnab_filename = fields.Char("CNAB Filename")
+
     @api.multi
     def _prepare_folha_payment_line(self, line):
         self.ensure_one()

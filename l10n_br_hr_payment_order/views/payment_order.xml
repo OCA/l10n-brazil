@@ -64,6 +64,13 @@
                 <attribute name="options">{'no_create': True}</attribute>
             </field>
 
+            <xpath expr="//group[@name='criterios_busca']" position="after">
+                <group string="CNAB" name="cnab" cols="4">
+                    <field name="cnab_filename" invisible="1" />
+                    <field name="cnab_file" attrs="{'invisible': [('cnab_file', '=', False)]}" filename="cnab_filename" />
+                </group>
+            </xpath>
+
         </field>
     </record>
 
