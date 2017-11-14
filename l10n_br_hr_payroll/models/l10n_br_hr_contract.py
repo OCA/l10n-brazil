@@ -41,6 +41,10 @@ class HrContractChange(models.Model):
         string='Nome de exibição',
     )
 
+    name = fields.Char(
+        string='Nome do contrato',
+    )
+
     contract_id = fields.Many2one(
         comodel_name='hr.contract',
         string='Contrato',
@@ -93,6 +97,10 @@ class HrContractChange(models.Model):
         default=lambda self: self.env.user,
     )
 
+    departamento_id = fields.Many2one(
+        comodel_name='hr.department',
+        string='Departamento',
+    )
 
     @api.depends('contract_id', 'change_history_ids')
     def _get_change_history(self):
@@ -107,6 +115,7 @@ class HrContractChange(models.Model):
     @api.onchange('contract_id')
     def _onchange_contract_id(self):
         contract = self.contract_id
+        self.name = contract.name
         self.change_date = fields.Date.today()
         self.notes = contract.notes
         self.wage = contract.wage
@@ -131,6 +140,10 @@ class HrContractChange(models.Model):
             self.discount_union_contribution = \
                 contract.discount_union_contribution
             self.month_base_date = contract.month_base_date
+        elif self.change_type == 'lotacao-local':
+            self.departamento_id = contract.department_id
+            # self.lotacao_cliente_fornecedor = contract.lotacao_cliente_fornecedor
+            # self.month_base_data = contract.month_base_data
 
     @api.multi
     def verificar_primeira_alteracao(self):
@@ -153,13 +166,17 @@ class HrContractChange(models.Model):
             # se nao existir alterações anteriores, criar a primeira alteração
             # com registro dos dados iniciais do contrato.
             if not alteracoes_anteriores:
+                reason = \
+                    self.env.ref('l10n_br_hr_payroll.'
+                                 'l10n_br_hr_contract_change_valores_iniciais')
                 vals = {
                     'contract_id': contract.id,
                     'change_date': contract.date_start,
-                    'change_reason_id': change.change_reason_id.id,
+                    'change_reason_id': reason.id,
                     'wage': contract.wage,
                     'struct_id': change.struct_id.id,
                     'state': 'applied',
+                    'name': change.nome_alteracao,
                 }
 
                 if change.change_type == 'jornada':
@@ -181,6 +198,9 @@ class HrContractChange(models.Model):
                             contract.discount_union_contribution,
                         month_base_date=contract.month_base_date
                     )
+                elif change.change_type == 'lotacao-local':
+                    vals.update(departamento_id=contract.department_id.id)
+
                 # Criar o registro inicial
                 self.create(vals)
 
@@ -218,6 +238,15 @@ class HrContractChange(models.Model):
                 contract.discount_union_contribution = \
                     alteracao.discount_union_contribution
                 contract.month_base_date = alteracao.month_base_date
+            elif self.change_type == 'lotacao-local':
+                # Setar variavel de contexto para indicar que a alteração
+                # partiu do menu de alterações contratuais.
+                contract.with_context(
+                    alteracaocontratual=True).department_id = \
+                    alteracao.departamento_id
+                # contract.lotacao_cliente_fornecedor = \
+                #     alteracao.lotacao_cliente_fornecedor
+                # contract.month_base_data = alteracao.month_base_data
             self.state = 'applied'
 
     @api.multi
@@ -265,19 +294,25 @@ class HrContractChange(models.Model):
     def create(self, vals):
         # Criação de um nome para o _rec_name
         # PS.: Nao consegui criar um campo computed. =(
-        if vals.get('change_type') and vals.get('contract_id') and \
+        change_type = vals.get('change_type') or \
+                      self.env.context.get('default_change_type')
+        if change_type and vals.get('contract_id') and \
                 vals.get('change_date'):
             contrato_id = \
                 self.env['hr.contract'].browse(vals.get('contract_id'))
             nome_contrato = \
                 'Contrato ' + contrato_id.nome_contrato[:6] + ' ' + \
                 contrato_id.employee_id.name
+            nome_alteracao = \
+                u'Alteração de ' + \
+                dict(CHANGE_TYPE).get(change_type) + \
+                ' ' +  u'em ' + \
+                formata_data(vals.get('change_date')) + ' ' + \
+                nome_contrato
             vals.update({
-                'nome_alteracao' :
-                    u'Alteração de ' +
-                    dict(CHANGE_TYPE).get(vals.get('change_type')) + ' ' +
-                    'em ' + formata_data(vals.get('change_date')) + ' ' +
-                    nome_contrato
+                'nome_alteracao' : nome_alteracao,
+                'name': nome_alteracao,
+                'change_type': change_type,
             })
         return super(HrContractChange, self).create(vals)
 

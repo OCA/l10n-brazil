@@ -17,5 +17,9 @@
             <!--<field name="suffix">.%(year)s</field>-->
         </record>
 
+        <record id="l10n_br_hr_contract_change_valores_iniciais" model="l10n_br_hr.contract.change_reason">
+            <field name="name">Valores Iniciais do Contrato</field>
+        </record>
+
     </data>
 </openerp>
