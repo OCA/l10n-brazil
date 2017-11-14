@@ -92,7 +92,7 @@
                     <field name="data_segunda_experiencia"/>
                 </group>
                 <group name="lotacao" string="Lotação">
-                    <field name="departamento_lotacao"/>
+                    <field name="department_id" />
                     <field name="lotacao_cliente_fornecedor"/>
                 </group>
                 <group name="jornada" string="Jornada de trabalho">

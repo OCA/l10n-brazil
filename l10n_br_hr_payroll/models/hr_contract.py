@@ -273,10 +273,11 @@ class HrContract(models.Model):
         string="Início da segunda experiência"
     )
 
-    # Lotação
-    departamento_lotacao = fields.Many2one(
-        string="Departamento/lotação",
-        comodel_name='hr.department'
+    department_id = fields.Many2one(
+        comodel_name='hr.department',
+        string='Departamento/Lotação',
+        related=False,
+        readonly=False,
     )
 
     lotacao_cliente_fornecedor = fields.Selection(
