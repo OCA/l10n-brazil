@@ -19,7 +19,7 @@
                         <field name="state" widget="statusbar"/>
                     </header>
                     <h1>
-                        <p>Alteração de <field name="change_type" readonly="1" class="oe_inline" /></p>
+                        <p>Alteração de <field name="change_type" attrs="{'readonly': True}" class="oe_inline" /></p>
                     </h1>
                     <group>
                         <group name="main_group">

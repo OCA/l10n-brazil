@@ -50,7 +50,6 @@ class HrContractChange(models.Model):
     change_type = fields.Selection(
         selection=CHANGE_TYPE,
         string=u"Tipo de alteração contratual",
-        default=lambda self: self._get_default_type(),
     )
 
     change_reason_id = fields.Many2one(
@@ -94,20 +93,15 @@ class HrContractChange(models.Model):
         default=lambda self: self.env.user,
     )
 
-    def _get_default_type(self):
-        change_type = self._context.get('change_type', False)
-        if change_type:
-            return change_type
-        else:
-            raise UserError(u'Sem tipo de alteração definido!')
 
     @api.depends('contract_id', 'change_history_ids')
     def _get_change_history(self):
-        change_type = self._context.get('change_type', False)
-        full_history = self.search(
-            [('contract_id', '=', self.contract_id.id),
-             ('change_type', '=', change_type),
-             ('state', '=', 'applied')])
+        change_type = self.change_type
+        full_history = self.search([
+            ('contract_id', '=', self.contract_id.id),
+            ('change_type', '=', change_type),
+            ('state', '=', 'applied')
+        ])
         self.change_history_ids = full_history
 
     @api.onchange('contract_id')
