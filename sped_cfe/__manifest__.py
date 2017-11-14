@@ -20,6 +20,7 @@
         'views/sped_documento_emissao_cfe_view.xml',
         'views/sped_operacao_emissao_cfe_view.xml',
         'views/inherited_sped_empresa_view.xml',
+        'views/web_asset_backend_template.xml',
     ],
     'external_dependencies': {
         'python': [
