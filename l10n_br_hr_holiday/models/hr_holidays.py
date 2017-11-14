@@ -44,11 +44,23 @@ class HrHolidays(models.Model):
         string=u'Contrato Associado',
     )
 
+    department_id=fields.Many2one(
+        string="Departamento/lotação",
+        comodel_name='hr.department',
+        compute='_compute_department_id',
+        store=True,
+    )
+
+    @api.depends('contrato_id')
+    def _compute_department_id(self):
+        for holiday in self:
+            if holiday.contrato_id:
+                holiday.department_id = holiday.contrato_id.department_id
+
     @api.onchange('contrato_id')
     def onchange_contrato(self):
         for holiday in self:
             holiday.employee_id = holiday.contrato_id.employee_id
-            holiday.department_id = holiday.contrato_id.departamento_lotacao
 
     @api.constrains('attachment_ids', 'holiday_status_id', 'date_from',
                     'date_to', 'number_of_days_temp')
@@ -129,10 +141,8 @@ class HrHolidays(models.Model):
     def holidays_validate(self):
         super(HrHolidays, self).holidays_validate()
         model_obj_id = self.env.ref("hr_holidays.model_hr_holidays").id
-        self.meeting_id.write(
-            {
-                'models_id': model_obj_id,
-                'class': 'private',
-            }
-        )
+        self.meeting_id.write({
+            'models_id': model_obj_id,
+            'class': 'private',
+        })
         return True
