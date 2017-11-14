@@ -9,7 +9,7 @@
             <group position="before">
                 <group colspan="4">
                     <group>
-                        <field name="purchase_order_id"/>
+                        <field name="purchase_order_ids" widget="many2many_tags"/>
                     </group>
                     <group>
                         <field name="situacao_nfe" readonly="1" colspan="4" string="Situação"

@@ -45,6 +45,7 @@ class PurchaseOrder(SpedCalculoImposto, models.Model):
         comodel_name='sped.documento',
         compute='_compute_documento',
         string='Faturas de Fornecedor',
+        relation='purchase_order_sped_documento_rel',
         copy=False,
         store=True
     )
@@ -93,7 +94,7 @@ class PurchaseOrder(SpedCalculoImposto, models.Model):
         self.ensure_one()
 
         return {
-            'purchase_order_id': self.id,
+            'purchase_order_ids': [(4, self.id)],
         }
 
     @api.depends('documento_ids.situacao_fiscal')
