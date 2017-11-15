@@ -59,6 +59,7 @@ class AccountMoveLine(models.Model):
     @api.multi
     def send_payment(self):
         wrapped_boleto_list = []
+
         for move_line in self:
             if move_line.payment_mode_id.bank_id.bank.bic in \
                     dict_brcobranca_bank:
@@ -100,6 +101,7 @@ class AccountMoveLine(models.Model):
                       'data_processamento': datetime.strptime(
                           move_line.invoice.date_invoice, '%Y-%m-%d').strftime(
                           '%Y/%m/%d'),
+                      'instrucao1': move_line.payment_mode_id.instrucoes
                 }
                 wrapped_boleto_list.append(
                     BoletoWrapper(boleto, boleto_cnab_api_data))
