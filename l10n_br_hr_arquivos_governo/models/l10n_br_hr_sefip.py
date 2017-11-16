@@ -359,8 +359,8 @@ class L10nBrSefip(models.Model):
             # TODO: Pode ser que este campo precise ser revisto por conta da
             # formatação
             erro += _("Telefone {0} não preenchido\n".format(type))
-        if not partner_id.number:
-            erro += _("Número {0} não preenchido\n".format(type))
+        # if not partner_id.number:
+        #     erro += _("Número {0} não preenchido\n".format(type))
         if erro:
             raise ValidationError(erro)
 
