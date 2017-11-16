@@ -13,6 +13,7 @@
     'depends': [
         'l10n_br_hr_payroll',
         'l10n_br_financial_payment_order',
+        'l10n_br_account_banking_payment_cnab',
         'account_payment_purchase',
     ],
     'data': [
