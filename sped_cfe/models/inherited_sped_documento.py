@@ -263,10 +263,9 @@ class SpedDocumento(models.Model):
 
     def _monta_cfe_emitente(self):
         emitente = Emitente(
-                CNPJ=limpa_formatacao(self.configuracoes_pdv.cnpjsh),
-                IE=limpa_formatacao(self.configuracoes_pdv.ie),
-                indRatISSQN='N'
-        )
+                CNPJ=limpa_formatacao(empresa.cnpj_cpf),
+                IE=limpa_formatacao(empresa.ie or ''),
+                indRatISSQN='N')
         emitente.validar()
         return emitente
 
@@ -305,7 +304,6 @@ class SpedDocumento(models.Model):
 
     def resposta_cfe(self, resposta):
         """
-
         :param resposta:
 
         u'123456|06001|Código de ativação inválido||'
