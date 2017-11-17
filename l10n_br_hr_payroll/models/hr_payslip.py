@@ -632,12 +632,11 @@ class HrPayslip(models.Model):
     @api.multi
     def unlink(self):
         for payslip in self:
-            if not payslip.user_has_groups('base.group_hr_manager'):
-                if payslip.state not in ['draft', 'cancel']:
-                    raise exceptions.Warning(
-                        _('You cannot delete a payslip which is not '
-                          'draft or cancelled or permission!')
-                    )
+            if payslip.state not in ['draft', 'cancel']:
+                raise exceptions.Warning(
+                    _('You cannot delete a payslip which is not '
+                      'draft or cancelled or permission!')
+                )
             payslip.cancel_sheet()
         return super(HrPayslip, self).unlink()
 
