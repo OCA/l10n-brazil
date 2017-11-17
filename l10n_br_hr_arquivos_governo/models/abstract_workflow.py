@@ -56,3 +56,13 @@ class AbstractArquivosGovernoWorkflow(models.AbstractModel):
     def action_sent(self):
         for record in self:
             record.change_state('sent')
+
+    @api.multi
+    def unlink(self):
+        for record in self:
+            if record.state not in ['draft']:
+                raise UserError(
+                    _('You cannot delete a record which is not '
+                      'draft or cancelled state!')
+                )
+        return super(AbstractArquivosGovernoWorkflow, self).unlink()
