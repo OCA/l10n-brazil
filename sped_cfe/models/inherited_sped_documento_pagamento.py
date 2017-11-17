@@ -45,7 +45,7 @@ class SpedDocumentoPagamento(models.Model):
         pagamento = MeioPagamento(
             cMP='01',
                     # self.forma_pagamento,
-            vMP=D(self.valor).quantize(D('0.0001')),
+            vMP=D(self.valor).quantize(D('0.01')),
             **kwargs
         )
         pagamento.validar()

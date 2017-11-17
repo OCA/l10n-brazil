@@ -260,8 +260,11 @@ class SpedDocumento(models.Model):
         empresa = self.empresa_id
 
         emitente = Emitente(
-                CNPJ=limpa_formatacao(empresa.cnpj_cpf),
-                IE=limpa_formatacao(empresa.ie or ''),
+                # FIXME:
+                CNPJ='08723218000186',  # limpa_formatacao(empresa.cnpj_cpf),
+                IE='562377111111',  # limpa_formatacao(empresa.ie or ''),
+                # CNPJ=limpa_formatacao(empresa.cnpj_cpf),
+                # IE=limpa_formatacao(empresa.ie or ''),
                 indRatISSQN='N')
         emitente.validar()
 
@@ -300,6 +303,104 @@ class SpedDocumento(models.Model):
         for pagamento in self.pagamento_ids:
             pag.append(pagamento.monta_cfe())
 
+    def executa_antes_autorizar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias antes de autorizar uma NF-e
+        #
+        self.ensure_one()
+        return super(SpedDocumento, self).executa_antes_autorizar()
+
+    def executa_depois_autorizar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias depois de autorizar uma NF-e,
+        # por exemplo, criar lançamentos financeiros, movimentações de
+        # estoque etc.
+        #
+        self.ensure_one()
+        super(SpedDocumento, self).executa_depois_autorizar()
+
+        if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            super(SpedDocumento, self)._compute_permite_cancelamento()
+            return
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            super(SpedDocumento, self)._compute_permite_cancelamento()
+            return
+
+        #
+        # Envia o email da nota para o cliente
+        #
+        mail_template = None
+        if self.operacao_id.mail_template_id:
+            mail_template = self.operacao_id.mail_template_id
+        else:
+            if self.modelo == MODELO_FISCAL_NFE and \
+                    self.empresa_id.mail_template_nfe_autorizada_id:
+                mail_template = \
+                    self.empresa_id.mail_template_nfe_autorizada_id
+            elif self.modelo == MODELO_FISCAL_NFCE and \
+                    self.empresa_id.mail_template_nfce_autorizada_id:
+                mail_template = \
+                    self.empresa_id.mail_template_nfce_autorizada_id
+
+        if mail_template is None:
+            return
+
+        self.envia_email(mail_template)
+
+    def executa_antes_denegar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias antes de denegar uma NF-e
+        #
+        super(SpedDocumento, self).executa_antes_denegar()
+
+    def executa_depois_denegar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias depois de denegar uma NF-e,
+        # por exemplo, invalidar pedidos de venda e movimentações de estoque
+        # etc.
+        #
+        super(SpedDocumento, self).executa_depois_denegar()
+        self.ensure_one()
+
+        if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            super(SpedDocumento, self)._compute_permite_cancelamento()
+            return
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            super(SpedDocumento, self)._compute_permite_cancelamento()
+            return
+
+        #
+        # Envia o email da nota para o cliente
+        #
+        mail_template = None
+        if self.modelo == MODELO_FISCAL_NFE and \
+                self.empresa_id.mail_template_nfe_denegada_id:
+            mail_template = \
+                self.empresa_id.mail_template_nfe_denegada_id
+        elif self.modelo == MODELO_FISCAL_NFCE and \
+                self.empresa_id.mail_template_nfce_denegada_id:
+            mail_template = \
+                self.empresa_id.mail_template_nfce_denegada_id
+
+        if mail_template is None:
+            return
+
+        self.envia_email(mail_template)
+
+    def envia_email(self, mail_template):
+        self.ensure_one()
+
+        # super(SpedDocumento, self).envia_email(mail_template)
+
+        self.ensure_one()
+        mail_template.send_mail(self.id)
+
     def envia_nfe(self):
         #FIXME: Este super deveria ser chamado mas retornar para manter a compatibilidade entre os módulos
         # super(SpedDocumento, self).envia_nfe()
@@ -308,16 +409,60 @@ class SpedDocumento(models.Model):
 
         # TODO: Conectar corretamente no SAT
         # cliente = self.processador_cfe()
-
+        from mfecfe import BibliotecaSAT
+        from mfecfe import ClienteSATLocal
+        cliente = ClienteSATLocal(
+            BibliotecaSAT('/opt/Integrador'),  # Caminho do Integrador
+            codigo_ativacao='12345678'
+        )
         # FIXME: Datas
         # # A NFC-e deve ter data de emissão no máx. 5 minutos antes
         # # da transmissão; por isso, definimos a hora de emissão aqui no
         # # envio
-        # #
-        # if self.modelo == MODELO_FISCAL_CFE:
+        # if self.modelo == MODELO_FISCAL_NFCE:
         #     self.data_hora_emissao = fields.Datetime.now()
         #     self.data_hora_entrada_saida = self.data_hora_emissao
 
         cfe = self.monta_cfe()
+        #
+        # Processa resposta
+        #
+        resposta = cliente.enviar_dados_venda(cfe)
+        # nfe = self.monta_nfe(resposta)
+        if resposta.EEEEE in '06000':
+            self.executa_antes_autorizar()
+            self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
+            self.executa_depois_autorizar()
+        elif resposta.EEEEE in ('06001', '06002', '06003', '06004', '06005',
+                                '06006', '06007', '06008', '06009', '06010',
+                                '06098', '06099'):
+            self.executa_antes_denegar()
+            self.situacao_fiscal = SITUACAO_FISCAL_DENEGADO
+            self.situacao_nfe = SITUACAO_NFE_DENEGADA
+            self.executa_depois_denegar()
 
+        # u'123456|06001|Código de ativação inválido||'
+        # u'123456|06002|SAT ainda não ativado||'
+        # u'123456|06003|SAT não vinculado ao AC||'
+        # u'123456|06004|Vinculação do AC não confere||'
+        # u'123456|06005|Tamanho do CF-e-SAT superior a 1.500KB||'
+        # u'123456|06006|SAT bloqueado pelo contribuinte||'
+        # u'123456|06007|SAT bloqueado pela SEFAZ||'
+        # u'123456|06008|SAT bloqueado por falta de comunicação||'
+        # u'123456|06009|SAT bloqueado, código de ativação incorreto||'
+        # u'123456|06010|Erro de validação do conteúdo||'
+        # u'123456|06098|SAT em processamento. Tente novamente.||'
+        # u'123456|06099|Erro desconhecido na emissão||'
+        #
+        # Envia a nota
+        #
+        # print (resposta.numeroSessao)
+        # print (resposta.EEEEE)
+        # print (resposta.CCCC)
+        # print (resposta.arquivoCFeSAT)
+        # print (resposta.timeStamp)
+        # print (resposta.chaveConsulta)
+        # print (resposta.valorTotalCFe)
+        # print (resposta.assinaturaQRCODE)
+        # print (resposta.xml())
         self.grava_cfe(cfe)
