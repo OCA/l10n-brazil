@@ -28,7 +28,7 @@
                 <attribute name="attrs">{'invisible': [('condicao_pagamento_id', '!=', False)]}</attribute>
             </xpath>
             <header position="inside">
-                <button name="envia_nfe" string="Enviar CF-e" type="object" class="btn-primary"
+                <button string="Enviar CF-e" class="btn-primary" custom="enviar_dados_venda"
                     attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada'])]}" />
                 <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-primary" />
                 <button name="gera_pdf" string="Gerar PDF" type="object" class="btn-primary" />

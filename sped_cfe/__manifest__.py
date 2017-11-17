@@ -22,6 +22,9 @@
         'views/inherited_sped_empresa_view.xml',
         'views/web_asset_backend_template.xml',
     ],
+    'qweb': [
+        'static/src/xml/*.xml',
+    ],
     'external_dependencies': {
         'python': [
             'satcfe',
