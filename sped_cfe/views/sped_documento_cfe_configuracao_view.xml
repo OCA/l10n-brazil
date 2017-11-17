@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_cfe_configuracao_tree">
+        <field name="name">sped.documento.cfe.configuracao.tree</field>
+        <field name="model">sped.documento.cfe.configuracao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="company_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_cfe_configuracao_form">
+        <field name="name">sped.documento.cfe.configuracao.form</field>
+        <field name="model">sped.documento.cfe.configuracao</field>
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form>
+                <separator string="Métodos de Pagamentos Definidos" />
+                <separator string="Hardware Proxy" />
+                <group>
+                    <field name="endereco_ip"/>
+                </group>
+                <separator string="Configurações Cfe Sat" />
+                <group>
+                    <field name="cnpj_homologacao"/>
+                    <field name="ie_homologacao"/>
+                    <field name="cnpj_software_house"/>
+                    <field name="sat_ambiente"/>
+                    <field name="sat_path"/>
+                    <field name="numero_caixa"/>
+                    <field name="cod_ativacao"/>
+                    <field name="impressora"/>
+                    <field name="printer_params"/>
+                    <field name="fiscal_category_id"/>
+                    <field name="assinatura_sat"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_documento_cfe_configuracao_acao">
+        <field name="name">Configuracações Sat CFe</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="res_model">sped.documento.cfe.configuracao</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_account_payment_term_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_documento_cfe_configuracao_form"/>
+        <field name="act_window_id" ref="sped_documento_cfe_configuracao_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_account_payment_term_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_documento_cfe_configuracao_tree"/>
+        <field name="act_window_id" ref="sped_documento_cfe_configuracao_acao"/>
+    </record>
+
+    <menuitem
+        parent="l10n_br_base.menu_fiscal_configuracao"
+        sequence="6"
+        id="menu_sped_documento_cfe_configuracao"
+        name="Sat Cfe"
+        action="sped_documento_cfe_configuracao_acao"
+        />
+
+</odoo>
