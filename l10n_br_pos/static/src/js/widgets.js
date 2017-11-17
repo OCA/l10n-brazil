@@ -109,4 +109,34 @@ function l10n_br_pos_widgets(instance, module){
         },
     });
 
+    module.ProductCategoriesWidget = module.ProductCategoriesWidget.extend({
+        buscar_produto_backend: function(ean13_produto){
+            var self = this;
+            produtc_fields = ['categ_id', 'default_code', 'description', 'description_sale', 'display_name', 'ean13', 'estd_national_taxes_perct', 'fiscal_classification_id', 'id', 'list_price', 'mes_type', 'name', 'origin', 'pos_categ_id', 'price', 'price_extra', 'price_with_taxes', 'product_tmpl_id', 'seller_ids', 'standard_price', 'taxes_id', 'to_weight', 'uom_id', 'uos_coeff', 'uos_id'];
+            return new instance.web.Model("product.product").get_func("search_read")([['ean13', '=', ean13_produto]], produtc_fields).then(function(res) {
+                if (res.length > 0){
+                    self.pos.db.add_products(res);
+                    self.perform_search(self.category, ean13_produto, false);
+                } else {
+                    self.pos_widget.screen_selector.show_popup('error',{
+                        'message':_t('Erro!'),
+                        'comment':_t('Produto não existe no sistema!')
+                    });
+                }
+            },function(err, event){
+                event.preventDefault();
+                self.pos_widget.screen_selector.show_popup('error',{
+                    'message':_t('Erro: Não foi possível acessar o backend!'),
+                    'comment':_t('Tente novamente em alguns instantes.')
+                });
+            });
+        },
+        renderElement: function() {
+            var self = this;
+            this._super();
+            $('.buscar-produto-backend', this.el).click(function(e){
+                self.buscar_produto_backend($('.rightpane-header > .searchbox > input').val());
+            });
+        }
+    });
 }

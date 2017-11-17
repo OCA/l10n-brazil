@@ -53,3 +53,10 @@ img.desaturate {width:50%;height: 100%;margin: 0 25%;}
 .order_cancelada {
     color: red;
 }
+
+.buscar-produto-backend {
+    display: inline-block;
+    text-align: left;
+    float: right;
+    margin: 6px;
+}
