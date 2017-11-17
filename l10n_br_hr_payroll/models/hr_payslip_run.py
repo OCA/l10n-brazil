@@ -4,7 +4,8 @@
 
 from datetime import datetime
 
-from openerp import api, fields, models
+from openerp import api, fields, models, _
+from openerp.exceptions import Warning as UserError
 
 MES_DO_ANO = [
     (1, u'Janeiro'),
@@ -177,3 +178,18 @@ class HrPayslipRun(models.Model):
             for holerite in lote.slip_ids:
                 holerite.hr_verify_sheet()
         super(HrPayslipRun, self).close_payslip_run()
+
+    @api.multi
+    def unlink(self):
+        """
+        Validacao para exclusao de lote de holerites
+        Nao permitir excluir o lote se ao menos um holerite nao estiver no
+        state draft.vali
+        """
+        for lote in self:
+            if any(l != 'draft' for l in lote.slip_ids.mapped('state')):
+                raise UserError(
+                    _('Não é permitido deletar um lote que contem holerites '
+                      'com state diferente de rascunho!')
+                )
+        return super(HrPayslipRun, self).unlink()
