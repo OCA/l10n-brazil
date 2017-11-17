@@ -22,6 +22,7 @@
         'views/sped_documento_emissao_cfe_view.xml',
         'views/sped_operacao_emissao_cfe_view.xml',
         'views/web_asset_backend_template.xml',
+        'views/sped_documento_cfe_configuracao_view.xml',
     ],
     'qweb': [
         'static/src/xml/*.xml',
