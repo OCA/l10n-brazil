@@ -63,6 +63,11 @@
             </div>
         </t>
     </t>
+    <t t-extend="ProductCategoriesWidget">
+        <t t-jquery=".rightpane-header > .searchbox > .search-clear" t-operation="after">
+            <button class="buscar-produto-backend mode-button" style="display:inline-block; text-align:left; float:right; margin:10px;">Buscar +</button>
+        </t>
+    </t>
     <t t-extend="ClientDetails">
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-number)" t-operation="after">
             <div class='client-detail'>
