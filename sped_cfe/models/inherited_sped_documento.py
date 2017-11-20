@@ -252,7 +252,7 @@ class SpedDocumento(models.Model):
         )
         cfe_venda.validar()
 
-        return cfe_venda
+        return cfe_venda.documento()
 
     def _monta_cfe_identificacao(self):
         # FIXME: Buscar dados do cadastro da empresa / cadastro do caixa
