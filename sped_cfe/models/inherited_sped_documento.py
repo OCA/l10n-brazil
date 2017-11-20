@@ -170,9 +170,8 @@ class SpedDocumento(models.Model):
     def grava_cfe(self, cfe):
         self.ensure_one()
         nome_arquivo = 'envio-cfe.xml'
-        conteudo = cfe.documento().encode('utf-8')
         self.arquivo_xml_id = False
-        self.arquivo_xml_id = self._grava_anexo(nome_arquivo, conteudo).id
+        self.arquivo_xml_id = self._grava_anexo(nome_arquivo, cfe).id
 
     def grava_cfe_autorizacao(self, procNFe):
         # TODO:
@@ -405,12 +404,15 @@ class SpedDocumento(models.Model):
         mail_template.send_mail(self.id)
 
     def resposta_cfe(self, resposta):
-        if resposta.EEEEE in '06000':
+        from mfecfe.resposta.enviardadosvenda import RespostaEnviarDadosVenda
+        resposta_sefaz = RespostaEnviarDadosVenda.analisar(resposta.get('retorno'))
+
+        if resposta_sefaz.EEEEE in '06000':
             self.executa_antes_autorizar()
             self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
             self.executa_depois_autorizar()
             # self.data_hora_autorizacao = fields.Datetime.now()
-        elif resposta.EEEEE in ('06001', '06002', '06003', '06004', '06005',
+        elif resposta_sefaz.EEEEE in ('06001', '06002', '06003', '06004', '06005',
                                 '06006', '06007', '06008', '06009', '06010',
                                 '06098', '06099'):
             self.executa_antes_denegar()
@@ -442,7 +444,7 @@ class SpedDocumento(models.Model):
         # print (resposta.valorTotalCFe)
         # print (resposta.assinaturaQRCODE)
         # print (resposta.xml())
-        # self.grava_cfe(cfe)
+        self.grava_cfe(resposta_sefaz.xml())
 
     @api.model
     def processar_venda_cfe(self, venda_id):
@@ -481,4 +483,16 @@ class SpedDocumento(models.Model):
         # Processa resposta
         #
         resposta = cliente.enviar_dados_venda(cfe)
+        if resposta.EEEEE in '06000':
+            self.executa_antes_autorizar()
+            self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
+            self.executa_depois_autorizar()
+            self.data_hora_autorizacao = fields.Datetime.now()
+        elif resposta.EEEEE in ('06001', '06002', '06003', '06004', '06005',
+                                '06006', '06007', '06008', '06009', '06010',
+                                '06098', '06099'):
+            self.executa_antes_denegar()
+            self.situacao_fiscal = SITUACAO_FISCAL_DENEGADO
+            self.situacao_nfe = SITUACAO_NFE_DENEGADA
+            self.executa_depois_denegar()
         # nfe = self.monta_nfe(resposta)
