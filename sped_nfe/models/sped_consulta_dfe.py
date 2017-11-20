@@ -243,7 +243,6 @@ class ConsultaDFe(models.Model):
                         'id': self.id,
                         'type': 'ir.actions.act_window',
                         'views': [[False, 'tree']],
-                        'target': 'new',
                         'domain': [('empresa_id', '=', company.id)],
                         'res_model': 'sped.manifestacao.destinatario'
                     }
@@ -253,8 +252,8 @@ class ConsultaDFe(models.Model):
                     raise models.ValidationError(
                         nfe_result['code'] + ' - ' + nfe_result['message'])
 
-        return nfe_mdes
-        # return action
+        # return nfe_mdes
+        return action
 
 
     def validate_nfe_configuration(self,company):
