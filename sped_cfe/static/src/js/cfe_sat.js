@@ -59,7 +59,9 @@ odoo.define('sped_cfe.cfe_sat', function (require) {
                 params["dados_venda"] = result;
                 var resposta_api_cfe = self.chamada_api_cfe_sat(params, url);
                 resposta_api_cfe.done(function (response) {
-                    alert(response.funcao + ": " + response.retorno);
+                    new Model('sped.documento').call('resposta_cfe', [response]).then(function (result) {}, function (error) {
+                        alert(error.data.message);
+                    });
                 }).fail(function (error) {
                     alert(error.statusText);
                 });

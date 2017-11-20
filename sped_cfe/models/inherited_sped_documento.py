@@ -401,34 +401,7 @@ class SpedDocumento(models.Model):
         self.ensure_one()
         mail_template.send_mail(self.id)
 
-    def envia_nfe(self):
-        #FIXME: Este super deveria ser chamado mas retornar para manter a compatibilidade entre os módulos
-        # super(SpedDocumento, self).envia_nfe()
-
-        self.ensure_one()
-
-        # TODO: Conectar corretamente no SAT
-        # cliente = self.processador_cfe()
-        from mfecfe import BibliotecaSAT
-        from mfecfe import ClienteSATLocal
-        cliente = ClienteSATLocal(
-            BibliotecaSAT('/opt/Integrador'),  # Caminho do Integrador
-            codigo_ativacao='12345678'
-        )
-        # FIXME: Datas
-        # # A NFC-e deve ter data de emissão no máx. 5 minutos antes
-        # # da transmissão; por isso, definimos a hora de emissão aqui no
-        # # envio
-        # if self.modelo == MODELO_FISCAL_NFCE:
-        #     self.data_hora_emissao = fields.Datetime.now()
-        #     self.data_hora_entrada_saida = self.data_hora_emissao
-
-        cfe = self.monta_cfe()
-        #
-        # Processa resposta
-        #
-        resposta = cliente.enviar_dados_venda(cfe)
-        # nfe = self.monta_nfe(resposta)
+    def resposta_cfe(self, resposta):
         if resposta.EEEEE in '06000':
             self.executa_antes_autorizar()
             self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
@@ -465,4 +438,9 @@ class SpedDocumento(models.Model):
         # print (resposta.valorTotalCFe)
         # print (resposta.assinaturaQRCODE)
         # print (resposta.xml())
-        self.grava_cfe(cfe)
+        # self.grava_cfe(cfe)
+
+    @api.model
+    def processar_venda_cfe(self, venda_id):
+        venda = self.browse(venda_id)
+        return venda.monta_cfe()
