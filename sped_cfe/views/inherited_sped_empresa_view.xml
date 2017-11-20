@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA - Luis Felipe Mileo <mileo@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_empresa_inherited_form" >
+        <field name="name">sped.empresa.inherited.form (in sped_cfe)</field>
+        <field name="model">sped.empresa</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="sped_imposto.sped_empresa_form" />
+        <field name="arch" type="xml">
+            <field name="protocolo_id" position="after">
+                <newline />
+                <field name="certificado_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
+            </field>
+            <field name="serie_cfe_contingencia_homologacao" position="after">
+                <newline />
+                <separator string="Extrato CF-E" colspan="4" />
+                <field name="logo_cfe" colspan="4" />
+                <newline />
+                <separator string="Modelos de email" colspan="4" />
+                <field name="mail_template_cfe_autorizada_id" colspan="4" string="Autorização" />
+                <field name="mail_template_cfe_cancelada_id" colspan="4" string="Cancelamento" />
+                <field name="mail_template_cfe_denegada_id" colspan="4" string="Denegação" />
+                <field name="mail_template_cfe_cce_id" colspan="4" string="Carta de correção" />
+            </field>
+        </field>
+    </record>
+
+</odoo>
