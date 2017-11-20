@@ -251,7 +251,8 @@
                     <group attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}">
                         <group>
                             <field name="holidays_ferias"
-                                   domain="[('contrato_id', '=', contract_id), ('state', '=', 'validate'), ('type', '=', 'remove'), ('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]"
+                                   options="{'no_quick_create': True, 'no_create_edit': True}"
+                                   domain="[('contrato_id', '=', contract_id), ('state', '=', 'validate'), ('slip_ids', '=', False), ('type', '=', 'remove'), ('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]"
                                    attrs="{'readonly': False, 'required': [('tipo_de_folha', '=', 'ferias'), ('is_simulacao', '=', False)]}"/>
 
                             <field name="periodo_aquisitivo"

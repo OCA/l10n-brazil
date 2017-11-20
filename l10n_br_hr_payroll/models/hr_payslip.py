@@ -1669,12 +1669,9 @@ class HrPayslip(models.Model):
 #            if fields.Date.from_string(payslip.date_from) < fields.Date.\
 #                    from_string(payslip.periodo_aquisitivo.inicio_concessivo):
             if not payslip.saldo_periodo_aquisitivo:
-                dias_abono_ferias.update(
-                    {
-                        'DIAS_FERIAS':
-                            worked_days[u'SALDO_FERIAS'].number_of_days
-                    }
-                )
+                dias_abono_ferias.update({
+                    'DIAS_FERIAS': worked_days[u'SALDO_FERIAS'].number_of_days
+                })
             else:
                 dias_abono_ferias.update(
                     {'DIAS_FERIAS': payslip.saldo_periodo_aquisitivo}
@@ -2224,7 +2221,7 @@ class HrPayslip(models.Model):
 
                     # Atualizar o controle de férias com informacao de
                     # quantos dias o funcionario gozara
-                    self.periodo_aquisitivo.dias_gozados += \
+                    self.periodo_aquisitivo.dias_gozados = \
                         self.holidays_ferias.number_of_days_temp
 
                     # Caso o funcionario opte por dividir as férias em dois
