@@ -444,3 +444,8 @@ class SpedDocumento(models.Model):
     def processar_venda_cfe(self, venda_id):
         venda = self.browse(venda_id)
         return venda.monta_cfe()
+
+    @api.model
+    def processar_resposta_cfe(self, venda_id, resposta):
+        venda = self.browse(venda_id)
+        return venda.resposta_cfe(resposta)
