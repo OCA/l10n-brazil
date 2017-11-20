@@ -10,8 +10,8 @@ from __future__ import division, print_function, unicode_literals
 import logging
 
 from odoo import _, api, fields, models
-from odoo.osv import orm
 import base64
+
 
 _logger = logging.getLogger(__name__)
 
@@ -52,11 +52,11 @@ class SpedManifestacaoDestinatario(models.Model):
 
     empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
-        string='Empresa',
+        string='Razão Social',
         required=True,
     )
     chave = fields.Char(
-        string='Chave',
+        string='Chave de Acesso',
         size=44,
         required=True,
     )
@@ -66,7 +66,7 @@ class SpedManifestacaoDestinatario(models.Model):
         index=True,
     )
     numero = fields.Float(
-        string='Número',
+        string='Número da NF-e',
         index=True,
         digits=(18, 0),
     )
@@ -84,7 +84,7 @@ class SpedManifestacaoDestinatario(models.Model):
     )
 
     nsu = fields.Char(
-        string=u'NSU',
+        string=u'Número Sequencial',
         size=25,
         select=True,
     )
@@ -109,19 +109,43 @@ class SpedManifestacaoDestinatario(models.Model):
         comodel_name='sped.participante',
         string='Fornecedor',
     )
+
+    fornecedor = fields.Char(
+        string='Fornecedor',
+        size=60,
+        index=True,
+    )
+
     data_hora_emissao = fields.Datetime(
-        string='Data de emissão',
+        string='Data de Emissão',
         index=True,
         default=fields.Datetime.now,
     )
     data_emissao = fields.Date(
-        string='Data de emissão',
+        string='Data de Emissão',
         compute='_compute_data_hora_separadas',
         store=True,
         index=True,
     )
     hora_emissao = fields.Char(
         'Hora de emissão',
+        size=8,
+        compute='_compute_data_hora_separadas',
+        store=True,
+    )
+    data_hora_inclusao = fields.Datetime(
+        string='Data de Inclusão',
+        index=True,
+        default=fields.Datetime.now,
+    )
+    data_inclusao = fields.Date(
+        string='Data de inclusão',
+        compute='_compute_data_hora_separadas',
+        store=True,
+        index=True,
+    )
+    hora_inclusao = fields.Char(
+        'Hora de inclusão',
         size=8,
         compute='_compute_data_hora_separadas',
         store=True,
@@ -150,8 +174,8 @@ class SpedManifestacaoDestinatario(models.Model):
         string='Digest Value',
         size=28,
     )
-    justificativa = fields.Char(
-        string='Justificativa',
+    forma_inclusao = fields.Char(
+        string='Forma de Inclusão',
         size=255,
     )
     protocolo_autorizacao = fields.Char(
@@ -164,107 +188,112 @@ class SpedManifestacaoDestinatario(models.Model):
     )
 
     situacao_nfe= fields.Selection(
-        string=u'Situacação NF-e',
+        string=u'Situacação da NF-e',
         selection=SITUACAO_NFE,
         select=True,
         readonly=True,
     )
 
-    situacao_manifestacao = fields.Selection(
+    state = fields.Selection(
         string=u'Situacação da Manifestação',
         selection=SITUACAO_MANIFESTACAO,
         select=True,
         readonly=True,
     )
+    sped_consulta_dfe_id = fields.Many2one(
+        string=u'DF-E',
+        comodel_name='sped.consulta.dfe',
+        readonly=True,
+    )
 
     @api.multi
-    def action_known_emission(self):
+    def action_ciencia_emissao(self):
         for record in self:
-            self.validate_nfe_configuration(record.company_id)
-            nfe_result = self.send_event(
-                record.company_id, record.chNFe, 'ciencia_operacao')
-            env_events = record.env['l10n_br_account.document_event']
-            event = record._create_event('Ciência da operação', nfe_result)
+
+            record.sped_consulta_dfe_id.validate_nfe_configuration(
+                record.empresa_id)
+
+            nfe_result = record.sped_consulta_dfe_id.send_event(
+                record.empresa_id,
+                record.chave,
+                'ciencia_operacao'
+            )
             if nfe_result['code'] == '135':
                 record.state = 'ciente'
             elif nfe_result['code'] == '573':
                 record.state = 'ciente'
-                event['response'] = \
-                    'Ciência da operação já previamente realizada'
             else:
-                event['response'] = 'Ciência da operação sem êxito'
-            event = env_events.create(event)
-            record._create_attachment(event, nfe_result)
+                raise models.ValidationError(
+                    nfe_result['code'] + ' - ' + nfe_result['message'])
+                return False
+
         return True
 
     @api.multi
-    def action_confirm_operation(self):
+    def action_confirmar_operacacao(self):
         for record in self:
-            self.validate_nfe_configuration(record.company_id)
-            nfe_result = self.send_event(
-                record.company_id,
-                record.chNFe,
+            record.sped_consulta_dfe_id.validate_nfe_configuration(
+                record.empresa_id)
+            nfe_result = record.sped_consulta_dfe_id.send_event(
+                record.empresa_id,
+                record.chave,
                 'confirma_operacao')
-            env_events = record.env['l10n_br_account.document_event']
-            event = record._create_event('Confirmação da operação', nfe_result)
+
             if nfe_result['code'] == '135':
                 record.state = 'confirmado'
             else:
-                event['response'] = 'Confirmação da operação sem êxito'
-            event = env_events.create(event)
-            record._create_attachment(event, nfe_result)
+                raise models.ValidationError(
+                    nfe_result['code'] + ' - ' + nfe_result['message'])
+                return False
+
         return True
 
     @api.multi
-    def action_unknown_operation(self):
+    def action_operacao_desconhecida(self):
         for record in self:
-            self.validate_nfe_configuration(record.company_id)
-            nfe_result = self.send_event(
-                record.company_id,
-                record.chNFe,
+            record.sped_consulta_dfe_id.validate_nfe_configuration(record.empresa_id)
+            nfe_result = record.sped_consulta_dfe_id.send_event(
+                record.empresa_id,
+                record.chave,
                 'desconhece_operacao')
-            env_events = record.env['l10n_br_account.document_event']
-            event = record._create_event(
-                'Desconhecimento da operação', nfe_result)
+
             if nfe_result['code'] == '135':
                 record.state = 'desconhecido'
             else:
-                event['response'] = 'Desconhecimento da operação sem êxito'
-            event = env_events.create(event)
-            record._create_attachment(event, nfe_result)
+                raise models.ValidationError(
+                    nfe_result['code'] + ' - ' + nfe_result['message'])
+                return False
+
         return True
 
     @api.multi
-    def action_not_operation(self):
+    def action_negar_operacao(self):
         for record in self:
-            self.validate_nfe_configuration(record.empresa_id)
-            nfe_result = self.send_event(
-                record.company_id,
-                record.chNFe,
+            record.sped_consulta_dfe_id.validate_nfe_configuration(record.empresa_id)
+            nfe_result = record.sped_consulta_dfe_id.send_event(
+                record.empresa_id,
+                record.chave,
                 'nao_realizar_operacao')
-            env_events = record.env['l10n_br_account.document_event']
-            event = record._create_event('Operação não realizada', nfe_result)
+
             if nfe_result['code'] == '135':
                 record.state = 'nap_realizado'
             else:
-                event['response'] = \
-                    'Tentativa de Operação não realizada sem êxito'
-            event = env_events.create(event)
-            record._create_attachment(event, nfe_result)
+                raise models.ValidationError(
+                    nfe_result['code'] + ' - ' + nfe_result['message'])
+                return False
+
         return True
 
     @api.multi
     def action_download_xml(self):
         result = True
         for record in self:
-            self.validate_nfe_configuration(record.company_id)
-            nfe_result = self.download_nfe(record.company_id, record.chNFe)
-            env_events = record.env['l10n_br_account.document_event']
+            record.sped_consulta_dfe_id.validate_nfe_configuration(record.empresa_id)
+            nfe_result = record.sped_consulta_dfe_id.download_nfe(record.empresa_id, record.chave)
+
             if nfe_result['code'] == '138':
-                event = record._create_event(
-                    'Download NFe concluido', nfe_result, type_event='10')
-                env_events.create(event)
-                file_name = 'NFe%s.xml' % record.chNFe
+
+                file_name = 'NFe%s.xml' % record.chave
                 record.env['ir.attachment'].create(
                     {
                         'name': file_name,
@@ -272,37 +301,13 @@ class SpedManifestacaoDestinatario(models.Model):
                         'datas_fname': file_name,
                         'description':
                             u'XML NFe - Download manifesto do destinatário',
-                        'res_model': 'nfe.mde',
+                        'res_model': 'sped.manifestacao.destinatario',
                         'res_id': record.id
                     })
             else:
                 result = False
-                event = record._create_event(
-                    'Download NFe não efetuado', nfe_result, type_event='10')
-                event = env_events.create(event)
-                record._create_attachment(event, nfe_result)
+
+                raise models.ValidationError(
+                    nfe_result['code'] + ' - ' + nfe_result['message'])
+
         return result
-
-    def validate_nfe_configuration(company):
-        error = u'As seguintes configurações estão faltando:\n'
-        if not company.nfe_version:
-            error += u'Empresa - Versão NF-e\n'
-        if not company.nfe_a1_file:
-            error += u'Empresa - Arquivo NF-e A1\n'
-        if not company.nfe_a1_password:
-            error += u'Empresa - Senha NF-e A1\n'
-        if error != u'As seguintes configurações estão faltando:\n':
-            raise orm.except_orm(_(u'Validação !'), _(error))
-
-
-        # 'data_manifestacao': fields.datetime(
-    #   u'Data da manifestação'),
-    # 'justificativa': fields.char(
-    #   u'Justificativa', size=255),
-    # 'xml_autorizacao': fields.text(
-    #   u'XML de autorização'),
-    # 'xml_cancelamento': fields.text(
-    #   u'XML de cancelamento'),
-    # 'documento_original_id': fields.many2one(
-    #   'sped.documento',
-    #   u'Documento de remessa/transferência/venda original'),

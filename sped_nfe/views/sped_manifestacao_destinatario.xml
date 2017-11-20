@@ -7,26 +7,30 @@
             <field name="arch" type="xml">
                 <form string="Manifestacao">
                     <header>
-                        <button name="action_known_emission"
+                        <button name="action_ciencia_emissao"
                                 string="Ciência da Emissão"
                                 type="object"
-                                attrs="{'invisible':[['situacao_manifestacao','not in',['pendente']]]}"/>
-                        <button name="action_confirm_operation"
+                                attrs="{'invisible':[['state','not in',['pendente']]]}"/>
+                        <button name="action_confirmar_operacacao"
                                 string="Confirmar Operação"
                                 type="object"
-                                attrs="{'invisible':[['situacao_manifestacao','not in',['ciente']]]}"/>
-                        <button name="action_unknown_operation"
+                                attrs="{'invisible':[['state','not in',['ciente']]]}"/>
+                        <button name="action_operacao_desconhecida"
                                 string="Desconhecer Operação"
                                 type="object"
-                                attrs="{'invisible':[['situacao_manifestacao','not in',['ciente']]]}"/>
-                        <button name="action_not_operation"
+                                attrs="{'invisible':[['state','not in',['ciente']]]}"/>
+                        <button name="action_negar_operacao"
                                 string="Operação não Realizada"
                                 type="object"
-                                attrs="{'invisible':[['situacao_manifestacao','not in',['ciente']]]}"/>
+                                attrs="{'invisible':[['state','not in',['ciente']]]}"/>
                         <button name="action_download_xml"
-                                string="Download do XML"
+                                string="Download da NF-e"
                                 type="object"
-                                attrs="{'invisible':[['situacao_manifestacao','not in',['ciente','cofirmado','desconhecido','nao_realizado']]]}"/>
+                                attrs="{'invisible':[['state','not in',['ciente','cofirmado','desconhecido','nao_realizado']]]}"/>
+                        <field name="state" statusbar_visible="pendente,ciente,confirmado"
+                               statusbar_colors='{"confirmado":"blue","desconhecido":"red","nao_realizado":"red"}'
+                               widget="statusbar" nolabel="1"
+                               />
                     </header>
                     <group>
                         <group>
@@ -40,20 +44,13 @@
                             <field name="data_hora_emissao"/>
                         </group>
                         <group>
-                            <!--<field name="currency_id"-->
-                                   <!--groups="base.group_multi_currency"/>-->
                             <field name="tipo_operacao"/>
                             <field name="valor_documento" widget="monetary"/>
-                                   <!--options="{'currency_field': 'currency_id'}"/>-->
                             <field name="situacao_nfe"/>
-                            <field name="situacao_manifestacao"/>
-                            <field name="justificativa"/>
-                            <field name="data_hora_autorizacao"/>
+                            <field name="forma_inclusao"/>
+                            <field name="data_hora_inclusao"/>
                         </group>
                     </group>
-                    <!--<group string="Documentos eletrônicos">-->
-                        <!--<field nolabel="1" name="document_event_ids"/>-->
-                    <!--</group>-->
                 </form>
             </field>
         </record>
@@ -64,20 +61,20 @@
             <field name="arch" type="xml">
                 <search string="Filtrar">
                     <field name="participante_id" string="Fornecedor"/>
-                    <field name="empresa_id" string="Nome fornecedor"/>
+                    <field name="empresa_id" string="Razão Social"/>
                     <field name="cnpj_cpf" string="Cnpj fornecedor"/>
-                    <field name="situacao_manifestacao" string="Situação"/>
+                    <field name="state" string="Situação"/>
                     <filter name="situacao_pendente" string="Pendentes"
-                            domain="[('situacao_manifestacao','=','pendente')]"/>
+                            domain="[('state','=','pendente')]"/>
                     <filter name="situacao_confirmado" string="Confirmados"
-                            domain="[('situacao_manifestacao','=','confirmado')]"/>
+                            domain="[('state','=','confirmado')]"/>
                     <filter name="situacao_ciente" string="Ciente da operação"
-                            domain="[('situacao_manifestacao','=','ciente')]"/>
+                            domain="[('state','=','ciente')]"/>
                     <filter name="situacao_desconhecido" string="Desconhecidos"
-                            domain="[('situacao_manifestacao','=','desconhecido')]"/>
+                            domain="[('state','=','desconhecido')]"/>
                     <filter name="situacao_nao_realizado"
                             string="Não realizados"
-                            domain="[('situacao_manifestacao','=','nao_realizado')]"/>
+                            domain="[('state','=','nao_realizado')]"/>
                 </search>
             </field>
         </record>
@@ -93,7 +90,7 @@
                     <field name="cnpj_cpf"/>
                     <field name="empresa_id"/>
                     <field name="data_hora_emissao"/>
-                    <field name="situacao_manifestacao"/>
+                    <field name="state"/>
                     <field name="valor_documento"/>
                 </tree>
             </field>
