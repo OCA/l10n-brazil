@@ -26,10 +26,14 @@ odoo.define('sped_cfe.sped_sat', function (require) {
             return this._super(this);
         },
         preparar_parametros: function() {
-            return {
-                    'numero_caixa': 1,
-                    'dados_venda': 1231
-                };
+            var self = this;
+            var parametros = {
+                'numero_caixa': 1,
+            };
+            if (this.node.attrs.custom == "enviar_dados_venda") {
+                parametros["venda_id"] = self.view.datarecord.id;
+            }
+            return parametros
         },
         on_click: function() {
             var self = this;

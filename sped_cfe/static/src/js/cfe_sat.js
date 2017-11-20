@@ -55,11 +55,16 @@ odoo.define('sped_cfe.cfe_sat', function (require) {
         enviar_dados_venda: function (params) {
             var self = this;
             var url = "/hub/v1/enviardadosvenda";
-            var resposta_api_cfe = self.chamada_api_cfe_sat(params, url);
-            resposta_api_cfe.done(function (response) {
-                alert(response.funcao + ": " + response.retorno);
-            }).fail(function (error) {
-                alert(error.statusText);
+            new Model('sped.documento').call('processar_venda_cfe', [params["venda_id"]]).then(function (result) {
+                params["dados_venda"] = result;
+                var resposta_api_cfe = self.chamada_api_cfe_sat(params, url);
+                resposta_api_cfe.done(function (response) {
+                    alert(response.funcao + ": " + response.retorno);
+                }).fail(function (error) {
+                    alert(error.statusText);
+                });
+            }, function (error) {
+                alert(error.data.message);
             });
         },
         cancelar_ultima_venda: function (params) {
