@@ -399,8 +399,6 @@ class SpedDocumento(models.Model):
                 # self.data_hora_autorizacao = data_autorizacao
                 # self.protocolo_autorizacao = protNFe.infProt.nProt.valor
                 #
-
-
             elif resposta.EEEEE in ('06001', '06002', '06003', '06004', '06005',
                                     '06006', '06007', '06008', '06009', '06010',
                                     '06098', '06099'):
@@ -470,3 +468,8 @@ class SpedDocumento(models.Model):
                     break
 
             self.pagamento_autorizado_cfe = pagamentos_autorizados
+
+    @api.model
+    def processar_venda_cfe(self, venda_id):
+        venda = self.browse(venda_id)
+        return venda.monta_cfe()
