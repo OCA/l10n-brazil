@@ -697,10 +697,18 @@ class HrPayslip(models.Model):
                                                 u'DSR_PARA_DESCONTAR',
                                                 quantity_DSR_discount,
                                                 0.0, contract_id)]
+
             # get dias de férias + get dias de abono pecuniario
-            quantidade_dias_ferias, quantidade_dias_abono = \
-                self.env['resource.calendar'].get_quantidade_dias_ferias(
-                    hr_contract, date_from, date_to)
+            if self.tipo_de_folha == 'provisao_ferias':
+                quantidade_dias_abono = 0
+                d1 = fields.Date.from_string(date_to)
+                d2 = fields.Date.from_string(date_from)
+                diff = d1 - d2
+                quantidade_dias_ferias = diff.days
+            else:
+                quantidade_dias_ferias, quantidade_dias_abono = \
+                    self.env['resource.calendar'].get_quantidade_dias_ferias(
+                        hr_contract, date_from, date_to)
 
             result += [
                 self.get_attendances(
