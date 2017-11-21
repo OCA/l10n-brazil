@@ -2,7 +2,7 @@
 <templates id="template" xml:space="preserve">
 
     <t t-name="Cfe-sat-status">
-        <div class="o_notification" style="color: red;">
+        <div class="o_notification cfe_sat_status" style="color: red;">
             &#9673; Cfe-Sat
         </div>
     </t>

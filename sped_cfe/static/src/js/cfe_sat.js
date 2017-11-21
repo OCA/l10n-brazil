@@ -13,10 +13,36 @@ odoo.define('sped_cfe.cfe_sat', function (require) {
         },
         start: function() {
             var self = this;
+            this.keepalive();
             return this._super(this);
         },
         connect: function (url) {
             return new Session(undefined, url, {use_cors: true});
+        },
+        keepalive : function(){
+            var self = this;
+
+            function status(){
+                var url = "/hub/v1/consultarsat";
+                var resposta_api_cfe = self.chamada_api_cfe_sat({'numero_caixa': 1}, url);
+                resposta_api_cfe.done(function (result) {
+                    var retorno_sat = result["retorno"].split('|');
+                    if (retorno_sat[2] == "SAT em Operação") {
+                        $(".cfe_sat_status").css("color", "green");
+                    } else {
+                        $(".cfe_sat_status").css("color", "red");
+                    }
+                }).fail(function (error) {
+                    $(".cfe_sat_status").css("color", "red");
+                }).always(function (){
+                    setTimeout(status, 5000);
+                });
+            }
+
+            if(!this.keptalive){
+                this.keptalive = true;
+                status();
+            }
         },
         chamada_api_cfe_sat: function (params, url){
             var self = this;
@@ -42,12 +68,7 @@ odoo.define('sped_cfe.cfe_sat', function (require) {
             var url = "/hub/v1/consultarsat";
             var resposta_api_cfe = self.chamada_api_cfe_sat(params, url);
             resposta_api_cfe.done(function (response) {
-                alert(response.funcao + ": " + response.retorno);
-                return (new Model('res.users')).call('search_read', [[['id', '=', 1]]]).then(function (result) {
-                    alert(result[0].display_name);
-                }, function (error) {
-                    alert(error);
-                });
+                alert(response.retorno);
             }).fail(function (error) {
                 alert(error.statusText);
             });
