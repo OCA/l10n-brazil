@@ -108,6 +108,7 @@ class SpedManifestacaoDestinatario(models.Model):
     participante_id = fields.Many2one(
         comodel_name='sped.participante',
         string='Fornecedor',
+        invisible=True,
     )
 
     fornecedor = fields.Char(

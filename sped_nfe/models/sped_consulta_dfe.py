@@ -155,10 +155,7 @@ class ConsultaDFe(models.Model):
                                     'numero': root.NFe.infNFe.ide.nNF,
                                     'chave': chave_nfe,
                                     'nsu': nfe['NSU'],
-                                    #TODO: Esconder campo participante_id e
-                                    # colocar fornecedor quando o mesmo não
-                                    # existir
-                                    # 'fornecedor': root.xNome,
+                                    'fornecedor': root.xNome,
                                     'tipo_operacao': str(root.NFe.infNFe.ide.tpNF),
                                     'valor_documento': root.NFe.infNFe.total.ICMSTot.vNF,
                                     # 'cSitNFe': str(root.cSitNFe),
@@ -204,10 +201,7 @@ class ConsultaDFe(models.Model):
                                     # 'numero': root.NFe.infNFe.ide.nNF,
                                     'chave': chave_nfe,
                                     'nsu': nfe['NSU'],
-                                    # TODO: Esconder campo participante_id e
-                                    # colocar fornecedor quando o mesmo não
-                                    # existir
-                                    # 'fornecedor': root.xNome,
+                                    'fornecedor': root.xNome,
                                     'tipo_operacao': str(root.tpNF),
                                     'valor_documento': root.vNF,
                                     'situacao_nfe': str(root.cSitNFe),

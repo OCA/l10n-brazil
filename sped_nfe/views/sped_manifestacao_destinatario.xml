@@ -37,18 +37,18 @@
                             <field name="chave" select="1"/>
                             <field name="numero"/>
                             <field name="nsu"/>
-                            <field name="cnpj_cpf"/>
                             <field name="ie"/>
                             <field name="empresa_id"/>
-                            <field name="participante_id"/>
-                            <field name="data_hora_emissao"/>
+                            <field name="fornecedor"/>
                         </group>
                         <group>
                             <field name="tipo_operacao"/>
                             <field name="valor_documento" widget="monetary"/>
                             <field name="situacao_nfe"/>
                             <field name="forma_inclusao"/>
+                            <field name="cnpj_cpf"/>
                             <field name="data_hora_inclusao"/>
+                            <field name="data_hora_emissao"/>
                         </group>
                     </group>
                 </form>
@@ -60,7 +60,7 @@
             <field name="model">sped.manifestacao.destinatario</field>
             <field name="arch" type="xml">
                 <search string="Filtrar">
-                    <field name="participante_id" string="Fornecedor"/>
+                    <field name="fornecedor" string="Fornecedor"/>
                     <field name="empresa_id" string="Razão Social"/>
                     <field name="cnpj_cpf" string="Cnpj fornecedor"/>
                     <field name="state" string="Situação"/>
@@ -86,7 +86,7 @@
             <field name="arch" type="xml">
                 <tree string="NFe Destinadas" create="false">
                     <field name="nsu"/>
-                    <field name="participante_id"/>
+                    <field name="fornecedor"/>
                     <field name="cnpj_cpf"/>
                     <field name="empresa_id"/>
                     <field name="data_hora_emissao"/>
