@@ -128,10 +128,6 @@ class ConsultaDFe(models.Model):
                         u'Não foi possivel efetuar a consulta!\n '
                         u'Verifique o log')
             else:
-                # if self.ultimo_nsu:
-                    # self.ultimo_nsu = nfe_result['list_nfe'][nfe_result.__len__()-1]['NSU']
-
-
                 if nfe_result['code'] == '137' or nfe_result['code'] == '138':
                     env_mde = self.env['sped.manifestacao.destinatario']
                     for nfe in nfe_result['list_nfe']:
@@ -141,6 +137,7 @@ class ConsultaDFe(models.Model):
                              ]).id
                         nfe_xml = nfe['xml'].encode('utf-8')
                         root = objectify.fromstring(nfe_xml)
+                        self.ultimo_nsu = nfe['NSU']
                         if nfe['schema'] == u'procNFe_v3.10.xsd' and \
                                 not exists_nsu:
                             chave_nfe = root.protNFe.infProt.chNFe
@@ -158,6 +155,9 @@ class ConsultaDFe(models.Model):
                                     'numero': root.NFe.infNFe.ide.nNF,
                                     'chave': chave_nfe,
                                     'nsu': nfe['NSU'],
+                                    #TODO: Esconder campo participante_id e
+                                    # colocar fornecedor quando o mesmo não
+                                    # existir
                                     # 'fornecedor': root.xNome,
                                     'tipo_operacao': str(root.NFe.infNFe.ide.tpNF),
                                     'valor_documento': root.NFe.infNFe.total.ICMSTot.vNF,
@@ -174,7 +174,6 @@ class ConsultaDFe(models.Model):
                                     'sped_consulta_dfe_id': consulta.id,
                                     'forma_inclusao': u'Verificação agendada'
                                 }
-                                self.ultimo_nsu = nfe['NSU']
                                 obj_nfe = env_mde.create(invoice_eletronic)
                                 file_name = 'resumo_nfe-%s.xml' % nfe['NSU']
                                 self.env['ir.attachment'].create(
@@ -205,6 +204,9 @@ class ConsultaDFe(models.Model):
                                     # 'numero': root.NFe.infNFe.ide.nNF,
                                     'chave': chave_nfe,
                                     'nsu': nfe['NSU'],
+                                    # TODO: Esconder campo participante_id e
+                                    # colocar fornecedor quando o mesmo não
+                                    # existir
                                     # 'fornecedor': root.xNome,
                                     'tipo_operacao': str(root.tpNF),
                                     'valor_documento': root.vNF,
@@ -222,7 +224,6 @@ class ConsultaDFe(models.Model):
                                     'forma_inclusao': u'Verificação agendada - '
                                                     u'manifestada por outro app'
                                 }
-                                self.ultimo_nsu = nfe['NSU']
                                 obj_nfe = env_mde.create(invoice_eletronic)
                                 file_name = 'resumo_nfe-%s.xml' % nfe['NSU']
                                 self.env['ir.attachment'].create(
