@@ -33,6 +33,7 @@
                         <newline />
                         <button name="busca_documentos" string="Busca documentos" type="object" class="btn-primary" />
                     </group>
+                    <field name="destinatario_xml_ids"/>
                 </group>
             </sheet>
 <!--            <div class="oe_chatter">
@@ -95,5 +96,18 @@
         parent="sped.menu_sped_documento_emissao"
         action="sped_consulta_dfe_acao"
         />
+
+    <record model="ir.ui.view"
+        id="view_sped_consulta_dfe_xml_tree">
+        <field name="name">sped_consulta_dfe.xml.tree</field>
+        <field name="model">sped.consulta.dfe.xml</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="XML's" create="false">
+                <field name="tipo_xml"/>
+                <field name="xml"/>
+            </tree>
+        </field>
+    </record>
 
 </odoo>

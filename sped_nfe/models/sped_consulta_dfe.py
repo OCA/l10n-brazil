@@ -57,6 +57,12 @@ class ConsultaDFe(models.Model):
         string='Última consulta',
     )
 
+    destinatario_xml_ids = fields.One2many(
+        comodel_name='sped.consulta.dfe.xml',
+        inverse_name='consulta_id',
+        string='Documentos XML',
+    )
+
     def _format_nsu(self, nsu):
         nsu = long(nsu)
         return "%015d" % (nsu,)
@@ -80,12 +86,14 @@ class ConsultaDFe(models.Model):
                     })
 
                 return {
+                    'result' : result,
                     'code': result.resposta.cStat.valor,
                     'message': result.resposta.xMotivo.valor,
                     'list_nfe': nfe_list, 'file_returned': result.resposta.xml
                 }
             else:
                 return {
+                    'result': result,
                     'code': result.resposta.cStat.valor,
                     'message': result.resposta.xMotivo.valor,
                     'file_sent': result.envio.xml,
@@ -93,6 +101,7 @@ class ConsultaDFe(models.Model):
                 }
         else:
             return {
+                'result': result,
                 'code': result.resposta.status,
                 'message': result.resposta.reason,
                 'file_sent': result.envio.xml, 'file_returned': None
@@ -110,6 +119,7 @@ class ConsultaDFe(models.Model):
     @api.multi
     def busca_documentos(self, raise_error=False):
         nfe_mdes = []
+        xml_ids = []
         company = self.empresa_id
         action = ''
         for consulta in self:
@@ -130,6 +140,9 @@ class ConsultaDFe(models.Model):
             else:
                 if nfe_result['code'] == '137' or nfe_result['code'] == '138':
                     env_mde = self.env['sped.manifestacao.destinatario']
+                    env_mde_xml = self.env[
+                        'sped.consulta.dfe.xml']
+
                     for nfe in nfe_result['list_nfe']:
                         exists_nsu = self.env['sped.manifestacao.destinatario'].search(
                             [('nsu', '=', nfe['NSU']),
@@ -138,6 +151,7 @@ class ConsultaDFe(models.Model):
                         nfe_xml = nfe['xml'].encode('utf-8')
                         root = objectify.fromstring(nfe_xml)
                         self.ultimo_nsu = nfe['NSU']
+
                         if nfe['schema'] == u'procNFe_v3.10.xsd' and \
                                 not exists_nsu:
                             chave_nfe = root.protNFe.infProt.chNFe
@@ -183,6 +197,14 @@ class ConsultaDFe(models.Model):
                                             'sped.manifestacao.destinatario',
                                         'res_id': obj_nfe.id
                                     })
+
+                                env_mde_xml.create(
+                                    {
+                                        'consulta_id': self.id,
+                                        'tipo_xml': '3',
+                                        'xml': nfe['xml']
+                                    }
+                                )
 
                         elif nfe['schema'] == 'resNFe_v1.01.xsd' and \
                                 not exists_nsu:
@@ -231,6 +253,41 @@ class ConsultaDFe(models.Model):
                                         'res_id': obj_nfe.id
                                     })
 
+                                env_mde_xml.create(
+                                    {
+                                        'consulta_id': self.id,
+                                        'tipo_xml': '3',
+                                        'xml': nfe['xml']
+                                    }
+                                )
+
+                                env_mde_xml.create
+                                {
+                                    'consulta_id': self.id,
+                                    'tipo_xml': '3',
+                                    'xml': nfe['xml']
+                                }
+
+                        env_mde_xml.create(
+                        {
+                            'consulta_id':self.id,
+                            'tipo_xml':'0',
+                            'xml': nfe_result['result'].envio.original
+                        })
+                        env_mde_xml.create(
+                        {
+                            'consulta_id': self.id,
+                            'tipo_xml': '1',
+                            'xml': nfe_result['result'].resposta.original
+                        })
+                        env_mde_xml.create(
+                        {
+                            'consulta_id': self.id,
+                            'tipo_xml': '2',
+                            'xml': nfe_result[
+                                'result'].resposta.loteDistDFeInt.xml
+                        })
+
                         nfe_mdes.append(nfe)
 
                     action = {
@@ -238,6 +295,7 @@ class ConsultaDFe(models.Model):
                         'id': self.id,
                         'type': 'ir.actions.act_window',
                         'views': [[False, 'tree']],
+                        'target': 'new',
                         'domain': [('empresa_id', '=', company.id)],
                         'res_model': 'sped.manifestacao.destinatario'
                     }
@@ -247,8 +305,8 @@ class ConsultaDFe(models.Model):
                     raise models.ValidationError(
                         nfe_result['code'] + ' - ' + nfe_result['message'])
 
-        # return nfe_mdes
-        return action
+        return nfe_mdes
+        # return action
 
 
     def validate_nfe_configuration(self,company):
@@ -347,3 +405,28 @@ class ConsultaDFe(models.Model):
                 'message': result.resposta.reason,
                 'file_sent': result.envio.xml, 'file_returned': None
             }
+
+
+class SpedConsutaDFeXML(models.Model):
+    _name = b'sped.consulta.dfe.xml'
+    _description = 'Manifestação do Destinatário XML'
+
+    consulta_id = fields.Many2one(
+        string=u'Consulta',
+        comodel_name='sped.consulta.dfe',
+        readonly=True,
+    )
+
+    tipo_xml = fields.Selection(
+        [('0', 'Envio'), ('1', 'Resposta'),
+         ('2','Resposta-LoteDistDFeInt'),
+         ('3', 'Resposta-LoteDistDFeInt-DocZip(NFe)')],
+        string="Tipo de XML",
+        readonly=True,
+    )
+
+    xml = fields.Char(
+        string='Chave de Acesso',
+        size=5000,
+        required=True,
+    )
