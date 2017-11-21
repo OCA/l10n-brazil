@@ -162,12 +162,10 @@ class HrPayslipRun(models.Model):
                 contrato.action_button_update_controle_ferias(
                     data_referencia=data_inicio)
                 for periodo in contrato.vacation_control_ids:
-                    if periodo.saldo > 0:
+                    if periodo.saldo > 0 and not periodo.inicio_gozo:
                         try:
-                            data_fim = \
-                                fields.Date.to_string(
-                                    fields.Date.from_string(data_inicio) +
-                                    relativedelta(days=+periodo.saldo))
+                            data_fim = fields.Date.from_string(data_inicio) + \
+                                  relativedelta(days=periodo.saldo)
                             payslip_obj = self.env['hr.payslip']
                             payslip = payslip_obj.create({
                                 'contract_id': contrato.id,
@@ -181,7 +179,7 @@ class HrPayslipRun(models.Model):
                                 'tipo_de_folha': self.tipo_de_folha,
                                 'payslip_run_id': self.id,
                             })
-                            payslip._compute_set_dates()
+                            # payslip._compute_set_dates()
                             payslip.compute_sheet()
                             _logger.info(u"Holerite " + contrato.name +
                                          u" processado com sucesso!")
