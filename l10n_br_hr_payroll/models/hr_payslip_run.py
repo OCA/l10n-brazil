@@ -128,12 +128,21 @@ class HrPayslipRun(models.Model):
                 ]
             contracts_id = self.env['hr.contract'].search(dominio_contratos)
 
-            payslips = self.env['hr.payslip'].search([
+            dominio_payslips = [
                 ('tipo_de_folha', '=', self.tipo_de_folha),
-                ('date_from', '>=', self.date_start),
-                ('date_to', '<=', self.date_end),
                 ('contract_id', 'in', contracts_id.ids)
-            ])
+            ]
+            if lote.tipo_de_folha != 'provisao_ferias':
+                dominio_payslips += [
+                    ('date_from', '>=', self.date_start),
+                    ('date_to', '<=', self.date_end),
+                ]
+            else:
+                dominio_payslips += [
+                    ('mes_do_ano', '=', self.mes_do_ano),
+                    ('ano', '=', self.ano),
+                ]
+            payslips = self.env['hr.payslip'].search(dominio_payslips)
 
             contratos_com_holerites = []
             for payslip in payslips:
