@@ -919,8 +919,10 @@ class SpedDocumento(models.Model):
         nfe.infNFe.infAdic.infAdFisco.valor = infadfisco.decode('utf-8')
 
     def envia_nfe(self):
-        super(SpedDocumento, self).envia_nfe()
         self.ensure_one()
+        result = super(SpedDocumento, self).envia_nfe()
+        if self.modelo not in (MODELO_FISCAL_NFCE, MODELO_FISCAL_NFE):
+            return result
 
         processador = self.processador_nfe()
 
