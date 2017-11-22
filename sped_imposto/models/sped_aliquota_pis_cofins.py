@@ -35,7 +35,7 @@ class SpedAliquotaPISCOFINS(SpedBase, models.Model):
     _name = b'sped.aliquota.pis.cofins'
     _description = 'Alíquotas do PIS-COFINS'
     _rec_name = 'descricao'
-    _order = 'al_pis, al_cofins'
+    _order = 'cst_pis_cofins_saida, al_pis, al_cofins, cst_pis_cofins_entrada'
 
     al_pis = fields.Monetary(
         string='Alíquota do PIS',
@@ -67,10 +67,10 @@ class SpedAliquotaPISCOFINS(SpedBase, models.Model):
         required=True,
         default=ST_PIS_TRIB_NORMAL,
     )
-    codigo_justificativa = fields.Char(
-        string='Código da justificativa',
-        size=10,
-    )
+    #codigo_justificativa = fields.Char(
+        #string='Código da justificativa',
+        #size=10,
+    #)
     descricao = fields.Char(
         string='Alíquota do PIS-COFINS',
         compute='_compute_descricao',
@@ -78,8 +78,7 @@ class SpedAliquotaPISCOFINS(SpedBase, models.Model):
     )
 
     @api.depends('al_pis', 'al_cofins', 'md_pis_cofins',
-                 'cst_pis_cofins_entrada', 'cst_pis_cofins_saida',
-                 'codigo_justificativa')
+                 'cst_pis_cofins_entrada', 'cst_pis_cofins_saida')
     def _compute_descricao(self):
         for al_pis_cofins in self:
             if al_pis_cofins.al_pis == -1:
@@ -103,20 +102,19 @@ class SpedAliquotaPISCOFINS(SpedBase, models.Model):
                     )
 
                 al_pis_cofins.descricao += (
-                    ' - CST ' + al_pis_cofins.cst_pis_cofins_entrada)
+                    ' - CST ' + al_pis_cofins.cst_pis_cofins_saida)
                 al_pis_cofins.descricao += (
-                    ' entrada, ' + al_pis_cofins.cst_pis_cofins_saida)
-                al_pis_cofins.descricao += ' saída'
+                    ' saída, ' + al_pis_cofins.cst_pis_cofins_entrada)
+                al_pis_cofins.descricao += ' entrada'
 
-                if al_pis_cofins.codigo_justificativa:
-                    al_pis_cofins.descricao += ' - justificativa '
-                    al_pis_cofins.descricao += (
-                        al_pis_cofins.codigo_justificativa
-                    )
+                #if al_pis_cofins.codigo_justificativa:
+                    #al_pis_cofins.descricao += ' - justificativa '
+                    #al_pis_cofins.descricao += (
+                        #al_pis_cofins.codigo_justificativa
+                    #)
 
     @api.depends('al_pis', 'al_cofins', 'md_pis_cofins',
-                 'cst_pis_cofins_entrada', 'cst_pis_cofins_saida',
-                 'codigo_justificativa')
+                 'cst_pis_cofins_entrada', 'cst_pis_cofins_saida')
     def _check_al_pis(self):
         for al_pis_cofins in self:
             busca = [
@@ -127,8 +125,8 @@ class SpedAliquotaPISCOFINS(SpedBase, models.Model):
                  al_pis_cofins.cst_pis_cofins_entrada),
                 ('cst_pis_cofins_saida', '=',
                  al_pis_cofins.cst_pis_cofins_saida),
-                ('codigo_justificativa', '=',
-                 al_pis_cofins.codigo_justificativa),
+                #('codigo_justificativa', '=',
+                 #al_pis_cofins.codigo_justificativa),
             ]
 
             if al_pis_cofins.id or al_pis_cofins._origin.id:

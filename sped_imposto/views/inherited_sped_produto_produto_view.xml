@@ -14,6 +14,7 @@
             <xpath expr="//field[@name='unidade_id']" position="before">
                 <field name="cest_ids" readonly="1" invisible="1" />
                 <field name="exige_cest" invisible="1" />
+                <field name="exige_fator_conversao_unidade_tributacao_ncm" invisible="1" />
                 <newline />
             </xpath>
             <xpath expr="//field[@name='unidade_id']" position="after">
@@ -23,7 +24,7 @@
                 <field name="cest_id" domain="[('ncm_ids', 'in', ncm_id)]"  attrs="{'invisible': [('exige_cest', '=', False)], 'required': [('exige_cest', '=', True)]}" options="{'no_create': True, 'no_open': False}" colspan="4" />
                 <newline />
             </xpath>
-            <xpath expr="//field[@name='tipo']" position="after">
+            <xpath expr="//field[@name='org_icms']" position="after">
                 <newline />
                 <field name="protocolo_id" options="{'no_create': True, 'no_open': False}" colspan="4" />
                 <newline />
@@ -31,6 +32,13 @@
                 <newline />
                 <field name="al_pis_cofins_id" options="{'no_create': True, 'no_open': False}" colspan="4" />
                 <newline />
+                <field name="codigo_natureza_receita_pis_cofins" />
+                <newline />
+            </xpath>
+            <xpath expr="//field[@name='codigo_barras_tributacao']" position="after">
+                <separator string="Unidade para tributação - NCM - exportação e importação" colspan="4" />
+                <field name="unidade_tributacao_ncm_id" readonly="1" string="Unidade" />
+                <field name="fator_conversao_unidade_tributacao_ncm" string="Fator de conversão" />
             </xpath>
         </field>
     </record>
