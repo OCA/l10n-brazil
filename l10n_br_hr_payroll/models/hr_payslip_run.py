@@ -168,7 +168,7 @@ class HrPayslipRun(models.Model):
         for contrato in self.contract_id:
             if self.tipo_de_folha == 'provisao_ferias':
                 inicio_mes = str(self.ano).zfill(4) + '-' + \
-                              str(self.mes_do_ano).zfill(2) + '-01
+                              str(self.mes_do_ano).zfill(2) + '-01'
                 if contrato.date_start > inicio_mes:
                     inicio_mes = contrato.date_start
                 data_inicio = ultimo_dia_mes(inicio_mes)
