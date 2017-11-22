@@ -13,6 +13,8 @@ from pybrasil.febraban import RetornoBoleto
 from pybrasil.febraban import gera_pdf_boletos
 from pybrasil.data import parse_datetime
 from pybrasil.valor.decimal import Decimal as D
+from ..constantes import *
+
 
 class finan_retorno_item(models.Model):
     _name = b'finan.retorno_item'
@@ -212,14 +214,14 @@ class finan_retorno(models.Model):
 
     @api.multi
     def processar_retorno(self):
-        for retorno_obj in self:
+        for retorno_id in self:
 
-            forma_pagamento_pool = self.env['finan.formapagamento']
+            forma_pagamento_obj = self.env.get('finan.forma.pagamento')
 
-            if not retorno_obj.arquivo_binario:
+            if not retorno_id.arquivo_binario:
                 raise UserError('Nenhum arquivo informado!')
 
-            arquivo_texto = base64.decodestring(retorno_obj.arquivo_binario)
+            arquivo_texto = base64.decodestring(retorno_id.arquivo_binario)
             arquivo = StringIO()
             arquivo.write(arquivo_texto)
             arquivo.seek(0)
@@ -228,53 +230,73 @@ class finan_retorno(models.Model):
             if not retorno.arquivo_retorno(arquivo):
                 raise UserError('Formato do arquivo incorreto ou inválido!')
 
+            # Validar se o arquivo de retorno tem o mesmo banco da carteira
+            #
             if retorno.banco.codigo != \
-                    retorno_obj.carteira_id.res_partner_bank_id.bank_bic:
+                    retorno_id.carteira_id.banco_id.banco:
 
-                if retorno.banco.codigo == '237' and retorno_obj.carteira_id.\
-                        res_partner_bank_id.bank_bic != '136':
+                if retorno.banco.codigo == '237' and retorno_id.carteira_id. \
+                        banco_id.banco != '136':
                     raise UserError('O arquivo é de outro banco - {banco}!'.
                                     format(banco=retorno.banco.codigo))
 
-            if retorno.banco.codigo != '001':
-                if retorno.beneficiario.cnpj_cpf != retorno_obj.carteira_id.\
-                        res_partner_bank_id.partner_id.cnpj_cpf:
-                    if retorno_obj.carteira_id.sacado_id:
-                        if retorno.beneficiario.cnpj_cpf != retorno_obj.\
-                                carteira_id.sacado_id.cnpj_cpf:
-                            raise UserError('O arquivo é de outro beneficiário'
-                                            ' - {cnpj}!'.format(
-                                cnpj=retorno_obj.carteira_id.sacado_id.
-                                    cnpj_cpf))
-                            raise UserError('O arquivo é de outro beneficiário'
-                                            ' - {cnpj}!'.format(cnpj=retorno.
-                                                                beneficiario.
-                                                                cnpj_cpf))
+            # Retorno do banco do brasil nao retorna o cnpj do beneficiario
+            #
+            if retorno.banco.codigo != FINAN_BANCO_BRASIL:
+
+                # Validar se o beneficiario do arquivo de retorno é o
+                # titular da conta bancaria na carteira selecionada
+                #
+                if retorno.beneficiario.cnpj_cpf != \
+                        retorno_id.carteira_id.banco_id.titular_id.cnpj_cpf:
+
+                    # Se na carteira for definido um sacador, o cnpj do
+                    # beneficiario do arquivo de retorno devera ser igual ao
+                    # cnpj do sacor da carteira
+                    #
+                    if retorno_id.carteira_id.sacador_id:
+                        if retorno.beneficiario.cnpj_cpf != \
+                                retorno_id.carteira_id.sacador_id.cnpj_cpf:
+
+                            erro = 'O arquivo é de outro beneficiário! \n ' \
+                                   'Arquivo retorno: {name_ret} - {cnpj_ret} \n' \
+                                   'Carteira: {name_cart} - {cnpj_cart}'.format(
+                                name_ret=retorno.beneficiario.nome,
+                                cnpj_ret=retorno.beneficiario.cnpj_cpf,
+                                name_cart=retorno_id.carteira_id.sacador_id.cnpj_cpf,
+                                cnpj_cart=retorno_id.carteira_id.sacador_id.nome
+                            )
+
+
+                            raise UserError(erro)
+
+                    # Se tiver cnpj diferentes e nao for definido o sacador
+                    #
                     else:
-                        raise UserError('O arquivo é de outro beneficiário - '
-                                        '{cnpj}!'.format(cnpj=retorno_obj.
-                                                         carteira_id.
-                                                         res_partner_bank_id.
-                                                         partner_id.cnpj_cpf))
-                        raise UserError('O arquivo é de outro beneficiário - '
-                                        '{cnpj}!'.format(cnpj=retorno.
-                                                         beneficiario.cnpj_cpf)
-                                        )
+                        erro = 'O arquivo é de outro beneficiário! \n ' \
+                               'Arquivo retorno: {name_ret} - {cnpj_ret} \n' \
+                               'Carteira: {name_cart} - {cnpj_cart}'.format(
+                            name_ret=retorno.carteira_id.banco_id.titular_id.nome,
+                            cnpj_ret=retorno.carteira_id.banco_id.titular_id.cnpj_cpf,
+                            name_cart=retorno_id.beneficiario.name,
+                            cnpj_cart=retorno_id.beneficiario.cnpj_cpf
+                        )
+                        raise UserError(erro)
 
-
+            # Se o banco nao for Sicred, Caixa, Brasil
+            #
             if retorno.banco.codigo not in ('748', '104','001'):
-                if retorno.beneficiario.agencia.numero != retorno_obj.\
-                        carteira_id.res_partner_bank_id.agencia:
+                if retorno.beneficiario.agencia.numero != retorno_id.\
+                        carteira_id.banco_id.agencia:
                     raise UserError('O arquivo é de outra agência - {agencia}!'
                                     ''.format(agencia=retorno.beneficiario.
                                               agencia.numero))
 
-                if retorno.beneficiario.conta.numero != retorno_obj.\
-                        carteira_id.res_partner_bank_id.acc_number:
+                if retorno.beneficiario.conta.numero != retorno_id.\
+                        carteira_id.banco_id.agencia:
                     try:
                         if int(retorno.beneficiario.conta.numero) != int(
-                                retorno_obj.carteira_id.res_partner_bank_id.
-                                        acc_number):
+                                retorno_id.carteira_id.banco_id.agencia):
                             raise UserError('O arquivo é de outra conta - '
                                             '{conta}!'.format(conta=retorno.
                                                               beneficiario.
@@ -284,14 +306,14 @@ class finan_retorno(models.Model):
                                         ''.format(conta=retorno.beneficiario.
                                                   conta.numero))
 
-            if retorno.beneficiario.codigo_beneficiario.numero != retorno_obj.\
+            if retorno.beneficiario.codigo_beneficiario.numero != retorno_id.\
                     carteira_id.beneficiario:
                 if len(retorno.boletos) > 1 and hasattr(retorno.boletos[1],
                                                         'numero_beneficiario_'
                                                         'unicred') and \
                         retorno.boletos[1].numero_beneficiario_unicred:
                     if retorno.boletos[1].numero_beneficiario_unicred != \
-                            retorno_obj.carteira_id.beneficiario:
+                            retorno_id.carteira_id.beneficiario:
                         raise UserError('O arquivo é de outra código '
                                         'beneficiário - {bene}!'
                                         ''.format(bene=retorno.beneficiario.
@@ -299,7 +321,7 @@ class finan_retorno(models.Model):
                 else:
                     try:
                         if int(retorno.beneficiario.codigo_beneficiario.numero
-                               ) != int(retorno_obj.carteira_id.beneficiario):
+                               ) != int(retorno_id.carteira_id.beneficiario):
                             raise UserError('O arquivo é de outra código '
                                             'beneficiário - {bene}!'.format(
                                 bene=retorno.beneficiario.codigo_beneficiario.
@@ -310,20 +332,20 @@ class finan_retorno(models.Model):
                             bene=retorno.beneficiario.codigo_beneficiario.
                                 numero))
 
-                retorno.beneficiario.conta.numero = retorno_obj.carteira_id.\
-                    res_partner_bank_id.acc_number
-                retorno.beneficiario.conta.digito = retorno_obj.carteira_id.\
-                                                        res_partner_bank_id.\
+                retorno.beneficiario.conta.numero = retorno_id.carteira_id.\
+                    banco_id.acc_number
+                retorno.beneficiario.conta.digito = retorno_id.carteira_id.\
+                                                        banco_id.\
                                                         conta_digito or ''
 
 
             ids = self.search(('numero_arquivo','=', retorno.sequencia),(
-                'carteira_id','=',retorno_obj.carteira_id.id))
+                'carteira_id','=',retorno_id.carteira_id.id))
             if ids:
                 raise UserError('Arquivo já existente - Nº {numero_arquivo}!'.
                                 format(numero_arquivo=retorno.sequencia))
 
-            retorno_obj.write({'numero_arquivo': retorno.sequencia, 'data':
+            retorno_id.write({'numero_arquivo': retorno.sequencia, 'data':
                 str(retorno.data_hora)})
 
             lancamento_pool = self.pool.get('finan.lancamento')
@@ -331,7 +353,7 @@ class finan_retorno(models.Model):
             #
             # Remove os boletos anteriores
             #
-            for item_obj in retorno_obj.retorno_item_ids:
+            for item_obj in retorno_id.retorno_item_ids:
                 item_obj.unlink()
 
             #
@@ -339,9 +361,9 @@ class finan_retorno(models.Model):
             #
             self._cr.execute("update finan_lancamento set numero_documento = "
                              "'QUERO EXCLUIR' where tipo = 'PR' and retorno_id"
-                             " = " + str(retorno_obj.id) + ";")
+                             " = " + str(retorno_id.id) + ";")
             self._cr.execute("delete from finan_lancamento where tipo = 'PR' "
-                             "and retorno_id = " + str(retorno_obj.id) + ";")
+                             "and retorno_id = " + str(retorno_id.id) + ";")
             self._cr.commit()
 
             #
@@ -363,17 +385,17 @@ class finan_retorno(models.Model):
                     lancamento_id = int(boleto.identificacao.upper().
                                         replace('ID_', ''))
                     lancamento_ids = lancamento_pool.search((
-                        'carteira_id', '=', retorno_obj.carteira_id.id),
+                        'carteira_id', '=', retorno_id.carteira_id.id),
                         ('id', '=', lancamento_id))
                 elif boleto.identificacao.upper().startswith('IX_'):
                     lancamento_id = int(boleto.identificacao.upper().
                                         replace('IX_', ''), 36)
                     lancamento_ids = lancamento_pool.search(
-                        ('carteira_id', '=', retorno_obj.carteira_id.id),
+                        ('carteira_id', '=', retorno_id.carteira_id.id),
                         ('id', '=', lancamento_id))
                 else:
                     lancamento_ids = lancamento_pool.search([
-                        ('carteira_id', '=', retorno_obj.carteira_id.id),
+                        ('carteira_id', '=', retorno_id.carteira_id.id),
                         ('nosso_numero', '=', boleto.nosso_numero)],
                         order='data_vencimento desc')
 
@@ -398,7 +420,7 @@ class finan_retorno(models.Model):
                         comando = 'Q'
                 elif boleto.comando in retorno.banco.comandos_baixa:
                     comando = 'B'
-                elif retorno_obj.carteira_id.nosso_numero_pelo_banco and \
+                elif retorno_id.carteira_id.nosso_numero_pelo_banco and \
                                 boleto.comando == '02':
                     comando = 'R'
 
@@ -417,7 +439,7 @@ class finan_retorno(models.Model):
                         comando = 'N'
                         boleto.comando += '-N'
 
-                    if retorno_obj.carteira_id.nosso_numero_pelo_banco and \
+                    if retorno_id.carteira_id.nosso_numero_pelo_banco and \
                                     comando == 'R':
                         dados = {
                             'nosso_numero': boleto.nosso_numero
@@ -427,7 +449,7 @@ class finan_retorno(models.Model):
 
                 if lancamento_id and comando:
                     dados = {
-                        'retorno_id': retorno_obj.id,
+                        'retorno_id': retorno_id.id,
                         'comando': comando,
                         'lancamento_id': lancamento_id,
                     }
@@ -455,7 +477,7 @@ class finan_retorno(models.Model):
                     #
                     pag_ids = lancamento_pool.search(('tipo', '=', 'PR'), (
                         'lancamento_id', '=', lancamento_obj.id), (
-                        'retorno_id', '=', retorno_obj.id), (
+                        'retorno_id', '=', retorno_id.id), (
                         'retorno_item_id', '=', item_id))
                     lancamento_pool.unlink(pag_ids)
 
@@ -471,7 +493,7 @@ class finan_retorno(models.Model):
                             'outros_debitos': boleto.valor_despesa_cobranca,
                             'valor': boleto.valor_recebido,
                             'data_pagamento': str(boleto.data_ocorrencia)[:10],
-                            'formapagamento_id': forma_pagamento_pool.
+                            'formapagamento_id': forma_pagamento_obj.
                                 id_credito_cobranca(),
                         }
 
@@ -506,12 +528,12 @@ class finan_retorno(models.Model):
                             'valor_multa': boleto.valor_multa,
                             'outros_debitos': boleto.valor_despesa_cobranca,
                             'valor': boleto.valor_recebido,
-                            'res_partner_bank_id': retorno_obj.carteira_id.
-                                res_partner_bank_id.id,
-                            'carteira_id': retorno_obj.carteira_id.id,
-                            'formapagamento_id': forma_pagamento_pool.
+                            'banco_id': retorno_id.carteira_id.
+                                banco_id.id,
+                            'carteira_id': retorno_id.carteira_id.id,
+                            'formapagamento_id': forma_pagamento_obj.
                                 id_credito_cobranca(),
-                            'retorno_id': retorno_obj.id,
+                            'retorno_id': retorno_id.id,
                         }
 
                         if comando == 'L':
@@ -535,7 +557,7 @@ class finan_retorno(models.Model):
             attachment_pool = self.pool.get('ir.attachment')
             attachment_ids = attachment_pool.search(('res_model', '=',
                                                      'finan.retorno'), (
-                'res_id', '=', retorno_obj.id), ('name', '=',
+                'res_id', '=', retorno_id.id), ('name', '=',
                                                  'francesinha.pdf'))
             #
             # Apaga os boletos anteriores com o mesmo nome
@@ -547,33 +569,33 @@ class finan_retorno(models.Model):
                 'name': 'francesinha.pdf',
                 'datas_fname': 'francesinha.pdf',
                 'res_model': 'finan.retorno',
-                'res_id': retorno_obj.id,
+                'res_id': retorno_id.id,
                 'file_type': 'application/pdf',
             }
             attachment_pool.create(dados)
 
                 #numero_arquivo = int(
-            # retorno_obj.carteira_id.ultimo_arquivo_retorno) + 1
-                #self.write(cr, uid, [retorno_obj.id], {
+            # retorno_id.carteira_id.ultimo_arquivo_retorno) + 1
+                #self.write(cr, uid, [retorno_id.id], {
             # 'numero_arquivo': str(numero_arquivo)})
                 #self.pool.get('finan.carteira').write(
-            # cr, 1, [retorno_obj.carteira_id.id], {
+            # cr, 1, [retorno_id.carteira_id.id], {
             # 'ultimo_arquivo_retorno': str(numero_arquivo)})
             #else:
-                #numero_arquivo = int(retorno_obj.numero_arquivo)
+                #numero_arquivo = int(retorno_id.numero_arquivo)
 
             ##
             ## Gera os boletos
             ##
             #lista_boletos = []
-            #for lancamento_obj in retorno_obj.lancamento_ids:
+            #for lancamento_obj in retorno_id.lancamento_ids:
                 #boleto = lancamento_obj.gerar_boleto()
                 #lista_boletos.append(boleto)
 
             #pdf = gera_boletos_pdf(lista_boletos)
             #nome_boleto = 'boletos_' +
-            # retorno_obj.carteira_id.res_partner_bank_id.bank_name + '_' +
-            # str(retorno_obj.data) + '.pdf'
+            # retorno_id.carteira_id.banco_id.bank_name + '_' +
+            # str(retorno_id.data) + '.pdf'
 
             ##
             ## Anexa os boletos em PDF ao registro da remessa
@@ -581,7 +603,7 @@ class finan_retorno(models.Model):
             #attachment_pool = self.pool.get('ir.attachment')
             #attachment_ids = attachment_pool.search(cr, uid, [(
             # 'res_model', '=', 'finan.retorno'), (
-            # 'res_id', '=', retorno_obj.id), ('name', '=', nome_boleto)])
+            # 'res_id', '=', retorno_id.id), ('name', '=', nome_boleto)])
             ##
             ## Apaga os boletos anteriores com o mesmo nome
             ##
@@ -592,7 +614,7 @@ class finan_retorno(models.Model):
                 #'name': nome_boleto,
                 #'datas_fname': nome_boleto,
                 #'res_model': 'finan.retorno',
-                #'res_id': retorno_obj.id,
+                #'res_id': retorno_id.id,
                 #'file_type': 'application/pdf',
             #}
             #attachment_pool.create(cr, uid, dados)
@@ -604,7 +626,7 @@ class finan_retorno(models.Model):
             #remessa.tipo = 'CNAB_400'
             #remessa.boletos = lista_boletos
             #remessa.sequencia = numero_arquivo
-            #remessa.data_hora = datetime.strptime(retorno_obj.data,
+            #remessa.data_hora = datetime.strptime(retorno_id.data,
             # '%Y-%m-%d %H:%M:%S')
 
             ##
@@ -615,7 +637,7 @@ class finan_retorno(models.Model):
             # + str(remessa.sequencia).zfill(2) + '.txt'
             #else:
                 #nome_retorno = unicode(
-            # retorno_obj.carteira_id.nome).encode('utf-8') + '_retorno_' +
+            # retorno_id.carteira_id.nome).encode('utf-8') + '_retorno_' +
             # str(numero_arquivo) + '.txt'
 
             ##
@@ -623,7 +645,7 @@ class finan_retorno(models.Model):
             ##
             #attachment_pool = self.pool.get('ir.attachment')
             #attachment_ids = attachment_pool.search(cr, uid, [('res_model',
-            # '=', 'finan.retorno'), ('res_id', '=', retorno_obj.id), ('name',
+            # '=', 'finan.retorno'), ('res_id', '=', retorno_id.id), ('name',
             # '=', nome_retorno)])
             ##
             ## Apaga os boletos anteriores com o mesmo nome
@@ -635,7 +657,7 @@ class finan_retorno(models.Model):
                 #'name': nome_retorno,
                 #'datas_fname': nome_retorno,
                 #'res_model': 'finan.retorno',
-                #'res_id': retorno_obj.id,
+                #'res_id': retorno_id.id,
                 #'file_type': 'text/plain',
             #}
             #attachment_pool.create(cr, uid, dados)
