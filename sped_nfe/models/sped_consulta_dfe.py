@@ -415,7 +415,7 @@ class SpedConsutaDFeXML(models.Model):
     )
 
     xml = fields.Char(
-        string='Chave de Acesso',
+        string='XML',
         size=5000,
         required=True,
     )
