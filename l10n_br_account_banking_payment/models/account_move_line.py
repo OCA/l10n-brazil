@@ -12,15 +12,16 @@ class AccountMoveLine(models.Model):
     date_scheduled = fields.Date(string='Data Prevista')
 
     # TODO: Verificar informação ref a numeração na localização brasileira
-    @api.one
+    @api.multi
     def _get_journal_entry_ref(self):
-        if self.move_id.state == 'draft':
-            if self.invoice.id:
-                self.journal_entry_ref = self.invoice.number
+        for record in self:
+            if record.move_id.state == 'draft':
+                if record.invoice.id:
+                    record.journal_entry_ref = record.invoice.number
+                else:
+                    record.journal_entry_ref = '*' + str(record.move_id.id)
             else:
-                self.journal_entry_ref = '*' + str(self.move_id.id)
-        else:
-            self.journal_entry_ref = self.move_id.name
+                record.journal_entry_ref = record.move_id.name
 
     journal_entry_ref = fields.Char(compute=_get_journal_entry_ref,
                                     string='Journal Entry Ref')

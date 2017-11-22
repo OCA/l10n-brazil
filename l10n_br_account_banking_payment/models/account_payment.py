@@ -18,9 +18,10 @@ class PaymentOrder(models.Model):
 
     # TODO: Implementar total de juros e outras despesas acessórias.
     @api.depends('line_ids', 'line_ids.amount')
-    @api.one
+    @api.multi
     def _compute_total(self):
-        self.total = sum(self.mapped('line_ids.amount') or [0.0])
+        for record in self:
+            record.total = sum(record.mapped('line_ids.amount') or [0.0])
 
     @api.multi
     def action_open(self):
@@ -53,14 +54,15 @@ class PaymentLine(models.Model):
         return partner_record.legal_name or '' + "\n" + cnpj + "\n" + st \
             + ", " + n + "  " + st1 + "\n" + zip_city + "\n" + cntry
 
-    @api.one
+    @api.multi
     @api.depends('percent_interest', 'amount_currency')
     def _compute_interest(self):
-        precision = self.env['decimal.precision'].precision_get('Account')
-        self.amount_interest = round(self.amount_currency *
-                                     (self.percent_interest / 100),
-                                     precision)
-        # self.line.mode.percent_interest
+        for record in self:
+            precision = record.env['decimal.precision'].precision_get('Account')
+            record.amount_interest = round(record.amount_currency *
+                                         (record.percent_interest / 100),
+                                         precision)
+            # self.line.mode.percent_interest
 
     linha_digitavel = fields.Char(string=u"Linha Digitável")
     percent_interest = fields.Float(string=u"Percentual de Juros",
