@@ -121,7 +121,6 @@ class ConsultaDFe(models.Model):
         nfe_mdes = []
         xml_ids = []
         company = self.empresa_id
-        action = ''
         for consulta in self:
             try:
                 self.validate_nfe_configuration(company)
@@ -142,6 +141,32 @@ class ConsultaDFe(models.Model):
                     env_mde = self.env['sped.manifestacao.destinatario']
                     env_mde_xml = self.env[
                         'sped.consulta.dfe.xml']
+
+                    xml_ids.append(
+                        env_mde_xml.create(
+                        {
+                            'consulta_id': self.id,
+                            'tipo_xml': '0',
+                            'xml': nfe_result['result'].envio.original
+                        }).id
+                    )
+                    xml_ids.append(
+                        env_mde_xml.create(
+                        {
+                            'consulta_id': self.id,
+                            'tipo_xml': '1',
+                            'xml': nfe_result['result'].resposta.original
+                        }).id
+                    )
+                    xml_ids.append(
+                        env_mde_xml.create(
+                        {
+                            'consulta_id': self.id,
+                            'tipo_xml': '2',
+                            'xml': nfe_result[
+                                'result'].resposta.loteDistDFeInt.xml
+                        }).id
+                    )
 
                     for nfe in nfe_result['list_nfe']:
                         exists_nsu = self.env['sped.manifestacao.destinatario'].search(
@@ -198,12 +223,13 @@ class ConsultaDFe(models.Model):
                                         'res_id': obj_nfe.id
                                     })
 
-                                env_mde_xml.create(
+                                xml_ids.append(
+                                    env_mde_xml.create(
                                     {
                                         'consulta_id': self.id,
                                         'tipo_xml': '3',
                                         'xml': nfe['xml']
-                                    }
+                                    }).id
                                 )
 
                         elif nfe['schema'] == 'resNFe_v1.01.xsd' and \
@@ -253,61 +279,24 @@ class ConsultaDFe(models.Model):
                                         'res_id': obj_nfe.id
                                     })
 
-                                env_mde_xml.create(
+                                xml_ids.append(
+                                    env_mde_xml.create(
                                     {
                                         'consulta_id': self.id,
                                         'tipo_xml': '3',
                                         'xml': nfe['xml']
-                                    }
+                                    }).id
                                 )
-
-                                env_mde_xml.create
-                                {
-                                    'consulta_id': self.id,
-                                    'tipo_xml': '3',
-                                    'xml': nfe['xml']
-                                }
-
-                        env_mde_xml.create(
-                        {
-                            'consulta_id':self.id,
-                            'tipo_xml':'0',
-                            'xml': nfe_result['result'].envio.original
-                        })
-                        env_mde_xml.create(
-                        {
-                            'consulta_id': self.id,
-                            'tipo_xml': '1',
-                            'xml': nfe_result['result'].resposta.original
-                        })
-                        env_mde_xml.create(
-                        {
-                            'consulta_id': self.id,
-                            'tipo_xml': '2',
-                            'xml': nfe_result[
-                                'result'].resposta.loteDistDFeInt.xml
-                        })
 
                         nfe_mdes.append(nfe)
 
-                    action = {
-                        'name': _("Manifestação Destinatário"),
-                        'id': self.id,
-                        'type': 'ir.actions.act_window',
-                        'views': [[False, 'tree']],
-                        'target': 'new',
-                        'domain': [('empresa_id', '=', company.id)],
-                        'res_model': 'sped.manifestacao.destinatario'
-                    }
+                    self.write({'destinatario_xml_ids': [(6, 0, xml_ids)]})
 
                 else:
-
                     raise models.ValidationError(
                         nfe_result['code'] + ' - ' + nfe_result['message'])
 
         return nfe_mdes
-        # return action
-
 
     def validate_nfe_configuration(self,company):
         error = u'As seguintes configurações estão faltando:\n'
