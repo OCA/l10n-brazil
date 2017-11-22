@@ -555,6 +555,11 @@ class SpedDocumento(SpedBase, models.Model):
         compute='_compute_soma_itens',
         store=True
     )
+    vr_icms_desonerado = fields.Monetary(
+        string='Valor do ICMS desonerado',
+        compute='_compute_soma_itens',
+        store=True
+    )
     # ICMS SIMPLES
     vr_icms_sn = fields.Monetary(
         string='Valor do crédito de ICMS - SIMPLES Nacional',
@@ -806,9 +811,8 @@ class SpedDocumento(SpedBase, models.Model):
         string='Permite cancelamento?',
         compute='_compute_permite_cancelamento',
     )
-    permite_inutilizacao = fields.Boolean(
-        string='Permite inutilização?',
-        compute='_compute_permite_inutilizacao',
+    importado_xml = fields.Boolean(
+        string='Importado de XML?',
     )
 
     @api.depends('emissao', 'entrada_saida', 'modelo', 'serie', 'numero',
@@ -837,20 +841,15 @@ class SpedDocumento(SpedBase, models.Model):
 
             documento.descricao = txt
 
-    @api.depends('modelo', 'emissao')
+    @api.depends('modelo', 'emissao', 'importado_xml')
     def _compute_permite_alteracao(self):
         for documento in self:
-            documento.permite_alteracao = True
+            documento.permite_alteracao = documento.importado_xml
 
-    @api.depends('modelo', 'emissao')
+    @api.depends('modelo', 'emissao', 'importado_xml')
     def _compute_permite_cancelamento(self):
         for documento in self:
-            documento.permite_cancelamento = True
-
-    @api.depends('modelo', 'emissao')
-    def _compute_permite_inutilizacao(self):
-        for documento in self:
-            documento.permite_inutilizacao = True
+            documento.permite_cancelamento = not documento.importado_xml
 
     @api.depends('data_hora_emissao', 'data_hora_entrada_saida')
     def _compute_data_hora_separadas(self):
@@ -869,6 +868,7 @@ class SpedDocumento(SpedBase, models.Model):
                 'item_ids.vr_desconto', 'item_ids.vr_outras',
                 'item_ids.vr_operacao', 'item_ids.vr_operacao_tributacao',
                 'item_ids.bc_icms_proprio', 'item_ids.vr_icms_proprio',
+                'item_ids.vr_icms_desonerado',
                 'item_ids.vr_difal', 'item_ids.vr_icms_estado_origem',
                 'item_ids.vr_icms_estado_destino',
                 'item_ids.vr_fcp',
@@ -891,6 +891,7 @@ class SpedDocumento(SpedBase, models.Model):
             'vr_frete', 'vr_seguro', 'vr_desconto', 'vr_outras',
             'vr_operacao', 'vr_operacao_tributacao',
             'bc_icms_proprio', 'vr_icms_proprio',
+            'vr_icms_desonerado',
             'vr_difal', 'vr_icms_estado_origem', 'vr_icms_estado_destino',
             'vr_fcp',
             'vr_icms_sn', 'vr_simples',
@@ -1303,7 +1304,7 @@ class SpedDocumento(SpedBase, models.Model):
     def executa_antes_cancelar(self):
         #
         # Este método deve ser alterado por módulos integrados, para realizar
-        # tarefas de integração necessárias antes de cancelar uma NF-e;
+        # tarefas de integração necessárias antes de autorizar uma NF-e;
         # não confundir com o método _compute_permite_cancelamento, que indica
         # se o botão de cancelamento vai estar disponível para o usuário na
         # interface
@@ -1314,25 +1315,6 @@ class SpedDocumento(SpedBase, models.Model):
         #
         # Este método deve ser alterado por módulos integrados, para realizar
         # tarefas de integração necessárias depois de cancelar uma NF-e,
-        # por exemplo, excluir lançamentos financeiros, movimentações de
-        # estoque etc.
-        #
-        self.ensure_one()
-
-    def executa_antes_inutilizar(self):
-        #
-        # Este método deve ser alterado por módulos integrados, para realizar
-        # tarefas de integração necessárias antes de inutilizar uma NF-e;
-        # não confundir com o método _compute_permite_cancelamento, que indica
-        # se o botão de cancelamento vai estar disponível para o usuário na
-        # interface
-        #
-        self.ensure_one()
-
-    def executa_depois_inutilizar(self):
-        #
-        # Este método deve ser alterado por módulos integrados, para realizar
-        # tarefas de integração necessárias depois de inutilizar uma NF-e,
         # por exemplo, excluir lançamentos financeiros, movimentações de
         # estoque etc.
         #
