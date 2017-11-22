@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.common.form in (l10n_br_product)</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_title']" position="after">
+                <group name="grupo_superior">
+                    <group name="grupo_superior_esquerdo">
+                        <field name="tipo" required="1" />
+                        <field name="org_icms" required="1" />
+                    </group>
+                    <group name="grupo_superior_direito">
+                    </group>
+                </group>
+            </xpath>
+            <field name="categ_id" position="after">
+                <field name="marca"/>
+            </field>
+
+            <page name="general_information" position="after">
+<<<<<<< HEAD
+                <page name="fiscal" string="Fiscal">
+                    <group col="4">
+                        <field name="tipo" required="1" />
+                        <field name="org_icms" required="1" />
+=======
+                <page name="estoque" string="Estoque">
+                    <group col="4">
+                        <field name="weight" />
+                        <field name="weight_gross" />
+                        <field name="volume" />
+                    </group>
+                    <separator string="Vendors"/>
+                    <field name="seller_ids" context="{'default_product_tmpl_id': context.get('product_tmpl_id', active_id)}"/>
+                    <group name="packaging" string="Packaging"
+                        colspan="4"
+                        attrs="{'invisible':[('type', 'not in', ['product', 'consu'])]}">
+                        <field name="packaging_ids" nolabel="1"/>
+>>>>>>> 3250b18... fixup! [NEW] Visão para os produtos
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_product_template_action_all"
+        sequence="300"
+        name="Produtos"
+        parent="menu_product_service"
+        action="product.product_template_action_all"
+        />
+
+    <menuitem
+        id="menu_product_supplierinfo_type"
+        sequence="400"
+        name="Variantes"
+        parent="menu_product_service"
+        action="product.product_supplierinfo_type_action"
+        />
+
+    <menuitem
+        id="menu_product_category_action"
+        sequence="500"
+        name="Categorias"
+        parent="menu_product_service"
+        action="product.product_category_action_form"
+        />
+
+    <menuitem
+        id="menu_product_pricelist_action2"
+        sequence="450"
+        name="Listas de preço"
+        parent="menu_product_service"
+        action="product.product_pricelist_action2"
+        />
+
+    <menuitem
+        id="menu_product_uom_form_action"
+        sequence="480"
+        name="Unidades de medida"
+        parent="menu_product_service_config"
+        action="product.product_uom_form_action"
+        />
+    <menuitem
+        id="menu_product_uom_categ_form_action"
+        sequence="490"
+        name="Categorias de unidades de medida"
+        parent="menu_product_service_config"
+        action="product.product_uom_categ_form_action"
+        />
+
+    <menuitem
+        id="menu_packaging_view"
+        sequence="500"
+        name="Empacotamento"
+        parent="menu_product_service_config"
+        action="product.action_packaging_view"
+        />
+
+    <menuitem
+        id="menu_config_variantes"
+        sequence="600"
+        name="Variantes"
+        parent="menu_product_service_config"
+        />
+
+
+   <menuitem
+        id="menu_attributes"
+        sequence="200"
+        name="Atributos"
+        parent="menu_config_variantes"
+        action="product.attribute_action"
+    />
+
+    <menuitem
+        id="menu_attribute_values"
+        sequence="300"
+        name="Valores atributos"
+        parent="menu_config_variantes"
+        action="product.variants_action"
+        />
+
+    </data>
+</openerp>
