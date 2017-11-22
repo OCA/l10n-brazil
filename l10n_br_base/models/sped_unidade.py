@@ -75,6 +75,10 @@ class SpedUnidade(models.Model):
         compute='_compute_nome_unico',
         store=True,
     )
+    codigos_alternativos = fields.Text(
+        string='Outros códigos alternativos',
+    )
+
     #
     # Valores nas unidades por extenso
     #
@@ -350,6 +354,8 @@ class SpedUnidade(models.Model):
                 '|',
                 ['codigo_unico', '=', name.lower()],
                 '|',
+                ['codigos_alternativos', 'ilike', name.replace(' ', '%')],
+                '|',
                 ['nome', operator, name],
                 ['nome_unico', operator, name.lower()],
             ]
@@ -478,3 +484,18 @@ class SpedUnidade(models.Model):
         self.sync_to_uom()
         self.sync_to_currency()
         return res
+
+    def busca(self, codigo):
+        codigo = codigo.replace(' ', ' ')
+        codigo = codigo.replace('²', '2')
+        codigo = codigo.replace('³', '3')
+
+        unidade = self.search([('codigo_unico', '=', codigo.lower())])
+
+        if len(unidade) != 0:
+            return unidade
+
+        unidade = self.search(
+            [('codigos_alternativos', 'ilike', codigo.lower())])
+
+        return unidade

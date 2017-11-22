@@ -9,7 +9,7 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 import odoo.addons.decimal_precision as dp
 from .sped_base import SpedBase
@@ -35,7 +35,7 @@ class SpedProduto(SpedBase, models.Model):
     _description = 'Produtos e serviços'
     _inherits = {'product.product': 'product_id'}
     _inherit = ['mail.thread']
-    _order = 'codigo, nome'
+    _order = 'nome, codigo'
     _rec_name = 'nome'
 
     product_id = fields.Many2one(
@@ -69,6 +69,11 @@ class SpedProduto(SpedBase, models.Model):
         index=True,
         compute='_compute_codigo_unico',
         store=True
+    )
+    codigo_cliente = fields.Char(
+        string='Código do cliente',
+        size=60,
+        index=True,
     )
     codigo_barras = fields.Char(
         string='Código de barras',
@@ -109,41 +114,6 @@ class SpedProduto(SpedBase, models.Model):
         string='Origem da mercadoria',
         default='0'
     )
-    #ncm_id = fields.Many2one(
-        #comodel_name='sped.ncm',
-        #string='NCM')
-    #cest_ids = fields.Many2many(
-        #comodel_name='sped.cest',
-        #related='ncm_id.cest_ids',
-        #string='Códigos CEST',
-    #)
-    #exige_cest = fields.Boolean(
-        #string='Exige código CEST?',
-    #)
-    #cest_id = fields.Many2one(
-        #comodel_name='sped.cest',
-        #string='CEST'
-    #)
-    #protocolo_id = fields.Many2one(
-        #comodel_name='sped.protocolo.icms',
-        #string='Protocolo/Convênio',
-    #)
-    #al_ipi_id = fields.Many2one(
-        #comodel_name='sped.aliquota.ipi',
-        #string='Alíquota de IPI',
-    #)
-    #al_pis_cofins_id = fields.Many2one(
-        #comodel_name='sped.aliquota.pis.cofins',
-        #string='Alíquota de PIS e COFINS',
-    #)
-    #servico_id = fields.Many2one(
-        #comodel_name='sped.servico',
-        #string='Código do serviço',
-    #)
-    #nbs_id = fields.Many2one(
-        #comodel_name='sped.nbs',
-        #string='NBS',
-    #)
     unidade_id = fields.Many2one(
         comodel_name='sped.unidade',
         string='Unidade',
@@ -154,20 +124,25 @@ class SpedProduto(SpedBase, models.Model):
         related='unidade_id.currency_id',
         readonly=True,
     )
-    #unidade_tributacao_ncm_id = fields.Many2one(
-        #comodel_name='sped.unidade',
-        #related='ncm_id.unidade_id',
-        #string='Unidade de tributação do NCM',
-        #readonly=True,
-    #)
-    #fator_conversao_unidade_tributacao_ncm = fields.Float(
-        #string='Fator de conversão entre as unidades',
-        #default=1,
-    #)
-    #exige_fator_conversao_unidade_tributacao_ncm = fields.Boolean(
-        #string='Exige fator de conversão entre as unidades?',
-        #compute='_compute_exige_fator_conversao_ncm',
-    #)
+    codigo_barras_tributacao = fields.Char(
+        string='Código de barras para tributação comercial',
+        size=14,
+        index=True,
+    )
+    unidade_tributacao_id = fields.Many2one(
+        comodel_name='sped.unidade',
+        string='Unidade para tributação comercial',
+    )
+    currency_unidade_tributacao_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Unidade para tributação comercial (símbolo)',
+        related='unidade_tributacao_id.currency_id',
+        readonly=True,
+    )
+    fator_conversao_unidade_tributacao = fields.Float(
+        string='Fator de conversão entre as unidades',
+        default=1,
+    )
     #
     # Para a automação dos volumes na NF-e
     #
@@ -179,6 +154,23 @@ class SpedProduto(SpedBase, models.Model):
         string='Quantidade por espécie/embalagem',
         digits=dp.get_precision('SPED - Quantidade'),
     )
+    #
+    # Novos campos da NF-e 4.00
+    #
+    produzido_escala_relevante = fields.Boolean(
+        string='Produzido em escala relevante?',
+        default=True,
+    )
+    fabricante_id = fields.Many2one(
+        comodel_name='sped.participante',
+        string='Fabricante',
+        ondelete='restrict',
+    )
+    codigo_beneficio_fiscal = fields.Char(
+        string='Código do benefício fiscal',
+        size=20,
+    )
+
 
     @api.depends('ncm_id', 'unidade_id')
     def _compute_exige_fator_conversao_ncm(self):
@@ -195,23 +187,21 @@ class SpedProduto(SpedBase, models.Model):
     def _valida_codigo_barras(self):
         self.ensure_one()
 
-        valores = {}
-        res = {'value': valores}
-
         if self.codigo_barras:
             if (not valida_ean(self.codigo_barras)):
                 raise ValidationError(_('Código de barras inválido!'))
 
-            valores['codigo_barras'] = self.codigo_barras
+        if self.codigo_barras_tributacao:
+            if (not valida_ean(self.codigo_barras_tributacao)):
+                raise ValidationError(
+                    _('Código de barras para tributação comercial inválido!'))
 
-        return res
-
-    @api.constrains('codigo_barras')
+    @api.constrains('codigo_barras', 'codigo_barras_tributacao')
     def _constrains_codigo_barras(self):
         for produto in self:
             produto._valida_codigo_barras()
 
-    @api.onchange('codigo_barras')
+    @api.onchange('codigo_barras', 'codigo_barras_tributacao')
     def onchange_codigo_barras(self):
         return self._valida_codigo_barras()
 
