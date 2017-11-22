@@ -17,11 +17,12 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe.leiaute import Dup_400
     from pybrasil.valor.decimal import Decimal as D
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
+
+from .versao_nfe_padrao import ClasseDup
 
 
 class SpedDocumentoDuplicata(models.Model):
@@ -34,7 +35,7 @@ class SpedDocumentoDuplicata(models.Model):
                 self.documento_id.modelo != MODELO_FISCAL_NFCE:
             return
 
-        dup = Dup_400()
+        dup = ClasseDup()
         dup.nDup.valor = self.numero
         dup.dVenc.valor = self.data_vencimento
         dup.vDup.valor = str(D(self.valor))

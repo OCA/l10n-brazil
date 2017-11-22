@@ -18,7 +18,10 @@
             <field name="serie_nfe_contingencia_homologacao" position="after">
                 <newline />
                 <separator string="DANFE" colspan="4" />
-                <field name="logo_danfe" colspan="4" />
+                <field name="nome_arquivo_logo_danfe" attrs="{'invisible': 1}" />
+                <field name="nome_arquivo_modelo_danfe" attrs="{'invisible': 1}" />
+                <field name="logo_danfe" colspan="4" string="Logo (3,8 cm L × 3,2 cm A)" filename="nome_arquivo_logo_danfe" />
+                <field name="modelo_danfe" colspan="4" string="Modelo personalizado" filename="nome_arquivo_modelo_danfe" />
                 <newline />
                 <separator string="Modelos de email" colspan="4" />
                 <field name="mail_template_nfe_autorizada_id" colspan="4" string="Autorização" />
@@ -28,8 +31,11 @@
             </field>
             <field name="serie_nfce_contingencia_homologacao" position="after">
                 <newline />
-                <separator string="DANFCE" colspan="4" />
-                <field name="logo_danfce" colspan="4" />
+<!--                 <separator string="DANFCE" colspan="4" /> -->
+<!--                 <field name="nome_arquivo_logo_danfce" attrs="{'invisible': 1}" /> -->
+<!--                 <field name="nome_arquivo_modelo_danfce" attrs="{'invisible': 1}" /> -->
+<!--                 <field name="logo_danfce" colspan="4" string="Logo (3,8 cm L × 3,2 cm A)" filename="nome_arquivo_logo_danfce" /> -->
+<!--                 <field name="modelo_danfce" colspan="4" filename="nome_arquivo_modelo_danfce" /> -->
                 <newline />
                 <separator string="Modelos de email" colspan="4" />
                 <field name="mail_template_nfce_autorizada_id" colspan="4" string="Autorização" />
