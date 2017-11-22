@@ -5,6 +5,7 @@
 from openerp import api, fields, models
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from pybrasil.data import ultimo_dia_mes
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -166,8 +167,11 @@ class HrPayslipRun(models.Model):
         self.verificar_holerites_gerados()
         for contrato in self.contract_id:
             if self.tipo_de_folha == 'provisao_ferias':
-                data_inicio = str(self.ano).zfill(4) + '-' + \
-                              str(self.mes_do_ano).zfill(2) + '-' + '01'
+                inicio_mes = str(self.ano).zfill(4) + '-' + \
+                              str(self.mes_do_ano).zfill(2) + '-01
+                if contrato.date_start > inicio_mes:
+                    inicio_mes = contrato.date_start
+                data_inicio = ultimo_dia_mes(inicio_mes)
                 contrato.action_button_update_controle_ferias(
                     data_referencia=data_inicio)
                 for periodo in contrato.vacation_control_ids:
@@ -181,7 +185,7 @@ class HrPayslipRun(models.Model):
                                 'periodo_aquisitivo': periodo.id,
                                 'mes_do_ano': self.mes_do_ano,
                                 'mes_do_ano2': self.mes_do_ano,
-                                'date_from': data_inicio,
+                                'date_from': inicio_mes,
                                 'date_to': data_fim,
                                 'ano': self.ano,
                                 'employee_id': contrato.employee_id.id,
