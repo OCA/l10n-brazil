@@ -6,6 +6,14 @@
 <odoo>
 
     <menuitem
+        parent="l10n_br_base.menu_fiscal"
+        sequence="100"
+        id="l10n_br_base.menu_fiscal_configuracao"
+        name="Configuração"
+        groups="l10n_br_base.GRUPO_SUPORTE,sped_imposto.GRUPO_FISCAL_GERENTE"
+        />
+
+    <menuitem
         parent="l10n_br_base.menu_fiscal_configuracao"
         sequence="1"
         id="menu_sped_aliquota"

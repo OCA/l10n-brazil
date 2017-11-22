@@ -11,7 +11,7 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
 <!--             <form string="CEST" delete="false" create="false" edit="false"> -->
-            <form string="CEST">
+            <form string="CEST" duplicate="false">
                 <sheet>
                     <div class="oe_title">
                         <h1>
@@ -49,7 +49,7 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
 <!--             <tree string="CEST" delete="false" create="false" edit="false"> -->
-            <tree string="CEST">
+            <tree string="CEST" duplicate="false">
 <!--                 <field name="cest" /> -->
                 <field name="codigo_formatado" />
                 <field name="descricao" />

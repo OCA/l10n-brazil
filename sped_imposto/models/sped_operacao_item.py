@@ -8,20 +8,7 @@
 from __future__ import division, print_function, unicode_literals
 
 from odoo import api, fields, models
-from odoo.addons.l10n_br_base.constante_tributaria import (
-    ENTRADA_SAIDA,
-    IE_DESTINATARIO,
-    ORIGEM_MERCADORIA,
-    ST_ICMS,
-    ST_ICMS_INTEGRAL,
-    ST_ICMS_SN,
-    ST_ICMS_SN_CALCULA_CREDITO,
-    ST_ICMS_SN_TRIB_SEM_CREDITO,
-    ST_IPI,
-    ST_IPI_ENTRADA,
-    ST_IPI_SAIDA,
-    TIPO_PRODUTO_SERVICO
-)
+from odoo.addons.l10n_br_base.constante_tributaria import *
 from odoo.exceptions import ValidationError
 
 
@@ -102,6 +89,10 @@ class SpedOperacaoFiscalItem(models.Model):
         string='CST ICMS',
         default=ST_ICMS_INTEGRAL,
     )
+    motivo_icms_desonerado = fields.Selection(
+        selection=MOTIVO_DESONERACAO_ICMS,
+        string='Motivo da desoneração do ICMS',
+    )
     cst_icms_sn = fields.Selection(
         selection=ST_ICMS_SN,
         string='CSOSN',
@@ -132,6 +123,10 @@ class SpedOperacaoFiscalItem(models.Model):
     al_pis_cofins_id = fields.Many2one(
         comodel_name='sped.aliquota.pis.cofins',
         string='CST PIS-COFINS'
+    )
+    codigo_natureza_receita_pis_cofins = fields.Char(
+        string='Natureza da receita',
+        size=3,
     )
     protocolo_alternativo_id = fields.Many2one(
         comodel_name='sped.protocolo.icms',
