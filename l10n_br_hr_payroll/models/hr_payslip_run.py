@@ -244,7 +244,7 @@ class HrPayslipRun(models.Model):
         for lote in self:
             if any(l != 'draft' for l in lote.slip_ids.mapped('state')):
                 raise UserError(
-                    _('Não é permitido deletar um lote que contem holerites '
-                      'com state diferente de rascunho!')
+                    _('Erro na exclusão deste Lote !\n'
+                      'Há holerite(s) já confirmados!')
                 )
         return super(HrPayslipRun, self).unlink()
