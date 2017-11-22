@@ -11,15 +11,7 @@ from __future__ import division, print_function, unicode_literals
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from .sped_base import SpedBase
-from ..constante_tributaria import (
-    AMBIENTE_NFE,
-    INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
-    REGIME_TRIBUTARIO_LUCRO_PRESUMIDO,
-    REGIME_TRIBUTARIO_LUCRO_REAL,
-    REGIME_TRIBUTARIO_SIMPLES,
-    REGIME_TRIBUTARIO_SIMPLES_EXCESSO,
-    TIPO_EMISSAO_NFE,
-)
+from ..constante_tributaria import *
 
 
 import logging
@@ -124,44 +116,50 @@ class SpedEmpresa(SpedBase, models.Model):
         valores = {}
         res = {'value': valores}
 
-        if not self.cnpj_cpf:
+        if not self.cnpj_cpf or 'valida_cnpj_cpf' in self.env.context:
             return res
 
         cnpj_cpf = limpa_formatacao(self.cnpj_cpf or '')
 
         if cnpj_cpf[:2] != 'EX':
             if not valida_cnpj(cnpj_cpf) and not valida_cpf(cnpj_cpf):
-                raise ValidationError(_(u'CNPJ/CPF inválido'))
+                raise ValidationError(_('CNPJ/CPF inválido'))
 
         if len(cnpj_cpf) == 14:
-            valores.update(cnpj_cpf=formata_cnpj(cnpj_cpf))
-            valores.update(tipo_pessoa='J')
-            valores.update(regime_tributario='1')
+            cnpj_cpf = formata_cnpj(cnpj_cpf)
+            valores['cnpj_cpf'] = cnpj_cpf
+            valores['tipo_pessoa'] = TIPO_PESSOA_JURIDICA
+            valores['regime_tributario'] = REGIME_TRIBUTARIO_SIMPLES
+            valores['contribuinte'] = INDICADOR_IE_DESTINATARIO_ISENTO
+
         else:
-            valores.update(cnpj_cpf=formata_cpf(cnpj_cpf))
-            valores.update(tipo_pessoa='F')
-            valores.update(regime_tributario='3')
+            cnpj_cpf = formata_cpf(cnpj_cpf)
+            valores['cnpj_cpf'] = cnpj_cpf
+            valores['tipo_pessoa'] = TIPO_PESSOA_FISICA
+            valores['regime_tributario'] = REGIME_TRIBUTARIO_LUCRO_PRESUMIDO
+            valores['contribuinte'] = \
+                INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
 
         if cnpj_cpf[:2] == 'EX':
-            valores.update(tipo_pessoa='E')
-            valores.update(regime_tributario='3')
+            valores['tipo_pessoa'] = TIPO_PESSOA_ESTRANGEIRO
+            valores['regime_tributario'] = REGIME_TRIBUTARIO_LUCRO_PRESUMIDO
+            valores['contribuinte'] = \
+                INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
 
         if self.id:
-            cnpj_ids = self.search([
-                ('cnpj_cpf', '=', cnpj_cpf),
-                ('id', '!=', self.id),
-                ('eh_empresa', '=', False),
-                ('eh_grupo', '=', False)
-            ])
+            cnpj_ids = self.search(
+                [('cnpj_cpf', '=', cnpj_cpf), ('id', '!=', self.id),
+                 ('eh_empresa', '=', False), ('eh_grupo', '=', False)])
         else:
-            cnpj_ids = self.search([
-                ('cnpj_cpf', '=', cnpj_cpf),
-                ('eh_empresa', '=', False),
-                ('eh_grupo', '=', False)
-            ])
+            cnpj_ids = self.search(
+                [('cnpj_cpf', '=', cnpj_cpf), ('eh_empresa', '=', False),
+                 ('eh_grupo', '=', False)])
 
         if len(cnpj_ids) > 0:
-            raise ValidationError(_(u'CNPJ/CPF já existe no cadastro!'))
+            raise ValidationError(_('CNPJ/CPF já existe no cadastro!'))
+
+        self.with_context(valida_cnpj_cpf=True).update(valores)
+
         return res
 
     @api.constrains('cnpj_cpf')
@@ -179,27 +177,32 @@ class SpedEmpresa(SpedBase, models.Model):
         valores = {}
         res = {'value': valores}
 
+        if 'valida_fone' in self.env.context:
+            return res
+
         if self.fone:
             if (not valida_fone_internacional(self.fone)) and (
                     not valida_fone_fixo(self.fone)):
-                raise ValidationError(_(u'Telefone fixo inválido!'))
+                raise ValidationError(_('Telefone fixo inválido!'))
 
-            valores.update(fone=formata_fone(self.fone))
+            valores['fone'] = formata_fone(self.fone)
 
         if self.fone_comercial:
             if (not valida_fone_internacional(self.fone_comercial)) and (
                     not valida_fone_fixo(self.fone_comercial)) and (
                     not valida_fone_celular(self.fone_comercial)):
-                raise ValidationError(_(u'Telefone comercial inválido!'))
+                raise ValidationError(_('Telefone comercial inválido!'))
 
-            valores.update(fone_comercial=formata_fone(self.fone_comercial))
+            valores['fone_comercial'] = formata_fone(self.fone_comercial)
 
         if self.celular:
             if (not valida_fone_internacional(self.celular)) and (
                     not valida_fone_celular(self.celular)):
-                raise ValidationError(_(u'Celular inválido!'))
+                raise ValidationError(_('Celular inválido!'))
 
-            valores.update(celular=formata_fone(self.celular))
+            valores['celular'] = formata_fone(self.celular)
+
+        self.with_context(valida_fone=True).update(valores)
 
         return res
 
@@ -218,14 +221,16 @@ class SpedEmpresa(SpedBase, models.Model):
         valores = {}
         res = {'value': valores}
 
-        if not self.cep:
+        if not self.cep or 'valida_cep' in self.env.context:
             return res
 
         cep = limpa_formatacao(self.cep)
         if (not cep.isdigit()) or len(cep) != 8:
-            raise ValidationError('CEP inválido!')
+            raise ValidationError(_('CEP inválido!'))
 
-        valores.update(cep=cep[:5] + '-' + cep[5:])
+        valores['cep'] = cep[:5] + '-' + cep[5:]
+
+        self.with_context(valida_cep=True).update(valores)
 
         return res
 
@@ -238,41 +243,84 @@ class SpedEmpresa(SpedBase, models.Model):
     def onchange_cep(self):
         return self._valida_cep()
 
+    def _valida_suframa(self, valores):
+        self.ensure_one()
+
+        if not valida_inscricao_estadual(self.suframa, 'SUFRAMA'):
+            raise ValidationError(_('Inscrição na SUFRAMA inválida!'))
+
+        valores['suframa'] = \
+            formata_inscricao_estadual(self.suframa, 'SUFRAMA')
+
+    def _valida_ie_estadual(self, valores):
+        self.ensure_one()
+
+        if not valida_inscricao_estadual(self.ie,
+            self.municipio_id.estado_id.uf):
+            raise ValidationError(_('Inscrição estadual inválida!'))
+
+        valores['ie'] = \
+            formata_inscricao_estadual(self.ie, self.municipio_id.estado_id.uf)
+
     def _valida_ie(self):
         self.ensure_one()
 
         valores = {}
         res = {'value': valores}
 
+        if 'valida_ie' in self.env.context:
+            return res
+
         if self.suframa:
-            if not valida_inscricao_estadual(self.suframa, 'SUFRAMA'):
-                raise ValidationError('Inscrição na SUFRAMA inválida!')
+            self._valida_suframa(valores)
 
-            valores.update(suframa=formata_inscricao_estadual(
-                self.suframa, 'SUFRAMA'))
+        #
+        # Na importação de dados, validamos e detectamos o campo
+        # contribuinte a partir da inscrição estadual, e não o contrário
+        #
+        if 'import_file' in self.env.context:
+            #
+            # Sem inscrição estadual, presumimos que o participante não é
+            # contribuinte, que é o caso mais comum; é muito raro na verdade
+            # que seja isento
+            #
+            if not self.ie:
+                valores['contribuinte'] = \
+                    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
 
-        if self.ie:
-            if self.contribuinte == '2' or self.contribuinte == '3':
-                valores.update(ie='')
+            elif self.ie.strip().upper()[:6] == 'ISENTO' or \
+                self.ie.strip().upper()[:6] == 'ISENTA':
+                valores['contribuinte'] = INDICADOR_IE_DESTINATARIO_ISENTO
 
             else:
                 if not self.municipio_id:
-                    raise ValidationError(
+                    raise ValidationError(_(
                         '''Para validação da inscrição estadual é preciso
-                        informar o município!''')
+                        informar o município!'''))
 
-                if (self.ie.strip().upper()[:6] == 'ISENTO' or
-                        self.ie.strip().upper()[:6] == 'ISENTA'):
+                self._valida_ie_estadual(valores)
+                valores['contribuinte'] = \
+                    INDICADOR_IE_DESTINATARIO_CONTRIBUINTE
+
+        elif self.ie:
+            if self.contribuinte == INDICADOR_IE_DESTINATARIO_ISENTO or \
+                self.contribuinte == \
+                    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE:
+                valores['ie'] = ''
+            else:
+                if not self.municipio_id:
+                    raise ValidationError(_(
+                        '''Para validação da inscrição estadual é preciso
+                        informar o município!'''))
+
+                if self.ie.strip().upper()[:6] == 'ISENTO' or \
+                    self.ie.strip().upper()[:6] == 'ISENTA':
                     raise ValidationError(
-                        'Inscrição estadual inválida para contribuinte!')
+                        _('Inscrição estadual inválida para contribuinte!'))
 
-                if not valida_inscricao_estadual(
-                        self.ie, self.municipio_id.estado_id.uf):
-                    raise ValidationError('Inscrição estadual inválida!')
+                self._valida_ie_estadual(valores)
 
-                valores.update(
-                    ie=formata_inscricao_estadual(
-                        self.ie, self.municipio_id.estado_id.uf))
+        self.with_context(valida_ie=True).update(valores)
 
         return res
 
@@ -291,6 +339,9 @@ class SpedEmpresa(SpedBase, models.Model):
         valores = {}
         res = {'value': valores}
 
+        if 'valida_email' in self.env.context:
+            return res
+
         if self.email:
             email = self.email
             emails_validos = []
@@ -306,9 +357,9 @@ class SpedEmpresa(SpedBase, models.Model):
                     valido = validate_email(e.strip())
                     emails_validos.append(valido['email'])
                 except:
-                    raise ValidationError('Email %s inválido!' % e.strip())
+                    raise ValidationError(_('Email %s inválido!' % e.strip()))
 
-            valores.update(email=','.join(emails_validos))
+            valores['email'] = ','.join(emails_validos)
 
         if self.email_nfe:
             email = self.email_nfe
@@ -325,9 +376,12 @@ class SpedEmpresa(SpedBase, models.Model):
                     valido = validate_email(e.strip())
                     emails_validos.append(valido['email'])
                 except:
-                    raise ValidationError('Email %s inválido!' % e.strip())
+                    raise ValidationError(
+                        _('Email %s inválido!' % e.strip()))
 
-            valores.update(email_nfe=','.join(emails_validos))
+            valores['email_nfe'] = ','.join(emails_validos)
+
+        self.with_context(valida_email=True).update(valores)
 
         return res
 
@@ -342,20 +396,13 @@ class SpedEmpresa(SpedBase, models.Model):
 
     @api.onchange('municipio_id')
     def onchange_municipio_id(self):
-        valores = {}
-        res = {'value': valores}
-
         if self.municipio_id and self.municipio_id.cep_unico:
-            valores.update(cep=self.municipio_id.cep_unico)
-
-        return res
+            self.cep = self.municipio_id.cep_unico
 
     @api.onchange('nome', 'razao_social', 'fantasia', 'endereco',
                   'bairro', 'cidade', 'profissao')
     def onchange_nome(self):
-        valores = {}
-        res = {'value': valores}
-
+        pass
         # if self.nome:
         #     valores.update(nome=primeira_maiuscula(self.nome))
         #
@@ -377,13 +424,11 @@ class SpedEmpresa(SpedBase, models.Model):
         # if self.profissao:
         #     valores.update(profissao=primeira_maiuscula(self.profissao))
 
-        return res
-
     def prepare_sync_to_company(self):
-        """
+        '''
 
         :return:
-        """
+        '''
         self.ensure_one()
 
         dados = {
@@ -502,10 +547,10 @@ class SpedEmpresa(SpedBase, models.Model):
     @api.model
     @api.returns('self', lambda value: value.id if value else False)
     def _empresa_ativa(self, object=False, field=False):
-        """ Returns the default company (usually the user's company).
+        ''' Returns the default company (usually the user's company).
         The 'object' and 'field' arguments are ignored but left here for
         backward compatibility and potential override.
-        """
+        '''
         company = self.env['res.users']._get_company()
 
         if company.partner_id.sped_empresa_id:
