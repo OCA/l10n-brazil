@@ -170,8 +170,8 @@ class HrPayslipRun(models.Model):
                 inicio_mes = str(self.ano).zfill(4) + '-' + \
                               str(self.mes_do_ano).zfill(2) + '-01'
                 if contrato.date_start > inicio_mes:
-                    inicio_mes = fields.Date.to_string(contrato.date_start)
-                data_inicio = ultimo_dia_mes(inicio_mes)
+                    inicio_mes = contrato.date_start
+                data_inicio = fields.Date.to_string(ultimo_dia_mes(inicio_mes))
                 contrato.action_button_update_controle_ferias(
                     data_referencia=data_inicio)
                 for periodo in contrato.vacation_control_ids:
