@@ -3,7 +3,7 @@
 #  Luis Felipe Miléo - mileo@kmee.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 from openerp.addons import decimal_precision as dp
 from openerp.tools.float_utils import float_round as round
 from openerp.exceptions import ValidationError
@@ -30,7 +30,7 @@ class PaymentOrder(models.Model):
         """
         for record in self:
             if not record.line_ids:
-                raise ValidationError("Impossivel confirmar linha vazia!")
+                raise ValidationError(_("Impossible confirm empty line!"))
         res = super(PaymentOrder, self).action_open()
         return res
 
