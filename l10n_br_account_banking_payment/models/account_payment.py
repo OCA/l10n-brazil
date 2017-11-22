@@ -38,7 +38,8 @@ class PaymentOrder(models.Model):
 class PaymentLine(models.Model):
     _inherit = 'payment.line'
 
-    def _get_info_partner(self, cr, uid, partner_record, context=None):
+    @api.model
+    def _get_info_partner(self, partner_record):
         if not partner_record:
             return False
         st = partner_record.street or ''
