@@ -10,7 +10,7 @@
         <field name="model">sped.consulta.dfe</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Consulta DF-e">
+            <form string="Consulta DF-e" duplicate="false">
             <sheet>
 <!--                <div class="oe_title">
                     <label for="tipo" class="oe_edit_only"/>
@@ -48,7 +48,7 @@
         <field name="model">sped.consulta.dfe</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Consultas DF-e">
+            <tree string="Consultas DF-e" duplicate="false">
                 <field name="empresa_id" />
                 <field name="ultimo_nsu" />
                 <field name="ultima_consulta" />

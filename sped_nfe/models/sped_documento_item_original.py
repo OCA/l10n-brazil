@@ -21,12 +21,6 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedDocumentoItem(models.Model):
+class SpedDocumentoItemOriginal(models.Model):
+    _name = 'sped.documento.item.original'
     _inherit = 'sped.documento.item'
-
-    item_original_id = fields.Many2one(
-        comodel_name='sped.documento.item.original',
-        string='Item original da NF',
-        index=True,
-        ondelete='cascade',
-    )
