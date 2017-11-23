@@ -209,7 +209,8 @@ class SpedDocumento(models.Model):
         #
         # Identificação da CF-E
         #
-        cnpj_software_house, assinatura, numero_caixa = self._monta_cfe_identificacao()
+        cnpj_software_house, assinatura, numero_caixa = \
+            self._monta_cfe_identificacao()
 
         #
         # Emitente
@@ -253,18 +254,19 @@ class SpedDocumento(models.Model):
 
     def _monta_cfe_identificacao(self):
         # FIXME: Buscar dados do cadastro da empresa / cadastro do caixa
-        cnpj_software_house = '16716114000172'
-        assinatura = 'SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT'
-        numero_caixa = int(2),
+        configuracoes = self._buscar_configuracoes_pdv()
+        cnpj_software_house = configuracoes.cnpj_software_house
+        assinatura = configuracoes.assinatura
+        numero_caixa = configuracoes.numero_caixa
         return cnpj_software_house, assinatura, numero_caixa
 
     def _monta_cfe_emitente(self):
         empresa = self.empresa_id
-
+        configuracoes = self._buscar_configuracoes_pdv()
         emitente = Emitente(
                 # FIXME:
-                CNPJ='08723218000186',  # limpa_formatacao(empresa.cnpj_cpf),
-                IE='562377111111',  # limpa_formatacao(empresa.ie or ''),
+                CNPJ=configuracoes.cnpjsh,  # limpa_formatacao(empresa.cnpj_cpf),
+                IE=configuracoes.ie,  # limpa_formatacao(empresa.ie or ''),
                 # CNPJ=limpa_formatacao(empresa.cnpj_cpf),
                 # IE=limpa_formatacao(empresa.ie or ''),
                 indRatISSQN='N')
@@ -468,7 +470,7 @@ class SpedDocumento(models.Model):
         from mfecfe import ClienteSATLocal
         cliente = ClienteSATLocal(
             BibliotecaSAT('/opt/Integrador'),  # Caminho do Integrador
-            codigo_ativacao='12345678'
+            codigo_ativacao='123456789'
         )
         # FIXME: Datas
         # # A NFC-e deve ter data de emissão no máx. 5 minutos antes
@@ -496,3 +498,9 @@ class SpedDocumento(models.Model):
             self.situacao_nfe = SITUACAO_NFE_DENEGADA
             self.executa_depois_denegar()
         # nfe = self.monta_nfe(resposta)
+
+    @api.multi
+    def _buscar_configuracoes_pdv(self):
+        return self.env['pdv.config'].search(
+            [('company_id', '=', self.empresa_id.id)]
+        )
