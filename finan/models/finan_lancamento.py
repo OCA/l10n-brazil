@@ -384,6 +384,7 @@ class FinanLancamento(SpedBase, models.Model):
         inverse_name='lancamento_id',
         string='Extrato banco/caixa',
     )
+
     vr_saldo_banco = fields.Monetary(
         string='Saldo banco/caixa após lançamento',
         related='extrato_id.saldo',
@@ -935,7 +936,13 @@ class FinanLancamento(SpedBase, models.Model):
             self.env['finan.banco.saldo'].ajusta_saldo(banco_id, data)
 
     def executa_antes_create(self, dados, bancos={}):
-        return dados
+        if self.env['finan.banco.fechamento'].state == 'Fechado':
+            #retorna erro de lançamento para periodo no banco fechado?
+            raise UserError('Você não pode lançar um lançamento neste banco,'
+                            'pois o fechamento de caixa já foi efetuado'
+                            'para esse período')
+        else:
+            return dados
 
     @api.model
     def create(self, dados):
@@ -950,8 +957,14 @@ class FinanLancamento(SpedBase, models.Model):
         return result
 
     def executa_antes_write(self, dados, bancos={}):
-        self._verifica_ajusta_extrato_saldo(bancos)
-        return dados
+        if self.env['finan.banco.fechamento'].state == 'Fechado':
+            #retorna erro de lançamento para periodo no banco fechado?
+            raise UserError('Você não pode lançar um lançamento neste banco,'
+                            'pois o fechamento de caixa já foi efetuado'
+                            'para esse período')
+        else:
+            self._verifica_ajusta_extrato_saldo(bancos)
+            return dados
 
     def write(self, dados):
         bancos = {}

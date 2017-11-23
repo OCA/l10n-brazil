@@ -17,3 +17,4 @@ from . import finan_banco_extrato
 from . import finan_banco_saldo
 from . import finan_remessa
 from . import finan_retorno
+from . import finan_banco_fechamento
