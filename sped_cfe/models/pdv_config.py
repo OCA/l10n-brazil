@@ -4,7 +4,7 @@ from odoo import models, fields, api
 
 class ConfiguracaoPDV(models.Model):
     _name = 'pdv.config'
-
+    _rec_name = 'pdv_name'
     name = fields.Char(
         String=u"Nome do PDV",
         required=True
