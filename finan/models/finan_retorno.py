@@ -283,20 +283,24 @@ class finan_retorno(models.Model):
                         )
                         raise UserError(erro)
 
-            # Se o banco nao for Sicred, Caixa, Brasil
+            # Validação de Agência - conta
             #
             if retorno.banco.codigo not in ('748', '104','001'):
                 if retorno.beneficiario.agencia.numero != retorno_id.\
                         carteira_id.banco_id.agencia:
-                    raise UserError('O arquivo é de outra agência - {agencia}!'
-                                    ''.format(agencia=retorno.beneficiario.
-                                              agencia.numero))
+                    erro = 'O arquivo é de outra agência! \n' \
+                           'Agência do beneficiario: {agencia_ben} \n' \
+                           'Arquivo de retorno: {agencia_ret} \n'.format(
+                        agencia_ben=retorno_id.carteira_id.banco_id.agencia,
+                        agencia_ret=retorno.beneficiario.agencia.numero
+                    )
+                    raise UserError(erro)
 
                 if retorno.beneficiario.conta.numero != retorno_id.\
                         carteira_id.banco_id.agencia:
                     try:
                         if int(retorno.beneficiario.conta.numero) != int(
-                                retorno_id.carteira_id.banco_id.agencia):
+                                retorno_id.carteira_id.banco_id.conta):
                             raise UserError('O arquivo é de outra conta - '
                                             '{conta}!'.format(conta=retorno.
                                                               beneficiario.
@@ -306,8 +310,8 @@ class finan_retorno(models.Model):
                                         ''.format(conta=retorno.beneficiario.
                                                   conta.numero))
 
-            if retorno.beneficiario.codigo_beneficiario.numero != retorno_id.\
-                    carteira_id.beneficiario:
+            if retorno.beneficiario.codigo.numero != \
+                    retorno_id.carteira_id.beneficiario:
                 if len(retorno.boletos) > 1 and hasattr(retorno.boletos[1],
                                                         'numero_beneficiario_'
                                                         'unicred') and \
@@ -338,33 +342,38 @@ class finan_retorno(models.Model):
                                                         banco_id.\
                                                         conta_digito or ''
 
-
-            ids = self.search(('numero_arquivo','=', retorno.sequencia),(
-                'carteira_id','=',retorno_id.carteira_id.id))
+            # Validar se ja foi gerado um retorno com mesma sequencia e da
+            # mesma carteira
+            ids = self.search([
+                ('numero_arquivo','=', retorno.sequencia),
+                ('carteira_id','=',retorno_id.carteira_id.id),
+            ])
             if ids:
                 raise UserError('Arquivo já existente - Nº {numero_arquivo}!'.
                                 format(numero_arquivo=retorno.sequencia))
 
-            retorno_id.write({'numero_arquivo': retorno.sequencia, 'data':
-                str(retorno.data_hora)})
+            # Escrever o numero do arquivo e a data que foi gerado
+            retorno_id.write({
+                'numero_arquivo': retorno.sequencia,
+                'data': str(retorno.data_hora)
+            })
 
-            lancamento_pool = self.pool.get('finan.lancamento')
+            lancamento_obj = self.pool.get('finan.lancamento')
 
             #
             # Remove os boletos anteriores
             #
-            for item_obj in retorno_id.retorno_item_ids:
-                item_obj.unlink()
+            retorno_id.retorno_item_ids.unlink()
 
             #
             # Exclui os retornos já existentes deste arquivo
             #
-            self._cr.execute("update finan_lancamento set numero_documento = "
-                             "'QUERO EXCLUIR' where tipo = 'PR' and retorno_id"
-                             " = " + str(retorno_id.id) + ";")
-            self._cr.execute("delete from finan_lancamento where tipo = 'PR' "
-                             "and retorno_id = " + str(retorno_id.id) + ";")
-            self._cr.commit()
+            # self._cr.execute("update finan_lancamento set numero_documento = "
+            #                  "'QUERO EXCLUIR' where tipo = 'PR' and retorno_id"
+            #                  " = " + str(retorno_id.id) + ";")
+            # self._cr.execute("delete from finan_lancamento where tipo = 'PR' "
+            #                  "and retorno_id = " + str(retorno_id.id) + ";")
+            # self._cr.commit()
 
             #
             # Adiciona os comandos separados para baixa/Liquidação de cliente
@@ -384,17 +393,17 @@ class finan_retorno(models.Model):
                 if boleto.identificacao.upper().startswith('ID_'):
                     lancamento_id = int(boleto.identificacao.upper().
                                         replace('ID_', ''))
-                    lancamento_ids = lancamento_pool.search((
+                    lancamento_ids = lancamento_obj.search((
                         'carteira_id', '=', retorno_id.carteira_id.id),
                         ('id', '=', lancamento_id))
                 elif boleto.identificacao.upper().startswith('IX_'):
                     lancamento_id = int(boleto.identificacao.upper().
                                         replace('IX_', ''), 36)
-                    lancamento_ids = lancamento_pool.search(
+                    lancamento_ids = lancamento_obj.search(
                         ('carteira_id', '=', retorno_id.carteira_id.id),
                         ('id', '=', lancamento_id))
                 else:
-                    lancamento_ids = lancamento_pool.search([
+                    lancamento_ids = lancamento_obj.search([
                         ('carteira_id', '=', retorno_id.carteira_id.id),
                         ('nosso_numero', '=', boleto.nosso_numero)],
                         order='data_vencimento desc')
@@ -425,7 +434,7 @@ class finan_retorno(models.Model):
                     comando = 'R'
 
                 if lancamento_id:
-                    lancamento_obj = lancamento_pool.browse(lancamento_id)
+                    lancamento_obj = lancamento_obj.browse(lancamento_id)
                     boleto.pagador.cnpj_cpf = lancamento_obj.partner_id.cnpj_cpf
                     boleto.pagador.nome = lancamento_obj.partner_id.name
                     boleto.documento.numero = lancamento_obj.numero_documento
@@ -475,11 +484,11 @@ class finan_retorno(models.Model):
                     #
                     # Deleta os pagamentos anteriores
                     #
-                    pag_ids = lancamento_pool.search(('tipo', '=', 'PR'), (
+                    pag_ids = lancamento_obj.search(('tipo', '=', 'PR'), (
                         'lancamento_id', '=', lancamento_obj.id), (
                         'retorno_id', '=', retorno_id.id), (
                         'retorno_item_id', '=', item_id))
-                    lancamento_pool.unlink(pag_ids)
+                    lancamento_obj.unlink(pag_ids)
 
                     if comando in ('B', 'N', 'R'):
                         dados = {
@@ -541,7 +550,7 @@ class finan_retorno(models.Model):
                                                           data_credito)[:10]
                             dados_pagamento['conciliado'] = True
 
-                        pr_id = lancamento_pool.create(
+                        pr_id = lancamento_obj.create(
                             dados_pagamento, context={'baixa_boleto': True})
                         print('pagamento id', pr_id, 'data_pagamento',
                               str(boleto.data_ocorrencia)[:10], 'data_credito',
