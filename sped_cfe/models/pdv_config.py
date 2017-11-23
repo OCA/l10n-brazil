@@ -14,6 +14,8 @@ class ConfiguracaoPDV(models.Model):
         comodel_name='res.users',
         string=u'Vendedor',
     )
+        comodel_name=u'sped.empresa'
+    )
 
     numero_caixa = fields.Char(string=u'Número de caixa')
 
