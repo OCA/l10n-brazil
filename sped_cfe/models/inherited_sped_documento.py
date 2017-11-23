@@ -366,12 +366,21 @@ class SpedDocumento(models.Model):
         if not self.modelo == MODELO_FISCAL_CFE:
             return result
 
-        if not self.pagamento_autorizado_cfe:
-            self.envia_pagamento()
-            if not self.pagamento_autorizado_cfe:
-                raise Warning('Pagamento(s) não autorizado(s)!')
-
-        cliente = self.processador_cfe()
+        # TODO: Conectar corretamente no SAT
+        # cliente = self.processador_cfe()
+        from mfecfe import BibliotecaSAT
+        from mfecfe import ClienteSATLocal
+        cliente = ClienteSATLocal(
+            BibliotecaSAT('/opt/Integrador'),  # Caminho do Integrador
+            codigo_ativacao='12345678'
+        )
+        # FIXME: Datas
+        # # A NFC-e deve ter data de emissão no máx. 5 minutos antes
+        # # da transmissão; por isso, definimos a hora de emissão aqui no
+        # # envio
+        if self.modelo == MODELO_FISCAL_NFCE:
+            self.data_hora_emissao = fields.Datetime.now()
+            self.data_hora_entrada_saida = self.data_hora_emissao
 
         cfe = self.monta_cfe()
         # TODO: self.grava_cfe(cfe)
@@ -483,3 +492,9 @@ class SpedDocumento(models.Model):
         venda = self.browse(venda_id)
         return venda.resposta_cfe(resposta)
 
+
+    @api.multi
+    def _buscar_configuracoes_pdv(self):
+        return self.env['pdv.config'].search(
+            [('company_id', '=', self.empresa_id.id)]
+        )
