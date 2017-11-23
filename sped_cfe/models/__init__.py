@@ -9,3 +9,5 @@ from . import inherited_sped_documento
 from . import inherited_sped_documento_item
 from . import inherited_sped_documento_pagamento
 from . import sped_documento_cfe_configuracao
+from . import pdv_config
+from . import pdv_impressora_config
