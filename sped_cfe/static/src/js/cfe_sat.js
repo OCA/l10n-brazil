@@ -12,9 +12,22 @@ odoo.define('sped_cfe.cfe_sat', function (require) {
            this._super(parent);
         },
         start: function() {
+            this._super(this);
+            this.configs = {
+                'sat_path': "",
+                'numero_caixa': ""
+            };
             var self = this;
-            this.keepalive();
-            return this._super(this);
+            var session = openerp.session;
+            new Model('pdv.config').call("search_read", [[['create_uid', '=', session.uid]], ["ip", "numero_caixa"]]).then(function (res) {
+                self.configs["sat_path"] = res[0].ip;
+                self.configs["numero_caixa"] = res[0].numero_caixa;
+                self.keepalive();
+                return self;
+            }).fail(function (error) {
+                alert(error);
+                return self;
+            });
         },
         connect: function (url) {
             return new Session(undefined, url, {use_cors: true});
@@ -24,7 +37,7 @@ odoo.define('sped_cfe.cfe_sat', function (require) {
 
             function status(){
                 var url = "/hub/v1/consultarsat";
-                var resposta_api_cfe = self.chamada_api_cfe_sat({'numero_caixa': 1}, url);
+                var resposta_api_cfe = self.chamada_api_cfe_sat({'numero_caixa': self.configs['numero_caixa']}, url);
                 resposta_api_cfe.done(function (result) {
                     var retorno_sat = result["retorno"].split('|');
                     if (retorno_sat[2] == "SAT em Operação") {
@@ -46,10 +59,11 @@ odoo.define('sped_cfe.cfe_sat', function (require) {
         },
         chamada_api_cfe_sat: function (params, url){
             var self = this;
-            self.connection = self.connect("http://localhost:5000");
+            var host = this.configs["sat_path"];
+            self.connection = self.connect(host);
             var session_id = self.session.session_id;
             var parameters = params || {};
-            var url_session = "http://localhost:5000" + url + "?session_id=" + session_id;
+            var url_session = host + url + "?session_id=" + session_id;
             return $.ajax({
                 url: url_session,
                 data: parameters,
