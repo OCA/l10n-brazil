@@ -14,7 +14,7 @@
                     <group string="Configuração do Ponto de Venda">
                         <field name="pdv_name"/>
                         <field name="numero_caixa"/>
-                        <field name="localizacao"/>
+                        <field name="company_id"/>
                         <field name="tipo"/>
                         <field name="impressora" widget="many2one"/>
                     </group>
@@ -27,6 +27,8 @@
                         <field name="cnpjsh"/>
                         <field name="ie"/>
                         <field name="chave_ativacao"/>
+                        <field name="cnpj_software_house"/>
+                        <field name="assinatura"/>
                     </group>
                 </sheet>
 
@@ -41,7 +43,7 @@
             <tree>
                 <field name="pdv_name"/>
                 <field name="numero_caixa"/>
-                <field name="localizacao"/>
+                <field name="company_id"/>
             </tree>
         </field>
     </record>
