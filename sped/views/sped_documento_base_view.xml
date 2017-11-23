@@ -384,6 +384,8 @@
         <field name="arch" type="xml">
             <search string="Emissão de NF-e">
                 <field name="numero" />
+                <field name="data_emissao" />
+                <field name="data_entrada_saida" />
                 <field name="operacao_id" />
                 <field name="participante_id" />
                 <field name="empresa_id" />
