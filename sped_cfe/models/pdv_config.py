@@ -24,11 +24,6 @@ class ConfiguracaoPDV(models.Model):
         'Impressora',
     )
 
-<<<<<<< 0ef5a3ba7f09d2d07c44e53cff0f5f70ce16e1f8
-=======
-
-
->>>>>>> [ADD]Modelo Configuração PDV
     tipo_sat = fields.Selection([
         ('local', 'Local'),
         ('rede_interna', 'Rede Interna'),
