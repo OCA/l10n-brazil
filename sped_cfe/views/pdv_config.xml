@@ -78,7 +78,7 @@
 
     <menuitem
         parent="l10n_br_base.menu_fiscal_configuracao"
-        sequence="7"
+        sequence="90"
         id="pdv_config_menu"
         name="Ponto de Venda"
     />
