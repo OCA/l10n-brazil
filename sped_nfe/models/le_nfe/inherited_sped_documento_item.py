@@ -53,10 +53,22 @@ class SpedDocumentoItem(models.Model):
 
         return cest[0].id
 
-    def _busca_unidade(self, codigo):
+    def _busca_unidade(self, codigo, pode_incluir=True):
         unidade = self.env['sped.unidade'].busca(codigo)
 
+        #
+        # Trata o caso de unidade UN9999 que tem em várias notas
+        #
+        if len(unidade) == 0 and codigo[:2] == 'UN':
+            cod = codigo[2:]
+
+            if cod.isdigit():
+                unidade = self.env['sped.unidade'].busca('UN')
+
         if len(unidade) == 0:
+            if not pode_incluir:
+                return False
+
             dados = {
                 'codigo': codigo,
                 'nome': 'unidade ' + codigo,
@@ -72,23 +84,47 @@ class SpedDocumentoItem(models.Model):
                 [('codigo_barras', '=', dados['codigo_barras'])])
 
             if len(produto) != 0:
-                return produto[0].id
+                return produto[0]
 
         produto = self.env['sped.produto'].search(
             [('codigo', '=', dados['codigo'])])
 
         if len(produto) != 0:
-            return produto[0].id
+            return produto[0]
 
         produto = self.env['sped.produto'].search(
             [('codigo_cliente', '=', dados['codigo'])])
 
         if len(produto) != 0:
-            return produto[0].id
+            return produto[0]
 
         produto = self.env['sped.produto'].create(dados)
 
-        return produto.id
+        return produto
+
+    def _busca_produto_terceiros(self, dados):
+        if dados['codigo_barras']:
+            produto = self.env['sped.produto'].search(
+                [('codigo_barras', '=', dados['codigo_barras'])])
+
+            if len(produto) != 0:
+                return produto[0]
+
+        if dados['codigo_barras_tributacao']:
+            produto = self.env['sped.produto'].search(
+                [('codigo_barras_tributacao', '=',
+                  dados['codigo_barras_tributacao'])])
+
+            if len(produto) != 0:
+                return produto[0]
+
+        produto = self.env['sped.produto'].search(
+            [('codigo_cliente', '=', dados['codigo'])])
+
+        if len(produto) != 0:
+            return produto[0]
+
+        return False
 
     def le_nfe(self, det, dados_documento):
         dados = {
@@ -98,13 +134,14 @@ class SpedDocumentoItem(models.Model):
 
             'quantidade': det.prod.qCom.valor,
             'vr_unitario': det.prod.vUnCom.valor,
-            'vr_produtos': det.prod.vUnCom.valor,
+            'vr_produtos': det.prod.vProd.valor,
 
             'quantidade_tributacao': det.prod.qTrib.valor,
             'vr_unitario_tributacao': det.prod.vUnTrib.valor,
             'vr_produtos_tributacao': \
                 det.prod.qTrib.valor * det.prod.vUnTrib.valor,
             'exibe_tributacao': False,
+            'fator_conversao_unidade_tributacao': 1,
 
             'vr_frete': det.prod.vFrete.valor,
             'vr_seguro': det.prod.vSeg.valor,
@@ -221,29 +258,68 @@ class SpedDocumentoItem(models.Model):
         # Trata as CSTs de IPI e PIS-COFINS para entrada e saída
         #
         if dados_documento['entrada_saida'] == ENTRADA_SAIDA_ENTRADA:
-            dados['cst_ipi_entrada'] = dados['cst_ipi']
-            dados['cst_pis_entrada'] = dados['cst_pis']
-            dados['cst_cofins_entrada'] = dados['cst_cofins']
+            if dados['cst_ipi'] in ST_IPI_ENTRADA_DICT:
+                dados['cst_ipi_entrada'] = dados['cst_ipi']
+
+            if dados['cst_pis'] in ST_PIS_ENTRADA_DICT:
+                dados['cst_pis_entrada'] = dados['cst_pis']
+
+            if dados['cst_cofins'] in ST_COFINS_ENTRADA_DICT:
+                dados['cst_cofins_entrada'] = dados['cst_cofins']
+
         else:
-            dados['cst_ipi_saida'] = dados['cst_ipi']
-            dados['cst_pis_saida'] = dados['cst_pis']
-            dados['cst_cofins_saida'] = dados['cst_cofins']
+            if dados['cst_ipi'] in ST_IPI_SAIDA_DICT:
+                dados['cst_ipi_saida'] = dados['cst_ipi']
+
+            if dados['cst_pis'] in ST_PIS_SAIDA_DICT:
+                dados['cst_pis_saida'] = dados['cst_pis']
+
+            if dados['cst_cofins'] in ST_COFINS_SAIDA_DICT:
+                dados['cst_cofins_saida'] = dados['cst_cofins']
 
         #
         # Caso a nota seja de emissão própria, podemos incluir os produtos
         # automaticamente
         #
-        if dados_documento['emissao'] == TIPO_EMISSAO_PROPRIA:
-            dados_produto = {
-                'codigo': det.prod.cProd.valor,
-                'nome': det.prod.xProd.valor,
-                'ncm_id': self._busca_ncm(str(det.prod.NCM.valor),
-                                          str(det.prod.EXTIPI.valor)),
-                'cest_id': self._busca_cest(str(det.prod.CEST.valor)),
-                'tipo': TIPO_PRODUTO_SERVICO_MERCADORIA_PARA_REVENDA,
-                'org_icms': dados['org_icms']
-            }
+        dados_produto = {
+            'codigo': det.prod.cProd.valor,
+            'nome': det.prod.xProd.valor,
+            'ncm_id': self._busca_ncm(str(det.prod.NCM.valor),
+                                      str(det.prod.EXTIPI.valor)),
+            'cest_id': self._busca_cest(str(det.prod.CEST.valor)),
+            'tipo': TIPO_PRODUTO_SERVICO_MERCADORIA_PARA_REVENDA,
+            'org_icms': dados['org_icms']
+        }
 
+        if valida_ean(det.prod.cEAN.valor):
+            dados_produto['codigo_barras'] = det.prod.cEAN.valor
+        else:
+            dados_produto['codigo_barras'] = False
+
+        if valida_ean(det.prod.cEANTrib.valor):
+            dados_produto['codigo_barras_tributacao'] = \
+                det.prod.cEANTrib.valor
+        else:
+            dados_produto['codigo_barras_tributacao'] = False
+
+        if dados_documento['emissao'] == TIPO_EMISSAO_TERCEIROS:
+            produto = self._busca_produto_terceiros(dados_produto)
+            if produto:
+                dados['produto_id'] = produto.id
+
+            unidade = self._busca_unidade(det.prod.uCom.valor, False)
+            if unidade:
+                dados['unidade_id'] = unidade.id
+                dados['currency_unidade_id'] = unidade.currency_id.id
+
+            unidade_tributacao = self._busca_unidade(det.prod.uTrib.valor,
+                                                     False)
+            if unidade_tributacao:
+                dados['unidade_tributacao_id'] = unidade_tributacao.id
+                dados['currency_unidade_tributacao_id'] = \
+                    unidade_tributacao.currency_id.id
+
+        else:
             unidade = self._busca_unidade(det.prod.uCom.valor)
             dados['unidade_id'] = unidade.id
             dados['currency_unidade_id'] = unidade.currency_id.id
@@ -266,27 +342,21 @@ class SpedDocumentoItem(models.Model):
                 dados_produto['fator_conversao_unidade_tributacao'] = \
                     dados['fator_conversao_unidade_tributacao']
 
-            if valida_ean(det.prod.cEAN.valor):
-                dados_produto['codigo_barras'] = det.prod.cEAN.valor
-            else:
-                dados_produto['codigo_barras'] = False
-
-            if valida_ean(det.prod.cEANTrib.valor):
-                dados_produto['codigo_barras_tributacao'] = \
-                    det.prod.cEANTrib.valor
-            else:
-                dados_produto['codigo_barras_tributacao'] = False
-
             #
             # Trata o caso do código de barras de tributação vir no final
             # do nome do produto
             #
-            if det.prod.cEANTrib.valor and \
-                dados_produto['nome'].endswith('- ' + det.prod.cEANTrib.valor):
-                dados_produto['nome'] = dados_produto['nome'].replace(
-                    ' - ' + det.prod.cEANTrib.valor, '')
+            partes = dados_produto['nome'].split('-')
+            if len(partes) > 1:
+                codigo = partes[-1].strip()
 
-            dados['produto_id'] = self._busca_produto(dados_produto)
+                if codigo.isdigit() and codigo == str(det.prod.cEAN.valor):
+                    dados_produto['nome'] = '-'.join(partes[:-1]).strip()
+
+                if codigo.isdigit() and codigo == str(det.prod.cEANTrib.valor):
+                    dados_produto['nome'] = '-'.join(partes[:-1]).strip()
+
+            dados['produto_id'] = self._busca_produto(dados_produto).id
 
         ##
         ## Declaração de Importação

@@ -266,6 +266,9 @@ class SpedDocumento(models.Model):
             if self.empresa_id.logo_danfe:
                 processador.danfe.logo = self.empresa_id.logo_danfe
 
+            if self.empresa_id.cabecalho_danfe:
+                processador.danfe.cabecalho = self.empresa_id.cabecalho_danfe
+
             if self.empresa_id.modelo_danfe:
                 modelo_danfe = BytesIO()
                 modelo_danfe.write(base64.b64decode(
@@ -560,7 +563,7 @@ class SpedDocumento(models.Model):
         procNFe = ClasseProcNFe()
 
         procNFe.xml = xml
-        procNFe.NFe.monta_chave()
+        procNFe.NFe.chave = procNFe.NFe.infNFe.Id.valor[3:]
 
         evento = EventoCancNFe_100()
         evento.infEvento.tpAmb.valor = procNFe.NFe.infNFe.ide.tpAmb.valor
@@ -850,30 +853,11 @@ class SpedDocumento(models.Model):
         if self.arquivo_xml_autorizacao_id:
             xml = base64.b64decode(self.arquivo_xml_autorizacao_id.datas)
             procNFe.xml = xml.decode('utf-8')
+            procNFe.NFe.chave = procNFe.NFe.infNFe.Id.valor[3:]
         else:
             procNFe.NFe = self.monta_nfe()
             procNFe.NFe.gera_nova_chave()
-
-        procNFe.NFe.monta_chave()
-        procNFe.NFe.infNFe.emit.CRT.valor = '1'
-
-        procNFe.NFe.infNFe.retirada.CNPJ.valor = '02544208000105'
-        procNFe.NFe.infNFe.retirada.xLgr.valor = 'Rua João Martins Claro'
-        procNFe.NFe.infNFe.retirada.nro.valor = '278'
-        procNFe.NFe.infNFe.retirada.xCpl.valor = 'sala 1'
-        procNFe.NFe.infNFe.retirada.xBairro.valor = 'Jd. Maria do Carmo'
-        procNFe.NFe.infNFe.retirada.cMun.valor = '9999999'
-        procNFe.NFe.infNFe.retirada.xMun.valor = 'Sorocaba'
-        procNFe.NFe.infNFe.retirada.UF.valor = 'SP'
-
-        procNFe.NFe.infNFe.entrega.CPF.valor = '24938312840'
-        procNFe.NFe.infNFe.entrega.xLgr.valor = 'Rua Ângelo Carniel'
-        procNFe.NFe.infNFe.entrega.nro.valor = '119'
-        procNFe.NFe.infNFe.entrega.xCpl.valor = 'AF-23'
-        procNFe.NFe.infNFe.entrega.xBairro.valor = 'Pq. Ibiti do Paço'
-        procNFe.NFe.infNFe.entrega.cMun.valor = '9999999'
-        procNFe.NFe.infNFe.entrega.xMun.valor = 'Sorocaba'
-        procNFe.NFe.infNFe.entrega.UF.valor = 'SP'
+            procNFe.NFe.monta_chave()
 
         procevento = ProcEventoCancNFe_100()
         if self.arquivo_xml_autorizacao_cancelamento_id:

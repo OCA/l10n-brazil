@@ -26,6 +26,8 @@ try:
     from pybrasil.inscricao import limpa_formatacao
     from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
                                agora)
+    from email_validator import validate_email
+    from pybrasil.telefone import valida_fone_fixo, valida_fone_celular
     from pybrasil.valor import formata_valor
     from pybrasil.valor.decimal import Decimal as D
     from pybrasil.template import TemplateBrasil
@@ -62,8 +64,8 @@ class SpedDocumento(models.Model):
         documento = self.search([('chave', '=', chave)])
 
         if len(documento) > 0:
-            documento.unlink()
-            #return documento
+            #documento.unlink()
+            return documento
 
         dados = {
             'chave': chave,
@@ -277,6 +279,29 @@ class SpedDocumento(models.Model):
             dados['data_hora_entrada_saida'] = False
             emitente.eh_fornecedor = True
 
+        #
+        # Natureza da operação só pode ser importada no caso de emissão própria
+        #
+        if dados['emissao'] == TIPO_EMISSAO_PROPRIA:
+            natureza = \
+                self._busca_natureza_operacao(ide.natOp.valor)
+
+            if not natureza:
+                naturezas = self.search([(1, '=', 1)], order='id desc', limit=1)
+
+                if naturezas:
+                    ultima_natureza = naturezas[0].id
+                else:
+                    ultima_natureza = 0
+
+                natureza = self.env['sped.natureza.operacao'].create({
+                    'nome': ide.natOp.valor,
+                    'codigo': str(ultima_natureza + 1).zfill(3),
+                })
+
+            dados['natureza_operacao_id'] = natureza.id
+            dados['operacao_id'] = self._busca_operacao(natureza)
+
         return True
 
     def _busca_municipio(self, codigo_ibge):
@@ -316,7 +341,6 @@ class SpedDocumento(models.Model):
             'serie': ide.serie.valor,
             'numero': ide.nNF.valor,
             'data_hora_emissao': str(UTC.normalize(ide.dhEmi.valor)),
-            'data_hora_entrada_saida': str(UTC.normalize(ide.dhSaiEnt.valor)),
             'tipo_emissao_nfe': str(ide.tpEmis.valor),
             'finalidade_nfe': str(ide.finNFe.valor),
             'presenca_comprador': str(ide.indPres.valor),
@@ -326,6 +350,12 @@ class SpedDocumento(models.Model):
             'emissao': TIPO_EMISSAO_PROPRIA,
             'entrada_saida': str(ide.tpNF.valor),
         })
+
+        if ide.dhSaiEnt.valor:
+            dados['data_hora_entrada_saida'] = \
+                str(UTC.normalize(ide.dhSaiEnt.valor))
+        else:
+            dados['data_hora_entrada_saida'] = dados['data_hora_emissao']
 
         if ide.cMunFG.valor:
             dados['municipio_fato_gerador_id'] = self._busca_municipio(
@@ -341,29 +371,6 @@ class SpedDocumento(models.Model):
                 dados['data_hora_entrada_saida'][:10]:
                 dados['data_hora_emissao'] = dados['data_hora_entrada_saida']
 
-        #
-        # Natureza da operação só pode ser importada no caso de emissão própria
-        #
-        if dados['emissao'] == TIPO_EMISSAO_PROPRIA:
-            natureza = \
-                self._busca_natureza_operacao(ide.natOp.valor)
-
-            if not natureza:
-                naturezas = self.search([(1, '=', 1)], order='id desc', limit=1)
-
-                if naturezas:
-                    ultima_natureza = naturezas[0].id
-                else:
-                    ultima_natureza = 0
-
-                natureza = self.env['sped.natureza.operacao'].create({
-                    'nome': ide.natOp.valor,
-                    'codigo': str(ultima_natureza + 1).zfill(3),
-                })
-
-            dados['natureza_operacao_id'] = natureza.id
-            dados['operacao_id'] = self._busca_operacao(natureza)
-
     def _le_nfe_emitente(self, emit, dados):
         dados.update({
             'cnpj_cpf': emit.CNPJ.valor,
@@ -375,29 +382,31 @@ class SpedDocumento(models.Model):
             'complemento': emit.enderEmit.xCpl.valor,
             'bairro': emit.enderEmit.xBairro.valor,
             'cep': emit.enderEmit.CEP.valor,
-            'fone': emit.enderEmit.fone.valor,
             'ie': emit.IE.valor,
             'contribuinte': INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
             'regime_tributario': str(emit.CRT.valor),
         })
 
-        if emit.enderEmit.cMun.valor == '9999999' or \
-            str(emit.enderEmit.cPais.valor) != PAIS_BRASIL:
-            codigo_ibge = '9999999' + str(emit.enderEmit.cPais.valor)
-            dados['cep'] = '99999999'
-        else:
-            codigo_ibge = str(emit.enderEmit.cMun.valor) + '0000'
+        if emit.enderEmit.fone.valor:
+            if valida_fone_fixo(str(emit.enderEmit.fone.valor)):
+                dados['fone'] = str(emit.enderEmit.fone.valor)
+            elif valida_fone_celular(str(emit.enderEmit.fone.valor)):
+                dados['celular'] = str(emit.enderEmit.fone.valor)
 
+        codigo_ibge = str(emit.enderEmit.cMun.valor) + '0000'
         dados['municipio_id'] = self._busca_municipio(codigo_ibge)
 
         #
         # Trata o caso do código do cliente na frente da razão social
         #
-        if emit.xNome.valor[:5].isdigit() and emit.xNome.valor[6] == '-':
-            dados['codigo'] = emit.xNome.valor[:5]
-            dados['nome'] = dados['nome'].replace(dados['codigo'] + ' - ', '')
-            dados['razao_social'] = \
-                dados['razao_social'].replace(dados['codigo'] + ' - ', '')
+        partes = emit.xNome.valor.split('-')
+        if len(partes) > 1:
+            codigo = partes[0].strip()
+
+            if codigo.isdigit():
+                dados['codigo'] = codigo
+                dados['razao_social'] = ''.join(partes[1:]).strip()
+                dados['nome'] = '-'.join(partes[1:]).strip()
 
     def _le_nfe_destinatario(self, dest, dados):
         dados.update({
@@ -408,12 +417,23 @@ class SpedDocumento(models.Model):
             'complemento': dest.enderDest.xCpl.valor,
             'bairro': dest.enderDest.xBairro.valor,
             'cep': dest.enderDest.CEP.valor,
-            'fone': dest.enderDest.fone.valor,
             'ie': dest.IE.valor,
             'contribuinte': dest.indIEDest.valor,
-            'email': dest.email.valor,
-            'email_nfe': dest.email.valor,
         })
+
+        if dest.enderDest.fone.valor:
+            if valida_fone_fixo(str(dest.enderDest.fone.valor)):
+                dados['fone'] = str(dest.enderDest.fone.valor)
+            elif valida_fone_celular(str(dest.enderDest.fone.valor)):
+                dados['celular'] = str(dest.enderDest.fone.valor)
+
+        if dest.email.valor:
+            try:
+                valido = validate_email(dest.email.valor)
+                dados['email'] = dest.email.valor.lower()
+                dados['email_nfe'] = dest.email.valor.lower()
+            except:
+                pass
 
         #
         # Tratamos o erro no preenchimento da NF-e em que estão enviando
@@ -450,11 +470,14 @@ class SpedDocumento(models.Model):
         #
         # Trata o caso do código do cliente na frente da razão social
         #
-        if dest.xNome.valor[:5].isdigit() and dest.xNome.valor[6] == '-':
-            dados['codigo'] = dest.xNome.valor[:5]
-            dados['nome'] = dados['nome'].replace(dados['codigo'] + ' - ', '')
-            dados['razao_social'] = \
-                dados['razao_social'].replace(dados['codigo'] + ' - ', '')
+        partes = dest.xNome.valor.split('-')
+        if len(partes) > 1:
+            codigo = partes[0].strip()
+
+            if codigo.isdigit():
+                dados['codigo'] = codigo
+                dados['razao_social'] = ''.join(partes[1:]).strip()
+                dados['nome'] = '-'.join(partes[1:]).strip()
 
     def _le_nfe_endereco_retirada(self, retirada):
         return
@@ -654,7 +677,66 @@ class SpedDocumento(models.Model):
         })
 
     def testa_importacao(self):
-        documento = self.env['sped.documento'].new()
-        documento.modelo = '55'
-        d = documento.le_nfe(xml='/home/ari/diso/novembro/id_830944_2017-11-01-17-44-54-883903-35171006180912000179550010011975251315166970-nfe.xml')
-        self.env.cr.commit()
+        #processador = self.processador_nfe()
+
+        caminho_a_processar = '/home/ari/diso/novembro/'
+        caminho_processado = '/home/ari/diso/importado/'
+        caminho_rejeitado = '/home/ari/diso/rejeitado/'
+
+        arquivos = os.listdir(caminho_a_processar)
+        arquivos.sort()
+
+        i = 1
+        for nome_arq in arquivos:
+            print(i, len(arquivos), nome_arq)
+            i += 1
+            if '.xml' not in nome_arq.lower():
+                continue
+
+            #
+            # Codificação incorreta, arquivo não é UTF-8
+            #
+            try:
+                xml = open(caminho_a_processar + nome_arq, 'r').read().decode('utf-8')
+            except:
+                print('erro codificacao')
+                continue
+
+            #
+            # Não é do ambiente de produção
+            #
+            if not '<tpAmb>1</tpAmb>' in xml:
+                print('erro ambiente')
+                continue
+
+            #
+            # Não é uma NF-e nem CT-e
+            #
+            if (not '</NFe>' in xml) and \
+                (not '</cancNFe>' in xml) and \
+                (not '<descEvento>Cancelamento</descEvento>' in xml) and \
+                (not '</CTe>' in xml) and \
+                (not '</cancCTe>' in xml):
+                print('erro tipo')
+                continue
+
+            ##
+            ## A assinatura é válida?
+            ##
+            #if '</NFe>' in xml or '</CTe>' in xml:
+                #try:
+                    #processador.certificado.verifica_assinatura_xml(xml)
+                #except:
+                    #continue
+
+            #
+            # É NF-e?
+            #
+            if '</nfeProc>' in xml:
+                print('vai importar')
+                documento = self.env['sped.documento'].new()
+                documento.modelo = '55'
+                documento.empresa_id = \
+                    self.env.user.company_id.sped_empresa_id.id
+                d = documento.le_nfe(xml=xml)
+                self.env.cr.commit()

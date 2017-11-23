@@ -38,6 +38,14 @@ class SpedEmpresa(models.Model):
         string='Arquivo',
         size=255
     )
+    cabecalho_danfe = fields.Binary(
+        string='Cabeçalho no DANFE',
+        attachment=True,
+    )
+    nome_arquivo_cabecalho_danfe = fields.Char(
+        string='Arquivo',
+        size=255
+    )
     modelo_danfe = fields.Binary(
         string='Modelo do DANFE',
         attachment=True,
