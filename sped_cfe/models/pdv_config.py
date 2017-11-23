@@ -4,7 +4,7 @@ from odoo import models, fields, api
 
 class ConfiguracaoPDV(models.Model):
     _name = 'pdv.config'
-
+    _rec_name = 'pdv_name'
 
     pdv_name = fields.Char(string=u'Nome')
     localizacao = fields.Char(string=u'Localização')
