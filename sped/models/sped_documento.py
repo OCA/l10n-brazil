@@ -30,7 +30,8 @@ class SpedDocumento(SpedBase, models.Model):
     _name = b'sped.documento'
     _description = 'Documentos Fiscais'
     _inherit = ['mail.thread']
-    _order = 'emissao, modelo, data_emissao desc, serie, numero desc'
+    _order = 'emissao, modelo, data_entrada_saida desc, data_emissao desc,' + \
+             ' serie, numero desc'
     _rec_name = 'descricao'
 
     descricao = fields.Char(
@@ -1376,3 +1377,15 @@ class SpedDocumento(SpedBase, models.Model):
 
     def executa_depois_unlink(self, result):
         return result
+
+    @api.model
+    def search_read(self, domain=None, fields=None, offset=0, limit=None,
+                    order=None):
+        if order is None or not order:
+            if self.env.context.get('default_order', False):
+                order = self.env.context.get('default_order', False)
+            elif self.env.context.get('order', False):
+                order = self.env.context.get('order', False)
+
+        return super(SpedDocumento, self).search_read(domain=domain,
+            fields=fields, offset=offset, limit=limit, order=order)
