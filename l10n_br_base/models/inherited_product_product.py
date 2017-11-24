@@ -16,5 +16,4 @@ class ProductProduct(models.Model):
     sped_produto_id = fields.Many2one(
         comodel_name='sped.produto',
         string='Produto',
-        ondelete='cascade',
     )

@@ -11,7 +11,7 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
 <!--             <form string="Natureza de operação fiscal" delete="false" create="false" edit="false"> -->
-            <form string="Natureza de operação fiscal" duplicate="false">
+            <form string="Natureza de operação fiscal">
                 <sheet>
                     <group>
                         <group colspan="4" col="4">
@@ -32,7 +32,7 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
 <!--             <tree string="Natureza de operação fiscal" delete="false" create="false" edit="false"> -->
-            <tree string="Natureza de operação fiscal" duplicate="false">
+            <tree string="Natureza de operação fiscal">
                 <field name="codigo" />
                 <field name="nome" />
             </tree>

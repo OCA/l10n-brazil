@@ -11,7 +11,7 @@
         <field name="priority">9999</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form string="Endereços" duplicate="false">
+            <form string="Endereços">
             <sheet>
                 <separator string="Endereço" />
                 <group col="6">
@@ -55,7 +55,7 @@
         <field name="priority">9999</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <tree string="Endereços" duplicate="false">
+            <tree string="Endereços">
                 <field name="nome" />
                 <field name="endereco_completo" />
                 <field name="cnpj_cpf" />

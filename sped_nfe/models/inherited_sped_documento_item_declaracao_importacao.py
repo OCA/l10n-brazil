@@ -17,7 +17,10 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe.leiaute import Adi_400, DI_400
+    from pysped.nfe.leiaute import (
+        Adi_310,
+        DI_310,
+    )
     from pybrasil.inscricao import limpa_formatacao
     from pybrasil.data import parse_datetime, UTC
     from pybrasil.valor.decimal import Decimal as D
@@ -36,7 +39,7 @@ class SpedDocumentoItemDeclaracaoImportacao(models.Model):
                 self.documento_id.modelo != MODELO_FISCAL_NFCE:
             return
 
-        di = DI_400()
+        di = DI_310()
 
         di.nDI.valor = self.numero_documento
         di.dDI.valor = self.data_registro[:10]
@@ -56,7 +59,7 @@ class SpedDocumentoItemDeclaracaoImportacao(models.Model):
         #
         # Sempre existe pelo menos uma adição
         #
-        adi = Adi_400()
+        adi = Adi_310()
 
         adi.nAdicao.valor = self.numero_adicao
         adi.nSeqAdic.valor = self.sequencial

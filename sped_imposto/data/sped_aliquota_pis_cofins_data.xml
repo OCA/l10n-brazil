@@ -11,7 +11,7 @@
         <field name="md_pis_cofins">0</field>
         <field name="cst_pis_cofins_entrada">98</field>
         <field name="cst_pis_cofins_saida">99</field>
-<!--         <field name="codigo_justificativa"></field> -->
+        <field name="codigo_justificativa"></field>
     </record>
 
     <record id="ALIQUOTA_PIS_COFINS_LUCRO_PRESUMIDO" model="sped.aliquota.pis.cofins">
@@ -20,25 +20,16 @@
         <field name="md_pis_cofins">0</field>
         <field name="cst_pis_cofins_entrada">70</field>
         <field name="cst_pis_cofins_saida">01</field>
-<!--         <field name="codigo_justificativa"></field> -->
+        <field name="codigo_justificativa"></field>
     </record>
 
     <record id="ALIQUOTA_PIS_COFINS_LUCRO_REAL" model="sped.aliquota.pis.cofins">
-        <field name="al_pis">1.65</field>
-        <field name="al_cofins">7.6</field>
+        <field name="al_pis">7.6</field>
+        <field name="al_cofins">1.65</field>
         <field name="md_pis_cofins">0</field>
         <field name="cst_pis_cofins_entrada">50</field>
         <field name="cst_pis_cofins_saida">01</field>
-<!--         <field name="codigo_justificativa"></field> -->
-    </record>
-
-    <record id="ALIQUOTA_PIS_COFINS_LUCRO_REAL_SEM_CREDITO" model="sped.aliquota.pis.cofins">
-        <field name="al_pis">1.65</field>
-        <field name="al_cofins">7.6</field>
-        <field name="md_pis_cofins">0</field>
-        <field name="cst_pis_cofins_entrada">70</field>
-        <field name="cst_pis_cofins_saida">01</field>
-<!--         <field name="codigo_justificativa"></field> -->
+        <field name="codigo_justificativa"></field>
     </record>
 
     <record id="ALIQUOTA_PIS_COFINS_IMPORTACAO" model="sped.aliquota.pis.cofins">
@@ -47,52 +38,7 @@
         <field name="md_pis_cofins">0</field>
         <field name="cst_pis_cofins_entrada">50</field>
         <field name="cst_pis_cofins_saida">01</field>
-<!--         <field name="codigo_justificativa"></field> -->
-    </record>
-
-    <record id="ALIQUOTA_PIS_COFINS_MONOFASICO" model="sped.aliquota.pis.cofins">
-        <field name="al_pis">0</field>
-        <field name="al_cofins">0</field>
-        <field name="md_pis_cofins">0</field>
-        <field name="cst_pis_cofins_entrada">73</field>
-        <field name="cst_pis_cofins_saida">04</field>
-<!--         <field name="codigo_justificativa"></field> -->
-    </record>
-
-    <record id="ALIQUOTA_PIS_COFINS_ALIQUOTA_ZERO" model="sped.aliquota.pis.cofins">
-        <field name="al_pis">0</field>
-        <field name="al_cofins">0</field>
-        <field name="md_pis_cofins">0</field>
-        <field name="cst_pis_cofins_entrada">73</field>
-        <field name="cst_pis_cofins_saida">06</field>
-<!--         <field name="codigo_justificativa"></field> -->
-    </record>
-
-    <record id="ALIQUOTA_PIS_COFINS_ISENTO" model="sped.aliquota.pis.cofins">
-        <field name="al_pis">0</field>
-        <field name="al_cofins">0</field>
-        <field name="md_pis_cofins">0</field>
-        <field name="cst_pis_cofins_entrada">71</field>
-        <field name="cst_pis_cofins_saida">07</field>
-<!--         <field name="codigo_justificativa"></field> -->
-    </record>
-
-    <record id="ALIQUOTA_PIS_COFINS_SEM_INCIDENCIA" model="sped.aliquota.pis.cofins">
-        <field name="al_pis">0</field>
-        <field name="al_cofins">0</field>
-        <field name="md_pis_cofins">0</field>
-        <field name="cst_pis_cofins_entrada">74</field>
-        <field name="cst_pis_cofins_saida">08</field>
-<!--         <field name="codigo_justificativa"></field> -->
-    </record>
-
-    <record id="ALIQUOTA_PIS_COFINS_SUSPENSO" model="sped.aliquota.pis.cofins">
-        <field name="al_pis">0</field>
-        <field name="al_cofins">0</field>
-        <field name="md_pis_cofins">0</field>
-        <field name="cst_pis_cofins_entrada">72</field>
-        <field name="cst_pis_cofins_saida">09</field>
-<!--         <field name="codigo_justificativa"></field> -->
+        <field name="codigo_justificativa"></field>
     </record>
 
 </odoo>

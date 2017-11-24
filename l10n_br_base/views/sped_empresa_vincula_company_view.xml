@@ -10,7 +10,7 @@
         <field name="model">sped.empresa</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Empresa" duplicate="false">
+            <form string="Empresa">
             <sheet>
                 <field name="id" invisible="1" />
 <!--                    <div class="oe_button_box" name="button_box">
@@ -137,7 +137,7 @@
         <field name="model">sped.empresa</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Empresas" duplicate="false">
+            <tree string="Empresas">
                 <field name="nome" />
                 <field name="cnpj_cpf" />
                 <field name="fone" />

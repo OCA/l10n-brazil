@@ -10,7 +10,7 @@
         <field name="model">sped.ibptax</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="IBPTax" delete="true" create="true" edit="true" duplicate="false">
+            <form string="IBPTax" delete="true" create="true" edit="true">
                 <sheet>
                     <div class="oe_title">
                         <h1>
@@ -69,7 +69,7 @@
         <field name="model">sped.ibptax</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="IBPTax" delete="true" create="true" edit="true" duplicate="false">
+            <tree string="IBPTax" delete="true" create="true" edit="true">
                 <field name="estado_id" />
                 <field name="versao" />
                 <field name="data_validade" />

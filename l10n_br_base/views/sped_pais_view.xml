@@ -10,7 +10,7 @@
         <field name="model">sped.pais</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="País" delete="false" create="false" edit="false" duplicate="false">
+            <form string="País" delete="false" create="false" edit="false">
                 <sheet>
                     <group colspan="4" col="4">
                         <field name="nome" required="1" colspan="4" />
@@ -29,7 +29,7 @@
         <field name="model">sped.pais</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Países" delete="false" create="false" edit="false" duplicate="false">
+            <tree string="Países" delete="false" create="false" edit="false">
                 <field name="nome" />
                 <field name="iso_3166_alfa_2" />
                 <field name="codigo_bacen" />

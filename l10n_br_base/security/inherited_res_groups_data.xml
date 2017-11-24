@@ -22,15 +22,13 @@
     </record>
 
     <record id="GRUPO_CADASTRO_GERAL" model="res.groups">
-        <field name="name">Cadastro (geral)</field>
+        <field name="name">Cadastro</field>
         <field name="category_id" ref="l10n_br_base.CATEGORIA_MODULO_CADASTROS"/>
-        <field name="implied_ids" eval="[(4, ref('GRUPO_CADASTRO_LEITURA'))]"/>
     </record>
 
     <record id="GRUPO_CADASTRO_GERENTE" model="res.groups">
         <field name="name">Cadastro (gerente)</field>
         <field name="category_id" ref="l10n_br_base.CATEGORIA_MODULO_CADASTROS"/>
-        <field name="implied_ids" eval="[(4, ref('GRUPO_CADASTRO_GERAL'))]"/>
     </record>
 
 </odoo>

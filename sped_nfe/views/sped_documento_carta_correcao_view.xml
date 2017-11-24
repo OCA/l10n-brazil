@@ -10,7 +10,7 @@
         <field name="model">sped.documento.carta.correcao</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Carta de Correção" duplicate="false">
+            <form string="Carta de Correção">
                 <field name="permite_alteracao" invisible="1" />
             <sheet>
 <!--                <div class="oe_title">
@@ -59,7 +59,7 @@
         <field name="model">sped.documento.carta.correcao</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Cartas de Correção" duplicate="false">
+            <tree string="Cartas de Correção">
                 <field name="documento_id" />
                 <field name="sequencia" />
                 <field name="correcao" />

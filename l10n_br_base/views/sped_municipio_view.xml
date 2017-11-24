@@ -10,7 +10,7 @@
         <field name="model">sped.municipio</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Município" delete="false" create="false" edit="false" duplicate="false">
+            <form string="Município" delete="false" create="false" edit="false">
                 <sheet>
                     <group colspan="4" col="4">
                         <field name="nome" required="1" colspan="4" />
@@ -35,7 +35,7 @@
         <field name="model">sped.municipio</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Município" delete="false" create="false" edit="false" duplicate="false">
+            <tree string="Município" delete="false" create="false" edit="false">
                 <field name="nome" />
                 <field name="estado_id" />
                 <field name="pais_id" />

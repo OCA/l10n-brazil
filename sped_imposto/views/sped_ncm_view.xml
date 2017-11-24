@@ -10,7 +10,7 @@
         <field name="model">sped.ncm</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="NCM" delete="false" create="false" edit="true" duplicate="false">
+            <form string="NCM" delete="false" create="false" edit="true">
                 <sheet>
                     <div class="oe_title">
                         <h1>
@@ -39,14 +39,6 @@
                         <tr>
                             <td style="width:20%;"><label for="al_ipi_id" /></td>
                             <td style="width:80%;" colspan="2"><field name="al_ipi_id" required="1" options="{'no_create': True, 'no_open': True}" /></td>
-                        </tr>
-                        <tr>
-                            <td style="width:20%;"><label for="al_pis_cofins_id" /></td>
-                            <td style="width:80%;" colspan="2"><field name="al_pis_cofins_id" options="{'no_create': True, 'no_open': True}" /></td>
-                        </tr>
-                        <tr>
-                            <td style="width:20%;"><label for="codigo_natureza_receita_pis_cofins" /></td>
-                            <td style="width:80%;" colspan="2"><field name="codigo_natureza_receita_pis_cofins" /></td>
                         </tr>
                     </table>
                     <notebook>
@@ -91,15 +83,13 @@
         <field name="model">sped.ncm</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="NCM" delete="true" create="false" edit="true" duplicate="false">
+            <tree string="NCM" delete="false" create="false" edit="true">
 <!--                 <field name="ncm" /> -->
                 <field name="codigo_formatado" />
                 <field name="ex" />
                 <field name="descricao" />
                 <field name="unidade_id" />
                 <field name="al_ipi_id" />
-                <field name="al_pis_cofins_id" />
-                <field name="codigo_natureza_receita_pis_cofins" />
             </tree>
         </field>
     </record>
@@ -115,8 +105,6 @@
                 <field name="descricao" />
                 <field name="unidade_id" />
                 <field name="al_ipi_id" />
-                <field name="al_pis_cofins_id" />
-                <field name="codigo_natureza_receita_pis_cofins" />
             </search>
         </field>
     </record>

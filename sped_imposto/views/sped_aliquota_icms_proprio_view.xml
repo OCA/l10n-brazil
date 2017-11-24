@@ -10,7 +10,7 @@
         <field name="model">sped.aliquota.icms.proprio</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Alíquota de ICMS próprio da operação" delete="true" create="true" edit="true" duplicate="false">
+            <form string="Alíquota de ICMS próprio da operação" delete="true" create="true" edit="true">
                 <sheet>
                     <div class="oe_title">
                         <h1>
@@ -57,7 +57,7 @@
         <field name="model">sped.aliquota.icms.proprio</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Alíquota de ICMS próprio da operação" delete="true" create="true" edit="true" duplicate="false">
+            <tree string="Alíquota de ICMS próprio da operação" delete="true" create="true" edit="true">
                 <field name="descricao" />
 <!--                <field name="md_icms" />
                 <field name="pr_icms" />

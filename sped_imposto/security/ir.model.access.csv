@@ -2,118 +2,95 @@ group_id/id,model_id/id,name,id,perm_read,perm_create,perm_write,perm_unlink
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_aliquota_icms_proprio,Alíquotas do ICMS próprio (suporte),sped_aliquota_icms_proprio_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_aliquota_icms_proprio,Alíquotas do ICMS próprio (somente leitura),sped_aliquota_icms_proprio_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_aliquota_icms_proprio,Alíquotas do ICMS próprio (geral),sped_aliquota_icms_proprio_grupo_fiscal_geral,True,False,False,False
-sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_aliquota_icms_proprio,Alíquotas do ICMS próprio (gerente),sped_aliquota_icms_proprio_grupo_fiscal_gerente,True,True,True,False
-
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_aliquota_icms_proprio,Alíquotas do ICMS próprio (gerente),sped_aliquota_icms_proprio_grupo_fiscal_gerente,True,False,True,False
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_aliquota_icms_st,Alíquotas do ICMS ST (suporte),sped_aliquota_icms_st_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_aliquota_icms_st,Alíquotas do ICMS ST (somente leitura),sped_aliquota_icms_st_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_aliquota_icms_st,Alíquotas do ICMS ST (geral),sped_aliquota_icms_st_grupo_fiscal_geral,True,False,False,False
-sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_aliquota_icms_st,Alíquotas do ICMS ST (gerente),sped_aliquota_icms_st_grupo_fiscal_gerente,True,True,True,False
-
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_aliquota_icms_st,Alíquotas do ICMS ST (gerente),sped_aliquota_icms_st_grupo_fiscal_gerente,True,False,True,False
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_aliquota_ipi,Alíquotas do IPI (suporte),sped_aliquota_ipi_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_aliquota_ipi,Alíquotas do IPI (somente leitura),sped_aliquota_ipi_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_aliquota_ipi,Alíquotas do IPI (geral),sped_aliquota_ipi_grupo_fiscal_geral,True,False,False,False
-sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_aliquota_ipi,Alíquotas do IPI (gerente),sped_aliquota_ipi_grupo_fiscal_gerente,True,True,True,False
-
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_aliquota_ipi,Alíquotas do IPI (gerente),sped_aliquota_ipi_grupo_fiscal_gerente,True,False,True,False
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_aliquota_iss,Alíquotas do ISS (suporte),sped_aliquota_iss_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_aliquota_iss,Alíquotas do ISS (somente leitura),sped_aliquota_iss_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_aliquota_iss,Alíquotas do ISS (geral),sped_aliquota_iss_grupo_fiscal_geral,True,False,False,False
-sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_aliquota_iss,Alíquotas do ISS (gerente),sped_aliquota_iss_grupo_fiscal_gerente,True,True,True,False
-
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_aliquota_iss,Alíquotas do ISS (gerente),sped_aliquota_iss_grupo_fiscal_gerente,True,False,True,False
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_aliquota_pis_cofins,Alíquotas do PIS-COFINS (suporte),sped_aliquota_pis_cofins_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_aliquota_pis_cofins,Alíquotas do PIS-COFINS (somente leitura),sped_aliquota_pis_cofins_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_aliquota_pis_cofins,Alíquotas do PIS-COFINS (geral),sped_aliquota_pis_cofins_grupo_fiscal_geral,True,False,False,False
-sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_aliquota_pis_cofins,Alíquotas do PIS-COFINS (gerente),sped_aliquota_pis_cofins_grupo_fiscal_gerente,True,True,True,False
-
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_aliquota_pis_cofins,Alíquotas do PIS-COFINS (gerente),sped_aliquota_pis_cofins_grupo_fiscal_gerente,True,False,True,False
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_aliquota_simples_anexo,Anexos do SIMPLES Nacional (suporte),sped_aliquota_simples_anexo_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_aliquota_simples_anexo,Anexos do SIMPLES Nacional (somente leitura),sped_aliquota_simples_anexo_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_aliquota_simples_anexo,Anexos do SIMPLES Nacional (geral),sped_aliquota_simples_anexo_grupo_fiscal_geral,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_aliquota_simples_anexo,Anexos do SIMPLES Nacional (gerente),sped_aliquota_simples_anexo_grupo_fiscal_gerente,True,False,True,False
-
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_aliquota_simples_teto,Tetos do SIMPLES Nacional (suporte),sped_aliquota_simples_teto_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_aliquota_simples_teto,Tetos do SIMPLES Nacional (somente leitura),sped_aliquota_simples_teto_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_aliquota_simples_teto,Tetos do SIMPLES Nacional (geral),sped_aliquota_simples_teto_grupo_fiscal_geral,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_aliquota_simples_teto,Tetos do SIMPLES Nacional (gerente),sped_aliquota_simples_teto_grupo_fiscal_gerente,True,False,True,False
-
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_aliquota_simples_aliquota,Alíquotas do SIMPLES Nacional (suporte),sped_aliquota_simples_aliquota_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_aliquota_simples_aliquota,Alíquotas do SIMPLES Nacional (somente leitura),sped_aliquota_simples_aliquota_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_aliquota_simples_aliquota,Alíquotas do SIMPLES Nacional (geral),sped_aliquota_simples_aliquota_grupo_fiscal_geral,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_aliquota_simples_aliquota,Alíquotas do SIMPLES Nacional (gerente),sped_aliquota_simples_aliquota_grupo_fiscal_gerente,True,False,True,False
-
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_cest,CESTs (suporte),sped_cest_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_cest,CESTs (somente leitura),sped_cest_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_cest,CESTs (geral),sped_cest_grupo_fiscal_geral,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_cest,CESTs (gerente),sped_cest_grupo_fiscal_gerente,True,False,True,False
-
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_cfop,CFOPs (suporte),sped_cfop_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_cfop,CFOPs (somente leitura),sped_cfop_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_cfop,CFOPs (geral),sped_cfop_grupo_fiscal_geral,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_cfop,CFOPs (gerente),sped_cfop_grupo_fiscal_gerente,True,False,True,False
-
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_cnae,CNAEs (suporte),sped_cnae_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_cnae,CNAEs (somente leitura),sped_cnae_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_cnae,CNAEs (geral),sped_cnae_grupo_fiscal_geral,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_cnae,CNAEs (gerente),sped_cnae_grupo_fiscal_gerente,True,False,True,False
-
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_ibptax,IBPTax (suporte),sped_ibptax_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_ibptax,IBPTax (somente leitura),sped_ibptax_grupo_fiscal_leitura,True,False,False,False
-sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_ibptax,IBPTax (geral),sped_ibptax_grupo_fiscal_geral,True,True,True,False
-sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_ibptax,IBPTax (gerente),sped_ibptax_grupo_fiscal_gerente,True,True,True,True
-
+sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_ibptax,IBPTax (geral),sped_ibptax_grupo_fiscal_geral,True,False,False,False
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_ibptax,IBPTax (gerente),sped_ibptax_grupo_fiscal_gerente,True,False,True,False
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_ibptax_ncm,IBPTax por NCM (suporte),sped_ibptax_ncm_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_ibptax_ncm,IBPTax por NCM (somente leitura),sped_ibptax_ncm_grupo_fiscal_leitura,True,False,False,False
-sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_ibptax_ncm,IBPTax por NCM (geral),sped_ibptax_ncm_grupo_fiscal_geral,True,True,True,True,True
-sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_ibptax_ncm,IBPTax por NCM (gerente),sped_ibptax_ncm_grupo_fiscal_gerente,True,True,True,True
-
+sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_ibptax_ncm,IBPTax por NCM (geral),sped_ibptax_ncm_grupo_fiscal_geral,True,False,False,False
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_ibptax_ncm,IBPTax por NCM (gerente),sped_ibptax_ncm_grupo_fiscal_gerente,True,False,True,False
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_ibptax_nbs,IBPTax por NBS (suporte),sped_ibptax_nbs_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_ibptax_nbs,IBPTax por NBS (somente leitura),sped_ibptax_nbs_grupo_fiscal_leitura,True,False,False,False
-sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_ibptax_nbs,IBPTax por NBS (geral),sped_ibptax_nbs_grupo_fiscal_geral,True,True,True,True
-sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_ibptax_nbs,IBPTax por NBS (gerente),sped_ibptax_nbs_grupo_fiscal_gerente,True,True,True,True
-
+sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_ibptax_nbs,IBPTax por NBS (geral),sped_ibptax_nbs_grupo_fiscal_geral,True,False,False,False
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_ibptax_nbs,IBPTax por NBS (gerente),sped_ibptax_nbs_grupo_fiscal_gerente,True,False,True,False
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_ibptax_servico,IBPTax por Serviço (suporte),sped_ibptax_servico_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_ibptax_servico,IBPTax por Serviço (somente leitura),sped_ibptax_servico_grupo_fiscal_leitura,True,False,False,False
-sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_ibptax_servico,IBPTax por Serviço (geral),sped_ibptax_servico_grupo_fiscal_geral,True,True,True,True
-sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_ibptax_servico,IBPTax por Serviço (gerente),sped_ibptax_servico_grupo_fiscal_gerente,True,True,True,True
-
+sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_ibptax_servico,IBPTax por Serviço (geral),sped_ibptax_servico_grupo_fiscal_geral,True,False,False,False
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_ibptax_servico,IBPTax por Serviço (gerente),sped_ibptax_servico_grupo_fiscal_gerente,True,False,True,False
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_natureza_operacao,Naturezas de Operação Fiscal (suporte),sped_natureza_operacao_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_natureza_operacao,Naturezas de Operação Fiscal (somente leitura),sped_natureza_operacao_grupo_fiscal_leitura,True,False,False,False
-sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_natureza_operacao,Naturezas de Operação Fiscal (geral),sped_natureza_operacao_grupo_fiscal_geral,True,True,False,False
-sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_natureza_operacao,Naturezas de Operação Fiscal (gerente),sped_natureza_operacao_grupo_fiscal_gerente,True,True,True,False
-
+sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_natureza_operacao,Naturezas de Operação Fiscal (geral),sped_natureza_operacao_grupo_fiscal_geral,True,False,False,False
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_natureza_operacao,Naturezas de Operação Fiscal (gerente),sped_natureza_operacao_grupo_fiscal_gerente,True,False,True,False
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_nbs,NBS (suporte),sped_nbs_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_nbs,NBS (somente leitura),sped_nbs_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_nbs,NBS (geral),sped_nbs_grupo_fiscal_geral,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_nbs,NBS (gerente),sped_nbs_grupo_fiscal_gerente,True,False,True,False
-
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_ncm,NCM (suporte),sped_ncm_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_ncm,NCM (somente leitura),sped_ncm_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_ncm,NCM (geral),sped_ncm_grupo_fiscal_geral,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_ncm,NCM (gerente),sped_ncm_grupo_fiscal_gerente,True,False,True,False
-
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_operacao,Operações Fiscais (suporte),sped_operacao_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_operacao,Operações Fiscais (somente leitura),sped_operacao_grupo_fiscal_leitura,True,False,False,False
-sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_operacao,Operações Fiscais (geral),sped_operacao_grupo_fiscal_geral,True,True,True,False
-sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_operacao,Operações Fiscais (gerente),sped_operacao_grupo_fiscal_gerente,True,True,True,False
-
+sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_operacao,Operações Fiscais (geral),sped_operacao_grupo_fiscal_geral,True,False,False,False
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_operacao,Operações Fiscais (gerente),sped_operacao_grupo_fiscal_gerente,True,False,True,False
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_operacao_item,Itens da Operação Fiscal (suporte),sped_operacao_item_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_operacao_item,Itens da Operação Fiscal (somente leitura),sped_operacao_item_grupo_fiscal_leitura,True,False,False,False
-sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_operacao_item,Itens da Operação Fiscal (geral),sped_operacao_item_grupo_fiscal_geral,True,True,True,False
-sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_operacao_item,Itens da Operação Fiscal (gerente),sped_operacao_item_grupo_fiscal_gerente,True,True,True,False
-
+sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_operacao_item,Itens da Operação Fiscal (geral),sped_operacao_item_grupo_fiscal_geral,True,False,False,False
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_operacao_item,Itens da Operação Fiscal (gerente),sped_operacao_item_grupo_fiscal_gerente,True,False,True,False
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_protocolo_icms,Protocolos ICMS (suporte),sped_protocolo_icms_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_protocolo_icms,Protocolos ICMS (somente leitura),sped_protocolo_icms_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_protocolo_icms,Protocolos ICMS (geral),sped_protocolo_icms_grupo_fiscal_geral,True,False,False,False
-sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_protocolo_icms,Protocolos ICMS (gerente),sped_protocolo_icms_grupo_fiscal_gerente,True,True,True,False
-
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_protocolo_icms,Protocolos ICMS (gerente),sped_protocolo_icms_grupo_fiscal_gerente,True,False,True,False
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_protocolo_icms_aliquota,Protocolos ICMS - alíquotas (suporte),sped_protocolo_icms_aliquota_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_protocolo_icms_aliquota,Protocolos ICMS - alíquotas (somente leitura),sped_protocolo_icms_aliquota_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_protocolo_icms_aliquota,Protocolos ICMS - alíquotas (geral),sped_protocolo_icms_aliquota_grupo_fiscal_geral,True,False,False,False
-sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_protocolo_icms_aliquota,Protocolos ICMS - alíquotas (gerente),sped_protocolo_icms_aliquota_grupo_fiscal_gerente,True,True,True,False
-
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_protocolo_icms_aliquota,Protocolos ICMS - alíquotas (gerente),sped_protocolo_icms_aliquota_grupo_fiscal_gerente,True,False,True,False
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_protocolo_icms_ncm,Protocolos ICMS - NCM e MVA (suporte),sped_protocolo_icms_ncm_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_protocolo_icms_ncm,Protocolos ICMS - NCM e MVA (somente leitura),sped_protocolo_icms_ncm_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_protocolo_icms_ncm,Protocolos ICMS - NCM e MVA (geral),sped_protocolo_icms_ncm_grupo_fiscal_geral,True,False,False,False
-sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_protocolo_icms_ncm,Protocolos ICMS - NCM e MVA (gerente),sped_protocolo_icms_ncm_grupo_fiscal_gerente,True,True,True,False
-
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_imposto.model_sped_protocolo_icms_ncm,Protocolos ICMS - NCM e MVA (gerente),sped_protocolo_icms_ncm_grupo_fiscal_gerente,True,False,True,False
 l10n_br_base.GRUPO_SUPORTE,sped_imposto.model_sped_servico,Serviços (fiscal) (suporte),sped_servico_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_imposto.model_sped_servico,Serviços (fiscal) (somente leitura),sped_servico_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_imposto.model_sped_servico,Serviços (fiscal) (geral),sped_servico_grupo_fiscal_geral,True,False,False,False

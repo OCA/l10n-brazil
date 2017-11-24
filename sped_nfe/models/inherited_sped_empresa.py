@@ -34,41 +34,9 @@ class SpedEmpresa(models.Model):
         string='Logo no DANFE',
         attachment=True,
     )
-    nome_arquivo_logo_danfe = fields.Char(
-        string='Arquivo',
-        size=255
-    )
-    cabecalho_danfe = fields.Binary(
-        string='Cabeçalho no DANFE',
-        attachment=True,
-    )
-    nome_arquivo_cabecalho_danfe = fields.Char(
-        string='Arquivo',
-        size=255
-    )
-    modelo_danfe = fields.Binary(
-        string='Modelo do DANFE',
-        attachment=True,
-    )
-    nome_arquivo_modelo_danfe = fields.Char(
-        string='Arquivo',
-        size=255
-    )
     logo_danfce = fields.Binary(
         string='Logo no DANFCE',
         attachment=True,
-    )
-    nome_arquivo_logo_danfce = fields.Char(
-        string='Arquivo',
-        size=255
-    )
-    modelo_danfce = fields.Binary(
-        string='Modelo do DANFCE',
-        attachment=True,
-    )
-    nome_arquivo_modelo_danfce = fields.Char(
-        string='Arquivo',
-        size=255
     )
     mail_template_nfe_autorizada_id = fields.Many2one(
         comodel_name='mail.template',

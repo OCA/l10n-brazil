@@ -3,42 +3,34 @@ l10n_br_base.GRUPO_SUPORTE,sped.model_sped_documento,Documentos Fiscais (suporte
 sped_imposto.GRUPO_FISCAL_LEITURA,sped.model_sped_documento,Documentos Fiscais (somente leitura),sped_documento_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped.model_sped_documento,Documentos Fiscais (geral),sped_documento_grupo_fiscal_geral,True,True,True,True
 sped_imposto.GRUPO_FISCAL_GERENTE,sped.model_sped_documento,Documentos Fiscais (gerente),sped_documento_grupo_fiscal_gerente,True,True,True,True
-
 l10n_br_base.GRUPO_SUPORTE,sped.model_sped_documento_item,Itens do Documento Fiscal (suporte),sped_documento_item_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped.model_sped_documento_item,Itens do Documento Fiscal (somente leitura),sped_documento_item_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped.model_sped_documento_item,Itens do Documento Fiscal (geral),sped_documento_item_grupo_fiscal_geral,True,True,True,True
 sped_imposto.GRUPO_FISCAL_GERENTE,sped.model_sped_documento_item,Itens do Documento Fiscal (gerente),sped_documento_item_grupo_fiscal_gerente,True,True,True,True
-
 l10n_br_base.GRUPO_SUPORTE,sped.model_sped_documento_item_declaracao_importacao,Declarações de Importação do Item do Documento Fiscal (suporte),sped_documento_item_declaracao_importacao_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped.model_sped_documento_item_declaracao_importacao,Declarações de Importação do Item do Documento Fiscal (somente leitura),sped_documento_item_declaracao_importacao_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped.model_sped_documento_item_declaracao_importacao,Declarações de Importação do Item do Documento Fiscal (geral),sped_documento_item_declaracao_importacao_grupo_fiscal_geral,True,True,True,True
 sped_imposto.GRUPO_FISCAL_GERENTE,sped.model_sped_documento_item_declaracao_importacao,Declarações de Importação do Item do Documento Fiscal (gerente),sped_documento_item_declaracao_importacao_grupo_fiscal_gerente,True,True,True,True
-
 l10n_br_base.GRUPO_SUPORTE,sped.model_sped_documento_item_declaracao_importacao_adicao,Adições da Declaração de Importação do Item do Documento Fiscal (suporte),sped_documento_item_declaracao_importacao_adicao_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped.model_sped_documento_item_declaracao_importacao_adicao,Adições da Declaração de Importação do Item do Documento Fiscal (somente leitura),sped_documento_item_declaracao_importacao_adicao_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped.model_sped_documento_item_declaracao_importacao_adicao,Adições da Declaração de Importação do Item do Documento Fiscal (geral),sped_documento_item_declaracao_importacao_adicao_grupo_fiscal_geral,True,True,True,True
 sped_imposto.GRUPO_FISCAL_GERENTE,sped.model_sped_documento_item_declaracao_importacao_adicao,Adições da Declaração de Importação do Item do Documento Fiscal (gerente),sped_documento_item_declaracao_importacao_adicao_grupo_fiscal_gerente,True,True,True,True
-
 l10n_br_base.GRUPO_SUPORTE,sped.model_sped_documento_volume,Volumes do Documento Fiscal (suporte),sped_documento_volume_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped.model_sped_documento_volume,Volumes do Documento Fiscal (somente leitura),sped_documento_volume_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped.model_sped_documento_volume,Volumes do Documento Fiscal (geral),sped_documento_volume_grupo_fiscal_geral,True,True,True,True
 sped_imposto.GRUPO_FISCAL_GERENTE,sped.model_sped_documento_volume,Volumes do Documento Fiscal (gerente),sped_documento_volume_grupo_fiscal_gerente,True,True,True,True
-
 l10n_br_base.GRUPO_SUPORTE,sped.model_sped_documento_pagamento,Pagamentos do Documento Fiscal (suporte),sped_documento_pagamento_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped.model_sped_documento_pagamento,Pagamentos do Documento Fiscal (somente leitura),sped_documento_pagamento_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped.model_sped_documento_pagamento,Pagamentos do Documento Fiscal (geral),sped_documento_pagamento_grupo_fiscal_geral,True,True,True,True
 sped_imposto.GRUPO_FISCAL_GERENTE,sped.model_sped_documento_pagamento,Pagamentos do Documento Fiscal (gerente),sped_documento_pagamento_grupo_fiscal_gerente,True,True,True,True
-
 l10n_br_base.GRUPO_SUPORTE,sped.model_sped_documento_referenciado,Documentos Referenciados no Documento Fiscal (suporte),sped_documento_referenciado_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped.model_sped_documento_referenciado,Documentos Referenciados no Documento Fiscal (somente leitura),sped_documento_referenciado_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped.model_sped_documento_referenciado,Documentos Referenciados no Documento Fiscal (geral),sped_documento_referenciado_grupo_fiscal_geral,True,True,True,True
 sped_imposto.GRUPO_FISCAL_GERENTE,sped.model_sped_documento_referenciado,Documentos Referenciados no Documento Fiscal (gerente),sped_documento_referenciado_grupo_fiscal_gerente,True,True,True,True
-
 l10n_br_base.GRUPO_SUPORTE,sped.model_sped_documento_duplicata,Duplicatas do Documento Fiscal (suporte),sped_documento_duplicata_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped.model_sped_documento_duplicata,Duplicatas do Documento Fiscal (somente leitura),sped_documento_duplicata_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped.model_sped_documento_duplicata,Duplicatas do Documento Fiscal (geral),sped_documento_duplicata_grupo_fiscal_geral,True,True,True,True
 sped_imposto.GRUPO_FISCAL_GERENTE,sped.model_sped_documento_duplicata,Duplicatas do Documento Fiscal (gerente),sped_documento_duplicata_grupo_fiscal_gerente,True,True,True,True
-
 l10n_br_base.GRUPO_SUPORTE,sped.model_sped_veiculo,Veículos (suporte),sped_veiculo_grupo_suporte,True,True,True,True
 sped_imposto.GRUPO_FISCAL_LEITURA,sped.model_sped_veiculo,Veículos (somente leitura),sped_veiculo_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped.model_sped_veiculo,Veículos (geral),sped_veiculo_grupo_fiscal_geral,True,True,True,True
