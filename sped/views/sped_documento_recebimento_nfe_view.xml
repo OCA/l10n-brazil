@@ -56,7 +56,7 @@
     <record model="ir.actions.act_window" id="sped_documento_recebimento_nfe_acao">
         <field name="name">Emissão de NF-e</field>
         <field name="domain">[('emissao', '=', '1'), ('modelo', '=', '55'), ('entrada_saida', '=', '0')]</field>
-        <field name="context">{'default_emissao': '1',  'default_entrada_saida': '0', 'default_modelo': '55', 'manual': True}</field>
+        <field name="context">{'default_emissao': '1',  'default_entrada_saida': '0', 'default_modelo': '55', 'manual': True, 'default_order': 'emissao, modelo, data_entrada_saida desc, data_emissao desc, numero'}</field>
         <field name="res_model">sped.documento</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>

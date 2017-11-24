@@ -20,7 +20,7 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe.leiaute import NFRef_310
+    from pysped.nfe.leiaute import NFRef_400
     from pybrasil.inscricao import limpa_formatacao
     from pybrasil.data import parse_datetime, UTC
 
@@ -38,7 +38,7 @@ class SpedDocumentoReferenciado(models.Model):
                 self.documento_id.modelo != MODELO_FISCAL_NFCE:
             return
 
-        docref = NFRef_310()
+        docref = NFRef_400()
 
         if self.modelo in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
             docref.refNFe.valor = self.chave

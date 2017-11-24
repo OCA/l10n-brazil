@@ -11,7 +11,7 @@
         <field name="priority">9999</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form string="Emissão de NF-e">
+            <form string="Emissão de NF-e" duplicate="false">
                 <header>
                     <!-- HEADER VAZIO PARA SE ADICIONAR OS BOTOES EM OUTRAS VISOES E MODULOS HERDADOS -->
                 </header>
@@ -22,6 +22,7 @@
                     <field name="id" invisible="1"/>
                     <field name="currency_id" invisible="1"/>
                     <field name="currency_aliquota_id" invisible="1"/>
+                    <field name="importado_xml" invisible="1"/>
                     <div class="oe_button_box" name="button_box">
                     </div>
                     <group>
@@ -29,7 +30,7 @@
                             <field name="empresa_id" colspan="4" options="{'no_create': True, 'no_open': True}" required="1" attrs="{'readonly': ['|', ('id', '!=', False), ('permite_alteracao', '=', False)]}" domain="[('contribuinte', '=', '1')]" />
                             <field name="empresa_cnpj_cpf" colspan="2" readonly="1" />
                             <newline />
-                            <field name="operacao_id" colspan="4" domain="[('modelo', '=', modelo), ('emissao', '=', emissao), '|', ('empresa_id', '=', False), ('empresa_id', '=', empresa_id)]" options="{'no_create': True, 'no_open': True}" required="1" attrs="{'readonly': ['|', ('id', '!=', False), ('permite_alteracao', '=', False)]}" />
+                            <field name="operacao_id" colspan="4" domain="[('modelo', '=', modelo), ('emissao', '=', emissao), '|', ('empresa_id', '=', False), ('empresa_id', '=', empresa_id)]" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': ['|', '&amp;', ('id', '!=', False), ('importado_xml', '=', False), ('permite_alteracao', '=', False)], 'required': [('importado_xml', '=', False)]}" />
                             <newline />
                             <field name="numero" required="1" colspan="2" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
                             <field name="serie" required="1" colspan="2" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
@@ -173,6 +174,8 @@
                                                     <field name="bc_icms_proprio" string="Base de cálculo" />
                                                     <newline />
                                                     <field name="vr_icms_proprio" string="Valor" />
+                                                    <newline />
+                                                    <field name="vr_icms_desonerado" string="Valor desonerado" />
                                                     <newline />
                                                     <separator string="Diferencial de alíquota" colspan="2"  />
                                                     <newline />
@@ -357,7 +360,7 @@
         <field name="priority">9999</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <tree string="Emissão de NF-e">
+            <tree string="Emissão de NF-e" duplicate="false">
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
                 <field name="situacao_fiscal" />
@@ -380,10 +383,12 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <search string="Emissão de NF-e">
-                <field name="empresa_id" />
-                <field name="operacao_id" />
                 <field name="numero" />
+                <field name="data_emissao" />
+                <field name="data_entrada_saida" />
+                <field name="operacao_id" />
                 <field name="participante_id" />
+                <field name="empresa_id" />
             </search>
         </field>
     </record>

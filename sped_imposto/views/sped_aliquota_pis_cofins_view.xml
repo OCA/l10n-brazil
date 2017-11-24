@@ -10,7 +10,7 @@
         <field name="model">sped.aliquota.pis.cofins</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Alíquota de PIS e COFINS" delete="true" create="true" edit="true">
+            <form string="Alíquota de PIS e COFINS" delete="true" create="true" edit="true" duplicate="false">
                 <sheet>
                     <div class="oe_title">
                         <h1>
@@ -50,10 +50,10 @@
                             <td style="width:25%;"><label for="cst_pis_cofins_saida" /></td>
                             <td style="width:75%;"><field name="cst_pis_cofins_saida" /></td>
                         </tr>
-                        <tr>
+<!--                        <tr>
                             <td style="width:25%;"><label for="codigo_justificativa" attrs="{'invisible': ['!', ('cst_pis_cofins_saida', 'in', ('04', '06', '07', '08', '09'))]}" /></td>
                             <td style="width:75%;"><field name="codigo_justificativa" attrs="{'invisible': ['!', ('cst_pis_cofins_saida', 'in', ('04', '06', '07', '08', '09'))], 'required': [('cst_pis_cofins_saida', 'in', ('04', '06', '07', '08', '09'))]}" /></td>
-                        </tr>
+                        </tr>-->
                     </table>
                 </sheet>
             </form>
@@ -65,7 +65,7 @@
         <field name="model">sped.aliquota.pis.cofins</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Alíquota de PIS e COFINS" delete="true" create="true" edit="true">
+            <tree string="Alíquota de PIS e COFINS" delete="true" create="true" edit="true" duplicate="false">
                 <field name="descricao" />
 <!--                <field name="al_pis" />
                 <field name="al_cofins" />
@@ -88,7 +88,7 @@
                 <field name="md_pis_cofins" />
                 <field name="cst_pis_cofins_entrada" />
                 <field name="cst_pis_cofins_saida" />
-                <field name="codigo_justificativa" />
+<!--                 <field name="codigo_justificativa" /> -->
             </search>
         </field>
     </record>

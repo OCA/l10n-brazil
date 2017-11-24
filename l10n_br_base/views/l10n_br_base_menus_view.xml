@@ -5,30 +5,9 @@
 -->
 <odoo>
 
-    <menuitem
-        sequence="2"
-        id="menu_fiscal"
-        name="Fiscal"
-        web_icon="sped,static/description/icon.png"
-        />
-
-    <menuitem
-        parent="menu_fiscal"
-        sequence="100"
-        id="menu_fiscal_configuracao"
-        name="Configuração"
-        />
-
-    <menuitem
-        parent="menu_fiscal_configuracao"
-        sequence="6"
-        id="menu_sped_tabela"
-        name="Tabelas"
-        />
-
     <menuitem id="menu_cadastro"
         name="Cadastro"
-        sequence="1"
+        sequence="-100"
         web_icon="sped,static/description/icon.png"
         />
 
@@ -55,6 +34,7 @@
         sequence="100"
         id="menu_cadastro_configuracao"
         name="Configuração"
+        groups="l10n_br_base.GRUPO_SUPORTE,l10n_br_base.GRUPO_CADASTRO_GERENTE"
         />
 
     <menuitem
@@ -62,6 +42,29 @@
         sequence="100"
         id="menu_cadastro_vinculo"
         name="Vínculos"
+        groups="l10n_br_base.GRUPO_SUPORTE"
+        />
+
+    <menuitem
+        sequence="-99"
+        id="menu_fiscal"
+        name="Fiscal"
+        web_icon="sped,static/description/icon.png"
+        />
+
+    <menuitem
+        parent="menu_fiscal"
+        sequence="100"
+        id="menu_fiscal_configuracao"
+        name="Configuração"
+        groups="l10n_br_base.GRUPO_SUPORTE"
+        />
+
+    <menuitem
+        parent="menu_fiscal_configuracao"
+        sequence="6"
+        id="menu_sped_tabela"
+        name="Tabelas"
         />
 
 </odoo>

@@ -19,9 +19,7 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe.leiaute import (
-        Vol_310,
-    )
+    from pysped.nfe.leiaute import Vol_400
     from pybrasil.valor.decimal import Decimal as D
 
 except (ImportError, IOError) as err:
@@ -38,7 +36,7 @@ class SpedDocumentoVolume(models.Model):
                 self.documento_id.modelo != MODELO_FISCAL_NFCE:
             return
 
-        vol = Vol_310()
+        vol = Vol_400()
 
         vol.qVol.valor = str(D(self.quantidade or 0))
         vol.esp.valor = self.especie or ''

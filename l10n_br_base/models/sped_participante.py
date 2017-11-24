@@ -11,17 +11,7 @@ import logging
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from .sped_base import SpedBase
-from ..constante_tributaria import (
-    INDICADOR_IE_DESTINATARIO,
-    INDICADOR_IE_DESTINATARIO_ISENTO,
-    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
-    REGIME_TRIBUTARIO,
-    REGIME_TRIBUTARIO_LUCRO_PRESUMIDO,
-    REGIME_TRIBUTARIO_SIMPLES,
-    TIPO_PESSOA_JURIDICA,
-    TIPO_PESSOA_FISICA,
-    TIPO_PESSOA_ESTRANGEIRO,
-)
+from ..constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 
@@ -90,8 +80,11 @@ class SpedParticipante(SpedBase, models.Model):
     eh_transportadora = fields.Boolean(
         string='É transportadora?'
     )
-    # empresa_ids = fields.One2many(
-    # 'res.company', 'partner_id', 'Empresa/unidade')
+    empresa_ids = fields.One2many(
+        comodel_name='sped.empresa',
+        inverse_name='participante_id',
+        name='Empresa',
+    )
     # usuario_ids = fields.One2many('res.users', 'partner_id', 'Usuário')
     eh_grupo = fields.Boolean(
         string='É grupo?',
@@ -115,11 +108,18 @@ class SpedParticipante(SpedBase, models.Model):
         string='CNPJ/CPF',
         size=18,
         index=True,
-        help=u"""Para participantes estrangeiros, usar EX9999,
-        onde 9999 é um número a sua escolha"""
+        help='''Para participantes estrangeiros, usar EX9999,
+        onde 9999 é um número a sua escolha'''
     )
     cnpj_cpf_raiz = fields.Char(
         string='Raiz do CNPJ/CPF',
+        size=14,
+        compute='_compute_tipo_pessoa',
+        store=True,
+        index=True,
+    )
+    cnpj_cpf_numero = fields.Char(
+        string='CNPJ/CPF (somente números)',
         size=14,
         compute='_compute_tipo_pessoa',
         store=True,
@@ -221,7 +221,7 @@ class SpedParticipante(SpedBase, models.Model):
     contribuinte = fields.Selection(
         selection=INDICADOR_IE_DESTINATARIO,
         string='Contribuinte',
-        default=INDICADOR_IE_DESTINATARIO_ISENTO
+        default=INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
     )
     ie = fields.Char(
         string='Inscrição estadual',
@@ -345,24 +345,24 @@ class SpedParticipante(SpedBase, models.Model):
 
             if participante.cnpj_cpf[:2] == 'EX':
                 participante.tipo_pessoa = 'E'
-                participante.contribuinte = (
+                participante.contribuinte = \
                     INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
-                )
                 participante.cnpj_cpf_raiz = participante.cnpj_cpf
 
             elif len(participante.cnpj_cpf) == 18:
                 participante.tipo_pessoa = 'J'
-                participante.contribuinte = (
-                    INDICADOR_IE_DESTINATARIO_ISENTO
-                )
+                participante.contribuinte = \
+                    INDICADOR_IE_DESTINATARIO_CONTRIBUINTE
                 participante.cnpj_cpf_raiz = participante.cnpj_cpf[:10]
 
             else:
                 participante.tipo_pessoa = 'F'
-                participante.contribuinte = (
+                participante.contribuinte = \
                     INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
-                )
                 participante.cnpj_cpf_raiz = participante.cnpj_cpf
+
+            participante.cnpj_cpf_numero = \
+                limpa_formatacao(participante.cnpj_cpf)
 
     @api.depends('eh_consumidor_final', 'endereco', 'numero', 'complemento',
                  'bairro', 'municipio_id', 'cep', 'eh_cliente',
@@ -449,9 +449,12 @@ class SpedParticipante(SpedBase, models.Model):
                 '|',
                 ('fantasia', 'ilike', name),
                 '|',
+                ('cnpj_cpf_numero', 'ilike', name),
+                '|',
                 ('cnpj_cpf', 'ilike', mascara(name, '  .   .   /    -  ')),
                 ('cnpj_cpf', 'ilike', mascara(name, '   .   .   -  ')),
             ]
+
             participantes = self.search(args, limit=limit)
             return participantes.name_get()
 
@@ -465,33 +468,30 @@ class SpedParticipante(SpedBase, models.Model):
         valores = {}
         res = {'value': valores}
 
-        if not self.cnpj_cpf:
+        if not self.cnpj_cpf or 'valida_cnpj_cpf' in self.env.context:
             return res
 
         cnpj_cpf = limpa_formatacao(self.cnpj_cpf or '')
 
         if cnpj_cpf[:2] != 'EX':
             if not valida_cnpj(cnpj_cpf) and not valida_cpf(cnpj_cpf):
-                raise ValidationError(_(u'CNPJ/CPF inválido'))
+                raise ValidationError(_('CNPJ/CPF inválido'))
 
         if len(cnpj_cpf) == 14:
-            valores['cnpj_cpf'] = formata_cnpj(cnpj_cpf)
+            cnpj_cpf = formata_cnpj(cnpj_cpf)
+            valores['cnpj_cpf'] = cnpj_cpf
             valores['tipo_pessoa'] = TIPO_PESSOA_JURIDICA
             valores['regime_tributario'] = REGIME_TRIBUTARIO_SIMPLES
-            valores['contribuinte'] = INDICADOR_IE_DESTINATARIO_ISENTO
 
         else:
-            valores['cnpj_cpf'] = formata_cpf(cnpj_cpf)
+            cnpj_cpf = formata_cpf(cnpj_cpf)
+            valores['cnpj_cpf'] = cnpj_cpf
             valores['tipo_pessoa'] = TIPO_PESSOA_FISICA
             valores['regime_tributario'] = REGIME_TRIBUTARIO_LUCRO_PRESUMIDO
-            valores['contribuinte'] = \
-                INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
 
         if cnpj_cpf[:2] == 'EX':
             valores['tipo_pessoa'] = TIPO_PESSOA_ESTRANGEIRO
             valores['regime_tributario'] = REGIME_TRIBUTARIO_LUCRO_PRESUMIDO
-            valores['contribuinte'] = \
-                INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
 
         if self.id:
             cnpj_ids = self.search(
@@ -503,7 +503,9 @@ class SpedParticipante(SpedBase, models.Model):
                  ('eh_grupo', '=', False)])
 
         if len(cnpj_ids) > 0:
-            raise ValidationError(_(u'CNPJ/CPF já existe no cadastro!'))
+            raise ValidationError(_('CNPJ/CPF já existe no cadastro!'))
+
+        self.with_context(valida_cnpj_cpf=True).update(valores)
 
         return res
 
@@ -522,10 +524,13 @@ class SpedParticipante(SpedBase, models.Model):
         valores = {}
         res = {'value': valores}
 
+        if 'valida_fone' in self.env.context:
+            return res
+
         if self.fone:
             if (not valida_fone_internacional(self.fone)) and (
                     not valida_fone_fixo(self.fone)):
-                raise ValidationError(_(u'Telefone fixo inválido!'))
+                raise ValidationError(_('Telefone fixo inválido!'))
 
             valores['fone'] = formata_fone(self.fone)
 
@@ -533,16 +538,18 @@ class SpedParticipante(SpedBase, models.Model):
             if (not valida_fone_internacional(self.fone_comercial)) and (
                     not valida_fone_fixo(self.fone_comercial)) and (
                     not valida_fone_celular(self.fone_comercial)):
-                raise ValidationError(_(u'Telefone comercial inválido!'))
+                raise ValidationError(_('Telefone comercial inválido!'))
 
             valores['fone_comercial'] = formata_fone(self.fone_comercial)
 
         if self.celular:
             if (not valida_fone_internacional(self.celular)) and (
                     not valida_fone_celular(self.celular)):
-                raise ValidationError(_(u'Celular inválido!'))
+                raise ValidationError(_('Celular inválido!'))
 
             valores['celular'] = formata_fone(self.celular)
+
+        self.with_context(valida_fone=True).update(valores)
 
         return res
 
@@ -561,14 +568,16 @@ class SpedParticipante(SpedBase, models.Model):
         valores = {}
         res = {'value': valores}
 
-        if not self.cep:
+        if not self.cep or 'valida_cep' in self.env.context:
             return res
 
         cep = limpa_formatacao(self.cep)
         if (not cep.isdigit()) or len(cep) != 8:
-            raise ValidationError(_(u'CEP inválido!'))
+            raise ValidationError(_('CEP inválido!'))
 
         valores['cep'] = cep[:5] + '-' + cep[5:]
+
+        self.with_context(valida_cep=True).update(valores)
 
         return res
 
@@ -581,41 +590,84 @@ class SpedParticipante(SpedBase, models.Model):
     def onchange_cep(self):
         return self._valida_cep()
 
+    def _valida_suframa(self, valores):
+        self.ensure_one()
+
+        if not valida_inscricao_estadual(self.suframa, 'SUFRAMA'):
+            raise ValidationError(_('Inscrição na SUFRAMA inválida!'))
+
+        valores['suframa'] = \
+            formata_inscricao_estadual(self.suframa, 'SUFRAMA')
+
+    def _valida_ie_estadual(self, valores):
+        self.ensure_one()
+
+        if not valida_inscricao_estadual(self.ie,
+            self.municipio_id.estado_id.uf):
+            raise ValidationError(_('Inscrição estadual inválida!'))
+
+        valores['ie'] = \
+            formata_inscricao_estadual(self.ie, self.municipio_id.estado_id.uf)
+
     def _valida_ie(self):
         self.ensure_one()
 
         valores = {}
         res = {'value': valores}
 
+        if 'valida_ie' in self.env.context:
+            return res
+
         if self.suframa:
-            if not valida_inscricao_estadual(self.suframa, 'SUFRAMA'):
-                raise ValidationError(_(u'Inscrição na SUFRAMA inválida!'))
+            self._valida_suframa(valores)
 
-            valores['suframa'] = formata_inscricao_estadual(self.suframa,
-                                                            'SUFRAMA')
+        #
+        # Na importação de dados, validamos e detectamos o campo
+        # contribuinte a partir da inscrição estadual, e não o contrário
+        #
+        if 'import_file' in self.env.context:
+            #
+            # Sem inscrição estadual, presumimos que o participante não é
+            # contribuinte, que é o caso mais comum; é muito raro na verdade
+            # que seja isento
+            #
+            if not self.ie:
+                valores['contribuinte'] = \
+                    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
 
-        if self.ie:
-            if self.contribuinte == '2' or self.contribuinte == '3':
-                valores['ie'] = ''
+            elif self.ie.strip().upper()[:6] == 'ISENTO' or \
+                self.ie.strip().upper()[:6] == 'ISENTA':
+                valores['contribuinte'] = INDICADOR_IE_DESTINATARIO_ISENTO
 
             else:
                 if not self.municipio_id:
                     raise ValidationError(_(
-                        u"""Para validação da inscrição estadual é preciso
-                        informar o município!"""))
+                        '''Para validação da inscrição estadual é preciso
+                        informar o município!'''))
 
-                if self.ie.strip().upper()[
-                   :6] == 'ISENTO' or self.ie.strip().upper()[:6] == 'ISENTA':
+                self._valida_ie_estadual(valores)
+                valores['contribuinte'] = \
+                    INDICADOR_IE_DESTINATARIO_CONTRIBUINTE
+
+        elif self.ie:
+            if self.contribuinte == INDICADOR_IE_DESTINATARIO_ISENTO or \
+                self.contribuinte == \
+                    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE:
+                valores['ie'] = ''
+            else:
+                if not self.municipio_id:
                     raise ValidationError(_(
-                        u'Inscrição estadual inválida para contribuinte!'))
+                        '''Para validação da inscrição estadual é preciso
+                        informar o município!'''))
 
-                if not valida_inscricao_estadual(
-                        self.ie, self.municipio_id.estado_id.uf):
-                    raise ValidationError(_(u'Inscrição estadual inválida!'))
+                if self.ie.strip().upper()[:6] == 'ISENTO' or \
+                    self.ie.strip().upper()[:6] == 'ISENTA':
+                    raise ValidationError(
+                        _('Inscrição estadual inválida para contribuinte!'))
 
-                valores['ie'] = formata_inscricao_estadual(
-                    self.ie, self.municipio_id.estado_id.uf
-                )
+                self._valida_ie_estadual(valores)
+
+        self.with_context(valida_ie=True).update(valores)
 
         return res
 
@@ -634,6 +686,9 @@ class SpedParticipante(SpedBase, models.Model):
         valores = {}
         res = {'value': valores}
 
+        if 'valida_email' in self.env.context:
+            return res
+
         if self.email:
             email = self.email
             emails_validos = []
@@ -649,7 +704,7 @@ class SpedParticipante(SpedBase, models.Model):
                     valido = validate_email(e.strip())
                     emails_validos.append(valido['email'])
                 except:
-                    raise ValidationError(_(u'Email %s inválido!' % e.strip()))
+                    raise ValidationError(_('Email %s inválido!' % e.strip()))
 
             valores['email'] = ','.join(emails_validos)
 
@@ -669,9 +724,11 @@ class SpedParticipante(SpedBase, models.Model):
                     emails_validos.append(valido['email'])
                 except:
                     raise ValidationError(
-                        _(u'Email %s inválido!' % e.strip()))
+                        _('Email %s inválido!' % e.strip()))
 
             valores['email_nfe'] = ','.join(emails_validos)
+
+        self.with_context(valida_email=True).update(valores)
 
         return res
 
@@ -700,22 +757,13 @@ class SpedParticipante(SpedBase, models.Model):
 
     @api.onchange('municipio_id')
     def onchange_municipio_id(self):
-        res = {}
-        valores = {}
-        res['value'] = valores
-
         if self.municipio_id and self.municipio_id.cep_unico:
-            valores['cep'] = self.municipio_id.cep_unico
-
-        return res
+            self.cep = self.municipio_id.cep_unico
 
     @api.onchange('nome', 'razao_social', 'fantasia', 'endereco', 'bairro',
                   'cidade', 'profissao')
     def onchange_nome(self):
-        res = {}
-        valores = {}
-        res['value'] = valores
-
+        pass
         # if self.nome:
         #    valores['nome'] = primeira_maiuscula(self.nome)
 
@@ -736,8 +784,6 @@ class SpedParticipante(SpedBase, models.Model):
 
         # if self.profissao:
         #    valores['profissao'] = primeira_maiuscula(self.profissao)
-
-        return res
 
     def prepare_sync_to_partner(self):
         self.ensure_one()
@@ -814,9 +860,13 @@ class SpedParticipante(SpedBase, models.Model):
         return dados
 
     @api.multi
-    def sync_to_partner(self):
+    def sync_to_partner(self, imagem=None):
         for participante in self:
             dados = participante.prepare_sync_to_partner()
+
+            if imagem is not None:
+                dados['image'] = imagem
+
             participante.partner_id.write(dados)
 
     @api.model
@@ -832,8 +882,23 @@ class SpedParticipante(SpedBase, models.Model):
 
         if 'tz' not in dados:
             dados['tz'] = 'America/Sao_Paulo'
+
         participante = super(SpedParticipante, self).create(dados)
-        participante.sync_to_partner()
+
+        imagem = None
+        if not 'image' in dados or not dados['image']:
+            if participante.tipo_pessoa == TIPO_PESSOA_JURIDICA or \
+                participante.tipo_pessoa == TIPO_PESSOA_ESTRANGEIRO:
+
+                if participante.eh_transportadora:
+                    imagem = participante.partner_id._get_default_image('delivery', True, False)
+                else:
+                    imagem = participante.partner_id._get_default_image('', True, False)
+
+            else:
+                imagem = participante.partner_id._get_default_image('', False, False)
+
+        participante.sync_to_partner(imagem)
 
         return participante
 

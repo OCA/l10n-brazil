@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_item_rastreabilidade_form" >
+        <field name="name">sped.documento.item.rastreabilidade.form</field>
+        <field name="model">sped.documento.item.rastreabilidade</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Rastreabilidade">
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <group>
+                    <group col="4" colspan="4">
+                        <field name="numero" required="1"/>
+                        <field name="quantidade" required="1"/>
+                        <field name="data_fabricacao" required="1" />
+                        <field name="data_validade" required="1" />
+                        <field name="codigo_agregacao" invisible="1" />
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_item_rastreabilidade_tree">
+        <field name="name">sped.documento.item.rastreabilidade.tree</field>
+        <field name="model">sped.documento.item.rastreabilidade</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Rastreabilidade">
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_aliquota_id" invisible="1"/>
+                <field name="currency_unidade_id" invisible="1"/>
+                <field name="numero" />
+                <field name="quantidade" />
+                <field name="data_fabricacao"  />
+                <field name="data_validade"  />
+                <field name="codigo_agregacao" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>

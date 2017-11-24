@@ -10,7 +10,7 @@
         <field name="model">sped.unidade</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Unidade de medida de produto">
+            <form string="Unidade de medida de produto" duplicate="false">
             <field name="codigo_unico" invisible="1" />
             <sheet>
                 <div class="oe_title">
@@ -23,28 +23,31 @@
                     </h2>
                 </div>
                 <group colspan="4" col="4">
-                    <separator string="Conversão e extenso" colspan="4" />
-                    <field name="genero_masculino" />
-                    <newline />
-                    <field name="nome_singular" />
-                    <field name="nome_plural" />
-                    <newline />
-                    <field name="usa_virgula" />
-                    <field name="usa_meio" />
-                    <newline />
-                    <field name="subunidade_id" attrs="{'invisible': [('usa_virgula', '!=', False)]}" options="{'no_open': True, 'no_create': True}" domain="[('tipo', '=', tipo), ('codigo_unico', '!=', codigo_unico)]" />
-                    <newline />
-                    <field name="fator_relacao_decimal" />
-                    <field name="precisao_decimal" />
-                    <newline />
-                    <separator string="Exemplos por extenso" colspan="4" />
-                    <field name="extenso_singular_inteiro" colspan="4"  />
-                    <field name="extenso_singular_um_decimo" colspan="4"  />
-                    <field name="extenso_singular_meio" colspan="4" />
-                    <field name="extenso_singular_decimal" colspan="4" />
-                    <field name="extenso_plural_inteiro" colspan="4" />
-                    <field name="extenso_plural_decimal" colspan="4" />
-                    <field name="tipo" placeholder="Tipo" invisible="1" />
+                    <group colspan="2" col="2">
+                        <separator string="Conversão e extenso" colspan="2" />
+                        <field name="genero_masculino" />
+                        <field name="nome_singular" />
+                        <field name="nome_plural" />
+                        <field name="usa_virgula" />
+                        <field name="usa_meio" />
+                        <field name="subunidade_id" attrs="{'invisible': [('usa_virgula', '!=', False)]}" options="{'no_open': True, 'no_create': True}" domain="[('tipo', '=', tipo), ('codigo_unico', '!=', codigo_unico)]" />
+                        <field name="fator_relacao_decimal" />
+                        <field name="precisao_decimal" />
+                    </group>
+                    <group colspan="2" col="2">
+                        <separator string="Códigos alternativos" colspan="2" />
+                        <field name="codigos_alternativos" nolabel="1" />
+                    </group>
+                    <group colspan="2" col="2" attrs="{'invisible': True}">
+                        <separator string="Exemplos por extenso" colspan="2" />
+                        <field name="extenso_singular_inteiro" />
+                        <field name="extenso_singular_um_decimo" />
+                        <field name="extenso_singular_meio" />
+                        <field name="extenso_singular_decimal" />
+                        <field name="extenso_plural_inteiro" />
+                        <field name="extenso_plural_decimal" />
+                        <field name="tipo" placeholder="Tipo" invisible="1" />
+                    </group>
                 </group>
             </sheet>
             </form>
@@ -56,7 +59,7 @@
         <field name="model">sped.unidade</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Unidades de medida de produto">
+            <tree string="Unidades de medida de produto" duplicate="false">
                 <field name="codigo" />
                 <field name="nome" />
             </tree>

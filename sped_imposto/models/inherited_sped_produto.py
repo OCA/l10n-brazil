@@ -41,6 +41,11 @@ class SpedProduto(models.Model):
         comodel_name='sped.aliquota.pis.cofins',
         string='Alíquota de PIS e COFINS',
     )
+    codigo_natureza_receita_pis_cofins = fields.Char(
+        string='Natureza da receita',
+        size=3,
+        index=True,
+    )
     servico_id = fields.Many2one(
         comodel_name='sped.servico',
         string='Código do serviço',
@@ -52,7 +57,7 @@ class SpedProduto(models.Model):
     unidade_tributacao_ncm_id = fields.Many2one(
         comodel_name='sped.unidade',
         related='ncm_id.unidade_id',
-        string='Unidade de tributação do NCM',
+        string='Unidade para tributação do NCM',
         readonly=True,
     )
     fator_conversao_unidade_tributacao_ncm = fields.Float(
@@ -100,3 +105,10 @@ class SpedProduto(models.Model):
     @api.onchange('ncm_id')
     def onchange_ncm(self):
         self._ajusta_cest()
+
+    @api.depends('tipo')
+    def _onchange_tipo():
+        for produto in self:
+            if produto.tipo == TIPO_PRODUTO_SERVICO_SERVICOS:
+                produto.ncm_id = \
+                    self.env.ref('sped_imposto.NCM_00000000')

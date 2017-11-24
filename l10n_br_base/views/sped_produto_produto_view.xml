@@ -16,14 +16,22 @@
                 <attribute name="string">Produto</attribute>
             </xpath>
             <field name="preco_custo" position="after">
-                <newline />
-                <group name="em_branco">
-                    <separator string="" />
-                </group>
                 <field name="preco_transferencia" />
-                <newline />
                 <field name="attribute_value_ids" widget="many2many_tags" colspan="4" groups="product.group_product_variant" options="{'no_create': True, 'no_open': True}" />
             </field>
+            <xpath expr="//page[@name='fiscal']/group[1]" position="after">
+                <group col="4" colspan="4">
+                    <separator string="Unidade e Código de barras para tributação - comercial" colspan="4" />
+                    <field name="unidade_tributacao_id" string="Unidade" />
+                    <field name="fator_conversao_unidade_tributacao" string="Fator de conversão" attrs="{'required': [('unidade_tributacao_id', '!=', False)]}" />
+                    <field name="codigo_barras_tributacao" string="Código de barras" />
+                </group>
+                <group col="4">
+                    <field name="produzido_escala_relevante" />
+                    <field name="fabricante_id" attrs="{'invisible': [('produzido_escala_relevante', '=', True)],'required': [('produzido_escala_relevante', '=', False)]}" />
+                    <field name="codigo_beneficio_fiscal" />
+                </group>
+            </xpath>
         </field>
     </record>
 
