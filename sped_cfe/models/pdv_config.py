@@ -51,3 +51,16 @@ class ConfiguracaoPDV(models.Model):
     assinatura = fields.Char(
         string=u"Assinatura"
     )
+
+
+    chave_requisicao = fields.Char(string=u'Chave de Requisição')
+    estabelecimento = fields.Char(string=u'Estabelecimento')
+    serial_pos = fields.Char(string=u'Serial POS')
+    id_fila_validador = fields.Char(string=u'ID Fila Validador')
+    multiplos_pag = fields.Boolean(string=u'Habilitar Múltiplos Pagamentos')
+    anti_fraude = fields.Boolean(string=u'Habilitar Anti-Fraude')
+
+
+
+
+
