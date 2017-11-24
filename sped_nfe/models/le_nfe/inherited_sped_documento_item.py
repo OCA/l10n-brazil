@@ -112,7 +112,7 @@ class SpedDocumentoItem(models.Model):
 
         if dados['codigo_barras_tributacao']:
             produto = self.env['sped.produto'].search(
-                [('codigo_barras_tributacao', '=',
+                [('codigo_barras', '=',
                   dados['codigo_barras_tributacao'])])
 
             if len(produto) != 0:
@@ -123,6 +123,17 @@ class SpedDocumentoItem(models.Model):
 
         if len(produto) != 0:
             return produto[0]
+
+        #
+        # Produtos que são a própria CFOP
+        #
+        if dados['codigo'].upper().startswith('CFOP'):
+            produto = self.env['sped.produto'].search(
+                [('codigo', '=',
+                  dados['codigo'].upper())])
+
+            if len(produto) != 0:
+                return produto[0]
 
         return False
 
@@ -306,18 +317,39 @@ class SpedDocumentoItem(models.Model):
             produto = self._busca_produto_terceiros(dados_produto)
             if produto:
                 dados['produto_id'] = produto.id
+                dados['unidade_id'] = produto.unidade_id.id
+                dados['currency_unidade_id'] = produto.currency_unidade_id.id
 
-            unidade = self._busca_unidade(det.prod.uCom.valor, False)
-            if unidade:
-                dados['unidade_id'] = unidade.id
-                dados['currency_unidade_id'] = unidade.currency_id.id
+                if produto.unidade_tributacao_id:
+                    dados['unidade_tributacao_id'] = \
+                        produto.unidade_tributacao_id.id
+                    dados['currency_unidade_tributacao_id'] = \
+                        produto.currency_unidade_tributacao_id.id
+                else:
+                    unidade = self._busca_unidade(det.prod.uCom.valor, False)
+                    if unidade:
+                        dados['unidade_id'] = unidade.id
+                        dados['currency_unidade_id'] = unidade.currency_id.id
 
-            unidade_tributacao = self._busca_unidade(det.prod.uTrib.valor,
-                                                     False)
-            if unidade_tributacao:
-                dados['unidade_tributacao_id'] = unidade_tributacao.id
-                dados['currency_unidade_tributacao_id'] = \
-                    unidade_tributacao.currency_id.id
+                    unidade_tributacao = \
+                        self._busca_unidade(det.prod.uTrib.valor, False)
+                    if unidade_tributacao:
+                        dados['unidade_tributacao_id'] = unidade_tributacao.id
+                        dados['currency_unidade_tributacao_id'] = \
+                            unidade_tributacao.currency_id.id
+
+            else:
+                unidade = self._busca_unidade(det.prod.uCom.valor, False)
+                if unidade:
+                    dados['unidade_id'] = unidade.id
+                    dados['currency_unidade_id'] = unidade.currency_id.id
+
+                unidade_tributacao = self._busca_unidade(det.prod.uTrib.valor,
+                                                         False)
+                if unidade_tributacao:
+                    dados['unidade_tributacao_id'] = unidade_tributacao.id
+                    dados['currency_unidade_tributacao_id'] = \
+                        unidade_tributacao.currency_id.id
 
         else:
             unidade = self._busca_unidade(det.prod.uCom.valor)
@@ -355,6 +387,19 @@ class SpedDocumentoItem(models.Model):
 
                 if codigo.isdigit() and codigo == str(det.prod.cEANTrib.valor):
                     dados_produto['nome'] = '-'.join(partes[:-1]).strip()
+
+            #if 'EAN:' in dados_produto['nome'] and \
+                #dados_produto['codigo_barras'] in dados_produto['nome']:
+                #cb = dados_produto['codigo_barras']
+                #dados_produto['nome'] = \
+                    #dados_produto['nome'].replace(';EAN: ' + cb, '')
+                #dados_produto['nome'] = \
+                    #dados_produto['nome'].replace(';EAN:' + cb, '')
+                #dados_produto['nome'] = \
+                    #dados_produto['nome'].replace(' EAN: ' + cb, '')
+                #dados_produto['nome'] = \
+                    #dados_produto['nome'].replace(' EAN:' + cb, '')
+                #dados_produto['nome'] = dados_produto['nome'].strip()
 
             dados['produto_id'] = self._busca_produto(dados_produto).id
 

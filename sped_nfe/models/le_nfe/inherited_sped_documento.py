@@ -51,12 +51,12 @@ class SpedDocumento(models.Model):
         if xml is None:
             return
 
-        procNFe = ProcNFe_310()
+        if ' Id="NFe' not in xml:
+            return
 
-        procNFe.xml = xml
+        partes = xml.split(' Id="NFe')
 
-        nfe = procNFe.NFe
-        chave = nfe.infNFe.Id.valor[3:]
+        chave = partes[1][:44]
 
         #
         # Verifica se a chave já existe
@@ -71,6 +71,13 @@ class SpedDocumento(models.Model):
             'chave': chave,
             'importado_xml': True,
         }
+
+        procNFe = ProcNFe_310()
+
+        procNFe.xml = xml
+
+        nfe = procNFe.NFe
+        #chave = nfe.infNFe.Id.valor[3:]
 
         #
         # Identificação da NF-e
@@ -251,8 +258,13 @@ class SpedDocumento(models.Model):
                 dados['empresa_id'] = self.empresa_id.id
                 dados['participante_id'] = emitente.id
                 dados['emissao'] = TIPO_EMISSAO_TERCEIROS
-                dados['entrada_saida'] = ENTRADA_SAIDA_ENTRADA
-                dados['data_hora_entrada_saida'] = False
+
+                if dados['entrada_saida'] == ENTRADA_SAIDA_ENTRADA:
+                    dados['entrada_saida'] = ENTRADA_SAIDA_SAIDA
+                else:
+                    dados['entrada_saida'] = ENTRADA_SAIDA_ENTRADA
+
+                #dados['data_hora_entrada_saida'] = False
                 emitente.eh_fornecedor = True
 
             #
@@ -275,8 +287,13 @@ class SpedDocumento(models.Model):
             dados['empresa_id'] = destinatario.empresa_ids[0].id
             dados['participante_id'] = emitente.id
             dados['emissao'] = TIPO_EMISSAO_TERCEIROS
-            dados['entrada_saida'] = ENTRADA_SAIDA_ENTRADA
-            dados['data_hora_entrada_saida'] = False
+
+            if dados['entrada_saida'] == ENTRADA_SAIDA_ENTRADA:
+                dados['entrada_saida'] = ENTRADA_SAIDA_SAIDA
+            else:
+                dados['entrada_saida'] = ENTRADA_SAIDA_ENTRADA
+
+            #dados['data_hora_entrada_saida'] = False
             emitente.eh_fornecedor = True
 
         #
@@ -679,12 +696,17 @@ class SpedDocumento(models.Model):
     def testa_importacao(self):
         #processador = self.processador_nfe()
 
-        caminho_a_processar = '/home/ari/diso/novembro/'
-        caminho_processado = '/home/ari/diso/importado/'
-        caminho_rejeitado = '/home/ari/diso/rejeitado/'
+        #caminho_a_processar = '/home/ari/diso/novembro/'
+        #caminho_processado = '/home/ari/diso/importado/'
+        #caminho_rejeitado = '/home/ari/diso/rejeitado/'
+
+        caminho_a_processar = '/home/ari/zenir/'
 
         arquivos = os.listdir(caminho_a_processar)
         arquivos.sort()
+
+        chaves = []
+        chave_repetida = 0
 
         i = 1
         for nome_arq in arquivos:
@@ -699,14 +721,21 @@ class SpedDocumento(models.Model):
             try:
                 xml = open(caminho_a_processar + nome_arq, 'r').read().decode('utf-8')
             except:
-                print('erro codificacao')
+                print('erro codificacao', nome_arq)
                 continue
 
             #
             # Não é do ambiente de produção
             #
             if not '<tpAmb>1</tpAmb>' in xml:
-                print('erro ambiente')
+                print('erro ambiente', nome_arq)
+                continue
+
+            #
+            # Não é versão 3.10 ou 4.00
+            #
+            if not 'versao="3.10"' in xml and not 'versao="4.00"' in xml:
+                print('erro versao', nome_arq)
                 continue
 
             #
@@ -717,7 +746,7 @@ class SpedDocumento(models.Model):
                 (not '<descEvento>Cancelamento</descEvento>' in xml) and \
                 (not '</CTe>' in xml) and \
                 (not '</cancCTe>' in xml):
-                print('erro tipo')
+                print('erro tipo', nome_arq)
                 continue
 
             ##
@@ -733,6 +762,20 @@ class SpedDocumento(models.Model):
             # É NF-e?
             #
             if '</nfeProc>' in xml:
+
+                if ' Id="NFe' not in xml:
+                    print('sem chave', nome_arq)
+                    continue
+                partes = xml.split(' Id="NFe')
+
+                chave = partes[1][:44]
+
+                if chave not in chaves:
+                    chaves.append(chave)
+                else:
+                    chave_repetida += 1
+                    print(chave_repetida, chave, len(chaves))
+
                 print('vai importar')
                 documento = self.env['sped.documento'].new()
                 documento.modelo = '55'
@@ -740,3 +783,6 @@ class SpedDocumento(models.Model):
                     self.env.user.company_id.sped_empresa_id.id
                 d = documento.le_nfe(xml=xml)
                 self.env.cr.commit()
+
+            else:
+                print('erro nao eh nfe', nome_arq)
