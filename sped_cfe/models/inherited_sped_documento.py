@@ -15,6 +15,7 @@ from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_base.constante_tributaria import *
 
+
 _logger = logging.getLogger(__name__)
 
 try:
@@ -504,3 +505,33 @@ class SpedDocumento(models.Model):
         return self.env['pdv.config'].search(
             [('company_id', '=', self.empresa_id.id)]
         )
+
+    def envia_pagamento(self):
+        self.ensure_one()
+
+        from mfecfe import BibliotecaSAT
+        from mfecfe import ClienteVfpeLocal
+        cliente = ClienteVfpeLocal(
+            BibliotecaSAT('/opt/Integrador'),
+            # codigo_ativacao='25CFE38D-3B92-46C0-91CA-CFF751A82D3D'
+        )
+
+        if self.modelo == MODELO_FISCAL_NFCE:
+            self.data_hora_emissao = fields.Datetime.now()
+            self.data_hora_entrada_saida = self.data_hora_emissao
+
+        if self.condicao_pagamento_id.forma_pagamento != '03' and self.condicao_pagamento_id.forma_pagamento != '04':
+            pass
+
+        else:
+            config = self._buscar_configuracoes_pdv()
+
+
+            for n in self.pagamento_ids:
+                for m in self.duplicata_ids:
+                    resposta = cliente.enviar_pagamento(config.chave_requisicao, config.estabelecimento,
+                                                config.serial_pos, config.cnpjsh, self.bc_icms_proprio,
+                                                config.id_fila_validador,config.multiplos_pag,
+                                                config.anti_fraude,self.currency_id, config.ip,
+                                                config.numero_caixa, m.valor)
+
