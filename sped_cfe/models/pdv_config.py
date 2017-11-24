@@ -4,7 +4,6 @@ from odoo import models, fields, api
 
 class ConfiguracaoPDV(models.Model):
     _name = 'pdv.config'
-    _rec_name = 'pdv_name'
     name = fields.Char(
         String=u"Nome do PDV",
         required=True
@@ -13,8 +12,6 @@ class ConfiguracaoPDV(models.Model):
     vendedor = fields.Many2one(
         comodel_name='res.users',
         string=u'Vendedor',
-    )
-        comodel_name=u'sped.empresa'
     )
 
     numero_caixa = fields.Char(string=u'Número de caixa')
@@ -65,8 +62,3 @@ class ConfiguracaoPDV(models.Model):
     id_fila_validador = fields.Char(string=u'ID Fila Validador')
     multiplos_pag = fields.Boolean(string=u'Habilitar Múltiplos Pagamentos')
     anti_fraude = fields.Boolean(string=u'Habilitar Anti-Fraude')
-
-
-
-
-

@@ -15,7 +15,6 @@ from odoo.addons.l10n_br_base.constante_tributaria import *
 from odoo.exceptions import UserError, Warning
 
 
-
 _logger = logging.getLogger(__name__)
 
 try:
@@ -367,6 +366,10 @@ class SpedDocumento(models.Model):
         if not self.modelo == MODELO_FISCAL_CFE:
             return result
 
+        # self.envia_pagamento()
+        # if not self.pagamento_autorizado_cfe:
+        #     raise Warning('Pagamento(s) não autorizado(s)!')
+
         # TODO: Conectar corretamente no SAT
         # cliente = self.processador_cfe()
         from mfecfe import BibliotecaSAT
@@ -495,37 +498,44 @@ class SpedDocumento(models.Model):
 
 
     @api.multi
-    def _buscar_configuracoes_pdv(self):
-        return self.env['pdv.config'].search(
-            [('company_id', '=', self.empresa_id.id)]
-        )
+    def _verificar_formas_pagamento(self):
+        pagamentos_cartoes = []
+        for pagamento in self.pagamento_ids:
+            if pagamento.condicao_pagamento_id.forma_pagamento in ["03, 04"]:
+                for duplicata in pagamento.duplicata_ids:
+                    pagamentos_cartoes.append(duplicata)
+
+        return pagamentos_cartoes
 
     def envia_pagamento(self):
         self.ensure_one()
-
-        from mfecfe import BibliotecaSAT
-        from mfecfe import ClienteVfpeLocal
-        cliente = ClienteVfpeLocal(
-            BibliotecaSAT('/opt/Integrador'),
-            # codigo_ativacao='25CFE38D-3B92-46C0-91CA-CFF751A82D3D'
-        )
-
-        if self.modelo == MODELO_FISCAL_NFCE:
-            self.data_hora_emissao = fields.Datetime.now()
-            self.data_hora_entrada_saida = self.data_hora_emissao
-
-        if self.condicao_pagamento_id.forma_pagamento != '03' and self.condicao_pagamento_id.forma_pagamento != '04':
-            pass
-
+        pagamentos_cartoes = self._verificar_formas_pagamento()
+        if not pagamentos_cartoes:
+            self.pagamento_autorizado_cfe = True
         else:
-            config = self._buscar_configuracoes_pdv()
+            pagamentos_autorizados = False
+            config = self.configuracoes_pdv
+            from mfecfe import BibliotecaSAT
+            from mfecfe import ClienteVfpeLocal
+            cliente = ClienteVfpeLocal(
+                BibliotecaSAT('/opt/Integrador'),
+                codigo_ativacao=config.codigo_ativacao_pagamento
+            )
 
+            for pagamento in pagamentos_cartoes:
+                resposta = cliente.enviar_pagamento(
+                    config.chave_requisicao, config.estabelecimento,
+                    config.serial_pos, config.cnpjsh, self.bc_icms_proprio,
+                    config.id_fila_validador,config.multiplos_pag,
+                    config.anti_fraude, self.currency_id, config.ip,
+                    config.numero_caixa, pagamento.valor
+                )
+                resposta_status_pagamento = cliente.verificar_status_validador(
+                    config.cnpjsh, resposta.id_fila
+                )
+                if resposta_status_pagamento.get("bin"):
+                    pagamentos_autorizados = True
+                else:
+                    pagamentos_autorizados = False
 
-            for n in self.pagamento_ids:
-                for m in self.duplicata_ids:
-                    resposta = cliente.enviar_pagamento(config.chave_requisicao, config.estabelecimento,
-                                                config.serial_pos, config.cnpjsh, self.bc_icms_proprio,
-                                                config.id_fila_validador,config.multiplos_pag,
-                                                config.anti_fraude,self.currency_id, config.ip,
-                                                config.numero_caixa, m.valor)
-
+            self.pagamento_autorizado_cfe = pagamentos_autorizados
