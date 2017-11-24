@@ -4,13 +4,15 @@ from odoo import models, fields, api
 
 class ConfiguracaoPDV(models.Model):
     _name = 'pdv.config'
-    _rec_name = 'pdv_name'
 
-    pdv_name = fields.Char(string=u'Nome')
+    name = fields.Char(
+        String=u"Nome do PDV",
+        required=True
+    )
 
-    company_id = fields.Many2one(
-        string=u'Empresa',
-        comodel_name=u'sped.empresa'
+    vendedor = fields.Many2one(
+        comodel_name='res.users',
+        string=u'Vendedor',
     )
 
     numero_caixa = fields.Char(string=u'Número de caixa')
@@ -52,7 +54,9 @@ class ConfiguracaoPDV(models.Model):
         string=u"Assinatura"
     )
 
-
+    codigo_ativacao_pagamento = fields.Char(
+        string=u"Codigo de Ativação",
+    )
     chave_requisicao = fields.Char(string=u'Chave de Requisição')
     estabelecimento = fields.Char(string=u'Estabelecimento')
     serial_pos = fields.Char(string=u'Serial POS')

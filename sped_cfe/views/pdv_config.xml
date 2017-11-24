@@ -12,9 +12,9 @@
             <form string='Configuração'>
                 <sheet>
                     <group string="Configuração do Ponto de Venda">
-                        <field name="pdv_name"/>
+                        <field name="name" />
                         <field name="numero_caixa"/>
-                        <field name="company_id"/>
+                        <field name="vendedor"/>
                         <field name="tipo"/>
                         <field name="impressora" widget="many2one"/>
                     </group>
@@ -30,7 +30,7 @@
                         <field name="cnpj_software_house"/>
                         <field name="assinatura"/>
                     </group>
-                    <group string="Outras configurações">
+                    <group string="Configurações de pagamento">
                         <field name="chave_requisicao"/>
                         <field name="estabelecimento"/>
                         <field name="serial_pos"/>
@@ -49,9 +49,9 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="pdv_name"/>
+                <field name="name" />
                 <field name="numero_caixa"/>
-                <field name="company_id"/>
+                <field name="vendedor"/>
             </tree>
         </field>
     </record>
@@ -62,7 +62,7 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <search string="Configuração do Ponto de Venda">
-                <field name="pdv_name" />
+                <field name="name" />
                 <field name="numero_caixa" />
             </search>
         </field>
