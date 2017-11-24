@@ -48,7 +48,7 @@
                 <field name="banco_id"/>
                 <field name="data_inicial"/>
                 <field name="data_final"/>
-                <field name="data_fechamento"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
