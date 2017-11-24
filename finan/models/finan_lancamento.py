@@ -217,7 +217,7 @@ class FinanLancamento(SpedBase, models.Model):
     )
     vr_total = fields.Monetary(
         string='Total',
-        compute='_compute_total',
+        compute='_compute_total_saldo',
         store=True,
     )
 
@@ -524,22 +524,22 @@ class FinanLancamento(SpedBase, models.Model):
 
             lancamento.nome = nome
 
-    @api.depends('vr_documento',
-                 'vr_juros', 'vr_multa', 'vr_outros_creditos',
-                 'vr_desconto', 'vr_outros_debitos', 'vr_tarifas',
-                 'vr_adiantado')
-    def _compute_total(self):
-        for lancamento in self:
-            vr_total = D(lancamento.vr_documento)
-            vr_total += D(lancamento.vr_juros)
-            vr_total += D(lancamento.vr_multa)
-            vr_total += D(lancamento.vr_outros_creditos)
-            vr_total += D(lancamento.vr_adiantado)
-            vr_total -= D(lancamento.vr_desconto)
-            vr_total -= D(lancamento.vr_outros_debitos)
-            vr_total -= D(lancamento.vr_tarifas)
-            vr_total -= D(lancamento.vr_baixado)
-            lancamento.vr_total = vr_total
+    # @api.depends('vr_documento',
+    #              'vr_juros', 'vr_multa', 'vr_outros_creditos',
+    #              'vr_desconto', 'vr_outros_debitos', 'vr_tarifas',
+    #              'vr_adiantado')
+    # def _compute_total(self):
+    #     for lancamento in self:
+    #         vr_total = D(lancamento.vr_documento)
+    #         vr_total += D(lancamento.vr_juros)
+    #         vr_total += D(lancamento.vr_multa)
+    #         vr_total += D(lancamento.vr_outros_creditos)
+    #         vr_total += D(lancamento.vr_adiantado)
+    #         vr_total -= D(lancamento.vr_desconto)
+    #         vr_total -= D(lancamento.vr_outros_debitos)
+    #         vr_total -= D(lancamento.vr_tarifas)
+    #         vr_total -= D(lancamento.vr_baixado)
+    #         lancamento.vr_total = vr_total
 
     @api.depends('vr_documento',
                  'vr_juros', 'vr_multa', 'vr_outros_creditos',
@@ -567,7 +567,23 @@ class FinanLancamento(SpedBase, models.Model):
             vr_quitado_baixado = D(0)
             vr_quitado_total = D(0)
 
-            vr_total = D(lancamento.vr_total)
+            # Calcular valor total do documento
+            #
+            vr_total = D(lancamento.vr_documento)
+            vr_total += D(lancamento.vr_juros)
+            vr_total += D(lancamento.vr_multa)
+            vr_total += D(lancamento.vr_outros_creditos)
+            vr_total += D(lancamento.vr_adiantado)
+            vr_total -= D(lancamento.vr_desconto)
+            vr_total -= D(lancamento.vr_outros_debitos)
+            vr_total -= D(lancamento.vr_tarifas)
+
+            # vr_total -= D(lancamento.vr_baixado)
+            # Nao precisa diminuir o valor baixado, pois em seguida será
+            # recalculado como vr_total - vr_quitado_documento
+
+            lancamento.vr_total = vr_total
+            # vr_total = D(lancamento.vr_total)
 
             if lancamento.tipo in FINAN_TIPO_DIVIDA:
                 for pagamento in lancamento.pagamento_ids:
@@ -576,7 +592,7 @@ class FinanLancamento(SpedBase, models.Model):
                     # da crédito/débito exigido pela forma de pagamento
                     #
                     if pagamento.situacao_divida != \
-                        FINAN_SITUACAO_DIVIDA_QUITADO:
+                            FINAN_SITUACAO_DIVIDA_QUITADO:
                         continue
 
                     vr_quitado_documento += D(pagamento.vr_documento)
@@ -591,7 +607,11 @@ class FinanLancamento(SpedBase, models.Model):
                     vr_quitado_baixado += D(pagamento.vr_baixado)
                     vr_quitado_total += D(pagamento.vr_total)
 
-                vr_saldo = vr_total - vr_quitado_documento
+                # Calculando o saldo do documento que é o valor total do
+                # documento ( valor do documento + juros - descontos) menos a
+                # somatoria do valor quitado por cada parcela
+                #
+                vr_saldo = vr_total - vr_quitado_total
 
                 if vr_saldo < 0:
                     vr_saldo = D(0)

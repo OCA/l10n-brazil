@@ -55,15 +55,10 @@ class SpedDocumento(models.Model):
             # Para excluir os lançamentos vinculados à nota, precisamos
             # primeiro quebrar o vínculo de segurança
             #
-            lancamentos = []
-
             for lancamento in documento.finan_lancamento_ids:
                 lancamento.sped_documento_duplicata_id = False
                 lancamento.sped_documento_id = False
                 lancamento.referencia_id = False
-                lancamentos.append(lancamento)
-
-            for lancamento in lancamentos:
                 lancamento.unlink()
 
     def gera_finan_lancamento(self):
@@ -85,6 +80,7 @@ class SpedDocumento(models.Model):
 
     def executa_depois_autorizar(self):
         super(SpedDocumento, self).executa_depois_autorizar()
+        self.exclui_finan_lancamento()
         self.gera_finan_lancamento()
 
     def executa_depois_cancelar(self):
