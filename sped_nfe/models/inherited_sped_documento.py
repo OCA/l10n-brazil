@@ -406,10 +406,10 @@ class SpedDocumento(models.Model):
             }
 
     def envia_nfe(self):
-        super(SpedDocumento, self).envia_nfe()
-        self.ensure_one()
-        res = None
-
+        result = super(SpedDocumento, self).envia_nfe()
+        if self.modelo not in (MODELO_FISCAL_NFCE, MODELO_FISCAL_NFE):
+            return result
+          
         processador = self.processador_nfe()
 
         #
