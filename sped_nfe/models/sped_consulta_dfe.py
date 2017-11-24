@@ -19,7 +19,7 @@ import logging
 
 from odoo.osv import orm
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import UserError
 from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
@@ -27,7 +27,8 @@ _logger = logging.getLogger(__name__)
 try:
     from pysped.nfe import ProcessadorNFe
     from pysped.nfe.webservices_flags import (AMBIENTE_NFE_PRODUCAO,
-        CONS_NFE_TODAS, CONS_NFE_EMISSAO_TODOS_EMITENTES)
+                                              CONS_NFE_TODAS,
+                                              CONS_NFE_EMISSAO_TODOS_EMITENTES)
     from pysped.nfe.leiaute import *
     from pybrasil.inscricao import limpa_formatacao
     from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
@@ -76,8 +77,9 @@ class ConsultaDFe(models.Model):
             ultimo_nsu=ultimo_nsu)
 
         if result.resposta.status == 200:  # Webservice ok
-            if (result.resposta.cStat.valor == '137' or
-                        result.resposta.cStat.valor == '138'):
+            if (result.resposta.cStat.valor == '137'
+                    or result.resposta.cStat.valor == '138'):
+
                 nfe_list = []
                 for doc in result.resposta.loteDistDFeInt.docZip:
                     nfe_list.append({
@@ -86,7 +88,7 @@ class ConsultaDFe(models.Model):
                     })
 
                 return {
-                    'result' : result,
+                    'result': result,
                     'code': result.resposta.cStat.valor,
                     'message': result.resposta.xMotivo.valor,
                     'list_nfe': nfe_list, 'file_returned': result.resposta.xml
@@ -144,32 +146,33 @@ class ConsultaDFe(models.Model):
 
                     xml_ids.append(
                         env_mde_xml.create(
-                        {
-                            'consulta_id': self.id,
-                            'tipo_xml': '0',
-                            'xml': nfe_result['result'].envio.original
-                        }).id
+                            {
+                                'consulta_id': self.id,
+                                'tipo_xml': '0',
+                                'xml': nfe_result['result'].envio.original
+                            }).id
                     )
                     xml_ids.append(
                         env_mde_xml.create(
-                        {
-                            'consulta_id': self.id,
-                            'tipo_xml': '1',
-                            'xml': nfe_result['result'].resposta.original
-                        }).id
+                            {
+                                'consulta_id': self.id,
+                                'tipo_xml': '1',
+                                'xml': nfe_result['result'].resposta.original
+                            }).id
                     )
                     xml_ids.append(
                         env_mde_xml.create(
-                        {
-                            'consulta_id': self.id,
-                            'tipo_xml': '2',
-                            'xml': nfe_result[
-                                'result'].resposta.loteDistDFeInt.xml
-                        }).id
+                            {
+                                'consulta_id': self.id,
+                                'tipo_xml': '2',
+                                'xml': nfe_result[
+                                    'result'].resposta.loteDistDFeInt.xml
+                            }).id
                     )
 
                     for nfe in nfe_result['list_nfe']:
-                        exists_nsu = self.env['sped.manifestacao.destinatario'].search(
+                        exists_nsu = self.env['sped.manifestacao.destinatario']
+                        exists_nsu.search(
                             [('nsu', '=', nfe['NSU']),
                              ('empresa_id', '=', company.id),
                              ]).id
@@ -195,9 +198,10 @@ class ConsultaDFe(models.Model):
                                     'chave': chave_nfe,
                                     'nsu': nfe['NSU'],
                                     'fornecedor': root.xNome,
-                                    'tipo_operacao': str(root.NFe.infNFe.ide.tpNF),
-                                    'valor_documento': root.NFe.infNFe.total.ICMSTot.vNF,
-                                    # 'cSitNFe': str(root.cSitNFe),
+                                    'tipo_operacao': str(root.NFe.infNFe.ide.
+                                                         tpNF),
+                                    'valor_documento':
+                                        root.NFe.infNFe.total.ICMSTot.vNF,
                                     'state': 'pendente',
                                     'data_hora_inclusao': datetime.now(),
                                     'cnpj_cpf': cnpj_forn,
@@ -225,11 +229,11 @@ class ConsultaDFe(models.Model):
 
                                 xml_ids.append(
                                     env_mde_xml.create(
-                                    {
-                                        'consulta_id': self.id,
-                                        'tipo_xml': '3',
-                                        'xml': nfe['xml']
-                                    }).id
+                                        {
+                                            'consulta_id': self.id,
+                                            'tipo_xml': '3',
+                                            'xml': nfe['xml']
+                                        }).id
                                 )
 
                         elif nfe['schema'] == 'resNFe_v1.01.xsd' and \
@@ -263,8 +267,10 @@ class ConsultaDFe(models.Model):
                                         '%Y-%m-%dT%H:%M:%S'),
                                     'empresa_id': company.id,
                                     'sped_consulta_dfe_id': consulta.id,
-                                    'forma_inclusao': u'Verificação agendada - '
-                                                    u'manifestada por outro app'
+                                    'forma_inclusao': u'Verificação agendada -'
+                                                      u' manifestada por '
+                                                      u'outro '
+                                                      u'app'
                                 }
                                 obj_nfe = env_mde.create(invoice_eletronic)
                                 file_name = 'resumo_nfe-%s.xml' % nfe['NSU']
@@ -281,11 +287,11 @@ class ConsultaDFe(models.Model):
 
                                 xml_ids.append(
                                     env_mde_xml.create(
-                                    {
-                                        'consulta_id': self.id,
-                                        'tipo_xml': '3',
-                                        'xml': nfe['xml']
-                                    }).id
+                                        {
+                                            'consulta_id': self.id,
+                                            'tipo_xml': '3',
+                                            'xml': nfe['xml']
+                                        }).id
                                 )
 
                         nfe_mdes.append(nfe)
@@ -298,7 +304,7 @@ class ConsultaDFe(models.Model):
 
         return nfe_mdes
 
-    def validate_nfe_configuration(self,company):
+    def validate_nfe_configuration(self, company):
         error = u'As seguintes configurações estão faltando:\n'
 
         if not company.certificado_id.arquivo:
@@ -408,7 +414,7 @@ class SpedConsutaDFeXML(models.Model):
 
     tipo_xml = fields.Selection(
         [('0', 'Envio'), ('1', 'Resposta'),
-         ('2','Resposta-LoteDistDFeInt'),
+         ('2', 'Resposta-LoteDistDFeInt'),
          ('3', 'Resposta-LoteDistDFeInt-DocZip(NFe)')],
         string="Tipo de XML",
         readonly=True,

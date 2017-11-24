@@ -39,6 +39,7 @@ SITUACAO_MANIFESTACAO = [
          ('nao_realizado', 'Não realizado'),
 ]
 
+
 class SpedManifestacaoDestinatario(models.Model):
     _name = b'sped.manifestacao.destinatario'
     _description = 'Manifestação do Destinatário'
@@ -188,7 +189,7 @@ class SpedManifestacaoDestinatario(models.Model):
         size=60,
     )
 
-    situacao_nfe= fields.Selection(
+    situacao_nfe = fields.Selection(
         string=u'Situacação da NF-e',
         selection=SITUACAO_NFE,
         select=True,
@@ -252,7 +253,8 @@ class SpedManifestacaoDestinatario(models.Model):
     @api.multi
     def action_operacao_desconhecida(self):
         for record in self:
-            record.sped_consulta_dfe_id.validate_nfe_configuration(record.empresa_id)
+            record.sped_consulta_dfe_id.\
+                validate_nfe_configuration(record.empresa_id)
             nfe_result = record.sped_consulta_dfe_id.send_event(
                 record.empresa_id,
                 record.chave,
@@ -270,7 +272,8 @@ class SpedManifestacaoDestinatario(models.Model):
     @api.multi
     def action_negar_operacao(self):
         for record in self:
-            record.sped_consulta_dfe_id.validate_nfe_configuration(record.empresa_id)
+            record.sped_consulta_dfe_id.\
+                validate_nfe_configuration(record.empresa_id)
             nfe_result = record.sped_consulta_dfe_id.send_event(
                 record.empresa_id,
                 record.chave,
@@ -289,8 +292,10 @@ class SpedManifestacaoDestinatario(models.Model):
     def action_download_xml(self):
         result = True
         for record in self:
-            record.sped_consulta_dfe_id.validate_nfe_configuration(record.empresa_id)
-            nfe_result = record.sped_consulta_dfe_id.download_nfe(record.empresa_id, record.chave)
+            record.sped_consulta_dfe_id.\
+                validate_nfe_configuration(record.empresa_id)
+            nfe_result = record.sped_consulta_dfe_id.\
+                download_nfe(record.empresa_id, record.chave)
 
             if nfe_result['code'] == '138':
 
