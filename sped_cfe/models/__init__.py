@@ -12,3 +12,4 @@ from . import sped_documento_cfe_configuracao
 from . import pdv_config
 from . import pdv_impressora_config
 from . import inherited_res_users
+from . import inherited_sped_documento_duplicata

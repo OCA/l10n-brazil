@@ -31,6 +31,7 @@
                         <field name="assinatura"/>
                     </group>
                     <group string="Configurações de pagamento">
+                        <field name="chave_acesso_validador"/>
                         <field name="chave_requisicao"/>
                         <field name="estabelecimento"/>
                         <field name="serial_pos"/>
