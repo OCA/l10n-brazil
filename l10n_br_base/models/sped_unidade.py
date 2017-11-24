@@ -446,8 +446,8 @@ class SpedUnidade(models.Model):
     def create(self, dados):
         dados['name'] = dados['codigo']
 
-        if dados['tipo'] == self.TIPO_UNIDADE_UNIDADE or dados[
-                'tipo'] == self.TIPO_UNIDADE_EMBALAGEM:
+        if dados['tipo'] == self.TIPO_UNIDADE_UNIDADE or \
+            dados['tipo'] == self.TIPO_UNIDADE_EMBALAGEM:
             dados['category_id'] = self.env.ref(
                 'product.product_uom_categ_unit').id
 
