@@ -363,6 +363,8 @@
             <tree string="Emissão de NF-e" duplicate="false">
                 <field name="currency_id" invisible="1"/>
                 <field name="currency_aliquota_id" invisible="1"/>
+                <field name="emissao" invisible="1"/>
+                <field name="modelo" invisible="1"/>
                 <field name="situacao_fiscal" />
                 <field name="empresa_id" />
                 <field name="operacao_id" />
@@ -386,6 +388,7 @@
                 <field name="numero" />
                 <field name="data_emissao" />
                 <field name="data_entrada_saida" />
+                <field name="chave" />
                 <field name="operacao_id" />
                 <field name="participante_id" />
                 <field name="empresa_id" />
