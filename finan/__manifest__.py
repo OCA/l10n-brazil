@@ -56,6 +56,7 @@
         'views/finan_lancamento_transacao_saida_view.xml',
 
         'views/finan_remessa_boleto_view.xml',
+        'views/finan_retorno_boleto_view.xml',
 
         #
         # Relatórios

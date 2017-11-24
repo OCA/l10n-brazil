@@ -221,7 +221,7 @@ class SpedParticipante(SpedBase, models.Model):
     contribuinte = fields.Selection(
         selection=INDICADOR_IE_DESTINATARIO,
         string='Contribuinte',
-        default=INDICADOR_IE_DESTINATARIO_ISENTO
+        required = True ,
     )
     ie = fields.Char(
         string='Inscrição estadual',
