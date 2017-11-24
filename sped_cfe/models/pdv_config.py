@@ -54,7 +54,7 @@ class ConfiguracaoPDV(models.Model):
         string=u"Assinatura"
     )
 
-    codigo_ativacao_pagamento = fields.Char(
+    chave_acesso_validador = fields.Char(
         string=u"Codigo de Ativação",
     )
     chave_requisicao = fields.Char(string=u'Chave de Requisição')

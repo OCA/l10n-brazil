@@ -8,7 +8,7 @@
 from __future__ import division, print_function, unicode_literals
 
 import logging
-from odoo import api, models
+from odoo import api, models, fields
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODELO_FISCAL_CFE,
     FORMA_PAGAMENTO_CARTOES,

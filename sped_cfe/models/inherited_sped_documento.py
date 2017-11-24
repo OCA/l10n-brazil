@@ -477,9 +477,10 @@ class SpedDocumento(models.Model):
 
         self.ensure_one()
 
-        # self.envia_pagamento()
-        # if not self.pagamento_autorizado_cfe:
-        #     raise Warning('Pagamento(s) não autorizado(s)!')
+        if not self.pagamento_autorizado_cfe:
+            self.envia_pagamento()
+            if not self.pagamento_autorizado_cfe:
+                raise Warning('Pagamento(s) não autorizado(s)!')
 
         # TODO: Conectar corretamente no SAT
         # cliente = self.processador_cfe()
@@ -520,7 +521,7 @@ class SpedDocumento(models.Model):
     def _verificar_formas_pagamento(self):
         pagamentos_cartoes = []
         for pagamento in self.pagamento_ids:
-            if pagamento.condicao_pagamento_id.forma_pagamento in ["03, 04"]:
+            if pagamento.condicao_pagamento_id.forma_pagamento in ["03", "04"]:
                 for duplicata in pagamento.duplicata_ids:
                     pagamentos_cartoes.append(duplicata)
 
@@ -532,29 +533,34 @@ class SpedDocumento(models.Model):
         if not pagamentos_cartoes:
             self.pagamento_autorizado_cfe = True
         else:
-            pagamentos_autorizados = False
+            pagamentos_autorizados = True
             config = self.configuracoes_pdv
             from mfecfe import BibliotecaSAT
             from mfecfe import ClienteVfpeLocal
             cliente = ClienteVfpeLocal(
                 BibliotecaSAT('/opt/Integrador'),
-                codigo_ativacao=config.codigo_ativacao_pagamento
+                chave_acesso_validador=config.chave_acesso_validador
             )
 
-            for pagamento in pagamentos_cartoes:
-                resposta = cliente.enviar_pagamento(
-                    config.chave_requisicao, config.estabelecimento,
-                    config.serial_pos, config.cnpjsh, self.bc_icms_proprio,
-                    config.id_fila_validador,config.multiplos_pag,
-                    config.anti_fraude, self.currency_id, config.ip,
-                    config.numero_caixa, pagamento.valor
-                )
+            for duplicata in pagamentos_cartoes:
+                if not duplicata.id_fila_status:
+                    resposta = cliente.enviar_pagamento(
+                        config.chave_requisicao, config.estabelecimento,
+                        config.serial_pos, config.cnpjsh, self.bc_icms_proprio,
+                        duplicata.valor, config.id_fila_validador,config.multiplos_pag,
+                        config.anti_fraude, 'BRL', config.numero_caixa
+                    )
+                    duplicata.id_fila_status = resposta
+                # FIXME status sempre vai ser negativo na homologacao
                 resposta_status_pagamento = cliente.verificar_status_validador(
-                    config.cnpjsh, resposta.id_fila
+                    config.cnpjsh, duplicata.id_fila_status
                 )
-                if resposta_status_pagamento.get("bin"):
-                    pagamentos_autorizados = True
-                else:
+                #
+                # resposta_status_pagamento = cliente.verificar_status_validador(
+                #     config.cnpjsh, '214452'
+                # )
+                if resposta_status_pagamento.ValorPagamento == '0' and resposta_status_pagamento.IdFila == '0':
                     pagamentos_autorizados = False
+                    break
 
             self.pagamento_autorizado_cfe = pagamentos_autorizados
