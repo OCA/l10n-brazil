@@ -11,9 +11,8 @@ import os
 import logging
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
-
 from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo.exceptions import UserError, Warning
 
 
 _logger = logging.getLogger(__name__)
@@ -34,6 +33,22 @@ except (ImportError, IOError) as err:
 
 class SpedDocumento(models.Model):
     _inherit = 'sped.documento'
+
+    @api.multi
+    def _buscar_configuracoes_pdv(self):
+        self.configuracoes_pdv = self.env.user.configuracoes_sat_cfe
+
+    configuracoes_pdv = fields.Many2one(
+        string=u"Configurações para a venda",
+        comodel_name="pdv.config",
+        compute=_buscar_configuracoes_pdv
+    )
+
+    pagamento_autorizado_cfe = fields.Boolean(
+        string=u"Pagamento Autorizado",
+        readonly=True,
+        default=False
+    )
 
     def _check_permite_alteracao(self, operacao='create', dados={},
                                  campos_proibidos=[]):
@@ -255,19 +270,16 @@ class SpedDocumento(models.Model):
 
     def _monta_cfe_identificacao(self):
         # FIXME: Buscar dados do cadastro da empresa / cadastro do caixa
-        configuracoes = self._buscar_configuracoes_pdv()
-        cnpj_software_house = configuracoes.cnpj_software_house
-        assinatura = configuracoes.assinatura
-        numero_caixa = configuracoes.numero_caixa
+        cnpj_software_house = self.configuracoes_pdv.cnpj_software_house
+        assinatura = self.configuracoes_pdv.assinatura
+        numero_caixa = self.configuracoes_pdv.numero_caixa
         return cnpj_software_house, assinatura, numero_caixa
 
     def _monta_cfe_emitente(self):
-        empresa = self.empresa_id
-        configuracoes = self._buscar_configuracoes_pdv()
         emitente = Emitente(
                 # FIXME:
-                CNPJ=configuracoes.cnpjsh,  # limpa_formatacao(empresa.cnpj_cpf),
-                IE=configuracoes.ie,  # limpa_formatacao(empresa.ie or ''),
+                CNPJ=self.configuracoes_pdv.cnpjsh,
+                IE=self.configuracoes_pdv.ie,
                 # CNPJ=limpa_formatacao(empresa.cnpj_cpf),
                 # IE=limpa_formatacao(empresa.ie or ''),
                 indRatISSQN='N')
@@ -465,6 +477,10 @@ class SpedDocumento(models.Model):
 
         self.ensure_one()
 
+        # self.envia_pagamento()
+        # if not self.pagamento_autorizado_cfe:
+        #     raise Warning('Pagamento(s) não autorizado(s)!')
+
         # TODO: Conectar corretamente no SAT
         # cliente = self.processador_cfe()
         from mfecfe import BibliotecaSAT
@@ -501,37 +517,44 @@ class SpedDocumento(models.Model):
         # nfe = self.monta_nfe(resposta)
 
     @api.multi
-    def _buscar_configuracoes_pdv(self):
-        return self.env['pdv.config'].search(
-            [('company_id', '=', self.empresa_id.id)]
-        )
+    def _verificar_formas_pagamento(self):
+        pagamentos_cartoes = []
+        for pagamento in self.pagamento_ids:
+            if pagamento.condicao_pagamento_id.forma_pagamento in ["03, 04"]:
+                for duplicata in pagamento.duplicata_ids:
+                    pagamentos_cartoes.append(duplicata)
+
+        return pagamentos_cartoes
 
     def envia_pagamento(self):
         self.ensure_one()
-
-        from mfecfe import BibliotecaSAT
-        from mfecfe import ClienteVfpeLocal
-        cliente = ClienteVfpeLocal(
-            BibliotecaSAT('/opt/Integrador'),
-            # codigo_ativacao='25CFE38D-3B92-46C0-91CA-CFF751A82D3D'
-        )
-
-        if self.modelo == MODELO_FISCAL_NFCE:
-            self.data_hora_emissao = fields.Datetime.now()
-            self.data_hora_entrada_saida = self.data_hora_emissao
-
-        if self.condicao_pagamento_id.forma_pagamento != '03' and self.condicao_pagamento_id.forma_pagamento != '04':
-            pass
-
+        pagamentos_cartoes = self._verificar_formas_pagamento()
+        if not pagamentos_cartoes:
+            self.pagamento_autorizado_cfe = True
         else:
-            config = self._buscar_configuracoes_pdv()
+            pagamentos_autorizados = False
+            config = self.configuracoes_pdv
+            from mfecfe import BibliotecaSAT
+            from mfecfe import ClienteVfpeLocal
+            cliente = ClienteVfpeLocal(
+                BibliotecaSAT('/opt/Integrador'),
+                codigo_ativacao=config.codigo_ativacao_pagamento
+            )
 
+            for pagamento in pagamentos_cartoes:
+                resposta = cliente.enviar_pagamento(
+                    config.chave_requisicao, config.estabelecimento,
+                    config.serial_pos, config.cnpjsh, self.bc_icms_proprio,
+                    config.id_fila_validador,config.multiplos_pag,
+                    config.anti_fraude, self.currency_id, config.ip,
+                    config.numero_caixa, pagamento.valor
+                )
+                resposta_status_pagamento = cliente.verificar_status_validador(
+                    config.cnpjsh, resposta.id_fila
+                )
+                if resposta_status_pagamento.get("bin"):
+                    pagamentos_autorizados = True
+                else:
+                    pagamentos_autorizados = False
 
-            for n in self.pagamento_ids:
-                for m in self.duplicata_ids:
-                    resposta = cliente.enviar_pagamento(config.chave_requisicao, config.estabelecimento,
-                                                config.serial_pos, config.cnpjsh, self.bc_icms_proprio,
-                                                config.id_fila_validador,config.multiplos_pag,
-                                                config.anti_fraude,self.currency_id, config.ip,
-                                                config.numero_caixa, m.valor)
-
+            self.pagamento_autorizado_cfe = pagamentos_autorizados
