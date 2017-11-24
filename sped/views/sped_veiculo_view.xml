@@ -10,7 +10,7 @@
         <field name="model">sped.veiculo</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Veículo" delete="false" create="false" edit="true" duplicate="false">
+            <form string="Veículo" delete="false" create="false" edit="true">
                 <sheet>
                     <div class="oe_title">
                         <label for="placa" class="oe_edit_only"/>
@@ -40,7 +40,7 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
 <!--             <tree string="Veículo" delete="false" create="false" edit="true"> -->
-            <tree string="Veículo" duplicate="false">
+            <tree string="Veículo">
                 <field name="placa" />
                 <field name="estado_id" />
             </tree>

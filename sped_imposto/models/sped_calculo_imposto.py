@@ -182,11 +182,6 @@ class SpedCalculoImposto(SpedBase):
         compute='_compute_soma_itens',
         store=True
     )
-    vr_icms_desonerado = fields.Monetary(
-        string='Valor do ICMS desonerado',
-        compute='_compute_soma_itens',
-        store=True
-    )
     # ICMS SIMPLES
     vr_icms_sn = fields.Monetary(
         string='Valor do crédito de ICMS - SIMPLES Nacional',
@@ -445,7 +440,6 @@ class SpedCalculoImposto(SpedBase):
                 'item_ids.vr_desconto', 'item_ids.vr_outras',
                 'item_ids.vr_operacao', 'item_ids.vr_operacao_tributacao',
                 'item_ids.bc_icms_proprio', 'item_ids.vr_icms_proprio',
-                'item_ids.vr_icms_desonerado',
                 'item_ids.vr_difal', 'item_ids.vr_icms_estado_origem',
                 'item_ids.vr_icms_estado_destino',
                 'item_ids.vr_fcp',
@@ -468,7 +462,6 @@ class SpedCalculoImposto(SpedBase):
             'vr_frete', 'vr_seguro', 'vr_desconto', 'vr_outras',
             'vr_operacao', 'vr_operacao_tributacao',
             'bc_icms_proprio', 'vr_icms_proprio',
-            'vr_icms_desonerado',
             'vr_difal', 'vr_icms_estado_origem', 'vr_icms_estado_destino',
             'vr_fcp',
             'vr_icms_sn', 'vr_simples',

@@ -10,7 +10,7 @@
         <field name="model">account.payment.term</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Condição de Pagamento" duplicate="false">
+            <form string="Condição de Pagamento">
                 <field name="sequence" invisible="1" />
                 <field name="currency_id" invisible="1" />
                 <field name="currency_aliquota_id" invisible="1" />
@@ -82,7 +82,7 @@
         <field name="model">account.payment.term</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Condições de Pagamento" duplicate="false">
+            <tree string="Condições de Pagamento">
                 <field name="sequence" widget="handle"/>
                 <field name="nome_comercial" />
             </tree>

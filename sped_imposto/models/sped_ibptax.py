@@ -97,13 +97,12 @@ class SpedIBPTax(models.Model):
                     [('codigo', '=', codigo), ('ex', '=', ex)])
 
                 if len(ncm_ids) == 0:
-                    #dados = {
-                        #'codigo': codigo,
-                        #'ex': ex,
-                        #'descricao': descricao,
-                    #}
-                    #ncm_ids = sped_ncm.create(dados)
-                    continue
+                    dados = {
+                        'codigo': codigo,
+                        'ex': ex,
+                        'descricao': descricao,
+                    }
+                    ncm_ids = sped_ncm.create(dados)
 
                 icms_ids = sped_icms.search([('al_icms', '=', D(estadual))])
 
@@ -121,12 +120,11 @@ class SpedIBPTax(models.Model):
                 nbs_ids = sped_nbs.search([('codigo', '=', codigo)])
 
                 if len(nbs_ids) == 0:
-                    #dados = {
-                        #'codigo': codigo,
-                        #'descricao': descricao,
-                    #}
-                    #nbs_ids = sped_nbs.create(dados)
-                    continue
+                    dados = {
+                        'codigo': codigo,
+                        'descricao': descricao,
+                    }
+                    nbs_ids = sped_nbs.create(dados)
 
                 dados = {
                     'ibptax_id': self.id,
@@ -141,12 +139,11 @@ class SpedIBPTax(models.Model):
                 servico_ids = sped_servico.search([('codigo', '=', codigo)])
 
                 if len(servico_ids) == 0:
-                    #dados = {
-                        #'codigo': codigo,
-                        #'descricao': descricao,
-                    #}
-                    #servico_ids = sped_servico.create(dados)
-                    continue
+                    dados = {
+                        'codigo': codigo,
+                        'descricao': descricao,
+                    }
+                    servico_ids = sped_servico.create(dados)
 
                 dados = {
                     'ibptax_id': self.id,

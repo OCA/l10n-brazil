@@ -92,21 +92,11 @@ class SpedMunicipio(models.Model):
             if operator != '=':
                 name = name.strip().replace(' ', '%')
 
-            if 'import_file' in self.env.context:
-                args = [
-                    '|',
-                    ('codigo_ibge', '=', name),
-                    '|',
-                    ('nome', 'ilike', name),
-                    ('estado', 'ilike', name),
-                ] + args
-            else:
-                args = [
-                    '|',
-                    ('nome', 'ilike', name),
-                    ('estado', 'ilike', name),
-                ] + args
-
+            args += [
+                '|',
+                ('nome', 'ilike', name),
+                ('estado', 'ilike', name)
+            ]
             municipios = self.search(args, limit=limit)
             return municipios.name_get()
 

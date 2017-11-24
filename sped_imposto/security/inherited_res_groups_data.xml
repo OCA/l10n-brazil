@@ -17,15 +17,13 @@
     </record>
 
     <record id="GRUPO_FISCAL_GERAL" model="res.groups">
-        <field name="name">Fiscal (geral)</field>
+        <field name="name">Fiscal</field>
         <field name="category_id" ref="sped_imposto.CATEGORIA_MODULO_FISCAL"/>
-        <field name="implied_ids" eval="[(4, ref('GRUPO_FISCAL_LEITURA'))]"/>
     </record>
 
     <record id="GRUPO_FISCAL_GERENTE" model="res.groups">
         <field name="name">Fiscal (gerente)</field>
         <field name="category_id" ref="sped_imposto.CATEGORIA_MODULO_FISCAL"/>
-        <field name="implied_ids" eval="[(4, ref('GRUPO_FISCAL_GERAL'))]"/>
     </record>
 
 </odoo>

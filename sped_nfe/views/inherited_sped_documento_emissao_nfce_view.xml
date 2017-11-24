@@ -14,9 +14,8 @@
             <header position="inside">
                 <button name="envia_nfe" string="Enviar NFC-e" type="object" class="btn-primary"
                     attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada'])]}" />
-                <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-primary" />
-                <button name="gera_pdf" string="Baixar PDF" type="object" class="btn-primary" />
-                <button name="gera_xml" string="Baixar XML" type="object" class="btn-primary" />
+                    <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-primary" attrs="{'invisible': [('situacao_nfe', '=', 'inutilizada')]}" />
+                    <button name="gera_pdf" string="Gerar PDF" type="object" class="btn-primary" attrs="{'invisible': [('situacao_nfe', '=', 'inutilizada')]}" />
             </header>
             <xpath expr="//field[@name='empresa_id']" position="before">
                 <field name="situacao_nfe" readonly="1" colspan="4" string="Situação"
@@ -31,12 +30,19 @@
             <page name="financeiro" position="after">
                 <page name="detalhe_nfe" string="NFC-e">
                     <field name="permite_cancelamento" invisible="1" />
+                    <field name="permite_inutilizacao" invisible="1" />
                     <group col="4" attrs="{'invisible': [('permite_cancelamento', '=', False), ('situacao_nfe', '!=', 'cancelada')]}">
                         <separator string="Cancelamento" colspan="4" />
-                        <field name="justificativa" colspan="4" attrs="{'readonly': [('situacao_nfe', '=', 'cancelada')]}" />
                         <button name="cancela_nfe" string="Cancelar NFC-e" type="object" class="btn-primary"
                             attrs="{'invisible': ['|', ('permite_cancelamento', '=', 'False'), ('situacao_nfe', '=', 'cancelada')]}" />
                     </group>
+                    <group col="4" attrs="{'invisible': [('permite_inutilizacao', '=', False), ('situacao_nfe', '!=', 'inutilizada')]}">
+                        <separator string="Inutilização" colspan="4" />
+                        <button name="inutiliza_nfe" string="Inutilizar NFC-e" type="object" class="btn-primary"
+                            attrs="{'invisible': ['|', ('permite_inutilizacao', '=', 'False'), ('situacao_nfe', '=', 'inutilizada')]}" />
+                    </group>
+                    <separator string="Justificativa" colspan="4" />
+                    <field name="justificativa" colspan="4" attrs="{'invisible': ['|', ('permite_cancelamento', '=', False), ('permite_inutilizacao', '=', False)], 'readonly': [('situacao_nfe', 'in', ('cancelada', 'inutilizada'))]}" />
                 </page>
                 <page name="suporte" string="Suporte" groups="l10n_br_base.GRUPO_SUPORTE">
                     <group col="4">
@@ -53,6 +59,13 @@
                         <field name="protocolo_cancelamento" />
                         <field name="arquivo_xml_cancelamento_id" colspan="4" string="Cancelamento" />
                         <field name="arquivo_xml_autorizacao_cancelamento_id" colspan="4" string="Autorização" />
+                    </group>
+                    <group col="4" attrs="{'invisible': [('situacao_nfe', '!=', 'inutilizada')]}">
+                        <separator string="Inutilização" colspan="4" />
+                        <field name="data_hora_inutilizacao" />
+                        <field name="protocolo_inutilizacao" />
+                        <field name="arquivo_xml_inutilizacao_id" colspan="4" string="Inutilização" />
+                        <field name="arquivo_xml_autorizacao_inutilizacao_id" colspan="4" string="Autorização" />
                     </group>
                 </page>
             </page>

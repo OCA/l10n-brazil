@@ -11,7 +11,7 @@
         <field name="priority">9999</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form string="Participantes" duplicate="false">
+            <form string="Participantes">
                 <field name="exige_cnpj_cpf" invisible="1" />
                 <field name="exige_endereco" invisible="1" />
                 <field name="currency_id" invisible="1" />
@@ -64,7 +64,7 @@
                             <group col="4" colspan="4">
                                 <separator string="Inscrição Estadual" colspan="4" />
                                 <field name="contribuinte" colspan="2" />
-                                <field name="ie" attrs="{'invisible': [('contribuinte', '!=', '1')], 'required': [('contribuinte', '=', '1')]}" colspan="2" />
+                                <field name="ie" attrs="{'invisible': [('contribuinte', '!=', '1')]}" colspan="2" />
                             </group>
                             <newline />
                             <group col="6" colspan="4" attrs="{'invisible': [('tipo_pessoa', '!=', 'F')]}">
@@ -144,7 +144,7 @@
         <field name="priority">9999</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <tree string="Participantes" duplicate="false">
+            <tree string="Participantes">
                 <field name="currency_id" invisible="1" />
                 <field name="currency_aliquota_id" invisible="1" />
                 <field name="nome" />
@@ -152,6 +152,7 @@
                 <field name="fone" />
                 <field name="celular" />
                 <field name="email" />
+                <field name="site" />
                 <field name="municipio_id" />
             </tree>
         </field>
@@ -164,7 +165,7 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <search string="Participantes">
-                <field name="nome" filter_domain="['|', ('nome','ilike',self), '|', ('razao_social','ilike',self), '|', ('fantasia','ilike',self), ('cnpj_cpf_numero', 'ilike', self)]" />
+                <field name="nome" filter_domain="['|', '|', '|', ('nome','ilike',self), ('razao_social','ilike',self), ('fantasia','ilike',self), ('cnpj_cpf','ilike',self)]" />
             </search>
         </field>
     </record>

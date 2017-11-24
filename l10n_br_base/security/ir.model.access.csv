@@ -3,77 +3,45 @@ l10n_br_base.GRUPO_SUPORTE,l10n_br_base.model_sped_empresa,Empresa (suporte),spe
 l10n_br_base.GRUPO_CADASTRO_LEITURA,l10n_br_base.model_sped_empresa,Empresa (somente leitura),sped_empresa_grupo_cadastro_leitura,True,False,False,False
 l10n_br_base.GRUPO_CADASTRO_GERAL,l10n_br_base.model_sped_empresa,Empresa (geral),sped_empresa_grupo_cadastro_geral,True,False,False,False
 l10n_br_base.GRUPO_CADASTRO_GERENTE,l10n_br_base.model_sped_empresa,Empresa (gerente),sped_empresa_grupo_cadastro_gerente,True,False,True,False
-
 l10n_br_base.GRUPO_SUPORTE,base.model_res_company,Company (suporte),res_company_grupo_suporte,True,True,True,True
 l10n_br_base.GRUPO_CADASTRO_LEITURA,base.model_res_company,Company (somente leitura),res_company_grupo_cadastro_leitura,True,False,False,False
 l10n_br_base.GRUPO_CADASTRO_GERAL,base.model_res_company,Company (geral),res_company_grupo_cadastro_geral,True,False,False,False
 l10n_br_base.GRUPO_CADASTRO_GERENTE,base.model_res_company,Company (gerente),res_company_grupo_cadastro_gerente,True,False,True,False
-
 l10n_br_base.GRUPO_SUPORTE,l10n_br_base.model_sped_participante,Participante (suporte),sped_participante_grupo_suporte,True,True,True,True
 l10n_br_base.GRUPO_CADASTRO_LEITURA,l10n_br_base.model_sped_participante,Participante (somente leitura),sped_participante_grupo_cadastro_leitura,True,False,False,False
 l10n_br_base.GRUPO_CADASTRO_GERAL,l10n_br_base.model_sped_participante,Participante (geral),sped_participante_grupo_cadastro_geral,True,True,True,False
 l10n_br_base.GRUPO_CADASTRO_GERENTE,l10n_br_base.model_sped_participante,Participante (gerente),sped_participante_grupo_cadastro_gerente,True,True,True,True
-
-l10n_br_base.GRUPO_SUPORTE,l10n_br_base.model_sped_endereco,Endereço (suporte),sped_endereco_grupo_suporte,True,True,True,True
-l10n_br_base.GRUPO_CADASTRO_LEITURA,l10n_br_base.model_sped_endereco,Endereço (somente leitura),sped_endereco_grupo_cadastro_leitura,True,False,False,False
-l10n_br_base.GRUPO_CADASTRO_GERAL,l10n_br_base.model_sped_endereco,Endereço (geral),sped_endereco_grupo_cadastro_geral,True,True,True,False
-l10n_br_base.GRUPO_CADASTRO_GERENTE,l10n_br_base.model_sped_endereco,Endereço (gerente),sped_endereco_grupo_cadastro_gerente,True,True,True,True
-
 l10n_br_base.GRUPO_SUPORTE,base.model_res_partner,Partner (suporte),res_partner_grupo_suporte,True,True,True,True
 l10n_br_base.GRUPO_CADASTRO_LEITURA,base.model_res_partner,Partner (somente leitura),res_partner_grupo_cadastro_leitura,True,False,False,False
 l10n_br_base.GRUPO_CADASTRO_GERAL,base.model_res_partner,Partner (geral),res_partner_grupo_cadastro_geral,True,True,True,False
 l10n_br_base.GRUPO_CADASTRO_GERENTE,base.model_res_partner,Partner (gerente),res_partner_grupo_cadastro_gerente,True,True,True,True
-
 l10n_br_base.GRUPO_SUPORTE,l10n_br_base.model_sped_pais,País (suporte),sped_pais_grupo_suporte,True,True,True,True
 l10n_br_base.GRUPO_CADASTRO_LEITURA,l10n_br_base.model_sped_pais,País (somente leitura),sped_pais_grupo_cadastro_leitura,True,False,False,False
-
 l10n_br_base.GRUPO_SUPORTE,l10n_br_base.model_sped_estado,Estado (suporte),sped_estado_grupo_suporte,True,True,True,True
 l10n_br_base.GRUPO_CADASTRO_LEITURA,l10n_br_base.model_sped_estado,Estado (somente leitura),sped_estado_grupo_cadastro_leitura,True,False,False,False
-
 l10n_br_base.GRUPO_SUPORTE,l10n_br_base.model_sped_municipio,Município (suporte),sped_municipio_grupo_suporte,True,True,True,True
 l10n_br_base.GRUPO_CADASTRO_LEITURA,l10n_br_base.model_sped_municipio,Município (somente leitura),sped_municipio_grupo_cadastro_leitura,True,False,False,False
-
 l10n_br_base.GRUPO_SUPORTE,l10n_br_base.model_account_payment_term,Condição de Pagamento (suporte),account_payment_term_grupo_suporte,True,True,True,True
 l10n_br_base.GRUPO_CADASTRO_LEITURA,l10n_br_base.model_account_payment_term,Condição de Pagamento (somente leitura),account_payment_term_grupo_cadastro_leitura,True,False,False,False
-l10n_br_base.GRUPO_CADASTRO_GERAL,l10n_br_base.model_account_payment_term,Condição de Pagamento (geral),account_payment_term_grupo_cadastro_geral,True,True,True,False
-l10n_br_base.GRUPO_CADASTRO_GERENTE,l10n_br_base.model_account_payment_term,Condição de Pagamento (gerente),account_payment_term_grupo_cadastro_gerente,True,True,True,True
-
 l10n_br_base.GRUPO_SUPORTE,l10n_br_base.model_account_payment_term_line,Item da Condição de Pagamento (suporte),account_payment_term_line_grupo_suporte,True,True,True,True
 l10n_br_base.GRUPO_CADASTRO_LEITURA,l10n_br_base.model_account_payment_term_line,Item da Condição de Pagamento (somente leitura),account_payment_term_line_grupo_cadastro_leitura,True,False,False,False
-l10n_br_base.GRUPO_CADASTRO_GERAL,l10n_br_base.model_account_payment_term_line,Item da Condição de Pagamento (geral),account_payment_term_line_grupo_cadastro_geral,True,True,True,False
-l10n_br_base.GRUPO_CADASTRO_GERENTE,l10n_br_base.model_account_payment_term_line,Item da Condição de Pagamento (gerente),account_payment_term_line_grupo_cadastro_gerente,True,True,True,True
-
 l10n_br_base.GRUPO_SUPORTE,l10n_br_base.model_sped_unidade,Unidade de medida (suporte),sped_unidade_grupo_suporte,True,True,True,True
 l10n_br_base.GRUPO_CADASTRO_LEITURA,l10n_br_base.model_sped_unidade,Unidade de medida (somente leitura),sped_unidade_grupo_cadastro_leitura,True,False,False,False
 l10n_br_base.GRUPO_CADASTRO_GERAL,l10n_br_base.model_sped_unidade,Unidade de medida (geral),sped_unidade_grupo_cadastro_geral,True,True,True,False
 l10n_br_base.GRUPO_CADASTRO_GERENTE,l10n_br_base.model_sped_unidade,Unidade de medida (gerente),sped_unidade_grupo_cadastro_gerente,True,True,True,True
-
 l10n_br_base.GRUPO_SUPORTE,product.model_product_uom,UoM (suporte),product_uom_grupo_suporte,True,True,True,True
 l10n_br_base.GRUPO_CADASTRO_LEITURA,product.model_product_uom,UoM (somente leitura),product_uom_grupo_cadastro_leitura,True,False,False,False
 l10n_br_base.GRUPO_CADASTRO_GERAL,product.model_product_uom,UoM (geral),product_uom_grupo_cadastro_geral,True,True,True,False
 l10n_br_base.GRUPO_CADASTRO_GERENTE,product.model_product_uom,UoM (gerente),product_uom_grupo_cadastro_gerente,True,True,True,True
-
 l10n_br_base.GRUPO_SUPORTE,l10n_br_base.model_sped_produto,Produto/serviço (suporte),sped_produto_grupo_suporte,True,True,True,True
 l10n_br_base.GRUPO_CADASTRO_LEITURA,l10n_br_base.model_sped_produto,Produto/serviço (somente leitura),sped_produto_grupo_cadastro_leitura,True,False,False,False
 l10n_br_base.GRUPO_CADASTRO_GERAL,l10n_br_base.model_sped_produto,Produto/serviço (geral),sped_produto_grupo_cadastro_geral,True,True,True,False
 l10n_br_base.GRUPO_CADASTRO_GERENTE,l10n_br_base.model_sped_produto,Produto/serviço (gerente),sped_produto_grupo_cadastro_gerente,True,True,True,True
-
 l10n_br_base.GRUPO_SUPORTE,product.model_product_template,Product Template (suporte),product_template_grupo_suporte,True,True,True,True
 l10n_br_base.GRUPO_CADASTRO_LEITURA,product.model_product_template,Product Template (somente leitura),product_template_grupo_cadastro_leitura,True,False,False,False
 l10n_br_base.GRUPO_CADASTRO_GERAL,product.model_product_template,Product Template (geral),product_template_grupo_cadastro_geral,True,True,True,False
 l10n_br_base.GRUPO_CADASTRO_GERENTE,product.model_product_template,Product Template (gerente),product_template_grupo_cadastro_gerente,True,True,True,True
-
 l10n_br_base.GRUPO_SUPORTE,product.model_product_product,Product (suporte),product_product_grupo_suporte,True,True,True,True
 l10n_br_base.GRUPO_CADASTRO_LEITURA,product.model_product_product,Product (somente leitura),product_product_grupo_cadastro_leitura,True,False,False,False
 l10n_br_base.GRUPO_CADASTRO_GERAL,product.model_product_product,Product (geral),product_product_grupo_cadastro_geral,True,True,True,False
 l10n_br_base.GRUPO_CADASTRO_GERENTE,product.model_product_product,Product (gerente),product_product_grupo_cadastro_gerente,True,True,True,True
-
-l10n_br_base.GRUPO_SUPORTE,product.model_product_pricelist,Pricelist (suporte),product_pricelist_grupo_suporte,True,True,True,True
-l10n_br_base.GRUPO_CADASTRO_LEITURA,product.model_product_pricelist,Pricelist (somente leitura),product_pricelist_grupo_cadastro_leitura,True,False,False,False
-l10n_br_base.GRUPO_CADASTRO_GERAL,product.model_product_pricelist,Pricelist (geral),product_pricelist_grupo_cadastro_geral,True,True,True,False
-l10n_br_base.GRUPO_CADASTRO_GERENTE,product.model_product_pricelist,Pricelist (gerente),product_pricelist_grupo_cadastro_gerente,True,True,True,True
-
-l10n_br_base.GRUPO_SUPORTE,product.model_product_price_history,Price History (suporte),product_price_history_grupo_suporte,True,True,True,True
-l10n_br_base.GRUPO_CADASTRO_LEITURA,product.model_product_price_history,Price History (somente leitura),product_price_history_grupo_cadastro_leitura,True,False,False,False
-l10n_br_base.GRUPO_CADASTRO_GERAL,product.model_product_price_history,Price History (geral),product_price_history_grupo_cadastro_geral,True,True,True,False
-l10n_br_base.GRUPO_CADASTRO_GERENTE,product.model_product_price_history,Price History (gerente),product_price_history_grupo_cadastro_gerente,True,True,True,True

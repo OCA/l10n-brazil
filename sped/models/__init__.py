@@ -17,5 +17,4 @@ from . import sped_documento_referenciado
 from . import sped_documento_item
 from . import sped_documento_item_declaracao_importacao
 from . import sped_documento_item_declaracao_importacao_adicao
-from . import sped_documento_item_rastreabilidade
 from . import inherited_sped_operacao

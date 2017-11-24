@@ -46,9 +46,7 @@ class SpedNCM(models.Model):
     )
     al_ipi_id = fields.Many2one(
         comodel_name='sped.aliquota.ipi',
-        string='Alíquota do IPI',
-        ondelete='restrict',
-        index=True,
+        string='Alíquota do IPI'
     )
     unidade_id = fields.Many2one(
         comodel_name='sped.unidade',
@@ -64,17 +62,6 @@ class SpedNCM(models.Model):
         string='NCM',
         compute='_compute_ncm',
         store=True
-    )
-    al_pis_cofins_id = fields.Many2one(
-        comodel_name='sped.aliquota.pis.cofins',
-        string='Alíquota do PIS-COFINS',
-        ondelete='restrict',
-        index=True,
-    )
-    codigo_natureza_receita_pis_cofins = fields.Char(
-        string='Natureza da receita',
-        size=3,
-        index=True,
     )
 
     @api.depends('codigo', 'ex', 'descricao', 'al_ipi_id')
@@ -117,14 +104,6 @@ class SpedNCM(models.Model):
         if name and operator in ('=', 'ilike', '=ilike', 'like', 'ilike'):
             args = list(args or [])
             codigo = name.replace('.', '').replace(' ', '')
-
-            if 'import_file' in self.env.context:
-                args = [
-                    '|',
-                    ('ex', '=', False),
-                    ('ex', '=', ''),
-                ] + args
-
             args = [
                 '|',
                 ('codigo', '=ilike', codigo + '%'),
@@ -133,7 +112,10 @@ class SpedNCM(models.Model):
                 ('descricao', 'ilike', name),
             ] + args
 
+            print(args)
+
             ncm_ids = self.search(args, limit=limit)
+            print(ncm_ids)
 
             return ncm_ids.name_get()
 

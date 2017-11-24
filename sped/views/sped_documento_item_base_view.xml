@@ -82,7 +82,7 @@
                            context="{'form_view_ref': (modelo != 'SE' and 'l10n_br_base.sped_produto_produto_form' or 'l10n_br_base.sped_produto_servico_form')}"
                     />
                     <newline />
-                    <field name="produto_nome" colspan="4" string="Descrição alternativa" />
+                    <field name="produto_descricao" colspan="4" string="Descrição alternativa" />
                     <newline />
                     <field name="cfop_id" colspan="4" domain="[('entrada_saida', '=', parent.entrada_saida)]" options="{'no_create': True}" />
                     <newline />
@@ -180,10 +180,6 @@
                                             <newline />
                                             <field name="vr_icms_proprio" string="Valor" />
                                             <newline />
-                                            <field name="motivo_icms_desonerado" string="Motivo da desoneração" attrs="{'invisible': [('cst_icms', 'not in', ['20', '30', '40', '41', '50', '70', '90'])]}" />
-                                            <newline />
-                                            <field name="vr_icms_desonerado" string="Valor desonerado" attrs="{'invisible': ['|', ('cst_icms', 'not in', ['20', '30', '40', '41', '50', '70', '90']), ('motivo_icms_desonerado', '=', False)]}" />
-                                            <newline />
                                             <separator string="Diferencial de alíquota" attrs="{'invisible': [('calcula_difal', '=', False)]}" colspan="2" />
                                             <newline />
                                             <field name="al_interna_destino" invisible="1" />
@@ -258,8 +254,6 @@
                                     <group colspan="4" col="4">
                                         <group colspan="4">
                                             <field name="al_pis_cofins_id" colspan="2" options="{'no_create': True}" string="Alíquota e CST" />
-                                            <newline />
-                                            <field name="codigo_natureza_receita_pis_cofins" attrs="{'required': [('cst_pis_saida', 'in', ('04', '05', '06', '07', '08', '09'))]}" />
                                         </group>
                                         <group string="PIS" colspan="2">
                                             <field name="cst_pis" invisible="1" />
@@ -317,7 +311,7 @@
                                 <field name="numero_item_pedido" />
                             </group>
                         </page>
-                        <page name='volume' string="Volume e rastreabilidade">
+                        <page name='volume' string="Volume">
                             <group colspan="4" col="4">
                                 <group colspan="2" string="Preenchimento automático dos volumes">
                                     <field name="peso_bruto_unitario" />
@@ -334,13 +328,6 @@
                                     <field name="fator_quantidade_especie" />
                                     <field name="quantidade_especie_readonly" />
                                     <field name="quantidade_especie" invisible="1" />
-                                </group>
-                            </group>
-                        </page>
-                        <page string="Rastreabilidade">
-                            <group colspan="4" col="4">
-                                <group colspan="4" string="Restreabilidade">
-                                    <field name="rastreabilidade_ids" nolabel="1" />
                                 </group>
                             </group>
                         </page>

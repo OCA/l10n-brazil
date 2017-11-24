@@ -10,7 +10,7 @@
         <field name="model">sped.estado</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Estado" delete="false" create="false" edit="false" duplicate="false">
+            <form string="Estado" delete="false" create="false" edit="false">
                 <sheet>
                     <group colspan="4" col="4">
                         <field name="uf" attrs="{'required': True}" default_focus="1" />
@@ -31,7 +31,7 @@
         <field name="model">sped.estado</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Estado" delete="false" create="false" edit="false" duplicate="false">
+            <tree string="Estado" delete="false" create="false" edit="false">
                 <field name="uf" />
                 <field name="nome" />
             </tree>

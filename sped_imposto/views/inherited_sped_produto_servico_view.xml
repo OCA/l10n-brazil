@@ -17,8 +17,6 @@
                 <newline />
                 <field name="nbs_id" options="{'no_create': True, 'no_open': False}" colspan="4" />
                 <newline />
-                <field name="ncm_id" invisible="0" />
-                <newline />
             </xpath>
             <xpath expr="//field[@name='tipo']" position="after">
                 <newline />
@@ -27,8 +25,6 @@
                 <field name="al_ipi_id" options="{'no_create': True, 'no_open': False}" colspan="4" />
                 <newline />
                 <field name="al_pis_cofins_id" options="{'no_create': True, 'no_open': False}" colspan="4" />
-                <newline />
-                <field name="codigo_natureza_receita_pis_cofins" />
                 <newline />
             </xpath>
         </field>

@@ -21,7 +21,6 @@
         <field name="arredondamento">0</field>
         <field name="subunidade_id" />
         <field name="uom_id" ref="product.product_uom_unit" />
-        <field name="codigos_alternativos" eval="'UN\n" />
     </record>
 
     <!-- Peso e massa -->

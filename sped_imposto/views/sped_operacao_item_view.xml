@@ -10,7 +10,7 @@
         <field name="model">sped.operacao.item</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree duplicate="false">
+            <tree>
                 <field name="operacao_id" invisible="1" />
                 <field name="entrada_saida" invisible="1" />
                 <field name="tipo_protocolo" invisible="1" />
@@ -33,7 +33,7 @@
         <field name="model">sped.operacao.item</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Item da operação fiscal" duplicate="false">
+            <form string="Item da operação fiscal">
                 <field name="operacao_id" invisible="1" />
                 <field name="entrada_saida" invisible="1" />
                 <field name="tipo_protocolo" invisible="1" />
@@ -44,11 +44,7 @@
                     <field name="cst_icms" required="1" />
                     <field name="org_icms" />
                     <newline />
-                    <field name="motivo_icms_desonerado" attrs="{'invisible': [('cst_icms', 'not in', ['20', '30', '40', '41', '50', '70', '90'])]}" />
-                    <newline />
                     <field name="al_pis_cofins_id" options="{'no_create': True, 'no_open': True}" colspan="4" />
-                    <newline />
-                    <field name="codigo_natureza_receita_pis_cofins" attrs="{'required': (['al_pis_cofins_id.cst_pis_cofins_saida', 'in', ('07', '08', '09')])}" />
                     <newline />
                     <field name="cst_ipi" invisible="1" />
                     <newline />
@@ -79,7 +75,7 @@
         <field name="model">sped.operacao.item</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree duplicate="false">
+            <tree>
                 <field name="operacao_id" invisible="1" />
                 <field name="entrada_saida" invisible="1" />
                 <field name="tipo_protocolo" invisible="1" />
@@ -103,7 +99,7 @@
         <field name="model">sped.operacao.item</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Item da operação fiscal" duplicate="false">
+            <form string="Item da operação fiscal">
                 <field name="operacao_id" invisible="1" />
                 <field name="entrada_saida" invisible="1" />
                 <field name="tipo_protocolo" invisible="1" />
