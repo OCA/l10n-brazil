@@ -699,7 +699,7 @@ class HrPayslip(models.Model):
                                                 0.0, contract_id)]
 
             # get dias de férias + get dias de abono pecuniario
-            if self.tipo_de_folha == 'provisao_ferias':
+            if self.tipo_de_folha == 'provisao_ferias' or self.is_simulacao:
                 quantidade_dias_abono = 0
                 quantidade_dias_ferias = self.periodo_aquisitivo.saldo
             else:

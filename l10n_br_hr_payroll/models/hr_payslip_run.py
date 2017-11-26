@@ -194,6 +194,7 @@ class HrPayslipRun(models.Model):
                             })
                             # payslip._compute_set_dates()
                             payslip.compute_sheet()
+                            self.env.cr.commit()
                             _logger.info(u"Holerite " + contrato.name +
                                          u" processado com sucesso!")
                         except:
@@ -219,6 +220,7 @@ class HrPayslipRun(models.Model):
                     _logger.info(
                         u"Holerite " + contrato.name +
                         u" processado com sucesso!")
+                    self.env.cr.commit()
                 except:
                     _logger.warning(
                         u"Holerite " + contrato.name +
