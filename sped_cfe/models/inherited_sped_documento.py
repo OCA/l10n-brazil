@@ -398,7 +398,6 @@ class SpedDocumento(models.Model):
                 # self.data_hora_autorizacao = data_autorizacao
                 # self.protocolo_autorizacao = protNFe.infProt.nProt.valor
                 #
-            # self.data_hora_autorizacao = fields.Datetime.now()
             elif resposta.EEEEE in ('06001', '06002', '06003', '06004', '06005',
                                     '06006', '06007', '06008', '06009', '06010',
                                     '06098', '06099'):
@@ -420,65 +419,6 @@ class SpedDocumento(models.Model):
                         resposta.resposta.mensagem
             self.mensagem_nfe = mensagem
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
-
-    @api.multi
-    def _verificar_formas_pagamento(self):
-        pagamentos_cartoes = []
-        for pagamento in self.pagamento_ids:
-            if pagamento.condicao_pagamento_id.forma_pagamento in ["03", "04"]:
-                for duplicata in pagamento.duplicata_ids:
-                    pagamentos_cartoes.append(duplicata)
-
-        return pagamentos_cartoes
-
-    def envia_pagamento(self):
-        self.ensure_one()
-        pagamentos_cartoes = self._verificar_formas_pagamento()
-        if not pagamentos_cartoes:
-            self.pagamento_autorizado_cfe = True
-        else:
-            pagamentos_autorizados = True
-            config = self.configuracoes_pdv
-            from mfecfe import BibliotecaSAT
-            from mfecfe import ClienteVfpeLocal
-            cliente = ClienteVfpeLocal(
-                BibliotecaSAT('/opt/Integrador'),
-                chave_acesso_validador=config.chave_acesso_validador
-            )
-
-            for duplicata in pagamentos_cartoes:
-                if not duplicata.id_fila_status:
-                    resposta = cliente.enviar_pagamento(
-                        config.chave_requisicao, config.estabelecimento,
-                        config.serial_pos, config.cnpjsh, self.bc_icms_proprio,
-                        duplicata.valor, config.id_fila_validador,config.multiplos_pag,
-                        config.anti_fraude, 'BRL', config.numero_caixa
-                    )
-                    duplicata.id_fila_status = resposta
-                # FIXME status sempre vai ser negativo na homologacao
-                resposta_status_pagamento = cliente.verificar_status_validador(
-                    config.cnpjsh, duplicata.id_fila_status
-                )
-                #
-                # resposta_status_pagamento = cliente.verificar_status_validador(
-                #     config.cnpjsh, '214452'
-                # )
-                if resposta_status_pagamento.ValorPagamento == '0' and resposta_status_pagamento.IdFila == '0':
-                    pagamentos_autorizados = False
-                    break
-
-            self.pagamento_autorizado_cfe = pagamentos_autorizados
-
-    @api.model
-    def processar_venda_cfe(self, venda_id):
-        venda = self.browse(venda_id)
-        return venda.monta_cfe()
-
-    @api.model
-    def processar_resposta_cfe(self, venda_id, resposta):
-        venda = self.browse(venda_id)
-        return venda.resposta_cfe(resposta)
-
 
     @api.multi
     def _verificar_formas_pagamento(self):
