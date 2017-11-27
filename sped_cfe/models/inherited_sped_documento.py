@@ -472,10 +472,10 @@ class SpedDocumento(models.Model):
         return venda.resposta_cfe(resposta)
 
     def envia_nfe(self):
-        #FIXME: Este super deveria ser chamado mas retornar para manter a compatibilidade entre os módulos
-        # super(SpedDocumento, self).envia_nfe()
-
         self.ensure_one()
+        result = super(SpedDocumento, self).envia_nfe()
+        if not self.modelo == MODELO_FISCAL_CFE:
+            return result
 
         if not self.pagamento_autorizado_cfe:
             self.envia_pagamento()
