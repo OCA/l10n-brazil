@@ -153,14 +153,14 @@ class SpedDocumento(models.Model):
         self.ensure_one()
 
         if self.configuracoes_pdv.tipo_sat == 'local':
-            from satcfe.clientelocal import ClienteSATLocal
+            from mfecfe.clientelocal import ClienteSATLocal
             from mfecfe import BibliotecaSAT
             cliente = ClienteSATLocal(
                 BibliotecaSAT('/opt/Integrador'),  # FIXME: Caminho do integrador nas configurações
                 codigo_ativacao=self.configuracoes_pdv.codigo_ativacao
             )
         elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
-            from satcfe.clientesathub import ClienteSATHub
+            from mfecfe.clientesathub import ClienteSATHub
             cliente = ClienteSATHub(
                 self.configuracoes_pdv.ip,
                 5000,  # FIXME: Colocar a porta nas configurações
