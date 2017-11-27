@@ -36,7 +36,7 @@
                         <group name="movimentacoes"
                                string="Movimentações no período" colspan="4">
                             <field name="lancamento_ids" nolabel="1"
-                                   colspan="4">
+                                   colspan="4" readonly="True">
                                 <tree>
                                     <field name="data_pagamento"/>
                                     <field name="participante_id"/>

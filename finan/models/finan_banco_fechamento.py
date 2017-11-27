@@ -19,6 +19,7 @@ class FinanBancoFechamento(models.Model):
 
     saldo_final = fields.Float(
         string='Saldo final',
+        # compute = '_compute_saldo_final'
     )
 
     lancamento_ids = fields.Many2many(
@@ -74,16 +75,6 @@ class FinanBancoFechamento(models.Model):
         default='aberto',
     )
 
-    # def _compute_saldo_atual(self):
-    #     for banco in self:
-    #         saldo = self.env['finan.banco.saldo'].search([
-    #             ('banco_id', '=', banco.id),
-    #             ('data', '<=', str(hoje())),
-    #             ], limit=1, order='data desc')
-    #         if saldo:
-    #             self.saldo_final = saldo.saldo + self.saldo_inicial
-    #         else:
-    #             self.saldo_final = self.saldo_inicial
 
     @api.constrains('data_final', 'data_inicial')
     def _constrains_verifica_data(self):
@@ -102,12 +93,22 @@ class FinanBancoFechamento(models.Model):
         """
         for banco in self:
             lancamento_ids = self.env.get('finan.lancamento').search([
-                ('banco_id', '=', banco.id),
-                ('data_documento', '>=', banco.data_inicial),
-                ('data_documento', '<', banco.data_final),
-                ('state', '=', 'paid'),
+                ('banco_id', '=', banco.id) and
+                ('data_documento', '>=', banco.data_inicial) and
+                ('data_documento', '<=', banco.data_final),
+                # ('state', '=', 'paid'),
             ])
-            banco.lancamento_ids = lancamento_ids
+            if (('data_documento', '>=', banco.data_inicial) and
+                ('data_documento', '<=', banco.data_final)):
+                banco.lancamento_ids = lancamento_ids
+            # saldo = self.env['finan.banco.saldo'].search([
+            #             ('banco_id', '=', banco.id),
+            #             ('data', '<=', str(hoje())),
+            #         ], limit=1, order='data desc')
+            #         if saldo:
+            #             self.saldo_final = saldo.saldo + self.saldo_inicial
+            #         else:
+            #             self.saldo_final = self.saldo_inicial
 
     def button_fechar_caixa(self):
         """
@@ -116,3 +117,18 @@ class FinanBancoFechamento(models.Model):
         for banco in self:
             banco.state = 'fechado'
             banco.data_fechamento = fields.Date.today()
+
+    # def _compute_saldo_final(self):
+    #     """
+    #             Calculo do saldo final: movimentos + inicial
+    #     """
+    #     for banco in self:
+    #         saldo = self.env['finan.banco.saldo'].search([
+    #             ('banco_id', '=', banco.id),
+    #             ('data', '<=', str(hoje())),
+    #         ], limit=1, order='data desc')
+    #         if saldo:
+    #             self.saldo_final = saldo.saldo + self.saldo_inicial
+    #         else:
+    #             self.saldo_final = self.saldo_inicial
+
