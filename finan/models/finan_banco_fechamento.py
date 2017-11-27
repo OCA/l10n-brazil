@@ -13,25 +13,25 @@ class FinanBancoFechamento(models.Model):
     _name = b'finan.banco.fechamento'
     _description = 'Fechamento de Caixa'
 
-#saldo inicial
     saldo_inicial = fields.Float(
         string='Saldo inicial',
-        required=True,
     )
-# saldo final
+
     saldo_final = fields.Float(
         string='Saldo final',
-
-    
     )
-#Movimentacoes
-    extratos_ids = fields.One2many(
-        comodel_name='finan.banco.extrato',
-        inverse_name='banco_id',
+
+    lancamento_ids = fields.Many2many(
+        string='Lancamentos',
+        comodel_name='finan.lancamento',
         readonly=True,
+        states={'aberto': [('readonly', False)]},
     )
 
-# banco
+    saldo = fields.Float(
+        string="Saldo dos lancamentos"
+    )
+
     banco_id = fields.Many2one(
         comodel_name='finan.banco',
         string='Banco/caixa',
@@ -39,66 +39,86 @@ class FinanBancoFechamento(models.Model):
         ondelete='restrict',
         required=True,
     )
-# Quem fechou
+
     user_id = fields.Many2one(
+        string='Quem fechou?',
         comodel_name='res.users',
         default=lambda self: self.env.user.id,
         required=True,
     )
-# Quando fechou
+
     data_fechamento = fields.Date(
         string='Data do fechamento',
-        default=fields.Date.context_today,
         index=True,
-        required=True,
+        readonly=True,
     )
-#Inicio de periodo
+
     data_inicial = fields.Date(
         string='Data inicial',
         index=True,
-        required = True,
+        required=True,
     )
-#Final de periodo
+
     data_final = fields.Date(
         string='Data final',
         index=True,
         required=True,
     )
-# state
+
     state = fields.Selection(
         string='State',
         selection=[
-        ('1', 'Aberto'),
-        ('2', 'Fechado'),
+            ('aberto', 'Aberto'),
+            ('fechado', 'Fechado'),
         ],
-        required=True,
+        default='aberto',
     )
 
-    @api.depends('banco', 'agencia', 'conta', 'conta_digito', 'tipo',
-                 'titular_id')
-    def _compute_banco(self):
-        for banco in self:
-            banco.nome = banco.name_get()[0][1]
+    # @api.depends('banco', 'agencia', 'conta', 'conta_digito', 'tipo',
+    #              'titular_id')
+    # def _compute_banco(self):
+    #     for banco in self:
+    #         banco.nome = banco.name_get()[0][1]
 
-    def _compute_saldo_atual(self):
-        for banco in self:
-            saldo = self.env['finan.banco.saldo'].search([
-                ('banco_id', '=', banco.id),
-                ('data', '<=', str(hoje())),
-                ], limit=1, order='data desc')
-            if saldo:
-                self.saldo_final = saldo.saldo + self.saldo_inicial
-            else:
-                self.saldo_final = self.saldo_inicial
+    # def _compute_saldo_atual(self):
+    #     for banco in self:
+    #         saldo = self.env['finan.banco.saldo'].search([
+    #             ('banco_id', '=', banco.id),
+    #             ('data', '<=', str(hoje())),
+    #             ], limit=1, order='data desc')
+    #         if saldo:
+    #             self.saldo_final = saldo.saldo + self.saldo_inicial
+    #         else:
+    #             self.saldo_final = self.saldo_inicial
 
     @api.constrains('data_final', 'data_inicial')
-    def _compute_verifica_data(self):
+    def _constrains_verifica_data(self):
+        """
+        Validacao para a data final ser maior que a data inicial
+        """
         for record in self:
             if record.data_inicial > record.data_final:
-                raise ValidationError('A data final deve ser maior que a '
-                                  'data inicial')
+                raise ValidationError(
+                    'A data final deve ser maior que a data inicial')
 
-    # def _compute_movimento_periodo(self):
-    #     for record in self:
-    #         if record.data_inicial < 'finan.banco.extrato'.data and record.data_final > 'finan.banco.extrato'.data:
-    #
+    def button_processar(self):
+        """
+        Recuperar os lancamentos entre a data_inicial e data_final do 
+        fechamento do caixa, e calcular o saldo do banco
+        """
+        for banco in self:
+            lancamento_ids = self.env.get('finan.lancamento').search([
+                ('banco_id', '=', banco.id),
+                ('data_documento', '>=', banco.data_inicial),
+                ('data_documento', '<', banco.data_final),
+                ('state', '=', 'paid'),
+            ])
+            banco.lancamento_ids = lancamento_ids
+
+    def button_fechar_caixa(self):
+        """
+        Rotina para fechamento de caixa onde altera o state do fechamento
+        """
+        for banco in self:
+            banco.state = 'fechado'
+            banco.data_fechamento = fields.Date.today()

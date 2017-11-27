@@ -1,36 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <odoo>
-     <record model="ir.ui.view" id="finan_banco_fechamento_form" >
+    <record model="ir.ui.view" id="finan_banco_fechamento_form">
         <field name="name">finan.banco.fechamento.form</field>
         <field name="model">finan.banco.fechamento</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <form string="Fechamento de caixa">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button string="Processar" states="aberto" type="object" name="button_processar"/>
+                </header>
+
                 <sheet>
+                    <label for="banco_id" class="oe_edit_only"/>
+
+                    <h2>
+                        <field name="banco_id" widget="selection" colspan="4"/>
+                    </h2>
+
                     <group>
-                        <group name="geral" colspan="4" col="4">
-                            <field name="banco_id" options="{'no_create': True, 'no_open': True}"  />
-                            <newline />
-                            <field name="saldo_inicial" required="1" />
-                            <field name="saldo_final" required="1" />
-                            <newline />
-                            <field name="user_id"/>
-                            <field name="data_fechamento"/>
+                        <group>
                             <field name="data_inicial"/>
-                            <field name="data_final"/>
-                            <field name="state"/>
+                            <field name="saldo_inicial"/>
+                            <field name="user_id" readonly="1"/>
                         </group>
-                        <group name="movimentacoes" string="Movimentações no período" colspan="4">
-                            <field name="extratos_ids" nolabel="1" colspan="4">
+
+                        <group>
+                            <field name="data_final"/>
+                            <field name="saldo_final" readonly="1"/>
+                            <field name="data_fechamento"
+                                   attrs="{'invisible': [('data_fechamento', '=', False)]}"/>
+                        </group>
+
+                        <group name="movimentacoes"
+                               string="Movimentações no período" colspan="4">
+                            <field name="lancamento_ids" nolabel="1"
+                                   colspan="4">
                                 <tree>
-                                    <field name="currency_id" invisible="1" />
-                                    <field name="ordem" invisible="1" />
-                                    <field name="data" />
-                                    <field name="lancamento_id" />
-                                    <field name="entrada" />
-                                    <field name="saida" />
-                                    <field name="saldo" />
+                                    <field name="data_pagamento"/>
+                                    <field name="participante_id"/>
+                                    <field name="vr_documento" sum="Total Lancamentos"/>
                                 </tree>
                             </field>
                         </group>
@@ -39,6 +49,7 @@
             </form>
         </field>
     </record>
+
     <record model="ir.ui.view" id="finan_banco_fechamento_tree">
         <field name="name">finan.banco.fechamento.tree</field>
         <field name="model">finan.banco.fechamento</field>
@@ -53,7 +64,7 @@
         </field>
     </record>
 
-<record model="ir.ui.view" id="finan_banco_fechamento_search">
+    <record model="ir.ui.view" id="finan_banco_fechamento_search">
         <field name="name">finan.banco.fechamento.search</field>
         <field name="model">finan.banco.fechamento</field>
         <field name="priority">1</field>
@@ -69,14 +80,16 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="finan_banco_fechamento_tree_action">
+    <record model="ir.actions.act_window.view"
+            id="finan_banco_fechamento_tree_action">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="finan_banco_fechamento_tree"/>
         <field name="act_window_id" ref="finan_banco_fechamento_action"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="finan_banco_fechamento_form_action">
+    <record model="ir.actions.act_window.view"
+            id="finan_banco_fechamento_form_action">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
         <field name="view_id" ref="finan_banco_fechamento_form"/>
