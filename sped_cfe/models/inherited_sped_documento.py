@@ -138,23 +138,36 @@ class SpedDocumento(models.Model):
                     documento.permite_cancelamento = True
 
     def processador_cfe(self):
+        """
+        Busca classe do processador do cadastro da empresa, onde podemos ter três tipos de processamento dependendo
+        de onde o equipamento esta instalado:
+
+        - Instalado no mesmo servidor que o Odoo;
+        - Instalado na mesma rede local do servidor do Odoo;
+        - Instalado em um local remoto onde o browser vai ser responsável por se comunicar com o equipamento
+
+        :return:
+        """
         self.ensure_one()
 
-        if self.modelo not in (MODELO_FISCAL_CFE):
-            raise UserError('Tentando processar um documento que não é uma'
-                            'CF-E!')
+        if self.configuracoes_pdv.tipo_sat == 'local':
+            from satcfe.clientelocal import ClienteSATLocal
+            from mfecfe import BibliotecaSAT
+            cliente = ClienteSATLocal(
+                BibliotecaSAT('/opt/Integrador'),  # FIXME: Caminho do integrador nas configurações
+                codigo_ativacao=self.configuracoes_pdv.codigo_ativacao
+            )
+        elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
+            from satcfe.clientesathub import ClienteSATHub
+            cliente = ClienteSATHub(
+                self.configuracoes_pdv.ip,
+                5000,  # FIXME: Colocar a porta nas configurações
+                numero_caixa=int(self.configuracoes_pdv.numero_caixa)
+            )
+        elif self.tipo_processador_cfe == 'remoto':
+            NotImplementedError
 
-        Processador, Cliente = self.empresa_id.processador_cfe()
-
-        # TODO: Buscar caminho correto do caixa
-        # TODO: Buscar código de ativação do caixa
-        caminho_sat = '/opt/sefaz/drs/libmfe.so'
-        codigo_ativacao = '12345678'
-
-        return Cliente(
-            Processador(caminho_sat),
-            codigo_ativacao=codigo_ativacao
-        )
+        return cliente
 
     def _grava_anexo(self, nome_arquivo='', conteudo='',
                      tipo='application/xml', model='sped.documento'):
@@ -277,14 +290,11 @@ class SpedDocumento(models.Model):
 
     def _monta_cfe_emitente(self):
         emitente = Emitente(
-                # FIXME:
-                CNPJ=self.configuracoes_pdv.cnpjsh,
-                IE=self.configuracoes_pdv.ie,
-                # CNPJ=limpa_formatacao(empresa.cnpj_cpf),
-                # IE=limpa_formatacao(empresa.ie or ''),
-                indRatISSQN='N')
+                CNPJ=limpa_formatacao(self.configuracoes_pdv.cnpjsh),
+                IE=limpa_formatacao(self.configuracoes_pdv.ie),
+                indRatISSQN='N'
+        )
         emitente.validar()
-
         return emitente
 
     def _monta_cfe_destinatario(self,):
@@ -439,14 +449,8 @@ class SpedDocumento(models.Model):
             if not self.pagamento_autorizado_cfe:
                 raise Warning('Pagamento(s) não autorizado(s)!')
 
-        # TODO: Conectar corretamente no SAT
-        # cliente = self.processador_cfe()
-        from mfecfe import BibliotecaSAT
-        from mfecfe import ClienteSATLocal
-        cliente = ClienteSATLocal(
-            BibliotecaSAT('/opt/Integrador'),  # Caminho do Integrador
-            codigo_ativacao='123456789'
-        )
+        cliente = self.processador_cfe()
+
         # FIXME: Datas
         # # A NFC-e deve ter data de emissão no máx. 5 minutos antes
         # # da transmissão; por isso, definimos a hora de emissão aqui no
