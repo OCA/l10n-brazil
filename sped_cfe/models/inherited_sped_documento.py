@@ -25,6 +25,7 @@ try:
     from pybrasil.valor.decimal import Decimal as D
     from pybrasil.template import TemplateBrasil
 
+    from satcomum.ersat import ChaveCFeSAT
     from satcfe.entidades import *
     from satcfe.excecoes import ExcecaoRespostaSAT, ErroRespostaSATInvalida
 
@@ -197,24 +198,22 @@ class SpedDocumento(models.Model):
 
         return anexo_id
 
-    def grava_cfe(self, cfe):
+    def grava_cfe(self, chave, cfe):
         self.ensure_one()
-        nome_arquivo = 'envio-cfe.xml'
+        nome_arquivo = chave + 'envio-cfe.xml'
         self.arquivo_xml_id = False
         self.arquivo_xml_id = self._grava_anexo(nome_arquivo, cfe).id
 
-    def grava_cfe_autorizacao(self, procNFe):
-        # TODO:
+    def grava_cfe_autorizacao(self, chave, cfe):
         self.ensure_one()
-        nome_arquivo = procNFe.NFe.chave + '-proc-nfe.xml'
-        conteudo = procNFe.xml.encode('utf-8')
+        nome_arquivo = self.chave + '-proc-nfe.xml'
         self.arquivo_xml_autorizacao_id = False
         self.arquivo_xml_autorizacao_id = \
-            self._grava_anexo(nome_arquivo, conteudo).id
+            self._grava_anexo(nome_arquivo, cfe).id
 
     def grava_cfe_cancelamento(self, chave, canc):
         self.ensure_one()
-        nome_arquivo = chave + '-01-can.xml'
+        nome_arquivo = self.chave + '-01-can.xml'
         conteudo = canc.xml.encode('utf-8')
         self.arquivo_xml_cancelamento_id = False
         self.arquivo_xml_cancelamento_id = \
@@ -331,24 +330,6 @@ class SpedDocumento(models.Model):
         for pagamento in self.pagamento_ids:
             pag.append(pagamento.monta_cfe())
 
-    def executa_antes_autorizar(self):
-        #
-        # Este método deve ser alterado por módulos integrados, para realizar
-        # tarefas de integração necessárias antes de autorizar uma NF-e
-        #
-        self.ensure_one()
-        return super(SpedDocumento, self).executa_antes_autorizar()
-
-    def executa_depois_autorizar(self):
-        #
-        # Este método deve ser alterado por módulos integrados, para realizar
-        # tarefas de integração necessárias depois de autorizar uma NF-e,
-        # por exemplo, criar lançamentos financeiros, movimentações de
-        # estoque etc.
-        #
-        self.ensure_one()
-        super(SpedDocumento, self).executa_depois_autorizar()
-
     def resposta_cfe(self, resposta):
         """
 
@@ -429,6 +410,25 @@ class SpedDocumento(models.Model):
                 self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
                 self.executa_depois_autorizar()
                 self.data_hora_autorizacao = fields.Datetime.now()
+
+                chave = ChaveCFeSAT(resposta.chaveConsulta)
+
+                self.numero = chave.numero_cupom_fiscal
+                self.serie = chave.numero_serie
+                self.chave = resposta.chaveConsulta[3:]
+
+                # self.grava_cfe(cfe)
+                # self.grava_cfe_autorizacao(resposta.xml())
+                # # self.grava_pdf(nfe, procNFe.danfe_pdf)
+
+                # data_autorizacao = protNFe.infProt.dhRecbto.valor
+                # data_autorizacao = UTC.normalize(data_autorizacao)
+
+                # self.data_hora_autorizacao = data_autorizacao
+                # self.protocolo_autorizacao = protNFe.infProt.nProt.valor
+                #
+
+
             elif resposta.EEEEE in ('06001', '06002', '06003', '06004', '06005',
                                     '06006', '06007', '06008', '06009', '06010',
                                     '06098', '06099'):
@@ -436,7 +436,14 @@ class SpedDocumento(models.Model):
                 self.situacao_fiscal = SITUACAO_FISCAL_DENEGADO
                 self.situacao_nfe = SITUACAO_NFE_DENEGADA
                 self.executa_depois_denegar()
-        except (ErroRespostaSATInvalida, ExcecaoRespostaSAT, Exception) as resposta:
+        except (ErroRespostaSATInvalida, ExcecaoRespostaSAT) as resposta:
+            mensagem = 'Código de retorno: ' + \
+                       resposta.EEEEE
+            mensagem += '\nMensagem: ' + \
+                        resposta.mensagem
+            self.mensagem_nfe = mensagem
+            self.situacao_nfe = SITUACAO_NFE_REJEITADA
+        except Exception as resposta:
             mensagem = 'Código de retorno: ' + \
                        resposta.resposta.EEEEE
             mensagem += '\nMensagem: ' + \
