@@ -26,6 +26,7 @@ try:
     from pybrasil.template import TemplateBrasil
 
     from satcfe.entidades import *
+    from satcfe.excecoes import ExcecaoRespostaSAT, ErroRespostaSATInvalida
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -348,44 +349,35 @@ class SpedDocumento(models.Model):
         self.ensure_one()
         super(SpedDocumento, self).executa_depois_autorizar()
 
-        if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
-            super(SpedDocumento, self)._compute_permite_cancelamento()
-            return
-
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
-            super(SpedDocumento, self)._compute_permite_cancelamento()
-            return
-
-        #
-        # Envia o email da nota para o cliente
-        #
-        mail_template = None
-        if self.operacao_id.mail_template_id:
-            mail_template = self.operacao_id.mail_template_id
-        else:
-            if self.modelo == MODELO_FISCAL_NFE and \
-                    self.empresa_id.mail_template_nfe_autorizada_id:
-                mail_template = \
-                    self.empresa_id.mail_template_nfe_autorizada_id
-            elif self.modelo == MODELO_FISCAL_NFCE and \
-                    self.empresa_id.mail_template_nfce_autorizada_id:
-                mail_template = \
-                    self.empresa_id.mail_template_nfce_autorizada_id
-
-        if mail_template is None:
-            return
-
-        self.envia_email(mail_template)
-
-    def envia_email(self, mail_template):
-        self.ensure_one()
-
-        # super(SpedDocumento, self).envia_email(mail_template)
-
-        self.ensure_one()
-        mail_template.send_mail(self.id)
-
     def resposta_cfe(self, resposta):
+        """
+
+        :param resposta:
+
+        u'123456|06001|Código de ativação inválido||'
+        u'123456|06002|SAT ainda não ativado||'
+        u'123456|06003|SAT não vinculado ao AC||'
+        u'123456|06004|Vinculação do AC não confere||'
+        u'123456|06005|Tamanho do CF-e-SAT superior a 1.500KB||'
+        u'123456|06006|SAT bloqueado pelo contribuinte||'
+        u'123456|06007|SAT bloqueado pela SEFAZ||'
+        u'123456|06008|SAT bloqueado por falta de comunicação||'
+        u'123456|06009|SAT bloqueado, código de ativação incorreto||'
+        u'123456|06010|Erro de validação do conteúdo||'
+        u'123456|06098|SAT em processamento. Tente novamente.||'
+        u'123456|06099|Erro desconhecido na emissão||'
+
+        resposta.numeroSessao
+        resposta.EEEEE
+        resposta.CCCC
+        resposta.arquivoCFeSAT
+        resposta.timeStamp
+        resposta.chaveConsulta
+        resposta.valorTotalCFe
+        resposta.assinaturaQRCODE
+        resposta.xml()
+        :return:
+        """
         from mfecfe.resposta.enviardadosvenda import RespostaEnviarDadosVenda
         resposta_sefaz = RespostaEnviarDadosVenda.analisar(resposta.get('retorno'))
 
@@ -401,31 +393,6 @@ class SpedDocumento(models.Model):
             self.situacao_fiscal = SITUACAO_FISCAL_DENEGADO
             self.situacao_nfe = SITUACAO_NFE_DENEGADA
             self.executa_depois_denegar()
-
-        # u'123456|06001|Código de ativação inválido||'
-        # u'123456|06002|SAT ainda não ativado||'
-        # u'123456|06003|SAT não vinculado ao AC||'
-        # u'123456|06004|Vinculação do AC não confere||'
-        # u'123456|06005|Tamanho do CF-e-SAT superior a 1.500KB||'
-        # u'123456|06006|SAT bloqueado pelo contribuinte||'
-        # u'123456|06007|SAT bloqueado pela SEFAZ||'
-        # u'123456|06008|SAT bloqueado por falta de comunicação||'
-        # u'123456|06009|SAT bloqueado, código de ativação incorreto||'
-        # u'123456|06010|Erro de validação do conteúdo||'
-        # u'123456|06098|SAT em processamento. Tente novamente.||'
-        # u'123456|06099|Erro desconhecido na emissão||'
-        #
-        # Envia a nota
-        #
-        # print (resposta.numeroSessao)
-        # print (resposta.EEEEE)
-        # print (resposta.CCCC)
-        # print (resposta.arquivoCFeSAT)
-        # print (resposta.timeStamp)
-        # print (resposta.chaveConsulta)
-        # print (resposta.valorTotalCFe)
-        # print (resposta.assinaturaQRCODE)
-        # print (resposta.xml())
         self.grava_cfe(resposta_sefaz.xml())
 
     @api.model
@@ -451,32 +418,31 @@ class SpedDocumento(models.Model):
 
         cliente = self.processador_cfe()
 
-        # FIXME: Datas
-        # # A NFC-e deve ter data de emissão no máx. 5 minutos antes
-        # # da transmissão; por isso, definimos a hora de emissão aqui no
-        # # envio
-        if self.modelo == MODELO_FISCAL_NFCE:
-            self.data_hora_emissao = fields.Datetime.now()
-            self.data_hora_entrada_saida = self.data_hora_emissao
-
         cfe = self.monta_cfe()
         #
         # Processa resposta
         #
-        resposta = cliente.enviar_dados_venda(cfe)
-        if resposta.EEEEE in '06000':
-            self.executa_antes_autorizar()
-            self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
-            self.executa_depois_autorizar()
-            self.data_hora_autorizacao = fields.Datetime.now()
-        elif resposta.EEEEE in ('06001', '06002', '06003', '06004', '06005',
-                                '06006', '06007', '06008', '06009', '06010',
-                                '06098', '06099'):
-            self.executa_antes_denegar()
-            self.situacao_fiscal = SITUACAO_FISCAL_DENEGADO
-            self.situacao_nfe = SITUACAO_NFE_DENEGADA
-            self.executa_depois_denegar()
-        # nfe = self.monta_nfe(resposta)
+        try:
+            resposta = cliente.enviar_dados_venda(cfe)
+            if resposta.EEEEE in '06000':
+                self.executa_antes_autorizar()
+                self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
+                self.executa_depois_autorizar()
+                self.data_hora_autorizacao = fields.Datetime.now()
+            elif resposta.EEEEE in ('06001', '06002', '06003', '06004', '06005',
+                                    '06006', '06007', '06008', '06009', '06010',
+                                    '06098', '06099'):
+                self.executa_antes_denegar()
+                self.situacao_fiscal = SITUACAO_FISCAL_DENEGADO
+                self.situacao_nfe = SITUACAO_NFE_DENEGADA
+                self.executa_depois_denegar()
+        except (ErroRespostaSATInvalida, ExcecaoRespostaSAT, Exception) as resposta:
+            mensagem = 'Código de retorno: ' + \
+                       resposta.resposta.EEEEE
+            mensagem += '\nMensagem: ' + \
+                        resposta.resposta.mensagem
+            self.mensagem_nfe = mensagem
+            self.situacao_nfe = SITUACAO_NFE_REJEITADA
 
     @api.multi
     def _verificar_formas_pagamento(self):
