@@ -367,49 +367,6 @@ class SpedDocumento(models.Model):
 
         self.envia_email(mail_template)
 
-    def executa_antes_denegar(self):
-        #
-        # Este método deve ser alterado por módulos integrados, para realizar
-        # tarefas de integração necessárias antes de denegar uma NF-e
-        #
-        super(SpedDocumento, self).executa_antes_denegar()
-
-    def executa_depois_denegar(self):
-        #
-        # Este método deve ser alterado por módulos integrados, para realizar
-        # tarefas de integração necessárias depois de denegar uma NF-e,
-        # por exemplo, invalidar pedidos de venda e movimentações de estoque
-        # etc.
-        #
-        super(SpedDocumento, self).executa_depois_denegar()
-        self.ensure_one()
-
-        if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
-            super(SpedDocumento, self)._compute_permite_cancelamento()
-            return
-
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
-            super(SpedDocumento, self)._compute_permite_cancelamento()
-            return
-
-        #
-        # Envia o email da nota para o cliente
-        #
-        mail_template = None
-        if self.modelo == MODELO_FISCAL_NFE and \
-                self.empresa_id.mail_template_nfe_denegada_id:
-            mail_template = \
-                self.empresa_id.mail_template_nfe_denegada_id
-        elif self.modelo == MODELO_FISCAL_NFCE and \
-                self.empresa_id.mail_template_nfce_denegada_id:
-            mail_template = \
-                self.empresa_id.mail_template_nfce_denegada_id
-
-        if mail_template is None:
-            return
-
-        self.envia_email(mail_template)
-
     def envia_email(self, mail_template):
         self.ensure_one()
 
