@@ -21,7 +21,6 @@ class FinanBancoFechamento(models.Model):
 # saldo final
     saldo_final = fields.Float(
         string='Saldo final',
-        compute='_compute_saldo_atual',
 
     
     )
@@ -30,7 +29,6 @@ class FinanBancoFechamento(models.Model):
         comodel_name='finan.banco.extrato',
         inverse_name='banco_id',
         readonly=True,
-        # compute='_compute_movimento_periodo',
     )
 
 # banco
