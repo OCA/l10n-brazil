@@ -147,7 +147,6 @@ class SpedDocumento(SpedBase, models.Model):
     regime_tributario = fields.Selection(
         selection=REGIME_TRIBUTARIO,
         string='Regime tributário',
-        default=REGIME_TRIBUTARIO_SIMPLES,
     )
     ind_forma_pagamento = fields.Selection(
         selection=IND_FORMA_PAGAMENTO,
