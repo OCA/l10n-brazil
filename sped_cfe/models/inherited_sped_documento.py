@@ -388,8 +388,6 @@ class SpedDocumento(models.Model):
                 self.serie = chave.numero_serie
                 self.chave = resposta.chaveConsulta[3:]
 
-                # TODO: self.grava_cfe_autorizacao(resposta.xml())
-
                 # # self.grava_pdf(nfe, procNFe.danfe_pdf)
 
                 # data_autorizacao = protNFe.infProt.dhRecbto.valor
