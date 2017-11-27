@@ -1229,6 +1229,9 @@ class HrPayslip(models.Model):
         else:
             periodo_id = self.contract_id.vacation_control_ids[1].id
 
+        self.contract_id.date_end = self.date_to
+        self.contract_id.atualizar_data_demissao()
+
         periodo = self.env['hr.vacation.control'].with_context(data_fim = self.data_afastamento).browse(periodo_id)
 
         if periodo.saldo:
@@ -1485,14 +1488,14 @@ class HrPayslip(models.Model):
 
     def busca_adiantamento_13(self):
         '''Metodo para recuperar valor pago de adiantamento de 13º no ano
-        :param ano:  int -   Ano para buscar
         :return:     float - Valor pago neste ano
         '''
         domain = [
             ('tipo_de_folha', '=', 'normal'),
             ('contract_id', '=', self.contract_id.id),
-            ('state', 'in', ['done','verify']),
+            ('state', 'in', ['done', 'verify']),
             ('ano', '=', self.ano),
+            ('is_simulacao', '=', False),
             ('mes_do_ano', '<=', self.mes_do_ano),
         ]
         holerites = self.search(
@@ -1671,8 +1674,6 @@ class HrPayslip(models.Model):
                     {'DIAS_ABONO': payslip.holidays_ferias.sold_vacations_days}
                 )
         elif payslip.struct_id.code == "FERIAS" and payslip.is_simulacao:
-#            if fields.Date.from_string(payslip.date_from) < fields.Date.\
-#                    from_string(payslip.periodo_aquisitivo.inicio_concessivo):
             if not payslip.saldo_periodo_aquisitivo:
                 dias_abono_ferias.update({
                     'DIAS_FERIAS': worked_days[u'SALDO_FERIAS'].number_of_days
@@ -2183,10 +2184,20 @@ class HrPayslip(models.Model):
     @api.multi
     def compute_sheet(self):
         if self.tipo_de_folha == "rescisao":
-            if len(self._checar_holerites_aprovados()) == 0:
-                raise exceptions.Warning(_(
-                    "Não existem holerites aprovados para este contrato!"
-                ))
+
+            # Excluir todas as simulações pré-existentes referentes a esta
+            # Rescisão
+            #
+            simulacoes = self.env['hr.payslip'].search(
+                [
+                    ('contract_id', '=', self.contract_id.id),
+                    ('is_simulacao', '=', True),
+                ]
+            )
+            for simulacao in simulacoes:
+                simulacao.state = 'draft'
+                simulacao.unlink()
+
         if self.tipo_de_folha in [
                 "decimo_terceiro", "ferias", "aviso_previo",
                 "provisao_ferias", "provisao_decimo_terceiro"
