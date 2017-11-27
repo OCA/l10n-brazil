@@ -24,7 +24,7 @@
                             <field name="arquivo_binario" />
                         </group>
                         <group name="boletos" string="Itens de Retorno" colspan="4" col="4">
-                            <field name="lancamento_ids" nolabel="1" colspan="4" />
+                            <field name="retorno_item_ids" nolabel="1" colspan="4" />
                         </group>
                     </group>
                 </sheet>
