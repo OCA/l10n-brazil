@@ -74,12 +74,6 @@ class FinanBancoFechamento(models.Model):
         default='aberto',
     )
 
-    # @api.depends('banco', 'agencia', 'conta', 'conta_digito', 'tipo',
-    #              'titular_id')
-    # def _compute_banco(self):
-    #     for banco in self:
-    #         banco.nome = banco.name_get()[0][1]
-
     # def _compute_saldo_atual(self):
     #     for banco in self:
     #         saldo = self.env['finan.banco.saldo'].search([
