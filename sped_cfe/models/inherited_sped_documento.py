@@ -348,31 +348,6 @@ class SpedDocumento(models.Model):
             self.situacao_fiscal = SITUACAO_FISCAL_DENEGADO
             self.situacao_nfe = SITUACAO_NFE_DENEGADA
             self.executa_depois_denegar()
-
-        # u'123456|06001|Código de ativação inválido||'
-        # u'123456|06002|SAT ainda não ativado||'
-        # u'123456|06003|SAT não vinculado ao AC||'
-        # u'123456|06004|Vinculação do AC não confere||'
-        # u'123456|06005|Tamanho do CF-e-SAT superior a 1.500KB||'
-        # u'123456|06006|SAT bloqueado pelo contribuinte||'
-        # u'123456|06007|SAT bloqueado pela SEFAZ||'
-        # u'123456|06008|SAT bloqueado por falta de comunicação||'
-        # u'123456|06009|SAT bloqueado, código de ativação incorreto||'
-        # u'123456|06010|Erro de validação do conteúdo||'
-        # u'123456|06098|SAT em processamento. Tente novamente.||'
-        # u'123456|06099|Erro desconhecido na emissão||'
-        #
-        # Envia a nota
-        #
-        # print (resposta.numeroSessao)
-        # print (resposta.EEEEE)
-        # print (resposta.CCCC)
-        # print (resposta.arquivoCFeSAT)
-        # print (resposta.timeStamp)
-        # print (resposta.chaveConsulta)
-        # print (resposta.valorTotalCFe)
-        # print (resposta.assinaturaQRCODE)
-        # print (resposta.xml())
         self.grava_cfe(resposta_sefaz.xml())
 
     @api.model
