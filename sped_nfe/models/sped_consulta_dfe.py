@@ -20,23 +20,8 @@ import logging
 from odoo.osv import orm
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
-
-try:
-    from pysped.nfe import ProcessadorNFe
-    from pysped.nfe.webservices_flags import (AMBIENTE_NFE_PRODUCAO,
-                                              CONS_NFE_TODAS,
-                                              CONS_NFE_EMISSAO_TODOS_EMITENTES)
-    from pysped.nfe.leiaute import *
-    from pybrasil.inscricao import limpa_formatacao
-    from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
-                               agora)
-    from pybrasil.valor import formata_valor
-
-except (ImportError, IOError) as err:
-    _logger.debug(err)
 
 
 class ConsultaDFe(models.Model):

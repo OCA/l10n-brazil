@@ -15,16 +15,6 @@ import base64
 
 _logger = logging.getLogger(__name__)
 
-try:
-    from pysped.nfe.leiaute import *
-    from pybrasil.inscricao import limpa_formatacao
-    from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
-                               agora)
-    from pybrasil.valor import formata_valor
-
-except (ImportError, IOError) as err:
-    _logger.debug(err)
-
 SITUACAO_NFE = [
     ('1', 'Autorizada'),
     ('2', 'Cancelada'),
@@ -244,8 +234,9 @@ class SpedManifestacaoDestinatario(models.Model):
             if nfe_result['code'] == '135':
                 record.state = 'confirmado'
             else:
-                raise models.ValidationError(
-                    nfe_result['code'] + ' - ' + nfe_result['message'])
+                raise models.ValidationError(_(
+                        nfe_result['code'] + ' - ' + nfe_result['message'])
+                )
                 return False
 
         return True
@@ -263,8 +254,8 @@ class SpedManifestacaoDestinatario(models.Model):
             if nfe_result['code'] == '135':
                 record.state = 'desconhecido'
             else:
-                raise models.ValidationError(
-                    nfe_result['code'] + ' - ' + nfe_result['message'])
+                raise models.ValidationError(_(
+                    nfe_result['code'] + ' - ' + nfe_result['message']))
                 return False
 
         return True
@@ -282,8 +273,8 @@ class SpedManifestacaoDestinatario(models.Model):
             if nfe_result['code'] == '135':
                 record.state = 'nap_realizado'
             else:
-                raise models.ValidationError(
-                    nfe_result['code'] + ' - ' + nfe_result['message'])
+                raise models.ValidationError(_(
+                    nfe_result['code'] + ' - ' + nfe_result['message']))
                 return False
 
         return True
@@ -313,7 +304,8 @@ class SpedManifestacaoDestinatario(models.Model):
             else:
                 result = False
 
-                raise models.ValidationError(
+                raise models.ValidationError(_(
                     nfe_result['code'] + ' - ' + nfe_result['message'])
+                )
 
         return result
