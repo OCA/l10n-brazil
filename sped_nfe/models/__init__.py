@@ -19,12 +19,6 @@ from . import sped_manifestacao_destinatario
 
 from . import sped_consulta_dfe
 
-
-#
-# Montagem do xml
-#
-from .monta_nfe import *
-
 #
 # Leitura do xml
 #

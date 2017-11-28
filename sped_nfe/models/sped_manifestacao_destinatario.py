@@ -113,53 +113,17 @@ class SpedManifestacaoDestinatario(models.Model):
         index=True,
         default=fields.Datetime.now,
     )
-    data_emissao = fields.Date(
-        string='Data de Emissão',
-        compute='_compute_data_hora_separadas',
-        store=True,
-        index=True,
-    )
-    hora_emissao = fields.Char(
-        'Hora de emissão',
-        size=8,
-        compute='_compute_data_hora_separadas',
-        store=True,
-    )
     data_hora_inclusao = fields.Datetime(
         string='Data de Inclusão',
         index=True,
         default=fields.Datetime.now,
     )
-    data_inclusao = fields.Date(
-        string='Data de inclusão',
-        compute='_compute_data_hora_separadas',
-        store=True,
-        index=True,
-    )
-    hora_inclusao = fields.Char(
-        'Hora de inclusão',
-        size=8,
-        compute='_compute_data_hora_separadas',
-        store=True,
-    )
     data_hora_autorizacao = fields.Datetime(
         string='Data de autorização',
         index=True,
     )
-    data_autorizacao = fields.Date(
-        string='Data de autorização',
-        compute='_compute_data_hora_separadas',
-        store=True,
-        index=True,
-    )
     data_hora_cancelamento = fields.Datetime(
         string='Data de cancelamento',
-        index=True,
-    )
-    data_cancelamento = fields.Date(
-        string='Data de cancelamento',
-        compute='_compute_data_hora_separadas',
-        store=True,
         index=True,
     )
     digest_value = fields.Char(

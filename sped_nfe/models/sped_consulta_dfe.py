@@ -182,7 +182,7 @@ class ConsultaDFe(models.Model):
                                     'numero': root.NFe.infNFe.ide.nNF,
                                     'chave': chave_nfe,
                                     'nsu': nfe['NSU'],
-                                    'fornecedor': root.xNome,
+                                    # 'fornecedor': root.xNome,
                                     'tipo_operacao': str(root.NFe.infNFe.ide.
                                                          tpNF),
                                     'valor_documento':
