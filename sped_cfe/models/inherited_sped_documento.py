@@ -373,6 +373,21 @@ class SpedDocumento(models.Model):
             numeroCaixa=int(numero_caixa),
         )
 
+    def grava_xml_cancelamento(self, chave, canc):
+        self.ensure_one()
+        nome_arquivo = chave + '-01-can.xml'
+        conteudo = canc.documento().encode('utf-8')
+        self.arquivo_xml_cancelamento_id = False
+        self.arquivo_xml_cancelamento_id = \
+            self._grava_anexo(nome_arquivo, conteudo).id
+
+    def grava_xml_autorizacao_cancelamento(self, chave, canc):
+        self.ensure_one()
+        nome_arquivo = chave + '-01-proc-can.xml'
+        conteudo = canc.encode('utf-8')
+        self.arquivo_xml_autorizacao_cancelamento_id = False
+        self.arquivo_xml_autorizacao_cancelamento_id = \
+            self._grava_anexo(nome_arquivo, conteudo).id
 
     def cancela_nfe(self):
         self.ensure_one()
@@ -399,7 +414,7 @@ class SpedDocumento(models.Model):
                 #
                 # Grava o protocolo de cancelamento
                 #
-                # self.grava_xml_cancelamento(self.chave, cancelamento)
+                self.grava_xml_cancelamento(self.chave, cancelamento)
                 # self.grava_xml_autorizacao_cancelamento(self.chave, processo)
 
                 # data_cancelamento = retevento.infEvento.dhRegEvento.valor
