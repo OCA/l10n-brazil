@@ -109,17 +109,3 @@ class FinanBancoFechamento(models.Model):
             banco.state = 'fechado'
             banco.data_fechamento = fields.Date.today()
 
-    # def _compute_saldo_final(self):
-    #     """
-    #             Calculo do saldo final: movimentos + inicial
-    #     """
-    #     for banco in self:
-    #         saldo = self.env['finan.banco.saldo'].search([
-    #             ('banco_id', '=', banco.id),
-    #             ('data', '<=', str(hoje())),
-    #         ], limit=1, order='data desc')
-    #         if saldo:
-    #             self.saldo_final = saldo.saldo + self.saldo_inicial
-    #         else:
-    #             self.saldo_final = self.saldo_inicial
-
