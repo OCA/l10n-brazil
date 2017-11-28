@@ -63,24 +63,23 @@ class SpedDocumentoItem(models.Model):
             else:
                 icms = ICMSSN900(
                     Orig=self.org_icms,
-                    CSOSN=self.cst_icms_sn,
-                    pICMS=Decimal('18.00')
+                    CSOSN=self.cst_icms,
+                    pICMS=Decimal(self.al_icms_proprio)
                 )
 
-            # TODO: Fix me
-            pis = PISSN(CST='49')
-            cofins = COFINSSN(CST='49')
+            pis = PISSN(CST=self.cst_pis)
+            cofins = COFINSSN(CST=self.cst_cofins)
         else:
             if self.cst_icms in ['00', '20', '90']:
                 icms = ICMS00(
-                    Orig='0',
-                    CST='00',
-                    pICMS=Decimal('18.00')
+                    Orig=self.org_icms,
+                    CST=self.cst_icms,
+                    pICMS=Decimal(self.al_icms_proprio)
                 )
             elif self.cst_icms in ['40', '41', '50', '60']:
                 icms = ICMS40(
-                    Orig='0',
-                    CST='60'
+                    Orig=self.org_icms,
+                    CST=self.cst_icms
                 )
             #
             # PIS
@@ -89,8 +88,8 @@ class SpedDocumentoItem(models.Model):
             if self.cst_pis in ['01', '02', '05']:
                 pis = PISAliq(
                     CST=self.cst_pis,
-                    vBC=Decimal('1.00'),
-                    pPIS=Decimal('0.0065')
+                    vBC=Decimal(self.bc_pis_proprio),
+                    pPIS=Decimal(self.al_pis_proprio)
                 )
             elif self.cst_pis in ['04', '06', '07', '08', '09']:
                 pis = PISNT(
@@ -99,14 +98,14 @@ class SpedDocumentoItem(models.Model):
             elif self.cst_pis == '03':
                 pis = PISQtde(
                     CST=self.cst_pis,
-                    qBCProd=Decimal('100.0000'),
-                    vAliqProd=Decimal('0.6500')
+                    qBCProd=Decimal(self.quantidade),
+                    vAliqProd=Decimal(self.vr_pis_proprio)
                 )
             elif self.cst_pis == '99':
                 pis = PISOutr(
                     CST=self.cst_pis,
-                    vBC=Decimal('1.00'),
-                    pPIS=Decimal('0.0065')
+                    vBC=Decimal(self.bc_pis_proprio),
+                    pPIS=Decimal(self.al_pis_proprio)
                 )
 
             #
@@ -116,8 +115,8 @@ class SpedDocumentoItem(models.Model):
             if self.cst_cofins in ['01', '02', '05']:
                 cofins = COFINSAliq(
                     CST=self.cst_cofins,
-                    vBC=Decimal('1.00'),
-                    pCOFINS=Decimal('0.0065')
+                    vBC=Decimal(self.bc_cofins_proprio),
+                    pCOFINS=Decimal(self.al_cofins_proprio)
                 )
             elif self.cst_cofins in ['04', '06', '07', '08', '09']:
                 cofins = COFINSNT(
@@ -126,14 +125,14 @@ class SpedDocumentoItem(models.Model):
             elif self.cst_cofins == '03':
                 cofins = COFINSQtde(
                     CST=self.cst_cofins,
-                    qBCProd=Decimal('100.0000'),
-                    vAliqProd=Decimal('0.6500')
+                    qBCProd=Decimal(self.quantidade),
+                    vAliqProd=Decimal(self.vr_cofins_proprio)
                 )
             elif self.cst_cofins == '99':
                 cofins = COFINSOutr(
                     CST=self.cst_cofins,
-                    vBC=Decimal('1.00'),
-                    pCOFINS=Decimal('0.0065')
+                    vBC=Decimal(self.bc_cofins_proprio),
+                    pCOFINS=Decimal(self.al_cofins_proprio)
                 )
 
         imposto = Imposto(
