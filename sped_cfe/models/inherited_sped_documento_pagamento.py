@@ -40,7 +40,10 @@ class SpedDocumentoPagamento(models.Model):
         if self.forma_pagamento in FORMA_PAGAMENTO_CARTOES:
             # pag.card.CNPJ.valor = limpa_formatacao(self.cnpj_cpf or '')
             # pag.card.tBand.valor = self.bandeira_cartao
-            kwargs['cAdmC'] = self.integracao_cartao
+
+            # Lembrete integracao_cartao esta com valores errados
+            # das constantes
+            kwargs['cAdmC'] = '00' + self.integracao_cartao
 
         pagamento = MeioPagamento(
             cMP='01',
