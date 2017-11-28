@@ -166,18 +166,20 @@ class SpedDocumento(models.Model):
                 5000,  # FIXME: Colocar a porta nas configurações
                 numero_caixa=int(self.configuracoes_pdv.numero_caixa)
             )
-        elif self.tipo_processador_cfe == 'remoto':
-            NotImplementedError
+        elif self.configuracoes_pdv.tipo_sat == 'remoto':
+            cliente = None
+            # NotImplementedError
 
         return cliente
 
-    def grava_cfe(self, chave, cfe):
+    def grava_cfe(self, cfe):
         self.ensure_one()
-        nome_arquivo = chave + 'envio-cfe.xml'
+        nome_arquivo = 'envio-cfe.xml'
+        conteudo = cfe.documento().encode('utf-8')
         self.arquivo_xml_id = False
-        self.arquivo_xml_id = self._grava_anexo(nome_arquivo, cfe).id
+        self.arquivo_xml_id = self._grava_anexo(nome_arquivo, conteudo).id
 
-    def grava_cfe_autorizacao(self, chave, cfe):
+    def grava_cfe_autorizacao(self, cfe):
         self.ensure_one()
         nome_arquivo = self.chave + '-proc-nfe.xml'
         self.arquivo_xml_autorizacao_id = False
@@ -251,8 +253,7 @@ class SpedDocumento(models.Model):
             **kwargs
         )
         cfe_venda.validar()
-
-        return cfe_venda.documento()
+        return cfe_venda
 
     def _monta_cfe_identificacao(self):
         # FIXME: Buscar dados do cadastro da empresa / cadastro do caixa
@@ -305,6 +306,7 @@ class SpedDocumento(models.Model):
 
     def resposta_cfe(self, resposta):
         """
+
         :param resposta:
 
         u'123456|06001|Código de ativação inválido||'
@@ -371,6 +373,7 @@ class SpedDocumento(models.Model):
         cliente = self.processador_cfe()
         cfe = self.monta_cfe()
         self.grava_cfe(cfe)
+
         #
         # Processa resposta
         #
@@ -388,6 +391,10 @@ class SpedDocumento(models.Model):
                 self.serie = chave.numero_serie
                 self.chave = resposta.chaveConsulta[3:]
 
+
+
+                self.grava_cfe_autorizacao(resposta.xml())
+
                 # # self.grava_pdf(nfe, procNFe.danfe_pdf)
 
                 # data_autorizacao = protNFe.infProt.dhRecbto.valor
@@ -396,6 +403,7 @@ class SpedDocumento(models.Model):
                 # self.data_hora_autorizacao = data_autorizacao
                 # self.protocolo_autorizacao = protNFe.infProt.nProt.valor
                 #
+
             elif resposta.EEEEE in ('06001', '06002', '06003', '06004', '06005',
                                     '06006', '06007', '06008', '06009', '06010',
                                     '06098', '06099'):
