@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Taŭga Tecnologia
-#   Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2017 KMEE INFORMATICA LTDA
+#   Hugo Borges <hugo.borges@kmee.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -302,8 +302,6 @@ class SpedManifestacaoDestinatario(models.Model):
                         'res_id': record.id
                     })
             else:
-                result = False
-
                 raise models.ValidationError(_(
                     nfe_result['code'] + ' - ' + nfe_result['message'])
                 )

@@ -1,5 +1,8 @@
 <odoo>
-
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA - Hugo Borges <hugo.borges@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
     <record model="ir.ui.view" id="view_sped_manifestacao_destinatario_form">
             <field name="name">sped_manifestacao_destinatario.form</field>
             <field name="model">sped.manifestacao.destinatario</field>

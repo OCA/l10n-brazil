@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    Copyright 2017 KMEE INFORMATICA LTDA - Hugo Borges <hugo.borges@kmee.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
@@ -12,17 +12,6 @@
         <field name="arch" type="xml">
             <form string="Consulta DF-e">
             <sheet>
-<!--                <div class="oe_title">
-                    <label for="tipo" class="oe_edit_only"/>
-                    <h1>
-                        <field name="tipo" default_focus="1" required="1" />
-                    </h1>
-                    <label for="login" class="oe_edit_only"/>
-                    <h2>
-                        <field name="login" required="1" />
-                    </h2>
-                </div>-->
-<!--                 <separator string="Contato" /> -->
                 <group>
                     <group col="4" colspan="4">
                         <field name="empresa_id" required="1" domain="[('certificado_id', '!=', False)]" />
@@ -36,10 +25,6 @@
                     <field name="destinatario_xml_ids"/>
                 </group>
             </sheet>
-<!--            <div class="oe_chatter">
-                <field name="message_follower_ids" widget="mail_followers"/>
-                <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
-            </div>-->
             </form>
         </field>
     </record>
