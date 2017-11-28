@@ -1519,6 +1519,7 @@ class HrPayslip(models.Model):
         domain = [
             ('tipo_de_folha', '=', tipo_de_folha),
             ('contract_id', '=', self.contract_id.id),
+            ('is_simulacao', '=', False),
             ('state', 'in', ['done', 'verify'])
         ]
         if mes and mes > 0:
