@@ -94,35 +94,12 @@ class FinanBancoFechamento(models.Model):
                 ('data_pagamento', '>=', fechamento.data_inicial),
                 ('data_pagamento', '<=', fechamento.data_final),
                 ('tipo', 'in', ['recebimento','pagamento']),
-                # ('tipo', '=', 'pagamento'),
-
             ])
             fechamento.lancamento_ids = lancamento_ids
 
+            for record in lancamento_ids:
+                self.saldo_final = self.saldo_final + record.vr_documento
 
-    # def button_processar(self):
-    #     """
-    #     Recuperar os lancamentos entre a data_inicial e data_final do
-    #     fechamento do caixa, e calcular o saldo do banco
-    #     """
-    #     for banco in self:
-    #         lancamento_ids = self.env.get('finan.lancamento').search([
-    #             ('banco_id', '=', banco.id) and
-    #             ('data_documento', '>=', banco.data_inicial) and
-    #             ('data_documento', '<=', banco.data_final),
-    #             # ('state', '=', 'paid'),
-    #         ])
-    #         if (('data_documento', '>=', banco.data_inicial) and
-    #             ('data_documento', '<=', banco.data_final)):
-    #             banco.lancamento_ids = lancamento_ids
-    #         # saldo = self.env['finan.banco.saldo'].search([
-    #         #             ('banco_id', '=', banco.id),
-    #         #             ('data', '<=', str(hoje())),
-    #         #         ], limit=1, order='data desc')
-    #         #         if saldo:
-    #         #             self.saldo_final = saldo.saldo + self.saldo_inicial
-    #         #         else:
-    #         #             self.saldo_final = self.saldo_inicial
 
     def button_fechar_caixa(self):
         """
