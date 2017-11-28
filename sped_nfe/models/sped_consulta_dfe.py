@@ -62,8 +62,8 @@ class ConsultaDFe(models.Model):
             ultimo_nsu=ultimo_nsu)
 
         if result.resposta.status == 200:  # Webservice ok
-            if (result.resposta.cStat.valor == '137'
-                    or result.resposta.cStat.valor == '138'):
+            if (result.resposta.cStat.valor == '137' or
+                    result.resposta.cStat.valor == '138'):
 
                 nfe_list = []
                 for doc in result.resposta.loteDistDFeInt.docZip:
