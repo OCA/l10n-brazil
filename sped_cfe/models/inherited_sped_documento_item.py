@@ -54,13 +54,93 @@ class SpedDocumentoItem(models.Model):
         else:
             ncm = ''
 
+        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
+            if self.cst_icms_sn in ['102', '300', '500']:
+                icms = ICMSSN102(
+                    Orig=self.org_icms,
+                    CSOSN=self.cst_icms_sn,
+                )
+            else:
+                icms = ICMSSN900(
+                    Orig=self.org_icms,
+                    CSOSN=self.cst_icms_sn,
+                    pICMS=Decimal('18.00')
+                )
+
+            # TODO: Fix me
+            pis = PISSN(CST='49')
+            cofins = COFINSSN(CST='49')
+        else:
+            if self.cst_icms in ['00', '20', '90']:
+                icms = ICMS00(
+                    Orig='0',
+                    CST='00',
+                    pICMS=Decimal('18.00')
+                )
+            elif self.cst_icms in ['40', '41', '50', '60']:
+                icms = ICMS40(
+                    Orig='0',
+                    CST='60'
+                )
+            #
+            # PIS
+            # TODO: Implementar pis ST
+
+            if self.cst_pis in ['01', '02', '05']:
+                pis = PISAliq(
+                    CST=self.cst_pis,
+                    vBC=Decimal('1.00'),
+                    pPIS=Decimal('0.0065')
+                )
+            elif self.cst_pis in ['04', '06', '07', '08', '09']:
+                pis = PISNT(
+                    CST=self.cst_pis
+                )
+            elif self.cst_pis == '03':
+                pis = PISQtde(
+                    CST=self.cst_pis,
+                    qBCProd=Decimal('100.0000'),
+                    vAliqProd=Decimal('0.6500')
+                )
+            elif self.cst_pis == '99':
+                pis = PISOutr(
+                    CST=self.cst_pis,
+                    vBC=Decimal('1.00'),
+                    pPIS=Decimal('0.0065')
+                )
+
+            #
+            # COFINS
+            # TODO: Implementar cofins ST
+
+            if self.cst_cofins in ['01', '02', '05']:
+                cofins = COFINSAliq(
+                    CST=self.cst_cofins,
+                    vBC=Decimal('1.00'),
+                    pCOFINS=Decimal('0.0065')
+                )
+            elif self.cst_cofins in ['04', '06', '07', '08', '09']:
+                cofins = COFINSNT(
+                    CST=self.cst_cofins
+                )
+            elif self.cst_cofins == '03':
+                cofins = COFINSQtde(
+                    CST=self.cst_cofins,
+                    qBCProd=Decimal('100.0000'),
+                    vAliqProd=Decimal('0.6500')
+                )
+            elif self.cst_cofins == '99':
+                cofins = COFINSOutr(
+                    CST=self.cst_cofins,
+                    vBC=Decimal('1.00'),
+                    pCOFINS=Decimal('0.0065')
+                )
+
         imposto = Imposto(
             vItem12741=D(self.vr_ibpt).quantize(D('0.01')),
-            icms=ICMSSN102(
-                Orig=self.org_icms,
-                CSOSN='500'),
-            pis=PISSN(CST='49'),
-            cofins=COFINSSN(CST='49')
+            icms=icms,
+            pis=pis,
+            cofins=cofins,
         )
         imposto.validar()
 
