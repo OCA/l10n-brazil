@@ -1,0 +1,125 @@
+<odoo>
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA - Hugo Borges <hugo.borges@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+    <record model="ir.ui.view" id="view_sped_manifestacao_destinatario_form">
+            <field name="name">sped_manifestacao_destinatario.form</field>
+            <field name="model">sped.manifestacao.destinatario</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Manifestacao">
+                    <header>
+                        <button name="action_ciencia_emissao"
+                                string="Ciência da Emissão"
+                                type="object"
+                                attrs="{'invisible':[['state','not in',['pendente']]]}"/>
+                        <button name="action_confirmar_operacacao"
+                                string="Confirmar Operação"
+                                type="object"
+                                attrs="{'invisible':[['state','not in',['ciente']]]}"/>
+                        <button name="action_operacao_desconhecida"
+                                string="Desconhecer Operação"
+                                type="object"
+                                attrs="{'invisible':[['state','not in',['ciente']]]}"/>
+                        <button name="action_negar_operacao"
+                                string="Operação não Realizada"
+                                type="object"
+                                attrs="{'invisible':[['state','not in',['ciente']]]}"/>
+                        <button name="action_download_xml"
+                                string="Download da NF-e"
+                                type="object"
+                                attrs="{'invisible':[['state','not in',['ciente','cofirmado','desconhecido','nao_realizado']]]}"/>
+                        <field name="state" statusbar_visible="pendente,ciente,confirmado"
+                               statusbar_colors='{"confirmado":"blue","desconhecido":"red","nao_realizado":"red"}'
+                               widget="statusbar" nolabel="1"
+                               />
+                    </header>
+                    <group>
+                        <group>
+                            <field name="chave" select="1"/>
+                            <field name="numero"/>
+                            <field name="nsu"/>
+                            <field name="ie"/>
+                            <field name="empresa_id"/>
+                            <field name="fornecedor"/>
+                        </group>
+                        <group>
+                            <field name="tipo_operacao"/>
+                            <field name="valor_documento" widget="monetary"/>
+                            <field name="situacao_nfe"/>
+                            <field name="forma_inclusao"/>
+                            <field name="cnpj_cpf"/>
+                            <field name="data_hora_inclusao"/>
+                            <field name="data_hora_emissao"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_sped_manifestacao_destinatario_filter" model="ir.ui.view">
+            <field name="name">sped_manifestacao_destinatario.select</field>
+            <field name="model">sped.manifestacao.destinatario</field>
+            <field name="arch" type="xml">
+                <search string="Filtrar">
+                    <field name="fornecedor" string="Fornecedor"/>
+                    <field name="empresa_id" string="Razão Social"/>
+                    <field name="cnpj_cpf" string="Cnpj fornecedor"/>
+                    <field name="state" string="Situação"/>
+                    <filter name="situacao_pendente" string="Pendentes"
+                            domain="[('state','=','pendente')]"/>
+                    <filter name="situacao_confirmado" string="Confirmados"
+                            domain="[('state','=','confirmado')]"/>
+                    <filter name="situacao_ciente" string="Ciente da operação"
+                            domain="[('state','=','ciente')]"/>
+                    <filter name="situacao_desconhecido" string="Desconhecidos"
+                            domain="[('state','=','desconhecido')]"/>
+                    <filter name="situacao_nao_realizado"
+                            string="Não realizados"
+                            domain="[('state','=','nao_realizado')]"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_sped_manifestacao_destinatario_tree">
+            <field name="name">sped_manifestacao_destinatario.tree</field>
+            <field name="model">sped.manifestacao.destinatario</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="NFe Destinadas" create="false">
+                    <field name="nsu"/>
+                    <field name="fornecedor"/>
+                    <field name="cnpj_cpf"/>
+                    <field name="empresa_id"/>
+                    <field name="data_hora_emissao"/>
+                    <field name="state"/>
+                    <field name="valor_documento"/>
+                </tree>
+            </field>
+        </record>
+
+    <record model="ir.actions.act_window"
+            id="act_sped_manifestacao_destinatario">
+        <field name="name">Manifestação</field>
+        <field name="res_model">sped.manifestacao.destinatario</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        parent="l10n_br_base.menu_fiscal"
+        sequence="3"
+        id="menu_sped_dfe"
+        name="Manifestação do Destinatário"
+        />
+
+    <menuitem
+        id="menu_sped_dfe_manifestacao_destinatario"
+        sequence="1"
+        name="Manifestação do Destinatário"
+        parent="sped_nfe.menu_sped_dfe"
+        action="act_sped_manifestacao_destinatario"
+        />
+
+</odoo>

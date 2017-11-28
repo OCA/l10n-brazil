@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    Copyright 2017 KMEE INFORMATICA LTDA - Hugo Borges <hugo.borges@kmee.com.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
@@ -12,17 +12,6 @@
         <field name="arch" type="xml">
             <form string="Consulta DF-e">
             <sheet>
-<!--                <div class="oe_title">
-                    <label for="tipo" class="oe_edit_only"/>
-                    <h1>
-                        <field name="tipo" default_focus="1" required="1" />
-                    </h1>
-                    <label for="login" class="oe_edit_only"/>
-                    <h2>
-                        <field name="login" required="1" />
-                    </h2>
-                </div>-->
-<!--                 <separator string="Contato" /> -->
                 <group>
                     <group col="4" colspan="4">
                         <field name="empresa_id" required="1" domain="[('certificado_id', '!=', False)]" />
@@ -33,12 +22,9 @@
                         <newline />
                         <button name="busca_documentos" string="Busca documentos" type="object" class="btn-primary" />
                     </group>
+                    <field name="destinatario_xml_ids"/>
                 </group>
             </sheet>
-<!--            <div class="oe_chatter">
-                <field name="message_follower_ids" widget="mail_followers"/>
-                <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
-            </div>-->
             </form>
         </field>
     </record>
@@ -95,5 +81,18 @@
         parent="sped.menu_sped_documento_emissao"
         action="sped_consulta_dfe_acao"
         />
+
+    <record model="ir.ui.view"
+        id="view_sped_consulta_dfe_xml_tree">
+        <field name="name">sped_consulta_dfe.xml.tree</field>
+        <field name="model">sped.consulta.dfe.xml</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="XML's" create="false">
+                <field name="tipo_xml"/>
+                <field name="xml"/>
+            </tree>
+        </field>
+    </record>
 
 </odoo>
