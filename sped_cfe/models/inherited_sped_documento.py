@@ -171,33 +171,6 @@ class SpedDocumento(models.Model):
 
         return cliente
 
-    def _grava_anexo(self, nome_arquivo='', conteudo='',
-                     tipo='application/xml', model='sped.documento'):
-        self.ensure_one()
-
-        attachment = self.env['ir.attachment']
-
-        busca = [
-            ('res_model', '=', 'sped.documento'),
-            ('res_id', '=', self.id),
-            ('name', '=', nome_arquivo),
-        ]
-        attachment_ids = attachment.search(busca)
-        attachment_ids.unlink()
-
-        dados = {
-            'name': nome_arquivo,
-            'datas_fname': nome_arquivo,
-            'res_model': 'sped.documento',
-            'res_id': self.id,
-            'datas': conteudo.encode('base64'),
-            'mimetype': tipo,
-        }
-
-        anexo_id = self.env['ir.attachment'].create(dados)
-
-        return anexo_id
-
     def grava_cfe(self, chave, cfe):
         self.ensure_one()
         nome_arquivo = chave + 'envio-cfe.xml'
@@ -279,7 +252,7 @@ class SpedDocumento(models.Model):
         )
         cfe_venda.validar()
 
-        return cfe_venda.documento()
+        return cfe_venda
 
     def _monta_cfe_identificacao(self):
         # FIXME: Buscar dados do cadastro da empresa / cadastro do caixa
@@ -400,6 +373,7 @@ class SpedDocumento(models.Model):
         cliente = self.processador_cfe()
 
         cfe = self.monta_cfe()
+        # TODO: self.grava_cfe(cfe)
         #
         # Processa resposta
         #
@@ -417,8 +391,8 @@ class SpedDocumento(models.Model):
                 self.serie = chave.numero_serie
                 self.chave = resposta.chaveConsulta[3:]
 
-                # self.grava_cfe(cfe)
-                # self.grava_cfe_autorizacao(resposta.xml())
+                # TODO: self.grava_cfe_autorizacao(resposta.xml())
+
                 # # self.grava_pdf(nfe, procNFe.danfe_pdf)
 
                 # data_autorizacao = protNFe.infProt.dhRecbto.valor
