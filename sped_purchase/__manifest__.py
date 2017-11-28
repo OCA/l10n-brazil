@@ -14,6 +14,7 @@
         'sped_imposto',
         'sped',
         'purchase',
+        'sped_stock',
     ],
     'data': [
         # 'security/purchase_order_line.xml',
@@ -22,6 +23,7 @@
         'views/purchase_order.xml',
         'views/sped_documento_emissao_nfe_view.xml',
         'views/sped_documento_item.xml',
+        'views/stock_picking.xml',
     ],
     'demo': [
         'demo/purchase_order_line.xml',

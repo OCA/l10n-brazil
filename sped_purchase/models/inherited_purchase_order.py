@@ -152,3 +152,7 @@ class PurchaseOrder(SpedCalculoImposto, models.Model):
     @api.multi
     def button_approve(self, force=False):
         self.write({'state': 'purchase'})
+        self._create_picking()
+        if self.company_id.po_lock == 'lock':
+            self.write({'state': 'done'})
+        return {}
