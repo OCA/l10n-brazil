@@ -23,7 +23,7 @@ class FinanBancoFechamento(models.Model):
     )
 
     lancamento_ids = fields.Many2many(
-        string='Lancamentos',
+        string='Pagamentos',
         comodel_name='finan.lancamento',
         readonly=True,
         states={'aberto': [('readonly', False)]},
@@ -86,29 +86,43 @@ class FinanBancoFechamento(models.Model):
                 raise ValidationError(
                     'A data final deve ser maior que a data inicial')
 
+
     def button_processar(self):
-        """
-        Recuperar os lancamentos entre a data_inicial e data_final do 
-        fechamento do caixa, e calcular o saldo do banco
-        """
-        for banco in self:
+        for fechamento in self:
             lancamento_ids = self.env.get('finan.lancamento').search([
-                ('banco_id', '=', banco.id) and
-                ('data_documento', '>=', banco.data_inicial) and
-                ('data_documento', '<=', banco.data_final),
-                # ('state', '=', 'paid'),
+                ('banco_id', '=', fechamento.banco_id.id),
+                ('data_pagamento', '>=', fechamento.data_inicial),
+                ('data_pagamento', '<=', fechamento.data_final),
+                ('tipo', 'in', ['recebimento','pagamento']),
+                # ('tipo', '=', 'pagamento'),
+
             ])
-            if (('data_documento', '>=', banco.data_inicial) and
-                ('data_documento', '<=', banco.data_final)):
-                banco.lancamento_ids = lancamento_ids
-            # saldo = self.env['finan.banco.saldo'].search([
-            #             ('banco_id', '=', banco.id),
-            #             ('data', '<=', str(hoje())),
-            #         ], limit=1, order='data desc')
-            #         if saldo:
-            #             self.saldo_final = saldo.saldo + self.saldo_inicial
-            #         else:
-            #             self.saldo_final = self.saldo_inicial
+            fechamento.lancamento_ids = lancamento_ids
+
+
+    # def button_processar(self):
+    #     """
+    #     Recuperar os lancamentos entre a data_inicial e data_final do
+    #     fechamento do caixa, e calcular o saldo do banco
+    #     """
+    #     for banco in self:
+    #         lancamento_ids = self.env.get('finan.lancamento').search([
+    #             ('banco_id', '=', banco.id) and
+    #             ('data_documento', '>=', banco.data_inicial) and
+    #             ('data_documento', '<=', banco.data_final),
+    #             # ('state', '=', 'paid'),
+    #         ])
+    #         if (('data_documento', '>=', banco.data_inicial) and
+    #             ('data_documento', '<=', banco.data_final)):
+    #             banco.lancamento_ids = lancamento_ids
+    #         # saldo = self.env['finan.banco.saldo'].search([
+    #         #             ('banco_id', '=', banco.id),
+    #         #             ('data', '<=', str(hoje())),
+    #         #         ], limit=1, order='data desc')
+    #         #         if saldo:
+    #         #             self.saldo_final = saldo.saldo + self.saldo_inicial
+    #         #         else:
+    #         #             self.saldo_final = self.saldo_inicial
 
     def button_fechar_caixa(self):
         """
