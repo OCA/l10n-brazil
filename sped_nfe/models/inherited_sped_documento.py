@@ -535,8 +535,11 @@ class SpedDocumento(models.Model):
                 self.situacao_nfe = SITUACAO_NFE_REJEITADA
 
     def cancela_nfe(self):
-        super(SpedDocumento, self).cancela_nfe()
         self.ensure_one()
+        result = super(SpedDocumento, self).envia_nfe()
+        if self.modelo not in (MODELO_FISCAL_NFCE, MODELO_FISCAL_NFE):
+            return result
+
 
         processador = self.processador_nfe()
 

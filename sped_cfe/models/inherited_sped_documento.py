@@ -360,6 +360,91 @@ class SpedDocumento(models.Model):
         venda = self.browse(venda_id)
         return venda.resposta_cfe(resposta)
 
+    def _monta_cancelamento(self):
+        cnpj_software_house, assinatura, numero_caixa = \
+            self._monta_cfe_identificacao()
+
+        destinatario = self._monta_cfe_destinatario()
+
+        return CFeCancelamento(
+            chCanc= u'CFe' + self.chave,
+            CNPJ=cnpj_software_house,
+            signAC=assinatura,
+            numeroCaixa=int(numero_caixa),
+        )
+
+
+    def cancela_nfe(self):
+        self.ensure_one()
+        result = super(SpedDocumento, self).envia_nfe()
+        if not self.modelo == MODELO_FISCAL_CFE:
+            return result
+
+        processador = self.processador_cfe()
+
+
+
+        try:
+            cancelamento = self._monta_cancelamento()
+
+            processo = processador.cancelar_ultima_venda(
+                cancelamento.chCanc,
+                cancelamento
+            )
+
+            #
+            # O cancelamento foi aceito e vinculado à CF-E
+            #
+            if processo.EEEEE in ('07000'):
+                #
+                # Grava o protocolo de cancelamento
+                #
+                # self.grava_xml_cancelamento(self.chave, cancelamento)
+                # self.grava_xml_autorizacao_cancelamento(self.chave, processo)
+
+                # data_cancelamento = retevento.infEvento.dhRegEvento.valor
+                # data_cancelamento = UTC.normalize(data_cancelamento)
+                #
+                # self.data_hora_cancelamento = data_cancelamento
+                # self.protocolo_cancelamento = \
+                #     procevento.retEvento.infEvento.nProt.valor
+
+                #
+                # Cancelamento extemporâneo
+                #
+                self.executa_antes_cancelar()
+
+                if processo.EEEEE != '07000':
+                    # FIXME: Verificar se da para cancelar fora do prazo
+                    self.situacao_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
+                    self.situacao_nfe = SITUACAO_NFE_CANCELADA
+                elif processo.EEEEE == '07000':
+                    self.situacao_fiscal = SITUACAO_FISCAL_CANCELADO
+                    self.situacao_nfe = SITUACAO_NFE_CANCELADA
+
+                self.executa_depois_cancelar()
+
+        except (ErroRespostaSATInvalida, ExcecaoRespostaSAT) as resposta:
+            mensagem = 'Erro no cancelamento'
+            mensagem += '\nCódigo: ' + resposta.EEEEE
+            mensagem += '\nMotivo: ' + resposta.mensagem
+            raise UserError(mensagem)
+        except Exception as resposta:
+
+            if not hasattr(resposta, 'resposta'):
+                mensagem = 'Erro no cancelamento'
+                mensagem += '\nMotivo: ' + resposta.message
+                raise UserError(mensagem)
+
+            mensagem = 'Erro no cancelamento'
+            mensagem += '\nCódigo: ' + resposta.resposta.EEEEE
+            mensagem += '\nMotivo: ' + resposta.resposta.mensagem
+            raise UserError(mensagem)
+
+
+
+
+
     def envia_nfe(self):
         self.ensure_one()
         result = super(SpedDocumento, self).envia_nfe()
@@ -390,8 +475,6 @@ class SpedDocumento(models.Model):
                 self.numero = chave.numero_cupom_fiscal
                 self.serie = chave.numero_serie
                 self.chave = resposta.chaveConsulta[3:]
-
-
 
                 self.grava_cfe_autorizacao(resposta.xml())
 
