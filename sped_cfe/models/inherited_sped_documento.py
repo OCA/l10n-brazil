@@ -15,7 +15,6 @@ from odoo.addons.l10n_br_base.constante_tributaria import *
 from odoo.exceptions import UserError, Warning
 
 
-
 _logger = logging.getLogger(__name__)
 
 try:
