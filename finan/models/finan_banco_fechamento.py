@@ -59,6 +59,8 @@ class FinanBancoFechamento(models.Model):
         string='Data inicial',
         index=True,
         required=True,
+        help='Data do último fechamento somada em um dia.',
+        # compute='compute_data_inicial',
     )
 
     data_final = fields.Date(
@@ -76,24 +78,24 @@ class FinanBancoFechamento(models.Model):
         default='aberto',
     )
 
-
     @api.constrains('data_final', 'data_inicial')
     def _constrains_verifica_data(self):
         """
         Validacao para a data final ser maior que a data inicial
         """
-        for record in self:
-            if record.data_inicial > record.data_final:
+        for fechamento_id in self:
+            if fechamento_id.data_inicial < fechamento_id.data_final:
                 raise ValidationError(
                     'A data final deve ser maior que a data inicial')
 
-
+    @api.multi
     def button_processar(self):
         """
         Recuperar os lancamentos entre a data_inicial e data_final do 
         fechamento do caixa, e calcular o saldo do banco
         """
-        for banco in self:
+        for fechamento_id in self:
+
             lancamento_ids = self.env.get('finan.lancamento').search([
                 ('banco_id', '=', banco.id) and
                 ('data_documento', '>=', banco.data_inicial) and
@@ -112,6 +114,8 @@ class FinanBancoFechamento(models.Model):
             #         else:
             #             self.saldo_final = self.saldo_inicial
 
+
+    @api.multi
     def button_fechar_caixa(self):
         """
         Rotina para fechamento de caixa onde altera o state do fechamento
