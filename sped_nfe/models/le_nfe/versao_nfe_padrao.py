@@ -12,40 +12,75 @@ import logging
 _logger = logging.getLogger(__name__)
 
 try:
-    from pysped.nfe.leiaute import *
+    # from pysped.nfe.leiaute import *
+    from pysped.nfe.leiaute import (ProcNFe_400 as ProcNFe,
+                                    NFe_400 as NFe,
+                                    NFCe_400 as NFCe,
+                                    Det_400 as Det,
+                                    DI_400 as DI,
+                                    Adi_400 as Adi,
+                                    Reboque_400 as Reboque,
+                                    Vol_400 as Vol,
+                                    NFRef_400 as NFRef,
+                                    Dup_400 as Dup,
+                                    Pag_400 as Pag,
+                                    Rastro_400 as Rastro
+                                    )
 
-except (ImportError, IOError) as err:
+except ImportError:
+    from pysped.nfe.leiaute import (ProcNFe_310 as ProcNFe,
+                                    NFe_310 as NFe,
+                                    NFCe_310 as NFCe,
+                                    Det_310 as Det,
+                                    DI_310 as DI,
+                                    Adi_310 as Adi,
+                                    Reboque_310 as Reboque,
+                                    Vol_310 as Vol,
+                                    NFRef_310 as NFRef,
+                                    Dup_310 as Dup
+                                    )
+
+except (IOError) as err:
     _logger.debug(err)
 
 
-ClasseProcNFe = ProcNFe_400
+ClasseProcNFe = ProcNFe
 #
 # Cabeçalho
 #
-ClasseNFe = NFe_400
-ClasseNFCe = NFCe_400
+ClasseNFe = NFe
+ClasseNFCe = NFCe
 
 #
 # Itens
 #
-ClasseDet = Det_400
-ClasseRastro = Rastro_400
-ClasseDI = DI_400
-ClasseAdi = Adi_400
+ClasseDet = Det
+
+try:
+    ClasseRastro = Rastro_400
+except Exception as err:
+    _logger.debug(err)
+
+ClasseDI = DI
+ClasseAdi = Adi
 
 #
 # Transporte
 #
-ClasseReboque = Reboque_400
-ClasseVol = Vol_400
+ClasseReboque = Reboque
+ClasseVol = Vol
 
 #
 # Documentos referenciados
 #
-ClasseNFRef = NFRef_400
+ClasseNFRef = NFRef
 
 #
 # Parcelamento e pagamento
 #
-ClasseDup = Dup_400
-ClassePag = Pag_400
+ClasseDup = Dup
+
+try:
+    ClassePag = Pag_400
+except Exception as err:
+    _logger.debug(err)
