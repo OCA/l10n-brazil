@@ -474,6 +474,7 @@ class SpedDocumento(models.Model):
             resposta = cliente.enviar_dados_venda(cfe)
             if resposta.EEEEE in '06000':
                 self.executa_antes_autorizar()
+                self.situacao_fiscal = SITUACAO_FISCAL_REGULAR
                 self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
                 self.executa_depois_autorizar()
                 self.data_hora_autorizacao = fields.Datetime.now()
