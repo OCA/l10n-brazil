@@ -197,10 +197,9 @@ class SpedDocumento(models.Model):
     def grava_cfe_autorizacao_cancelamento(self, chave, canc):
         self.ensure_one()
         nome_arquivo = chave + '-01-proc-can.xml'
-        conteudo = canc.xml.encode('utf-8')
         self.arquivo_xml_autorizacao_cancelamento_id = False
         self.arquivo_xml_autorizacao_cancelamento_id = \
-            self._grava_anexo(nome_arquivo, conteudo).id
+            self._grava_anexo(nome_arquivo, canc).id
 
     def monta_cfe(self, processador=None):
         self.ensure_one()
@@ -397,8 +396,6 @@ class SpedDocumento(models.Model):
 
         processador = self.processador_cfe()
 
-
-
         try:
             cancelamento = self._monta_cancelamento()
 
@@ -415,7 +412,7 @@ class SpedDocumento(models.Model):
                 # Grava o protocolo de cancelamento
                 #
                 self.grava_xml_cancelamento(self.chave, cancelamento)
-                # self.grava_xml_autorizacao_cancelamento(self.chave, processo)
+                self.grava_xml_autorizacao_cancelamento(self.chave, processo.xml())
 
                 # data_cancelamento = retevento.infEvento.dhRegEvento.valor
                 # data_cancelamento = UTC.normalize(data_cancelamento)
@@ -455,10 +452,6 @@ class SpedDocumento(models.Model):
             mensagem += '\nCódigo: ' + resposta.resposta.EEEEE
             mensagem += '\nMotivo: ' + resposta.resposta.mensagem
             raise UserError(mensagem)
-
-
-
-
 
     def envia_nfe(self):
         self.ensure_one()
