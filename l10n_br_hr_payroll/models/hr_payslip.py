@@ -1504,8 +1504,13 @@ class HrPayslip(models.Model):
         if holerites:
             for holerite in holerites:
                 for line in holerite.line_ids:
-                    if line.code in ['ADIANTAMENTO_13','ADIANTAMENTO_13_FERIAS']:
-                        valor += line.total
+                    if line.code in [
+                        'ADIANTAMENTO_13',
+                        'ADIANTAMENTO_13_FERIAS'
+                    ]:
+                        if not (self.tipo_de_folha == 'ferias'
+                                and holerite.mes_do_ano == self.mes_do_ano):
+                            valor += line.total
         return valor
 
     def rubrica_anterior_total(self, code, mes=-1, tipo_de_folha='normal'):
