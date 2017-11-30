@@ -20,8 +20,8 @@ from ..constantes import *
 class finan_retorno_item(models.Model):
     _name = b'finan.retorno_item'
     _description = 'Item de retorno de cobrança'
-    _order = 'retorno_id, lancamento_id'
-    _rec_name = 'lancamento_id'
+    _order = 'retorno_id, divida_id'
+    _rec_name = 'divida_id'
 
     retorno_id = fields.Many2one(
         comodel_name='finan.retorno',
@@ -41,9 +41,14 @@ class finan_retorno_item(models.Model):
         default='L',
     )
 
-    lancamento_id = fields.Many2one(
+    divida_id = fields.Many2one(
         comodel_name='finan.lancamento',
-        string='Lançamento Financeiro',
+        string='Lançamento Financeiro (Dívida)',
+    )
+
+    pagamento_id = fields.Many2one(
+        comodel_name='finan.lancamento',
+        string='Lançamento Financeiro (Pagamento)',
     )
 
     quitacao_duplicada = fields.Boolean(
@@ -51,28 +56,28 @@ class finan_retorno_item(models.Model):
     )
 
     data_vencimento = fields.Date(
-        related='lancamento_id.data_vencimento',
+        related='divida_id.data_vencimento',
         string='Data de vencimento',
     )
 
     nosso_numero = fields.Char(
-        related='lancamento_id.nosso_numero',
+        related='divida_id.nosso_numero',
         string = 'Nosso número',
     )
 
     partner_id = fields.Many2one(
-        related='lancamento_id.partner_id',
+        related='divida_id.partner_id',
         comodel_name='res.partner',
         string='Participante',
     )
 
     data_pagamento = fields.Date(
-        related='lancamento_id.data_pagamento',
+        related='divida_id.data_pagamento',
         string='Data quitação',
     )
 
     data = fields.Date(
-        # related='lancamento_id.data',
+        # related='divida_id.data',
         string='Data conciliação',
     )
 
@@ -82,7 +87,7 @@ class finan_retorno_item(models.Model):
     )
 
     vr_documento = fields.Monetary(
-        related='lancamento_id.vr_documento',
+        related='divida_id.vr_documento',
         string='Valor documento',
     )
 
@@ -174,10 +179,11 @@ class finan_retorno(models.Model):
 
 
     @api.multi
-    def gerar_lancamento(self, lancamento_id, boleto, comando):
+    def gerar_pagamento(self, finan_retorno_item_id, divida_id, boleto, comando):
         """
-        GErar lancamento financeiro a partir do boleto e do seu comando
-        :param lancamento_id: 
+        Gerar lancamento financeiro do tipo pagamento 
+        a partir do boleto e do seu comando
+        :param divida_id: 
         :param boleto: 
         :param comando: 
         :return: 
@@ -199,9 +205,9 @@ class finan_retorno(models.Model):
             #
             dados_pagamento = {
                 'tipo': 'pagamento',
-                'lancamento_id': lancamento_id.id,
-                'company_id': lancamento_id.company_id.id,
-                'vr_documento': lancamento_id.vr_documento,
+                'divida_id': divida_id.id,
+                'company_id': divida_id.company_id.id,
+                'vr_documento': divida_id.vr_documento,
                 'data_pagamento': str(boleto.data_ocorrencia)[:10],
                 'data_juros': str(boleto.data_ocorrencia)[:10],
                 'data_multa': str(boleto.data_ocorrencia)[:10],
@@ -213,9 +219,9 @@ class finan_retorno(models.Model):
                 'valor': boleto.valor_recebido,
                 'banco_id': self.carteira_id.banco_id.id,
                 'carteira_id': self.carteira_id.id,
-                'forma_pagamento_id': lancamento_id.forma_pagamento_id.id,
-                'retorno_id': self.id,
-                'conta_id': 308,
+                'forma_pagamento_id': divida_id.forma_pagamento_id.id,
+                'retorno_item_id': finan_retorno_item_id.id,
+                'conta_id': 275, # Receitas Operacionais
             }
 
             if comando == 'L':
@@ -228,10 +234,10 @@ class finan_retorno(models.Model):
             return finan_lancamento_id
 
     @api.multi
-    def atualizar_lancamento(self, lancamento_id, boleto, comando):
+    def atualizar_divida(self, divida_id, boleto, comando):
         """
-        Dado o comando e o boleto, atualizar as informações do finan_lancamento
-        :param lancamento_id: finan.lancamento
+        Dado o comando e o boleto, atualizar as informações da Dívida
+        :param divida_id: finan.lancamento
         :param boleto: instancia do boleto da pybrasil
         :param comando: string indicando o comando do boleto
         :return: 
@@ -265,7 +271,7 @@ class finan_retorno(models.Model):
                 dados['conciliado'] = True
 
         dados['baixa_boleto'] = True
-        lancamento_id.write(dados)
+        divida_id.write(dados)
 
     @api.multi
     def get_comando(self, boleto, arquivo_retorno):
@@ -300,9 +306,10 @@ class finan_retorno(models.Model):
         return comando
 
     @api.multi
-    def get_lancamento(self, boleto):
+    def get_divida(self, boleto):
         """
-        Dado o retorno de um boleto buscar o lançamento correspondente sistema
+        Dado o retorno de um boleto buscar a divida (finan.lancamento) 
+        correspondente no sistema
         :param boleto: 
         :return: finan.lancamento
         """
@@ -600,53 +607,55 @@ class finan_retorno(models.Model):
         for boleto in arquivo_retorno.boletos:
 
             # buscar lancamento correspondente do boleto
-            lancamento_id = self.get_lancamento(boleto)
+            divida_id = self.get_divida(boleto)
 
             # buscar o comando do boleto
             comando = self.get_comando(boleto, arquivo_retorno)
 
             # Atualizar informações no boleto para francesinha
-            if lancamento_id:
-                boleto.pagador.cnpj_cpf = lancamento_id.participante_id.cnpj_cpf
-                boleto.pagador.nome = lancamento_id.participante_id.name
-                boleto.documento.numero = lancamento_id.numero
+            if divida_id:
+                boleto.pagador.cnpj_cpf = divida_id.participante_id.cnpj_cpf
+                boleto.pagador.nome = divida_id.participante_id.name
+                boleto.documento.numero = divida_id.numero
                 #
                 # Cliente negativado não baixa automático o boleto
                 # if comando != 'B' and lancamento_id.forma_pagamento_id and lancamento_id.forma_pagamento_id.cliente_negativado:
                 #     comando = 'N'
                 #     boleto.comando += '-N'
                 #
+
+                # Se o banco emitiu/mudou o nosso numero, atualizar na divida
                 if self.carteira_id.banco_emite and comando == 'R':
-                    lancamento_id.nosso_numero = boleto.nosso_numero
+                    divida_id.nosso_numero = boleto.nosso_numero
 
             # Criar um item de retorno do CNAB
-            if lancamento_id and comando:
+            if divida_id and comando:
 
-                # Criar item de retorno
+                # Criar item de retorno de retorno
                 dados = {
                     'retorno_id': self.id,
                     'comando': comando,
-                    'lancamento_id': lancamento_id.id,
+                    'divida_id': divida_id.id,
                 }
-                item_id = self.env.get('finan.retorno_item').create(dados)
+                finan_retorno_item_id = \
+                    self.env.get('finan.retorno_item').create(dados)
 
                 # Não processa se já estiver quitado
-                #
-                if lancamento_id.state not in ['A vencer', 'Vencido', 'Vence hoje']:
-                    if lancamento_id.data_baixa and parse_datetime(lancamento_id.data_baixa).date() != boleto.data_ocorrencia:
+                if divida_id.state not in ['A vencer', 'Vencido', 'Vence hoje']:
+                    if divida_id.data_baixa and parse_datetime(divida_id.data_baixa).date() != boleto.data_ocorrencia:
                         # indicar no item que o pagamento foi duplicado
-                        item_id.quitacao_duplicada =  True
+                        finan_retorno_item_id.quitacao_duplicada =  True
                         # indicar no boleto que o pagamento foi duplicado
                         boleto.pagamento_duplicado = True
                         continue
 
                 #
                 # Deleta os pagamentos anteriores
-                # ??? Nao entendi
+                # ??? Nao entendi e se tiver varios pagamentos?
                 #
                 # pag_ids = lancamento_obj.search([
                 #     ('tipo', '=', 'pagamento'),
-                #     ('lancamento_id', '=', lancamento_id.id),
+                #     ('divida_id', '=', divida_id.id),
                 #     ('retorno_id', '=', retorno_id.id),
                 #     ('retorno_item_id', '=', item_id),
                 # ])
@@ -655,12 +664,18 @@ class finan_retorno(models.Model):
 
                 # Dado o comando e o boleto, atualizar as informações do
                 # finan_lancamento
-                self.atualizar_lancamento(lancamento_id, boleto, comando)
+                self.atualizar_divida(divida_id, boleto, comando)
 
                 # Dado o comando e o boleto, gerar um finan_lancamento
                 finan_lancamento_id = \
-                    self.gerar_lancamento(lancamento_id, boleto, comando)
+                pagamento_id = self.gerar_pagamento(
+                    finan_retorno_item_id, divida_id, boleto, comando)
 
+                # relaciona o pagamento gerado ao item criado
+                finan_retorno_item_id.pagamento_id = pagamento_id.id
+
+
+        # ROTINAS DA REMESSA
 
         #
         # Anexa os boletos em PDF ao registro da remessa

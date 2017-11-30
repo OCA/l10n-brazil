@@ -29,7 +29,8 @@
                                     <field name="currency_id" invisible="1" />
                                     <field name="partner_id" />
                                     <field name="data_pagamento" />
-                                    <field name="lancamento_id" />
+                                    <field name="divida_id" />
+                                    <field name="pagamento_id" />
                                     <field name="comando" />
                                     <field name="vr_documento"  widget="monetary" options="{'currency_field': 'currency_id'}" />
                                 </tree>

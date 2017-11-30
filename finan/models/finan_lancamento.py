@@ -330,6 +330,7 @@ class FinanLancamento(SpedBase, models.Model):
         comodel_name='finan.lancamento',
         inverse_name='divida_id',
     )
+
     divida_ids = fields.One2many(
         comodel_name='finan.lancamento',
         compute='_compute_divida_ids',
@@ -482,6 +483,25 @@ class FinanLancamento(SpedBase, models.Model):
         #comodel_name='finan.motivo.baixa',
         #string="Motivo da baixa",
     #)
+
+    #
+    # Conciliação bancária
+    #
+
+    retorno_id = fields.Many2one(
+        comodel_name='finan.retorno',
+        string='Retorno CNAB',
+    )
+
+    retorno_item_id = fields.Many2one(
+        comodel_name='finan.retorno_item',
+        string='Item Retorno CNAB',
+    )
+
+    remessa_id = fields.Many2one(
+        comodel_name='finan.remessa',
+        string='Remessa CNAB',
+    )
 
     @api.depends('tipo')
     def _compute_sinal(self):
