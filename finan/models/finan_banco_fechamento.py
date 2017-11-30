@@ -17,11 +17,13 @@ class FinanBancoFechamento(models.Model):
 
     saldo_inicial = fields.Float(
         string='Saldo inicial',
+        compute = '_compute_saldo_inicial',
+        store = True
     )
 
     saldo_final = fields.Float(
         string='Saldo final',
-        # compute = '_compute_saldo_final'
+        compute = '_compute_saldo_final'
     )
 
     lancamento_ids = fields.Many2many(
@@ -151,6 +153,7 @@ class FinanBancoFechamento(models.Model):
                     'nenhum fechamento de caixa ou uma das datas ja fazem '
                     'parte de algum fechamento existente')
 
+
     @api.depends('banco_id')
     def compute_data_inicial(self):
         """
@@ -171,3 +174,56 @@ class FinanBancoFechamento(models.Model):
                     relativedelta(days=1)
 
                 return str(data_inicial)
+
+
+    @api.depends('lancamento_ids')
+    def _compute_saldo_final(self):
+        """
+        Funcao computa o saldo final baseado nos lançamentos
+        e no saldo inicial
+        """
+        saldo = 0
+        for valores in self.lancamento_ids:
+            saldo += valores.vr_total
+
+        self.saldo_final = self.saldo_inicial + saldo
+
+    @api.depends('lancamento_ids')
+    def _compute_saldo_inicial(self):
+        """
+        Funcao computa o saldo final do lançamento
+        anterior
+
+        """
+        for fechamento_id in self:
+            if fechamento_id.banco_id:
+                fechamentos_ids = self.search([
+                    ('banco_id', '=', fechamento_id.banco_id.id),
+                    ('id', '!=', fechamento_id.id),
+                ], limit=1, order='data_final DESC')
+
+                if not fechamentos_ids:
+                    fechamento_id.saldo_inicial = 0.0
+
+                fechamento_id.saldo_inicial = fechamentos_ids.saldo_final
+
+
+
+    # @api.depends('banco_id')
+    # def compute_data_inicial(self):
+    #     """
+    #     Método para computar a data inicial, baseado na data_final do ultimo
+    #     fechamento de caixa.
+    #     """
+    #     for fechamento_id in self:
+    #         if fechamento_id.banco_id:
+    #             fechamentos_ids = self.search([
+    #                 ('banco_id', '=', fechamento_id.banco_id.id),
+    #             ], limit=1, order='data_final DESC')
+    #
+    #             if not fechamentos_ids:
+    #                 return
+    #
+    #             fechamento_id.data_inicial = \
+    #                 fields.Date.from_string(fechamentos_ids.data_final) + \
+    #                 relativedelta(days=1)
