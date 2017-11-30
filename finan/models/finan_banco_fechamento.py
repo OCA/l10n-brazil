@@ -116,7 +116,7 @@ class FinanBancoFechamento(models.Model):
             fechamento_id.state = 'fechado'
             fechamento_id.data_fechamento = fields.Date.today()
 
-    @api.constrains('data_final', 'data_inicial')
+    @api.constrains('data_final', 'data_inicial', 'banco_id')
     def validacao_fechamentos(self):
         """
         Funcao valida se o intervalo que se pretende criar deixara algum dia
