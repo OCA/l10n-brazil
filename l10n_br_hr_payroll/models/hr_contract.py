@@ -64,7 +64,7 @@ class HrContract(models.Model):
     )
 
     @api.multi
-    def _buscar_salario_vigente_periodo(self, data_inicio, data_fim):
+    def _buscar_salario_vigente_periodo(self, data_inicio, data_fim, final=False):
         contract_change_obj = self.env['l10n_br_hr.contract.change']
 
         #
