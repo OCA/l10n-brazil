@@ -242,7 +242,7 @@ class SpedDocumento(models.Model):
         self._monta_cfe_pagamentos(pagamentos)
 
         cfe_venda = CFeVenda(
-            CNPJ=cnpj_software_house,
+            CNPJ=limpa_formatacao(cnpj_software_house),
             signAC=assinatura,
             numeroCaixa=2,
             emitente=emitente,
@@ -367,7 +367,7 @@ class SpedDocumento(models.Model):
 
         return CFeCancelamento(
             chCanc= u'CFe' + self.chave,
-            CNPJ=cnpj_software_house,
+            CNPJ=limpa_formatacao(cnpj_software_house),
             signAC=assinatura,
             numeroCaixa=int(numero_caixa),
         )
