@@ -60,7 +60,7 @@ class FinanBancoFechamento(models.Model):
         string='Data inicial',
         required=True,
         help='Data do último fechamento somada em um dia.',
-        # compute='compute_data_inicial',
+        default=lambda self: self.compute_data_inicial(),
     )
 
     data_final = fields.Date(
@@ -151,21 +151,23 @@ class FinanBancoFechamento(models.Model):
                     'nenhum fechamento de caixa ou uma das datas ja fazem '
                     'parte de algum fechamento existente')
 
-    # @api.depends('banco_id')
-    # def compute_data_inicial(self):
-    #     """
-    #     Método para computar a data inicial, baseado na data_final do ultimo
-    #     fechamento de caixa.
-    #     """
-    #     for fechamento_id in self:
-    #         if fechamento_id.banco_id:
-    #             fechamentos_ids = self.search([
-    #                 ('banco_id', '=', fechamento_id.banco_id.id),
-    #             ], limit=1, order='data_final DESC')
-    #
-    #             if not fechamentos_ids:
-    #                 return
-    #
-    #             fechamento_id.data_inicial = \
-    #                 fields.Date.from_string(fechamentos_ids.data_final) + \
-    #                 relativedelta(days=1)
+    @api.depends('banco_id')
+    def compute_data_inicial(self):
+        """
+        Método para computar a data inicial, baseado na data_final do ultimo
+        fechamento de caixa.
+        """
+        for fechamento_id in self:
+            if fechamento_id.banco_id:
+                fechamentos_ids = self.search([
+                    ('banco_id', '=', fechamento_id.banco_id.id),
+                ], limit=1, order='data_final DESC')
+
+                if not fechamentos_ids:
+                    return
+
+                data_inicial = \
+                    fields.Date.from_string(fechamentos_ids.data_final) + \
+                    relativedelta(days=1)
+
+                return str(data_inicial)
