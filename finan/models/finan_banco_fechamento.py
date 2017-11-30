@@ -84,7 +84,7 @@ class FinanBancoFechamento(models.Model):
         Validacao para a data final ser maior que a data inicial
         """
         for fechamento_id in self:
-            if fechamento_id.data_inicial < fechamento_id.data_final:
+            if fechamento_id.data_inicial > fechamento_id.data_final:
                 raise ValidationError(
                     'A data final deve ser maior que a data inicial')
 
