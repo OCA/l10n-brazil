@@ -30,6 +30,7 @@
                                     <field name="partner_id" />
                                     <field name="data_pagamento" />
                                     <field name="lancamento_id" />
+                                    <field name="comando" />
                                     <field name="vr_documento"  widget="monetary" options="{'currency_field': 'currency_id'}" />
                                 </tree>
                             </field>

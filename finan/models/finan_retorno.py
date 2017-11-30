@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+# Copyright 2017 KMEE
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from __future__ import division, print_function, unicode_literals
 
@@ -47,7 +48,6 @@ class finan_retorno_item(models.Model):
 
     quitacao_duplicada = fields.Boolean(
         string='Quitação duplicada?',
-        index=False,
     )
 
     data_vencimento = fields.Date(
@@ -174,105 +174,251 @@ class finan_retorno(models.Model):
 
 
     @api.multi
-    def validacao_banco_carteira(self, arquivo_retorno):
+    def gerar_lancamento(self, lancamento_id, boleto, comando):
         """
-        Validar se o arquivo de retorno tem o mesmo banco da carteira
+        GErar lancamento financeiro a partir do boleto e do seu comando
+        :param lancamento_id: 
+        :param boleto: 
+        :param comando: 
+        :return: 
         """
-        # Se o código do banco for diferente
-        #
-        if arquivo_retorno.banco.codigo != self.carteira_id.banco_id.banco:
 
-            # Se for do caso que o unicred gera o boleto pelo banco bradesco
-            # FINAN_BANCO_UNICRED == 136
-            # FINAN_BANCO_BRADESCO == 237
-            if arquivo_retorno.banco.codigo == '237' and \
-                            self.carteira_id.banco_id.banco != '136':
+        # Se o comando for:
+        # ('B', 'Baixa'),
+        # ('R', 'Registro do boleto'),
+        if comando in ('B', 'R'):
+            pass
 
-                # TODO: Melhorar mensagem de erro exibindo o nome do banco
-                #
-                raise UserError('O arquivo é de outro banco - {banco}!'.
-                                format(banco=arquivo_retorno.banco.codigo))
+        # Se
+        # ('L', 'Liquidação conciliada'),
+        # ('Q', 'Liquidaçaõ a conciliar'),
+        # ('N', 'Liquidação a conciliar - cliente negativado'),
+        else:
+            #
+            # Cria agora o pagamento em si
+            #
+            dados_pagamento = {
+                'tipo': 'pagamento',
+                'lancamento_id': lancamento_id.id,
+                'company_id': lancamento_id.company_id.id,
+                'vr_documento': lancamento_id.vr_documento,
+                'data_pagamento': str(boleto.data_ocorrencia)[:10],
+                'data_juros': str(boleto.data_ocorrencia)[:10],
+                'data_multa': str(boleto.data_ocorrencia)[:10],
+                'data_desconto': str(boleto.data_ocorrencia)[:10],
+                'valor_desconto': boleto.valor_desconto,
+                'valor_juros': boleto.valor_juros,
+                'valor_multa': boleto.valor_multa,
+                'outros_debitos': boleto.valor_despesa_cobranca,
+                'valor': boleto.valor_recebido,
+                'banco_id': self.carteira_id.banco_id.id,
+                'carteira_id': self.carteira_id.id,
+                'forma_pagamento_id': lancamento_id.forma_pagamento_id.id,
+                'retorno_id': self.id,
+                'conta_id': 308,
+            }
+
+            if comando == 'L':
+                dados_pagamento['data'] = str(boleto.data_credito)[:10]
+                dados_pagamento['conciliado'] = True
+
+            # dados_pagamento['baixa_boleto'] = True
+            lancamento_obj = self.env.get('finan.lancamento')
+            finan_lancamento_id = lancamento_obj.create(dados_pagamento)
+            return finan_lancamento_id
 
     @api.multi
-    def get_arquivo(self):
+    def atualizar_lancamento(self, lancamento_id, boleto, comando):
         """
-        Método para obter o arquivo apartir do arquivo retornado peo banco
+        Dado o comando e o boleto, atualizar as informações do finan_lancamento
+        :param lancamento_id: finan.lancamento
+        :param boleto: instancia do boleto da pybrasil
+        :param comando: string indicando o comando do boleto
+        :return: 
         """
+        # Se o comando for
+        # ('B', 'Baixa'),
+        # ('N', 'Liquidação a conciliar - cliente negativado'),
+        # ('R', 'Registro do boleto'),
+        #  Guardar a data de baixa
+        if comando in ('B', 'N', 'R'):
+            pass
+            # dados = {'data_baixa': str(boleto.data_ocorrencia)[:10],}
 
-        # Rotina para validar a existencia do arquivo
-        #
-        if not self.arquivo_binario:
-            raise UserError('Nenhum arquivo informado!')
+        # Se o comando for:
+        # ('L', 'Liquidação conciliada'),
+        # ('Q', 'Liquidaçaõ a conciliar')
+        # Atualizar o lancamento com informacoes do boleto retornado
+        else:
 
-        #
-        #
-        arquivo_texto = base64.decodestring(self.arquivo_binario)
-        arquivo = StringIO()
-        arquivo.write(arquivo_texto)
-        arquivo.seek(0)
+            dados = {
+                'valor_desconto': boleto.valor_desconto,
+                'valor_juros': boleto.valor_juros,
+                'valor_multa': boleto.valor_multa,
+                'outros_debitos': boleto.valor_despesa_cobranca,
+                'valor': boleto.valor_recebido,
+                'data_pagamento': str(boleto.data_ocorrencia)[:10],
+            }
 
-        # Classe de retorno de boletos utilizada pela pybrasil
-        #
-        arquivo_retorno = RetornoBoleto()
+            if comando == 'L':
+                dados['data'] = str(boleto.data_credito)[:10]
+                dados['conciliado'] = True
 
-        # Validação da instancia da classe baseada no arquivo de retorno
-        #
-        if not arquivo_retorno.arquivo_retorno(arquivo):
-            raise UserError('Formato do arquivo incorreto ou inválido!')
-
-        return arquivo_retorno
+        dados['baixa_boleto'] = True
+        lancamento_id.write(dados)
 
     @api.multi
-    def processar_retorno(self):
+    def get_comando(self, boleto, arquivo_retorno):
         """
-        Método para processamento do CNAB
+        Identifica qual o comando para tratar o retorno do boleto
+        :param arquivo_retorno: 
+        :return: string - comando
+        """
+        comando = ''
+        #
+        # Trata aqui a liquidação sem data de crédito do SICOOB
+        # (título antecipado pelo banco)
+        #
+        if arquivo_retorno.banco.codigo == FINAN_BANCO_SICOOB and \
+                        boleto.comando == '06' and \
+                        boleto.data_credito is None:
+            boleto.comando += '.1'
+
+        if boleto.comando in arquivo_retorno.banco.comandos_liquidacao:
+            if arquivo_retorno.banco.comandos_liquidacao[boleto.comando]:
+                comando = 'L'
+            else:
+                comando = 'Q'
+
+        elif boleto.comando in arquivo_retorno.banco.comandos_baixa:
+            comando = 'B'
+
+        # banco emite - banco que da o nosso numero
+        elif self.carteira_id.banco_emite and boleto.comando == '02':
+            comando = 'R'
+
+        return comando
+
+    @api.multi
+    def get_lancamento(self, boleto):
+        """
+        Dado o retorno de um boleto buscar o lançamento correspondente sistema
+        :param boleto: 
+        :return: finan.lancamento
+        """
+        lancamento_obj = self.env.get('finan.lancamento')
+
+        # Se a identificacao do retorno do boleto começa com N
+        if boleto.identificacao.upper().startswith('N'):
+            # Remover a letra N e pegar o ID do lancamento no sistema
+            id_lancamento = int(boleto.identificacao.upper().replace('N', ''))
+            lancamento_ids = lancamento_obj.search([
+                ('carteira_id', '=', self.carteira_id.id),
+                ('id', '=', id_lancamento),
+            ])
+
+        elif boleto.identificacao.upper().startswith('ID'):
+            # Remover o 'ID', converter para int em base 36 para
+            # pegar o ID do lancamento no sistema
+            id_lancamento = \
+                int(boleto.identificacao.upper().replace('ID', ''), 36)
+            lancamento_ids = lancamento_obj.search([
+                ('carteira_id', '=', self.carteira_id.id),
+                ('id', '=', id_lancamento),
+            ])
+
+        else:
+            # Se nao encontrar pela identificacao buscar pelo nosso numero
+            lancamento_ids = lancamento_obj.search([
+                ('carteira_id', '=', self.carteira_id.id),
+                ('nosso_numero', '=', boleto.nosso_numero)
+            ], order='data_vencimento desc')
+
+        return lancamento_ids[0] if lancamento_ids else False
+
+    @api.multi
+    def remover_boletos_anteriores(self, arquivo_retorno):
+        """
+        Remover Boletos anteriores
+        :param arquivo_retorno: 
+        :return: 
+        """
+        self.retorno_item_ids.unlink()
+
+        #
+        # Exclui os retornos já existentes deste arquivo
+        #
+        # self._cr.execute("update finan_lancamento set numero_documento = "
+        #                  "'QUERO EXCLUIR' where tipo = 'PR' and retorno_id"
+        #                  " = " + str(retorno_id.id) + ";")
+        # self._cr.execute("delete from finan_lancamento where tipo = 'PR' "
+        #                  "and retorno_id = " + str(retorno_id.id) + ";")
+        # self._cr.commit()
+
+    @api.multi
+    def adicionar_comandos_retorno(self, arquivo_retorno):
+        """
+        Adiciona os comandos separados para baixa/Liquidação de cliente
+        negativado
+        """
+        arq_comandos_retorno = arquivo_retorno.banco.descricao_comandos_retorno
+        for comando in arquivo_retorno.banco.comandos_liquidacao:
+            if comando + '-N' not in arq_comandos_retorno:
+                arq_comandos_retorno[comando + '-N'] = \
+                    arq_comandos_retorno[comando] + ' - cliente negativado'
+
+    @api.multi
+    def validacao_existencia_retorno(self, arquivo_retorno):
+        """
+        Validar se ja existe um arquivo com mesma sequencia e carteira
+        :param arquivo_retorno: 
+        :return: 
         """
 
-        self.ensure_one()
+        print("validacao_existencia_retorno")
 
-        # Gambiarra temporaria para nao quebrar o código
-        #
-        retorno_id = self
+        arquivo_retorno_ids = self.search([
+            ('numero_arquivo', '=', arquivo_retorno.sequencia),
+            ('carteira_id', '=', self.carteira_id.id),
+        ])
 
-        # Gerar objeto apartir do arquivo upado
-        #
-        arquivo_retorno = self.get_arquivo()
+        if arquivo_retorno_ids:
+            raise UserError(
+                'Arquivo já existente - Nº {numero_arquivo}!'.format(
+                    numero_arquivo=arquivo_retorno.sequencia))
 
-        # Validar se o arquivo de retorno tem o mesmo banco da carteira
-        #
-        if arquivo_retorno.banco.codigo != \
-                retorno_id.carteira_id.banco_id.banco:
+    @api.multi
+    def validacao_beneficiario(self, arquivo_retorno):
+        """
+        Validacao do beneficiario do arquivo de retorno é igual ao 
+        beneficiario da carteira
+        :param arquivo_retorno: 
+        :return: 
+        """
+        print("validacao_beneficiario")
 
-            if arquivo_retorno.banco.codigo == '237' and \
-                            retorno_id.carteira_id.banco_id.banco != '136':
-                raise UserError('O arquivo é de outro banco - {banco}!'.
-                                format(banco=arquivo_retorno.banco.codigo))
-
-        # Retorno do banco do brasil nao retorna o cnpj do beneficiario
-        #
         if arquivo_retorno.banco.codigo != FINAN_BANCO_BRASIL:
 
-            # Validar se o beneficiario do arquivo de retorno é o
-            # titular da conta bancaria na carteira selecionada
+            # Se o CNPJ do banco for diferente tratar validar sacador
             #
             if arquivo_retorno.beneficiario.cnpj_cpf != \
-                    retorno_id.carteira_id.banco_id.titular_id.cnpj_cpf:
+                    self.carteira_id.banco_id.titular_id.cnpj_cpf:
 
                 # Se na carteira for definido um sacador, o cnpj do
                 # beneficiario do arquivo de retorno devera ser igual ao
-                # cnpj do sacor da carteira
+                # cnpj do sacador da carteira
                 #
-                if retorno_id.carteira_id.sacador_id:
+                if self.carteira_id.sacador_id:
                     if arquivo_retorno.beneficiario.cnpj_cpf != \
-                            retorno_id.carteira_id.sacador_id.cnpj_cpf:
+                            self.carteira_id.sacador_id.cnpj_cpf:
 
                         erro = 'O arquivo é de outro beneficiário! \n ' \
                                'Arquivo retorno: {name_ret} - {cnpj_ret} \n' \
                                'Carteira: {name_cart} - {cnpj_cart}'.format(
                             name_ret=arquivo_retorno.beneficiario.nome,
                             cnpj_ret=arquivo_retorno.beneficiario.cnpj_cpf,
-                            name_cart=retorno_id.carteira_id.sacador_id.cnpj_cpf,
-                            cnpj_cart=retorno_id.carteira_id.sacador_id.nome
+                            name_cart=self.carteira_id.sacador_id.cnpj_cpf,
+                            cnpj_cart=self.carteira_id.sacador_id.nome
                         )
 
 
@@ -286,55 +432,25 @@ class finan_retorno(models.Model):
                            'Carteira: {name_cart} - {cnpj_cart}'.format(
                         name_ret=arquivo_retorno.carteira_id.banco_id.titular_id.nome,
                         cnpj_ret=arquivo_retorno.carteira_id.banco_id.titular_id.cnpj_cpf,
-                        name_cart=retorno_id.beneficiario.name,
-                        cnpj_cart=retorno_id.beneficiario.cnpj_cpf
+                        name_cart=self.beneficiario.name,
+                        cnpj_cart=self.beneficiario.cnpj_cpf
                     )
                     raise UserError(erro)
 
-        # Validação de Agência - conta
-        #
-        if arquivo_retorno.banco.codigo not in ('748', '104','001'):
-            if arquivo_retorno.beneficiario.agencia.numero != \
-                    retorno_id.carteira_id.banco_id.agencia:
-                erro = 'O arquivo é de outra agência! \n' \
-                       'Agência do beneficiario: {agencia_ben} \n' \
-                       'Arquivo de retorno: {agencia_ret} \n'.format(
-                    agencia_ben=retorno_id.carteira_id.banco_id.agencia,
-                    agencia_ret=arquivo_retorno.beneficiario.agencia.numero
-                )
-                raise UserError(erro)
-
-            if arquivo_retorno.beneficiario.conta.numero != retorno_id.\
-                    carteira_id.banco_id.agencia:
-                try:
-                    if int(arquivo_retorno.beneficiario.conta.numero) != int(
-                            retorno_id.carteira_id.banco_id.conta):
-                        raise UserError('O arquivo é de outra conta - '
-                                        '{conta}!'.format(conta=arquivo_retorno.
-                                                          beneficiario.
-                                                          conta.numero))
-                except:
-                    raise UserError('O arquivo é de outra conta - {conta}!'
-                                    ''.format(conta=arquivo_retorno.beneficiario.
-                                              conta.numero))
-
         # Se o codigo do beneficiario for diferente na carteira e no arq.
-        #
         if arquivo_retorno.beneficiario.codigo.numero != \
-                retorno_id.carteira_id.beneficiario:
+                self.carteira_id.beneficiario:
 
             # Se o arq de retorno tiver numero_beneficiario_unicred
-            #
             unicred = hasattr(
-                arquivo_retorno.boletos[1],'numero_beneficiario_unicred') and \
+                arquivo_retorno.boletos[1],
+                'numero_beneficiario_unicred') and \
                       arquivo_retorno.boletos[1].numero_beneficiario_unicred
             if len(arquivo_retorno.boletos) > 1 and unicred:
 
                 # O beneficiario unicred devera ser igual ao beneficiario
                 # da carteira
-
-
-                beneciario_carteira = retorno_id.carteira_id.beneficiario
+                beneciario_carteira = self.carteira_id.beneficiario
                 beneficiario_unicred = \
                     arquivo_retorno.boletos[1].numero_beneficiario_unicred
 
@@ -342,16 +458,17 @@ class finan_retorno(models.Model):
                     msg_erro = \
                         'O codigo de beneficiario da carteira cadastrado' \
                         ' no sistema ({beneficiario}), difere do codigo ' \
-                        ' de beneficiario Unicred do arquivo: {unicred}.'.\
-                            format(
-                                beneficiario=beneciario_carteira,
-                                unicred = beneficiario_unicred,
-                            )
+                        ' de beneficiario Unicred do arquivo: {unicred}.'. \
+                            format(beneficiario=beneciario_carteira,
+                                   unicred=beneficiario_unicred)
                     raise UserError(msg_erro)
             else:
                 try:
-                    if int(arquivo_retorno.beneficiario.codigo_beneficiario.numero
-                           ) != int(retorno_id.carteira_id.beneficiario):
+                    num_beneficiario = \
+                        arquivo_retorno.beneficiario.codigo_beneficiario
+                    num_beneficiario = int(num_beneficiario.numero)
+
+                    if num_beneficiario != int(self.carteira_id.beneficiario):
                         raise UserError('O arquivo é de outra código '
                                         'beneficiário - {bene}!'.format(
                             bene=arquivo_retorno.beneficiario.codigo_beneficiario.
@@ -362,131 +479,152 @@ class finan_retorno(models.Model):
                         bene=arquivo_retorno.beneficiario.codigo_beneficiario.
                             numero))
 
+    @api.multi
+    def validacao_agencia_conta(self, arquivo_retorno):
+        """
+        Validacao da agencia e conta do arquivo de retorno com a carteira sele
+        :param arquivo_retorno: 
+        :return: 
+        """
+        print("validacao_agencia_conta")
+        if arquivo_retorno.banco.codigo not in ('748', '104','001'):
+
+            if arquivo_retorno.beneficiario.agencia.numero != \
+                    self.carteira_id.banco_id.agencia:
+                erro = 'O arquivo é de outra agência! \n' \
+                       'Agência do beneficiario: {agencia_ben} \n' \
+                       'Arquivo de retorno: {agencia_ret} \n'.format(
+                    agencia_ben=self.carteira_id.banco_id.agencia,
+                    agencia_ret=arquivo_retorno.beneficiario.agencia.numero
+                )
+                raise UserError(erro)
+
+            if arquivo_retorno.beneficiario.conta.numero != self.\
+                    carteira_id.banco_id.agencia:
+                try:
+                    if int(arquivo_retorno.beneficiario.conta.numero) != int(
+                            self.carteira_id.banco_id.conta):
+                        raise UserError('O arquivo é de outra conta - '
+                                        '{conta}!'.format(conta=arquivo_retorno.
+                                                          beneficiario.
+                                                          conta.numero))
+                except:
+                    raise UserError('O arquivo é de outra conta - {conta}!'
+                                    ''.format(conta=arquivo_retorno.beneficiario.
+                                              conta.numero))
+
+    @api.multi
+    def validacao_banco_carteira(self, arquivo_retorno):
+        """
+        Validar se o arquivo de retorno tem o mesmo banco da carteira
+        """
+        # Se o código do banco for diferente
+        print("validacao_banco_carteira")
+        if arquivo_retorno.banco.codigo != self.carteira_id.banco_id.banco:
+
+            # Se for do caso que o unicred gera o boleto pelo banco bradesco
+            # FINAN_BANCO_UNICRED == 136
+            # FINAN_BANCO_BRADESCO == 237
+            if arquivo_retorno.banco.codigo == FINAN_BANCO_BRADESCO and \
+                        self.carteira_id.banco_id.banco != FINAN_BANCO_UNICRED:
+
+                # TODO: Melhorar mensagem de erro exibindo o nome do banco
+                #
+                raise UserError('O arquivo é de outro banco - {banco}!'.
+                                format(banco=arquivo_retorno.banco.codigo))
+
+    @api.multi
+    def get_arquivo(self):
+        """
+        Método para obter o arquivo apartir do arquivo retornado peo banco
+        """
+        print ("Gerando arquivo")
+
+        # Rotina para validar a existencia do arquivo
+        if not self.arquivo_binario:
+            raise UserError('Nenhum arquivo informado!')
+
+        # Criando um arquivo baseado no arquivo enviado pelo cliente
+        arquivo_texto = base64.decodestring(self.arquivo_binario)
+        arquivo = StringIO()
+        arquivo.write(arquivo_texto)
+        arquivo.seek(0)
+
+        # Classe de retorno de boletos utilizada pela pybrasil
+        arquivo_retorno = RetornoBoleto()
+
+        # Validação da instancia da classe baseada no arquivo de retorno
+        if not arquivo_retorno.arquivo_retorno(arquivo):
+            raise UserError('Formato do arquivo incorreto ou inválido!')
+
+        return arquivo_retorno
+
+    @api.multi
+    def processar_retorno(self):
+        """
+        Método para processamento do CNAB
+        """
+        self.ensure_one()
+
+        # Gerar objeto apartir do arquivo upado
+        arquivo_retorno = self.get_arquivo()
+
+        # Validar se o banco é igual na carteira e no arquivo de retorno
+        self.validacao_banco_carteira(arquivo_retorno)
+
+        # Validar Beneficiário
+        self.validacao_beneficiario(arquivo_retorno)
+
+        # Validação de Agência - conta
+        self.validacao_agencia_conta(arquivo_retorno)
+
         # Validar se ja foi gerado um retorno com mesma sequencia e da
         # mesma carteira
-        ids = self.search([
-            ('numero_arquivo','=', arquivo_retorno.sequencia),
-            ('carteira_id','=',retorno_id.carteira_id.id),
-        ])
-        if ids:
-            raise UserError(
-                'Arquivo já existente - Nº {numero_arquivo}!'.format(
-                    numero_arquivo=arquivo_retorno.sequencia))
+        self.validacao_existencia_retorno(arquivo_retorno)
 
         # Escrever o numero do arquivo e a data que foi gerado
-        retorno_id.write({
+        self.write({
             'numero_arquivo': arquivo_retorno.sequencia,
-            'data': str(arquivo_retorno.data_hora)
+            'data': str(arquivo_retorno.data_hora),
         })
 
-        lancamento_obj = self.env.get('finan.lancamento')
+        # Remover os boletos anteriores
+        #
+        # ??? Remover esses caras ???
+        # self.remover_boletos_anteriores(arquivo_retorno)
 
-        #
-        # Remove os boletos anteriores
-        #
-        # ??? Remover esses caras?
-        retorno_id.retorno_item_ids.unlink()
+        # Adicionar os comandos para baixa/Liquidação de clientes negativados
+        self.adicionar_comandos_retorno(arquivo_retorno)
 
-        #
-        # Exclui os retornos já existentes deste arquivo
-        #
-        # self._cr.execute("update finan_lancamento set numero_documento = "
-        #                  "'QUERO EXCLUIR' where tipo = 'PR' and retorno_id"
-        #                  " = " + str(retorno_id.id) + ";")
-        # self._cr.execute("delete from finan_lancamento where tipo = 'PR' "
-        #                  "and retorno_id = " + str(retorno_id.id) + ";")
-        # self._cr.commit()
-
-        #
-        # Adiciona os comandos separados para baixa/Liquidação de cliente
-        # negativado
-        #
-        for comando in arquivo_retorno.banco.comandos_liquidacao:
-            if comando + '-N' not in \
-                    arquivo_retorno.banco.descricao_comandos_retorno:
-                arquivo_retorno.banco.descricao_comandos_retorno[comando +'-N'] = \
-                    arquivo_retorno.banco.descricao_comandos_retorno[comando] + \
-                    ' - cliente negativado'
-
-        # Preencher a identificação na remessa(5 caracteres as vezes menos)
-
-        #
         # Processa os boletos do arquivo
-        #
         for boleto in arquivo_retorno.boletos:
 
-            if boleto.identificacao.upper().startswith('N'):
+            # buscar lancamento correspondente do boleto
+            lancamento_id = self.get_lancamento(boleto)
 
-                lancamento_id = int(boleto.identificacao.upper().replace('N', ''))
+            # buscar o comando do boleto
+            comando = self.get_comando(boleto, arquivo_retorno)
 
-                lancamento_ids = lancamento_obj.search((
-                    'carteira_id', '=', retorno_id.carteira_id.id),
-                    ('id', '=', lancamento_id))
-
-            elif boleto.identificacao.upper().startswith('ID'):
-
-                lancamento_id = int(boleto.identificacao.upper().replace('ID', ''), 36)
-
-                lancamento_ids = lancamento_obj.search(
-                    ('carteira_id', '=', retorno_id.carteira_id.id),
-                    ('id', '=', lancamento_id))
-
-
-            else:
-                print (boleto.nosso_numero)
-                lancamento_ids = lancamento_obj.search([
-                    ('carteira_id', '=', retorno_id.carteira_id.id),
-                    ('nosso_numero', '=', boleto.nosso_numero)
-                ], order='data_vencimento desc')
-
-            if lancamento_ids:
-                lancamento_id = lancamento_ids[0]
-            else:
-                lancamento_id = False
-
-            comando = ''
-            #
-            # Trata aqui a liquidação sem data de crédito do SICOOB
-            # (título antecipado pelo banco)
-            #
-            if arquivo_retorno.banco.codigo == '756' and boleto.comando == '06' and boleto.data_credito is None:
-                boleto.comando += '.1'
-
-            if boleto.comando in arquivo_retorno.banco.comandos_liquidacao:
-                if arquivo_retorno.banco.comandos_liquidacao[boleto.comando]:
-                    comando = 'L'
-                else:
-                    comando = 'Q'
-
-            elif boleto.comando in arquivo_retorno.banco.comandos_baixa:
-
-                comando = 'B'
-
-            # banco emite - banco que da o nosso numero
-            elif retorno_id.carteira_id.banco_emite and boleto.comando == '02':
-
-                comando = 'R'
-
+            # Atualizar informações no boleto para francesinha
             if lancamento_id:
                 boleto.pagador.cnpj_cpf = lancamento_id.participante_id.cnpj_cpf
                 boleto.pagador.nome = lancamento_id.participante_id.name
                 boleto.documento.numero = lancamento_id.numero
-
                 #
                 # Cliente negativado não baixa automático o boleto
-                #
                 # if comando != 'B' and lancamento_id.forma_pagamento_id and lancamento_id.forma_pagamento_id.cliente_negativado:
                 #     comando = 'N'
                 #     boleto.comando += '-N'
+                #
+                if self.carteira_id.banco_emite and comando == 'R':
+                    lancamento_id.nosso_numero = boleto.nosso_numero
 
-                if retorno_id.carteira_id.banco_emite and comando == 'R':
-                    dados = {'nosso_numero': boleto.nosso_numero}
-                    comando = 'R'
-                    lancamento_id.write(dados)
-
+            # Criar um item de retorno do CNAB
             if lancamento_id and comando:
+
+                # Criar item de retorno
                 dados = {
-                    'retorno_id': retorno_id.id,
+                    'retorno_id': self.id,
                     'comando': comando,
                     'lancamento_id': lancamento_id.id,
                 }
@@ -496,7 +634,9 @@ class finan_retorno(models.Model):
                 #
                 if lancamento_id.state not in ['A vencer', 'Vencido', 'Vence hoje']:
                     if lancamento_id.data_baixa and parse_datetime(lancamento_id.data_baixa).date() != boleto.data_ocorrencia:
-                        item_id.write({'quitacao_duplicada': True})
+                        # indicar no item que o pagamento foi duplicado
+                        item_id.quitacao_duplicada =  True
+                        # indicar no boleto que o pagamento foi duplicado
                         boleto.pagamento_duplicado = True
                         continue
 
@@ -512,78 +652,15 @@ class finan_retorno(models.Model):
                 # ])
                 # lancamento_obj.unlink(pag_ids)
 
-                #
-                #
-                #
-                forma_pagamento_obj = self.env.get('finan.forma.pagamento')
 
-                if comando in ('B', 'N', 'R'):
-                    dados = {
-                        #'data_baixa': boleto.data_
-                    }
-                else:
-                    dados = {
-                        'valor_desconto': boleto.valor_desconto,
-                        'valor_juros': boleto.valor_juros,
-                        'valor_multa': boleto.valor_multa,
-                        'outros_debitos': boleto.valor_despesa_cobranca,
-                        'valor': boleto.valor_recebido,
-                        'data_pagamento': str(boleto.data_ocorrencia)[:10],
-                        'forma_pagamento_id': lancamento_id.forma_pagamento_id.id,
-                    }
+                # Dado o comando e o boleto, atualizar as informações do
+                # finan_lancamento
+                self.atualizar_lancamento(lancamento_id, boleto, comando)
 
-                    if comando == 'L':
-                        dados['data'] = str(boleto.data_credito)[:10]
-                        dados['conciliado'] = True
+                # Dado o comando e o boleto, gerar um finan_lancamento
+                finan_lancamento_id = \
+                    self.gerar_lancamento(lancamento_id, boleto, comando)
 
-                    #print('lancamento id', lancamento_obj.id,
-                        # 'data_quitacao', str(
-                        # boleto.data_ocorrencia)[:10], 'data_credito',
-                        # str(boleto.data_credito)[:10])
-
-                dados['baixa_boleto'] = True
-                lancamento_id.write(dados)
-
-                if comando in ('B', 'R'):
-                    pass
-                else:
-                    #
-                    # Cria agora o pagamento em si
-                    #
-                    dados_pagamento = {
-                        'tipo': 'pagamento',
-                        'lancamento_id': lancamento_id.id,
-                        'company_id': lancamento_id.company_id.id,
-                        'vr_documento': lancamento_id.vr_documento,
-                        'data_pagamento': str(boleto.data_ocorrencia)[:10],
-                        'data_juros': str(boleto.data_ocorrencia)[:10],
-                        'data_multa': str(boleto.data_ocorrencia)[:10],
-                        'data_desconto': str(boleto.data_ocorrencia)[:10],
-                        'valor_desconto': boleto.valor_desconto,
-                        'valor_juros': boleto.valor_juros,
-                        'valor_multa': boleto.valor_multa,
-                        'outros_debitos': boleto.valor_despesa_cobranca,
-                        'valor': boleto.valor_recebido,
-                        'banco_id': retorno_id.carteira_id.banco_id.id,
-                        'carteira_id': retorno_id.carteira_id.id,
-                        'forma_pagamento_id': lancamento_id.forma_pagamento_id.id,
-                        'retorno_id': retorno_id.id,
-                        'conta_id': 308,
-                    }
-
-                    if comando == 'L':
-                        dados_pagamento['data'] = str(boleto.data_credito)[:10]
-                        dados_pagamento['conciliado'] = True
-
-                    dados['baixa_boleto'] = True
-                    pr_id = lancamento_obj.create(dados_pagamento)
-
-                    print('pagamento id', pr_id, 'data_pagamento',
-                          str(boleto.data_ocorrencia)[:10], 'data_credito',
-                          str(boleto.data_credito)[:10])
-
-        # Nao existe essa função
-        #
 
         #
         # Anexa os boletos em PDF ao registro da remessa
@@ -609,11 +686,10 @@ class finan_retorno(models.Model):
         # }
         # attachment_pool.create(dados)
 
-            #numero_arquivo = int(
-        # retorno_id.carteira_id.ultimo_arquivo_retorno) + 1
+            #numero_arquivo = int(retorno_id.carteira_id.ultimo_arquivo_retorno) + 1
             #self.write(cr, uid, [retorno_id.id], {
-        # 'numero_arquivo': str(numero_arquivo)})
-            #self.pool.get('finan.carteira').write(
+                #  'numero_arquivo': str(numero_arquivo)})
+                #self.pool.get('finan.carteira').write(
         # cr, 1, [retorno_id.carteira_id.id], {
         # 'ultimo_arquivo_retorno': str(numero_arquivo)})
         #else:
