@@ -43,6 +43,8 @@ class FinanBancoFechamento(models.Model):
         index=True,
         ondelete='restrict',
         required=True,
+        readonly=True,
+        states={'aberto':[('readonly', False)]},
     )
 
     user_id = fields.Many2one(
@@ -63,12 +65,16 @@ class FinanBancoFechamento(models.Model):
         required=True,
         help='Data do último fechamento somada em um dia.',
         default=lambda self: self.compute_data_inicial(),
+        readonly=True,
+        states={'aberto': [('readonly', False)]},
     )
 
     data_final = fields.Date(
         string='Data final',
         index=True,
         required=True,
+        readonly=True,
+        states={'aberto': [('readonly', False)]},
     )
 
     state = fields.Selection(
