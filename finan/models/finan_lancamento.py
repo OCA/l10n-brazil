@@ -935,13 +935,17 @@ class FinanLancamento(SpedBase, models.Model):
             self.env['finan.banco.extrato'].ajusta_extrato(banco_id, data)
             self.env['finan.banco.saldo'].ajusta_saldo(banco_id, data)
 
-  
     def executa_antes_create(self, dados, bancos={}):
-        if self.env['finan.banco.fechamento'].state == 'Fechado':
 
+        if self.env['finan.banco.fechamento'].search([
+                ('banco_id', '=', dados['banco_id']),
+                ('data_final', '>=', dados['data_documento']),
+                ('data_inicial', '<=', dados['data_documento']),
+                ('state', '=', 'fechado' ),
+        ]):
             raise UserError('Você não pode lançar um lançamento neste banco,'
-                            'pois o fechamento de caixa já foi efetuado'
-                            'para esse período')
+                                'pois o fechamento de caixa já foi efetuado'
+                                'para esse período')
         else:
             return dados
 
