@@ -84,7 +84,7 @@ class AccountMoveLine(models.Model):
                       'carteira': str(move_line.payment_mode_id.boleto_carteira),
                       'nosso_numero': int(''.join(
                           i for i in move_line.boleto_own_number if i.isdigit())),
-                      'numero_documento': str(move_line.name).encode('utf-8'),
+                      'documento_numero': str(move_line.name).encode('utf-8'),
                       'data_vencimento': datetime.strptime(
                           move_line.date_maturity, '%Y-%m-%d').strftime('%Y/%m/%d'),
                       'data_documento': datetime.strptime(
