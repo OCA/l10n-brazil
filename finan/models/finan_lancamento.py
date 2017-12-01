@@ -487,6 +487,10 @@ class FinanLancamento(SpedBase, models.Model):
     #
     # Conciliação bancária
     #
+    remessa_id = fields.Many2one(
+        comodel_name='finan.remessa',
+        string='Remessa CNAB',
+    )
 
     retorno_id = fields.Many2one(
         comodel_name='finan.retorno',
@@ -496,11 +500,7 @@ class FinanLancamento(SpedBase, models.Model):
     retorno_item_id = fields.Many2one(
         comodel_name='finan.retorno_item',
         string='Item Retorno CNAB',
-    )
-
-    remessa_id = fields.Many2one(
-        comodel_name='finan.remessa',
-        string='Remessa CNAB',
+        ondelete='cascade',
     )
 
     @api.depends('tipo')

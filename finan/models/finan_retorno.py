@@ -4,16 +4,15 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from datetime import datetime
-from odoo import api, fields, models
-from odoo.exceptions import Warning as UserError
 import base64
 from StringIO import StringIO
-from pybrasil.febraban import BANCO_CODIGO
-from pybrasil.febraban import RetornoBoleto
-from pybrasil.febraban import gera_pdf_boletos
+
+from odoo import api, fields, models
+from odoo.exceptions import Warning as UserError
 from pybrasil.data import parse_datetime
+from pybrasil.febraban import RetornoBoleto
 from pybrasil.valor.decimal import Decimal as D
+
 from ..constantes import *
 
 
@@ -179,7 +178,8 @@ class finan_retorno(models.Model):
 
 
     @api.multi
-    def gerar_pagamento(self, finan_retorno_item_id, divida_id, boleto, comando):
+    def gerar_pagamento(
+            self, finan_retorno_item_id, divida_id, boleto, comando):
         """
         Gerar lancamento financeiro do tipo pagamento 
         a partir do boleto e do seu comando
@@ -206,6 +206,8 @@ class finan_retorno(models.Model):
             dados_pagamento = {
                 'tipo': 'pagamento',
                 'divida_id': divida_id.id,
+                'retorno_item_id': finan_retorno_item_id.id,
+                'retorno_id': self.id,
                 'company_id': divida_id.company_id.id,
                 'vr_documento': divida_id.vr_documento,
                 'data_pagamento': str(boleto.data_ocorrencia)[:10],
@@ -220,7 +222,6 @@ class finan_retorno(models.Model):
                 'banco_id': self.carteira_id.banco_id.id,
                 'carteira_id': self.carteira_id.id,
                 'forma_pagamento_id': divida_id.forma_pagamento_id.id,
-                'retorno_item_id': finan_retorno_item_id.id,
                 'conta_id': 275, # Receitas Operacionais
             }
 
@@ -277,6 +278,7 @@ class finan_retorno(models.Model):
     def get_comando(self, boleto, arquivo_retorno):
         """
         Identifica qual o comando para tratar o retorno do boleto
+        :param boleto: 
         :param arquivo_retorno: 
         :return: string - comando
         """
@@ -344,9 +346,24 @@ class finan_retorno(models.Model):
         return lancamento_ids[0] if lancamento_ids else False
 
     @api.multi
-    def remover_boletos_anteriores(self, arquivo_retorno):
+    def remover_pagamentos_anteriores(self):
         """
-        Remover Boletos anteriores
+        Remover os pagamentos efetuados apartir desse retorno bancario
+        Substituido pelo ondelete='cascade',                
+        """
+        pass
+        # pagamento_ids = self.env.get('finan.lancamento').search([
+        #     ('tipo', '=', 'pagamento'),
+        #     ('divida_id', '=', divida_id.id),
+        #     ('retorno_id', '=', self.id),
+        #     ('retorno_item_id', '=', item_id),
+        # ])
+        # pagamento_ids.unlink()
+
+    @api.multi
+    def remover_finan_retorno_itens_anteriores(self):
+        """
+        Remover Itens de retorno desse CNAB anteriores
         :param arquivo_retorno: 
         :return: 
         """
@@ -381,9 +398,6 @@ class finan_retorno(models.Model):
         :param arquivo_retorno: 
         :return: 
         """
-
-        print("validacao_existencia_retorno")
-
         arquivo_retorno_ids = self.search([
             ('numero_arquivo', '=', arquivo_retorno.sequencia),
             ('carteira_id', '=', self.carteira_id.id),
@@ -402,8 +416,6 @@ class finan_retorno(models.Model):
         :param arquivo_retorno: 
         :return: 
         """
-        print("validacao_beneficiario")
-
         if arquivo_retorno.banco.codigo != FINAN_BANCO_BRASIL:
 
             # Se o CNPJ do banco for diferente tratar validar sacador
@@ -434,14 +446,16 @@ class finan_retorno(models.Model):
                 # Se tiver cnpj diferentes e nao for definido o sacador
                 #
                 else:
-                    erro = 'O arquivo é de outro beneficiário! \n ' \
-                           'Arquivo retorno: {name_ret} - {cnpj_ret} \n' \
-                           'Carteira: {name_cart} - {cnpj_cart}'.format(
-                        name_ret=arquivo_retorno.carteira_id.banco_id.titular_id.nome,
-                        cnpj_ret=arquivo_retorno.carteira_id.banco_id.titular_id.cnpj_cpf,
-                        name_cart=self.beneficiario.name,
-                        cnpj_cart=self.beneficiario.cnpj_cpf
-                    )
+                    titular = arquivo_retorno.carteira_id.banco_id.titular_id
+                    erro = \
+                        'O arquivo é de outro beneficiário! \n ' \
+                        'Arquivo retorno: {name_ret} - {cnpj_ret} \n' \
+                        'Carteira: {name_cart} - {cnpj_cart}'.format(
+                            name_ret=titular.nome,
+                            cnpj_ret=titular.cnpj_cpf,
+                            name_cart=self.beneficiario.name,
+                            cnpj_cart=self.beneficiario.cnpj_cpf
+                        )
                     raise UserError(erro)
 
         # Se o codigo do beneficiario for diferente na carteira e no arq.
@@ -476,10 +490,12 @@ class finan_retorno(models.Model):
                     num_beneficiario = int(num_beneficiario.numero)
 
                     if num_beneficiario != int(self.carteira_id.beneficiario):
-                        raise UserError('O arquivo é de outra código '
-                                        'beneficiário - {bene}!'.format(
-                            bene=arquivo_retorno.beneficiario.codigo_beneficiario.
-                                numero))
+                        beneficiario_id = arquivo_retorno.beneficiario
+                        num = beneficiario_id.codigo_beneficiario.numero
+                        erro = \
+                            'O arquivo é de outra código beneficiário - ' \
+                            '{beneficiario}!'.format(beneficiario=num)
+                        raise UserError(erro)
                 except:
                     raise UserError('O arquivo é de outra código '
                                     'beneficiário - {bene}!'.format(
@@ -493,7 +509,6 @@ class finan_retorno(models.Model):
         :param arquivo_retorno: 
         :return: 
         """
-        print("validacao_agencia_conta")
         if arquivo_retorno.banco.codigo not in ('748', '104','001'):
 
             if arquivo_retorno.beneficiario.agencia.numero != \
@@ -526,7 +541,6 @@ class finan_retorno(models.Model):
         Validar se o arquivo de retorno tem o mesmo banco da carteira
         """
         # Se o código do banco for diferente
-        print("validacao_banco_carteira")
         if arquivo_retorno.banco.codigo != self.carteira_id.banco_id.banco:
 
             # Se for do caso que o unicred gera o boleto pelo banco bradesco
@@ -545,8 +559,6 @@ class finan_retorno(models.Model):
         """
         Método para obter o arquivo apartir do arquivo retornado peo banco
         """
-        print ("Gerando arquivo")
-
         # Rotina para validar a existencia do arquivo
         if not self.arquivo_binario:
             raise UserError('Nenhum arquivo informado!')
@@ -595,10 +607,11 @@ class finan_retorno(models.Model):
             'data': str(arquivo_retorno.data_hora),
         })
 
-        # Remover os boletos anteriores
-        #
-        # ??? Remover esses caras ???
-        # self.remover_boletos_anteriores(arquivo_retorno)
+        # Remover os pagamentos efetuados anteriormente por esse arquivo CNAB
+        # self.remover_pagamentos_anteriores()
+
+        # Remover os itens de retorno gerados anteriormente
+        self.remover_finan_retorno_itens_anteriores()
 
         # Adicionar os comandos para baixa/Liquidação de clientes negativados
         self.adicionar_comandos_retorno(arquivo_retorno)
@@ -606,7 +619,7 @@ class finan_retorno(models.Model):
         # Processa os boletos do arquivo
         for boleto in arquivo_retorno.boletos:
 
-            # buscar lancamento correspondente do boleto
+            # buscar lancamento correspondente (divida) do boleto
             divida_id = self.get_divida(boleto)
 
             # buscar o comando do boleto
@@ -619,10 +632,11 @@ class finan_retorno(models.Model):
                 boleto.documento.numero = divida_id.numero
                 #
                 # Cliente negativado não baixa automático o boleto
-                # if comando != 'B' and lancamento_id.forma_pagamento_id and lancamento_id.forma_pagamento_id.cliente_negativado:
-                #     comando = 'N'
-                #     boleto.comando += '-N'
-                #
+                if comando != 'B' and \
+                        divida_id.forma_pagamento_id and \
+                        divida_id.forma_pagamento_id.cliente_negativado:
+                    comando = 'N'
+                    boleto.comando += '-N'
 
                 # Se o banco emitiu/mudou o nosso numero, atualizar na divida
                 if self.carteira_id.banco_emite and comando == 'R':
@@ -640,27 +654,20 @@ class finan_retorno(models.Model):
                 finan_retorno_item_id = \
                     self.env.get('finan.retorno_item').create(dados)
 
-                # Não processa se já estiver quitado
-                if divida_id.state not in ['A vencer', 'Vencido', 'Vence hoje']:
-                    if divida_id.data_baixa and parse_datetime(divida_id.data_baixa).date() != boleto.data_ocorrencia:
+                # Não processa se já estiver quitado e atualiza informação no
+                # boleto para gerar o relatório (francesinha)
+                if divida_id.state not in \
+                        ['A vencer', 'Vencido', 'Vence hoje']:
+                    data_baixa_diferente = \
+                        divida_id.data_baixa and \
+                        (parse_datetime(divida_id.data_baixa).date() !=
+                         boleto.data_ocorrencia)
+                    if data_baixa_diferente:
                         # indicar no item que o pagamento foi duplicado
                         finan_retorno_item_id.quitacao_duplicada =  True
                         # indicar no boleto que o pagamento foi duplicado
                         boleto.pagamento_duplicado = True
                         continue
-
-                #
-                # Deleta os pagamentos anteriores
-                # ??? Nao entendi e se tiver varios pagamentos?
-                #
-                # pag_ids = lancamento_obj.search([
-                #     ('tipo', '=', 'pagamento'),
-                #     ('divida_id', '=', divida_id.id),
-                #     ('retorno_id', '=', retorno_id.id),
-                #     ('retorno_item_id', '=', item_id),
-                # ])
-                # lancamento_obj.unlink(pag_ids)
-
 
                 # Dado o comando e o boleto, atualizar as informações do
                 # finan_lancamento
