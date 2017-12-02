@@ -22,7 +22,7 @@ try:
 except (ImportError, IOError) as err:
     _logger.debug(err)
 
-from .versao_nfe_padrao import ClasseRastro
+from ..versao_nfe_padrao import ClasseRastro
 
 
 class SpedDocumentoItemRastreabilidade(models.Model):

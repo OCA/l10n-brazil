@@ -21,7 +21,7 @@ try:
 except (ImportError, IOError) as err:
     _logger.debug(err)
 
-from .versao_nfe_padrao import ClasseDet
+from ..versao_nfe_padrao import ClasseDet
 
 
 class SpedDocumentoItem(models.Model):

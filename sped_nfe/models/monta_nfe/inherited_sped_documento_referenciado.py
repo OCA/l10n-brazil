@@ -26,7 +26,7 @@ try:
 except (ImportError, IOError) as err:
     _logger.debug(err)
 
-from .versao_nfe_padrao import ClasseNFRef
+from ..versao_nfe_padrao import ClasseNFRef
 
 
 class SpedDocumentoReferenciado(models.Model):

@@ -33,7 +33,7 @@ try:
 except (ImportError, IOError) as err:
     _logger.debug(err)
 
-from .versao_nfe_padrao import ClasseNFe, ClasseNFCe, ClasseProcNFe, \
+from ..versao_nfe_padrao import ClasseNFe, ClasseNFCe, ClasseProcNFe, \
     ClasseReboque
 
 

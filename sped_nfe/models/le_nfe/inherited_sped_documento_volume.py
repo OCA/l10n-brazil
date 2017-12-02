@@ -24,7 +24,7 @@ try:
 except (ImportError, IOError) as err:
     _logger.debug(err)
 
-from .versao_nfe_padrao import ClasseVol
+from ..versao_nfe_padrao import ClasseVol
 
 
 class SpedDocumentoVolume(models.Model):

@@ -22,7 +22,7 @@ try:
 except (ImportError, IOError) as err:
     _logger.debug(err)
 
-from .versao_nfe_padrao import ClasseDup
+from ..versao_nfe_padrao import ClasseDup
 
 
 class SpedDocumentoDuplicata(models.Model):

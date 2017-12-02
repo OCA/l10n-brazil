@@ -31,7 +31,7 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-from .monta_nfe.versao_nfe_padrao import *
+from .versao_nfe_padrao import *
 
 
 class SpedDocumento(models.Model):

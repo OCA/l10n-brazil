@@ -59,6 +59,7 @@ ClasseDet = Det
 try:
     ClasseRastro = Rastro_400
 except Exception as err:
+    ClasseRastro = False
     _logger.debug(err)
 
 ClasseDI = DI
@@ -83,4 +84,5 @@ ClasseDup = Dup
 try:
     ClassePag = Pag_400
 except Exception as err:
+    ClassePag = False
     _logger.debug(err)

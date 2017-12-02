@@ -24,7 +24,7 @@ try:
 except (ImportError, IOError) as err:
     _logger.debug(err)
 
-from .versao_nfe_padrao import ClasseDI, ClasseAdi
+from ..versao_nfe_padrao import ClasseDI, ClasseAdi
 
 
 class SpedDocumentoItemDeclaracaoImportacao(models.Model):
