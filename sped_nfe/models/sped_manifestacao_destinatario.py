@@ -11,6 +11,7 @@ import logging
 
 from odoo import _, api, fields, models
 import base64
+from lxml import objectify
 
 
 _logger = logging.getLogger(__name__)
@@ -265,6 +266,11 @@ class SpedManifestacaoDestinatario(models.Model):
                         'res_model': 'sped.manifestacao.destinatario',
                         'res_id': record.id
                     })
+
+                nfe = objectify.fromstring(nfe_result['nfe'])
+                documento = self.env['sped.documento'].new()
+                documento.modelo = nfe.NFe.infNFe.ide.mod.text
+                documento.le_nfe(xml=nfe_result['nfe'])
             else:
                 raise models.ValidationError(_(
                     nfe_result['code'] + ' - ' + nfe_result['message'])
