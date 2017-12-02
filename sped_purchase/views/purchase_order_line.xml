@@ -99,7 +99,7 @@
                         <newline/>
                         <field name="date_planned"/>
                         <newline/>
-                        <field name="produto_descricao" colspan="4"
+                        <field name="produto_nome" colspan="4"
                                string="Descrição alternativa"/>
                         <newline/>
                         <field name="cfop_id" colspan="4"

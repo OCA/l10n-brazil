@@ -273,7 +273,7 @@ class SaleOrderLine(SpedCalculoImpostoItem, models.Model):
                 return {'warning': warning}
 
             item.name = item.produto_id.nome
-            item.produto_descricao = item.produto_id.nome
+            item.produto_nome = item.produto_id.nome
             item.product_id = item.produto_id.product_id
             item.price_unit = item.vr_unitario
 

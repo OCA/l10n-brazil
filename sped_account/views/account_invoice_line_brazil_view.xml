@@ -85,7 +85,7 @@
 <!--                     options="{'no_open': True, 'no_create': True}" -->
                     <field name="produto_id" colspan="4" options="{'no_create': True}" />
                     <newline />
-                    <field name="produto_descricao" colspan="4" string="Descrição alternativa" />
+                    <field name="produto_nome" colspan="4" string="Descrição alternativa" />
                     <newline />
                     <field name="cfop_id" colspan="4" domain="[('entrada_saida', '=', parent.entrada_saida)]" options="{'no_create': True}" />
                     <newline />

@@ -52,8 +52,8 @@ class SpedDocumentoItem(models.Model):
                         'SEM VALOR FISCAL'
 
         else:
-            if self.produto_descricao:
-                descricao = self.produto_descricao
+            if self.produto_nome:
+                descricao = self.produto_nome
             else:
                 descricao = self.produto_id.nome
 
