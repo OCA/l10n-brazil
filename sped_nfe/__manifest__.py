@@ -24,8 +24,8 @@
         'views/inherited_sped_documento_emissao_nfe_view.xml',
         'views/inherited_sped_documento_emissao_nfce_view.xml',
         'views/sped_documento_carta_correcao_view.xml',
-        'views/sped_consulta_dfe_view.xml',
         'views/sped_manifestacao_destinatario.xml',
+        'views/sped_consulta_dfe_view.xml',
         'security/ir.model.access.csv',
     ],
     'external_dependencies': {

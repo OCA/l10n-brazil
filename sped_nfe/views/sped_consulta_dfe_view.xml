@@ -76,9 +76,9 @@
 
     <menuitem
         id="menu_sped_consulta_dfe"
-        sequence="20"
+        sequence="1"
         name="Consultas DF-e"
-        parent="sped.menu_sped_documento_emissao"
+        parent="sped_nfe.menu_sped_dfe"
         action="sped_consulta_dfe_acao"
         />
 

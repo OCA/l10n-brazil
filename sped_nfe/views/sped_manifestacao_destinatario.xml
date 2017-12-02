@@ -116,7 +116,7 @@
 
     <menuitem
         id="menu_sped_dfe_manifestacao_destinatario"
-        sequence="1"
+        sequence="10"
         name="Manifestação do Destinatário"
         parent="sped_nfe.menu_sped_dfe"
         action="act_sped_manifestacao_destinatario"
