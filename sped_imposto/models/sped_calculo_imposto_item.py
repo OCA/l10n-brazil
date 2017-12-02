@@ -2100,10 +2100,10 @@ class SpedCalculoImpostoItem(SpedBase):
                 if self.cst_icms in ST_ICMS_DESONERADO_ZERA_ICMS_PROPRIO:
                     bc_icms_proprio = D(0)
                     vr_icms_proprio = D(0)
+                self.vr_icms_desonerado = vr_icms_desonerado
 
         self.bc_icms_proprio = bc_icms_proprio
         self.vr_icms_proprio = vr_icms_proprio
-        self.vr_icms_desonerado = vr_icms_desonerado
 
     def _onchange_calcula_icms_st(self):
         self.ensure_one()
