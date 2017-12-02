@@ -1078,6 +1078,234 @@ class SpedCalculoImpostoItem(SpedBase):
                         return operacao_item_ids
         return False
 
+        
+    def _onchange_produto_id_recebimento(self):
+        self.ensure_one()
+
+        #
+        # Aqui determinados o protocolo e o item da operação a ser seguido para
+        # a operação, o produto e o NCM em questão
+        #
+        res = {}
+
+        if not self.produto_id:
+            return res
+
+        #
+        # Validamos alguns dos M2O necessários, vindos do documento
+        #
+        if not self.empresa_id:
+            raise ValidationError(
+                _('A empresa ativa não foi definida!')
+            )
+
+        if not self.participante_id:
+            raise ValidationError(
+                _('O destinatário/remetente não foi informado!')
+            )
+
+        if not self.operacao_id:
+            raise ValidationError(_('A operação fiscal não foi informada!'))
+
+        #
+        # Se já ocorreu o preenchimento da descrição, não sobrepõe
+        #
+        if not self.produto_nome:
+            self.produto_nome = self.produto_id.nome
+
+        self.org_icms = (self.produto_id.org_icms or
+                         ORIGEM_MERCADORIA_NACIONAL)
+        self.unidade_id = self.produto_id.unidade_id.id
+
+
+        if self.produto_id.unidade_tributacao_id:
+            self.unidade_tributacao_id = \
+                self.produto_id.unidade_tributacao_id.id
+            self.fator_conversao_unidade_tributacao = \
+                self.produto_id.fator_conversao_unidade_tributacao
+
+        elif self.produto_id.unidade_tributacao_ncm_id:
+            self.unidade_tributacao_id = \
+                self.produto_id.unidade_tributacao_ncm_id.id
+            self.fator_conversao_unidade_tributacao = \
+                self.produto_id.fator_conversao_unidade_tributacao_ncm
+
+        else:
+            self.unidade_tributacao_id = self.produto_id.unidade_id.id
+            self.fator_conversao_unidade_tributacao = 1
+
+        if 'forca_vr_unitario' in self.env.context:
+            self.vr_unitario = self.env.context['forca_vr_unitario']
+
+        elif self.operacao_id.preco_automatico == 'V':
+            self.vr_unitario = self.produto_id.preco_venda
+
+        elif self.operacao_id.preco_automatico == 'C':
+            self.vr_unitario = self.produto_id.preco_custo
+
+        elif self.operacao_id.preco_automatico == 'T':
+            self.vr_unitario = self.produto_id.preco_transferencia
+
+        self.vr_unitario_readonly = self.vr_unitario
+
+        self.peso_bruto_unitario = self.produto_id.peso_bruto
+        self.peso_liquido_unitario = self.produto_id.peso_liquido
+        self.especie = self.produto_id.especie
+        self.fator_quantidade_especie = \
+            self.produto_id.fator_quantidade_especie
+
+        estado_origem, estado_destino, destinatario = \
+            self._estado_origem_estado_destino_destinatario()
+
+        if estado_origem == estado_destino:
+            posicao_cfop = POSICAO_CFOP_ESTADUAL
+        elif estado_origem == 'EX' or estado_destino == 'EX':
+            posicao_cfop = POSICAO_CFOP_ESTRANGEIRO
+        else:
+            posicao_cfop = POSICAO_CFOP_INTERESTADUAL
+
+        #
+        # Determinamos o protocolo que vai ser aplicado à situação
+        #
+        protocolo = None
+
+        if self.produto_id.protocolo_id:
+            protocolo = self.produto_id.protocolo_id
+
+        if (protocolo is None and self.produto_id.ncm_id and
+                self.produto_id.ncm_id.protocolo_ids):
+            busca_protocolo = [
+                ('ncm_ids.ncm_id', '=', self.produto_id.ncm_id.id),
+                '|',
+                ('estado_ids', '=', False),
+                ('estado_ids.uf', '=', estado_destino)
+            ]
+            protocolo_ids = self.env[
+                'sped.protocolo.icms'].search(busca_protocolo)
+
+            if len(protocolo_ids) != 0:
+                protocolo = protocolo_ids[0]
+
+        if protocolo is None and self.empresa_id.protocolo_id:
+            protocolo = self.empresa_id.protocolo_id
+
+        if (not protocolo) or (protocolo is None):
+            raise ValidationError(
+                _('O protocolo não foi definido!')
+            )
+
+        #
+        # Tratando protocolos que só valem para determinados estados
+        # Caso não seja possível usar o protocolo, por restrição dos
+        # estados permitidos, usar a família global da empresa
+        #
+        if len(protocolo.estado_ids) > 0:
+            estado_ids = protocolo.estado_ids.search(
+                [('uf', '=', estado_destino)])
+
+            #
+            # O estado de destino não pertence ao protocolo, usamos então o
+            # protocolo padrão da empresa
+            #
+            if len(estado_ids) == 0:
+                if self.empresa_id.protocolo_id:
+                    protocolo = self.empresa_id.protocolo_id
+
+                else:
+                    if self.produto_id.ncm_id:
+                        mensagem_erro = \
+                            'Não há protocolo padrão para a empresa, ' \
+                            'e o protocolo “{protocolo}” não pode ' \
+                            'ser usado para o estado “{estado}” ' \
+                            '(produto “{produto}”, NCM “{ncm}”)!' \
+                            .format(
+                                protocolo=protocolo.descricao,
+                                estado=estado_destino,
+                                produto=self.produto_id.nome,
+                                ncm=self.produto_id.ncm_id.codigo_formatado
+                            )
+                    else:
+                        mensagem_erro = \
+                            'Não há protocolo padrão para a empresa, ' \
+                            'e o protocolo “{protocolo}” não pode ' \
+                            'ser usado para o estado “{estado}” ' \
+                            '(produto “{produto}”)!'\
+                            .format(protocolo=protocolo.descricao,
+                                    estado=estado_destino,
+                                    produto=self.produto_id.nome)
+
+                    raise ValidationError(_(mensagem_erro))
+
+        #
+        # Determinamos agora qual linha da operação será seguida.
+        # Os critérios de busca vão variando entre o mais específico e o mais
+        # genérico; esta variação está configurada mais abaixo, quais campos
+        # devem ser pesquisados como False, e em qual ordem
+        #
+        domain_base = {
+            'operacao_id': self.operacao_id.id,
+            'tipo_protocolo': protocolo.tipo,
+            'cfop_id_posicao': posicao_cfop,
+            #
+            # Os 3 critérios abaixo serão alternados entre o valor realmente,
+            # ou False, no método busca_operacao_item
+            #
+            'contribuinte': self.participante_id.contribuinte,
+            'protocolo_id': protocolo.id,
+            'tipo_produto_servico': self.produto_id.tipo,
+        }
+        operacao_item_ids = self.busca_operacao_item(domain_base)
+
+        #
+        # Não tem item da operação mesmo, ou encontrou mais de um possível?
+        #
+        if len(operacao_item_ids) == 0 or len(operacao_item_ids) > 1:
+            if len(operacao_item_ids) == 0:
+                mensagem_erro = \
+                    'Não há nenhum item genérico na operação, ' \
+                    'nem específico para o protocolo ' \
+                    '“{protocolo}”, configurado para operações {estado}!'
+            else:
+                mensagem_erro = \
+                    'Há mais de um item genérico na operação, ' \
+                    'ou mais de um item específico para ' \
+                    'o protocolo “{protocolo}”, ' \
+                    'configurado para operações {estado}!'
+
+            if posicao_cfop == POSICAO_CFOP_ESTADUAL:
+                mensagem_erro = mensagem_erro.format(
+                    protocolo=protocolo.descricao, estado='dentro do estado')
+
+            elif posicao_cfop == POSICAO_CFOP_INTERESTADUAL:
+                mensagem_erro = mensagem_erro.format(
+                    protocolo=protocolo.descricao, estado='interestaduais')
+
+            elif posicao_cfop == POSICAO_CFOP_ESTRANGEIRO:
+                mensagem_erro = mensagem_erro.format(
+                    protocolo=protocolo.descricao, estado='internacionais')
+
+            raise ValidationError(_(mensagem_erro))
+
+        #
+        # Agora que temos o item da operação, definimos os valores do item
+        #
+        operacao_item = operacao_item_ids[0]
+
+        self.operacao_item_id = operacao_item.id
+
+        #
+        # O protocolo alternativo no item da operação força o uso de
+        # determinado protocolo, independente de validade no estado ou outras
+        # validações
+        #
+        if operacao_item.protocolo_alternativo_id:
+            self.protocolo_id = operacao_item.protocolo_alternativo_id.id
+
+        else:
+            self.protocolo_id = protocolo.id
+
+        return res
+
     def _onchange_produto_id_emissao_propria(self):
         self.ensure_one()
 
@@ -1766,9 +1994,9 @@ class SpedCalculoImpostoItem(SpedBase):
         if hasattr(self, 'product_uom_qty'):
             self.product_uom_qty = self.quantidade
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
-                self.env.context.get('manual'):
-            return res
+        # if self.emissao != TIPO_EMISSAO_PROPRIA and not \
+        #         self.env.context.get('manual'):
+        #     return res
 
         #
         # Cupom Fiscal só aceita até 3 casas decimais no valor unitário
@@ -2270,9 +2498,9 @@ class SpedCalculoImpostoItem(SpedBase):
 
         res = {}
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
-                self.env.context.get('manual'):
-            return res
+        # if self.emissao != TIPO_EMISSAO_PROPRIA and not \
+        #         self.env.context.get('manual'):
+        #     return res
 
         vr_nf = self.vr_operacao + self.vr_ipi + self.vr_icms_st + self.vr_ii
         vr_nf -= self.vr_icms_desonerado

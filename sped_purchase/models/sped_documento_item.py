@@ -28,19 +28,16 @@ class SpedDocumentoItem(models.Model):
         default=True,
     )
 
-    def faturar_linha_pedido(self):
-        self.purchase_line_ids.qty_invoiced += self.quantidade
-
     def faturar_linhas(self):
-        for linha in self.purchase_line_ids:
-            linha.qty_invoiced = linha.quantidade
+        for linha in self.mapped('purchase_line_ids'):
+            total = 0.0
+            for qty in linha.documento_item_ids.mapped('quantidade'):
+                total += qty
+            linha.qty_invoiced = total
 
     def executa_depois_create(self):
         for item in self:
-            if len(item.purchase_line_ids) == 1:
-                item.faturar_linha_pedido()
-            elif item.purchase_line_ids:
-                item.faturar_linhas()
+            item.faturar_linhas()
 
     @api.multi
     def mesclar_linhas(self, dados, line, contexto):
@@ -68,6 +65,12 @@ class SpedDocumentoItem(models.Model):
     def create(self, dados):
         res = super(SpedDocumentoItem, self).create(dados)
         res.executa_depois_create()
+        return res
+
+    @api.multi
+    def write(self, vals):
+        res = super(SpedDocumentoItem, self).write()
+        self.executa_depois_create()
         return res
 
     @api.onchange('purchase_ids', 'purchase_line_ids')

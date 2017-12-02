@@ -59,7 +59,7 @@ class SpedDocumento(models.Model):
             self.update(self._onchange_serie()['value'])
             self.update(self._onchange_participante_id()['value'])
 
-        for pedido in self.purchase_order_ids:
+        for pedido in self.mapped('purchase_order_ids'):
             for item in pedido.order_line - \
                     self.item_ids.mapped('purchase_line_ids'):
                 dados = self._preparar_sped_documento_item(item)
@@ -101,9 +101,24 @@ class SpedDocumento(models.Model):
 
         return result
 
+    def _criar_picking_entrada(self):
+        if not self.purchase_order_ids:
+            super(SpedDocumento, self)._criar_picking_entrada()
+
+    def executa_depois_create(self):
+        for documento in self:
+            for item in documento.item_ids:
+                item.calcula_impostos()
+
+
     @api.model
     def create(self, vals):
-        documento = super(SpedDocumento, self).create(vals)
-        for item in documento.item_ids:
-            item.calcula_impostos()
-        return documento
+        documentos = super(SpedDocumento, self).create(vals)
+        documentos.executa_depois_create()
+        return documentos
+
+    @api.multi
+    def write(self, vals):
+        res = super(SpedDocumento, self).write()
+        self.executa_depois_create()
+        return res

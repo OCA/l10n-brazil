@@ -7,6 +7,14 @@ from odoo import api, fields, models, _
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
+    def _compute_picking_type_code(self):
+        for picking in self:
+            picking.picking_type_code = picking.picking_type_id.code
+
+    picking_type_code = fields.Char(
+        compute='_compute_picking_type_code',
+    )
+
     def action_view_purchase(self):
 
         action = self.env.ref('purchase.purchase_form_action').read()[0]
@@ -46,3 +54,9 @@ class StockPicking(models.Model):
             documento.envia_nfe()
 
         return documento
+
+    @api.onchange('state')
+    def _onchange_state(self):
+        self.ensure_one()
+        if self.state == 'done' and self.purchase_id:
+            self.purchase_id.state = 'received'

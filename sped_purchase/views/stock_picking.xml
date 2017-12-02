@@ -18,7 +18,16 @@
                     string="Compra" >
                 </button>
                 <field name="purchase_id" invisible="1" />
+                <field name="picking_type_code" invisible="1"/>
             </xpath>
+            <button name="gera_documento" position="attributes">
+                <attribute name="attrs">
+                    {'invisible': ['|', ('state', '!=', 'assigned'),
+                    '|', ('operacao_id', '=', False),
+                    '|', ('quantidade_documentos', '!=', 0),
+                    ('picking_type_code', '=', 'incoming')]}
+                </attribute>
+            </button>
         </field>
     </record>
 

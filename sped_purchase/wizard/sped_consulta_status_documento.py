@@ -15,7 +15,7 @@ from odoo.exceptions import Warning as UserError
 
 class SpedConsultaStatusDocumento(models.TransientModel):
     """Consulta status de documento fiscal"""
-    _name = b'sped.consulta_status_documento'
+    _name = b'sped_purchase.consulta_status_documento'
     _description = 'Consulta Status Documento'
 
     empresa_id = fields.Many2one(
@@ -100,7 +100,7 @@ class SpedConsultaStatusDocumento(models.TransientModel):
                 _(u'Erro na consulta da chave!'), e)
 
         result = self.env.ref(
-            'sped_nfe.action_sped_consulta_status_documento'
+            'sped_purchase.action_sped_consulta_status_documento'
         ).read()[0]
         result['res_id'] = self.id
         return result
