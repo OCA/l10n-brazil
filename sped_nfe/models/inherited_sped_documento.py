@@ -31,6 +31,9 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
+from .versao_nfe_padrao import *
+
+
 class SpedDocumento(models.Model):
     _inherit = 'sped.documento'
 
@@ -163,8 +166,10 @@ class SpedDocumento(models.Model):
                     parse_datetime(documento.data_hora_inutilizacao))
                 documento.data_inutilizacao = str(data_hora_inutilizacao)[:10]
 
-    @api.depends('modelo', 'emissao', 'situacao_nfe')
+    @api.depends('modelo', 'emissao', 'importado_xml', 'situacao_nfe')
     def _compute_permite_alteracao(self):
+        super(SpedDocumento, self)._compute_permite_alteracao()
+
         for documento in self:
             if documento.modelo not in (MODELO_FISCAL_NFE,
                                         MODELO_FISCAL_NFCE):
@@ -179,7 +184,7 @@ class SpedDocumento(models.Model):
             # É emissão própria de NF-e ou NFC-e, permite alteração
             # somente quando estiver em digitação ou rejeitada
             #
-            documento.permite_alteracao = \
+            documento.permite_alteracao = documento.permite_alteracao or \
                 documento.situacao_nfe in (SITUACAO_NFE_EM_DIGITACAO,
                                         SITUACAO_NFE_REJEITADA)
 
@@ -237,8 +242,10 @@ class SpedDocumento(models.Model):
             )
 
     @api.depends('data_hora_autorizacao', 'modelo', 'emissao', 'justificativa',
-                 'situacao_nfe')
+                 'situacao_nfe', 'importado_xml')
     def _compute_permite_cancelamento(self):
+        super(SpedDocumento, self)._compute_permite_cancelamento()
+
         #
         # Este método deve ser alterado por módulos integrados, para verificar
         # regras de negócio que proíbam o cancelamento de um documento fiscal,
@@ -257,8 +264,6 @@ class SpedDocumento(models.Model):
                 super(SpedDocumento, documento)._compute_permite_cancelamento()
                 continue
 
-            documento.permite_cancelamento = False
-
             if documento.data_hora_autorizacao:
                 tempo_autorizado = UTC.normalize(agora())
                 tempo_autorizado -= \
@@ -266,33 +271,8 @@ class SpedDocumento(models.Model):
 
                 if (documento.situacao_nfe == SITUACAO_NFE_AUTORIZADA and
                         tempo_autorizado.days < 1):
-                    documento.permite_cancelamento = True
-
-    @api.depends('modelo', 'emissao', 'justificativa', 'situacao_nfe')
-    def _compute_permite_cancelamento(self):
-        #
-        # Este método deve ser alterado por módulos integrados, para verificar
-        # regras de negócio que proíbam a inutilização de um documento fiscal,
-        # como por exemplo, a existência de boletos emitidos no financeiro,
-        # que precisariam ser cancelados antes, caso tenham sido enviados
-        # para o banco, a verificação de movimentações de estoque confirmadas,
-        # a contabilização definitiva do documento etc.
-        #
-        for documento in self:
-            if documento.modelo not in (MODELO_FISCAL_NFE,
-                                        MODELO_FISCAL_NFCE):
-                super(SpedDocumento, documento)._compute_permite_inutilizacao()
-                continue
-
-            if documento.emissao != TIPO_EMISSAO_PROPRIA:
-                super(SpedDocumento, documento)._compute_permite_inutilizacao()
-                continue
-
-            documento.permite_inutilizacao = False
-
-            if documento.situacao_nfe in (SITUACAO_NFE_EM_DIGITACAO,
-                                          SITUACAO_NFE_REJEITADA):
-                documento.permite_inutilizacao = True
+                    documento.permite_cancelamento = \
+                        documento.permite_cancelamento and True
 
     def processador_nfe(self):
         self.ensure_one()
@@ -390,7 +370,7 @@ class SpedDocumento(models.Model):
         conteudo = canc.xml.encode('utf-8')
         self.arquivo_xml_autorizacao_cancelamento_id = False
         self.arquivo_xml_autorizacao_cancelamento_id = \
-            self._grava_anexo(nome_arquivo, conteudo).id
+        self._grava_anexo(nome_arquivo, conteudo).id
 
     def grava_xml_inutilizacao(self, chave, inut):
         self.ensure_one()
@@ -398,7 +378,7 @@ class SpedDocumento(models.Model):
         conteudo = inut.xml.encode('utf-8')
         self.arquivo_xml_inutilizacao_id = False
         self.arquivo_xml_inutilizacao_id = \
-            self._grava_anexo(nome_arquivo, conteudo).id
+        self._grava_anexo(nome_arquivo, conteudo).id
 
     def grava_xml_autorizacao_inutilizacao(self, chave, inut):
         self.ensure_one()
@@ -406,517 +386,7 @@ class SpedDocumento(models.Model):
         conteudo = inut.xml.encode('utf-8')
         self.arquivo_xml_autorizacao_inutilizacao_id = False
         self.arquivo_xml_autorizacao_inutilizacao_id = \
-            self._grava_anexo(nome_arquivo, conteudo).id
-
-    def monta_nfe(self, processador=None):
-        self.ensure_one()
-
-        if self.modelo == MODELO_FISCAL_NFE:
-            nfe = NFe_310()
-        elif self.modelo == MODELO_FISCAL_NFCE:
-            nfe = NFCe_310()
-        else:
-            return
-
-        #
-        # Identificação da NF-e
-        #
-        self._monta_nfe_identificacao(nfe.infNFe.ide)
-
-        #
-        # Notas referenciadas
-        #
-        for doc_ref in self.documento_referenciado_ids:
-            nfe.infNFe.ide.NFref.append(docref.monta_nfe())
-
-        #
-        # Emitente
-        #
-        self._monta_nfe_emitente(nfe.infNFe.emit)
-
-        #
-        # Destinatário
-        #
-        self._monta_nfe_destinatario(nfe.infNFe.dest)
-
-        #
-        # Endereço de entrega e retirada
-        #
-        self._monta_nfe_endereco_retirada(nfe.infNFe.retirada)
-        self._monta_nfe_endereco_entrega(nfe.infNFe.entrega)
-
-        #
-        # Itens
-        #
-        i = 1
-        for item in self.item_ids:
-            nfe.infNFe.det.append(item.monta_nfe(i, nfe))
-            i += 1
-
-        #
-        # Transporte e frete
-        #
-        self._monta_nfe_transporte(nfe.infNFe.transp)
-
-        #
-        # Duplicatas e pagamentos
-        #
-        self._monta_nfe_cobranca(nfe.infNFe.cobr)
-        self._monta_nfe_pagamentos(nfe.infNFe.pag)
-
-        #
-        # Totais
-        #
-        self._monta_nfe_total(nfe.infNFe.total)
-
-        #
-        # Informações adicionais
-        #
-        self._monta_nfe_informacao_complementar(nfe)
-        self._monta_nfe_informacao_fisco(nfe)
-
-        nfe.gera_nova_chave()
-        nfe.monta_chave()
-
-        if self.empresa_id.certificado_id:
-            certificado = self.empresa_id.certificado_id.certificado_nfe()
-            certificado.assina_xmlnfe(nfe)
-
-        return nfe
-
-    def _monta_nfe_identificacao(self, ide):
-        empresa = self.empresa_id
-        participante = self.participante_id
-
-        ide.tpAmb.valor = int(self.ambiente_nfe)
-        ide.tpNF.valor = int(self.entrada_saida)
-        ide.cUF.valor = UF_CODIGO[empresa.estado]
-        ide.natOp.valor = self.natureza_operacao_id.nome
-        ide.indPag.valor = int(self.ind_forma_pagamento)
-        ide.serie.valor = self.serie
-        ide.nNF.valor = str(D(self.numero).quantize(D('1')))
-
-        #
-        # Tratamento das datas de UTC para o horário de brasília
-        #
-        ide.dhEmi.valor = data_hora_horario_brasilia(
-            parse_datetime(self.data_hora_emissao + ' GMT')
-        )
-        ide.dEmi.valor = ide.dhEmi.valor
-
-        if self.data_hora_entrada_saida:
-            ide.dhSaiEnt.valor = data_hora_horario_brasilia(
-                parse_datetime(self.data_hora_entrada_saida + ' GMT')
-            )
-        else:
-            nfe.infNFe.ide.dhSaiEnt.valor = data_hora_horario_brasilia(
-                parse_datetime(self.data_hora_emissao + ' GMT')
-            )
-
-        ide.dSaiEnt.valor = ide.dhSaiEnt.valor
-        ide.hSaiEnt.valor = ide.dhSaiEnt.valor
-
-        ide.cMunFG.valor = empresa.municipio_id.codigo_ibge[:7]
-        # ide.tpImp.valor = 1  # DANFE em retrato
-        ide.tpEmis.valor = self.tipo_emissao_nfe
-        ide.finNFe.valor = self.finalidade_nfe
-        ide.procEmi.valor = 0  # Emissão por aplicativo próprio
-        ide.verProc.valor = 'Odoo 10.0'
-        ide.indPres.valor = self.presenca_comprador
-
-        #
-        # NFC-e é sempre emissão para dentro do estado
-        # e sempre para consumidor final
-        #
-        if self.modelo == MODELO_FISCAL_NFCE:
-            ide.idDest.valor = IDENTIFICACAO_DESTINO_INTERNO
-            ide.indFinal.valor = TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL
-
-        else:
-            if participante.estado == 'EX':
-                ide.idDest.valor = IDENTIFICACAO_DESTINO_EXTERIOR
-            elif participante.estado == empresa.estado:
-                ide.idDest.valor = IDENTIFICACAO_DESTINO_INTERNO
-            else:
-                ide.idDest.valor = IDENTIFICACAO_DESTINO_INTERESTADUAL
-
-            if (self.consumidor_final) or (
-                        participante.contribuinte ==
-                        INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE):
-                ide.indFinal.valor = TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL
-
-    def _le_nfe(self, ide):
-        dados = {}
-        dados['ambiente_nfe'] = str(ide.tpAmb.valor)
-        dados['entrada_saida'] = ide.tpNF.valor
-        dados['natureza_operacao_original'] = ide.natOp.valor
-        dados['ind_forma_pagamento'] = str(ide.indPag.valor)
-        dados['serie'] = ide.serie.valor
-        dados['numero'] = ide.nNF.valor
-        dados['data_hora_emissao'] = ide.dhEmi.valor
-        dados['data_hora_entrada_saida'] = ide.dhSaiEnt.valor
-        #
-        # Código do município do fato gerador
-        #
-        municipio = self.env['sped.municipio'].search(
-            [('codigo_ibge', '=', ide.cMunFG.valor + '0000')]
-        )
-        if municipio:
-            dados['municipio_fato_gerador_id'] = municipio.id
-        dados['tipo_emissao_nfe'] = ide.tpEmis.valor
-        dados['finalidade_nfe'] = ide.finNFe.valor
-        dados['presenca_comprador'] = ide.indPres.valor
-        dados['consumidor_final'] = ide.indFinal.valor
-        return dados
-
-    def _monta_nfe_emitente(self, emit):
-        empresa = self.empresa_id
-
-        emit.CNPJ.valor = limpa_formatacao(empresa.cnpj_cpf)
-        emit.xNome.valor = empresa.razao_social
-        emit.xFant.valor = empresa.fantasia or ''
-        emit.enderEmit.xLgr.valor = empresa.endereco
-        emit.enderEmit.nro.valor = empresa.numero
-        emit.enderEmit.xCpl.valor = empresa.complemento or ''
-        emit.enderEmit.xBairro.valor = empresa.bairro
-        emit.enderEmit.cMun.valor = empresa.municipio_id.codigo_ibge[:7]
-        emit.enderEmit.xMun.valor = empresa.cidade
-        emit.enderEmit.UF.valor = empresa.estado
-        emit.enderEmit.CEP.valor = limpa_formatacao(empresa.cep)
-        # emit.enderEmit.cPais.valor = '1058'
-        # emit.enderEmit.xPais.valor = 'Brasil'
-        emit.enderEmit.fone.valor = limpa_formatacao(empresa.fone or '')
-        emit.IE.valor = limpa_formatacao(empresa.ie or '')
-        #
-        # Usa o regime tributário da NF e não da empresa, e trata o código
-        # interno 3.1 para o lucro real, que na NF deve ir somente 3
-        #
-        emit.CRT.valor = self.regime_tributario[0]
-
-        if self.modelo == MODELO_FISCAL_NFCE:
-            emit.csc.id = empresa.csc_id or 1
-            emit.csc.codigo = empresa.csc_codigo or ''
-            # emit.csc.codigo = emit.csc.codigo.strip()
-
-    def _monta_nfe_destinatario(self, dest):
-        participante = self.participante_id
-
-        #
-        # Para a NFC-e, o destinatário é sempre não contribuinte
-        #
-        if self.modelo == MODELO_FISCAL_NFCE:
-            dest.indIEDest.valor = INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
-
-        else:
-            dest.indIEDest.valor = participante.contribuinte
-
-            if participante.contribuinte == \
-                    INDICADOR_IE_DESTINATARIO_CONTRIBUINTE:
-                dest.IE.valor = limpa_formatacao(participante.ie or '')
-
-        #
-        # Trata a possibilidade de ausência do destinatário na NFC-e
-        #
-        if self.modelo == MODELO_FISCAL_NFCE and not participante.cnpj_cpf:
-            return
-
-        #
-        # Participantes estrangeiros tem a ID de estrangeiro sempre começando
-        # com EX
-        #
-        if participante.cnpj_cpf.startswith('EX'):
-            dest.idEstrangeiro.valor = \
-                limpa_formatacao(participante.cnpj_cpf or '')
-
-        elif len(participante.cnpj_cpf or '') == 14:
-            dest.CPF.valor = limpa_formatacao(participante.cnpj_cpf)
-
-        elif len(participante.cnpj_cpf or '') == 18:
-            dest.CNPJ.valor = limpa_formatacao(participante.cnpj_cpf)
-
-        if self.ambiente_nfe == AMBIENTE_NFE_HOMOLOGACAO:
-            dest.xNome.valor = 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - ' \
-                               'SEM VALOR FISCAL'
-        else:
-            dest.xNome.valor = participante.razao_social or ''
-
-        #
-        # Para a NFC-e, o endereço do participante pode não ter sido
-        # preenchido
-        #
-        dest.enderDest.xLgr.valor = participante.endereco or ''
-        dest.enderDest.nro.valor = participante.numero or ''
-        dest.enderDest.xCpl.valor = participante.complemento or ''
-        dest.enderDest.xBairro.valor = participante.bairro or ''
-
-        if not participante.cnpj_cpf.startswith('EX'):
-            dest.enderDest.CEP.valor = limpa_formatacao(participante.cep)
-        else:
-            dest.enderDest.CEP.valor = '99999999'
-
-        #
-        # Pode haver cadastro de participante sem município para NFC-e
-        #
-        if participante.municipio_id:
-            dest.enderDest.cMun.valor = \
-                participante.municipio_id.codigo_ibge[:7]
-            dest.enderDest.xMun.valor = participante.cidade
-            dest.enderDest.UF.valor = participante.estado
-
-            if participante.cnpj_cpf.startswith('EX'):
-                dest.enderDest.cPais.valor = \
-                    participante.municipio_id.pais_id.codigo_bacen
-                dest.enderDest.xPais.valor = \
-                    participante.municipio_id.pais_id.nome
-
-        dest.enderDest.fone.valor = limpa_formatacao(participante.fone or '')
-        email_dest = participante.email_nfe or ''
-        dest.email.valor = email_dest[:60]
-
-    def _monta_nfe_endereco_retirada(self, retirada):
-        return
-        if not self.endereco_retirada_id:
-            return
-
-        retirada.xLgr.valor = self.endereco_retirada_id.endereco or ''
-        retirada.nro.valor = self.endereco_retirada_id.numero or ''
-        retirada.xCpl.valor = self.endereco_retirada_id.complemento or ''
-        retirada.xBairro.valor = self.endereco_retirada_id.bairro or ''
-        retirada.cMun.valor = \
-            self.endereco_retirada_id.municipio_id.codigo_ibge[:7]
-        retirada.xMun.valor = self.endereco_retirada_id.municipio_id.nome
-        retirada.UF.valor = self.endereco_retirada_id.municipio_id.estado_id.uf
-
-        if self.endereco_retirada_id.cpf:
-            if len(self.endereco_retirada_id.cpf) == 18:
-                retirada.CNPJ.valor = \
-                    limpa_formatacao(self.endereco_retirada_id.cpf)
-            else:
-                retirada.CPF.valor = \
-                    limpa_formatacao(self.endereco_retirada_id.cpf)
-
-    def _monta_nfe_endereco_entrega(self, entrega):
-        return
-        if not self.endereco_entrega_id:
-            return
-
-        entrega.xLgr.valor = self.endereco_entrega_id.endereco or ''
-        entrega.nro.valor = self.endereco_entrega_id.numero or ''
-        entrega.xCpl.valor = self.endereco_entrega_id.complemento or ''
-        entrega.xBairro.valor = self.endereco_entrega_id.bairro or ''
-        entrega.cMun.valor = \
-            self.endereco_entrega_id.municipio_id.codigo_ibge[:7]
-        entrega.xMun.valor = self.endereco_entrega_id.municipio_id.nome
-        entrega.UF.valor = self.endereco_entrega_id.municipio_id.estado_id.uf
-
-        if self.endereco_entrega_id.cnpj_cpf:
-            if len(self.endereco_entrega_id.cnpj_cpf) == 18:
-                entrega.CNPJ.valor = \
-                    limpa_formatacao(self.endereco_entrega_id.cnpj_cpf)
-            else:
-                entrega.CPF.valor = \
-                    limpa_formatacao(self.endereco_entrega_id.cnpj_cpf)
-
-    def _monta_nfe_transporte(self, transp):
-        if self.modelo != MODELO_FISCAL_NFE:
-            return
-        #
-        # Temporário até o início da NF-e 4.00
-        #
-        if self.modalidade_frete == MODALIDADE_FRETE_REMETENTE_PROPRIO:
-            transp.modFrete.valor = MODALIDADE_FRETE_REMETENTE_CIF
-        elif self.modalidade_frete == MODALIDADE_FRETE_DESTINATARIO_PROPRIO:
-            transp.modFrete.valor = MODALIDADE_FRETE_DESTINATARIO_FOB
-        else:
-            transp.modFrete.valor = \
-                self.modalidade_frete or MODALIDADE_FRETE_SEM_FRETE
-
-        if self.transportadora_id:
-            if len(self.transportadora_id.cnpj_cpf) == 14:
-                transp.transporta.CPF.valor = \
-                    limpa_formatacao(self.transportadora_id.cnpj_cpf)
-            else:
-                transp.transporta.CNPJ.valor = \
-                    limpa_formatacao(self.transportadora_id.cnpj_cpf)
-
-            transp.transporta.xNome.valor = \
-                self.transportadora_id.razao_social or ''
-            transp.transporta.IE.valor = \
-                limpa_formatacao(self.transportadora_id.ie or 'ISENTO')
-            ender = self.transportadora_id.endereco or ''
-            ender += ' '
-            ender += self.transportadora_id.numero or ''
-            ender += ' '
-            ender += self.transportadora_id.complemento or ''
-            transp.transporta.xEnder.valor = ender.strip()
-            transp.transporta.xMun.valor = self.transportadora_id.cidade or ''
-            transp.transporta.UF.valor = self.transportadora_id.estado or ''
-
-        if self.veiculo_id:
-            transp.veicTransp.placa.valor = self.veiculo_id.placa or ''
-            transp.veicTransp.UF.valor = self.veiculo_id.estado_id.uf or ''
-            transp.veicTransp.RNTC.valor = self.veiculo_id.rntrc or ''
-
-        transp.reboque = []
-        if self.reboque_1_id:
-            reb = Reboque_310()
-            reb.placa.valor = self.reboque_1_id.placa or ''
-            reb.UF.valor = self.reboque_1_id.estado_id.uf or ''
-            reb.RNTC.valor = self.reboque_1_id.rntrc or ''
-            transp.reboque.append(reb)
-        if self.reboque_2_id:
-            reb = Reboque_310()
-            reb.placa.valor = self.reboque_2_id.placa or ''
-            reb.UF.valor = self.reboque_2_id.estado_id.uf or ''
-            reb.RNTC.valor = self.reboque_2_id.rntrc or ''
-            transp.reboque.append(reb)
-        if self.reboque_3_id:
-            reb = Reboque_310()
-            reb.placa.valor = self.reboque_3_id.placa or ''
-            reb.UF.valor = self.reboque_3_id.estado_id.uf or ''
-            reb.RNTC.valor = self.reboque_3_id.rntrc or ''
-            transp.reboque.append(reb)
-        if self.reboque_4_id:
-            reb = Reboque_310()
-            reb.placa.valor = self.reboque_4_id.placa or ''
-            reb.UF.valor = self.reboque_4_id.estado_id.uf or ''
-            reb.RNTC.valor = self.reboque_4_id.rntrc or ''
-            transp.reboque.append(reb)
-        if self.reboque_5_id:
-            reb = Reboque_310()
-            reb.placa.valor = self.reboque_5_id.placa or ''
-            reb.UF.valor = self.reboque_5_id.estado_id.uf or ''
-            reb.RNTC.valor = self.reboque_5_id.rntrc or ''
-            transp.reboque.append(reb)
-
-        #
-        # Volumes
-        #
-        transp.vol = []
-        for volume in self.volume_ids:
-            transp.vol.append(volume.monta_nfe())
-
-    def _monta_nfe_cobranca(self, cobr):
-        if self.modelo != MODELO_FISCAL_NFE:
-            return
-
-        if self.ind_forma_pagamento not in \
-                (IND_FORMA_PAGAMENTO_A_VISTA, IND_FORMA_PAGAMENTO_A_PRAZO):
-            return
-        cobr.fat.nFat.valor = formata_valor(self.numero, casas_decimais=0)
-        cobr.fat.vOrig.valor = str(D(self.vr_operacao))
-        cobr.fat.vDesc.valor = str(D(self.vr_desconto))
-        cobr.fat.vLiq.valor = str(D(self.vr_fatura))
-
-        for duplicata in self.duplicata_ids:
-            cobr.dup.append(duplicata.monta_nfe())
-
-    def _monta_nfe_pagamentos(self, pag):
-        if self.modelo != MODELO_FISCAL_NFCE:
-            return
-
-        for pagamento in self.pagamento_ids:
-            pag.append(pagamento.monta_nfe())
-
-    def _monta_nfe_total(self, total):
-        total.ICMSTot.vBC.valor = str(D(self.bc_icms_proprio))
-        total.ICMSTot.vICMS.valor = str(D(self.vr_icms_proprio))
-        total.ICMSTot.vICMSDeson.valor = str(D('0'))
-        total.ICMSTot.vFCPUFDest.valor = str(D(self.vr_fcp))
-        total.ICMSTot.vICMSUFDest.valor = str(D(self.vr_icms_estado_destino))
-        total.ICMSTot.vICMSUFRemet.valor = str(D(self.vr_icms_estado_origem))
-        total.ICMSTot.vBCST.valor = str(D(self.bc_icms_st))
-        total.ICMSTot.vST.valor = str(D(self.vr_icms_st))
-        total.ICMSTot.vProd.valor = str(D(self.vr_produtos))
-        total.ICMSTot.vFrete.valor = str(D(self.vr_frete))
-        total.ICMSTot.vSeg.valor = str(D(self.vr_seguro))
-        total.ICMSTot.vDesc.valor = str(D(self.vr_desconto))
-        total.ICMSTot.vII.valor = str(D(self.vr_ii))
-        total.ICMSTot.vIPI.valor = str(D(self.vr_ipi))
-        total.ICMSTot.vPIS.valor = str(D(self.vr_pis_proprio))
-        total.ICMSTot.vCOFINS.valor = str(D(self.vr_cofins_proprio))
-        total.ICMSTot.vOutro.valor = str(D(self.vr_outras))
-        total.ICMSTot.vNF.valor = str(D(self.vr_nf))
-        total.ICMSTot.vTotTrib.valor = str(D(self.vr_ibpt or 0))
-
-    def _monta_nfe_informacao_complementar(self, nfe):
-        infcomplementar = self.infcomplementar or ''
-
-        dados_infcomplementar = {
-            'nf': self,
-        }
-
-        #
-        # Crédito de ICMS do SIMPLES
-        #
-        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES and \
-                self.vr_icms_sn:
-            if len(infcomplementar) > 0:
-                infcomplementar += '\n'
-
-            infcomplementar += \
-                'Permite o aproveitamento de crédito de ' + \
-                'ICMS no valor de R$ ${formata_valor(nf.vr_icms_sn)},' + \
-                ' nos termos do art. 23 da LC 123/2006;'
-
-        #
-        # Valor do IBPT
-        #
-        if self.vr_ibpt:
-            if len(infcomplementar) > 0:
-                infcomplementar += '\n'
-
-            infcomplementar += 'Valor aproximado dos tributos: ' + \
-                               'R$ ${formata_valor(nf.vr_ibpt)} - fonte: IBPT;'
-
-        #
-        # ICMS para UF de destino
-        #
-        if nfe.infNFe.ide.idDest.valor == \
-                IDENTIFICACAO_DESTINO_INTERESTADUAL and \
-                nfe.infNFe.ide.indFinal.valor == \
-                TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and \
-                nfe.infNFe.dest.indIEDest.valor == \
-                INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE:
-
-            if len(infcomplementar) > 0:
-                infcomplementar += '\n'
-
-            infcomplementar += \
-                'Partilha do ICMS de R$ ' + \
-                '${formata_valor(nf.vr_icms_proprio)}% recolhida ' + \
-                'conf. EC 87/2015: ' + \
-                'R$ ${formata_valor(nf.vr_icms_estado_destino)} para o ' + \
-                'estado de ${nf.participante_id.estado} e ' + \
-                'R$ ${formata_valor(nf.vr_icms_estado_origem)} para o ' + \
-                'estado de ${nf.empresa_id.estado}; Valor do diferencial ' + \
-                'de alíquota: ' + \
-                'R$ ${formata_valor(nf.vr_difal)};'
-
-            if self.vr_fcp:
-                infcomplementar += ' Fundo de combate à pobreza: R$ ' + \
-                                   '${formata_valor(nf.vr_fcp)}'
-
-        #
-        # Aplica um template na observação
-        #
-        template = TemplateBrasil(infcomplementar.encode('utf-8'))
-        infcomplementar = template.render(**dados_infcomplementar)
-        nfe.infNFe.infAdic.infCpl.valor = infcomplementar.decode('utf-8')
-
-    def _monta_nfe_informacao_fisco(self, nfe):
-        infadfisco = self.infadfisco or ''
-
-        dados_infadfisco = {
-            'nf': self,
-        }
-
-        #
-        # Aplica um template na observação
-        #
-        template = TemplateBrasil(infadfisco.encode('utf-8'))
-        infadfisco = template.render(**dados_infadfisco)
-        nfe.infNFe.infAdic.infAdFisco.valor = infadfisco.decode('utf-8')
+        self._grava_anexo(nome_arquivo, conteudo).id
 
     def envia_nfe(self):
         self.ensure_one()
@@ -941,7 +411,9 @@ class SpedDocumento(models.Model):
             processador.danfe.NFe = nfe
             processador.danfe.salvar_arquivo = False
             processador.danfe.gerar_danfe()
+
             self.grava_pdf(nfe, processador.danfe.conteudo_pdf)
+
         elif self.modelo == MODELO_FISCAL_NFCE:
             processador.danfce.NFe = nfe
             processador.danfce.salvar_arquivo = False
@@ -1071,7 +543,7 @@ class SpedDocumento(models.Model):
         xml = self.arquivo_xml_autorizacao_id.datas.decode('base64')
         xml = xml.decode('utf-8')
 
-        procNFe = ProcNFe_310()
+        procNFe = ClasseProcNFe()
 
         procNFe.xml = xml
         procNFe.NFe.monta_chave()
@@ -1122,7 +594,7 @@ class SpedDocumento(models.Model):
                 processador.danfe.salvar_arquivo = False
                 processador.danfe.gerar_danfe()
                 self.grava_pdf(procNFe.NFe, processador.danfe.conteudo_pdf)
-                processador.danfe.NFe = NFe_310()
+                processador.danfe.NFe = ClasseNFe()
                 processador.danfe.protNFe = None
                 processador.danfe.procEventoCancNFe = None
             elif self.modelo == MODELO_FISCAL_NFCE:
@@ -1132,7 +604,7 @@ class SpedDocumento(models.Model):
                 processador.danfce.salvar_arquivo = False
                 processador.danfce.gerar_danfce()
                 self.grava_pdf(procNFe.NFe, processador.danfce.conteudo_pdf)
-                processador.danfce.NFe = NFCe_310()
+                processador.danfce.NFe = ClasseNFCe()
                 processador.danfce.protNFe = None
                 processador.danfce.procEventoCancNFe = None
 
@@ -1419,7 +891,7 @@ class SpedDocumento(models.Model):
 
         processador = self.processador_nfe()
 
-        procNFe = ProcNFe_310()
+        procNFe = ClasseProcNFe()
         if self.arquivo_xml_autorizacao_id:
             xml = self.arquivo_xml_autorizacao_id.datas.decode('base64')
             procNFe.xml = xml.decode('utf-8')
@@ -1451,7 +923,7 @@ class SpedDocumento(models.Model):
             processador.danfe.salvar_arquivo = False
             processador.danfe.gerar_danfe()
             self.grava_pdf(procNFe.NFe, processador.danfe.conteudo_pdf)
-            processador.danfe.NFe = NFe_310()
+            processador.danfe.NFe = ClasseNFe()
             processador.danfe.protNFe = None
             processador.danfe.procEventoCancNFe = None
 
@@ -1467,6 +939,6 @@ class SpedDocumento(models.Model):
             processador.danfce.salvar_arquivo = False
             processador.danfce.gerar_danfce()
             self.grava_pdf(procNFe.NFe, processador.danfce.conteudo_pdf)
-            processador.danfce.NFe = NFCe_310()
+            processador.danfce.NFe = ClasseNFCe()
             processador.danfce.protNFe = None
             processador.danfce.procEventoCancNFe = None

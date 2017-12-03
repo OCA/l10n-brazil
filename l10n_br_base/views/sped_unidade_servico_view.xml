@@ -10,7 +10,7 @@
         <field name="model">sped.unidade</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Unidade de medida de serviço">
+            <form string="Unidade de medida de serviço" duplicate="false">
             <field name="codigo_unico" invisible="1" />
             <sheet>
                 <div class="oe_title">
@@ -55,7 +55,7 @@
         <field name="model">sped.unidade</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Unidades de medida de serviço">
+            <tree string="Unidades de medida de serviço" duplicate="false">
                 <field name="codigo" />
                 <field name="nome" />
             </tree>

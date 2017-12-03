@@ -13,8 +13,19 @@ from . import inherited_mail_template
 from . import sped_certificado
 from . import inherited_sped_empresa
 from . import inherited_sped_operacao
+
 from . import inherited_sped_documento
+
 from . import sped_documento_carta_correcao
 from . import sped_manifestacao_destinatario
-
 from . import sped_consulta_dfe
+
+#
+# Montagem do xml
+#
+from .monta_nfe import *
+
+#
+# Leitura do xml
+#
+from .le_nfe import *

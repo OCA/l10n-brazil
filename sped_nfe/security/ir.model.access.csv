@@ -1,0 +1,5 @@
+group_id/id,model_id/id,name,id,perm_read,perm_create,perm_write,perm_unlink
+l10n_br_base.GRUPO_SUPORTE,sped_nfe.model_sped_certificado,Certificado Digital (suporte),sped_certificado_grupo_suporte,True,True,True,True
+sped_imposto.GRUPO_FISCAL_LEITURA,sped_nfe.model_sped_certificado,Certificado Digital (somente leitura),sped_certificado_grupo_fiscal_leitura,True,False,False,False
+sped_imposto.GRUPO_FISCAL_GERAL,sped_nfe.model_sped_certificado,Certificado Digital (geral),sped_certificado_grupo_fiscal_geral,True,False,False,False
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_nfe.model_sped_certificado,Certificado Digital (gerente),sped_certificado_grupo_fiscal_gerente,True,True,True,False

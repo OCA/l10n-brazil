@@ -10,7 +10,7 @@
         <field name="model">sped.cfop</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="CFOP" delete="false" create="false" edit="true">
+            <form string="CFOP" delete="false" create="false" edit="true" duplicate="false">
                 <sheet>
                     <div class="oe_title">
                         <h1>
@@ -99,7 +99,7 @@
         <field name="model">sped.cfop</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="CFOPs" delete="false" create="false" edit="true">
+            <tree string="CFOPs" delete="false" create="false" edit="true" duplicate="false">
                 <field name="codigo"/>
                 <field name="descricao"/>
             </tree>

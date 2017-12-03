@@ -10,7 +10,7 @@
         <field name="model">sped.aliquota.icms.st</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Alíquota de ICMS recolhido por ST" delete="true" create="true" edit="true">
+            <form string="Alíquota de ICMS recolhido por ST" delete="true" create="true" edit="true" duplicate="false">
                 <sheet>
                     <div class="oe_title">
                         <h1>
@@ -60,7 +60,7 @@
         <field name="model">sped.aliquota.icms.st</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Alíquota de ICMS recolhido por ST" delete="true" create="true" edit="true">
+            <tree string="Alíquota de ICMS recolhido por ST" delete="true" create="true" edit="true" duplicate="false">
                 <field name="descricao" />
 <!--                <field name="al_icms" />
                 <field name="md_icms" />

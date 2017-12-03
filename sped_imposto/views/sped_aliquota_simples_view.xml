@@ -10,7 +10,7 @@
         <field name="model">sped.aliquota.simples.anexo</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Alíquota do SIMPLES Nacional" delete="false" create="false" edit="false">
+            <form string="Alíquota do SIMPLES Nacional" delete="false" create="false" edit="false" duplicate="false">
                 <sheet>
                     <div class="oe_title">
                         <h1>
@@ -41,7 +41,7 @@
         <field name="model">sped.aliquota.simples.anexo</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Alíquota do SIMPLES Nacional" delete="false" create="false" edit="false">
+            <tree string="Alíquota do SIMPLES Nacional" delete="false" create="false" edit="false" duplicate="false">
                 <field name="nome" />
             </tree>
         </field>

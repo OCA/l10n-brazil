@@ -10,7 +10,7 @@
         <field name="model">sped.aliquota.ipi</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Alíquota de IPI" delete="true" create="true" edit="true">
+            <form string="Alíquota de IPI" delete="true" create="true" edit="true" duplicate="false">
                 <sheet>
                     <div class="oe_title">
                         <h1>
@@ -49,7 +49,7 @@
         <field name="model">sped.aliquota.ipi</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Alíquota de IPI" delete="true" create="true" edit="true">
+            <tree string="Alíquota de IPI" delete="true" create="true" edit="true" duplicate="false">
                 <field name="descricao" />
 <!--                <field name="al_ipi" />
                 <field name="md_ipi" />

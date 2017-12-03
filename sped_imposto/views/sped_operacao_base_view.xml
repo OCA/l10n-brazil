@@ -11,7 +11,7 @@
         <field name="priority">9999</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form string="Operação Fiscal - Emissão de NF-e">
+            <form string="Operação Fiscal - Emissão de NF-e" duplicate="false">
                 <sheet>
                     <field name="emissao" invisible="1" />
                     <field name="modelo" invisible="1" />
@@ -108,7 +108,7 @@
         <field name="priority">9999</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <tree string="Operação Fiscal - Emissão de NF-e">
+            <tree string="Operação Fiscal - Emissão de NF-e" duplicate="false">
                 <field name="nome" />
                 <field name="empresa_id" />
                 <field name="regime_tributario" />

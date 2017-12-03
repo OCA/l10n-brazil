@@ -16,6 +16,7 @@ class ResPartner(models.Model):
     sped_participante_id = fields.Many2one(
         comodel_name='sped.participante',
         string='Participante',
+        ondelete='cascade',
     )
     sped_empresa_id = fields.Many2one(
         comodel_name='sped.empresa',

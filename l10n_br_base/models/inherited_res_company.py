@@ -23,6 +23,6 @@ class ResCompany(models.Model):
     )
     is_brazilian = fields.Boolean(
         string='Is a Brazilian company?',
-        related='partner_id.sped_participante_id.is_brazilian',
+        related='partner_id.is_brazilian',
         store=True,
     )

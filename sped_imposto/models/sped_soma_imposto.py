@@ -579,10 +579,11 @@ class SpedSomaImposto(SpedBase, models.Model):
         size=60,
         index=True,
     )
-    produto_descricao = fields.Char(
+    produto_nome = fields.Char(
         string='Descrição do produto original',
         size=60,
         index=True,
+        oldname='produto_descricao'
     )
     produto_ncm = fields.Char(
         string='NCM do produto original',
@@ -897,8 +898,8 @@ class SpedSomaImposto(SpedBase, models.Model):
         #
         # Se já ocorreu o preenchimento da descrição, não sobrepõe
         #
-        if not self.produto_descricao:
-            valores['produto_descricao'] = self.produto_id.nome
+        if not self.produto_nome:
+            valores['produto_nome'] = self.produto_id.nome
 
         valores['org_icms'] = (self.produto_id.org_icms or
                                ORIGEM_MERCADORIA_NACIONAL)

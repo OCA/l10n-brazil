@@ -197,6 +197,12 @@ class SpedCalculoImpostoItem(SpedBase):
         string='Unidade para tributação',
         ondelete='restrict',
     )
+    currency_unidade_tributacao_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Unidade para tributação',
+        related='unidade_tributacao_id.currency_id',
+        readonly=True,
+    )
     vr_unitario_tributacao = fields.Float(
         string='Valor unitário para tributação',
         digits=(18, 10),
@@ -295,6 +301,13 @@ class SpedCalculoImpostoItem(SpedBase):
     )
     vr_icms_proprio = fields.Monetary(
         string='valor do ICMS próprio',
+    )
+    motivo_icms_desonerado = fields.Selection(
+        selection=MOTIVO_DESONERACAO_ICMS,
+        string='Motivo da desoneração do ICMS',
+    )
+    vr_icms_desonerado = fields.Monetary(
+        string='valor do ICMS desonerado',
     )
 
     #
@@ -453,6 +466,11 @@ class SpedCalculoImpostoItem(SpedBase):
         string='Alíquota e CST do PIS-COFINS',
         index=True,
     )
+    codigo_natureza_receita_pis_cofins = fields.Char(
+        string='Natureza da receita',
+        size=3,
+        index=True,
+    )
     cst_pis = fields.Selection(
         selection=ST_PIS,
         string='CST PIS',
@@ -592,47 +610,56 @@ class SpedCalculoImpostoItem(SpedBase):
         size=60,
         index=True,
     )
-    produto_descricao = fields.Char(
-        string='Descrição do produto original',
-        size=60,
-        index=True,
+    produto_nome = fields.Char(
+        string='Nome do produto original',
+        size=120,
+        oldname='produto_descricao'
     )
     produto_ncm = fields.Char(
         string='NCM do produto original',
-        size=60,
-        index=True,
+        size=8,
+    )
+    produto_ncm_ex = fields.Char(
+        string='NCM EX do produto original',
+        size=2,
+    )
+    produto_cest = fields.Char(
+        string='CEST do produto original',
+        size=7,
     )
     produto_codigo_barras = fields.Char(
         string='Código de barras do produto original',
-        size=60,
+        size=14,
         index=True,
     )
-    unidade = fields.Char(
+    produto_codigo_barras_tributacao = fields.Char(
+        string='Código de barras de tributação do produto original',
+        size=14,
+    )
+    produto_unidade = fields.Char(
         string='Unidade do produto original',
         size=6,
-        index=True,
     )
-    unidade_tributacao = fields.Char(
+    produto_unidade_tributacao = fields.Char(
         string='Unidade de tributação do produto original',
         size=6,
-        index=True,
     )
     fator_quantidade = fields.Float(
         string='Fator de conversão da quantidade',
     )
-    quantidade_original = fields.Float(
-        string='Quantidade',
-        digits=(18, 4),
-    )
-    vr_unitario_original = fields.Float(
-        string='Valor unitário original',
-        digits=(18, 10),
-    )
-    cfop_original_id = fields.Many2one(
-        comodel_name='sped.cfop',
-        string='CFOP original',
-        index=True,
-    )
+    #quantidade_original = fields.Float(
+        #string='Quantidade',
+        #digits=(18, 4),
+    #)
+    #vr_unitario_original = fields.Float(
+        #string='Valor unitário original',
+        #digits=(18, 10),
+    #)
+    #cfop_original_id = fields.Many2one(
+        #comodel_name='sped.cfop',
+        #string='CFOP original',
+        #index=True,
+    #)
 
     credita_icms_proprio = fields.Boolean(
         string='Credita ICMS próprio?',
@@ -1083,14 +1110,21 @@ class SpedCalculoImpostoItem(SpedBase):
         #
         # Se já ocorreu o preenchimento da descrição, não sobrepõe
         #
-        if not self.produto_descricao:
-            self.produto_descricao = self.produto_id.nome
+        if not self.produto_nome:
+            self.produto_nome = self.produto_id.nome
 
         self.org_icms = (self.produto_id.org_icms or
                          ORIGEM_MERCADORIA_NACIONAL)
         self.unidade_id = self.produto_id.unidade_id.id
 
-        if self.produto_id.unidade_tributacao_ncm_id:
+
+        if self.produto_id.unidade_tributacao_id:
+            self.unidade_tributacao_id = \
+                self.produto_id.unidade_tributacao_id.id
+            self.fator_conversao_unidade_tributacao = \
+                self.produto_id.fator_conversao_unidade_tributacao
+
+        elif self.produto_id.unidade_tributacao_ncm_id:
             self.unidade_tributacao_id = \
                 self.produto_id.unidade_tributacao_ncm_id.id
             self.fator_conversao_unidade_tributacao = \
@@ -1306,6 +1340,8 @@ class SpedCalculoImpostoItem(SpedBase):
             self.cst_ipi = self.operacao_item_id.cst_ipi_saida
 
         self.enquadramento_ipi = self.operacao_item_id.enquadramento_ipi
+        self.motivo_icms_desonerado = \
+            self.operacao_item_id.motivo_icms_desonerado
 
         #
         # Busca agora as alíquotas do PIS e COFINS
@@ -1317,13 +1353,12 @@ class SpedCalculoImpostoItem(SpedBase):
             #
             # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
             self.cst_ipi = ''
-            # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
             self.cst_ipi_entrada = ''
-            # NF-e do SIMPLES não destaca IPI nunca, a não ser quando CSOSN 900
             self.cst_ipi_saida = ''
-            al_pis_cofins = self.env.ref(
-                'sped_imposto.ALIQUOTA_PIS_COFINS_SIMPLES')
+            al_pis_cofins = \
+                self.env.ref('sped_imposto.ALIQUOTA_PIS_COFINS_SIMPLES')
             self.al_pis_cofins_id = al_pis_cofins.id
+            self.codigo_natureza_receita_pis_cofins = ''
 
         else:
             #
@@ -1334,8 +1369,8 @@ class SpedCalculoImpostoItem(SpedBase):
             #
             if self.produto_id.al_pis_cofins_id:
                 al_pis_cofins = self.produto_id.al_pis_cofins_id
-            # elif self.produto_id.ncm_id.al_pis_cofins_id:
-                # al_pis_cofins = self.produto_id.ncm_id.al_pis_cofins_id
+            elif self.produto_id.ncm_id.al_pis_cofins_id:
+                al_pis_cofins = self.produto_id.ncm_id.al_pis_cofins_id
             else:
                 al_pis_cofins = self.empresa_id.al_pis_cofins_id
 
@@ -1345,13 +1380,28 @@ class SpedCalculoImpostoItem(SpedBase):
             # operação caso contrário, usa a definida acima
             #
             if (self.operacao_item_id.al_pis_cofins_id and not
-                    (self.operacao_item_id.al_pis_cofins_id
-                        .cst_pis_cofins_saida in ST_PIS_CALCULA_ALIQUOTA or
-                     self.operacao_item_id.al_pis_cofins_id
-                        .cst_pis_cofins_saida in ST_PIS_CALCULA_QUANTIDADE)):
+                (self.operacao_item_id.al_pis_cofins_id.cst_pis_cofins_saida
+                     in ST_PIS_CALCULA_ALIQUOTA or
+                 self.operacao_item_id.al_pis_cofins_id.cst_pis_cofins_saida
+                     in ST_PIS_CALCULA_QUANTIDADE)):
                 al_pis_cofins = self.operacao_item_id.al_pis_cofins_id
 
             self.al_pis_cofins_id = al_pis_cofins.id
+
+            #
+            # Agora, pega a natureza da receita do PIS-COFINS, necessária
+            # para o SPED Contribuições
+            #
+            if self.produto_id.codigo_natureza_receita_pis_cofins:
+                self.codigo_natureza_receita_pis_cofins = \
+                self.produto_id.codigo_natureza_receita_pis_cofins
+            elif self.produto_id.ncm_id.al_pis_cofins_id and \
+                self.produto_id.ncm_id.codigo_natureza_receita_pis_cofins:
+                self.codigo_natureza_receita_pis_cofins = \
+                    self.produto_id.ncm_id.codigo_natureza_receita_pis_cofins
+            elif self.operacao_item_id.codigo_natureza_receita_pis_cofins:
+                self.codigo_natureza_receita_pis_cofins = \
+                    self.operacao_item_id.codigo_natureza_receita_pis_cofins
 
         #
         # Busca a alíquota do IBPT quando venda
@@ -1943,7 +1993,7 @@ class SpedCalculoImpostoItem(SpedBase):
                   'al_icms_proprio', 'vr_icms_proprio', 'md_icms_st',
                   'pr_icms_st', 'rd_icms_st', 'bc_icms_st_com_ipi',
                   'bc_icms_st', 'al_icms_st', 'vr_icms_st',
-                  'calcula_difal'
+                  'calcula_difal', 'vr_icms_desonerado',
                   )
     def _onchange_calcula_icms(self):
         self.ensure_one()
@@ -1964,6 +2014,7 @@ class SpedCalculoImpostoItem(SpedBase):
 
         self.bc_icms_proprio = 0
         self.vr_icms_proprio = 0
+        self.vr_icms_desonerado = 0
 
         #
         # Baseado no valor da situação tributária, calcular o ICMS próprio
@@ -1974,8 +2025,11 @@ class SpedCalculoImpostoItem(SpedBase):
                     (self.cst_icms_sn == ST_ICMS_SN_ANTERIOR)):
                 return
 
-        else:
-            if self.cst_icms not in ST_ICMS_CALCULA_PROPRIO:
+        elif self.cst_icms in ST_ICMS_CALCULA_PROPRIO_COM_MOTIVO_DESONERACAO:
+            if not self.motivo_icms_desonerado:
+                return
+
+        elif self.cst_icms not in ST_ICMS_CALCULA_PROPRIO:
                 return
 
         if not self.md_icms_proprio:
@@ -2035,6 +2089,18 @@ class SpedCalculoImpostoItem(SpedBase):
 
         vr_icms_proprio = bc_icms_proprio * D(self.al_icms_proprio) / 100
         vr_icms_proprio = vr_icms_proprio.quantize(D('0.01'))
+
+        #
+        # ICMS desonerado
+        #
+        if self.motivo_icms_desonerado and self.cst_icms in ST_ICMS_DESONERADO:
+            if self.cst_icms in ST_ICMS_DESONERADO_TOTAL:
+                vr_icms_desonerado = vr_icms
+
+                if self.cst_icms in ST_ICMS_DESONERADO_ZERA_ICMS_PROPRIO:
+                    bc_icms_proprio = D(0)
+                    vr_icms_proprio = D(0)
+                self.vr_icms_desonerado = vr_icms_desonerado
 
         self.bc_icms_proprio = bc_icms_proprio
         self.vr_icms_proprio = vr_icms_proprio
@@ -2105,7 +2171,15 @@ class SpedCalculoImpostoItem(SpedBase):
         self.bc_icms_st = bc_icms_st
         self.vr_icms_st = vr_icms_st
 
-        if ((self.cst_icms in ST_ICMS_ZERA_ICMS_PROPRIO) or
+        #
+        # ICMS desonerado
+        #
+        if self.motivo_icms_desonerado and \
+            self.cst_icms in ST_ICMS_DESONERADO_TOTAL:
+            self.bc_icms_proprio = 0
+            self.vr_icms_proprio = 0
+
+        elif ((self.cst_icms in ST_ICMS_ZERA_ICMS_PROPRIO) or
             ((self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES) and
                 (self.cst_icms_sn not in ST_ICMS_SN_CALCULA_PROPRIO) and
                 (self.cst_icms_sn not in ST_ICMS_SN_CALCULA_ST))):
@@ -2202,6 +2276,7 @@ class SpedCalculoImpostoItem(SpedBase):
             return res
 
         vr_nf = self.vr_operacao + self.vr_ipi + self.vr_icms_st + self.vr_ii
+        vr_nf -= self.vr_icms_desonerado
 
         #
         # Nas importações o ICMS é somado no total da nota

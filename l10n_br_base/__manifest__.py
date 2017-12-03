@@ -23,6 +23,12 @@
     ],
     'data': [
         #
+        # Grupos e permissões
+        #
+        'security/inherited_res_groups_data.xml',
+        'security/ir.model.access.csv',
+
+        #
         # Valores padrão
         #
         'data/inherited_res_lang_data.xml',
@@ -83,12 +89,6 @@
         #
         'views/sped_account_payment_term_line_view.xml',
         'views/sped_account_payment_term_view.xml',
-
-        #
-        # Grupos e permissões
-        #
-        'security/inherited_res_groups_data.xml',
-        'security/ir.model.access.csv',
     ],
     'demo': [
         'demo/sped_empresa_demo.xml',

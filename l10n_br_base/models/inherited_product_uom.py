@@ -16,4 +16,5 @@ class ProductUoM(models.Model):
     sped_unidade_id = fields.Many2one(
         comodel_name='sped.unidade',
         string='Unidade',
+        ondelete='cascade',
     )

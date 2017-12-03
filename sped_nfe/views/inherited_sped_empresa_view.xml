@@ -17,19 +17,33 @@
             </field>
             <field name="serie_nfe_contingencia_homologacao" position="after">
                 <newline />
+                <field name="nome_arquivo_logo_danfe" attrs="{'invisible': 1}" />
+                <field name="nome_arquivo_cabecalho_danfe" attrs="{'invisible': 1}" />
+                <field name="nome_arquivo_modelo_danfe" attrs="{'invisible': 1}" />
                 <separator string="DANFE" colspan="4" />
-                <field name="logo_danfe" colspan="4" />
+                <newline />
+                <field name="logo_danfe" widget="image" string="Logo (3,8 cm L × 3,2 cm A)" filename="nome_arquivo_logo_danfe" options="{'size': [95, 80]}" />
+                <field name="cabecalho_danfe" widget="image" string="Cabeçalho (7,8 cm L × 3,2 cm A)" filename="nome_arquivo_cabecalho_danfe" option="{'size': [195, 80]}" />
+                <newline />
+                <field name="modelo_danfe" colspan="4" string="Modelo personalizado" filename="nome_arquivo_modelo_danfe" />
                 <newline />
                 <separator string="Modelos de email" colspan="4" />
+                <newline />
                 <field name="mail_template_nfe_autorizada_id" colspan="4" string="Autorização" />
+                <newline />
                 <field name="mail_template_nfe_cancelada_id" colspan="4" string="Cancelamento" />
+                <newline />
                 <field name="mail_template_nfe_denegada_id" colspan="4" string="Denegação" />
+                <newline />
                 <field name="mail_template_nfe_cce_id" colspan="4" string="Carta de correção" />
             </field>
             <field name="serie_nfce_contingencia_homologacao" position="after">
                 <newline />
-                <separator string="DANFCE" colspan="4" />
-                <field name="logo_danfce" colspan="4" />
+<!--                 <separator string="DANFCE" colspan="4" /> -->
+<!--                 <field name="nome_arquivo_logo_danfce" attrs="{'invisible': 1}" /> -->
+<!--                 <field name="nome_arquivo_modelo_danfce" attrs="{'invisible': 1}" /> -->
+<!--                 <field name="logo_danfce" colspan="4" string="Logo (3,8 cm L × 3,2 cm A)" filename="nome_arquivo_logo_danfce" /> -->
+<!--                 <field name="modelo_danfce" colspan="4" filename="nome_arquivo_modelo_danfce" /> -->
                 <newline />
                 <separator string="Modelos de email" colspan="4" />
                 <field name="mail_template_nfce_autorizada_id" colspan="4" string="Autorização" />

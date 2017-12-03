@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="sped_consulta_status_documento_form" model="ir.ui.view">
+            <field name="name">Consultar Documento</field>
+            <field name="model">sped.consulta_status_documento</field>
+            <field name="arch" type="xml">
+                <form string="Consultar chave de acesso" version="7.0">
+                    <field invisible="1" name="state"/>
+                    <group>
+                        <field name="empresa_id"/>
+                        <field name="chave" attrs="{'readonly':[('state','=','done')]}" />
+                    </group>
+                    <group states="done">
+                        <field name="versao" />
+                        <field name="ambiente_nfe" attrs="{'readonly': True}"/>
+                        <field name="motivo" />
+                        <field name="codigo_uf" />
+                        <field name="protocolo_autorizacao" />
+                        <field name="protocolo_cancelamento" />
+                        <field name="processamento_evento_nfe" />
+                        <field name="situacao_nfe"/>
+                    </group>
+                    <footer states="init">
+                        <button name="busca_status_documento" string="Consultar" type="object" class="oe_highlight" />
+                        <button special="cancel" string="Cancel" type="object" class="oe_link"/>
+                    </footer>
+                    <footer states="done">
+                        <button special="cancel" string="Close" type="object"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_sped_consulta_status_documento" model="ir.actions.act_window">
+            <field name="name">Consultar chave de acesso</field>
+            <field name="res_model">sped.consulta_status_documento</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem
+                action="action_sped_consulta_status_documento"
+                id="menu_sped_consulta_status_documento"
+                name="Consultar Documento"
+                sequence="1"
+                parent="sped_nfe.menu_sped_dfe"/>
+    </data>
+</openerp>

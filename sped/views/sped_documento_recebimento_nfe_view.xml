@@ -21,7 +21,7 @@
                 <attribute name="context">{'form_view_ref' : 'sped.sped_documento_item_emissao_form', 'tree_view_ref' : 'sped.sped_documento_item_emissao_tree', 'manual': True}</attribute>
             </field>
             <field name="entrada_saida" position="attributes" >
-                <attribute name="attrs">{'invisible': [('emissao', '=', '1')]}</attribute>
+                <attribute name="attrs">{'invisible': False}</attribute>
             </field>
 
         </field>
