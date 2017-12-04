@@ -479,9 +479,15 @@ class finan_retorno(models.Model):
                     msg_erro = \
                         'O codigo de beneficiario da carteira cadastrado' \
                         ' no sistema ({beneficiario}), difere do codigo ' \
-                        ' de beneficiario Unicred do arquivo: {unicred}.'. \
-                            format(beneficiario=beneciario_carteira,
-                                   unicred=beneficiario_unicred)
+                        ' de beneficiario Unicred do arquivo: {unicred}.' \
+                        '\nO código do beneficiario do arquivo retorno é:' \
+                        '{retorno_beneficiario}'. \
+                            format(
+                                beneficiario=beneciario_carteira,
+                                unicred=beneficiario_unicred,
+                                retorno_beneficiario=
+                                    arquivo_retorno.beneficiario.codigo.numero,
+                        )
                     raise UserError(msg_erro)
             else:
                 try:
