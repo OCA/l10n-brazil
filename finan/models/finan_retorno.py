@@ -631,11 +631,11 @@ class finan_retorno(models.Model):
                 boleto.documento.numero = divida_id.numero
                 #
                 # Cliente negativado não baixa automático o boleto
-                if comando != 'B' and \
-                        divida_id.forma_pagamento_id and \
-                        divida_id.forma_pagamento_id.cliente_negativado:
-                    comando = 'N'
-                    boleto.comando += '-N'
+                # if comando != 'B' and \
+                #         divida_id.forma_pagamento_id and \
+                #         divida_id.forma_pagamento_id.cliente_negativado:
+                #     comando = 'N'
+                #     boleto.comando += '-N'
 
                 # Se o banco emitiu/mudou o nosso numero, atualizar na divida
                 if self.carteira_id.banco_emite and comando == 'R':
