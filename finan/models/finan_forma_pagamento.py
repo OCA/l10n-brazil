@@ -36,7 +36,7 @@ class FinanFormaPagamento(models.Model):
     )
     quitado_somente_com_data_credito_debito = fields.Boolean(
         string='Considerar dívidas quitadas somente após a confirmação da '
-               'data de crédito/débito?'
+               'data de crédito/débito?',
     )
     exige_numero = fields.Boolean(
         string='Exige número de documento no lançamento dos recebimentos/pagamentos?',

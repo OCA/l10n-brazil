@@ -237,7 +237,7 @@ class FinanCarteira(SpedBase, models.Model):
         #
         # A identificação é o próprio id da dívida, para simplificar o
         # tratamento do retorno depois
-        #
+        # numpy -> base_repr
         #boleto.identificacao = 'ID' + base_repr(divida.id, 36)
         boleto.identificacao = 'N' + str(divida.id)
         boleto.data_vencimento = divida.data_vencimento

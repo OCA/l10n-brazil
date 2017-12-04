@@ -330,6 +330,7 @@ class FinanLancamento(SpedBase, models.Model):
         comodel_name='finan.lancamento',
         inverse_name='divida_id',
     )
+
     divida_ids = fields.One2many(
         comodel_name='finan.lancamento',
         compute='_compute_divida_ids',
@@ -483,6 +484,25 @@ class FinanLancamento(SpedBase, models.Model):
         #string="Motivo da baixa",
     #)
 
+    #
+    # Conciliação bancária
+    #
+    remessa_id = fields.Many2one(
+        comodel_name='finan.remessa',
+        string='Remessa CNAB',
+    )
+
+    retorno_id = fields.Many2one(
+        comodel_name='finan.retorno',
+        string='Retorno CNAB',
+    )
+
+    retorno_item_id = fields.Many2one(
+        comodel_name='finan.retorno_item',
+        string='Item Retorno CNAB',
+        ondelete='cascade',
+    )
+
     @api.depends('tipo')
     def _compute_sinal(self):
         for lancamento in self:
@@ -588,12 +608,16 @@ class FinanLancamento(SpedBase, models.Model):
             if lancamento.tipo in FINAN_TIPO_DIVIDA:
                 for pagamento in lancamento.pagamento_ids:
                     #
+                    # Essa validação foi desabilitada temporariamente pois:
+                    # Quando cria um pagamento pelo processamento do CNAB, 
+                    # a divida nao esta sendo recalculada.
+                    #
                     # Não considera pagamentos que tenham controle de data
                     # da crédito/débito exigido pela forma de pagamento
                     #
-                    if pagamento.situacao_divida != \
-                            FINAN_SITUACAO_DIVIDA_QUITADO:
-                        continue
+                    # if pagamento.situacao_divida != \
+                    #         FINAN_SITUACAO_DIVIDA_QUITADO:
+                    #     continue
 
                     vr_quitado_documento += D(pagamento.vr_documento)
                     vr_quitado_juros += D(pagamento.vr_juros)

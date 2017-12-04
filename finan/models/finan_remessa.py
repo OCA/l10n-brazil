@@ -68,5 +68,7 @@ class FinanRemessa(SpedBase, models.Model):
         remessa.sequencia = self.numero
         remessa.data_hora = self.data + ' UTC'
 
-        self._grava_anexo(nome_arquivo=remessa.nome_arquivo,
-                          conteudo=remessa.arquivo_remessa)
+        self._grava_anexo(
+            nome_arquivo=remessa.nome_arquivo,
+            conteudo=remessa.arquivo_remessa
+        )

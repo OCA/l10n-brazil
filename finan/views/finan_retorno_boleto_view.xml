@@ -12,7 +12,7 @@
         <field name="arch" type="xml">
             <form string="Retorno de Boletos">
                 <header>
-                    <button name="processa_retorno" string="Processar" class="btn-primary" type="object" />
+                    <button name="processar_retorno" string="Processar" class="btn-primary" type="object" />
                 </header>
                 <sheet>
                     <group col="4" colspan="4">
@@ -24,7 +24,17 @@
                             <field name="arquivo_binario" />
                         </group>
                         <group name="boletos" string="Itens de Retorno" colspan="4" col="4">
-                            <field name="lancamento_ids" nolabel="1" colspan="4" />
+                            <field name="retorno_item_ids" nolabel="1" colspan="4" >
+                                <tree string="Boletos">
+                                    <field name="currency_id" invisible="1" />
+                                    <field name="partner_id" />
+                                    <field name="data_pagamento" />
+                                    <field name="divida_id" />
+                                    <field name="pagamento_id" />
+                                    <field name="comando" />
+                                    <field name="vr_documento"  widget="monetary" options="{'currency_field': 'currency_id'}" />
+                                </tree>
+                            </field>
                         </group>
                     </group>
                 </sheet>

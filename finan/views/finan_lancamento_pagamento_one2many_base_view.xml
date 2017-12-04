@@ -97,12 +97,16 @@
                                     <field name="vr_total" string="(=) Total" class="oe_subtotal_footer_separator" />
                                 </group>
                             </group>
+                            <field name="remessa_id" />
+                            <field name="retorno_id" />
+                            <field name="retorno_item_id" />
                         </group>
                     </group>
                     <div>
                         <label string="Histórico" />
                         <newline />
                         <field name="historico" placeholder="Histórico do pagamento..."/>
+
                     </div>
                 </sheet>
                 <div class="oe_chatter">
