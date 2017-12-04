@@ -608,12 +608,16 @@ class FinanLancamento(SpedBase, models.Model):
             if lancamento.tipo in FINAN_TIPO_DIVIDA:
                 for pagamento in lancamento.pagamento_ids:
                     #
+                    # Essa validação foi desabilitada temporariamente pois:
+                    # Quando cria um pagamento pelo processamento do CNAB, 
+                    # a divida nao esta sendo recalculada.
+                    #
                     # Não considera pagamentos que tenham controle de data
                     # da crédito/débito exigido pela forma de pagamento
                     #
-                    if pagamento.situacao_divida != \
-                            FINAN_SITUACAO_DIVIDA_QUITADO:
-                        continue
+                    # if pagamento.situacao_divida != \
+                    #         FINAN_SITUACAO_DIVIDA_QUITADO:
+                    #     continue
 
                     vr_quitado_documento += D(pagamento.vr_documento)
                     vr_quitado_juros += D(pagamento.vr_juros)
