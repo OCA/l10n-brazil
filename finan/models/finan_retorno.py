@@ -231,8 +231,8 @@ class finan_retorno(models.Model):
 
             # dados_pagamento['baixa_boleto'] = True
             lancamento_obj = self.env.get('finan.lancamento')
-            finan_lancamento_id = lancamento_obj.create(dados_pagamento)
-            return finan_lancamento_id
+            finan_pagamento_id = lancamento_obj.create(dados_pagamento)
+            return finan_pagamento_id
 
     @api.multi
     def atualizar_divida(self, divida_id, boleto, comando):
@@ -499,8 +499,7 @@ class finan_retorno(models.Model):
                 except:
                     raise UserError('O arquivo é de outra código '
                                     'beneficiário - {bene}!'.format(
-                        bene=arquivo_retorno.beneficiario.codigo_beneficiario.
-                            numero))
+                        bene=arquivo_retorno.beneficiario.codigo.numero))
 
     @api.multi
     def validacao_agencia_conta(self, arquivo_retorno):
