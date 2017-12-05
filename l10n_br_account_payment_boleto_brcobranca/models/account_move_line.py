@@ -70,6 +70,52 @@ class AccountMoveLine(models.Model):
                     _('The Bank %s is not implemented in BRCobranca.') %
                     move_line.payment_mode_id.bank_id.bank.name)
             boleto_list = super(AccountMoveLine, move_line).send_payment()
+
+            precision = self.env['decimal.precision']
+            precision_account = precision.precision_get('Account')
+            instrucao_juros = ''
+            if move_line.payment_mode_id.cnab_percent_interest:
+                valor_juros = round(
+                    move_line.debit *
+                    ((move_line.payment_mode_id.cnab_percent_interest / 100)
+                     / 30), precision_account)
+                instrucao_juros = (
+                    "APÓS VENCIMENTO COBRAR PERCENTUAL"
+                    " DE %s %% AO MÊS ( R$ %s AO DIA )"
+                    % (('%.2f' %
+                        move_line.payment_mode_id.cnab_percent_interest
+                        ).replace('.', ','),
+                       ('%.2f' % valor_juros).replace('.', ',')))
+
+            instrucao_multa = ''
+            if move_line.payment_mode_id.boleto_perc_mora:
+                valor_multa = round(move_line.debit * (
+                    (move_line.payment_mode_id.boleto_perc_mora / 100)
+                ), precision_account)
+                instrucao_multa = (
+                    "APÓS VENCIMENTO COBRAR MULTA "
+                    "PERCENTUAL DE %s %% ( R$ %s )" %
+                    (('%.2f' % move_line.payment_mode_id.boleto_perc_mora
+                      ).replace('.', ','),
+                     ('%.2f' % valor_multa).replace('.', ',')))
+
+            instrucao_desconto_vencimento = ''
+            if move_line.payment_term_id.discount_perc:
+                valor_desconto = round(
+                    move_line.debit * (
+                        move_line.payment_term_id.discount_perc / 100),
+                    precision_account)
+                instrucao_desconto_vencimento = (
+                    'CONCEDER ABATIMENTO PERCENTUAL DE %s %% '
+                    'ATÉ O VENCIMENTO EM %s ( R$ %s )'
+                    % (('%.2f' % move_line.payment_term_id.discount_perc
+                        ).replace('.', ','),
+                       datetime.strptime(
+                           move_line.date_maturity,
+                           '%Y-%m-%d').strftime('%d/%m/%Y'),
+                       ('%.2f' % valor_desconto).replace('.', ',')
+                       ))
+
             for boleto in boleto_list:
                 boleto_cnab_api_data = {
                       'bank': bank_name_brcobranca[0],
@@ -79,14 +125,16 @@ class AccountMoveLine(models.Model):
                       'sacado': move_line.partner_id.legal_name,
                       'sacado_documento': move_line.partner_id.cnpj_cpf,
                       'agencia': move_line.payment_mode_id.bank_id.bra_number,
-                      'conta_corrente': move_line.payment_mode_id.bank_id.acc_number,
+                      'conta_corrente':
+                          move_line.payment_mode_id.bank_id.acc_number,
                       'convenio': move_line.payment_mode_id.boleto_convenio,
                       'carteira': str(move_line.payment_mode_id.boleto_carteira),
                       'nosso_numero': int(''.join(
                           i for i in move_line.boleto_own_number if i.isdigit())),
                       'documento_numero': str(move_line.name).encode('utf-8'),
                       'data_vencimento': datetime.strptime(
-                          move_line.date_maturity, '%Y-%m-%d').strftime('%Y/%m/%d'),
+                          move_line.date_maturity,
+                          '%Y-%m-%d').strftime('%Y/%m/%d'),
                       'data_documento': datetime.strptime(
                           move_line.invoice.date_invoice, '%Y-%m-%d').strftime(
                           '%Y/%m/%d'),
@@ -101,7 +149,10 @@ class AccountMoveLine(models.Model):
                       'data_processamento': datetime.strptime(
                           move_line.invoice.date_invoice, '%Y-%m-%d').strftime(
                           '%Y/%m/%d'),
-                      'instrucao1': move_line.payment_mode_id.instrucoes
+                      'instrucao1': move_line.payment_mode_id.instrucoes or '',
+                      'instrucao3': instrucao_juros,
+                      'instrucao4': instrucao_multa,
+                      'instrucao5': instrucao_desconto_vencimento,
                 }
                 wrapped_boleto_list.append(
                     BoletoWrapper(boleto, boleto_cnab_api_data))

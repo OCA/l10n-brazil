@@ -11,7 +11,8 @@
     'license': 'AGPL-3',
     'author': 'Akretion',
     'website': 'www.akretion.com',
-    'depends': ['l10n_br_account_payment_boleto',
+    'depends': [
+        'l10n_br_account_payment_boleto',
     ],
     'data': [
         'reports/report_print_button_view.xml',
