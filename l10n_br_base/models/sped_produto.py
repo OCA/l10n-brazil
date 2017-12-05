@@ -171,6 +171,22 @@ class SpedProduto(SpedBase, models.Model):
         size=20,
     )
 
+    #Aba de aquisições
+    codigo_produto_fornecedor = fields.Char(
+        string='Código do produto no fornecedor',
+    )
+    descricao_produto = fields.Char(
+        string='Descrição do produto',
+    )
+    preco = fields.Monetary(
+        string='Preço',
+    )
+    fornecedor = fields.Many2one(
+        comodel_name='sped.participante',
+        string='Fornecedor',
+        domain=[['eh_fornecedor', '=', True]],
+    )
+
 
     @api.depends('ncm_id', 'unidade_id')
     def _compute_exige_fator_conversao_ncm(self):
