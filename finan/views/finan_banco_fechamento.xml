@@ -17,18 +17,18 @@
                     <label for="banco_id" class="oe_edit_only"/>
 
                     <h2>
-                        <field name="banco_id" widget="selection" colspan="4" readonly="True"/>
+                        <field name="banco_id" widget="selection" colspan="4"/>
                     </h2>
 
                     <group>
                         <group>
-                            <field name="data_inicial" readonly="True"/>
+                            <field name="data_inicial" />
                             <field name="saldo_inicial"/>
                             <field name="user_id" readonly="1"/>
                         </group>
 
                         <group>
-                            <field name="data_final" readonly="True"/>
+                            <field name="data_final" />
                             <field name="saldo_final" readonly="1"/>
                             <field name="data_fechamento"
                                    attrs="{'invisible': [('data_fechamento', '=', False)]}"/>
