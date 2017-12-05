@@ -145,11 +145,7 @@ class SpedDocumento(models.Model):
                 replace('|', '\n')
 
         if not self.id:
-            try:
-                self = self.create(dados)
-            except Exception as e:
-                return dados
-
+            self = self.create(dados)
         else:
             self.update(dados)
 
@@ -283,9 +279,11 @@ class SpedDocumento(models.Model):
                        cnpj[8:12] + '-' + \
                        cnpj[12:14]
 
-                dados['empresa_id'] = \
-                    self.env['sped.empresa'].\
-                        search([('cnpj_cpf', '=', cnpj)])
+                empresa_id = self.env['sped.empresa']. \
+                    search([('cnpj_cpf', '=', cnpj)])
+
+                if(empresa_id):
+                    dados['empresa_id'] = empresa_id.id
 
                 dados['participante_id'] = destinatario.id
                 dados['regime_tributario'] = emitente.regime_tributario
@@ -307,8 +305,11 @@ class SpedDocumento(models.Model):
                    cnpj[8:12] + '-' + \
                    cnpj[12:14]
 
-            dados['empresa_id'] = \
-                self.env['sped.empresa'].search([('cnpj_cpf', '=', cnpj)])
+            empresa_id = self.env['sped.empresa']. \
+                search([('cnpj_cpf', '=', cnpj)])
+
+            if (empresa_id):
+                dados['empresa_id'] = empresa_id.id
 
             dados['participante_id'] = emitente.id
             dados['emissao'] = TIPO_EMISSAO_TERCEIROS
