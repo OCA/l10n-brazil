@@ -20,8 +20,9 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 from openerp.exceptions import ValidationError
+from openerp.addons import decimal_precision as dp
 
 from ..boleto.document import getBoletoSelection
 
@@ -65,6 +66,11 @@ class PaymentMode(models.Model):
         ('8', u'Não Negativar')
     ], string=u'Códigos de Protesto', default='0')
     boleto_protesto_prazo = fields.Char(u'Prazo protesto', size=2)
+    boleto_perc_mora = fields.Float(
+        string=u"Percentual de Mora",
+        digits=dp.get_precision('Account')
+    )
+
 
     @api.constrains('boleto_type', 'boleto_carteira',
                     'boleto_modalidade', 'boleto_convenio',
@@ -72,3 +78,10 @@ class PaymentMode(models.Model):
     def boleto_restriction(self):
         if self.boleto_type == '6' and not self.boleto_carteira:
             raise ValidationError(u'Carteira no banco Itaú é obrigatória')
+
+    @api.constrains('boleto_perc_mora')
+    def _check_boleto_perc_mora(self):
+        for record in self:
+            if record.discount_perc > 2 or record.discount_perc < 0:
+                raise ValidationError(
+                    _('O percentual de Mora deve ser um valor entre 0 a 2.'))
