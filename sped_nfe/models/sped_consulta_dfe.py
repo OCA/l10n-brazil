@@ -289,7 +289,9 @@ class ConsultaDFe(models.Model):
 
         return nfe_mdes
 
-    def validate_nfe_configuration(self, company):
+    @staticmethod
+    def  \
+             validate_nfe_configuration(company):
         error = u'As seguintes configurações estão faltando:\n'
 
         if not company.certificado_id.arquivo:
@@ -345,7 +347,8 @@ class ConsultaDFe(models.Model):
                 'file_returned': None
             }
 
-    def download_nfe(self, company, list_nfe):
+    @staticmethod
+    def download_nfe(company, list_nfe):
         p = company.processador_nfe()
         cnpj_partner = re.sub('[^0-9]', '', company.cnpj_cpf)
 
