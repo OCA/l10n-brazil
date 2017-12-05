@@ -11,6 +11,7 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
 )
 from odoo import models, fields, api, _
 from odoo.exceptions import Warning as UserError
+from lxml import objectify
 
 
 class SpedConsultaStatusDocumento(models.TransientModel):
@@ -73,34 +74,74 @@ class SpedConsultaStatusDocumento(models.TransientModel):
     @api.multi
     def busca_status_documento(self):
         self.ensure_one()
+        result = True
+        consulta = self.env['sped.consulta.dfe']
+        consulta.validate_nfe_configuration(self.empresa_id)
+
         try:
-            processador = self.empresa_id.processador_nfe()
-            processo = processador.consultar_nota(
-                processador.ambiente,
-                chave_nfe=self.chave,
-                nfe=False
-            )
-            dados = {
-                'versao': processo.resposta.versao.valor,
-                'motivo': processo.resposta.cStat.txt + ' - ' +
-                           processo.resposta.xMotivo.txt,
-                'codigo_uf': processo.resposta.cUF.txt,
-                'chave': processo.resposta.chNFe.txt,
-                'ambiente_nfe': processo.resposta.tpAmb.txt,
-                'protocolo_autorizacao':
-                    '' if processo.resposta.protNFe is None else
-                    processo.resposta.protNFe.infProt.nProt.txt,
-                'protocolo_cancelamento': '',
-                'processamento_evento_nfe': '',
-                'state': 'done',
-            }
-            self.write(dados)
+
+            nfe_result = consulta.download_nfe(self.empresa_id,self.chave)
+
+            if nfe_result['code'] == '138':
+
+                nfe = objectify.fromstring(nfe_result['nfe'])
+                documento = self.env['sped.documento'].new()
+                documento.modelo = nfe.NFe.infNFe.ide.mod.text
+                nfe = documento.le_nfe(xml=nfe_result['nfe'])
+
+                # dados = {
+                #     'versao': processo.resposta.versao.valor,
+                #     'motivo': processo.resposta.cStat.txt + ' - ' +
+                #                processo.resposta.xMotivo.txt,
+                #     'codigo_uf': processo.resposta.cUF.txt,
+                #     'chave': processo.resposta.chNFe.txt,
+                #     'ambiente_nfe': processo.resposta.tpAmb.txt,
+                #     'protocolo_autorizacao':
+                #         '' if processo.resposta.protNFe is None else
+                #         processo.resposta.protNFe.infProt.nProt.txt,
+                #     'protocolo_cancelamento': '',
+                #     'processamento_evento_nfe': '',
+                #     'state': 'done',
+                # }
+                # self.write(dados)
+
         except Exception as e:
             raise UserError(
                 _(u'Erro na consulta da chave!'), e)
 
-        result = self.env.ref(
-            'sped_purchase.action_sped_consulta_status_documento'
-        ).read()[0]
-        result['res_id'] = self.id
         return result
+
+    # @api.multi
+    # def busca_status_documento(self):
+    #     self.ensure_one()
+    #     try:
+    #         processador = self.empresa_id.processador_nfe()
+    #         processo = processador.consultar_nota(
+    #             processador.ambiente,
+    #             chave_nfe=self.chave,
+    #             nfe=False
+    #         )
+    #         dados = {
+    #             'versao': processo.resposta.versao.valor,
+    #             'motivo': processo.resposta.cStat.txt + ' - ' +
+    #                        processo.resposta.xMotivo.txt,
+    #             'codigo_uf': processo.resposta.cUF.txt,
+    #             'chave': processo.resposta.chNFe.txt,
+    #             'ambiente_nfe': processo.resposta.tpAmb.txt,
+    #             'protocolo_autorizacao':
+    #                 '' if processo.resposta.protNFe is None else
+    #                 processo.resposta.protNFe.infProt.nProt.txt,
+    #             'protocolo_cancelamento': '',
+    #             'processamento_evento_nfe': '',
+    #             'state': 'done',
+    #         }
+    #         self.write(dados)
+    #     except Exception as e:
+    #         raise UserError(
+    #             _(u'Erro na consulta da chave!'), e)
+    #
+    #     result = self.env.ref(
+    #         'sped_purchase.action_sped_consulta_status_documento'
+    #     ).read()[0]
+    #     result['res_id'] = self.id
+    #     return result
