@@ -145,7 +145,11 @@ class SpedDocumento(models.Model):
                 replace('|', '\n')
 
         if not self.id:
-            self = self.create(dados)
+            try:
+                self = self.create(dados)
+            except Exception as e:
+                return dados
+
         else:
             self.update(dados)
 
@@ -271,7 +275,18 @@ class SpedDocumento(models.Model):
             # É nota própria
             #
             else:
-                dados['empresa_id'] = emitente.empresa_ids[0].id
+                cnpj = dados_emitente['cnpj_cpf']
+
+                cnpj = cnpj[:2] + '.' + \
+                       cnpj[2:5] + '.' + \
+                       cnpj[5:8] + '/' + \
+                       cnpj[8:12] + '-' + \
+                       cnpj[12:14]
+
+                dados['empresa_id'] = \
+                    self.env['sped.empresa'].\
+                        search([('cnpj_cpf', '=', cnpj)])
+
                 dados['participante_id'] = destinatario.id
                 dados['regime_tributario'] = emitente.regime_tributario
 
@@ -284,7 +299,17 @@ class SpedDocumento(models.Model):
         # É nota de terceiros
         #
         else:
-            dados['empresa_id'] = destinatario.empresa_ids[0].id
+            cnpj = dados_destinatario['cnpj_cpf']
+
+            cnpj = cnpj[:2] + '.' + \
+                   cnpj[2:5] + '.' + \
+                   cnpj[5:8] + '/' + \
+                   cnpj[8:12] + '-' + \
+                   cnpj[12:14]
+
+            dados['empresa_id'] = \
+                self.env['sped.empresa'].search([('cnpj_cpf', '=', cnpj)])
+
             dados['participante_id'] = emitente.id
             dados['emissao'] = TIPO_EMISSAO_TERCEIROS
 
