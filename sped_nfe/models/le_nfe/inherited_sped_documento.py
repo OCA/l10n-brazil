@@ -152,7 +152,6 @@ class SpedDocumento(models.Model):
 
         if not self.id:
             self = self.create(dados)
-            _logger.info(u'Documento importado')
         else:
             self.update(dados)
             _logger.info(u'Documento atualizado')
@@ -280,7 +279,20 @@ class SpedDocumento(models.Model):
             # É nota própria
             #
             else:
-                dados['empresa_id'] = emitente.empresa_ids[0].id
+                cnpj = dados_emitente['cnpj_cpf']
+
+                cnpj = cnpj[:2] + '.' + \
+                       cnpj[2:5] + '.' + \
+                       cnpj[5:8] + '/' + \
+                       cnpj[8:12] + '-' + \
+                       cnpj[12:14]
+
+                empresa_id = self.env['sped.empresa']. \
+                    search([('cnpj_cpf', '=', cnpj)])
+
+                if(empresa_id):
+                    dados['empresa_id'] = empresa_id.id
+
                 dados['participante_id'] = destinatario.id
                 dados['regime_tributario'] = emitente.regime_tributario
 
@@ -293,7 +305,20 @@ class SpedDocumento(models.Model):
         # É nota de terceiros
         #
         else:
-            dados['empresa_id'] = destinatario.empresa_ids[0].id
+            cnpj = dados_destinatario['cnpj_cpf']
+
+            cnpj = cnpj[:2] + '.' + \
+                   cnpj[2:5] + '.' + \
+                   cnpj[5:8] + '/' + \
+                   cnpj[8:12] + '-' + \
+                   cnpj[12:14]
+
+            empresa_id = self.env['sped.empresa']. \
+                search([('cnpj_cpf', '=', cnpj)])
+
+            if (empresa_id):
+                dados['empresa_id'] = empresa_id.id
+
             dados['participante_id'] = emitente.id
             dados['emissao'] = TIPO_EMISSAO_TERCEIROS
 
