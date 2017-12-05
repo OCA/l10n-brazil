@@ -82,6 +82,6 @@ class PaymentMode(models.Model):
     @api.constrains('boleto_perc_mora')
     def _check_boleto_perc_mora(self):
         for record in self:
-            if record.discount_perc > 2 or record.discount_perc < 0:
+            if record.boleto_perc_mora > 2 or record.boleto_perc_mora < 0:
                 raise ValidationError(
                     _('O percentual de Mora deve ser um valor entre 0 a 2.'))
