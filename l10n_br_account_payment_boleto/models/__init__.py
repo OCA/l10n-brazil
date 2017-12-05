@@ -24,3 +24,4 @@ from . import payment_mode
 from . import account_move_line
 from . import res_company
 from . import account_invoice
+from . import account
