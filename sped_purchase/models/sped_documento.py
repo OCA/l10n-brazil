@@ -109,16 +109,3 @@ class SpedDocumento(models.Model):
         for documento in self:
             for item in documento.item_ids:
                 item.calcula_impostos()
-
-
-    @api.model
-    def create(self, vals):
-        documentos = super(SpedDocumento, self).create(vals)
-        documentos.executa_depois_create()
-        return documentos
-
-    @api.multi
-    def write(self, vals):
-        res = super(SpedDocumento, self).write()
-        self.executa_depois_create()
-        return res

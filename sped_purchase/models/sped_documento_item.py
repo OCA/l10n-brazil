@@ -59,20 +59,6 @@ class SpedDocumentoItem(models.Model):
 
         return self.with_context(contexto).new(dados)
 
-
-
-    @api.model
-    def create(self, dados):
-        res = super(SpedDocumentoItem, self).create(dados)
-        res.executa_depois_create()
-        return res
-
-    @api.multi
-    def write(self, vals):
-        res = super(SpedDocumentoItem, self).write()
-        self.executa_depois_create()
-        return res
-
     @api.onchange('purchase_ids', 'purchase_line_ids')
     def _onchange_purchase_line_ids(self):
         result = {}
