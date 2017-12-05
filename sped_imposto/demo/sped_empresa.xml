@@ -1,12 +1,12 @@
 <odoo>
-    <data noupdate="1">
+    <!--<data noupdate="1">-->
 
-         <!-- Basic Company  -->
-        <record id="empresa_principal" model="sped.empresa">
-            <field name="nome">Minha empresa</field>
-            <field name="company_id" ref="base.main_company"/>
-            <field name="protocolo_id" ref="PROTOCOLO_ICMS_PADRAO"/>
-            <field name="operacao_produto_id" ref="OPERACAO_VENDA_SN_NFE"/>
-        </record>
-    </data>
+         <!--&lt;!&ndash; Basic Company  &ndash;&gt;-->
+        <!--<record id="empresa_principal" model="sped.empresa">-->
+            <!--<field name="nome">Minha empresa</field>-->
+            <!--<field name="company_id" ref="base.main_company"/>-->
+            <!--<field name="protocolo_id" ref="PROTOCOLO_ICMS_PADRAO"/>-->
+            <!--<field name="operacao_produto_id" ref="OPERACAO_VENDA_SN_NFE"/>-->
+        <!--</record>-->
+    <!--</data>-->
 </odoo>
