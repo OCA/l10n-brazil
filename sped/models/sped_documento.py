@@ -1568,8 +1568,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     def create(self, dados):
         dados = self.executa_antes_create(dados)
         result = super(SpedDocumento, self).create(dados)
-        # result.executa_depois_create()
-        return result
+        return self.executa_depois_create(result, dados)
 
     def executa_antes_write(self, dados):
         self._check_permite_alteracao(operacao='write', dados=dados)
