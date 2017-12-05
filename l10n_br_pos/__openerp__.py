@@ -12,6 +12,7 @@
     "category": "Point Of Sale",
     "depends": [
         'l10n_br_sale_stock',
+        'l10n_br_stock_account',
         'point_of_sale',
         'pos_pricelist',
         'pos_payment_term',
