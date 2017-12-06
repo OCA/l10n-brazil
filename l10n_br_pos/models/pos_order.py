@@ -4,6 +4,8 @@
 
 import time
 
+from satcomum.ersat import ChaveCFeSAT
+
 from openerp import models, fields, api
 from openerp.addons import decimal_precision as dp
 from openerp.tools.float_utils import float_compare
@@ -99,6 +101,14 @@ class PosOrder(models.Model):
     @api.model
     def create(self, vals):
         order = super(PosOrder, self).create(vals)
+        pos_config = order.session_id.config_id
+        if pos_config.iface_sat_via_proxy:
+            sequence = pos_config.sequence_id
+            cfe = ChaveCFeSAT(vals['chave_cfe'])
+            order.name = sequence._interpolate_value("%s / %s" % (
+                cfe.numero_serie,
+                cfe.numero_cupom_fiscal,
+            ))
         order.simplified_limit_check()
         return order
 
@@ -238,11 +248,6 @@ class PosOrder(models.Model):
         }
 
         return dados_reimpressao
-
-    @api.model
-    def get_sequence_name(self, session_id):
-        session = self.env['pos.session'].browse(session_id)
-        return session.config_id.sequence_id.number_next_actual
 
 
 class PosOrderLine(models.Model):

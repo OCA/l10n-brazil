@@ -21,6 +21,9 @@
         'stock_picking_invoice_link',
         'l10n_br_stock_account',
     ],
+    "external_dependencies": {
+        "python": ['satcomum'],
+    },
     'data': [
         "wizard/l10n_br_pos_order_return.xml",
         "views/pos_template.xml",
