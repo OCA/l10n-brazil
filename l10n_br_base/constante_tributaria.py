@@ -4837,6 +4837,7 @@ TIPO_UNIDADE = (
     ('A', 'Área'),
     ('T', 'Tempo'),
     ('E', 'Embalagem'),
+    ('X', 'Importado de sistema legado'),
 )
 
 
