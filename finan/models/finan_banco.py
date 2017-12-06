@@ -102,6 +102,9 @@ class FinanBanco(SpedBase, models.Model):
         inverse_name='banco_id',
         readonly=True,
     )
+    limite_credito = fields.Monetary(
+        string='Limite de Crédito',
+    )
 
     #
     # Dashboards
