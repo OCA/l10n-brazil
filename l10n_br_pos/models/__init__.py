@@ -10,3 +10,4 @@ from . import l10n_br_account_product
 from . import stock
 from . import res_partner
 from . import stock_move
+from . import ir_sequence

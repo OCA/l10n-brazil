@@ -471,24 +471,12 @@ function l10n_br_pos_screens(instance, module) {
                             this.pos_widget.action_bar.set_button_disabled('validation',true);
                             var receipt = currentOrder.export_for_printing();
                             var json = currentOrder.export_for_printing();
-                            if (self.pos.config.enviar_pedido_cupom_fiscal) {
-                                new instance.web.Model('pos.order').call('get_sequence_name', [this.pos.pos_session.id]).then(function (order_name) {
-                                    json['informacoes_adicionais'] = order_name;
-                                    self.pos.proxy.send_order_sat(
-                                        currentOrder,
-                                        QWeb.render('XmlReceipt',{
-                                        receipt: receipt, widget: self,
-                                    }), json);
-                                    self.pos.get('selectedOrder').destroy();
-                                });
-                            } else {
-                                self.pos.proxy.send_order_sat(
+                            self.pos.proxy.send_order_sat(
                                     currentOrder,
                                     QWeb.render('XmlReceipt',{
                                     receipt: receipt, widget: self,
                                 }), json);
                                 self.pos.get('selectedOrder').destroy();
-                            }
                         }else{
                             this.pos.push_order(currentOrder);
                         }
