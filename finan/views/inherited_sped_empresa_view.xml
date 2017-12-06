@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2017 KMEE Tecnologia - Bruna Braga <bruna_braga@kmee.edu.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="inherited_sped_empresa_form_view" >
+        <field name="name">sped.empresa.form.view (in finan)</field>
+        <field name="model">sped.empresa</field>
+        <field name="inherit_id" ref="l10n_br_base.sped_empresa_form" />
+        <field name="arch" type="xml">
+            <field name="eh_cliente" position="after">
+                <field name="carteira_id"/>
+                <field name="carteira_ids" widget="many2many_tags"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

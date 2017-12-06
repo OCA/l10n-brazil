@@ -39,6 +39,8 @@
         'views/finan_forma_pagamento_view.xml',
         'views/inherited_sped_participante_base_view.xml',
 
+        'views/inherited_sped_empresa_view.xml',
+
         #
         # Lançamentos
         #
@@ -69,6 +71,7 @@
         'wizards/finan_relatorio_divida_wizard.xml',
         'wizards/finan_lancamento_novo_pagamento_wizard.xml',
 
+        # 'reports/report_py3o_finan_retorno.xml',
         ##'data/financial_document_type_data.xml',
         ##'data/interest_data.xml',
 

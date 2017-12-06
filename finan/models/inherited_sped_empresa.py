@@ -18,6 +18,16 @@ except (ImportError, IOError) as err:
 class SpedEmpresa(models.Model):
     _inherit = 'sped.empresa'
 
+    carteira_id = fields.Many2one(
+        string='Carteira Padrão',
+        comodel_name='finan.carteira',
+    )
+
+    carteira_ids = fields.Many2many(
+        string='Carteiras Permitidas',
+        comodel_name='finan.carteira',
+    )
+
     data_referencia_financeira = fields.Date(
         string='Data de referência financeira',
     )
