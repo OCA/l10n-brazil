@@ -15,6 +15,7 @@
         'l10n_br_base',
         'mail',
         'report_xlsx',
+        'report_py3o',
     ],
     'external_dependencies': {
         'python': ['html2text', 'pybrasil', 'numpy'],
