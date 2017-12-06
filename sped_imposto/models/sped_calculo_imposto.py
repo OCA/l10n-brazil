@@ -655,6 +655,12 @@ class SpedCalculoImposto(SpedBase):
         # Criamos o documento e chamados os onchange necessários
         #
         documento = self.env['sped.documento'].create(dados)
+
+        if self.pagamento_ids:
+            documento.pagamento_ids = self.pagamento_ids
+        if self.duplicata_ids:
+            documento.duplicata_ids = self.duplicata_ids
+
         documento.update(documento._onchange_empresa_id()['value'])
         documento.update(documento._onchange_operacao_id()['value'])
 
@@ -706,7 +712,15 @@ class SpedCalculoImposto(SpedBase):
         if self.condicao_pagamento_id:
             documento.condicao_pagamento_id = self.condicao_pagamento_id
 
-        documento.update(documento._onchange_condicao_pagamento_id()['value'])
+        if documento.pagamento_ids:
+            for pagamento in documento.pagamento_ids:
+                pagamento.update(
+                    pagamento._onchange_condicao_pagamento_id()['value']
+                )
+        else:
+            documento.update(
+                documento._onchange_condicao_pagamento_id()['value']
+            )
 
         return documento
 
