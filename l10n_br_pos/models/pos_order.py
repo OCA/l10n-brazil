@@ -104,7 +104,7 @@ class PosOrder(models.Model):
         pos_config = order.session_id.config_id
         if pos_config.iface_sat_via_proxy:
             sequence = pos_config.sequence_id
-            cfe = ChaveCFeSAT('CFe' + vals['chave_cfe'])
+            cfe = ChaveCFeSAT(vals['chave_cfe'])
             order.name = sequence._interpolate_value("%s / %s" % (
                 cfe.numero_serie,
                 cfe.numero_cupom_fiscal,
