@@ -52,92 +52,63 @@ class SpedDocumento(models.Model):
         default=False
     )
 
-    def _check_permite_alteracao(self, operacao='create', dados={},
-                                 campos_proibidos=[]):
-        CAMPOS_PERMITIDOS = [
-            'justificativa',
-            'arquivo_xml_cancelamento_id',
-            'arquivo_xml_autorizacao_cancelamento_id',
-            'data_hora_cancelamento',
-            'protocolo_cancelamento',
-            'arquivo_pdf_id',
-            'situacao_fiscal',
-            'situacao_nfe',
-        ]
+    def executa_depois_autorizar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias depois de autorizar uma NF-e,
+        # por exemplo, criar lançamentos financeiros, movimentações de
+        # estoque etc.
+        #
+        self.ensure_one()
+
+        if self.modelo != MODELO_FISCAL_CFE:
+            super(SpedDocumento, self)._compute_permite_cancelamento()
+            return
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            super(SpedDocumento, self)._compute_permite_cancelamento()
+            return
+
+        #
+        # Envia o email da nota para o cliente
+        #
+        mail_template = None
+        if self.operacao_id.mail_template_id:
+            mail_template = self.operacao_id.mail_template_id
+        else:
+            if self.modelo == MODELO_FISCAL_NFE and \
+                    self.empresa_id.mail_template_nfe_autorizada_id:
+                mail_template = \
+                    self.empresa_id.mail_template_nfe_autorizada_id
+            elif self.modelo == MODELO_FISCAL_NFCE and \
+                    self.empresa_id.mail_template_nfce_autorizada_id:
+                mail_template = \
+                    self.empresa_id.mail_template_nfce_autorizada_id
+
+        if mail_template is None:
+            return
+
+        self.envia_email(mail_template)
+
+    @api.depends('modelo', 'emissao', 'importado_xml', 'situacao_nfe')
+    def _compute_permite_alteracao(self):
+        super(SpedDocumento, self)._compute_permite_alteracao()
         for documento in self:
-            if documento.modelo not in (MODELO_FISCAL_NFE,
-                                        MODELO_FISCAL_NFCE):
-                super(SpedDocumento, documento)._check_permite_alteracao(
-                    operacao,
-                    dados,
-                )
+            if not self.modelo == MODELO_FISCAL_CFE:
+                super(SpedDocumento, documento)._compute_permite_alteracao()
                 continue
 
             if documento.emissao != TIPO_EMISSAO_PROPRIA:
-                super(SpedDocumento, documento)._check_permite_alteracao(
-                    operacao,
-                    dados,
-                )
+                super(SpedDocumento, documento)._compute_permite_alteracao()
                 continue
 
-            if documento.permite_alteracao:
-                continue
-
-            permite_alteracao = False
             #
-            # Trata alguns campos que é permitido alterar depois da nota
-            # autorizada
+            # É emissão própria de NF-e ou NFC-e, permite alteração
+            # somente quando estiver em digitação ou rejeitada
             #
-            if documento.situacao_nfe == SITUACAO_NFE_AUTORIZADA:
-                for campo in dados:
-                    if campo in CAMPOS_PERMITIDOS:
-                        permite_alteracao = True
-                        break
-                    elif campo not in campos_proibidos:
-                        campos_proibidos.append(campo)
-
-            if permite_alteracao:
-                continue
-
-            super(SpedDocumento, documento)._check_permite_alteracao(
-                operacao,
-                dados,
-                campos_proibidos
-            )
-
-    @api.depends('data_hora_autorizacao', 'modelo', 'emissao', 'justificativa',
-                 'situacao_nfe')
-    def _compute_permite_cancelamento(self):
-        #
-        # Este método deve ser alterado por módulos integrados, para verificar
-        # regras de negócio que proíbam o cancelamento de um documento fiscal,
-        # como por exemplo, a existência de boletos emitidos no financeiro,
-        # que precisariam ser cancelados antes, caso tenham sido enviados
-        # para o banco, a verificação de movimentações de estoque confirmadas,
-        # a contabilização definitiva do documento etc.
-        #
-        for documento in self:
-            if documento.modelo not in (MODELO_FISCAL_CFE):
-                super(SpedDocumento, documento)._compute_permite_cancelamento()
-                continue
-
-            if documento.emissao != TIPO_EMISSAO_PROPRIA:
-                super(SpedDocumento, documento)._compute_permite_cancelamento()
-                continue
-
-            documento.permite_cancelamento = False
-
-            # FIXME retirar apost teste
-            documento.permite_cancelamento = True
-
-            if documento.data_hora_autorizacao:
-                tempo_autorizado = UTC.normalize(agora())
-                tempo_autorizado -= \
-                    parse_datetime(documento.data_hora_autorizacao + ' GMT')
-
-                if (documento.situacao_nfe == SITUACAO_NFE_AUTORIZADA and
-                        tempo_autorizado.days < 1):
-                    documento.permite_cancelamento = True
+            documento.permite_alteracao = documento.permite_alteracao or \
+                documento.situacao_nfe in (SITUACAO_NFE_EM_DIGITACAO,
+                                        SITUACAO_NFE_REJEITADA)
 
     def processador_cfe(self):
         """
