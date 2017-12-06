@@ -789,6 +789,20 @@ class HrPayslip(models.Model):
             'amount': contract._salario_mes_proporcional(date_from, date_to),
             'contract_id': contract.id,
         }
+        salario_mes_inicial_dic = {
+            'name': 'Salário Mês Inicial',
+            'code': 'SALARIO_MES_INICIAL',
+            'amount': contract._salario_mes_inicial(date_from, date_to),
+            'contract_id': contract.id,
+        }
+        salario_mes_final_dic = {
+            'name': 'Salário Mês Final',
+            'code': 'SALARIO_MES_FINAL',
+            'amount': contract._salario_mes_final(date_from, date_to),
+            'contract_id': contract.id,
+        }
+        res += [salario_mes_inicial_dic]
+        res += [salario_mes_final_dic]
         res += [salario_mes_proporcional_dic]
         res += [salario_mes_dic]
         res += [salario_dia_dic]

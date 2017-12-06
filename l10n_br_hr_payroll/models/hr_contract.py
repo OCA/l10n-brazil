@@ -64,7 +64,8 @@ class HrContract(models.Model):
     )
 
     @api.multi
-    def _buscar_salario_vigente_periodo(self, data_inicio, data_fim, final=False):
+    def _buscar_salario_vigente_periodo(
+            self, data_inicio, data_fim, inicial=False, final=False):
         contract_change_obj = self.env['l10n_br_hr.contract.change']
 
         #
@@ -107,8 +108,8 @@ class HrContract(models.Model):
 
             # Dentro deste período houve alteração contratual ?
             #
-            if change[i].change_date >= data_inicio and \
-                change[i].change_date <= data_fim:
+            if data_inicio <= change[i].change_date <= data_fim:
+                    # >= data_inicio and change[i].change_date <= data_fim:
                 i_2 = i + 1
                 data_mudanca = \
                     datetime.strptime(change[i].change_date, "%Y-%m-%d")
@@ -130,10 +131,6 @@ class HrContract(models.Model):
                     salario_dia_1 = change[i_2].wage / dias.days
                 else:
                     salario_dia_1 = change[i].wage / dias.days
-                if len(change) >= 2:
-                    salario_dia_1 = change[i_2].wage / dias.days
-                else:
-                    salario_dia_1 = change[i].wage / dias.days
                 salario_medio_2 = salario_dia_2 * dias_2
                 salario_medio_1 = salario_dia_1 * dias_1
 
@@ -141,6 +138,17 @@ class HrContract(models.Model):
                 # do período
                 #
                 salario_medio = salario_medio_2 + salario_medio_1
+
+                # Se for para buscar o salário inicial
+                #
+                if inicial:
+                    salario_medio = salario_dia_1 * dias.days
+
+                # Se for para buscar o salário final
+                #
+                if final:
+                    salario_medio = salario_dia_2 * dias.days
+
                 break
 
             # Houve alteração contratual anterior ao período atual
@@ -164,11 +172,23 @@ class HrContract(models.Model):
 
     @api.multi
     def _salario_mes(self, data_inicio, data_fim):
-        return self._buscar_salario_vigente_periodo(data_inicio, data_fim)
+        return self._buscar_salario_vigente_periodo(
+            data_inicio, data_fim)
 
     @api.multi
     def _salario_mes_proporcional(self, data_inicio, data_fim):
-        return self._buscar_salario_vigente_periodo(data_inicio, data_fim)
+        return self._buscar_salario_vigente_periodo(
+            data_inicio, data_fim)
+
+    @api.multi
+    def _salario_mes_inicial(self, data_inicio, data_fim):
+        return self._buscar_salario_vigente_periodo(
+            data_inicio, data_fim, inicial=True)
+
+    @api.multi
+    def _salario_mes_final(self, data_inicio, data_fim):
+        return self._buscar_salario_vigente_periodo(
+            data_inicio, data_fim, final=True)
 
     specific_rule_ids = fields.One2many(
         comodel_name='hr.contract.salary.rule',
