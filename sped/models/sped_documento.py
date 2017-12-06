@@ -14,6 +14,8 @@ from odoo.exceptions import ValidationError
 from odoo.addons.sped_imposto.models.sped_calculo_imposto import SpedCalculoImposto
 
 from odoo.addons.l10n_br_base.constante_tributaria import *
+from openerp.addons.sped_imposto.models.sped_calculo_imposto import \
+    SpedCalculoImposto
 
 _logger = logging.getLogger(__name__)
 
