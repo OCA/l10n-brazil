@@ -93,6 +93,7 @@ class SpedDocumento(models.Model):
     @api.depends('modelo', 'emissao', 'importado_xml', 'situacao_nfe')
     def _compute_permite_alteracao(self):
         super(SpedDocumento, self)._compute_permite_alteracao()
+
         for documento in self:
             if not self.modelo == MODELO_FISCAL_CFE:
                 super(SpedDocumento, documento)._compute_permite_alteracao()
@@ -194,7 +195,8 @@ class SpedDocumento(models.Model):
         #
         # Destinatário
         #
-        destinatario = self._monta_cfe_destinatario()
+        if self.participante_id:
+            kwargs['destinatario'] = self._monta_cfe_destinatario()
 
         #
         # Itens
