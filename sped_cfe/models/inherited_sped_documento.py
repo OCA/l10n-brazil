@@ -445,18 +445,18 @@ class SpedDocumento(models.Model):
             resposta = cliente.enviar_dados_venda(cfe)
             if resposta.EEEEE in '06000':
                 self.executa_antes_autorizar()
-                self.situacao_fiscal = SITUACAO_FISCAL_REGULAR
-                self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
                 self.executa_depois_autorizar()
                 self.data_hora_autorizacao = fields.Datetime.now()
 
                 chave = ChaveCFeSAT(resposta.chaveConsulta)
-
                 self.numero = chave.numero_cupom_fiscal
                 self.serie = chave.numero_serie
                 self.chave = resposta.chaveConsulta[3:]
-
                 self.grava_cfe_autorizacao(resposta.xml())
+
+                self.situacao_fiscal = SITUACAO_FISCAL_REGULAR
+                self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
+
 
                 # # self.grava_pdf(nfe, procNFe.danfe_pdf)
 
