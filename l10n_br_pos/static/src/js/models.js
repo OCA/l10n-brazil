@@ -285,7 +285,7 @@ function l10n_br_pos_models(instance, module) {
                 result['configs_sat']['cod_ativacao'] = pos_config.cod_ativacao;
                 result['configs_sat']['impressora'] = pos_config.impressora;
                 result['configs_sat']['printer_params'] = pos_config.printer_params;
-                result['informacoes_adicionais'] = '';
+                result['informacoes_adicionais'] = pos_config.company_id[1];
 
                 return result;
             }else{
