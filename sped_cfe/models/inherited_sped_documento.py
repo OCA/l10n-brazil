@@ -529,11 +529,11 @@ class SpedDocumento(models.Model):
                 #     config.cnpjsh, duplicata.id_fila_status
                 # )
                 #
-                resposta_status_pagamento = cliente.verificar_status_validador(
-                    config.cnpjsh, '214452'
-                )
-                if resposta_status_pagamento.ValorPagamento == '0' and resposta_status_pagamento.IdFila == '0':
-                    pagamentos_autorizados = False
-                    break
+                # resposta_status_pagamento = cliente.verificar_status_validador(
+                #     config.cnpjsh, '214452'
+                # )
+                # if resposta_status_pagamento.ValorPagamento == '0' and resposta_status_pagamento.IdFila == '0':
+                #     pagamentos_autorizados = False
+                #     break
 
             self.pagamento_autorizado_cfe = pagamentos_autorizados
