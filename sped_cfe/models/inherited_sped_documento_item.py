@@ -38,10 +38,11 @@ class SpedDocumentoItem(models.Model):
         if self.documento_id.modelo != MODELO_FISCAL_CFE:
             return
 
-        if self.produto_descricao:
-            descricao = self.produto_descricao
-        else:
-            descricao = self.produto_id.nome
+        # if self.produto_descricao:
+        #     descricao = self.produto_descricao
+        # else:
+        #     descricao = self.produto_id.nome
+        descricao = self.produto_id.nome
 
         descricao = descricao.replace('—', '-').replace('–', '-')
         descricao = descricao.replace('”', '"').replace('“', '"')
