@@ -128,9 +128,12 @@ class SpedEmpresa(SpedBase, models.Model):
         if len(cnpj_cpf) == 14:
             cnpj_cpf = formata_cnpj(cnpj_cpf)
             valores['cnpj_cpf'] = cnpj_cpf
-            valores['tipo_pessoa'] = TIPO_PESSOA_JURIDICA
-            valores['regime_tributario'] = REGIME_TRIBUTARIO_SIMPLES
-            valores['contribuinte'] = INDICADOR_IE_DESTINATARIO_ISENTO
+            if not self.tipo_pessoa:
+                valores['tipo_pessoa'] = TIPO_PESSOA_JURIDICA
+            if not self.regime_tributario:
+                valores['regime_tributario'] = REGIME_TRIBUTARIO_SIMPLES
+            if not self.contribuinte:
+                valores['contribuinte'] = INDICADOR_IE_DESTINATARIO_ISENTO
 
         else:
             cnpj_cpf = formata_cpf(cnpj_cpf)
