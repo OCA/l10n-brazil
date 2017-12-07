@@ -29,6 +29,10 @@ except (ImportError, IOError) as err:
 class SpedDocumentoPagamento(models.Model):
     _inherit = 'sped.documento.pagamento'
 
+    id_fila_status = fields.Char(
+        string=u'Status IdFila Sefaz'
+    )
+
     def monta_cfe(self):
         self.ensure_one()
 

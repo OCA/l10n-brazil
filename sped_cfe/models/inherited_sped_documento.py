@@ -496,8 +496,7 @@ class SpedDocumento(models.Model):
         pagamentos_cartoes = []
         for pagamento in self.pagamento_ids:
             if pagamento.condicao_pagamento_id.forma_pagamento in ["03", "04"]:
-                for duplicata in pagamento.duplicata_ids:
-                    pagamentos_cartoes.append(duplicata)
+                pagamentos_cartoes.append(pagamento)
 
         return pagamentos_cartoes
 
