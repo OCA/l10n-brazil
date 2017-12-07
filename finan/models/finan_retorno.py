@@ -208,7 +208,18 @@ class finan_retorno(models.Model):
         template = Template(template_boleto, arquivo_renderizado.name)
 
 
-        template.render({'boletos': lista_boletos})
+        template.render({'boletos': lista_boletos,
+                         'sequencia': arquivo_retorno.sequencia,
+                         'data': arquivo_retorno.data_hora.strftime('%Y/%m/%d'),
+                         'nome_beneficiario': arquivo_retorno.beneficiario.nome,
+                         'banco_codigo': arquivo_retorno.banco.codigo_digito,
+                         'cnpj_beneficiario': arquivo_retorno.beneficiario.cnpj_cpf,
+                         'codigo_beneficiario':
+                             arquivo_retorno.beneficiario.agencia_codigo_beneficiario,
+                         'conta_beneficiario':
+                             arquivo_retorno.beneficiario.agencia_conta,
+                         'logo': arquivo_retorno.banco.arquivo_logo
+                         })
 
         # comando opara o libreoffice gerar o pdf
         sh.libreoffice('--headless', '--invisible', '--convert-to',
