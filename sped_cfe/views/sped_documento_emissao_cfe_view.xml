@@ -41,7 +41,7 @@
                 <attribute name="attrs">{'invisible': [('modelo', '=', '59')]}</attribute>
             </xpath>
             <xpath expr="//field[@name='pagamento_ids']" position="attributes">
-                <attribute name="attrs">{'invisible': [('condicao_pagamento_id', '!=', False)]}</attribute>
+                <attribute name="attrs">{'invisible': [('condicao_pagamento_id', '!=', False), ('modelo', '!=', '59')]}</attribute>
             </xpath>
             <field name="vr_fatura" position="after">
                 <field name="vr_total_residual" invisible="1" />
