@@ -2224,12 +2224,13 @@ class HrPayslip(models.Model):
         ]:
             if self.tipo_de_folha == 'ferias' and not self.\
                     _buscar_holerites_periodo_aquisitivo():
-                raise exceptions.Warning(
-                    "Não existem holerites normais confirmados"
-                    "suficientes no periodo "
-                    "aquisitivo para os cálculos "
-                    "das férias!"
-                )
+                print("Não tem problema!")
+                # raise exceptions.Warning(
+                #     "Não existem holerites normais confirmados"
+                #     "suficientes no periodo "
+                #     "aquisitivo para os cálculos "
+                #     "das férias!"
+                # )
             else:
                 hr_medias_ids, data_de_inicio, data_final = \
                     self.gerar_media_dos_proventos()
@@ -2399,12 +2400,13 @@ class HrPayslip(models.Model):
     def gerar_media_dos_proventos(self):
         if self.tipo_de_folha == 'ferias' and not self.\
                 _buscar_holerites_periodo_aquisitivo():
-            raise exceptions.Warning(
-                "Não existem holerites normais confirmados "
-                "suficientes no periodo "
-                "aquisitivo para os cálculos "
-                "das férias!"
-            )
+            print("Não tem problema!")
+            # raise exceptions.Warning(
+            #     "Não existem holerites normais confirmados "
+            #     "suficientes no periodo "
+            #     "aquisitivo para os cálculos "
+            #     "das férias!"
+            # )
         else:
             medias_obj = self.env['l10n_br.hr.medias']
             if self.tipo_de_folha in \
