@@ -152,9 +152,9 @@ class finan_retorno(models.Model):
         string='Número do arquivo',
     )
 
-    data = fields.Datetime(
+    data = fields.Date(
         string='Data',
-        default=fields.Datetime.now,
+        default=fields.Date.today,
         required=True,
     )
 
@@ -210,7 +210,7 @@ class finan_retorno(models.Model):
 
         template.render({'boletos': lista_boletos,
                          'sequencia': arquivo_retorno.sequencia,
-                         'data': arquivo_retorno.data_hora.strftime('%Y/%m/%d'),
+                         'data': arquivo_retorno.data_hora.strftime('%d/%m/%Y'),
                          'nome_beneficiario': arquivo_retorno.beneficiario.nome,
                          'banco_codigo': arquivo_retorno.banco.codigo_digito,
                          'cnpj_beneficiario': arquivo_retorno.beneficiario.cnpj_cpf,
@@ -218,7 +218,7 @@ class finan_retorno(models.Model):
                              arquivo_retorno.beneficiario.agencia_codigo_beneficiario,
                          'conta_beneficiario':
                              arquivo_retorno.beneficiario.agencia_conta,
-                         'logo': arquivo_retorno.banco.arquivo_logo
+                         'logo': lista_boletos[0].banco.logo,
                          })
 
         # comando opara o libreoffice gerar o pdf
