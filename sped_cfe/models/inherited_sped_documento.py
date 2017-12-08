@@ -37,6 +37,14 @@ class SpedDocumento(models.Model):
     _inherit = 'sped.documento'
 
     @api.multi
+    def _compute_total_a_pagar(self):
+        valor = self.vr_fatura
+        for pagamento in self.pagamento_ids:
+            valor -= pagamento.valor
+
+        self.vr_total_residual = valor
+
+    @api.multi
     def _buscar_configuracoes_pdv(self):
         self.configuracoes_pdv = self.env.user.configuracoes_sat_cfe
 
@@ -50,6 +58,11 @@ class SpedDocumento(models.Model):
         string=u"Pagamento Autorizado",
         readonly=True,
         default=False
+    )
+
+    vr_total_residual = fields.Monetary(
+        string='Total Residual',
+        compute='_compute_total_a_pagar',
     )
 
     def executa_depois_autorizar(self):
