@@ -111,40 +111,40 @@ class ValidCreateIdTest(TransactionCase):
 # Tests on companies
 
     def test_comp_valid(self):
-        """Try do create id with correct CNPJ and correct Inscriçao Estadual"""
+        """Try do create id with correct CNPJ and correct Inscricao Estadual"""
         try:
             id = self.env['res.company'].create(self.company_valid)
         except:
             assert id, u"Error when using .create() even with valid \
-                         and Inscriçao Estadual"
+                         and Inscricao Estadual"
 
     def test_comp_invalid_cnpj(self):
         """Test if ValidationError raised during .create() with invalid CNPJ
-            and correct Inscriçao Estadual"""
+            and correct Inscricao Estadual"""
         with self.assertRaises(ValidationError):
             self.env['res.company'].create(self.company_invalid_cnpj)
 
     def test_comp_invalid_inscr_est(self):
         """Test if ValidationError raised with correct CNPJ
-            and invalid Inscriçao Estadual"""
+            and invalid Inscricao Estadual"""
         with self.assertRaises(ValidationError):
             self.env['res.company'].create(self.company_invalid_inscr_est)
 
 # Tests on partners
 
     def test_part_valid(self):
-        """Try do create id with correct CPF and correct Inscriçao Estadual"""
+        """Try do create id with correct CPF and correct Inscricao Estadual"""
         try:
             id = self.env['res.partner'].create(self.partner_valid)
         except:
             assert id, u"Error when using .create() even with valid CPF \
-                         and Inscriçao Estadual"
+                         and Inscricao Estadual"
 
     def test_part_invalid_cpf(self):
         """Test if ValidationError raised during .create() with invalid CPF
-            and correct Inscriçao Estadual"""
+            and correct Inscricao Estadual"""
         with self.assertRaises(ValidationError):
             self.env['res.partner'].create(self.partner_invalid_cpf)
 
-# No test on Inscriçao Estadual for partners with CPF
-# because they haven't Inscriçao Estadual
+# No test on Inscricao Estadual for partners with CPF
+# because they haven't Inscricao Estadual
