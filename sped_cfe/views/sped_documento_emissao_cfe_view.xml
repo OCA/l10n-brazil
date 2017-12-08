@@ -34,9 +34,21 @@
             <xpath expr="//separator[@name='vencimentos']" position="attributes">
                 <attribute name="attrs">{'invisible': [('condicao_pagamento_id', '!=', False)]}</attribute>
             </xpath>
+            <xpath expr="//field[@name='condicao_pagamento_id']" position="attributes">
+                <attribute name="attrs">{'invisible': [('modelo', '=', '59')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='duplicata_ids']" position="attributes">
+                <attribute name="attrs">{'invisible': [('modelo', '=', '59')]}</attribute>
+            </xpath>
             <xpath expr="//field[@name='pagamento_ids']" position="attributes">
                 <attribute name="attrs">{'invisible': [('condicao_pagamento_id', '!=', False)]}</attribute>
             </xpath>
+            <field name="vr_fatura" position="after">
+                <field name="vr_total_residual" invisible="1" />
+            </field>
+            <field name="pagamento_ids" position="attributes">
+                <attribute name="context">{'default_valor': vr_total_residual}</attribute>
+            </field>
             <header position="inside">
                 <!--<button string="Enviar CF-e" class="btn-primary" custom="enviar_dados_venda"-->
                     <!--attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada'])]}" />-->

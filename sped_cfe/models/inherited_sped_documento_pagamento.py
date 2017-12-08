@@ -47,11 +47,11 @@ class SpedDocumentoPagamento(models.Model):
 
             # Lembrete integracao_cartao esta com valores errados
             # das constantes
-            kwargs['cAdmC'] = '00' + self.integracao_cartao
+            # kwargs['cAdmC'] = '00' + self.integracao_cartao
+            kwargs['cAdmC'] = self.participante_id.codigo_administradora_cartao
 
         pagamento = MeioPagamento(
-            cMP='01',
-                    # self.forma_pagamento,
+            cMP=self.forma_pagamento,
             vMP=D(self.valor).quantize(D('0.01')),
             **kwargs
         )

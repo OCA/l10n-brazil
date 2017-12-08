@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_pagamento_cfe_form">
+        <field name="name">sped.documento.pagamento.cfe.form</field>
+        <field name="model">sped.documento.pagamento</field>
+        <field name="inherit_id" ref="sped.sped_documento_pagamento_form" />
+        <field name="arch" type="xml">
+            <field name="condicao_pagamento_id" position="attributes">
+                <attribute name="attrs">{'required': True}</attribute>
+            </field>
+        </field>
+    </record>
+
+</odoo>
