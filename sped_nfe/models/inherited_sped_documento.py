@@ -166,16 +166,12 @@ class SpedDocumento(models.Model):
 
     @api.depends('modelo', 'emissao', 'importado_xml', 'situacao_nfe')
     def _compute_permite_alteracao(self):
-        super(SpedDocumento, self)._compute_permite_alteracao()
-
+        result = super(SpedDocumento, self)._compute_permite_alteracao()
         for documento in self:
             if documento.modelo not in (MODELO_FISCAL_NFE,
                                         MODELO_FISCAL_NFCE):
-                super(SpedDocumento, documento)._compute_permite_alteracao()
                 continue
-
             if documento.emissao != TIPO_EMISSAO_PROPRIA:
-                super(SpedDocumento, documento)._compute_permite_alteracao()
                 continue
 
             #
@@ -185,6 +181,7 @@ class SpedDocumento(models.Model):
             documento.permite_alteracao = documento.permite_alteracao or \
                 documento.situacao_nfe in (SITUACAO_NFE_EM_DIGITACAO,
                                         SITUACAO_NFE_REJEITADA)
+        return result
 
     def _check_permite_alteracao(self, operacao='create', dados={},
                                  campos_proibidos=[]):

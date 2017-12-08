@@ -149,6 +149,9 @@ class SpedDocumentoItem(models.Model):
         return False
 
     def le_nfe(self, det, dados_documento):
+
+        cfop = self._busca_cfop(str(det.prod.CFOP.valor)),
+
         dados = {
             'emissao': dados_documento['emissao'],
             'entrada_saida': dados_documento['entrada_saida'],
@@ -264,7 +267,8 @@ class SpedDocumentoItem(models.Model):
             #
             # CFOP
             #
-            'cfop_id': self._busca_cfop(str(det.prod.CFOP.valor)),
+            'cfop_original_id': self.emissao == TIPO_EMISSAO_TERCEIROS and cfop or False,
+            'cfop_id': self.emissao != TIPO_EMISSAO_TERCEIROS and cfop or False,
         }
 
         #

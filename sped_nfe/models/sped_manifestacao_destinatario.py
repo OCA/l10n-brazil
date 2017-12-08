@@ -270,10 +270,19 @@ class SpedManifestacaoDestinatario(models.Model):
                 nfe = objectify.fromstring(nfe_result['nfe'])
                 documento = self.env['sped.documento'].new()
                 documento.modelo = nfe.NFe.infNFe.ide.mod.text
-                documento.le_nfe(xml=nfe_result['nfe'])
+                dados = documento.le_nfe(xml=nfe_result['nfe'])
+                return {
+                    'name': _("Associar Pedido de Compras"),
+                    'view_mode': 'form',
+                    'view_type': 'form',
+                    'view_id': self.env.ref('sped_nfe.sped_documento_ajuste_recebimento_form').id,
+                    'res_id': dados.id,
+                    'res_model': 'sped.documento',
+                    'type': 'ir.actions.act_window',
+                    'target': 'new',
+                    'flags': {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}},
+                }
             else:
                 raise models.ValidationError(_(
                     nfe_result['code'] + ' - ' + nfe_result['message'])
                 )
-
-        return result

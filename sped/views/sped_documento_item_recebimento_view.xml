@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_documento_item_recebimento_form">
+        <field name="name">sped.documento.item.recebimento.form</field>
+        <field name="model">sped.documento.item</field>
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sped.sped_documento_item_base_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form[1]" position="attributes">
+                <attribute name="string">Item do documento</attribute>
+            </xpath>
+            <field name="cfop_id" position="replace" >
+                <field name="cfop_original_id" string="CFOP NF-e"/>
+            </field>
+            <xpath expr="//notebook[1]" position="before">
+                <field name="quantidade_tributacao"/>
+                <field name="unidade_tributacao_id"/>
+                <field name="cfop_id" string="CFOP Entrada"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_item_recebimento_tree">
+        <field name="name">sped.documento.item.recebimento.tree</field>
+        <field name="model">sped.documento.item</field>
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sped.sped_documento_item_base_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree[1]" position="attributes">
+                <attribute name="string">Itens do documento</attribute>
+            </xpath>
+            <field name="produto_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="cfop_id" position="replace">
+                <field name="produto_codigo"/>
+                <field name="produto_nome"/>
+            </field>
+            <field name="vr_produtos" position="after">
+                <field name="produto_codigo_barras" string="EAN"/>
+            </field>
+            <field name="vr_nf" position="after">
+                <field name="cfop_original_id" string="CFOP NF-e"/>
+                <field name="cfop_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
