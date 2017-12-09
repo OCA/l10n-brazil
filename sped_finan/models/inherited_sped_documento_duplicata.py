@@ -6,10 +6,11 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from odoo import api, fields, models, _
-from odoo.addons.l10n_br_base.constante_tributaria import TIPO_EMISSAO_PROPRIA
+from odoo import fields, models
 from odoo.addons.finan.constantes import FINAN_DIVIDA_A_RECEBER, \
     FINAN_DIVIDA_A_PAGAR
+from odoo.addons.l10n_br_base.constante_tributaria import TIPO_EMISSAO_PROPRIA
+from odoo.exceptions import ValidationError
 
 
 class SpedDocumentoDuplicata(models.Model):
@@ -66,5 +67,24 @@ class SpedDocumentoDuplicata(models.Model):
                 finan_lancamento_id.forma_pagamento_id.forma_pagamento == '15'
 
             if finan_lancamento_id.forma_pagamento_id and pgto_em_boleto:
+                # valida se esta definido a carteira de pagamento de
+                # boletos no lancamento financeiro
+                if not finan_lancamento_id.carteira_id:
+
+                    # Verifica se tem uma carteira padrao na empresa do user
+                    if self.env.user.company_id.sped_empresa_id.carteira_id:
+                        # se estiver configura carteira padrao, atribui ao
+                        # lancamento e ao documento fiscal a carteira
+                        carteira_padrao = \
+                            self.env.user.company_id.sped_empresa_id.carteira_id
+                        finan_lancamento_id = carteira_padrao
+                        duplicata.documento_id.carteira_padrao = \
+                            carteira_padrao
+                    else:
+                        raise ValidationError(
+                            'Não foi encontrado a carteira padrão para boletos'
+                            'definido pela empresa.\n Acesse o cadastro da '
+                            'empresa e na aba comercial, '
+                            'configure a carteira padrão.')
                 boleto = finan_lancamento_id.gera_boleto()
                 duplicata.documento_id._grava_anexo(boleto.nome, boleto.pdf)
