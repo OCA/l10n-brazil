@@ -63,8 +63,8 @@ class SpedDocumentoDuplicata(models.Model):
 
             # Se for um lancamento de boleto
             pgto_em_boleto = \
-                finan_lancamento_id.condicao_pagamento_id.forma_pagamento == '15'
+                finan_lancamento_id.forma_pagamento_id.forma_pagamento == '15'
 
-            if finan_lancamento_id.condicao_pagamento_id and pgto_em_boleto:
+            if finan_lancamento_id.forma_pagamento_id and pgto_em_boleto:
                 boleto = finan_lancamento_id.gera_boleto()
                 duplicata.documento_id._grava_anexo(boleto.nome, boleto.pdf)
