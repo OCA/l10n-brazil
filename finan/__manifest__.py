@@ -12,6 +12,7 @@
     'website': 'www.kmee.com.br',
     'depends': [
         'base',
+        'sped_sale',
         'l10n_br_base',
         'mail',
         'report_xlsx',
@@ -38,8 +39,10 @@
         'views/finan_documento_view.xml',
         'views/finan_forma_pagamento_view.xml',
         'views/inherited_sped_participante_base_view.xml',
+        'views/inherited_sale_order_view.xml',
 
         'views/inherited_sped_empresa_view.xml',
+        'views/inherited_sped_documento_view.xml',
 
         #
         # Lançamentos
