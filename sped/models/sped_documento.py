@@ -1303,6 +1303,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         # estoque etc.
         #
         self.ensure_one()
+        self.gera_operacao_entrada()
 
     def executa_antes_cancelar(self):
         #
@@ -1389,3 +1390,18 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
 
         return super(SpedDocumento, self).search_read(domain=domain,
             fields=fields, offset=offset, limit=limit, order=order)
+
+    def gera_operacao_entrada(self):
+        if self.operacao_id.operacao_entrada_id:
+            empresa_id = self.env['sped.empresa'].search([('cnpj_cpf', '=', self.participante_id.cnpj_cpf)])
+            if empresa_id:
+                novo_doc = self.copy()
+                novo_doc.participante_id = self.empresa_id.participante_id
+                novo_doc.empresa_id = empresa_id
+                novo_doc.operacao_id = self.operacao_id.operacao_entrada_id
+                novo_doc.entrada_saida = '0'
+                novo_doc.emissao = '1'
+
+                for item in self.item_ids:
+                    item._onchange_produto_id_emissao_propria()
+                    item._onchange_operacao_item_id()

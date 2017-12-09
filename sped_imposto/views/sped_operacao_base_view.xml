@@ -27,6 +27,7 @@
                             <field name="empresa_id" colspan="4" options="{'no_create': True, 'no_open': True}" domain="[('contribuinte', '=', '1')]" />
                             <newline />
                             <field name="entrada_saida" attrs="{'required': '1', 'readonly': [('id', '!=', False)]}" colspan="2" />
+                            <field name="operacao_entrada_id"/>
                             <field name="regime_tributario" attrs="{'required': '1', 'readonly': [('id', '!=', False)]}" colspan="2" />
                             <newline />
                             <field name="natureza_operacao_id" colspan="4" required="1" options="{'no_create': True, 'no_open': True}" />

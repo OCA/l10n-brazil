@@ -190,8 +190,11 @@ class SpedOperacaoFiscal(models.Model):
     )
     # 'forca_recalculo_st_compra': fields.boolean(
     # 'Força recálculo do ST na compra?'),
-    # 'operacao_entrada_id': fields.many2one(
-    # 'sped.operacao', 'Operação de entrada equivalente'),
+
+    operacao_entrada_id = fields.Many2one(
+        comodel_name='sped.operacao',
+        string='Operação de entrada equivalente',
+    )
     consumidor_final = fields.Selection(
         selection=TIPO_CONSUMIDOR_FINAL,
         string='Tipo do consumidor',
