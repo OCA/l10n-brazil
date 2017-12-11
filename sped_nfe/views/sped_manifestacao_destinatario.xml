@@ -26,6 +26,10 @@
                                 string="Operação não Realizada"
                                 type="object"
                                 attrs="{'invisible':[['state','not in',['ciente']]]}"/>
+                        <button name="action_importa_xml"
+                                string="Importar NF-e"
+                                type="object"
+                                attrs="{'invisible':[['state','not in',['ciente','cofirmado','desconhecido','nao_realizado']]]}"/>
                         <button name="action_download_xml"
                                 string="Download da NF-e"
                                 type="object"

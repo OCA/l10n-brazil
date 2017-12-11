@@ -266,7 +266,21 @@ class SpedManifestacaoDestinatario(models.Model):
                         'res_model': 'sped.manifestacao.destinatario',
                         'res_id': record.id
                     })
+            else:
+                raise models.ValidationError(_(
+                    nfe_result['code'] + ' - ' + nfe_result['message'])
+                )
 
+    @api.multi
+    def action_importa_xml(self):
+        result = True
+        for record in self:
+            record.sped_consulta_dfe_id.\
+                validate_nfe_configuration(record.empresa_id)
+            nfe_result = record.sped_consulta_dfe_id.\
+                download_nfe(record.empresa_id, record.chave)
+
+            if nfe_result['code'] == '138':
                 nfe = objectify.fromstring(nfe_result['nfe'])
                 documento = self.env['sped.documento'].new()
                 documento.modelo = nfe.NFe.infNFe.ide.mod.text
