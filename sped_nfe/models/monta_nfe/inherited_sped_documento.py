@@ -99,7 +99,7 @@ class SpedDocumento(models.Model):
         #
         # Totais
         #
-        self._monta_nfe_total(nfe.infNFe.total)
+        self._monta_nfe_total(nfe)
 
         #
         # Informações adicionais
@@ -426,26 +426,34 @@ class SpedDocumento(models.Model):
         for pagamento in self.pagamento_ids:
             pag.append(pagamento.monta_nfe())
 
-    def _monta_nfe_total(self, total):
-        total.ICMSTot.vBC.valor = str(D(self.bc_icms_proprio))
-        total.ICMSTot.vICMS.valor = str(D(self.vr_icms_proprio))
-        total.ICMSTot.vICMSDeson.valor = str(D(self.vr_icms_desonerado))
-        total.ICMSTot.vFCPUFDest.valor = str(D(self.vr_fcp))
-        total.ICMSTot.vICMSUFDest.valor = str(D(self.vr_icms_estado_destino))
-        total.ICMSTot.vICMSUFRemet.valor = str(D(self.vr_icms_estado_origem))
-        total.ICMSTot.vBCST.valor = str(D(self.bc_icms_st))
-        total.ICMSTot.vST.valor = str(D(self.vr_icms_st))
-        total.ICMSTot.vProd.valor = str(D(self.vr_produtos))
-        total.ICMSTot.vFrete.valor = str(D(self.vr_frete))
-        total.ICMSTot.vSeg.valor = str(D(self.vr_seguro))
-        total.ICMSTot.vDesc.valor = str(D(self.vr_desconto))
-        total.ICMSTot.vII.valor = str(D(self.vr_ii))
-        total.ICMSTot.vIPI.valor = str(D(self.vr_ipi))
-        total.ICMSTot.vPIS.valor = str(D(self.vr_pis_proprio))
-        total.ICMSTot.vCOFINS.valor = str(D(self.vr_cofins_proprio))
-        total.ICMSTot.vOutro.valor = str(D(self.vr_outras))
-        total.ICMSTot.vNF.valor = str(D(self.vr_nf))
-        total.ICMSTot.vTotTrib.valor = str(D(self.vr_ibpt))
+    def _monta_nfe_total(self, nfe):
+        nfe.infNFe.total.ICMSTot.vBC.valor = str(D(self.bc_icms_proprio))
+        nfe.infNFe.total.ICMSTot.vICMS.valor = str(D(self.vr_icms_proprio))
+        nfe.infNFe.total.ICMSTot.vICMSDeson.valor = str(D(self.vr_icms_desonerado))
+        nfe.infNFe.total.ICMSTot.vFCPUFDest.valor = str(D(self.vr_fcp))
+        if nfe.infNFe.ide.idDest.valor == \
+            IDENTIFICACAO_DESTINO_INTERESTADUAL and \
+            nfe.infNFe.ide.indFinal.valor == \
+            TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and \
+            nfe.infNFe.dest.indIEDest.valor == \
+            INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE:
+
+            nfe.infNFe.total.ICMSTot.vICMSUFDest.valor = str(D(self.vr_icms_estado_destino))
+            nfe.infNFe.total.ICMSTot.vICMSUFRemet.valor = str(D(self.vr_icms_estado_origem))
+
+        nfe.infNFe.total.ICMSTot.vBCST.valor = str(D(self.bc_icms_st))
+        nfe.infNFe.total.ICMSTot.vST.valor = str(D(self.vr_icms_st))
+        nfe.infNFe.total.ICMSTot.vProd.valor = str(D(self.vr_produtos))
+        nfe.infNFe.total.ICMSTot.vFrete.valor = str(D(self.vr_frete))
+        nfe.infNFe.total.ICMSTot.vSeg.valor = str(D(self.vr_seguro))
+        nfe.infNFe.total.ICMSTot.vDesc.valor = str(D(self.vr_desconto))
+        nfe.infNFe.total.ICMSTot.vII.valor = str(D(self.vr_ii))
+        nfe.infNFe.total.ICMSTot.vIPI.valor = str(D(self.vr_ipi))
+        nfe.infNFe.total.ICMSTot.vPIS.valor = str(D(self.vr_pis_proprio))
+        nfe.infNFe.total.ICMSTot.vCOFINS.valor = str(D(self.vr_cofins_proprio))
+        nfe.infNFe.total.ICMSTot.vOutro.valor = str(D(self.vr_outras))
+        nfe.infNFe.total.ICMSTot.vNF.valor = str(D(self.vr_nf))
+        nfe.infNFe.total.ICMSTot.vTotTrib.valor = str(D(self.vr_ibpt))
 
     def _monta_nfe_informacao_complementar(self, nfe):
         infcomplementar = self.infcomplementar or ''
