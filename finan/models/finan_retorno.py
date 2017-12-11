@@ -216,12 +216,16 @@ class finan_retorno(models.Model):
 
         template.render({'boletos': lista_boletos,
                          'sequencia': arquivo_retorno.sequencia,
-                         'data': arquivo_retorno.data_hora.strftime('%d/%m/%Y'),
-                         'nome_beneficiario': arquivo_retorno.beneficiario.nome,
+                         'data':
+                             arquivo_retorno.data_hora.strftime('%d/%m/%Y'),
+                         'nome_beneficiario':
+                             arquivo_retorno.beneficiario.nome,
                          'banco_codigo': arquivo_retorno.banco.codigo_digito,
-                         'cnpj_beneficiario': arquivo_retorno.beneficiario.cnpj_cpf,
+                         'cnpj_beneficiario':
+                             arquivo_retorno.beneficiario.cnpj_cpf,
                          'codigo_beneficiario':
-                             arquivo_retorno.beneficiario.agencia_codigo_beneficiario,
+                             arquivo_retorno.beneficiario.\
+                        agencia_codigo_beneficiario,
                          'conta_beneficiario':
                              arquivo_retorno.beneficiario.agencia_conta,
                          'logo': lista_boletos[0].banco.logo,
