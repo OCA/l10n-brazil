@@ -207,6 +207,9 @@ class finan_retorno(models.Model):
         arquivo_pdf = arquivo_renderizado.name + '.pdf'
         template = Template(template_boleto, arquivo_renderizado.name)
 
+        comandos_boletos =\
+                sorted(set(map(lambda x: (x.comando_retorno_descricao),
+                               lista_boletos)))
 
         template.render({'boletos': lista_boletos,
                          'sequencia': arquivo_retorno.sequencia,
@@ -223,6 +226,7 @@ class finan_retorno(models.Model):
                          'conta_beneficiario':
                              arquivo_retorno.beneficiario.agencia_conta,
                          'logo': lista_boletos[0].banco.logo,
+                         'comandos': comandos_boletos,
                          })
 
         # comando opara o libreoffice gerar o pdf
