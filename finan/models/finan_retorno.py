@@ -207,6 +207,12 @@ class finan_retorno(models.Model):
         arquivo_pdf = arquivo_renderizado.name + '.pdf'
         template = Template(template_boleto, arquivo_renderizado.name)
 
+        #transformar em string pagamento duplicado para impressão no boleto
+        for record in arquivo_retorno.boletos:
+            if record.pagamento_duplicado == True:
+                duplicado = 'SIM'
+            else:
+                duplicado = 'NÃO'
 
         template.render({'boletos': lista_boletos,
                          'sequencia': arquivo_retorno.sequencia,
@@ -219,6 +225,7 @@ class finan_retorno(models.Model):
                          'conta_beneficiario':
                              arquivo_retorno.beneficiario.agencia_conta,
                          'logo': lista_boletos[0].banco.logo,
+                         'duplicado': duplicado,
                          })
 
         # comando opara o libreoffice gerar o pdf
