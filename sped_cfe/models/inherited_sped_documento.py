@@ -141,14 +141,48 @@ class SpedDocumento(models.Model):
             from mfecfe.clientelocal import ClienteSATLocal
             from mfecfe import BibliotecaSAT
             cliente = ClienteSATLocal(
-                BibliotecaSAT('/opt/Integrador'),  # FIXME: Caminho do integrador nas configurações
+                BibliotecaSAT(self.configuracoes_pdv.path_integrador),
                 codigo_ativacao=self.configuracoes_pdv.codigo_ativacao
             )
         elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
             from mfecfe.clientesathub import ClienteSATHub
             cliente = ClienteSATHub(
                 self.configuracoes_pdv.ip,
-                5000,  # FIXME: Colocar a porta nas configurações
+                self.configuracoes_pdv.porta,
+                numero_caixa=int(self.configuracoes_pdv.numero_caixa)
+            )
+        elif self.configuracoes_pdv.tipo_sat == 'remoto':
+            cliente = None
+            # NotImplementedError
+
+        return cliente
+
+    def processador_vfpe(self):
+        """
+        Busca classe do processador do cadastro da empresa, onde podemos ter três tipos de processamento dependendo
+        de onde o equipamento esta instalado:
+
+        - Instalado no mesmo servidor que o Odoo;
+        - Instalado na mesma rede local do servidor do Odoo;
+        - Instalado em um local remoto onde o browser vai ser responsável por se comunicar com o equipamento
+
+        :return:
+        """
+        self.ensure_one()
+
+        if self.configuracoes_pdv.tipo_sat == 'local':
+            from mfecfe import BibliotecaSAT
+            from mfecfe import ClienteVfpeLocal
+            cliente = ClienteVfpeLocal(
+                BibliotecaSAT(self.configuracoes_pdv.path_integrador),
+                chave_acesso_validador=
+                self.configuracoes_pdv.chave_acesso_validador
+            )
+        elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
+            from mfecfe.clientesathub import ClienteVfpeHub
+            cliente = ClienteVfpeHub(
+                self.configuracoes_pdv.ip,
+                self.configuracoes_pdv.porta,
                 numero_caixa=int(self.configuracoes_pdv.numero_caixa)
             )
         elif self.configuracoes_pdv.tipo_sat == 'remoto':
@@ -523,10 +557,7 @@ class SpedDocumento(models.Model):
             config = self.configuracoes_pdv
             from mfecfe import BibliotecaSAT
             from mfecfe import ClienteVfpeLocal
-            cliente = ClienteVfpeLocal(
-                BibliotecaSAT('/opt/Integrador'),
-                chave_acesso_validador=config.chave_acesso_validador
-            )
+            cliente = self.processador_vfpe()
 
             for duplicata in pagamentos_cartoes:
                 if not duplicata.id_fila_status:
