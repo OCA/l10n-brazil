@@ -21,7 +21,9 @@
                     <group string="Configurações SAT"
                     attrs="{'invisible': [('tipo', '!=', 'SAT') ] }">
                         <field name="tipo_sat"/>
-                        <field name="ip"/>
+                        <field name="path_integrador" attrs="{'invisible': [('tipo_sat', '!=', 'local')]}"/>
+                        <field name="ip" attrs="{'invisible': [('tipo_sat', '!=', 'rede_interna')]}"/>
+                        <field name="porta" attrs="{'invisible': [('tipo_sat', '!=', 'rede_interna')]}"/>
                         <field name="ambiente"/>
                         <field name="codigo_ativacao"/>
                         <field name="cnpjsh"/>
