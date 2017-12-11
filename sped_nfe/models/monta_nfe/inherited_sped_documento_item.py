@@ -244,7 +244,7 @@ class SpedDocumentoItem(models.Model):
 
             infcomplementar += 'Valor aproximado dos tributos: ' + \
                 'R$ ${formata_valor(item.vr_ibpt)} (' + \
-                '${formata_valor(item.al_ibpt)}%) - fonte: IBPT;|1 teste teste teste|2 teste teste teste|3 teste teste teste|4 teste teste teste|5 teste teste teste|6 teste teste teste|7 teste teste teste|8 teste teste teste|9 teste teste teste|10 teste teste teste'
+                '${formata_valor(item.al_ibpt)}%) - fonte: IBPT;'
 
         #
         # ICMS para UF de destino
