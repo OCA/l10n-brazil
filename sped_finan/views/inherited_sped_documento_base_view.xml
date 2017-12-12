@@ -20,4 +20,17 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="sped_documento_emissao_nfe_inherited_form" >
+        <field name="name">sped.documento.emissao.nfe.inherited.form (in sped_finan)</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="sped_nfe.sped_documento_emissao_nfe_inherited_form" />
+        <field name="arch" type="xml">
+            <button name="gera_xml" position="after">
+                <button name="gera_boleto_documento_fiscal" string="Gerar Boletos" type="object" class="btn-primary"
+                        attrs="{'invisible': [('carteira_id','=', False)]}"/>
+            </button>
+        </field>
+    </record>
+
 </odoo>

@@ -61,30 +61,3 @@ class SpedDocumentoDuplicata(models.Model):
         for duplicata in self:
             dados = duplicata.prepara_finan_lancamento()
             finan_lancamento_id = self.env['finan.lancamento'].create(dados)
-
-            # Se for um lancamento de boleto
-            pgto_em_boleto = \
-                finan_lancamento_id.forma_pagamento_id.forma_pagamento == '15'
-
-            if finan_lancamento_id.forma_pagamento_id and pgto_em_boleto:
-                # valida se esta definido a carteira de pagamento de
-                # boletos no lancamento financeiro
-                if not finan_lancamento_id.carteira_id:
-
-                    # Verifica se tem uma carteira padrao na empresa do user
-                    if self.env.user.company_id.sped_empresa_id.carteira_id:
-                        # se estiver configura carteira padrao, atribui ao
-                        # lancamento e ao documento fiscal a carteira
-                        carteira_padrao = \
-                            self.env.user.company_id.sped_empresa_id.carteira_id
-                        finan_lancamento_id = carteira_padrao
-                        duplicata.documento_id.carteira_padrao = \
-                            carteira_padrao
-                    else:
-                        raise ValidationError(
-                            'Não foi encontrado a carteira padrão para boletos'
-                            'definido pela empresa.\n Acesse o cadastro da '
-                            'empresa e na aba comercial, '
-                            'configure a carteira padrão.')
-                boleto = finan_lancamento_id.gera_boleto()
-                duplicata.documento_id._grava_anexo(boleto.nome, boleto.pdf)
