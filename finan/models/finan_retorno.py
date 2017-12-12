@@ -76,7 +76,6 @@ class finan_retorno_item(models.Model):
     )
 
     data = fields.Date(
-        # related='divida_id.data',
         string='Data conciliação',
     )
 
@@ -91,34 +90,28 @@ class finan_retorno_item(models.Model):
     )
 
     valor_multa = fields.Float(
-        compute='compute_valor_multa',
         string='Multa',
     )
 
     valor_juros = fields.Float(
-        compute='compute_valor_multa',
         string='Juros',
     )
 
     valor_desconto = fields.Float(
-        compute='compute_valor_multa',
         string='Desconto',
     )
 
     outros_debitos = fields.Float(
-        compute='compute_valor_multa',
         string='Tarifas',
     )
 
     valor = fields.Float(
-        compute='compute_valor_multa',
         string='Valor',
     )
 
     @api.multi
-    def compute_valor_multa(self):
+    def compute_valor_multa(self, nome_campo):
         res = {}
-        return 3
         for item_obj in self:
             valor = D(0)
 
@@ -229,10 +222,11 @@ class finan_retorno(models.Model):
                          'comandos': comandos_boletos,
                          })
 
-        # comando opara o libreoffice gerar o pdf
-        sh.libreoffice('--headless', '--invisible', '--convert-to',
-                       'pdf',
-                       '--outdir', '/tmp', arquivo_renderizado.name)
+        # comando para o libreoffice gerar o pdf
+        sh.libreoffice(
+            '--headless', '--invisible', '--convert-to',
+            'pdf', '--outdir', '/tmp', arquivo_renderizado.name
+        )
 
         pdf = open(arquivo_pdf, 'rb').read()
 
