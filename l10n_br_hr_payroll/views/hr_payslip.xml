@@ -166,7 +166,7 @@
                         </page>
 
                         <page string="Cálculo das Médias"
-                              attrs="{'invisible': [('tipo_de_folha', 'not in', ['ferias', 'decimo_terceiro', 'aviso_previo', 'provisao_decimo_terceiro'])]}">
+                              attrs="{'invisible': [('tipo_de_folha', 'not in', ['ferias', 'provisao_ferias', 'decimo_terceiro', 'aviso_previo', 'provisao_decimo_terceiro'])]}">
                             <button string="Calcular Médias"
                                     name="gerar_media_dos_proventos"
                                     type="object"/>
@@ -248,18 +248,20 @@
 
                 <!--adicionando Período de Férias -->
                 <xpath expr="//h1" position="after">
-                    <group attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}">
+                    <group attrs="{'invisible' : [('tipo_de_folha', 'not in', ['ferias', 'provisao_ferias'])]}">
                         <group>
                             <field name="holidays_ferias"
                                    options="{'no_quick_create': True, 'no_create_edit': True}"
                                    domain="[('contrato_id', '=', contract_id), ('state', '=', 'validate'), ('slip_ids', '=', False), ('type', '=', 'remove'), ('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]"
-                                   attrs="{'readonly': False, 'required': [('tipo_de_folha', '=', 'ferias'), ('is_simulacao', '=', False)]}"/>
+                                   attrs="{
+                                   'readonly': False,
+                                   'required': [('tipo_de_folha', '=', 'ferias'), ('is_simulacao', '=', False)],
+                                   'invisible': [('tipo_de_folha', '!=', 'ferias')],
+                                   }"/>
 
-                            <field name="periodo_aquisitivo"
-                                   attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}" />
+                            <field name="periodo_aquisitivo" />
 
-                            <field name="saldo_periodo_aquisitivo"
-                                   attrs="{'invisible' : [('tipo_de_folha', '!=', 'ferias')]}"/>
+                            <field name="saldo_periodo_aquisitivo" />
 
                         </group>
                     </group>
