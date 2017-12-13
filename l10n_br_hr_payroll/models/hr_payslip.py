@@ -862,53 +862,52 @@ class HrPayslip(models.Model):
 
     def MEDIA_RUBRICA(self, codigo):
 
-        if self.tipo_de_folha == 'provisao_ferias':
+        if self.tipo_de_folha in ['ferias', 'provisao_ferias']:
             #
             #  Identifica os períodos aquisitivos com saldo de férias
             #
             media = 0
-            periodos_aquisitivos = []
-            for periodo in self.contract_id.vacation_control_ids:
-                if periodo.saldo != 0:
-                    periodos_aquisitivos.append(periodo)
-                    #
-                    #  Buscar Holerites do Período
-                    #
-                    inicio = datetime.strptime(
-                        periodo.inicio_aquisitivo, '%Y-%m-%d')
-                    fim = datetime.strptime(
-                        periodo.fim_aquisitivo, '%Y-%m-%d')
-                    r = relativedelta(fim, inicio)
-                    meses = r.months
-                    if r.days >= 15:
-                        meses += 1
-                    folha_obj = self.env['hr.payslip']
-                    data_fim = min([fim,
-                                    datetime.strptime(self.date_to,
-                                                      '%Y-%m-%d')])
-                    domain = [
-                        ('date_from', '>=', periodo.inicio_aquisitivo),
-                        ('date_from', '<=', data_fim),
-                    #    ('date_to', '>=', periodo.inicio_aquisitivo),
-                    #    ('date_to', '<=', periodo.fim_aquisitivo),
-                        ('contract_id', '=', self.contract_id.id),
-                        ('tipo_de_folha', '=', 'normal'),
-                        ('state', 'in', ['done', 'verify']),
-                    ]
-                    folhas_periodo = folha_obj.search(domain)
-                    folhas_periodo = folhas_periodo.sorted(key=lambda r: r.date_from)
+            periodo = self.periodo_aquisitivo
+            if periodo.saldo != 0:
+                #
+                #  Buscar Holerites do Período
+                #
+                inicio = datetime.strptime(
+                    periodo.inicio_aquisitivo, '%Y-%m-%d')
+                fim = datetime.strptime(
+                    periodo.fim_aquisitivo, '%Y-%m-%d')
+                r = relativedelta(fim, inicio)
+                meses = r.months
+                if r.days >= 15:
+                    meses += 1
+                folha_obj = self.env['hr.payslip']
+                data_fim = min([fim,
+                                datetime.strptime(self.date_to,
+                                                  '%Y-%m-%d')])
+                domain = [
+                    ('date_from', '>=', periodo.inicio_aquisitivo),
+                    ('date_from', '<=', data_fim),
+                #    ('date_to', '>=', periodo.inicio_aquisitivo),
+                #    ('date_to', '<=', periodo.fim_aquisitivo),
+                    ('contract_id', '=', self.contract_id.id),
+                    ('tipo_de_folha', '=', 'normal'),
+                    ('state', 'in', ['done', 'verify']),
+                ]
+                folhas_periodo = folha_obj.search(domain)
+                folhas_periodo = \
+                    folhas_periodo.sorted(key=lambda r: r.date_from)
 
-                    #
-                    # Obter os valores das rubricas especificadas nos holerites
-                    #
-                    valor = 0
-                    for holerite in folhas_periodo:
+                #
+                # Obter os valores das rubricas especificadas nos holerites
+                #
+                valor = 0
+                for holerite in folhas_periodo:
+                    if holerite.date_from >= periodo.inicio_aquisitivo:
                         for linha in holerite.line_ids:
                             if linha.code == codigo:
                                 valor += linha.total
 
-                    if meses != 0:
-                        media += ((valor / meses) / 30) * periodo.saldo
+                media += ((valor / 12) / 30) * periodo.saldo
 
             return media
 
@@ -957,11 +956,11 @@ class HrPayslip(models.Model):
             elif self.tipo_de_folha in [
                 'decimo_terceiro', 'provisao_decimo_terceiro'
             ]:
-                if self.contract_id.date_start > str(self.ano) + '-01-01':
+                if self.contract_id.date_start > str(self.ano - 1) + '-12-01':
                     data_de_inicio = self.contract_id.date_start
                 else:
-                    data_de_inicio = str(self.ano) + '-01-01'
-                data_final = self.date_to
+                    data_de_inicio = str(self.ano - 1) + '-12-01'
+                data_final = str(self.ano) + '-11-30'
 
             #
             #  Buscar Holerites do Período
