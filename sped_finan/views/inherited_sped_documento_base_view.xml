@@ -12,6 +12,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='condicao_pagamento_id']" position="after">
                 <newline />
+                <field name="anexos" invisible="1" />
                 <field name="finan_documento_id" attrs="{'required': [('ind_forma_pagamento', '!=', '9')], 'readonly': [('permite_alteracao', '=', False)]}" />
                 <field name="finan_conta_id" attrs="{'required': [('ind_forma_pagamento', '!=', '9')], 'readonly': [('permite_alteracao', '=', False)]}" />
                 <newline />
@@ -38,8 +39,9 @@
         <field name="inherit_id" ref="sped_nfe.sped_documento_emissao_nfe_inherited_form" />
         <field name="arch" type="xml">
             <button name="gera_xml" position="after">
-                <button name="gera_boleto_documento_fiscal" string="Gerar Boletos" type="object" class="btn-primary"
-                        attrs="{'invisible': [('carteira_id','=', False)]}"/>
+                <button name="gera_boleto_documento_fiscal"
+                       string="Gerar Boletos" type="object" class="btn-primary"
+                        attrs="{'invisible': ['|', ('carteira_id', '=', False),('anexos', '=', True)]}"/>
             </button>
         </field>
     </record>

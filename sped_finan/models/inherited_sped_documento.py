@@ -172,4 +172,4 @@ class SpedDocumento(models.Model):
 
                     boleto = lancamento_id.gera_boleto()
                     documento_id._grava_anexo(boleto.nome, boleto.pdf)
-        # self.anexos = True
+            # documento_id.anexos = True
