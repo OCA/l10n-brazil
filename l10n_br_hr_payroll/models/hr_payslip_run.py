@@ -2,7 +2,6 @@
 # Copyright (C) 2016 KMEE (http://www.kmee.com.br)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import api, fields, models
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from pybrasil.data import ultimo_dia_mes
@@ -181,7 +180,7 @@ class HrPayslipRun(models.Model):
                 for periodo in contrato.vacation_control_ids:
                     if periodo.saldo > 0 and not periodo.inicio_gozo:
                         try:
-                            data_fim = fields.Date.from_string(data_inicio) + \
+                            data_fim = fields.Date.from_string(inicio_mes) + \
                                   relativedelta(days=periodo.saldo)
                             payslip_obj = self.env['hr.payslip']
                             payslip = payslip_obj.create({
