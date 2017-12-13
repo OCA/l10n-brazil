@@ -15,6 +15,8 @@
                 <sheet>
                     <group>
                         <group name="geral" colspan="4" col="4">
+                            <field name="titular_id" colspan="4" required="1" options="{'no_create': True}" />
+                            <newline />
                             <field name="banco" required="1" />
                             <field name="tipo" required="1" />
                             <newline />
@@ -24,8 +26,7 @@
                             <field name="conta" required="1" />
                             <field name="conta_digito" string="Dígito" attrs="{'required': [('banco', '!=', '000')], 'invisible': [('banco', '=', '000')]}" />
                             <newline />
-                            <field name="titular_id" colspan="4" required="1" options="{'no_create': True}" />
-                            <newline />
+                            <field name="limite_credito"/>
                             <field name="saldo_atual" />
                         </group>
                         <group name="extrato" string="Extrato" colspan="4">
