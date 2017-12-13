@@ -7,6 +7,7 @@ from openerp import models, fields, api, _
 import os
 import base64
 import time
+from openerp.addons.nfe.tools.misc import mount_path_nfe
 
 
 class NfeXmlPeriodicExport(models.TransientModel):
@@ -34,19 +35,20 @@ class NfeXmlPeriodicExport(models.TransientModel):
 
         if pos_orders:
             caminhos_xmls = ''
+            path_exportacao = mount_path_nfe(self.create_uid.company_id, 'sat')
             for pos_order in pos_orders:
                 fp_new = open(
-                    self.create_uid.company_id.nfe_root_folder
+                    path_exportacao
                     + pos_order.chave_cfe + '.xml', 'w'
                 )
                 fp_new.write(base64.b64decode(pos_order.cfe_return))
                 fp_new.close()
 
-                caminhos_xmls += self.create_uid.company_id.nfe_root_folder + pos_order.chave_cfe + '.xml '
+                caminhos_xmls += path_exportacao + pos_order.chave_cfe + '.xml '
 
                 if pos_order.cfe_cancelamento_return:
                     fp_new = open(
-                        self.create_uid.company_id.nfe_root_folder
+                        path_exportacao
                         + pos_order.chave_cfe_cancelamento + '.xml', 'w'
                     )
                     fp_new.write(base64.b64decode(
@@ -54,19 +56,19 @@ class NfeXmlPeriodicExport(models.TransientModel):
                     ))
                     fp_new.close()
 
-                    caminhos_xmls += self.create_uid.company_id.nfe_root_folder + pos_order.chave_cfe_cancelamento + '.xml '
+                    caminhos_xmls += path_exportacao + pos_order.chave_cfe_cancelamento + '.xml '
 
             if not self.create_uid.company_id.parent_id.id:
                 os.system(
                     "zip -r " + os.path.join(
-                        self.create_uid.company_id.nfe_root_folder,
+                        path_exportacao,
                         'cfes_xmls_' + time.strftime("%Y-%m-%d"))
                     + ' ' + caminhos_xmls
                 )
             else:
                 os.system(
                     "zip -r " + os.path.join(
-                        self.create_uid.company_id.nfe_root_folder,
+                        path_exportacao,
                         'cfes_xmls_' + self.create_uid.company_id.name.replace(
                             " ", "") + "_" + time.strftime("%Y-%m-%d"))
                     + ' ' + caminhos_xmls
@@ -74,21 +76,21 @@ class NfeXmlPeriodicExport(models.TransientModel):
 
             for pos_order in pos_orders:
                 os.remove(
-                    self.create_uid.company_id.nfe_root_folder
+                    path_exportacao
                     + pos_order.chave_cfe + '.xml'
                 )
 
         if not self.create_uid.company_id.parent_id.id:
             orderFile = open(
                 os.path.join(
-                    self.create_uid.company_id.nfe_root_folder,
+                    path_exportacao,
                     'cfes_xmls_' + time.strftime("%Y-%m-%d") + '.zip'
                 ), 'r'
             )
         else:
             orderFile = open(
                 os.path.join(
-                    self.create_uid.company_id.nfe_root_folder,
+                    path_exportacao,
                     'cfes_xmls_' + self.create_uid.company_id.name.replace(
                         " ", "") + "_" + time.strftime("%Y-%m-%d") + '.zip'
                 ), 'r'
