@@ -18,6 +18,10 @@
                      ('vende_acima_limite_credito', '=', True)]
                 </attribute>
             </field>
+             <field name="condicao_pagamento_id" position="after">
+                <field name="permissao" invisible="1" />
+                <field name="carteira_id" attrs="{'invisible':[('permissao','=', False)]}"/>
+            </field>
         </field>
     </record>
 

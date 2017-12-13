@@ -12,7 +12,7 @@
     'website': 'www.odoobrasil.org.br',
     'depends': [
         'finan',
-        'sped',
+        'sped_nfe',
     ],
     'data': [
         'views/inherited_sped_operacao_base_view.xml',

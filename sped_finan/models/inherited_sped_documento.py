@@ -33,6 +33,17 @@ class SpedDocumento(models.Model):
         copy=False,
     )
 
+    carteira_id = fields.Many2one(
+        string='Carteira Padrão',
+        comodel_name='finan.carteira',
+        help='Carteira para geração do boleto',
+    )
+
+    anexos = fields.Boolean(
+        string='Anexos Gerados',
+        readonly=True,
+    )
+
     @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
     def _onchange_operacao_id(self):
         res = super(SpedDocumento, self)._onchange_operacao_id()
@@ -161,3 +172,4 @@ class SpedDocumento(models.Model):
 
                     boleto = lancamento_id.gera_boleto()
                     documento_id._grava_anexo(boleto.nome, boleto.pdf)
+        # self.anexos = True

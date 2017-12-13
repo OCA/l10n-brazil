@@ -20,6 +20,17 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="inherited_sped_documento_form_view" >
+        <field name="name">sped.documento.form.view (in finan)</field>
+        <field name="model">sped.documento</field>
+        <field name="inherit_id" ref="sped.sped_documento_emissao_nfe_form"/>
+        <field name="arch" type="xml">
+            <field name="condicao_pagamento_id" position="after">
+                <field name="carteira_id"/>
+            </field>
+        </field>
+    </record>
+
     <record model="ir.ui.view" id="sped_documento_emissao_nfe_inherited_form" >
         <field name="name">sped.documento.emissao.nfe.inherited.form (in sped_finan)</field>
         <field name="model">sped.documento</field>
