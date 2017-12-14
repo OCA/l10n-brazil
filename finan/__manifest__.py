@@ -58,6 +58,8 @@
         'views/finan_remessa_boleto_view.xml',
         'views/finan_retorno_boleto_view.xml',
 
+        'views/finan_remessa_boleto_view.xml',
+        'views/finan_banco_fechamento.xml',
         #
         # Relatórios
         #

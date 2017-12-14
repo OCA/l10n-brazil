@@ -384,6 +384,7 @@ class FinanLancamento(SpedBase, models.Model):
         inverse_name='lancamento_id',
         string='Extrato banco/caixa',
     )
+
     vr_saldo_banco = fields.Monetary(
         string='Saldo banco/caixa após lançamento',
         related='extrato_id.saldo',
@@ -935,6 +936,16 @@ class FinanLancamento(SpedBase, models.Model):
             self.env['finan.banco.saldo'].ajusta_saldo(banco_id, data)
 
     def executa_antes_create(self, dados, bancos={}):
+        if 'banco_id' in dados and 'data_documento' in dados:
+            if self.env['finan.banco.fechamento'].search([
+                    ('banco_id', '=', dados['banco_id']),
+                    ('data_final', '>=', dados['data_documento']),
+                    ('data_inicial', '<=', dados['data_documento']),
+                    ('state', '=', 'fechado'),
+            ]):
+                raise UserError('Você não pode lançar um lançamento neste '
+                                'banco, pois o fechamento de caixa já foi '
+                                'efetuado para esse período')
         return dados
 
     @api.model
@@ -950,8 +961,19 @@ class FinanLancamento(SpedBase, models.Model):
         return result
 
     def executa_antes_write(self, dados, bancos={}):
-        self._verifica_ajusta_extrato_saldo(bancos)
-        return dados
+        if 'banco_id' in dados and 'data_documento' in dados:
+            if self.env['finan.banco.fechamento'].search([
+               ('banco_id', '=', dados['banco_id']),
+               ('data_final', '>=', dados['data_documento']),
+               ('data_inicial', '<=', dados['data_documento']),
+               ('state', '=', 'fechado' ),
+            ]):
+                raise UserError('Você não pode lançar um lançamento neste '
+                                'banco, pois o fechamento de caixa já foi '
+                                'efetuado para esse período')
+            else:
+                return dados
+
 
     def write(self, dados):
         bancos = {}

@@ -138,6 +138,10 @@ class FinanBancoExtrato(SpedBase, models.Model):
         string='Ordem',
         index=True,
     )
+    fechamento_id = fields.Many2one(
+        comodel_name='finan.banco.fechamento',
+        string='Fechamento',
+    )
     lancamento_id = fields.Many2one(
         comodel_name='finan.lancamento',
         string='Lançamento',
