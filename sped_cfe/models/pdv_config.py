@@ -62,7 +62,7 @@ class ConfiguracaoPDV(models.Model):
     )
 
     chave_acesso_validador = fields.Char(
-        string=u"Codigo de Ativação",
+        string=u'Chave Acesso Validador',
     )
     chave_requisicao = fields.Char(string=u'Chave de Requisição')
     estabelecimento = fields.Char(string=u'Estabelecimento')
