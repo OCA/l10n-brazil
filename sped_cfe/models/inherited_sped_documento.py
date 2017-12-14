@@ -491,7 +491,12 @@ class SpedDocumento(models.Model):
         # Processa resposta
         #
         try:
-            resposta = cliente.enviar_dados_venda(cfe)
+            if self.configuracoes_pdv.tipo_sat == 'local':
+                resposta = cliente.enviar_dados_venda(cfe)
+            elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
+                resposta = cliente.enviar_dados_venda(
+                    cfe, self.configuracoes_pdv.path_integrador
+                )
             if resposta.EEEEE in '06000':
                 self.executa_antes_autorizar()
                 self.executa_depois_autorizar()
@@ -531,10 +536,7 @@ class SpedDocumento(models.Model):
             self.mensagem_nfe = mensagem
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
         except Exception as resposta:
-            mensagem = 'Código de retorno: ' + \
-                       resposta.resposta.EEEEE
-            mensagem += '\nMensagem: ' + \
-                        resposta.resposta.mensagem
+            mensagem = '\nMensagem: ' + resposta.message
             self.mensagem_nfe = mensagem
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
 
@@ -555,18 +557,29 @@ class SpedDocumento(models.Model):
         else:
             pagamentos_autorizados = True
             config = self.configuracoes_pdv
-            from mfecfe import BibliotecaSAT
-            from mfecfe import ClienteVfpeLocal
             cliente = self.processador_vfpe()
 
             for duplicata in pagamentos_cartoes:
                 if not duplicata.id_fila_status:
-                    resposta = cliente.enviar_pagamento(
-                        config.chave_requisicao, config.estabelecimento,
-                        config.serial_pos, config.cnpjsh, self.bc_icms_proprio,
-                        duplicata.valor, config.id_fila_validador,config.multiplos_pag,
-                        config.anti_fraude, 'BRL', config.numero_caixa
-                    )
+                    if self.configuracoes_pdv.tipo_sat == 'local':
+                        resposta = cliente.enviar_pagamento(
+                            config.chave_requisicao, config.estabelecimento,
+                            config.serial_pos, config.cnpjsh,
+                            self.bc_icms_proprio,
+                            duplicata.valor, config.id_fila_validador,
+                            config.multiplos_pag,
+                            config.anti_fraude, 'BRL', config.numero_caixa
+                        )
+                    elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
+                        resposta = cliente.enviar_pagamento(
+                            config.chave_requisicao, config.estabelecimento,
+                            config.serial_pos, config.cnpjsh,
+                            self.bc_icms_proprio, duplicata.valor,
+                            config.id_fila_validador,config.multiplos_pag,
+                            config.anti_fraude, 'BRL', config.numero_caixa,
+                            self.configuracoes_pdv.chave_acesso_validador,
+                            self.configuracoes_pdv.path_integrador
+                        )
                     duplicata.id_fila_status = resposta
                 # FIXME status sempre vai ser negativo na homologacao
                 # resposta_status_pagamento = cliente.verificar_status_validador(
