@@ -495,7 +495,8 @@ class SpedDocumento(models.Model):
                 resposta = cliente.enviar_dados_venda(cfe)
             elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
                 resposta = cliente.enviar_dados_venda(
-                    cfe, self.configuracoes_pdv.path_integrador
+                    cfe, self.configuracoes_pdv.codigo_ativacao,
+                    self.configuracoes_pdv.path_integrador
                 )
             if resposta.EEEEE in '06000':
                 self.executa_antes_autorizar()
