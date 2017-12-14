@@ -893,6 +893,10 @@ class FinanLancamento(SpedBase, models.Model):
                     else:
                         adiantamento = self.vr_documento * -1
 
+            elif lancamento.tipo in [FINAN_ENTRADA, FINAN_SAIDA]:
+                # Se for lancamento de entrada ou saida nao computar nada
+                continue
+
             if adiantamento:
                 lancamento.vr_adiantado = adiantamento
 
