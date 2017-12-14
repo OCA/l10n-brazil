@@ -9,6 +9,7 @@ from __future__ import division, print_function, unicode_literals
 from odoo import api, fields, models, _
 from odoo.addons.l10n_br_base.constante_tributaria import *
 from odoo.addons.finan.constantes import FINAN_DIVIDA_A_RECEBER
+from odoo.exceptions import ValidationError
 
 
 class SpedDocumento(models.Model):
@@ -30,6 +31,17 @@ class SpedDocumento(models.Model):
         inverse_name='sped_documento_id',
         string='Lançamentos Financeiros',
         copy=False,
+    )
+
+    carteira_id = fields.Many2one(
+        string='Carteira Padrão',
+        comodel_name='finan.carteira',
+        help='Carteira para geração do boleto',
+    )
+
+    anexos = fields.Boolean(
+        string='Anexos Gerados',
+        readonly=True,
     )
 
     @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
@@ -96,10 +108,13 @@ class SpedDocumento(models.Model):
         self.exclui_finan_lancamento()
 
     def executa_depois_create(self, result, dados):
-        result = super(SpedDocumento, self).executa_depois_create(
-            result, dados)
+        result = \
+            super(SpedDocumento, self).executa_depois_create(result, dados)
 
-        for documento in self:
+        # ativar onchange que cria duplicata
+        # O documento ainda nao esta pronto para gerar o financeiro,
+        # pois esta faltando uma série de informações
+        for documento in result:
             documento.gera_finan_lancamento()
 
         return result
@@ -113,8 +128,7 @@ class SpedDocumento(models.Model):
         return dados
 
     def executa_depois_write(self, result, dados):
-        result = super(SpedDocumento, self).executa_depois_write(
-            result, dados)
+        result = super(SpedDocumento, self).executa_depois_write(result, dados)
 
         for documento in self:
             documento.gera_finan_lancamento()
@@ -126,3 +140,36 @@ class SpedDocumento(models.Model):
 
         for documento in self:
             documento.exclui_finan_lancamento()
+
+    @api.multi
+    def gera_boleto_documento_fiscal(self):
+        for documento_id in self:
+            forma_id = documento_id.condicao_pagamento_id.forma_pagamento_id
+            boleto = forma_id.forma_pagamento == '15'
+
+            if documento_id.condicao_pagamento_id and boleto:
+
+                for lancamento_id in documento_id.finan_lancamento_ids:
+
+                    # valida se esta definido a carteira de pagamento de
+                    # boletos no lancamento financeiro
+                    if not lancamento_id.carteira_id:
+
+                        # Verifica se tem uma carteira padrao na empresa
+                        if self.env.user.company_id.sped_empresa_id.carteira_id:
+                            # se estiver configura carteira padrao, atribui ao
+                            # lancamento e ao documento fiscal a carteira
+                            carteira_padrao = \
+                                self.env.user.company_id.sped_empresa_id.carteira_id
+                            lancamento_id.carteira_id = carteira_padrao
+                            documento_id.carteira_id = carteira_padrao
+                        else:
+                            raise ValidationError(
+                                'Não foi encontrado a carteira padrão para '
+                                'boletos definido pela empresa.\n Acesse o '
+                                'cadastro da empresa e na aba comercial, '
+                                'configure a carteira padrão.')
+
+                    boleto = lancamento_id.gera_boleto()
+                    documento_id._grava_anexo(boleto.nome, boleto.pdf)
+            # documento_id.anexos = True

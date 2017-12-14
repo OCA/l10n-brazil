@@ -6,10 +6,11 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from odoo import api, fields, models, _
-from odoo.addons.l10n_br_base.constante_tributaria import TIPO_EMISSAO_PROPRIA
+from odoo import fields, models
 from odoo.addons.finan.constantes import FINAN_DIVIDA_A_RECEBER, \
     FINAN_DIVIDA_A_PAGAR
+from odoo.addons.l10n_br_base.constante_tributaria import TIPO_EMISSAO_PROPRIA
+from odoo.exceptions import ValidationError
 
 
 class SpedDocumentoDuplicata(models.Model):
@@ -45,6 +46,10 @@ class SpedDocumentoDuplicata(models.Model):
             dados['forma_pagamento_id'] = \
                 self.documento_id.condicao_pagamento_id.forma_pagamento_id.id
 
+        # Informações da carteira para emissao do boleto automatico
+        if self.documento_id.carteira_id:
+            dados['carteira_id'] = self.documento_id.carteira_id.id
+
         if self.documento_id.emissao == TIPO_EMISSAO_PROPRIA:
             dados['tipo'] = FINAN_DIVIDA_A_RECEBER
         else:
@@ -55,5 +60,4 @@ class SpedDocumentoDuplicata(models.Model):
     def gera_lancamento_financeiro(self):
         for duplicata in self:
             dados = duplicata.prepara_finan_lancamento()
-            finan_lancamento = \
-                self.env['finan.lancamento'].create(dados)
+            finan_lancamento_id = self.env['finan.lancamento'].create(dados)

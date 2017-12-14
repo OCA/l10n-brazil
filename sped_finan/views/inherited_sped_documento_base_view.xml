@@ -12,11 +12,37 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='condicao_pagamento_id']" position="after">
                 <newline />
+                <field name="anexos" invisible="1" />
                 <field name="finan_documento_id" attrs="{'required': [('ind_forma_pagamento', '!=', '9')], 'readonly': [('permite_alteracao', '=', False)]}" />
                 <field name="finan_conta_id" attrs="{'required': [('ind_forma_pagamento', '!=', '9')], 'readonly': [('permite_alteracao', '=', False)]}" />
                 <newline />
                 <button type="object" name="regera_finan_lancamento" string="Regerar lançamentos financeiros" groups="l10n_br_base.GRUPO_SUPORTE" />
             </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="inherited_sped_documento_form_view" >
+        <field name="name">sped.documento.form.view (in finan)</field>
+        <field name="model">sped.documento</field>
+        <field name="inherit_id" ref="sped.sped_documento_emissao_nfe_form"/>
+        <field name="arch" type="xml">
+            <field name="condicao_pagamento_id" position="after">
+                <field name="carteira_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_emissao_nfe_inherited_form" >
+        <field name="name">sped.documento.emissao.nfe.inherited.form (in sped_finan)</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="sped_nfe.sped_documento_emissao_nfe_inherited_form" />
+        <field name="arch" type="xml">
+            <button name="gera_xml" position="after">
+                <button name="gera_boleto_documento_fiscal"
+                       string="Gerar Boletos" type="object" class="btn-primary"
+                        attrs="{'invisible': ['|', ('carteira_id', '=', False),('anexos', '=', True)]}"/>
+            </button>
         </field>
     </record>
 

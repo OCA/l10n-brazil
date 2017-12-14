@@ -76,7 +76,6 @@ class finan_retorno_item(models.Model):
     )
 
     data = fields.Date(
-        # related='divida_id.data',
         string='Data conciliação',
     )
 
@@ -91,34 +90,28 @@ class finan_retorno_item(models.Model):
     )
 
     valor_multa = fields.Float(
-        compute='compute_valor_multa',
         string='Multa',
     )
 
     valor_juros = fields.Float(
-        compute='compute_valor_multa',
         string='Juros',
     )
 
     valor_desconto = fields.Float(
-        compute='compute_valor_multa',
         string='Desconto',
     )
 
     outros_debitos = fields.Float(
-        compute='compute_valor_multa',
         string='Tarifas',
     )
 
     valor = fields.Float(
-        compute='compute_valor_multa',
         string='Valor',
     )
 
     @api.multi
-    def compute_valor_multa(self):
+    def compute_valor_multa(self, nome_campo):
         res = {}
-        return 3
         for item_obj in self:
             valor = D(0)
 
@@ -152,9 +145,9 @@ class finan_retorno(models.Model):
         string='Número do arquivo',
     )
 
-    data = fields.Datetime(
+    data = fields.Date(
         string='Data',
-        default=fields.Datetime.now,
+        default=fields.Date.today,
         required=True,
     )
 
@@ -176,6 +169,94 @@ class finan_retorno(models.Model):
         string='Itens do Retorno',
     )
 
+    @api.multi
+    def gerar_relatorio(self, arquivo_retorno):
+        """
+        Gerar relatório (francesinha) do arquivo de retorno do banco 
+        1 - Gerar PDF da francesinha (arquivo de retorno)
+        2 - Excluir anexos antigos
+        3 - Anexar novo PDF gerado
+        """
+        # imports para geracao do PDF
+        import sh
+        from io import BytesIO
+        import tempfile
+        from py3o.template import Template
+        import os
+        CURDIR = os.path.dirname(os.path.abspath(__file__))
+
+        lista_boletos = arquivo_retorno.boletos
+
+        # template da francesinha
+        arquivo_template_boleto_geral = os.path.join(
+            CURDIR, '../reports', 'report_py3o_finan_retorno.odt'
+        )
+
+        template_boleto = BytesIO()
+        template_boleto.write(open(arquivo_template_boleto_geral, 'rb').read())
+        template_boleto.seek(0)
+
+        arquivo_renderizado = tempfile.NamedTemporaryFile(delete=False)
+        arquivo_pdf = arquivo_renderizado.name + '.pdf'
+        template = Template(template_boleto, arquivo_renderizado.name)
+
+        comandos_boletos =\
+                sorted(set(map(lambda x: (x.comando_retorno_descricao),
+                               lista_boletos)))
+
+        template.render({'boletos': lista_boletos,
+                         'sequencia': arquivo_retorno.sequencia,
+                         'data':
+                             arquivo_retorno.data_hora.strftime('%d/%m/%Y'),
+                         'nome_beneficiario':
+                             arquivo_retorno.beneficiario.nome,
+                         'banco_codigo': arquivo_retorno.banco.codigo_digito,
+                         'cnpj_beneficiario':
+                             arquivo_retorno.beneficiario.cnpj_cpf,
+                         'codigo_beneficiario':
+                             arquivo_retorno.beneficiario.\
+                        agencia_codigo_beneficiario,
+                         'conta_beneficiario':
+                             arquivo_retorno.beneficiario.agencia_conta,
+                         'logo': lista_boletos[0].banco.logo,
+                         'comandos': comandos_boletos,
+                         })
+
+        # comando para o libreoffice gerar o pdf
+        sh.libreoffice(
+            '--headless', '--invisible', '--convert-to',
+            'pdf', '--outdir', '/tmp', arquivo_renderizado.name
+        )
+
+        pdf = open(arquivo_pdf, 'rb').read()
+
+        # remover arquivos temporários
+        os.remove(arquivo_pdf)
+        os.remove(arquivo_renderizado.name)
+
+        attachment_obj = self.env.get('ir.attachment')
+
+        # Busca pelo anexos com mesmo nome nesse registro
+        attachment_ids = attachment_obj.search([
+                ('res_model', '=', 'finan.retorno'),
+                ('res_id', '=', self.id),
+                ('name', '=', 'francesinha.pdf')
+        ])
+
+        # Apaga os boletos anteriores com o mesmo nome
+        attachment_ids.unlink()
+
+        # Criar dados para anexar o pdf gerado ao finan.retorno
+        dados = {
+            'datas': base64.encodestring(pdf),
+            'name': 'francesinha.pdf',
+            'datas_fname': 'francesinha.pdf',
+            'res_model': 'finan.retorno',
+            'res_id': self.id,
+            'file_type': 'application/pdf',
+        }
+        # Gerar o anexo do registro
+        attachment_obj.create(dados)
 
     @api.multi
     def gerar_pagamento(
@@ -686,121 +767,5 @@ class finan_retorno(models.Model):
                 # relaciona o pagamento gerado ao item criado
                 finan_retorno_item_id.pagamento_id = pagamento_id.id
 
-
-        # ROTINAS DA REMESSA
-
-        #
-        # Anexa os boletos em PDF ao registro da remessa
-        #
-        # attachment_obj = self.env.get('ir.attachment')
-        # attachment_ids = attachment_obj.search([
-        #     ('res_model', '=', 'finan.retorno'),
-        #     ('res_id', '=', retorno_id.id),
-        #     ('name', '=', 'francesinha.pdf')
-        # ])
-        # #
-        # # Apaga os boletos anteriores com o mesmo nome
-        # #
-        # attachment_obj.unlink(attachment_ids)
-        #
-        # dados = {
-        #     'datas': base64.encodestring(pdf),
-        #     'name': 'francesinha.pdf',
-        #     'datas_fname': 'francesinha.pdf',
-        #     'res_model': 'finan.retorno',
-        #     'res_id': retorno_id.id,
-        #     'file_type': 'application/pdf',
-        # }
-        # attachment_pool.create(dados)
-
-            #numero_arquivo = int(retorno_id.carteira_id.ultimo_arquivo_retorno) + 1
-            #self.write(cr, uid, [retorno_id.id], {
-                #  'numero_arquivo': str(numero_arquivo)})
-                #self.pool.get('finan.carteira').write(
-        # cr, 1, [retorno_id.carteira_id.id], {
-        # 'ultimo_arquivo_retorno': str(numero_arquivo)})
-        #else:
-            #numero_arquivo = int(retorno_id.numero_arquivo)
-
-        ##
-        ## Gera os boletos
-        ##
-        #lista_boletos = []
-        #for lancamento_obj in retorno_id.lancamento_ids:
-            #boleto = lancamento_obj.gerar_boleto()
-            #lista_boletos.append(boleto)
-
-        #pdf = gera_boletos_pdf(lista_boletos)
-        #nome_boleto = 'boletos_' +
-        # retorno_id.carteira_id.banco_id.bank_name + '_' +
-        # str(retorno_id.data) + '.pdf'
-
-        ##
-        ## Anexa os boletos em PDF ao registro da remessa
-        ##
-        #attachment_pool = self.pool.get('ir.attachment')
-        #attachment_ids = attachment_pool.search(cr, uid, [(
-        # 'res_model', '=', 'finan.retorno'), (
-        # 'res_id', '=', retorno_id.id), ('name', '=', nome_boleto)])
-        ##
-        ## Apaga os boletos anteriores com o mesmo nome
-        ##
-        #attachment_pool.unlink(cr, uid, attachment_ids)
-
-        #dados = {
-            #'datas': base64.encodestring(pdf),
-            #'name': nome_boleto,
-            #'datas_fname': nome_boleto,
-            #'res_model': 'finan.retorno',
-            #'res_id': retorno_id.id,
-            #'file_type': 'application/pdf',
-        #}
-        #attachment_pool.create(cr, uid, dados)
-
-        #
-        # Gera a remessa propriamente dita
-        #
-        # remessa = Remessa()
-        # remessa.tipo = 'CNAB_400'
-        # remessa.boletos = lista_boletos
-        # remessa.sequencia = numero_arquivo
-        # remessa.data_hora = datetime.strptime(retorno_id.data,
-        # '%Y-%m-%d %H:%M:%S')
-        #
-        # #
-        # # Nomenclatura bradesco
-        # #
-        # if lista_boletos[0].banco.codigo == '237':
-        #     nome_retorno = 'CB' + remessa.data_hora.strftime('%d%m')
-        # + str(remessa.sequencia).zfill(2) + '.txt'
-        # else:
-        #     nome_retorno = unicode(
-        # retorno_id.carteira_id.nome).encode('utf-8') + '_retorno_' +
-        # str(numero_arquivo) + '.txt'
-        #
-        # #
-        # # Anexa a remessa ao registro da remessa
-        # #
-        # attachment_pool = self.pool.get('ir.attachment')
-        # attachment_ids = attachment_pool.search(cr, uid, [('res_model',
-        # '=', 'finan.retorno'), ('res_id', '=', retorno_id.id), ('name',
-        # '=', nome_retorno)])
-        # #
-        # # Apaga os boletos anteriores com o mesmo nome
-        # #
-        # attachment_pool.unlink(cr, uid, attachment_ids)
-        #
-        # dados = {
-        #     'datas': base64.encodestring(remessa.arquivo_retorno),
-        #     'name': nome_retorno,
-        #     'datas_fname': nome_retorno,
-        #     'res_model': 'finan.retorno',
-        #     'res_id': retorno_id.id,
-        #     'file_type': 'text/plain',
-        # }
-        # attachment_pool.create(cr, uid, dados)
-
-    # def gerar_retorno_anexo(self, cr, uid, ids, context=None):
-    #     for id in ids:
-    #         self.gerar_retorno(cr, uid, id)
-
+        # Gera a francesinha e anexa ao registro
+        self.gerar_relatorio(arquivo_retorno)

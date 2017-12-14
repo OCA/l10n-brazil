@@ -989,9 +989,21 @@ class FinanLancamento(SpedBase, models.Model):
     def executa_antes_unlink(self, bancos={}):
         for lancamento in self:
             if lancamento.referencia_id:
-                raise UserError('Você não pode excuir um lançamento '
-                    'relacionado a outro documento; verifique se é possível '
-                    'cancelar o documento relacionado.')
+                raise UserError(
+                    'Você não pode excuir um lançamento relacionado a outro '
+                    'documento; verifique se é possível cancelar o documento '
+                    'relacionado.')
+
+            # Verificar se ja foi gerado boletos para esse lancamentos
+            attachment = self.env['ir.attachment']
+            busca = [
+                ('res_model', '=', 'finan.lancamento'),
+                ('res_id', '=', lancamento.id),
+            ]
+            attachment_ids = attachment.search(busca)
+            if attachment_ids:
+                raise UserError(
+                    'Você não pode excuir um lançamento com Anexos!')
 
             if lancamento.provisorio:
                 continue
@@ -1154,6 +1166,7 @@ class FinanLancamento(SpedBase, models.Model):
         banco = FINAN_BANCO_DICT[boleto.banco.codigo][6:]
         nome_arquivo += banco
         nome_arquivo += '.pdf'
+        boleto.nome = nome_arquivo
         self._grava_anexo(nome_arquivo=nome_arquivo, conteudo=boleto.pdf)
 
         return boleto

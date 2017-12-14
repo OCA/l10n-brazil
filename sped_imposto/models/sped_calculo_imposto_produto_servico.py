@@ -551,8 +551,7 @@ class SpedCalculoImpostoProdutoServico(SpedCalculoImposto):
     def gera_documento(self, soh_produtos=False, soh_servicos=False):
         self.ensure_one()
 
-        if not (self.operacao_produto_id or
-                    self.operacao_servico_id):
+        if not (self.operacao_produto_id or self.operacao_servico_id):
             return None, None  # documento_produto, documento_servico
 
         item_produto_ids = []

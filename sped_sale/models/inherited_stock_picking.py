@@ -93,8 +93,8 @@ class StockPicking(models.Model):
             return super(StockPicking, self).gera_documento()
 
         documento, nfse = \
-                self.sale_order_id.gera_documento(soh_produtos=True,
-                                                  stock_picking=self)
+            self.sale_order_id.gera_documento(
+                    soh_produtos=True, stock_picking=self)
 
         if documento is None:
             return documento
