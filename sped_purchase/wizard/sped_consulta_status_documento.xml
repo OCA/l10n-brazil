@@ -24,6 +24,7 @@
                                'required':[('forma_consulta','=','XML')]}" />
                     </group>
                     <group states="done">
+                        <field name="purchase_order_id"/>
                         <field name="versao" />
                         <field name="ambiente_nfe" attrs="{'readonly': True}"/>
                         <field name="motivo" />

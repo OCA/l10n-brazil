@@ -71,6 +71,11 @@ class SpedConsultaStatusDocumento(models.TransientModel):
         sting='Processamento Evento NFE',
         readonly=True,
     )
+    purchase_order_id = fields.Many2one(
+        comodel_name='purchase.order',
+        string='Pedido de Compra',
+        copy=False,
+    )
 
     arquivo = fields.Binary(
         string='Arquivo',
@@ -135,31 +140,23 @@ class SpedConsultaStatusDocumento(models.TransientModel):
                 nfe = objectify.fromstring(nfe_result['nfe'])
                 documento = self.env['sped.documento'].new()
                 documento.modelo = nfe.NFe.infNFe.ide.mod.text
-                nfe = documento.le_nfe(xml=nfe_result['nfe'])
-
-                # dados = {
-                #     'versao': processo.resposta.versao.valor,
-                #     'motivo': processo.resposta.cStat.txt + ' - ' +
-                #                processo.resposta.xMotivo.txt,
-                #     'codigo_uf': processo.resposta.cUF.txt,
-                #     'chave': processo.resposta.chNFe.txt,
-                #     'ambiente_nfe': processo.resposta.tpAmb.txt,
-                #     'protocolo_autorizacao':
-                #         '' if processo.resposta.protNFe is None else
-                #         processo.resposta.protNFe.infProt.nProt.txt,
-                #     'protocolo_cancelamento': '',
-                #     'processamento_evento_nfe': '',
-                #     'state': 'done',
-                # }
-                # self.write(dados)
-
-            else:
-                raise Warning(
-                    _(nfe_result['code'] + ' - ' + nfe_result['message']))
+                dados = documento.le_nfe(xml=nfe_result['nfe'])
+                return {
+                    'name': _("Associar Pedido de Compras"),
+                    'view_mode': 'form',
+                    'view_type': 'form',
+                    'view_id': self.env.ref('sped_nfe.sped_documento_ajuste_recebimento_form').id,
+                    'res_id': dados.id,
+                    'res_model': 'sped.documento',
+                    'type': 'ir.actions.act_window',
+                    'target': 'current',
+                    'context': {'default_purchase_order_ids': [(4, self.purchase_order_id.id)]},
+                    'flags': {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}},
+                }
 
         except Exception as e:
             raise UserError(
-                _(e))
+                _(u'Erro na consulta da chave!', e))
 
     # @api.multi
     # def busca_status_documento(self):

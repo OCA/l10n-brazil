@@ -80,26 +80,29 @@ class SpedDocumento(models.Model):
     def _onchange_allowed_purchase_ids(self):
         result = {}
 
-        # A PO can be selected only if at least one PO line is not already in the invoice
-        purchase_line_ids = self.item_ids.mapped('purchase_line_ids')
-        purchase_ids = self.item_ids.mapped('purchase_ids').filtered(lambda r: r.order_line <= purchase_line_ids)
+    @api.multi
+    def write(self, vals):
+        res = super(SpedDocumento, self).write(vals)
+        for documento in self:
+            if documento.purchase_order_ids:
+                for pedido in documento.purchase_order_ids:
+                    pedido._get_invoiced()
+        return res
 
-        result['domain'] = {'purchase_order_ids': [
-            ('invoice_status', '=', 'to invoice'),
-            ('id', 'not in', purchase_ids.ids),
-        ]}
-
-        if self.participante_id:
-            result['domain']['purchase_order_ids'].append(
-                ('participante_id', '=', self.participante_id.id)
-            )
-
-        if self.empresa_id:
-            result['domain']['purchase_order_ids'].append(
-                ('empresa_id', '=', self.empresa_id.id)
-            )
-
-        return result
+    @api.onchange('purchase_order_ids')
+    def purchase_order_change(self):
+        self.ensure_one()
+        if len(self.mapped('purchase_order_ids')) > 1:
+            return {}
+        elif not self.purchase_order_ids:
+            res = {'value': {'item_ids': [(1, item.id, {
+                'purchase_ids': [(6, 0, [])],
+                'purchase_line_ids': [(6, 0, [])]
+            }) for item in self.mapped('item_ids')]}}
+            return res
+        for item in self.mapped('item_ids'):
+            item.purchase_ids = self.purchase_order_ids.ids
+        self.item_ids.find_lines()
 
     def _criar_picking_entrada(self):
         if not self.purchase_order_ids:

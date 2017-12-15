@@ -37,27 +37,19 @@ class SpedDocumentoItem(models.Model):
 
     def executa_depois_create(self):
         for item in self:
-            item.faturar_linhas()
-
-    @api.multi
-    def mesclar_linhas(self, dados, line, contexto):
-        for linha in self:
-            mesclar = True
-            for item in dados.keys():
-                if item == 'quantidade' or linha[item] == dados[item]:
-                    continue
-                elif isinstance(linha[item], models.Model) and \
-                                linha[item].id == dados[item]:
-                    continue
-                else:
-                    mesclar = False
-            if mesclar:
-                linha.quantidade += dados.get('quantidade')
-                linha.purchase_line_ids += line
-                linha.purchase_ids += line.order_id
-                return []
-
-        return self.with_context(contexto).new(dados)
+            data = {
+                'produto_id': item.produto_id,
+                'quantidade': item.quantidade,
+                'vr_unitario': item.vr_unitario,
+                'vr_frete': item.vr_frete,
+                'vr_seguro': item.vr_seguro,
+                'vr_desconto': item.vr_desconto,
+                'vr_outras': item.vr_outras,
+            }
+            for linha in item.purchase_ids.mapped('order_line') - \
+                    item.mapped('purchase_line_ids'):
+                if all(linha[field] == data[field] for field in data.keys()):
+                    item.purchase_line_ids += linha
 
     @api.onchange('purchase_ids', 'purchase_line_ids')
     def _onchange_purchase_line_ids(self):
