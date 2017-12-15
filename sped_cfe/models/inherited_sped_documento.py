@@ -491,6 +491,7 @@ class SpedDocumento(models.Model):
         # Processa resposta
         #
         try:
+            impressao = True if self.configuracoes_pdv.impressora else False
             if self.configuracoes_pdv.tipo_sat == 'local':
                 resposta = cliente.enviar_dados_venda(cfe)
             elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
@@ -499,6 +500,8 @@ class SpedDocumento(models.Model):
                     self.configuracoes_pdv.path_integrador
                 )
             if resposta.EEEEE in '06000':
+                if impressao:
+                    cliente.imprimir_cupom_venda(resposta.arquivoCFeSAT)
                 self.executa_antes_autorizar()
                 self.executa_depois_autorizar()
                 self.data_hora_autorizacao = fields.Datetime.now()
@@ -508,6 +511,7 @@ class SpedDocumento(models.Model):
                 self.serie = chave.numero_serie
                 self.chave = resposta.chaveConsulta[3:]
                 self.grava_cfe_autorizacao(resposta.xml())
+
 
                 self.situacao_fiscal = SITUACAO_FISCAL_REGULAR
                 self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
