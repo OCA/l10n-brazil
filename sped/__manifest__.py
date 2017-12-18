@@ -55,6 +55,11 @@
         #
         'security/sped_documento_ir_rule.xml',
         'security/ir.model.access.csv',
+
+        #
+        # Dados de base
+        #
+        'data/sped_participante_data.xml',
     ],
     'external_dependencies': {
         'python': [

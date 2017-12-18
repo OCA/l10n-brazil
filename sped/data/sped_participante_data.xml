@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo noupdate="True">
+
+    <record id="participante_anonimo" model="sped.participante">
+        <field name="eh_consumidor_final">True</field>
+        <field name="contribuinte">9</field>
+        <field name="nome">Consumidor Anonônimo</field>
+    </record>
+
+</odoo>
