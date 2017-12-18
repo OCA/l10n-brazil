@@ -54,6 +54,8 @@ class SpedDocumento(models.Model):
             _logger.info(u'XML vazio')
             return
 
+        xml = xml.decode('UTF-8')
+
         if ' Id="NFe' not in xml:
             _logger.info(u'Documento não é uma nf-e')
             return
