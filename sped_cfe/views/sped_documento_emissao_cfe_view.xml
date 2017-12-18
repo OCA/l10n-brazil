@@ -54,6 +54,8 @@
                     <!--attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada'])]}" />-->
                 <button name="envia_nfe" string="Envia CF-e" type="object" class="btn-primary"
                         attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada'])]}" />
+                <button name="reimprimir_cfe" string="Reimprimir CF-e" type="object" class="btn-primary"
+                        attrs="{'invisible': [('situacao_nfe', '!=', 'autorizada'), ('modelo', '!=', '59')]}" />
                 <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-primary" />
                 <button name="gera_pdf" string="Gerar PDF" type="object" class="btn-primary" />
                 <button name="envia_pagamento" string="Enviar Pagamento" type="object" class="btn-primary" invisible="1"/>
@@ -74,6 +76,7 @@
                     <group col="4" attrs="{'invisible': [('permite_cancelamento', '=', False), ('situacao_nfe', '!=', 'cancelada')]}">
                         <separator string="Cancelamento" colspan="4" />
                         <field name="justificativa" colspan="4" attrs="{'readonly': [('situacao_nfe', '=', 'cancelada')]}" />
+                        <field name="chave_cancelamento" colspan="4" attrs="{'readonly': [('situacao_nfe', '=', 'cancelada')]}" />
                         <button name="cancela_nfe" string="Cancelar CF-e" type="object" class="btn-primary"
                             attrs="{'invisible': ['|', ('permite_cancelamento', '=', 'False'), ('situacao_nfe', '=', 'cancelada')]}" />
                     </group>

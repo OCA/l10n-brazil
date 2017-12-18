@@ -65,6 +65,11 @@ class SpedDocumento(models.Model):
         compute='_compute_total_a_pagar',
     )
 
+    chave_cancelamento = fields.Char(
+        string='Chave Cancelamento',
+        size=44,
+    )
+
     def executa_depois_autorizar(self):
         #
         # Este método deve ser alterado por módulos integrados, para realizar
@@ -419,6 +424,19 @@ class SpedDocumento(models.Model):
         try:
             cancelamento = self._monta_cancelamento()
 
+            if self.configuracoes_pdv.tipo_sat == 'local':
+                processo = processador.cancelar_ultima_venda(
+                    cancelamento.chCanc,
+                    cancelamento
+                )
+            elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
+                processo = processador.cancelar_ultima_venda(
+                    cancelamento.chCanc,
+                    cancelamento,
+                    self.configuracoes_pdv.codigo_ativacao,
+                    self.configuracoes_pdv.path_integrador
+                )
+
             processo = processador.cancelar_ultima_venda(
                 cancelamento.chCanc,
                 cancelamento
@@ -548,6 +566,21 @@ class SpedDocumento(models.Model):
             mensagem = '\nMensagem: ' + resposta.message
             self.mensagem_nfe = mensagem
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
+
+    @api.multi
+    def reimprimir_cfe(self):
+        self.ensure_one()
+        impressao = self.configuracoes_pdv.impressora
+        if impressao:
+            cliente = self.processador_cfe()
+            resposta = self.arquivo_xml_autorizacao_id.datas
+            cliente.imprimir_cupom_venda(
+                resposta,
+                impressao.modelo,
+                impressao.conexao
+            )
+        else:
+            raise Warning("Não existem configurações para impressão no PDV!")
 
     @api.multi
     def _verificar_formas_pagamento(self):
