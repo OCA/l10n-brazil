@@ -199,6 +199,8 @@ class SpedDocumento(models.Model):
             'arquivo_pdf_id',
             'situacao_fiscal',
             'situacao_nfe',
+            'permite_cancelamento',
+            'permite_alteracao',
         ]
         for documento in self:
             if documento.modelo not in (MODELO_FISCAL_NFE,
