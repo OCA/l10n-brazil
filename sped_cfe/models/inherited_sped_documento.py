@@ -437,11 +437,6 @@ class SpedDocumento(models.Model):
                     self.configuracoes_pdv.path_integrador
                 )
 
-            processo = processador.cancelar_ultima_venda(
-                cancelamento.chCanc,
-                cancelamento
-            )
-
             #
             # O cancelamento foi aceito e vinculado à CF-E
             #
@@ -451,6 +446,16 @@ class SpedDocumento(models.Model):
                 #
                 self.grava_xml_cancelamento(self.chave, cancelamento)
                 self.grava_xml_autorizacao_cancelamento(self.chave, processo.xml())
+                self.chave_cancelamento = processo.chaveConsulta
+                impressao = self.configuracoes_pdv.impressora
+
+                if impressao:
+                    cliente.imprimir_cupom_cancelamento(
+                        self.arquivo_xml_autorizacao_id.datas,
+                        processo.arquivoCFeBase64,
+                        impressao.modelo,
+                        impressao.conexao
+                    )
 
                 # data_cancelamento = retevento.infEvento.dhRegEvento.valor
                 # data_cancelamento = UTC.normalize(data_cancelamento)
