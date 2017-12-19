@@ -125,10 +125,10 @@ class SpedDocumento(models.Model):
             # É emissão própria de NF-e ou NFC-e, permite alteração
             # somente quando estiver em digitação ou rejeitada
             #
-            if documento.permite_alteracao or \
+            documento.permite_alteracao = documento.permite_alteracao or \
                 documento.situacao_nfe in (SITUACAO_NFE_EM_DIGITACAO,
-                                        SITUACAO_NFE_REJEITADA):
-                continue
+                                        SITUACAO_NFE_REJEITADA)
+
 
     def _check_permite_alteracao(self, operacao='create', dados={},
                                  campos_proibidos=[]):
