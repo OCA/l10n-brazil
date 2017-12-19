@@ -490,7 +490,7 @@ class SpedDocumento(models.Model):
                 impressao = self.configuracoes_pdv.impressora
 
                 if impressao:
-                    cliente.imprimir_cupom_cancelamento(
+                    processador.imprimir_cupom_cancelamento(
                         self.arquivo_xml_autorizacao_id.datas,
                         processo.arquivoCFeBase64,
                         impressao.modelo,
