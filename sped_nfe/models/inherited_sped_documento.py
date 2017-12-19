@@ -88,12 +88,6 @@ class SpedDocumento(models.Model):
         string='Mensagem',
         copy=False,
     )
-    situacao_nfe = fields.Selection(
-        selection=SITUACAO_NFE,
-        string='Situação NF-e',
-        default=SITUACAO_NFE_EM_DIGITACAO,
-        copy=False,
-    )
     data_hora_autorizacao = fields.Datetime(
         string='Data de autorização',
         index=True,

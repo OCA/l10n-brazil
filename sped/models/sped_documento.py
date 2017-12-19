@@ -114,6 +114,12 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         index=True,
         default=ENTRADA_SAIDA_SAIDA,
     )
+    situacao_nfe = fields.Selection(
+        selection=SITUACAO_NFE,
+        string='Situação NF-e',
+        default=SITUACAO_NFE_EM_DIGITACAO,
+        copy=False,
+    )
     situacao_fiscal = fields.Selection(
         selection=SITUACAO_FISCAL,
         string='Situação fiscal',
