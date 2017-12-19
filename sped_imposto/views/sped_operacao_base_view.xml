@@ -97,6 +97,9 @@
                                 </group>
                             </group>
                         </page>
+                        <page name="operacoes_subsequentes" string="Operaçoes Subsequentes">
+                            <field name="operacao_subsequente_ids" context="{'tree_view_ref': 'sped_imposto.sped_operacao_subsequente_tree_view'}"/>
+                        </page>
                     </notebook>
                 </sheet>
             </form>

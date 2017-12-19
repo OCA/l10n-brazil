@@ -21,12 +21,14 @@
         'product',
     ],
     'data': [
+
         #
         # Grupos e permissões
         #
         'security/inherited_res_groups_data.xml',
         'security/ir.model.access.csv',
         'security/sped_operacao_ir_rule.xml',
+        'security/sped_operacao_subsequente.xml',
 
         #
         # Valores padrão
@@ -79,6 +81,7 @@
         'views/sped_cnae_view.xml',
 
         'views/sped_natureza_operacao_view.xml',
+        'views/sped_operacao_subsequente.xml',
         'views/sped_operacao_item_view.xml',
         'views/sped_operacao_base_view.xml',
         #

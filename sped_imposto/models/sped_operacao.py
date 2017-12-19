@@ -191,6 +191,14 @@ class SpedOperacaoFiscal(models.Model):
     # 'forca_recalculo_st_compra': fields.boolean(
     # 'Força recálculo do ST na compra?'),
 
+    operacao_subsequente_ids = fields.One2many(
+        comodel_name='sped.operacao.subsequente',
+        inverse_name='operacao_id',
+        string='Operaçao Subsequente',
+        help="""Operaçoes fiscais executadas posteriormente a execuçao do \n
+        do documento fiscal.
+        """
+    )
     operacao_entrada_id = fields.Many2one(
         comodel_name='sped.operacao',
         string='Operação de entrada equivalente',

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="sped_operacao_subsequente_tree_view">
+        <field name="name">sped.operacao.subsequente.tree (in sped_imposto)</field>
+        <field name="model">sped.operacao.subsequente</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="operacao_subsequente_id"/>
+                <field name="participante_id"/>
+                <field name="situacao_geracao"/>
+                <field name="referenciar_documento"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>
