@@ -1967,7 +1967,7 @@ class SpedCalculoImpostoItem(SpedBase):
                         pr_icms_st *= al_icms_proprio / al_icms_st
                         pr_icms_st -= 1
                         pr_icms_st *= 100
-                        pr_icms_st = pr_icms_st.quantize(D('0.0001'))
+                        pr_icms_st = D(pr_icms_st).quantize(D('0.0001'))
 
                     self.pr_icms_st = pr_icms_st
 
