@@ -12,6 +12,8 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
 from odoo import models, fields, api, _
 from odoo.exceptions import Warning as UserError
 from lxml import objectify
+import re
+import base64
 
 
 class SpedConsultaStatusDocumento(models.TransientModel):
@@ -22,7 +24,6 @@ class SpedConsultaStatusDocumento(models.TransientModel):
     empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
         string='Empresa',
-        required=True,
         default=lambda self: self.env.user.sped_empresa_id,
     )
     state = fields.Selection(
@@ -48,7 +49,7 @@ class SpedConsultaStatusDocumento(models.TransientModel):
     )
     chave = fields.Char(
         string='Chave',
-        size=44,
+        size=60,
     )
     protocolo_autorizacao = fields.Char(
         string='Protocolo de autorização',
@@ -71,10 +72,57 @@ class SpedConsultaStatusDocumento(models.TransientModel):
         readonly=True,
     )
 
+    arquivo = fields.Binary(
+        string='Arquivo',
+        attachment=True
+    )
+
+    forma_consulta = fields.Selection(
+        selection = [
+            ('Chave', 'Chave'),
+            ('XML', 'XML'),
+        ],
+        string="Forma de Consulta",
+        required=True,
+        default='Chave',
+        help="Seleciona se a consulta será feita pela chave da NF-e ou pelo "
+             "XML da NF-e"
+    )
+
+    @api.model
+    def create(self, vals):
+
+        if vals.get('chave'):
+            chave = ''.join(re.findall(r'[\b]*\d+[\b]*', vals.get('chave')))
+            vals.update(chave = chave)
+
+        res = super(SpedConsultaStatusDocumento, self).create(vals)
+        return res
+
     @api.multi
     def busca_status_documento(self):
         self.ensure_one()
-        result = True
+
+        if self.forma_consulta == 'XML':
+            xml = base64.b64decode(self.arquivo)
+
+            nfe = objectify.fromstring(xml)
+            documento = self.env['sped.documento'].new()
+            documento.modelo = nfe.NFe.infNFe.ide.mod.text
+            dados = documento.le_nfe(xml=xml)
+            return {
+                'name': _("Associar Pedido de Compras"),
+                'view_mode': 'form',
+                'view_type': 'form',
+                'view_id': self.env.ref('sped_nfe.sped_documento_ajuste_recebimento_form').id,
+                'res_id': dados.id,
+                'res_model': 'sped.documento',
+                'type': 'ir.actions.act_window',
+                'target': 'current',
+                'context': {'default_purchase_order_ids': [(4, self.purchase_order_id.id)]},
+                'flags': {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}},
+            }
+
         consulta = self.env['sped.consulta.dfe']
         consulta.validate_nfe_configuration(self.empresa_id)
 
