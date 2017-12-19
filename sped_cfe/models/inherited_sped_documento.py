@@ -125,9 +125,49 @@ class SpedDocumento(models.Model):
             # É emissão própria de NF-e ou NFC-e, permite alteração
             # somente quando estiver em digitação ou rejeitada
             #
-            documento.permite_alteracao = documento.permite_alteracao or \
+            if documento.permite_alteracao or \
                 documento.situacao_nfe in (SITUACAO_NFE_EM_DIGITACAO,
-                                        SITUACAO_NFE_REJEITADA)
+                                        SITUACAO_NFE_REJEITADA):
+                continue
+
+    def _check_permite_alteracao(self, operacao='create', dados={},
+                                 campos_proibidos=[]):
+
+        CAMPOS_PERMITIDOS = [
+            'message_follower_ids',
+            'justificativa',
+            'chave_cancelamento',
+        ]
+        for documento in self:
+            if documento.modelo != MODELO_FISCAL_CFE:
+                super(SpedDocumento, documento)._check_permite_alteracao(
+                    operacao,
+                    dados,
+                )
+                continue
+
+            if documento.emissao != TIPO_EMISSAO_PROPRIA:
+                super(SpedDocumento, documento)._check_permite_alteracao(
+                    operacao,
+                    dados,
+                )
+                continue
+
+            if documento.permite_alteracao:
+                continue
+
+            permite_alteracao = False
+
+            if documento.situacao_nfe == SITUACAO_NFE_AUTORIZADA:
+                for campo in dados:
+                    if campo in CAMPOS_PERMITIDOS:
+                        permite_alteracao = True
+                        break
+                    elif campo not in campos_proibidos:
+                        campos_proibidos.append(campo)
+
+            if permite_alteracao:
+                continue
 
     def processador_cfe(self):
         """
@@ -247,7 +287,7 @@ class SpedDocumento(models.Model):
         #
         # Destinatário
         #
-        if self.participante_id:
+        if self.participante_id and self.participante_id.cnpj_cpf:
             kwargs['destinatario'] = self._monta_cfe_destinatario()
 
         #

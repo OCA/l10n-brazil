@@ -201,8 +201,6 @@ class SpedDocumento(models.Model):
             'situacao_nfe',
             'permite_cancelamento',
             'permite_alteracao',
-            'justificativa',
-            'chave_cancelamento',
         ]
         for documento in self:
             if documento.modelo not in (MODELO_FISCAL_NFE,
