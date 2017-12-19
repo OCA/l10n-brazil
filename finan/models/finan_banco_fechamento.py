@@ -35,7 +35,8 @@ class FinanBancoFechamento(models.Model):
 
     saldo = fields.Float(
         string="Saldo dos lançamentos",
-        related='saldo_final'
+        compute='_compute_saldo_final',
+        #related='saldo_final'
     )
 
     banco_id = fields.Many2one(
@@ -197,7 +198,7 @@ class FinanBancoFechamento(models.Model):
                 saldo -= valores.vr_total
 
         self.saldo_final = self.saldo_inicial + saldo
-
+        self.saldo = saldo
     @api.depends('lancamento_ids')
     def _compute_saldo_inicial(self):
         """
