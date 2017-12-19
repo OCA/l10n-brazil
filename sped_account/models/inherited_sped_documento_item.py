@@ -136,5 +136,5 @@ class SpedDocumentoItem(models.Model):
             if not item.permite_alteracao:
                 continue
 
-            if not self.documento_id.permite_alteracao:
+            if not item.documento_id.permite_alteracao:
                 item.permite_alteracao = False

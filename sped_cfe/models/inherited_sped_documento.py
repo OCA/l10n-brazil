@@ -113,7 +113,7 @@ class SpedDocumento(models.Model):
         super(SpedDocumento, self)._compute_permite_alteracao()
 
         for documento in self:
-            if not self.modelo == MODELO_FISCAL_CFE:
+            if not documento.modelo == MODELO_FISCAL_CFE:
                 super(SpedDocumento, documento)._compute_permite_alteracao()
                 continue
 
