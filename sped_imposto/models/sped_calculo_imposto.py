@@ -654,7 +654,10 @@ class SpedCalculoImposto(SpedBase):
         #
         # Criamos o documento e chamados os onchange necessários
         #
-        documento = self.env['sped.documento'].create(dados)
+        if isinstance(self.id, models.NewId):
+            documento = self.env['sped.documento'].create(dados)
+        else:
+            documento = self
 
         if self.pagamento_ids:
             documento.pagamento_ids = self.pagamento_ids
@@ -675,6 +678,7 @@ class SpedCalculoImposto(SpedBase):
         # dos impostos, por segurança, caso alguma operação fiscal, alíquota
         # etc. tenha sido alterada
         #
+        sped_documento_item = self.env['sped.documento.item']
         for item in itens:
             dados = {
                 'documento_id': documento.id,
@@ -687,18 +691,23 @@ class SpedCalculoImposto(SpedBase):
                 'vr_outras': item.vr_outras,
             }
             dados.update(item.prepara_dados_documento_item())
+
             #
             # Passamos o vr_unitario no contexto para evitar que as
             # configurações da operação redefinam o valor unitário durante
             # o cáculo dos impostos
             #
+
             contexto = {
                 'forca_vr_unitario': dados['vr_unitario']
             }
-            sped_documento_item = \
-                self.env['sped.documento.item'].with_context(contexto)
-            documento_item = sped_documento_item.create(dados)
-            documento_item.calcula_impostos()
+
+            if isinstance(item.id, models.NewId):
+                documento_item = sped_documento_item.create(dados)
+            else:
+                documento_item = item
+
+            documento_item.with_context(contexto).calcula_impostos()
 
         #
         # Se certifica de que todos os campos foram totalizados
