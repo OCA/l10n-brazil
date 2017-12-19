@@ -34,7 +34,8 @@ class FinanBancoFechamento(models.Model):
     )
 
     saldo = fields.Float(
-        string="Saldo dos lancamentos"
+        string="Saldo dos lançamentos",
+        related='saldo_final'
     )
 
     banco_id = fields.Many2one(
@@ -190,7 +191,10 @@ class FinanBancoFechamento(models.Model):
         """
         saldo = 0
         for valores in self.lancamento_ids:
-            saldo += valores.vr_total
+            if valores.tipo == 'recebimento':
+                saldo += valores.vr_total
+            elif valores.tipo == 'pagamento':
+                saldo -= valores.vr_total
 
         self.saldo_final = self.saldo_inicial + saldo
 
