@@ -13,7 +13,7 @@
         <field name="arch" type="xml">
                 <header position="inside">
                     <button name="envia_nfe" string="Enviar NF-e" type="object" class="btn-primary"
-                        attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada'])]}" />
+                        attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'a_enviar', 'rejeitada'])]}" />
                     <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-primary" />
                     <button name="gera_pdf" string="Baixar PDF" type="object" class="btn-primary" />
                     <button name="gera_xml" string="Baixar XML" type="object" class="btn-primary" />
