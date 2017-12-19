@@ -782,6 +782,30 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         string='Itens',
         copy=True,
     )
+    produto_id = fields.Many2one(
+        comodel_name='sped.produto',
+        string='Produto/Serviço',
+        related='item_ids.produto_id',
+        readonly=True,
+    )
+    cfop_id = fields.Many2one(
+        comodel_name='sped.cfop',
+        string='CFOP',
+        related='item_ids.cfop_id',
+        readonly=True,
+    )
+    ncm_id = fields.Many2one(
+        comodel_name='sped.ncm',
+        string='NCM',
+        related='produto_id.ncm_id',
+        readonly=True,
+    )
+    cest_id = fields.Many2one(
+        comodel_name='sped.cest',
+        string='CEST',
+        related='produto_id.cest_id',
+        readonly=True,
+    )
     documento_referenciado_ids = fields.One2many(
         comodel_name='sped.documento.referenciado',
         inverse_name='documento_id',

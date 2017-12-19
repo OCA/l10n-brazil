@@ -392,6 +392,10 @@
                 <field name="operacao_id" />
                 <field name="participante_id" />
                 <field name="empresa_id" />
+                <field name="produto_id" />
+                <field name="cfop_id" />
+                <field name="ncm_id" />
+                <field name="cest_id" />
             </search>
         </field>
     </record>

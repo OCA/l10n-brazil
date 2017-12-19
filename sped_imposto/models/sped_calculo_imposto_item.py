@@ -147,6 +147,18 @@ class SpedCalculoImpostoItem(SpedBase):
         ondelete='restrict',
         index=True,
     )
+    ncm_id = fields.Many2one(
+        comodel_name='sped.ncm',
+        string='NCM',
+        related='produto_id.ncm_id',
+        readonly=True,
+    )
+    cest_id = fields.Many2one(
+        comodel_name='sped.cest',
+        string='CEST',
+        related='produto_id.cest_id',
+        readonly=True,
+    )
     protocolo_id = fields.Many2one(
         comodel_name='sped.protocolo.icms',
         string='Protocolo ICMS',
