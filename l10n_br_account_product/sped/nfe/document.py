@@ -3,6 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from datetime import datetime
+from unicodedata import normalize
 
 from openerp import pooler
 from openerp.exceptions import Warning as UserError
@@ -586,8 +587,12 @@ class NFe200(FiscalDocument):
     def _additional_information(self, invoice):
         """Informações adicionais"""
 
-        self.nfe.infNFe.infAdic.infAdFisco.valor = invoice.fiscal_comment or ''
-        self.nfe.infNFe.infAdic.infCpl.valor = invoice.comment or ''
+        self.nfe.infNFe.infAdic.infAdFisco.valor = normalize(
+            'NFKD', unicode(
+                invoice.fiscal_comment or '')).encode('ASCII', 'ignore')
+        self.nfe.infNFe.infAdic.infCpl.valor = normalize(
+            'NFKD', unicode(
+                invoice.comment or '')).encode('ASCII', 'ignore')
 
     def _total(self, invoice):
         """Totais"""
