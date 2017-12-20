@@ -34,7 +34,7 @@ class ConsultaDFe(models.Model):
         required=True,
     )
     ultimo_nsu = fields.Char(
-        string='Último NS',
+        string='Último NSU',
         size=25,
         default='0',
         required=True,
@@ -47,6 +47,12 @@ class ConsultaDFe(models.Model):
         comodel_name='sped.consulta.dfe.xml',
         inverse_name='consulta_id',
         string='Documentos XML',
+    )
+
+    nfe_importada_ids = fields.One2many(
+        comodel_name='sped.documento',
+        inverse_name='consulta_dfe_id',
+        string='NF-e importadas',
     )
 
     def _format_nsu(self, nsu):
@@ -102,6 +108,71 @@ class ConsultaDFe(models.Model):
                 cnpj = "%s.%s.%s/%s-%s" % (val[0:2], val[2:5], val[5:8],
                                            val[8:12], val[12:14])
         return cnpj
+
+    @api.multi
+    def baixa_documentos(self):
+        '''
+        - Declara Ciência da Emissão para todas as manifestações já recebidas,
+        - Realiza Download dos XMLs das NF-e
+        - Cria um sped_documento para cada XML importado
+        '''
+
+        # Coletando os erros para caso seja de importância no futuro
+        erros = []
+        action = True
+        nfe_ids = []
+
+        manifestos = self.env['sped.manifestacao.destinatario'].\
+            search([('empresa_id','=',self.empresa_id.id)])
+
+        for manifesto in manifestos:
+
+            if not manifesto.state in ['pendente', 'ciente']:
+                continue
+
+            elif manifesto.state == 'pendente':
+                '''
+                Aqui é importante tentar manifestar Ciência da
+                Emissão duas vezes pois existe a possibilidade de uma
+                manifestação ser importada com a Ciência de Emissão já
+                declarada, retornando uma mensagem de erro.
+                A segunda tentativa de chamar o método alterará o campo state
+                do mesmo para 'ciente', sincronizando com o estado real da
+                manifestação na receita federal.
+                '''
+                try:
+                    manifesto.action_ciencia_emissao()
+                except Exception, e:
+                    erros.append(('manifesto', manifesto.id, e))
+
+                    try:
+                        manifesto.action_ciencia_emissao()
+                    except:
+                        erros.append((manifesto.id, e))
+                        continue
+
+            self.validate_nfe_configuration(self.empresa_id)
+
+            nfe_result = self.download_nfe(self.empresa_id,
+                                           manifesto.chave)
+
+            if nfe_result['code'] == '138':
+                nfe = objectify.fromstring(nfe_result['nfe'])
+                documento = self.env['sped.documento'].new()
+                documento.modelo = nfe.NFe.infNFe.ide.mod.text
+                nfe = documento.le_nfe(xml=nfe_result['nfe'])
+
+                nfe_ids.append(nfe.id)
+
+            else:
+                erros.append(('nfe', False,
+                              nfe_result['code'] + ' - ' +
+                              nfe_result['message']))
+
+        self.update({'nfe_importada_ids':[(6, False, nfe_ids)]})
+
+        return action
+
 
     @api.multi
     def busca_documentos(self, raise_error=False):

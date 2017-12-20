@@ -143,6 +143,12 @@ class SpedDocumento(models.Model):
         size=60,
     )
 
+    consulta_dfe_id = fields.Many2one(
+        comodel_name='sped.consulta.dfe',
+        string='Consulta-DFe',
+        ondelete='cascade',
+    )
+
     @api.depends('data_hora_emissao', 'data_hora_entrada_saida',
                  'data_hora_autorizacao', 'data_hora_cancelamento')
     def _compute_data_hora_separadas(self):

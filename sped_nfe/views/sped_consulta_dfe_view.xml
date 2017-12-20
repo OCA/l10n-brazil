@@ -20,7 +20,12 @@
                         <newline />
                         <field name="ultima_consulta" readonly="1" />
                         <newline />
-                        <button name="busca_documentos" string="Busca documentos" type="object" class="btn-primary" />
+                        <button name="busca_documentos"
+                                string="Busca documentos"
+                                type="object" class="btn-primary" />
+                        <button name="baixa_documentos"
+                                string="Baixar NF-e disponíveis"
+                                type="object" class="btn-primary" />
                     </group>
                     <field name="destinatario_xml_ids"/>
                 </group>
