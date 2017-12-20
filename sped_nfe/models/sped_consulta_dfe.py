@@ -114,6 +114,7 @@ class ConsultaDFe(models.Model):
                 last_nsu = self.ultimo_nsu
                 nfe_result = self.distribuicao_nfe(
                     company, last_nsu)
+                self.ultima_consulta = fields.Datetime.now()
                 _logger.info('%s.query_nfe_batch(), lastNSU: %s',
                              company, last_nsu)
             except Exception:
