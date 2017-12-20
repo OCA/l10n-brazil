@@ -79,34 +79,40 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         compute='_compute_data_hora_separadas',
         store=True,
         index=True,
+        copy=False,
     )
     hora_emissao = fields.Char(
         string='Hora de emissão',
         size=8,
         compute='_compute_data_hora_separadas',
         store=True,
+        copy=False,
     )
     data_entrada_saida = fields.Date(
         string='Data de entrada/saída',
         compute='_compute_data_hora_separadas',
         store=True,
         index=True,
+        copy=False,
     )
     hora_entrada_saida = fields.Char(
         string='Hora de entrada/saída',
         size=8,
         compute='_compute_data_hora_separadas',
         store=True,
+        copy=False,
     )
     serie = fields.Char(
         string='Série',
         size=3,
         index=True,
+        copy=False,
     )
     numero = fields.Float(
         string='Número',
         index=True,
         digits=(18, 0),
+        copy=False,
     )
     entrada_saida = fields.Selection(
         selection=ENTRADA_SAIDA,
@@ -400,6 +406,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     chave = fields.Char(
         string='Chave',
         size=44,
+        copy=False,
     )
     #
     # Duplicatas e pagamentos
