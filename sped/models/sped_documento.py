@@ -856,6 +856,35 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     importado_xml = fields.Boolean(
         string='Importado de XML?',
     )
+    documento_origem_ids = fields.Many2many(
+        comodel_name='sped.documento',
+        column1='documento_relacionado_ids',
+        column2='documento_origem_ids',
+        relation='sped_documento_rel',
+        string="Documento Original",
+        readonly=True,
+        copy=False,
+    )
+    documento_relacionado_ids = fields.Many2many(
+        comodel_name='sped.documento',
+        column1='documento_origem_ids',
+        column2='documento_relacionado_ids',
+        relation='sped_documento_rel',
+        string="Documento Relacionado",
+        readonly=True,
+        copy=False,
+    )
+    documento_origem_relacionados_ids = fields.Many2many(
+        comodel_name='sped.documento',
+        compute='_compute_documento_origem_relacionados_ids',
+        string='Relacionados',
+        readonly=True,
+    )
+    # display_name = fields.Char(
+    #     compute='_compute_display_name',
+    #     store=True,
+    #     index=True,
+    # )
 
     @api.multi
     def name_get(self):
@@ -872,6 +901,17 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                 )
                 res.append((record.id, txt))
         return res
+
+    @api.depends('documento_relacionado_ids', 'documento_origem_ids')
+    def _compute_documento_origem_relacionados_ids(self):
+        for record in self:
+            relacionado = self.env['sped.documento']
+            if record.documento_relacionado_ids:
+                relacionado = record.documento_relacionado_ids.ids
+            elif record.documento_origem_ids:
+                relacionado = record.documento_origem_ids.ids
+
+            record.documento_origem_relacionados_ids = relacionado
 
     @api.depends('emissao', 'entrada_saida', 'modelo', 'serie', 'numero',
                  'data_emissao', 'participante_id')
@@ -1300,6 +1340,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                                  campos_proibidos=[]):
         CAMPOS_PERMITIDOS = [
             'message_follower_ids',
+            'documento_relacionado_ids',
         ]
         for documento in self:
             if documento.permite_alteracao:
@@ -1547,6 +1588,8 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                 documento.situacao_nfe = SITUACAO_NFE_A_ENVIAR
                 documento.numero = False
                 documento.data_entrada_saida = False
+                documento.documento_origem_ids |= record
+
                 #
                 # Transmite o documento
                 #
