@@ -42,7 +42,7 @@
                                     <field name="data_pagamento"/>
                                     <field name="participante_id"/>
                                     <field name="tipo"/>
-                                    <field name="vr_documento"/>
+                                    <field name="vr_total"/>
                                 </tree>
                             </field>
                             <group class="oe_subtotal_footer oe_right">
