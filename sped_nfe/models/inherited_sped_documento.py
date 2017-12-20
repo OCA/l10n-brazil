@@ -149,6 +149,23 @@ class SpedDocumento(models.Model):
         ondelete='cascade',
     )
 
+    @api.multi
+    def action_fluxo_compras(self):
+
+        return {
+            'name': "Associar Pedido de Compras",
+            'view_mode': 'form',
+            'view_type': 'form',
+            'view_id': self.env.ref(
+                'sped_nfe.sped_documento_ajuste_recebimento_form').id,
+            'res_id': self.id,
+            'res_model': 'sped.documento',
+            'type': 'ir.actions.act_window',
+            'target': 'current',
+            'flags': {'form': {'action_buttons': True,
+                               'options': {'mode': 'edit'}}},
+        }
+
     @api.depends('data_hora_emissao', 'data_hora_entrada_saida',
                  'data_hora_autorizacao', 'data_hora_cancelamento')
     def _compute_data_hora_separadas(self):

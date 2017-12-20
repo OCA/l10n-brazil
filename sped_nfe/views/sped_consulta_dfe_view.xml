@@ -27,7 +27,10 @@
                                 string="Baixar NF-e disponíveis"
                                 type="object" class="btn-primary" />
                     </group>
-                    <field name="destinatario_xml_ids"/>
+                    <field name="nfe_importada_ids"
+                           context="{'tree_view_ref':
+                           'sped_nfe.sped_consulta_dfe_nfe_tree'}"/>
+                    <field name="destinatario_xml_ids" invisible="True"/>
                 </group>
             </sheet>
             </form>
@@ -44,6 +47,28 @@
                 <field name="ultimo_nsu" />
                 <field name="ultima_consulta" />
             </tree>
+        </field>
+    </record>
+
+       <record model="ir.ui.view" id="sped_consulta_dfe_nfe_tree">
+        <field name="name">sped.consulta.dfe.nfe.tree</field>
+        <field name="model">sped.documento</field>
+        <field name="inherit_id" ref="sped.sped_documento_recebimento_nfe_tree" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="operacao_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="serie" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="numero" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name='vr_nf' position="after">
+                <button string="Fluxo de Compras" name="action_fluxo_compras"
+                        type="object"/>
+            </field>
         </field>
     </record>
 
