@@ -102,6 +102,12 @@ class FinanLancamento(SpedBase, models.Model):
         related='forma_pagamento_id.forma_pagamento',
         readonly=True,
     )
+
+    forma_pagamento_nome = fields.Char(
+        string='Forma Pagamento Nome',
+        related='forma_pagamento_id.nome',
+    )
+
     exige_numero = fields.Boolean(
         string='Exige número de documento?',
         related='forma_pagamento_id.exige_numero',

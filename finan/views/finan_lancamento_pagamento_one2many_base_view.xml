@@ -97,9 +97,13 @@
                                     <field name="vr_total" string="(=) Total" class="oe_subtotal_footer_separator" />
                                 </group>
                             </group>
-                            <field name="remessa_id" />
-                            <field name="retorno_id" />
-                            <field name="retorno_item_id" />
+                            <field name="forma_pagamento_nome" invisible="1"/>
+                            <field name="remessa_id"
+                                   attrs="{'invisible': [('forma_pagamento_nome', '!=', 'Boleto')]}"/>
+                            <field name="retorno_id"
+                                   attrs="{'invisible': [('forma_pagamento_nome', '!=', 'Boleto')]}"/>/>
+                            <field name="retorno_item_id"
+                                   attrs="{'invisible': [('forma_pagamento_nome', '!=', 'Boleto')]}"/>/>
                         </group>
                     </group>
                     <div>
