@@ -385,17 +385,42 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <search string="Emissão de NF-e">
+                <filter name="autorizada" string="Autorizada" domain="[('situacao_nfe','=','autorizada')]"/>
+                <filter name="pendente" string="Pendente" domain="[('situacao_nfe', 'in', ['em_digitacao', 'a_enviar', 'rejeitada'])]"/>
+                <separator/>
+                <filter name="em_digitacao" string="Em Digitação" domain="[('situacao_nfe','=','em_digitacao')]"/>
+                <filter name="a_enviar" string="Aguardando envio" domain="[('situacao_nfe','=','a_enviar')]"/>
+                <filter name="rejeitada" string="Rejeitada" domain="[('situacao_nfe','=','rejeitada')]"/>
+                <filter name="enviada" string="Enviada" domain="[('situacao_nfe','=','enviada')]"/>
+                <separator/>
+                <filter name="denegada" string="Denegada" domain="[('situacao_nfe','=','denegada')]"/>
+                <filter name="cancelada" string="Cancelada" domain="[('situacao_nfe','=','cancelada')]"/>
+                <filter name="inutilizada" string="Inutilizada" domain="[('situacao_nfe','=','inutilizada')]"/>
+                <separator/>
                 <field name="numero" />
+                <field name="serie" />
                 <field name="data_emissao" />
                 <field name="data_entrada_saida" />
                 <field name="chave" />
+                <separator/>
                 <field name="operacao_id" />
                 <field name="participante_id" />
                 <field name="empresa_id" />
                 <field name="produto_id" />
+                <separator/>
                 <field name="cfop_id" />
                 <field name="ncm_id" />
                 <field name="cest_id" />
+                <group expand="0" string="Group By">
+                        <filter name="group_by_participante_id" string="Participante" context="{'group_by':'participante_id'}"/>
+                        <filter name="group_by_empresa_id" string="Empresa" context="{'group_by':'empresa_id'}"/>
+                        <filter name="situacao_nfe" string="Situação" context="{'group_by':'situacao_nfe'}"/>
+                        <filter name="situacao_fiscal" string="Situação Fiscal" context="{'group_by':'situacao_fiscal'}"/>
+                        <filter name="serie" string="Série" context="{'group_by':'serie'}"/>
+                        <separator/>
+                        <filter string="Emissão" context="{'group_by':'data_emissao'}"/>
+                        <filter string="Entrada/Saída" context="{'group_by':'data_entrada_saida'}"/>
+                    </group>
             </search>
         </field>
     </record>
