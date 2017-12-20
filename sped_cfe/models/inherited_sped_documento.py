@@ -46,7 +46,8 @@ class SpedDocumento(models.Model):
 
     @api.multi
     def _buscar_configuracoes_pdv(self):
-        self.configuracoes_pdv = self.env.user.configuracoes_sat_cfe
+        for record in self:
+            record.configuracoes_pdv = self.env.user.configuracoes_sat_cfe
 
     configuracoes_pdv = fields.Many2one(
         string=u"Configurações para a venda",
