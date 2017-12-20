@@ -17,13 +17,13 @@ class FinanBancoFechamento(models.Model):
 
     saldo_inicial = fields.Float(
         string='Saldo inicial',
-        compute = '_compute_saldo_inicial',
-        store = True
+        compute='_compute_saldo_inicial',
+        store=True,
     )
 
     saldo_final = fields.Float(
         string='Saldo final',
-        compute = '_compute_saldo_final'
+        compute = '_compute_saldo_final',
     )
 
     lancamento_ids = fields.Many2many(
@@ -36,7 +36,6 @@ class FinanBancoFechamento(models.Model):
     saldo = fields.Float(
         string="Saldo dos lançamentos",
         compute='_compute_saldo_final',
-        #related='saldo_final'
     )
 
     banco_id = fields.Many2one(
@@ -199,6 +198,7 @@ class FinanBancoFechamento(models.Model):
 
         self.saldo_final = self.saldo_inicial + saldo
         self.saldo = saldo
+
     @api.depends('lancamento_ids')
     def _compute_saldo_inicial(self):
         """
@@ -217,8 +217,6 @@ class FinanBancoFechamento(models.Model):
                     fechamento_id.saldo_inicial = 0.0
 
                 fechamento_id.saldo_inicial = fechamentos_ids.saldo_final
-
-
 
     # @api.depends('banco_id')
     # def compute_data_inicial(self):
