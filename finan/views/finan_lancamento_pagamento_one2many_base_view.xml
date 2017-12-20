@@ -99,11 +99,11 @@
                             </group>
                             <field name="forma_pagamento_nome" invisible="1"/>
                             <field name="remessa_id"
-                                   attrs="{'invisible': [('forma_pagamento_nome', '!=', 'Boleto')]}"/>
+                                   attrs="{'invisible': [('forma_pagamento_nome', '!=', 'Boleto')], 'readonly': [('forma_pagamento_nome', '=', 'Boleto')]}"/>
                             <field name="retorno_id"
-                                   attrs="{'invisible': [('forma_pagamento_nome', '!=', 'Boleto')]}"/>/>
+                                   attrs="{'invisible': [('forma_pagamento_nome', '!=', 'Boleto')], 'readonly': [('forma_pagamento_nome', '=', 'Boleto')]}"/>/>
                             <field name="retorno_item_id"
-                                   attrs="{'invisible': [('forma_pagamento_nome', '!=', 'Boleto')]}"/>/>
+                                   attrs="{'invisible': [('forma_pagamento_nome', '!=', 'Boleto')], 'readonly': [('forma_pagamento_nome', '=', 'Boleto')]}"/>/>
                         </group>
                     </group>
                     <div>
