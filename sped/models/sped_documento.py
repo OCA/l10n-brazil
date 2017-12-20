@@ -2,6 +2,8 @@
 #
 # Copyright 2016 Taŭga Tecnologia
 #   Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2017 KMEE INFORMATICA LTDA
+#   Luis Felipe Miléo <mileo@kmee.com.bR>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -1331,6 +1333,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         # tarefas de integração necessárias antes de autorizar uma NF-e
         #
         self.ensure_one()
+        self.gera_operacoes_subsequentes()
 
     def executa_depois_autorizar(self):
         #
@@ -1340,7 +1343,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         # estoque etc.
         #
         self.ensure_one()
-        self.gera_operacao_entrada()
+        self.gera_operacoes_subsequentes()
 
     def executa_antes_cancelar(self):
         #
@@ -1351,6 +1354,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         # interface
         #
         self.ensure_one()
+        self.gera_operacoes_subsequentes()
 
     def executa_depois_cancelar(self):
         #
@@ -1360,6 +1364,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         # estoque etc.
         #
         self.ensure_one()
+        self.gera_operacoes_subsequentes()
 
     def executa_antes_denegar(self):
         #
@@ -1367,6 +1372,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         # tarefas de integração necessárias antes de denegar uma NF-e
         #
         self.ensure_one()
+        self.gera_operacoes_subsequentes()
 
     def executa_depois_denegar(self):
         #
@@ -1376,6 +1382,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         # etc.
         #
         self.ensure_one()
+        self.gera_operacoes_subsequentes()
 
     def envia_email(self, mail_template):
         self.ensure_one()
@@ -1428,17 +1435,104 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         return super(SpedDocumento, self).search_read(domain=domain,
             fields=fields, offset=offset, limit=limit, order=order)
 
-    def gera_operacao_entrada(self):
-        if self.operacao_id.operacao_entrada_id:
-            empresa_id = self.env['sped.empresa'].search([('cnpj_cpf', '=', self.participante_id.cnpj_cpf)])
-            if empresa_id:
-                novo_doc = self.copy()
-                novo_doc.participante_id = self.empresa_id.participante_id
-                novo_doc.empresa_id = empresa_id
-                novo_doc.operacao_id = self.operacao_id.operacao_entrada_id
-                novo_doc.entrada_saida = '0'
-                novo_doc.emissao = '1'
+    def _prepare_subsequente_referenciado(self):
+        vals = {
+                'documento_id': self.id,
+                'participante_id': self.participante_id.id,
+                'modelo': self.modelo,
+                'serie': self.serie,
+                'numero': self.numero,
+                'data_emissao': self.data_emissao,
+                'chave': self.chave,
+                # 'numero_ecf': self.ecf,
+                # 'numero_coo': self.coo,
+            }
+        refenciado_id = self.env['sped.documento.referenciado'].create(vals)
+        return refenciado_id
 
-                for item in self.item_ids:
-                    item._onchange_produto_id_emissao_propria()
-                    item._onchange_operacao_item_id()
+    def _subsequente_referenciado(self, subsequente_id):
+        if subsequente_id.referenciar_documento:
+            return self.env.context.get(
+                'referenciado_ids',
+                self._prepare_subsequente_referenciado()
+            )
+
+    def _subsequente_tipo_pagamento(self, subsequente_id):
+        return (subsequente_id.operacao_subsequente_id.ind_forma_pagamento or
+                self.ind_forma_pagamento)
+
+    def _subsquente_condicao_pagamento(self, subsequente_id):
+        return (subsequente_id.operacao_subsequente_id.condicao_pagamento_id or
+                self.condicao_pagamento_id)
+
+    def _subsequente_empresa(self, subsequente_id):
+        return subsequente_id.operacao_subsequente_id.empresa_id or self.empresa_id
+
+    def _subsequente_participante(self, subsequente_id):
+        return subsequente_id.participante_id or self.participante_id
+
+    def gera_operacoes_subsequentes(self):
+        """
+        Operaçoes subsequentes:
+
+            - NOTA FISCAL emitida em operaçao triangular;
+                - Simples faturamento 5922;
+                - Encomenda de entrega futura: 5117
+
+
+
+            - NOTA FISCAL MULTI EMPRESAS ;
+                - Saida;
+                - Entrada;
+
+            - Consiguinaçao:
+                - Remessa de consiguinaçao;
+                - Venda de itens;
+                - Retorno de consiguinaçao;
+
+            - Venda ambulante:
+                - Remessa fora de estabelecimento;
+                - Itens vendidos fora do estabelecimento;
+                - Retorno de venda fora do estabelecimento;
+
+
+            Caso o tipo da nota seja diferente devemos inverter os participantes;
+
+
+        :return:
+        """
+        for record in self:
+            for subsequente_id in record.operacao_id.operacao_subsequente_ids:
+                if not record.situacao_nfe == subsequente_id.situacao_geracao:
+                    continue
+
+                _logger.info("Geracao da operacao subsequente")
+
+                novo_doc = record.copy()
+
+                novo_doc.participante_id = record._subsequente_participante(subsequente_id)
+                novo_doc.empresa_id = record._subsequente_empresa(subsequente_id)
+                novo_doc.operacao_id = subsequente_id.operacao_subsequente_id
+                novo_doc.condicao_pagamento_id = record._subsquente_condicao_pagamento(subsequente_id)
+                novo_doc.tipo_pagamento = record._subsequente_tipo_pagamento(subsequente_id)
+
+                #
+                # Referenciar documento
+                #
+                referenciado_id = record._subsequente_referenciado(subsequente_id)
+                for referenciado_item in referenciado_id:
+                    referenciado_item.documento_referenciado_id = novo_doc.id
+                    novo_doc.documento_referenciado_ids |= referenciado_item
+                #
+                # Gera documento
+                #
+
+                documento = novo_doc.gera_documento()
+                documento.situacao_nfe = SITUACAO_NFE_A_ENVIAR
+                documento.numero = False
+                documento.data_entrada_saida = False
+                #
+                # Transmite o documento
+                #
+
+                # documento.envia_nfe()
