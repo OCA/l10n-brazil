@@ -1513,6 +1513,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                 'referenciado_ids',
                 self._prepare_subsequente_referenciado()
             )
+        return []
 
     def _subsequente_tipo_pagamento(self, subsequente_id):
         return (subsequente_id.operacao_subsequente_id.ind_forma_pagamento or
