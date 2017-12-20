@@ -153,7 +153,7 @@ class SpedDocumento(models.Model):
         ide.tpEmis.valor = self.tipo_emissao_nfe
         ide.finNFe.valor = self.finalidade_nfe
         ide.procEmi.valor = 0  # Emissão por aplicativo próprio
-        ide.verProc.valor = 'Odoo ERP de código aberto'
+        ide.verProc.valor = 'Odoo ERP'
         ide.indPres.valor = self.presenca_comprador
 
         #
