@@ -38,11 +38,11 @@ class SpedDocumento(models.Model):
 
     @api.multi
     def _compute_total_a_pagar(self):
-        valor = self.vr_fatura
-        for pagamento in self.pagamento_ids:
-            valor -= pagamento.valor
-
-        self.vr_total_residual = valor
+        for record in self:
+            valor = record.vr_fatura
+            for pagamento in record.pagamento_ids:
+                valor -= pagamento.valor
+            record.vr_total_residual = valor
 
     @api.multi
     def _buscar_configuracoes_pdv(self):
