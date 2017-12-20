@@ -2,7 +2,7 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import datetime
+from datetime import datetime
 
 from openerp import models, fields, api, _, tools
 from openerp.addons import decimal_precision as dp
@@ -562,7 +562,7 @@ class AccountInvoice(models.Model):
         for inv in self:
             if not inv.date_hour_invoice:
                 date_hour_invoice = fields.Datetime.context_timestamp(
-                    self, datetime.datetime.now())
+                    self, datetime.now())
             else:
                 if inv.issuer == '1':
                     date_move = inv.date_in_out
@@ -575,8 +575,17 @@ class AccountInvoice(models.Model):
                 )
             date_invoice = date_hour_invoice.strftime(
                 tools.DEFAULT_SERVER_DATE_FORMAT)
+
+            if (inv.company_id.date_used_maturity == 'invoice_out_date' and
+                    inv.type == 'out_invoice' and inv.date_in_out):
+                date_out = datetime.strptime(
+                    inv.date_in_out, '%Y-%m-%d %H:%M:%S')
+                date_invoice = date_out.strftime(
+                    tools.DEFAULT_SERVER_DATE_FORMAT)
+
             res = self.onchange_payment_term_date_invoice(
                 inv.payment_term.id, date_invoice)
+
             if res and res['value']:
                 res['value'].update({
                     'date_invoice': date_invoice
