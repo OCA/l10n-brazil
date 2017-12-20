@@ -857,6 +857,22 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         string='Importado de XML?',
     )
 
+    @api.multi
+    def name_get(self):
+        res = []
+        for record in self:
+            if self._context.get('sped_documento_display') == 'completo':
+                res.append((record.id, record.descricao))
+            else:
+                txt = '{nome}/{modelo}/{serie}/{numero}'.format(
+                    nome=record.empresa_id.nome,
+                    modelo=record.modelo,
+                    serie=record.serie,
+                    numero=formata_valor(record.numero, casas_decimais=0),
+                )
+                res.append((record.id, txt))
+        return res
+
     @api.depends('emissao', 'entrada_saida', 'modelo', 'serie', 'numero',
                  'data_emissao', 'participante_id')
     def _compute_descricao(self):
