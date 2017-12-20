@@ -12,6 +12,7 @@
                         expr="//group[@name='l10n-br-config']/notebook/page/notebook/page[@string='Boleto']"
                         position="inside">
                     <group>
+                        <field name="type_payment"/>
                         <field name="boleto_type"/>
                         <field name="boleto_convenio"/>
                         <field name="boleto_carteira"/>
