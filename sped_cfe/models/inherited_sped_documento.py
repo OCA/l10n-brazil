@@ -78,6 +78,7 @@ class SpedDocumento(models.Model):
         # estoque etc.
         #
         self.ensure_one()
+        super(SpedDocumento, self).executa_depois_autorizar()
 
         if self.modelo != MODELO_FISCAL_CFE:
             super(SpedDocumento, self)._compute_permite_cancelamento()
