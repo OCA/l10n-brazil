@@ -40,7 +40,11 @@ class HrPayslipRun(models.Model):
     _sql_constraints = [
         ('lote_unico',
          'unique(ano, mes_do_ano, tipo_de_folha, company_id)',
-         'Este Lote de Holerite já existe!')
+         'Este Lote de Holerite já existe!'),
+        ('nome',
+         'unique(display_name)',
+         'Este nome de Lote já existe ! ' 
+         'Por favor digite outro que não se repita')
     ]
 
     mes_do_ano = fields.Selection(

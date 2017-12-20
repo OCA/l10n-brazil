@@ -885,10 +885,10 @@ class HrPayslip(models.Model):
                                 datetime.strptime(self.date_to,
                                                   '%Y-%m-%d')])
                 domain = [
-                    ('date_from', '>=', periodo.inicio_aquisitivo),
-                    ('date_from', '<=', data_fim),
-                #    ('date_to', '>=', periodo.inicio_aquisitivo),
-                #    ('date_to', '<=', periodo.fim_aquisitivo),
+                #    ('date_from', '>=', periodo.inicio_aquisitivo),
+                #    ('date_from', '<=', data_fim),
+                    ('date_to', '>=', periodo.inicio_aquisitivo),
+                    ('date_to', '<=', data_fim),
                     ('contract_id', '=', self.contract_id.id),
                     ('tipo_de_folha', '=', 'normal'),
                     ('state', 'in', ['done', 'verify']),
@@ -902,7 +902,7 @@ class HrPayslip(models.Model):
                 #
                 valor = 0
                 for holerite in folhas_periodo:
-                    if holerite.date_from >= periodo.inicio_aquisitivo:
+                    if holerite.date_to <= data_fim:
                         for linha in holerite.line_ids:
                             if linha.code == codigo:
                                 valor += linha.total
