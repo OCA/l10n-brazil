@@ -569,7 +569,7 @@ class AccountInvoice(models.Model):
                 else:
                     date_move = inv.date_hour_invoice
                 date_hour_invoice = fields.Datetime.context_timestamp(
-                    self, datetime.datetime.strptime(
+                    self, datetime.strptime(
                         date_move, tools.DEFAULT_SERVER_DATETIME_FORMAT
                     )
                 )
