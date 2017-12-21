@@ -27,7 +27,8 @@
         <field name="inherit_id" ref="sped.sped_documento_emissao_nfe_form"/>
         <field name="arch" type="xml">
             <field name="condicao_pagamento_id" position="after">
-                <field name="carteira_id"/>
+                <field name="carteira_id"  attrs="{'invisible': [('forma_pagamento', '!=', '15')]}"/>
+                <field name="forma_pagamento" invisible="1"/>
             </field>
         </field>
     </record>

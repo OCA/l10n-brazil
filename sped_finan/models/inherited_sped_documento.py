@@ -33,15 +33,40 @@ class SpedDocumento(models.Model):
         copy=False,
     )
 
+    @api.onchange('condicao_pagamento_id')
+    def default_domain(self):
+        # para que apenas apareça carteira quando for tipo boleto
+        self.forma_pagamento = self.condicao_pagamento_id.forma_pagamento_id. \
+            forma_pagamento
+        # apenas carteira padrão e permitida pra exibir
+        ids = []
+        for carteira in self.env.user.company_id.sped_empresa_id.carteira_ids:
+            ids.append(carteira.ids)
+        ids.append(self.env.user.company_id.sped_empresa_id.carteira_id.id)
+        return {'domain': {'carteira_id': [('id', 'in', ids)]}}
+
     carteira_id = fields.Many2one(
         string='Carteira Padrão',
         comodel_name='finan.carteira',
         help='Carteira para geração do boleto',
+        domain='default_domain',
     )
 
     anexos = fields.Boolean(
         string='Anexos Gerados',
         readonly=True,
+    )
+
+    forma_pagamento_id = fields.Many2one(
+       comodel_name = 'finan.forma.pagamento',
+       string = 'Forma de pagamento',
+       related = 'condicao_pagamento_id.forma_pagamento_id',
+       ondelete = 'restrict',
+    )
+    forma_pagamento = fields.Selection(
+       selection = FORMA_PAGAMENTO,
+       string = 'Forma de pagamento fiscal',
+       related = 'forma_pagamento_id.forma_pagamento',
     )
 
     @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
