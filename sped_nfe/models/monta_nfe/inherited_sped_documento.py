@@ -59,7 +59,7 @@ class SpedDocumento(models.Model):
         # Notas referenciadas
         #
         for doc_ref in self.documento_referenciado_ids:
-            nfe.infNFe.ide.NFref.append(docref.monta_nfe())
+            nfe.infNFe.ide.NFref.append(doc_ref.monta_nfe())
 
         #
         # Emitente
