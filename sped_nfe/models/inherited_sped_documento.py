@@ -9,6 +9,8 @@ from __future__ import division, print_function, unicode_literals
 
 import os
 import logging
+import base64
+from io import BytesIO
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
@@ -284,7 +286,7 @@ class SpedDocumento(models.Model):
 
         if self.modelo == MODELO_FISCAL_NFE:
             if self.empresa_id.logo_danfe:
-                processador.danfe.logo = ''
+                processador.danfe.logo = self.empresa_id.logo_danfe
             processador.danfe.nome_sistema = 'Odoo 10.0'
             processador.caminho = os.path.join(
                 self.empresa_id.caminho_sped,
@@ -293,7 +295,7 @@ class SpedDocumento(models.Model):
 
         elif self.modelo == MODELO_FISCAL_NFCE:
             if self.empresa_id.logo_danfce:
-                processador.danfce.logo = ''
+                processador.danfce.logo = self.empresa_id.logo_danfce
             processador.danfce.nome_sistema = 'Odoo 10.0'
             processador.caminho = os.path.join(
                 self.empresa_id.caminho_sped,
@@ -321,7 +323,7 @@ class SpedDocumento(models.Model):
             'datas_fname': nome_arquivo,
             'res_model': 'sped.documento',
             'res_id': self.id,
-            'datas': conteudo.encode('base64'),
+            'datas': base64.b64encode(conteudo),
             'mimetype': tipo,
         }
 
@@ -334,7 +336,15 @@ class SpedDocumento(models.Model):
         nome_arquivo = nfe.chave + '-nfe.xml'
         conteudo = nfe.xml.encode('utf-8')
         self.arquivo_xml_id = False
-        self.arquivo_xml_id = self._grava_anexo(nome_arquivo, conteudo).id
+        self.arquivo_xml_id = self._grava_anexo(nome_arquivo, conteudo)
+
+        return {
+            'type' : 'ir.actions.act_url',
+            'url': '/web/content/{id}/{nome}'.format(
+                id=self.arquivo_xml_id.id,
+                nome=self.arquivo_xml_id.name),
+            'target': 'new',
+            }
 
     def grava_pdf(self, nfe, danfe_pdf):
         self.ensure_one()
@@ -342,7 +352,16 @@ class SpedDocumento(models.Model):
         conteudo = danfe_pdf
         self.arquivo_pdf_id = False
         self.arquivo_pdf_id = self._grava_anexo(nome_arquivo, conteudo,
-                                                tipo='application/pdf').id
+                                                tipo='application/pdf')
+
+        return {
+            'name': 'Download PDF',
+            'type' : 'ir.actions.act_url',
+            'url': '/web/content/{id}/{nome}'.format(
+                id=self.arquivo_pdf_id.id,
+                nome=self.arquivo_pdf_id.name),
+            'target': 'new',
+            }
 
     def grava_xml_autorizacao(self, procNFe):
         self.ensure_one()
@@ -350,7 +369,15 @@ class SpedDocumento(models.Model):
         conteudo = procNFe.xml.encode('utf-8')
         self.arquivo_xml_autorizacao_id = False
         self.arquivo_xml_autorizacao_id = \
-            self._grava_anexo(nome_arquivo, conteudo).id
+            self._grava_anexo(nome_arquivo, conteudo)
+
+        return {
+            'type' : 'ir.actions.act_url',
+            'url': '/web/content/{id}/{nome}'.format(
+                id=self.arquivo_xml_autorizacao_id.id,
+                nome=self.arquivo_xml_autorizacao_id.name),
+            'target': 'new',
+            }
 
     def grava_xml_cancelamento(self, chave, canc):
         self.ensure_one()
@@ -358,7 +385,15 @@ class SpedDocumento(models.Model):
         conteudo = canc.xml.encode('utf-8')
         self.arquivo_xml_cancelamento_id = False
         self.arquivo_xml_cancelamento_id = \
-            self._grava_anexo(nome_arquivo, conteudo).id
+            self._grava_anexo(nome_arquivo, conteudo)
+
+        return {
+            'type' : 'ir.actions.act_url',
+            'url': '/web/content/{id}/{nome}'.format(
+                id=self.arquivo_xml_cancelamento_id.id,
+                nome=self.arquivo_xml_cancelamento_id.name),
+            'target': 'new',
+            }
 
     def grava_xml_autorizacao_cancelamento(self, chave, canc):
         self.ensure_one()
@@ -366,23 +401,15 @@ class SpedDocumento(models.Model):
         conteudo = canc.xml.encode('utf-8')
         self.arquivo_xml_autorizacao_cancelamento_id = False
         self.arquivo_xml_autorizacao_cancelamento_id = \
-        self._grava_anexo(nome_arquivo, conteudo).id
+            self._grava_anexo(nome_arquivo, conteudo)
 
-    def grava_xml_inutilizacao(self, chave, inut):
-        self.ensure_one()
-        nome_arquivo = chave + '-inu.xml'
-        conteudo = inut.xml.encode('utf-8')
-        self.arquivo_xml_inutilizacao_id = False
-        self.arquivo_xml_inutilizacao_id = \
-        self._grava_anexo(nome_arquivo, conteudo).id
-
-    def grava_xml_autorizacao_inutilizacao(self, chave, inut):
-        self.ensure_one()
-        nome_arquivo = chave + '-proc-inu.xml'
-        conteudo = inut.xml.encode('utf-8')
-        self.arquivo_xml_autorizacao_inutilizacao_id = False
-        self.arquivo_xml_autorizacao_inutilizacao_id = \
-        self._grava_anexo(nome_arquivo, conteudo).id
+        return {
+            'type' : 'ir.actions.act_url',
+            'url': '/web/content/{id}/{nome}'.format(
+                id=self.arquivo_xml_autorizacao_cancelamento_id.id,
+                nome=self.arquivo_xml_autorizacao_cancelamento_id.name),
+            'target': 'new',
+            }
 
     def envia_nfe(self):
         self.ensure_one()
@@ -491,9 +518,9 @@ class SpedDocumento(models.Model):
                     self.grava_xml_autorizacao(procNFe)
 
                     if self.modelo == MODELO_FISCAL_NFE:
-                        self.grava_pdf(nfe, procNFe.danfe_pdf)
+                        res = self.grava_pdf(nfe, procNFe.danfe_pdf)
                     elif self.modelo == MODELO_FISCAL_NFCE:
-                        self.grava_pdf(nfe, procNFe.danfce_pdf)
+                        res = self.grava_pdf(nfe, procNFe.danfce_pdf)
 
                     data_autorizacao = protNFe.infProt.dhRecbto.valor
                     data_autorizacao = UTC.normalize(data_autorizacao)
@@ -532,14 +559,14 @@ class SpedDocumento(models.Model):
 
     def cancela_nfe(self):
         self.ensure_one()
-        result = super(SpedDocumento, self).envia_nfe()
+        res = super(SpedDocumento, self).envia_nfe()
         if self.modelo not in (MODELO_FISCAL_NFCE, MODELO_FISCAL_NFE):
-            return result
+            return res
 
 
         processador = self.processador_nfe()
 
-        xml = self.arquivo_xml_autorizacao_id.datas.decode('base64')
+        xml = base64.b64decode(self.arquivo_xml_autorizacao_id.datas)
         xml = xml.decode('utf-8')
 
         procNFe = ClasseProcNFe()
@@ -592,7 +619,8 @@ class SpedDocumento(models.Model):
                 processador.danfe.procEventoCancNFe = procevento
                 processador.danfe.salvar_arquivo = False
                 processador.danfe.gerar_danfe()
-                self.grava_pdf(procNFe.NFe, processador.danfe.conteudo_pdf)
+                res = self.grava_pdf(procNFe.NFe,
+                                     processador.danfe.conteudo_pdf)
                 processador.danfe.NFe = ClasseNFe()
                 processador.danfe.protNFe = None
                 processador.danfe.procEventoCancNFe = None
@@ -602,7 +630,8 @@ class SpedDocumento(models.Model):
                 processador.danfce.procEventoCancNFe = procevento
                 processador.danfce.salvar_arquivo = False
                 processador.danfce.gerar_danfce()
-                self.grava_pdf(procNFe.NFe, processador.danfce.conteudo_pdf)
+                res = self.grava_pdf(procNFe.NFe,
+                                     processador.danfce.conteudo_pdf)
                 processador.danfce.NFe = ClasseNFCe()
                 processador.danfce.protNFe = None
                 processador.danfce.procEventoCancNFe = None
@@ -881,6 +910,7 @@ class SpedDocumento(models.Model):
         super(SpedDocumento, self).gera_pdf()
 
         self.ensure_one()
+        res = None
 
         if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
             return
@@ -892,19 +922,19 @@ class SpedDocumento(models.Model):
 
         procNFe = ClasseProcNFe()
         if self.arquivo_xml_autorizacao_id:
-            xml = self.arquivo_xml_autorizacao_id.datas.decode('base64')
+            xml = base64.b64decode(self.arquivo_xml_autorizacao_id.datas)
             procNFe.xml = xml.decode('utf-8')
+            procNFe.NFe.chave = procNFe.NFe.infNFe.Id.valor[3:]
         else:
             procNFe.NFe = self.monta_nfe()
             procNFe.NFe.gera_nova_chave()
-
-        procNFe.NFe.monta_chave()
+            procNFe.NFe.monta_chave()
 
         procevento = ProcEventoCancNFe_100()
         if self.arquivo_xml_autorizacao_cancelamento_id:
-            xml = \
-                self.arquivo_xml_autorizacao_cancelamento_id.datas.decode(
-                    'base64')
+            xml = base64.b64decode(
+                self.arquivo_xml_autorizacao_cancelamento_id.datas)
+
             procevento.xml = xml.decode('utf-8')
 
         #
@@ -921,7 +951,7 @@ class SpedDocumento(models.Model):
 
             processador.danfe.salvar_arquivo = False
             processador.danfe.gerar_danfe()
-            self.grava_pdf(procNFe.NFe, processador.danfe.conteudo_pdf)
+            res = self.grava_pdf(procNFe.NFe, processador.danfe.conteudo_pdf)
             processador.danfe.NFe = ClasseNFe()
             processador.danfe.protNFe = None
             processador.danfe.procEventoCancNFe = None
@@ -937,7 +967,36 @@ class SpedDocumento(models.Model):
 
             processador.danfce.salvar_arquivo = False
             processador.danfce.gerar_danfce()
-            self.grava_pdf(procNFe.NFe, processador.danfce.conteudo_pdf)
+            res = self.grava_pdf(procNFe.NFe, processador.danfce.conteudo_pdf)
             processador.danfce.NFe = ClasseNFCe()
             processador.danfce.protNFe = None
             processador.danfce.procEventoCancNFe = None
+
+        return res
+
+    def gera_xml(self):
+        super(SpedDocumento, self).gera_pdf()
+
+        self.ensure_one()
+        res = None
+
+        if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            return
+
+        if self.emissao != TIPO_EMISSAO_PROPRIA:
+            return
+
+        if self.arquivo_xml_autorizacao_id:
+            return {
+                'type' : 'ir.actions.act_url',
+                'url': '/web/content/{id}/{nome}'.format(
+                    id=self.arquivo_xml_autorizacao_id.id,
+                    nome=self.arquivo_xml_autorizacao_id.name),
+                'target': 'new',
+                }
+
+        procNFe = ClasseProcNFe()
+        procNFe.NFe = self.monta_nfe()
+        procNFe.NFe.gera_nova_chave()
+        procNFe.NFe.monta_chave()
+        return self.grava_xml(procNFe.NFe)
