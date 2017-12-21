@@ -25,13 +25,18 @@
                                 type="object" class="btn-primary" />
                         <button name="baixa_documentos"
                                 string="Baixar NF-e disponíveis"
+                                confirm="AVISO - Ao baixar as Notas você estará dando ciência da emissão aos manifestos correspondentes."
                                 type="object" class="btn-primary" />
                     </group>
+                    <field name="dfe_importada_ids"
+                            context="{'tree_view_ref':
+                           'sped_nfe.sped_consulta_dfe_manifestacao_tree'}"/>/>
                     <field name="nfe_importada_ids"
                            context="{'tree_view_ref':
                            'sped_nfe.sped_consulta_dfe_nfe_tree'}"/>
                     <field name="destinatario_xml_ids" invisible="True"/>
                 </group>
+                <field name="exibeQtdDFeImportada" invisible="True"></field>
             </sheet>
             </form>
         </field>
@@ -68,6 +73,27 @@
             <field name='vr_nf' position="after">
                 <button string="Fluxo de Compras" name="action_fluxo_compras"
                         type="object"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_consulta_dfe_manifestacao_tree">
+        <field name="name">sped.consulta.dfe.manifestacao.tree</field>
+        <field name="model">sped.manifestacao.destinatario</field>
+        <field name="inherit_id"
+               ref="sped_nfe.view_sped_manifestacao_destinatario_tree" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="empresa_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name='valor_documento' position="after">
+                <button string="Baixar NF-e" name="action_baixa_documento"
+                        type="object"
+                        confirm="AVISO - Ao baixar uma Nota você estará dando ciência da emissão ao manifesto correspondente.
+                        Deseja continuar?"
+                        attrs="{'invisible':[('documento_id','!=',False)]}"/>
+                <field name="documento_id" invisible="True"/>
             </field>
         </field>
     </record>

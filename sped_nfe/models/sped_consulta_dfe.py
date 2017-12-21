@@ -55,6 +55,12 @@ class ConsultaDFe(models.Model):
         string='NF-e importadas',
     )
 
+    dfe_importada_ids = fields.One2many(
+        comodel_name='sped.manifestacao.destinatario',
+        inverse_name='sped_consulta_dfe_id',
+        string='Manifestações do Destinatário Importadas',
+    )
+
     def _format_nsu(self, nsu):
         nsu = long(nsu)
         return "%015d" % (nsu,)
@@ -110,7 +116,7 @@ class ConsultaDFe(models.Model):
         return cnpj
 
     @api.multi
-    def baixa_documentos(self):
+    def baixa_documentos(self, manifestos=None):
         '''
         - Declara Ciência da Emissão para todas as manifestações já recebidas,
         - Realiza Download dos XMLs das NF-e
@@ -119,11 +125,12 @@ class ConsultaDFe(models.Model):
 
         # Coletando os erros para caso seja de importância no futuro
         erros = []
-        action = True
+
         nfe_ids = []
 
-        manifestos = self.env['sped.manifestacao.destinatario'].\
-            search([('empresa_id','=',self.empresa_id.id)])
+        if len(manifestos) != 1:
+            manifestos = self.env['sped.manifestacao.destinatario'].\
+                search([('empresa_id','=',self.empresa_id.id)])
 
         for manifesto in manifestos:
 
@@ -162,16 +169,20 @@ class ConsultaDFe(models.Model):
                 documento.modelo = nfe.NFe.infNFe.ide.mod.text
                 nfe = documento.le_nfe(xml=nfe_result['nfe'])
 
-                nfe_ids.append(nfe.id)
+                manifesto.documento_id = nfe
+
+                nfe_ids.append(nfe)
 
             else:
                 erros.append(('nfe', False,
                               nfe_result['code'] + ' - ' +
                               nfe_result['message']))
 
-        self.update({'nfe_importada_ids':[(6, False, nfe_ids)]})
+        dados = [nfe.id for nfe in nfe_ids] + self.nfe_importada_ids.ids
 
-        return action
+        self.update({'nfe_importada_ids': [(6, False, dados)]})
+
+        return nfe_ids
 
 
     @api.multi

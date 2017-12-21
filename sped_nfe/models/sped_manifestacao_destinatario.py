@@ -164,6 +164,16 @@ class SpedManifestacaoDestinatario(models.Model):
     )
 
     @api.multi
+    def action_baixa_documento(self):
+        self.sped_consulta_dfe_id.baixa_documentos(manifestos=self)
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload',
+        }
+
+
+    @api.multi
     def action_ciencia_emissao(self):
         for record in self:
 
@@ -285,6 +295,7 @@ class SpedManifestacaoDestinatario(models.Model):
                 documento = self.env['sped.documento'].new()
                 documento.modelo = nfe.NFe.infNFe.ide.mod.text
                 dados = documento.le_nfe(xml=nfe_result['nfe'])
+                self.documento_id = dados
                 return {
                     'name': _("Associar Pedido de Compras"),
                     'view_mode': 'form',
