@@ -1379,7 +1379,9 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             raise ValidationError(_(mensagem))
 
     def envia_nfe(self):
-        self.ensure_one()
+        for record in self:
+            if not record.numero:
+                record.update(record._onchange_serie()['value'])
 
     def cancela_nfe(self):
         self.ensure_one()
