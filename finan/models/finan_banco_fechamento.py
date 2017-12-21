@@ -54,6 +54,18 @@ class FinanBancoFechamento(models.Model):
         required=True,
     )
 
+    def compute_permissao_user(self):
+        if 68 in self.env.user.groups_id.ids:
+            self.usuario_gerente = True
+        else:
+            self.usuario_gerente = False
+
+    usuario_gerente = fields.Boolean(
+        string="É gerente?",
+        compute='compute_permissao_user',
+        #default=[68 in 'self.env.user.groups_id.ids'],
+    )
+
     data_fechamento = fields.Date(
         string='Data do fechamento',
         index=True,
@@ -121,6 +133,13 @@ class FinanBancoFechamento(models.Model):
         for fechamento_id in self:
             fechamento_id.state = 'fechado'
             fechamento_id.data_fechamento = fields.Date.today()
+
+    @api.multi
+    def button_reabrir_caixa(self):
+        for fechamento_id in self:
+            if fechamento_id.user_id.has_group('finan.GRUPO_CADASTRO_GERENTE'):
+                fechamento_id.state = 'aberto'
+                fechamento_id.data_fechamento = fields.Date.today()
 
     @api.constrains('data_final', 'data_inicial', 'banco_id')
     def validacao_fechamentos(self):

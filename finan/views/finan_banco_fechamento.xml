@@ -9,8 +9,12 @@
             <form string="Fechamento de caixa">
                 <header>
                     <field name="state" widget="statusbar"/>
+                    <field name="usuario_gerente" invisible="1"/>
                     <button string="Processar" states="aberto" type="object" name="button_processar"/>
                     <button string="Fechar caixa" states="aberto" type="object" name="button_fechar_caixa"/>
+                    <button string="Reabrir caixa"
+                            type="object" name="button_reabrir_caixa"
+                            attrs="{'invisible': ['|',('usuario_gerente', '=', False), ('state', '=', 'aberto')]}"/>
                 </header>
 
                 <sheet>
