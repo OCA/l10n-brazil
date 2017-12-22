@@ -119,11 +119,30 @@ class SpedDocumento(models.Model):
 
         return result
 
+    def _check_regerar_financeiro(self, dados):
+        """
+        Validação para identificar se o financeiro deve ser refeito
+        :param dados: dict com campos que serão alterados no write
+        :return: 
+        """
+        # Lista de campos do sped.documento que se forem alterados devera ser
+        # relançado os movimentos financeiros
+        campos_afetam_financeiro = [
+            'duplicata_ids', 'vr_nf', 'vr_fatura', 'condicao_pagamento_id',
+            'carteira_id', 'item_ids', 'participante_id', 'ind_forma_pagamento',
+        ]
+
+        for campo in dados:
+            if campo in campos_afetam_financeiro:
+                return True
+        return False
+
     def executa_antes_write(self, dados):
         dados = super(SpedDocumento, self).executa_antes_write(dados)
 
         for documento in self:
-            documento.exclui_finan_lancamento()
+            if documento._check_regerar_financeiro(dados):
+                documento.exclui_finan_lancamento()
 
         return dados
 
@@ -131,7 +150,8 @@ class SpedDocumento(models.Model):
         result = super(SpedDocumento, self).executa_depois_write(result, dados)
 
         for documento in self:
-            documento.gera_finan_lancamento()
+            if documento._check_regerar_financeiro(dados):
+                documento.gera_finan_lancamento()
 
         return result
 
