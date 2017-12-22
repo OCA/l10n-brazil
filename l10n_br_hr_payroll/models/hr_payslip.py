@@ -902,7 +902,7 @@ class HrPayslip(models.Model):
                 #
                 valor = 0
                 for holerite in folhas_periodo:
-                    if holerite.date_to <= data_fim:
+                    if holerite.date_to <= fields.Date.to_string(data_fim):
                         for linha in holerite.line_ids:
                             if linha.code == codigo:
                                 valor += linha.total

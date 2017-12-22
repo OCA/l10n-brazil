@@ -109,35 +109,45 @@ class HrContract(models.Model):
             # Dentro deste período houve alteração contratual ?
             #
             if data_inicio <= change[i].change_date <= data_fim:
-                    # >= data_inicio and change[i].change_date <= data_fim:
                 i_2 = i + 1
                 data_mudanca = \
                     datetime.strptime(change[i].change_date, "%Y-%m-%d")
                 d_inicio = datetime.strptime(data_inicio, "%Y-%m-%d")
                 d_fim = datetime.strptime(data_fim, "%Y-%m-%d")
 
-                # Calcula o número de dias dentro do período e quantos dias
-                # são de cada lado da alteração contratual
-                #
                 dias = (d_fim - d_inicio) + timedelta(days=1)
-                dias_2 = dias.days - data_mudanca.day
-                dias_1 = (data_mudanca.day - d_inicio.day) + 1
 
-                # Calcula cada valor de salário nos dias em com valores
-                # diferentes
+                # Se a mudança for exatamente no primeiro dia do período
+                # Considere o salário pronto no período inteiro
                 #
-                salario_dia_2 = change[i].wage / dias.days
-                if i_2 in range(len(change)):
-                    salario_dia_1 = change[i_2].wage / dias.days
+                if data_mudanca == d_inicio:
+                    if i_2 in range(len(change)):
+                        salario_medio = change[i].wage
+                        salario_dia_1 = change[i].wage / dias.days
+                        salario_dia_2 = change[i].wage / dias.days
                 else:
-                    salario_dia_1 = change[i].wage / dias.days
-                salario_medio_2 = salario_dia_2 * dias_2
-                salario_medio_1 = salario_dia_1 * dias_1
 
-                # Soma os 2 lados e temos o salário proporcional dentro
-                # do período
-                #
-                salario_medio = salario_medio_2 + salario_medio_1
+                    # Calcula o número de dias dentro do período e quantos dias
+                    # são de cada lado da alteração contratual
+                    #
+                    dias_2 = dias.days - data_mudanca.day
+                    dias_1 = (data_mudanca.day - d_inicio.day) + 1
+
+                    # Calcula cada valor de salário nos dias em com valores
+                    # diferentes
+                    #
+                    salario_dia_2 = change[i].wage / dias.days
+                    if i_2 in range(len(change)):
+                        salario_dia_1 = change[i_2].wage / dias.days
+                    else:
+                        salario_dia_1 = change[i].wage / dias.days
+                    salario_medio_2 = salario_dia_2 * dias_2
+                    salario_medio_1 = salario_dia_1 * dias_1
+
+                    # Soma os 2 lados e temos o salário proporcional dentro
+                    # do período
+                    #
+                    salario_medio = salario_medio_2 + salario_medio_1
 
                 # Se for para buscar o salário inicial
                 #
