@@ -220,6 +220,11 @@ class FinanLancamento(SpedBase, models.Model):
         compute='_compute_total_saldo',
         store=True,
     )
+    vr_total_sinal = fields.Monetary(
+        string='Total',
+        compute='_compute_total_saldo',
+        store=True,
+    )
 
     #
     # Campos de valor que somam todos os pagamentos relacionados a uma dívida
@@ -658,6 +663,11 @@ class FinanLancamento(SpedBase, models.Model):
             lancamento.vr_quitado_adiantado = vr_quitado_adiantado
             lancamento.vr_quitado_baixado = vr_quitado_baixado
             lancamento.vr_quitado_total = vr_quitado_total
+
+            sinal = 1
+            if lancamento.tipo == 'pagamento':
+                sinal = -1
+            lancamento.vr_total_sinal = lancamento.vr_total * sinal
 
     @api.depends('data_vencimento', 'documento_id.antecipa_vencimento',
                  'empresa_id.municipio_id')
