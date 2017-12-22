@@ -92,8 +92,6 @@ class SpedDocumento(models.Model):
 
     def executa_depois_autorizar(self):
         super(SpedDocumento, self).executa_depois_autorizar()
-        self.exclui_finan_lancamento()
-        self.gera_finan_lancamento()
 
     def executa_depois_cancelar(self):
         super(SpedDocumento, self).executa_depois_cancelar()
