@@ -184,6 +184,13 @@ class ConsultaDFe(models.Model):
 
         return nfe_ids
 
+    def scheduler_busca_documentos(self, context=None):
+
+        consulta_ids = self.env['sped.consulta.dfe'].search([])
+
+        for consulta_id in consulta_ids:
+            consulta_id.busca_documentos()
+
 
     @api.multi
     def busca_documentos(self, raise_error=False):

@@ -36,7 +36,6 @@
                            'sped_nfe.sped_consulta_dfe_nfe_tree'}"/>
                     <field name="destinatario_xml_ids" invisible="True"/>
                 </group>
-                <field name="exibeQtdDFeImportada" invisible="True"></field>
             </sheet>
             </form>
         </field>
