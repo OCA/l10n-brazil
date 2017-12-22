@@ -63,7 +63,7 @@
                         <group col="4">
                             <group col="4" colspan="4">
                                 <separator string="Inscrição Estadual" colspan="4" />
-                                <field name="contribuinte" colspan="2" />
+                                <field name="contribuinte" colspan="2" attrs="{'required': [('exige_cnpj_cpf', '=', True)]}" />
                                 <field name="ie" attrs="{'invisible': [('contribuinte', '!=', '1')], 'required': [('contribuinte', '=', '1')]}" colspan="2" />
                             </group>
                             <newline />
