@@ -35,7 +35,6 @@ class SaleOrder(models.Model):
     carteira_id = fields.Many2one(
         string='Carteira',
         comodel_name='finan.carteira',
-        domain=default_domain,
         compute='compute_carteira_id',
         inverse='inverse_carteira_id',
         help='Essa é a carteira padrão configurada na aba comercial do '
