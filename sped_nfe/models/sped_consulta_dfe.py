@@ -61,6 +61,13 @@ class ConsultaDFe(models.Model):
         string='Manifestações do Destinatário Importadas',
     )
 
+    cron = fields.Boolean(
+        default=False,
+        string='Baixar novos documentos a cada 1 hora',
+        help='Se ativo, permite que novas manifestações sejam buscadas '
+             'automaticamente de 1 em 1 hora',
+    )
+
     def _format_nsu(self, nsu):
         nsu = long(nsu)
         return "%015d" % (nsu,)
@@ -184,12 +191,13 @@ class ConsultaDFe(models.Model):
 
         return nfe_ids
 
-    def scheduler_busca_documentos(self, context=None):
+    def _cron_busca_documentos(self, context=None):
 
         consulta_ids = self.env['sped.consulta.dfe'].search([])
 
         for consulta_id in consulta_ids:
-            consulta_id.busca_documentos()
+            if consulta_id.cron:
+                consulta_id.busca_documentos()
 
 
     @api.multi
