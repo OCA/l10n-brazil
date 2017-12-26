@@ -54,18 +54,6 @@ class FinanBancoFechamento(models.Model):
         required=True,
     )
 
-    # def compute_permissao_user(self):
-    #     if 68 in self.env.user.groups_id.ids:
-    #         self.usuario_gerente = True
-    #     else:
-    #         self.usuario_gerente = False
-    #
-    # usuario_gerente = fields.Boolean(
-    #     string="É gerente?",
-    #     compute='compute_permissao_user',
-    #     #default=[68 in 'self.env.user.groups_id.ids'],
-    # )
-
     data_fechamento = fields.Date(
         string='Data do fechamento',
         index=True,
