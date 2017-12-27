@@ -10,6 +10,7 @@ from __future__ import division, print_function, unicode_literals
 import logging
 
 from odoo import models
+from odoo import models, fields
 from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
@@ -25,6 +26,8 @@ except (ImportError, IOError) as err:
 
 class SpedDocumentoItem(models.Model):
     _inherit = 'sped.documento.item'
+
+    fci = fields.Char('FCI do Produto', size=36)
 
     def monta_cfe(self):
         """
@@ -161,3 +164,4 @@ class SpedDocumentoItem(models.Model):
         detalhe.validar()
 
         return detalhe
+
