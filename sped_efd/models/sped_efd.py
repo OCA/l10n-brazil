@@ -348,6 +348,7 @@ class SpedEFD(models.Model):
                         join sped_produto as p on di.produto_id=p.id
                     where
                         d.data_entrada_saida>='%s' and d.data_entrada_saida<='%s' and d.modelo='55' and 
+                        d.entrada_saida='0' 
                 """ % (self.dt_ini[:10], self.dt_fim[:10])
         self._cr.execute(query)
         query_resposta = self._cr.fetchall()
