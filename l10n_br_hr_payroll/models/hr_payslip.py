@@ -1758,7 +1758,7 @@ class HrPayslip(models.Model):
             applied_specific_rule = {}
             # Caso nao esteja computando holerite de ferias
             # recuperar as regras especificas do contrato
-            if not payslip.tipo_de_folha == 'ferias':
+            if not payslip.tipo_de_folha in ['ferias', 'provisao_ferias']:
                 applied_specific_rule = payslip.get_contract_specific_rubrics(
                     contract_ids, rule_ids)
 
