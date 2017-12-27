@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record model="ir.ui.view" id="inherit_sped_documento_item_form_view">
+        <field name="name">sped.documento.item.form</field>
+        <field name="model">sped.documento.item</field>
+        <field name="inherit_id" ref="sped.sped_documento_item_base_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='infcomplementar']" position="after">
+                <group string="Importação" colspan="4">
+                    <field name="fci" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
