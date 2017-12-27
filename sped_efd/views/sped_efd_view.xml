@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="sped_efd_form" >
+        <field name="name">sped.efd.form</field>
+        <field name="model">sped.efd</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Sped EFD">
+            <button name="envia_efd" string="Enviar EFD" type="object" class="btn-primary"/>
+            <sheet>
+                <group col="4" colspan="4">
+                   <field name="company_id"/>
+<<<<<<< HEAD
+                   <field name="fci_file_sent"/>
+=======
+>>>>>>> ead0597... [WIP] blocoC170, melhorias no codigo
+                   <field name="dt_ini"/>
+                   <field name="dt_fim"/>
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_efd_tree">
+        <field name="name">sped.efd.tree</field>
+        <field name="model">sped.efd</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Sped EFD">
+                    <field name="company_id"/>
+                    <field name="fci_file_sent"/>
+                    <field name="dt_ini"/>
+                    <field name="dt_fim"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_efd_search">
+        <field name="name">sped.efd.search</field>
+        <field name="model">sped.efd</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Sped EFD">
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_efd_acao">
+        <field name="name">Sped EFD</field>
+        <field name="res_model">sped.efd</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_efd_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_efd_form"/>
+        <field name="act_window_id" ref="sped_efd_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_efd_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_efd_tree"/>
+        <field name="act_window_id" ref="sped_efd_acao"/>
+    </record>
+
+    <menuitem
+        id="menu_sped_efd"
+        sequence="2"
+        name="EFD"
+        parent="sped.menu_sped_documento_emissao"
+        action="sped_efd_acao"
+        />
+</odoo>
