@@ -24,7 +24,6 @@
         # 'views/web_asset_backend_template.xml',
         'views/sped_documento_pagamento_view.xml',
         'views/sped_participante_administradora_cartao_view.xml',
-        'views/inherited_sped_documento_item_view.xml',
     ],
     'qweb': [
         # 'static/src/xml/*.xml',
