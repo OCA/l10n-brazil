@@ -24,7 +24,7 @@
             </field>
             <field name="employee_id" position="replace">
                 <field name="employee_id" invisible="1"/>
-                <field name="contrato_id" required="1" />
+                <field name="contrato_id" required="1" attrs="{'readonly':[('state','in',['validate','validate1','refuse'])]}"/>
             </field>
             <field name="holiday_status_id" position="before">
                 <field name="tipo" invisible="1"/>
