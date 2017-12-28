@@ -49,7 +49,8 @@ class SpedDocumento(models.Model):
         string='Carteira Padrão',
         comodel_name='finan.carteira',
         help='Carteira para geração do boleto',
-        domain='default_domain',
+        default=lambda self: self.env['sped.empresa']._empresa_ativa
+        ('sped.empresa').carteira_id,
     )
 
     anexos = fields.Boolean(
