@@ -10,10 +10,6 @@
             <sheet>
                 <group col="4" colspan="4">
                    <field name="company_id"/>
-<<<<<<< HEAD
-                   <field name="fci_file_sent"/>
-=======
->>>>>>> ead0597... [WIP] blocoC170, melhorias no codigo
                    <field name="dt_ini"/>
                    <field name="dt_fim"/>
                 </group>

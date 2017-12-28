@@ -2,6 +2,7 @@
 import base64
 import datetime
 
+from odoo.exceptions import ValidationError
 from sped.efd.icms_ipi import arquivos, registros
 from odoo import fields, models, api
 
@@ -9,7 +10,7 @@ from pybrasil.valor import formata_valor
 from pybrasil.data import parse_datetime
 from pybrasil.valor.decimal import Decimal as D
 
-from l10n_br_base.constante_tributaria import (REGIME_TRIBUTARIO_SIMPLES)
+from odoo.addons.l10n_br_base.constante_tributaria import (REGIME_TRIBUTARIO_SIMPLES)
 
 
 class SpedEFD(models.Model):
@@ -38,6 +39,11 @@ class SpedEFD(models.Model):
         required=True,
     )
 
+    @api.constrains('dt_ini','dt_fim')
+    def _valida_data(self):
+        if parse_datetime(self.dt_ini[:10]).strftime('%d%m%Y') > parse_datetime(self.dt_fim[:10]).strftime('%d%m%Y'):
+            raise ValidationError('Data Inicio deve ser maior que Data Final')
+
     @property
     def versao(self):
         if fields.Datetime.from_string(self.dt_ini) >= datetime.datetime(2016, 1, 1):
@@ -63,19 +69,22 @@ class SpedEFD(models.Model):
             from 
                 sped_documento as d 
                 join sped_empresa as e on d.empresa_id=e.id
-                join sped_participante as p on e.participante_id=p.id 
+                join sped_participante as p on e.participante_id=p.id
                 join sped_municipio as m on m.id=p.municipio_id
             where
                 e.company_id='%s'
         """ % (self.company_id.id)
         self._cr.execute(query)
         query_resposta = self._cr.fetchall()
-        resposta_participante = self.env['sped.participante'].browse(query_resposta[0][0])
+        resposta_participante = \
+            self.env['sped.participante'].browse(query_resposta[0][0])
         registro_0000 = registros.Registro0000()
         registro_0000.COD_VER = str(self.versao)
         registro_0000.COD_FIN = '0'  # finalidade
-        registro_0000.DT_INI =  parse_datetime(self.dt_ini[:10]).strftime('%d%m%Y')
-        registro_0000.DT_FIN = parse_datetime(self.dt_fim[:10]).strftime('%d%m%Y')
+        registro_0000.DT_INI =  \
+            parse_datetime(self.dt_ini[:10]).strftime('%d%m%Y')
+        registro_0000.DT_FIN = \
+            parse_datetime(self.dt_fim[:10]).strftime('%d%m%Y')
         registro_0000.NOME = resposta_participante.nome
 
         #
@@ -90,9 +99,12 @@ class SpedEFD(models.Model):
 
         registro_0000.UF = resposta_participante.municipio_id.estado
         registro_0000.IE = self.limpa_formatacao(resposta_participante.ie)
-        registro_0000.COD_MUN = self.formata_cod_municipio(resposta_participante.municipio_id.codigo_ibge)
+        registro_0000.COD_MUN = \
+            self.formata_cod_municipio(
+                resposta_participante.municipio_id.codigo_ibge)
         registro_0000.IM = resposta_participante.im
-        registro_0000.SUFRAMA = self.limpa_formatacao(resposta_participante.suframa)
+        registro_0000.SUFRAMA = \
+            self.limpa_formatacao(resposta_participante.suframa)
         registro_0000.IND_PERFIL = 'A'  # perfil
         registro_0000.IND_ATIV = '1'  # tipo_atividade
 
@@ -110,22 +122,19 @@ class SpedEFD(models.Model):
                 """ % (self.company_id.id)
         self._cr.execute(query)
         query_resposta = self._cr.fetchall()
-        lista = []
 
-        for id in query_resposta:
-            resposta = self.env['sped.participante'].browse(id[0])
-            registro_0005 = registros.Registro0005()
-            registro_0005.FANTASIA = resposta.fantasia
-            registro_0005.CEP = self.limpa_formatacao(resposta.cep)
-            registro_0005.END = resposta.endereco
-            registro_0005.NUM = resposta.numero
-            registro_0005.COMPL = resposta.complemento
-            registro_0005.BAIRRO = resposta.bairro
-            registro_0005.FONE = self.limpa_formatacao(resposta.fone)
-            registro_0005.EMAIL = resposta.email
-            lista.append(registro_0005)
+        resposta = self.env['sped.participante'].browse(query_resposta[0][0])
+        registro_0005 = registros.Registro0005()
+        registro_0005.FANTASIA = resposta.fantasia
+        registro_0005.CEP = self.limpa_formatacao(resposta.cep)
+        registro_0005.END = resposta.endereco
+        registro_0005.NUM = resposta.numero
+        registro_0005.COMPL = resposta.complemento
+        registro_0005.BAIRRO = resposta.bairro
+        registro_0005.FONE = self.limpa_formatacao(resposta.fone)
+        registro_0005.EMAIL = resposta.email
 
-        self.arq.read_registro(self.separador_pipe(lista[0]))
+        self.arq.read_registro(self.separador_pipe(registro_0005))
 
     def query_registro0100(self):
         query = """
@@ -140,24 +149,26 @@ class SpedEFD(models.Model):
                 """ % (self.company_id.id)
         self._cr.execute(query)
         query_resposta = self._cr.fetchall()
+
         resposta = self.env['sped.participante'].browse(query_resposta[0][0])
-        resposta_municipio = self.env['sped.municipio'].browse(query_resposta[0][1])
         registro_0100 = registros.Registro0100()
         registro_0100.NOME = resposta.nome
         cpnj_cpf = self.limpa_formatacao('11166072630')
+
         if len(cpnj_cpf) == 11:
             registro_0100.CPF = cpnj_cpf
         else:
             registro_0100.CNPJ = cpnj_cpf
-        registro_0100.CRC = '111111111111111' # TODO: resposta.crc
+
+        registro_0100.CRC = '111111111111111' # TODO: resposta.crc campo obrigatorio
         registro_0100.CEP = self.limpa_formatacao(resposta.cep)
         registro_0100.END = resposta.endereco
         registro_0100.NUM = resposta.numero
         registro_0100.COMPL = resposta.complemento
         registro_0100.BAIRRO = resposta.bairro
         registro_0100.FONE = self.limpa_formatacao(resposta.fone)
-        registro_0100.EMAIL = '123456@gmail.com' # TODO: resposta.email
-        registro_0100.COD_MUN = self.formata_cod_municipio(resposta_municipio.codigo_ibge)
+        registro_0100.EMAIL = '123456@gmail.com' # TODO: resposta.email compo obrigatorio
+        registro_0100.COD_MUN = self.formata_cod_municipio(resposta.municipio_id.codigo_ibge)
 
         self.arq.read_registro(self.separador_pipe(registro_0100))
 
@@ -172,19 +183,23 @@ class SpedEFD(models.Model):
                         join sped_participante as par on par.id=e.participante_id
                         join sped_produto as p on di.produto_id=p.id
                     where
-                        d.data_entrada_saida>='%s' and d.data_entrada_saida<='%s' and d.modelo='55' and 
+                        d.data_entrada_saida>='%s' and 
+                        d.data_entrada_saida<='%s' and 
+                        d.modelo='55' and 
                         d.entrada_saida='0'
-                """ % (self.dt_ini[:10], self.dt_fim[:10])
-
+                """ % (parse_datetime(self.dt_ini).strftime('%d-%m-%Y'),
+                       parse_datetime(self.dt_fim).strftime('%d-%m-%Y'))
         self._cr.execute(query)
         query_resposta = self._cr.fetchall()
 
         for id in query_resposta:
-            resposta_participante = self.env['sped.participante'].browse(id[0])
+            resposta_participante = \
+                self.env['sped.participante'].browse(id[0])
             registro_0150 = registros.Registro0150()
             registro_0150.COD_PART = str(resposta_participante.id)
             registro_0150.NOME = resposta_participante.nome
-            registro_0150.COD_PAIS = resposta_participante.municipio_id.pais_id.codigo_bacen
+            registro_0150.COD_PAIS = \
+                resposta_participante.municipio_id.pais_id.codigo_bacen
             cpnj_cpf = self.limpa_formatacao(resposta_participante.cnpj_cpf)
 
             #
@@ -197,8 +212,11 @@ class SpedEFD(models.Model):
                 registro_0150.CNPJ = cpnj_cpf
 
             registro_0150.IE = self.limpa_formatacao(resposta_participante.ie)
-            registro_0150.COD_MUN = self.formata_cod_municipio(resposta_participante.municipio_id.codigo_ibge)
-            registro_0150.SUFRAMA = self.limpa_formatacao(resposta_participante.suframa)
+            registro_0150.COD_MUN = \
+                self.formata_cod_municipio(
+                    resposta_participante.municipio_id.codigo_ibge)
+            registro_0150.SUFRAMA = \
+                self.limpa_formatacao(resposta_participante.suframa)
             registro_0150.END = resposta_participante.endereco.rstrip()
             registro_0150.NUM = resposta_participante.numero
             registro_0150.COMPL = resposta_participante.complemento
@@ -214,8 +232,10 @@ class SpedEFD(models.Model):
                         join sped_documento_item as di on d.id=di.documento_id 
                         join sped_unidade as u on di.unidade_id=u.id
                     where
-                        d.data_entrada_saida>='%s' and data_entrada_saida<='%s'
-                """ % (self.dt_ini[:10], self.dt_fim[:10])
+                        d.data_entrada_saida>='%s' and 
+                        data_entrada_saida<='%s'
+                """ % (parse_datetime(self.dt_ini).strftime('%d-%m-%Y'),
+                       parse_datetime(self.dt_fim).strftime('%d-%m-%Y'))
         self._cr.execute(query)
         query_resposta = self._cr.fetchall()
 
@@ -228,18 +248,20 @@ class SpedEFD(models.Model):
 
     def query_registro0200(self):
         query = """
-                    select distinct
-                        p.id, u.id
-                    from
-                        sped_documento as d
-                        join sped_documento_item as di on d.id=di.documento_id
-                        join sped_empresa as e on d.empresa_id=e.id
-                        join sped_participante as par on par.id=e.participante_id
-                        join sped_produto as p on di.produto_id=p.id
-                        join sped_unidade as u on p.unidade_id=u.id
-                    where
-                        d.data_entrada_saida>='%s' and data_entrada_saida<='%s'
-                   """ % (self.dt_ini[:10], self.dt_fim[:10])
+                select distinct
+                    p.id, u.id
+                from
+                    sped_documento as d
+                    join sped_documento_item as di on d.id=di.documento_id
+                    join sped_empresa as e on d.empresa_id=e.id
+                    join sped_participante as par on par.id=e.participante_id
+                    join sped_produto as p on di.produto_id=p.id
+                    join sped_unidade as u on p.unidade_id=u.id
+                where
+                    d.data_entrada_saida>='%s' and 
+                    d.data_entrada_saida<='%s'
+                   """ % (parse_datetime(self.dt_ini).strftime('%d-%m-%Y'),
+                          parse_datetime(self.dt_fim).strftime('%d-%m-%Y'))
 
         self._cr.execute(query)
         query_resposta = self._cr.fetchall()
@@ -266,7 +288,9 @@ class SpedEFD(models.Model):
         if decimais:
             numero = numero.quantize(D('0.' + ''.zfill(decimais - 1) + '1'))
 
-        return formata_valor(numero, casas_decimais=decimais, separador_milhar='')
+        return formata_valor(numero,
+                             casas_decimais=decimais,
+                             separador_milhar='')
 
     def query_registro1010(self):
         # TODO: bloco precisa ser refeito
@@ -283,16 +307,20 @@ class SpedEFD(models.Model):
 
         self.arq.read_registro(self.separador_pipe(registro_1010))
 
-    def query_registro_C190(self, resposta_documento_item, resposta_documento):
+    def query_registro_C190(self,
+                            resposta_documento_item,
+                            resposta_documento):
         registro_c190 = registros.RegistroC190()
         if not resposta_documento_item.org_icms:
             resposta_documento_item.org_icms = '0'
         if not resposta_documento_item.cst_icms:
             resposta_documento_item.cst_icms = '41'
 
-        registro_c190.CST_ICMS = resposta_documento_item.org_icms + resposta_documento_item.cst_icms
+        registro_c190.CST_ICMS = resposta_documento_item.org_icms + \
+                                 resposta_documento_item.cst_icms
         registro_c190.CFOP = resposta_documento_item.cfop_id.codigo
-        registro_c190.VL_OPR =  self.formata_valor_sped(str(resposta_documento.vr_nf))
+        registro_c190.VL_OPR =  \
+            self.formata_valor_sped(str(resposta_documento.vr_nf))
         registro_c190.VL_BC_ICMS = '0' # TODO: valor 0 pois nao existe nota de terceiros
         registro_c190.VL_ICMS = '0' # TODO: valor 0 pois nao existe nota de terceiros
         registro_c190.VL_BC_ICMS_ST = '0' # TODO: valor 0 pois nao existe nota de terceiros
@@ -308,7 +336,8 @@ class SpedEFD(models.Model):
         registro_c170.COD_ITEM = resposta_produto.produto_id.codigo_unico
         registro_c170.QTD = str(int(resposta_documento.quantidade))
         registro_c170.UNID = resposta_documento.unidade_id.codigo_unico
-        registro_c170.VL_ITEM = self.formata_valor_sped(str(resposta_documento.vr_nf))
+        registro_c170.VL_ITEM = \
+            self.formata_valor_sped(str(resposta_documento.vr_nf))
         if resposta_documento.movimentacao_fisica:
             registro_c170.IND_MOV = '1'
         else:
@@ -329,18 +358,21 @@ class SpedEFD(models.Model):
 
     def query_registro_C100(self):
         query = """
-                    select distinct
-                        d.id, par.id, di.id, p.id
-                    from
-                        sped_documento as d
-                        join sped_documento_item as di on d.id=di.documento_id
-                        join sped_empresa as e on d.empresa_id=e.id
-                        join sped_participante as par on par.id=e.participante_id
-                        join sped_produto as p on di.produto_id=p.id
-                    where
-                        d.data_entrada_saida>='%s' and d.data_entrada_saida<='%s' and d.modelo='55' and 
-                        d.entrada_saida='0' 
-                """ % (self.dt_ini[:10], self.dt_fim[:10])
+                select distinct
+                    d.id, par.id, di.id, p.id
+                from
+                    sped_documento as d
+                    join sped_documento_item as di on d.id=di.documento_id
+                    join sped_empresa as e on d.empresa_id=e.id
+                    join sped_participante as par on par.id=e.participante_id
+                    join sped_produto as p on di.produto_id=p.id
+                where
+                    d.data_entrada_saida>='%s' and 
+                    d.data_entrada_saida<='%s' and 
+                    d.modelo='55' and 
+                    d.entrada_saida='0' 
+                """ % (parse_datetime(self.dt_ini).strftime('%d-%m-%Y'),
+                       parse_datetime(self.dt_fim).strftime('%d-%m-%Y'))
         self._cr.execute(query)
         query_resposta = self._cr.fetchall()
         hash = {}
@@ -348,7 +380,8 @@ class SpedEFD(models.Model):
 
         for id in query_resposta:
             resposta = self.env['sped.documento'].browse(id[0])
-            resposta_participante = self.env['sped.participante'].browse(id[1])
+            resposta_participante = \
+                self.env['sped.participante'].browse(id[1])
             resposta_item = self.env['sped.documento.item'].browse(id[2])
 
             if not(resposta.chave in hash):
@@ -360,21 +393,28 @@ class SpedEFD(models.Model):
                 registro_c100.COD_SIT = resposta.situacao_fiscal
                 registro_c100.SER = resposta.serie
                 registro_c100.CHV_NFE = resposta.chave
-                registro_c100.NUM_DOC = self.limpa_formatacao(str(int(resposta.numero)))
-                registro_c100.DT_DOC  = parse_datetime(resposta.data_emissao).strftime('%d%m%Y')
-                registro_c100.DT_E_S  = parse_datetime(resposta.data_entrada_saida).strftime('%d%m%Y')
-                registro_c100.VL_DOC  = self.formata_valor_sped(resposta.vr_nf)
+                registro_c100.NUM_DOC = \
+                    self.limpa_formatacao(str(int(resposta.numero)))
+                registro_c100.DT_DOC = \
+                    parse_datetime(resposta.data_emissao).strftime('%d%m%Y')
+                registro_c100.DT_E_S = \
+                    parse_datetime(
+                        resposta.data_entrada_saida).strftime('%d%m%Y')
+                registro_c100.VL_DOC = \
+                    self.formata_valor_sped(resposta.vr_nf)
 
                 if resposta.ind_forma_pagamento == '2':
                     registro_c100.IND_PGTO = '9'
                 else:
                     registro_c100.IND_PGTO = resposta.ind_forma_pagamento
 
-                registro_c100.VL_MERC = self.formata_valor_sped(str(resposta.vr_nf))
+                registro_c100.VL_MERC = \
+                    self.formata_valor_sped(str(resposta.vr_nf))
                 registro_c100.IND_FRT = resposta.modalidade_frete
 
                 hash[resposta.chave] = registro_c100
-                hash_c190[resposta.chave] = self.query_registro_C190(resposta_item, resposta)
+                hash_c190[resposta.chave] = \
+                    self.query_registro_C190(resposta_item, resposta)
 
         for key,value in hash.items():
             self.arq.read_registro(self.separador_pipe(value))
@@ -382,8 +422,10 @@ class SpedEFD(models.Model):
 
     def query_registro_E100(self):
         registro_E100 = registros.RegistroE100()
-        registro_E100.DT_INI = parse_datetime(self.dt_ini[:10]).strftime('%d%m%Y')
-        registro_E100.DT_FIN = parse_datetime(self.dt_fim[:10]).strftime('%d%m%Y')
+        registro_E100.DT_INI = \
+            parse_datetime(self.dt_ini[:10]).strftime('%d%m%Y')
+        registro_E100.DT_FIN = \
+            parse_datetime(self.dt_fim[:10]).strftime('%d%m%Y')
         self.arq.read_registro(self.separador_pipe(registro_E100))
 
     def query_registro_E110(self):
@@ -418,7 +460,8 @@ class SpedEFD(models.Model):
         for bloco in self.arq._blocos.items():
             for registros_bloco in bloco[1].registros:
                 if registros_bloco._valores[1] in hash:
-                    hash[registros_bloco._valores[1]] = int(hash[registros_bloco._valores[1]]) + 1
+                    hash[registros_bloco._valores[1]] = \
+                        int(hash[registros_bloco._valores[1]]) + 1
                 else:
                     hash[registros_bloco._valores[1]] = 1
 
