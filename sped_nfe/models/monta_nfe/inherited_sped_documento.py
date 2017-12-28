@@ -20,6 +20,8 @@ from odoo.addons.l10n_br_base.constante_tributaria import *
 
 _logger = logging.getLogger(__name__)
 
+from ..versao_nfe_padrao import ClasseVol
+
 try:
     from pysped.nfe.webservices_flags import *
     from pysped.nfe.leiaute import *
@@ -401,8 +403,21 @@ class SpedDocumento(models.Model):
         # Volumes
         #
         transp.vol = []
-        for volume in self.volume_ids:
-            transp.vol.append(volume.monta_nfe())
+        if len(self.volume_ids) == 0:
+            vol = ClasseVol()
+
+            vol.qVol.valor = str(D(1))
+            vol.esp.valor = ''
+            vol.marca.valor = ''
+            vol.nVol.valor = ''
+            vol.pesoL.valor = str(
+                D(self.peso_liquido or 0).quantize(D('0.001')))
+            vol.pesoB.valor = str(D(self.peso_bruto or 0).quantize(D('0.001')))
+
+            transp.vol.append(vol)
+        else:
+            for volume in self.volume_ids:
+                transp.vol.append(volume.monta_nfe())
 
     def _monta_nfe_cobranca(self, cobr):
         if self.modelo != MODELO_FISCAL_NFE:
