@@ -38,11 +38,12 @@
                                string="Movimentações no período" colspan="4">
                             <field name="lancamento_ids" nolabel="1" context="{'form_view_ref': 'finan.finan_lancamento_pagamento_one2many_base_form'}"
                             readonly="1">
-                                <tree>
+                                <tree  decoration-danger="sinal==-1" decoration-success="sinal==1">
                                     <field name="data_pagamento"/>
                                     <field name="participante_id"/>
                                     <field name="tipo"/>
-                                    <field name="vr_total_sinal"/>
+                                    <field name="sinal" invisible="1"/>
+                                    <field name="vr_total_fmt"/>
                                 </tree>
                             </field>
                             <group class="oe_subtotal_footer oe_right">

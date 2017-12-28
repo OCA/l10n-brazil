@@ -182,7 +182,7 @@ class FinanBancoFechamento(models.Model):
 
                 return str(data_inicial)
 
-
+    @api.multi
     @api.depends('lancamento_ids')
     def _compute_saldo_final(self):
         """
