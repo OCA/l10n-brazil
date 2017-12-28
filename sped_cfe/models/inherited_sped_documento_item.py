@@ -26,8 +26,6 @@ except (ImportError, IOError) as err:
 class SpedDocumentoItem(models.Model):
     _inherit = 'sped.documento.item'
 
-    fci = fields.Char('FCI do Produto', size=36)
-
     def monta_cfe(self):
         """
         FIXME: Impostos
