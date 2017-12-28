@@ -358,10 +358,16 @@ class SpedDocumento(models.Model):
             #     limpa_formatacao(participante.cnpj_cpf or '')
 
         elif len(participante.cnpj_cpf or '') == 14:
-            return Destinatario(CPF=limpa_formatacao(participante.cnpj_cpf))
+            return Destinatario(
+                CPF=limpa_formatacao(participante.cnpj_cpf),
+                xNome=participante.nome
+            )
 
         elif len(participante.cnpj_cpf or '') == 18:
-            return Destinatario(CNPJ=limpa_formatacao(participante.cnpj_cpf))
+            return Destinatario(
+                CNPJ=limpa_formatacao(participante.cnpj_cpf),
+                xNome=participante.nome
+            )
 
     def _monta_cfe_pagamentos(self, pag):
         if self.modelo != MODELO_FISCAL_CFE:
