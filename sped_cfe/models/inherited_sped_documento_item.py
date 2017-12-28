@@ -112,8 +112,6 @@ class SpedDocumentoItem(models.Model):
                     pPIS=D(self.al_pis_proprio).quantize(D('0.01'))
                 )
 
-                )
-
             #
             # COFINS
             # TODO: Implementar cofins ST
@@ -139,8 +137,6 @@ class SpedDocumentoItem(models.Model):
                     CST=self.cst_cofins,
                     vBC=D(self.bc_cofins_proprio).quantize(D('0.01')),
                     pCOFINS=D(self.al_cofins_proprio).quantize(D('0.01'))
-                )
-
                 )
 
         imposto = Imposto(
