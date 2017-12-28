@@ -14,6 +14,7 @@ class FinanBancoFechamento(models.Model):
     _name = b'finan.banco.fechamento'
     _description = 'Fechamento de Caixa'
     _order = 'data_final DESC'
+    _rec_name = 'banco_id'
 
     saldo_inicial = fields.Float(
         string='Saldo inicial',
