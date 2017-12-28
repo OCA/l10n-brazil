@@ -136,8 +136,6 @@
                                         <newline />
                                         <field name="vr_iof" string="IOF" />
                                         <newline />
-                                        <field name="numero_fci" />
-                                        <newline />
                                     </group>
                                     <newline />
                                     <group colspan="4">
@@ -311,6 +309,9 @@
                         </page>
                         <page string="Informações adicionais">
                             <field name="infcomplementar" colspan="4" />
+                            <group string="Importação" colspan="4">
+                                <field name="numero_fci" />
+                            </group>
                             <newline/>
                             <group string="B2B" colspan="4">
                                 <field name="numero_pedido" />

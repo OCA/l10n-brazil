@@ -58,4 +58,3 @@ class SpedDocumentoPagamento(models.Model):
         pagamento.validar()
 
         return pagamento
-

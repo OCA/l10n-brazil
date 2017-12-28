@@ -69,6 +69,7 @@ class SpedDocumentoItem(models.Model):
         else:
             det.prod.NCM.valor = ''
 
+        det.prod.nFCI.valor = self.numero_fci or ''
         det.prod.CFOP.valor = self.cfop_id.codigo
         det.prod.uCom.valor = self.unidade_id.codigo
         det.prod.qCom.valor = str(D(self.quantidade).quantize(D('0.0001')))
