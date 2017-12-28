@@ -1531,6 +1531,31 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     def _subsequente_participante(self, subsequente_id):
         return subsequente_id.participante_id or self.participante_id
 
+    def _referencia_documento(self, referencia_ids):
+        for referenciado_item in referencia_ids:
+            referenciado_item.documento_referenciado_id = self.id
+            self.documento_referenciado_ids |= referenciado_item
+
+    def _gera_operacao_subsequente(self, subsequente_id):
+
+        _logger.info("Geracao operacao subsequente")
+
+        novo_doc = self.copy()
+
+        novo_doc.participante_id = self._subsequente_participante(subsequente_id)
+        novo_doc.empresa_id = self._subsequente_empresa(subsequente_id)
+        novo_doc.operacao_id = subsequente_id.operacao_subsequente_id
+        novo_doc.condicao_pagamento_id = self._subsquente_condicao_pagamento(subsequente_id)
+        novo_doc.tipo_pagamento = self._subsequente_tipo_pagamento(subsequente_id)
+
+        #
+        # Referenciar documento
+        #
+        referencia_ids = self._subsequente_referenciado(subsequente_id)
+        novo_doc._referencia_documento(referencia_ids)
+
+        return novo_doc
+
     def gera_operacoes_subsequentes(self):
         """
         Operaçoes subsequentes:
@@ -1538,8 +1563,6 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             - NOTA FISCAL emitida em operaçao triangular;
                 - Simples faturamento 5922;
                 - Encomenda de entrega futura: 5117
-
-
 
             - NOTA FISCAL MULTI EMPRESAS ;
                 - Saida;
@@ -1565,28 +1588,10 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             for subsequente_id in record.operacao_id.operacao_subsequente_ids:
                 if not record.situacao_nfe == subsequente_id.situacao_geracao:
                     continue
-
-                _logger.info("Geracao da operacao subsequente")
-
-                novo_doc = record.copy()
-
-                novo_doc.participante_id = record._subsequente_participante(subsequente_id)
-                novo_doc.empresa_id = record._subsequente_empresa(subsequente_id)
-                novo_doc.operacao_id = subsequente_id.operacao_subsequente_id
-                novo_doc.condicao_pagamento_id = record._subsquente_condicao_pagamento(subsequente_id)
-                novo_doc.tipo_pagamento = record._subsequente_tipo_pagamento(subsequente_id)
-
-                #
-                # Referenciar documento
-                #
-                referenciado_id = record._subsequente_referenciado(subsequente_id)
-                for referenciado_item in referenciado_id:
-                    referenciado_item.documento_referenciado_id = novo_doc.id
-                    novo_doc.documento_referenciado_ids |= referenciado_item
+                novo_doc = self._gera_operacao_subsequente(subsequente_id)
                 #
                 # Gera documento
                 #
-
                 documento = novo_doc.gera_documento()
                 documento.situacao_nfe = SITUACAO_NFE_A_ENVIAR
                 documento.numero = False
