@@ -36,14 +36,19 @@
 
                         <group name="movimentacoes"
                                string="Movimentações no período" colspan="4">
-                            <field name="lancamento_ids" nolabel="1"
-                                   colspan="4" readonly="True">
-                                <tree>
+                            <field name="lancamento_ids" nolabel="1" context="{'form_view_ref': 'finan.finan_lancamento_pagamento_one2many_base_form'}"
+                            readonly="1">
+                                <tree  decoration-danger="sinal==-1" decoration-success="sinal==1">
                                     <field name="data_pagamento"/>
                                     <field name="participante_id"/>
-                                    <field name="vr_documento" sum="Total Lancamentos"/>
+                                    <field name="tipo"/>
+                                    <field name="sinal" invisible="1"/>
+                                    <field name="vr_total_fmt"/>
                                 </tree>
                             </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="saldo" class="oe_subtotal_footer_separator" readonly="1"/>
+                            </group>
                         </group>
                     </group>
                 </sheet>

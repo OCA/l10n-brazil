@@ -14,16 +14,17 @@ class FinanBancoFechamento(models.Model):
     _name = b'finan.banco.fechamento'
     _description = 'Fechamento de Caixa'
     _order = 'data_final DESC'
+    _rec_name = 'banco_id'
 
     saldo_inicial = fields.Float(
         string='Saldo inicial',
-        compute = '_compute_saldo_inicial',
-        store = True
+        compute='_compute_saldo_inicial',
+        store=True,
     )
 
     saldo_final = fields.Float(
         string='Saldo final',
-        compute = '_compute_saldo_final'
+        compute = '_compute_saldo_final',
     )
 
     lancamento_ids = fields.Many2many(
@@ -34,7 +35,8 @@ class FinanBancoFechamento(models.Model):
     )
 
     saldo = fields.Float(
-        string="Saldo dos lancamentos"
+        string="Saldo dos lançamentos",
+        compute='_compute_saldo_final',
     )
 
     banco_id = fields.Many2one(
@@ -181,7 +183,7 @@ class FinanBancoFechamento(models.Model):
 
                 return str(data_inicial)
 
-
+    @api.multi
     @api.depends('lancamento_ids')
     def _compute_saldo_final(self):
         """
@@ -189,10 +191,15 @@ class FinanBancoFechamento(models.Model):
         e no saldo inicial
         """
         saldo = 0
-        for valores in self.lancamento_ids:
-            saldo += valores.vr_total
+        for lancamento_id in self:
+            for valores in lancamento_id.lancamento_ids:
+                if valores.tipo == 'recebimento':
+                    saldo += valores.vr_total
+                elif valores.tipo == 'pagamento':
+                    saldo -= valores.vr_total
 
-        self.saldo_final = self.saldo_inicial + saldo
+            lancamento_id.saldo_final = lancamento_id.saldo_inicial + saldo
+            lancamento_id.saldo = saldo
 
     @api.depends('lancamento_ids')
     def _compute_saldo_inicial(self):
@@ -212,8 +219,6 @@ class FinanBancoFechamento(models.Model):
                     fechamento_id.saldo_inicial = 0.0
 
                 fechamento_id.saldo_inicial = fechamentos_ids.saldo_final
-
-
 
     # @api.depends('banco_id')
     # def compute_data_inicial(self):

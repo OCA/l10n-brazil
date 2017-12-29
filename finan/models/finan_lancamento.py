@@ -220,6 +220,11 @@ class FinanLancamento(SpedBase, models.Model):
         compute='_compute_total_saldo',
         store=True,
     )
+    vr_total_fmt = fields.Monetary(
+        string='Total',
+        compute='_compute_total_saldo',
+        store=True,
+    )
 
     #
     # Campos de valor que somam todos os pagamentos relacionados a uma dívida
@@ -604,6 +609,7 @@ class FinanLancamento(SpedBase, models.Model):
             # recalculado como vr_total - vr_quitado_documento
 
             lancamento.vr_total = vr_total
+            lancamento.vr_total_fmt = lancamento.vr_total * lancamento.sinal
             # vr_total = D(lancamento.vr_total)
 
             if lancamento.tipo in FINAN_TIPO_DIVIDA:
