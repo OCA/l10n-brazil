@@ -3,7 +3,7 @@
 # Copyright 2016 Taŭga Tecnologia
 #   Aristides Caldeira <aristides.caldeira@tauga.com.br>
 # Copyright 2017 KMEE INFORMATICA LTDA
-#   Luis Felipe Miléo <mileo@kmee.com.bR>
+#   Luis Felipe Miléo <mileo@kmee.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -1588,8 +1588,12 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         """
         for record in self:
             for subsequente_id in record.operacao_id.operacao_subsequente_ids:
-                if not record.situacao_nfe == subsequente_id.situacao_geracao:
+                #
+                # Verificarmos se devemos gerar a operação subsquente
+                #
+                if not subsequente_id._confirma_geracao(record):
                     continue
+
                 novo_doc = self._gera_operacao_subsequente(subsequente_id)
                 #
                 # Gera documento
