@@ -49,6 +49,7 @@ class SpedDocumentoDuplicata(models.Model):
         # Informações da carteira para emissao do boleto automatico
         if self.documento_id.carteira_id:
             dados['carteira_id'] = self.documento_id.carteira_id.id
+            dados['banco_id'] = self.documento_id.carteira_id.banco_id.id
 
         if self.documento_id.emissao == TIPO_EMISSAO_PROPRIA:
             dados['tipo'] = FINAN_DIVIDA_A_RECEBER
