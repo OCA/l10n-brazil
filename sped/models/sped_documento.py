@@ -853,6 +853,10 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         string='Permite cancelamento?',
         compute='_compute_permite_cancelamento',
     )
+    permite_inutilizacao = fields.Boolean(
+        string='Permite inutilização?',
+        compute='_compute_permite_inutilizacao',
+    )
     importado_xml = fields.Boolean(
         string='Importado de XML?',
     )
@@ -960,7 +964,13 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     @api.depends('modelo', 'emissao', 'importado_xml')
     def _compute_permite_cancelamento(self):
         for documento in self:
-            documento.permite_cancelamento = not documento.importado_xml
+            documento.permite_cancelamento = True
+            # not documento.importado_xml
+
+    @api.depends('modelo', 'emissao', 'importado_xml')
+    def _compute_permite_inutilizacao(self):
+        for documento in self:
+            documento.permite_inutilizacao = not documento.importado_xml
 
     @api.depends('data_hora_emissao', 'data_hora_entrada_saida')
     def _compute_data_hora_separadas(self):
@@ -1401,6 +1411,9 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     def cancela_nfe(self):
         self.ensure_one()
 
+    def inutiliza_nfe(self):
+        self.ensure_one()
+
     def executa_antes_autorizar(self):
         #
         # Este método deve ser alterado por módulos integrados, para realizar
@@ -1435,6 +1448,24 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         # Este método deve ser alterado por módulos integrados, para realizar
         # tarefas de integração necessárias depois de cancelar uma NF-e,
         # por exemplo, excluir lançamentos financeiros, movimentações de
+        # estoque etc.
+        #
+        self.ensure_one()
+        self.gera_operacoes_subsequentes()
+
+    def executa_antes_inutilizar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias antes de autorizar uma NF-e
+        #
+        self.ensure_one()
+        self.gera_operacoes_subsequentes()
+
+    def executa_depois_inutilizar(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para realizar
+        # tarefas de integração necessárias depois de autorizar uma NF-e,
+        # por exemplo, criar lançamentos financeiros, movimentações de
         # estoque etc.
         #
         self.ensure_one()
