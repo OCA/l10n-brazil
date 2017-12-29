@@ -61,6 +61,10 @@ class ConfiguracaoPDV(models.Model):
         string=u"Assinatura"
     )
 
+    site_consulta_qrcode = fields.Char(
+        string=u"Site Sefaz"
+    )
+
     chave_acesso_validador = fields.Char(
         string=u'Chave Acesso Validador',
     )

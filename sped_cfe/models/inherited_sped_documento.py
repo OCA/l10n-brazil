@@ -594,7 +594,8 @@ class SpedDocumento(models.Model):
                     cliente.imprimir_cupom_venda(
                         resposta.arquivoCFeSAT,
                         impressao.modelo,
-                        impressao.conexao
+                        impressao.conexao,
+                        self.configuracoes_pdv.site_consulta_qrcode
                     )
                 self.executa_antes_autorizar()
                 self.executa_depois_autorizar()
@@ -649,7 +650,8 @@ class SpedDocumento(models.Model):
             cliente.imprimir_cupom_venda(
                 resposta,
                 impressao.modelo,
-                impressao.conexao
+                impressao.conexao,
+                self.configuracoes_pdv.site_consulta_qrcode
             )
         else:
             raise Warning("Não existem configurações para impressão no PDV!")
