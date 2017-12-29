@@ -291,6 +291,7 @@ class SpedDocumento(models.Model):
         #
         if self.participante_id and self.participante_id.cnpj_cpf:
             kwargs['destinatario'] = self._monta_cfe_destinatario()
+            kwargs['entrega'] = self._monta_cfe_entrega()
 
         #
         # Itens
@@ -368,6 +369,24 @@ class SpedDocumento(models.Model):
                 CNPJ=limpa_formatacao(participante.cnpj_cpf),
                 xNome=participante.nome
             )
+
+    def _monta_cfe_entrega(self,):
+
+        participante = self.participante_id
+
+        if self.modelo == MODELO_FISCAL_CFE and not participante.cnpj_cpf:
+            return
+
+        entrega = LocalEntrega(
+           xLgr=participante.endereco,
+           nro=participante.numero,
+           xBairro=participante.bairro,
+           xMun=participante.municipio_id.nome,
+           UF=participante.municipio_id.estado
+        )
+        entrega.validar()
+
+        return entrega
 
     def _monta_cfe_pagamentos(self, pag):
         if self.modelo != MODELO_FISCAL_CFE:
