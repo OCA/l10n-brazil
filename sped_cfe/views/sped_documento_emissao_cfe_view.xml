@@ -58,7 +58,9 @@
                         attrs="{'invisible': [('situacao_nfe', '!=', 'autorizada'), ('modelo', '!=', '59')]}" />
                 <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-primary" />
                 <button name="gera_pdf" string="Gerar PDF" type="object" class="btn-primary" />
-                <button name="envia_pagamento" string="Enviar Pagamento" type="object" class="btn-primary" invisible="1"/>
+                <button name="gera_operacoes_subsequentes" string="Gerar NF-e de Cupom" type="object" class="btn-default"
+                    context="{'nota_de_cumpom': '1'}"
+                />
             </header>
             <xpath expr="//field[@name='empresa_id']" position="before">
                 <field name="situacao_nfe" readonly="1" colspan="4" string="Situação"
