@@ -191,14 +191,15 @@ class FinanBancoFechamento(models.Model):
         e no saldo inicial
         """
         saldo = 0
-        for valores in self.lancamento_ids:
-            if valores.tipo == 'recebimento':
-                saldo += valores.vr_total
-            elif valores.tipo == 'pagamento':
-                saldo -= valores.vr_total
+        for lancamento_id in self:
+            for valores in lancamento_id.lancamento_ids:
+                if valores.tipo == 'recebimento':
+                    saldo += valores.vr_total
+                elif valores.tipo == 'pagamento':
+                    saldo -= valores.vr_total
 
-        self.saldo_final = self.saldo_inicial + saldo
-        self.saldo = saldo
+            lancamento_id.saldo_final = lancamento_id.saldo_inicial + saldo
+            lancamento_id.saldo = saldo
 
     @api.depends('lancamento_ids')
     def _compute_saldo_inicial(self):
