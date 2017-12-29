@@ -90,7 +90,7 @@ class SpedDocumentoItem(models.Model):
                 pis = PISAliq(
                     CST=self.cst_pis,
                     vBC=D(self.bc_pis_proprio).quantize(D('0.01')),
-                    pPIS=D(self.al_pis_proprio).quantize(D('0.01'))
+                    pPIS=D(self.al_pis_proprio).quantize(D('0.0001'))
                 )
             elif self.cst_pis in ['04', '06', '07', '08', '09']:
                 pis = PISNT(
@@ -106,7 +106,7 @@ class SpedDocumentoItem(models.Model):
                 pis = PISOutr(
                     CST=self.cst_pis,
                     vBC=D(self.bc_pis_proprio).quantize(D('0.01')),
-                    pPIS=D(self.al_pis_proprio).quantize(D('0.01'))
+                    pPIS=D(self.al_pis_proprio).quantize(D('0.0001'))
                 )
 
             #
@@ -117,7 +117,7 @@ class SpedDocumentoItem(models.Model):
                 cofins = COFINSAliq(
                     CST=self.cst_cofins,
                     vBC=D(self.bc_cofins_proprio).quantize(D('0.01')),
-                    pCOFINS=D(self.al_cofins_proprio).quantize(D('0.01'))
+                    pCOFINS=D(self.al_cofins_proprio).quantize(D('0.0001'))
                 )
             elif self.cst_cofins in ['04', '06', '07', '08', '09']:
                 cofins = COFINSNT(
@@ -133,7 +133,7 @@ class SpedDocumentoItem(models.Model):
                 cofins = COFINSOutr(
                     CST=self.cst_cofins,
                     vBC=D(self.bc_cofins_proprio).quantize(D('0.01')),
-                    pCOFINS=D(self.al_cofins_proprio).quantize(D('0.01'))
+                    pCOFINS=D(self.al_cofins_proprio).quantize(D('0.0001'))
                 )
 
         imposto = Imposto(
@@ -150,7 +150,7 @@ class SpedDocumentoItem(models.Model):
                 xProd=descricao.strip(),
                 CFOP=self.cfop_id.codigo,
                 uCom=self.unidade_id.codigo,
-                qCom=D(self.quantidade).quantize(D('0.01')),
+                qCom=D(self.quantidade).quantize(D('0.0001')),
                 vUnCom=D(self.vr_unitario).quantize(D(10 * 10 ** -3)),
                 indRegra='A',
                 NCM=ncm,
