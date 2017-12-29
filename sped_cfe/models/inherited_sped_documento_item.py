@@ -94,11 +94,7 @@ class SpedDocumentoItem(models.Model):
                 pis = PISAliq(
                     CST=self.cst_pis,
                     vBC=D(self.bc_pis_proprio).quantize(D('0.01')),
-<<<<<<< 64c65fd9fed41ebad49584da7b8b394a0a9ea8ae
                     pPIS=al_pis_proprio,
-=======
-                    pPIS=D(self.al_pis_proprio).quantize(D('0.01'))
->>>>>>> [FIX] Casa decimais dos impostos do CFe
                 )
             elif self.cst_pis in ['04', '06', '07', '08', '09']:
                 pis = PISNT(
