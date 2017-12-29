@@ -124,6 +124,13 @@ class FinanBancoFechamento(models.Model):
             fechamento_id.state = 'fechado'
             fechamento_id.data_fechamento = fields.Date.today()
 
+    @api.multi
+    def button_reabrir_caixa(self):
+        for fechamento_id in self:
+            if fechamento_id.user_id.has_group('finan.GRUPO_CADASTRO_GERENTE'):
+                fechamento_id.state = 'aberto'
+                fechamento_id.data_fechamento = False
+
     @api.constrains('data_final', 'data_inicial', 'banco_id')
     def validacao_fechamentos(self):
         """
