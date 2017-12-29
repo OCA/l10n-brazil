@@ -26,6 +26,7 @@ class finan_retorno_item(models.Model):
         comodel_name='finan.retorno',
         string='Arquivo de remessa',
         ondelete='cascade',
+        readonly=True,
     )
 
     comando = fields.Selection(
@@ -38,79 +39,100 @@ class finan_retorno_item(models.Model):
         ],
         string='Comando',
         default='L',
+        readonly=True,
     )
 
     divida_id = fields.Many2one(
         comodel_name='finan.lancamento',
         string='Lançamento Financeiro (Dívida)',
+        readonly=True,
     )
 
     pagamento_id = fields.Many2one(
         comodel_name='finan.lancamento',
         string='Lançamento Financeiro (Pagamento)',
+        readonly=True,
     )
 
     quitacao_duplicada = fields.Boolean(
         string='Quitação duplicada?',
+        readonly=True,
     )
 
     data_vencimento = fields.Date(
         related='divida_id.data_vencimento',
         string='Data de vencimento',
+        readonly=True,
     )
 
     nosso_numero = fields.Char(
         related='divida_id.nosso_numero',
         string = 'Nosso número',
+        readonly=True,
     )
 
     partner_id = fields.Many2one(
         related='divida_id.partner_id',
         comodel_name='res.partner',
         string='Participante',
+        readonly=True,
     )
 
     data_pagamento = fields.Date(
         related='divida_id.data_pagamento',
         string='Data quitação',
+        readonly=True,
     )
 
     data = fields.Date(
         string='Data conciliação',
+        readonly=True,
     )
 
     currency_id = fields.Many2one(
         comodel_name='res.currency',
         string='Currency',
+        readonly=True,
     )
 
     vr_documento = fields.Monetary(
         related='divida_id.vr_documento',
         string='Valor documento',
+        readonly=True,
     )
 
     valor_multa = fields.Float(
         string='Multa',
+        readonly=True,
     )
 
     valor_juros = fields.Float(
         string='Juros',
+        readonly=True,
     )
 
     valor_desconto = fields.Float(
         string='Desconto',
+        readonly=True,
     )
 
     outros_debitos = fields.Float(
         string='Tarifas',
+        readonly=True,
     )
 
     valor = fields.Float(
         string='Valor',
+        readonly=True,
     )
 
     @api.multi
     def compute_valor_multa(self, nome_campo):
+        """
+
+        :param nome_campo:
+        :return:
+        """
         res = {}
         for item_obj in self:
             valor = D(0)
@@ -290,16 +312,19 @@ class finan_retorno(models.Model):
                 'retorno_item_id': finan_retorno_item_id.id,
                 'retorno_id': self.id,
                 'company_id': divida_id.company_id.id,
+                'participante_id': divida_id.participante_id.id,
+                'data_vencimento':divida_id.data_vencimento,
+                'numero': divida_id.numero,
                 'vr_documento': divida_id.vr_documento,
                 'data_pagamento': str(boleto.data_ocorrencia)[:10],
                 'data_juros': str(boleto.data_ocorrencia)[:10],
                 'data_multa': str(boleto.data_ocorrencia)[:10],
                 'data_desconto': str(boleto.data_ocorrencia)[:10],
-                'valor_desconto': boleto.valor_desconto,
-                'valor_juros': boleto.valor_juros,
-                'valor_multa': boleto.valor_multa,
+                'vr_desconto': boleto.valor_desconto,
+                'vr_juros': boleto.valor_juros,
+                'vr_multa': boleto.valor_multa,
                 'outros_debitos': boleto.valor_despesa_cobranca,
-                'valor': boleto.valor_recebido,
+                'vr_total': boleto.valor_recebido,
                 'banco_id': self.carteira_id.banco_id.id,
                 'carteira_id': self.carteira_id.id,
                 'forma_pagamento_id': divida_id.forma_pagamento_id.id,
@@ -736,6 +761,14 @@ class finan_retorno(models.Model):
                     'retorno_id': self.id,
                     'comando': comando,
                     'divida_id': divida_id.id,
+                    'currency_id': divida_id.currency_id.id,
+                    'valor': boleto.documento.valor,
+                    'valor_multa': boleto.valor_multa,
+                    'quitacao_duplicada': boleto.pagamento_duplicado,
+                    'data': boleto.data_ocorrencia,
+                    'outros_debitos': boleto.valor_outras_despesas,
+                    'valor_juros':boleto.valor_juros,
+                    'desconto': boleto.valor_desconto,
                 }
                 finan_retorno_item_id = \
                     self.env.get('finan.retorno_item').create(dados)
