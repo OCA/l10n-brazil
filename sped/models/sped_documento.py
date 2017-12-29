@@ -158,6 +158,11 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         string='Operação',
         ondelete='restrict',
     )
+    operacao_subsequente_ids = fields.One2many(
+        comodel_name='sped.operacao.subsequente',
+        related='operacao_id.operacao_subsequente_ids',
+        readonly=True,
+    )
     #
     # Campos da operação
     #
@@ -821,11 +826,6 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         related='produto_id.cest_id',
         readonly=True,
     )
-    documento_referenciado_ids = fields.One2many(
-        comodel_name='sped.documento.referenciado',
-        inverse_name='documento_id',
-        string='Documentos Referenciados',
-    )
     #
     # Outras informações
     #
@@ -856,6 +856,19 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     importado_xml = fields.Boolean(
         string='Importado de XML?',
     )
+    documento_referenciado_ids = fields.One2many(
+        comodel_name='sped.documento.referenciado',
+        inverse_name='documento_id',
+        string='Documentos Referenciados',
+    )
+    #
+    # O campo acima é o documento referenciado que é enviado no XML
+    #
+    #
+    # Já os campos abaixos representam relacionamentos entre os documentos que nem sempre são permitidos pelo sefaz:
+    #
+    #       Por exemplo uma nota de transferencia gerada a partir de outra operação.
+    #
     documento_origem_ids = fields.Many2many(
         comodel_name='sped.documento',
         column1='documento_relacionado_ids',
@@ -1558,6 +1571,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
 
         return novo_doc
 
+    @api.multi
     def gera_operacoes_subsequentes(self):
         """
         Operaçoes subsequentes:
@@ -1586,6 +1600,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
 
         :return:
         """
+        documentos = self.env['sped.documento']
         for record in self:
             for subsequente_id in record.operacao_id.operacao_subsequente_ids:
                 #
@@ -1603,9 +1618,13 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                 documento.numero = False
                 documento.data_entrada_saida = False
                 documento.documento_origem_ids |= record
-
+                documentos |= documento
                 #
                 # Transmite o documento
                 #
 
                 # documento.envia_nfe()
+
+        # TODO: Retornar usuário para os documentos criados
+
+
