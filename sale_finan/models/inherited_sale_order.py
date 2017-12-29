@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from __future__ import division, print_function, unicode_literals
-
+from odoo.exceptions import Warning as UserError
 from odoo import api, fields, models
 
 
@@ -24,10 +24,17 @@ class SaleOrder(models.Model):
             else:
                 sale.ultrapassa_limite_credito = False
 
+    @api.onchange('condicao_pagamento_id')
+    def default_domain(self):
+        ids = []
+        for carteira in self.env.user.company_id.sped_empresa_id.carteira_ids:
+            ids.append(carteira.ids)
+        ids.append(self.env.user.company_id.sped_empresa_id.carteira_id.id)
+        return {'domain': {'carteira_id': [('id', 'in', ids)]}}
+
     carteira_id = fields.Many2one(
         string='Carteira',
         comodel_name='finan.carteira',
-        # domain=lambda self: self.domain_carteira_id,
         compute='compute_carteira_id',
         inverse='inverse_carteira_id',
         help='Essa é a carteira padrão configurada na aba comercial do '
@@ -74,20 +81,13 @@ class SaleOrder(models.Model):
                     record.carteira_id = \
                         record.env.user.company_id.sped_empresa_id.carteira_id
                 # Emitir aviso que nenhuma carteira foi configurada
-                # else:
-                #     raise UserError(
-                #         "Nenhuma carteira padrão foi configurada no "
-                #         "cadastro da empresa.\n Para emitir boleto juntamento "
-                #         "com a nota fiscal, configurar a carteira padrão na "
-                #         "aba \"Comercial\" do cadastro da empresa.")
+                else:
+                    raise UserError(
+                        "Nenhuma carteira padrão foi configurada no "
+                        "cadastro da empresa.\n Para emitir boleto juntamento "
+                        "com a nota fiscal, configurar a carteira padrão na "
+                        "aba \"Comercial\" do cadastro da empresa.")
 
-    # @api.multi
-    # def domain_carteira_id(self):
-    #     ids = []
-    #     for carteira in self.env.user.sped_empresa_id.carteira_ids:
-    #         ids.append(carteira.id)
-    #     ids.append(self.participante_id.sped_empresa_id.carteira_id.id)
-    #     return [('id', 'in', ids)]
 
     def inverse_carteira_id(self):
         """
