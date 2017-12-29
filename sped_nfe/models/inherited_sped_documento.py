@@ -272,6 +272,32 @@ class SpedDocumento(models.Model):
                     documento.permite_cancelamento = \
                         documento.permite_cancelamento and True
 
+    @api.depends('modelo', 'emissao', 'justificativa', 'situacao_nfe', 'importado_xml')
+    def _compute_permite_inutilizacao(self):
+        #
+        # Este método deve ser alterado por módulos integrados, para verificar
+        # regras de negócio que proíbam a inutilização de um documento fiscal,
+        # como por exemplo, a existência de boletos emitidos no financeiro,
+        # que precisariam ser cancelados antes, caso tenham sido enviados
+        # para o banco, a verificação de movimentações de estoque confirmadas,
+        # a contabilização definitiva do documento etc.
+        #
+        for documento in self:
+            if documento.modelo not in (MODELO_FISCAL_NFE,
+                                        MODELO_FISCAL_NFCE):
+                super(SpedDocumento, documento)._compute_permite_inutilizacao()
+                continue
+
+            if documento.emissao != TIPO_EMISSAO_PROPRIA:
+                super(SpedDocumento, documento)._compute_permite_inutilizacao()
+                continue
+
+            documento.permite_inutilizacao = False
+
+            if documento.situacao_nfe in (SITUACAO_NFE_EM_DIGITACAO,
+                                          SITUACAO_NFE_REJEITADA):
+                documento.permite_inutilizacao = True
+
     def processador_nfe(self):
         self.ensure_one()
 
@@ -404,12 +430,28 @@ class SpedDocumento(models.Model):
             self._grava_anexo(nome_arquivo, conteudo)
 
         return {
-            'type' : 'ir.actions.act_url',
+            'type': 'ir.actions.act_url',
             'url': '/web/content/{id}/{nome}'.format(
                 id=self.arquivo_xml_autorizacao_cancelamento_id.id,
                 nome=self.arquivo_xml_autorizacao_cancelamento_id.name),
             'target': 'new',
             }
+
+    def grava_xml_inutilizacao(self, chave, inut):
+        self.ensure_one()
+        nome_arquivo = chave + '-inu.xml'
+        conteudo = inut.xml.encode('utf-8')
+        self.arquivo_xml_inutilizacao_id = False
+        self.arquivo_xml_inutilizacao_id = \
+            self._grava_anexo(nome_arquivo, conteudo).id
+
+    def grava_xml_autorizacao_inutilizacao(self, chave, inut):
+        self.ensure_one()
+        nome_arquivo = chave + '-proc-inu.xml'
+        conteudo = inut.xml.encode('utf-8')
+        self.arquivo_xml_autorizacao_inutilizacao_id = False
+        self.arquivo_xml_autorizacao_inutilizacao_id = \
+            self._grava_anexo(nome_arquivo, conteudo).id
 
     def envia_nfe(self):
         self.ensure_one()
@@ -559,10 +601,9 @@ class SpedDocumento(models.Model):
 
     def cancela_nfe(self):
         self.ensure_one()
-        res = super(SpedDocumento, self).envia_nfe()
+        res = super(SpedDocumento, self).cancela_nfe()
         if self.modelo not in (MODELO_FISCAL_NFCE, MODELO_FISCAL_NFE):
             return res
-
 
         processador = self.processador_nfe()
 
@@ -658,7 +699,7 @@ class SpedDocumento(models.Model):
             self.executa_depois_cancelar()
 
     def inutiliza_nfe(self):
-        super(SpedDocumento, self).cancela_nfe()
+        super(SpedDocumento, self).inutiliza_nfe()
         self.ensure_one()
 
         processador = self.processador_nfe()
