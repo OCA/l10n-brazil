@@ -31,6 +31,7 @@
                         <field name="chave_ativacao"/>
                         <field name="cnpj_software_house"/>
                         <field name="assinatura"/>
+                        <field name="site_consulta_qrcode"/>
                     </group>
                     <group string="Configurações de pagamento">
                         <field name="chave_acesso_validador"/>
