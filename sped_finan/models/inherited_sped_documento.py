@@ -34,10 +34,18 @@ class SpedDocumento(models.Model):
     )
 
     @api.onchange('condicao_pagamento_id')
-    def default_domain(self):
+    def onchange_condicao_pagamento_id(self):
         # para que apenas apareça carteira quando for tipo boleto
-        self.forma_pagamento = self.condicao_pagamento_id.forma_pagamento_id. \
-            forma_pagamento
+        self.forma_pagamento = \
+            self.condicao_pagamento_id.forma_pagamento_id.forma_pagamento
+
+        # Setar carteira padrao caso a condicao de pagamento for tipo boleto
+        if self.forma_pagamento == '15':
+            self.carteira_id = \
+                self.env['sped.empresa']._empresa_ativa().carteira_id
+        else:
+            self.carteira_id = False
+
         # apenas carteira padrão e permitida pra exibir
         ids = []
         for carteira in self.env.user.company_id.sped_empresa_id.carteira_ids:
@@ -49,8 +57,6 @@ class SpedDocumento(models.Model):
         string='Carteira Padrão',
         comodel_name='finan.carteira',
         help='Carteira para geração do boleto',
-        default=lambda self: self.env['sped.empresa']._empresa_ativa
-        ('sped.empresa').carteira_id,
     )
 
     anexos = fields.Boolean(
