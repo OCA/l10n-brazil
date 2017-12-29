@@ -1279,8 +1279,8 @@ class SpedCalculoImpostoItem(SpedBase):
         #
         # Não tem item da operação mesmo, ou encontrou mais de um possível?
         #
-        if len(operacao_item_ids) == 0 or len(operacao_item_ids) > 1:
-            if len(operacao_item_ids) == 0:
+        if not operacao_item_ids or len(operacao_item_ids) > 1:
+            if not operacao_item_ids:
                 mensagem_erro = \
                     'Não há nenhum item genérico na operação, ' \
                     'nem específico para o protocolo ' \
