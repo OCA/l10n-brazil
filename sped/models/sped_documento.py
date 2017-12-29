@@ -1268,16 +1268,18 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
             return res
 
+        serie = self.serie and self.serie.strip()
+
         ultimo_numero = self.search([
             ('empresa_id.cnpj_cpf', '=', self.empresa_id.cnpj_cpf),
             ('ambiente_nfe', '=', self.ambiente_nfe),
             ('emissao', '=', self.emissao),
             ('modelo', '=', self.modelo),
-            ('serie', '=', self.serie.strip()),
+            ('serie', '=', serie),
             ('numero', '!=', False),
         ], limit=1, order='numero desc')
 
-        valores['serie'] = self.serie.strip()
+        valores['serie'] = serie
 
         if len(ultimo_numero) == 0:
             valores['numero'] = 1
