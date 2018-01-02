@@ -55,10 +55,11 @@ class PaymentLine(models.Model):
     @api.depends('percent_interest', 'amount_currency')
     def _compute_interest(self):
         for record in self:
-            precision = record.env['decimal.precision'].precision_get('Account')
-            record.amount_interest = round(record.amount_currency *
-                                         (record.percent_interest / 100),
-                                         precision)
+            precision = record.env[
+                'decimal.precision'].precision_get('Account')
+            record.amount_interest = round(
+                record.amount_currency * (
+                    record.percent_interest / 100), precision)
             # self.line.mode.percent_interest
 
     linha_digitavel = fields.Char(string=u"Linha Digitável")
