@@ -45,12 +45,12 @@ msgstr "Linhas de Entrada"
 #: code:addons/l10n_br_account_banking_payment/models/account_payment.py:33
 #, python-format
 msgid "Impossible confirm empty line!"
-msgstr "Imposs�vel confimar linha vazia!"
+msgstr "Impossível confirmar linha vazia!"
 
 #. module: l10n_br_account_banking_payment
 #: view:account.move.line:l10n_br_account_banking_payment.payment_order_populate_view_move_line_tree
 msgid "Journal Entry"
-msgstr "Entrada do diário"
+msgstr "Entrada do Diário"
 
 #. module: l10n_br_account_banking_payment
 #: view:account.move.line:l10n_br_account_banking_payment.payment_order_populate_view_move_line_tree
@@ -87,12 +87,12 @@ msgstr "Percentual de Juros"
 #. module: l10n_br_account_banking_payment
 #: view:account.move.line:l10n_br_account_banking_payment.payment_order_populate_view_move_line_tree
 msgid "Total Credit"
-msgstr "Total de crédito"
+msgstr "Total de Crédito"
 
 #. module: l10n_br_account_banking_payment
 #: view:account.move.line:l10n_br_account_banking_payment.payment_order_populate_view_move_line_tree
 msgid "Total Debit"
-msgstr "Total débito"
+msgstr "Total de Débito"
 
 #. module: l10n_br_account_banking_payment
 #: field:payment.order.create,all_posted_moves:0
