@@ -12,6 +12,8 @@ Installation
 This module depends on:
 
 * account_banking_payment_export
+* account_due_list
+* l10n_br_account
 
 Configuration
 =============
@@ -35,10 +37,9 @@ Known issues / Roadmap
 Bug Tracker
 ===========
 
-Bugs are tracked on `GitHub Issues <https://github.com/OCA/bank-payment/issues>`_.
+Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
-If you spotted it first, help us smashing it by providing a detailed and welcomed feedback
-`here <https://github.com/OCA/bank-payment/issues/new?body=module:%20account_banking_payment_export%0Aversion:%208.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+If you spotted it first, help us smashing it by providing a detailed and welcomed feedback.
 
 
 Credits
@@ -47,6 +48,12 @@ Credits
 Contributors
 ------------
 
+* Luis Felipe Mileo <mileo@kmee.com.br>
+* Fernandomr
+* Hendrix Costa
+* Magno Costa <magno.costa@akretion.com.br>
+
+Do not contact contributors directly about support or help with technical issues.
 
 Maintainer
 ----------
