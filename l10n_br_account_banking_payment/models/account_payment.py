@@ -12,10 +12,6 @@ from openerp.exceptions import ValidationError
 class PaymentOrder(models.Model):
     _inherit = 'payment.order'
 
-    mode_type = fields.Many2one('payment.mode.type', related='mode.type',
-                                string='Payment Type')
-    total = fields.Float(compute='_compute_total', store=True)
-
     # TODO: Implementar total de juros e outras despesas acessórias.
     @api.depends('line_ids', 'line_ids.amount')
     @api.multi
