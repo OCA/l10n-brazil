@@ -309,6 +309,8 @@ class SpedDocumento(models.Model):
         processador.ambiente = int(self.ambiente_nfe or
                                    AMBIENTE_NFE_HOMOLOGACAO)
         processador.modelo = self.modelo
+        if not self.tipo_emissao_nfe == TIPO_EMISSAO_NFE_NORMAL:
+            processador.contingencia = True
 
         if self.modelo == MODELO_FISCAL_NFE:
             if self.empresa_id.logo_danfe:
@@ -471,6 +473,9 @@ class SpedDocumento(models.Model):
             self.data_hora_entrada_saida = self.data_hora_emissao
 
         nfe = self.monta_nfe(processador)
+
+        if not self.tipo_emissao_nfe == TIPO_EMISSAO_NFE_NORMAL:
+            processador.contingencia = True
 
         if self.modelo == MODELO_FISCAL_NFE:
             processador.danfe.NFe = nfe
