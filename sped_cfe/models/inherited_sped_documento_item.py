@@ -55,6 +55,8 @@ class SpedDocumentoItem(models.Model):
         else:
             ncm = ''
 
+        al_icms_proprio = D(self.al_icms_proprio / 100).quantize(D('0.01'))
+
         if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
             if self.cst_icms_sn in ['102', '300', '500']:
                 icms = ICMSSN102(
@@ -65,7 +67,7 @@ class SpedDocumentoItem(models.Model):
                 icms = ICMSSN900(
                     Orig=self.org_icms,
                     CSOSN=self.cst_icms,
-                    pICMS=D(self.al_icms_proprio).quantize(D('0.01'))
+                    pICMS=al_icms_proprio,
                 )
 
             pis = PISSN(CST=self.cst_pis)
@@ -75,7 +77,7 @@ class SpedDocumentoItem(models.Model):
                 icms = ICMS00(
                     Orig=self.org_icms,
                     CST=self.cst_icms,
-                    pICMS=D(self.al_icms_proprio).quantize(D('0.01'))
+                    pICMS=al_icms_proprio,
                 )
             elif self.cst_icms in ['40', '41', '50', '60']:
                 icms = ICMS40(
@@ -86,11 +88,13 @@ class SpedDocumentoItem(models.Model):
             # PIS
             # TODO: Implementar pis ST
 
+            al_pis_proprio = D(self.al_pis_proprio/100).quantize(D('0.0001'))
+
             if self.cst_pis in ['01', '02', '05']:
                 pis = PISAliq(
                     CST=self.cst_pis,
                     vBC=D(self.bc_pis_proprio).quantize(D('0.01')),
-                    pPIS=D(self.al_pis_proprio).quantize(D('0.0001'))
+                    pPIS=al_pis_proprio,
                 )
             elif self.cst_pis in ['04', '06', '07', '08', '09']:
                 pis = PISNT(
@@ -106,18 +110,20 @@ class SpedDocumentoItem(models.Model):
                 pis = PISOutr(
                     CST=self.cst_pis,
                     vBC=D(self.bc_pis_proprio).quantize(D('0.01')),
-                    pPIS=D(self.al_pis_proprio).quantize(D('0.0001'))
+                    pPIS=al_pis_proprio,
                 )
 
             #
             # COFINS
             # TODO: Implementar cofins ST
 
+            al_cofins_proprio = D(self.al_cofins_proprio/100).quantize(D('0.0001'))
+
             if self.cst_cofins in ['01', '02', '05']:
                 cofins = COFINSAliq(
                     CST=self.cst_cofins,
                     vBC=D(self.bc_cofins_proprio).quantize(D('0.01')),
-                    pCOFINS=D(self.al_cofins_proprio).quantize(D('0.0001'))
+                    pCOFINS=al_cofins_proprio,
                 )
             elif self.cst_cofins in ['04', '06', '07', '08', '09']:
                 cofins = COFINSNT(
@@ -133,7 +139,7 @@ class SpedDocumentoItem(models.Model):
                 cofins = COFINSOutr(
                     CST=self.cst_cofins,
                     vBC=D(self.bc_cofins_proprio).quantize(D('0.01')),
-                    pCOFINS=D(self.al_cofins_proprio).quantize(D('0.0001'))
+                    pCOFINS=al_cofins_proprio,
                 )
 
         imposto = Imposto(
