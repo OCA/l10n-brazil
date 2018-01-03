@@ -2202,6 +2202,14 @@ class SpedCalculoImpostoItem(SpedBase):
                 self.cst_pis in ST_PIS_CALCULA_CREDITO or
                 (self.cst_pis == ST_PIS_AQUIS_SEM_CREDITO and
                  self.emissao == TIPO_EMISSAO_PROPRIA)):
+
+            md_pis_proprio = 0
+            bc_pis_proprio = 0
+            vr_pis_proprio = 0
+            md_cofins_proprio = 0
+            bc_cofins_proprio = 0
+            vr_cofins_proprio = 0
+
             if self.cst_pis in ST_PIS_CALCULA_ALIQUOTA:
                 md_pis_proprio = MODALIDADE_BASE_PIS_ALIQUOTA
                 bc_pis_proprio = D(self.vr_operacao_tributacao)
