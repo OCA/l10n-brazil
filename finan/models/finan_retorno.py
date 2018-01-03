@@ -708,20 +708,20 @@ class finan_retorno(models.Model):
             # verifica se o boleto é duplicado
             if boleto.pagamento_duplicado:
                 boleto.pagamento_duplicado = 'SIM'
-            if not boleto.pagamento_duplicado:
+            else:
                 boleto.pagamento_duplicado = 'NÃO'
 
             # verifica exixtencia de data de crédito e inverte se existir
             if boleto.data_credito:
                 boleto.data_credito_fmt = formata_data(boleto.data_credito)
-            if not boleto.data_credito:
+            else:
                 boleto.data_credito_fmt = ''
 
             # verifica exixtencia de data de ocorrencia e inverte se existir
             if boleto.data_ocorrencia:
                 boleto.data_ocorrencia_fmt = formata_data(
                     boleto.data_ocorrencia)
-            if not boleto.data_ocorrencia:
+            else:
                 boleto.data_ocorrencia_fmt = ''
 
             # buscar lancamento correspondente (divida) do boleto
