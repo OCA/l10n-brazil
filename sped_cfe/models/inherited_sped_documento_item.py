@@ -55,7 +55,7 @@ class SpedDocumentoItem(models.Model):
         else:
             ncm = ''
 
-        al_icms_proprio = D(self.al_icms_proprio / 100).quantize(D('0.01'))
+        al_icms_proprio = D(self.al_icms_proprio).quantize(D('0.01'))
 
         if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
             if self.cst_icms_sn in ['102', '300', '500']:
