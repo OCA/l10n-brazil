@@ -69,6 +69,7 @@ class SpedDocumento(models.Model):
     chave_cancelamento = fields.Char(
         string='Chave Cancelamento',
         size=44,
+        readonly=True,
     )
 
     def executa_depois_autorizar(self):
