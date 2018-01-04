@@ -76,9 +76,12 @@ class SpedOperacaoSubsequente(models.Model):
                 MODELO_FISCAL_NFCE,
                 MODELO_FISCAL_CUPOM_FISCAL_ECF,
             ))
-            if cupom:
+            if cupom and self.situacao_geracao == 'nota_de_cupom':
+                result = True
+            elif self.situacao_geracao == 'manual':
+                result = True
+            elif self.situacao_geracao == 'nota_de_remessa':
                 result = True
         elif documento.situacao_nfe == self.situacao_geracao:
             result = True
-
         return result
