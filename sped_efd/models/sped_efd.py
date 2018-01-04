@@ -28,13 +28,13 @@ class SpedEFD(models.Model):
         ondelete='restrict',
         copy=False,
     )
-    dt_ini = fields.Datetime(
+    dt_ini = fields.Date(
         string='Data inicial',
         index=True,
         default=fields.Datetime.now,
         required=True,
     )
-    dt_fim = fields.Datetime(
+    dt_fim = fields.Date(
         string='Data final',
         index=True,
         required=True,
@@ -42,13 +42,17 @@ class SpedEFD(models.Model):
 
     @api.constrains('dt_ini','dt_fim')
     def _valida_data(self):
-        if parse_datetime(self.dt_ini[:10]).strftime('%d%m%Y') > \
-                parse_datetime(self.dt_fim[:10]).strftime('%d%m%Y'):
+        if parse_datetime(self.dt_ini).strftime('%d%m%Y') > \
+                parse_datetime(self.dt_fim).strftime('%d%m%Y'):
             raise ValidationError('Data Inicio deve ser maior que Data Final')
-
+        if parse_datetime(self.dt_ini).strftime('%m%Y') != \
+                parse_datetime(self.dt_fim).strftime('%m%Y'):
+            raise ValidationError('Data de inicio e fim devem ser do mesmo '
+                                  'mês e ano')
     @property
     def versao(self):
-        if fields.Datetime.from_string(self.dt_ini) >= datetime.datetime(2016, 1, 1):
+        if fields.Datetime.from_string(self.dt_ini) >= \
+                datetime.datetime(2016, 1, 1):
             return '011'
 
         return '009'
@@ -188,9 +192,11 @@ class SpedEFD(models.Model):
                 where
                     d.data_entrada_saida>='%s' and 
                     d.data_entrada_saida<='%s' and 
-                    d.modelo='55'
+                    d.modelo='55' and
+                    e.company_id='%s'
                 """ % (parse_datetime(self.dt_ini).strftime('%d-%m-%Y'),
-                       parse_datetime(self.dt_fim).strftime('%d-%m-%Y'))
+                       parse_datetime(self.dt_fim).strftime('%d-%m-%Y'),
+                       self.company_id.id)
         self._cr.execute(query)
         query_resposta = self._cr.fetchall()
 
@@ -235,9 +241,11 @@ class SpedEFD(models.Model):
                         join sped_unidade as u on di.unidade_id=u.id
                     where
                         d.data_entrada_saida>='%s' and 
-                        data_entrada_saida<='%s'
+                        data_entrada_saida<='%s' and
+                        e.company_id='%s'
                 """ % (parse_datetime(self.dt_ini).strftime('%d-%m-%Y'),
-                       parse_datetime(self.dt_fim).strftime('%d-%m-%Y'))
+                       parse_datetime(self.dt_fim).strftime('%d-%m-%Y'),
+                       self.company_id.id)
         self._cr.execute(query)
         query_resposta = self._cr.fetchall()
 
@@ -261,9 +269,11 @@ class SpedEFD(models.Model):
                     join sped_unidade as u on p.unidade_id=u.id
                 where
                     d.data_entrada_saida>='%s' and 
-                    d.data_entrada_saida<='%s'
+                    d.data_entrada_saida<='%s' and
+                    e.company_id='%s'
                    """ % (parse_datetime(self.dt_ini).strftime('%d-%m-%Y'),
-                          parse_datetime(self.dt_fim).strftime('%d-%m-%Y'))
+                          parse_datetime(self.dt_fim).strftime('%d-%m-%Y'),
+                          self.company_id.id)
 
         self._cr.execute(query)
         query_resposta = self._cr.fetchall()
@@ -322,9 +332,11 @@ class SpedEFD(models.Model):
                 where
                     d.data_entrada_saida>='%s' and 
                     d.data_entrada_saida<='%s' and 
-                    d.modelo='55'
+                    d.modelo='55' and
+                    e.company_id='%s'
                 """ % (parse_datetime(self.dt_ini).strftime('%d-%m-%Y'),
-                       parse_datetime(self.dt_fim).strftime('%d-%m-%Y'))
+                       parse_datetime(self.dt_fim).strftime('%d-%m-%Y'),
+                       self.company_id.id)
         self._cr.execute(query)
         query_resposta = self._cr.fetchall()
         hash = {}
@@ -336,7 +348,8 @@ class SpedEFD(models.Model):
                 self.env['sped.participante'].browse(id[1])
             resposta_item = self.env['sped.documento.item'].browse(id[2])
 
-            if (resposta.emissao == '0' and resposta.chave != False ) and not(resposta.chave in hash):
+            if (resposta.emissao == '0' and resposta.chave != False ) and not\
+                    (resposta.chave in hash):
                 registro_c100 = registros.RegistroC100()
                 registro_c100.IND_OPER = resposta.entrada_saida
                 registro_c100.IND_EMIT = resposta.emissao
@@ -422,7 +435,8 @@ class SpedEFD(models.Model):
         registro_c190.CFOP = resposta_documento_item.cfop_id.codigo
         registro_c190.VL_OPR =  \
             self.formata_valor_sped(resposta_documento_item.al_icms_proprio)
-        registro_c190.VL_BC_ICMS = self.formata_valor_sped(resposta_documento_item.bc_icms_proprio)
+        registro_c190.VL_BC_ICMS = \
+            self.formata_valor_sped(resposta_documento_item.bc_icms_proprio)
 
         #
         # soma do valor deve ser usado no registro E110 VL_TOT_CREDITOS
@@ -442,7 +456,8 @@ class SpedEFD(models.Model):
              resposta_documento_item.cfop_id.codigo[0] == '6' or
              resposta_documento_item.cfop_id.codigo[0] == '7' or
              resposta_documento_item.cfop_id.codigo == '1605'):
-                self.soma_vl_tot_debitos += resposta_documento_item.vr_icms_proprio
+                self.soma_vl_tot_debitos += \
+                    resposta_documento_item.vr_icms_proprio
 
         registro_c190.VL_ICMS = \
             self.formata_valor_sped(resposta_documento_item.vr_icms_proprio)
@@ -580,6 +595,8 @@ class SpedEFD(models.Model):
         self.query_registro0005()
         self.query_registro0100()
         self.query_registro0150()
+        # TODO: campos de servicos e produtos analisar se sao necessarios,
+        # TODO: devem ser usados com o registro C170
         # self.query_registro0190()
         # self.query_registro0200()
 
