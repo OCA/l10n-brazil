@@ -43,3 +43,8 @@ l10n_br_base.GRUPO_SUPORTE,sped.model_sped_veiculo,Veículos (suporte),sped_veic
 sped_imposto.GRUPO_FISCAL_LEITURA,sped.model_sped_veiculo,Veículos (somente leitura),sped_veiculo_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped.model_sped_veiculo,Veículos (geral),sped_veiculo_grupo_fiscal_geral,True,True,True,True
 sped_imposto.GRUPO_FISCAL_GERENTE,sped.model_sped_veiculo,Veículos (gerente),sped_veiculo_grupo_fiscal_gerente,True,True,True,True
+
+l10n_br_base.GRUPO_SUPORTE,sped.model_sped_documento_item_rastreabilidade,Documento Item Rastreabilidade (suporte),sped_documento_item_rastreabilidade_grupo_suporte,True,True,True,True
+sped_imposto.GRUPO_FISCAL_LEITURA,sped.model_sped_documento_item_rastreabilidade,Documento Item Rastreabilidade (somente leitura),sped_documento_item_rastreabilidade_grupo_fiscal_leitura,True,False,False,False
+sped_imposto.GRUPO_FISCAL_GERAL,sped.model_sped_documento_item_rastreabilidade,Documento Item Rastreabilidade (geral),sped_documento_item_rastreabilidade_grupo_fiscal_geral,True,True,True,True
+sped_imposto.GRUPO_FISCAL_GERENTE,sped.model_sped_documento_item_rastreabilidade,Documento Item Rastreabilidade (gerente),sped_documento_item_rastreabilidade_grupo_fiscal_gerente,True,True,True,True

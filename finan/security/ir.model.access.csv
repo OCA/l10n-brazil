@@ -33,3 +33,33 @@ l10n_br_base.GRUPO_SUPORTE,model_finan_banco_fechamento,Fechamento de Banco(supo
 finan.GRUPO_FINAN_LEITURA,model_finan_banco_fechamento,Fechamento de Banco (somente leitura),finan_banco_fechamento_grupo_finan_leitura,True,False,False,False
 finan.GRUPO_CADASTRO_GERAL,model_finan_banco_fechamento,Fechamento de Banco (geral),finan_banco_fechamento_grupo_finan_geral,True,True,True,False
 finan.GRUPO_CADASTRO_GERENTE,model_finan_banco_fechamento,Fechamento de Banco (Gerente),finan_banco_fechamento_grupo_finan_gerente,True,True,True,True
+
+l10n_br_base.GRUPO_SUPORTE,model_finan_carteira,Carteira (suporte),finan_carteira_grupo_suporte,True,True,True,True
+finan.GRUPO_FINAN_LEITURA,model_finan_carteira,Carteira (somente leitura),finan_carteira_grupo_finan_leitura,True,False,False,False
+finan.GRUPO_CADASTRO_GERAL,model_finan_carteira,Carteira (geral),finan_carteira_grupo_finan_geral,True,True,True,False
+finan.GRUPO_CADASTRO_GERENTE,model_finan_carteira,Carteira (gerente),finan_carteira_grupo_finan_gerente,True,True,True,True
+
+l10n_br_base.GRUPO_SUPORTE,model_finan_remessa,Remessa (suporte),finan_remessa_grupo_suporte,True,True,True,True
+finan.GRUPO_FINAN_LEITURA,model_finan_remessa,Remessa (somente leitura),finan_remessa_grupo_finan_leitura,True,False,False,False
+finan.GRUPO_CADASTRO_GERAL,model_finan_remessa,Remessa (geral),finan_remessa_grupo_finan_geral,True,True,True,False
+finan.GRUPO_CADASTRO_GERENTE,model_finan_remessa,Remessa (gerente),finan_remessa_grupo_finan_gerente,True,True,True,True
+
+l10n_br_base.GRUPO_SUPORTE,model_finan_retorno,Retorno (suporte),finan_retorno_grupo_suporte,True,True,True,True
+finan.GRUPO_FINAN_LEITURA,model_finan_retorno,Retorno (somente leitura),finan_retorno_grupo_finan_leitura,True,False,False,False
+finan.GRUPO_CADASTRO_GERAL,model_finan_retorno,Retorno (geral),finan_retorno_grupo_finan_geral,True,True,True,False
+finan.GRUPO_CADASTRO_GERENTE,model_finan_retorno,Retorno (gerente),finan_retorno_grupo_finan_gerente,True,True,True,True
+
+l10n_br_base.GRUPO_SUPORTE,model_finan_banco_saldo,Banco Saldo (suporte),finan_banco_saldo_grupo_suporte,True,True,True,True
+finan.GRUPO_FINAN_LEITURA,model_finan_banco_saldo,Banco Saldo (somente leitura),finan_banco_saldo_grupo_finan_leitura,True,False,False,False
+finan.GRUPO_CADASTRO_GERAL,model_finan_banco_saldo,Banco Saldo (geral),finan_banco_saldo_grupo_finan_geral,True,True,True,False
+finan.GRUPO_CADASTRO_GERENTE,model_finan_banco_saldo,Banco Saldo (gerente),finan_banco_saldo_grupo_finan_gerente,True,True,True,True
+
+l10n_br_base.GRUPO_SUPORTE,model_finan_banco_extrato,Banco Extrato (suporte),finan_banco_extrato_grupo_suporte,True,True,True,True
+finan.GRUPO_FINAN_LEITURA,model_finan_banco_extrato,Banco Extrato (somente leitura),finan_banco_extrato_grupo_finan_leitura,True,False,False,False
+finan.GRUPO_CADASTRO_GERAL,model_finan_banco_extrato,Banco Extrato (geral),finan_banco_extrato_grupo_finan_geral,True,True,True,False
+finan.GRUPO_CADASTRO_GERENTE,model_finan_banco_extrato,Banco Extrato (gerente),finan_banco_extrato_grupo_finan_gerente,True,True,True,True
+
+l10n_br_base.GRUPO_SUPORTE,model_finan_retorno_item,Retorno Item (suporte),finan_retorno_item_grupo_suporte,True,True,True,True
+finan.GRUPO_FINAN_LEITURA,model_finan_retorno_item,Retorno Item (somente leitura),finan_retorno_item_grupo_finan_leitura,True,False,False,False
+finan.GRUPO_CADASTRO_GERAL,model_finan_retorno_item,Retorno Item (geral),finan_retorno_item_grupo_finan_geral,True,True,True,False
+finan.GRUPO_CADASTRO_GERENTE,model_finan_retorno_item,Retorno Item (gerente),finan_retorno_item_grupo_finan_gerente,True,True,True,True
