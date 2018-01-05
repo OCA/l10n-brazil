@@ -139,6 +139,19 @@ class ConsultaDFe(models.Model):
             manifestos = self.env['sped.manifestacao.destinatario'].\
                 search([('empresa_id','=',self.empresa_id.id)])
 
+        elif len(manifestos) == 1:
+            manifesto = manifestos[0]
+
+            if manifesto.documento_id and manifesto.state == 'ciente':
+                '''
+                Um manifesto foi passado por parâmetro sendo que sua NF-e
+                já foi importada da receita e seu estado é 'Ciente'.
+                Neste caso, o arquivo XML da NF-e será colocado em anexo na
+                manifestacação e será retornado para download
+                '''
+
+                return manifesto.action_download_xml()
+
         for manifesto in manifestos:
 
             if not manifesto.state in ['pendente', 'ciente']:

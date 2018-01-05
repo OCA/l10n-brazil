@@ -165,11 +165,26 @@ class SpedManifestacaoDestinatario(models.Model):
 
     @api.multi
     def action_baixa_documento(self):
-        self.sped_consulta_dfe_id.baixa_documentos(manifestos=self)
+
+        return self.sped_consulta_dfe_id.baixa_documentos(manifestos=self)
+
+
+    @api.multi
+    def action_salva_xml(self):
+
+        return self.baixa_attachment(
+            self.action_baixa_documento()
+        )
+
+    @api.multi
+    def baixa_attachment(self, attachment=None):
 
         return {
-            'type': 'ir.actions.client',
-            'tag': 'reload',
+            'type': 'ir.actions.report.xml',
+            'report_type': 'controller',
+            'report_file':
+                '/web/content/ir.attachment/' + str(attachment.id) +
+                '/datas/' + attachment.display_name + '?download=true',
         }
 
 
@@ -266,7 +281,7 @@ class SpedManifestacaoDestinatario(models.Model):
             if nfe_result['code'] == '138':
 
                 file_name = 'NFe%s.xml' % record.chave
-                record.env['ir.attachment'].create(
+                return record.env['ir.attachment'].create(
                     {
                         'name': file_name,
                         'datas': base64.b64encode(nfe_result['nfe']),

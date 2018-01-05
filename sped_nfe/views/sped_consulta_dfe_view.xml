@@ -102,6 +102,10 @@
                         confirm="AVISO - Ao baixar uma Nota você estará dando ciência da emissão ao manifesto correspondente.
                         Deseja continuar?"
                         attrs="{'invisible':[('documento_id','!=',False)]}"/>
+
+                <button string="Salvar XML" name="action_salva_xml"
+                        type="object"
+                        attrs="{'invisible':[('documento_id','==',False)]}"/>
                 <field name="documento_id" invisible="True"/>
             </field>
         </field>
