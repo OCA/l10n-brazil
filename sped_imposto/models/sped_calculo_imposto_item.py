@@ -1913,7 +1913,11 @@ class SpedCalculoImpostoItem(SpedBase):
         self.md_icms_proprio = al_icms.md_icms
         self.pr_icms_proprio = al_icms.pr_icms
         self.rd_icms_proprio = al_icms.rd_icms
-        self.al_icms_proprio = al_icms.al_icms
+
+        if self.cst_icms and (
+                not self.cst_icms in ST_ICMS_DESONERADO_ZERA_ICMS_PROPRIO):
+            self.al_icms_proprio = al_icms.al_icms
+
         self.al_interna_destino = 0
         self.al_difal = 0
         self.al_fcp = 0
