@@ -17,6 +17,7 @@
     'application': False,
     'license': 'AGPL-3',
     'data': [
+        'security/ir.model.access.csv',
         'views/pdv_config.xml',
         'views/pdv_impressora_config.xml',
         'views/sped_documento_emissao_cfe_view.xml',
