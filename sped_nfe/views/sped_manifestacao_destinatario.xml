@@ -95,7 +95,7 @@
             <field name="model">sped.manifestacao.destinatario</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="NFe Destinadas" create="false">
+                <tree string="NFe Destinadas" create="false" limit="5">
                     <field name="nsu"/>
                     <field name="fornecedor"/>
                     <field name="cnpj_cpf"/>
