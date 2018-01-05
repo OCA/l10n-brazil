@@ -18,6 +18,8 @@
                         <newline />
                         <field name="ultimo_nsu" required="1" />
                         <newline />
+                        <field name="cron" />
+                        <newline />
                         <field name="ultima_consulta" readonly="1" />
                         <newline />
                         <button name="busca_documentos"
