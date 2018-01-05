@@ -153,11 +153,13 @@ class SpedConsultaStatusDocumento(models.TransientModel):
                 # }
                 # self.write(dados)
 
+            else:
+                raise Warning(
+                    _(nfe_result['code'] + ' - ' + nfe_result['message']))
+
         except Exception as e:
             raise UserError(
-                _(u'Erro na consulta da chave!'), e)
-
-        return result
+                _(e))
 
     # @api.multi
     # def busca_status_documento(self):
