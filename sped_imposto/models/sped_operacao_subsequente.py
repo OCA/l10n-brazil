@@ -78,7 +78,7 @@ class SpedOperacaoSubsequente(models.Model):
             ))
             if cupom and self.situacao_geracao == 'nota_de_cupom':
                 result = True
-            elif self.situacao_geracao == 'manual':
+            elif self.situacao_geracao == 'manual' and self.env.context.get('manual', False):
                 result = True
             elif self.situacao_geracao == 'nota_de_remessa':
                 result = True
