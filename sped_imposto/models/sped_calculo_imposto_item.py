@@ -1742,6 +1742,8 @@ class SpedCalculoImpostoItem(SpedBase):
                         self.al_partilha_estado_destino = 40
                     elif '2017-' in self.data_emissao:
                         self.al_partilha_estado_destino = 60
+                    elif '2018-' in self.data_emissao:
+                        self.al_partilha_estado_destino = 80
                     else:
                         self.al_partilha_estado_destino = 100
 
