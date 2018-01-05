@@ -176,6 +176,8 @@
                                             <newline />
                                             <field name="al_icms_proprio" string="Alíquota" />
                                             <newline />
+                                            <field name="al_efetiva_icms_proprio" string="Alíquota Efetiva" attrs="{'invisible': ['!', ('cst_icms', 'in', ('20', '70', '90'))], 'required': [('cst_icms', 'in', ('20', '70'))]}" />
+                                            <newline />
                                             <field name="vr_icms_proprio" string="Valor" />
                                             <newline />
                                             <field name="motivo_icms_desonerado" string="Motivo da desoneração" attrs="{'invisible': [('cst_icms', 'not in', ['20', '30', '40', '41', '50', '70', '90'])]}" />

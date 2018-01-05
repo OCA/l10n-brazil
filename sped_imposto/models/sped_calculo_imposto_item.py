@@ -311,6 +311,14 @@ class SpedCalculoImpostoItem(SpedBase):
         string='alíquota do ICMS próprio',
         currency_field='currency_aliquota_id',
     )
+    al_efetiva_icms_proprio = fields.Monetary(
+        string='Alíquota efetiva do ICMS próprio',
+        currency_field='currency_aliquota_id',
+        readonly=True,
+        help='Percentual do ICMS próprio c/ a redução aplicada, \n'
+             'de forma a representar o valor do icms sobre a base de cálculo\n'
+             '- Campo útilizado para emissão do CF-E'
+    )
     vr_icms_proprio = fields.Monetary(
         string='valor do ICMS próprio',
     )
@@ -2272,6 +2280,11 @@ class SpedCalculoImpostoItem(SpedBase):
 
     def _onchange_calcula_icms_proprio(self):
         self.ensure_one()
+
+        #
+        # Aliquota efetivamente utilizada, campo do cf-e
+        #
+        self.al_efetiva_icms_proprio = (1 - self.rd_icms_proprio/100) * self.al_icms_proprio
 
         if self.emissao != TIPO_EMISSAO_PROPRIA and not \
                 self.env.context.get('manual'):
