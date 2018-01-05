@@ -1,0 +1,11 @@
+group_id/id,model_id/id,name,id,perm_read,perm_create,perm_write,perm_unlink
+l10n_br_base.GRUPO_SUPORTE,sped_cfe.model_pdv_config,Configuração PDV (suporte),pdv_config_grupo_suporte,True,True,True,True
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_cfe.model_pdv_config,Configuração PDV (Gerente),pdv_config_grupo_gerente,True,True,True,True
+sped_imposto.GRUPO_FISCAL_LEITURA,sped_cfe.model_pdv_config,Configuração PDV (somente leitura),pdv_config_grupo_leitura,True,False,False,False
+sped_imposto.GRUPO_FISCAL_GERAL,sped_cfe.model_pdv_config,Configuração PDV (geral),pdv_config_grupo_geral,True,True,True,False
+
+
+l10n_br_base.GRUPO_SUPORTE,sped_cfe.model_impressora_config,Configuração Impressora PDV (suporte),pdv_impressora_config_grupo_suporte,True,True,True,True
+sped_imposto.GRUPO_FISCAL_GERENTE,sped_cfe.model_impressora_config,Configuração Impressora PDV (Gerente),pdv_impressora_config_grupo_gerente,True,True,True,True
+sped_imposto.GRUPO_FISCAL_LEITURA,sped_cfe.model_impressora_config,Configuração Impressora PDV (somente leitura),pdv_impressora_config_grupo_leitura,True,False,False,False
+sped_imposto.GRUPO_FISCAL_GERAL,sped_cfe.model_impressora_config,Configuração Impressora PDV (geral),pdv_impressora_config_grupo_geral,True,True,True,False
