@@ -9,7 +9,7 @@ from StringIO import StringIO
 
 from odoo import api, fields, models
 from odoo.exceptions import Warning as UserError
-from pybrasil.data import parse_datetime
+from pybrasil.data import parse_datetime, formata_data
 from pybrasil.febraban import RetornoBoleto
 from pybrasil.valor.decimal import Decimal as D
 
@@ -729,6 +729,25 @@ class finan_retorno(models.Model):
 
         # Processa os boletos do arquivo
         for boleto in arquivo_retorno.boletos:
+
+            # verifica se o boleto é duplicado
+            if boleto.pagamento_duplicado:
+                boleto.pagamento_duplicado = 'SIM'
+            else:
+                boleto.pagamento_duplicado = 'NÃO'
+
+            # verifica exixtencia de data de crédito e inverte se existir
+            if boleto.data_credito:
+                boleto.data_credito_fmt = formata_data(boleto.data_credito)
+            else:
+                boleto.data_credito_fmt = ''
+
+            # verifica exixtencia de data de ocorrencia e inverte se existir
+            if boleto.data_ocorrencia:
+                boleto.data_ocorrencia_fmt = formata_data(
+                    boleto.data_ocorrencia)
+            else:
+                boleto.data_ocorrencia_fmt = ''
 
             # buscar lancamento correspondente (divida) do boleto
             divida_id = self.get_divida(boleto)
