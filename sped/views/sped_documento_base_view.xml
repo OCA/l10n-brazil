@@ -53,7 +53,7 @@
                                 <group colspan="6" col="6">
                                     <separator string="Destinatário" colspan="6" attrs="{'invisible': [('entrada_saida', '=', '0')]}" />
                                     <separator string="Remetente" colspan="6" attrs="{'invisible': [('entrada_saida', '=', '1')]}" />
-                                    <field name="participante_id" nolabel= "1" colspan="6" required="1" options="{'no_open': True, 'no_create': True}" domain="[('cnpj_cpf', '!=', empresa_cnpj_cpf), ('cnpj_cpf', '!=', False)]" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
+                                    <field name="participante_id" nolabel= "1" colspan="6" required="1" options="{'no_open': True, 'no_create': True}" domain="[('cnpj_cpf', '!=', False)]" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
                                     <newline />
                                     <field name="participante_razao_social" string="Nome completo Razão Social" colspan="6" />
                                     <newline />
