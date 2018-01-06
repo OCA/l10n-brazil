@@ -71,6 +71,7 @@
                        decoration-warning="situacao_nfe == 'denegada' or situacao_fiscal == '04'"
                        decoration-danger="situacao_nfe == 'rejeitada'"
                        />
+                <field name="codigo_rejeicao_cfe" readonly="1" colspan="4"  attrs="{'invisible': ['|', ('modelo', '!=', '59'), ('situacao_nfe', '!=', 'rejeitada')]}" />
             </xpath>
             <page name="financeiro" position="after">
                 <page name="detalhe_nfe" string="CF-e">

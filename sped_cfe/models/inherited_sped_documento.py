@@ -71,6 +71,9 @@ class SpedDocumento(models.Model):
         size=44,
         readonly=True,
     )
+    codigo_rejeicao_cfe = fields.Char(
+        string=u'Código Rejeição CFe'
+    )
 
     def executa_depois_autorizar(self):
         #
@@ -611,11 +614,13 @@ class SpedDocumento(models.Model):
             elif resposta.EEEEE in ('06001', '06002', '06003', '06004', '06005',
                                     '06006', '06007', '06008', '06009', '06010',
                                     '06098', '06099'):
+                self.codigo_rejeicao_cfe = resposta.EEEEE
                 self.executa_antes_denegar()
                 self.situacao_fiscal = SITUACAO_FISCAL_DENEGADO
                 self.situacao_nfe = SITUACAO_NFE_DENEGADA
                 self.executa_depois_denegar()
         except (ErroRespostaSATInvalida, ExcecaoRespostaSAT) as resposta:
+            self.codigo_rejeicao_cfe = resposta.EEEEE
             mensagem = 'Código de retorno: ' + \
                        resposta.EEEEE
             mensagem += '\nMensagem: ' + \
@@ -623,6 +628,8 @@ class SpedDocumento(models.Model):
             self.mensagem_nfe = mensagem
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
         except Exception as resposta:
+            if resposta.resposta.EEEEE:
+                self.codigo_rejeicao_cfe = resposta.resposta.EEEEE
             mensagem = '\nMensagem: ' + resposta.message
             self.mensagem_nfe = mensagem
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
