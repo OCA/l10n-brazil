@@ -20,11 +20,13 @@
     <record id="GRUPO_CADASTRO_GERAL" model="res.groups">
         <field name="name">Financeiro </field>
         <field name="category_id" ref="CATEGORIA_MODULO_FINAN"/>
+        <field name="implied_ids" eval="[(4, ref('GRUPO_FINAN_LEITURA'))]"/>
     </record>
 
     <record id="GRUPO_CADASTRO_GERENTE" model="res.groups">
         <field name="name">Financeiro (gerente)</field>
         <field name="category_id" ref="CATEGORIA_MODULO_FINAN"/>
+        <field name="implied_ids" eval="[(4, ref('GRUPO_CADASTRO_GERAL'))]"/>
     </record>
 
 </odoo>
