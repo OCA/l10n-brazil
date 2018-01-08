@@ -455,9 +455,9 @@ class SpedDocumento(models.Model):
         self.arquivo_xml_autorizacao_inutilizacao_id = \
             self._grava_anexo(nome_arquivo, conteudo).id
 
-    def envia_nfe(self):
+    def _envia_documento(self):
         self.ensure_one()
-        result = super(SpedDocumento, self).envia_nfe()
+        result = super(SpedDocumento, self)._envia_documento()
         if self.modelo not in (MODELO_FISCAL_NFCE, MODELO_FISCAL_NFE):
             return result
 

@@ -1403,7 +1403,15 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
 
             raise ValidationError(_(mensagem))
 
-    def envia_nfe(self):
+    def envia_documento(self):
+        """ Nunca sobrescreva este método, pois ele esta sendo modificado
+        pelo sped_queue que não chama o super. Para permtir o envio assincrono
+        do documento fiscal
+        :return:
+        """
+        return self._envia_documento()
+
+    def _envia_documento(self):
         for record in self:
             if not record.numero:
                 record.update(record._onchange_serie()['value'])
@@ -1654,7 +1662,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                 # Transmite o documento
                 #
 
-                # documento.envia_nfe()
+                # documento.envia_documento()
 
         # TODO: Retornar usuário para os documentos criados
 
