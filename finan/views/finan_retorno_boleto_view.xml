@@ -12,7 +12,7 @@
         <field name="arch" type="xml">
             <form string="Retorno de Boletos">
                 <header>
-                    <button name="processar_retorno" string="Processar" class="btn-primary" type="object" />
+                    <button name="processar_retorno" string="Processar" class="btn-primary" type="object" groups="finan.GRUPO_CADASTRO_GERAL"/>
                 </header>
                 <sheet>
                     <group col="4" colspan="4">
