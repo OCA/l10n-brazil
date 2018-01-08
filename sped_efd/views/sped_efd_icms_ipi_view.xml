@@ -66,7 +66,7 @@
     <menuitem
         id="menu_sped_efd"
         sequence="2"
-        name="EFD"
+        name="EFD ICMS-IPI"
         parent="sped.menu_sped_documento_emissao"
         action="sped_efd_acao"
         />

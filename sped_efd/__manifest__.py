@@ -16,7 +16,7 @@
     'installable': True,
     'application': True,
     'data': [
-        'views/sped_efd_view.xml',
+        'views/sped_efd_icms_ipi_view.xml',
     ],
     'external_dependencies': {
         'python': [
