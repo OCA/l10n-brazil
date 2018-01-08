@@ -552,9 +552,9 @@ class SpedDocumento(models.Model):
             mensagem += '\nMotivo: ' + resposta.resposta.mensagem
             raise UserError(mensagem)
 
-    def envia_nfe(self):
+    def _envia_documento(self):
         self.ensure_one()
-        result = super(SpedDocumento, self).envia_nfe()
+        result = super(SpedDocumento, self)._envia_documento()
         if not self.modelo == MODELO_FISCAL_CFE:
             return result
 
