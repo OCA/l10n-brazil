@@ -15,21 +15,24 @@ class SpedDocumento(models.Model):
 
     @api.multi
     @job
-    def _envia_documento(self):
-        return super(SpedDocumento, self)._envia_documento()
+    def _envia_documento_job(self):
+        for record in self:
+            record._envia_documento()
 
     @api.multi
     def envia_documento(self):
         _logger.info('Enviando documento fiscal %s', self.ids)
 
         enviar_agora = self.filtered(
-            lambda documento: documento.momento_envio_documento == 'now')
+            lambda documento:
+                documento.operacao_id.momento_envio_documento == 'now'
+        )
         enviar_depois = self - enviar_agora
         if enviar_agora:
             _logger.info('Enviando documento fiscal agora: %s',
                          enviar_agora.ids)
-            enviar_agora._envia_edoc()
+            enviar_agora._envia_documento_job()
         if enviar_depois:
             _logger.info('Enviando documento fiscal depois: %s',
                          enviar_depois.ids)
-            enviar_depois.with_delay()._envia_edoc()
+            enviar_depois.with_delay()._envia_documento_job()
