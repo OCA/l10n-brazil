@@ -9,7 +9,27 @@
             <field name="condicao_pagamento_id" position="attributes">
                 <attribute name="attrs">{'required': True}</attribute>
             </field>
+            <group name="condicao_pagamento" position="after">
+                <field name="forma_pagamento" invisible="1"/>
+                <group name="cartao" attrs="{'invisible': [('forma_pagamento', 'not in', ['03','04','10'])]}">
+                    <field name="numero_aprovacao" attrs="{'required': [('forma_pagamento', 'in', ['03','04','10'])]}"/>
+                    <field name="nsu" attrs="{'required': [('forma_pagamento', 'in', ['03','04','10'])]}"/>
+                    <field name="estabecimento" attrs="{'required': [('forma_pagamento', 'in', ['03','04','10'])]}"/>
+                </group>
+            </group>
         </field>
     </record>
+    <record model="ir.ui.view" id="sped_documento_pagamento_cfe_tree">
+        <field name="name">sped.documento.pagamento.cfe.tree</field>
+        <field name="model">sped.documento.pagamento</field>
+        <field name="inherit_id" ref="sped.sped_documento_pagamento_tree" />
+        <field name="arch" type="xml">
+            <field name="condicao_pagamento_id" position="after">
+                    <field name="numero_aprovacao"/>
+            </field>
+        </field>
+    </record>
+
+
 
 </odoo>
