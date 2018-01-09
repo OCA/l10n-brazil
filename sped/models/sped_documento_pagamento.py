@@ -91,6 +91,12 @@ class SpedDocumentoPagamento(SpedBase, models.Model):
     def _onchange_condicao_pagamento_id(self):
         res = {}
         valores = {}
+
+        if not self.documento_id:
+            self.documento_id = self.env['sped.documento'].browse(
+                self.env.context.get('active_id', False)
+            )
+
         res['value'] = valores
 
         if not (self.condicao_pagamento_id and
@@ -98,10 +104,14 @@ class SpedDocumentoPagamento(SpedBase, models.Model):
             return res
 
         valor = D(self.valor or 0)
+        troco = valor - D(self.env.context.get('default_valor', 0))
+        if troco < 0:
+            troco = 0
 
         duplicata_ids = self.condicao_pagamento_id.gera_parcela_ids(valor,
             self.documento_id.data_emissao)
         valores['duplicata_ids'] = duplicata_ids
+        valores['troco'] = troco
         valores['forma_pagamento'] = self.condicao_pagamento_id.forma_pagamento
         valores['bandeira_cartao'] = self.condicao_pagamento_id.bandeira_cartao
         valores['integracao_cartao'] = \
