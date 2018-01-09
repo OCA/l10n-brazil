@@ -687,11 +687,17 @@ class SpedDocumento(models.Model):
                         )
                     elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
                         resposta = cliente.enviar_pagamento(
-                            config.chave_requisicao, config.estabelecimento,
-                            config.serial_pos, config.cnpjsh,
-                            self.bc_icms_proprio, duplicata.valor,
-                            config.id_fila_validador,config.multiplos_pag,
-                            config.anti_fraude, 'BRL', config.numero_caixa,
+                            config.chave_requisicao,
+                            config.estabelecimento,
+                            config.serial_pos,
+                            config.cnpjsh,
+                            self.bc_icms_proprio,
+                            duplicata.valor,
+                            config.id_fila_validador,
+                            config.multiplos_pag,
+                            config.anti_fraude,
+                            'BRL',
+                            config.numero_caixa,
                             self.configuracoes_pdv.chave_acesso_validador,
                             self.configuracoes_pdv.path_integrador
                         )

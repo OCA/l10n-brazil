@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_enviar_pagamento" model="ir.ui.view">
+            <field name="name">sped.documento.efetuar.pagamento.form</field>
+            <field name="model">sped.documento.pagamento</field>
+            <field name="inherit_id" ref="sped.sped_documento_pagamento_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='dados_pagamento']" position="after">
+                    <footer>
+                        <button name="efetuar_pagamento" string="Pagar" type="object" class="btn-primary"/>
+                        <button special="cancel" string="Cancelar" class="btn-default"/>
+                    </footer>
+                </xpath>
+            </field>
+        </record>
+        <record id="action_enviar_pagamento" model="ir.actions.act_window">
+            <field name="name">Pagamento</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sped.documento.pagamento</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+</odoo>

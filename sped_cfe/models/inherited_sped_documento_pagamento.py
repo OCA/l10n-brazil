@@ -8,7 +8,7 @@
 from __future__ import division, print_function, unicode_literals
 
 import logging
-from odoo import api, models, fields
+from odoo import api, models, fields, _
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODELO_FISCAL_CFE,
     FORMA_PAGAMENTO_CARTOES,
@@ -30,7 +30,16 @@ class SpedDocumentoPagamento(models.Model):
     _inherit = 'sped.documento.pagamento'
 
     id_fila_status = fields.Char(
-        string=u'Status IdFila Sefaz'
+        string=u'Status'
+    )
+    nsu = fields.Integer(
+        string=u'NSU',
+    )
+    numero_aprovacao = fields.Integer(
+        string=u'Nº aprovação',
+    )
+    estabecimento = fields.Integer(
+        string=u'Estabelecimento',
     )
 
     def monta_cfe(self):
@@ -58,3 +67,37 @@ class SpedDocumentoPagamento(models.Model):
         pagamento.validar()
 
         return pagamento
+
+    @api.multi
+    def efetuar_pagamento(self):
+        """Check the order:
+        if the order is not paid: continue payment,
+        if the order is paid print ticket.
+        """
+        self.ensure_one()
+        documento = self.env['sped.documento'].browse(self.env.context.get('active_id', False))
+        if documento.vr_total_residual <= 0:
+            return {'type': 'ir.actions.act_window_close'}
+        # data = self.read()[0]
+
+        # if amount < 0:
+        #     raise UserWarning(
+        #         'Valor do pagamento deve ser maior que zero'
+        #     )
+        return self.launch_payment()
+
+    def launch_payment(self):
+        context = self.env.context.copy()
+        if context.get('default_valor'):
+            context['default_valor'] -= self.valor
+        return {
+            'name': _('Payment'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'sped.documento.pagamento',
+            'view_id': self.env.ref('sped_cfe.view_enviar_pagamento').id,
+            'target': 'new',
+            'views': False,
+            'type': 'ir.actions.act_window',
+            'context': context,
+        }

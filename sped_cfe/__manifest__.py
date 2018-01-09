@@ -17,6 +17,7 @@
     'application': False,
     'license': 'AGPL-3',
     'data': [
+        'wizard/sped_documento_pagamento.xml',
         'security/ir.model.access.csv',
         'views/pdv_config.xml',
         'views/pdv_impressora_config.xml',

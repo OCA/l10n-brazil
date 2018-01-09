@@ -50,16 +50,18 @@
                 <attribute name="context">{'default_valor': vr_total_residual}</attribute>
             </field>
             <header position="inside">
-                <!--<button string="Enviar CF-e" class="btn-primary" custom="enviar_dados_venda"-->
-                    <!--attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada'])]}" />-->
+                <button name="%(action_enviar_pagamento)d" string="Pagamento" class="oe_highlight" type="action"
+                        context="{'default_valor': vr_total_residual, 'default_documento_id': id}"
+                />
                 <button name="envia_documento" string="Envia CF-e" type="object" class="btn-primary"
-                        attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada'])]}" />
+                        attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada']),('pagamento_autorizado_cfe','!=', True)]}" />
                 <button name="reimprimir_cfe" string="Reimprimir CF-e" type="object" class="btn-primary"
                         attrs="{'invisible': [('situacao_nfe', '!=', 'autorizada'), ('modelo', '!=', '59')]}" />
                 <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-primary" />
                 <button name="gera_pdf" string="Gerar PDF" type="object" class="btn-primary" />
                 <button name="gera_operacoes_subsequentes" string="Gerar NF-e de Cupom" type="object" class="btn-default"
                     context="{'nota_de_cumpom': '1', 'manual': '1'}"
+                     attrs="{'invisible': [('situacao_nfe','not in', ['autorizada'])]}"
                 />
             </header>
             <xpath expr="//field[@name='empresa_id']" position="before">
