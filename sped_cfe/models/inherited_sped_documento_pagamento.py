@@ -45,8 +45,8 @@ except (ImportError, IOError) as err:
 class SpedDocumentoPagamento(models.Model):
     _inherit = 'sped.documento.pagamento'
 
-    id_fila_status = fields.Char(
-        string=u'Status'
+    id_pagamento = fields.Char(
+        string=u'Id Pagamento'
     )
     nsu = fields.Integer(
         string=u'NSU',
@@ -69,8 +69,8 @@ class SpedDocumentoPagamento(models.Model):
         string='Condição de Pagamento'
     )
 
-    id_fila_pagamento = fields.Char(
-        string=u'Id Fila Pagamento'
+    id_fila = fields.Char(
+        string=u'Id Fila'
     )
 
     def monta_cfe(self):
