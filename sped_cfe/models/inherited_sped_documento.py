@@ -76,6 +76,8 @@ class SpedDocumento(models.Model):
         string=u'Código Rejeição CFe'
     )
 
+    id_fila_validador = fields.Char(string=u'ID Fila Validador')
+
     def executa_depois_autorizar(self):
         #
         # Este método deve ser alterado por módulos integrados, para realizar
@@ -563,11 +565,8 @@ class SpedDocumento(models.Model):
         if not self.modelo == MODELO_FISCAL_CFE:
             return result
 
-        if not self.pagamento_autorizado_cfe:
-            self.envia_pagamento()
-            if not self.pagamento_autorizado_cfe:
-                raise Warning('Pagamento(s) não autorizado(s)!')
         cliente = self.processador_cfe()
+        impressao = self.configuracoes_pdv.impressora
         cfe = self.monta_cfe()
         self.grava_cfe(cfe)
 
@@ -575,7 +574,6 @@ class SpedDocumento(models.Model):
         # Processa resposta
         #
         try:
-            impressao = self.configuracoes_pdv.impressora
             if self.configuracoes_pdv.tipo_sat == 'local':
                 resposta = cliente.enviar_dados_venda(cfe)
             elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
@@ -584,14 +582,6 @@ class SpedDocumento(models.Model):
                     self.configuracoes_pdv.path_integrador
                 )
             if resposta.EEEEE in '06000':
-                if impressao:
-                    cliente.imprimir_cupom_venda(
-                        resposta.arquivoCFeSAT,
-                        impressao.modelo,
-                        impressao.conexao,
-                        self.configuracoes_pdv.site_consulta_qrcode.encode(
-                            "utf-8")
-                    )
                 self.executa_antes_autorizar()
                 self.executa_depois_autorizar()
                 self.data_hora_autorizacao = fields.Datetime.now()
@@ -600,12 +590,8 @@ class SpedDocumento(models.Model):
                 self.numero = chave.numero_cupom_fiscal
                 self.serie = chave.numero_serie
                 self.chave = resposta.chaveConsulta[3:]
+                # self.id_fila_validador = resposta.id_fila
                 self.grava_cfe_autorizacao(resposta.xml())
-
-
-                self.situacao_fiscal = SITUACAO_FISCAL_REGULAR
-                self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
-
 
                 # # self.grava_pdf(nfe, procNFe.danfe_pdf)
 
@@ -638,6 +624,21 @@ class SpedDocumento(models.Model):
             mensagem = '\nMensagem: ' + resposta.message
             self.mensagem_nfe = mensagem
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
+
+        if not self.pagamento_autorizado_cfe:
+            self.envia_pagamento()
+            if not self.pagamento_autorizado_cfe:
+                raise Warning('Pagamento(s) não autorizado(s)!')
+            self.situacao_fiscal = SITUACAO_FISCAL_REGULAR
+            self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
+            if impressao:
+                cliente.imprimir_cupom_venda(
+                    resposta.arquivoCFeSAT,
+                    impressao.modelo,
+                    impressao.conexao,
+                    self.configuracoes_pdv.site_consulta_qrcode.encode(
+                        "utf-8")
+                )
 
     @api.multi
     def reimprimir_cfe(self):
@@ -678,30 +679,33 @@ class SpedDocumento(models.Model):
                 if not duplicata.id_fila_status:
                     if self.configuracoes_pdv.tipo_sat == 'local':
                         resposta = cliente.enviar_pagamento(
-                            config.chave_requisicao, config.estabelecimento,
-                            config.serial_pos, config.cnpjsh,
+                            config.chave_requisicao, duplicata.estabecimento,
+                            duplicata.serial_pos, config.cnpjsh,
                             self.bc_icms_proprio,
-                            duplicata.valor, config.id_fila_validador,
+                            duplicata.valor,
+                            duplicata.documento_id.id_fila_validador,
                             config.multiplos_pag,
                             config.anti_fraude, 'BRL', config.numero_caixa
                         )
                     elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
                         resposta = cliente.enviar_pagamento(
                             config.chave_requisicao,
-                            config.estabelecimento,
-                            config.serial_pos,
+                            duplicata.estabecimento,
+                            duplicata.serial_pos,
                             config.cnpjsh,
                             self.bc_icms_proprio,
                             duplicata.valor,
-                            config.id_fila_validador,
+                            duplicata.documento_id.id_fila_validador,
                             config.multiplos_pag,
                             config.anti_fraude,
                             'BRL',
                             config.numero_caixa,
-                            self.configuracoes_pdv.chave_acesso_validador,
-                            self.configuracoes_pdv.path_integrador
+                            config.chave_acesso_validador,
+                            config.path_integrador
                         )
-                    duplicata.id_fila_status = resposta
+                    resposta_pagamento = resposta.split('|')
+                    duplicata.id_fila_status = resposta_pagamento[0]
+                    duplicata.id_fila_pagamento = resposta_pagamento[1]
                 # FIXME status sempre vai ser negativo na homologacao
                 # resposta_status_pagamento = cliente.verificar_status_validador(
                 #     config.cnpjsh, duplicata.id_fila_status

@@ -36,9 +36,6 @@
                     <group string="Configurações de pagamento">
                         <field name="chave_acesso_validador"/>
                         <field name="chave_requisicao"/>
-                        <field name="estabelecimento"/>
-                        <field name="serial_pos"/>
-                        <field name="id_fila_validador"/>
                         <field name="multiplos_pag"/>
                         <field name="anti_fraude"/>
                     </group>

@@ -16,6 +16,22 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
 
 _logger = logging.getLogger(__name__)
 
+FORMA_PAGAMENTO = (
+    ('01', 'Dinheiro'),
+    ('02', 'Cheque'),
+    ('03', 'Cartão de crédito'),
+    ('04', 'Cartão de débito'),
+    ('05', 'Crédito na loja'),
+    ('10', 'Vale alimentação'),
+    ('11', 'Vale refeição'),
+    ('12', 'Vale presente'),
+    ('13', 'Vale combustível'),
+    ('14', 'Duplicata mercantil'),
+    ('15', 'Boleto bancário'),
+    #('90', 'Sem pagamento'),
+    ('99', 'Outros'),
+)
+
 try:
     from satcfe import *
     from pybrasil.valor.decimal import Decimal as D
@@ -38,8 +54,23 @@ class SpedDocumentoPagamento(models.Model):
     numero_aprovacao = fields.Integer(
         string=u'Nº aprovação',
     )
+
+    serial_pos = fields.Char(
+        string=u'Serial POS'
+    )
+
     estabecimento = fields.Integer(
         string=u'Estabelecimento',
+    )
+
+    forma_pagamento = fields.Selection(
+        selection=FORMA_PAGAMENTO,
+        related='condicao_pagamento_id.forma_pagamento',
+        string='Condição de Pagamento'
+    )
+
+    id_fila_pagamento = fields.Char(
+        string=u'Id Fila Pagamento'
     )
 
     def monta_cfe(self):
@@ -57,7 +88,8 @@ class SpedDocumentoPagamento(models.Model):
             # Lembrete integracao_cartao esta com valores errados
             # das constantes
             # kwargs['cAdmC'] = '00' + self.integracao_cartao
-            kwargs['cAdmC'] = self.participante_id.codigo_administradora_cartao
+            kwargs['cAdmC'] = self.condicao_pagamento_id.participante_id.\
+                codigo_administradora_cartao
 
         pagamento = MeioPagamento(
             cMP=self.forma_pagamento,
