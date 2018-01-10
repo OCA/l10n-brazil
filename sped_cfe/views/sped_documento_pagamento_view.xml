@@ -18,8 +18,8 @@
                     <field name="serial_pos" attrs="{'required': [('forma_pagamento', 'in', ['03','04','10'])]}"/>
                 </group>
                 <group name="status_cartao" attrs="{'invisible': [('forma_pagamento', 'not in', ['03','04','10'])]}" groups="l10n_br_base.GRUPO_SUPORTE">
-                    <field name="id_pagamento" readyonly="1"/>
-                    <field name="id_fila" readyonly="1"/>
+                    <field name="id_pagamento" readonly="1"/>
+                    <field name="id_fila" readonly="1"/>
                 </group>
             </group>
         </field>
