@@ -52,9 +52,10 @@
             <header position="inside">
                 <button name="%(action_enviar_pagamento)d" string="Pagamento" class="oe_highlight" type="action"
                         context="{'default_valor': vr_total_residual, 'default_documento_id': id}"
+                        attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada']),('pagamento_autorizado_cfe','!=', False)]}"
                 />
                 <button name="envia_documento" string="Envia CF-e" type="object" class="btn-primary"
-                        attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada']),('pagamento_autorizado_cfe','!=', True)]}" />
+                        attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada']),('pagamento_autorizado_cfe','!=', False)]}" />
                 <button name="reimprimir_cfe" string="Reimprimir CF-e" type="object" class="btn-primary"
                         attrs="{'invisible': [('situacao_nfe', '!=', 'autorizada'), ('modelo', '!=', '59')]}" />
                 <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-primary" />
