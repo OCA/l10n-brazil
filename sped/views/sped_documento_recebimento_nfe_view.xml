@@ -18,7 +18,7 @@
             <xpath expr="//separator[@name='pagamentos']" position="replace" />
             <xpath expr="//field[@name='pagamento_ids']" position="replace" />
             <field name="item_ids" position="attributes" >
-                <attribute name="context">{'form_view_ref' : 'sped.sped_documento_item_emissao_form', 'tree_view_ref' : 'sped.sped_documento_item_emissao_tree', 'manual': True}</attribute>
+                <attribute name="context">{'cfop_tam_desc': 'curta', 'form_view_ref' : 'sped.sped_documento_item_emissao_form', 'tree_view_ref' : 'sped.sped_documento_item_emissao_tree', 'manual': True}</attribute>
             </field>
             <field name="entrada_saida" position="attributes" >
                 <attribute name="attrs">{'invisible': False}</attribute>

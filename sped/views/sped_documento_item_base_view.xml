@@ -403,8 +403,11 @@
                 <field name="currency_unidade_id" invisible="1"/>
                 <field name="unidade_id" invisible="1"/>
                 <field name="produto_id"  />
-                <field name="cfop_id"  />
-                <field name="quantidade"  />
+                <field name="cfop_id"/>
+                <field name="cst_icms_readonly" string="ICMS"/>
+                <field name="cst_pis_readonly" string="PIS"/>
+                <field name="cst_cofins_readonly" string="COFINS"/>
+                <field name="quantidade"/>
                 <field name="vr_unitario"  />
                 <field name="vr_produtos" sum="vr_produtos"/>
                 <field name="org_icms" invisible="[('modelo', 'in', ('SE', 'RL'))]"/>

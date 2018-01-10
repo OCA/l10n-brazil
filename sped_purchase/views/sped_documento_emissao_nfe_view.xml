@@ -12,6 +12,7 @@
             </group>
             <field name="item_ids" position="attributes">
                 <attribute name="context">{
+                    'cfop_tam_desc': 'curta',
                     'form_view_ref' : 'sped_purchase.sped_documento_item_form',
                     'tree_view_ref' : 'sped_purchase.sped_documento_item_tree',
                     'manual': True}</attribute>
