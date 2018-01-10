@@ -9,8 +9,8 @@
             <form string="Fechamento de caixa">
                 <header>
                     <field name="state" widget="statusbar"/>
-                    <button string="Processar" states="aberto" type="object" name="button_processar"/>
-                    <button string="Fechar caixa" states="aberto" type="object" name="button_fechar_caixa"/>
+                    <button string="Processar" states="aberto" type="object" name="button_processar"  groups="finan.GRUPO_CADASTRO_GERAL"/>
+                    <button string="Fechar caixa" states="aberto" type="object" name="button_fechar_caixa"  groups="finan.GRUPO_CADASTRO_GERAL"/>
                     <button string="Reabrir caixa"
                             type="object" name="button_reabrir_caixa"
                             attrs="{'invisible': [('state', '=', 'aberto')]}"
