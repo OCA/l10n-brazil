@@ -17,6 +17,10 @@
                     <field name="estabecimento" attrs="{'required': [('forma_pagamento', 'in', ['03','04','10'])]}"/>
                     <field name="serial_pos" attrs="{'required': [('forma_pagamento', 'in', ['03','04','10'])]}"/>
                 </group>
+                <group name="status_cartao" attrs="{'invisible': [('forma_pagamento', 'not in', ['03','04','10'])]}" groups="l10n_br_base.GRUPO_SUPORTE">
+                    <field name="id_fila_pagamento" attrs="{'required': [('forma_pagamento', 'in', ['03','04','10'])]}"/>
+                    <field name="id_fila_status" attrs="{'required': [('forma_pagamento', 'in', ['03','04','10'])]}"/>
+                </group>
             </group>
         </field>
     </record>
