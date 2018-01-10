@@ -590,7 +590,7 @@ class SpedDocumento(models.Model):
                 self.numero = chave.numero_cupom_fiscal
                 self.serie = chave.numero_serie
                 self.chave = resposta.chaveConsulta[3:]
-                # self.id_fila_validador = resposta.id_fila
+                self.id_fila_validador = resposta.id_fila
                 self.grava_cfe_autorizacao(resposta.xml())
 
                 # # self.grava_pdf(nfe, procNFe.danfe_pdf)
@@ -704,8 +704,11 @@ class SpedDocumento(models.Model):
                             config.path_integrador
                         )
                     resposta_pagamento = resposta.split('|')
-                    duplicata.id_fila_status = resposta_pagamento[0]
-                    duplicata.id_fila_pagamento = resposta_pagamento[1]
+                    if len(resposta_pagamento[0]) >= 7:
+                        duplicata.id_fila_status = resposta_pagamento[0]
+                        duplicata.id_fila_pagamento = resposta_pagamento[1]
+                    else:
+                        pagamentos_autorizados = False
                 # FIXME status sempre vai ser negativo na homologacao
                 # resposta_status_pagamento = cliente.verificar_status_validador(
                 #     config.cnpjsh, duplicata.id_fila_status
