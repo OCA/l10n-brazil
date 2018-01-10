@@ -266,6 +266,8 @@ class FinanRelatorioDivida(ReportXlsxBase):
             'linhas_total': OrderedDict(),
         }
 
+        participante_ids = tuple(self.report_wizard.participante_ids.ids)
+
         filtros = {
             'tipo': self.report_wizard.tipo_divida,
             'data_inicial': self.report_wizard.data_inicial,
@@ -273,8 +275,7 @@ class FinanRelatorioDivida(ReportXlsxBase):
             'empresa_id': self.report_wizard.empresa_id.id,
             'situacao_divida_simples':
                 self.report_wizard.situacao_divida_simples,
-            'participante_ids':
-                AsIs(tuple(self.report_wizard.participante_ids.ids)),
+            'participante_ids': AsIs(str(participante_ids).replace(',)', ')')),
         }
 
         self._linhas_detalhe(report_data, filtros)
