@@ -705,8 +705,8 @@ class SpedDocumento(models.Model):
                         )
                     resposta_pagamento = resposta.split('|')
                     if len(resposta_pagamento[0]) >= 7:
-                        duplicata.id_fila_status = resposta_pagamento[0]
-                        duplicata.id_fila_pagamento = resposta_pagamento[1]
+                        duplicata.id_pagamento = resposta_pagamento[0]
+                        duplicata.id_fila = resposta_pagamento[1]
                     else:
                         pagamentos_autorizados = False
                 # FIXME status sempre vai ser negativo na homologacao
