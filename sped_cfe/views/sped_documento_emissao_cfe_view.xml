@@ -78,10 +78,10 @@
             </xpath>
             <page name="financeiro" position="after">
                 <page name="detalhe_nfe" string="CF-e">
-                    <field name="permite_cancelamento" invisible="1" />
-                    <group col="4">
+                    <field name="permite_cancelamento" invisible="1" col="4"/>
+                    <group col="4" groups="sped_cfe.GRUPO_STATUS_PAGAMENTO_CFE">
                         <separator string="Dados Integrador" colspan="4" />
-                        <field name="id_fila_validador" />
+                        <field name="id_fila_validador" colspan="4" />
                     </group>
                     <group col="4" attrs="{'invisible': [('permite_cancelamento', '=', False), ('situacao_nfe', '!=', 'cancelada')]}">
                         <separator string="Cancelamento" colspan="4" />
