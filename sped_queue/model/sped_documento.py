@@ -59,3 +59,10 @@ class SpedDocumento(models.Model):
             _logger.info('Gerando documento fiscal depois: %s',
                          gerar_depois.ids)
             gerar_depois.with_delay()._gera_operacoes_subsequentes_job()
+
+    def _envia_email_job(self, mail_template):
+        self.with_delay()._envia_email(mail_template)
+
+    def envia_email(self, mail_template):
+        self.ensure_one()
+        self._envia_email_job(mail_template)
