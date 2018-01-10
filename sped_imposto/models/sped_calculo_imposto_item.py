@@ -1652,11 +1652,59 @@ class SpedCalculoImpostoItem(SpedBase):
             elif self.operacao_item_id.codigo_natureza_receita_pis_cofins:
                 self.codigo_natureza_receita_pis_cofins = \
                     self.operacao_item_id.codigo_natureza_receita_pis_cofins
+        return res
+
+    @api.onchange('cfop_id')
+    def _onchange_cfop_id(self):
+        self.ensure_one()
+
+        res = {}
+
+        if not self.cfop_id:
+            return res
+
+        self.al_simples = 0
+        self.calcula_difal = False
+        self.bc_icms_proprio_com_ipi = False
+        self.bc_icms_st_com_ipi = False
+
+        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
+            if self.cfop_id.calcula_simples_csll_irpj:
+                if self.cfop_id.eh_venda_servico:
+                    if self.empresa_id.simples_aliquota_servico_id:
+                        self.al_simples = \
+                            self.empresa_id.simples_aliquota_servico_id \
+                                .al_simples
+                    else:
+                        self.al_simples = \
+                            self.empresa_id.simples_aliquota_id.al_simples
+                else:
+                    self.al_simples = \
+                        self.empresa_id.simples_aliquota_id.al_simples
+
+        else:
+            if (self.consumidor_final ==
+                    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and
+                    self.cfop_id.eh_venda):
+                if self.cfop_id.posicao == POSICAO_CFOP_INTERESTADUAL:
+                    self.calcula_difal = True
+
+                    if '2016-' in self.data_emissao:
+                        self.al_partilha_estado_destino = 40
+                    elif '2017-' in self.data_emissao:
+                        self.al_partilha_estado_destino = 60
+                    elif '2018-' in self.data_emissao:
+                        self.al_partilha_estado_destino = 80
+                    else:
+                        self.al_partilha_estado_destino = 100
+
+                self.bc_icms_proprio_com_ipi = True
+                self.bc_icms_st_com_ipi = True
 
         #
         # Busca a alíquota do IBPT quando venda
         #
-        if self.operacao_item_id.cfop_id.eh_venda:
+        if self.cfop_id.eh_venda:
             if self.produto_id.ncm_id:
                 ibpt = self.env['sped.ibptax.ncm']
 
@@ -1711,56 +1759,6 @@ class SpedCalculoImpostoItem(SpedBase):
                     if (self.operacao_item_id.cfop_id.posicao ==
                             POSICAO_CFOP_ESTRANGEIRO):
                         self.al_ibpt += ibpt_ids[0].al_ibpt_internacional
-
-        return res
-
-    @api.onchange('cfop_id')
-    def _onchange_cfop_id(self):
-        self.ensure_one()
-
-        res = {}
-
-        if not self.cfop_id:
-            return res
-
-        self.al_simples = 0
-        self.calcula_difal = False
-        self.bc_icms_proprio_com_ipi = False
-        self.bc_icms_st_com_ipi = False
-
-        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
-            if self.cfop_id.calcula_simples_csll_irpj:
-                if self.cfop_id.eh_venda_servico:
-                    if self.empresa_id.simples_aliquota_servico_id:
-                        self.al_simples = \
-                            self.empresa_id.simples_aliquota_servico_id \
-                                .al_simples
-                    else:
-                        self.al_simples = \
-                            self.empresa_id.simples_aliquota_id.al_simples
-                else:
-                    self.al_simples = \
-                        self.empresa_id.simples_aliquota_id.al_simples
-
-        else:
-            if (self.consumidor_final ==
-                    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and
-                    self.cfop_id.eh_venda):
-                if self.cfop_id.posicao == POSICAO_CFOP_INTERESTADUAL:
-                    self.calcula_difal = True
-
-                    if '2016-' in self.data_emissao:
-                        self.al_partilha_estado_destino = 40
-                    elif '2017-' in self.data_emissao:
-                        self.al_partilha_estado_destino = 60
-                    elif '2018-' in self.data_emissao:
-                        self.al_partilha_estado_destino = 80
-                    else:
-                        self.al_partilha_estado_destino = 100
-
-                self.bc_icms_proprio_com_ipi = True
-                self.bc_icms_st_com_ipi = True
-
         return res
 
     @api.onchange('al_pis_cofins_id')
