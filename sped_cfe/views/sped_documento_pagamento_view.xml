@@ -15,6 +15,7 @@
                     <field name="numero_aprovacao" attrs="{'required': [('forma_pagamento', 'in', ['03','04','10'])]}"/>
                     <field name="nsu" attrs="{'required': [('forma_pagamento', 'in', ['03','04','10'])]}"/>
                     <field name="estabecimento" attrs="{'required': [('forma_pagamento', 'in', ['03','04','10'])]}"/>
+                    <field name="serial_pos" attrs="{'required': [('forma_pagamento', 'in', ['03','04','10'])]}"/>
                 </group>
             </group>
         </field>
