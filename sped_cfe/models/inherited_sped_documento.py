@@ -676,7 +676,7 @@ class SpedDocumento(models.Model):
             cliente = self.processador_vfpe()
 
             for duplicata in pagamentos_cartoes:
-                if not duplicata.id_fila_status:
+                if not duplicata.id_pagamento:
                     if self.configuracoes_pdv.tipo_sat == 'local':
                         resposta = cliente.enviar_pagamento(
                             config.chave_requisicao, duplicata.estabecimento,
