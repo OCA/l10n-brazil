@@ -901,13 +901,12 @@ class SpedDocumento(models.Model):
 
         self.envia_email(mail_template)
 
+    def _envia_email(self, mail_template):
+        mail_template.send_mail(self.id)
+
     def envia_email(self, mail_template):
         self.ensure_one()
-
-        #super(SpedDocumento, self).envia_email(mail_template)
-
-        self.ensure_one()
-        mail_template.send_mail(self.id)
+        self._envia_email(mail_template)
 
     def envia_email_nfe(self):
         self.ensure_one()
