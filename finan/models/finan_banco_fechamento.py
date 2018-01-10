@@ -96,7 +96,7 @@ class FinanBancoFechamento(models.Model):
         for fechamento_id in self:
             if fechamento_id.data_inicial > fechamento_id.data_final:
                 raise ValidationError(
-                    'A data final deve ser maior que a data inicial')
+                    'A data final deve ser maior que a data inicial.')
 
     @api.multi
     def button_processar(self):
@@ -164,9 +164,9 @@ class FinanBancoFechamento(models.Model):
             if ultima_data + relativedelta(days=1) != \
                     fields.Date.from_string(fechamento_id.data_inicial):
                 raise ValidationError(
-                    'Existem datas entre fechamentos, que nao pertecem a '
-                    'nenhum fechamento de caixa ou uma das datas ja fazem '
-                    'parte de algum fechamento existente')
+                    'Existem datas entre fechamentos, que não pertencem a '
+                    'nenhum fechamento de caixa ou uma das datas já faz '
+                    'parte de algum fechamento existente.')
 
 
     @api.depends('banco_id')
