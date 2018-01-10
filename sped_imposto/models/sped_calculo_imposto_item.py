@@ -1411,6 +1411,9 @@ class SpedCalculoImpostoItem(SpedBase):
         else:
             posicao_cfop = POSICAO_CFOP_INTERESTADUAL
 
+        if self.operacao_id.calcular_tributacao in (
+                'somente_calcula', 'manual'):
+            return res
         #
         # Determinamos o protocolo que vai ser aplicado à situação
         #
@@ -2709,6 +2712,10 @@ class SpedCalculoImpostoItem(SpedBase):
         self._onchange_produto_id()
         self._onchange_operacao_item_id()
         self._onchange_cfop_id()
+
+        #
+        # Determina as aliquotas
+        #
         self._onchange_al_pis_cofins_id()
         self._onchange_cst_ipi()
         self._onchange_cst_icms_cst_icms_sn()

@@ -221,6 +221,24 @@ class SpedOperacaoFiscal(models.Model):
         ],
         string='Traz preço automático?',
     )
+    calcular_tributacao = fields.Selection(
+        selection=[
+            ('auto', 'Buscar e calcular (Automático)'),
+            ('somente_calcula', 'Somente calcular'),
+            ('manual', 'Manual'),
+        ],
+        string=u'Calculo tributação',
+        help="""Determina se o calculo da tributação deve ser:\n
+              - Automático: O sistema determina nas aliquotas, cfop e entre outros;\n
+              - Somente calcula: O usuário informa a cfop, aliquotas e o
+             sistema calcula os impostos\n
+              - Manual: O usuário informa as aliquotas e realiza os cálculos
+               manualmente.
+             """,
+        default='auto',
+        groups='sped_imposto.GRUPO_FISCAL_GERENTE',
+        required=True,
+    )
 
     # def calcula_imposto(self):
     #     self.ensure_one()
