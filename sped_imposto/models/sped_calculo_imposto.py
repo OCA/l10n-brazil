@@ -680,6 +680,7 @@ class SpedCalculoImposto(SpedBase):
         #
         sped_documento_item = self.env['sped.documento.item']
         for item in itens:
+            ctx = item.env.context.copy()
             if isinstance(item.id, models.NewId):
                 #
                 #   Caso o registro seja um novo ID, geralmente vindo
@@ -704,14 +705,16 @@ class SpedCalculoImposto(SpedBase):
                 # o cáculo dos impostos.
                 #
 
-                contexto = {
+                ctx = {
                     'forca_vr_unitario': dados['vr_unitario']
                 }
+
                 documento_item = sped_documento_item.create(dados)
+
             else:
                 documento_item = item
 
-            documento_item.with_context(contexto).calcula_impostos()
+            documento_item.with_context(ctx).calcula_impostos()
 
         #
         # Se certifica de que todos os campos foram totalizados
