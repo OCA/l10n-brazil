@@ -1614,7 +1614,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         return novo_doc
 
     @api.multi
-    def gera_operacoes_subsequentes(self):
+    def _gera_operacoes_subsequentes(self):
         """
         Operaçoes subsequentes:
 

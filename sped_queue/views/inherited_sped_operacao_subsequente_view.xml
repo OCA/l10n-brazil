@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_operacao_subsequente_inherited_queue_tree" >
+        <field name="name">sped.operacao.subsequente.inherited_form in (sped_queue)</field>
+        <field name="model">sped.operacao.subsequente</field>
+        <field name="inherit_id" ref="sped_imposto.sped_operacao_subsequente_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='situacao_geracao']" position="after">
+                <field name="gerar_documento" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
