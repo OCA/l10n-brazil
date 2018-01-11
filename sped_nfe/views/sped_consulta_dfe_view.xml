@@ -32,7 +32,17 @@
                     </group>
 
                     <newline />
-                    <separator string="Manifestações Importadas" />
+
+                    <separator string="Manifestações Importadas" colspan="3"/>
+
+                     <group colspan="2">
+                         <button string="Gerenciar" class="oe_highlight"
+                                 name="action_gerencia_manifestacoes"
+                                 colspan="1"
+                                 type="object"/>
+                     </group>
+
+
                     <field name="dfe_importada_ids" nolabel="1"
                             context="{'tree_view_ref':
                            'sped_nfe.sped_consulta_dfe_manifestacao_tree'}"/>/>

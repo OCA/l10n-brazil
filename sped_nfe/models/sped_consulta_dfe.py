@@ -68,6 +68,20 @@ class ConsultaDFe(models.Model):
              'automaticamente de 1 em 1 hora',
     )
 
+    @api.multi
+    def action_gerencia_manifestacoes(self):
+
+        return {
+            'name': self.empresa_id.razao_social,
+            'view_mode': 'tree,form',
+            'res_model': 'sped.manifestacao.destinatario',
+            'type': 'ir.actions.act_window',
+            'target': 'current',
+            'context':{'empresa_id' : self.empresa_id.id},
+            'limit':len(self.env['sped.manifestacao.destinatario'].search([(
+                'empresa_id','=',self.empresa_id.id)])),
+        }
+
     def _format_nsu(self, nsu):
         nsu = long(nsu)
         return "%015d" % (nsu,)

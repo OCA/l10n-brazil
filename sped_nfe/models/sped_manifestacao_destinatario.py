@@ -162,6 +162,22 @@ class SpedManifestacaoDestinatario(models.Model):
         readonly=True,
     )
 
+    confirma_acao_id = fields.Many2one(
+        string=u'Confirma Ação',
+        comodel_name='wizard.confirma.acao',
+        readonly=True,
+    )
+
+    @api.multi
+    def cria_wizard_gerenciamento(self, state=''):
+
+        dados = {
+            'manifestacao_ids': [(6, 0, self.ids)],
+            'state': state,
+        }
+
+        return self.env['wizard.confirma.acao'].create(dados)
+
     @api.multi
     def action_baixa_documento(self):
 
