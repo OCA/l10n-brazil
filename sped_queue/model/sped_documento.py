@@ -36,3 +36,26 @@ class SpedDocumento(models.Model):
             _logger.info('Enviando documento fiscal depois: %s',
                          enviar_depois.ids)
             enviar_depois.with_delay()._envia_documento_job()
+
+    @api.multi
+    @job
+    def _gera_operacoes_subsequentes_job(self):
+        for record in self:
+            record._gera_operacoes_subsequentes()
+
+    @api.multi
+    def gera_operacoes_subsequentes(self):
+        _logger.info('Gerando documento fiscal %s', self.ids)
+
+        gerar_agora = self.filtered(
+            lambda documento: documento.operacao_id.operacao_subsequente_ids.gerar_documento == 'now'
+        )
+        gerar_depois = self - gerar_agora
+        if gerar_agora:
+            _logger.info('Gerando documento fiscal agora: %s',
+                         gerar_agora.ids)
+            gerar_agora._gera_operacoes_subsequentes_job()
+        if gerar_depois:
+            _logger.info('Gerando documento fiscal depois: %s',
+                         gerar_depois.ids)
+            gerar_depois.with_delay()._gera_operacoes_subsequentes_job()
