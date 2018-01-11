@@ -15,6 +15,7 @@
                         <field name="name" />
                         <field name="numero_caixa"/>
                         <field name="vendedor"/>
+                        <field name="loja"/>
                         <field name="tipo"/>
                         <field name="impressora" widget="many2one"/>
                     </group>
