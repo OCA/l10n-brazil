@@ -10,6 +10,10 @@
                 <attribute name="attrs">{'required': True}</attribute>
             </field>
             <group name="condicao_pagamento" position="after">
+                <group>
+                    <field name="pagamento_valido" readonly="1"/>
+                </group>
+                <newline/>
                 <field name="forma_pagamento" invisible="1"/>
                 <group name="cartao" attrs="{'invisible': [('forma_pagamento', 'not in', ['03','04','10'])]}">
                     <field name="numero_aprovacao" attrs="{'required': [('forma_pagamento', 'in', ['03','04','10'])]}"/>
