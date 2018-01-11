@@ -1242,7 +1242,10 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             valores['finalidade_nfe'] = self.operacao_id.finalidade_nfe
             valores['modalidade_frete'] = self.operacao_id.modalidade_frete
             valores['infadfisco'] = self.operacao_id.infadfisco
-            valores['infcomplementar'] = self.operacao_id.infcomplementar
+
+            if not self.operacao_id.calcular_tributacao in (
+                    'somente_calcula', 'manual'):
+                valores['infcomplementar'] = self.operacao_id.infcomplementar
 
         valores['deduz_retencao'] = self.operacao_id.deduz_retencao
         valores['pis_cofins_retido'] = self.operacao_id.pis_cofins_retido
