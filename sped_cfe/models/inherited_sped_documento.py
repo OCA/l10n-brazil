@@ -50,6 +50,18 @@ class SpedDocumento(models.Model):
         for record in self:
             record.configuracoes_pdv = self.env.user.configuracoes_sat_cfe
 
+    @api.multi
+    def _verificar_pagamentos_cfe(self):
+        for record in self:
+            pagamentos_validados = True
+            for pagamento in record.pagamento_ids:
+                if not pagamento.pagamento_valido:
+                    pagamentos_validados = False
+                    break
+            if record.vr_total_residual:
+                pagamentos_validados = False
+            record.pagamento_autorizado_cfe = pagamentos_validados
+
     configuracoes_pdv = fields.Many2one(
         string=u"Configurações para a venda",
         comodel_name="pdv.config",
@@ -59,7 +71,8 @@ class SpedDocumento(models.Model):
     pagamento_autorizado_cfe = fields.Boolean(
         string=u"Pagamento Autorizado",
         readonly=True,
-        default=False
+        default=False,
+        compute=_verificar_pagamentos_cfe
     )
 
     vr_total_residual = fields.Monetary(
@@ -565,6 +578,8 @@ class SpedDocumento(models.Model):
         if not self.modelo == MODELO_FISCAL_CFE:
             return result
 
+        if not self.pagamento_autorizado_cfe:
+            raise Warning('Pagamento(s) não autorizado(s)!')
         cliente = self.processador_cfe()
         impressao = self.configuracoes_pdv.impressora
         cfe = self.monta_cfe()
@@ -592,7 +607,16 @@ class SpedDocumento(models.Model):
                 self.chave = resposta.chaveConsulta[3:]
                 self.id_fila_validador = resposta.id_fila
                 self.grava_cfe_autorizacao(resposta.xml())
-
+                self.situacao_fiscal = SITUACAO_FISCAL_REGULAR
+                self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
+                if impressao:
+                    cliente.imprimir_cupom_venda(
+                        resposta.arquivoCFeSAT,
+                        impressao.modelo,
+                        impressao.conexao,
+                        self.configuracoes_pdv.site_consulta_qrcode.encode(
+                            "utf-8")
+                    )
                 # # self.grava_pdf(nfe, procNFe.danfe_pdf)
 
                 # data_autorizacao = protNFe.infProt.dhRecbto.valor
@@ -624,21 +648,6 @@ class SpedDocumento(models.Model):
             mensagem = '\nMensagem: ' + resposta.message
             self.mensagem_nfe = mensagem
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
-
-        if not self.pagamento_autorizado_cfe:
-            self.envia_pagamento()
-            if not self.pagamento_autorizado_cfe:
-                raise Warning('Pagamento(s) não autorizado(s)!')
-            self.situacao_fiscal = SITUACAO_FISCAL_REGULAR
-            self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
-            if impressao:
-                cliente.imprimir_cupom_venda(
-                    resposta.arquivoCFeSAT,
-                    impressao.modelo,
-                    impressao.conexao,
-                    self.configuracoes_pdv.site_consulta_qrcode.encode(
-                        "utf-8")
-                )
 
     @api.multi
     def reimprimir_cfe(self):
@@ -683,7 +692,6 @@ class SpedDocumento(models.Model):
                             duplicata.serial_pos, config.cnpjsh,
                             self.bc_icms_proprio,
                             duplicata.valor,
-                            duplicata.documento_id.id_fila_validador,
                             config.multiplos_pag,
                             config.anti_fraude, 'BRL', config.numero_caixa
                         )
@@ -695,7 +703,6 @@ class SpedDocumento(models.Model):
                             config.cnpjsh,
                             self.bc_icms_proprio,
                             duplicata.valor,
-                            duplicata.documento_id.id_fila_validador,
                             config.multiplos_pag,
                             config.anti_fraude,
                             'BRL',

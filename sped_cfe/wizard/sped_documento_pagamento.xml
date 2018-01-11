@@ -13,6 +13,7 @@
                 </xpath>
             </field>
         </record>
+
         <record id="action_enviar_pagamento" model="ir.actions.act_window">
             <field name="name">Pagamento</field>
             <field name="type">ir.actions.act_window</field>
