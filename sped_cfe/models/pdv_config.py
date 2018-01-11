@@ -14,6 +14,11 @@ class ConfiguracaoPDV(models.Model):
         string=u'Vendedor',
     )
 
+    loja = fields.Many2one(
+        comodel_name='sped.empresa',
+        string=u'Loja',
+    )
+
     numero_caixa = fields.Char(string=u'Número de caixa')
 
     tipo = fields.Selection([('SAT', 'SAT'),
