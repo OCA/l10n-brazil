@@ -494,8 +494,9 @@ class SpedDocumento(models.Model):
 
     def cancela_nfe(self):
         self.ensure_one()
-        if not fields.Datetime.now() < self.data_hora_emissao + \
-                relativedelta(minutes=29):
+        if not fields.Datetime.from_string(fields.Datetime.now()) < \
+                        fields.Datetime.from_string(
+                self.data_hora_emissao) + relativedelta(minutes=29):
             raise UserError("Cupom Fiscal não pode ser cancelado após "
                             "passados 30 minutos.")
         result = super(SpedDocumento, self).cancela_nfe()
