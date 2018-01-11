@@ -10,6 +10,7 @@ from __future__ import division, print_function, unicode_literals
 import os
 import logging
 
+from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models
 from odoo.addons.l10n_br_base.constante_tributaria import *
 from odoo.exceptions import UserError, Warning
@@ -471,6 +472,10 @@ class SpedDocumento(models.Model):
 
     def cancela_nfe(self):
         self.ensure_one()
+        if not fields.Datetime.now() < self.data_hora_emissao + \
+                relativedelta(minutes=29):
+            raise UserError("Cupom Fiscal não pode ser cancelado após "
+                            "passados 30 minutos.")
         result = super(SpedDocumento, self).cancela_nfe()
         if not self.modelo == MODELO_FISCAL_CFE:
             return result
