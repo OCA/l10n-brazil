@@ -13,7 +13,6 @@ from odoo import _, api, fields, models
 import base64
 from lxml import objectify
 
-
 _logger = logging.getLogger(__name__)
 
 SITUACAO_NFE = [
@@ -187,7 +186,6 @@ class SpedManifestacaoDestinatario(models.Model):
                 '/datas/' + attachment.display_name + '?download=true',
         }
 
-
     @api.multi
     def action_ciencia_emissao(self):
         for record in self:
@@ -270,6 +268,11 @@ class SpedManifestacaoDestinatario(models.Model):
         return True
 
     @api.multi
+    def action_download_xmls(self):
+        #TODO: Compactar e baixar todos XMLs
+        return True
+
+    @api.multi
     def action_download_xml(self):
         result = True
         for record in self:
@@ -297,8 +300,12 @@ class SpedManifestacaoDestinatario(models.Model):
                 )
 
     @api.multi
+    def action_importa_xmls(self):
+        self[0].sped_consulta_dfe_id.baixa_documentos(manifestos=self)
+
+    @api.multi
     def action_importa_xml(self):
-        result = True
+        result = []
         for record in self:
             record.sped_consulta_dfe_id.\
                 validate_nfe_configuration(record.empresa_id)
@@ -310,7 +317,7 @@ class SpedManifestacaoDestinatario(models.Model):
                 documento = self.env['sped.documento'].new()
                 documento.modelo = nfe.NFe.infNFe.ide.mod.text
                 dados = documento.le_nfe(xml=nfe_result['nfe'])
-                self.documento_id = dados
+                record.documento_id = dados
                 return {
                     'name': _("Associar Pedido de Compras"),
                     'view_mode': 'form',
