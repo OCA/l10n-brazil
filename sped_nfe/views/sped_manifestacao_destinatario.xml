@@ -36,7 +36,7 @@
                             confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
                             attrs="{'invisible':[['state','not in',['ciente','cofirmado','desconhecido','nao_realizado']]]}"/>
                     <button name="action_download_xml"
-                            string="Download da NF-e"
+                            string="Download do XML da NF-e"
                             type="object"
                             attrs="{'invisible':[['state','not in',['ciente','cofirmado','desconhecido','nao_realizado']]]}"/>
                     <field name="state" statusbar_visible="pendente,ciente,confirmado"
@@ -47,6 +47,7 @@
                 <group>
                     <group>
                         <field name="chave" select="1"/>
+                        <field name="documento_id"/>
                         <field name="numero"/>
                         <field name="nsu"/>
                         <field name="ie"/>

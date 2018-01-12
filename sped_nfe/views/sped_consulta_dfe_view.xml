@@ -109,15 +109,16 @@
                 <attribute name="invisible">True</attribute>
             </field>
             <field name='valor_documento' position="after">
-                <button string="Baixar NF-e" name="action_baixa_documento"
+                <button string="Importar NF-e" name="action_baixa_documento"
                         type="object"
-                        confirm="AVISO - Ao baixar uma Nota você estará dando ciência da emissão ao manifesto correspondente.
-                        Deseja continuar?"
-                        attrs="{'invisible':[('documento_id','!=',False)]}"/>
+                        confirm="AVISO - Ao importar uma NF-e você estará dando ciência da emissão ao manifesto correspondente. Deseja continuar?"
+                        attrs="{'readonly':[('documento_id','!=',False)]}"
+                />
 
                 <button string="Salvar XML" name="action_salva_xml"
                         type="object"
-                        attrs="{'invisible':[('documento_id','==',False)]}"/>
+                        confirm="AVISO - Ao salvar o XML de uma NF-e você estará dando ciência da emissão ao manifesto correspondente. Deseja continuar?"
+                />
                 <field name="documento_id" invisible="True"/>
             </field>
         </field>

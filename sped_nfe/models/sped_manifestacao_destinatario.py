@@ -181,7 +181,19 @@ class SpedManifestacaoDestinatario(models.Model):
     @api.multi
     def action_baixa_documento(self):
 
-        return self.sped_consulta_dfe_id.baixa_documentos(manifestos=self)
+        documento = self.sped_consulta_dfe_id.baixa_documentos(manifestos=self)
+
+        return {
+            'name': _(documento[0].chave),
+            'view_mode': 'form',
+            'view_type': 'form',
+            'view_id': self.env.ref('sped_nfe.sped_documento'
+                                    '_ajuste_recebimento_form').id,
+            'res_id': documento[0].id,
+            'res_model': 'sped.documento',
+            'type': 'ir.actions.act_window',
+            'target': 'current',
+        }
 
 
     @api.multi
