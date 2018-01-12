@@ -297,8 +297,24 @@ class SpedManifestacaoDestinatario(models.Model):
 
     @api.multi
     def action_download_xmls(self):
-        #TODO: Compactar e baixar todos XMLs
-        return True
+
+        if len(self) == 1:
+            if self.state == 'pendente':
+                self.action_ciencia_emissao()
+
+            return self.baixa_attachment(self.action_download_xml())
+
+        attachments = []
+
+        for record in self:
+            attachment = record.action_download_xml()
+            attachments.append(attachment)
+
+        monta_anexo = self.env['sped.monta.anexo'].create([])
+
+        attachment_id = monta_anexo.monta_anexo_compactado(attachments)
+
+        return self.baixa_attachment(attachment_id)
 
     @api.multi
     def action_download_xml(self):

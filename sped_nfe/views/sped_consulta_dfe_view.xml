@@ -115,7 +115,7 @@
                         attrs="{'readonly':[('documento_id','!=',False)]}"
                 />
 
-                <button string="Salvar XML" name="action_salva_xml"
+                <button string="Salvar XML" name="action_download_xmls"
                         type="object"
                         confirm="AVISO - Ao salvar o XML de uma NF-e você estará dando ciência da emissão ao manifesto correspondente. Deseja continuar?"
                 />
