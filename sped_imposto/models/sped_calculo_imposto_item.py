@@ -1422,24 +1422,38 @@ class SpedCalculoImpostoItem(SpedBase):
         if self.produto_id.protocolo_id:
             protocolo = self.produto_id.protocolo_id
 
-        if (protocolo is None and self.produto_id.ncm_id and
-                self.produto_id.ncm_id.protocolo_ids):
+        if not protocolo and (
+                self.produto_id.categ_id and
+                self.produto_id.categ_id.protocolo_ids
+        ):
+            busca_protocolo = [
+                ('categ_ids.id', '=', self.produto_id.categ_id.id),
+                '|',
+                ('estado_ids', '=', False),
+                ('estado_ids.uf', '=', estado_destino)
+            ]
+            protocolo = self.env['sped.protocolo.icms'].search(
+                busca_protocolo, limit=1
+            )
+
+        if not protocolo and (
+                self.produto_id.ncm_id and
+                self.produto_id.ncm_id.protocolo_ids
+        ):
             busca_protocolo = [
                 ('ncm_ids.ncm_id', '=', self.produto_id.ncm_id.id),
                 '|',
                 ('estado_ids', '=', False),
                 ('estado_ids.uf', '=', estado_destino)
             ]
-            protocolo_ids = self.env[
-                'sped.protocolo.icms'].search(busca_protocolo)
+            protocolo = self.env['sped.protocolo.icms'].search(
+                busca_protocolo, limit=1
+            )
 
-            if len(protocolo_ids) != 0:
-                protocolo = protocolo_ids[0]
-
-        if protocolo is None and self.empresa_id.protocolo_id:
+        if not protocolo and self.empresa_id.protocolo_id:
             protocolo = self.empresa_id.protocolo_id
 
-        if (not protocolo) or (protocolo is None):
+        elif not protocolo:
             raise ValidationError(
                 _('O protocolo não foi definido!')
             )

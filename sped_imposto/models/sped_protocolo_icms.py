@@ -247,6 +247,10 @@ class SpedProtocoloICMS(models.Model):
         inverse_name='protocolo_id',
         string='NCMs',
     )
+    categ_ids = fields.Many2many(
+        comodel_name='product.category',
+        string='Categorias de produtos',
+    )
 
     def _valida_descricao(self):
         self.ensure_one()

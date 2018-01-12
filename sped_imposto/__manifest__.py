@@ -21,6 +21,7 @@
         'product',
     ],
     'data': [
+        'views/product_category.xml',
 
         #
         # Grupos e permissões

@@ -150,6 +150,10 @@
                                 </page>
                             </notebook>
                         </page>
+                        <page string="Categorias">
+                            <separator string="Categorias de produtos e serviços" />
+                            <field name="categ_ids"/>
+                        </page>
                         <page string="NCMs e MVAs">
                             <table style="width:100%;">
                                 <tr>

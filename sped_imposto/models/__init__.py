@@ -55,3 +55,4 @@ from . import inherited_sped_produto
 from . import inherited_sped_participante
 from . import inherited_sped_empresa
 from . import sped_operacao_subsequente
+from . import product_category
