@@ -1245,7 +1245,11 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
 
             if not self.operacao_id.calcular_tributacao in (
                     'somente_calcula', 'manual'):
-                valores['infcomplementar'] = self.operacao_id.infcomplementar
+                if valores.get('infcomplementar'):
+                    valores['infcomplementar'] = \
+                        valores['infcomplementar'] + ' ' + self.operacao_id.infcomplementar
+                else:
+                    valores['infcomplementar'] = self.operacao_id.infcomplementar
 
         valores['deduz_retencao'] = self.operacao_id.deduz_retencao
         valores['pis_cofins_retido'] = self.operacao_id.pis_cofins_retido
