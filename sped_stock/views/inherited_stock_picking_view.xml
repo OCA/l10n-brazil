@@ -86,7 +86,7 @@
                     class="oe_stat_button"
                     icon="fa-pencil-square-o"
                     attrs="{'invisible': [('quantidade_documentos', '=', 0)]}">
-                    <field name="quantidade_documentos" widget="statinfo" string="NFes"/>
+                    <field name="quantidade_documentos" widget="statinfo" string="NFe"/>
                 </button>
             </div>
 
