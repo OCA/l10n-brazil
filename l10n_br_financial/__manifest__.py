@@ -11,6 +11,7 @@
     'license': 'AGPL-3',
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'www.odoobrasil.org.br',
+    'installable': False,
     'depends': [
         #'financial',
     ],
@@ -27,5 +28,4 @@
         #'demo/account_payment_mode.xml',
         #'demo/account_payment_method.xml',
     #],
-    'installable': True,
 }
