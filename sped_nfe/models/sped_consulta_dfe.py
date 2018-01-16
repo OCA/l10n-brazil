@@ -331,6 +331,15 @@ class ConsultaDFe(models.Model):
                                             'xml': nfe['xml']
                                         }).id
                                 )
+                            else:
+                                manifesto = \
+                                    self.env['sped.manifestacao.destinatario']\
+                                    .browse(exists_chnfe)
+
+                                if not manifesto.sped_consulta_dfe_id:
+                                    manifesto.update({
+                                        'sped_consulta_dfe_id': consulta.id,
+                                    })
 
                         elif nfe['schema'] == 'resNFe_v1.01.xsd' and \
                                 not exists_nsu:
@@ -389,6 +398,17 @@ class ConsultaDFe(models.Model):
                                             'xml': nfe['xml']
                                         }).id
                                 )
+
+                            else:
+                                manifesto = \
+                                    self.env['sped.manifestacao.destinatario']\
+                                        .browse(exists_chnfe)
+
+                                if not manifesto.sped_consulta_dfe_id:
+                                    manifesto.update({
+                                        'sped_consulta_dfe_id': consulta.id,
+                                    })
+
 
                         nfe_mdes.append(nfe)
 
