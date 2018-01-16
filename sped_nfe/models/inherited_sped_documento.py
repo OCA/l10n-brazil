@@ -10,6 +10,7 @@ from __future__ import division, print_function, unicode_literals
 import os
 import logging
 import base64
+from StringIO import StringIO
 from io import BytesIO
 
 from odoo import api, fields, models
@@ -314,7 +315,9 @@ class SpedDocumento(models.Model):
 
         if self.modelo == MODELO_FISCAL_NFE:
             if self.empresa_id.logo_danfe:
-                processador.danfe.logo = self.empresa_id.logo_danfe
+                data = self.empresa_id.logo_danfe
+                logo = StringIO(data.decode('base64'))
+                processador.danfe.logo = logo
             processador.danfe.nome_sistema = 'Odoo 10.0'
             processador.caminho = os.path.join(
                 self.empresa_id.caminho_sped,
