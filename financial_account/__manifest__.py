@@ -11,6 +11,7 @@
     'license': 'AGPL-3',
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'www.kmee.com.br',
+    'installable': False,
     'depends': [
         #'financial',
         #'account',
@@ -31,5 +32,4 @@
     'data': [],
     'demo': [
     ],
-    'installable': True,
 }

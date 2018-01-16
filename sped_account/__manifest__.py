@@ -18,7 +18,7 @@
         #'sped_imposto',
         #'sped',
     ],
-    'installable': True,
+    'installable': False,
     'application': False,
     'license': 'AGPL-3',
     'data': [],
