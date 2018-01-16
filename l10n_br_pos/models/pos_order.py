@@ -173,6 +173,11 @@ class PosOrder(models.Model):
         clone_list = []
 
         for order in self.browse(ids):
+
+            for statement in order.statement_ids:
+                if statement.journal_id.sat_payment_mode == "05":
+                    order.partner_id.credit_limit += statement.amount
+
             current_session_ids = self.env['pos.session'].search([
                 ('state', '!=', 'closed'),
                 ('user_id', '=', self.env.uid)]
