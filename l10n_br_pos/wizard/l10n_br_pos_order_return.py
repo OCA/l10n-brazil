@@ -22,7 +22,9 @@ class StockPickingReturn(models.TransientModel):
         precos_produtos_pos_order = {}
         for line in pos_order.lines:
             precos_produtos_pos_order.update({
-                line.product_id.id: line.price_unit
+                line.product_id.id: line.price_unit - (
+                        line.price_unit * (line.discount/100)
+                )
             })
         valor_total_devolucao = 0.00
         for line in self.product_return_moves:
