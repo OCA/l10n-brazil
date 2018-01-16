@@ -15,10 +15,17 @@ class StockMove(models.Model):
         pos_order_line_product_price_map = dict(move_line.mapped(
             'origin_returned_move_id.picking_id.pos_order_ids.lines'
         ).mapped(
-            lambda order_line: (order_line.product_id, order_line.price_unit)
+            lambda order_line: (order_line.product_id, order_line.price_unit -
+                                (
+                                        order_line.price_unit * (
+                                            order_line.discount/100)
+                                )
+                                )
         ))
         return (
             pos_order_line_product_price_map.get(move_line.product_id)
             if move_line.product_id in pos_order_line_product_price_map
-            else super(StockMove, self)._get_price_unit_invoice(move_line, type)
+            else super(StockMove, self)._get_price_unit_invoice(
+                move_line, type
+            )
         )
