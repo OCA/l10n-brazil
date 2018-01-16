@@ -77,7 +77,7 @@ class ConsultaDFe(models.Model):
             'res_model': 'sped.manifestacao.destinatario',
             'type': 'ir.actions.act_window',
             'target': 'current',
-            'context':{'empresa_id' : self.empresa_id.id},
+            'domain': [('empresa_id', '=', self.empresa_id.id)],
             'limit':len(self.env['sped.manifestacao.destinatario'].search([(
                 'empresa_id','=',self.empresa_id.id)])),
         }
