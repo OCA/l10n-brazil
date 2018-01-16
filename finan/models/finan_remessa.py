@@ -9,6 +9,7 @@ from odoo.addons.l10n_br_base.models.sped_base import SpedBase
 from ..constantes import *
 
 from pybrasil.febraban import *
+from odoo.exceptions import UserError
 
 
 class FinanRemessa(SpedBase, models.Model):
@@ -61,14 +62,17 @@ class FinanRemessa(SpedBase, models.Model):
             boleto = lancamento.gera_boleto(sem_anexo=True)
             boletos.append(boleto)
 
-        remessa = RemessaBoleto()
-        #remessa.tipo = 'CNAB_400'
-        #remessa.tipo = 'CNAB_240'
-        remessa.boletos = boletos
-        remessa.sequencia = self.numero
-        remessa.data_hora = self.data + ' UTC'
+        if boletos:
+            remessa = RemessaBoleto()
+            #remessa.tipo = 'CNAB_400'
+            #remessa.tipo = 'CNAB_240'
+            remessa.boletos = boletos
+            remessa.sequencia = self.numero
+            remessa.data_hora = self.data + ' UTC'
 
-        self._grava_anexo(
-            nome_arquivo=remessa.nome_arquivo,
-            conteudo=remessa.arquivo_remessa
-        )
+            self._grava_anexo(
+                nome_arquivo=remessa.nome_arquivo,
+                conteudo=remessa.arquivo_remessa
+            )
+        else:
+            raise UserError('É preciso adicionar boletos para gerar um arquivo.')
