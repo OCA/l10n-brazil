@@ -28,6 +28,10 @@ class ResCompany(models.Model):
             obj.inscr_est = obj.partner_id.inscr_est
             obj.inscr_mun = obj.partner_id.inscr_mun
             obj.suframa = obj.partner_id.suframa
+            other_inscr_est_lines = self.env['other.inscricoes.estaduais']
+            for inscr_est_line in obj.partner_id.other_inscr_est_lines:
+                other_inscr_est_lines |= inscr_est_line
+            obj.other_inscr_est_lines = other_inscr_est_lines
 
     @api.multi
     def _set_l10n_br_legal_name(self):
@@ -58,6 +62,15 @@ class ResCompany(models.Model):
         """ Write the l10n_br specific functional fields. """
         self.ensure_one()
         self.partner_id.inscr_est = self.inscr_est
+
+    @api.multi
+    def _set_l10n_br_other_inscr_est(self):
+        """ Write the l10n_br specific functional fields. """
+        for record in self:
+            other_inscr_est_lines = self.env['other.inscricoes.estaduais']
+            for inscr_est_line in record.other_inscr_est_lines:
+                other_inscr_est_lines |= inscr_est_line
+            record.partner_id.other_inscr_est_lines = other_inscr_est_lines
 
     @api.multi
     def _set_l10n_br_inscr_mun(self):
@@ -109,6 +122,12 @@ class ResCompany(models.Model):
         inverse=_set_l10n_br_inscr_est,
         size=16)
 
+    other_inscr_est_lines = fields.One2many(
+        'other.inscricoes.estaduais', 'partner_id',
+        compute=_get_l10n_br_data, inverse=_set_l10n_br_other_inscr_est,
+        string=u'Outras Inscrições Estaduais', ondelete='cascade'
+    )
+
     inscr_mun = fields.Char(
         compute=_get_l10n_br_data,
         string=u'Inscr. Municipal',
@@ -158,3 +177,4 @@ class ResCompany(models.Model):
             val = re.sub('[^0-9]', '', self.zip)
             if len(val) == 8:
                 self.zip = "%s-%s" % (val[0:5], val[5:8])
+
