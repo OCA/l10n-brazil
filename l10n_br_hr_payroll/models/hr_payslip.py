@@ -56,7 +56,7 @@ TIPO_DE_FOLHA = [
     ('normal', u'Folha normal'),
     ('rescisao', u'Rescisão'),
     ('ferias', u'Férias'),
-    ('decimo_terceiro', u'Décimo terceiro (13º)'),
+    ('decimo_terceiro', u'Décim     o terceiro (13º)'),
     ('aviso_previo', u'Aviso Prévio'),
     ('provisao_ferias', u'Provisão de Férias'),
     ('provisao_decimo_terceiro', u'Provisão de Décimo terceiro (13º)'),
@@ -1756,9 +1756,10 @@ class HrPayslip(models.Model):
                 structure_ids).get_all_rules()
 
             applied_specific_rule = {}
-            # Caso nao esteja computando holerite de ferias
+            # Caso nao esteja computando holerite de provisão de ferias
             # recuperar as regras especificas do contrato
-            if not payslip.tipo_de_folha in ['ferias', 'provisao_ferias']:
+            if not payslip.tipo_de_folha in \
+                   ['provisao_ferias', 'provisao_decimo_terceiro']:
                 applied_specific_rule = payslip.get_contract_specific_rubrics(
                     contract_ids, rule_ids)
 
@@ -1890,7 +1891,8 @@ class HrPayslip(models.Model):
                             ('code', '=', 'ADIANTAMENTO_13_RESC'),
                         ]
                     )
-                    sorted_rule_ids.remove(salary_rule_id.id)
+                    if salary_rule_id.id in sorted_rule_ids:
+                        sorted_rule_ids.remove(salary_rule_id.id)
                 if not payslip._verificar_ferias_vencidas():
                     ferias_vencida_rubrica = self.env['hr.salary.rule'].search(
                         [
