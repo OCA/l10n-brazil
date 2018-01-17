@@ -48,6 +48,10 @@ class ResPartner(models.Model):
     cnpj_cpf = fields.Char('CNPJ/CPF', size=18)
 
     inscr_est = fields.Char('Inscr. Estadual/RG', size=16)
+    other_inscr_est_lines = fields.One2many(
+        'other.inscricoes.estaduais', 'partner_id',
+        string=u'Outras Inscrições Estaduais', ondelete='cascade'
+    )
 
     inscr_mun = fields.Char('Inscr. Municipal', size=18)
 
@@ -183,6 +187,34 @@ class ResPartner(models.Model):
         address_fields = super(ResPartner, self)._address_fields()
         return list(address_fields + ['l10n_br_city_id', 'number', 'district'])
 
+    @api.multi
+    @api.constrains('other_inscr_est_lines')
+    def _check_other_ie_lines(self):
+        """Checks if field other insc_est is valid,
+        this method call others methods because this validation is State wise
+        :Return: True or False.
+        """
+        for record in self:
+            for inscr_est_line in record.other_inscr_est_lines:
+                valid_ie = True
+                state_code = inscr_est_line.state_id.code or ''
+                uf = state_code.lower()
+                valid_ie = fiscal.validate_ie(uf, inscr_est_line.inscr_est)
+                if not valid_ie:
+                    raise ValidationError(u"Inscrição Estadual Invalida!")
+                if inscr_est_line.state_id.id == record.state_id.id:
+                    raise ValidationError(
+                        u"Somente pode existir uma Inscrição"
+                        u" Estadual por estado para cada Parceiro!")
+                duplicate_ie = record.search([
+                    ('state_id', '=', inscr_est_line.state_id.id),
+                    ('inscr_est', '=', inscr_est_line.inscr_est)
+                ])
+                if duplicate_ie:
+                    raise ValidationError(
+                        u"Inscrição Estadual já usada"
+                        u" por %s" % duplicate_ie.name)
+
 
 class ResPartnerBank(models.Model):
     """ Adiciona campos necessários para o cadastramentos de contas
@@ -216,9 +248,20 @@ class ResPartnerBank(models.Model):
         result['value']['l10n_br_city_id'] = partner.l10n_br_city_id.id
         return result
 
-    @api.onchange('zip')
-    def _onchange_zip(self):
-        if self.zip:
-            val = re.sub('[^0-9]', '', self.zip)
-            if len(val) == 8:
-                self.zip = "%s-%s" % (val[0:5], val[5:8])
+
+class OtherInscricoesEstaduais(models.Model):
+    _name = 'other.inscricoes.estaduais'
+
+    partner_id = fields.Many2one('res.partner')
+    inscr_est = fields.Char(
+        size=16, string='Inscr. Estadual', required=True
+    )
+    state_id = fields.Many2one(
+        'res.country.state', 'Estado', required=True
+    )
+
+    _sql_constraints = [
+        ('other_inscricoes_estaduais_id_uniq',
+         'unique (inscr_est, state_id)',
+         u'Inscrição Estadual já usada dentro do Estado!')
+    ]
