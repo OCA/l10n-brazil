@@ -40,6 +40,13 @@
                 <field name="inscr_est" placeholder="Inscr. Estadual"/>
                 <field name="inscr_mun" placeholder="Inscr. Municipal"/>
                 <field name="suframa" placeholder="Suframa"/>
+		<field name="other_inscr_est_lines">
+		    <tree editable="bottom">
+		        <field name="partner_id" invisible="1"/>
+		        <field name="inscr_est"/>
+		        <field name="state_id" domain="[('country_id.id', '=', %(base.br)d)]}" create="False" edit="False"/>
+		    </tree>
+		</field>
             </field>
         </field>
     </record>
