@@ -260,7 +260,13 @@ class NFe200(FiscalDocument):
             str(company.phone or '').replace(' ', ''))
         self.nfe.infNFe.emit.IE.valor = punctuation_rm(
             invoice.company_id.partner_id.inscr_est)
-        self.nfe.infNFe.emit.IEST.valor = ''
+        for inscr_est_line in\
+                invoice.company_id.partner_id.other_inscr_est_lines:
+            if inscr_est_line.state_id.id == invoice.partner_id.state_id.id:
+                self.nfe.infNFe.emit.IEST.valor = punctuation_rm(
+                    inscr_est_line.inscr_est)
+            else:
+                self.nfe.infNFe.emit.IEST.valor = ''
         self.nfe.infNFe.emit.IM.valor = punctuation_rm(
             invoice.company_id.partner_id.inscr_mun or '')
         self.nfe.infNFe.emit.CRT.valor = invoice.company_id.fiscal_type or ''
