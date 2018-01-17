@@ -19,7 +19,7 @@
                     <button name="gera_pdf" string="Baixar PDF" type="object" class="btn-primary" />
                     <button name="gera_xml" string="Baixar XML" type="object" class="btn-primary" />
                     <button name="gera_operacoes_subsequentes" string="Gerar outras operações" type="object" class="btn-default"
-                            attrs="{'invisible': [('operacao_subsequente_ids', '=', [])]}" context="{'manual': '1'}"/>
+                            attrs="{'invisible': ['|', ('documentos_subsequentes_gerados', '=', True), ('operacao_subsequente_ids', '=', [])]}" context="{'manual': '1'}"/>
                 </header>
 
             <xpath expr="//field[@name='empresa_id']" position="before">

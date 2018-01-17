@@ -873,35 +873,28 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     #
     #       Por exemplo uma nota de transferencia gerada a partir de outra operação.
     #
-    documento_origem_ids = fields.Many2many(
-        comodel_name='sped.documento',
-        column1='documento_relacionado_ids',
-        column2='documento_origem_ids',
-        relation='sped_documento_rel',
+    documento_origem_ids = fields.One2many(
+        comodel_name='sped.documento.subsequente',
         string="Documento Original",
+        inverse_name='documento_subsequente_id',
         readonly=True,
         copy=False,
-    )
-    documento_relacionado_ids = fields.Many2many(
-        comodel_name='sped.documento',
-        column1='documento_origem_ids',
-        column2='documento_relacionado_ids',
-        relation='sped_documento_rel',
-        string="Documento Relacionado",
-        readonly=True,
-        copy=False,
-    )
-    documento_origem_relacionados_ids = fields.Many2many(
-        comodel_name='sped.documento',
-        compute='_compute_documento_origem_relacionados_ids',
-        string='Relacionados',
-        readonly=True,
     )
     # display_name = fields.Char(
     #     compute='_compute_display_name',
     #     store=True,
     #     index=True,
     # )
+
+    documentos_subsequentes_gerados = fields.Boolean(
+        string='Documentos Subsequentes gerados?',
+        compute='_compute_documentos_subsequentes_gerados',
+        default=False,
+    )
+    documento_subsequente_ids = fields.One2many(
+        comodel_name='sped.documento.subsequente',
+        inverse_name='documento_origem_id',
+    )
 
     @api.multi
     def name_get(self):
@@ -918,17 +911,6 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                 )
                 res.append((record.id, txt))
         return res
-
-    @api.depends('documento_relacionado_ids', 'documento_origem_ids')
-    def _compute_documento_origem_relacionados_ids(self):
-        for record in self:
-            relacionado = self.env['sped.documento']
-            if record.documento_relacionado_ids:
-                relacionado = record.documento_relacionado_ids.ids
-            elif record.documento_origem_ids:
-                relacionado = record.documento_origem_ids.ids
-
-            record.documento_origem_relacionados_ids = relacionado
 
     @api.depends('emissao', 'entrada_saida', 'modelo', 'serie', 'numero',
                  'data_emissao', 'participante_id')
@@ -1372,7 +1354,6 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                                  campos_proibidos=[]):
         CAMPOS_PERMITIDOS = [
             'message_follower_ids',
-            'documento_relacionado_ids',
         ]
         for documento in self:
             if documento.permite_alteracao:
@@ -1425,6 +1406,12 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
 
     def cancela_nfe(self):
         self.ensure_one()
+        if any(doc.situacao_nfe == SITUACAO_NFE_AUTORIZADA
+               for doc in self.documento_subsequente_ids.mapped(
+                'documento_subsequente_id')):
+            mensagem = _("Não é permitido cancelar o documento: um ou mais"
+                         "documentos associados já foram autorizados.")
+            raise UserWarning(mensagem)
 
     def inutiliza_nfe(self):
         self.ensure_one()
@@ -1570,52 +1557,10 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         refenciado_id = self.env['sped.documento.referenciado'].create(vals)
         return refenciado_id
 
-    def _subsequente_referenciado(self, subsequente_id):
-        if subsequente_id.referenciar_documento:
-            return self.env.context.get(
-                'referenciado_ids',
-                self._prepare_subsequente_referenciado()
-            )
-        return []
-
-    def _subsequente_tipo_pagamento(self, subsequente_id):
-        return (subsequente_id.operacao_subsequente_id.ind_forma_pagamento or
-                self.ind_forma_pagamento)
-
-    def _subsequente_condicao_pagamento(self, subsequente_id):
-        return (subsequente_id.operacao_subsequente_id.condicao_pagamento_id or
-                self.condicao_pagamento_id)
-
-    def _subsequente_empresa(self, subsequente_id):
-        return subsequente_id.operacao_subsequente_id.empresa_id or self.empresa_id
-
-    def _subsequente_participante(self, subsequente_id):
-        return subsequente_id.participante_id or self.participante_id
-
     def _referencia_documento(self, referencia_ids):
         for referenciado_item in referencia_ids:
             referenciado_item.documento_referenciado_id = self.id
             self.documento_referenciado_ids |= referenciado_item
-
-    def _gera_operacao_subsequente(self, subsequente_id):
-
-        _logger.info("Geracao operacao subsequente")
-
-        novo_doc = self.copy()
-
-        novo_doc.participante_id = self._subsequente_participante(subsequente_id)
-        novo_doc.empresa_id = self._subsequente_empresa(subsequente_id)
-        novo_doc.operacao_id = subsequente_id.operacao_subsequente_id
-        novo_doc.condicao_pagamento_id = self._subsequente_condicao_pagamento(subsequente_id)
-        novo_doc.tipo_pagamento = self._subsequente_tipo_pagamento(subsequente_id)
-
-        #
-        # Referenciar documento
-        #
-        referencia_ids = self._subsequente_referenciado(subsequente_id)
-        novo_doc._referencia_documento(referencia_ids)
-
-        return novo_doc
 
     @api.multi
     def _gera_operacoes_subsequentes(self):
@@ -1647,23 +1592,10 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         :return:
         """
         documentos = self.env['sped.documento']
-        for record in self:
-            for subsequente_id in record.operacao_id.operacao_subsequente_ids:
-                #
-                # Verificarmos se devemos gerar a operação subsquente
-                #
-                if not subsequente_id._confirma_geracao(record):
-                    continue
-
-                novo_doc = self._gera_operacao_subsequente(subsequente_id)
-                #
-                # Gera documento
-                #
-                documento = novo_doc.gera_documento()
-                documento.situacao_nfe = SITUACAO_NFE_A_ENVIAR
-                documento.numero = False
-                documento.data_entrada_saida = False
-                documento.documento_origem_ids |= record
+        for record in self.filtered(lambda doc:
+                                    not doc.documentos_subsequentes_gerados):
+            for subsequente_id in record.documento_subsequente_ids:
+                documento = subsequente_id._gera_documento_subsequente()
                 documentos |= documento
                 #
                 # Transmite o documento
@@ -1672,5 +1604,27 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                 # documento.envia_documento()
 
         # TODO: Retornar usuário para os documentos criados
+    
+    @api.onchange('operacao_subsequente_ids')
+    def _onchange_operacao_subsequente_ids(self):
+        for documento in self:
+            documento.documento_subsequente_ids -= \
+                documento.documento_subsequente_ids
+            docs = []
+            for subsequente_id in documento.operacao_subsequente_ids:
+                docs.append((0, 0, {
+                    'operacao_subsequente_id': subsequente_id.id,
+                    'sped_operacao_id':
+                        subsequente_id.operacao_subsequente_id.id,
+                }))
+            documento.documento_subsequente_ids = docs
 
-
+    @api.depends('documento_subsequente_ids.documento_subsequente_id')
+    def _compute_documentos_subsequentes_gerados(self):
+        for documento in self:
+            if not documento.documento_subsequente_ids:
+                continue
+            documento.documentos_subsequentes_gerados = all(
+                subsequente_id.operacao_realizada
+                for subsequente_id in documento.documento_subsequente_ids
+            )

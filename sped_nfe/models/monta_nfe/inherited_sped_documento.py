@@ -143,7 +143,7 @@ class SpedDocumento(models.Model):
                 parse_datetime(self.data_hora_entrada_saida + ' GMT')
             )
         else:
-            nfe.infNFe.ide.dhSaiEnt.valor = data_hora_horario_brasilia(
+            ide.dhSaiEnt.valor = data_hora_horario_brasilia(
                 parse_datetime(self.data_hora_emissao + ' GMT')
             )
 

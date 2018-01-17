@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2018 KMEE INFORMATICA LTDA
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <record model="ir.ui.view" id="sped_documento_subsequente_tree" >
+        <field name="name">sped.documento.subsequente.tree</field>
+        <field name="model">sped.documento.subsequente</field>
+        <field name="arch" type="xml">
+            <tree create="false" edit="false" delete="false">
+                <field name="documento_subsequente_id"/>
+                <field name="operacao_subsequente_id"/>
+                <field name="sped_operacao_id" invisible="True"/>
+                <field name="operacao_realizada"/>
+                <button name="ver_documento_subsequente" type="object" string="Ver documento"
+                        attrs="{'invisible': [('documento_subsequente_id', '=', False)]}"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="sped_documento_origem_tree" >
+        <field name="name">sped.documento.origem.tree</field>
+        <field name="model">sped.documento.subsequente</field>
+        <field name="arch" type="xml">
+            <tree create="false" edit="false" delete="false">
+                <field name="documento_origem_id"/>
+                <field name="operacao_subsequente_id" string="Operação de origem"/>
+                <field name="sped_operacao_id" invisible="True"/>
+                <field name="operacao_realizada"/>
+                <button name="ver_documento_origem" type="object" string="Ver documento"
+                        attrs="{'invisible': [('documento_origem_id', '=', False)]}"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

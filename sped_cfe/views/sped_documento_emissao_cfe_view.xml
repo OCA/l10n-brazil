@@ -62,8 +62,9 @@
                 <button name="gera_pdf" string="Gerar PDF" type="object" class="btn-primary" />
                 <button name="gera_operacoes_subsequentes" string="Gerar NF-e de Cupom" type="object" class="btn-default"
                     context="{'nota_de_cumpom': '1', 'manual': '1'}"
-                     attrs="{'invisible': [('situacao_nfe','not in', ['autorizada'])]}"
+                     attrs="{'invisible': ['|', ('documentos_subsequentes_gerados', '=', True), ('situacao_nfe','not in', ['autorizada'])]}"
                 />
+                <field name="documentos_subsequentes_gerados" invisible="True"/>
             </header>
             <xpath expr="//field[@name='empresa_id']" position="before">
                 <field name="situacao_nfe" readonly="1" colspan="4" string="Situação"

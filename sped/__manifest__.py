@@ -41,6 +41,8 @@
         'views/sped_documento_referenciado_view.xml',
         'views/sped_documento_pagamento_view.xml',
 
+        'views/sped_documento_subsequente_view.xml',
+
         'views/sped_documento_base_view.xml',
 
         'views/sped_documento_emissao_nfe_view.xml',

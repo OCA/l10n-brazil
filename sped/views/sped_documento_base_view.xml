@@ -31,7 +31,8 @@
                             <field name="empresa_id" colspan="4" options="{'no_create': True, 'no_open': True}" required="1" attrs="{'readonly': ['|', ('id', '!=', False), ('permite_alteracao', '=', False)]}" domain="[('contribuinte', '=', '1')]" />
                             <field name="empresa_cnpj_cpf" colspan="2" readonly="1" />
                             <newline />
-                            <field name="operacao_id" colspan="4" domain="[('modelo', '=', modelo), ('emissao', '=', emissao), '|', ('empresa_id', '=', False), ('empresa_id', '=', empresa_id)]" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': ['|', '&amp;', ('id', '!=', False), ('importado_xml', '=', False), ('permite_alteracao', '=', False)], 'required': [('importado_xml', '=', False)]}" />
+                            <field name="operacao_id" colspan="4" domain="[('modelo', '=', modelo), ('emissao', '=', emissao), '|', ('empresa_id', '=', False), ('empresa_id', '=', empresa_id)]" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': ['|', ('documentos_subsequentes_gerados', '=', True), '|', '&amp;', ('id', '!=', False), ('importado_xml', '=', False), ('permite_alteracao', '=', False)], 'required': [('importado_xml', '=', False)]}" />
+                            <field name="documentos_subsequentes_gerados" invisible="True"/>
                             <newline />
                             <field name="numero" required="1" colspan="2" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
                             <field name="serie" required="1" colspan="2" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
@@ -346,8 +347,10 @@
                             </group>
                         </page>
                         <page name="relacionados" string="Relacionados">
-                            <field name="documento_origem_ids"/>
-                            <field name="documento_relacionado_ids"/>
+                            <field name="documento_origem_ids"
+                                   context="{'tree_view_ref': 'sped.sped_documento_origem_tree'}"/>
+                            <field name="documento_subsequente_ids"
+                                   context="{'tree_view_ref': 'sped.sped_documento_subsequente_tree'}"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -370,7 +373,6 @@
                 <field name="currency_aliquota_id" invisible="1"/>
                 <field name="emissao" invisible="1"/>
                 <field name="modelo" invisible="1"/>
-                <field name="documento_origem_relacionados_ids" widget="many2many_tags"/>
                 <field name="situacao_fiscal" />
                 <field name="empresa_id" />
                 <field name="operacao_id" />
