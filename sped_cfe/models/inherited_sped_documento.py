@@ -48,12 +48,19 @@ class SpedDocumento(models.Model):
     @api.multi
     def _buscar_configuracoes_pdv(self):
         for record in self:
-            record.configuracoes_pdv = self.env['pdv.config'].search(
+            configuracoes_pdv = self.env['pdv.config'].search(
                 [
                     ('vendedor', '=', self.env.user.id),
                     ('loja', '=', self.env.user.company_id.sped_empresa_id.id)
                 ]
             )
+            if not configuracoes_pdv:
+	        configuracoes_pdv = self.env['pdv.config'].search(
+                    [
+                        ('loja', '=', self.env.user.company_id.sped_empresa_id.id)
+                    ]
+                )
+            record.configuracoes_pdv = configuracoes_pdv
 
     @api.multi
     def _verificar_pagamentos_cfe(self):
