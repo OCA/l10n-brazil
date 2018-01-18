@@ -121,6 +121,13 @@ class AccountMoveLine(models.Model):
                       'bank': bank_name_brcobranca[0],
                       'valor': str("%.2f" % move_line.debit),
                       'cedente': move_line.company_id.partner_id.legal_name,
+                      'cedente_endereco':
+                          move_line.company_id.partner_id.street + ', ' +
+                          move_line.company_id.partner_id.number + ' - ' +
+                          move_line.company_id.partner_id.district + ' - ' +
+                          move_line.company_id.partner_id.l10n_br_city_id.name + ' - ' +
+                          'CEP:' + move_line.company_id.partner_id.zip + ' - ' +
+                          move_line.company_id.partner_id.state_id.code,
                       'documento_cedente': move_line.company_id.cnpj_cpf,
                       'sacado': move_line.partner_id.legal_name,
                       'sacado_documento': move_line.partner_id.cnpj_cpf,
