@@ -21,6 +21,7 @@
     'installable': True,
     'application': True,
     'data': [
+        'report/sped_documento_report.xml',
         #
         # Menus
         #

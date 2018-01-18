@@ -12,6 +12,7 @@ import logging
 import base64
 from StringIO import StringIO
 from io import BytesIO
+from pyPdf import PdfFileReader, PdfFileWriter
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
@@ -957,70 +958,83 @@ class SpedDocumento(models.Model):
     def gera_pdf(self):
         super(SpedDocumento, self).gera_pdf()
 
-        self.ensure_one()
-        res = None
+        output = PdfFileWriter()
+        s = StringIO()
+        path = ''
 
-        if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
-            return
+        for record in self:
+            if record.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+                return
+    
+            if record.emissao != TIPO_EMISSAO_PROPRIA:
+                return
+    
+            processador = record.processador_nfe()
+    
+            procNFe = ClasseProcNFe()
+            if record.arquivo_xml_autorizacao_id:
+                xml = base64.b64decode(record.arquivo_xml_autorizacao_id.datas)
+                procNFe.xml = xml.decode('utf-8')
+                procNFe.NFe.chave = procNFe.NFe.infNFe.Id.valor[3:]
+            else:
+                procNFe.NFe = record.monta_nfe()
+                procNFe.NFe.gera_nova_chave()
+                procNFe.NFe.monta_chave()
+    
+            procevento = ProcEventoCancNFe_100()
+            if record.arquivo_xml_autorizacao_cancelamento_id:
+                xml = base64.b64decode(
+                    record.arquivo_xml_autorizacao_cancelamento_id.datas)
+    
+                procevento.xml = xml.decode('utf-8')
+    
+            #
+            # Gera o DANFE, com a tarja de cancelamento quando necessário
+            #
+            if record.modelo == MODELO_FISCAL_NFE:
+                processador.danfe.NFe = procNFe.NFe
+    
+                if record.arquivo_xml_autorizacao_id:
+                    processador.danfe.protNFe = procNFe.protNFe
+    
+                if record.arquivo_xml_autorizacao_cancelamento_id:
+                    processador.danfe.procEventoCancNFe = procevento
+    
+                processador.danfe.salvar_arquivo = True
+                processador.danfe.caminho = "/tmp/"
+                processador.danfe.gerar_danfe()
+                path = processador.danfe.caminho + \
+                    processador.danfe.NFe.chave + '.pdf'
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA:
-            return
+                processador.danfe.NFe = ClasseNFe()
+                processador.danfe.protNFe = None
+                processador.danfe.procEventoCancNFe = None
+    
+            elif record.modelo == MODELO_FISCAL_NFCE:
+                processador.danfce.NFe = procNFe.NFe
+    
+                if record.arquivo_xml_autorizacao_id:
+                    processador.danfce.protNFe = procNFe.protNFe
+    
+                if record.arquivo_xml_autorizacao_cancelamento_id:
+                    processador.danfce.procEventoCancNFe = procevento
+    
+                processador.danfce.salvar_arquivo = True
 
-        processador = self.processador_nfe()
+                processador.danfce.salvar_arquivo = True
+                processador.danfce.caminho = "/tmp/"
+                processador.danfce.gerar_danfe()
+                path = processador.danfce.caminho + \
+                    processador.danfce.NFe.chave + '.pdf'
 
-        procNFe = ClasseProcNFe()
-        if self.arquivo_xml_autorizacao_id:
-            xml = base64.b64decode(self.arquivo_xml_autorizacao_id.datas)
-            procNFe.xml = xml.decode('utf-8')
-            procNFe.NFe.chave = procNFe.NFe.infNFe.Id.valor[3:]
-        else:
-            procNFe.NFe = self.monta_nfe()
-            procNFe.NFe.gera_nova_chave()
-            procNFe.NFe.monta_chave()
+            pdf = PdfFileReader(file(path, "rb"))
+            for i in range(pdf.getNumPages()):
+                output.addPage(pdf.getPage(i))
+            output.write(s)
 
-        procevento = ProcEventoCancNFe_100()
-        if self.arquivo_xml_autorizacao_cancelamento_id:
-            xml = base64.b64decode(
-                self.arquivo_xml_autorizacao_cancelamento_id.datas)
-
-            procevento.xml = xml.decode('utf-8')
-
-        #
-        # Gera o DANFE, com a tarja de cancelamento quando necessário
-        #
-        if self.modelo == MODELO_FISCAL_NFE:
-            processador.danfe.NFe = procNFe.NFe
-
-            if self.arquivo_xml_autorizacao_id:
-                processador.danfe.protNFe = procNFe.protNFe
-
-            if self.arquivo_xml_autorizacao_cancelamento_id:
-                processador.danfe.procEventoCancNFe = procevento
-
-            processador.danfe.salvar_arquivo = False
-            processador.danfe.gerar_danfe()
-            res = self.grava_pdf(procNFe.NFe, processador.danfe.conteudo_pdf)
-            processador.danfe.NFe = ClasseNFe()
-            processador.danfe.protNFe = None
-            processador.danfe.procEventoCancNFe = None
-
-        elif self.modelo == MODELO_FISCAL_NFCE:
-            processador.danfce.NFe = procNFe.NFe
-
-            if self.arquivo_xml_autorizacao_id:
-                processador.danfce.protNFe = procNFe.protNFe
-
-            if self.arquivo_xml_autorizacao_cancelamento_id:
-                processador.danfce.procEventoCancNFe = procevento
-
-            processador.danfce.salvar_arquivo = False
-            processador.danfce.gerar_danfce()
-            res = self.grava_pdf(procNFe.NFe, processador.danfce.conteudo_pdf)
-            processador.danfce.NFe = ClasseNFCe()
-            processador.danfce.protNFe = None
-            processador.danfce.procEventoCancNFe = None
-
-        return res
+        str_pdf = s.getvalue()
+        s.close()
+        return str_pdf
 
     def gera_xml(self):
         super(SpedDocumento, self).gera_pdf()

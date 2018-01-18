@@ -1495,7 +1495,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         self.ensure_one()
 
     def gera_pdf(self):
-        self.ensure_one()
+        pass
 
     def executa_antes_create(self, dados):
         return dados
