@@ -712,6 +712,10 @@ class SpedCalculoImposto(SpedBase):
                 documento_item = sped_documento_item.create(dados)
 
             else:
+                ctx = {
+                    'forca_vr_unitario': item.vr_unitario
+                }
+
                 documento_item = item
 
             documento_item.with_context(ctx).calcula_impostos()
