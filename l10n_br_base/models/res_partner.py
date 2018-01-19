@@ -204,7 +204,6 @@ class ResPartner(models.Model):
         """
         for record in self:
             for inscr_est_line in record.other_inscr_est_lines:
-                valid_ie = True
                 state_code = inscr_est_line.state_id.code or ''
                 uf = state_code.lower()
                 valid_ie = fiscal.validate_ie(uf, inscr_est_line.inscr_est)
@@ -279,6 +278,6 @@ class OtherInscricoesEstaduais(models.Model):
 
     _sql_constraints = [
         ('other_inscricoes_estaduais_id_uniq',
-         'unique (inscr_est, state_id)',
-         u'Inscrição Estadual já usada dentro do Estado!')
+         'unique (state_id, partner_id)',
+         u'O Parceiro já possui uma Inscrição Estadual para esse Estado!')
     ]
