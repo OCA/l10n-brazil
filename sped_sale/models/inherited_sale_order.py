@@ -110,8 +110,7 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
     def _compute_quantidade_documentos_fiscais(self):
         for sale in self:
             documento_ids = self.env['sped.documento'].search(
-                [('sale_order_id', '=', sale.id), ('situacao_fiscal', 'in',
-                  SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO)])
+                [('sale_order_id', '=', sale.id)])
 
             sale.quantidade_documentos = len(documento_ids)
 
