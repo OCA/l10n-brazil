@@ -895,6 +895,10 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         comodel_name='sped.documento.subsequente',
         inverse_name='documento_origem_id',
     )
+    documento_impresso = fields.Boolean(
+        string='Impresso',
+        readonly=True,
+    )
 
     @api.multi
     def name_get(self):
@@ -1354,6 +1358,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                                  campos_proibidos=[]):
         CAMPOS_PERMITIDOS = [
             'message_follower_ids',
+            'documento_impresso',
         ]
         for documento in self:
             if documento.permite_alteracao:
@@ -1495,7 +1500,15 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         self.ensure_one()
 
     def gera_pdf(self):
-        pass
+        self.write({'documento_impresso': True})
+
+    @api.multi
+    def imprimir_documento(self):
+        """ Print the invoice and mark it as sent, so that we can see more
+            easily the next step of the workflow
+        """
+        self.ensure_one()
+        return self.env['report'].get_action(self, 'report_sped_documento')
 
     def executa_antes_create(self, dados):
         return dados

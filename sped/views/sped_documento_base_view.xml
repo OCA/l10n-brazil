@@ -46,6 +46,7 @@
                             <field name="chave" colspan="4" attrs="{'readonly': [('permite_alteracao', '=', False)]}"/>
                             <newline />
                             <field name="situacao_fiscal" required="1" colspan="2" />
+                            <field name="documento_impresso" colspan="2" />
                         </group>
                     </group>
                     <notebook>

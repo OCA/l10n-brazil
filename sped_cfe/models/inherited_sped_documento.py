@@ -625,13 +625,7 @@ class SpedDocumento(models.Model):
                 self.situacao_fiscal = SITUACAO_FISCAL_REGULAR
                 self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
                 if impressao:
-                    cliente.imprimir_cupom_venda(
-                        resposta.arquivoCFeSAT,
-                        impressao.modelo,
-                        impressao.conexao,
-                        self.configuracoes_pdv.site_consulta_qrcode.encode(
-                            "utf-8")
-                    )
+                    self.imprimir_documento()
                 # # self.grava_pdf(nfe, procNFe.danfe_pdf)
 
                 # data_autorizacao = protNFe.infProt.dhRecbto.valor
@@ -665,7 +659,10 @@ class SpedDocumento(models.Model):
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
 
     @api.multi
-    def reimprimir_cfe(self):
+    def imprimir_documento(self):
+        # TODO: Reimprimir cupom de cancelamento caso houver com o normal.
+        if not self.modelo == MODELO_FISCAL_CFE:
+            return super(SpedDocumento, self).imprime_documento()
         self.ensure_one()
         impressao = self.configuracoes_pdv.impressora
         if impressao:
