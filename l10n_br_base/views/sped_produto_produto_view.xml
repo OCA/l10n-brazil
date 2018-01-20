@@ -26,11 +26,6 @@
                     <field name="fator_conversao_unidade_tributacao" string="Fator de conversão" attrs="{'required': [('unidade_tributacao_id', '!=', False)]}" />
                     <field name="codigo_barras_tributacao" string="Código de barras" />
                 </group>
-                <group col="4">
-                    <field name="produzido_escala_relevante" />
-                    <field name="fabricante_id" attrs="{'invisible': [('produzido_escala_relevante', '=', True)],'required': [('produzido_escala_relevante', '=', False)]}" />
-                    <field name="codigo_beneficio_fiscal" />
-                </group>
             </xpath>
         </field>
     </record>
