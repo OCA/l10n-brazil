@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright 2017 KMEE INFORMATICA LTDA
+# Copyright 2018 KMEE INFORMATICA LTDA
 #   Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
@@ -8,11 +8,15 @@
 from __future__ import division, print_function, unicode_literals
 from odoo import api, fields, models, _
 from odoo.addons.l10n_br_base.constante_tributaria import *
-import logging
-_logger = logging.getLogger(__name__)
+
+SITUACAO_SUBSEQUENTE = (
+    ('manual', 'Manualmente'),
+    ('nota_de_cupom', 'Gerar Nota Fiscal de Cupons Fiscais'),
+    ('nota_de_remessa', 'Gerar Nota Fiscal de Remessa'),
+)
 
 
-class SpedDocumentoItem(models.Model):
+class SpedDocumentoSubsequente(models.Model):
     _name = b'sped.documento.subsequente'
     _description = 'Sped Documento Subsequente'
 
@@ -20,6 +24,7 @@ class SpedDocumentoItem(models.Model):
         string='Documento de origem',
         comodel_name='sped.documento',
         required=True,
+        ondelete='cascade',
     )
 
     operacao_subsequente_id = fields.Many2one(
@@ -36,7 +41,8 @@ class SpedDocumentoItem(models.Model):
 
     documento_subsequente_id = fields.Many2one(
         string='Documento subsequente',
-        comodel_name='sped.documento'
+        comodel_name='sped.documento',
+        ondelete='set null',
     )
 
     operacao_realizada = fields.Boolean(
@@ -69,15 +75,12 @@ class SpedDocumentoItem(models.Model):
             )
         return []
 
+    def gera_documento_subsequente(self):
+        self._gera_documento_subsequente()
+
     def _gera_documento_subsequente(self):
-
-        if not self.operacao_subsequente_id._confirma_geracao(
-                self.documento_origem_id):
-            return False
-        elif self.operacao_realizada:
+        if self.operacao_realizada:
             return self.documento_subsequente_id
-
-        _logger.info("Geracao documento subsequente")
 
         novo_doc = self.documento_origem_id.copy()
 
@@ -99,8 +102,6 @@ class SpedDocumentoItem(models.Model):
         documento.numero = False
         documento.data_entrada_saida = False
         self.documento_subsequente_id = documento
-
-        return documento
 
     @api.depends('documento_subsequente_id.situacao_nfe')
     def _compute_operacao_realizada(self):
@@ -136,3 +137,41 @@ class SpedDocumentoItem(models.Model):
             'domain': [['id', 'in', [self.documento_origem_id.id]]],
             'res_id': self.documento_origem_id.id,
         }
+
+    @api.multi
+    def unlink(self):
+        for subsequente_id in self:
+            if subsequente_id.operacao_realizada:
+                raise UserWarning("Não é possível excluir o documento: o "
+                                  "documento subsequente já foi gerado.")
+        return super(SpedDocumentoSubsequente, self).unlink()
+
+
+
+    @api.multi
+    def _confirma_geracao_documento(self):
+        """ Verificamos se podemos gerar o documento subsequente
+        :return: True permitindo a geração
+        """
+        result = False
+
+        if self.operacao_subsequente_id.situacao_geracao in \
+                [x for x, y in SITUACAO_SUBSEQUENTE]:
+            cupom = self.documento_origem_id.filtered(
+                lambda documento: documento.modelo in (
+                    MODELO_FISCAL_CFE,
+                    MODELO_FISCAL_NFCE,
+                    MODELO_FISCAL_CUPOM_FISCAL_ECF,))
+            if cupom and self.operacao_subsequente_id.situacao_geracao == \
+                    'nota_de_cupom':
+                result = True
+            elif self.operacao_subsequente_id.situacao_geracao == \
+                    'manual' and self.env.context.get('manual', False):
+                result = True
+            elif self.operacao_subsequente_id.situacao_geracao == \
+                    'nota_de_remessa':
+                result = True
+        elif self.documento_origem_id.situacao_nfe == \
+                self.operacao_subsequente_id.situacao_geracao:
+            result = True
+        return result

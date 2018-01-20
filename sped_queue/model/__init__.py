@@ -5,3 +5,4 @@
 from . import sped_operacao
 from . import sped_documento
 from . import sped_operacao_subsequente
+from . import sped_documento_subsequente

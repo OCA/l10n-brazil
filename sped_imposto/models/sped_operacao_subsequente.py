@@ -61,27 +61,3 @@ class SpedOperacaoSubsequente(models.Model):
     referenciar_documento = fields.Boolean(
         string="Refenciar documento de origem",
     )
-
-    @api.multi
-    def _confirma_geracao(self, documento):
-        """ Dado um documento fiscal verificamos se podemos gerar a operação
-        :param documento:
-        :return: True permitindo a geração
-        """
-        result = False
-
-        if self.situacao_geracao in [x for x, y in SITUACAO_SUBSEQUENTE]:
-            cupom = documento.filtered(lambda documento: documento.modelo in (
-                MODELO_FISCAL_CFE,
-                MODELO_FISCAL_NFCE,
-                MODELO_FISCAL_CUPOM_FISCAL_ECF,
-            ))
-            if cupom and self.situacao_geracao == 'nota_de_cupom':
-                result = True
-            elif self.situacao_geracao == 'manual' and self.env.context.get('manual', False):
-                result = True
-            elif self.situacao_geracao == 'nota_de_remessa':
-                result = True
-        elif documento.situacao_nfe == self.situacao_geracao:
-            result = True
-        return result
