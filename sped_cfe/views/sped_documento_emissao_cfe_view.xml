@@ -56,10 +56,10 @@
                 />
                 <button name="envia_documento" string="Envia CF-e" type="object" class="btn-primary"
                         attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada']),('pagamento_autorizado_cfe','!=', False)]}" />
-                <button name="reimprimir_cfe" string="Reimprimir CF-e" type="object" class="btn-primary"
-                        attrs="{'invisible': [('situacao_nfe', '!=', 'autorizada'), ('modelo', '!=', '59')]}" />
-                <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-primary" />
-                <button name="gera_pdf" string="Gerar PDF" type="object" class="btn-primary" />
+                <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-default" />
+                <button name="imprimir_documento" string="Imprimir" type="object" class="btn-default"
+                    attrs="{'invisible': [('situacao_nfe', '!=', 'autorizada'), ('modelo', '!=', '59')]}"
+                />
                 <button name="gera_operacoes_subsequentes" string="Gerar NF-e de Cupom" type="object" class="btn-default"
                     context="{'nota_de_cumpom': '1', 'manual': '1'}"
                      attrs="{'invisible': ['|', ('documentos_subsequentes_gerados', '=', True), ('situacao_nfe','not in', ['autorizada'])]}"
