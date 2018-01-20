@@ -67,14 +67,6 @@
                                 <field name="fator_quantidade_especie" />
                             </group>
                         </page>
-                        <page name="estoque" string="Aquisições">
-                            <group col="4">
-                                <field name="fornecedor"/>
-                                <field name="codigo_produto_fornecedor"/>
-                                <field name="descricao_produto"/>
-                                <field name="preco"/>
-                            </group>
-                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
