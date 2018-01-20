@@ -162,7 +162,8 @@ class SpedDocumentoItem(models.Model):
                 NCM=ncm,
                 **kwargs
             ),
-            imposto=imposto
+            imposto=imposto,
+            infAdProd=self._monta_informacoes_adicionais() or '',
         )
         detalhe.validar()
 

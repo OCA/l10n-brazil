@@ -9,8 +9,10 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from odoo import models
+from odoo import models, _
+from odoo.exceptions import UserError
 from odoo.addons.l10n_br_base.constante_tributaria import *
+
 
 _logger = logging.getLogger(__name__)
 
@@ -26,6 +28,85 @@ from ..versao_nfe_padrao import ClasseDet
 
 class SpedDocumentoItem(models.Model):
     _inherit = 'sped.documento.item'
+
+    def _monta_informacoes_adicionais(self):
+        self.ensure_one()
+        #
+        # Prepara a observação do item
+        #
+        infcomplementar = self.infcomplementar or ''
+
+        dados_infcomplementar = {
+            'nf': self.documento_id,
+            'item': self,
+        }
+
+        #
+        # Crédito de ICMS do SIMPLES
+        #
+        if self.documento_id.regime_tributario == REGIME_TRIBUTARIO_SIMPLES \
+            and self.cst_icms_sn in ST_ICMS_SN_CALCULA_CREDITO:
+            if len(infcomplementar) > 0:
+                infcomplementar += '\n'
+
+            infcomplementar += 'Permite o aproveitamento de crédito de ' + \
+                'ICMS no valor de R$ ${formata_valor(item.vr_icms_sn)},' + \
+                ' correspondente à alíquota de ' + \
+                '${formata_valor(item.al_icms_sn)}%, nos termos do art. 23'+ \
+                ' da LC 123/2006;'
+
+        #
+        # Valor do IBPT
+        #
+        if self.vr_ibpt:
+            if len(infcomplementar) > 0:
+                infcomplementar += '\n'
+
+            infcomplementar += 'Valor aproximado dos tributos: ' + \
+                'R$ ${formata_valor(item.vr_ibpt)} (' + \
+                '${formata_valor(item.al_ibpt)}%) - fonte: IBPT;'
+
+        #
+        # ICMS para UF de destino
+        #
+
+        if (self.cfop_posicao ==
+                IDENTIFICACAO_DESTINO_INTERESTADUAL and
+                self.consumidor_final ==
+                    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and
+                self.documento_id.participante_contribuinte ==
+                    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE):
+
+            if len(infcomplementar) > 0:
+                infcomplementar += '\n'
+
+            infcomplementar += \
+                'Partilha do ICMS de ' + \
+                '${formata_valor(item.al_interna_destino)}% recolhida ' + \
+                'conf. EC 87/2015: ' + \
+                'R$ ${formata_valor(item.vr_icms_estado_destino)} para o ' + \
+                'estado de ${nf.participante_id.estado} e ' + \
+                'R$ ${formata_valor(item.vr_icms_estado_origem)} para o ' + \
+                'estado de ${nf.empresa_id.estado}; Valor do diferencial ' + \
+                'de alíquota (${formata_valor(item.al_difal)}%): ' + \
+                'R$ ${formata_valor(item.vr_difal)};'
+
+            if self.vr_fcp:
+                infcomplementar += ' Fundo de combate à pobreza: R$ ' + \
+                    '${formata_valor(item.vr_fcp)}'
+
+        #
+        # Aplica um template na observação do item
+        #
+
+        try:
+            template = TemplateBrasil(infcomplementar.encode('utf-8'))
+            infcomplementar = template.render(**dados_infcomplementar)
+            return infcomplementar.decode('utf-8')
+        except Exception as e:
+            raise UserError(_(""" Erro ao gerar informação adicional do item"""))
+
+        return det
 
     def monta_nfe(self, numero_item, nfe):
         self.ensure_one()
@@ -213,41 +294,6 @@ class SpedDocumentoItem(models.Model):
         det.imposto.II.vIOF.valor = str(D(self.vr_iof))
 
         #
-        # Prepara a observação do item
-        #
-        infcomplementar = self.infcomplementar or ''
-
-        dados_infcomplementar = {
-            'nf': self.documento_id,
-            'item': self,
-        }
-
-        #
-        # Crédito de ICMS do SIMPLES
-        #
-        if self.documento_id.regime_tributario == REGIME_TRIBUTARIO_SIMPLES \
-            and self.cst_icms_sn in ST_ICMS_SN_CALCULA_CREDITO:
-            if len(infcomplementar) > 0:
-                infcomplementar += '\n'
-
-            infcomplementar += 'Permite o aproveitamento de crédito de ' + \
-                'ICMS no valor de R$ ${formata_valor(item.vr_icms_sn)},' + \
-                ' correspondente à alíquota de ' + \
-                '${formata_valor(item.al_icms_sn)}%, nos termos do art. 23'+ \
-                ' da LC 123/2006;'
-
-        #
-        # Valor do IBPT
-        #
-        if self.vr_ibpt:
-            if len(infcomplementar) > 0:
-                infcomplementar += '\n'
-
-            infcomplementar += 'Valor aproximado dos tributos: ' + \
-                'R$ ${formata_valor(item.vr_ibpt)} (' + \
-                '${formata_valor(item.al_ibpt)}%) - fonte: IBPT;'
-
-        #
         # ICMS para UF de destino
         #
         if nfe.infNFe.ide.idDest.valor == \
@@ -274,29 +320,9 @@ class SpedDocumentoItem(models.Model):
             det.imposto.ICMSUFDest.vICMSUFRemet.valor = \
                 str(D(self.vr_icms_estado_origem))
 
-            if len(infcomplementar) > 0:
-                infcomplementar += '\n'
-
-            infcomplementar += \
-                'Partilha do ICMS de ' + \
-                '${formata_valor(item.al_interna_destino)}% recolhida ' + \
-                'conf. EC 87/2015: ' + \
-                'R$ ${formata_valor(item.vr_icms_estado_destino)} para o ' + \
-                'estado de ${nf.participante_id.estado} e ' + \
-                'R$ ${formata_valor(item.vr_icms_estado_origem)} para o ' + \
-                'estado de ${nf.empresa_id.estado}; Valor do diferencial ' + \
-                'de alíquota (${formata_valor(item.al_difal)}%): ' + \
-                'R$ ${formata_valor(item.vr_difal)};'
-
-            if self.vr_fcp:
-                infcomplementar += ' Fundo de combate à pobreza: R$ ' + \
-                    '${formata_valor(item.vr_fcp)}'
-
         #
         # Aplica um template na observação do item
         #
-        template = TemplateBrasil(infcomplementar.encode('utf-8'))
-        infcomplementar = template.render(**dados_infcomplementar)
-        det.infAdProd.valor = infcomplementar.decode('utf-8')
+        det.infAdProd.valor = self._monta_informacoes_adicionais()
 
         return det
