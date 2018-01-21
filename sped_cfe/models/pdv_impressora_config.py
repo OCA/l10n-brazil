@@ -4,7 +4,7 @@ from odoo import models, fields, api
 
 class ConfiguracaoImpressora(models.Model):
     _name = 'impressora.config'
-    _rec_name='nome'
+    _rec_name = 'nome'
 
     impressora = fields.One2many(
         'pdv.config',
@@ -30,4 +30,3 @@ class ConfiguracaoImpressora(models.Model):
     conexao = fields.Char(string=u'Conexão')
 
     nome = fields.Char(string=u'Nome')
-

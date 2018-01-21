@@ -28,7 +28,7 @@ FORMA_PAGAMENTO = (
     ('13', 'Vale combustível'),
     ('14', 'Duplicata mercantil'),
     ('15', 'Boleto bancário'),
-    #('90', 'Sem pagamento'),
+    # ('90', 'Sem pagamento'),
     ('99', 'Outros'),
 )
 
@@ -91,7 +91,7 @@ class SpedDocumentoPagamento(models.Model):
             # Lembrete integracao_cartao esta com valores errados
             # das constantes
             # kwargs['cAdmC'] = '00' + self.integracao_cartao
-            kwargs['cAdmC'] = self.condicao_pagamento_id.participante_id.\
+            kwargs['cAdmC'] = self.condicao_pagamento_id.participante_id. \
                 codigo_administradora_cartao
 
         pagamento = MeioPagamento(
@@ -105,7 +105,7 @@ class SpedDocumentoPagamento(models.Model):
 
     def envia_pagamento(self):
         self.ensure_one()
-        if not self.forma_pagamento in FORMA_PAGAMENTO_CARTOES:
+        if self.forma_pagamento not in FORMA_PAGAMENTO_CARTOES:
             self.pagamento_valido = True
             return
         else:
@@ -161,7 +161,8 @@ class SpedDocumentoPagamento(models.Model):
         if the order is paid print ticket.
         """
         self.ensure_one()
-        documento = self.env['sped.documento'].browse(self.env.context.get('active_id', False))
+        documento = self.env['sped.documento'].browse(
+            self.env.context.get('active_id', False))
         if not self.pagamento_valido:
             self.envia_pagamento()
         if documento.vr_total_residual <= 0:

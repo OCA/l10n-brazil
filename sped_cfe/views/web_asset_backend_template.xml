@@ -2,8 +2,8 @@
 <odoo>
     <template id="assets_backend" name="hr_attendance assets" inherit_id="web.assets_backend">
         <xpath expr="." position="inside">
-            <script type="text/javascript" src="/sped_cfe/static/src/js/cfe_sat.js"></script>
-            <script type="text/javascript" src="/sped_cfe/static/src/js/sped_cfe.js"></script>
+            <script type="text/javascript" src="/sped_cfe/static/src/js/cfe_sat.js"/>
+            <script type="text/javascript" src="/sped_cfe/static/src/js/sped_cfe.js"/>
         </xpath>
     </template>
 </odoo>

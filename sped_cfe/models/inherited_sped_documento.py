@@ -55,7 +55,7 @@ class SpedDocumento(models.Model):
                 ]
             )
             if not configuracoes_pdv:
-	        configuracoes_pdv = self.env['pdv.config'].search(
+                configuracoes_pdv = self.env['pdv.config'].search(
                     [
                         ('loja', '=', self.env.user.company_id.sped_empresa_id.id)
                     ]
@@ -161,8 +161,7 @@ class SpedDocumento(models.Model):
             #
             documento.permite_alteracao = documento.permite_alteracao or \
                 documento.situacao_nfe in (SITUACAO_NFE_EM_DIGITACAO,
-                                        SITUACAO_NFE_REJEITADA)
-
+                                           SITUACAO_NFE_REJEITADA)
 
     def _check_permite_alteracao(self, operacao='create', dados={},
                                  campos_proibidos=[]):
@@ -251,13 +250,14 @@ class SpedDocumento(models.Model):
         """
         self.ensure_one()
 
+        cliente = None
+
         if self.configuracoes_pdv.tipo_sat == 'local':
             from mfecfe import BibliotecaSAT
             from mfecfe import ClienteVfpeLocal
             cliente = ClienteVfpeLocal(
                 BibliotecaSAT(self.configuracoes_pdv.path_integrador),
-                chave_acesso_validador=
-                self.configuracoes_pdv.chave_acesso_validador
+                chave_acesso_validador=self.configuracoes_pdv.chave_acesso_validador
             )
         elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
             from mfecfe.clientesathub import ClienteVfpeHub
@@ -267,8 +267,7 @@ class SpedDocumento(models.Model):
                 numero_caixa=int(self.configuracoes_pdv.numero_caixa)
             )
         elif self.configuracoes_pdv.tipo_sat == 'remoto':
-            cliente = None
-            # NotImplementedError
+            raise NotImplementedError
 
         return cliente
 
@@ -366,9 +365,9 @@ class SpedDocumento(models.Model):
 
     def _monta_cfe_emitente(self):
         emitente = Emitente(
-                CNPJ=limpa_formatacao(self.configuracoes_pdv.cnpjsh),
-                IE=limpa_formatacao(self.configuracoes_pdv.ie),
-                indRatISSQN='N'
+            CNPJ=limpa_formatacao(self.configuracoes_pdv.cnpjsh),
+            IE=limpa_formatacao(self.configuracoes_pdv.ie),
+            indRatISSQN='N'
         )
         emitente.validar()
         return emitente
@@ -413,11 +412,11 @@ class SpedDocumento(models.Model):
             return
 
         entrega = LocalEntrega(
-           xLgr=participante.endereco,
-           nro=participante.numero,
-           xBairro=participante.bairro,
-           xMun=participante.municipio_id.nome,
-           UF=participante.municipio_id.estado
+            xLgr=participante.endereco,
+            nro=participante.numero,
+            xBairro=participante.bairro,
+            xMun=participante.municipio_id.nome,
+            UF=participante.municipio_id.estado
         )
         entrega.validar()
 
@@ -460,7 +459,8 @@ class SpedDocumento(models.Model):
         :return:
         """
         from mfecfe.resposta.enviardadosvenda import RespostaEnviarDadosVenda
-        resposta_sefaz = RespostaEnviarDadosVenda.analisar(resposta.get('retorno'))
+        resposta_sefaz = RespostaEnviarDadosVenda.analisar(
+            resposta.get('retorno'))
 
         if resposta_sefaz.EEEEE in '06000':
             self.executa_antes_autorizar()
@@ -468,8 +468,8 @@ class SpedDocumento(models.Model):
             self.executa_depois_autorizar()
             # self.data_hora_autorizacao = fields.Datetime.now()
         elif resposta_sefaz.EEEEE in ('06001', '06002', '06003', '06004', '06005',
-                                '06006', '06007', '06008', '06009', '06010',
-                                '06098', '06099'):
+                                      '06006', '06007', '06008', '06009', '06010',
+                                      '06098', '06099'):
             self.executa_antes_denegar()
             self.situacao_fiscal = SITUACAO_FISCAL_DENEGADO
             self.situacao_nfe = SITUACAO_NFE_DENEGADA
@@ -493,7 +493,7 @@ class SpedDocumento(models.Model):
         destinatario = self._monta_cfe_destinatario()
 
         return CFeCancelamento(
-            chCanc= u'CFe' + self.chave,
+            chCanc=u'CFe' + self.chave,
             CNPJ=limpa_formatacao(cnpj_software_house),
             signAC=assinatura,
             numeroCaixa=int(numero_caixa),
@@ -505,7 +505,7 @@ class SpedDocumento(models.Model):
         if not self.modelo == MODELO_FISCAL_CFE:
             return result
         if not fields.Datetime.from_string(fields.Datetime.now()) < \
-                        fields.Datetime.from_string(
+            fields.Datetime.from_string(
                 self.data_hora_emissao) + relativedelta(minutes=29):
             raise UserError("Cupom Fiscal não pode ser cancelado após "
                             "passados 30 minutos.")
@@ -527,16 +527,19 @@ class SpedDocumento(models.Model):
                     self.configuracoes_pdv.codigo_ativacao,
                     self.configuracoes_pdv.path_integrador
                 )
+            else:
+                processo = None
 
             #
             # O cancelamento foi aceito e vinculado à CF-E
             #
-            if processo.EEEEE in ('07000'):
+            if processo.EEEEE in '07000':
                 #
                 # Grava o protocolo de cancelamento
                 #
                 self.grava_cfe_cancelamento(self.chave, cancelamento)
-                self.grava_cfe_autorizacao_cancelamento(self.chave, processo.xml())
+                self.grava_cfe_autorizacao_cancelamento(
+                    self.chave, processo.xml())
                 self.chave_cancelamento = processo.chaveConsulta
                 impressao = self.configuracoes_pdv.impressora
 
@@ -611,6 +614,8 @@ class SpedDocumento(models.Model):
                     cfe, self.configuracoes_pdv.codigo_ativacao,
                     self.configuracoes_pdv.path_integrador
                 )
+            else:
+                resposta = None
             if resposta.EEEEE in '06000':
                 self.executa_antes_autorizar()
                 self.executa_depois_autorizar()
