@@ -290,8 +290,7 @@ class ConsultaDFe(models.Model):
         return nfe_mdes
 
     @staticmethod
-    def  \
-             validate_nfe_configuration(company):
+    def validate_nfe_configuration(company):
         error = u'As seguintes configurações estão faltando:\n'
 
         if not company.certificado_id.arquivo:

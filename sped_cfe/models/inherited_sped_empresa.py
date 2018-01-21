@@ -35,22 +35,22 @@ class SpedEmpresa(models.Model):
     mail_template_cfe_autorizada_id = fields.Many2one(
         comodel_name='mail.template',
         string='Modelo de email para cfe autorizada',
-        #domain=[('model_id', '=', ref('sped.model_sped_documento'))],
+        # domain=[('model_id', '=', ref('sped.model_sped_documento'))],
     )
     mail_template_cfe_cancelada_id = fields.Many2one(
         comodel_name='mail.template',
         string='Modelo de email para cfe cancelada',
-        #domain=[('model_id', '=', ref('sped.model_sped_documento'))],
+        # domain=[('model_id', '=', ref('sped.model_sped_documento'))],
     )
     mail_template_cfe_denegada_id = fields.Many2one(
         comodel_name='mail.template',
         string='Modelo de email para cfe denegada',
-        #domain=[('model_id', '=', ref('sped.model_sped_documento'))],
+        # domain=[('model_id', '=', ref('sped.model_sped_documento'))],
     )
     mail_template_cfe_cce_id = fields.Many2one(
         comodel_name='mail.template',
         string='Modelo de email para CC-e',
-        #domain=[('model_id', '=', ref('sped.model_sped_documento'))],
+        # domain=[('model_id', '=', ref('sped.model_sped_documento'))],
     )
     tipo_processador_cfe = fields.Selection(
         string="Tipo instalação SAT",
@@ -86,5 +86,5 @@ class SpedEmpresa(models.Model):
         elif self.tipo_processador_cfe == 'rede_local':
             from satcfe.clientesathub import ClienteSATHub as Cliente
         else:
-            NotImplementedError
+            raise NotImplementedError
         return BibliotecaSAT, Cliente

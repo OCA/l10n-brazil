@@ -57,6 +57,8 @@ class SpedDocumentoItem(models.Model):
 
         al_icms_proprio = D(self.al_efetiva_icms_proprio).quantize(D('0.01'))
 
+        icms = pis = cofins = None
+
         if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
             if self.cst_icms_sn in ['102', '300', '500']:
                 icms = ICMSSN102(
@@ -88,7 +90,7 @@ class SpedDocumentoItem(models.Model):
             # PIS
             # TODO: Implementar pis ST
 
-            al_pis_proprio = D(self.al_pis_proprio/100).quantize(D('0.0001'))
+            al_pis_proprio = D(self.al_pis_proprio / 100).quantize(D('0.0001'))
 
             if self.cst_pis in ['01', '02', '05']:
                 pis = PISAliq(
@@ -117,7 +119,8 @@ class SpedDocumentoItem(models.Model):
             # COFINS
             # TODO: Implementar cofins ST
 
-            al_cofins_proprio = D(self.al_cofins_proprio/100).quantize(D('0.0001'))
+            al_cofins_proprio = D(
+                self.al_cofins_proprio / 100).quantize(D('0.0001'))
 
             if self.cst_cofins in ['01', '02', '05']:
                 cofins = COFINSAliq(
@@ -168,4 +171,3 @@ class SpedDocumentoItem(models.Model):
         detalhe.validar()
 
         return detalhe
-
