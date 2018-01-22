@@ -107,6 +107,9 @@
                                options="{'no_create': True}"/>
                         <newline/>
                         <field name="quantidade"/>
+                        <newline/>
+                        <field name="qty_invoiced" string="Faturado" widget="monetary" options="{'currency_field': 'currency_unidade_id'}"/>
+                        <field name="qty_received" string="Recebido" widget="monetary" options="{'currency_field': 'currency_unidade_id'}"/>
                         <field name="unidade_readonly_id"
                                options="{'no_open': True, 'no_create': True}"
                                invisible="1"/>
@@ -528,6 +531,8 @@
                     <field name="produto_id"/>
                     <field name="cfop_id"/>
                     <field name="quantidade"/>
+                    <field name="qty_invoiced" string="Quantidade Faturada"/>
+                    <field name="qty_received" string="Quantidade Recebida"/>
                     <field name="vr_unitario"/>
                     <field name="vr_produtos" sum="vr_produtos"/>
                     <field name="org_icms"

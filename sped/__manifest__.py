@@ -21,6 +21,7 @@
     'installable': True,
     'application': True,
     'data': [
+        'report/sped_documento_report.xml',
         #
         # Menus
         #
@@ -41,6 +42,8 @@
         'views/sped_documento_referenciado_view.xml',
         'views/sped_documento_pagamento_view.xml',
 
+        'views/sped_documento_subsequente_view.xml',
+
         'views/sped_documento_base_view.xml',
 
         'views/sped_documento_emissao_nfe_view.xml',
@@ -55,6 +58,11 @@
         #
         'security/sped_documento_ir_rule.xml',
         'security/ir.model.access.csv',
+
+        #
+        # Dados de base
+        #
+        'data/sped_participante_data.xml',
     ],
     'external_dependencies': {
         'python': [

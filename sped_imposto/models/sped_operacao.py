@@ -190,8 +190,19 @@ class SpedOperacaoFiscal(models.Model):
     )
     # 'forca_recalculo_st_compra': fields.boolean(
     # 'Força recálculo do ST na compra?'),
-    # 'operacao_entrada_id': fields.many2one(
-    # 'sped.operacao', 'Operação de entrada equivalente'),
+
+    operacao_subsequente_ids = fields.One2many(
+        comodel_name='sped.operacao.subsequente',
+        inverse_name='operacao_id',
+        string='Operaçao Subsequente',
+        help="""Operaçoes fiscais executadas posteriormente a execuçao do \n
+        do documento fiscal.
+        """
+    )
+    operacao_entrada_id = fields.Many2one(
+        comodel_name='sped.operacao',
+        string='Operação de entrada equivalente',
+    )
     consumidor_final = fields.Selection(
         selection=TIPO_CONSUMIDOR_FINAL,
         string='Tipo do consumidor',
@@ -209,6 +220,24 @@ class SpedOperacaoFiscal(models.Model):
             ('T', 'Transferência'),
         ],
         string='Traz preço automático?',
+    )
+    calcular_tributacao = fields.Selection(
+        selection=[
+            ('auto', 'Buscar e calcular (Automático)'),
+            ('somente_calcula', 'Somente calcular'),
+            ('manual', 'Manual'),
+        ],
+        string=u'Calculo tributação',
+        help="""Determina se o calculo da tributação deve ser:\n
+              - Automático: O sistema determina nas aliquotas, cfop e entre outros;\n
+              - Somente calcula: O usuário informa a cfop, aliquotas e o
+             sistema calcula os impostos\n
+              - Manual: O usuário informa as aliquotas e realiza os cálculos
+               manualmente.
+             """,
+        default='auto',
+        groups='sped_imposto.GRUPO_FISCAL_GERENTE',
+        required=True,
     )
 
     # def calcula_imposto(self):

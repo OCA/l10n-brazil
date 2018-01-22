@@ -2,6 +2,7 @@
 #
 # Copyright 2016 Taŭga Tecnologia
 #   Aristides Caldeira <aristides.caldeira@tauga.com.br>
+# Copyright 2016 KMEE INFORMATICA LTDA
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -13,6 +14,7 @@ from odoo import api, fields, models
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFCE,
+    MODELO_FISCAL_CFE,
     MODELO_FISCAL_CTE,
     MODELO_FISCAL_CUPOM_FISCAL_ECF,
 )
@@ -41,7 +43,11 @@ class SpedDocumentoReferenciado(models.Model):
 
         docref = ClasseNFRef()
 
-        if self.modelo in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+        if self.modelo in (
+                MODELO_FISCAL_NFE,
+                MODELO_FISCAL_NFCE,
+                MODELO_FISCAL_CFE,
+        ):
             docref.refNFe.valor = self.chave
 
         elif self.modelo == MODELO_FISCAL_CTE:

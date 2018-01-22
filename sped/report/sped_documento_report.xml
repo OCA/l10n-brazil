@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="action_report_sped_documento"
+                name="report_sped_documento"
+                model="sped.documento"
+                string="Documento PDF"/>
+    </data>
+</odoo>

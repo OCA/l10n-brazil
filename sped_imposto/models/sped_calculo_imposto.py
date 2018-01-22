@@ -112,7 +112,6 @@ class SpedCalculoImposto(SpedBase):
     regime_tributario = fields.Selection(
         selection=REGIME_TRIBUTARIO,
         string='Regime tributário',
-        default=REGIME_TRIBUTARIO_SIMPLES,
         related='operacao_id.regime_tributario',
     )
 
@@ -655,7 +654,16 @@ class SpedCalculoImposto(SpedBase):
         #
         # Criamos o documento e chamados os onchange necessários
         #
-        documento = self.env['sped.documento'].create(dados)
+        if isinstance(self.id, models.NewId):
+            documento = self.env['sped.documento'].create(dados)
+        else:
+            documento = self
+
+        if self.pagamento_ids:
+            documento.pagamento_ids = self.pagamento_ids
+        if self.duplicata_ids:
+            documento.duplicata_ids = self.duplicata_ids
+
         documento.update(documento._onchange_empresa_id()['value'])
         documento.update(documento._onchange_operacao_id()['value'])
 
@@ -670,30 +678,47 @@ class SpedCalculoImposto(SpedBase):
         # dos impostos, por segurança, caso alguma operação fiscal, alíquota
         # etc. tenha sido alterada
         #
+        sped_documento_item = self.env['sped.documento.item']
         for item in itens:
-            dados = {
-                'documento_id': documento.id,
-                'produto_id': item.produto_id.id,
-                'quantidade': item.quantidade,
-                'vr_unitario': item.vr_unitario,
-                'vr_frete': item.vr_frete,
-                'vr_seguro': item.vr_seguro,
-                'vr_desconto': item.vr_desconto,
-                'vr_outras': item.vr_outras,
-            }
-            dados.update(item.prepara_dados_documento_item())
-            #
-            # Passamos o vr_unitario no contexto para evitar que as
-            # configurações da operação redefinam o valor unitário durante
-            # o cáculo dos impostos
-            #
-            contexto = {
-                'forca_vr_unitario': dados['vr_unitario']
-            }
-            sped_documento_item = \
-                self.env['sped.documento.item'].with_context(contexto)
-            documento_item = sped_documento_item.create(dados)
-            documento_item.calcula_impostos()
+            ctx = item.env.context.copy()
+            if isinstance(item.id, models.NewId):
+                #
+                #   Caso o registro seja um novo ID, geralmente vindo
+                # de outro documento do sistema, com herança python.
+                #   Para permir o preenchimento de dados de integração.
+                #
+                dados = {
+                    'documento_id': documento.id,
+                    'produto_id': item.produto_id.id,
+                    'quantidade': item.quantidade,
+                    'vr_unitario': item.vr_unitario,
+                    'vr_frete': item.vr_frete,
+                    'vr_seguro': item.vr_seguro,
+                    'vr_desconto': item.vr_desconto,
+                    'vr_outras': item.vr_outras,
+                }
+                dados.update(item.prepara_dados_documento_item())
+
+                #
+                #   Passamos o vr_unitario no contexto para evitar que as
+                # configurações da operação redefinam o valor unitário durante
+                # o cáculo dos impostos.
+                #
+
+                ctx = {
+                    'forca_vr_unitario': dados['vr_unitario']
+                }
+
+                documento_item = sped_documento_item.create(dados)
+
+            else:
+                ctx = {
+                    'forca_vr_unitario': item.vr_unitario
+                }
+
+                documento_item = item
+
+            documento_item.with_context(ctx).calcula_impostos()
 
         #
         # Se certifica de que todos os campos foram totalizados
@@ -707,7 +732,15 @@ class SpedCalculoImposto(SpedBase):
         if self.condicao_pagamento_id:
             documento.condicao_pagamento_id = self.condicao_pagamento_id
 
-        documento.update(documento._onchange_condicao_pagamento_id()['value'])
+        if documento.pagamento_ids:
+            for pagamento in documento.pagamento_ids:
+                pagamento.update(
+                    pagamento._onchange_condicao_pagamento_id()['value']
+                )
+        else:
+            documento.update(
+                documento._onchange_condicao_pagamento_id()['value']
+            )
 
         return documento
 

@@ -16,14 +16,14 @@
                     </attribute>
                 </field>
                 <field name="partner_id" position="after">
-                    <field name="sped_participante_id" string="Customer"
+                    <field name="participante_id" string="Customer"
                            domain="[('eh_cliente', '=', True)]"
                            attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
                 </field>
                 <xpath expr="//group/field[@name='company_id']"
                        position="after">
                     <field name="is_brazilian" groups="l10n_br_base.GRUPO_SUPORTE"/>
-                    <field name="sped_empresa_id" string="Razão Social"
+                    <field name="empresa_id" string="Razão Social"
                            attrs="{'required': [('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
                 </xpath>
                 <field name="fiscal_position_id" position="attributes">
@@ -32,12 +32,12 @@
                     </attribute>
                 </field>
                 <field name="fiscal_position_id" position="after">
-                    <field name="sped_operacao_produto_id"
-                           domain="[('emissao', '=', '0')]"
-                           attrs="{'required': [('sped_operacao_servico_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
-                    <field name="sped_operacao_servico_id"
-                           domain="[('emissao', '=', '0')]"
-                           attrs="{'required': [('sped_operacao_produto_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
+                    <field name="operacao_produto_id"
+                           domain="[('emissao', '=', '1')]"
+                           attrs="{'required': [('operacao_servico_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
+                    <field name="operacao_servico_id"
+                           domain="[('emissao', '=', '1')]"
+                           attrs="{'required': [('operacao_produto_id', '=', False), ('is_brazilian', '=', True)], 'invisible': [('is_brazilian', '!=', True)]}"/>
                 </field>
                 <field name="currency_id" position="attributes">
                     <attribute name="domain">[('is_currency', '=', True)]
@@ -59,8 +59,98 @@
                     <field name="vr_seguro" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
                     <field name="vr_outras" widget='monetary' options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('is_brazilian', '!=', True)]}"/>
                 </field>
+                <button name="action_view_invoice" position="replace">
+                    <button type="object"  name="visualizar_documentos"
+                            class="oe_stat_button"
+                            icon="fa-pencil-square-o" attrs="{'invisible':['|',('state', 'in', ('draft','sent','to approve')),('documento_ids','=',[])]}">
+                        <field name="quantidade_documentos" widget="statinfo" string="Faturas de Fornecedor"/>
+                        <field name='documento_ids' invisible="1"/>
+                    </button>
+                </button>
+                <button name="button_cancel" position="attributes">
+                    <attribute name="states">draft,to approve,sent,purchase,invoiced</attribute>
+                </button>
+                <button name="button_confirm" position="after">
+                    <button name="button_invoiced" states="purchase" string="Faturado pelo Fornecedor" type="object" />
+                </button>
             </field>
         </record>
+
+        <record id="purchase_kanban_view" model="ir.ui.view">
+            <field name="name">purchase.order.kanban (in sped_purchase)</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.view_purchase_order_kanban"/>
+            <field name="arch" type="xml">
+                <kanban position="replace">
+                    <kanban class="o_kanban_small_column" default_group_by="state">
+                        <field name="name"/>
+                        <field name="participante_id"/>
+                        <field name="amount_total" widget="monetary"/>
+                        <field name="state"/>
+                        <field name="date_order"/>
+                        <field name="currency_id" can_create="true" can_write="true"/>
+                        <field name="invoice_status"/>
+                        <field name="order_line_count"/>
+                        <progressbar field="invoice_status"
+                                     colors='{"no": "danger", "invoiced": "success"}'/>
+                        <templates>
+                            <t t-name="kanban-box">
+                                <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.state.raw_value)} oe_kanban_global_click">
+                                    <div class="o_dropdown_kanban dropdown">
+                                        <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
+                                            <button class="fa fa-times"
+                                                    name="button_cancel"
+                                                    states="draft,to approve,sent,purchase,invoiced"
+                                                    type="object"/>
+                                        </a>
+                                    </div>
+                                    <div class="oe_kanban_content">
+                                        <div><strong class="o_kanban_record_title"><field name="participante_id"/></strong></div>
+                                        <div class="text-muted o_kanban_record_subtitle">
+                                            <t t-if="record.name.value"><field name="name"/></t>
+                                        </div>
+                                        <div class="o_kanban_record_bottom">
+                                            <div class="oe_kanban_bottom_left">
+                                                <span class="o_value"><t t-esc="record.order_line_count.value"/></span>
+                                                <span class="o_label">ite<t t-if="record.order_line_count.value > 1">ns</t><t t-else="">m</t></span>
+                                                <t t-if="record.amount_total.raw_value"><field name="amount_total" widget="monetary"/></t>
+                                            </div>
+                                            <div class="oe_kanban_bottom_right">
+                                                <button type="object"
+                                                        class="fa fa-check-circle"
+                                                        name="button_invoiced"
+                                                        states="purchase"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>            
+                            </t>    
+                        </templates>
+                    </kanban>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="purchase.purchase_form_action" model="ir.actions.act_window">
+            <field name="view_mode">tree,form,pivot,graph,calendar</field>
+        </record>
+
+        <record id="purchase.purchase_rfq" model="ir.actions.act_window">
+            <field name="view_mode">tree,form,pivot,graph,calendar</field>
+        </record>
+
+        <record id="purchase_kanban_action" model="ir.actions.act_window">
+            <field name="name">Fluxo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="domain">[('state','in',('draft', 'purchase', 'invoiced', 'received'))]</field>
+        </record>
+
+        <menuitem action="purchase_kanban_action"
+                  id="menu_purchase_kanban_action"
+                  parent="purchase.menu_procurement_management"
+                  sequence="6"/>
 
 
         <!--<record model="ir.ui.view" id="purchase_order_form_view">-->

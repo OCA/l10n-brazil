@@ -10,6 +10,7 @@
 #
 from . import sped_veiculo
 from . import sped_documento
+from . import sped_documento_subsequente
 from . import sped_documento_volume
 from . import sped_documento_pagamento
 from . import sped_documento_duplicata

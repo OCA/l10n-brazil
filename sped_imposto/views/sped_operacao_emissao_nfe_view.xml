@@ -72,7 +72,7 @@
 
     <menuitem
         id="menu_sped_operacao_emissao_nfe"
-        sequence="1"
+        sequence="10"
         name="NF-e"
         parent="menu_sped_operacao_emissao"
         action="sped_operacao_emissao_nfe_acao" />

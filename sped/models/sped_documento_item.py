@@ -174,6 +174,42 @@ class SpedDocumentoItem(SpedCalculoImpostoItem, models.Model):
         compute='_compute_permite_alteracao',
     )
 
+    cst_icms_readonly = fields.Char(
+        string='CST ICMS',
+        compute='_sync_cst_icms',
+    )
+
+    @api.depends('cst_icms')
+    def _sync_cst_icms(self):
+        for item in self:
+            if not item.cst_icms:
+                continue
+            item.cst_icms_readonly = item.cst_icms
+
+    cst_pis_readonly = fields.Char(
+        string='CST PIS',
+        compute='_sync_cst_pis',
+    )
+
+    @api.depends('cst_pis')
+    def _sync_cst_pis(self):
+        for item in self:
+            if not item.cst_pis:
+                continue
+            item.cst_pis_readonly = item.cst_pis
+
+    cst_cofins_readonly = fields.Char(
+        string='CST COFINS',
+        compute='_sync_cst_cofins',
+    )
+
+    @api.depends('cst_cofins')
+    def _sync_cst_cofins(self):
+        for item in self:
+            if not item.cst_cofins:
+                continue
+            item.cst_cofins_readonly = item.cst_cofins
+
     @api.depends('modelo', 'emissao')
     def _compute_permite_alteracao(self):
         for item in self:

@@ -48,7 +48,7 @@
                     <newline />
                     <field name="al_pis_cofins_id" options="{'no_create': True, 'no_open': True}" colspan="4" />
                     <newline />
-                    <field name="codigo_natureza_receita_pis_cofins" attrs="{'required': (['al_pis_cofins_id.cst_pis_cofins_saida', 'in', ('07', '08', '09')])}" />
+                    <field name="codigo_natureza_receita_pis_cofins" />
                     <newline />
                     <field name="cst_ipi" invisible="1" />
                     <newline />

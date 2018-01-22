@@ -112,7 +112,7 @@ class StockPicking(models.Model):
                 volume.documento_id = documento.id
 
         if documento.operacao_id.enviar_pelo_estoque:
-            documento.envia_nfe()
+            documento.envia_documento()
 
         return documento
 

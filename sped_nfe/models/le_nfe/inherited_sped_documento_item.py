@@ -54,7 +54,17 @@ class SpedDocumentoItem(models.Model):
         return cest[0].id
 
     def _busca_unidade(self, codigo, pode_incluir=True):
-        unidade = self.env['sped.unidade'].busca(codigo)
+
+        codigo = codigo.replace(' ', ' ')
+        codigo = codigo.replace('²', '2')
+        codigo = codigo.replace('³', '3')
+
+        unidade = self.env['sped.unidade'].\
+            search([('codigo_unico', '=', codigo.lower())])
+
+        if len(unidade) == 0:
+            unidade = self.env['sped.unidade'].\
+                search([('codigos_alternativos', 'ilike', codigo.lower())])
 
         #
         # Trata o caso de unidade UN9999 que tem em várias notas
@@ -72,6 +82,7 @@ class SpedDocumentoItem(models.Model):
             dados = {
                 'codigo': codigo,
                 'nome': 'unidade ' + codigo,
+                'tipo': 'X',
             }
             unidade = self.env['sped.unidade'].create(dados)
             return unidade

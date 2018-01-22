@@ -14,6 +14,7 @@
     'author': 'Odoo Community Association (OCA), Akretion',
     'website': 'http://odoo-brasil.org',
     'version': '10.0.1.0.0',
+    'application': True,
     'depends': [
         'base',
         'mail',

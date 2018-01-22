@@ -12,20 +12,18 @@
         <field name="arch" type="xml">
             <form string="Documento Referenciado">
                 <group>
-                    <group col="4" colspan="4">
-                        <field name="documento_referenciado_id" colspan="4"
-                               domain="[('empresa_id', '=', parent.empresa_id), ('data_emissao', '&lt;=', parent.data_emissao),('participante_id','=', parent.participante_id)]" />
-                        <newline />
-                        <field name="participante_id" colspan="4" required="1" />
-                        <field name="modelo" required="1" />
-                        <newline />
-                        <field name="serie" required="1" />
-                        <field name="numero" required="1" />
-                        <field name="data_emissao" required="1" />
-                        <field name="chave" attrs="{'required': [('modelo', 'in', ['55', '65', '57'])]}" colspan="4" />
-                        <field name="numero_ecf" attrs="{'required': [('modelo', 'in', ['2D'])]}" />
-                        <field name="numero_coo" attrs="{'required': [('modelo', 'in', ['2D'])]}" />
-                    </group>
+                    <field name="documento_referenciado_id" colspan="4"
+                           domain="[('empresa_id', '=', parent.empresa_id), ('data_emissao', '&lt;=', parent.data_emissao),('participante_id','=', parent.participante_id)]" />
+                    <newline />
+                    <field name="participante_id" colspan="4" required="1" />
+                    <field name="modelo" required="1" />
+                    <newline />
+                    <field name="serie" required="1" />
+                    <field name="numero" required="1" />
+                    <field name="data_emissao" required="1" />
+                    <field name="chave" attrs="{'required': [('modelo', 'in', ['55', '65', '57', '59'])]}" colspan="4" />
+                    <field name="numero_ecf" attrs="{'required': [('modelo', 'in', ['2D'])]}" />
+                    <field name="numero_coo" attrs="{'required': [('modelo', 'in', ['2D'])]}" />
                 </group>
             </form>
         </field>

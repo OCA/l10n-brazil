@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA - Luis Felipe Mileo <mileo@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_importa_nfe_form" >
+        <field name="name">sped.importa.nfe.form</field>
+        <field name="model">sped.importa.nfe</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Importa NFe" duplicate="false">
+            <sheet>
+                <group>
+                    <group col="4" colspan="4">
+                        <field name="caminho" required="1" />
+                        <button name="importa_caminho" string="Importa documentos" type="object" class="btn-primary" />
+                    </group>
+                    <field name="quantidade_diretorio"/>
+                    <field name="quantidade_importada"/>
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_importa_nfe_tree">
+        <field name="name">sped.importa.nfe.tree</field>
+        <field name="model">sped.importa.nfe</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Importa NFe" duplicate="false">
+                <field name="caminho" />
+                <field name="quantidade_diretorio"/>
+                <field name="quantidade_importada"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_importa_nfe_acao">
+        <field name="name">Importa NFe</field>
+        <field name="res_model">sped.importa.nfe</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_importa_nfe_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_importa_nfe_form"/>
+        <field name="act_window_id" ref="sped_importa_nfe_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_importa_nfe_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_importa_nfe_tree"/>
+        <field name="act_window_id" ref="sped_importa_nfe_acao"/>
+    </record>
+
+    <menuitem
+        id="menu_sped_importa_nfe"
+        sequence="100"
+        name="Importa NF-e"
+        parent="sped_nfe.menu_sped_dfe"
+        action="sped_importa_nfe_acao"
+        />
+
+</odoo>

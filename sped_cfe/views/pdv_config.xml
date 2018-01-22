@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA <mileo@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <record id='pdv_config_form' model='ir.ui.view'>
+        <field name='name'>pdv.config.form</field>
+        <field name='model'>pdv.config</field>
+        <field name="priority">1</field>
+        <field name='arch' type='xml'>
+            <form string='Configuração'>
+                <sheet>
+                    <group string="Configuração do Ponto de Venda">
+                        <field name="name" />
+                        <field name="numero_caixa"/>
+                        <field name="vendedor"/>
+                        <field name="loja"/>
+                        <field name="tipo"/>
+                        <field name="impressora" widget="many2one"/>
+                    </group>
+                    <group string="Configurações SAT"
+                    attrs="{'invisible': [('tipo', '!=', 'SAT') ] }">
+                        <field name="tipo_sat"/>
+                        <field name="path_integrador" attrs="{'invisible': [('tipo_sat', '!=', 'local')]}"/>
+                        <field name="ip" attrs="{'invisible': [('tipo_sat', '!=', 'rede_interna')]}"/>
+                        <field name="porta" attrs="{'invisible': [('tipo_sat', '!=', 'rede_interna')]}"/>
+                        <field name="ambiente"/>
+                        <field name="codigo_ativacao"/>
+                        <field name="cnpjsh"/>
+                        <field name="ie"/>
+                        <field name="chave_ativacao"/>
+                        <field name="cnpj_software_house"/>
+                        <field name="assinatura"/>
+                        <field name="site_consulta_qrcode"/>
+                    </group>
+                    <group string="Configurações de pagamento">
+                        <field name="chave_acesso_validador"/>
+                        <field name="chave_requisicao"/>
+                        <field name="multiplos_pag"/>
+                        <field name="anti_fraude"/>
+                    </group>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+    <record id="pdv_config_tree" model="ir.ui.view">
+        <field name="name">pdv.config.tree</field>
+        <field name="model">pdv.config</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="numero_caixa"/>
+                <field name="vendedor"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="pdv_config_search">
+        <field name="name">pdv.config.search</field>
+        <field name="model">pdv.config</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Configuração do Ponto de Venda">
+                <field name="name" />
+                <field name="numero_caixa" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="pdv_config_action">
+        <field name="name">Configuração do Ponto de Venda</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="res_model">pdv.config</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+    <record model="ir.actions.act_window.view" id="pdv_config_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="pdv_config_tree"/>
+        <field name="act_window_id" ref="pdv_config_action"/>
+    </record>
+
+    <menuitem
+        parent="l10n_br_base.menu_fiscal_configuracao"
+        sequence="90"
+        id="pdv_config_menu"
+        name="Ponto de Venda"
+    />
+    <menuitem
+        id="pdv_config_menuitem"
+        sequence="1"
+        name="PDV Configuração"
+        parent="pdv_config_menu"
+        action="pdv_config_action"
+    />
+
+</odoo>

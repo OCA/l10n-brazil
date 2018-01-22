@@ -150,6 +150,10 @@
                                 </page>
                             </notebook>
                         </page>
+                        <page string="Categorias">
+                            <separator string="Categorias de produtos e serviços" />
+                            <field name="categ_ids"/>
+                        </page>
                         <page string="NCMs e MVAs">
                             <table style="width:100%;">
                                 <tr>
@@ -170,9 +174,9 @@
                                     <td style="width:1%;"></td>
                                     <td style="width:19%;"><field name="mva" /></td>
                                     <td style="width:1%;"></td>
-                                    <td style="width:19%;"><button type="object" name="insere_ncm" string="Incluir NCMs e MVAs" attrs="{'invisible': ['|', ('ncm', '=', False), ('mva', '=', 0)]}" /></td>
+                                    <td style="width:19%;"><button type="object" name="insere_ncm" string="Incluir NCMs e MVAs" attrs="{'invisible': ['|', ('ncm', '=', False)]}" /></td>
                                     <td style="width:1%;"></td>
-                                    <td style="width:20%;"><button type="object" name="exclui_ncm" string="Excluir NCMs" attrs="{'invisible': ['|', ('ncm', '=', False), ('mva', '=', 0)]}" /></td>
+                                    <td style="width:20%;"><button type="object" name="exclui_ncm" string="Excluir NCMs" attrs="{'invisible': ['|', ('ncm', '=', False)]}" /></td>
                                 </tr>
                             </table>
                             <separator string="NCMs e MVAs" />

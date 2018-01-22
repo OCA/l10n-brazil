@@ -12,11 +12,11 @@
         <field name="inherit_id" ref="sped.sped_documento_emissao_nfce_form" />
         <field name="arch" type="xml">
             <header position="inside">
-                <button name="envia_nfe" string="Enviar NFC-e" type="object" class="btn-primary"
+                <button name="envia_documento" string="Enviar NFC-e" type="object" class="btn-primary"
                     attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada'])]}" />
                 <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-primary" />
-                <button name="gera_pdf" string="Baixar PDF" type="object" class="btn-primary" />
-                <button name="gera_xml" string="Baixar XML" type="object" class="btn-primary" />
+                <button name="imprimir_documento" string="Imprimir" type="object" class="btn-default"/>
+                <button name="gera_xml" string="Visualiza XML" type="object" class="btn-default"/>
             </header>
             <xpath expr="//field[@name='empresa_id']" position="before">
                 <field name="situacao_nfe" readonly="1" colspan="4" string="Situação"

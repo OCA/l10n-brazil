@@ -184,7 +184,10 @@ class SpedCFOP(models.Model):
         res = []
 
         for cfop in self:
-            res.append((cfop.id, cfop.codigo + ' - ' + cfop.descricao))
+            if self._context.get('cfop_tam_desc') == 'curta':
+                res.append((cfop.id, cfop.codigo))
+            else:
+                res.append((cfop.id, cfop.codigo + ' - ' + cfop.descricao))
 
         return res
 

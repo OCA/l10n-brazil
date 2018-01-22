@@ -13,7 +13,7 @@ from collections import OrderedDict
 from psycopg2.extensions import AsIs
 
 from odoo import _
-from odoo import fields, exceptions
+from odoo import exceptions, fields
 from odoo.report import report_sxw
 from ..constantes import *
 from .report_xlsx_base import ReportXlsxBase

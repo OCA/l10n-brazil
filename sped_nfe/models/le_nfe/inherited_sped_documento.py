@@ -43,15 +43,19 @@ class SpedDocumento(models.Model):
     _inherit = 'sped.documento'
 
     def le_nfe(self, processador=None, xml=None):
+        _logger.info(u'Lendo xml')
         self.ensure_one()
 
         if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            _logger.info(u'Modelo não suportado')
             return
 
         if xml is None:
+            _logger.info(u'XML vazio')
             return
 
         if ' Id="NFe' not in xml:
+            _logger.info(u'Documento não é uma nf-e')
             return
 
         partes = xml.split(' Id="NFe')
@@ -65,6 +69,7 @@ class SpedDocumento(models.Model):
 
         if len(documento) > 0:
             #documento.unlink()
+            _logger.info(u'Chave já cadastrada')
             return documento
 
         dados = {
@@ -95,6 +100,7 @@ class SpedDocumento(models.Model):
 
         if not self._pode_importar_nfe(nfe.infNFe.ide, dados, dados_emitente,
                                    dados_destinatario):
+            _logger.info(u'Não foi possível importar a nfe')
             return
 
         '''
@@ -146,8 +152,10 @@ class SpedDocumento(models.Model):
 
         if not self.id:
             self = self.create(dados)
+            _logger.info(u'Documento importado')
         else:
             self.update(dados)
+            _logger.info(u'Documento atualizado')
 
         #
         # Se certifica de que todos os campos foram totalizados
@@ -186,6 +194,7 @@ class SpedDocumento(models.Model):
                 self.situacao_nfe = SITUACAO_NFE_DENEGADA
                 #self.executa_depois_denegar()
 
+        _logger.info(u'Leitura do XML finalizada')
         return self
 
     def _pode_importar_nfe(self, ide, dados, dados_emitente, dados_destinatario):

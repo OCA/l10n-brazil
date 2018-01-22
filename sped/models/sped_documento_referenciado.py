@@ -22,7 +22,6 @@ class SpedDocumentoReferenciado(models.Model):
         comodel_name='sped.documento',
         string='Documento',
         ondelete='cascade',
-        required=True,
     )
     empresa_id = fields.Many2one(
         comodel_name='sped.empresa',

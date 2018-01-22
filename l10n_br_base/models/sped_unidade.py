@@ -38,6 +38,7 @@ class SpedUnidade(models.Model):
     TIPO_UNIDADE_AREA = 'A'
     TIPO_UNIDADE_TEMPO = 'T'
     TIPO_UNIDADE_EMBALAGEM = 'E'
+    TIPO_UNIDATE_IMPORTADO_XML = 'X'
 
     uom_id = fields.Many2one(
         comodel_name='product.uom',
@@ -368,8 +369,11 @@ class SpedUnidade(models.Model):
     def prepare_sync_to_uom(self):
         self.ensure_one()
 
-        if (self.tipo == self.TIPO_UNIDADE_UNIDADE or
-                self.tipo == self.TIPO_UNIDADE_EMBALAGEM):
+        if self.tipo in (
+                self.TIPO_UNIDADE_UNIDADE,
+                self.TIPO_UNIDADE_EMBALAGEM,
+                self.TIPO_UNIDATE_IMPORTADO_XML
+        ):
             category_id = self.env.ref('product.product_uom_categ_unit').id
 
         elif self.tipo == self.TIPO_UNIDADE_PESO:
@@ -446,8 +450,11 @@ class SpedUnidade(models.Model):
     def create(self, dados):
         dados['name'] = dados['codigo']
 
-        if dados['tipo'] == self.TIPO_UNIDADE_UNIDADE or \
-            dados['tipo'] == self.TIPO_UNIDADE_EMBALAGEM:
+        if dados['tipo'] in (
+                self.TIPO_UNIDADE_UNIDADE,
+                self.TIPO_UNIDADE_EMBALAGEM,
+                self.TIPO_UNIDATE_IMPORTADO_XML
+        ):
             dados['category_id'] = self.env.ref(
                 'product.product_uom_categ_unit').id
 

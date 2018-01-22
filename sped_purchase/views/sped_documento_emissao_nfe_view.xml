@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="sped_documento_recebimento_nfe_form" >
+        <field name="name">sped.documento.recebimento.nfe.form (in sped_purchase)</field>
+        <field name="model">sped.documento</field>
+        <field name="inherit_id" ref="sped.sped_documento_recebimento_nfe_form" />
+        <field name="arch" type="xml">
+            <group position="before">
+                <group colspan="4">
+                    <field name="purchase_order_ids" widget="many2many_tags"/>
+                </group>
+            </group>
+            <field name="item_ids" position="attributes">
+                <attribute name="context">{
+                    'cfop_tam_desc': 'curta',
+                    'form_view_ref' : 'sped_purchase.sped_documento_item_form',
+                    'tree_view_ref' : 'sped_purchase.sped_documento_item_tree',
+                    'manual': True}</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

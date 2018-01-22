@@ -247,6 +247,10 @@ class SpedProtocoloICMS(models.Model):
         inverse_name='protocolo_id',
         string='NCMs',
     )
+    categ_ids = fields.Many2many(
+        comodel_name='product.category',
+        string='Categorias de produtos',
+    )
 
     def _valida_descricao(self):
         self.ensure_one()
@@ -372,7 +376,7 @@ class SpedProtocoloICMS(models.Model):
         self.ensure_one()
 
         if (self.tipo == 'P' and (not self.ncm)) or \
-                (self.tipo == 'S' and (not (self.ncm and self.mva))):
+                (self.tipo == 'S' and (not self.ncm)):
             return
 
         #
@@ -410,6 +414,8 @@ class SpedProtocoloICMS(models.Model):
             self, estado_origem, estado_destino, data, empresa=None):
         self.ensure_one()
 
+        mensagem = ''
+
         busca = [
             ('protocolo_id', '=', self.id),
             ('estado_origem_id.uf', '=', estado_origem),
@@ -421,7 +427,9 @@ class SpedProtocoloICMS(models.Model):
             busca, limit=1, order='data_inicio desc')
 
         if len(protocolo_aliquota_ids) != 0:
-            return protocolo_aliquota_ids[0]
+            if protocolo_aliquota_ids.infadic:
+                mensagem = protocolo_aliquota_ids.infadic
+            return mensagem, protocolo_aliquota_ids[0]
 
         #
         # Se não encontrar, busca a alíquota do protocolo padrão da empresa
@@ -439,8 +447,12 @@ class SpedProtocoloICMS(models.Model):
         protocolo_aliquota_ids = self.aliquota_ids.search(
             busca, limit=1, order='data_inicio desc')
 
+
+
         if len(protocolo_aliquota_ids) != 0:
-            return protocolo_aliquota_ids[0]
+            if protocolo_aliquota_ids.infadic:
+                mensagem = protocolo_aliquota_ids.infadic
+            return mensagem, protocolo_aliquota_ids[0]
 
         return
 

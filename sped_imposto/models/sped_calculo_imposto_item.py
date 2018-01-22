@@ -147,6 +147,18 @@ class SpedCalculoImpostoItem(SpedBase):
         ondelete='restrict',
         index=True,
     )
+    ncm_id = fields.Many2one(
+        comodel_name='sped.ncm',
+        string='NCM',
+        related='produto_id.ncm_id',
+        readonly=True,
+    )
+    cest_id = fields.Many2one(
+        comodel_name='sped.cest',
+        string='CEST',
+        related='produto_id.cest_id',
+        readonly=True,
+    )
     protocolo_id = fields.Many2one(
         comodel_name='sped.protocolo.icms',
         string='Protocolo ICMS',
@@ -298,6 +310,14 @@ class SpedCalculoImpostoItem(SpedBase):
     al_icms_proprio = fields.Monetary(
         string='alíquota do ICMS próprio',
         currency_field='currency_aliquota_id',
+    )
+    al_efetiva_icms_proprio = fields.Monetary(
+        string='Alíquota efetiva do ICMS próprio',
+        currency_field='currency_aliquota_id',
+        readonly=True,
+        help='Percentual do ICMS próprio c/ a redução aplicada, \n'
+             'de forma a representar o valor do icms sobre a base de cálculo\n'
+             '- Campo útilizado para emissão do CF-E'
     )
     vr_icms_proprio = fields.Monetary(
         string='valor do ICMS próprio',
@@ -1075,11 +1095,11 @@ class SpedCalculoImpostoItem(SpedBase):
                         busca_item)
 
                     if operacao_item_ids:
-                        break
+                        return operacao_item_ids
+        return False
 
-        return operacao_item_ids
-
-    def _onchange_produto_id_emissao_propria(self):
+        
+    def _onchange_produto_id_recebimento(self):
         self.ensure_one()
 
         #
@@ -1259,8 +1279,252 @@ class SpedCalculoImpostoItem(SpedBase):
         #
         # Não tem item da operação mesmo, ou encontrou mais de um possível?
         #
-        if len(operacao_item_ids) == 0 or len(operacao_item_ids) > 1:
-            if len(operacao_item_ids) == 0:
+        if not operacao_item_ids or len(operacao_item_ids) > 1:
+            if not operacao_item_ids:
+                mensagem_erro = \
+                    'Não há nenhum item genérico na operação, ' \
+                    'nem específico para o protocolo ' \
+                    '“{protocolo}”, configurado para operações {estado}!'
+            else:
+                mensagem_erro = \
+                    'Há mais de um item genérico na operação, ' \
+                    'ou mais de um item específico para ' \
+                    'o protocolo “{protocolo}”, ' \
+                    'configurado para operações {estado}!'
+
+            if posicao_cfop == POSICAO_CFOP_ESTADUAL:
+                mensagem_erro = mensagem_erro.format(
+                    protocolo=protocolo.descricao, estado='dentro do estado')
+
+            elif posicao_cfop == POSICAO_CFOP_INTERESTADUAL:
+                mensagem_erro = mensagem_erro.format(
+                    protocolo=protocolo.descricao, estado='interestaduais')
+
+            elif posicao_cfop == POSICAO_CFOP_ESTRANGEIRO:
+                mensagem_erro = mensagem_erro.format(
+                    protocolo=protocolo.descricao, estado='internacionais')
+
+            raise ValidationError(_(mensagem_erro))
+
+        #
+        # Agora que temos o item da operação, definimos os valores do item
+        #
+        operacao_item = operacao_item_ids[0]
+
+        self.operacao_item_id = operacao_item.id
+
+        #
+        # O protocolo alternativo no item da operação força o uso de
+        # determinado protocolo, independente de validade no estado ou outras
+        # validações
+        #
+        if operacao_item.protocolo_alternativo_id:
+            self.protocolo_id = operacao_item.protocolo_alternativo_id.id
+
+        else:
+            self.protocolo_id = protocolo.id
+
+        return res
+
+    def _onchange_produto_id_emissao_propria(self):
+        self.ensure_one()
+
+        #
+        # Aqui determinados o protocolo e o item da operação a ser seguido para
+        # a operação, o produto e o NCM em questão
+        #
+        res = {}
+
+        if not self.produto_id:
+            return res
+
+        #
+        # Validamos alguns dos M2O necessários, vindos do documento
+        #
+        if not self.empresa_id:
+            raise ValidationError(
+                _('A empresa ativa não foi definida!')
+            )
+
+        if not self.participante_id:
+            raise ValidationError(
+                _('O destinatário/remetente não foi informado!')
+            )
+
+        if not self.operacao_id:
+            raise ValidationError(_('A operação fiscal não foi informada!'))
+
+        #
+        # Se já ocorreu o preenchimento da descrição, não sobrepõe
+        #
+        if not self.produto_nome:
+            self.produto_nome = self.produto_id.nome
+
+        self.org_icms = (self.produto_id.org_icms or
+                         ORIGEM_MERCADORIA_NACIONAL)
+        self.unidade_id = self.produto_id.unidade_id.id
+
+
+        if self.produto_id.unidade_tributacao_id:
+            self.unidade_tributacao_id = \
+                self.produto_id.unidade_tributacao_id.id
+            self.fator_conversao_unidade_tributacao = \
+                self.produto_id.fator_conversao_unidade_tributacao
+
+        elif self.produto_id.unidade_tributacao_ncm_id:
+            self.unidade_tributacao_id = \
+                self.produto_id.unidade_tributacao_ncm_id.id
+            self.fator_conversao_unidade_tributacao = \
+                self.produto_id.fator_conversao_unidade_tributacao_ncm
+
+        else:
+            self.unidade_tributacao_id = self.produto_id.unidade_id.id
+            self.fator_conversao_unidade_tributacao = 1
+
+        if 'forca_vr_unitario' in self.env.context:
+            self.vr_unitario = self.env.context['forca_vr_unitario']
+
+        elif self.operacao_id.preco_automatico == 'V':
+            self.vr_unitario = self.produto_id.preco_venda
+
+        elif self.operacao_id.preco_automatico == 'C':
+            self.vr_unitario = self.produto_id.preco_custo
+
+        elif self.operacao_id.preco_automatico == 'T':
+            self.vr_unitario = self.produto_id.preco_transferencia
+
+        self.vr_unitario_readonly = self.vr_unitario
+
+        self.peso_bruto_unitario = self.produto_id.peso_bruto
+        self.peso_liquido_unitario = self.produto_id.peso_liquido
+        self.especie = self.produto_id.especie
+        self.fator_quantidade_especie = \
+            self.produto_id.fator_quantidade_especie
+
+        estado_origem, estado_destino, destinatario = \
+            self._estado_origem_estado_destino_destinatario()
+
+        if estado_origem == estado_destino:
+            posicao_cfop = POSICAO_CFOP_ESTADUAL
+        elif estado_origem == 'EX' or estado_destino == 'EX':
+            posicao_cfop = POSICAO_CFOP_ESTRANGEIRO
+        else:
+            posicao_cfop = POSICAO_CFOP_INTERESTADUAL
+
+        if self.operacao_id.calcular_tributacao in (
+                'somente_calcula', 'manual'):
+            return res
+        #
+        # Determinamos o protocolo que vai ser aplicado à situação
+        #
+        protocolo = None
+
+        if self.produto_id.protocolo_id:
+            protocolo = self.produto_id.protocolo_id
+
+        if not protocolo and (
+                self.produto_id.categ_id and
+                self.produto_id.categ_id.protocolo_ids
+        ):
+            busca_protocolo = [
+                ('categ_ids.id', '=', self.produto_id.categ_id.id),
+                '|',
+                ('estado_ids', '=', False),
+                ('estado_ids.uf', '=', estado_destino)
+            ]
+            protocolo = self.env['sped.protocolo.icms'].search(
+                busca_protocolo, limit=1
+            )
+
+        if not protocolo and (
+                self.produto_id.ncm_id and
+                self.produto_id.ncm_id.protocolo_ids
+        ):
+            busca_protocolo = [
+                ('ncm_ids.ncm_id', '=', self.produto_id.ncm_id.id),
+                '|',
+                ('estado_ids', '=', False),
+                ('estado_ids.uf', '=', estado_destino)
+            ]
+            protocolo = self.env['sped.protocolo.icms'].search(
+                busca_protocolo, limit=1
+            )
+
+        if not protocolo and self.empresa_id.protocolo_id:
+            protocolo = self.empresa_id.protocolo_id
+
+        elif not protocolo:
+            raise ValidationError(
+                _('O protocolo não foi definido!')
+            )
+
+        #
+        # Tratando protocolos que só valem para determinados estados
+        # Caso não seja possível usar o protocolo, por restrição dos
+        # estados permitidos, usar a família global da empresa
+        #
+        if len(protocolo.estado_ids) > 0:
+            estado_ids = protocolo.estado_ids.search(
+                [('uf', '=', estado_destino)])
+
+            #
+            # O estado de destino não pertence ao protocolo, usamos então o
+            # protocolo padrão da empresa
+            #
+            if len(estado_ids) == 0:
+                if self.empresa_id.protocolo_id:
+                    protocolo = self.empresa_id.protocolo_id
+
+                else:
+                    if self.produto_id.ncm_id:
+                        mensagem_erro = \
+                            'Não há protocolo padrão para a empresa, ' \
+                            'e o protocolo “{protocolo}” não pode ' \
+                            'ser usado para o estado “{estado}” ' \
+                            '(produto “{produto}”, NCM “{ncm}”)!' \
+                            .format(
+                                protocolo=protocolo.descricao,
+                                estado=estado_destino,
+                                produto=self.produto_id.nome,
+                                ncm=self.produto_id.ncm_id.codigo_formatado
+                            )
+                    else:
+                        mensagem_erro = \
+                            'Não há protocolo padrão para a empresa, ' \
+                            'e o protocolo “{protocolo}” não pode ' \
+                            'ser usado para o estado “{estado}” ' \
+                            '(produto “{produto}”)!'\
+                            .format(protocolo=protocolo.descricao,
+                                    estado=estado_destino,
+                                    produto=self.produto_id.nome)
+
+                    raise ValidationError(_(mensagem_erro))
+
+        #
+        # Determinamos agora qual linha da operação será seguida.
+        # Os critérios de busca vão variando entre o mais específico e o mais
+        # genérico; esta variação está configurada mais abaixo, quais campos
+        # devem ser pesquisados como False, e em qual ordem
+        #
+        domain_base = {
+            'operacao_id': self.operacao_id.id,
+            'tipo_protocolo': protocolo.tipo,
+            'cfop_id_posicao': posicao_cfop,
+            #
+            # Os 3 critérios abaixo serão alternados entre o valor realmente,
+            # ou False, no método busca_operacao_item
+            #
+            'contribuinte': self.participante_id.contribuinte,
+            'protocolo_id': protocolo.id,
+            'tipo_produto_servico': self.produto_id.tipo,
+        }
+        operacao_item_ids = self.busca_operacao_item(domain_base)
+
+        #
+        # Não tem item da operação mesmo, ou encontrou mais de um possível?
+        #
+        if not operacao_item_ids or len(operacao_item_ids) > 1:
+            if not operacao_item_ids:
                 mensagem_erro = \
                     'Não há nenhum item genérico na operação, ' \
                     'nem específico para o protocolo ' \
@@ -1402,11 +1666,59 @@ class SpedCalculoImpostoItem(SpedBase):
             elif self.operacao_item_id.codigo_natureza_receita_pis_cofins:
                 self.codigo_natureza_receita_pis_cofins = \
                     self.operacao_item_id.codigo_natureza_receita_pis_cofins
+        return res
+
+    @api.onchange('cfop_id')
+    def _onchange_cfop_id(self):
+        self.ensure_one()
+
+        res = {}
+
+        if not self.cfop_id:
+            return res
+
+        self.al_simples = 0
+        self.calcula_difal = False
+        self.bc_icms_proprio_com_ipi = False
+        self.bc_icms_st_com_ipi = False
+
+        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
+            if self.cfop_id.calcula_simples_csll_irpj:
+                if self.cfop_id.eh_venda_servico:
+                    if self.empresa_id.simples_aliquota_servico_id:
+                        self.al_simples = \
+                            self.empresa_id.simples_aliquota_servico_id \
+                                .al_simples
+                    else:
+                        self.al_simples = \
+                            self.empresa_id.simples_aliquota_id.al_simples
+                else:
+                    self.al_simples = \
+                        self.empresa_id.simples_aliquota_id.al_simples
+
+        else:
+            if (self.consumidor_final ==
+                    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and
+                    self.cfop_id.eh_venda):
+                if self.cfop_id.posicao == POSICAO_CFOP_INTERESTADUAL:
+                    self.calcula_difal = True
+
+                    if '2016-' in self.data_emissao:
+                        self.al_partilha_estado_destino = 40
+                    elif '2017-' in self.data_emissao:
+                        self.al_partilha_estado_destino = 60
+                    elif '2018-' in self.data_emissao:
+                        self.al_partilha_estado_destino = 80
+                    else:
+                        self.al_partilha_estado_destino = 100
+
+                self.bc_icms_proprio_com_ipi = True
+                self.bc_icms_st_com_ipi = True
 
         #
         # Busca a alíquota do IBPT quando venda
         #
-        if self.operacao_item_id.cfop_id.eh_venda:
+        if self.cfop_id.eh_venda:
             if self.produto_id.ncm_id:
                 ibpt = self.env['sped.ibptax.ncm']
 
@@ -1461,54 +1773,6 @@ class SpedCalculoImpostoItem(SpedBase):
                     if (self.operacao_item_id.cfop_id.posicao ==
                             POSICAO_CFOP_ESTRANGEIRO):
                         self.al_ibpt += ibpt_ids[0].al_ibpt_internacional
-
-        return res
-
-    @api.onchange('cfop_id')
-    def _onchange_cfop_id(self):
-        self.ensure_one()
-
-        res = {}
-
-        if not self.cfop_id:
-            return res
-
-        self.al_simples = 0
-        self.calcula_difal = False
-        self.bc_icms_proprio_com_ipi = False
-        self.bc_icms_st_com_ipi = False
-
-        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
-            if self.cfop_id.calcula_simples_csll_irpj:
-                if self.cfop_id.eh_venda_servico:
-                    if self.empresa_id.simples_aliquota_servico_id:
-                        self.al_simples = \
-                            self.empresa_id.simples_aliquota_servico_id \
-                                .al_simples
-                    else:
-                        self.al_simples = \
-                            self.empresa_id.simples_aliquota_id.al_simples
-                else:
-                    self.al_simples = \
-                        self.empresa_id.simples_aliquota_id.al_simples
-
-        else:
-            if (self.consumidor_final ==
-                    TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and
-                    self.cfop_id.eh_venda):
-                if self.cfop_id.posicao == POSICAO_CFOP_INTERESTADUAL:
-                    self.calcula_difal = True
-
-                    if '2016-' in self.data_emissao:
-                        self.al_partilha_estado_destino = 40
-                    elif '2017-' in self.data_emissao:
-                        self.al_partilha_estado_destino = 60
-                    else:
-                        self.al_partilha_estado_destino = 100
-
-                self.bc_icms_proprio_com_ipi = True
-                self.bc_icms_st_com_ipi = True
-
         return res
 
     @api.onchange('al_pis_cofins_id')
@@ -1561,6 +1825,9 @@ class SpedCalculoImpostoItem(SpedBase):
         if self.emissao != TIPO_EMISSAO_PROPRIA and not \
                 self.env.context.get('manual'):
             return res
+        elif self.operacao_id.calcular_tributacao in (
+                'somente_calcula', 'manual'):
+            return res
 
         if (self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES and
                 self.cst_icms_sn != ST_ICMS_SN_OUTRAS):
@@ -1606,15 +1873,17 @@ class SpedCalculoImpostoItem(SpedBase):
         self.ensure_one()
 
         res = {}
-
+        mensagens_complementares = ''
         avisos = {}
         res['warning'] = avisos
 
         if self.emissao != TIPO_EMISSAO_PROPRIA and not \
                 self.env.context.get('manual'):
             return res
-
-        if not self.protocolo_id:
+        elif self.operacao_id.calcular_tributacao in (
+                'somente_calcula', 'manual'):
+            return res
+        elif not self.protocolo_id:
             return res
 
         if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
@@ -1644,14 +1913,20 @@ class SpedCalculoImpostoItem(SpedBase):
         #
         if (self.entrada_saida == ENTRADA_SAIDA_ENTRADA and
                 self.participante_id.estado == 'EX'):
-            aliquota_origem_destino = self.protocolo_id.busca_aliquota(
+            mensagem, aliquota_origem_destino = \
+                self.protocolo_id.busca_aliquota(
                 estado_destino, estado_destino,
                 self.data_emissao, self.empresa_id)
+            if mensagem:
+                mensagens_complementares += mensagem + '; '
 
         else:
-            aliquota_origem_destino = self.protocolo_id.busca_aliquota(
+            mensagem, aliquota_origem_destino = \
+                self.protocolo_id.busca_aliquota(
                 estado_origem, estado_destino,
                 self.data_emissao, self.empresa_id)
+            if mensagem:
+                mensagens_complementares += mensagem + '; '
 
         #
         # Alíquota do ICMS próprio
@@ -1666,15 +1941,22 @@ class SpedCalculoImpostoItem(SpedBase):
         self.md_icms_proprio = al_icms.md_icms
         self.pr_icms_proprio = al_icms.pr_icms
         self.rd_icms_proprio = al_icms.rd_icms
-        self.al_icms_proprio = al_icms.al_icms
+
+        if self.cst_icms and (
+                not self.cst_icms in ST_ICMS_DESONERADO_ZERA_ICMS_PROPRIO):
+            self.al_icms_proprio = al_icms.al_icms
+
         self.al_interna_destino = 0
         self.al_difal = 0
         self.al_fcp = 0
 
         if self.calcula_difal:
-            aliquota_interna_destino = self.protocolo_id.busca_aliquota(
+            mensagem, aliquota_interna_destino = \
+            self.protocolo_id.busca_aliquota(
                 estado_destino, estado_destino,
                 self.data_emissao, self.empresa_id)
+            if mensagem:
+                mensagens_complementares += mensagem + '; '
 
             if (aliquota_interna_destino.al_icms_proprio_id.al_icms >
                     al_icms.al_icms):
@@ -1686,6 +1968,9 @@ class SpedCalculoImpostoItem(SpedBase):
                     aliquota_interna_destino.al_icms_proprio_id.al_icms
 
                 self.al_fcp = aliquota_interna_destino.al_fcp
+
+        if mensagens_complementares:
+            self.infcomplementar = mensagens_complementares
 
         #
         # Alíquota e MVA do ICMS ST, somente para quando não houver serviço
@@ -1740,7 +2025,7 @@ class SpedCalculoImpostoItem(SpedBase):
                         pr_icms_st *= al_icms_proprio / al_icms_st
                         pr_icms_st -= 1
                         pr_icms_st *= 100
-                        pr_icms_st = pr_icms_st.quantize(D('0.0001'))
+                        pr_icms_st = D(pr_icms_st).quantize(D('0.0001'))
 
                     self.pr_icms_st = pr_icms_st
 
@@ -1767,9 +2052,9 @@ class SpedCalculoImpostoItem(SpedBase):
         if hasattr(self, 'product_uom_qty'):
             self.product_uom_qty = self.quantidade
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
-                self.env.context.get('manual'):
-            return res
+        # if self.emissao != TIPO_EMISSAO_PROPRIA and not \
+        #         self.env.context.get('manual'):
+        #     return res
 
         #
         # Cupom Fiscal só aceita até 3 casas decimais no valor unitário
@@ -1858,6 +2143,8 @@ class SpedCalculoImpostoItem(SpedBase):
         if self.emissao != TIPO_EMISSAO_PROPRIA and not \
                 self.env.context.get('manual'):
             return res
+        elif self.operacao_id.calcular_tributacao == 'manual':
+            return res
 
         self.bc_ipi = 0
         self.vr_ipi = 0
@@ -1901,6 +2188,8 @@ class SpedCalculoImpostoItem(SpedBase):
 
         if self.emissao != TIPO_EMISSAO_PROPRIA and not \
                 self.env.context.get('manual'):
+            return res
+        elif self.operacao_id.calcular_tributacao == 'manual':
             return res
 
         self.vr_icms_sn = 0
@@ -1946,11 +2235,21 @@ class SpedCalculoImpostoItem(SpedBase):
         if self.emissao != TIPO_EMISSAO_PROPRIA and not \
                 self.env.context.get('manual'):
             return res
+        elif self.operacao_id.calcular_tributacao == 'manual':
+            return res
 
         if (self.cst_pis in ST_PIS_CALCULA or
                 self.cst_pis in ST_PIS_CALCULA_CREDITO or
                 (self.cst_pis == ST_PIS_AQUIS_SEM_CREDITO and
                  self.emissao == TIPO_EMISSAO_PROPRIA)):
+
+            md_pis_proprio = 0
+            bc_pis_proprio = 0
+            vr_pis_proprio = 0
+            md_cofins_proprio = 0
+            bc_cofins_proprio = 0
+            vr_cofins_proprio = 0
+
             if self.cst_pis in ST_PIS_CALCULA_ALIQUOTA:
                 md_pis_proprio = MODALIDADE_BASE_PIS_ALIQUOTA
                 bc_pis_proprio = D(self.vr_operacao_tributacao)
@@ -2008,6 +2307,11 @@ class SpedCalculoImpostoItem(SpedBase):
     def _onchange_calcula_icms_proprio(self):
         self.ensure_one()
 
+        #
+        # Aliquota efetivamente utilizada, campo do cf-e
+        #
+        self.al_efetiva_icms_proprio = (1 - self.rd_icms_proprio/100) * self.al_icms_proprio
+
         if self.emissao != TIPO_EMISSAO_PROPRIA and not \
                 self.env.context.get('manual'):
             return
@@ -2030,7 +2334,11 @@ class SpedCalculoImpostoItem(SpedBase):
                 return
 
         elif self.cst_icms not in ST_ICMS_CALCULA_PROPRIO:
-                return
+            if self.cst_icms in ST_ICMS_ZERA_ICMS_PROPRIO:
+                self.al_icms_proprio = D(0)
+                self.bc_icms_proprio = D(0)
+                self.vr_icms_proprio = D(0)
+            return
 
         if not self.md_icms_proprio:
             return
@@ -2271,9 +2579,9 @@ class SpedCalculoImpostoItem(SpedBase):
 
         res = {}
 
-        if self.emissao != TIPO_EMISSAO_PROPRIA and not \
-                self.env.context.get('manual'):
-            return res
+        # if self.emissao != TIPO_EMISSAO_PROPRIA and not \
+        #         self.env.context.get('manual'):
+        #     return res
 
         vr_nf = self.vr_operacao + self.vr_ipi + self.vr_icms_st + self.vr_ii
         vr_nf -= self.vr_icms_desonerado
@@ -2427,6 +2735,10 @@ class SpedCalculoImpostoItem(SpedBase):
         self._onchange_produto_id()
         self._onchange_operacao_item_id()
         self._onchange_cfop_id()
+
+        #
+        # Determina as aliquotas
+        #
         self._onchange_al_pis_cofins_id()
         self._onchange_cst_ipi()
         self._onchange_cst_icms_cst_icms_sn()
@@ -2448,7 +2760,10 @@ class SpedCalculoImpostoItem(SpedBase):
 
     def prepara_dados_documento_item(self):
         self.ensure_one()
-        return {}
+        result = {}
+        if self.numero_fci:
+            result.update({'numero_fci': self.numero_fci})
+        return result
 
     def _mantem_sincronia_cadastros(self, dados):
         dados = \

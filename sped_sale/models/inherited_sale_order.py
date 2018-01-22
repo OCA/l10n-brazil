@@ -259,7 +259,7 @@ class SaleOrder(SpedCalculoImpostoProdutoServico, models.Model):
 
             if stock_picking is None:
                 if documento_produto.operacao_id.enviar_pela_venda:
-                    documento_produto.envia_nfe()
+                    documento_produto.envia_documento()
 
         #if documento_servico is not None:
             #if documento_servico.operacao_id.enviar_pela_venda:

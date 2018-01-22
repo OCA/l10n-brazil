@@ -21,15 +21,15 @@ class PurchaseOrderLine(SpedCalculoImpostoItem, models.Model):
         related='order_id.is_brazilian',
     )
     empresa_id = fields.Many2one(
-        related='order_id.sped_empresa_id',
+        related='order_id.empresa_id',
         readonly=True,
     )
     participante_id = fields.Many2one(
-        related='order_id.sped_participante_id',
+        related='order_id.participante_id',
         readonly=True,
     )
     operacao_id = fields.Many2one(
-        related='order_id.sped_operacao_produto_id',
+        related='order_id.operacao_produto_id',
         readonly=True,
     )
     data_emissao = fields.Datetime(
@@ -105,9 +105,27 @@ class PurchaseOrderLine(SpedCalculoImpostoItem, models.Model):
         compute='_compute_permite_alteracao',
     )
 
+    documento_id = fields.Many2one(
+        comodel_name='purchase.order',
+        related='order_id',
+        readonly=True,
+    )
+
+    documento_item_ids = fields.Many2many(
+        comodel_name='sped.documento.item',
+        inverse_name='purchase_line_ids',
+    )
+
+    def prepara_dados_documento_item(self):
+        self.ensure_one()
+
+        return {
+            'purchase_line_ids': [(4, self.id)],
+            'purchase_ids': [(4, self.order_id.id)],
+        }
+
     @api.onchange('produto_id')
     def onchange_product_id_date(self):
-        domain = {}
         if not self.order_id:
             return
 
@@ -119,8 +137,7 @@ class PurchaseOrderLine(SpedCalculoImpostoItem, models.Model):
                     'para permtir o cálculo correto dos impostos'),
             }
             return {'warning': warning}
-        if not (self.order_id.sped_operacao_produto_id or
-                self.order_id.sped_operacao_servico_id):
+        if not (self.order_id.operacao_produto_id):
             warning = {
                 'title': _('Warning!'),
                 'message': _(
@@ -135,30 +152,23 @@ class PurchaseOrderLine(SpedCalculoImpostoItem, models.Model):
         for item in self:
             item.permite_alteracao = True
 
-    @api.depends('unidade_id', 'unidade_tributacao_id',
-                 'vr_produtos', 'vr_operacao',
-                 'vr_produtos_tributacao', 'vr_operacao_tributacao',
-                 'vr_nf', 'vr_fatura',
-                 'vr_unitario_custo_comercial', 'vr_custo_comercial')
-    def _compute_readonly(self):
-        for item in self:
-            item.unidade_readonly_id = \
-                item.unidade_id.id if item.unidade_id else False
-            if item.unidade_tributacao_id:
-                item.unidade_tributacao_readonly_id = \
-                    item.unidade_tributacao_id.id
-            else:
-                item.unidade_tributacao_readonly_id = False
+    @api.multi
+    def write(self, vals):
+        res = super(PurchaseOrderLine, self).write(vals)
+        if vals.get('qty_received'):
+            self.compute_received()
+        return res
 
-            item.vr_produtos_readonly = item.vr_produtos
-            item.vr_operacao_readonly = item.vr_operacao
-            item.vr_produtos_tributacao_readonly = item.vr_produtos_tributacao
-            item.vr_operacao_tributacao_readonly = item.vr_operacao_tributacao
-            item.vr_nf_readonly = item.vr_nf
-            item.vr_fatura_readonly = item.vr_fatura
-            item.vr_unitario_custo_comercial_readonly = \
-                item.vr_unitario_custo_comercial
-            item.vr_custo_comercial_readonly = item.vr_custo_comercial
-            item.peso_bruto_readonly = item.peso_bruto
-            item.peso_liquido_readonly = item.peso_liquido
-            item.quantidade_especie_readonly = item.quantidade_especie
+    @api.model
+    def create(self, vals):
+        lines = super(PurchaseOrderLine, self).create(vals)
+        if lines.qty_received == lines.quantidade:
+            lines.compute_received()
+        return lines
+
+    @api.multi
+    def compute_received(self):
+        for line in self:
+            if all(line.quantidade == line.qty_received
+                   for line in line.order_id.mapped('order_line')):
+                line.order_id.state = 'received'

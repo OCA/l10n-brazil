@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA <mileo@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <record id='impressora_config_form' model='ir.ui.view'>
+        <field name='name'>impressora.config.form</field>
+        <field name='model'>impressora.config</field>
+        <field name="priority">1</field>
+        <field name='arch' type='xml'>
+            <form string='Impressora'>
+                <sheet>
+                    <group string="Configuração da Impressora">
+                        <field name="nome"/>
+                        <field name="modelo"/>
+                        <field name="forma"/>
+                        <field name="conexao"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

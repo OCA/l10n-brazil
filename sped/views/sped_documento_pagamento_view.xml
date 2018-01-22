@@ -18,24 +18,26 @@
                 <field name="integracao_cartao" invisible="1"/>
                 <field name="participante_id" invisible="1"/>
                 <field name="cnpj_cpf" invisible="1"/>
-                <group col="4" colspan="4">
-                    <group col="4" colspan="4">
-                        <field name="valor" required="1" />
-                        <field name="troco" />
-                        <newline />
-                        <field name="condicao_pagamento_id" colspan="4" context="{'valor': valor}" />
-                        <newline />
-                        <separator string="Vencimentos" colspan="4" />
-                        <field name="duplicata_ids" colspan="4" nolabel="1" >
-                            <tree string="Duplicatas" editable="bottom">
-                                <field name="currency_id" invisible="1" />
-                                <field name="numero" />
-                                <field name="data_vencimento" />
-                                <field name="valor" sum="valor" />
-                            </tree>
-                        </field>
+                <group name="dados_pagamento">
+                    <group>
+                        <field name="valor" required="1"/>
+                    </group>
+                    <group>
+                        <field name="troco"/>
+                    </group>
+                    <group colspan="4" col="4" name="condicao_pagamento">
+                        <field name="condicao_pagamento_id" context="{'valor': valor}" colspan="4"/>
                     </group>
                 </group>
+                <separator string="Vencimentos"/>
+                <field name="duplicata_ids">
+                    <tree string="Duplicatas" editable="bottom">
+                        <field name="currency_id" invisible="1"/>
+                        <field name="numero"/>
+                        <field name="data_vencimento"/>
+                        <field name="valor" sum="valor"/>
+                    </tree>
+                </field>
             </form>
         </field>
     </record>

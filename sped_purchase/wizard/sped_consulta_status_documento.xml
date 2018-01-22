@@ -3,7 +3,7 @@
     <data>
         <record id="sped_consulta_status_documento_form" model="ir.ui.view">
             <field name="name">Consultar Documento</field>
-            <field name="model">sped.consulta_status_documento</field>
+            <field name="model">sped_purchase.consulta_status_documento</field>
             <field name="arch" type="xml">
                 <form string="Consultar chave de acesso" version="7.0">
                     <field invisible="1" name="state"/>
@@ -34,7 +34,7 @@
         
         <record id="action_sped_consulta_status_documento" model="ir.actions.act_window">
             <field name="name">Consultar chave de acesso</field>
-            <field name="res_model">sped.consulta_status_documento</field>
+            <field name="res_model">sped_purchase.consulta_status_documento</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>

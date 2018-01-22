@@ -82,7 +82,7 @@
 
     <menuitem
         id="menu_sped_documento_emissao_nfse"
-        sequence="1"
+        sequence="20"
         name="NFS-e"
         parent="sped.menu_sped_documento_emissao"
         action="sped_documento_emissao_nfse_acao" />
