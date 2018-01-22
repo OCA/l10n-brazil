@@ -395,5 +395,37 @@
             </search>
         </field>
     </record>
-
+    <record id="ids_sped_documento_view_form" model="ir.ui.view">
+            <field name="name">sped.documento.form.inherit</field>
+            <field name="model">sped.documento</field>
+            <field name="inherit_id" ref="sped.sped_documento_base_form" />
+            <field name="groups_id" eval="[(6, 0, [ref('sped_imposto.GRUPO_FISCAL_GERAL') ])]" />
+            <field name="arch" type="xml">
+                <field name="situacao_fiscal" position="attributes">
+                   <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+    </record>
+    <record id="ids2_sped_documento_view_form" model="ir.ui.view">
+            <field name="name">sped.documento.form.inherit</field>
+            <field name="model">sped.documento</field>
+            <field name="inherit_id" ref="sped.sped_documento_base_form" />
+            <field name="groups_id" eval="[(6, 0, [ref('sped_imposto.GRUPO_FISCAL_LEITURA') ])]" />
+            <field name="arch" type="xml">
+                <field name="situacao_fiscal" position="attributes">
+                   <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+    </record>
+    <record id="ids3_sped_documento_view_form" model="ir.ui.view">
+            <field name="name">sped.documento.form.inherit</field>
+            <field name="model">sped.documento</field>
+            <field name="inherit_id" ref="sped.sped_documento_base_form" />
+            <field name="groups_id" eval="[(6, 0, [ref('sped_imposto.GRUPO_FISCAL_GERENTE') ])]" />
+            <field name="arch" type="xml">
+                <field name="situacao_fiscal" position="attributes">
+                   <attribute name="readonly">0</attribute>
+                </field>
+            </field>
+    </record>
 </odoo>
