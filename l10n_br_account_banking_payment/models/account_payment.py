@@ -27,8 +27,7 @@ class PaymentOrder(models.Model):
         for record in self:
             if not record.line_ids:
                 raise ValidationError(_("Impossible confirm empty line!"))
-        res = super(PaymentOrder, self).action_open()
-        return res
+        return super(PaymentOrder, self).action_open()
 
 
 class PaymentLine(models.Model):
