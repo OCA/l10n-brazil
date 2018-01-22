@@ -4,7 +4,7 @@
 Brazil Account Banking - Payments Infrastructure
 ================================================
 
-This module provide an infrastructure to export payment orders and debit orders
+This module provides an infrastructure to export payment orders and debit orders
 
 Installation
 ============
