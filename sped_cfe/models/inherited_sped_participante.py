@@ -7,7 +7,7 @@
 
 from __future__ import division, print_function, unicode_literals
 
-from odoo import api, fields, models, _
+from odoo import fields, models
 from odoo.addons.l10n_br_base.models.sped_base import SpedBase
 
 

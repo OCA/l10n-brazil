@@ -33,9 +33,7 @@ FORMA_PAGAMENTO = (
 )
 
 try:
-    from satcfe import *
     from pybrasil.valor.decimal import Decimal as D
-    from pybrasil.inscricao import limpa_formatacao
     from satcfe.entidades import MeioPagamento
 
 except (ImportError, IOError) as err:
@@ -151,7 +149,7 @@ class SpedDocumentoPagamento(models.Model):
                         config.chave_acesso_validador,
                         config.path_integrador
                     )
-
+                # TODO: Tratar o retorno
                 self.pagamento_valido = True
 
     @api.multi
