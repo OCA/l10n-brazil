@@ -130,10 +130,10 @@ class HrPayslipRun(models.Model):
                 dominio_contratos += [
                     ('categoria', 'not in', ['721', '722']),
                 ]
-            else:
-                dominio_contratos += [
-                    ('date_end', '>', lote.date_start),
-                ]
+            # else:
+            #     dominio_contratos += [
+            #         ('date_end', '>', lote.date_start),
+            #     ]
             contracts_id = self.env['hr.contract'].search(dominio_contratos)
 
             dominio_payslips = [
@@ -161,7 +161,7 @@ class HrPayslipRun(models.Model):
                 contrato.id for contrato in contracts_id
                 if (contrato.id not in contratos_com_holerites)
                    and (contrato.date_start <= lote.date_end)
-                   and ((contrato.date_end >= lote.date_start)
+                   and ((contrato.date_end < lote.date_start)
                    or (not contrato.date_end))]
 
             lote.write({
