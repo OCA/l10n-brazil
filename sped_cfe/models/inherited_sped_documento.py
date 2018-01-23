@@ -681,9 +681,7 @@ class SpedDocumento(models.Model):
         except Exception as resposta:
             if hasattr(resposta, 'resposta'):
                 self.codigo_rejeicao_cfe = resposta.resposta.EEEEE
-            if hasattr(resposta, 'message'):
-                mensagem = '\nMensagem: ' + resposta.message
-                self.mensagem_nfe = mensagem
+            self.mensagem_nfe = "Falha na conexão com SATHUB"
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
 
     @api.multi
