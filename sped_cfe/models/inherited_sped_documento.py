@@ -75,9 +75,9 @@ class SpedDocumento(models.Model):
             record.pagamento_autorizado_cfe = pagamentos_validados
 
     configuracoes_pdv = fields.Many2one(
-        string=u"Configurações para a venda",
+        string=u"Configurações PDV",
         comodel_name="pdv.config",
-        compute=_buscar_configuracoes_pdv
+        compute='_buscar_configuracoes_pdv',
     )
 
     pagamento_autorizado_cfe = fields.Boolean(
