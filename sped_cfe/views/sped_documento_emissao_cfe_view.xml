@@ -14,7 +14,7 @@
         <field name="arch" type="xml">
             <field name="empresa_id" position="after">
                 <field name="pagamento_autorizado_cfe" />
-                <field name="configuracoes_pdv" invisible="1" />
+                <field name="configuracoes_pdv" />
             </field>
             <field name="numero" position="replace">
                 <field name="numero" readonly="1"/>
