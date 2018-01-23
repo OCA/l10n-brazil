@@ -679,10 +679,11 @@ class SpedDocumento(models.Model):
             self.mensagem_nfe = mensagem
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
         except Exception as resposta:
-            if resposta.resposta.EEEEE:
+            if hasattr(resposta, 'resposta'):
                 self.codigo_rejeicao_cfe = resposta.resposta.EEEEE
-            mensagem = '\nMensagem: ' + resposta.message
-            self.mensagem_nfe = mensagem
+            if hasattr(resposta, 'message'):
+                mensagem = '\nMensagem: ' + resposta.message
+                self.mensagem_nfe = mensagem
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
 
     @api.multi
