@@ -33,10 +33,10 @@ class ImportaNFe(models.Model):
         # required=True,
     )
     quantidade_diretorio = fields.Integer(
-
+        string='Quantidade Diretório',
     )
     quantidade_importada = fields.Integer(
-
+        string='Quantidade Importada',
     )
     empresa_id = fields.Many2one(
         comodel_name='sped.empresa',
