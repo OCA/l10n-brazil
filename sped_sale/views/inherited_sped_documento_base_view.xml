@@ -22,4 +22,16 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="sped_documento_base_tree">
+        <field name="name">sped.documento.tree (in sped_sale)</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">3</field>
+        <field name="inherit_id" ref="sped.sped_documento_base_tree"/>
+        <field name="arch" type="xml">
+            <field name="participante_id" position="before">
+                <field name="sale_order_id" />
+            </field>
+        </field>
+    </record>
+
 </odoo>
