@@ -17,8 +17,6 @@ _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil.inscricao import limpa_formatacao
-    from satcfe import ClienteSATLocal
-    from satcfe import ClienteSATHub
     from satcfe import BibliotecaSAT
 
 except (ImportError, IOError) as err:
@@ -69,12 +67,14 @@ class SpedEmpresa(models.Model):
 
     def processador_cfe(self):
         """
-        Busca classe do processador do cadastro da empresa, onde podemos ter três tipos de processamento dependendo
+        Busca classe do processador do cadastro da empresa,
+        onde podemos ter três tipos de processamento dependendo
         de onde o equipamento esta instalado:
 
         - Instalado no mesmo servidor que o Odoo;
         - Instalado na mesma rede local do servidor do Odoo;
-        - Instalado em um local remoto onde o browser vai ser responsável por se comunicar com o equipamento
+        - Instalado em um local remoto onde o browser vai ser
+        responsável por se comunicar com o equipamento
 
         :return:
         """

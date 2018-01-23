@@ -9,15 +9,35 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from odoo import models, fields
-from odoo.addons.l10n_br_base.constante_tributaria import *
+from odoo import models
+from odoo.addons.l10n_br_base.constante_tributaria import (
+    REGIME_TRIBUTARIO_SIMPLES,
+    MODELO_FISCAL_CFE,
+)
 
 _logger = logging.getLogger(__name__)
 
 try:
-    from satcfe.entidades import *
+    from satcfe.entidades import (
+        ProdutoServico,
+        Detalhamento,
+        Imposto,
+        COFINSOutr,
+        COFINSQtde,
+        COFINSNT,
+        COFINSAliq,
+        PISOutr,
+        PISQtde,
+        PISNT,
+        PISAliq,
+        ICMS40,
+        ICMS00,
+        COFINSSN,
+        PISSN,
+        ICMSSN900,
+        ICMSSN102,
+    )
     from pybrasil.valor.decimal import Decimal as D
-    from pybrasil.template import TemplateBrasil
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -51,7 +71,7 @@ class SpedDocumentoItem(models.Model):
 
         if self.produto_id.ncm_id:
             ncm = self.produto_id.ncm_id.codigo
-            ncm_extipi = self.produto_id.ncm_id.ex
+            # ncm_extipi = self.produto_id.ncm_id.ex
         else:
             ncm = ''
 
