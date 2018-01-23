@@ -164,6 +164,7 @@ class HrPayslipRun(models.Model):
                    and ((contrato.date_end < lote.date_start)
                    or (not contrato.date_end))]
 
+
             lote.write({
                 'contract_id': [(6, 0, contratos_sem_holerite)],
                 'contract_id_readonly': [(6, 0, contratos_sem_holerite)],
