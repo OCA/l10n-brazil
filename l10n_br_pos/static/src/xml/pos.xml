@@ -72,7 +72,7 @@
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-number)" t-operation="after">
             <div class='client-detail'>
                 <span class='label'>Pais:</span>
-                <span class='detail client-country'><t t-esc='partner.country_id' /></span>
+                <span class='detail client-country'><t t-esc='partner.country_id[1]' /></span>
             </div>
         </t>
     </t>
@@ -80,7 +80,7 @@
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-country)" t-operation="after">
             <div class='client-detail'>
                 <span class='label'>Estado:</span>
-                <span class='detail client-state'><t t-esc='partner.state_id' /></span>
+                <span class='detail client-state'><t t-esc='partner.state_id[1]' /></span>
             </div>
         </t>
     </t>
@@ -88,7 +88,7 @@
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-state)" t-operation="after">
             <div class='client-detail'>
                 <span class='label'>Cidade:</span>
-                <span class='detail client-city'><t t-esc='partner.l10n_br_city_id' /></span>
+                <span class='detail client-city'><t t-esc='partner.l10n_br_city_id[1]' /></span>
             </div>
         </t>
     </t>
@@ -159,7 +159,7 @@
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-state)" t-operation="after">
             <div class='client-detail'>
                 <span class='label'>Cidade</span>
-                <select class='detail client-address-city' name='city_id'>
+                <select class='detail client-address-city' name='l10n_br_city_id'>
                     <option value=''>None</option>
                     <t t-foreach='widget.pos.cities' t-as='city'>
                         <option t-att-value='city.id' t-att-selected="partner.l10n_br_city_id ? ((city.id === partner.l10n_br_city_id[0]) ? true : undefined) : undefined">
