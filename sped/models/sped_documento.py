@@ -11,7 +11,7 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models, tools,  _
 from odoo.exceptions import ValidationError
 from odoo.addons.sped_imposto.models.sped_calculo_imposto import SpedCalculoImposto
 
@@ -900,6 +900,19 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         string='Impresso',
         readonly=True,
     )
+
+    documento_origem_id = fields.Reference(
+        selection="_selection_documento_origem_id",
+        string='Documento de Origem',
+        help='Documento que originou o sped.documento.',
+        strore=True,
+    )
+
+    @api.model
+    @tools.ormcache("self")
+    def _selection_documento_origem_id(self):
+        """Allow any model; after all, this field is readonly."""
+        return [(r.model, r.name) for r in self.env["ir.model"].search([])]
 
     @api.multi
     def name_get(self):
