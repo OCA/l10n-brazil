@@ -905,7 +905,6 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         selection="_selection_documento_origem_id",
         string='Documento de Origem',
         help='Documento que originou o sped.documento.',
-        strore=True,
     )
 
     @api.model
