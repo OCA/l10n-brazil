@@ -42,9 +42,11 @@ try:
         Emitente,
         Destinatario,
         LocalEntrega,
+        InformacoesAdicionais,
         CFeCancelamento,
     )
     from satcfe.excecoes import ExcecaoRespostaSAT, ErroRespostaSATInvalida
+    from pybrasil.template import TemplateBrasil
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -376,10 +378,28 @@ class SpedDocumento(models.Model):
             detalhamentos=detalhamentos,
             pagamentos=pagamentos,
             vCFeLei12741=D(self.vr_ibpt).quantize('0.01'),
+            informacoes_adicionais=self._monta_cfe_informacoes_adicionais(),
             **kwargs
         )
         cfe_venda.validar()
         return cfe_venda
+
+    def _monta_cfe_informacoes_adicionais(self):
+        infcomplementar = self.infcomplementar or ''
+
+        dados_informacoes_venda = InformacoesAdicionais()
+
+        dados_infcomplementar = {
+            'nf': self,
+        }
+
+        if infcomplementar:
+            template = TemplateBrasil(infcomplementar.encode('utf-8'))
+            info_complementar = template.render(**dados_infcomplementar)
+            dados_informacoes_venda.infCpl = info_complementar
+            dados_informacoes_venda.validar()
+
+        return dados_informacoes_venda
 
     def _monta_cfe_identificacao(self):
         # FIXME: Buscar dados do cadastro da empresa / cadastro do caixa
