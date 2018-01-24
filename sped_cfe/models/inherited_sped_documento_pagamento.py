@@ -117,7 +117,9 @@ class SpedDocumentoPagamento(models.Model):
                     self.documento_id.bc_icms_proprio,
                     self.valor,
                     config.multiplos_pag,
-                    config.anti_fraude, 'BRL', config.numero_caixa
+                    config.anti_fraude,
+                    'BRL',
+                    int(config.numero_caixa),
                 )
             elif config.tipo_sat == 'rede_interna':
                 resposta = cliente.enviar_pagamento(
@@ -130,7 +132,7 @@ class SpedDocumentoPagamento(models.Model):
                     config.multiplos_pag,
                     config.anti_fraude,
                     'BRL',
-                    config.numero_caixa,
+                    int(config.numero_caixa),
                     config.chave_acesso_validador,
                     config.path_integrador
                 )
@@ -148,7 +150,8 @@ class SpedDocumentoPagamento(models.Model):
                     )
                 elif config.tipo_sat == 'rede_interna':
                     cliente.enviar_status_pagamento(
-                        config.cnpjsh, self.id_fila, config.numero_caixa,
+                        config.cnpjsh, self.id_fila,
+                        int(config.numero_caixa),
                         config.chave_acesso_validador,
                         config.path_integrador
                     )
