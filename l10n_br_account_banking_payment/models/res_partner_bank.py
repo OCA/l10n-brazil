@@ -27,6 +27,6 @@ class ResPartnerBank(models.Model):
     def check_bic_length(self):
         # TODO - https://github.com/OCA/l10n-brazil/issues/588
         for record in self:
-            if record.country_id.code == 'BR':
+            if record.bank.country_id.code == 'BR':
                 return True
             return super(ResBank, record).check_bic_length()
