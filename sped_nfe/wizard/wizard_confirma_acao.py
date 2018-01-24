@@ -20,9 +20,8 @@ class WizardConfirmaAcao(models.TransientModel):
     _name = 'wizard.confirma.acao'
     _description = 'Confirmação de Ações'
 
-    manifestacao_ids = fields.One2many(
+    manifestacao_ids = fields.Many2many(
         comodel_name='sped.manifestacao.destinatario',
-        inverse_name='confirma_acao_id',
         string='Manifestações',
     )
 
