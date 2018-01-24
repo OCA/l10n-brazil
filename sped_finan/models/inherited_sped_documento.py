@@ -131,12 +131,9 @@ class SpedDocumento(models.Model):
                               "para os CFOPs dos itens importados.")
                         )
                 except:
-                    raise UserError(
-                        _("É preciso definir uma operação com uma conta para "
-                          "os CFOPs dos itens importados")
-                    )
+                    continue
 
-        documento.duplicata_ids.gera_lancamento_financeiro()
+            documento.duplicata_ids.gera_lancamento_financeiro()
 
     def _busca_operacao(self):
         '''
