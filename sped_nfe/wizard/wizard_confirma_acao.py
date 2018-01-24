@@ -5,7 +5,8 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
 ACAO_MANIFESTACAO = [
     ('ciencia', 'Declarar Ciência da Operação'),
@@ -58,6 +59,12 @@ class WizardConfirmaAcao(models.TransientModel):
                 manifestacao_ciente_ids -= \
                     self.env['sped.manifestacao.destinatario'].\
                         search([('state', '=', 'pendente')])
+
+                if not manifestacao_ciente_ids:
+                    raise UserError(
+                        _("Nenhuma manifestação atende os requisitos para a "
+                          "operação selecionada")
+                    )
 
             if self.state == 'importa_nfe':
                 return manifestacao_ciente_ids.action_importa_xmls()
