@@ -1540,18 +1540,36 @@ class HrPayslip(models.Model):
             ('is_simulacao', '=', False),
             ('state', 'in', ['done', 'verify'])
         ]
+
+        # Calcula mes_anterior
+        anos = [self.ano]
+        mes_anterior = self.mes_do_ano - 1
+        if mes_anterior == 0:
+            mes_anterior = 12
+            anos.append(self.ano - 1)
+
         if mes and mes > 0:
             domain.append(('mes_do_ano', '=', mes))
+
+        if mes == -1 and tipo_de_folha == 'ferias':
+            domain.append(('mes_do_ano', 'in',
+                           [self.mes_do_ano, mes_anterior]))
+            domain.append(('ano', 'in', anos))
 
         holerite_anterior = self.search(
             domain, order='create_date DESC', limit=1)
 
+        valores = 0
+
         if holerite_anterior:
-            for line in holerite_anterior.line_ids:
-                if line.code == code:
-                    return line.total
-        else:
-            return 0
+            for holerite in holerite_anterior:
+                if self.date_from <= holerite.date_from <= self.date_to or \
+                        self.date_from <= holerite.date_to <= self.date_to:
+                    for line in holerite.line_ids:
+                        if line.code == code:
+                            valores += line.total
+
+        return valores
 
     @api.multi
     def get_payslip_lines(self, payslip_id):

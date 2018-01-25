@@ -157,13 +157,14 @@ class HrPayslipRun(models.Model):
                 if payslip.contract_id.id not in contratos_com_holerites:
                     contratos_com_holerites.append(payslip.contract_id.id)
 
-            contratos_sem_holerite = [
-                contrato.id for contrato in contracts_id
-                if (contrato.id not in contratos_com_holerites)
-                   and (contrato.date_start <= lote.date_end)
-                   and ((contrato.date_end < lote.date_start)
-                   or (not contrato.date_end))]
-
+            contratos_sem_holerite = []
+            for contrato in contracts_id:
+                 if contrato.id not in contratos_com_holerites:
+                     if not contrato.date_end:
+                         contratos_sem_holerite.append(contrato.id)
+                     else:
+                         if contrato.date_end > lote.date_end:
+                             contratos_sem_holerite.append(contrato.id)
 
             lote.write({
                 'contract_id': [(6, 0, contratos_sem_holerite)],
