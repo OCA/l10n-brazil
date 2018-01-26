@@ -63,6 +63,10 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed" />
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <field name="categoria" class="badge" nolabel="1"/>
+                    </div>
+
                     <div>
                         <h1 name="nome">
                             <field name="nome" />
