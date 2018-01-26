@@ -62,7 +62,7 @@
         #
         # Dados de base
         #
-        'data/sped_participante_data.xml',
+        'demo/sped_participante_demo.xml',
     ],
     'external_dependencies': {
         'python': [
