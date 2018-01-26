@@ -721,10 +721,10 @@ class SpedDocumento(models.Model):
 
     @api.multi
     def imprimir_documento(self):
+        self.ensure_one()
         # TODO: Reimprimir cupom de cancelamento caso houver com o normal.
         if not self.modelo == MODELO_FISCAL_CFE:
             return super(SpedDocumento, self).imprimir_documento()
-        self.ensure_one()
         impressao = self.configuracoes_pdv.impressora
         if impressao:
             cliente = self.processador_cfe()
