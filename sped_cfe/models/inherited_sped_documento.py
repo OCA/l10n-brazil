@@ -678,6 +678,7 @@ class SpedDocumento(models.Model):
                 self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
                 if impressao:
                     self.imprimir_documento()
+
                 # # self.grava_pdf(nfe, procNFe.danfe_pdf)
 
                 # data_autorizacao = protNFe.infProt.dhRecbto.valor
@@ -727,14 +728,17 @@ class SpedDocumento(models.Model):
             return super(SpedDocumento, self).imprimir_documento()
         impressao = self.configuracoes_pdv.impressora
         if impressao:
-            cliente = self.processador_cfe()
-            resposta = self.arquivo_xml_autorizacao_id.datas
-            cliente.imprimir_cupom_venda(
-                resposta,
-                impressao.modelo,
-                impressao.conexao,
-                self.configuracoes_pdv.site_consulta_qrcode.encode("utf-8")
-            )
+            try:
+                cliente = self.processador_cfe()
+                resposta = self.arquivo_xml_autorizacao_id.datas
+                cliente.imprimir_cupom_venda(
+                    resposta,
+                    impressao.modelo,
+                    impressao.conexao,
+                    self.configuracoes_pdv.site_consulta_qrcode.encode("utf-8")
+                )
+            except Exception as e:
+                _logger.error("Erro ao imprimir o cupom")
         else:
             raise Warning("Não existem configurações para impressão no PDV!")
 
