@@ -5,6 +5,7 @@
 from . import res_partner
 from . import l10n_br_account_product
 from . import res_company
+from . import l10n_br_tax_definition_company_product
 from . import l10n_br_account
 from . import account_product_fiscal_classification
 from . import account_invoice
