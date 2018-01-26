@@ -12,6 +12,7 @@ import logging
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models
 from odoo.addons.l10n_br_base.constante_tributaria import (
+    AMBIENTE_NFE_HOMOLOGACAO,
     TIPO_EMISSAO_PROPRIA,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
@@ -388,9 +389,18 @@ class SpedDocumento(models.Model):
         return cnpj_software_house, assinatura, numero_caixa
 
     def _monta_cfe_emitente(self):
+        ambiente = int(self.ambiente_nfe or AMBIENTE_NFE_HOMOLOGACAO)
+
+        if ambiente == AMBIENTE_NFE_HOMOLOGACAO:
+            cnpj = self.configuracoes_pdv.cnpjsh
+            ie = self.configuracoes_pdv.ie
+        else:
+            cnpj = self.empresa_id.cnpj_cpf
+            ie = self.empresa_id.ie
+
         emitente = Emitente(
-            CNPJ=limpa_formatacao(self.configuracoes_pdv.cnpjsh),
-            IE=limpa_formatacao(self.configuracoes_pdv.ie),
+            CNPJ=limpa_formatacao(cnpj),
+            IE=limpa_formatacao(ie),
             indRatISSQN='N'
         )
         emitente.validar()
