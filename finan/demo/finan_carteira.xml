@@ -4,7 +4,7 @@
 <odoo>
 
     <record model="finan.carteira" id="finan_carteira_001">
-        <field name="banco_id" ref="finan.finan_banco_104"/>
+        <field name="banco_id" ref="finan.finan_banco_033"/>
         <field name="carteira">01</field>
         <field name="beneficiario">5076979</field>
         <field name="beneficiario_digito">9</field>

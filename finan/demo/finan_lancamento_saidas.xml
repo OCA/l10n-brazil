@@ -9,8 +9,8 @@
         <field name="numero">2156</field>
         <field name="data_documento" eval="(DateTime.today() - timedelta(days=5)).strftime('%Y-%m-%d %H:%M')"/>
         <field name="conta_id" ref="finan.financial_account_201004"/>
-        <field name="banco_id" ref="finan.finan_banco_104"/>
         <field name="data_credito_debito" eval="(DateTime.today() - timedelta(days=5)).strftime('%Y-%m-%d %H:%M')"/>
+        <field name="banco_id" ref="finan.finan_banco_033"/>
         <field name="vr_documento">29.87</field>
         <field name="vr_juros">0</field>
         <field name="vr_multa">0</field>

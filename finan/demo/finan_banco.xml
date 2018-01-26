@@ -3,9 +3,9 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
 
-    <record model="finan.banco" id="finan_banco_104">
-        <field name="titular_id" ref="l10n_br_base.sped_empresa_regime_normal_sp"/>
-        <field name="banco">104</field>
+    <record model="finan.banco" id="finan_banco_033">
+        <field name="titular_id" ref="l10n_br_base.cliente9_mg"/>
+        <field name="banco">033</field>
         <field name="agencia">1934</field>
         <field name="conta">1099</field>
         <field name="limite_credito">10000.00</field>
