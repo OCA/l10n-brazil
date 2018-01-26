@@ -89,7 +89,7 @@
                                 />
                                 <field name="empresa_id" required="1" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', '!=', 'draft')]}" />
                                 <field name="participante_id" default_focus="1" required="1" options="{'no_create': True, 'no_open': True}" domain="[('cnpj_cpf', '!=', cnpj_cpf)]" attrs="{'readonly': [('state', '!=', 'draft')]}" />
-                                <field name="documento_id" string="Documento" required="1" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="documento_id" string="Documento de origem" required="1" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', '!=', 'draft')]}" />
                                 <field name="numero" required="1" string="Número" attrs="{'readonly': [('state', '!=', 'draft')]}" />
                                 <field name="data_documento" required="1" string="Data" attrs="{'readonly': [('state', '!=', 'draft')]}" />
                                 <field name="conta_id" required="1" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', '!=', 'draft')]}" />
