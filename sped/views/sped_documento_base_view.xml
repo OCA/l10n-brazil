@@ -13,10 +13,12 @@
         <field name="arch" type="xml">
             <form string="Emissão de NF-e" duplicate="false">
                 <header>
+                    <field name="permite_cancelamento" invisible="1"/>
+                    <field name="permite_inutilizacao" invisible="1"/>
+                    <field name="permite_alteracao" invisible="1" />
                     <!-- HEADER VAZIO PARA SE ADICIONAR OS BOTOES EM OUTRAS VISOES E MODULOS HERDADOS -->
                 </header>
                 <sheet>
-                    <field name="permite_alteracao" invisible="1" />
                     <field name="emissao" invisible="1" />
                     <field name="modelo" invisible="1" />
                     <field name="id" invisible="1"/>

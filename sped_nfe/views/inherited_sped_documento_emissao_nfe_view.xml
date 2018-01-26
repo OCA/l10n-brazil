@@ -12,12 +12,13 @@
         <field name="inherit_id" ref="sped.sped_documento_emissao_nfe_form" />
         <field name="arch" type="xml">
                 <header position="inside">
-
                     <button name="envia_documento" string="Enviar NF-e" type="object" class="btn-primary"
                         attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'a_enviar', 'rejeitada'])]}" />
                     <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-primary" />
                     <button name="imprimir_documento" string="Imprimir" type="object" class="btn-default" />
                     <button name="gera_xml" string="Visualiza XML" type="object" class="btn-default" />
+                    <button name="%(nfe_motivo_cancelamento_wizard_action)d" string="Cancelar NF-e" type="action" attrs="{'invisible': ['|', ('permite_cancelamento', '=', 'False'), ('situacao_nfe', '=', 'cancelada')]}"/>
+                    <button name="inutiliza_nfe" string="Inutilizar NF-e" type="object" attrs="{'invisible': ['|', ('permite_inutilizacao', '=', 'False'), ('situacao_nfe',  'not in', ['em_digitacao', 'a_enviar'])]}"/>
                     <button name="gera_operacoes_subsequentes" string="Gerar outras operações" type="object" class="btn-default"
                             attrs="{'invisible': ['|', ('documentos_subsequentes_gerados', '=', True), ('operacao_subsequente_ids', '=', [])]}" context="{'manual': '1'}"/>
                 </header>
@@ -35,17 +36,13 @@
             <page name="financeiro" position="after">
                 <page name="detalhe_nfe" string="NF-e">
                      <group col="4" attrs="{'invisible': [('permite_cancelamento', '=', False), ('situacao_nfe', '!=', 'cancelada')]}">
-                        <field name="permite_cancelamento" invisible="0"/>
-                        <field name="permite_inutilizacao" invisible="0"/>
                         <separator string="Cancelamento" colspan="4"/>
-                        <button name="cancela_nfe" string="Cancelar NFC-e" type="object" class="btn-primary" attrs="{'invisible': ['|', ('permite_cancelamento', '=', 'False'), ('situacao_nfe', '=', 'cancelada')]}"/>
                     </group>
                     <group col="4" attrs="{'invisible': [('permite_inutilizacao', '=', False), ('situacao_nfe', '!=', 'inutilizada')]}">
                         <separator string="Inutilização" colspan="4"/>
-                        <button name="inutiliza_nfe" string="Inutilizar NF-e" type="object" class="btn-primary" attrs="{'invisible': ['|', ('permite_inutilizacao', '=', 'False'), ('situacao_nfe', '=', 'inutilizada')]}"/>
                     </group>
                     <separator string="Justificativa" colspan="4"/>
-                    <field name="justificativa" colspan="4" attrs="{'invisible': [('permite_cancelamento', '=', False)], 'readonly': [('situacao_nfe', 'in', ('cancelada', 'inutilizada'))]}"/>
+                    <field name="justificativa" colspan="4" attrs="{'invisible': [('permite_cancelamento', '=', False),('permite_inutilizacao', '=', False)], 'readonly': [('situacao_nfe', 'in', ('cancelada', 'inutilizada'))]}"/>
                 </page>
                 <page name="suporte" string="Suporte" groups="l10n_br_base.GRUPO_SUPORTE">
                     <group col="4">
