@@ -140,8 +140,11 @@ class SpedDocumentoExportar(models.TransientModel):
                 continue
             path_documento = self.monta_caminho(documento)
             for anexo in anexos:
-                arquivos[path_documento + '/' + anexo.datas_fname] = \
-                    base64.b64decode(anexo.datas)
+                try:
+                    arquivos[path_documento + '/' + anexo.datas_fname] = \
+                        base64.b64decode(anexo.datas)
+                except Exception as e:
+                    pass
         return arquivos
 
     def periodic_export(self):
