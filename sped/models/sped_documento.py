@@ -1548,7 +1548,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         self.ensure_one()
 
     def gera_pdf(self):
-        self.write({'documento_impresso': True})
+        self.sudo().write({'documento_impresso': True})
 
     @api.multi
     def imprimir_documento(self):
