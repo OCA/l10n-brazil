@@ -56,7 +56,7 @@ TIPO_DE_FOLHA = [
     ('normal', u'Folha normal'),
     ('rescisao', u'Rescisão'),
     ('ferias', u'Férias'),
-    ('decimo_terceiro', u'Décim     o terceiro (13º)'),
+    ('decimo_terceiro', u'Décimo terceiro (13º)'),
     ('aviso_previo', u'Aviso Prévio'),
     ('provisao_ferias', u'Provisão de Férias'),
     ('provisao_decimo_terceiro', u'Provisão de Décimo terceiro (13º)'),
