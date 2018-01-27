@@ -2403,17 +2403,17 @@ class HrPayslip(models.Model):
                 continue
             mes_anterior = folha.mes_do_ano
             mes = mes + relativedelta(months=1)
-            if folha.mes_do_ano != mes.month:
-                raise exceptions.ValidationError(
-                    _("Faltando Holerite confirmado do mês de %s de %s") %
-                    (MES_DO_ANO[mes.month - 1][1], mes.year))
-        if mes.month != fields.Datetime.from_string(data_fim).month:
-            mes = fields.Datetime.from_string(data_fim).month
-            raise exceptions.ValidationError(
-                _("Não foi encontrado o último holerite do periodo "
-                  "aquisitivo, \nreferente ao mês  de %s de %s") %
-                (MES_DO_ANO[mes - 1][1],
-                 fields.Datetime.from_string(data_fim).year))
+        #     if folha.mes_do_ano != mes.month:
+        #         raise exceptions.ValidationError(
+        #             _("Faltando Holerite confirmado do mês de %s de %s") %
+        #             (MES_DO_ANO[mes.month - 1][1], mes.year))
+        # if mes.month != fields.Datetime.from_string(data_fim).month:
+        #     mes = fields.Datetime.from_string(data_fim).month
+        #     raise exceptions.ValidationError(
+        #         _("Não foi encontrado o último holerite do periodo "
+        #           "aquisitivo, \nreferente ao mês  de %s de %s") %
+        #         (MES_DO_ANO[mes - 1][1],
+        #          fields.Datetime.from_string(data_fim).year))
 
     @api.multi
     def gerar_media_dos_proventos(self):

@@ -356,7 +356,7 @@
             <field name="view_id" ref="view_hr_decimo_terceiro_tree"/>
             <field name="context">{'default_tipo_de_folha': 'decimo_terceiro'}
             </field>
-            <field name="domain">[('tipo_de_folha','=','decimo_terceiro')]
+            <field name="domain">[('tipo_de_folha','=','decimo_terceiro'),('is_simulacao','=',False)]
             </field>
         </record>
 
@@ -369,7 +369,7 @@
             <field name="name">hr.aviso.previo.tree</field>
             <field name="model">hr.payslip</field>
             <field name="arch" type="xml">
-                <tree string="Payslips">
+                <tree string="Payslips" create="false" delete="false">
                     <field name="number"/>
                     <field name="employee_id"/>
                     <field name="name"/>
@@ -421,7 +421,7 @@
             <field name="name">hr.ferias.simulacao.tree</field>
             <field name="model">hr.payslip</field>
             <field name="arch" type="xml">
-                <tree string="Payslips">
+                <tree string="Payslips" create="false" delete="false">
                     <field name="number"/>
                     <field name="employee_id"/>
                     <field name="name"/>
@@ -481,7 +481,7 @@
             <field name="name">hr.decimo.terceiro.simulacao.tree</field>
             <field name="model">hr.payslip</field>
             <field name="arch" type="xml">
-                <tree string="Payslips">
+                <tree string="Payslips" create="false" delete="false">
                     <field name="number"/>
                     <field name="employee_id"/>
                     <field name="name"/>
