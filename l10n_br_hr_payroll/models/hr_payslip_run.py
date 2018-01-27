@@ -213,32 +213,32 @@ class HrPayslipRun(models.Model):
                             continue
                 contrato.action_button_update_controle_ferias()
             else:
-                # try:
-                tipo_de_folha = self.tipo_de_folha
-                if tipo_de_folha == 'adiantamento_13':
-                    tipo_de_folha = 'decimo_terceiro'
-                payslip_obj = self.env['hr.payslip']
-                payslip = payslip_obj.create({
-                    'contract_id': contrato.id,
-                    'mes_do_ano': self.mes_do_ano,
-                    'mes_do_ano2': self.mes_do_ano,
-                    'ano': self.ano,
-                    'employee_id': contrato.employee_id.id,
-                    'tipo_de_folha': tipo_de_folha,
-                    'payslip_run_id': self.id,
-                })
-                payslip._compute_set_dates()
-                payslip.compute_sheet()
-                _logger.info(
-                    u"Holerite " + contrato.name +
-                    u" processado com sucesso!")
-                self.env.cr.commit()
-                # except:
-                #     _logger.warning(
-                #         u"Holerite " + contrato.name +
-                #         u" falhou durante o cálculo!")
-                #     payslip.unlink()
-                #     continue
+                try:
+                    tipo_de_folha = self.tipo_de_folha
+                    if tipo_de_folha == 'adiantamento_13':
+                        tipo_de_folha = 'decimo_terceiro'
+                    payslip_obj = self.env['hr.payslip']
+                    payslip = payslip_obj.create({
+                        'contract_id': contrato.id,
+                        'mes_do_ano': self.mes_do_ano,
+                        'mes_do_ano2': self.mes_do_ano,
+                        'ano': self.ano,
+                        'employee_id': contrato.employee_id.id,
+                        'tipo_de_folha': tipo_de_folha,
+                        'payslip_run_id': self.id,
+                    })
+                    payslip._compute_set_dates()
+                    payslip.compute_sheet()
+                    _logger.info(
+                        u"Holerite " + contrato.name +
+                        u" processado com sucesso!")
+                    self.env.cr.commit()
+                except:
+                    _logger.warning(
+                        u"Holerite " + contrato.name +
+                        u" falhou durante o cálculo!")
+                    payslip.unlink()
+                    continue
         self.verificar_holerites_gerados()
 
     @api.multi
