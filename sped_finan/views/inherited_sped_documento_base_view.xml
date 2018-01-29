@@ -30,6 +30,12 @@
                 <field name="carteira_id"  attrs="{'invisible': [('forma_pagamento', '!=', '15')]}"/>
                 <field name="forma_pagamento" invisible="1"/>
             </field>
+             <div name="button_box" position="inside">
+                <button name="action_view_finan" type="object" string="Financeiro"
+                        class="oe_stat_button" icon="fa-dollar"
+                        attrs="{'invisible': [('condicao_pagamento_id', '=', False)]}"
+                        />
+            </div>
         </field>
     </record>
 
@@ -46,5 +52,26 @@
             </button>
         </field>
     </record>
+    <record model="ir.actions.act_window" id="finan_lancamento_acao">
+        <field name="name">Emissão de NF-e</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="res_model">finan.lancamento</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 
+    <record model="ir.actions.act_window.view" id="finan_lancamento_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="finan.finan_lancamento_divida_a_receber_tree"/>
+        <field name="act_window_id" ref="finan_lancamento_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="finan_lancamento_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="finan.finan_lancamento_divida_a_receber_form"/>
+        <field name="act_window_id" ref="finan_lancamento_acao"/>
+    </record>
 </odoo>

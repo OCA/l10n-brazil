@@ -276,3 +276,22 @@ class SpedDocumento(models.Model):
                     boleto = lancamento_id.gera_boleto()
                     documento_id._grava_anexo(boleto.nome, boleto.pdf)
             # documento_id.anexos = True
+
+    def action_view_finan(self):
+        action = self.env.ref('sped_finan.finan_lancamento_acao').read()[0]
+        ids =[]
+        for duplicata in self.duplicata_ids:
+            ids.append(duplicata.finan_lancamento_ids.ids)
+
+        if len(ids) > 1:
+            action['domain'] = [('id', 'in', ids)]
+
+        elif len(ids) == 1:
+            action['views'] = [
+             (self.env.ref('finan.finan_lancamento_divida_a_receber_form').id,
+              'form')]
+            action['res_id'] = ids[0][0]
+        else:
+            action = {'type': 'ir.actions.act_window_close'}
+
+        return action
