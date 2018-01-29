@@ -910,8 +910,19 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     @api.model
     @tools.ormcache("self")
     def _selection_documento_origem_id(self):
-        """Allow any model; after all, this field is readonly."""
-        return [(r.model, r.name) for r in self.env["ir.model"].search([])]
+        """
+        Documento de origem deve ser de um dos seguintes
+        modelos: finan.lancamento, sale.order ou purchase.order
+
+        """
+        documentos = []
+
+        for doc in self.env["ir.model"].\
+                search([('model', 'in', ('finan.lancamento',
+                                         'sale.order', 'purchase.order'))]):
+            documentos.append([doc.model, doc.name])
+
+        return documentos
 
     @api.multi
     def name_get(self):
