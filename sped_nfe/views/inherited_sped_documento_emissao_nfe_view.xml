@@ -14,6 +14,8 @@
                 <header position="inside">
                     <button name="envia_documento" string="Enviar NF-e" type="object" class="btn-primary"
                         attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'a_enviar', 'rejeitada'])]}" />
+                    <button name="envia_documento" string="Consultar NF-e" type="object"
+                            attrs="{'invisible': [('situacao_nfe', 'not in', ['autorizada'])]}"/>
                     <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-primary" />
                     <button name="imprimir_documento" string="Imprimir" type="object" class="btn-default" />
                     <button name="gera_xml" string="Visualiza XML" type="object" class="btn-default" />
