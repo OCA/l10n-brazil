@@ -63,7 +63,7 @@
         #
         'data/sped_participante_data.xml',
         'wizard/sped_documento_exportar_xml.xml',
-        'wizard/base_config_settings.xml'
+        'wizard/base_config_settings.xml',
     ],
     'demo': [
         'demo/sped_participante_demo.xml',
