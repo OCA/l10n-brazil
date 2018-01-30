@@ -11,11 +11,9 @@ Installation
 
 This module depends on:
 
-* account_banking_payment_export
 * l10n_br_account
 * l10n_br_data_base
 * account_due_list_payment_mode
-* account_banking_payment_export
 
 Configuration
 =============
