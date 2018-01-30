@@ -514,9 +514,41 @@ class SpedDocumento(models.Model):
         elif processo.webservice == WS_NFE_CONSULTA:
             if processo.resposta.cStat.valor in ('100', '150'):
                 self.chave = processo.resposta.chNFe.valor
+
+                if not (
+                            self.protocolo_autorizacao or
+                            self.arquivo_xml_autorizacao_id
+                        ):
+
+                    consulta = processador.consultar_nota(
+                        processador.ambiente,
+                        self.chave,
+                        nfe,
+                    )
+                    if nfe.procNFe and consulta:
+                        procNFe = nfe.procNFe
+                        self.grava_xml(procNFe.NFe)
+                        self.grava_xml_autorizacao(procNFe)
+
+                        if self.modelo == MODELO_FISCAL_NFE:
+                            res = self.grava_pdf(nfe, procNFe.danfe_pdf)
+                        elif self.modelo == MODELO_FISCAL_NFCE:
+                            res = self.grava_pdf(nfe, procNFe.danfce_pdf)
+
+                        data_autorizacao = \
+                            consulta.resposta.protNFe.infProt.dhRecbto.valor
+                        data_autorizacao = UTC.normalize(data_autorizacao)
+
+                        self.data_hora_autorizacao = data_autorizacao
+                        self.protocolo_autorizacao = \
+                            consulta.resposta.protNFe.infProt.nProt.valor
+                        self.chave = \
+                            consulta.resposta.protNFe.infProt.chNFe.valor
+
                 self.executa_antes_autorizar()
                 self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
                 self.executa_depois_autorizar()
+
             elif processo.resposta.cStat.valor in ('110', '301', '302'):
                 self.chave = processo.resposta.chNFe.valor
                 self.executa_antes_denegar()
