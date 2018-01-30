@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="finan.carteira" id="finan_carteira_001">
+        <field name="banco_id" ref="finan.finan_banco_033"/>
+        <field name="carteira">01</field>
+        <field name="beneficiario">5076979</field>
+        <field name="beneficiario_digito">9</field>
+        <field name="modalidade">01</field>
+        <field name="convenio">4969718</field>
+        <field name="al_multa">2.00</field>
+        <field name="al_juros">1.00</field>
+        <field name="proximo_nosso_numero">72950000001</field>
+        <field name="proxima_remessa">3</field>
+    </record>
+
+    <record model="finan.carteira" id="finan_carteira_002">
+        <field name="banco_id" ref="finan.finan_banco_237"/>
+        <field name="carteira">09</field>
+        <field name="beneficiario">6187080</field>
+        <field name="beneficiario_digito">8</field>
+        <field name="modalidade">02</field>
+        <field name="convenio">4967523</field>
+        <field name="al_multa">1.00</field>
+        <field name="al_juros">1.00</field>
+        <field name="proximo_nosso_numero">83040000001</field>
+        <field name="proxima_remessa">1</field>
+    </record>
+
+</odoo>

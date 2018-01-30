@@ -654,15 +654,10 @@ class SpedCalculoImposto(SpedBase):
         #
         # Criamos o documento e chamados os onchange necessários
         #
-        if isinstance(self.id, models.NewId):
+        if isinstance(self.id, models.NewId) or self._name != 'sped.documento':
             documento = self.env['sped.documento'].create(dados)
         else:
             documento = self
-
-        if self.pagamento_ids:
-            documento.pagamento_ids = self.pagamento_ids
-        if self.duplicata_ids:
-            documento.duplicata_ids = self.duplicata_ids
 
         documento.update(documento._onchange_empresa_id()['value'])
         documento.update(documento._onchange_operacao_id()['value'])
@@ -681,7 +676,8 @@ class SpedCalculoImposto(SpedBase):
         sped_documento_item = self.env['sped.documento.item']
         for item in itens:
             ctx = item.env.context.copy()
-            if isinstance(item.id, models.NewId):
+            if isinstance(item.id, models.NewId) or \
+                            item._name != 'sped.documento.item':
                 #
                 #   Caso o registro seja um novo ID, geralmente vindo
                 # de outro documento do sistema, com herança python.

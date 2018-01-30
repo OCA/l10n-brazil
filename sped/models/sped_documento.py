@@ -910,8 +910,19 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     @api.model
     @tools.ormcache("self")
     def _selection_documento_origem_id(self):
-        """Allow any model; after all, this field is readonly."""
-        return [(r.model, r.name) for r in self.env["ir.model"].search([])]
+        """
+        Documento de origem deve ser de um dos seguintes
+        modelos: finan.lancamento, sale.order ou purchase.order
+
+        """
+        documentos = []
+
+        for doc in self.env["ir.model"].\
+                search([('model', 'in', ('finan.lancamento',
+                                         'sale.order', 'purchase.order'))]):
+            documentos.append([doc.model, doc.name])
+
+        return documentos
 
     @api.multi
     def name_get(self):
@@ -1102,6 +1113,21 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
 
         return serie
 
+    def _serie_padrao_cfe(self, empresa, ambiente_nfe, tipo_emissao_nfe):
+        if tipo_emissao_nfe == TIPO_EMISSAO_CFE_NORMAL:
+            if ambiente_nfe == AMBIENTE_CFE_PRODUCAO:
+                serie = empresa.serie_cfe_producao
+            else:
+                serie = empresa.serie_cfe_homologacao
+
+        else:
+            if ambiente_nfe == AMBIENTE_CFE_PRODUCAO:
+                serie = empresa.serie_cfe_contingencia_producao
+            else:
+                serie = empresa.serie_cfe_contingencia_homologacao
+
+        return serie
+
     @api.onchange('empresa_id', 'modelo', 'emissao')
     def _onchange_empresa_id(self):
         res = {}
@@ -1175,6 +1201,15 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                 valores['serie_rps'] = self.empresa_id.serie_rps_producao
             else:
                 valores['serie_rps'] = self.empresa_id.serie_rps_homologacao
+
+        elif self.modelo == MODELO_FISCAL_CFE:
+            valores['ambiente_nfe'] = self.empresa_id.ambiente_cfe
+            valores['tipo_emissao_nfe'] = self.empresa_id.tipo_emissao_cfe
+            valores['serie'] = self._serie_padrao_cfe(
+                self.empresa_id,
+                self.empresa_id.ambiente_cfe,
+                self.empresa_id.tipo_emissao_cfe
+            )
 
         return res
 
