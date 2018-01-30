@@ -17,6 +17,7 @@
         'pos_pricelist',
         'pos_payment_term',
         'nfe_attach',
+        'l10n_br_zip_correios',
         'pos_order_picking_link',
         'stock_picking_invoice_link',
         'l10n_br_stock_account',
