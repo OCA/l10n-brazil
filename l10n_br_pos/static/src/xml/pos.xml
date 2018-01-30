@@ -125,6 +125,17 @@
             </div>
         </t>
     </t>
+
+    <t t-extend="ClientDetailsEdit">
+        <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-zip)" t-operation="inner">
+            <div class='client-detail'>
+                <span class='label'>Codigo Postal</span>
+                <input class='detail client-address-zip' name='zip' t-att-value='partner.zip' placeholder='CEP'></input>
+                <button class='bt_zip_correios'><i class='fa fa-search'/></button>
+            </div>
+        </t>
+    </t>
+
     <t t-extend="ClientDetailsEdit">
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-country)" t-operation="after">
             <div class='client-detail'>
