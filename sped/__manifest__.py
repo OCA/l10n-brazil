@@ -59,9 +59,8 @@
         'security/sped_documento_ir_rule.xml',
         'security/ir.model.access.csv',
 
-        #
-        # Dados de base
-        #
+    ],
+    'demo': [
         'demo/sped_participante_demo.xml',
     ],
     'external_dependencies': {
