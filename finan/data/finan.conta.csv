@@ -1,4 +1,4 @@
-id,code,name,parent_id/id
+id,codigo,nome,conta_superior_id/id
 financial_account_1,1,RECEITAS,
 financial_account_101,1.01,RECEITAS OPERACIONAIS,financial_account_1
 financial_account_101001,1.01.001, Receitas com Vendas,financial_account_101

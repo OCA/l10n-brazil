@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+    <record model="account.payment.term" id="finan_condicao_pagamento_001">
+        <field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_001"/>
+        <field name="active">True</field>
+        <field name="em_parcelas_mensais">True</field>
+        <field name="name">Cheque 15 dias</field>
+        <field name="meses">2</field>
+        <field name="evitar_dia_semana">1</field>
+        <field name="somente_dias_uteis">False</field>
+        <field name="todo_dia_mes">5</field>
+        <field name="com_entrada">True</field>
+        <field name="com_juros">False</field>
+    </record>
+    <record model="account.payment.term" id="finan_condicao_pagamento_002">
+        <field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_002"/>
+        <field name="active">True</field>
+        <field name="em_parcelas_mensais">True</field>
+        <field name="name">Cheque 30 dias</field>
+        <field name="meses">1</field>
+        <field name="evitar_dia_semana">2</field>
+        <field name="somente_dias_uteis">False</field>
+        <field name="todo_dia_mes">1</field>
+        <field name="com_entrada">False</field>
+        <field name="com_juros">False</field>
+    </record>
+</odoo>
+

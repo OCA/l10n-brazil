@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="finan.banco" id="finan_banco_104">
+        <field name="titular_id" ref="l10n_br_base.sped_empresa_regime_normal_sp"/>
+        <field name="banco">104</field>
+        <field name="agencia">1934</field>
+        <field name="conta">1099</field>
+        <field name="limite_credito">10000.00</field>
+        <field name="tipo">corrente</field>
+        <field name="agencia_digito">3</field>
+        <field name="conta_digito">4</field>
+    </record>
+
+    <record model="finan.banco" id="finan_banco_001">
+        <field name="titular_id" ref="l10n_br_base.sped_empresa_regime_normal_sp"/>
+        <field name="banco">001</field>
+        <field name="agencia">1001</field>
+        <field name="conta">2314</field>
+        <field name="limite_credito">20000.00</field>
+        <field name="tipo">corrente</field>
+        <field name="agencia_digito">1</field>
+        <field name="conta_digito">0</field>
+    </record>
+
+    <record model="finan.banco" id="finan_banco_237">
+        <field name="titular_id" ref="l10n_br_base.sped_empresa_regime_normal_sp"/>
+        <field name="banco">237</field>
+        <field name="agencia">0262</field>
+        <field name="conta">18357</field>
+        <field name="limite_credito">40000.00</field>
+        <field name="tipo">corrente</field>
+        <field name="agencia_digito">1</field>
+        <field name="conta_digito">0</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="finan.forma.pagamento" id="finan_forma_pagamento_001">
+        <field name="nome">Dinheiro</field>
+        <field name="forma_pagamento">01</field>
+        <field name="exige_numero">True</field>
+        <field name="documento_id" ref="finan.DOCUMENTO_FINANCEIRO_BOLETO"/>
+        <field name="quitado_somente_com_data_credito_debito">False</field>
+    </record>
+
+    <record model="finan.forma.pagamento" id="finan_forma_pagamento_002">
+        <field name="nome">Cheque</field>
+        <field name="forma_pagamento">02</field>
+        <field name="exige_numero">True</field>
+        <field name="documento_id" ref="finan.DOCUMENTO_FINANCEIRO_BOLETO"/>
+        <field name="quitado_somente_com_data_credito_debito">False</field>
+    </record>
+
+     <record model="finan.forma.pagamento" id="finan_forma_pagamento_003">
+        <field name="nome">Boleto</field>
+        <field name="forma_pagamento">03</field>
+        <field name="exige_numero">True</field>
+        <field name="documento_id" ref="finan.DOCUMENTO_FINANCEIRO_BOLETO"/>
+        <field name="quitado_somente_com_data_credito_debito">False</field>
+     </record>
+
+     <record model="finan.forma.pagamento" id="finan_forma_pagamento_004">
+        <field name="nome">Cartão de crédito</field>
+        <field name="forma_pagamento">03</field>
+        <field name="exige_numero">True</field>
+        <field name="quitado_somente_com_data_credito_debito">False</field>
+     </record>
+
+    <record model="finan.forma.pagamento" id="finan_forma_pagamento_005">
+        <field name="nome">Cartão de débito</field>
+        <field name="forma_pagamento">04</field>
+        <field name="exige_numero">True</field>
+        <field name="quitado_somente_com_data_credito_debito">False</field>
+     </record>
+
+</odoo>
