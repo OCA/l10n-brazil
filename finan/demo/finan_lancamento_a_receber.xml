@@ -18,7 +18,7 @@
         <field name="banco_id" ref="finan.finan_banco_237"/>
         <field name="vr_documento">260.00</field>
         <field name="tipo">a_receber</field>
-        <field name="carteira_id" ref="finan.finan_carteira_001"/>
+        <field name="carteira_id" ref="finan.finan_carteira_002"/>
     </record>
 
     <!--Recebimento da divida 01-->
@@ -91,7 +91,7 @@
         <field name="conta_id" ref="finan.financial_account_205007"/>
         <field name="data_vencimento" eval="DateTime.today().strftime('%Y-%m-%d %H:%M')"/>
         <field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_003"/>
-        <field name="banco_id" ref="finan.finan_banco_104"/>
+        <field name="banco_id" ref="finan.finan_banco_033"/>
         <field name="vr_documento">76.90</field>
         <field name="tipo">a_receber</field>
         <field name="carteira_id" ref="finan.finan_carteira_001"/>
@@ -107,7 +107,7 @@
         <field name="data_documento" eval="DateTime.today().strftime('%Y-%m-%d %H:%M')"/>
         <field name="conta_id" ref="finan.financial_account_101999"/>
         <field name="data_vencimento" eval="(DateTime.today() + timedelta(days=30)).strftime('%Y-%m-%d %H:%M')"/>
-        <field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_002"/>
+        <field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_003"/>
         <field name="banco_id" ref="finan.finan_banco_237"/>
         <field name="vr_documento">146.73</field>
         <field name="tipo">a_receber</field>
@@ -125,7 +125,7 @@
         <field name="conta_id" ref="finan.financial_account_201003"/>
         <field name="data_vencimento" eval="(DateTime.today() - timedelta(days=3)).strftime('%Y-%m-%d %H:%M')"/>
         <field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_001"/>
-        <field name="banco_id" ref="finan.finan_banco_104"/>
+        <field name="banco_id" ref="finan.finan_banco_033"/>
         <field name="vr_documento">548.30</field>
         <field name="tipo">a_receber</field>
         <field name="carteira_id" ref="finan.finan_carteira_001"/>

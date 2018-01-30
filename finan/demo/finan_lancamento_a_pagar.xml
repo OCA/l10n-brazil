@@ -89,7 +89,7 @@
         <field name="conta_id" ref="finan.financial_account_205007"/>
         <field name="data_vencimento" eval="DateTime.today().strftime('%Y-%m-%d %H:%M')"/>
         <field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_003"/>
-        <field name="banco_id" ref="finan.finan_banco_104"/>
+        <field name="banco_id" ref="finan.finan_banco_033"/>
         <field name="vr_documento">75.90</field>
         <field name="tipo">a_pagar</field>
     </record>
@@ -121,7 +121,7 @@
         <field name="conta_id" ref="finan.financial_account_201003"/>
         <field name="data_vencimento" eval="(DateTime.today() - timedelta(days=5)).strftime('%Y-%m-%d %H:%M')" />
         <field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_001"/>
-        <field name="banco_id" ref="finan.finan_banco_104"/>
+        <field name="banco_id" ref="finan.finan_banco_033"/>
         <field name="vr_documento">500.00</field>
         <field name="tipo">a_pagar</field>
     </record>
