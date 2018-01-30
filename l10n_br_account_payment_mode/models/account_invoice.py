@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-# © 207 Akretion - Magno Costa <magno.costa@akretion.com.br>
+# Copyright 2017-TODAY - Akretion (http://www.akretion.com).
+#  @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models, fields, api
