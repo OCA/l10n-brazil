@@ -6,6 +6,7 @@
 from openerp import fields
 import openerp.tests.common as test_common
 
+
 class FinanLancamentoPagarManual(test_common.SingleTransactionCase):
 
     def setUp(self):
@@ -23,7 +24,7 @@ class FinanLancamentoPagarManual(test_common.SingleTransactionCase):
                                                           '23:59:59'),
             'conta_id': self.env.ref("finan.financial_account_101001").id,
             'data_vencimento': fields.Datetime.from_string('2018-12-21 '
-                                                          '23:59:59'),
+                                                           '23:59:59'),
             'forma_pagamento_id': self.env.ref("finan.finan_forma_"
                                                "pagamento_001").id,
             'banco_id': self.env.ref("finan.finan_banco_237").id,
@@ -37,16 +38,20 @@ class FinanLancamentoPagarManual(test_common.SingleTransactionCase):
         self.finan_lancamento_pagamento = self.finan_lancamento.create({
             'empresa_id': self.env.ref('l10n_br_base.'
                                        'sped_empresa_regime_normal_sp').id,
-            'documento_id':self.env.ref('finan.DOCUMENTO_FINANCEIRO_BOLETO').id,
-            'numero':0003,
-            'data_credito_debito':fields.Datetime.from_string('2018-02-21 23:59:59'),
-            'conta_id':self.env.ref('finan.financial_account_101001').id,
-            'data_pagamento':fields.Datetime.from_string('2018-02-21 23:59:59'),
-            'forma_pagamento_id':self.env.ref('finan.finan_forma_pagamento_001').id,
-            'banco_id':self.env.ref('finan.finan_banco_237').id,
-            'vr_documento':15.50,
-            'tipo':'recebimento',
-            'vr_movimentado':15.50,
+            'documento_id':
+                self.env.ref('finan.DOCUMENTO_FINANCEIRO_BOLETO').id,
+            'numero': 0003,
+            'data_credito_debito':
+                fields.Datetime.from_string('2018-02-21 23:59:59'),
+            'conta_id': self.env.ref('finan.financial_account_101001').id,
+            'data_pagamento':
+                fields.Datetime.from_string('2018-02-21 23:59:59'),
+            'forma_pagamento_id':
+                self.env.ref('finan.finan_forma_pagamento_001').id,
+            'banco_id': self.env.ref('finan.finan_banco_237').id,
+            'vr_documento': 15.50,
+            'tipo': 'recebimento',
+            'vr_movimentado': 15.50,
             'vr_multa': 0,
             'vr_juros': 0,
             'vr_adiantado': 0,
@@ -55,37 +60,31 @@ class FinanLancamentoPagarManual(test_common.SingleTransactionCase):
         })
 
     def teste1_lancamento_a_pagar_state(self):
-
         """"
          Teste 1: Conta a pagar com state efetivo e provisório falso
         """
-
         self.assertEqual(self.finan_lancamento_a_pagar.provisorio, False)
         self.assertEqual(self.finan_lancamento_a_pagar.state, 'open')
 
     def teste2_lancamento_pagamento_state(self):
-
         """"
         Teste 2: Pagamento com state efetivo e provisório falso
         """
-
         self.assertEqual(self.finan_lancamento_pagamento.provisorio, False)
         self.assertEqual(self.finan_lancamento_pagamento.state, 'paid')
 
     def teste3_saldo_divida(self):
-
         """"
         Teste 3: Saldo de dívida zerado após pagamento efetuado
         """
-
-        self.finan_lancamento_pagamento.divida_id = self.finan_lancamento_a_pagar.id
+        self.finan_lancamento_pagamento.divida_id = \
+            self.finan_lancamento_a_pagar.id
         self.assertEqual(self.finan_lancamento_a_pagar.vr_saldo, 0)
 
     def teste4_a_pagar_state(self):
-
         """"
         Teste 4: Após saldo zerado, mudança de state para quitado
         """
-
-        self.finan_lancamento_pagamento.divida_id = self.finan_lancamento_a_pagar.id
+        self.finan_lancamento_pagamento.divida_id = \
+            self.finan_lancamento_a_pagar.id
         self.assertEqual(self.finan_lancamento_a_pagar.state, 'paid')
