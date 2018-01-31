@@ -15,22 +15,18 @@
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_BOLETO">
         <field name="nome">Boleto</field>
-        <field name="quitado_somente_com_data_credito_debito" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_CARTAO">
         <field name="nome">Cartão</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_CARTAO_DE_CREDITO">
         <field name="nome">Cartão de Crédito</field>
-        <field name="quitado_somente_com_data_credito_debito" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_CARTAO_DE_DEBITO">
         <field name="nome">Cartão de Débito</field>
-        <field name="quitado_somente_com_data_credito_debito" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_CHEQUE">
         <field name="nome">Cheque</field>
-        <field name="quitado_somente_com_data_credito_debito" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_CONVENIO">
         <field name="nome">Convênio</field>
