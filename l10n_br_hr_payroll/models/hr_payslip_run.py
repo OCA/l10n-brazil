@@ -124,11 +124,11 @@ class HrPayslipRun(models.Model):
 
         # remover holerites que foram gerados pelo lote mas nao foram
         # confirmados
-        not_done = self.slip_ids.filtered(lambda s: not s.state == 'done')
-        not_done.unlink()
+        # not_done = self.slip_ids.filtered(lambda s: not s.state == 'done')
+        # not_done.unlink()
 
         # holerites que ja foram confirmados
-        done = self.slip_ids.filtered(lambda s: s.state == 'done')
+        # done = self.slip_ids.filtered(lambda s: s.state == 'done')
 
         for lote in self:
             # pegar todos contratos da empresa que são válidos,
@@ -139,10 +139,10 @@ class HrPayslipRun(models.Model):
 
             # Se existir  holerites ja concluidos nao buscar os contratos
             # destes holerites
-            if done:
-                dominio_contratos += [
-                    ('id', 'not in', done.mapped('contract_id').ids),
-                ]
+            # if done:
+            #     dominio_contratos += [
+            #         ('id', 'not in', done.mapped('contract_id').ids),
+            #     ]
 
             # Se for lote de folha normal nao pegar as categorias inválidas
             if lote.tipo_de_folha != 'normal':
@@ -293,7 +293,7 @@ class HrPayslipRun(models.Model):
                         u" falhou durante o cálculo!")
                     payslip.unlink()
                     continue
-        # self.verificar_holerites_gerados()
+        self.verificar_holerites_gerados()
 
     @api.multi
     def close_payslip_run(self):
