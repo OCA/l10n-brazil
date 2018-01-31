@@ -83,10 +83,9 @@ class SpedDocumento(models.Model):
     @api.multi
     def write(self, vals):
         res = super(SpedDocumento, self).write(vals)
-        for documento in self:
-            if documento.purchase_order_ids:
-                for pedido in documento.purchase_order_ids:
-                    pedido._get_invoiced()
+        purchase_order_ids = self.mapped('purchase_order_ids')
+        for pedido in purchase_order_ids:
+            pedido._get_invoiced()
         return res
 
     @api.onchange('purchase_order_ids')
@@ -108,7 +107,8 @@ class SpedDocumento(models.Model):
         if not self.purchase_order_ids:
             super(SpedDocumento, self)._criar_picking_entrada()
 
-    def executa_depois_create(self):
-        for documento in self:
+    def executa_depois_create(self, result, dados):
+        for documento in result:
             for item in documento.item_ids:
                 item.calcula_impostos()
+        return result
