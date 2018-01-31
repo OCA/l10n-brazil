@@ -12,3 +12,4 @@ from . import test_finan_lancamento_a_receber
 from . import test_finan_lancamento_a_receber_2
 from . import test_finan_lancamento_a_pagar
 from . import test_finan_lancamento_a_pagar_2
+from . import test_finan_lancamento_juros
