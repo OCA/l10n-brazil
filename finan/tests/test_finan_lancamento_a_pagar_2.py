@@ -6,6 +6,7 @@
 from openerp import fields
 import openerp.tests.common as test_common
 
+
 class FinanLancamentoPagarManual(test_common.SingleTransactionCase):
 
     def setUp(self):
@@ -16,17 +17,17 @@ class FinanLancamentoPagarManual(test_common.SingleTransactionCase):
             'situacao_divida': 'a_vencer',
             'empresa_id': self.env.ref('l10n_br_base.'
                                        'sped_empresa_regime_normal_sp').id,
-            'participante_id':self.env.ref('l10n_br_base.cliente9_mg').id,
-            'documento_id':self.env.ref('finan.DOCUMENTO_FINANCEIRO_BOLETO').id,
-            'numero':2345,
-            'data_documento':fields.Datetime.from_string('2018-01-10 00:00:00'),
-            'conta_id':self.env.ref('finan.financial_account_101001').id,
-            'data_vencimento':fields.Datetime.from_string('2018-01-10 00:00:00'),
-            'forma_pagamento_id':self.env.ref('finan.finan_forma_pagamento_001').id,
-            'banco_id':self.env.ref('finan.finan_banco_237').id,
-            'vr_documento':100.00,
-            'tipo':'a_pagar',
-            'carteira_id':self.env.ref('finan.finan_carteira_001').id,
+            'participante_id': self.env.ref('l10n_br_base.cliente9_mg').id,
+            'documento_id': self.env.ref('finan.DOCUMENTO_FINANCEIRO_BOLETO').id,
+            'numero': 2345,
+            'data_documento': fields.Datetime.from_string('2018-01-10 00:00:00'),
+            'conta_id': self.env.ref('finan.financial_account_101001').id,
+            'data_vencimento': fields.Datetime.from_string('2018-01-10 00:00:00'),
+            'forma_pagamento_id': self.env.ref('finan.finan_forma_pagamento_001').id,
+            'banco_id': self.env.ref('finan.finan_banco_237').id,
+            'vr_documento': 100.00,
+            'tipo': 'a_pagar',
+            'carteira_id': self.env.ref('finan.finan_carteira_001').id,
         })
 
         self.finan_lancamento_a_pagar.confirma_lancamento()
@@ -34,16 +35,16 @@ class FinanLancamentoPagarManual(test_common.SingleTransactionCase):
         self.finan_lancamento_pagamento = self.finan_lancamento.create({
             'empresa_id': self.env.ref('l10n_br_base.'
                                        'sped_empresa_regime_normal_sp').id,
-            'documento_id':self.env.ref('finan.DOCUMENTO_FINANCEIRO_BOLETO').id,
-            'numero':2345,
-            'data_credito_debito':fields.Datetime.from_string('2018-01-10 00:00:00'),
-            'conta_id':self.env.ref('finan.financial_account_101001').id,
-            'data_pagamento':fields.Datetime.from_string('2016-01-10 00:00:00'),
-            'forma_pagamento_id':self.env.ref('finan.finan_forma_pagamento_001').id,
-            'banco_id':self.env.ref('finan.finan_banco_237').id,
-            'vr_documento':70.00,
-            'tipo':'recebimento',
-            'vr_movimentado':70.00,
+            'documento_id': self.env.ref('finan.DOCUMENTO_FINANCEIRO_BOLETO').id,
+            'numero': 2345,
+            'data_credito_debito': fields.Datetime.from_string('2018-01-10 00:00:00'),
+            'conta_id': self.env.ref('finan.financial_account_101001').id,
+            'data_pagamento': fields.Datetime.from_string('2016-01-10 00:00:00'),
+            'forma_pagamento_id': self.env.ref('finan.finan_forma_pagamento_001').id,
+            'banco_id': self.env.ref('finan.finan_banco_237').id,
+            'vr_documento': 70.00,
+            'tipo': 'recebimento',
+            'vr_movimentado': 70.00,
             'vr_multa': 0,
             'vr_juros': 0,
             'vr_adiantado': 0,
