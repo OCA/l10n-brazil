@@ -9,3 +9,4 @@
 # from . import test_financial_installment
 
 from . import test_finan_lancamento_a_receber
+from . import test_finan_lancamento_a_pagar
