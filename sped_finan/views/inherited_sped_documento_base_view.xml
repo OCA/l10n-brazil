@@ -29,11 +29,12 @@
             <field name="condicao_pagamento_id" position="after">
                 <field name="carteira_id"  attrs="{'invisible': [('forma_pagamento', '!=', '15')]}"/>
                 <field name="forma_pagamento" invisible="1"/>
+                <field name="finan_lancamento_ids" invisible="1"/>
             </field>
              <div name="button_box" position="inside">
                 <button name="action_view_finan" type="object" string="Financeiro"
                         class="oe_stat_button" icon="fa-dollar"
-                        attrs="{'invisible': [('condicao_pagamento_id', '=', False)]}"
+                        attrs="{'invisible': [('finan_lancamento_ids', '=', [])]}"
                         />
             </div>
         </field>
