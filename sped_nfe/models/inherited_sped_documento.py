@@ -460,6 +460,51 @@ class SpedDocumento(models.Model):
         self.arquivo_xml_autorizacao_inutilizacao_id = \
             self._grava_anexo(nome_arquivo, conteudo).id
 
+    def consultar_nfe(self, processador=None, nfe=None):
+        self.ensure_one()
+        #
+        # Se a nota já foi emitida: autorizada, rejeitada e denegada
+        # E não temos todos os dados, tentamos consultar a nota.
+        #
+        if self.situacao_nfe in (
+                SITUACAO_NFE_AUTORIZADA,
+                SITUACAO_NFE_DENEGADA,
+                SITUACAO_NFE_REJEITADA,
+        ) and not (
+                self.protocolo_autorizacao or
+                self.arquivo_xml_id or
+                self.arquivo_xml_autorizacao_id
+        ):
+            if not processador:
+                processador = self.processador_nfe()
+            if not nfe:
+                nfe = self.monta_nfe(processador)
+
+            consulta = processador.consultar_nota(
+                processador.ambiente,
+                self.chave,
+                nfe,
+            )
+            if nfe.procNFe:
+                procNFe = nfe.procNFe
+                self.grava_xml(procNFe.NFe)
+                self.grava_xml_autorizacao(procNFe)
+
+                if self.modelo == MODELO_FISCAL_NFE:
+                    res = self.grava_pdf(nfe, procNFe.danfe_pdf)
+                elif self.modelo == MODELO_FISCAL_NFCE:
+                    res = self.grava_pdf(nfe, procNFe.danfce_pdf)
+
+                data_autorizacao = \
+                    consulta.resposta.protNFe.infProt.dhRecbto.valor
+                data_autorizacao = UTC.normalize(data_autorizacao)
+
+                self.data_hora_autorizacao = data_autorizacao
+                self.protocolo_autorizacao = \
+                    consulta.resposta.protNFe.infProt.nProt.valor
+                self.chave = \
+                    consulta.resposta.protNFe.infProt.chNFe.valor
+
     def _envia_documento(self):
         self.ensure_one()
         result = super(SpedDocumento, self)._envia_documento()
@@ -513,39 +558,9 @@ class SpedDocumento(models.Model):
         # está emitida
         #
         elif processo.webservice == WS_NFE_CONSULTA:
+
             if processo.resposta.cStat.valor in ('100', '150'):
                 self.chave = processo.resposta.chNFe.valor
-
-                if not (
-                            self.protocolo_autorizacao or
-                            self.arquivo_xml_autorizacao_id
-                        ):
-
-                    consulta = processador.consultar_nota(
-                        processador.ambiente,
-                        self.chave,
-                        nfe,
-                    )
-                    if nfe.procNFe and consulta:
-                        procNFe = nfe.procNFe
-                        self.grava_xml(procNFe.NFe)
-                        self.grava_xml_autorizacao(procNFe)
-
-                        if self.modelo == MODELO_FISCAL_NFE:
-                            res = self.grava_pdf(nfe, procNFe.danfe_pdf)
-                        elif self.modelo == MODELO_FISCAL_NFCE:
-                            res = self.grava_pdf(nfe, procNFe.danfce_pdf)
-
-                        data_autorizacao = \
-                            consulta.resposta.protNFe.infProt.dhRecbto.valor
-                        data_autorizacao = UTC.normalize(data_autorizacao)
-
-                        self.data_hora_autorizacao = data_autorizacao
-                        self.protocolo_autorizacao = \
-                            consulta.resposta.protNFe.infProt.nProt.valor
-                        self.chave = \
-                            consulta.resposta.protNFe.infProt.chNFe.valor
-
                 self.executa_antes_autorizar()
                 self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
                 self.executa_depois_autorizar()
@@ -558,7 +573,6 @@ class SpedDocumento(models.Model):
                 self.executa_depois_denegar()
             else:
                 self.situacao_nfe = SITUACAO_NFE_EM_DIGITACAO
-
         #
         # Se o último processo foi o envio do lote, significa que a consulta
         # falhou, mas o envio não
