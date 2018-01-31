@@ -11,24 +11,27 @@ class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
 
     payment_mode_id = fields.Many2one(
-        string="Payment Mode",
+        string="Modo de Pagamento",
         comodel_name='payment.mode',
         domain="[('tipo_pagamento', '=', 'folha')]"
     )
 
     payment_order_id = fields.Many2one(
-        string="Payment Mode",
+        string="Ordem de pagamento",
         comodel_name='payment.order',
-        # domain="[('type', '=', type)]"
+        readonly=True,
+        # domain="[('type', '=', type)]",
     )
 
     payment_line_ids = fields.One2many(
-        string="Ordens de Pagamento",
+        string="Pagamentos",
         comodel_name="payment.line",
         inverse_name="payslip_id",
+        readonly=True,
     )
 
     paid_order = fields.Boolean(
+        string='Pago',
         compute='_compute_paid',
         readonly=True,
         store=True,
@@ -51,12 +54,16 @@ class HrPayslip(models.Model):
         self.paid_order = self.test_paid()
 
     def _compute_set_employee_id(self):
+        """
+        Setar a forma de pagamento no compute do holerite, buscando do contrato
+        """
         super(HrPayslip, self)._compute_set_employee_id()
         for record in self:
             if record.contract_id:
-                partner_id = \
-                    record.contract_id.employee_id.parent_id.user_id.partner_id
-                record.payment_mode_id = partner_id.supplier_payment_mode
+                record.payment_mode_id = record.contract_id.payment_mode_id
+                # partner_id = \
+                #     record.contract_id.employee_id.parent_id.user_id.partner_id
+                # record.payment_mode_id = partner_id.supplier_payment_mode
 
     @api.multi
     def action_done(self):

@@ -90,7 +90,8 @@ class PaymentOrder(models.Model):
 
         payslip_ids = self.env['hr.payslip'].search([
             ('tipo_de_folha', '=', self.tipo_de_folha),
-            ('state', '=', 'verify')
+            ('state', '=', 'verify'),
+            ('payment_mode_id', '=', self.mode.id),
         ])
 
         rubricas_pagaveis = self.env['hr.salary.rule'].search([
