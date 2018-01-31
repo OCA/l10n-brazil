@@ -121,11 +121,30 @@ class HrPayslipRun(models.Model):
 
     @api.multi
     def verificar_holerites_gerados(self):
+
+        # remover holerites que foram gerados pelo lote mas nao foram
+        # confirmados
+        not_done = self.slip_ids.filtered(lambda s: not s.state == 'done')
+        not_done.unlink()
+
+        # holerites que ja foram confirmados
+        done = self.slip_ids.filtered(lambda s: s.state == 'done')
+
         for lote in self:
+            # pegar todos contratos da empresa que são válidos,
             dominio_contratos = [
-                    ('date_start', '<=', lote.date_end),
-                    ('company_id', '=', lote.company_id.id),
+                ('date_start', '<=', lote.date_end),
+                ('company_id', '=', lote.company_id.id),
+            ]
+
+            # Se existir  holerites ja concluidos nao buscar os contratos
+            # destes holerites
+            if done:
+                dominio_contratos += [
+                    ('id', 'not in', done.mapped('contract_id').ids),
                 ]
+
+            # Se for lote de folha normal nao pegar as categorias inválidas
             if lote.tipo_de_folha != 'normal':
                 dominio_contratos += [
                     ('categoria', 'not in', ['721', '722']),
@@ -134,24 +153,35 @@ class HrPayslipRun(models.Model):
             #     dominio_contratos += [
             #         ('date_end', '>', lote.date_start),
             #     ]
+
+            # Buscar contratos validos
             contracts_id = self.env['hr.contract'].search(dominio_contratos)
 
+            # buscar payslip ja processadas dos contratos validos
             dominio_payslips = [
                 ('tipo_de_folha', '=', self.tipo_de_folha),
                 ('contract_id', 'in', contracts_id.ids)
             ]
+
+            # se o lote for de provisao de ferias, buscar entre o periodo todo
             if lote.tipo_de_folha != 'provisao_ferias':
                 dominio_payslips += [
                     ('date_from', '>=', self.date_start),
                     ('date_to', '<=', self.date_end),
                 ]
+
+            # Se o lote for de qualquer utro tipo, buscar apenas paylisps
+            # do mes setado no lote.
             else:
                 dominio_payslips += [
                     ('mes_do_ano', '=', self.mes_do_ano),
                     ('ano', '=', self.ano),
                 ]
+
+            # Buscar payslips dos contratos validos que ja foram processadas
             payslips = self.env['hr.payslip'].search(dominio_payslips)
 
+            # grupo contendo os contratos que ja foram processados naquele período
             contratos_com_holerites = []
             for payslip in payslips:
                 if payslip.contract_id.id not in contratos_com_holerites:
@@ -159,12 +189,36 @@ class HrPayslipRun(models.Model):
 
             contratos_sem_holerite = []
             for contrato in contracts_id:
+                 # se o contrato valido nao esta nos contratos que ja possuem
+                 # payslip naquele periodo
                  if contrato.id not in contratos_com_holerites:
+                     # remover contratos finalizados
                      if not contrato.date_end:
                          contratos_sem_holerite.append(contrato.id)
                      else:
                          if contrato.date_end > lote.date_end:
                              contratos_sem_holerite.append(contrato.id)
+
+            # Adiantamento eh uma rubrica
+            # no processamento do lote de adiantamento de 13,
+            # filtrar os contratos que ja foram processados naquele intervalo
+            # com aquela rubrica
+            if lote.tipo_de_folha == 'adiantamento_13':
+                # buscar as rubricas que foram processadas de adiantamento 13
+                rubricas_ids = self.env['hr.payslip.line'].search([
+                    ('contract_id', 'in', contratos_sem_holerite),
+                    ('code', '=', 'ADIANTAMENTO_13'),
+                    ('slip_id.ano', '=', self.ano),
+                    ('slip_id.mes_do_ano', '<', self.mes_do_ano),
+                    ('slip_id.state', '=', 'done'),
+                ])
+
+                # filtrar os contratos dessas rubricas
+                contratos_ids = rubricas_ids.mapped('contract_id')
+
+                # remover esses contratos dos contratos validos
+                contratos_sem_holerite = \
+                    list(set(contratos_sem_holerite) - set(contratos_ids.ids))
 
             lote.write({
                 'contract_id': [(6, 0, contratos_sem_holerite)],
@@ -239,7 +293,7 @@ class HrPayslipRun(models.Model):
                         u" falhou durante o cálculo!")
                     payslip.unlink()
                     continue
-        self.verificar_holerites_gerados()
+        # self.verificar_holerites_gerados()
 
     @api.multi
     def close_payslip_run(self):
