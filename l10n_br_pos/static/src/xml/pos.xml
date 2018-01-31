@@ -131,7 +131,6 @@
             <div class='client-detail'>
                 <span class='label'>Codigo Postal</span>
                 <input class='detail client-address-zip' name='zip' t-att-value='partner.zip' placeholder='CEP'></input>
-                <button class='bt_zip_correios'><i class='fa fa-search'/></button>
             </div>
         </t>
     </t>

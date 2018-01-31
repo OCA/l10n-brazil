@@ -250,30 +250,20 @@ function l10n_br_pos_screens(instance, module) {
         },
 
         edit_client_details: function(partner) {
-         this._super(partner);
+            this._super(partner);
+            var self = this;
 
-         var self = this;
-
-         $('.bt_zip_correios', this.el).click(function(e){
-
-             var cep = $('.client-address-zip').val().replace(/[^\d]+/g,'');
-             if (cep.length != 8){
-                    self.pos_widget.screen_selector.show_popup('error',{
-                        message: _t('Erro - Campo Inválido'),
-                        comment: _t('Codigo Postal esta incorreto!')
+            $('.client-address-zip', this.el).blur(function(e){
+            var cep = $('.client-address-zip').val().replace(/[^\d]+/g,'');
+                if (cep.length == 8){
+                    new instance.web.Model('l10n_br.zip').call('zip_search_multi_json', [[]], {'zip_code': cep}).then(function (result) {
+                        $('.client-address-street').val(result.street)
+                        $('.client-address-country').val(result.country_id)
+                        $('.client-address-state').val(result.state_id)
+                        $('.client-address-city').val(result.l10n_br_city)
                     });
-             }
-
-             else{
-                new instance.web.Model('l10n_br.zip').call('zip_search_multi_json', [[]], {'zip_code': cep}).then(function (result) {
-                    $('.client-address-street').val(result.street)
-                    $('.client-address-country').val(result.country_id)
-                    $('.client-address-state').val(result.state_id)
-                    $('.client-address-city').val(result.l10n_br_city)
-                });
-             }
-
-         });
+                }
+            });
         },
 
         re_update_products: function(partner) {
