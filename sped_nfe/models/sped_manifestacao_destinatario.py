@@ -174,16 +174,25 @@ class SpedManifestacaoDestinatario(models.Model):
 
     @api.multi
     def action_baixa_documento(self):
-
+        self.ensure_one()
         documento = self.sped_consulta_dfe_id.baixa_documentos(manifestos=self)
 
+        if len(documento) > 1:
+            view_id = self.env.ref(
+                'sped_nfe.sped_documento_ajuste_recebimento_tree').id
+            view_type = 'tree'
+
+        else:
+            view_id = self.env.ref(
+                'sped_nfe.sped_documento_ajuste_recebimento_form').id
+            view_type = 'form'
+
         return {
-            'name': _(documento[0].chave),
+            'name': "Baixa documentos",
             'view_mode': 'form',
-            'view_type': 'form',
-            'view_id': self.env.ref('sped_nfe.sped_documento'
-                                    '_ajuste_recebimento_form').id,
-            'res_id': documento[0].id,
+            'view_type': view_type,
+            'view_id': view_id,
+            'res_id': documento.ids,
             'res_model': 'sped.documento',
             'type': 'ir.actions.act_window',
             'target': 'current',
@@ -339,7 +348,8 @@ class SpedManifestacaoDestinatario(models.Model):
 
     @api.multi
     def action_importa_xmls(self):
-        self[0].sped_consulta_dfe_id.baixa_documentos(manifestos=self)
+        for record in self:
+            record.sped_consulta_dfe_id.baixa_documentos(manifestos=self)
 
     @api.multi
     def action_importa_xml(self):

@@ -18,7 +18,7 @@
                         <newline />
                         <field name="ultimo_nsu" required="1" />
                         <newline />
-                        <field name="cron" />
+                        <field name="utilizar_cron" />
                         <newline />
                         <field name="ultima_consulta" readonly="1" />
                         <newline />

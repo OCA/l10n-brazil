@@ -61,11 +61,11 @@ class ConsultaDFe(models.Model):
         string='Manifestações do Destinatário Importadas',
     )
 
-    cron = fields.Boolean(
+    utilizar_cron = fields.Boolean(
         default=False,
-        string='Baixar novos documentos a cada 1 hora',
+        string='Baixar novos documentos automaticamente',
         help='Se ativo, permite que novas manifestações sejam buscadas '
-             'automaticamente de 1 em 1 hora',
+             'automaticamente conforme configuração do cron',
     )
 
     @api.multi
@@ -78,8 +78,8 @@ class ConsultaDFe(models.Model):
             'type': 'ir.actions.act_window',
             'target': 'current',
             'domain': [('empresa_id', '=', self.empresa_id.id)],
-            'limit':len(self.env['sped.manifestacao.destinatario'].search([(
-                'empresa_id','=',self.empresa_id.id)])),
+            'limit': self.env['sped.manifestacao.destinatario'].search_count([
+                ('empresa_id', '=', self.empresa_id.id)]),
         }
 
     def _format_nsu(self, nsu):
@@ -205,11 +205,18 @@ class ConsultaDFe(models.Model):
         return nfe_ids
 
     def _cron_busca_documentos(self, context=None):
+        """ Método chamado pelo agendador do sistema, processa
+        automaticamente a busca de documentos conforme configuração do
+        sistema.
+
+        :param context:
+        :return:
+        """
 
         consulta_ids = self.env['sped.consulta.dfe'].search([])
 
         for consulta_id in consulta_ids:
-            if consulta_id.cron:
+            if consulta_id.utilizar_cron:
                 consulta_id.busca_documentos()
 
 
@@ -220,13 +227,13 @@ class ConsultaDFe(models.Model):
         company = self.empresa_id
         for consulta in self:
             try:
-                self.validate_nfe_configuration(company)
-                last_nsu = self.ultimo_nsu
-                nfe_result = self.distribuicao_nfe(
+                consulta.validate_nfe_configuration(company)
+                last_nsu = consulta.ultimo_nsu
+                nfe_result = consulta.distribuicao_nfe(
                     company, last_nsu)
-                self.ultima_consulta = fields.Datetime.now()
-                _logger.info('%s.query_nfe_batch(), lastNSU: %s',
-                             company, last_nsu)
+                consulta.ultima_consulta = fields.Datetime.now()
+                _logger.info('%s.busca_documentos(), lastNSU: %s',
+                             company.name, last_nsu)
             except Exception:
                 _logger.error("Erro ao consultar Manifesto", exc_info=True)
                 if raise_error:
