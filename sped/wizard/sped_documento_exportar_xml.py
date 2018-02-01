@@ -8,6 +8,8 @@ import base64
 import zipfile
 import io
 
+import logging
+
 from odoo import models, fields, _
 from pybrasil.inscricao import limpa_formatacao
 from odoo.exceptions import RedirectWarning
@@ -28,6 +30,8 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     SITUACAO_NFE_DENEGADA,
     SITUACAO_NFE_INUTILIZADA,
 )
+
+_logger = logging.getLogger(__name__)
 
 PATH_MODELO = {
     MODELO_FISCAL_NFE: 'nfe',
@@ -139,12 +143,14 @@ class SpedDocumentoExportar(models.TransientModel):
             if not anexos:
                 continue
             path_documento = self.monta_caminho(documento)
-            for anexo in anexos:
-                try:
+            try:
+                for anexo in anexos:
                     arquivos[path_documento + '/' + anexo.datas_fname] = \
                         base64.b64decode(anexo.datas)
-                except Exception as e:
-                    pass
+            except Exception:
+                _logger.error(_('Falha na replicação: anexos do documento '
+                                '[id=%s] não está presente no banco de dados.'
+                                % documento.id))
         return arquivos
 
     def periodic_export(self):
