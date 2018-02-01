@@ -238,7 +238,7 @@ function l10n_br_pos_screens(instance, module) {
                 });
             } else {
                 var cliente_cpf = fields.cnpj_cpf;
-                if (self.pos_widget.order_widget.verificar_cpf_cnpj(cliente_cpf)){
+                if (self.pos_widget.order_widget.verificar_cpf_cnpj(cliente_cpf.replace(/[^\d]+/g,''))){
                     this._super(partner);
                 } else {
                    this.pos_widget.screen_selector.show_popup('error',{
