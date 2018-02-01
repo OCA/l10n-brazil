@@ -211,6 +211,7 @@ class HrPayslipRun(models.Model):
                     ('slip_id.ano', '=', self.ano),
                     ('slip_id.mes_do_ano', '<', self.mes_do_ano),
                     ('slip_id.state', '=', 'done'),
+                    ('total', '>', 0),
                 ])
 
                 # filtrar os contratos dessas rubricas
