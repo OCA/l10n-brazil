@@ -32,6 +32,8 @@
         'data/scheduler_busca_documentos.xml',
         'wizard/wizard_confirma_acao.xml',
         'security/ir.model.access.csv',
+        'wizard/sped_documento_exportar_xml.xml',
+        'wizard/base_config_settings.xml',
     ],
     'external_dependencies': {
         'python': ['pybrasil', 'pysped', 'mako'],

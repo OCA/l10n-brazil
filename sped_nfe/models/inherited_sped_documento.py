@@ -149,6 +149,11 @@ class SpedDocumento(models.Model):
         ondelete='cascade',
     )
 
+    xmls_exportados = fields.Boolean(
+        string='XMLs exportados para a pasta da contabilidade',
+        default=False,
+    )
+
     @api.multi
     def action_fluxo_compras(self):
         self.ensure_one()
@@ -422,6 +427,7 @@ class SpedDocumento(models.Model):
         self.arquivo_xml_autorizacao_id = False
         self.arquivo_xml_autorizacao_id = \
             self._grava_anexo(nome_arquivo, conteudo)
+        self.xmls_exportados = False
 
         return {
             'type' : 'ir.actions.act_url',
@@ -454,6 +460,7 @@ class SpedDocumento(models.Model):
         self.arquivo_xml_autorizacao_cancelamento_id = False
         self.arquivo_xml_autorizacao_cancelamento_id = \
             self._grava_anexo(nome_arquivo, conteudo)
+        self.xmls_exportados = False
 
         return {
             'type': 'ir.actions.act_url',
@@ -478,6 +485,7 @@ class SpedDocumento(models.Model):
         self.arquivo_xml_autorizacao_inutilizacao_id = False
         self.arquivo_xml_autorizacao_inutilizacao_id = \
             self._grava_anexo(nome_arquivo, conteudo).id
+        self.xmls_exportados = False
 
     def consultar_nfe(self, processador=None, nfe=None):
         self.ensure_one()
