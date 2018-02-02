@@ -49,6 +49,8 @@ class ResPartner(models.Model):
         cnpj_cpf = misc.punctuation_rm(partner['cnpj_cpf'])
         cnpj_cpf_type = 'cpf' if len(cnpj_cpf) == 11 else 'cnpj'
         partner['cnpj_cpf'] = self._mask_cnpj_cpf(cnpj_cpf_type, cnpj_cpf)
+        partner['whatsapp'] = 'sim' == partner['whatsapp']
+        partner['opt_out']  = 'sim' == partner['opt_out']
         res = super(ResPartner, self).create_from_ui(partner)
         partner_id = self.browse(res)
         partner_id.legal_name = partner['name']
