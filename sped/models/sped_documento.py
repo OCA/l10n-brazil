@@ -1408,7 +1408,10 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     def _envia_documento(self):
         for record in self:
             if not record.numero:
-                record.update(record._onchange_serie()['value'])
+                res = record._onchange_serie()['value']
+                res['data_hora_emissao'] = fields.Datetime.now()
+                res['data_hora_entrada_saida'] = res['data_hora_emissao']
+                record.update(res)
 
     def cancela_nfe(self):
         self.ensure_one()
