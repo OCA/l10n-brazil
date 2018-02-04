@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright 2016 Thomas Binsfeld
-# Copyright 2016-2017 ACSONE SA/NV (<http://acsone.eu>)
+# Copyright 2016-2018 ACSONE SA/NV (<http://acsone.eu>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 """
 Provides the AccountingNone singleton.
