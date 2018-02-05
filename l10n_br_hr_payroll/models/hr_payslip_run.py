@@ -209,7 +209,7 @@ class HrPayslipRun(models.Model):
                     ('contract_id', 'in', contratos_sem_holerite),
                     ('code', '=', 'ADIANTAMENTO_13'),
                     ('slip_id.ano', '=', self.ano),
-                    ('slip_id.mes_do_ano', '<', self.mes_do_ano),
+                    ('slip_id.mes_do_ano', '<=', self.mes_do_ano),
                     ('slip_id.state', '=', 'done'),
                     ('total', '>', 0),
                 ])
