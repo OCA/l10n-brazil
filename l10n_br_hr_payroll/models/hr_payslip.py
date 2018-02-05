@@ -1725,6 +1725,10 @@ class HrPayslip(models.Model):
             )
         ferias_abono = InputLine(payslip.employee_id.id, dias_abono_ferias)
 
+        # Variavel para contabilizar os avos na contabilização do
+        # adiantamento do decimo terceiro salario
+        adiantamento_avos_13 = 12
+
         # Calcula os Avos do payslip para Provisão de 13º Salário
         if fields.Date.from_string(payslip.contract_id.date_start) > \
                 fields.Date.from_string(str(payslip.ano)+'-01-01'):
@@ -1733,10 +1737,15 @@ class HrPayslip(models.Model):
             mes_inicio_contrato = \
                 fields.Date.from_string(payslip.contract_id.date_start).month
             avos_13 = int(payslip.mes_do_ano) - int(mes_inicio_contrato) + 1
+
+            adiantamento_avos_13 = 13 - int(mes_inicio_contrato)
+
             if dia_inicio_contrato > 15:
                 avos_13 -= 1
+                adiantamento_avos_13 -= 1
         else:
             avos_13 = payslip.mes_do_ano
+
         if payslip.contract_id.date_end:
             if datetime.strptime(payslip.contract_id.date_end, '%Y-%m-%d').month \
                     == payslip.mes_do_ano:
@@ -1755,7 +1764,7 @@ class HrPayslip(models.Model):
             'SALARIO_DIA': salario_dia, 'SALARIO_HORA': salario_hora,
             'RAT_FAP': rat_fap, 'MEDIAS': medias_obj,
             'PEDIDO_FERIAS': ferias_abono, 'PAGAR_FERIAS': False,
-            'AVOS_13': avos_13,
+            'AVOS_13': avos_13, 'adiantamento_avos_13': adiantamento_avos_13,
             'DIAS_AVISO_PREVIO': payslip.dias_aviso_previo,
             'RUBRICAS_ESPEC_CALCULADAS': [],
             'locals': locals,
