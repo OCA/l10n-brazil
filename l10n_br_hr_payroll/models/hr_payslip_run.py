@@ -283,6 +283,7 @@ class HrPayslipRun(models.Model):
                         'payslip_run_id': self.id,
                     })
                     payslip._compute_set_dates()
+                    payslip._compute_set_employee_id()
                     payslip.compute_sheet()
                     _logger.info(
                         u"Holerite " + contrato.name +
