@@ -8,14 +8,6 @@ from openerp import models, fields, api
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
 
-class AccountPaymentTerm(models.Model):
-    _inherit = 'account.payment.term'
-
-    indPag = fields.Selection(
-        [('0', u'Pagamento à Vista'), ('1', u'Pagamento à Prazo'),
-         ('2', 'Outros')], 'Indicador de Pagamento', default='1')
-
-
 class AccountTaxTemplate(models.Model):
     """Implement computation method in taxes"""
     _inherit = 'account.tax.template'
