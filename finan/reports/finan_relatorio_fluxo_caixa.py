@@ -118,10 +118,7 @@ class FinanRelatorioFluxoCaixa(ReportXlsxBase):
             data_atual = data_inicial + relativedelta(day=1)
             ultima_data = data_final + relativedelta(day=1)
             while data_atual <= ultima_data:
-                if data_atual.month == 03:
-                    titulo = unicode(data_atual.strftime('%B/%Y'), "utf-8")
-                else:
-                    titulo = data_atual.strftime('%B/%Y')
+                titulo = unicode(data_atual.strftime('%B/%Y'), "utf-8")
                 data_periodo = 'valor_' + str(data_atual).replace('-', '_')
                 report_data['titulo_data_periodo'][data_periodo] = titulo
                 data_atual += relativedelta(months=1)
