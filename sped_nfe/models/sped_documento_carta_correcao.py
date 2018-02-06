@@ -117,7 +117,7 @@ class SpedCartaCorrecao(models.Model):
 
     def _check_permite_alteracao(self, operacao='create', dados={}):
         for carta_correcao in self:
-            if carta_correcao.permite_alteracao:
+            if not carta_correcao.permite_alteracao:
                 if operacao == 'unlink':
                     mensagem = \
                         'Não é permitido excluir esta carta de correção!'
@@ -250,16 +250,16 @@ class SpedCartaCorrecao(models.Model):
             #
             # Gera o DAEDE da nova CC-e
             #
-            processador.daede.NFe.xml = procNFe.NFe.xml
+            processador.daede.NFe = procNFe.NFe
             processador.daede.protNFe = procNFe.protNFe
             processador.daede.procEventos = [procevento]
             processador.daede.salvar_arquivo = False
             processador.daede.gerar_daede()
             self.grava_pdf(procNFe.NFe, processador.daede.conteudo_pdf)
 
-            self.data_hora_autorizacao = data_autorizacao
             self.protocolo_autorizacao = \
                 procevento.retEvento.infEvento.nProt.valor
+            self.data_hora_autorizacao = data_autorizacao
 
     def unlink(self):
         self._check_permite_alteracao(operacao='unlink')
