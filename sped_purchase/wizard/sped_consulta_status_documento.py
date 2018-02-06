@@ -112,6 +112,28 @@ class SpedConsultaStatusDocumento(models.TransientModel):
             xml = base64.b64decode(self.arquivo)
 
             nfe = objectify.fromstring(xml)
+
+            if('procEventoNFe' in nfe.tag):
+                if(nfe.evento.infEvento.detEvento.
+                        descEvento == 'Cancelamento'):
+
+                    documentos = self.env['sped.documento'].\
+                        importa_nfe_cancelada(xml)
+
+                    if documentos:
+                        return {
+                            'name': _("NF-e Cancelada"),
+                            'view_mode': 'form',
+                            'view_type': 'form',
+                            'view_id': self.env.ref(
+                                'sped_nfe.sped_documento_ajuste_recebimento_form').id,
+                            'res_id': documentos[0].id,
+                            'res_model': 'sped.documento',
+                            'type': 'ir.actions.act_window',
+                            'target': 'current',
+                            'flags': {'form': {'action_buttons': True}},
+                        }
+
             documento = self.env['sped.documento'].new()
             documento.modelo = nfe.NFe.infNFe.ide.mod.text
             dados = documento.le_nfe(xml=xml)

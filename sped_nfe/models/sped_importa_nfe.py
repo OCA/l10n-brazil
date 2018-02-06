@@ -68,27 +68,44 @@ class ImportaNFe(models.Model):
                         filename = os.path.join(root, basename)
                         yield filename
 
+        def percorre_arquivos(loop=find_files(self.caminho, '*.xml')):
+            for filename in loop:
+                try:
+                    self.quantidade_diretorio += 1
+                    tree = etree.parse(filename)
+                    xml = etree.tostring(tree.getroot())
+                    nfe = objectify.fromstring(xml)
+
+                    documento = self.env['sped.documento'].new()
+                    documento.importado_xml = True
+                    if getattr(nfe, 'NFe', None):
+                        documento.modelo = nfe.NFe.infNFe.ide.mod.text
+                    resultado = documento.le_nfe(xml=xml)
+                    if resultado:
+                        print u"Importado:  " + filename
+                        self.quantidade_importada += 1
+                    else:
+                        print u"Não importado:  " + filename
+                    if autocommit:
+                        self.env.cr.commit()
+                except Exception as e:
+                    if 'Nenhum documento encontrado' in (e.message or e.name):
+                        arquivos_eventos.append(filename)
+                    _logger.error(u"Exception: " + filename)
+
         self.quantidade_diretorio = 0
         self.quantidade_importada = 0
-        for filename in find_files(self.caminho, '*.xml'):
-            try:
-                self.quantidade_diretorio += 1
-                tree = etree.parse(filename)
-                xml = etree.tostring(tree.getroot())
-                nfe = objectify.fromstring(xml)
-                documento = self.env['sped.documento'].new()
-                documento.importado_xml = True
-                documento.modelo = nfe.NFe.infNFe.ide.mod.text
-                resultado = documento.le_nfe(xml=xml)
-                if resultado:
-                    print u"Importado:  " + filename
-                    self.quantidade_importada += 1
-                else:
-                    print u"Não importado:  " + filename
-                if autocommit:
-                    self.env.cr.commit()
-            except Exception as e:
-                print u"Exception:  " + filename
+
+        arquivos_eventos = []
+
+        percorre_arquivos()
+
+        '''Se existirem arquivos de cancelamento de NF-e, eles devem ser 
+        processados depois do processamento de todos os outros arquivos'''
+        if arquivos_eventos:
+            self.quantidade_diretorio -= len(arquivos_eventos)
+            percorre_arquivos(arquivos_eventos[:])
+
 
     # def _importar_caminho(self, diretorio):
     #
