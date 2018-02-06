@@ -12,7 +12,7 @@ from . import account_product_fiscal_classification
 from . import account_invoice
 from . import account_payment_term
 from . import account_tax_template
-from . import account
+from . import account_tax
 from . import product
 from . import res_country
 from . import wizard_multi_charts_accounts
