@@ -9,6 +9,7 @@ from . import l10n_br_account_document_serie
 from . import l10n_br_account_partner_fiscal
 from . import l10n_br_account_service_type
 from . import l10n_br_account_product_cfop
+from . import l10n_br_account_product_document_related
 from . import l10n_br_account_product
 from . import res_company
 from . import l10n_br_tax_definition_company_product
