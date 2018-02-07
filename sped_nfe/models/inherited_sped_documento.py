@@ -199,6 +199,7 @@ class SpedDocumento(models.Model):
             'situacao_nfe',
             'permite_cancelamento',
             'permite_alteracao',
+            'xmls_exportados',
         ]
         for documento in self:
             if documento.modelo not in (MODELO_FISCAL_NFE,
