@@ -5,19 +5,9 @@
 from openerp import models, fields
 
 from .l10n_br_account_product import (
-    PRODUCT_FISCAL_TYPE,
-    PRODUCT_FISCAL_TYPE_DEFAULT,
     NFE_IND_IE_DEST,
     NFE_IND_IE_DEST_DEFAULT
 )
-
-
-class L10nBrAccountDocumentSerie(models.Model):
-    _inherit = 'l10n_br_account.document.serie'
-
-    fiscal_type = fields.Selection(
-        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
-        default=PRODUCT_FISCAL_TYPE_DEFAULT)
 
 
 class L10nBrAccountPartnerFiscalType(models.Model):
