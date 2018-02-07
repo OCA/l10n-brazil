@@ -26,25 +26,6 @@ NFE_IND_IE_DEST = [
 NFE_IND_IE_DEST_DEFAULT = NFE_IND_IE_DEST[0][0]
 
 
-class L10nBrIPIGuideline(models.Model):
-
-    _name = 'l10n_br_account_product.ipi_guideline'
-    _description = 'IPI Guidelines'
-
-    code = fields.Char(u'Código', size=3, required=True)
-    name = fields.Text(u'Descrição Enquadramento Legal do IPI', required=True)
-    cst_group = fields.Selection([('imunidade', u'Imunidade'),
-                                  ('suspensao', u'Suspensão'),
-                                  ('isencao', u'Isenção'),
-                                  ('reducao', u'Redução'),
-                                  ('outros', u'Outros'),
-                                  ], string='Grupo CST', required=True)
-    tax_code_in_id = fields.Many2one(
-        'account.tax.code.template', string=u'CST Entrada')
-    tax_code_out_id = fields.Many2one(
-        'account.tax.code.template', string=u'CST Saída')
-
-
 class L10nBrTaxIcmsPartition(models.Model):
 
     _name = 'l10n_br_tax.icms_partition'
