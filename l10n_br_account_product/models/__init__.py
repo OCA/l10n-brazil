@@ -5,6 +5,7 @@
 from . import account_fiscal_position
 from . import account_fiscal_position_template
 from . import l10n_br_account_fiscal_category
+from . import l10n_br_account_document_serie
 from . import l10n_br_account_product
 from . import res_company
 from . import l10n_br_tax_definition_company_product
