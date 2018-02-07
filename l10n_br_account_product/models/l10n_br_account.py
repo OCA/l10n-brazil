@@ -12,14 +12,6 @@ from .l10n_br_account_product import (
 )
 
 
-class L10nBrAccountFiscalCategory(models.Model):
-    _inherit = 'l10n_br_account.fiscal.category'
-
-    fiscal_type = fields.Selection(
-        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal', required=True,
-        default=PRODUCT_FISCAL_TYPE_DEFAULT)
-
-
 class L10nBrAccountDocumentSerie(models.Model):
     _inherit = 'l10n_br_account.document.serie'
 
