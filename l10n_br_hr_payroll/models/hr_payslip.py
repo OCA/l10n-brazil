@@ -1504,22 +1504,23 @@ class HrPayslip(models.Model):
         :return:     float - Valor pago neste ano
         '''
         domain = [
-            ('tipo_de_folha', '=', 'normal'),
+            ('tipo_de_folha', 'in', ['normal','decimo_terceiro']),
             ('contract_id', '=', self.contract_id.id),
             ('state', 'in', ['done', 'verify']),
             ('ano', '=', self.ano),
             ('is_simulacao', '=', False),
             ('mes_do_ano', '<=', self.mes_do_ano),
         ]
-        holerites = self.search(
-            domain, order='mes_do_ano DESC')
+        holerites = self.search(domain, order='mes_do_ano DESC')
+
         valor = 0
         if holerites:
             for holerite in holerites:
                 for line in holerite.line_ids:
                     if line.code in [
                         'ADIANTAMENTO_13',
-                        'ADIANTAMENTO_13_FERIAS'
+                        'ADIANTAMENTO_13_FERIAS',
+                        'PRIMEIRA_PARCELA_13',
                     ]:
                         if not (self.tipo_de_folha == 'ferias'
                                 and holerite.mes_do_ano == self.mes_do_ano):
