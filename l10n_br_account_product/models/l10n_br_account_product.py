@@ -26,25 +26,6 @@ NFE_IND_IE_DEST = [
 NFE_IND_IE_DEST_DEFAULT = NFE_IND_IE_DEST[0][0]
 
 
-class L10nBrTaxIcmsPartition(models.Model):
-
-    _name = 'l10n_br_tax.icms_partition'
-    _description = 'Icms Partition'
-
-    date_start = fields.Date(
-        u'Data Inicial',
-        required=True
-    )
-    date_end = fields.Date(
-        u'Data Final',
-        required=True
-    )
-    rate = fields.Float(
-        u'Percentual Interestadual de Rateio',
-        required=True
-    )
-
-
 class L10nBrAccountProductCest(models.Model):
 
     _name = 'l10n_br_account_product.cest'
