@@ -26,16 +26,6 @@ NFE_IND_IE_DEST = [
 NFE_IND_IE_DEST_DEFAULT = NFE_IND_IE_DEST[0][0]
 
 
-class L10nBrIcmsRelief(models.Model):
-
-    _name = 'l10n_br_account_product.icms_relief'
-    _description = 'Icms Relief'
-
-    code = fields.Char(u'Código', size=2, required=True)
-    name = fields.Char('Nome', size=256, required=True)
-    active = fields.Boolean('Ativo', default=True)
-
-
 class L10nBrIPIGuideline(models.Model):
 
     _name = 'l10n_br_account_product.ipi_guideline'
