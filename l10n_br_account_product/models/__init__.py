@@ -14,6 +14,7 @@ from . import l10n_br_account_product_import_declaration
 from . import l10n_br_account_product_import_declaration_line
 from . import l10n_br_account_product_icms_relief
 from . import l10n_br_account_product_ipi_guideline
+from . import l10n_br_tax_icms_partition
 from . import l10n_br_account_product
 from . import res_company
 from . import l10n_br_tax_definition_company_product
