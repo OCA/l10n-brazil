@@ -2159,8 +2159,9 @@ class HrPayslip(models.Model):
                 record.mes_do_ano = datetime.now().months
                 record.mes_do_ano2 = datetime.now().month
             if record.tipo_de_folha == 'ferias' and record.holidays_ferias:
-                record.periodo_aquisitivo =\
-                    record.holidays_ferias.parent_id.controle_ferias_ids[0]
+                if record.holidays_ferias.parent_id.controle_ferias_ids:
+                    record.periodo_aquisitivo =\
+                        record.holidays_ferias.parent_id.controle_ferias_ids[0]
                 record.date_from = record.holidays_ferias.data_inicio
                 record.date_to = record.holidays_ferias.data_fim
                 record.mes_do_ano = \
