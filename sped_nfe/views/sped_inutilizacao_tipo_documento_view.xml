@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2018 KMEE <luiz.divino@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="sped_inutilizacao_tipo_documento_acao_form" >
+        <field name="name">sped.inutilizacao.tipo.documento.form</field>
+        <field name="model">sped.inutilizacao.tipo.documento</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Tipos Documento Inutilização">
+                <sheet>
+                    <field name="codigo" />
+                    <field name="name" />
+                    <field name="electronico" />
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_inutilizacao_tipo_documento_acao_tree">
+        <field name="name">sped.inutilizacao.tipo.documento.tree</field>
+        <field name="model">sped.inutilizacao.tipo.documento</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Tipos Documento Inutilização">
+                <field name="codigo" />
+                <field name="name" />
+                <field name="electronico" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_inutilizacao_tipo_documento_acao_search">
+        <field name="name">sped.inutilizacao.tipo.documento.search</field>
+        <field name="model">sped.inutilizacao.tipo.documento</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Tipos Documento Inutilização">
+                <field name="codigo" />
+                <field name="name" />
+                <field name="electronico" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_inutilizacao_tipo_documento_acao">
+        <field name="name">Tipos Documento Inutilização</field>
+        <field name="res_model">sped.inutilizacao.tipo.documento</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_sped_inutilizacao_tipo_documento_acao_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_inutilizacao_tipo_documento_acao_form"/>
+        <field name="act_window_id" ref="sped_inutilizacao_tipo_documento_acao"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_sped_inutilizacao_tipo_documento_acao_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_inutilizacao_tipo_documento_acao_tree"/>
+        <field name="act_window_id" ref="sped_inutilizacao_tipo_documento_acao"/>
+    </record>
+
+    <menuitem
+        id="menu_sped_inutilizacao_tipo_documento"
+        sequence="3"
+        name="Tipos Documento Inutilização"
+        parent="l10n_br_base.menu_fiscal_configuracao"
+        action="sped_inutilizacao_tipo_documento_acao"
+        />
+
+</odoo>

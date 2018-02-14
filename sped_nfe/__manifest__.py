@@ -28,7 +28,9 @@
         'views/sped_consulta_dfe_view.xml',
         'views/sped_importa_nfe_view.xml',
         'views/sped_inutilizacao_documento_view.xml',
+        'views/sped_inutilizacao_tipo_documento_view.xml',
         'security/ir.model.access.csv',
+        'data/sped.inutilizacao.tipo.documento.csv',
     ],
     'external_dependencies': {
         'python': ['pybrasil', 'pysped', 'mako'],
