@@ -1109,3 +1109,22 @@ class SpedDocumento(models.Model):
         procNFe.NFe.gera_nova_chave()
         procNFe.NFe.monta_chave()
         return self.grava_xml(procNFe.NFe)
+
+    @api.onchange('empresa_id', 'modelo', 'emissao', 'serie', 'ambiente_nfe')
+    def _onchange_serie(self):
+        res = super(SpedDocumento, self)._onchange_serie()
+        tipo_documento_inutilizado = self.env[
+            'sped.inutilizacao.tipo.documento'
+        ].search([('codigo', '=', self.modelo)])
+        faixa_inutilizada = self.env['sped.inutilizacao.documento'].search([
+            ('empresa_id', '=', self.empresa_id.id),
+            ('tipo_documento_inutilizacao_id', '=', tipo_documento_inutilizado.id),
+            ('serie_documento', '=', res['value']['serie']),
+            ('inicio_numeracao', '<=', res['value']['numero']),
+            ('fim_numeracao', '>=', res['value']['numero'])
+            ], limit=1, order='fim_numeracao desc')
+
+        if faixa_inutilizada:
+            res['value']['numero'] = faixa_inutilizada.fim_numeracao + 1
+
+        return res
