@@ -16,15 +16,15 @@
                 </header>
                 <sheet>
                     <group>
-                        <field name="state" />
-                        <field name="status" />
-                        <field name="empresa_id" />
-                        <field name="tipo_documento_inutilizacao_id" />
-                        <field name="serie_documento" />
-                        <field name="inicio_numeracao" />
-                        <field name="fim_numeracao" />
-                        <field name="justificativa" />
-                        <field name="menssagem" />
+                        <field name="state" readonly="1"/>
+                        <field name="status" readonly="1" />
+                        <field name="empresa_id" attrs="{'readonly': [('state', '=', 'autorizado')]}" />
+                        <field name="tipo_documento_inutilizacao_id" attrs="{'readonly': [('state', '=', 'autorizado')]}" />
+                        <field name="serie_documento" attrs="{'readonly': [('state', '=', 'autorizado')]}" />
+                        <field name="inicio_numeracao" attrs="{'readonly': [('state', '=', 'autorizado')]}" />
+                        <field name="fim_numeracao" attrs="{'readonly': [('state', '=', 'autorizado')]}" />
+                        <field name="justificativa" attrs="{'readonly': [('state', '=', 'autorizado')]}" />
+                        <field name="menssagem" readonly="1" />
                     </group>
                 </sheet>
             </form>
