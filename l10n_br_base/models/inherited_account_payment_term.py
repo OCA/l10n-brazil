@@ -44,8 +44,7 @@ except (ImportError, IOError) as err:
 class AccountPaymentTerm(SpedBase, models.Model):
     _name = b'account.payment.term'
     _inherit = ['account.payment.term']
-    _rec_name = 'nome_comercial'
-    _order = 'sequence, name'
+    _order = 'sequence, display_name'
 
     DIAS_UTEIS = (
         (str(DIA_SEGUNDA), 'Segundas-feiras'),
@@ -121,9 +120,8 @@ class AccountPaymentTerm(SpedBase, models.Model):
     sequence = fields.Integer(
         default=10,
     )
-    nome_comercial = fields.Char(
+    display_name = fields.Char(
         string='Condição da pagamento',
-        compute='_compute_nome_comercial',
     )
     em_parcelas_mensais = fields.Boolean(
         string='Em parcelas mensais?',
@@ -195,97 +193,6 @@ class AccountPaymentTerm(SpedBase, models.Model):
         string='Operadora do cartão',
         ondelete='restrict',
     )
-
-    @api.multi
-    def _compute_nome_comercial(self):
-        currency = self.env.ref('base.BRL')
-        #if self.env.context.get('currency_id'):
-            #currency = self.env['res.currency'].browse(
-                #self.env.context['currency_id'])
-        #else:
-            #currency = self.env.user.company_id.currency_id
-
-        lang = self.env['res.lang']._lang_get('pt_BR')
-        #if self.env.context.get('lang'):
-            #lang = self.env['res.lang']._lang_get(self.env.context.get('lang'))
-        #else:
-            #lang = self.env['res.lang']._lang_get('pt_BR')
-
-        valor = D(self.env.context.get('valor') or 0)
-
-        for payment_term in self:
-            nome_comercial = ''
-            if payment_term.forma_pagamento in FORMA_PAGAMENTO_CARTOES:
-                if payment_term.forma_pagamento == \
-                    FORMA_PAGAMENTO_CARTAO_CREDITO:
-                    nome_comercial += '[Crédito '
-                elif payment_term.forma_pagamento == \
-                    FORMA_PAGAMENTO_CARTAO_DEBITO:
-                    nome_comercial += '[Débito '
-
-                nome_comercial += \
-                    BANDEIRA_CARTAO_DICT[payment_term.bandeira_cartao]
-                nome_comercial += '] '
-
-            elif payment_term.forma_pagamento:
-                nome_comercial += '['
-                nome_comercial += \
-                    FORMA_PAGAMENTO_DICT[payment_term.forma_pagamento]
-                nome_comercial += '] '
-
-            nome_comercial += payment_term.name
-
-            if valor <= 0 or not payment_term.em_parcelas_mensais:
-                if payment_term.com_entrada:
-                    nome_comercial += ' com entrada '
-
-                if payment_term.em_parcelas_mensais:
-                    if payment_term.com_juros and payment_term.al_juros:
-                        nome_comercial += ', com juros de '
-                        nome_comercial += lang.format('%.2f',
-                                                    payment_term.al_juros,
-                                                    True, True)
-                        nome_comercial += '%'
-
-                payment_term.nome_comercial = nome_comercial
-                continue
-
-            meses = D(payment_term.meses or 1)
-
-            valor_entrada = D(0)
-            if payment_term.com_entrada:
-                if self.env.context.get('valor_entrada'):
-                    valor_entrada = D(self.env.context['currency_id'] or 0)
-                elif payment_term.al_entrada:
-                    valor_entrada = \
-                        valor * D(payment_term.al_entrada) / 100
-
-                valor_entrada = valor_entrada.quantize(D('0.01'))
-
-                if valor_entrada > 0:
-                    nome_comercial += ' com entrada de '
-                    nome_comercial += currency.symbol
-                    nome_comercial += ' '
-                    nome_comercial += lang.format('%.2f', valor_entrada, True,
-                                                  True)
-
-            valor_parcela, diferenca = payment_term._calcula_valor_parcela(
-                valor, meses, valor_entrada)
-
-            if valor_parcela > 0:
-                nome_comercial += ' de '
-                nome_comercial += currency.symbol
-                nome_comercial += ' '
-                nome_comercial += lang.format('%.2f', valor_parcela, True,
-                                              True)
-
-            if payment_term.com_juros and payment_term.al_juros:
-                nome_comercial += ', com juros de '
-                nome_comercial += lang.format('%.2f', payment_term.al_juros,
-                                              True, True)
-                nome_comercial += '%'
-
-            payment_term.nome_comercial = nome_comercial
 
     @api.depends('meses', 'com_entrada')
     def _onchange_meses(self):
@@ -483,3 +390,108 @@ class AccountPaymentTerm(SpedBase, models.Model):
             parcela += 1
 
         return parcela_ids
+
+    @api.multi
+    def name_get(self):
+        res = []
+        currency = self.env.ref('base.BRL')
+        # if self.env.context.get('currency_id'):
+        # currency = self.env['res.currency'].browse(
+        # self.env.context['currency_id'])
+        # else:
+        # currency = self.env.user.company_id.currency_id
+
+        lang = self.env['res.lang']._lang_get('pt_BR')
+        # if self.env.context.get('lang'):
+        # lang = self.env['res.lang']._lang_get(self.env.context.get('lang'))
+        # else:
+        # lang = self.env['res.lang']._lang_get('pt_BR')
+
+        valor = D(self.env.context.get('valor') or 0)
+
+        for payment_term in self:
+            display_name = ''
+            if payment_term.forma_pagamento in FORMA_PAGAMENTO_CARTOES:
+                if payment_term.forma_pagamento == \
+                        FORMA_PAGAMENTO_CARTAO_CREDITO:
+                    display_name += '[Crédito '
+                elif payment_term.forma_pagamento == \
+                        FORMA_PAGAMENTO_CARTAO_DEBITO:
+                    display_name += '[Débito '
+
+                display_name += \
+                    BANDEIRA_CARTAO_DICT[payment_term.bandeira_cartao]
+                display_name += '] '
+
+            elif payment_term.forma_pagamento:
+                display_name += '['
+                display_name += \
+                    FORMA_PAGAMENTO_DICT[payment_term.forma_pagamento]
+                display_name += '] '
+
+            display_name += payment_term.name
+
+            if valor <= 0 or not payment_term.em_parcelas_mensais:
+                if payment_term.com_entrada:
+                    display_name += ' com entrada '
+
+                if payment_term.em_parcelas_mensais:
+                    if payment_term.com_juros and payment_term.al_juros:
+                        display_name += ', com juros de '
+                        display_name += lang.format('%.2f',
+                                                    payment_term.al_juros,
+                                                    True, True)
+                        display_name += '%'
+
+                payment_term.display_name = display_name
+                # continue
+
+            meses = D(payment_term.meses or 1)
+
+            valor_entrada = D(0)
+            if payment_term.com_entrada:
+                if self.env.context.get('valor_entrada'):
+                    valor_entrada = D(self.env.context['currency_id'] or 0)
+                elif payment_term.al_entrada:
+                    valor_entrada = \
+                        valor * D(payment_term.al_entrada) / 100
+
+                valor_entrada = valor_entrada.quantize(D('0.01'))
+
+                if valor_entrada > 0:
+                    display_name += ' com entrada de '
+                    display_name += currency.symbol
+                    display_name += ' '
+                    display_name += lang.format('%.2f', valor_entrada, True,
+                                                True)
+
+            valor_parcela, diferenca = payment_term._calcula_valor_parcela(
+                valor, meses, valor_entrada)
+
+            if valor_parcela > 0:
+                display_name += ' de '
+                display_name += currency.symbol
+                display_name += ' '
+                display_name += lang.format('%.2f', valor_parcela, True,
+                                            True)
+
+            if payment_term.com_juros and payment_term.al_juros:
+                display_name += ', com juros de '
+                display_name += lang.format('%.2f', payment_term.al_juros,
+                                            True, True)
+                display_name += '%'
+
+            payment_term.display_name = display_name
+
+            res.append((payment_term.id, payment_term.display_name))
+        return res
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        recs = self.browse()
+
+        if not recs:
+            recs = self.search([('display_name', operator, name)] + args, limit=limit)
+
+        return recs.name_get()
