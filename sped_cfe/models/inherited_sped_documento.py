@@ -7,8 +7,12 @@
 
 from __future__ import division, print_function, unicode_literals
 
-import logging
 
+import logging
+import base64
+from StringIO import StringIO
+import qrcode
+from lxml import etree
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models
 from odoo.addons.l10n_br_base.constante_tributaria import (
@@ -36,7 +40,7 @@ try:
     from pybrasil.inscricao import limpa_formatacao
     from pybrasil.valor.decimal import Decimal as D
 
-    from satcomum.ersat import ChaveCFeSAT
+    from satcomum.ersat import ChaveCFeSAT, dados_qrcode
     from satcfe.entidades import (
         CFeVenda,
         Emitente,
@@ -94,6 +98,29 @@ class SpedDocumento(models.Model):
                 pagamentos_validados = False
             record.pagamento_autorizado_cfe = pagamentos_validados
 
+    @api.depends('chave', 'arquivo_xml_autorizacao_id')
+    def _compute_cfe_image(self):
+        for record in self:
+            if not record.modelo == MODELO_FISCAL_CFE:
+                continue
+            if record.chave:
+                report = self.env['report']
+                record.cfe_code128 = base64.b64encode(report.barcode(
+                    'Code128',
+                    record.chave,
+                    width=600,
+                    height=40,
+                    humanreadable=False,
+                ))
+            if record.arquivo_xml_autorizacao_id:
+                datas = record.arquivo_xml_autorizacao_id.datas.decode('base64')
+                root = etree.fromstring(datas)
+                tree = etree.ElementTree(root)
+                image = qrcode.make(dados_qrcode(tree))
+                buffer = StringIO()
+                image.save(buffer, format="png")
+                record.cfe_qrcode = base64.b64encode(buffer.getvalue())
+
     configuracoes_pdv = fields.Many2one(
         string=u"Configurações PDV",
         comodel_name="pdv.config",
@@ -122,6 +149,16 @@ class SpedDocumento(models.Model):
     )
 
     id_fila_validador = fields.Char(string=u'ID Fila Validador')
+
+    cfe_code128 = fields.Binary(
+        string='Imagem cfe code 128',
+        compute='_compute_cfe_image',
+    )
+
+    cfe_qrcode = fields.Binary(
+        string='Imagem cfe QRCODE',
+        compute='_compute_cfe_image',
+    )
 
     def executa_depois_autorizar(self):
         #
@@ -716,27 +753,37 @@ class SpedDocumento(models.Model):
             self.mensagem_nfe = "Falha na conexão com SATHUB"
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
 
+    # @api.multi
+    # def imprimir_documento(self):
+    #     # TODO: Reimprimir cupom de cancelamento caso houver com o normal.
+    #     if not self.modelo == MODELO_FISCAL_CFE:
+    #         return super(SpedDocumento, self).imprimir_documento()
+    #     self.ensure_one()
+    #     impressao = self.configuracoes_pdv.impressora
+    #     if impressao:
+    #         try:
+    #             cliente = self.processador_cfe()
+    #             resposta = self.arquivo_xml_autorizacao_id.datas
+    #             cliente.imprimir_cupom_venda(
+    #                 resposta,
+    #                 impressao.modelo,
+    #                 impressao.conexao,
+    #                 self.configuracoes_pdv.site_consulta_qrcode.encode("utf-8")
+    #             )
+    #         except Exception as e:
+    #             _logger.error("Erro ao imprimir o cupom")
+    #     else:
+    #         raise Warning("Não existem configurações para impressão no PDV!")
+
     @api.multi
     def imprimir_documento(self):
-        # TODO: Reimprimir cupom de cancelamento caso houver com o normal.
-        if not self.modelo == MODELO_FISCAL_CFE:
-            return super(SpedDocumento, self).imprimir_documento()
+        """ Print the invoice and mark it as sent, so that we can see more
+            easily the next step of the workflow
+        """
         self.ensure_one()
-        impressao = self.configuracoes_pdv.impressora
-        if impressao:
-            try:
-                cliente = self.processador_cfe()
-                resposta = self.arquivo_xml_autorizacao_id.datas
-                cliente.imprimir_cupom_venda(
-                    resposta,
-                    impressao.modelo,
-                    impressao.conexao,
-                    self.configuracoes_pdv.site_consulta_qrcode.encode("utf-8")
-                )
-            except Exception as e:
-                _logger.error("Erro ao imprimir o cupom")
-        else:
-            raise Warning("Não existem configurações para impressão no PDV!")
+        self.sudo().write({'documento_impresso': True})
+        return self.env['report'].get_action(self, 'report_sped_documento_cfe')
+
 
     @api.multi
     def _verificar_formas_pagamento(self):

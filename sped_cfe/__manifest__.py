@@ -12,11 +12,13 @@
     'category': u'Fiscal',
     'depends': [
         'sped_nfe',
+        'report_py3o',
     ],
     'installable': True,
     'application': False,
     'license': 'AGPL-3',
     'data': [
+        'report/cfe_report.xml',
         'wizard/sped_documento_pagamento.xml',
         'security/ir.model.access.csv',
         'views/pdv_config.xml',
