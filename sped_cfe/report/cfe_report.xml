@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+        <record id="action_report_sped_documento_cfe" model="ir.actions.report.xml">
+            <field name="name">CF-E</field>
+            <field name="model">sped.documento</field>
+            <field name="report_name">report_sped_documento_cfe</field>
+            <field name="report_type">py3o</field>
+            <field name="py3o_filetype">pdf</field>
+            <field name="module">sped_cfe</field>
+            <field name="py3o_template_fallback">report/cfe.odt</field>
+            <field name="print_report_name">('CFe'+(object.chave or '')+'.pdf')	</field>
+        </record>
+
+        <record id="button_cfe" model="ir.values">
+            <field name="key2">client_print_multi</field>
+            <field name="model">sped.documento</field>
+            <field name="name">CF-E</field>
+            <field name="value" eval="'ir.actions.report.xml,%d'%action_report_sped_documento_cfe" />
+        </record>
+</odoo>
