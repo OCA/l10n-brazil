@@ -1113,6 +1113,11 @@ class SpedDocumento(models.Model):
     @api.onchange('empresa_id', 'modelo', 'emissao', 'serie', 'ambiente_nfe')
     def _onchange_serie(self):
         res = super(SpedDocumento, self)._onchange_serie()
+        _logger.info(res)
+
+        if not res['value']:
+            return res
+
         tipo_documento_inutilizado = self.env[
             'sped.inutilizacao.tipo.documento'
         ].search([('codigo', '=', self.modelo)])
