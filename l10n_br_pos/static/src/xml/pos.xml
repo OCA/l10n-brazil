@@ -159,7 +159,7 @@
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-state)" t-operation="after">
             <div class='client-detail'>
                 <span class='label'>Cidade</span>
-                <select class='detail client-address-city' name='city_id'>
+                <select class='detail client-address-city' name='l10n_br_city_id'>
                     <option value=''>None</option>
                     <t t-foreach='widget.pos.cities' t-as='city'>
                         <option t-att-value='city.id' t-att-selected="partner.l10n_br_city_id ? ((city.id === partner.l10n_br_city_id[0]) ? true : undefined) : undefined">
