@@ -80,14 +80,12 @@ def analytic_report(pool, cr, uid, local_context, context):
             busca.append(('tipo_de_folha', 'in', eval(wizard.tipo_de_folha)))
         else:
             busca.append(('tipo_de_folha', '=', eval(wizard.tipo_de_folha)))
-        payslip_ids = \
-            pool['hr.payslip'].search(cr, uid, busca)
+
+        payslip_ids = pool['hr.payslip'].search(cr, uid, busca)
 
         payslips = []
         for payslip_id in payslip_ids:
-            payslips += \
-                pool['hr.payslip']\
-                .browse(cr, uid, payslip_id)
+            payslips += pool['hr.payslip'].browse(cr, uid, payslip_id)
     else:
         payslips = \
             pool['hr.payslip.run']\
@@ -160,6 +158,7 @@ def analytic_report(pool, cr, uid, local_context, context):
         tipo_de_folha=wizard.tipo_de_folha
     )
     cr.execute(SQL_BUSCA_RUBRICAS)
+
     payslip_lines = cr.dictfetchall()
     SQL_BUSCA_SEFIP = SQL_BUSCA_SEFIP.format(
         mes_do_ano=wizard.mes_do_ano,
@@ -168,6 +167,7 @@ def analytic_report(pool, cr, uid, local_context, context):
         tipo_de_folha=wizard.tipo_de_folha
     )
     cr.execute(SQL_BUSCA_SEFIP)
+
     payslip_lines_sefip = cr.dictfetchall()
     proventos = []
     descontos = []
@@ -208,8 +208,8 @@ def analytic_report(pool, cr, uid, local_context, context):
     inss_empresa_autonomo = inss_empresa_obj(inss_empresa_vals)
     inss_empresa_cooperativa = inss_empresa_obj(inss_empresa_vals)
     for rubrica in payslip_lines:
-#       Somar os valores do INSS_EMPRESA e outros calculados nos holerites
-#       Ao invés de recalcular os valores aqui
+        # Somar os valores do INSS_EMPRESA e outros calculados nos holerites
+        # Ao invés de recalcular os valores aqui
         if rubrica['code'] in ('INSS_EMPRESA_BASE', 'INSS_EMPRESA_BASE_FERIAS'):
             inss_empresa_funcionario.base += rubrica['sum']
         elif rubrica['code'] in ('INSS_EMPRESA', 'INSS_EMPRESA_FERIAS'):
