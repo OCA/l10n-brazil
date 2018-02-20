@@ -5,7 +5,7 @@ from datetime import datetime
 
 from openerp import api
 from openerp.addons.report_py3o.py3o_parser import py3o_report_extender
-
+from openerp.addons.l10n_br_hr_payroll.models.hr_payslip import TIPO_DE_FOLHA
 
 class inss_empresa_obj(object):
     def __init__(self, valores_inss_empresa):
@@ -218,6 +218,7 @@ def analytic_report(pool, cr, uid, local_context, context):
         elif rubrica['code'] in ('INSS_OUTRAS_ENTIDADES', 'INSS_OUTRAS_ENTIDADES_FERIAS'):
             inss_empresa_funcionario.terceiros += rubrica['sum']
             inss_empresa_funcionario.total += rubrica['sum']
+#
 #       if rubrica['code'] == 'INSS_EMPRESA':
 #           inss_empresa_funcionario.base = rubrica['sum']
 #           inss_empresa_funcionario.inss_empresa = \
@@ -299,7 +300,14 @@ def analytic_report(pool, cr, uid, local_context, context):
     dia_atual = \
         str(data_atual.day) + "/" + str(data_atual.month) + "/" +\
         str(data_atual.year)
+
+    # aproveitar o selection construido no wizard do relatorio analitico
+    tipo_de_folha = eval(wizard.tipo_de_folha)
+    if isinstance(tipo_de_folha, tuple):
+        tipo_de_folha = tipo_de_folha[0]
+
     data = {
+        'tipo_de_folha': dict(TIPO_DE_FOLHA)[tipo_de_folha],
         'data_atual': dia_atual,
         'legal_name': legal_name,
         'endereco': endereco,
