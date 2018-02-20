@@ -113,14 +113,14 @@ class HrContract(models.Model):
 
                 dias = (d_fim - d_inicio) + timedelta(days=1)
 
-                # Se a mudança for exatamente no primeiro dia do período
-                # Considere o salário pronto no período inteiro
+                # Se a alteração salarial for exatamente no primeiro dia do
+                # período do holerite, Considere o salário no período inteiro
                 #
                 if data_mudanca == d_inicio:
-                    if i_2 in range(len(change)):
-                        salario_medio = change[i].wage
-                        salario_dia_1 = change[i].wage / dias.days
-                        salario_dia_2 = change[i].wage / dias.days
+                    # if i_2 in range(len(change)):
+                    salario_medio = change[i].wage
+                    salario_dia_1 = change[i].wage / dias.days
+                    salario_dia_2 = change[i].wage / dias.days
                 else:
 
                     # Calcula o número de dias dentro do período e quantos dias
