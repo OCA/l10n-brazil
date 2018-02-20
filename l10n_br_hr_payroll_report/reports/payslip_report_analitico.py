@@ -74,6 +74,7 @@ def analytic_report(pool, cr, uid, local_context, context):
             ('company_id', '=', wizard.company_id.id),
             ('mes_do_ano', '=', wizard.mes_do_ano),
             ('ano', '=', wizard.ano),
+            ('state', 'in', ['done', 'verify']),
         ]
         if wizard.tipo_de_folha == "('normal', 'rescisao')":
             busca.append(('tipo_de_folha', 'in', eval(wizard.tipo_de_folha)))
@@ -112,6 +113,7 @@ def analytic_report(pool, cr, uid, local_context, context):
         AND payslip.company_id = {company_id} 
         AND payslip.tipo_de_folha in {tipo_de_folha}
         AND payslip.is_simulacao = false
+        AND payslip.state in ('verify', 'done')
     GROUP BY
         salary_rule.code,
         salary_rule.name,
@@ -142,6 +144,7 @@ def analytic_report(pool, cr, uid, local_context, context):
         AND payslip.company_id = {company_id} 
         AND payslip.tipo_de_folha in {tipo_de_folha} 
         AND payslip.is_simulacao = false
+        AND payslip.state in ('verify', 'done')
     GROUP BY
         salary_rule.code,
         salary_rule.name,

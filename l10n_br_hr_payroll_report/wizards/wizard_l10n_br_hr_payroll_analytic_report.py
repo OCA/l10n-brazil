@@ -47,6 +47,7 @@ class WizardL10n_br_hr_payrollAnalytic_report(models.TransientModel):
             ('company_id', '=', self.company_id.id),
             ('mes_do_ano', '=', self.mes_do_ano),
             ('ano', '=', self.ano),
+            ('state', 'in', ['done', 'verify']),
         ]
         if self.tipo_de_folha == "('normal', 'rescisao')":
             busca.append(('tipo_de_folha', 'in', eval(self.tipo_de_folha)))
