@@ -1658,9 +1658,9 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         for documento in self:
             documento.documento_subsequente_ids = \
                 self.env['sped.documento.subsequente'].search([
-                    ('documento_origem_id', '=', self.id)
+                    ('documento_origem_id', '=', documento.id)
                 ])
-            if not self.operacao_id:
+            if not documento.operacao_id:
                 continue
             if documento.operacao_id.mapped('operacao_subsequente_ids') == \
                     documento.documento_subsequente_ids.mapped(
@@ -1678,7 +1678,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                 })
                 documento.documento_subsequente_ids = \
                     self.env['sped.documento.subsequente'].search([
-                        ('documento_origem_id', '=', self.id)
+                        ('documento_origem_id', '=', documento.id)
                     ])
 
     @api.depends('documento_subsequente_ids.documento_subsequente_id')
