@@ -97,8 +97,13 @@ class SpedDocumentoItem(models.Model):
         #
         # Aplica um template na observação do item
         #
-        return self._renderizar_informacoes_template(
-            dados_infcomplementar, infcomplementar)
+
+        try:
+            return self._renderizar_informacoes_template(
+                dados_infcomplementar, infcomplementar).decode('utf-8')
+        except Exception as e:
+            raise UserError(
+                _(""" Erro ao gerar informação adicional do item"""))
 
     def monta_nfe(self, numero_item, nfe):
         self.ensure_one()

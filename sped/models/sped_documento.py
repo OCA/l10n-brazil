@@ -1695,10 +1695,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     def _renderizar_informacoes_template(
             self, dados_infcomplementar, infcomplementar):
 
-        try:
-            template = TemplateBrasil(infcomplementar.encode('utf-8'))
-            informacao_complementar = template.render(**dados_infcomplementar)
-        except Exception as e:
-            raise UserError(
-                _(""" Erro ao gerar informação adicional do item"""))
-        return informacao_complementar.decode('utf-8')
+        template = TemplateBrasil(infcomplementar.encode('utf-8'))
+        infcomplementar = template.render(**dados_infcomplementar)
+
+        return infcomplementar
