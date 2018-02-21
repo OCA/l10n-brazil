@@ -32,6 +32,7 @@
         'views/nfe/account_invoice_nfe_view.xml',
         'views/res_partner_view.xml',
         'views/res_company_view.xml',
+        'views/account_product_fiscal_classification_template_view.xml',
         'views/account_product_fiscal_classification_view.xml',
         'views/product_view.xml',
         'views/res_country_view.xml',
