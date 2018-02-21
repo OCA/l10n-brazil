@@ -30,7 +30,6 @@ try:
                                agora)
     from pybrasil.valor import formata_valor
     from pybrasil.valor.decimal import Decimal as D
-    from pybrasil.template import TemplateBrasil
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -106,8 +105,10 @@ class SpedDocumento(models.Model):
         #
         # Informações adicionais
         #
-        self._monta_nfe_informacao_complementar(nfe)
-        self._monta_nfe_informacao_fisco(nfe)
+        nfe.infNFe.infAdic.infCpl.valor = \
+            self._monta_nfe_informacao_complementar(nfe)
+        nfe.infNFe.infAdic.infAdFisco.valor = \
+            self._monta_nfe_informacao_fisco()
 
         nfe.gera_nova_chave()
         nfe.monta_chave()
@@ -531,11 +532,10 @@ class SpedDocumento(models.Model):
         #
         # Aplica um template na observação
         #
-        template = TemplateBrasil(infcomplementar.encode('utf-8'))
-        infcomplementar = template.render(**dados_infcomplementar)
-        nfe.infNFe.infAdic.infCpl.valor = infcomplementar.decode('utf-8')
+        return self._renderizar_informacoes_template(
+            dados_infcomplementar, infcomplementar)
 
-    def _monta_nfe_informacao_fisco(self, nfe):
+    def _monta_nfe_informacao_fisco(self):
         infadfisco = self.infadfisco or ''
 
         dados_infadfisco = {
@@ -545,7 +545,5 @@ class SpedDocumento(models.Model):
         #
         # Aplica um template na observação
         #
-        template = TemplateBrasil(infadfisco.encode('utf-8'))
-        infadfisco = template.render(**dados_infadfisco)
-        nfe.infNFe.infAdic.infAdFisco.valor = infadfisco.decode('utf-8')
-
+        return self._renderizar_informacoes_template(
+            dados_infadfisco, infadfisco)
