@@ -28,6 +28,7 @@
         'views/l10n_br_account_product_cfop_view.xml',
         'views/l10n_br_account_service_type_view.xml',
         'views/l10n_br_account_product_ipi_guideline_view.xml',
+        'views/l10n_br_account_product_icms_relief_view.xml',
         'views/l10n_br_account_product_view.xml',
         'views/account_view.xml',
         'views/account_invoice_view.xml',
