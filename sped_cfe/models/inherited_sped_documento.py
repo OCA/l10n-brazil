@@ -121,6 +121,35 @@ class SpedDocumento(models.Model):
                 image.save(buffer, format="png")
                 record.cfe_qrcode = base64.b64encode(buffer.getvalue())
 
+    @api.depends('chave_cancelamento',
+                 'arquivo_xml_autorizacao_cancelamento_id')
+    def _compute_cfe_cancel_image(self):
+        for record in self:
+            if not record.modelo == MODELO_FISCAL_CFE:
+                continue
+            if record.chave_cancelamento:
+                record.num_cfe_cancelamento = int(
+                    record.chave_cancelamento[31:37])
+                report = self.env['report']
+                record.cfe_cancelamento_code128 = base64.b64encode(
+                    report.barcode(
+                        'Code128',
+                        record.chave_cancelamento,
+                        width=600,
+                        height=40,
+                        humanreadable=False,
+                    ))
+            if record.arquivo_xml_autorizacao_cancelamento_id:
+                datas = record.arquivo_xml_autorizacao_cancelamento_id.datas.\
+                    decode('base64')
+                root = etree.fromstring(datas)
+                tree = etree.ElementTree(root)
+                image = qrcode.make(dados_qrcode(tree))
+                buffer = StringIO()
+                image.save(buffer, format="png")
+                record.cfe_cancelamento_qrcode = base64.b64encode(
+                    buffer.getvalue())
+
     configuracoes_pdv = fields.Many2one(
         string=u"Configurações PDV",
         comodel_name="pdv.config",
@@ -158,6 +187,23 @@ class SpedDocumento(models.Model):
     cfe_qrcode = fields.Binary(
         string='Imagem cfe QRCODE',
         compute='_compute_cfe_image',
+    )
+
+    cfe_cancelamento_code128 = fields.Binary(
+        string='Cfe code 128 cancelamento',
+        compute='_compute_cfe_cancel_image',
+    )
+
+    cfe_cancelamento_qrcode = fields.Binary(
+        string='Cfe QRCODE cancelamento',
+        compute='_compute_cfe_cancel_image',
+    )
+
+    num_cfe_cancelamento = fields.Integer(
+        string='Número',
+        index=True,
+        copy=False,
+        compute='_compute_cfe_cancel_image',
     )
 
     def executa_depois_autorizar(self):
@@ -629,7 +675,7 @@ class SpedDocumento(models.Model):
                 self.grava_cfe_cancelamento(self.chave, cancelamento)
                 self.grava_cfe_autorizacao_cancelamento(
                     self.chave, processo.xml())
-                self.chave_cancelamento = processo.chaveConsulta
+                self.chave_cancelamento = processo.chaveConsulta[3:]
                 impressao = self.configuracoes_pdv.impressora
 
                 if impressao:
