@@ -38,6 +38,7 @@ _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil.inscricao import limpa_formatacao
+    from pybrasil.data import UTC
     from pybrasil.valor.decimal import Decimal as D
 
     from satcomum.ersat import ChaveCFeSAT, dados_qrcode
@@ -676,20 +677,21 @@ class SpedDocumento(models.Model):
                 self.grava_cfe_autorizacao_cancelamento(
                     self.chave, processo.xml())
                 self.chave_cancelamento = processo.chaveConsulta[3:]
-                impressao = self.configuracoes_pdv.impressora
 
-                if impressao:
-                    processador.imprimir_cupom_cancelamento(
-                        self.arquivo_xml_autorizacao_id.datas,
-                        processo.arquivoCFeBase64,
-                        impressao.modelo,
-                        impressao.conexao
-                    )
+                dh_cancelamento = UTC.normalize(processo.timeStamp)
+
+                self.data_hora_cancelamento = dh_cancelamento
+
+                # if impressao:
+                #     processador.imprimir_cupom_cancelamento(
+                #         self.arquivo_xml_autorizacao_id.datas,
+                #         processo.arquivoCFeBase64,
+                #         impressao.modelo,
+                #         impressao.conexao
+                #     )
 
                 # data_cancelamento = retevento.infEvento.dhRegEvento.valor
                 # data_cancelamento = UTC.normalize(data_cancelamento)
-                #
-                # self.data_hora_cancelamento = data_cancelamento
                 # self.protocolo_cancelamento = \
                 #     procevento.retEvento.infEvento.nProt.valor
 
@@ -708,6 +710,7 @@ class SpedDocumento(models.Model):
                     self.situacao_nfe = SITUACAO_NFE_CANCELADA
 
                 self.executa_depois_cancelar()
+                return self.imprimir_documento()
 
         except (ErroRespostaSATInvalida, ExcecaoRespostaSAT) as resposta:
             mensagem = 'Erro no cancelamento'
