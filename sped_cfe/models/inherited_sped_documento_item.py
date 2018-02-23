@@ -9,8 +9,7 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from odoo import models, _
-from odoo.exceptions import UserError
+from odoo import models
 from odoo.addons.l10n_br_base.constante_tributaria import (
     REGIME_TRIBUTARIO_SIMPLES,
     MODELO_FISCAL_CFE,
@@ -208,9 +207,5 @@ class SpedDocumentoItem(models.Model):
             'item': self,
         }
 
-        try:
-            return self._renderizar_informacoes_template(
-                dados_infcomplementar, infcomplementar).decode('utf-8')
-        except Exception as e:
-            raise UserError(
-                _(""" Erro ao gerar informação adicional do item"""))
+        return self._renderizar_informacoes_template(
+            dados_infcomplementar, infcomplementar).decode('utf-8')
