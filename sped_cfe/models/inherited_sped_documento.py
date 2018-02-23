@@ -447,7 +447,7 @@ class SpedDocumento(models.Model):
         return cnpj_software_house, assinatura, numero_caixa
 
     def _monta_cfe_emitente(self):
-        ambiente = int(self.ambiente_nfe or AMBIENTE_NFE_HOMOLOGACAO)
+        ambiente = self.ambiente_nfe or AMBIENTE_NFE_HOMOLOGACAO
 
         if ambiente == AMBIENTE_NFE_HOMOLOGACAO:
             cnpj = self.configuracoes_pdv.cnpjsh
