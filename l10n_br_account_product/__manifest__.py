@@ -25,6 +25,7 @@
         'data/ir_cron.xml',
         'views/l10n_br_account_product_view.xml',
         'views/l10n_br_account_view.xml',
+        'views/l10n_br_account_partner_fiscal_type_view.xml',
         'views/l10n_br_account_product_cfop_view.xml',
         'views/l10n_br_account_service_type_view.xml',
         'views/l10n_br_account_product_ipi_guideline_view.xml',
