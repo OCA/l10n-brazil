@@ -31,7 +31,7 @@
         'views/l10n_br_account_product_icms_relief_view.xml',
         'views/l10n_br_account_product_import_declaration_view.xml',
         'views/account_tax_template_view.xml',
-        'views/account_view.xml',
+        'views/account_tax_view.xml',
         'views/account_payment_term_view.xml',
         'views/account_invoice_view.xml',
         'wizard/l10n_br_account_invoice_costs_ratio_view.xml',
