@@ -11,7 +11,7 @@ from odoo.addons.report_py3o.models.py3o_report import py3o_report_extender
 _logger = logging.getLogger(__name__)
 
 try:
-    from satcomum.ersat import ChaveCFeSAT
+    from satcomum.ersat import ChaveCFeSAT, meio_pagamento
 except (ImportError, IOError) as err:
     _logger.debug(err)
 
@@ -21,5 +21,6 @@ except (ImportError, IOError) as err:
 def report_sped_documento_cfe(session, local_context):
     data = {
         'ChaveCFeSAT': ChaveCFeSAT,
+        'meio_pagamento': meio_pagamento,
     }
     local_context.update(data)
