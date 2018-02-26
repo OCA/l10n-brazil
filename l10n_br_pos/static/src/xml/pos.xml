@@ -319,11 +319,11 @@
             <div class="client-detail">
                 <span class='label'>Publicidade</span>
                 <select class='detail opt_out' name="opt_out">
-                    <t t-if="partner.opt_out">
+                    <t t-if="!partner.id or partner.opt_out">
                         <option value="sim" selected="selected">Sim</option>
                         <option value="nao">Não</option>
                     </t>
-                    <t t-if="!partner.opt_out">
+                    <t t-if="partner.id and !partner.opt_out">
                         <option value="nao" selected="selected">Não</option>
                         <option value="sim">Sim</option>
                     </t>
