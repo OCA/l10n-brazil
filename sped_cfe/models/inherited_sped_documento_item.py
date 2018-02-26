@@ -208,4 +208,4 @@ class SpedDocumentoItem(models.Model):
         }
 
         return self._renderizar_informacoes_template(
-            dados_infcomplementar, infcomplementar).decode('utf-8')
+            dados_infcomplementar, infcomplementar)
