@@ -94,7 +94,7 @@
         </t>
     </t>
 
-    <t t-extend="ClientDetails">odoo
+    <t t-extend="ClientDetails">
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-address)" t-operation="replace" />
     </t>
     <t t-extend="ClientDetails">
@@ -324,8 +324,8 @@
                         <option value="nao">Não</option>
                     </t>
                     <t t-if="partner.id and !partner.opt_out">
-                        <option value="nao" selected="selected">Não</option>
                         <option value="sim">Sim</option>
+                        <option value="nao" selected="selected">Não</option>
                     </t>
                 </select>
             </div>
