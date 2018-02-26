@@ -533,7 +533,7 @@ class SpedDocumento(models.Model):
         # Aplica um template na observação
         #
         return self._renderizar_informacoes_template(
-            dados_infcomplementar, infcomplementar).decode('utf-8')
+            dados_infcomplementar, infcomplementar)
 
     def _monta_nfe_informacao_fisco(self):
         infadfisco = self.infadfisco or ''
@@ -546,4 +546,4 @@ class SpedDocumento(models.Model):
         # Aplica um template na observação
         #
         return self._renderizar_informacoes_template(
-            dados_infadfisco, infadfisco).decode('utf-8')
+            dados_infadfisco, infadfisco)
