@@ -848,7 +848,6 @@ class SpedDocumento(models.Model):
         self.sudo().write({'documento_impresso': True})
         return self.env['report'].get_action(self, 'report_sped_documento_cfe')
 
-
     @api.multi
     def _verificar_formas_pagamento(self):
         pagamentos_cartoes = []
