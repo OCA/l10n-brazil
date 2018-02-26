@@ -706,6 +706,16 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         compute='_compute_soma_itens',
         store=True,
     )
+    vr_pagamentos = fields.Monetary(
+        string='Valor Pagamentos',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_troco = fields.Monetary(
+        string='Valor troco',
+        compute='_compute_soma_itens',
+        store=True,
+    )
     vr_ibpt = fields.Monetary(
         string='Valor IBPT',
         compute='_compute_soma_itens',
@@ -993,7 +1003,8 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                 'item_ids.vr_nf', 'item_ids.vr_fatura',
                 'item_ids.vr_ibpt',
                 'item_ids.vr_custo_comercial',
-                'item_ids.peso_bruto', 'item_ids.peso_liquido')
+                'item_ids.peso_bruto', 'item_ids.peso_liquido',
+                 'pagamento_ids')
     def _compute_soma_itens(self):
         CAMPOS_SOMA_ITENS = [
             'vr_produtos', 'vr_produtos_tributacao',
@@ -1015,6 +1026,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             'vr_ibpt',
             'vr_custo_comercial',
             'peso_bruto', 'peso_liquido'
+
         ]
 
         for documento in self:
@@ -1025,6 +1037,17 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             for item in documento.item_ids:
                 for campo in CAMPOS_SOMA_ITENS:
                     dados[campo] += getattr(item, campo, D(0))
+
+            # Calculando o troco
+            dados['vr_pagamentos'] = D(0)
+            dados['vr_troco'] = D(0)
+            for p in documento.pagamento_ids:
+                # Diferença entre a soma de todos os meios de pagamento
+                # empregados e o valor total do documento fiscal
+                valor = dados.get('vr_fatura') or dados.get('vr_nf') or 0
+                dados['vr_pagamentos'] += p.valor
+                dados['vr_troco'] = \
+                    dados['vr_pagamentos'] - valor
 
             documento.update(dados)
 

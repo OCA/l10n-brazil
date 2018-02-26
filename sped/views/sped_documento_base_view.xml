@@ -146,9 +146,9 @@
                                                 <field name="vr_seguro" colspan="2" string="Seguro" />
                                                 <newline />
                                                 <field name="vr_outras" colspan="2" string="Outras" />
-                                                <newline />
+                                                <field name="vr_pagamentos" colspan="2"/>
                                                 <field name="vr_desconto" colspan="2" string="Desconto" />
-                                                <newline />
+                                                <field name="vr_troco" colspan="2"/>
                                                 <field name="vr_operacao" colspan="2" string="Operação" />
                                             </group>
                                         </group>
