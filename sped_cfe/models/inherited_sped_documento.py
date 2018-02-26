@@ -841,25 +841,13 @@ class SpedDocumento(models.Model):
 
     @api.multi
     def imprimir_documento(self):
+        """ Print the invoice and mark it as sent, so that we can see more
+            easily the next step of the workflow
+        """
         self.ensure_one()
-        # TODO: Reimprimir cupom de cancelamento caso houver com o normal.
-        if not self.modelo == MODELO_FISCAL_CFE:
-            return super(SpedDocumento, self).imprimir_documento()
-        impressao = self.configuracoes_pdv.impressora
-        if impressao:
-            try:
-                cliente = self.processador_cfe()
-                resposta = self.arquivo_xml_autorizacao_id.datas
-                cliente.imprimir_cupom_venda(
-                    resposta,
-                    impressao.modelo,
-                    impressao.conexao,
-                    self.configuracoes_pdv.site_consulta_qrcode.encode("utf-8")
-                )
-            except Exception as e:
-                _logger.error("Erro ao imprimir o cupom")
-        else:
-            raise Warning("Não existem configurações para impressão no PDV!")
+        self.sudo().write({'documento_impresso': True})
+        return self.env['report'].get_action(self, 'report_sped_documento_cfe')
+
 
     @api.multi
     def _verificar_formas_pagamento(self):
