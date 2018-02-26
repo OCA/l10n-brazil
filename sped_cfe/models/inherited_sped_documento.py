@@ -849,7 +849,6 @@ class SpedDocumento(models.Model):
         res, filetype = py3o_report.create_report(self.ids, {})
         return res
 
-
     @api.multi
     def _verificar_formas_pagamento(self):
         pagamentos_cartoes = []

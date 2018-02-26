@@ -13,3 +13,4 @@ from . import pdv_config
 from . import pdv_impressora_config
 from . import inherited_res_users
 from . import inherited_sped_participante
+from . import inherited_sped_empresa
