@@ -678,9 +678,8 @@ class SpedDocumento(models.Model):
                     self.chave, processo.xml())
                 self.chave_cancelamento = processo.chaveConsulta[3:]
 
-                dh_cancelamento = UTC.normalize(processo.timeStamp)
-
-                self.data_hora_cancelamento = dh_cancelamento
+     #           dh_cancelamento = UTC.normalize(processo.timeStamp)
+     #           self.data_hora_cancelamento = dh_cancelamento
 
                 # if impressao:
                 #     processador.imprimir_cupom_cancelamento(
