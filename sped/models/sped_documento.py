@@ -1279,14 +1279,6 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             valores['modalidade_frete'] = self.operacao_id.modalidade_frete
             valores['infadfisco'] = self.operacao_id.infadfisco
 
-            if not self.operacao_id.calcular_tributacao in (
-                    'somente_calcula', 'manual'):
-                if valores.get('infcomplementar'):
-                    valores['infcomplementar'] = \
-                        valores['infcomplementar'] + ' ' + self.operacao_id.infcomplementar
-                else:
-                    valores['infcomplementar'] = self.operacao_id.infcomplementar
-
         valores['deduz_retencao'] = self.operacao_id.deduz_retencao
         valores['pis_cofins_retido'] = self.operacao_id.pis_cofins_retido
         valores['al_pis_retido'] = self.operacao_id.al_pis_retido
@@ -1410,6 +1402,9 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             'message_follower_ids',
             'documento_impresso',
         ]
+        CAMPOS_PERMITIDOS_CONFIRMACAO = [
+            'infcomplementar',
+        ]
         for documento in self:
             if documento.permite_alteracao:
                 continue
@@ -1419,6 +1414,10 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             # Trata alguns campos que é permitido alterar depois da nota
             # autorizada
             #
+            if documento.situacao_nfe == SITUACAO_NFE_A_ENVIAR:
+                permite_alteracao = True
+                break
+
             if documento.situacao_nfe == SITUACAO_NFE_AUTORIZADA:
                 for campo in dados:
                     if campo in CAMPOS_PERMITIDOS:
@@ -1446,6 +1445,24 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
 
             raise ValidationError(_(mensagem))
 
+    def confirma_documento(self):
+        """ Nunca sobrescreva este método, pois ele esta sendo modificado
+        pelo sped_queue que não chama o super. Para permtir o envio assincrono
+        do documento fiscal
+        :return:
+        """
+        for record in self:
+            infcomplementar = record.infcomplementar or ''
+            infcomplementar += ' ' + record.operacao_id.infcomplementar
+            record.infcomplementar = infcomplementar
+            if record.situacao_nfe == SITUACAO_NFE_EM_DIGITACAO:
+                record.situacao_nfe = SITUACAO_NFE_A_ENVIAR
+
+            for item in record.item_ids.filtered('mensagens_complementares'):
+                infcomplementar = item.infcomplementar or ''
+                infcomplementar += ' ' + item.mensagens_complementares
+                item.infcomplementar = infcomplementar
+
     def envia_documento(self):
         """ Nunca sobrescreva este método, pois ele esta sendo modificado
         pelo sped_queue que não chama o super. Para permtir o envio assincrono
@@ -1456,6 +1473,9 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
 
     def _envia_documento(self):
         for record in self:
+            if record.situacao_nfe == SITUACAO_NFE_EM_DIGITACAO:
+                record.confirma_documento()
+
             if not record.numero:
                 res = record._onchange_serie()['value']
                 res['data_hora_emissao'] = fields.Datetime.now()
