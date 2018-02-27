@@ -460,50 +460,46 @@ class SpedDocumento(models.Model):
         self.arquivo_xml_autorizacao_inutilizacao_id = \
             self._grava_anexo(nome_arquivo, conteudo).id
 
-    def consultar_nfe(self, processador=None, nfe=None):
-        self.ensure_one()
+    @api.multi
+    def consultar_nfe(self):
+        for record in self:
+            record._consultar_nfe()
+
+    def _consultar_nfe(self, processador=None, nfe=None):
         #
         # Se a nota já foi emitida: autorizada, rejeitada e denegada
         # E não temos todos os dados, tentamos consultar a nota.
         #
-        if self.situacao_nfe in (
-                SITUACAO_NFE_AUTORIZADA,
-                SITUACAO_NFE_DENEGADA,
-                SITUACAO_NFE_REJEITADA,
-        ) and not (
-                self.protocolo_autorizacao or
-                self.arquivo_xml_id or
-                self.arquivo_xml_autorizacao_id
-        ):
-            if not processador:
-                processador = self.processador_nfe()
-            if not nfe:
-                nfe = self.monta_nfe(processador)
 
-            consulta = processador.consultar_nota(
-                processador.ambiente,
-                self.chave,
-                nfe,
-            )
-            if nfe.procNFe:
-                procNFe = nfe.procNFe
-                self.grava_xml(procNFe.NFe)
-                self.grava_xml_autorizacao(procNFe)
+        if not processador:
+            processador = self.processador_nfe()
+        if not nfe:
+            nfe = self.monta_nfe(processador)
 
-                if self.modelo == MODELO_FISCAL_NFE:
-                    res = self.grava_pdf(nfe, procNFe.danfe_pdf)
-                elif self.modelo == MODELO_FISCAL_NFCE:
-                    res = self.grava_pdf(nfe, procNFe.danfce_pdf)
+        consulta = processador.consultar_nota(
+            processador.ambiente,
+            self.chave,
+            nfe,
+        )
+        if nfe.procNFe:
+            procNFe = nfe.procNFe
+            self.grava_xml(procNFe.NFe)
+            self.grava_xml_autorizacao(procNFe)
 
-                data_autorizacao = \
-                    consulta.resposta.protNFe.infProt.dhRecbto.valor
-                data_autorizacao = UTC.normalize(data_autorizacao)
+            if self.modelo == MODELO_FISCAL_NFE:
+                res = self.grava_pdf(nfe, procNFe.danfe_pdf)
+            elif self.modelo == MODELO_FISCAL_NFCE:
+                res = self.grava_pdf(nfe, procNFe.danfce_pdf)
 
-                self.data_hora_autorizacao = data_autorizacao
-                self.protocolo_autorizacao = \
-                    consulta.resposta.protNFe.infProt.nProt.valor
-                self.chave = \
-                    consulta.resposta.protNFe.infProt.chNFe.valor
+            data_autorizacao = \
+                consulta.resposta.protNFe.infProt.dhRecbto.valor
+            data_autorizacao = UTC.normalize(data_autorizacao)
+
+            self.data_hora_autorizacao = data_autorizacao
+            self.protocolo_autorizacao = \
+                consulta.resposta.protNFe.infProt.nProt.valor
+            self.chave = \
+                consulta.resposta.protNFe.infProt.chNFe.valor
 
     def _envia_documento(self):
         self.ensure_one()
