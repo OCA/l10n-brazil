@@ -52,8 +52,13 @@ class ResPartner(models.Model):
         cnpj_cpf_type = 'cpf' if len(cnpj_cpf) == 11 else 'cnpj'
         partner['data_alteracao'] = fields.Date.today()
         partner['cnpj_cpf'] = self._mask_cnpj_cpf(cnpj_cpf_type, cnpj_cpf)
-        partner['whatsapp'] = 'sim' == partner['whatsapp']
-        partner['opt_out']  = 'sim' == partner['opt_out']
+        if partner.get('whatsapp') and partner.get('opt_out'):
+            partner['whatsapp'] = 'sim' == partner['whatsapp']
+            partner['opt_out']  = 'sim' == partner['opt_out']
+        else:
+            partner['whatsapp'] = False
+            partner['opt_out'] = True
+
         res = super(ResPartner, self).create_from_ui(partner)
         partner_id = self.browse(res)
         partner_id.legal_name = partner['name']
