@@ -210,6 +210,16 @@
         </t>
     </t>
 
+
+    <div type="hidden">
+    <t t-extend="ClientDetailsEdit">
+         <t t-jquery="div.client-details-right > div.client-detail:has(.opt_out)" t-operation="after">
+            <div class='client-detail'>
+                <input class='detail client-create_date' name='create_date' t-att-value='partner.create_date'></input>
+            </div>
+        </t>
+    </t>
+</div>x
     <t t-extend="ClientDetailsEdit">
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-zip)" t-operation="replace">
         </t>
