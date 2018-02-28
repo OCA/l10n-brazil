@@ -180,10 +180,6 @@ class SpedDocumento(models.Model):
 
     id_fila_validador = fields.Char(string=u'ID Fila Validador')
 
-    numero_identificador_sessao = fields.Char(
-        string=u'Numero identificador sessao'
-    )
-
     cfe_code128 = fields.Binary(
         string='Imagem cfe code 128',
         compute='_compute_cfe_image',
@@ -815,6 +811,16 @@ class SpedDocumento(models.Model):
                     resposta.resposta.numeroSessao
             self.mensagem_nfe = "Falha na conexão com SATHUB"
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
+
+    @api.multi
+    def imprimir_documento(self):
+        """ Print the invoice and mark it as sent, so that we can see more
+            easily the next step of the workflow
+        """
+        self.ensure_one()
+        if not self.modelo == MODELO_FISCAL_CFE:
+            return super(SpedDocumento, self).imprimir_documento()
+        return self.env['report'].get_action(self, 'report_sped_documento_cfe')
 
     # @api.multi
     # def imprimir_documento(self):
