@@ -24,3 +24,23 @@ def report_sped_documento_cfe(session, local_context):
         'meio_pagamento': meio_pagamento,
     }
     local_context.update(data)
+
+import odoo
+from odoo.report.interface import report_int
+
+
+class report_custom(report_int):
+    '''
+        Custom report for return danfe
+    '''
+
+    def create(self, cr, uid, ids, datas, context=None):
+        if not context:
+            context = dict()
+        env = odoo.api.Environment(cr, uid, context)
+        datas['ids'] = ids
+        records = env['sped.documento'].browse(ids)
+        pdf = records.gera_pdf()
+        return pdf, 'pdf'
+
+report_custom('report.report_sped_documento_cfe')
