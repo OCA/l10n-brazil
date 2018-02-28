@@ -255,7 +255,8 @@ function l10n_br_pos_screens(instance, module) {
             this.reload_partners().then(function(){
                     var partner = self.pos.db.get_partner_by_id(partner_id);
                 if (partner) {
-//                    TODO: revisar se e necessario
+//                  usando o pricelist da loja por padrao
+                    partner['property_product_pricelist'][0] = self.pos.pricelist.id;
                     partner.birthdate = $('.birthdate').val()
                     partner.street2 = $('.client-address-street2').val()
                     partner.gender = $('.gender').val()
@@ -264,6 +265,7 @@ function l10n_br_pos_screens(instance, module) {
 
                     self.new_client = partner;
                     self.toggle_save_button();
+                    self.pos.get('selectedOrder').set_client(self.new_client);
                     var ss = self.pos.pos_widget.screen_selector;
                     ss.set_current_screen('products');
 //                    self.display_client_details('show',partner);
@@ -314,21 +316,62 @@ function l10n_br_pos_screens(instance, module) {
                 contents.empty();
                 contents.append($(QWeb.render('ClientDetailsEdit',{widget:this,partner:partner})));
                 this.toggle_save_button();
-		
-		       $('.client-address-country', this.el).change(function(e){
-                var country_id = $('.client-address-country').val();
-                new instance.web.Model('res.partner').call('get_states_ids', [country_id]).then(function (result) {
-                    $('.client-address-state').children('option:not(:first)').remove();
-                        $.each(result, function(key, value){
-                            $('.client-address-state').append($("<option></option>")
+
+               $( document ).ready(function() {
+                    if( partner.country_id != null){
+                        new instance.web.Model('res.country.state').call('get_states_ids', [partner.country_id[0]]).then(function (result) {
+                        $('.client-address-state').children('option:not(:first)').remove();
+                            $.each(result, function(key, value){
+                                if(partner.state_id != null && partner.state_id[0] == key){
+                                     $('.client-address-state').append($("<option></option>")
+                                                  .attr("value",key)
+                                                  .attr("selected",true)
+                                                  .text(value));
+                                }
+                                else{
+                                    $('.client-address-state').append($("<option></option>")
                                                   .attr("value",key)
                                                   .text(value));
+                                }
+                            });
                         });
-                    });
-               });
+                    }
+                    if(partner.state_id != null){
+                            new instance.web.Model('l10n_br_base.city').call('get_city_ids', [partner.state_id[0]]).then(function (result) {
+                            $('.client-address-city').children('option:not(:first)').remove();
+                                $.each(result, function(key, value){
+                                    if(partner.l10n_br_city_id != null && partner.l10n_br_city_id[0] == key){
+                                    $('.client-address-city').append($("<option></option>")
+                                                      .attr("value",key)
+                                                      .attr("selected", true)
+                                                      .text(value));
+                                    }
+                                    else{
+                                     $('.client-address-city').append($("<option></option>")
+                                                      .attr("value",key)
+                                                      .text(value));
+                                    }
+                                });
+                            });
+                    }
+                });
+		       $('.client-address-country', this.el).change(function(e){
+                var country_id = $('.client-address-country').val();
+                if (country_id != ""){
+                    new instance.web.Model('res.country.state').call('get_states_ids', [country_id]).then(function (result) {
+                        $('.client-address-state').children('option:not(:first)').remove();
+                            $.each(result, function(key, value){
+                                $('.client-address-state').append($("<option></option>")
+                                                      .attr("value",key)
+                                                      .text(value));
+                            });
+                        });
+                }
+                   });
                $('.client-address-state', this.el).change(function(e){
-                var city_id = $('.client-address-state').val();
-                new instance.web.Model('res.partner').call('get_city_ids', [city_id]).then(function (result) {
+                var state_id = $('.client-address-state').val();
+                if (state_id != ""){
+                new instance.web.Model('l10n_br_base.city').call('get_city_ids', [state_id]).then(function (result) {
                     $('.client-address-city').children('option:not(:first)').remove();
                         $.each(result, function(key, value){
                             $('.client-address-city').append($("<option></option>")
@@ -336,6 +379,7 @@ function l10n_br_pos_screens(instance, module) {
                                                   .text(value));
                         });
                     });
+                    }
                 });
 
                 $('.client-address-zip', this.el).blur(function(e){

@@ -15,22 +15,6 @@ class ResPartner(models.Model):
         partner_id = self.browse(partner)
         return partner_id.credit_limit
 
-    @api.model
-    def get_states_ids(self, id_country):
-        state_ids = self.env['res.country.state'].search([('country_id.id', '=', id_country)])
-        dict = {}
-        for id in state_ids._ids:
-            dict[id] = self.env['res.country.state'].browse(id).name
-        return dict
-
-    @api.model
-    def get_city_ids(self, id_state):
-        state_ids = self.env['l10n_br_base.city'].search([('state_id.id', '=', id_state)])
-        dict = {}
-        for id in state_ids._ids:
-            dict[id] = self.env['l10n_br_base.city'].browse(id).name
-        return dict
-
     @api.multi
     def _mask_cnpj_cpf(self, cpfcnpj_type, cnpj_cpf):
         if cnpj_cpf:
