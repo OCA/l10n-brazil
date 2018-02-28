@@ -1453,14 +1453,16 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         """
         for record in self:
             infcomplementar = record.infcomplementar or ''
-            infcomplementar += ' ' + record.operacao_id.infcomplementar
+            if record.operacao_id.infcomplementar:
+                infcomplementar += ' ' + record.operacao_id.infcomplementar
             record.infcomplementar = infcomplementar
             if record.situacao_nfe == SITUACAO_NFE_EM_DIGITACAO:
                 record.situacao_nfe = SITUACAO_NFE_A_ENVIAR
 
             for item in record.item_ids.filtered('mensagens_complementares'):
                 infcomplementar = item.infcomplementar or ''
-                infcomplementar += ' ' + item.mensagens_complementares
+                if item.mensagens_complementares:
+                    infcomplementar += ' ' + item.mensagens_complementares
                 item.infcomplementar = infcomplementar
 
     def envia_documento(self):
