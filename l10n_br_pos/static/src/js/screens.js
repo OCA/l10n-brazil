@@ -317,7 +317,7 @@ function l10n_br_pos_screens(instance, module) {
 		
 		       $('.client-address-country', this.el).change(function(e){
                 var country_id = $('.client-address-country').val();
-                new instance.web.Model('res.partner').call('get_states_ids', [country_id]).then(function (result) {
+                new instance.web.Model('res.country.state').call('get_states_ids', [country_id]).then(function (result) {
                     $('.client-address-state').children('option:not(:first)').remove();
                         $.each(result, function(key, value){
                             $('.client-address-state').append($("<option></option>")
@@ -328,7 +328,7 @@ function l10n_br_pos_screens(instance, module) {
                });
                $('.client-address-state', this.el).change(function(e){
                 var city_id = $('.client-address-state').val();
-                new instance.web.Model('res.partner').call('get_city_ids', [city_id]).then(function (result) {
+                new instance.web.Model('l10n_br_base.city').call('get_city_ids', [city_id]).then(function (result) {
                     $('.client-address-city').children('option:not(:first)').remove();
                         $.each(result, function(key, value){
                             $('.client-address-city').append($("<option></option>")
