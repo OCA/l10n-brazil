@@ -91,7 +91,7 @@ function l10n_br_pos_models(instance, module) {
             });
             this.models.push({
                 model:  'res.partner',
-                fields: ['name', 'data_alteracao', 'cnpj_cpf', 'street','city','state_id','country_id','vat','phone','zip','mobile','email','ean13','write_date', 'debit', 'credit', 'credit_limit', 'user_ids', 'l10n_br_city_id'],
+                fields: ['name', 'data_alteracao', 'whatsapp', 'gender', 'birthdate', 'number', 'street2', 'opt_out', 'create_date', 'cnpj_cpf', 'street','city','state_id','country_id','vat','phone','zip','mobile','email','ean13','write_date', 'debit', 'credit', 'credit_limit', 'user_ids', 'l10n_br_city_id'],
                 domain: [['customer','=',true]],
                 loaded: function(self,partners){
                     self.partners = partners;
@@ -425,6 +425,7 @@ function l10n_br_pos_models(instance, module) {
             pos_model.models[res_partner_index].fields.push(
                 'legal_name',
                 'cnpj_cpf',
+                'create_date',
                 'inscr_est',
                 'inscr_mun',
                 'suframa',
