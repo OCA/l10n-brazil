@@ -56,6 +56,7 @@
         </t>
     </t>
 
+
     <t t-extend="ClientDetails">
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-zip)" t-operation="replace">
         </t>
@@ -196,6 +197,15 @@
                     <t t-if="!partner.opt_out">
                         <span class="detail opt_out">Não</span>
                     </t>
+            </div>
+        </t>
+    </t>
+
+    <t t-extend="ClientDetails">
+        <t t-jquery="div.client-details-right > div.client-detail:has(.opt_out)" t-operation="after">
+            <div class='client-detail'>
+                <span class='label'>Cliente desde</span>
+                <span class="detail client-create_date"><t t-esc='partner.create_date.substr(0,7)'/></span>
             </div>
         </t>
     </t>
