@@ -255,17 +255,11 @@ function l10n_br_pos_screens(instance, module) {
             this.reload_partners().then(function(){
                     var partner = self.pos.db.get_partner_by_id(partner_id);
                 if (partner) {
-//                    TODO: revisar se e necessario
-                    partner.birthdate = $('.birthdate').val()
-                    partner.street2 = $('.client-address-street2').val()
-                    partner.gender = $('.gender').val()
-                    partner.whatsapp = 'sim' === $('.whatsapp').val()
-                    partner.opt_out = 'sim' === $('.opt_out').val()
-
                     self.new_client = partner;
                     self.toggle_save_button();
                     var ss = self.pos.pos_widget.screen_selector;
                     ss.set_current_screen('products');
+                    self.pos.get('selectedOrder').set_client(self.new_client);
 //                    self.display_client_details('show',partner);
                 } else {
                     // should never happen, because create_from_ui must return the id of the partner it
