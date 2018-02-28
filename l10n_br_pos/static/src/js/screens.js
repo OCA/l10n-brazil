@@ -257,10 +257,16 @@ function l10n_br_pos_screens(instance, module) {
                 if (partner) {
                     self.new_client = partner;
                     self.toggle_save_button();
+                    partner.create_date = $('.client-create_date').val()
+                    partner.birthdate = $('.birthdate').val()
+                    partner.street2 = $('.client-address-street2').val()
+                    partner.gender = $('.gender').val()
+                    partner.whatsapp = 'sim' === $('.whatsapp').val()
+                    partner.opt_out = 'sim' === $('.opt_out').val()
                     var ss = self.pos.pos_widget.screen_selector;
-                    ss.set_current_screen('products');
+//                  ss.set_current_screen('products');
                     self.pos.get('selectedOrder').set_client(self.new_client);
-//                    self.display_client_details('show',partner);
+                    self.display_client_details('show',partner);
                 } else {
                     // should never happen, because create_from_ui must return the id of the partner it
                     // has created, and reload_partner() must have loaded the newly created partner.
@@ -331,6 +337,8 @@ function l10n_br_pos_screens(instance, module) {
                         });
                     });
                 });
+
+                $('#create_date').hide;
 
                 $('.client-address-zip', this.el).blur(function(e){
                     var cep = $('.client-address-zip').val().replace(/[^\d]+/g,'');
