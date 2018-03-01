@@ -255,7 +255,8 @@ function l10n_br_pos_screens(instance, module) {
             this.reload_partners().then(function(){
                     var partner = self.pos.db.get_partner_by_id(partner_id);
                 if (partner) {
-                    partner.create_date = self.new_client.create_date;
+//                  usando o pricelist da loja por padrao
+                    partner['property_product_pricelist'][0] = self.pos.pricelist.id;
                     partner.birthdate = $('.birthdate').val()
                     partner.street2 = $('.client-address-street2').val()
                     partner.gender = $('.gender').val()
