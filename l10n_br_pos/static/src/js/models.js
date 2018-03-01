@@ -425,6 +425,7 @@ function l10n_br_pos_models(instance, module) {
             pos_model.models[res_partner_index].fields.push(
                 'legal_name',
                 'cnpj_cpf',
+                'create_date',
                 'inscr_est',
                 'inscr_mun',
                 'suframa',

@@ -255,14 +255,15 @@ function l10n_br_pos_screens(instance, module) {
             this.reload_partners().then(function(){
                     var partner = self.pos.db.get_partner_by_id(partner_id);
                 if (partner) {
-                    self.new_client = partner;
-                    self.toggle_save_button();
-                    partner.create_date = $('.client-create_date').val()
+                    partner.create_date = self.new_client.create_date;
                     partner.birthdate = $('.birthdate').val()
                     partner.street2 = $('.client-address-street2').val()
                     partner.gender = $('.gender').val()
                     partner.whatsapp = 'sim' === $('.whatsapp').val()
                     partner.opt_out = 'sim' === $('.opt_out').val()
+
+                    self.new_client = partner;
+                    self.toggle_save_button();
                     var ss = self.pos.pos_widget.screen_selector;
 //                  ss.set_current_screen('products');
                     self.pos.get('selectedOrder').set_client(self.new_client);
@@ -314,7 +315,6 @@ function l10n_br_pos_screens(instance, module) {
                 contents.empty();
                 contents.append($(QWeb.render('ClientDetailsEdit',{widget:this,partner:partner})));
                 this.toggle_save_button();
-		
 		       $('.client-address-country', this.el).change(function(e){
                 var country_id = $('.client-address-country').val();
                 new instance.web.Model('res.country.state').call('get_states_ids', [country_id]).then(function (result) {
@@ -337,8 +337,6 @@ function l10n_br_pos_screens(instance, module) {
                         });
                     });
                 });
-
-                $('#create_date').hide;
 
                 $('.client-address-zip', this.el).blur(function(e){
                     var cep = $('.client-address-zip').val().replace(/[^\d]+/g,'');
