@@ -801,6 +801,16 @@ class SpedDocumento(models.Model):
             self.mensagem_nfe = "Falha na conexão com SATHUB"
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
 
+    @api.multi
+    def imprimir_documento(self):
+        """ Print the invoice and mark it as sent, so that we can see more
+            easily the next step of the workflow
+        """
+        self.ensure_one()
+        if not self.modelo == MODELO_FISCAL_CFE:
+            return super(SpedDocumento, self).imprimir_documento()
+        return self.env['report'].get_action(self, 'report_sped_documento_cfe')
+
     # @api.multi
     # def imprimir_documento(self):
     #     # TODO: Reimprimir cupom de cancelamento caso houver com o normal.
@@ -835,16 +845,18 @@ class SpedDocumento(models.Model):
 
         context = self.env.context.copy()
         reportname = 'report_sped_documento_cfe'
-        ir_action = self.env['ir.actions.report.xml']
-        action_py3o_report = ir_action.get_from_report_name(
-            reportname, "py3o")
+        action_py3o_report = self.env.ref('sped_cfe.action_report_sped_documento_cfe')
+
         if not action_py3o_report:
             raise UserError(
                 'Py3o action report not found for report_name')
+
         context['report_name'] = reportname
+
         py3o_report = self.env['py3o.report'].create({
             'ir_actions_report_xml_id': action_py3o_report.id
         }).with_context(context)
+
         res, filetype = py3o_report.create_report(self.ids, {})
         return res
 
