@@ -264,10 +264,10 @@ function l10n_br_pos_screens(instance, module) {
 
                     self.new_client = partner;
                     self.toggle_save_button();
-                    var ss = self.pos.pos_widget.screen_selector;
-//                  ss.set_current_screen('products');
                     self.pos.get('selectedOrder').set_client(self.new_client);
-                    self.display_client_details('show',partner);
+                    var ss = self.pos.pos_widget.screen_selector;
+                    ss.set_current_screen('products');
+//                    self.display_client_details('show',partner);
                 } else {
                     // should never happen, because create_from_ui must return the id of the partner it
                     // has created, and reload_partner() must have loaded the newly created partner.
