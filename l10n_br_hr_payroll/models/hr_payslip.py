@@ -16,6 +16,7 @@ _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil import valor, data
+    from pybrasil.data import ultimo_dia_mes
     from pybrasil.valor.decimal import Decimal
 
 except ImportError:
@@ -795,6 +796,16 @@ class HrPayslip(models.Model):
             'amount': contract._salario_mes_inicial(date_from, date_to),
             'contract_id': contract.id,
         }
+
+        # Caso tenha alteracao contratual no mês corrente, o provisionamento
+        # devera calcular com a remuneração alterada. Por isso na busca
+        # do salario, levamos em conta o inicio e o fim do mes. O sistema entao
+        # encontrara as alterações caso existam naquele mes
+        if self.tipo_de_folha in ['provisao_ferias', 'provisao_decimo_terceiro']:
+            date_from = str(self.ano).zfill(4) + '-' + \
+                         str(self.mes_do_ano).zfill(2) + '-01'
+            date_to = str(ultimo_dia_mes(date_from))
+
         salario_mes_final_dic = {
             'name': 'Salário Mês Final',
             'code': 'SALARIO_MES_FINAL',
