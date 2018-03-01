@@ -206,6 +206,9 @@ class SpedDocumento(models.Model):
         copy=False,
         compute='_compute_cfe_cancel_image',
     )
+    numero_identificador_sessao = fields.Char(
+        string=u'Numero identificador sessao'
+    )
 
     def executa_depois_autorizar(self):
         #
