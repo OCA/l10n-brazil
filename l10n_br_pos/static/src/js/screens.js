@@ -318,26 +318,42 @@ function l10n_br_pos_screens(instance, module) {
                 this.toggle_save_button();
 
                $( document ).ready(function() {
-                    var country_id = $('.client-address-country').val();
-                    if( country_id != ""){
-                        new instance.web.Model('res.country.state').call('get_states_ids', [country_id]).then(function (result) {
+                    if( partner.country_id != null){
+                        new instance.web.Model('res.country.state').call('get_states_ids', [partner.country_id[0]]).then(function (result) {
                         $('.client-address-state').children('option:not(:first)').remove();
                             $.each(result, function(key, value){
-                                $('.client-address-state').append($("<option></option>")
+                                if(partner.state_id != null && partner.state_id[0] == key){
+                                     $('.client-address-state').append($("<option></option>")
+                                                  .attr("value",key)
+                                                  .attr("selected",true)
+                                                  .text(value));
+                                }
+                                else{
+                                    $('.client-address-state').append($("<option></option>")
                                                   .attr("value",key)
                                                   .text(value));
+                                }
                             });
                         });
-                        var state_id = $('.client-address-state').val();
-                        new instance.web.Model('l10n_br_base.city').call('get_city_ids', [state_id]).then(function (result) {
-                        $('.client-address-city').children('option:not(:first)').remove();
-                            $.each(result, function(key, value){
-                                $('.client-address-city').append($("<option></option>")
-                                                  .attr("value",key)
-                                                  .text(value));
+                    }
+                    if(partner.state_id != null){
+                            new instance.web.Model('l10n_br_base.city').call('get_city_ids', [partner.state_id[0]]).then(function (result) {
+                            $('.client-address-city').children('option:not(:first)').remove();
+                                $.each(result, function(key, value){
+                                    if(partner.l10n_br_city_id != null && partner.l10n_br_city_id[0] == key){
+                                    $('.client-address-city').append($("<option></option>")
+                                                      .attr("value",key)
+                                                      .attr("selected", true)
+                                                      .text(value));
+                                    }
+                                    else{
+                                     $('.client-address-city').append($("<option></option>")
+                                                      .attr("value",key)
+                                                      .text(value));
+                                    }
+                                });
                             });
-                        });
-                        }
+                    }
                 });
 		       $('.client-address-country', this.el).change(function(e){
                 var country_id = $('.client-address-country').val();
@@ -351,7 +367,7 @@ function l10n_br_pos_screens(instance, module) {
                     });
                });
                $('.client-address-state', this.el).change(function(e){
-                var city_id = $('.client-address-state').val();
+                var state_id = $('.client-address-state').val();
                 new instance.web.Model('l10n_br_base.city').call('get_city_ids', [state_id]).then(function (result) {
                     $('.client-address-city').children('option:not(:first)').remove();
                         $.each(result, function(key, value){
