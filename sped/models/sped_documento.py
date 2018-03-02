@@ -1140,7 +1140,8 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             return res
 
         if self.modelo not in (
-                MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE, MODELO_FISCAL_NFSE):
+                MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE, MODELO_FISCAL_NFSE,
+                MODELO_FISCAL_CFE):
             return res
 
         if self.modelo == MODELO_FISCAL_NFE:
@@ -1276,13 +1277,12 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             valores['modalidade_frete'] = self.operacao_id.modalidade_frete
             valores['infadfisco'] = self.operacao_id.infadfisco
 
-            if not self.operacao_id.calcular_tributacao in (
-                    'somente_calcula', 'manual'):
-                if valores.get('infcomplementar'):
-                    valores['infcomplementar'] = \
-                        valores['infcomplementar'] + ' ' + self.operacao_id.infcomplementar
-                else:
-                    valores['infcomplementar'] = self.operacao_id.infcomplementar
+        if self.infcomplementar:
+            valores['infcomplementar'] += (
+                ' ' + self.operacao_id.infcomplementar
+            )
+        else:
+            valores['infcomplementar'] = self.operacao_id.infcomplementar
 
         valores['deduz_retencao'] = self.operacao_id.deduz_retencao
         valores['pis_cofins_retido'] = self.operacao_id.pis_cofins_retido
@@ -1466,7 +1466,10 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     def _envia_documento(self):
         for record in self:
             if not record.numero:
-                record.update(record._onchange_serie()['value'])
+                res = record._onchange_serie()['value']
+                res['data_hora_emissao'] = fields.Datetime.now()
+                res['data_hora_entrada_saida'] = res['data_hora_emissao']
+                record.update(res)
 
     def cancela_nfe(self):
         self.ensure_one()
@@ -1533,8 +1536,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         # tarefas de integração necessárias depois de autorizar uma NF-e,
         # por exemplo, criar lançamentos financeiros, movimentações de
         # estoque etc.
-        #
-        self.ensure_one()
+            self.ensure_one()
         self.gera_operacoes_subsequentes()
 
     def executa_antes_denegar(self):
@@ -1542,6 +1544,8 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         # Este método deve ser alterado por módulos integrados, para realizar
         # tarefas de integração necessárias antes de denegar uma NF-e
         #
+        
+        
         self.ensure_one()
         self.gera_operacoes_subsequentes()
 
@@ -1682,6 +1686,34 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                 # documento.envia_documento()
 
         # TODO: Retornar usuário para os documentos criados
+
+    @api.depends('operacao_id')
+    def _compute_documento_subsequente_ids(self):
+        for documento in self:
+            documento.documento_subsequente_ids = \
+                self.env['sped.documento.subsequente'].search([
+                    ('documento_origem_id', '=', documento.id)
+                ])
+            if not documento.operacao_id:
+                continue
+            if documento.operacao_id.mapped('operacao_subsequente_ids') == \
+                    documento.documento_subsequente_ids.mapped(
+                        'operacao_subsequente_id'):
+                continue
+            self.env['sped.documento.subsequente'].search([
+                ('documento_origem_id', '=', documento.id)
+            ]).unlink()
+            for subsequente_id in documento.operacao_subsequente_ids:
+                self.env['sped.documento.subsequente'].create({
+                    'documento_origem_id': documento.id,
+                    'operacao_subsequente_id': subsequente_id.id,
+                    'sped_operacao_id':
+                        subsequente_id.operacao_subsequente_id.id,
+                })
+                documento.documento_subsequente_ids = \
+                    self.env['sped.documento.subsequente'].search([
+                        ('documento_origem_id', '=', documento.id)
+                    ])
 
     @api.depends('documento_subsequente_ids.documento_subsequente_id')
     def _compute_documentos_subsequentes_gerados(self):

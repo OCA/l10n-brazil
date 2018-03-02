@@ -46,10 +46,10 @@ class SpedDocumentoPagamento(models.Model):
     id_pagamento = fields.Char(
         string=u'Id Pagamento'
     )
-    nsu = fields.Integer(
+    nsu = fields.Char(
         string=u'NSU',
     )
-    numero_aprovacao = fields.Integer(
+    numero_aprovacao = fields.Char(
         string=u'Nº aprovação',
     )
 

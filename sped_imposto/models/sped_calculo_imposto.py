@@ -112,7 +112,9 @@ class SpedCalculoImposto(SpedBase):
     regime_tributario = fields.Selection(
         selection=REGIME_TRIBUTARIO,
         string='Regime tributário',
+
         related='operacao_id.regime_tributario',
+
     )
 
     #
