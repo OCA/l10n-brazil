@@ -357,17 +357,20 @@ function l10n_br_pos_screens(instance, module) {
                 });
 		       $('.client-address-country', this.el).change(function(e){
                 var country_id = $('.client-address-country').val();
-                new instance.web.Model('res.country.state').call('get_states_ids', [country_id]).then(function (result) {
-                    $('.client-address-state').children('option:not(:first)').remove();
-                        $.each(result, function(key, value){
-                            $('.client-address-state').append($("<option></option>")
-                                                  .attr("value",key)
-                                                  .text(value));
+                if (country_id != ""){
+                    new instance.web.Model('res.country.state').call('get_states_ids', [country_id]).then(function (result) {
+                        $('.client-address-state').children('option:not(:first)').remove();
+                            $.each(result, function(key, value){
+                                $('.client-address-state').append($("<option></option>")
+                                                      .attr("value",key)
+                                                      .text(value));
+                            });
                         });
-                    });
-               });
+                }
+                   });
                $('.client-address-state', this.el).change(function(e){
                 var state_id = $('.client-address-state').val();
+                if (state_id != ""){
                 new instance.web.Model('l10n_br_base.city').call('get_city_ids', [state_id]).then(function (result) {
                     $('.client-address-city').children('option:not(:first)').remove();
                         $.each(result, function(key, value){
@@ -376,6 +379,7 @@ function l10n_br_pos_screens(instance, module) {
                                                   .text(value));
                         });
                     });
+                    }
                 });
 
                 $('.client-address-zip', this.el).blur(function(e){
