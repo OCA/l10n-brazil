@@ -11,7 +11,7 @@ import logging
 
 from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 from odoo.addons.l10n_br_base.constante_tributaria import (
     REGIME_TRIBUTARIO,
     MODELO_FISCAL,
@@ -28,6 +28,7 @@ _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil.valor.decimal import Decimal as D
+    from pybrasil.template import TemplateBrasil
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -245,3 +246,15 @@ class SpedDocumentoItem(SpedCalculoImpostoItem, models.Model):
 
     def _set_additional_fields(self, sped_documento_id):
         pass
+
+    def _renderizar_informacoes_template(
+            self, dados_infcomplementar, infcomplementar):
+        try:
+            template = TemplateBrasil(infcomplementar.encode('utf-8'))
+            informacao_complementar = template.render(
+                **dados_infcomplementar).decode('utf-8')
+
+            return informacao_complementar
+        except Exception as e:
+            raise UserError(
+                _(""" Erro ao gerar informação adicional do item"""))

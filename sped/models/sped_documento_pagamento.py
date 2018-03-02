@@ -51,6 +51,7 @@ class SpedDocumentoPagamento(SpedBase, models.Model):
     valor = fields.Monetary(
         string='Valor',
     )
+    # Deprecado, utilizar o campo vr_troco do sped.documento
     troco = fields.Monetary(
         string='Troco',
     )
@@ -104,14 +105,11 @@ class SpedDocumentoPagamento(SpedBase, models.Model):
             return res
 
         valor = D(self.valor or 0)
-        troco = valor - D(self.env.context.get('default_valor', 0))
-        if troco < 0:
-            troco = 0
 
-        duplicata_ids = self.condicao_pagamento_id.gera_parcela_ids(valor,
-            self.documento_id.data_emissao)
+        duplicata_ids = self.condicao_pagamento_id.gera_parcela_ids(
+            valor, self.documento_id.data_emissao
+        )
         valores['duplicata_ids'] = duplicata_ids
-        valores['troco'] = troco
         valores['forma_pagamento'] = self.condicao_pagamento_id.forma_pagamento
         valores['bandeira_cartao'] = self.condicao_pagamento_id.bandeira_cartao
         valores['integracao_cartao'] = \

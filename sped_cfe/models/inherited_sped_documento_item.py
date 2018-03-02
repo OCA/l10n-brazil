@@ -191,3 +191,21 @@ class SpedDocumentoItem(models.Model):
         detalhe.validar()
 
         return detalhe
+
+    def _monta_informacoes_adicionais(self):
+        self.ensure_one()
+
+        if self.documento_id.modelo != MODELO_FISCAL_CFE:
+            return super(
+                SpedDocumentoItem, self
+            )._monta_informacoes_adicionais()
+
+        infcomplementar = '${item.infcomplementar}'
+
+        dados_infcomplementar = {
+            'nf': self.documento_id,
+            'item': self,
+        }
+
+        return self._renderizar_informacoes_template(
+            dados_infcomplementar, infcomplementar)

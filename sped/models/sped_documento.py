@@ -11,8 +11,8 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from odoo import api, fields, models, tools,  _
-from odoo.exceptions import ValidationError
+from odoo import api, fields, models, tools, _
+from odoo.exceptions import ValidationError, UserError
 from odoo.addons.sped_imposto.models.sped_calculo_imposto import SpedCalculoImposto
 
 from odoo.addons.l10n_br_base.constante_tributaria import *
@@ -26,6 +26,7 @@ try:
         formata_data
     from pybrasil.valor.decimal import Decimal as D
     from pybrasil.valor import formata_valor
+    from pybrasil.template import TemplateBrasil
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -705,6 +706,16 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         compute='_compute_soma_itens',
         store=True,
     )
+    vr_pagamentos = fields.Monetary(
+        string='Valor Pagamentos',
+        compute='_compute_soma_itens',
+        store=True,
+    )
+    vr_troco = fields.Monetary(
+        string='Valor troco',
+        compute='_compute_soma_itens',
+        store=True,
+    )
     vr_ibpt = fields.Monetary(
         string='Valor IBPT',
         compute='_compute_soma_itens',
@@ -1014,7 +1025,8 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                 'item_ids.vr_nf', 'item_ids.vr_fatura',
                 'item_ids.vr_ibpt',
                 'item_ids.vr_custo_comercial',
-                'item_ids.peso_bruto', 'item_ids.peso_liquido')
+                'item_ids.peso_bruto', 'item_ids.peso_liquido',
+                 'pagamento_ids')
     def _compute_soma_itens(self):
         CAMPOS_SOMA_ITENS = [
             'vr_produtos', 'vr_produtos_tributacao',
@@ -1036,6 +1048,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             'vr_ibpt',
             'vr_custo_comercial',
             'peso_bruto', 'peso_liquido'
+
         ]
 
         for documento in self:
@@ -1046,6 +1059,17 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             for item in documento.item_ids:
                 for campo in CAMPOS_SOMA_ITENS:
                     dados[campo] += getattr(item, campo, D(0))
+
+            # Calculando o troco
+            dados['vr_pagamentos'] = D(0)
+            dados['vr_troco'] = D(0)
+            for p in documento.pagamento_ids:
+                # Diferença entre a soma de todos os meios de pagamento
+                # empregados e o valor total do documento fiscal
+                valor = dados.get('vr_fatura') or dados.get('vr_nf') or 0
+                dados['vr_pagamentos'] += p.valor
+                dados['vr_troco'] = \
+                    dados['vr_pagamentos'] - valor
 
             documento.update(dados)
 
@@ -1277,13 +1301,6 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             valores['modalidade_frete'] = self.operacao_id.modalidade_frete
             valores['infadfisco'] = self.operacao_id.infadfisco
 
-        if self.infcomplementar:
-            valores['infcomplementar'] += (
-                ' ' + self.operacao_id.infcomplementar
-            )
-        else:
-            valores['infcomplementar'] = self.operacao_id.infcomplementar
-
         valores['deduz_retencao'] = self.operacao_id.deduz_retencao
         valores['pis_cofins_retido'] = self.operacao_id.pis_cofins_retido
         valores['al_pis_retido'] = self.operacao_id.al_pis_retido
@@ -1419,6 +1436,9 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             'message_follower_ids',
             'documento_impresso',
         ]
+        CAMPOS_PERMITIDOS_CONFIRMACAO = [
+            'infcomplementar',
+        ]
         for documento in self:
             if documento.permite_alteracao:
                 continue
@@ -1428,6 +1448,10 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             # Trata alguns campos que é permitido alterar depois da nota
             # autorizada
             #
+            if documento.situacao_nfe == SITUACAO_NFE_A_ENVIAR:
+                permite_alteracao = True
+                break
+
             if documento.situacao_nfe == SITUACAO_NFE_AUTORIZADA:
                 for campo in dados:
                     if campo in CAMPOS_PERMITIDOS:
@@ -1455,6 +1479,26 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
 
             raise ValidationError(_(mensagem))
 
+    def confirma_documento(self):
+        """ Nunca sobrescreva este método, pois ele esta sendo modificado
+        pelo sped_queue que não chama o super. Para permtir o envio assincrono
+        do documento fiscal
+        :return:
+        """
+        for record in self:
+            infcomplementar = record.infcomplementar or ''
+            if record.operacao_id.infcomplementar:
+                infcomplementar += ' ' + record.operacao_id.infcomplementar
+            record.infcomplementar = infcomplementar
+            if record.situacao_nfe == SITUACAO_NFE_EM_DIGITACAO:
+                record.situacao_nfe = SITUACAO_NFE_A_ENVIAR
+
+            for item in record.item_ids.filtered('mensagens_complementares'):
+                infcomplementar = item.infcomplementar or ''
+                if item.mensagens_complementares:
+                    infcomplementar += ' ' + item.mensagens_complementares
+                item.infcomplementar = infcomplementar
+
     def envia_documento(self):
         """ Nunca sobrescreva este método, pois ele esta sendo modificado
         pelo sped_queue que não chama o super. Para permtir o envio assincrono
@@ -1465,6 +1509,9 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
 
     def _envia_documento(self):
         for record in self:
+            if record.situacao_nfe == SITUACAO_NFE_EM_DIGITACAO:
+                record.confirma_documento()
+
             if not record.numero:
                 res = record._onchange_serie()['value']
                 res['data_hora_emissao'] = fields.Datetime.now()
@@ -1724,3 +1771,16 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                 subsequente_id.operacao_realizada
                 for subsequente_id in documento.documento_subsequente_ids
             )
+
+    def _renderizar_informacoes_template(
+            self, dados_infcomplementar, infcomplementar):
+
+        try:
+            template = TemplateBrasil(infcomplementar.encode('utf-8'))
+            infcomplementar = template.render(
+                **dados_infcomplementar).decode('utf-8')
+
+            return infcomplementar
+        except Exception as e:
+            raise UserError(
+                _(""" Erro ao gerar informação adicional do item"""))

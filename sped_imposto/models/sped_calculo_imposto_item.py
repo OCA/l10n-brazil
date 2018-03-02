@@ -606,6 +606,10 @@ class SpedCalculoImpostoItem(SpedBase):
         string='Valor do INSS',
     )
 
+    mensagens_complementares = fields.Text(
+        string='Mensagens complementares',
+    )
+
     # Informações adicionais
     infcomplementar = fields.Text(
         string='Informações complementares',
@@ -1970,13 +1974,7 @@ class SpedCalculoImpostoItem(SpedBase):
                 self.al_fcp = aliquota_interna_destino.al_fcp
 
         if mensagens_complementares:
-            if self.infcomplementar:
-                self.infcomplementar += (
-                    ' ' + mensagens_complementares
-                )
-            else:
-                self.infcomplementar = mensagens_complementares
-
+            self.mensagens_complementares = mensagens_complementares
         #
         # Alíquota e MVA do ICMS ST, somente para quando não houver serviço
         # (serviço pode ter ICMS na nota conjugada [DF])

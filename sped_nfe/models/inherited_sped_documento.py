@@ -533,50 +533,46 @@ class SpedDocumento(models.Model):
                 self.chave = \
                     consulta.resposta.protNFe.infProt.chNFe.valor
 
-    def consultar_nfe(self, processador=None, nfe=None):
-        self.ensure_one()
+    @api.multi
+    def consultar_nfe(self):
+        for record in self:
+            record._consultar_nfe()
+
+    def _consultar_nfe(self, processador=None, nfe=None):
         #
         # Se a nota já foi emitida: autorizada, rejeitada e denegada
         # E não temos todos os dados, tentamos consultar a nota.
         #
-        if self.situacao_nfe in (
-                SITUACAO_NFE_AUTORIZADA,
-                SITUACAO_NFE_DENEGADA,
-                SITUACAO_NFE_REJEITADA,
-        ) and not (
-                self.protocolo_autorizacao or
-                self.arquivo_xml_id or
-                self.arquivo_xml_autorizacao_id
-        ):
-            if not processador:
-                processador = self.processador_nfe()
-            if not nfe:
-                nfe = self.monta_nfe(processador)
 
-            consulta = processador.consultar_nota(
-                processador.ambiente,
-                self.chave,
-                nfe,
-            )
-            if nfe.procNFe:
-                procNFe = nfe.procNFe
-                self.grava_xml(procNFe.NFe)
-                self.grava_xml_autorizacao(procNFe)
+        if not processador:
+            processador = self.processador_nfe()
+        if not nfe:
+            nfe = self.monta_nfe(processador)
 
-                if self.modelo == MODELO_FISCAL_NFE:
-                    res = self.grava_pdf(nfe, procNFe.danfe_pdf)
-                elif self.modelo == MODELO_FISCAL_NFCE:
-                    res = self.grava_pdf(nfe, procNFe.danfce_pdf)
+        consulta = processador.consultar_nota(
+            processador.ambiente,
+            self.chave,
+            nfe,
+        )
+        if nfe.procNFe:
+            procNFe = nfe.procNFe
+            self.grava_xml(procNFe.NFe)
+            self.grava_xml_autorizacao(procNFe)
 
-                data_autorizacao = \
-                    consulta.resposta.protNFe.infProt.dhRecbto.valor
-                data_autorizacao = UTC.normalize(data_autorizacao)
+            if self.modelo == MODELO_FISCAL_NFE:
+                res = self.grava_pdf(nfe, procNFe.danfe_pdf)
+            elif self.modelo == MODELO_FISCAL_NFCE:
+                res = self.grava_pdf(nfe, procNFe.danfce_pdf)
 
-                self.data_hora_autorizacao = data_autorizacao
-                self.protocolo_autorizacao = \
-                    consulta.resposta.protNFe.infProt.nProt.valor
-                self.chave = \
-                    consulta.resposta.protNFe.infProt.chNFe.valor
+            data_autorizacao = \
+                consulta.resposta.protNFe.infProt.dhRecbto.valor
+            data_autorizacao = UTC.normalize(data_autorizacao)
+
+            self.data_hora_autorizacao = data_autorizacao
+            self.protocolo_autorizacao = \
+                consulta.resposta.protNFe.infProt.nProt.valor
+            self.chave = \
+                consulta.resposta.protNFe.infProt.chNFe.valor
 
     def _envia_documento(self):
         self.ensure_one()
@@ -1182,3 +1178,27 @@ class SpedDocumento(models.Model):
         procNFe.NFe.gera_nova_chave()
         procNFe.NFe.monta_chave()
         return self.grava_xml(procNFe.NFe)
+
+    @api.onchange('empresa_id', 'modelo', 'emissao', 'serie', 'ambiente_nfe')
+    def _onchange_serie(self):
+        res = super(SpedDocumento, self)._onchange_serie()
+        _logger.info(res)
+
+        if not res['value']:
+            return res
+
+        tipo_documento_inutilizado = self.env[
+            'sped.inutilizacao.tipo.documento'
+        ].search([('codigo', '=', self.modelo)])
+        faixa_inutilizada = self.env['sped.inutilizacao.documento'].search([
+            ('empresa_id', '=', self.empresa_id.id),
+            ('tipo_documento_inutilizacao_id', '=', tipo_documento_inutilizado.id),
+            ('serie_documento', '=', res['value']['serie']),
+            ('inicio_numeracao', '<=', res['value']['numero']),
+            ('fim_numeracao', '>=', res['value']['numero'])
+            ], limit=1, order='fim_numeracao desc')
+
+        if faixa_inutilizada:
+            res['value']['numero'] = faixa_inutilizada.fim_numeracao + 1
+
+        return res

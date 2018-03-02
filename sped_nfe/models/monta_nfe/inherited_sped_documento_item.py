@@ -18,7 +18,6 @@ _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil.valor.decimal import Decimal as D
-    from pybrasil.template import TemplateBrasil
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -99,14 +98,8 @@ class SpedDocumentoItem(models.Model):
         # Aplica um template na observação do item
         #
 
-        try:
-            template = TemplateBrasil(infcomplementar.encode('utf-8'))
-            infcomplementar = template.render(**dados_infcomplementar)
-            return infcomplementar.decode('utf-8')
-        except Exception as e:
-            raise UserError(_(""" Erro ao gerar informação adicional do item"""))
-
-        return det
+        return self._renderizar_informacoes_template(
+            dados_infcomplementar, infcomplementar)
 
     def monta_nfe(self, numero_item, nfe):
         self.ensure_one()
