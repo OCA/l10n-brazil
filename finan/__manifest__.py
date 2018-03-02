@@ -71,10 +71,17 @@
         'reports/finan_relatorio_divida_data.xml',
         'wizards/finan_relatorio_divida_wizard.xml',
         'wizards/finan_lancamento_novo_pagamento_wizard.xml',
-
         # 'reports/report_py3o_finan_retorno.xml',
-        ##'data/financial_document_type_data.xml',
-        ##'data/interest_data.xml',
+
+        #
+        # Data
+        #
+        'data/finan.conta.csv',
+        'data/finan_documento_data.xml',
+        'data/finan_forma_pagamento.xml',
+        'data/finan_condicao_pagamento.xml',
+        # 'data/ir_cron_interest_data.xml',
+
 
         #'wizards/financial_cancel.xml',
         ## 'wizards/financial_edit.xml',
@@ -96,11 +103,16 @@
         'security/res_groups_data.xml',
         'security/finan_lancamento_ir_rule.xml',
         'security/ir.model.access.csv',
+
     ],
     'demo': [
-        # 'demo/financial_move.xml',
-        # 'demo/financial.account.csv',
-        # 'demo/financial_demo.yml'
+        'demo/finan_banco.xml',
+        'demo/finan_carteira.xml',
+        'demo/finan_lancamento_a_pagar.xml',
+        'demo/finan_lancamento_a_receber.xml',
+        'demo/finan_lancamento_entradas.xml',
+        'demo/finan_lancamento_saidas.xml',
+        'demo/finan_fechamento_caixa.yml',
     ],
     'test': [
         #'test/financial_move_test.yml',

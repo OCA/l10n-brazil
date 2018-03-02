@@ -509,6 +509,17 @@ class FinanLancamento(SpedBase, models.Model):
         ondelete='cascade',
     )
 
+    categoria = fields.Char(
+        string='Categoria do Lancamento',
+        compute='_compute_categoria',
+    )
+
+    @api.multi
+    def _compute_categoria(self):
+        for lancamento_id in self:
+            if lancamento_id.conta_id:
+                lancamento_id.categoria = lancamento_id.conta_id.nome
+
     @api.depends('tipo')
     def _compute_sinal(self):
         for lancamento in self:

@@ -2,72 +2,63 @@
 <!-- Copyright 2017 KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
-<odoo>
-<!--<data noupdate="1">-->
+<odoo noupdate="1">
 
-    <!--&lt;!&ndash; TODO-->
-    <!--<record model="sped.empresa" id="sped_empresa_demo_1">-->
-       <!--<field name="name">...</field>-->
-    <!--</record>-->
-    <!--&ndash;&gt;-->
+    <record model="sped.empresa" id="sped_empresa_regime_normal_sp">
+        <field name="nome">Empresa Regime Normal SP</field>
+        <field name='razao_social'>Empresa Regime Normal SP</field>
+        <field name="cnpj_cpf">53.939.351/0001-29</field>
+        <field name="endereco">Avenida Paulista</field>
+        <field name="numero">1</field>
+        <field name="bairro">Bela Vista</field>
+        <!--<field name="estado" ref="ESTADO_MG"/>-->
+        <field name="municipio_id" ref="MUNICIPIO_35503080000"/>
+        <field name="cep">01311-000</field>
+        <field name="site">www.suaempresa.com.br</field>
+        <field name="fone">11 3999-9999</field>
+        <field name="email">info@suaempresa.com.br</field>
+        <field name="ie">392.215.456.110</field>
+        <field name="eh_cliente" eval="0"/>
+        <field name="eh_fornecedor" eval="0"/>
+        <field name="eh_empresa" eval="1"/>
+    </record>
 
-    <!--<record model="sped.empresa" id="sped_empresa_regime_normal_sp">-->
-        <!--<field name="nome">Empresa Regime Normal SP</field>-->
-        <!--<field name='razao_social'>Empresa Regime Normal SP</field>-->
-        <!--<field name="cnpj_cpf">53.939.351/0001-29</field>-->
-        <!--<field name="endereco">Avenida Paulista</field>-->
-        <!--<field name="numero">1</field>-->
-        <!--<field name="bairro">Bela Vista</field>-->
-        <!--&lt;!&ndash;<field name="estado" ref="ESTADO_MG"/>&ndash;&gt;-->
-        <!--<field name="municipio_id" ref="MUNICIPIO_35503080000"/>-->
-        <!--<field name="cep">01311-000</field>-->
-        <!--<field name="site">www.suaempresa.com.br</field>-->
-        <!--<field name="fone">11 3999-9999</field>-->
-        <!--<field name="email">info@suaempresa.com.br</field>-->
-        <!--<field name="ie">392.215.456.110</field>-->
-        <!--<field name="eh_cliente" eval="0"/>-->
-        <!--<field name="eh_fornecedor" eval="0"/>-->
-        <!--<field name="eh_empresa" eval="1"/>-->
-    <!--</record>-->
+    <record model="sped.empresa" id="sped_empresa_demo_simples_sp">
+        <field name="nome">Empresa Simples SP</field>
+        <field name='razao_social'>Empresa Simples SP</field>
+        <field name="cnpj_cpf">81.583.054/0001-29</field>
+        <field name="endereco">Avenida Paulista</field>
+        <field name="numero">1</field>
+        <field name="bairro">Bela Vista</field>
+        <!--<field name="estado" ref="ESTADO_MG"/>-->
+        <field name="municipio_id" ref="MUNICIPIO_35503080000"/>
+        <field name="cep">01311-000</field>
+        <field name="site">www.suaempresa.com.br</field>
+        <field name="fone">11 3999-9999</field>
+        <field name="email">info@suaempresa.com.br</field>
+        <field name="ie">078.016.350.838</field>
+        <field name="eh_cliente" eval="0"/>
+        <field name="eh_fornecedor" eval="0"/>
+        <field name="eh_empresa" eval="1"/>
+    </record>
 
-    <!--<record model="sped.empresa" id="sped_empresa_demo_simples_sp">-->
-        <!--<field name="nome">Empresa Simples SP</field>-->
-        <!--<field name='razao_social'>Empresa Simples SP</field>-->
-        <!--<field name="cnpj_cpf">81.583.054/0001-29</field>-->
-        <!--<field name="endereco">Avenida Paulista</field>-->
-        <!--<field name="numero">1</field>-->
-        <!--<field name="bairro">Bela Vista</field>-->
-        <!--&lt;!&ndash;<field name="estado" ref="ESTADO_MG"/>&ndash;&gt;-->
-        <!--<field name="municipio_id" ref="MUNICIPIO_35503080000"/>-->
-        <!--<field name="cep">01311-000</field>-->
-        <!--<field name="site">www.suaempresa.com.br</field>-->
-        <!--<field name="fone">11 3999-9999</field>-->
-        <!--<field name="email">info@suaempresa.com.br</field>-->
-        <!--<field name="ie">078.016.350.838</field>-->
-        <!--<field name="eh_cliente" eval="0"/>-->
-        <!--<field name="eh_fornecedor" eval="0"/>-->
-        <!--<field name="eh_empresa" eval="1"/>-->
-    <!--</record>-->
+    <record model="sped.empresa" id="sped_empresa_demo_simples_rj">
+        <field name="nome">Empresa Simples RJ</field>
+        <field name='razao_social'>Empresa Simples RJ</field>
+        <field name="cnpj_cpf">17.020.195/0001-34</field>
+        <field name="endereco">Rua Gil de Gois</field>
+        <field name="numero">221</field>
+        <field name="bairro">Centro</field>
+        <!--<field name="estado" ref="ESTADO_MG"/>-->
+        <field name="municipio_id" ref="MUNICIPIO_33010090000"/>
+        <field name="cep">01311-000</field>
+        <field name="site">www.marcelosophia.com.br</field>
+        <field name="fone">(22) 2893-0881</field>
+        <field name="email">marcelosophia@example.com</field>
+        <field name="ie">17.625.05-5</field>
+        <field name="eh_cliente" eval="0"/>
+        <field name="eh_fornecedor" eval="0"/>
+        <field name="eh_empresa" eval="1"/>
+    </record>
 
-    <!--<record model="sped.empresa" id="sped_empresa_demo_simples_rj">-->
-        <!--<field name="nome">Empresa Simples RJ</field>-->
-        <!--<field name='razao_social'>Empresa Simples RJ</field>-->
-        <!--<field name="cnpj_cpf">17.020.195/0001-34</field>-->
-        <!--<field name="endereco">Rua Gil de Gois</field>-->
-        <!--<field name="numero">221</field>-->
-        <!--<field name="bairro">Centro</field>-->
-        <!--&lt;!&ndash;<field name="estado" ref="ESTADO_MG"/>&ndash;&gt;-->
-        <!--<field name="municipio_id" ref="MUNICIPIO_33010090000"/>-->
-        <!--<field name="cep">01311-000</field>-->
-        <!--<field name="site">www.marcelosophia.com.br</field>-->
-        <!--<field name="fone">(22) 2893-0881</field>-->
-        <!--<field name="email">marcelosophia@example.com</field>-->
-        <!--<field name="ie">17.625.05-5</field>-->
-        <!--<field name="eh_cliente" eval="0"/>-->
-        <!--<field name="eh_fornecedor" eval="0"/>-->
-        <!--<field name="eh_empresa" eval="1"/>-->
-    <!--</record>-->
-
-
-<!--</data>-->
 </odoo>

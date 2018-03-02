@@ -679,11 +679,11 @@ class SpedCalculoImpostoItem(SpedBase):
         #string='Valor unitário original',
         #digits=(18, 10),
     #)
-    #cfop_original_id = fields.Many2one(
-        #comodel_name='sped.cfop',
-        #string='CFOP original',
-        #index=True,
-    #)
+    cfop_original_id = fields.Many2one(
+        comodel_name='sped.cfop',
+        string='CFOP original',
+        index=True,
+    )
 
     credita_icms_proprio = fields.Boolean(
         string='Credita ICMS próprio?',
@@ -1975,7 +1975,6 @@ class SpedCalculoImpostoItem(SpedBase):
 
         if mensagens_complementares:
             self.mensagens_complementares = mensagens_complementares
-
         #
         # Alíquota e MVA do ICMS ST, somente para quando não houver serviço
         # (serviço pode ter ICMS na nota conjugada [DF])

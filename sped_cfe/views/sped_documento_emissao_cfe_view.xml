@@ -60,6 +60,7 @@
                 <button name="imprimir_documento" string="Imprimir" type="object" class="btn-default"
                     attrs="{'invisible': [('situacao_nfe', '!=', 'autorizada'), ('modelo', '!=', '59')]}"
                 />
+                <button name="%(sped_nfe.nfe_motivo_cancelamento_wizard_action)d" string="Cancelar CF-e" type="action" attrs="{'invisible': ['|', ('permite_cancelamento', '=', 'False'), ('situacao_nfe', '=', 'cancelada')]}"/>
                 <button name="gera_operacoes_subsequentes" string="Gerar NF-e de Cupom" type="object" class="btn-default"
                     context="{'nota_de_cumpom': '1', 'manual': '1'}"
                      attrs="{'invisible': ['|', ('documentos_subsequentes_gerados', '=', True), ('situacao_nfe','not in', ['autorizada'])]}"

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="finan.lancamento" id="finan_lancamento_saida_00">
+        <field name="empresa_id" ref="l10n_br_base.sped_empresa_regime_normal_sp"/>
+        <field name="participante_id" ref="l10n_br_base.res_partner_cliente10_mg"/>
+        <field name="documento_id" ref="finan.DOCUMENTO_FINANCEIRO_CHEQUE"/>
+        <field name="numero">2156</field>
+        <field name="data_documento" eval="(DateTime.today() - timedelta(days=5)).strftime('%Y-%m-%d %H:%M')"/>
+        <field name="conta_id" ref="finan.financial_account_201004"/>
+        <field name="data_credito_debito" eval="(DateTime.today() - timedelta(days=5)).strftime('%Y-%m-%d %H:%M')"/>
+        <field name="banco_id" ref="finan.finan_banco_033"/>
+        <field name="vr_documento">29.87</field>
+        <field name="vr_juros">0</field>
+        <field name="vr_multa">0</field>
+        <field name="vr_adiantado">0</field>
+        <field name="vr_desconto">0</field>
+        <field name="vr_tarifas">0</field>
+        <field name="tipo">saida</field>
+    </record>
+
+    <record model="finan.lancamento" id="finan_lancamento_saida_01">
+        <field name="empresa_id" ref="l10n_br_base.sped_empresa_regime_normal_sp"/>
+        <field name="participante_id" ref="l10n_br_base.res_partner_cliente12_sp"/>
+        <field name="documento_id" ref="finan.DOCUMENTO_FINANCEIRO_CHEQUE"/>
+        <field name="numero">4530</field>
+        <field name="data_documento" eval="DateTime.today().strftime('%Y-%m-%d %H:%M')"/>
+        <field name="conta_id" ref="finan.financial_account_102999"/>
+        <field name="banco_id" ref="finan.finan_banco_237"/>
+        <field name="data_credito_debito" eval="DateTime.today().strftime('%Y-%m-%d %H:%M')"/>
+        <field name="vr_documento">325.67</field>
+        <field name="vr_juros">0</field>
+        <field name="vr_multa">0</field>
+        <field name="vr_adiantado">0</field>
+        <field name="vr_desconto">13</field>
+        <field name="vr_tarifas">0</field>
+        <field name="tipo">saida</field>
+    </record>
+</odoo>

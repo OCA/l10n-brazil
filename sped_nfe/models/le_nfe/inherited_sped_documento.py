@@ -14,6 +14,8 @@ from io import BytesIO
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from lxml import objectify
+import dateutil.parser
 
 from odoo.addons.l10n_br_base.constante_tributaria import *
 
@@ -42,9 +44,54 @@ from ..versao_nfe_padrao import ClasseNFe, ClasseNFCe, ClasseProcNFe, \
 class SpedDocumento(models.Model):
     _inherit = 'sped.documento'
 
+    def importa_nfe_cancelada(self, xml):
+
+        nfe = objectify.fromstring(xml)
+        chave = str(nfe.evento.infEvento.chNFe)
+        documentos = self.env['sped.documento'].search([
+            ('chave', '=', chave),
+        ])
+
+        if not documentos:
+            raise UserError(
+                "Nenhum documento encontrado para o "
+                "protocolo de cancelamento fornecido"
+            )
+
+        for documento in documentos:
+            _logger.info(u'Importando NF-e cancelada')
+
+            nome_arquivo = chave + '-01-proc-can.xml'
+            conteudo = xml.encode('utf-8')
+            if not documento.arquivo_xml_autorizacao_cancelamento_id:
+                documento.arquivo_xml_autorizacao_cancelamento_id = \
+                    documento._grava_anexo(nome_arquivo, conteudo)
+
+
+            documento.justificativa = nfe.evento.infEvento.detEvento.xJust
+            documento.protocolo_cancelamento = nfe.retEvento.infEvento.nProt
+
+            data_cancelamento = dateutil.parser.parse(
+                nfe.retEvento.infEvento.dhRegEvento.text)
+            data_cancelamento = UTC.normalize(data_cancelamento)
+
+            documento.data_hora_cancelamento = data_cancelamento
+
+            documento.situacao_fiscal = SITUACAO_FISCAL_CANCELADO
+            documento.situacao_nfe = SITUACAO_NFE_CANCELADA
+
+        return documentos
+
     def le_nfe(self, processador=None, xml=None):
         _logger.info(u'Lendo xml')
         self.ensure_one()
+
+        nfe = objectify.fromstring(xml)
+
+        if getattr(nfe, 'evento', None):
+            if (nfe.evento.infEvento.detEvento.
+                    descEvento == 'Cancelamento'):
+                return self.importa_nfe_cancelada(xml)
 
         if self.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
             _logger.info(u'Modelo não suportado')
@@ -53,6 +100,8 @@ class SpedDocumento(models.Model):
         if xml is None:
             _logger.info(u'XML vazio')
             return
+
+        xml = xml.decode('UTF-8')
 
         if ' Id="NFe' not in xml:
             _logger.info(u'Documento não é uma nf-e')
@@ -152,7 +201,6 @@ class SpedDocumento(models.Model):
 
         if not self.id:
             self = self.create(dados)
-            _logger.info(u'Documento importado')
         else:
             self.update(dados)
             _logger.info(u'Documento atualizado')
@@ -280,7 +328,9 @@ class SpedDocumento(models.Model):
             # É nota própria
             #
             else:
-                dados['empresa_id'] = emitente.empresa_ids[0].id
+
+                dados['empresa_id'] = self.env['sped.empresa'].search([
+                    ('cnpj_cpf_numero', '=', emitente.cnpj_cpf_numero)]).id
                 dados['participante_id'] = destinatario.id
                 dados['regime_tributario'] = emitente.regime_tributario
 
@@ -293,7 +343,8 @@ class SpedDocumento(models.Model):
         # É nota de terceiros
         #
         else:
-            dados['empresa_id'] = destinatario.empresa_ids[0].id
+            dados['empresa_id'] = self.env['sped.empresa'].search([
+                ('cnpj_cpf_numero', '=', destinatario.cnpj_cpf_numero)]).id
             dados['participante_id'] = emitente.id
             dados['emissao'] = TIPO_EMISSAO_TERCEIROS
 

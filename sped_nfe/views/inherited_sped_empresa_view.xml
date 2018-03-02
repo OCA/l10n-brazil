@@ -13,7 +13,7 @@
         <field name="arch" type="xml">
             <field name="protocolo_id" position="after">
                 <newline />
-                <field name="certificado_id" colspan="4" options="{'no_open': True, 'no_create': True}" />
+                <field name="certificado_id" colspan="4" options="{'no_open': True}" />
             </field>
             <field name="serie_nfe_contingencia_homologacao" position="after">
                 <newline />

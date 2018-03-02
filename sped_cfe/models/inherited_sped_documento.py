@@ -206,6 +206,7 @@ class SpedDocumento(models.Model):
         copy=False,
         compute='_compute_cfe_cancel_image',
     )
+
     numero_identificador_sessao = fields.Char(
         string=u'Numero identificador sessao'
     )
@@ -753,7 +754,8 @@ class SpedDocumento(models.Model):
             elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
                 resposta = cliente.enviar_dados_venda(
                     cfe, self.configuracoes_pdv.codigo_ativacao,
-                    self.configuracoes_pdv.path_integrador
+                    self.configuracoes_pdv.path_integrador,
+                    self.numero_identificador_sessao
                 )
             else:
                 resposta = None
@@ -796,11 +798,21 @@ class SpedDocumento(models.Model):
                        resposta.EEEEE
             mensagem += '\nMensagem: ' + \
                         resposta.mensagem
+            if resposta.resposta.mensagem == u'Erro interno' and \
+                    resposta.resposta.mensagemSEFAZ == u'ERRO' and not \
+                    self.numero_identificador_sessao:
+                self.numero_identificador_sessao = \
+                    resposta.resposta.numeroSessao
             self.mensagem_nfe = mensagem
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
         except Exception as resposta:
             if hasattr(resposta, 'resposta'):
                 self.codigo_rejeicao_cfe = resposta.resposta.EEEEE
+            if resposta.resposta.mensagem == u'Erro interno' and \
+                    resposta.resposta.mensagemSEFAZ == u'ERRO' and not \
+                    self.numero_identificador_sessao:
+                self.numero_identificador_sessao = \
+                    resposta.resposta.numeroSessao
             self.mensagem_nfe = "Falha na conexão com SATHUB"
             self.situacao_nfe = SITUACAO_NFE_REJEITADA
 
@@ -908,7 +920,8 @@ class SpedDocumento(models.Model):
                             'BRL',
                             int(config.numero_caixa),
                             config.chave_acesso_validador,
-                            config.path_integrador
+                            config.path_integrador,
+                            self.numero_identificador_sessao
                         )
                     resposta_pagamento = resposta.split('|')
                     if len(resposta_pagamento[0]) >= 7:

@@ -18,11 +18,41 @@
                         <newline />
                         <field name="ultimo_nsu" required="1" />
                         <newline />
+                        <field name="utilizar_cron" />
+                        <newline />
                         <field name="ultima_consulta" readonly="1" />
                         <newline />
-                        <button name="busca_documentos" string="Busca documentos" type="object" class="btn-primary" />
+                        <button name="busca_documentos"
+                                string="Busca documentos"
+                                type="object" class="btn-primary" />
+                        <button name="baixa_documentos"
+                                string="Importar todas NF-e disponíveis"
+                                confirm="AVISO - Ao baixar as Notas você estará dando ciência da emissão aos manifestos correspondentes."
+                                type="object" class="btn-primary" />
                     </group>
-                    <field name="destinatario_xml_ids"/>
+
+                    <newline />
+
+                    <separator string="Manifestações Importadas" colspan="3"/>
+
+                     <group colspan="2">
+                         <button string="Gerenciar" class="oe_highlight"
+                                 name="action_gerencia_manifestacoes"
+                                 colspan="1"
+                                 type="object"/>
+                     </group>
+
+
+                    <field name="dfe_importada_ids" nolabel="1"
+                            context="{'tree_view_ref':
+                           'sped_nfe.sped_consulta_dfe_manifestacao_tree'}"/>/>
+
+                    <newline />
+                    <separator string="NF-e Importadas" />
+                    <field name="nfe_importada_ids" nolabel="1"
+                           context="{'tree_view_ref':
+                           'sped_nfe.sped_consulta_dfe_nfe_tree'}"/>
+                    <field name="destinatario_xml_ids" invisible="True"/>
                 </group>
             </sheet>
             </form>
@@ -39,6 +69,58 @@
                 <field name="ultimo_nsu" />
                 <field name="ultima_consulta" />
             </tree>
+        </field>
+    </record>
+
+       <record model="ir.ui.view" id="sped_consulta_dfe_nfe_tree">
+        <field name="name">sped.consulta.dfe.nfe.tree</field>
+        <field name="model">sped.documento</field>
+        <field name="inherit_id" ref="sped.sped_documento_recebimento_nfe_tree" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <tree position="attributes">
+                <attribute name="limit">5</attribute>
+            </tree>
+            <field name="operacao_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="serie" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="numero" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name='vr_nf' position="after">
+                <button string="Stock Picking"
+                        name="action_fluxo_compras"
+                        type="object"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_consulta_dfe_manifestacao_tree">
+        <field name="name">sped.consulta.dfe.manifestacao.tree</field>
+        <field name="model">sped.manifestacao.destinatario</field>
+        <field name="inherit_id"
+               ref="sped_nfe.view_sped_manifestacao_destinatario_tree" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="empresa_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name='valor_documento' position="after">
+                <button string="Importar NF-e" name="action_baixa_documento"
+                        type="object"
+                        confirm="AVISO - Ao importar uma NF-e você estará dando ciência da emissão ao manifesto correspondente. Deseja continuar?"
+                        attrs="{'readonly':[('documento_id','!=',False)]}"
+                />
+
+                <button string="Salvar XML" name="action_download_xmls"
+                        type="object"
+                        confirm="AVISO - Ao salvar o XML de uma NF-e você estará dando ciência da emissão ao manifesto correspondente. Deseja continuar?"
+                />
+                <field name="documento_id" invisible="True"/>
+            </field>
         </field>
     </record>
 

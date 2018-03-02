@@ -9,7 +9,7 @@ from __future__ import division, print_function, unicode_literals
 from odoo import api, fields, models, _
 from odoo.addons.l10n_br_base.constante_tributaria import *
 from odoo.addons.finan.constantes import FINAN_DIVIDA_A_RECEBER
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 
 
 class SpedDocumento(models.Model):
@@ -115,7 +115,60 @@ class SpedDocumento(models.Model):
                 documento.entrada_saida == ENTRADA_SAIDA_ENTRADA:
                 continue
 
+            if not documento.finan_conta_id:
+                operacao_id = self._busca_operacao()
+
+                try:
+                    documento.operacao_id = operacao_id.id
+
+                    try:
+                        documento.finan_conta_id = operacao_id.finan_conta_id
+                        documento.finan_documento_id = \
+                            operacao_id.finan_documento_id
+                    except:
+                        raise UserError(
+                            _("É necessário cadastrar uma Conta na Operação "
+                              "para os CFOPs dos itens importados.")
+                        )
+                except:
+                    continue
+
             documento.duplicata_ids.gera_lancamento_financeiro()
+
+    def _busca_operacao(self):
+        '''
+        Este método busca, a partir de um sped.documento, uma operação cujo
+        CFOP contenha o CFOP dos itens deste sped.documento.
+
+        :return: Um objeto do tipo 'sped.operacao' caso seja encontrado.
+        'False' caso contrário
+        '''
+
+        result = False
+
+        #Lista de CFOPs dos items do sped.documento
+        cfop_item_ids = self.item_ids.mapped('cfop_original_id.codigo')
+
+        if len(cfop_item_ids):
+
+            #Os items de operações que contenham os elementos da lista de cfops
+            operacao_item_ids = self.env['sped.operacao.item'].search([
+                ('cfop_id.codigo', 'in', cfop_item_ids),
+            ])
+
+            #As Operações referentes a estes itens de operações
+            operacao_ids = operacao_item_ids.mapped('operacao_id')
+
+            #Restringe as operações que tenham configuração de empresa para
+            # apenas a empresa definida no sped.documento (ou nenhuma empresa)
+            operacao_ids -= self.env['sped.operacao'].search([
+                ('empresa_id', '!=', self.empresa_id.id),
+            ])
+
+            if len(operacao_ids):
+                result = operacao_ids
+
+        return result
 
     def regera_finan_lancamento(self):
         for documento in self:
@@ -223,3 +276,20 @@ class SpedDocumento(models.Model):
                     boleto = lancamento_id.gera_boleto()
                     documento_id._grava_anexo(boleto.nome, boleto.pdf)
             # documento_id.anexos = True
+
+    def action_view_finan(self):
+        action = self.env.ref('sped_finan.finan_lancamento_acao').read()[0]
+        ids = self.finan_lancamento_ids._ids
+
+        if len(ids) > 1:
+            action['domain'] = [('id', 'in', ids)]
+
+        elif len(ids) == 1:
+            action['views'] = [
+             (self.env.ref('finan.finan_lancamento_divida_a_receber_form').id,
+              'form')]
+            action['res_id'] = ids[0]
+        else:
+            action = {'type': 'ir.actions.act_window_close'}
+
+        return action
