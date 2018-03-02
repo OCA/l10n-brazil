@@ -1583,7 +1583,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         # tarefas de integração necessárias depois de autorizar uma NF-e,
         # por exemplo, criar lançamentos financeiros, movimentações de
         # estoque etc.
-            self.ensure_one()
+        self.ensure_one()
         self.gera_operacoes_subsequentes()
 
     def executa_antes_denegar(self):
