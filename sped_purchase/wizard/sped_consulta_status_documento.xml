@@ -8,10 +8,23 @@
                 <form string="Consultar chave de acesso" version="7.0">
                     <field invisible="1" name="state"/>
                     <group>
-                        <field name="empresa_id"/>
-                        <field name="chave" attrs="{'readonly':[('state','=','done')]}" />
+                        <field name="forma_consulta"/>
+                    </group>
+                    <group>
+                        <field name="empresa_id"
+                               attrs="{'invisible':[('forma_consulta','!=','Chave')],
+                               'required':[('forma_consulta','=','Chave')]}" />
+                        <field name="chave"
+                               attrs="{'readonly':[('state','=','done')],
+                               'invisible':[('forma_consulta','!=','Chave')],
+                               'required':[('forma_consulta','=','Chave')]}" />
+                        <field name="arquivo"
+                               attrs="{'readonly':[('state','=','done')],
+                               'invisible':[('forma_consulta','!=','XML')],
+                               'required':[('forma_consulta','=','XML')]}" />
                     </group>
                     <group states="done">
+                        <field name="purchase_order_id"/>
                         <field name="versao" />
                         <field name="ambiente_nfe" attrs="{'readonly': True}"/>
                         <field name="motivo" />

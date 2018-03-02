@@ -7,13 +7,13 @@ from odoo import api, fields, models, _
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    def _compute_picking_type_code(self):
-        for picking in self:
-            picking.picking_type_code = picking.picking_type_id.code
-
-    picking_type_code = fields.Char(
-        compute='_compute_picking_type_code',
-    )
+    @api.multi
+    def write(self, vals):
+        res = super(StockPicking, self).write(vals)
+        for separacao in self:
+            if separacao.purchase_id:
+                separacao.purchase_id.order_line._compute_qty_received()
+        return res
 
     def action_view_purchase(self):
 

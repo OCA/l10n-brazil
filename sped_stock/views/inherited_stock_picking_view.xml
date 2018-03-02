@@ -25,7 +25,7 @@
 <!--                     <button name="action_assign" attrs="{'invisible': ['|', ('operacao_id', '!=', False), ('state', 'not in', ['confirmed', 'waiting'])]}" string="Reservar" type="object" class="oe_highlight" groups="base.group_user"/> -->
                     <button name="action_assign" attrs="{'invisible': ['|', ('operacao_id', '!=', False), ('state', '!=', 'partially_available')]}" string="Verificar disponibilidade" type="object" groups="base.group_user"/>
                     <button name="force_assign" attrs="{'invisible': ['|', '&amp;', ('operacao_id', '!=', False), ('state', 'not in', ['draft', 'confirmed']), ('state', 'not in', ['confirmed', 'waiting', 'partially_available'])]}"  string="Forçar disponibilidade" type="object" groups="stock.group_stock_manager"/>
-                    <button name="do_new_transfer" attrs="{'invisible': ['|', ('operacao_id', '!=', False), ('state', 'not in', ['draft', 'assigned', 'partially_available'])]}" string="Validar" groups="stock.group_stock_user" type="object" class="oe_highlight"/>
+                    <button name="do_new_transfer" attrs="{'invisible': ['|', ('operacao_id', '=', False), ('state', 'not in', ['draft', 'assigned', 'partially_available'])]}" string="Validar" groups="stock.group_stock_user" type="object" class="oe_highlight"/>
                     <button name="do_print_picking" string="Imprimir" groups="stock.group_stock_user" type="object" attrs="{'invisible': [('state', 'not in', ('assigned', 'partially_available'))]}"/>
                     <button name="%(stock.action_report_delivery)d" string="Imprimir" states="done" type="action" groups="base.group_user"/>
 <!--                     <button name="%(stock.act_stock_return_picking)d" string="Retornar" attrs="{'invisible': ['|', ('operacao_id', '!=', False), ('state', '!=', 'done')]}" type="action" groups="base.group_user"/> -->
@@ -106,7 +106,7 @@
             </field>
             <field name="picking_type_id" position="replace">
                 <field name="picking_type_id" attrs="{'readonly': [('state', 'in', ['cancel', 'done'])]}" />
-                <field name="operacao_id" attrs="{'readonly': [('state', 'in', ['cancel', 'done'])]}" />
+                <field name="operacao_id" />
             </field>
 
             <xpath expr="//page[1]" position="attributes">

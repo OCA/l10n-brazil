@@ -19,6 +19,7 @@
     'application': False,
     'license': 'AGPL-3',
     'data': [
+        'wizards/wizard_nfe_motivo_cancelamento.xml',
         'views/sped_certificado_view.xml',
         'views/inherited_sped_empresa_view.xml',
         'views/inherited_sped_documento_emissao_nfe_view.xml',
@@ -27,7 +28,12 @@
         'views/sped_manifestacao_destinatario.xml',
         'views/sped_consulta_dfe_view.xml',
         'views/sped_importa_nfe_view.xml',
+        'views/sped_documento_ajuste_recebimento.xml',
+        'data/scheduler_busca_documentos.xml',
+        'wizard/wizard_confirma_acao.xml',
         'security/ir.model.access.csv',
+        'wizard/sped_documento_exportar_xml.xml',
+        'wizard/base_config_settings.xml',
     ],
     'external_dependencies': {
         'python': ['pybrasil', 'pysped', 'mako'],

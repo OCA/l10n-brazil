@@ -1,0 +1,12 @@
+-
+  Um fechamento de banco é criado
+-
+  !record {model: finan.banco.fechamento, id: finan_fechamento_caixa_001}:
+    banco_id: finan.finan_banco_001
+    data_inicial: 2018-01-01
+    data_final: 2018-01-30
+-
+  O fechamento de banco é processado
+-
+  !python {model: finan.banco.fechamento, id: False}: |
+    self.browse(ref("finan_fechamento_caixa_001")).button_processar()

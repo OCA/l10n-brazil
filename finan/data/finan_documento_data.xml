@@ -5,188 +5,184 @@
 <odoo>
 
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_ACORDO">
-        <field name="name">Acordo</field>
+        <field name="nome">Acordo</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_ADIANTAMENTO">
-        <field name="name">Adiantamento</field>
+        <field name="nome">Adiantamento</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_APLICACAO">
-        <field name="name">Aplicação</field>
+        <field name="nome">Aplicação</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_BOLETO">
-        <field name="name">Boleto</field>
-        <field name="quitado_somente_com_data_credito_debito" eval="True" />
+        <field name="nome">Boleto</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_CARTAO">
-        <field name="name">Cartão</field>
+        <field name="nome">Cartão</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_CARTAO_DE_CREDITO">
-        <field name="name">Cartão de Crédito</field>
-        <field name="quitado_somente_com_data_credito_debito" eval="True" />
+        <field name="nome">Cartão de Crédito</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_CARTAO_DE_DEBITO">
-        <field name="name">Cartão de Débito</field>
-        <field name="quitado_somente_com_data_credito_debito" eval="True" />
+        <field name="nome">Cartão de Débito</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_CHEQUE">
-        <field name="name">Cheque</field>
-        <field name="quitado_somente_com_data_credito_debito" eval="True" />
+        <field name="nome">Cheque</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_CONVENIO">
-        <field name="name">Convênio</field>
+        <field name="nome">Convênio</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_CREDITO_EM_CONTA">
-        <field name="name">Crédito em conta</field>
+        <field name="nome">Crédito em conta</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_CT_E">
-        <field name="name">CT-e</field>
+        <field name="nome">CT-e</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_CUPOM_FISCAL">
-        <field name="name">Cupom Fiscal</field>
+        <field name="nome">Cupom Fiscal</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_DAE">
-        <field name="name">DAE</field>
+        <field name="nome">DAE</field>
         <field name="antecipa_vencimento" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_DEJE">
-        <field name="name">DEJE</field>
+        <field name="nome">DEJE</field>
         <field name="antecipa_vencimento" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_DAM">
-        <field name="name">DAM</field>
+        <field name="nome">DAM</field>
         <field name="antecipa_vencimento" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_DANGE">
-        <field name="name">DANGE</field>
+        <field name="nome">DANGE</field>
         <field name="antecipa_vencimento" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_DARE">
-        <field name="name">DARE</field>
+        <field name="nome">DARE</field>
         <field name="antecipa_vencimento" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_DARF">
-        <field name="name">DARF</field>
+        <field name="nome">DARF</field>
         <field name="antecipa_vencimento" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_DARJ">
-        <field name="name">DARJ</field>
+        <field name="nome">DARJ</field>
         <field name="antecipa_vencimento" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_DARM">
-        <field name="name">DARM</field>
+        <field name="nome">DARM</field>
         <field name="antecipa_vencimento" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_DAS">
-        <field name="name">DAS</field>
+        <field name="nome">DAS</field>
         <field name="antecipa_vencimento" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_DEBITO_AUTOMATICO">
-        <field name="name">Débito Automático</field>
+        <field name="nome">Débito Automático</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_DEBITO_EM_CONTA">
-        <field name="name">Débito em conta</field>
+        <field name="nome">Débito em conta</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_DEPOSITO">
-        <field name="name">Depósito</field>
+        <field name="nome">Depósito</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_DINHEIRO">
-        <field name="name">Dinheiro</field>
+        <field name="nome">Dinheiro</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_DOC">
-        <field name="name">DOC</field>
+        <field name="nome">DOC</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_DOCUMENTO_NAO_FISCAL">
-        <field name="name">Documento não fiscal</field>
+        <field name="nome">Documento não fiscal</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_DUA">
-        <field name="name">DUA</field>
+        <field name="nome">DUA</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_ENCARGOS">
-        <field name="name">Encargos</field>
+        <field name="nome">Encargos</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_FATURA">
-        <field name="name">Fatura</field>
+        <field name="nome">Fatura</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_FINANCIAMENTO">
-        <field name="name">Financiamento</field>
+        <field name="nome">Financiamento</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_FOLHA_DE_PAGAMENTO">
-        <field name="name">Folha de pagamento</field>
+        <field name="nome">Folha de pagamento</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_GNRE">
-        <field name="name">GNRE</field>
+        <field name="nome">GNRE</field>
         <field name="antecipa_vencimento" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_GPS">
-        <field name="name">GPS</field>
+        <field name="nome">GPS</field>
         <field name="antecipa_vencimento" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_GRCS">
-        <field name="name">GRCS</field>
+        <field name="nome">GRCS</field>
         <field name="antecipa_vencimento" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_GRU">
-        <field name="name">GRU</field>
+        <field name="nome">GRU</field>
         <field name="antecipa_vencimento" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_GUIA_DE_RECOLHIMENTO">
-        <field name="name">Guia de Recolhimento</field>
+        <field name="nome">Guia de Recolhimento</field>
         <field name="antecipa_vencimento" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_IMPOSTO">
-        <field name="name">Imposto</field>
+        <field name="nome">Imposto</field>
         <field name="antecipa_vencimento" eval="True" />
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_NOTA_DE_DEBITO">
-        <field name="name">Nota de Débito</field>
+        <field name="nome">Nota de Débito</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_NF">
-        <field name="name">NF</field>
+        <field name="nome">NF</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_NFCE">
-        <field name="name">NFC-e</field>
+        <field name="nome">NFC-e</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_NFSE">
-        <field name="name">NFS-e</field>
+        <field name="nome">NFS-e</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_NFE">
-        <field name="name">NF-e</field>
+        <field name="nome">NF-e</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_OUTROS">
-        <field name="name">Outros</field>
+        <field name="nome">Outros</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_PROTESTO">
-        <field name="name">Protesto</field>
+        <field name="nome">Protesto</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_PROVISAO">
-        <field name="name">Provisão</field>
+        <field name="nome">Provisão</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_RECIBO">
-        <field name="name">Recibo</field>
+        <field name="nome">Recibo</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_REEMBOLSO">
-        <field name="name">Reembolso</field>
+        <field name="nome">Reembolso</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_RESGATE">
-        <field name="name">Resgate</field>
+        <field name="nome">Resgate</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_RPA">
-        <field name="name">RPA</field>
+        <field name="nome">RPA</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_SAQUE">
-        <field name="name">Saque</field>
+        <field name="nome">Saque</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_TAXA">
-        <field name="name">Taxa</field>
+        <field name="nome">Taxa</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_TED">
-        <field name="name">TED</field>
+        <field name="nome">TED</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_TICKET">
-        <field name="name">Ticket</field>
+        <field name="nome">Ticket</field>
     </record>
     <record model="finan.documento" id="DOCUMENTO_FINANCEIRO_TRANSFERENCIA">
-        <field name="name">Transferência</field>
+        <field name="nome">Transferência</field>
     </record>
 
 </odoo>

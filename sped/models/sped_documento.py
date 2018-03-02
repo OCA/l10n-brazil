@@ -11,7 +11,7 @@ from __future__ import division, print_function, unicode_literals
 
 import logging
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models, tools,  _
 from odoo.exceptions import ValidationError
 from odoo.addons.sped_imposto.models.sped_calculo_imposto import SpedCalculoImposto
 
@@ -894,12 +894,34 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     documento_subsequente_ids = fields.One2many(
         comodel_name='sped.documento.subsequente',
         inverse_name='documento_origem_id',
-        compute='_compute_documento_subsequente_ids',
     )
     documento_impresso = fields.Boolean(
         string='Impresso',
         readonly=True,
     )
+
+    documento_origem_id = fields.Reference(
+        selection="_selection_documento_origem_id",
+        string='Documento de Origem',
+        help='Documento que originou o sped.documento.',
+    )
+
+    @api.model
+    @tools.ormcache("self")
+    def _selection_documento_origem_id(self):
+        """
+        Documento de origem deve ser de um dos seguintes
+        modelos: finan.lancamento, sale.order ou purchase.order
+
+        """
+        documentos = []
+
+        for doc in self.env["ir.model"].\
+                search([('model', 'in', ('finan.lancamento',
+                                         'sale.order', 'purchase.order'))]):
+            documentos.append([doc.model, doc.name])
+
+        return documentos
 
     @api.multi
     def name_get(self):
@@ -1292,6 +1314,18 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
 
         valores['cst_iss'] = self.operacao_id.cst_iss
 
+        sub = []
+        for subsequente_id in self.operacao_id.mapped(
+                'operacao_subsequente_ids'):
+            sub.append({
+                'documento_origem_id': self.id,
+                'operacao_subsequente_id': subsequente_id.id,
+                'sped_operacao_id':
+                    subsequente_id.operacao_subsequente_id.id,
+            })
+        valores['documento_subsequente_ids'] = [(0, 0, x) for x in sub]
+
+
         return res
 
     @api.onchange('empresa_id', 'modelo', 'emissao', 'serie', 'ambiente_nfe')
@@ -1502,8 +1536,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         # tarefas de integração necessárias depois de autorizar uma NF-e,
         # por exemplo, criar lançamentos financeiros, movimentações de
         # estoque etc.
-        #
-        self.ensure_one()
+            self.ensure_one()
         self.gera_operacoes_subsequentes()
 
     def executa_antes_denegar(self):
@@ -1511,6 +1544,8 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         # Este método deve ser alterado por módulos integrados, para realizar
         # tarefas de integração necessárias antes de denegar uma NF-e
         #
+        
+        
         self.ensure_one()
         self.gera_operacoes_subsequentes()
 
@@ -1651,7 +1686,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
                 # documento.envia_documento()
 
         # TODO: Retornar usuário para os documentos criados
-    
+
     @api.depends('operacao_id')
     def _compute_documento_subsequente_ids(self):
         for documento in self:

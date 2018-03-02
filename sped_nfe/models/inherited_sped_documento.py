@@ -143,6 +143,34 @@ class SpedDocumento(models.Model):
         size=60,
     )
 
+    consulta_dfe_id = fields.Many2one(
+        comodel_name='sped.consulta.dfe',
+        string='Consulta-DFe',
+        ondelete='cascade',
+    )
+
+    xmls_exportados = fields.Boolean(
+        string='XMLs exportados para a pasta da contabilidade',
+        default=False,
+    )
+
+    @api.multi
+    def action_fluxo_compras(self):
+        self.ensure_one()
+        return {
+            'name': "Associar Pedido de Compras",
+            'view_mode': 'form',
+            'view_type': 'form',
+            'view_id': self.env.ref(
+                'sped_nfe.sped_documento_ajuste_recebimento_form').id,
+            'res_id': self.id,
+            'res_model': 'sped.documento',
+            'type': 'ir.actions.act_window',
+            'target': 'current',
+            'flags': {'form': {'action_buttons': True,
+                               'options': {'mode': 'edit'}}},
+        }
+
     @api.depends('data_hora_emissao', 'data_hora_entrada_saida',
                  'data_hora_autorizacao', 'data_hora_cancelamento')
     def _compute_data_hora_separadas(self):
@@ -166,16 +194,12 @@ class SpedDocumento(models.Model):
 
     @api.depends('modelo', 'emissao', 'importado_xml', 'situacao_nfe')
     def _compute_permite_alteracao(self):
-        super(SpedDocumento, self)._compute_permite_alteracao()
-
+        result = super(SpedDocumento, self)._compute_permite_alteracao()
         for documento in self:
             if documento.modelo not in (MODELO_FISCAL_NFE,
                                         MODELO_FISCAL_NFCE):
-                super(SpedDocumento, documento)._compute_permite_alteracao()
                 continue
-
             if documento.emissao != TIPO_EMISSAO_PROPRIA:
-                super(SpedDocumento, documento)._compute_permite_alteracao()
                 continue
 
             #
@@ -185,6 +209,7 @@ class SpedDocumento(models.Model):
             documento.permite_alteracao = documento.permite_alteracao or \
                 documento.situacao_nfe in (SITUACAO_NFE_EM_DIGITACAO,
                                         SITUACAO_NFE_REJEITADA)
+        return result
 
     def _check_permite_alteracao(self, operacao='create', dados={},
                                  campos_proibidos=[]):
@@ -403,6 +428,7 @@ class SpedDocumento(models.Model):
         self.arquivo_xml_autorizacao_id = False
         self.arquivo_xml_autorizacao_id = \
             self._grava_anexo(nome_arquivo, conteudo)
+        self.xmls_exportados = False
 
         return {
             'type' : 'ir.actions.act_url',
@@ -435,6 +461,7 @@ class SpedDocumento(models.Model):
         self.arquivo_xml_autorizacao_cancelamento_id = False
         self.arquivo_xml_autorizacao_cancelamento_id = \
             self._grava_anexo(nome_arquivo, conteudo)
+        self.xmls_exportados = False
 
         return {
             'type': 'ir.actions.act_url',
@@ -459,6 +486,52 @@ class SpedDocumento(models.Model):
         self.arquivo_xml_autorizacao_inutilizacao_id = False
         self.arquivo_xml_autorizacao_inutilizacao_id = \
             self._grava_anexo(nome_arquivo, conteudo).id
+        self.xmls_exportados = False
+
+    def consultar_nfe(self, processador=None, nfe=None):
+        self.ensure_one()
+        #
+        # Se a nota já foi emitida: autorizada, rejeitada e denegada
+        # E não temos todos os dados, tentamos consultar a nota.
+        #
+        if self.situacao_nfe in (
+                SITUACAO_NFE_AUTORIZADA,
+                SITUACAO_NFE_DENEGADA,
+                SITUACAO_NFE_REJEITADA,
+        ) and not (
+                self.protocolo_autorizacao or
+                self.arquivo_xml_id or
+                self.arquivo_xml_autorizacao_id
+        ):
+            if not processador:
+                processador = self.processador_nfe()
+            if not nfe:
+                nfe = self.monta_nfe(processador)
+
+            consulta = processador.consultar_nota(
+                processador.ambiente,
+                self.chave,
+                nfe,
+            )
+            if nfe.procNFe:
+                procNFe = nfe.procNFe
+                self.grava_xml(procNFe.NFe)
+                self.grava_xml_autorizacao(procNFe)
+
+                if self.modelo == MODELO_FISCAL_NFE:
+                    res = self.grava_pdf(nfe, procNFe.danfe_pdf)
+                elif self.modelo == MODELO_FISCAL_NFCE:
+                    res = self.grava_pdf(nfe, procNFe.danfce_pdf)
+
+                data_autorizacao = \
+                    consulta.resposta.protNFe.infProt.dhRecbto.valor
+                data_autorizacao = UTC.normalize(data_autorizacao)
+
+                self.data_hora_autorizacao = data_autorizacao
+                self.protocolo_autorizacao = \
+                    consulta.resposta.protNFe.infProt.nProt.valor
+                self.chave = \
+                    consulta.resposta.protNFe.infProt.chNFe.valor
 
     def consultar_nfe(self, processador=None, nfe=None):
         self.ensure_one()

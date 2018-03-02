@@ -13,7 +13,6 @@ from odoo import _, api, fields, models
 import base64
 from lxml import objectify
 
-
 _logger = logging.getLogger(__name__)
 
 SITUACAO_NFE = [
@@ -164,6 +163,61 @@ class SpedManifestacaoDestinatario(models.Model):
     )
 
     @api.multi
+    def cria_wizard_gerenciamento(self, state=''):
+
+        dados = {
+            'manifestacao_ids': [(6, 0, self.ids)],
+            'state': state,
+        }
+
+        return self.env['wizard.confirma.acao'].create(dados)
+
+    @api.multi
+    def action_baixa_documento(self):
+        self.ensure_one()
+        documento = self.sped_consulta_dfe_id.baixa_documentos(manifestos=self)
+
+        if len(documento) > 1:
+            view_id = self.env.ref(
+                'sped_nfe.sped_documento_ajuste_recebimento_tree').id
+            view_type = 'tree'
+
+        else:
+            view_id = self.env.ref(
+                'sped_nfe.sped_documento_ajuste_recebimento_form').id
+            view_type = 'form'
+
+        return {
+            'name': "Baixa documentos",
+            'view_mode': 'form',
+            'view_type': view_type,
+            'view_id': view_id,
+            'res_id': documento.ids,
+            'res_model': 'sped.documento',
+            'type': 'ir.actions.act_window',
+            'target': 'current',
+        }
+
+
+    @api.multi
+    def action_salva_xml(self):
+
+        return self.baixa_attachment(
+            self.action_baixa_documento()
+        )
+
+    @api.multi
+    def baixa_attachment(self, attachment=None):
+
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_type': 'controller',
+            'report_file':
+                '/web/content/ir.attachment/' + str(attachment.id) +
+                '/datas/' + attachment.display_name + '?download=true',
+        }
+
+    @api.multi
     def action_ciencia_emissao(self):
         for record in self:
 
@@ -245,6 +299,27 @@ class SpedManifestacaoDestinatario(models.Model):
         return True
 
     @api.multi
+    def action_download_xmls(self):
+
+        if len(self) == 1:
+            if self.state == 'pendente':
+                self.action_ciencia_emissao()
+
+            return self.baixa_attachment(self.action_download_xml())
+
+        attachments = []
+
+        for record in self:
+            attachment = record.action_download_xml()
+            attachments.append(attachment)
+
+        monta_anexo = self.env['sped.monta.anexo'].create([])
+
+        attachment_id = monta_anexo.monta_anexo_compactado(attachments)
+
+        return self.baixa_attachment(attachment_id)
+
+    @api.multi
     def action_download_xml(self):
         result = True
         for record in self:
@@ -256,7 +331,7 @@ class SpedManifestacaoDestinatario(models.Model):
             if nfe_result['code'] == '138':
 
                 file_name = 'NFe%s.xml' % record.chave
-                record.env['ir.attachment'].create(
+                return record.env['ir.attachment'].create(
                     {
                         'name': file_name,
                         'datas': base64.b64encode(nfe_result['nfe']),
@@ -266,14 +341,43 @@ class SpedManifestacaoDestinatario(models.Model):
                         'res_model': 'sped.manifestacao.destinatario',
                         'res_id': record.id
                     })
-
-                nfe = objectify.fromstring(nfe_result['nfe'])
-                documento = self.env['sped.documento'].new()
-                documento.modelo = nfe.NFe.infNFe.ide.mod.text
-                documento.le_nfe(xml=nfe_result['nfe'])
             else:
                 raise models.ValidationError(_(
                     nfe_result['code'] + ' - ' + nfe_result['message'])
                 )
 
-        return result
+    @api.multi
+    def action_importa_xmls(self):
+        for record in self:
+            record.sped_consulta_dfe_id.baixa_documentos(manifestos=self)
+
+    @api.multi
+    def action_importa_xml(self):
+        result = []
+        for record in self:
+            record.sped_consulta_dfe_id.\
+                validate_nfe_configuration(record.empresa_id)
+            nfe_result = record.sped_consulta_dfe_id.\
+                download_nfe(record.empresa_id, record.chave)
+
+            if nfe_result['code'] == '138':
+                nfe = objectify.fromstring(nfe_result['nfe'])
+                documento = self.env['sped.documento'].new()
+                documento.modelo = nfe.NFe.infNFe.ide.mod.text
+                dados = documento.le_nfe(xml=nfe_result['nfe'])
+                record.documento_id = dados
+                return {
+                    'name': _("Associar Pedido de Compras"),
+                    'view_mode': 'form',
+                    'view_type': 'form',
+                    'view_id': self.env.ref('sped_nfe.sped_documento_ajuste_recebimento_form').id,
+                    'res_id': dados.id,
+                    'res_model': 'sped.documento',
+                    'type': 'ir.actions.act_window',
+                    'target': 'new',
+                    'flags': {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}},
+                }
+            else:
+                raise models.ValidationError(_(
+                    nfe_result['code'] + ' - ' + nfe_result['message'])
+                )

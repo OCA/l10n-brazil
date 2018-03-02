@@ -23,11 +23,11 @@
 
             <!-- Controle de forma de pagamento e cobrança -->
             <field name="data_vencimento" position="after">
-                <field name="forma_pagamento_id" options="{'no_create': True, 'no_open': True}" />
+                <field name="forma_pagamento_id" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True, 'no_open': True}" />
                 <newline />
                 <field name="forma_pagamento" invisible="1" />
                 <newline />
-                <field name="banco_id" options="{'no_create': True, 'no_open': True}" domain="[('cnpj_cpf_raiz', '=', cnpj_cpf_raiz)]" />
+                <field name="banco_id" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True, 'no_open': True}" domain="[('cnpj_cpf_raiz', '=', cnpj_cpf_raiz)]" />
                 <newline />
                 <field name="banco" invisible="1" />
                 <newline />

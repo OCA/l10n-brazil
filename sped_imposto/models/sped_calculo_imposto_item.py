@@ -675,11 +675,11 @@ class SpedCalculoImpostoItem(SpedBase):
         #string='Valor unitário original',
         #digits=(18, 10),
     #)
-    #cfop_original_id = fields.Many2one(
-        #comodel_name='sped.cfop',
-        #string='CFOP original',
-        #index=True,
-    #)
+    cfop_original_id = fields.Many2one(
+        comodel_name='sped.cfop',
+        string='CFOP original',
+        index=True,
+    )
 
     credita_icms_proprio = fields.Boolean(
         string='Credita ICMS próprio?',

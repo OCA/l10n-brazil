@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <!--Lançamento financeiro quitado parcialmente-->
+    <!--Divida 01-->
+    <record model="finan.lancamento" id="finan_lancamento_a_receber_01">
+        <field name="empresa_id" ref="l10n_br_base.sped_empresa_regime_normal_sp"/>
+        <field name="participante_id" ref="l10n_br_base.cliente9_mg"/>
+        <field name="documento_id" ref="finan.DOCUMENTO_FINANCEIRO_BOLETO"/>
+        <field name="numero">3567</field>
+        <field name="data_documento" eval="DateTime.today().strftime('%Y-%m-%d %H:%M')" />
+        <field name="conta_id" ref="finan.financial_account_101001"/>
+        <field name="data_vencimento" eval="(DateTime.today() + timedelta(days=30)).strftime('%Y-%m-%d %H:%M')"/>
+        <field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_001"/>
+        <field name="banco_id" ref="finan.finan_banco_237"/>
+        <field name="vr_documento">260.00</field>
+        <field name="tipo">a_receber</field>
+        <field name="carteira_id" ref="finan.finan_carteira_002"/>
+    </record>
+
+    <!--Recebimento da divida 01-->
+    <record model="finan.lancamento" id="finan_lancamento_recebimento_01">
+        <field name="documento_id" ref="finan.DOCUMENTO_FINANCEIRO_BOLETO"/>
+        <field name="numero">3567</field>
+        <field name="conta_id" ref="finan.financial_account_101001"/>
+        <field name="data_pagamento" eval="DateTime.today().strftime('%Y-%m-%d %H:%M')" />
+        <field name="data_credito_debito" eval="DateTime.today().strftime('%Y-%m-%d %H:%M')"/>
+        <field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_001"/>
+        <field name="banco_id" ref="finan.finan_banco_237"/>
+        <field name="vr_documento">130.00</field>
+        <field name="vr_movimentado">265.90</field>
+        <field name="vr_juros">0</field>
+        <field name="vr_multa">0</field>
+        <field name="vr_adiantado">0</field>
+        <field name="vr_desconto">0</field>
+        <field name="vr_tarifas">0</field>
+        <field name="tipo">recebimento</field>
+        <field name="empresa_id" ref="l10n_br_base.sped_empresa_regime_normal_sp"/>
+        <field name="divida_id" ref="finan.finan_lancamento_a_receber_01"/>
+    </record>
+
+    <!--Lançamento financeiro quitado-->
+    <!--Divida 02-->
+    <record model="finan.lancamento" id="finan_lancamento_a_receber_02">
+        <field name="empresa_id" ref="l10n_br_base.sped_empresa_regime_normal_sp"/>
+        <field name="participante_id" ref="l10n_br_base.res_partner_cliente8_rs"/>
+        <field name="documento_id" ref="finan.DOCUMENTO_FINANCEIRO_BOLETO"/>
+        <field name="numero">0056</field>
+        <field name="data_documento" eval="(DateTime.today() - timedelta(days=30)).strftime('%Y-%m-%d %H:%M')"/>
+        <field name="conta_id" ref="finan.financial_account_201012"/>
+        <field name="data_vencimento" eval="DateTime.today().strftime('%Y-%m-%d %H:%M')"/>
+        <field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_002"/>
+        <field name="banco_id" ref="finan.finan_banco_237"/>
+        <field name="vr_documento">45.76</field>
+        <field name="tipo">a_receber</field>
+        <field name="carteira_id" ref="finan.finan_carteira_002"/>
+    </record>
+
+    <!--Recebimento da divida 02-->
+    <record model="finan.lancamento" id="finan_lancamento_recebimento_02">
+        <field name="documento_id" ref="finan.DOCUMENTO_FINANCEIRO_BOLETO"/>
+        <field name="numero">0056</field>
+        <field name="conta_id" ref="finan.financial_account_201012"/>
+        <field name="data_pagamento" eval="DateTime.today().strftime('%Y-%m-%d %H:%M')"/>
+        <field name="data_credito_debito" eval="DateTime.today().strftime('%Y-%m-%d %H:%M')"/>
+        <field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_002"/>
+        <field name="banco_id" ref="finan.finan_banco_237"/>
+        <field name="vr_documento">45.76</field>
+        <field name="vr_movimentado">45.76</field>
+        <field name="vr_juros">0</field>
+        <field name="vr_multa">0</field>
+        <field name="vr_adiantado">0</field>
+        <field name="vr_desconto">0</field>
+        <field name="vr_tarifas">0</field>
+        <field name="tipo">recebimento</field>
+        <field name="empresa_id" ref="l10n_br_base.sped_empresa_regime_normal_sp"/>
+        <field name="divida_id" ref="finan.finan_lancamento_a_receber_02"/>
+    </record>
+
+    <!--Lançamento financeiro vence hoje-->
+    <!--Divida 03-->
+    <record model="finan.lancamento" id="finan_lancamento_a_receber_03">
+        <field name="empresa_id" ref="l10n_br_base.sped_empresa_regime_normal_sp"/>
+        <field name="participante_id" ref="l10n_br_base.res_partner_cliente10_mg"/>
+        <field name="documento_id" ref="finan.DOCUMENTO_FINANCEIRO_BOLETO"/>
+        <field name="numero">6573</field>
+        <field name="data_documento" eval="DateTime.today().strftime('%Y-%m-%d %H:%M')"/>
+        <field name="conta_id" ref="finan.financial_account_205007"/>
+        <field name="data_vencimento" eval="DateTime.today().strftime('%Y-%m-%d %H:%M')"/>
+        <field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_003"/>
+        <field name="banco_id" ref="finan.finan_banco_033"/>
+        <field name="vr_documento">76.90</field>
+        <field name="tipo">a_receber</field>
+        <field name="carteira_id" ref="finan.finan_carteira_001"/>
+    </record>
+
+    <!--Lançamento financeiro a vencer-->
+    <!--Divida 04-->
+    <record model="finan.lancamento" id="finan_lancamento_a_receber_04">
+        <field name="empresa_id" ref="l10n_br_base.sped_empresa_regime_normal_sp"/>
+        <field name="participante_id" ref="l10n_br_base.res_partner_kmee"/>
+        <field name="documento_id" ref="finan.DOCUMENTO_FINANCEIRO_BOLETO"/>
+        <field name="numero">8001</field>
+        <field name="data_documento" eval="DateTime.today().strftime('%Y-%m-%d %H:%M')"/>
+        <field name="conta_id" ref="finan.financial_account_101999"/>
+        <field name="data_vencimento" eval="(DateTime.today() + timedelta(days=30)).strftime('%Y-%m-%d %H:%M')"/>
+        <field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_003"/>
+        <field name="banco_id" ref="finan.finan_banco_237"/>
+        <field name="vr_documento">146.73</field>
+        <field name="tipo">a_receber</field>
+        <field name="carteira_id" ref="finan.finan_carteira_002"/>
+    </record>
+
+    <!--Lançamento financeiro vencido-->
+    <!--Divida 05-->
+    <record model="finan.lancamento" id="finan_lancamento_a_receber_05">
+        <field name="empresa_id" ref="l10n_br_base.sped_empresa_regime_normal_sp"/>
+        <field name="participante_id" ref="l10n_br_base.res_partner_cliente10_mg"/>
+        <field name="documento_id" ref="finan.DOCUMENTO_FINANCEIRO_BOLETO"/>
+        <field name="numero">6452</field>
+        <field name="data_documento" eval="(DateTime.today() - timedelta(days=33)).strftime('%Y-%m-%d %H:%M')"/>
+        <field name="conta_id" ref="finan.financial_account_201003"/>
+        <field name="data_vencimento" eval="(DateTime.today() - timedelta(days=3)).strftime('%Y-%m-%d %H:%M')"/>
+        <field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_001"/>
+        <field name="banco_id" ref="finan.finan_banco_033"/>
+        <field name="vr_documento">548.30</field>
+        <field name="tipo">a_receber</field>
+        <field name="carteira_id" ref="finan.finan_carteira_001"/>
+    </record>
+
+    <!--Lançamento financeiro baixado-->
+    <!--Divida 06-->
+    <!--<record model="finan.lancamento" id="finan_lancamento_a_receber_06">-->
+        <!--<field name="empresa_id" ref="l10n_br_base.sped_empresa_regime_normal_sp"/>-->
+        <!--<field name="participante_id" ref="l10n_br_base.res_partner_cliente8_rs"/>-->
+        <!--<field name="documento_id" ref="finan.DOCUMENTO_FINANCEIRO_BOLETO"/>-->
+        <!--<field name="numero">3667</field>-->
+        <!--<field name="data_documento">01/01/2018</field>-->
+        <!--<field name="data_baixa">01/01/2018</field>-->
+        <!--<field name="conta_id" ref="finan.financial_account_201005"/>-->
+        <!--<field name="data_vencimento">01/01/2018</field>-->
+        <!--<field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_001"/>-->
+        <!--<field name="banco_id" ref="finan.finan_banco_237"/>-->
+        <!--<field name="vr_documento">265.92</field>-->
+        <!--<field name="tipo">a_receber</field>-->
+        <!--<field name="carteira_id" ref="finan.finan_carteira_002"/>-->
+    <!--</record>-->
+
+    <!--Lançamento financeiro baixado parcialmente-->
+    <!--<record model="finan.lancamento" id="finan_lancamento_a_receber_07">-->
+        <!--<field name="empresa_id" ref="l10n_br_base.sped_empresa_regime_normal_sp"/>-->
+        <!--<field name="participante_id" ref="l10n_br_base.res_partner_cliente12_sp"/>-->
+        <!--<field name="documento_id" ref="finan.DOCUMENTO_FINANCEIRO_BOLETO"/>-->
+        <!--<field name="numero">1003</field>-->
+        <!--<field name="data_documento">01/01/2018</field>-->
+        <!--<field name="data_baixa">01/01/2018</field>-->
+        <!--<field name="conta_id" ref="finan.financial_account_201008"/>-->
+        <!--<field name="data_vencimento">01/01/2018</field>-->
+        <!--<field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_001"/>-->
+        <!--<field name="banco_id" ref="finan.finan_banco_104"/>-->
+        <!--<field name="vr_documento">265.92</field>-->
+        <!--<field name="tipo">a_receber</field>-->
+        <!--<field name="carteira_id" ref="finan.finan_carteira_001"/>-->
+    <!--</record>-->
+    <!--<record model="finan.lancamento" id="finan_lancamento_recebimento_07">-->
+        <!--<field name="documento_id" ref="finan.DOCUMENTO_FINANCEIRO_BOLETO"/>-->
+        <!--<field name="numero">1003</field>-->
+        <!--<field name="conta_id" ref="finan.financial_account_201012"/>-->
+        <!--<field name="data_pagamento">01/01/2018</field>-->
+        <!--<field name="data_credito_debito">01/01/2018</field>-->
+        <!--<field name="forma_pagamento_id" ref="finan.finan_forma_pagamento_002"/>-->
+        <!--<field name="banco_id" ref="finan.finan_banco_237"/>-->
+        <!--<field name="vr_documento">45.76</field>-->
+        <!--<field name="vr_movimentado">45.76</field>-->
+        <!--<field name="vr_juros">0</field>-->
+        <!--<field name="vr_multa">3</field>-->
+        <!--<field name="vr_adiantado">0</field>-->
+        <!--<field name="vr_desconto">0</field>-->
+        <!--<field name="vr_tarifas">0</field>-->
+        <!--<field name="tipo">recebimento</field>-->
+        <!--<field name="empresa_id" ref="l10n_br_base.sped_empresa_regime_normal_sp"/>-->
+        <!--<field name="divida_id" ref="finan.finan_lancamento_a_receber_07"/>-->
+    <!--</record>-->
+
+</odoo>

@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <record model="ir.ui.view" id="sped_documento_ajuste_recebimento_form">
+        <field name="name">sped.documento.ajuste.recebimento.form</field>
+        <field name="model">sped.documento</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Emissão de NF-e" duplicate="false">
+                <sheet>
+                    <field name="permite_alteracao" invisible="1" readonly="True"/>
+                    <field name="emissao" invisible="1" on_change="1" readonly="True"/>
+                    <field name="modelo" invisible="1" on_change="1" readonly="True"/>
+                    <field name="id" invisible="1" readonly="True"/>
+                    <field name="currency_id" invisible="1" can_create="true" can_write="true" readonly="True"/>
+                    <field name="currency_aliquota_id" invisible="1" can_create="true" can_write="true" readonly="True"/>
+                    <field name="importado_xml" invisible="1" on_change="1" readonly="True"/>
+                    <group>
+                        <group col="4" colspan="4">
+                            <field name="empresa_id" colspan="4" options="{'no_create': True, 'no_open': True}" required="1" domain="[('contribuinte', '=', '1')]" on_change="1" can_create="true" can_write="true" readonly="True"/>
+                            <field name="empresa_cnpj_cpf" colspan="2" readonly="True"/>
+                            <newline/>
+                            <field name="operacao_id" colspan="4" domain="[('modelo', '=', modelo), ('emissao', '=', emissao), '|', ('empresa_id', '=', False), ('empresa_id', '=', empresa_id)]" options="{'no_create': True, 'no_open': True}" on_change="1" can_create="true" can_write="true"/>
+                            <newline/>
+                            <field name="numero" required="1" colspan="2" readonly="True"/>
+                            <field name="serie" required="1" colspan="2" on_change="1" readonly="True"/>
+                            <newline/>
+                            <field name="data_hora_emissao" colspan="2" required="1" on_change="1" readonly="True"/>
+                            <field name="data_hora_entrada_saida" colspan="2" required="1" on_change="1" readonly="True"/>
+                            <newline/>
+                            <field name="data_emissao" invisible="1" on_change="1" readonly="True"/>
+                            <field name="data_entrada_saida" invisible="1" readonly="True"/>
+                            <newline/>
+                            <field name="chave" colspan="4" readonly="True"/>
+                            <newline/>
+                            <field name="situacao_fiscal" required="1" colspan="2" readonly="True"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="participante" string="Destinatário/Remetente">
+                            <group>
+                                <group colspan="6" col="6">
+                                    <separator string="Destinatário" colspan="6" readonly="True"/>
+                                    <separator string="Remetente" colspan="6" readonly="True"/>
+                                    <field name="participante_id" nolabel="1" colspan="6" required="1" options="{'no_open': True, 'no_create': True}" domain="[('cnpj_cpf', '!=', empresa_cnpj_cpf), ('cnpj_cpf', '!=', False)]" on_change="1" can_create="true" can_write="true" readonly="True"/>
+                                    <newline/>
+                                    <field name="participante_razao_social" string="Nome completo Razão Social" colspan="6" readonly="True"/>
+                                    <newline/>
+                                    <field name="participante_fantasia" colspan="6" readonly="True"/>
+                                    <newline/>
+                                    <field name="participante_tipo_pessoa" invisible="1" readonly="True"/>
+                                    <newline/>
+                                    <field name="participante_cnpj_cpf" colspan="2" readonly="True"/>
+                                    <field name="participante_contribuinte" colspan="2" readonly="True"/>
+                                    <field name="participante_ie" colspan="2" readonly="True"/>
+                                    <newline/>
+                                    <separator string="Contato" colspan="6"/>
+                                    <newline/>
+                                    <field name="participante_fone" readonly="True"/>
+                                    <field name="participante_celular" readonly="True"/>
+                                    <field name="participante_fone_comercial" readonly="True"/>
+                                    <newline/>
+                                    <field name="participante_email" colspan="6" readonly="True"/>
+                                    <newline/>
+                                    <separator string="Endereço" colspan="6"/>
+                                    <newline/>
+                                    <field name="participante_endereco" colspan="6" readonly="True"/>
+                                    <newline/>
+                                    <field name="participante_numero" readonly="True"/>
+                                    <field name="participante_complemento" colspan="4" readonly="True"/>
+                                    <newline/>
+                                    <field name="participante_bairro" colspan="6" readonly="True"/>
+                                    <newline/>
+                                    <field name="participante_municipio_id" options="{'no_open': True, 'no_create': True}" colspan="6" can_create="true" can_write="true" readonly="True"/>
+                                    <newline/>
+                                    <field name="participante_cep" readonly="True"/>
+                                    <newline/>
+                                    <field name="participante_estado" invisible="1" readonly="True"/>
+                                    <field name="participante_eh_orgao_publico" invisible="1" readonly="True"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="itens" string="Itens">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <field name="item_ids" nolabel="1" colspan="4" context="{
+                                'form_view_ref' : 'sped_nfe.sped_documento_item_ajuste_recebimento_form',
+                                'tree_view_ref' : 'sped_nfe.sped_documento_item_ajuste_recebimento_tree',
+                                'manual': True}" on_change="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="retencoes" string="Retenções">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <separator string="IR" colspan="2"/>
+                                    <separator string="CSLL" colspan="2"/>
+                                    <newline/>
+                                    <field name="irrf_retido" string="Retém IR?" readonly="True"/>
+                                    <field name="csll_retido" string="Retém CSLL?" readonly="True"/>
+                                    <newline/>
+                                    <field name="irrf_retido_ignora_limite" string="Ignora limite de R$ 10,00?" readonly="True"/>
+                                    <newline/>
+                                    <field name="al_irrf" readonly="True"/>
+                                    <field name="al_csll" readonly="True"/>
+                                    <newline/>
+                                    <separator string="PIS e COFINS" colspan="4"/>
+                                    <newline/>
+                                    <field name="pis_cofins_retido" string="Retém PIS e COFINS?" readonly="True"/>
+                                    <field name="limite_retencao_pis_cofins_csll" readonly="True"/>
+                                    <newline/>
+                                    <separator string="PIS retido" colspan="2" readonly="True"/>
+                                    <separator string="COFINS retida" colspan="2" readonly="True"/>
+                                    <newline/>
+                                    <field name="al_pis_retido" readonly="True"/>
+                                    <field name="al_cofins_retido" readonly="True"/>
+                                    <newline/>
+                                    <separator string="Geral" colspan="2"/>
+                                    <newline/>
+                                    <field name="deduz_retencao" readonly="True"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="totais" string="Totais">
+                            <notebook>
+                                <page string="Valores">
+                                    <group>
+                                        <group colspan="4" col="4">
+                                            <group colspan="4" col="4" string="Valores principais">
+                                                <field name="vr_produtos" colspan="2" string="Produtos/serviços" readonly="True"/>
+                                                <field name="vr_nf" colspan="2" string="Total da NF" on_change="1" readonly="True"/>
+                                                <newline/>
+                                                <field name="vr_frete" colspan="2" string="Frete" readonly="True"/>
+                                                <field name="vr_fatura" colspan="2" string="Total da fatura" on_change="1" readonly="True"/>
+                                                <newline/>
+                                                <field name="vr_seguro" colspan="2" string="Seguro" readonly="True"/>
+                                                <newline/>
+                                                <field name="vr_outras" colspan="2" string="Outras" readonly="True"/>
+                                                <newline/>
+                                                <field name="vr_desconto" colspan="2" string="Desconto" readonly="True"/>
+                                                <newline/>
+                                                <field name="vr_operacao" colspan="2" string="Operação" readonly="True"/>
+                                            </group>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Impostos">
+                                    <notebook>
+                                        <page string="Imposto de importação" readonly="True">
+                                            <group string="Imposto de importação">
+                                                <field name="bc_ii" string="Base de cáculo" readonly="True"/>
+                                                <newline/>
+                                                <field name="vr_ii" string="Valor" readonly="True"/>
+                                                <newline/>
+                                                <field name="vr_despesas_aduaneiras" string="Despesas aduaneiras" readonly="True"/>
+                                                <newline/>
+                                                <field name="vr_iof" string="IOF" readonly="True"/>
+                                            </group>
+                                        </page>
+                                        <page string="ICMS" readonly="True">
+                                            <group colspan="4" col="4">
+                                                <group string="Crédito de ICMS SIMPLES" colspan="2" readonly="True">
+                                                    <field name="vr_icms_sn" string="Valor" readonly="True"/>
+                                                </group>
+                                                <newline/>
+                                                <group string="ICMS" colspan="2">
+                                                    <field name="bc_icms_proprio" string="Base de cálculo" readonly="True"/>
+                                                    <newline/>
+                                                    <field name="vr_icms_proprio" string="Valor" readonly="True"/>
+                                                    <newline/>
+                                                    <field name="vr_icms_desonerado" string="Valor desonerado" readonly="True"/>
+                                                    <newline/>
+                                                    <separator string="Diferencial de alíquota" colspan="2"/>
+                                                    <newline/>
+                                                    <field name="vr_difal" string="Valor DIFAL" readonly="True"/>
+                                                    <newline/>
+                                                    <separator string="Fundo de combate à pobreza" colspan="2"/>
+                                                    <newline/>
+                                                    <field name="vr_fcp" string="Valor FCP" readonly="True"/>
+                                                    <newline/>
+                                                </group>
+                                                <group string="ICMS ST" colspan="2">
+                                                    <field name="bc_icms_st" string="Base de cálculo" readonly="True"/>
+                                                    <newline/>
+                                                    <field name="vr_icms_st" string="Valor" readonly="True"/>
+                                                </group>
+                                            </group>
+                                        </page>
+                                        <page string="IPI" readonly="True">
+                                            <group colspan="4" col="4">
+                                                <group string="IPI" colspan="2">
+                                                    <field name="bc_ipi" string="Base de cálculo" readonly="True"/>
+                                                    <newline/>
+                                                    <field name="vr_ipi" string="Valor" readonly="True"/>
+                                                </group>
+                                            </group>
+                                        </page>
+                                        <page string="ISS" readonly="True">
+                                            <group string="ISS" colspan="2">
+                                                <field name="bc_iss" readonly="True"/>
+                                                <newline/>
+                                                <field name="vr_iss" readonly="True"/>
+                                                <newline/>
+                                            </group>
+                                        </page>
+                                        <page string="PIS-COFINS">
+                                            <group colspan="4" col="4">
+                                                <group string="PIS" colspan="2">
+                                                    <field name="bc_pis_proprio" string="Base de cálculo" readonly="True"/>
+                                                    <newline/>
+                                                    <field name="vr_pis_proprio" string="Valor" readonly="True"/>
+                                                </group>
+                                                <group string="COFINS" colspan="2">
+                                                    <field name="bc_cofins_proprio" string="Base de cálculo" readonly="True"/>
+                                                    <newline/>
+                                                    <field name="vr_cofins_proprio" string="Valor" readonly="True"/>
+                                                </group>
+                                            </group>
+                                        </page>
+                                        <page string="SIMPLES" readonly="True">
+                                            <group string="SIMPLES Nacional">
+                                                <field name="vr_simples" readonly="True"/>
+                                                <newline/>
+                                            </group>
+                                        </page>
+                                        <page string="IBPT">
+                                            <group string="Valor aproximado dos tributos">
+                                                <field name="vr_ibpt" readonly="True"/>
+                                                <newline/>
+                                            </group>
+                                        </page>
+                                    </notebook>
+                                </page>
+                            </notebook>
+                        </page>
+                        <page name="transporte" string="Transporte">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <separator string="Frete e transporte"/>
+                                    <newline/>
+                                    <field name="modalidade_frete" readonly="True"/>
+                                    <newline/>
+                                    <field name="transportadora_id" colspan="4" options="{'no_create': True, 'no_open': True}" can_create="true" can_write="true" readonly="True"/>
+                                    <newline/>
+                                    <field name="veiculo_id" options="{'no_create': True, 'no_open': True}" can_create="true" can_write="true" readonly="True"/>
+                                    <field name="reboque_1_id" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id])]" can_create="true" can_write="true" readonly="True"/>
+                                    <newline/>
+                                    <field name="reboque_2_id" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id])]" can_create="true" can_write="true" readonly="True"/>
+                                    <field name="reboque_3_id" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id])]" can_create="true" can_write="true" readonly="True"/>
+                                    <newline/>
+                                    <field name="reboque_4_id" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id, reboque_3_id])]" can_create="true" can_write="true" readonly="True"/>
+                                    <field name="reboque_5_id" options="{'no_create': True, 'no_open': True}" domain="['!', ('id', 'in', [veiculo_id, reboque_1_id, reboque_2_id, reboque_3_id, reboque_4_id])]" can_create="true" can_write="true" readonly="True"/>
+                                    <newline/>
+                                    <field name="endereco_retirada_id" colspan="4" domain="[('participante_id', '=', participante_id)]" options="{'no_create': True, 'no_open': True}" can_create="true" can_write="true" readonly="True"/>
+                                    <newline/>
+                                    <field name="endereco_entrega_id" colspan="4" domain="[('participante_id', '=', participante_id)]" options="{'no_create': True, 'no_open': True}" can_create="true" can_write="true" readonly="True"/>
+                                    <newline/>
+                                    <separator string="Volumes"/>
+                                    <newline/>
+                                    <field name="volume_ids" colspan="4" nolabel="1" readonly="True"/>
+                                    <group name="Exportação" colspan="4" col="4" readonly="True">
+                                        <separator string="Exportação" colspan="4"/>
+                                        <field name="exportacao_estado_embarque_id" can_create="true" can_write="true" readonly="True"/>
+                                        <newline/>
+                                        <field name="exportacao_local_embarque" colspan="4" readonly="True"/>
+                                    </group>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="empenho" string="Empenho - órgãos públicos" readonly="True">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <field name="compra_nota_empenho" string="Identificação da NF de empenho" readonly="True"/>
+                                    <newline/>
+                                    <field name="compra_pedido" string="Pedido" readonly="True"/>
+                                    <newline/>
+                                    <field name="compra_contrato" string="Contrato" readonly="True"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="outras" string="Outras informações">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <field name="finalidade_nfe" colspan="2" string="Finalidade" readonly="True"/>
+                                    <field name="tipo_emissao_nfe" colspan="2" string="Tipo de emissão" readonly="True"/>
+                                    <newline/>
+                                    <field name="consumidor_final" colspan="2" readonly="True"/>
+                                    <field name="presenca_comprador" colspan="2" readonly="True"/>
+                                    <newline/>
+                                    <field name="ambiente_nfe" colspan="2" string="Ambiente" on_change="1" readonly="True"/>
+                                    <newline/>
+                                    <field name="entrada_saida" colspan="2" readonly="True"/>
+                                    <field name="regime_tributario" colspan="2" readonly="True"/>
+                                    <newline/>
+                                    <field name="natureza_operacao_id" colspan="4" required="1" options="{'no_create': True, 'no_open': True}" on_change="1" can_create="true" can_write="true" readonly="True"/>
+                                    <newline/>
+                                    <separator string="Informações complementares" colspan="4"/>
+                                    <field name="infcomplementar" colspan="4" nolabel="1" readonly="True"/>
+                                    <separator string="Informações adicionais de interesse do fisco" colspan="4"/>
+                                    <field name="infadfisco" colspan="4" nolabel="1" readonly="True"/>
+                                    <newline/>
+                                    <separator string="Documentos Referenciados" colspan="4"/>
+                                    <field name="documento_referenciado_ids" nolabel="1" colspan="4" readonly="True"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="financeiro" string="Financeiro">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <field name="ind_forma_pagamento" required="1" colspan="4" readonly="True"/>
+                                    <newline/>
+                                    <field name="condicao_pagamento_id" colspan="4" context="{'valor': vr_fatura}" domain="[('forma_pagamento', '!=', False)]" on_change="1" can_create="true" can_write="true" readonly="True"/>
+                                    <separator name="vencimentos" string="Vencimentos" colspan="4"/>
+                                    <field name="duplicata_ids" colspan="4" nolabel="1" on_change="1" readonly="True"/>
+                                    <newline/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_item_ajuste_recebimento_form" >
+        <field name="name">sped.documento.item.ajuste.recebimento.form</field>
+        <field name="model">sped.documento.item</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="Item do documento">
+                <field name="documento_id" required="0" invisible="1" readonly="True"/>
+                <field name="regime_tributario" invisible="1" readonly="True"/>
+                <field name="modelo" invisible="1" readonly="True"/>
+                <field name="emissao" invisible="1" readonly="True"/>
+                <field name="entrada_saida" invisible="1" readonly="True"/>
+                <field name="contribuinte" invisible="1" readonly="True"/>
+                <field name="consumidor_final" invisible="1" readonly="True"/>
+                <field name="currency_id" invisible="1" readonly="True"/>
+                <field name="currency_aliquota_id" invisible="1" readonly="True"/>
+                <field name="currency_unitario_id" invisible="1" readonly="True"/>
+                <field name="currency_peso_id" invisible="1" readonly="True"/>
+                <field name="currency_unidade_id" invisible="1" readonly="True"/>
+                <field name="compoe_total" invisible="1" readonly="True"/>
+                <field name="movimentacao_fisica" invisible="1" readonly="True"/>
+                <field name="quantidade_tributacao" invisible="1" readonly="True"/>
+                <field name="partilha" invisible="1" readonly="True"/>
+                <field name="al_bc_icms_proprio_partilha" invisible="1" readonly="True"/>
+                <field name="repasse" invisible="1" readonly="True"/>
+                <field name="md_icms_st_retido" invisible="1" readonly="True"/>
+                <field name="pr_icms_st_retido" invisible="1" readonly="True"/>
+                <field name="rd_icms_st_retido" invisible="1" readonly="True"/>
+                <field name="bc_icms_st_retido" invisible="1" readonly="True"/>
+                <field name="al_icms_st_retido" invisible="1" readonly="True"/>
+                <field name="vr_icms_st_retido" invisible="1" readonly="True"/>
+                <field name="apuracao_ipi" invisible="1" readonly="True"/>
+                <field name="inss_retido" invisible="1" readonly="True"/>
+                <field name="bc_inss_retido" invisible="1" readonly="True"/>
+                <field name="al_inss_retido" invisible="1" readonly="True"/>
+                <field name="vr_inss_retido" invisible="1" readonly="True"/>
+                <field name="unidade_id" options="{'no_open': True, 'no_create': True}" invisible="1" readonly="True"/>
+                <field name="vr_nf" string="Item na NF" invisible="1" readonly="True"/>
+                <field name="vr_produtos" string="Valor do item" invisible="1" readonly="True"/>
+                <field name="vr_fatura" string="Item na fatura" invisible="1" readonly="True"/>
+                <field name="cfop_posicao" invisible="1" readonly="True"/>
+                <field name="cfop_eh_venda" invisible="1" readonly="True"/>
+                <field name="cfop_eh_devolucao_compra" invisible="1" readonly="True"/>
+                <field name="cfop_eh_retorno_saida" invisible="1" readonly="True"/>
+                <field name="vr_operacao" colspan="2" string="Operação" invisible="1" readonly="True"/>
+                <field name="unidade_tributacao_id" string="Unidade" options="{'no_open': True, 'no_create': True}" invisible="1" readonly="True"/>
+                <field name="vr_produtos_tributacao" string="Valor do item" invisible="1" readonly="True"/>
+                <field name="vr_operacao_tributacao" string="Operação" invisible="1" readonly="True"/>
+                <field name="vr_unitario_custo_comercial" invisible="1" readonly="True"/>
+                <field name="vr_custo_comercial" invisible="1" readonly="True"/>
+
+                <group colspan="4" col="4">
+                    <field name="produto_id" colspan="4"
+                           context="{'form_view_ref': (modelo != 'SE' and 'l10n_br_base.sped_produto_produto_form' or 'l10n_br_base.sped_produto_servico_form')}"
+                    attrs="{'readonly': [('produto_id', '!=', False)]}"/>
+                    <newline />
+                    <field name="produto_nome" colspan="4" string="Descrição alternativa" readonly="True"/>
+                    <newline />
+                    <field name="cfop_original_id" string="CFOP NF-e" readonly="True"/>
+                    <newline />
+                    <field name="quantidade" readonly="True"/>
+                    <field name="unidade_readonly_id" options="{'no_open': True, 'no_create': True}" invisible="1" readonly="True"/>
+                    <newline />
+                    <field name="vr_unitario" readonly="True"/>
+                    <field name="vr_nf_readonly" string="Item na NF" readonly="True"/>
+                    <newline />
+                    <field name="vr_produtos_readonly" string="Valor do item" readonly="True"/>
+                    <field name="vr_fatura_readonly" string="Item na fatura" readonly="True"/>
+                    <newline />
+                </group>
+                <h2>Dados de entrada</h2>
+                <h3 class="oe_slogan" style="color:#875A7B;">
+                    <label for="quantidade_tributacao" class="oe_inline" string="Quantidade"/>
+                    <field name="quantidade_tributacao" class="oe_inline"/>
+                    <label for="unidade_tributacao_id" class="oe_inline" string="Unidade"/>
+                    <field name="unidade_tributacao_id" class="oe_inline"/>
+                    <label for="cfop_id" class="oe_inline" string="CFOP Entrada"/>
+                    <field name="cfop_id" class="oe_inline"/>
+                </h3>
+                <notebook colspan="4">
+                    <page string="Valores">
+                        <group colspan="4" col="4">
+                            <group colspan="2" col="2" string="Valores principais">
+                                <newline />
+                                <field name="vr_frete" colspan="2" string="Frete" readonly="True"/>
+                                <newline />
+                                <field name="vr_seguro" colspan="2" string="Seguro" readonly="True"/>
+                                <newline />
+                                <field name="vr_outras" colspan="2" string="Outras" readonly="True"/>
+                                <newline />
+                                <field name="vr_desconto" colspan="2" string="Desconto" readonly="True"/>
+                                <newline />
+                                <field name="vr_operacao_readonly" colspan="2" string="Operação" readonly="True"/>
+                            </group>
+                            <field name="exibe_tributacao" invisible="1" readonly="True"/>
+                            <group colspan="2" col="2" string="Valores para tributação">
+                                <field name="fator_conversao_unidade_tributacao" string="Fator de conversão" readonly="True"/>
+                                <newline />
+                                <field name="quantidade_tributacao" string="Quantidade" readonly="True"/>
+                                <newline />
+                                <field name="vr_unitario_tributacao" string="Valor unitário" readonly="True"/>
+                                <field name="vr_produtos_tributacao_readonly" string="Valor do item" readonly="True"/>
+                                <newline />
+                                <field name="vr_operacao_tributacao_readonly" string="Operação" readonly="True"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Impostos">
+                        <notebook>
+                            <page string="Imposto de importação">
+                                <group string="Imposto de importação">
+                                    <field name="bc_ii" string="Base de cáculo" readonly="True"/>
+                                    <newline />
+                                    <field name="vr_ii" string="Valor" readonly="True"/>
+                                    <newline />
+                                    <field name="vr_despesas_aduaneiras" string="Despesas aduaneiras" readonly="True"/>
+                                    <newline />
+                                    <field name="vr_iof" string="IOF" readonly="True"/>
+                                    <newline />
+                                    <field name="numero_fci" readonly="True"/>
+                                    <newline />
+                                </group>
+                                <newline />
+                                <group colspan="4">
+                                    <separator string="Declaração de importação" colspan="4" />
+                                    <field name="declaracao_ids" colspan="4" nolabel="1" readonly="True"/>
+                                </group>
+                            </page>
+                            <page string="ICMS">
+                                <group colspan="4" col="4">
+                                    <group colspan="4">
+                                        <field name="org_icms" readonly="True"/>
+                                        <newline />
+                                        <field name="cst_icms" string="CST" readonly="True"/>
+                                        <newline />
+                                        <field name="cst_icms_sn" string="CSOSN" readonly="True"/>
+                                    </group>
+                                    <group string="Crédito de ICMS SIMPLES" colspan="2">
+                                        <newline />
+                                        <field name="al_icms_sn" string="Alíquota" readonly="True"/>
+                                        <newline />
+                                        <field name="rd_icms_sn" string="% de redução da alíquota" readonly="True"/>
+                                        <newline />
+                                        <field name="vr_icms_sn" string="Valor" readonly="True"/>
+                                        <newline />
+                                    </group>
+                                    <newline />
+                                    <field name="calcula_difal" invisible="1" readonly="True"/>
+                                    <group string="ICMS" colspan="2">
+                                        <field name="md_icms_proprio" string="Modalidade" readonly="True"/>
+                                        <newline />
+                                        <field name="pr_icms_proprio" string="Parâmetro" readonly="True"/>
+                                        <newline />
+                                        <field name="rd_icms_proprio" string="% redução BC" readonly="True"/>
+                                        <newline />
+                                        <newline />
+                                        <field name="bc_icms_proprio" string="Base de cálculo" readonly="True"/>
+                                        <newline />
+                                        <field name="al_icms_proprio" string="Alíquota" readonly="True"/>
+                                        <newline />
+                                        <field name="vr_icms_proprio" string="Valor" readonly="True"/>
+                                        <newline />
+                                        <field name="motivo_icms_desonerado" string="Motivo da desoneração" readonly="True"/>
+                                        <newline />
+                                        <field name="vr_icms_desonerado" string="Valor desonerado" readonly="True"/>
+                                        <newline />
+                                        <separator string="Diferencial de alíquota" colspan="2" />
+                                        <newline />
+                                        <field name="al_interna_destino" invisible="1" readonly="True"/>
+                                        <field name="al_difal" string="Alíquota DIFAL" readonly="True"/>
+                                        <newline />
+                                        <field name="vr_difal" string="Valor DIFAL" readonly="True"/>
+                                        <newline />
+                                        <field name="al_partilha_estado_destino" string="Partilha" readonly="True"/>
+                                        <newline />
+                                        <field name="vr_icms_estado_origem" string="ICMS origem" readonly="True"/>
+                                        <newline />
+                                        <field name="vr_icms_estado_destino" string="ICMS destino" readonly="True"/>
+                                        <newline />
+                                        <separator string="Fundo de combate à pobreza" colspan="2" />
+                                        <newline />
+                                        <field name="al_fcp" string="Alíquota FCP" readonly="True"/>
+                                        <newline />
+                                        <field name="vr_fcp" string="Valor FCP" readonly="True"/>
+                                        <newline />
+                                    </group>
+                                    <group string="ICMS ST" colspan="2">
+                                        <field name="md_icms_st" string="Modalidade" readonly="True"/>
+                                        <newline />
+                                        <field name="pr_icms_st" string="Parâmetro" readonly="True"/>
+                                        <newline />
+                                        <field name="rd_icms_st" string="% redução BC" readonly="True"/>
+                                        <newline />
+                                        <newline />
+                                        <field name="bc_icms_st" string="Base de cálculo" readonly="True"/>
+                                        <newline />
+                                        <field name="al_icms_st" string="Alíquota" readonly="True"/>
+                                        <newline />
+                                        <field name="vr_icms_st" string="Valor" readonly="True"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="IPI" attrs="{'invisible': [(
+                                'cfop_eh_devolucao_compra', '=', False), ('cfop_eh_retorno_saida', '=',  False), '|', '&amp;', ('regime_tributario', '=', '1'), ('cst_icms_sn', '!=', '900'), ('modelo', 'in', ('SE', 'RL'))]}">
+                                <group colspan="4" col="4">
+                                    <group colspan="4">
+                                        <field name="cst_ipi" invisible="1" readonly="True"/>
+                                        <field name="cst_ipi_entrada" colspan="2" string="CST" readonly="True"/>
+                                        <field name="cst_ipi_saida" colspan="2" string="CST" readonly="True"/>
+                                        <newline />
+                                        <field name="enquadramento_ipi" string="Enquadramento legal" readonly="True"/>
+                                    </group>
+                                    <group string="IPI" colspan="2">
+                                        <field name="md_ipi" string="Modalidade" readonly="True"/>
+                                        <newline />
+                                        <field name="bc_ipi" string="Base de cálculo" readonly="True"/>
+                                        <newline />
+                                        <field name="al_ipi" string="Alíquota" readonly="True"/>
+                                        <newline />
+                                        <field name="vr_ipi" string="Valor" readonly="True"/>
+                                    </group>
+                                    <group colspan="2">
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="ISS">
+                                <group string="ISS" colspan="2">
+                                    <field name="bc_iss" readonly="True"/>
+                                    <newline />
+                                    <field name="al_iss" readonly="True"/>
+                                    <newline />
+                                    <field name="vr_iss" readonly="True"/>
+                                    <newline />
+                                </group>
+                            </page>
+                            <page string="PIS-COFINS">
+                                <group colspan="4" col="4">
+                                    <group colspan="4">
+                                        <field name="al_pis_cofins_id" colspan="2" options="{'no_create': True}" string="Alíquota e CST" readonly="True"/>
+                                        <newline />
+                                        <field name="codigo_natureza_receita_pis_cofins" readonly="True"/>
+                                    </group>
+                                    <group string="PIS" colspan="2">
+                                        <field name="cst_pis" invisible="1" readonly="True"/>
+                                        <field name="cst_pis_entrada" colspan="2" string="CST" readonly="True"/>
+                                        <field name="cst_pis_saida" colspan="2" string="CST" readonly="True"/>
+                                        <newline />
+                                        <field name="md_pis_proprio" string="Modalidade" readonly="True"/>
+                                        <newline />
+                                        <field name="bc_pis_proprio" string="Base de cálculo" readonly="True"/>
+                                        <newline />
+                                        <field name="al_pis_proprio" string="Alíquota" readonly="True"/>
+                                        <newline />
+                                        <field name="vr_pis_proprio" string="Valor" readonly="True"/>
+                                        <newline />
+                                    </group>
+                                    <group string="COFINS" colspan="2">
+                                        <field name="cst_cofins" invisible="1" readonly="True"/>
+                                        <field name="cst_cofins_entrada" colspan="2" string="CST" readonly="True"/>
+                                        <field name="cst_cofins_saida" colspan="2" string="CST" readonly="True"/>
+                                        <newline />
+                                        <field name="md_cofins_proprio" string="Modalidade" readonly="True"/>
+                                        <newline />
+                                        <field name="bc_cofins_proprio" string="Base de cálculo" readonly="True"/>
+                                        <newline />
+                                        <field name="al_cofins_proprio" string="Alíquota" readonly="True"/>
+                                        <newline />
+                                        <field name="vr_cofins_proprio" string="Valor" readonly="True"/>
+                                        <newline />
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="SIMPLES">
+                                <group string="SIMPLES Nacional">
+                                    <field name="al_simples" readonly="True"/>
+                                    <newline />
+                                    <field name="vr_simples" readonly="True"/>
+                                    <newline />
+                                </group>
+                            </page>
+                            <page string="IBPT" >
+                                <group string="Valor aproximado dos tributos">
+                                    <field name="al_ibpt" readonly="True"/>
+                                    <newline />
+                                    <field name="vr_ibpt" readonly="True"/>
+                                    <newline />
+                                </group>
+                            </page>
+                        </notebook>
+                    </page>
+                    <page string="Informações adicionais">
+                        <field name="infcomplementar" colspan="4" readonly="True"/>
+                        <newline/>
+                        <group string="B2B" colspan="4">
+                            <field name="numero_pedido" readonly="True"/>
+                            <field name="numero_item_pedido" readonly="True"/>
+                        </group>
+                    </page>
+                    <page name='volume' string="Volume e rastreabilidade">
+                        <group colspan="4" col="4">
+                            <group colspan="2" string="Preenchimento automático dos volumes">
+                                <field name="peso_bruto_unitario" readonly="True"/>
+                                <field name="peso_bruto_readonly" readonly="True"/>
+                                <field name="peso_bruto" invisible="1" readonly="True"/>
+                                <newline />
+                                <field name="peso_liquido_unitario" readonly="True"/>
+                                <field name="peso_liquido_readonly" readonly="True"/>
+                                <field name="peso_liquido" invisible="1" readonly="True"/>
+                                <newline />
+                                <field name="especie" readonly="True"/>
+                                <field name="marca" readonly="True"/>
+                                <newline />
+                                <field name="fator_quantidade_especie" readonly="True"/>
+                                <field name="quantidade_especie_readonly" readonly="True"/>
+                                <field name="quantidade_especie" invisible="1" readonly="True"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Rastreabilidade">
+                        <group colspan="4" col="4">
+                            <group colspan="4" string="Restreabilidade">
+                                <field name="rastreabilidade_ids" nolabel="1" readonly="True"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Custo">
+                        <group colspan="4" col="4">
+                            <group colspan="2" string="Custo comercial">
+                                <field name="vr_unitario_custo_comercial_readonly" readonly="True"/>
+                                <newline />
+                                <field name="vr_custo_comercial_readonly" readonly="True"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page name="suporte" string="Suporte">
+                        <group col="4">
+                            <separator string="Configuração da emissão" colspan="4" />
+                            <field name="protocolo_id" colspan="4" readonly="True"/>
+                            <field name="operacao_item_id" colspan="4" readonly="True"/>
+                            <separator string="Configuração dos cálculos" colspan="4" />
+                            <field name="compoe_total" readonly="True"/>
+                            <newline />
+                            <field name="bc_icms_proprio_com_ipi" readonly="True"/>
+                            <newline />
+                            <field name="bc_icms_st_com_ipi" readonly="True"/>
+                            <separator string="Configuração da apuração" colspan="4" />
+                            <field name="movimentacao_fisica" readonly="True"/>
+                            <newline />
+                        </group>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_documento_item_ajuste_recebimento_tree">
+        <field name="name">sped.documento.item.ajuste.recebimento.tree</field>
+        <field name="model">sped.documento.item</field>
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <tree string="Itens do documento">
+                <field name="produto_codigo"/>
+                <field name="produto_nome"/>
+                <field name="quantidade"/>
+                <field name="vr_unitario"/>
+                <field name="vr_produtos" sum="vr_produtos"/>
+                <field name="produto_codigo_barras" string="EAN"/>
+                <field name="vr_nf"/>
+                <field name="cfop_original_id" string="CFOP NF-e"/>
+                <field name="cfop_id"/>
+            </tree>
+        </field>
+    </record>
+            
+</odoo>
