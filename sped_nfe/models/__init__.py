@@ -22,6 +22,7 @@ from . import sped_documento_carta_correcao
 from . import sped_manifestacao_destinatario
 from . import sped_consulta_dfe
 from . import sped_importa_nfe
+from . import sped_inutilizacao_documento
 from . import sped_monta_anexo
 
 #

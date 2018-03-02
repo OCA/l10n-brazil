@@ -7,8 +7,12 @@
 
 from __future__ import division, print_function, unicode_literals
 
-import logging
 
+import logging
+import base64
+from StringIO import StringIO
+import qrcode
+from lxml import etree
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models
 from odoo.addons.l10n_br_base.constante_tributaria import (
@@ -34,9 +38,10 @@ _logger = logging.getLogger(__name__)
 
 try:
     from pybrasil.inscricao import limpa_formatacao
+    from pybrasil.data import UTC
     from pybrasil.valor.decimal import Decimal as D
 
-    from satcomum.ersat import ChaveCFeSAT
+    from satcomum.ersat import ChaveCFeSAT, dados_qrcode
     from satcfe.entidades import (
         CFeVenda,
         Emitente,
@@ -94,6 +99,58 @@ class SpedDocumento(models.Model):
                 pagamentos_validados = False
             record.pagamento_autorizado_cfe = pagamentos_validados
 
+    @api.depends('chave', 'arquivo_xml_autorizacao_id')
+    def _compute_cfe_image(self):
+        for record in self:
+            if not record.modelo == MODELO_FISCAL_CFE:
+                continue
+            if record.chave:
+                report = self.env['report']
+                record.cfe_code128 = base64.b64encode(report.barcode(
+                    'Code128',
+                    record.chave,
+                    width=600,
+                    height=40,
+                    humanreadable=False,
+                ))
+            if record.arquivo_xml_autorizacao_id:
+                datas = record.arquivo_xml_autorizacao_id.datas.decode('base64')
+                root = etree.fromstring(datas)
+                tree = etree.ElementTree(root)
+                image = qrcode.make(dados_qrcode(tree))
+                buffer = StringIO()
+                image.save(buffer, format="png")
+                record.cfe_qrcode = base64.b64encode(buffer.getvalue())
+
+    @api.depends('chave_cancelamento',
+                 'arquivo_xml_autorizacao_cancelamento_id')
+    def _compute_cfe_cancel_image(self):
+        for record in self:
+            if not record.modelo == MODELO_FISCAL_CFE:
+                continue
+            if record.chave_cancelamento:
+                record.num_cfe_cancelamento = int(
+                    record.chave_cancelamento[31:37])
+                report = self.env['report']
+                record.cfe_cancelamento_code128 = base64.b64encode(
+                    report.barcode(
+                        'Code128',
+                        record.chave_cancelamento,
+                        width=600,
+                        height=40,
+                        humanreadable=False,
+                    ))
+            if record.arquivo_xml_autorizacao_cancelamento_id:
+                datas = record.arquivo_xml_autorizacao_cancelamento_id.datas.\
+                    decode('base64')
+                root = etree.fromstring(datas)
+                tree = etree.ElementTree(root)
+                image = qrcode.make(dados_qrcode(tree))
+                buffer = StringIO()
+                image.save(buffer, format="png")
+                record.cfe_cancelamento_qrcode = base64.b64encode(
+                    buffer.getvalue())
+
     configuracoes_pdv = fields.Many2one(
         string=u"Configurações PDV",
         comodel_name="pdv.config",
@@ -122,6 +179,33 @@ class SpedDocumento(models.Model):
     )
 
     id_fila_validador = fields.Char(string=u'ID Fila Validador')
+
+    cfe_code128 = fields.Binary(
+        string='Imagem cfe code 128',
+        compute='_compute_cfe_image',
+    )
+
+    cfe_qrcode = fields.Binary(
+        string='Imagem cfe QRCODE',
+        compute='_compute_cfe_image',
+    )
+
+    cfe_cancelamento_code128 = fields.Binary(
+        string='Cfe code 128 cancelamento',
+        compute='_compute_cfe_cancel_image',
+    )
+
+    cfe_cancelamento_qrcode = fields.Binary(
+        string='Cfe QRCODE cancelamento',
+        compute='_compute_cfe_cancel_image',
+    )
+
+    num_cfe_cancelamento = fields.Integer(
+        string='Número',
+        index=True,
+        copy=False,
+        compute='_compute_cfe_cancel_image',
+    )
 
     numero_identificador_sessao = fields.Char(
         string=u'Numero identificador sessao'
@@ -389,21 +473,22 @@ class SpedDocumento(models.Model):
         return cfe_venda
 
     def _monta_cfe_informacoes_adicionais(self):
-        infcomplementar = self.infcomplementar or ''
 
         dados_informacoes_venda = InformacoesAdicionais()
+        dados_informacoes_venda.infCpl = self._monta_informacoes_adicionais()
+        dados_informacoes_venda.validar()
+
+        return dados_informacoes_venda
+
+    def _monta_informacoes_adicionais(self):
+        infcomplementar = self.infcomplementar or ''
 
         dados_infcomplementar = {
             'nf': self,
         }
 
-        if infcomplementar:
-            template = TemplateBrasil(infcomplementar.encode('utf-8'))
-            info_complementar = template.render(**dados_infcomplementar)
-            dados_informacoes_venda.infCpl = info_complementar
-            dados_informacoes_venda.validar()
-
-        return dados_informacoes_venda
+        return self._renderizar_informacoes_template(
+            dados_infcomplementar, infcomplementar)
 
     def _monta_cfe_identificacao(self):
         # FIXME: Buscar dados do cadastro da empresa / cadastro do caixa
@@ -413,7 +498,7 @@ class SpedDocumento(models.Model):
         return cnpj_software_house, assinatura, numero_caixa
 
     def _monta_cfe_emitente(self):
-        ambiente = int(self.ambiente_nfe or AMBIENTE_NFE_HOMOLOGACAO)
+        ambiente = self.ambiente_nfe or AMBIENTE_NFE_HOMOLOGACAO
 
         if ambiente == AMBIENTE_NFE_HOMOLOGACAO:
             cnpj = self.configuracoes_pdv.cnpjsh
@@ -595,21 +680,21 @@ class SpedDocumento(models.Model):
                 self.grava_cfe_cancelamento(self.chave, cancelamento)
                 self.grava_cfe_autorizacao_cancelamento(
                     self.chave, processo.xml())
-                self.chave_cancelamento = processo.chaveConsulta
-                impressao = self.configuracoes_pdv.impressora
+                self.chave_cancelamento = processo.chaveConsulta[3:]
 
-                if impressao:
-                    processador.imprimir_cupom_cancelamento(
-                        self.arquivo_xml_autorizacao_id.datas,
-                        processo.arquivoCFeBase64,
-                        impressao.modelo,
-                        impressao.conexao
-                    )
+     #           dh_cancelamento = UTC.normalize(processo.timeStamp)
+     #           self.data_hora_cancelamento = dh_cancelamento
+
+                # if impressao:
+                #     processador.imprimir_cupom_cancelamento(
+                #         self.arquivo_xml_autorizacao_id.datas,
+                #         processo.arquivoCFeBase64,
+                #         impressao.modelo,
+                #         impressao.conexao
+                #     )
 
                 # data_cancelamento = retevento.infEvento.dhRegEvento.valor
                 # data_cancelamento = UTC.normalize(data_cancelamento)
-                #
-                # self.data_hora_cancelamento = data_cancelamento
                 # self.protocolo_cancelamento = \
                 #     procevento.retEvento.infEvento.nProt.valor
 
@@ -628,6 +713,7 @@ class SpedDocumento(models.Model):
                     self.situacao_nfe = SITUACAO_NFE_CANCELADA
 
                 self.executa_depois_cancelar()
+                return self.imprimir_documento()
 
         except (ErroRespostaSATInvalida, ExcecaoRespostaSAT) as resposta:
             mensagem = 'Erro no cancelamento'
@@ -732,25 +818,62 @@ class SpedDocumento(models.Model):
 
     @api.multi
     def imprimir_documento(self):
+        """ Print the invoice and mark it as sent, so that we can see more
+            easily the next step of the workflow
+        """
         self.ensure_one()
-        # TODO: Reimprimir cupom de cancelamento caso houver com o normal.
         if not self.modelo == MODELO_FISCAL_CFE:
             return super(SpedDocumento, self).imprimir_documento()
-        impressao = self.configuracoes_pdv.impressora
-        if impressao:
-            try:
-                cliente = self.processador_cfe()
-                resposta = self.arquivo_xml_autorizacao_id.datas
-                cliente.imprimir_cupom_venda(
-                    resposta,
-                    impressao.modelo,
-                    impressao.conexao,
-                    self.configuracoes_pdv.site_consulta_qrcode.encode("utf-8")
-                )
-            except Exception as e:
-                _logger.error("Erro ao imprimir o cupom")
-        else:
-            raise Warning("Não existem configurações para impressão no PDV!")
+        return self.env['report'].get_action(self, 'report_sped_documento_cfe')
+
+    # @api.multi
+    # def imprimir_documento(self):
+    #     # TODO: Reimprimir cupom de cancelamento caso houver com o normal.
+    #     if not self.modelo == MODELO_FISCAL_CFE:
+    #         return super(SpedDocumento, self).imprimir_documento()
+    #     self.ensure_one()
+    #     impressao = self.configuracoes_pdv.impressora
+    #     if impressao:
+    #         try:
+    #             cliente = self.processador_cfe()
+    #             resposta = self.arquivo_xml_autorizacao_id.datas
+    #             cliente.imprimir_cupom_venda(
+    #                 resposta,
+    #                 impressao.modelo,
+    #                 impressao.conexao,
+    #                 self.configuracoes_pdv.site_consulta_qrcode.encode("utf-8")
+    #             )
+    #         except Exception as e:
+    #             _logger.error("Erro ao imprimir o cupom")
+    #     else:
+    #         raise Warning("Não existem configurações para impressão no PDV!")
+
+    def gera_pdf(self):
+        super(SpedDocumento, self).gera_pdf()
+
+        for record in self:
+            if record.modelo not in (MODELO_FISCAL_CFE):
+                return
+
+            if record.emissao != TIPO_EMISSAO_PROPRIA:
+                return
+
+        context = self.env.context.copy()
+        reportname = 'report_sped_documento_cfe'
+        action_py3o_report = self.env.ref('sped_cfe.action_report_sped_documento_cfe')
+
+        if not action_py3o_report:
+            raise UserError(
+                'Py3o action report not found for report_name')
+
+        context['report_name'] = reportname
+
+        py3o_report = self.env['py3o.report'].create({
+            'ir_actions_report_xml_id': action_py3o_report.id
+        }).with_context(context)
+
+        res, filetype = py3o_report.create_report(self.ids, {})
+        return res
 
     @api.multi
     def _verificar_formas_pagamento(self):

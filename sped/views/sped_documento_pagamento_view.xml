@@ -22,9 +22,6 @@
                     <group>
                         <field name="valor" required="1"/>
                     </group>
-                    <group>
-                        <field name="troco"/>
-                    </group>
                     <group colspan="4" col="4" name="condicao_pagamento">
                         <field name="condicao_pagamento_id" context="{'valor': valor}" colspan="4"/>
                     </group>
@@ -53,7 +50,6 @@
                 <field name="sequence" widget="handle"/>
                 <field name="condicao_pagamento_id" />
                 <field name="valor" sum="valor" />
-                <field name="troco" sum="troco" />
             </tree>
         </field>
     </record>
