@@ -188,25 +188,16 @@ class AccountPaymentTerm(SpedBase, models.Model):
         string='Integração do cartão',
         default=INTEGRACAO_CARTAO_NAO_INTEGRADO,
     )
-    participante_id = fields.Many2one(
-        comodel_name='sped.participante',
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
         string='Operadora do cartão',
         ondelete='restrict',
     )
 
     @api.depends('meses', 'com_entrada')
     def _onchange_meses(self):
-        res = {}
-        valores = {}
-        res['value'] = valores
-
-        #
-        # Não pode ter entrada sendo somente 1 parcela
-        #
-        if meses <= 1:
-            valores['com_entrada'] = False
-
-        return res
+        if self.meses <= 1:
+            self.com_entrada = False
 
     def _verifica_dia_util(self, data):
         self.ensure_one()
