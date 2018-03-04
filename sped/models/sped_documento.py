@@ -1755,4 +1755,4 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             return infcomplementar
         except Exception as e:
             raise UserError(
-                _(""" Erro ao gerar informação adicional do item"""))
+                _(""" Erro ao gerar informação adicional do documento"""))
