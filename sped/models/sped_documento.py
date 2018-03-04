@@ -1734,34 +1734,6 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
 
         # TODO: Retornar usuário para os documentos criados
 
-    @api.depends('operacao_id')
-    def _compute_documento_subsequente_ids(self):
-        for documento in self:
-            documento.documento_subsequente_ids = \
-                self.env['sped.documento.subsequente'].search([
-                    ('documento_origem_id', '=', documento.id)
-                ])
-            if not documento.operacao_id:
-                continue
-            if documento.operacao_id.mapped('operacao_subsequente_ids') == \
-                    documento.documento_subsequente_ids.mapped(
-                        'operacao_subsequente_id'):
-                continue
-            self.env['sped.documento.subsequente'].search([
-                ('documento_origem_id', '=', documento.id)
-            ]).unlink()
-            for subsequente_id in documento.operacao_subsequente_ids:
-                self.env['sped.documento.subsequente'].create({
-                    'documento_origem_id': documento.id,
-                    'operacao_subsequente_id': subsequente_id.id,
-                    'sped_operacao_id':
-                        subsequente_id.operacao_subsequente_id.id,
-                })
-                documento.documento_subsequente_ids = \
-                    self.env['sped.documento.subsequente'].search([
-                        ('documento_origem_id', '=', documento.id)
-                    ])
-
     @api.depends('documento_subsequente_ids.documento_subsequente_id')
     def _compute_documentos_subsequentes_gerados(self):
         for documento in self:
