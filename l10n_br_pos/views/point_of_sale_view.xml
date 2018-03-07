@@ -133,6 +133,7 @@
         </field>
         <field name="simplified_invoice_type" position="after">
             <field name="lim_data_alteracao"/>
+            <field name="crm_ativo"/>
         </field>
         <group string="Hardware Proxy" position="after" >
             <group string="Configuraçoes SAT" attrs="{'invisible': [('iface_sat_via_proxy', '=', False)]}">
