@@ -131,6 +131,9 @@
         <field name="iface_print_via_proxy" position="after">
             <field name="iface_sat_via_proxy"/>
         </field>
+        <field name="simplified_invoice_type" position="after">
+            <field name="lim_data_alteracao"/>
+        </field>
         <group string="Hardware Proxy" position="after" >
             <group string="Configuraçoes SAT" attrs="{'invisible': [('iface_sat_via_proxy', '=', False)]}">
                 <group>
