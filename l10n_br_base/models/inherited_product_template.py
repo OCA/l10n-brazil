@@ -324,11 +324,17 @@ class ProductTemplate(SpedBase, models.Model):
 
     @api.model
     def create(self, vals):
-        partner = super(ProductTemplate, self).create(vals)
-        if "create_sped" not in self._context:
-            partner.with_context(
-                create_sped=True).create_sped_id()
-        return partner
+
+        # Setar o campo obrigatorio do core
+        if 'nome' in vals:
+            vals.update(name=vals.get('nome'))
+
+        product_template_id = super(ProductTemplate, self).create(vals)
+
+        # if "create_sped" not in self._context:
+        #     partner.with_context(create_sped=True).create_sped_id()
+
+        return product_template_id
 
     @api.multi
     def create_sped_id(self):
