@@ -59,6 +59,11 @@ class PosConfig(models.Model):
         default=3,
     )
 
+    crm_ativo = fields.Boolean(
+        string=u'CRM ativo?',
+        default=False,
+    )
+
     cpf_nota = fields.Boolean(
         string=u'Inserir CPF na nota',
         default=False
