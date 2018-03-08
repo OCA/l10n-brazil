@@ -13,8 +13,9 @@ from odoo import api, fields, models
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
-    sped_produto_id = fields.Many2one(
+    sped_produto_id = fields.One2many(
         comodel_name='sped.produto',
+        inverse_name='product_id',
         string='Produto',
         ondelete='cascade',
     )
