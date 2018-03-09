@@ -46,8 +46,34 @@ function l10n_br_pos_screens(instance, module) {
                 self.search_client_by_cpf_cnpj($('.busca-cpf-cnpj').val().replace(/[^\d]+/g,''));
             });
 
-        },
+         },
 
+        bind_order_events: function() {
+        var self = this;
+           var order = this.pos.get('selectedOrder');
+               order.unbind('change:client', this.client_change_handler);
+               order.bind('change:client', this.client_change_handler);
+           var lines = order.get('orderLines');
+               lines.unbind();
+               lines.bind('add', function(){
+                        if(lines.length == 1 && this.pos.config.crm_ativo){
+                        self.pos_widget.screen_selector.show_popup('cpf_nota_sat_popup',{
+                            message: _t('Deseja inserir o cpf no cupom fiscal?'),
+                        });
+                        }
+                       this.numpad_state.reset();
+                       this.renderElement(true);
+                   },this);
+               lines.bind('remove', function(line){
+                       this.remove_orderline(line);
+                       this.numpad_state.reset();
+                       this.update_summary();
+                   },this);
+               lines.bind('change', function(line){
+                       this.rerender_orderline(line);
+                       this.update_summary();
+                   },this);
+        },
         active_client: function (self, documento, partner) {
             pos_db = self.pos.db;
             self.old_client = partner;
@@ -455,7 +481,12 @@ function l10n_br_pos_screens(instance, module) {
                             self.pos.get('selectedOrder').set_client(partner);
                             currentOrder = self.pos.get('selectedOrder').attributes;
                             currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
-                            self.pos_widget.payment_screen.validate_order();
+                            if(self.pos.config.crm_ativo && !this.calcula_diferenca_data(partner.data_alteracao)){
+                                var ss = self.pos.pos_widget.screen_selector;
+                                ss.set_current_screen('clientlist');
+                            }
+                            if(!self.pos.config.crm_ativo)
+                                self.pos_widget.payment_screen.validate_order();
                         } else {
                             new_partner = {};
                             new_partner["name"] = cpf;
@@ -482,7 +513,8 @@ function l10n_br_pos_screens(instance, module) {
                                 }).then(function () {
                                     currentOrder = self.pos.get('selectedOrder').attributes;
                                     currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
-                                    self.pos_widget.payment_screen.validate_order();
+                                    if(!self.pos.config.crm_ativo)
+                                        self.pos_widget.payment_screen.validate_order();
                                 });
                             });
                         }
@@ -495,7 +527,12 @@ function l10n_br_pos_screens(instance, module) {
                 } else {
                     currentOrder = self.pos.get('selectedOrder').attributes;
                     currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
-                    self.pos_widget.payment_screen.validate_order();
+                    if(self.pos.config.crm_ativo && !this.calcula_diferenca_data(currentOrder.client.data_alteracao)){
+                        var ss = self.pos.pos_widget.screen_selector;
+                        ss.set_current_screen('clientlist');
+                    }
+                    if(!self.pos.config.crm_ativo)
+                        self.pos_widget.payment_screen.validate_order();
                 }
             } else {
                 alert('O cpf deve ser inserido no campo para que seja transmitido no cupom fiscal.');
@@ -503,17 +540,18 @@ function l10n_br_pos_screens(instance, module) {
         },
 
         calcula_diferenca_data: function(data_alteracao){
-            var today = new Date();
-            var month = parseInt(today.getMonth())+1;
-            var year = today.getFullYear();
-            var year_partner = parseInt(data_alteracao.substring(0,4));
-            var month_partner  = parseInt(data_alteracao.substring(5,7));
-            var lim_data_alteracao = parseInt(this.pos.config.lim_data_alteracao);
-
-            if (year == year_partner && (month_partner + lim_data_alteracao) >= month)
-                return true;
-            else if (year != year_partner && (month_partner + lim_data_alteracao) >= 12+month)
-                return true;
+            if(data_alteracao){
+                var today = new Date();
+                var month = parseInt(today.getMonth())+1;
+                var year = today.getFullYear();
+                var year_partner = parseInt(data_alteracao.substring(0,4));
+                var month_partner  = parseInt(data_alteracao.substring(5,7));
+                var lim_data_alteracao = parseInt(this.pos.config.lim_data_alteracao);
+                if ((year - year_partner) == 0 && (month_partner + lim_data_alteracao) >= month)
+                    return true;
+                else if ((year - year_partner) == 1 && (month_partner + lim_data_alteracao) >= 12+month)
+                    return true;
+            }
             return false;
         },
 
@@ -524,21 +562,22 @@ function l10n_br_pos_screens(instance, module) {
             this.message = options.message || '';
             this.comment = options.comment || '';
             var cliente_cpf = '';
-            var cliente_create_date = '';
-            var cliente_atualizados = false;
             var currentOrder = this.pos.get('selectedOrder').attributes;
             if (currentOrder.client) {
-                cliente_cpf = currentOrder.client.cnpj_cpf;
-                cliente_create_date = currentOrder.client.create_date;
-                cliente_atualizados = currentOrder.client.data_alteracao;
-                if (cliente_atualizados == false)
-                    cliente_atualizados = cliente_create_date;
+                pos_db = self.pos.db;
+                partner = pos_db.get_partner_by_identification(self.pos.partners, currentOrder.client.cnpj_cpf.replace(/[^\d]+/g, ''));
+                this.cpf_nota = partner.cnpj_cpf;
+                this.create_date = partner.create_date.substring(0,7);
+                this.atualizacao = this.calcula_diferenca_data(partner.data_alteracao);
+                this.renderElement();
             }
-            this.cpf_nota = cliente_cpf;
-            this.create_date = cliente_create_date.substring(0,7);
-            this.atualizacao = this.calcula_diferenca_data(cliente_atualizados);
+            else{
+                this.cpf_nota = '';
+                this.renderElement();
+                $('#cliente_label_popup').hide();
+                $('#checkbox_popup').hide();
 
-            this.renderElement();
+            }
 
             this.hotkey_handler = function (event) {
                 if (event.which === 13) {
@@ -549,12 +588,15 @@ function l10n_br_pos_screens(instance, module) {
             $('.busca-cpf-cnpj-popup').on('keyup',this.hotkey_handler);
 
             this.$('.button.sim').click(function(){
+                this.cpf_na_nota = true;
                 self.cpf_cupom_fiscal(currentOrder);
             });
 
             this.$('.button.nao').click(function(){
+                this.cpf_na_nota = false;
                 self.pos_widget.screen_selector.close_popup();
-                self.pos_widget.payment_screen.validate_order();
+                if(!self.pos.config.crm_ativo)
+                    self.pos_widget.payment_screen.validate_order();
             });
         }
     });
@@ -600,7 +642,7 @@ function l10n_br_pos_screens(instance, module) {
             this._super(parent, options);
 
             this.hotkey_handler = function(event){
-                if (self.pos.config.cpf_nota && self.pos.config.crm_ativo) {
+                if (self.pos.config.cpf_nota) {
                     if(event.which === 13){
                         self.validar_cpf_nota();
                         $('.busca-cpf-cnpj-popup').focus();
@@ -619,7 +661,7 @@ function l10n_br_pos_screens(instance, module) {
         validar_cpf_nota: function() {
             var self = this;
             self.pos_widget.screen_selector.show_popup('cpf_nota_sat_popup',{
-                message: _t('Deseja inserir o cpf no cupom fiscal?'),
+                message: _t('Deseja inserir o cpf no cupom fiscal?')
             });
         },
         validate_order: function(options) {
@@ -738,7 +780,10 @@ function l10n_br_pos_screens(instance, module) {
                     name: 'venda_sat',
                     icon: '/point_of_sale/static/src/img/icons/png48/validate.png',
                     click: function () {
-                        self.validar_cpf_nota();
+                        if(self.cpf_na_nota || !self.pos.config.crm_ativo)
+                            self.validar_cpf_nota();
+                        else
+                            self.pos_widget.payment_screen.validate_order();
                     }
                 });
                 this.update_payment_summary();
