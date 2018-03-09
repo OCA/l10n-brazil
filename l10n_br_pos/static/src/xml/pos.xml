@@ -480,8 +480,13 @@
                     <input class='busca-cpf-cnpj-popup' name="busca-cpf-cnpj-popup" placeholder="Insira o CPF/CNPJ" t-att-value="widget.cpf_nota" />
                     <span class='label'>Cliente desde</span>
                     <spam class='busca-create-date-popup' name="busca-create-date-popup"><t t-esc="widget.create_date" /></spam>
-                    <span class='label'>Atualização</span>
-                    <spam class='busca-create-date-popup' name="busca-create-date-popup"><t t-esc="widget.atualizacao" /></spam>
+                    <span class='label'>Atualizado?</span>
+                    <t t-if="widget.atualizacao">
+                       <input type="checkbox" checked="checked" disabled="disabled"/>
+                    </t>
+                    <t t-if="!(widget.atualizacao)">
+                       <input type="checkbox" disabled="disabled"/>
+                    </t>
                 </div>
                 <div class="footer">
                     <div class="button nao">

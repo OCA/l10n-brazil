@@ -504,15 +504,16 @@ function l10n_br_pos_screens(instance, module) {
 
         calcula_diferenca_data: function(data_alteracao){
             var today = new Date();
-            var month = parseInt(today.getMonth());
+            var month = parseInt(today.getMonth())+1;
             var year = today.getFullYear();
             var year_partner = parseInt(data_alteracao.substring(0,4));
             var month_partner  = parseInt(data_alteracao.substring(5,7));
             var lim_data_alteracao = parseInt(this.pos.config.lim_data_alteracao);
 
-            if ((month_partner + lim_data_alteracao) <= month)
+            if (year == year_partner && (month_partner + lim_data_alteracao) >= month)
                 return true;
-
+            else if (year != year_partner && (month_partner + lim_data_alteracao) >= 12+month)
+                return true;
             return false;
         },
 
@@ -599,7 +600,7 @@ function l10n_br_pos_screens(instance, module) {
             this._super(parent, options);
 
             this.hotkey_handler = function(event){
-                if (self.pos.config.cpf_nota) {
+                if (self.pos.config.cpf_nota && self.pos.config.crm_ativo) {
                     if(event.which === 13){
                         self.validar_cpf_nota();
                         $('.busca-cpf-cnpj-popup').focus();
