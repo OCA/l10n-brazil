@@ -351,7 +351,7 @@
         <t t-jquery="div.client-details-left" t-operation="prepend">
             <div class='client-detail'>
                 <span class='label'>CPF:</span>
-                <input class='detail client-cnpj' name='cnpj_cpf' t-att-value='partner.cnpj_cpf' placeholder="CNPJ/CPF"></input>
+                <input class='detail client-cnpj' name='cnpj_cpf' t-att-value='partner.cnpj_cpf' placeholder="CNPJ/CPF"/>
             </div>
             <!--<div class='client-detail'>
                 <span class='label'>IE:</span>
@@ -374,7 +374,7 @@
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-zip)" t-operation="inner">
             <div class='client-detail'>
                 <span class='label'>Codigo Postal</span>
-                <input class='detail client-address-zip' name='zip' t-att-value='partner.zip' placeholder='CEP'></input>
+                <input class='detail client-address-zip' name='zip' t-att-value='partner.zip' placeholder='CEP'/>
             </div>
         </t>
     </t>
@@ -478,6 +478,10 @@
                 <p class="message"><t t-esc=" widget.message" /></p>
                 <div clss="paymentline">
                     <input class='busca-cpf-cnpj-popup' name="busca-cpf-cnpj-popup" placeholder="Insira o CPF/CNPJ" t-att-value="widget.cpf_nota" />
+                    <span class='label'>Cliente desde</span>
+                    <spam class='busca-create-date-popup' name="busca-create-date-popup"><t t-esc="widget.create_date" /></spam>
+                    <span class='label'>Atualização</span>
+                    <spam class='busca-create-date-popup' name="busca-create-date-popup"><t t-esc="widget.atualizacao" /></spam>
                 </div>
                 <div class="footer">
                     <div class="button nao">
