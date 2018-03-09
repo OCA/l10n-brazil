@@ -26,6 +26,7 @@ function l10n_br_pos_screens(instance, module) {
         init: function(parent, options){
             this._super(parent);
             var self = this;
+
         },
         renderElement: function() {
             var self = this;
@@ -33,7 +34,6 @@ function l10n_br_pos_screens(instance, module) {
 
             var partner = null;
             var isSave = null;
-
             this.el.querySelector('.busca-cpf-cnpj').addEventListener('keydown',this.search_handler);
             $('.busca-cpf-cnpj', this.el).keydown(function(e){
                 if(e.which == 13){
@@ -46,7 +46,8 @@ function l10n_br_pos_screens(instance, module) {
                 self.search_client_by_cpf_cnpj($('.busca-cpf-cnpj').val().replace(/[^\d]+/g,''));
             });
 
-         },
+        },
+
         active_client: function (self, documento, partner) {
             pos_db = self.pos.db;
             self.old_client = partner;
@@ -65,6 +66,7 @@ function l10n_br_pos_screens(instance, module) {
                 }
             }
         },
+
         search_client_by_cpf_cnpj: function(documento) {
             var self = this;
 
@@ -268,7 +270,7 @@ function l10n_br_pos_screens(instance, module) {
                     self.pos.get('selectedOrder').set_client(self.new_client);
                     var ss = self.pos.pos_widget.screen_selector;
                     ss.set_current_screen('products');
-//                    self.display_client_details('show',partner);
+//                  self.display_client_details('show',partner);
                 } else {
                     // should never happen, because create_from_ui must return the id of the partner it
                     // has created, and reload_partner() must have loaded the newly created partner.
@@ -499,6 +501,21 @@ function l10n_br_pos_screens(instance, module) {
                 alert('O cpf deve ser inserido no campo para que seja transmitido no cupom fiscal.');
             }
         },
+
+        calcula_diferenca_data: function(data_alteracao){
+            var today = new Date();
+            var month = parseInt(today.getMonth());
+            var year = today.getFullYear();
+            var year_partner = parseInt(data_alteracao.substring(0,4));
+            var month_partner  = parseInt(data_alteracao.substring(5,7));
+            var lim_data_alteracao = parseInt(this.pos.config.lim_data_alteracao);
+
+            if ((month_partner + lim_data_alteracao) <= month)
+                return true;
+
+            return false;
+        },
+
         show: function(options){
             var self = this;
             this._super();
@@ -506,11 +523,20 @@ function l10n_br_pos_screens(instance, module) {
             this.message = options.message || '';
             this.comment = options.comment || '';
             var cliente_cpf = '';
+            var cliente_create_date = '';
+            var cliente_atualizados = false;
             var currentOrder = this.pos.get('selectedOrder').attributes;
             if (currentOrder.client) {
                 cliente_cpf = currentOrder.client.cnpj_cpf;
+                cliente_create_date = currentOrder.client.create_date;
+                cliente_atualizados = currentOrder.client.data_alteracao;
+                if (cliente_atualizados == false)
+                    cliente_atualizados = cliente_create_date;
             }
             this.cpf_nota = cliente_cpf;
+            this.create_date = cliente_create_date.substring(0,7);
+            this.atualizacao = this.calcula_diferenca_data(cliente_atualizados);
+
             this.renderElement();
 
             this.hotkey_handler = function (event) {
@@ -592,7 +618,7 @@ function l10n_br_pos_screens(instance, module) {
         validar_cpf_nota: function() {
             var self = this;
             self.pos_widget.screen_selector.show_popup('cpf_nota_sat_popup',{
-                message: _t('Deseja inserir o cpf no cupom fiscal?')
+                message: _t('Deseja inserir o cpf no cupom fiscal?'),
             });
         },
         validate_order: function(options) {
