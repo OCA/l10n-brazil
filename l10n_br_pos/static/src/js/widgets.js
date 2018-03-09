@@ -94,6 +94,7 @@ function l10n_br_pos_widgets(instance, module){
         build_widgets: function(){
             this._super();
             var self = this;
+
             this.cpf_nota_sat = new module.CPFNaNotaPopupWidget(this,{});
             this.cpf_nota_sat.appendTo(this.$('.screens'));
             this.cpf_nota_sat.hide();
