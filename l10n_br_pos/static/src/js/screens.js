@@ -510,10 +510,11 @@ function l10n_br_pos_screens(instance, module) {
             var month_partner  = parseInt(data_alteracao.substring(5,7));
             var lim_data_alteracao = parseInt(this.pos.config.lim_data_alteracao);
 
-            if (year == year_partner && (month_partner + lim_data_alteracao) >= month)
+            if ((year - year_partner) == 0 && (month_partner + lim_data_alteracao) >= month)
                 return true;
-            else if (year != year_partner && (month_partner + lim_data_alteracao) >= 12+month)
+            else if ((year - year_partner) == 1 && (month_partner + lim_data_alteracao) >= 12+month)
                 return true;
+
             return false;
         },
 
@@ -529,14 +530,8 @@ function l10n_br_pos_screens(instance, module) {
             var currentOrder = this.pos.get('selectedOrder').attributes;
             if (currentOrder.client) {
                 cliente_cpf = currentOrder.client.cnpj_cpf;
-                cliente_create_date = currentOrder.client.create_date;
-                cliente_atualizados = currentOrder.client.data_alteracao;
-                if (cliente_atualizados == false)
-                    cliente_atualizados = cliente_create_date;
             }
             this.cpf_nota = cliente_cpf;
-            this.create_date = cliente_create_date.substring(0,7);
-            this.atualizacao = this.calcula_diferenca_data(cliente_atualizados);
 
             this.renderElement();
 
@@ -564,7 +559,6 @@ function l10n_br_pos_screens(instance, module) {
         renderElement: function() {
             var self = this;
             this._super();
-
             var button = new module.PosOrderListButtonWidget(self,{
                 pos: self.pos,
                 pos_widget : self.pos_widget,
@@ -600,27 +594,32 @@ function l10n_br_pos_screens(instance, module) {
             this._super(parent, options);
 
             this.hotkey_handler = function(event){
-                if (self.pos.config.cpf_nota && self.pos.config.crm_ativo) {
-                    if(event.which === 13){
-                        self.validar_cpf_nota();
-                        $('.busca-cpf-cnpj-popup').focus();
-                    }else if(event.which === 27){
-                        self.back();
-                    }
-                } else {
-                    if(event.which === 13){
-                        self.validate_order();
-                    }else if(event.which === 27){
-                        self.back();
+                if (self.pos.config.crm_ativo)
+                    self.validate_order();
+                else{
+                    if (self.pos.config.cpf_nota) {
+                        if(event.which === 13){
+                            self.validar_cpf_nota();
+                            $('.busca-cpf-cnpj-popup').focus();
+                        }else if(event.which === 27){
+                            self.back();
+                        }
+                    } else {
+                        if(event.which === 13){
+                            self.validate_order();
+                        }else if(event.which === 27){
+                            self.back();
+                        }
                     }
                 }
             };
         },
         validar_cpf_nota: function() {
             var self = this;
-            self.pos_widget.screen_selector.show_popup('cpf_nota_sat_popup',{
-                message: _t('Deseja inserir o cpf no cupom fiscal?'),
-            });
+            if (!self.pos.config.crm_ativo)
+                self.pos_widget.screen_selector.show_popup('cpf_nota_sat_popup',{
+                    message: _t('Deseja inserir o cpf no cupom fiscal?'),
+                });
         },
         validate_order: function(options) {
             this._super();
@@ -780,7 +779,6 @@ function l10n_br_pos_screens(instance, module) {
             this.$('.back').click(function(){
                 self.pos_widget.screen_selector.back();
             });
-
             this.render_list(self.orders.Orders);
             this.$('.client-list-contents').delegate('.cancel_order','click',function(event){
                 var order_id = $(this).parent().parent().data('id');
@@ -803,7 +801,6 @@ function l10n_br_pos_screens(instance, module) {
         },
         get_last_orders: function(){
             var self = this;
-
             var session_id = {'session_id': self.pos.pos_session.id};
             var posOrderModel = new instance.web.Model('pos.order');
             var posOrder = posOrderModel.call('return_orders_from_session', session_id)
@@ -899,6 +896,7 @@ function l10n_br_pos_screens(instance, module) {
         },
         refresh: function() {
             var order = this.pos.get('selectedOrder');
+            alert('testse');
             $('.pos-receipt-container', this.$el).html(QWeb.render('PosTicket',{
                     widget:this,
                     order: order,
