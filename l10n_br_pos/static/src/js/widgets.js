@@ -94,6 +94,10 @@ function l10n_br_pos_widgets(instance, module){
         build_widgets: function(){
             this._super();
             var self = this;
+            this.cpf_nota_sat = new module.CPFNaNotaPopupWidget(this,{});
+            this.cpf_nota_sat.appendTo(this.$('.screens'));
+            this.cpf_nota_sat.hide();
+            this.screen_selector.popup_set['cpf_nota_sat_popup'] = this.cpf_nota_sat;
 
             this.last_orders = new module.PosOrderListWidget(this, {});
             this.last_orders.replace(this.$('.placeholder-PosOrderListWidget'));
@@ -102,10 +106,6 @@ function l10n_br_pos_widgets(instance, module){
             this.posorderlist_screen.appendTo(this.$('.screens'));
             this.posorderlist_screen.hide();
             this.screen_selector.screen_set['posordertlist'] = this.posorderlist_screen;
-            this.cpf_nota_sat = new module.CPFNaNotaPopupWidget(this,{});
-            this.cpf_nota_sat.appendTo(this.$el);
-            this.cpf_nota_sat.hide();
-            this.screen_selector.popup_set['cpf_nota_sat_popup'] = this.cpf_nota_sat;
         },
     });
 
