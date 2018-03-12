@@ -15,10 +15,24 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 ******************************************************************************/
-
 function l10n_br_pos_screens(instance, module) {
     var QWeb = instance.web.qweb;
     var _t = instance.web._t;
+    var save_state = false;
+    var cpf_na_nota = false;
+
+    module.ScreenWidget.prototype.barcode_product_action = function (code) {
+            var self = this;
+            if(!save_state) {
+                if (self.pos.scan_product(code)) {
+                    if (self.barcode_product_screen && !self.pos.config.crm_ativo) {
+                        self.pos_widget.screen_selector.set_current_screen(self.barcode_product_screen);
+                    }
+                } else {
+                    self.pos_widget.screen_selector.show_popup('error-barcode', code.code);
+                }
+            }
+    };
 
     module.HaveCpfCnpj = module.OrderWidget.include({
         template: 'PosWidget',
@@ -26,14 +40,18 @@ function l10n_br_pos_screens(instance, module) {
         init: function(parent, options){
             this._super(parent);
             var self = this;
-
         },
+
         renderElement: function() {
             var self = this;
             this._super();
+            if(self.pos.config.crm_ativo)
+                $(".pos-leftpane *").prop('disabled', save_state);
 
-            var partner = null;
-            var isSave = null;
+            $('.deleteorder-button').click(function(e){
+                save_state = false;
+            });
+
             this.el.querySelector('.busca-cpf-cnpj').addEventListener('keydown',this.search_handler);
             $('.busca-cpf-cnpj', this.el).keydown(function(e){
                 if(e.which == 13){
@@ -46,7 +64,29 @@ function l10n_br_pos_screens(instance, module) {
                 self.search_client_by_cpf_cnpj($('.busca-cpf-cnpj').val().replace(/[^\d]+/g,''));
             });
 
-         },
+        },
+
+        verifica_campos_vazios: function(partner){
+            for (key in partner){
+                if ((key != 'ean13' && key != 'vat' && key != 'opt_out' && key != 'city' && key != 'mobile' && key != 'whatsapp' && key != 'street2') && (partner[key] == null || partner[key] === false || partner[key] === 'false' || partner[key] === ''))
+                    return true
+            }
+            return false
+        },
+
+        calcula_diferenca_data: function(data_alteracao){
+            if(data_alteracao){
+                var today = new Date();
+                if (parseInt(data_alteracao.substr(8,2)) < 12){
+                    data_alteracao = data_alteracao.substr(0, 4) + '-' + data_alteracao.substr(8, 2) + '-' + data_alteracao.substr(5, 2) //dia,mes e ano
+                }
+                var date_partner = new Date(data_alteracao);
+                var lim_data_alteracao = parseInt(this.pos.config.lim_data_alteracao);
+                if( Math.floor((today.getTime() - date_partner.getTime())*3.81E-10) <= lim_data_alteracao)
+                    return true;
+            }
+            return false;
+        },
 
         bind_order_events: function() {
         var self = this;
@@ -56,11 +96,11 @@ function l10n_br_pos_screens(instance, module) {
            var lines = order.get('orderLines');
                lines.unbind();
                lines.bind('add', function(){
-                        if(lines.length == 1 && this.pos.config.crm_ativo){
-                        self.pos_widget.screen_selector.show_popup('cpf_nota_sat_popup',{
-                            message: _t('Deseja inserir o cpf no cupom fiscal?'),
-                        });
-                        }
+                       if(lines.length == 1 && this.pos.config.crm_ativo){
+                           self.pos_widget.screen_selector.show_popup('cpf_nota_sat_popup',{
+                           message: _t('Informar CPF'),
+                           });
+                       }
                        this.numpad_state.reset();
                        this.renderElement(true);
                    },this);
@@ -74,21 +114,51 @@ function l10n_br_pos_screens(instance, module) {
                        this.update_summary();
                    },this);
         },
+
+        update_summary: function(){
+            var order = this.pos.get('selectedOrder');
+            var total     = order ? order.getTotalTaxIncluded() : 0;
+            var taxes     = order ? total - order.getTotalTaxExcluded() : 0;
+
+            this.el.querySelector('.summary .total > .value').textContent = this.format_currency(total);
+            this.el.querySelector('.summary .total .subentry .value').textContent = this.format_currency(taxes);
+            if(this.pos.get('selectedOrder').attributes.client) {
+                $('.client_mostra').show();
+                $('.date_cliente').text(this.pos.get('selectedOrder').attributes.client.create_date.substr(0, 7));
+                $('.name_cliente').text(this.pos.get('selectedOrder').attributes.client.name);
+                $('.tempo_cliente').text(this.pos.db.tempo_cliente(this.pos.get('selectedOrder').attributes.client.create_date) + ' meses');
+            }
+        },
+
         active_client: function (self, documento, partner) {
             pos_db = self.pos.db;
             self.old_client = partner;
             self.new_client = self.old_client;
             if (partner) {
                 self.pos.get('selectedOrder').set_client(self.new_client);
+                if(self.pos.config.crm_ativo && (!this.calcula_diferenca_data(partner.data_alteracao) || this.verifica_campos_vazios(partner))){
+                    var ss = self.pos.pos_widget.screen_selector;
+                    ss.set_current_screen('clientlist');
+                    self.pos_widget.clientlist_screen.edit_client_details(partner);
+                }
+
             } else {
                 if (self.pos.config.save_identity_automatic) {
                     new_partner = {};
-                    new_partner["name"] = pos_db.add_pontuation_document(documento);
+//                  new_partner["name"] = pos_db.add_pontuation_document(documento);
+                    new_partner["name"] = 'Anônimo';
+                    new_partner['create_date'] =  new Date(pos_db.today_date());
                     if (new_partner["name"].length > 14) {
                         new_partner["is_company"] = true;
                     }
                     new_partner["cnpj_cpf"] = pos_db.add_pontuation_document(documento);
                     self.pos_widget.order_widget.save_client_details(new_partner);
+                    if(self.pos.config.crm_ativo && (!this.calcula_diferenca_data(new_partner.data_alteracao) || this.verifica_campos_vazios(new_partner))){
+                        var ss = self.pos.pos_widget.screen_selector;
+                        ss.set_current_screen('clientlist');
+                        self.pos_widget.clientlist_screen.display_client_details('edit',{
+                        'cnpj_cpf': new_partner['cnpj_cpf'], 'name':'Anônimo'});
+                    }
                 }
             }
         },
@@ -100,7 +170,11 @@ function l10n_br_pos_screens(instance, module) {
                 pos_db = self.pos.db;
                 partner = pos_db.get_partner_by_identification(self.pos.partners, documento);
                 if(partner){
-                    this.active_client(self, documento, partner);
+                    for (key in partner){
+                        if (partner[key] === 'false')
+                            partner[key] = null;
+                    }
+                        this.active_client(self, documento, partner);
                 } else {
                     documento_pontuacao = pos_db.add_pontuation_document(documento);
                     return new instance.web.Model("res.partner").get_func("search_read")([['cnpj_cpf', '=', documento_pontuacao]], ['name', 'cnpj_cpf', 'country_id']).then(function(res) {
@@ -133,6 +207,10 @@ function l10n_br_pos_screens(instance, module) {
                 return;
             }
 
+            if (this.uploaded_picture) {
+                fields.image = this.uploaded_picture;
+            }
+
             fields.id           = partner.id || false;
             fields.country_id   = fields.country_id || false;
             fields.ean13        = fields.ean13 ? this.pos.barcode_reader.sanitize_ean(fields.ean13) : false;
@@ -144,7 +222,14 @@ function l10n_br_pos_screens(instance, module) {
             new instance.web.Model('res.partner').call('create_from_ui',[partner]).then(function(partner_id){
                 self.pos.pos_widget.clientlist_screen.reload_partners().then(function(){
                     var new_partner = self.pos.db.get_partner_by_id(partner_id);
-                    new_partner['cnpj_cpf'] = new_partner['name'];
+                    for (key in new_partner){
+                        if (new_partner[key] === false)
+                            new_partner[key] = null;
+                    }
+                    if (new_partner['address'].replace(/,|\s/g,'') == '')
+                        new_partner['address'] = null;
+                    new_partner['country_id'] = false
+//                    new_partner['cnpj_cpf'] = new_partner['name'];
                     if (self.pos.config.pricelist_id){
                        new_partner['property_product_pricelist'][0] = self.pos.pricelist.id;
                     }
@@ -249,12 +334,12 @@ function l10n_br_pos_screens(instance, module) {
 
                 return true;
             }
-
         }
     });
 
     module.ClientListScreenWidget = module.ClientListScreenWidget.extend({
         save_client_details: function(partner) {
+            var self = this;
             var fields = {}
             this.$('.client-details-contents .detail').each(function(idx,el){
                 fields[el.name] = el.value;
@@ -267,11 +352,47 @@ function l10n_br_pos_screens(instance, module) {
             } else {
                 var cliente_cpf = fields.cnpj_cpf;
                 if (self.pos_widget.order_widget.verificar_cpf_cnpj(cliente_cpf.replace(/[^\d]+/g,''))){
-                    this._super(partner);
+                    fields.id           = partner.id || false;
+                    fields.ean13        = fields.ean13 ? this.pos.barcode_reader.sanitize_ean(fields.ean13) : false;
+                    partner.name = fields.name;
+                    partner.birthdate = fields.birthdate;
+                    partner.cnpj_cpf = fields.cnpj_cpf;
+                    var country = this.pos.countries.find(function(element) {return element.id==fields.country_id;}) || false;
+                    partner.email = fields.email;
+                    partner.gender = fields.gender;
+                    var city = this.pos.cities.find(function(element) {return element.id==fields.l10n_br_city_id});
+                    partner.number = fields.number;
+                    partner.opt_out = 'sim'  === fields.opt_out;
+                    partner.phone = fields.phone;
+                    partner.street = fields.street;
+                    partner.street2 = fields.street2;
+                    partner.whatsapp = 'sim' === fields.whatsapp;
+                    partner.zip = fields.zip;
+                    partner.data_alteracao = this.pos.db.today_date();
+                    if (partner.create_date == null){
+                        partner.create_date = new Date(this.pos.db.today_date());
+                    }
+                    $(document).ready(function(){
+                        if (country != null)
+                            partner.country_id = [country.id, country.name];
+                        if (city != null) {
+                            partner.l10n_br_city_id = [city.id, city.name];
+                            partner.state_id = [city.state_id[0], city.state_id[1]];
+                        }
+                    });
+                    new instance.web.Model('res.partner').call('create_from_ui', [fields]).then(function (partner_id) {
+                        self.saved_client_details(partner_id);
+                    }, function (err, event) {
+                        event.preventDefault();
+                        self.pos_widget.screen_selector.show_popup('error', {
+                            'message': _t('Error: Could not Save Changes'),
+                            'comment': _t('CPF já cadastrado no sistema.'),
+                        });
+                    });
                 } else {
-                   this.pos_widget.screen_selector.show_popup('error',{
+                    this.pos_widget.screen_selector.show_popup('error', {
                         message: _t('Erro no cadastro!'),
-                        comment:_t('CPF inválido!.')
+                        comment: _t('CPF inválido!.')
                     });
                 }
             }
@@ -283,9 +404,11 @@ function l10n_br_pos_screens(instance, module) {
             this.reload_partners().then(function(){
                     var partner = self.pos.db.get_partner_by_id(partner_id);
                 if (partner) {
+                    var date = new Date();
 //                  usando o pricelist da loja por padrao
                     partner['property_product_pricelist'][0] = self.pos.pricelist.id;
-                    partner.birthdate = $('.birthdate').val()
+                    partner.birthdate = $('.birthdate').val();
+                    partner.data_alteracao = date.getFullYear() + '-' + date.getMonth();
                     partner.street2 = $('.client-address-street2').val()
                     partner.gender = $('.gender').val()
                     partner.whatsapp = 'sim' === $('.whatsapp').val()
@@ -305,13 +428,51 @@ function l10n_br_pos_screens(instance, module) {
             });
         },
 
+        carrega_cep: function(country_id, state_id, l10n_br_city){
+            if(country_id != null){
+                new instance.web.Model('res.country.state').call('get_states_ids', [country_id]).then(function (result) {
+                $('.client-address-state').children('option:not(:first)').remove();
+                    $.each(result, function(key, value){
+                        if(state_id != null && state_id == key){
+                             $('.client-address-state').append($("<option></option>")
+                                          .attr("value",key)
+                                          .attr("selected",true)
+                                          .text(value));
+                        }
+                        else{
+                            $('.client-address-state').append($("<option></option>")
+                                          .attr("value",key)
+                                          .text(value));
+                        }
+                    });
+                });
+            }
+            if(state_id != null){
+                    new instance.web.Model('l10n_br_base.city').call('get_city_ids', [state_id]).then(function (result) {
+                    $('.client-address-city').children('option:not(:first)').remove();
+                        $.each(result, function(key, value){
+                            if(l10n_br_city != null && l10n_br_city == key){
+                            $('.client-address-city').append($("<option></option>")
+                                              .attr("value",key)
+                                              .attr("selected", true)
+                                              .text(value));
+                            }
+                            else{
+                             $('.client-address-city').append($("<option></option>")
+                                              .attr("value",key)
+                                              .text(value));
+                            }
+                        });
+                    });
+            }
+        },
+
         display_client_details: function(visibility,partner,clickpos){
             var self = this;
             var contents = this.$('.client-details-contents');
             var parent   = this.$('.client-list').parent();
             var scroll   = parent.scrollTop();
             var height   = contents.height();
-
             contents.off('click','.button.edit');
             contents.off('click','.button.save');
             contents.off('click','.button.undo');
@@ -322,6 +483,10 @@ function l10n_br_pos_screens(instance, module) {
             this.uploaded_picture = null;
 
             if(visibility === 'show'){
+                for (key in partner){
+                    if ((key != 'ean13' && key != 'vat' && key != 'opt_out' && key != 'country_id' && key != 'city' && key != 'mobile' && key != 'whatsapp' && key != 'street2') && (partner[key] == null || partner[key] === false || partner[key] === 'false'))
+                        partner[key] = null;
+                }
                 contents.empty();
                 contents.append($(QWeb.render('ClientDetails',{widget:this,partner:partner})));
 
@@ -340,48 +505,22 @@ function l10n_br_pos_screens(instance, module) {
                 this.details_visible = true;
                 this.toggle_save_button();
             } else if (visibility === 'edit') {
+                for (key in partner){
+                    if ((key != 'ean13' && key != 'vat' && key != 'country_id' && key != 'opt_out' && key != 'city' && key != 'mobile' && key != 'whatsapp') && (partner[key] == null || partner[key] === false || partner[key] === 'false'))
+                    partner[key] = null;
+                }
                 this.editing_client = true;
                 contents.empty();
                 contents.append($(QWeb.render('ClientDetailsEdit',{widget:this,partner:partner})));
                 this.toggle_save_button();
 
                $( document ).ready(function() {
-                    if( partner.country_id != null){
-                        new instance.web.Model('res.country.state').call('get_states_ids', [partner.country_id[0]]).then(function (result) {
-                        $('.client-address-state').children('option:not(:first)').remove();
-                            $.each(result, function(key, value){
-                                if(partner.state_id != null && partner.state_id[0] == key){
-                                     $('.client-address-state').append($("<option></option>")
-                                                  .attr("value",key)
-                                                  .attr("selected",true)
-                                                  .text(value));
-                                }
-                                else{
-                                    $('.client-address-state').append($("<option></option>")
-                                                  .attr("value",key)
-                                                  .text(value));
-                                }
-                            });
-                        });
-                    }
-                    if(partner.state_id != null){
-                            new instance.web.Model('l10n_br_base.city').call('get_city_ids', [partner.state_id[0]]).then(function (result) {
-                            $('.client-address-city').children('option:not(:first)').remove();
-                                $.each(result, function(key, value){
-                                    if(partner.l10n_br_city_id != null && partner.l10n_br_city_id[0] == key){
-                                    $('.client-address-city').append($("<option></option>")
-                                                      .attr("value",key)
-                                                      .attr("selected", true)
-                                                      .text(value));
-                                    }
-                                    else{
-                                     $('.client-address-city').append($("<option></option>")
-                                                      .attr("value",key)
-                                                      .text(value));
-                                    }
-                                });
-                            });
-                    }
+                    if(partner.country_id != null && partner.state_id != null && partner.l10n_br_city_id != null)
+                        self.pos_widget.clientlist_screen.carrega_cep(partner.country_id[0], partner.state_id[0], partner.l10n_br_city_id[0]);
+                    else if(partner.country_id != null && partner.state_id != null)
+                        self.pos_widget.clientlist_screen.carrega_cep(partner.country_id[0], partner.state_id[0]);
+                    else if(partner.country_id != null)
+                      self.pos_widget.clientlist_screen.carrega_cep(partner.country_id[0]);
                 });
 		       $('.client-address-country', this.el).change(function(e){
                 var country_id = $('.client-address-country').val();
@@ -414,10 +553,9 @@ function l10n_br_pos_screens(instance, module) {
                     var cep = $('.client-address-zip').val().replace(/[^\d]+/g,'');
                         if (cep.length == 8){
                             new instance.web.Model('l10n_br.zip').call('zip_search_multi_json', [[]], {'zip_code': cep}).then(function (result) {
-                                $('.client-address-street').val(result.street)
-                                $('.client-address-country').val(result.country_id)
-                                $('.client-address-state').val(result.state_id)
-                                $('.client-address-city').val(result.l10n_br_city)
+                                $('.client-address-street').val(result.street);
+                                $('.client-address-country').val(result.country_id);
+                                self.pos_widget.clientlist_screen.carrega_cep($('.client-address-country').val(), result.state_id,result.l10n_br_city);
                             });
                         }
                         else{
@@ -468,28 +606,34 @@ function l10n_br_pos_screens(instance, module) {
     module.CPFNaNotaPopupWidget = module.PopUpWidget.extend({
         template: 'CPFNaNota',
         hotkeys_handlers: {},
+
+
         cpf_cupom_fiscal: function(currentOrder){
             self = this;
             var cpf = $('.busca-cpf-cnpj-popup').val();
             if (cpf){
-                self.pos_widget.screen_selector.close_popup();
                 if (!currentOrder.client) {
+                    $(".pos-leftpane *").prop('disabled', save_state);
+                    self.pos_widget.screen_selector.close_popup();
                     if (self.pos_widget.order_widget.verificar_cpf_cnpj(cpf.replace(/[^\d]+/g,''))) {
+                        $(".pos-leftpane *").prop('disabled', save_state);
+                        self.pos_widget.screen_selector.close_popup();
                         pos_db = self.pos.db;
                         partner = pos_db.get_partner_by_identification(self.pos.partners, cpf.replace(/[^\d]+/g, ''));
                         if (partner) {
                             self.pos.get('selectedOrder').set_client(partner);
                             currentOrder = self.pos.get('selectedOrder').attributes;
                             currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
-                            if(self.pos.config.crm_ativo && !this.calcula_diferenca_data(partner.data_alteracao)){
+                            if(self.pos.config.crm_ativo && (!this.pos_widget.order_widget.calcula_diferenca_data(partner.data_alteracao) || this.pos_widget.order_widget.verifica_campos_vazios(partner))){
                                 var ss = self.pos.pos_widget.screen_selector;
                                 ss.set_current_screen('clientlist');
+                                self.pos_widget.clientlist_screen.edit_client_details(partner);
                             }
-                            if(!self.pos.config.crm_ativo)
+                            if(!self.pos.config.crm_ativo && cpf_na_nota)
                                 self.pos_widget.payment_screen.validate_order();
                         } else {
                             new_partner = {};
-                            new_partner["name"] = cpf;
+                            new_partner["name"] = 'Anônimo';
                             if (new_partner["name"].length > 14) {
                                 new_partner["is_company"] = true;
                             }
@@ -498,13 +642,23 @@ function l10n_br_pos_screens(instance, module) {
                             new instance.web.Model('res.partner').call('create_from_ui', [new_partner]).then(function (partner_id) {
                                 self.pos.pos_widget.clientlist_screen.reload_partners().then(function () {
                                     var new_partner = self.pos.db.get_partner_by_id(partner_id);
-                                    new_partner['cnpj_cpf'] = new_partner['name'];
+                                    for (key in new_partner){
+                                        if (new_partner[key] == false)
+                                            new_partner[key] = null;
+                                    }
+                                    new_partner['country_id'] = false
+                                    new_partner['cnpj_cpf'] = cpf;
                                     if (self.pos.config.pricelist_id) {
                                         new_partner['property_product_pricelist'][0] = self.pos.pricelist.id;
                                     }
                                     self.old_client = new_partner;
                                     self.new_client = self.old_client;
                                     self.pos.get('selectedOrder').set_client(self.new_client);
+                                    if (self.pos.config.crm_ativo) {
+                                        var ss = self.pos.pos_widget.screen_selector;
+                                        ss.set_current_screen('clientlist');
+                                        self.pos_widget.clientlist_screen.edit_client_details(self.old_client);
+                                    }
                                     if (self.pos.config.pricelist_id) {
                                         self.pos.pricelist_engine.update_products_ui(self.new_client);
                                     }
@@ -513,7 +667,7 @@ function l10n_br_pos_screens(instance, module) {
                                 }).then(function () {
                                     currentOrder = self.pos.get('selectedOrder').attributes;
                                     currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
-                                    if(!self.pos.config.crm_ativo)
+                                    if(!self.pos.config.crm_ativo && cpf_na_nota)
                                         self.pos_widget.payment_screen.validate_order();
                                 });
                             });
@@ -525,50 +679,49 @@ function l10n_br_pos_screens(instance, module) {
                         // });
                     }
                 } else {
+                    pos_db = self.pos.db;
+                    partner = pos_db.get_partner_by_identification(self.pos.partners, cpf.replace(/[^\d]+/g, ''));
+                    for (key in partner){
+                        if (partner[key] === 'false' )
+                            partner[key] = null;
+                    }
+                    $(".pos-leftpane *").prop('disabled', save_state);
+                    self.pos_widget.screen_selector.close_popup();
                     currentOrder = self.pos.get('selectedOrder').attributes;
                     currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
-                    if(self.pos.config.crm_ativo && !this.calcula_diferenca_data(currentOrder.client.data_alteracao)){
+                    // this.active_client(self, documento, partner);
+                    if(self.pos.config.crm_ativo && (!this.pos_widget.order_widget.calcula_diferenca_data(partner.data_alteracao) || this.pos_widget.order_widget.verifica_campos_vazios(partner))){
                         var ss = self.pos.pos_widget.screen_selector;
                         ss.set_current_screen('clientlist');
+                        self.pos_widget.clientlist_screen.edit_client_details(partner);
                     }
-                    if(!self.pos.config.crm_ativo)
-                        self.pos_widget.payment_screen.validate_order();
                 }
             } else {
-                alert('O cpf deve ser inserido no campo para que seja transmitido no cupom fiscal.');
+                if (!cpf_na_nota && self.pos.config.crm_ativo) {
+                    self.pos_widget.screen_selector.close_popup();
+                    var ss = self.pos.pos_widget.screen_selector;
+                    ss.set_current_screen('clientlist');
+                    self.pos_widget.clientlist_screen.display_client_details('edit',{
+                        'country_id': self.pos.company.country_id,
+                    });
+                }
+                if(cpf_na_nota)
+                    alert('O cpf deve ser inserido no campo para que seja transmitido no cupom fiscal.');
             }
-        },
-
-        calcula_diferenca_data: function(data_alteracao){
-            if(data_alteracao){
-                var today = new Date();
-                var month = parseInt(today.getMonth())+1;
-                var year = today.getFullYear();
-                var year_partner = parseInt(data_alteracao.substring(0,4));
-                var month_partner  = parseInt(data_alteracao.substring(5,7));
-                var lim_data_alteracao = parseInt(this.pos.config.lim_data_alteracao);
-                if ((year - year_partner) == 0 && (month_partner + lim_data_alteracao) >= month)
-                    return true;
-                else if ((year - year_partner) == 1 && (month_partner + lim_data_alteracao) >= 12+month)
-                    return true;
-            }
-            return false;
         },
 
         show: function(options){
             var self = this;
             this._super();
-
             this.message = options.message || '';
+
             this.comment = options.comment || '';
-            var cliente_cpf = '';
+
             var currentOrder = this.pos.get('selectedOrder').attributes;
             if (currentOrder.client) {
-                pos_db = self.pos.db;
-                partner = pos_db.get_partner_by_identification(self.pos.partners, currentOrder.client.cnpj_cpf.replace(/[^\d]+/g, ''));
-                this.cpf_nota = partner.cnpj_cpf;
-                this.create_date = partner.create_date.substring(0,7);
-                this.atualizacao = this.calcula_diferenca_data(partner.data_alteracao);
+                this.cpf_nota = currentOrder.client.cnpj_cpf;
+                this.create_date = currentOrder.client.create_date.substring(0,7);
+                this.atualizacao = self.pos_widget.order_widget.calcula_diferenca_data(currentOrder.client.data_alteracao);
                 this.renderElement();
             }
             else{
@@ -581,22 +734,29 @@ function l10n_br_pos_screens(instance, module) {
 
             this.hotkey_handler = function (event) {
                 if (event.which === 13) {
+                    cpf_na_nota = true;
+                    save_state = false;
                     self.cpf_cupom_fiscal(currentOrder);
                 }
             };
 
             $('.busca-cpf-cnpj-popup').on('keyup',this.hotkey_handler);
-
+            save_state = true;
             this.$('.button.sim').click(function(){
-                this.cpf_na_nota = true;
+                cpf_na_nota = true;
+                save_state = false;
                 self.cpf_cupom_fiscal(currentOrder);
             });
 
             this.$('.button.nao').click(function(){
-                this.cpf_na_nota = false;
+                cpf_na_nota = false;
+                save_state = false;
                 self.pos_widget.screen_selector.close_popup();
                 if(!self.pos.config.crm_ativo)
                     self.pos_widget.payment_screen.validate_order();
+                else{
+                    self.cpf_cupom_fiscal(currentOrder);
+                }
             });
         }
     });
@@ -676,6 +836,9 @@ function l10n_br_pos_screens(instance, module) {
                 if (this.pos.config.cpf_nota) {
                     this.pos_widget.action_bar.set_button_disabled('validation', true);
                 }
+                if(!cpf_na_nota)
+                    currentOrder.attributes.cpf_nota = null;
+                
                 if( sat_status == 'connected'){
                     if(options.invoice){
                         // deactivate the validation button while we try to send the order
@@ -685,6 +848,11 @@ function l10n_br_pos_screens(instance, module) {
                         var invoiced = this.pos.push_and_invoice_order(currentOrder);
 
                         invoiced.fail(function(error){
+                            if (this.pos.config.cpf_nota) {
+                                this.pos_widget.action_bar.set_button_disabled('validation',true);
+                            } else {
+                                this.pos_widget.action_bar.set_button_disabled('validation',false);
+                            }
                             if(error === 'error-no-client'){
                                 this.pos_widget.screen_selector.show_popup('error',{
                                     message: _t('An anonymous order cannot be invoiced'),
@@ -695,11 +863,6 @@ function l10n_br_pos_screens(instance, module) {
                                     message: _t('The order could not be sent'),
                                     comment: _t('Check your internet connection and try again.'),
                                 });
-                            }
-                            if (this.pos.config.cpf_nota) {
-                                this.pos_widget.action_bar.set_button_disabled('validation',true);
-                            } else {
-                                this.pos_widget.action_bar.set_button_disabled('validation',false);
                             }
 
                             this.pos_widget.action_bar.set_button_disabled('invoice',false);
@@ -780,10 +943,13 @@ function l10n_br_pos_screens(instance, module) {
                     name: 'venda_sat',
                     icon: '/point_of_sale/static/src/img/icons/png48/validate.png',
                     click: function () {
-                        if(self.cpf_na_nota || !self.pos.config.crm_ativo)
+                        if(cpf_na_nota && self.pos.config.crm_ativo)
+                            self.pos_widget.payment_screen.validate_order();
+                        else if (!self.pos.config.crm_ativo)
                             self.validar_cpf_nota();
                         else
                             self.pos_widget.payment_screen.validate_order();
+
                     }
                 });
                 this.update_payment_summary();

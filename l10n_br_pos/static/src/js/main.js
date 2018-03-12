@@ -91,6 +91,8 @@ if (typeof jQuery === 'undefined') { throw new Error('l10n_br POS Simplified inv
             },
         });
 
+
+
         instance.web.Widget.include({
             is_button_disabled: function(name){
                 var b = this.buttons[name];
