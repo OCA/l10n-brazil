@@ -307,31 +307,42 @@ function l10n_br_pos_screens(instance, module) {
             });
         },
 
-        carrega_cidade: function(state_id, l10n_br_city){
-            if (state_id != ""){
-                new instance.web.Model('l10n_br_base.city').call('get_city_ids', [state_id]).then(function (result) {
-                    $('.client-address-city').children('option:not(:first)').remove();
-                        $.each(result, function(key, value){
-                            $('.client-address-city').append($("<option></option>")
-                                              .attr("value",key)
-                                              .text(value));
-                        });
-                    $('.client-address-city').val(l10n_br_city);
+        carrega_cep: function(country_id, state_id, l10n_br_city){
+            if( country_id != null){
+                new instance.web.Model('res.country.state').call('get_states_ids', [country_id]).then(function (result) {
+                $('.client-address-state').children('option:not(:first)').remove();
+                    $.each(result, function(key, value){
+                        if(state_id != null && state_id == key){
+                             $('.client-address-state').append($("<option></option>")
+                                          .attr("value",key)
+                                          .attr("selected",true)
+                                          .text(value));
+                        }
+                        else{
+                            $('.client-address-state').append($("<option></option>")
+                                          .attr("value",key)
+                                          .text(value));
+                        }
+                    });
                 });
             }
-        },
-
-        carrega_estado: function(country_id, state_id){
-            if (country_id){
-                new instance.web.Model('res.country.state').call('get_states_ids', [country_id]).then(function (state_result) {
-                    $('.client-address-state').children('option:not(:first)').remove();
-                    $.each(state_result, function(key, value){
-                        $('.client-address-state').append($("<option></option>")
-                            .attr("value",key)
-                            .text(value));
+            if(state_id != null){
+                    new instance.web.Model('l10n_br_base.city').call('get_city_ids', [state_id]).then(function (result) {
+                    $('.client-address-city').children('option:not(:first)').remove();
+                        $.each(result, function(key, value){
+                            if(l10n_br_city != null && l10n_br_city == key){
+                            $('.client-address-city').append($("<option></option>")
+                                              .attr("value",key)
+                                              .attr("selected", true)
+                                              .text(value));
+                            }
+                            else{
+                             $('.client-address-city').append($("<option></option>")
+                                              .attr("value",key)
+                                              .text(value));
+                            }
+                        });
                     });
-                    $('.client-address-state').val(state_id);
-                });
             }
         },
 
@@ -446,8 +457,7 @@ function l10n_br_pos_screens(instance, module) {
                             new instance.web.Model('l10n_br.zip').call('zip_search_multi_json', [[]], {'zip_code': cep}).then(function (result) {
                                 $('.client-address-street').val(result.street);
                                 $('.client-address-country').val(result.country_id);
-                                self.pos_widget.clientlist_screen.carrega_estado($('.client-address-country').val(), result.state_id);
-                                self.pos_widget.clientlist_screen.carrega_cidade($('.client-address-state').val(), result.l10n_br_city);
+                                self.pos_widget.clientlist_screen.carrega_cep($('.client-address-country').val(), result.state_id,result.l10n_br_city);
                             });
                         }
                         else{
@@ -512,12 +522,6 @@ function l10n_br_pos_screens(instance, module) {
                             currentOrder = self.pos.get('selectedOrder').attributes;
                             currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
                             if(self.pos.config.crm_ativo && !this.calcula_diferenca_data(partner.data_alteracao)){
-                                currentOrder['birthdate'] = partner.birthdate;
-                                currentOrder['data_alteracao'] = partner.data_alteracao;
-                                currentOrder['street2'] = partner.street2;
-                                currentOrder['gender'] = partner.gender;
-                                currentOrder['whatsapp'] = partner.whatsapp;
-                                currentOrder['opt_out'] = partner.opt_out;
                                 var ss = self.pos.pos_widget.screen_selector;
                                 ss.set_current_screen('clientlist');
                             }
@@ -567,15 +571,8 @@ function l10n_br_pos_screens(instance, module) {
                     currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
 
                     if(self.pos.config.crm_ativo && !this.calcula_diferenca_data(partner.data_alteracao)){
-                        currentOrder['birthdate'] = partner.birthdate;
-                        currentOrder['data_alteracao'] = partner.data_alteracao;
-                        currentOrder['street2'] = partner.street2;
-                        currentOrder['gender'] = partner.gender;
-                        currentOrder['whatsapp'] = partner.whatsapp;
-                        currentOrder['opt_out'] = partner.opt_out;
                         var ss = self.pos.pos_widget.screen_selector;
                         ss.set_current_screen('clientlist');
-
                     }
                     if(!self.pos.config.crm_ativo)
                         self.pos_widget.payment_screen.validate_order();
@@ -640,7 +637,7 @@ function l10n_br_pos_screens(instance, module) {
 
             this.$('.button.nao').click(function(){
                 this.cpf_na_nota = false;
-                self.pos_widget.screen_selector.close_popup();
+                self.pos_widget.screen_R.close_popup();
                 if(!self.pos.config.crm_ativo)
                     self.pos_widget.payment_screen.validate_order();
             });
