@@ -110,8 +110,8 @@ class ResourceCalendar(models.Model):
         # filtrar apenas ferias que esta dentro do periodo a ser validado
         ferias_atuais = ferias_holidays_ids.filtered(
             lambda holiday:
-            (date_from <= holiday.date_from <= date_to) or
-            (date_from <= holiday.date_to <= date_to)
+            (date_from <= holiday.data_inicio <= date_to) or
+            (date_from <= holiday.data_fim <= date_to)
         )
 
         for holiday in ferias_atuais:
