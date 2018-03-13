@@ -30,6 +30,7 @@ try:
                                agora)
     from pybrasil.valor import formata_valor
     from pybrasil.valor.decimal import Decimal as D
+    from pysped.nfe.leiaute import Pag_400, DetPag_400
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -94,7 +95,8 @@ class SpedDocumento(models.Model):
         #
         # Duplicatas e pagamentos
         #
-        self._monta_nfe_cobranca(nfe.infNFe.cobr)
+        if self.condicao_pagamento_id.forma_pagamento == '14':
+            self._monta_nfe_cobranca(nfe.infNFe.cobr)
         self._monta_nfe_pagamentos(nfe.infNFe.pag)
 
         #
@@ -435,12 +437,39 @@ class SpedDocumento(models.Model):
         for duplicata in self.duplicata_ids:
             cobr.dup.append(duplicata.monta_nfe())
 
-    def _monta_nfe_pagamentos(self, pag):
-        if self.modelo != MODELO_FISCAL_NFCE:
+    def _monta_pagamento(self, pag):
+        self.ensure_one()
+
+        if self.modelo != MODELO_FISCAL_NFE and \
+                self.modelo != MODELO_FISCAL_NFCE:
             return
 
-        for pagamento in self.pagamento_ids:
-            pag.append(pagamento.monta_nfe())
+        detPag = DetPag_400()
+        detPag.tPag.valor = self.condicao_pagamento_id.forma_pagamento
+        detPag.vPag.valor = str(D(self.vr_fatura))
+        # Troco somente na NF-e 4.00
+        pag.vTroco.valor = str(D(self.vr_troco))
+
+        if self.condicao_pagamento_id.forma_pagamento in FORMA_PAGAMENTO_CARTOES:
+            detPag.card.CNPJ.valor = limpa_formatacao(
+                self.condicao_pagamento_id.participante_id.cnpj_cpf or '')
+            detPag.card.tBand.valor = self.condicao_pagamento_id.bandeira_cartao
+            detPag.card.cAut.valor = self.condicao_pagamento_id.integracao_cartao
+            detPag.card.tpIntegra.valor = self.condicao_pagamento_id.integracao_cartao
+
+        pag.detPag.append(detPag)
+
+        return pag
+
+    def _monta_nfe_pagamentos(self, pag):
+        if self.modelo not in [MODELO_FISCAL_NFCE, MODELO_FISCAL_NFE]:
+            return
+
+        if self.modelo == MODELO_FISCAL_NFE:
+            self._monta_pagamento(pag)
+        else:
+            for pagamento in self.pagamento_ids:
+                pag.append(pagamento.monta_nfe())
 
     def _monta_nfe_total(self, nfe):
         nfe.infNFe.total.ICMSTot.vBC.valor = str(D(self.bc_icms_proprio))
