@@ -824,6 +824,7 @@ class SpedDocumento(models.Model):
         self.ensure_one()
         if not self.modelo == MODELO_FISCAL_CFE:
             return super(SpedDocumento, self).imprimir_documento()
+        self.sudo().write({'documento_impresso': True})
         return self.env['report'].get_action(self, 'report_sped_documento_cfe')
 
     # @api.multi
@@ -849,11 +850,9 @@ class SpedDocumento(models.Model):
     #         raise Warning("Não existem configurações para impressão no PDV!")
 
     def gera_pdf(self):
-        super(SpedDocumento, self).gera_pdf()
-
         for record in self:
             if record.modelo not in (MODELO_FISCAL_CFE):
-                return
+                return super(SpedDocumento, self).gera_pdf()
 
             if record.emissao != TIPO_EMISSAO_PROPRIA:
                 return
