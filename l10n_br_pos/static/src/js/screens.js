@@ -567,6 +567,10 @@ function l10n_br_pos_screens(instance, module) {
                                     self.old_client = new_partner;
                                     self.new_client = self.old_client;
                                     self.pos.get('selectedOrder').set_client(self.new_client);
+                                    if (self.pos.config.crm_ativo) {
+                                        var ss = self.pos.pos_widget.screen_selector;
+                                        ss.set_current_screen('clientlist');
+                                    }
                                     if (self.pos.config.pricelist_id) {
                                         self.pos.pricelist_engine.update_products_ui(self.new_client);
                                     }
