@@ -454,8 +454,9 @@ class SpedDocumento(models.Model):
             detPag.card.CNPJ.valor = limpa_formatacao(
                 self.condicao_pagamento_id.participante_id.cnpj_cpf or '')
             detPag.card.tBand.valor = self.condicao_pagamento_id.bandeira_cartao
-            detPag.card.cAut.valor = self.condicao_pagamento_id.integracao_cartao
-            detPag.card.tpIntegra.valor = self.condicao_pagamento_id.integracao_cartao
+            detPag.card.cAut.valor = '12345678901234567890'
+            # detPag.card.tpIntegra.valor = self.condicao_pagamento_id.integracao_cartao
+            detPag.card.tpIntegra.valor = '1'
 
         pag.detPag.append(detPag)
 
@@ -475,16 +476,18 @@ class SpedDocumento(models.Model):
         nfe.infNFe.total.ICMSTot.vBC.valor = str(D(self.bc_icms_proprio))
         nfe.infNFe.total.ICMSTot.vICMS.valor = str(D(self.vr_icms_proprio))
         nfe.infNFe.total.ICMSTot.vICMSDeson.valor = str(D(self.vr_icms_desonerado))
-        nfe.infNFe.total.ICMSTot.vFCPUFDest.valor = str(D(self.vr_fcp))
+
         if nfe.infNFe.ide.idDest.valor == \
             IDENTIFICACAO_DESTINO_INTERESTADUAL and \
             nfe.infNFe.ide.indFinal.valor == \
             TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and \
             nfe.infNFe.dest.indIEDest.valor == \
             INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE:
+            nfe.infNFe.total.ICMSTot.vICMSUFRemet.valor = str(
+                D(self.vr_icms_estado_origem))
 
             nfe.infNFe.total.ICMSTot.vICMSUFDest.valor = str(D(self.vr_icms_estado_destino))
-            nfe.infNFe.total.ICMSTot.vICMSUFRemet.valor = str(D(self.vr_icms_estado_origem))
+            nfe.infNFe.total.ICMSTot.vFCPUFDest.valor = str(D(self.vr_fcp))
 
         nfe.infNFe.total.ICMSTot.vBCST.valor = str(D(self.bc_icms_st))
         nfe.infNFe.total.ICMSTot.vST.valor = str(D(self.vr_icms_st))
