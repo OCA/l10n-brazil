@@ -267,6 +267,23 @@ function l10n_br_pos_screens(instance, module) {
             } else {
                 var cliente_cpf = fields.cnpj_cpf;
                 if (self.pos_widget.order_widget.verificar_cpf_cnpj(cliente_cpf.replace(/[^\d]+/g,''))){
+                    // TODO: melhorar codigo, somente teste
+                    partner.birthdate = fields.birthdate;
+                    partner.cnpj_cpf = fields.cnpj_cpf;
+                    partner.country_id = fields.country_id;
+                    partner.email = fields.email;
+                    partner.gender = fields.gender;
+                    partner.l10n_br_city_id = fields.l10n_br_city_id;
+                    partner.number = fields.number;
+                    partner.opt_out = 'sim'  === fields.opt_out;
+                    partner.phone = fields.phone;
+                    partner.state_id = fields.state_id;
+                    partner.street = fields.street;
+                    partner.street2 = fields.street2;
+                    partner.whatsapp = 'sim' === fields.whatsapp;
+                    partner.zip = fields.zip;
+                    partner.data_alteracao = self.pos_widget.clientlist_screen.date_today();
+
                     this._super(partner);
                 } else {
                    this.pos_widget.screen_selector.show_popup('error',{
@@ -275,6 +292,11 @@ function l10n_br_pos_screens(instance, module) {
                     });
                 }
             }
+        },
+
+        date_today: function(){
+            var date = new Date();
+            return date.getFullYear() + '-' + String(date.getDate()).length == 1? date.getDate() : '0'+date.getDate();
         },
 
         // what happens when we've just pushed modifications for a partner of id partner_id
