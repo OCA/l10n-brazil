@@ -7,6 +7,7 @@ from __future__ import division, print_function, unicode_literals
 import logging
 from odoo import api
 from odoo.addons.report_py3o.models.py3o_report import py3o_report_extender
+from odoo.fields import Datetime
 
 _logger = logging.getLogger(__name__)
 
@@ -16,12 +17,17 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
+def formata_data(doc, data):	
+    return Datetime.context_timestamp(doc, Datetime.from_string(data))
+
+
 @api.model
 @py3o_report_extender('sped_cfe.action_report_sped_documento_cfe')
 def report_sped_documento_cfe(session, local_context):
     data = {
         'ChaveCFeSAT': ChaveCFeSAT,
         'meio_pagamento': meio_pagamento,
+        'formata_data': formata_data,
     }
     local_context.update(data)
 
