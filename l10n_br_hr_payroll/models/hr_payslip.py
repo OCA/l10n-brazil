@@ -1521,7 +1521,7 @@ class HrPayslip(models.Model):
         :return:     float - Valor pago neste ano
         '''
         domain = [
-            ('tipo_de_folha', 'in', ['normal', 'decimo_terceiro', 'ferias']),
+            ('tipo_de_folha', 'in', ['decimo_terceiro', 'ferias']),
             ('contract_id', '=', self.contract_id.id),
             ('state', 'in', ['done', 'verify']),
             ('ano', '=', self.ano),
