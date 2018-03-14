@@ -75,6 +75,7 @@ def analytic_report(pool, cr, uid, local_context, context):
             ('mes_do_ano', '=', wizard.mes_do_ano),
             ('ano', '=', wizard.ano),
             ('state', 'in', ['done', 'verify']),
+            ('is_simulacao', '=', False),
         ]
         if wizard.tipo_de_folha == "('normal', 'rescisao')":
             busca.append(('tipo_de_folha', 'in', eval(wizard.tipo_de_folha)))
