@@ -1564,19 +1564,65 @@ class HrPayslip(models.Model):
                            [self.mes_do_ano, mes_anterior]))
             domain.append(('ano', 'in', anos))
 
-        holerite_anterior = self.search(
+        holerite = self.search(
+            domain, order='date_from DESC', limit=1)
+
+        valores = 0
+
+        if holerite:
+            print 'Lala'
+            print (self.date_from <= holerite.date_from <= self.date_to or
+                    self.date_from <= holerite.date_to <= self.date_to)
+            if (self.date_from <= holerite.date_from <= self.date_to or
+                    self.date_from <= holerite.date_to <= self.date_to):
+                for line in holerite.line_ids:
+                    if line.code == code:
+                        valores += line.total
+
+        return valores
+
+    def rubrica_pensao_alimentar(self):
+        '''
+        :param code:  string -   Code de identificação da rubrica
+        :param meses: int [1-12] Identificar um mes especifico
+                            -1   Selecionar o ultimo payslip calculado
+        :param tipo_de_folha:
+        :return:
+        '''
+
+        domain = [
+            ('tipo_de_folha', '=', 'ferias'),
+            ('contract_id', '=', self.contract_id.id),
+            ('is_simulacao', '=', False),
+            ('state', 'in', ['done', 'verify'])
+        ]
+
+        # Calcula mes_anterior
+        anos = [self.ano]
+        mes_anterior = self.mes_do_ano - 1
+        if mes_anterior == 0:
+            mes_anterior = 12
+            anos.append(self.ano - 1)
+
+        if self.mes_do_ano and mes_anterior > 0:
+            domain.append(('mes_do_ano', 'in', [self.mes_do_ano, mes_anterior]))
+
+        if mes_anterior == -1:
+            domain.append(('mes_do_ano', 'in',
+                           [self.mes_do_ano, mes_anterior]))
+            domain.append(('ano', 'in', anos))
+
+        holerite = self.search(
             domain, order='create_date DESC', limit=1)
 
         valores = 0
 
-        if holerite_anterior:
-            for holerite in holerite_anterior:
-                if self.date_from <= holerite.date_from <= self.date_to or \
-                        self.date_from <= holerite.date_to <= self.date_to:
-                    for line in holerite.line_ids:
-                        if line.code == code:
-                            valores += line.total
-
+        if holerite:
+            if self.date_from <= holerite.date_from <= self.date_to or \
+                    self.date_from <= holerite.date_to <= self.date_to:
+                for line in holerite.line_ids:
+                    if line.code == 'PENSAO_ALIMENTICIA':
+                        valores += line.total
         return valores
 
     @api.multi
