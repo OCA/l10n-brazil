@@ -241,11 +241,7 @@ def analytic_report(pool, cr, uid, local_context, context):
             total_descontos += rubrica['sum']
             if rubrica['category'] == 'INSS':
                 inss_funcionario_retido += rubrica['sum']
-        if wizard.tipo_de_folha == "('decimo_terceiro')":
-            if rubrica['code'] == 'BASE_FGTS_13':
-                base_fgts = rubrica['sum']
-        else:
-            if rubrica['code'] == 'BASE_FGTS':
+        if rubrica['code'] in ['BASE_FGTS', 'BASE_FGTS_13']:
                 base_fgts = rubrica['sum']
 #        if rubrica['code'] == 'FGTS':
 #            fgts = rubrica['sum']
