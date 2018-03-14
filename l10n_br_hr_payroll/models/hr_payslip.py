@@ -163,8 +163,8 @@ class HrPayslip(models.Model):
                 total += line.valor_provento - line.valor_deducao
                 total_proventos += line.valor_provento
                 total_descontos += line.valor_deducao
-                if line.code == 'BASE_FGTS':
-                    base_fgts = line.total
+                if line.code in ['BASE_FGTS', 'BASE_FGTS_13']:
+                    base_fgts += line.total
                 elif line.code == 'BASE_INSS':
                     base_inss = line.total
                 elif line.code == 'BASE_IRPF':
