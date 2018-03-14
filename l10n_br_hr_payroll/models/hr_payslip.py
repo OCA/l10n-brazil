@@ -1801,10 +1801,10 @@ class HrPayslip(models.Model):
                 structure_ids).get_all_rules()
 
             applied_specific_rule = {}
-            # Caso nao esteja computando holerite de provisão de ferias
-            # recuperar as regras especificas do contrato
+            # Caso nao esteja computando holerite de provisão de ferias ou
+            # de decimo terceiro recuperar as regras especificas do contrato
             if not payslip.tipo_de_folha in \
-                   ['provisao_ferias', 'provisao_decimo_terceiro']:
+                   ['provisao_ferias', 'provisao_decimo_terceiro', 'decimo_terceiro']:
                 applied_specific_rule = payslip.get_contract_specific_rubrics(
                     contract_ids, rule_ids)
 
