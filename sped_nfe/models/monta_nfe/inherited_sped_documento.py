@@ -463,14 +463,13 @@ class SpedDocumento(models.Model):
         return pag
 
     def _monta_nfe_pagamentos(self, pag):
-        if self.modelo not in [MODELO_FISCAL_NFCE, MODELO_FISCAL_NFE]:
+        if self.modelo not in (MODELO_FISCAL_NFCE, MODELO_FISCAL_NFE):
             return
 
-        if self.modelo == MODELO_FISCAL_NFE:
-            self._monta_pagamento(pag)
-        else:
-            for pagamento in self.pagamento_ids:
-                pag.append(pagamento.monta_nfe())
+        for pagamento in self.pagamento_ids:
+            pag.detPag.append(pagamento.monta_nfe())
+
+        pag.vTroco.valor = str(D(self.vr_troco))
 
     def _monta_nfe_total(self, nfe):
         nfe.infNFe.total.ICMSTot.vBC.valor = str(D(self.bc_icms_proprio))

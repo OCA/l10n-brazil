@@ -21,12 +21,6 @@
             <page name="empenho" position="replace" />
             <page name="retencoes" position="replace" />
             <page name="transporte" position="replace" />
-            <xpath expr="//separator[@name='vencimentos']" position="attributes">
-                <attribute name="attrs">{'invisible': [('condicao_pagamento_id', '!=', False)]}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='pagamento_ids']" position="attributes">
-                <attribute name="attrs">{'invisible': [('condicao_pagamento_id', '!=', False)]}</attribute>
-            </xpath>
         </field>
     </record>
 
