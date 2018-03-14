@@ -242,7 +242,7 @@ def analytic_report(pool, cr, uid, local_context, context):
             if rubrica['category'] == 'INSS':
                 inss_funcionario_retido += rubrica['sum']
         if rubrica['code'] in ['BASE_FGTS', 'BASE_FGTS_13']:
-                base_fgts = rubrica['sum']
+                base_fgts += rubrica['sum']
 #        if rubrica['code'] == 'FGTS':
 #            fgts = rubrica['sum']
 
