@@ -267,23 +267,28 @@ function l10n_br_pos_screens(instance, module) {
             } else {
                 var cliente_cpf = fields.cnpj_cpf;
                 if (self.pos_widget.order_widget.verificar_cpf_cnpj(cliente_cpf.replace(/[^\d]+/g,''))){
-                    // TODO: melhorar codigo, somente teste
                     partner.birthdate = fields.birthdate;
                     partner.cnpj_cpf = fields.cnpj_cpf;
-                    partner.country_id = fields.country_id;
+                    var country = this.pos.countries.find(function(element) {return element.id==fields.country_id;});
                     partner.email = fields.email;
                     partner.gender = fields.gender;
-                    partner.l10n_br_city_id = fields.l10n_br_city_id;
+                    var city = this.pos.cities.find(function(element) {return element.id==fields.l10n_br_city_id});
                     partner.number = fields.number;
                     partner.opt_out = 'sim'  === fields.opt_out;
                     partner.phone = fields.phone;
-                    partner.state_id = fields.state_id;
                     partner.street = fields.street;
                     partner.street2 = fields.street2;
                     partner.whatsapp = 'sim' === fields.whatsapp;
                     partner.zip = fields.zip;
                     partner.data_alteracao = self.pos_widget.clientlist_screen.date_today();
-
+                    $(document).ready(function(){
+                        if(country != null)
+                            partner.country_id = [country.id, country.name];
+                        if(city != null){
+                            partner.l10n_br_city_id = [city.id, city.name];
+                            partner.state_id = partner.l10n_br_city_id.state_id;
+                        }
+                    });
                     this._super(partner);
                 } else {
                    this.pos_widget.screen_selector.show_popup('error',{
@@ -296,7 +301,7 @@ function l10n_br_pos_screens(instance, module) {
 
         date_today: function(){
             var date = new Date();
-            return date.getFullYear() + '-' + String(date.getDate()).length == 1? date.getDate() : '0'+date.getDate();
+            return date.getFullYear() + '-' + (String(date.getDate()).length == 1? '0'+date.getDate() : date.getDate());
         },
 
         // what happens when we've just pushed modifications for a partner of id partner_id
@@ -633,11 +638,9 @@ function l10n_br_pos_screens(instance, module) {
             var cliente_cpf = '';
             var currentOrder = this.pos.get('selectedOrder').attributes;
             if (currentOrder.client) {
-                pos_db = self.pos.db;
-                partner = pos_db.get_partner_by_identification(self.pos.partners, currentOrder.client.cnpj_cpf.replace(/[^\d]+/g, ''));
-                this.cpf_nota = partner.cnpj_cpf;
-                this.create_date = partner.create_date.substring(0,7);
-                this.atualizacao = this.calcula_diferenca_data(partner.data_alteracao);
+                this.cpf_nota = currentOrder.client.cnpj_cpf;
+                this.create_date = currentOrder.client.create_date.substring(0,7);
+                this.atualizacao = this.calcula_diferenca_data(currentOrder.client.data_alteracao);
                 this.renderElement();
             }
             else{
