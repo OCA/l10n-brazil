@@ -157,6 +157,12 @@ class HrPayslipRun(models.Model):
             # Buscar contratos validos
             contracts_id = self.env['hr.contract'].search(dominio_contratos)
 
+            # Caso o tipo de lote for "Adiantamento de 13º", deverá ser trocado
+            # por "decimo_terceiro", já que os holerites são criados com esse
+            # tipo
+            if self.tipo_de_folha == 'adiantamento_13':
+                self.tipo_de_folha = 'decimo_terceiro'
+
             # buscar payslip ja processadas dos contratos validos
             dominio_payslips = [
                 ('tipo_de_folha', '=', self.tipo_de_folha),
