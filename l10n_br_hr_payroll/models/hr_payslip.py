@@ -923,8 +923,8 @@ class HrPayslip(models.Model):
                 # e para o cálculo dos avos, foi aplicada a regra dos 15 dias de
                 # trab.
 
-                media = valor / 12
-                # media += ((valor / 12) / 30) * periodo.saldo
+                # media = valor / 12
+                media += ((valor / 12) / 30) * periodo.saldo
 
             return media
 
