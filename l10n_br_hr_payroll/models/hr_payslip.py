@@ -918,7 +918,13 @@ class HrPayslip(models.Model):
                             if linha.code == codigo:
                                 valor += linha.total
 
-                media += ((valor / 12) / 30) * periodo.saldo
+                # Conforme e-mail enviado pela GECON-ABGF no dia 14/03/2018 às
+                # 16h52, foi considerado para o cálculo das médias o mês "cheio"
+                # e para o cálculo dos avos, foi aplicada a regra dos 15 dias de
+                # trab.
+
+                media = valor / 12
+                # media += ((valor / 12) / 30) * periodo.saldo
 
             return media
 
