@@ -267,6 +267,7 @@ function l10n_br_pos_screens(instance, module) {
             } else {
                 var cliente_cpf = fields.cnpj_cpf;
                 if (self.pos_widget.order_widget.verificar_cpf_cnpj(cliente_cpf.replace(/[^\d]+/g,''))){
+                    partner.name = fields.name;
                     partner.birthdate = fields.birthdate;
                     partner.cnpj_cpf = fields.cnpj_cpf;
                     var country = this.pos.countries.find(function(element) {return element.id==fields.country_id;});
