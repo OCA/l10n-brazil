@@ -49,6 +49,5 @@ class ResPartner(models.Model):
         if cnpj_cpf_type:
             fiscal_type = self.env.ref('l10n_br_account.partner_fiscal_type_4')
             partner_id.partner_fiscal_type_id = fiscal_type.id
-        if self.env.user.company_id.parent_id:
-            partner_id.company_id = self.env.user.company_id.parent_id.id
+
         return res
