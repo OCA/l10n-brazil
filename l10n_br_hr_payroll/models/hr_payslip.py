@@ -877,44 +877,29 @@ class HrPayslip(models.Model):
             #
             #  Identifica os períodos aquisitivos com saldo de férias
             #
-            folha_obj = self.env['hr.payslip']
             media = 0
             periodo = self.periodo_aquisitivo
             if periodo.saldo != 0:
                 #
                 #  Buscar Holerites do Período
                 #
-                dt_inicio_aquis = datetime.strptime(periodo.inicio_aquisitivo, '%Y-%m-%d')
-
-                dt_fim_aquis = datetime.strptime(periodo.fim_aquisitivo, '%Y-%m-%d')
-
-                r = relativedelta(dt_fim_aquis, dt_inicio_aquis)
-
+                inicio = datetime.strptime(
+                    periodo.inicio_aquisitivo, '%Y-%m-%d')
+                fim = datetime.strptime(
+                    periodo.fim_aquisitivo, '%Y-%m-%d')
+                r = relativedelta(fim, inicio)
                 meses = r.months
-
                 if r.days >= 15:
                     meses += 1
-
-                # Se tem data de demissao pegar a menor data
-                data_fim = min([dt_fim_aquis, datetime.strptime(self.date_to, '%Y-%m-%d')])
-
-                # recuperar data do inicio de mes
-                dt_inicio_mes = fields.Datetime.from_string(periodo.inicio_aquisitivo).replace(day=1)
-
-                # Se nao trabalhou mais do que 15 dias no mês, contabilizar o mes corrente
-                dias_nao_trabalhados = dt_inicio_aquis - dt_inicio_mes
-
-                if dias_nao_trabalhados.days < 15:
-                    # Trabalhou mais do que 15 dias no mes
-                    dt_data_de_inicio = dt_inicio_mes
-                    # Senão começar contabilizar medias apartir do mes seguint
-                else:
-                    dt_data_de_inicio = dt_inicio_mes + relativedelta(months=1)
-                    data_fim = dt_data_de_inicio + relativedelta(months=12)
-
+                folha_obj = self.env['hr.payslip']
+                data_fim = min([fim,
+                                datetime.strptime(self.date_to,
+                                                  '%Y-%m-%d')])
                 domain = [
-                    ('date_to', '>=', fields.Date.to_string(dt_data_de_inicio)),
-                    ('date_from', '<=', fields.Date.to_string(data_fim)),
+                #    ('date_from', '>=', periodo.inicio_aquisitivo),
+                #    ('date_from', '<=', data_fim),
+                    ('date_to', '>=', periodo.inicio_aquisitivo),
+                    ('date_to', '<=', data_fim),
                     ('contract_id', '=', self.contract_id.id),
                     ('tipo_de_folha', '=', 'normal'),
                     ('state', 'in', ['done', 'verify']),
