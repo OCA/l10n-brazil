@@ -43,10 +43,11 @@ class SpedDocumentoPagamento(models.Model):
         det_pag.vPag.valor = str(D(self.valor))
 
         if self.forma_pagamento in FORMA_PAGAMENTO_CARTOES:
-            det_pag.card.CNPJ.valor = limpa_formatacao(
-                self.participante_id.cnpj_cpf or '')
-            det_pag.card.tBand.valor = self.bandeira_cartao
-            det_pag.card.cAut.valor = self.numero_aprovacao
-            det_pag.card.tpIntegra.valor = self.integracao_cartao
+            if self.integracao_cartao == '1':
+                det_pag.card.tpIntegra.valor = self.integracao_cartao
+                det_pag.card.CNPJ.valor = limpa_formatacao(
+                    self.participante_id.cnpj_cpf or '')
+                det_pag.card.tBand.valor = self.bandeira_cartao
+                det_pag.card.cAut.valor = self.numero_aprovacao
 
         return det_pag
