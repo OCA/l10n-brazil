@@ -161,11 +161,13 @@ class HrPayslipRun(models.Model):
             # por "decimo_terceiro", já que os holerites são criados com esse
             # tipo
             if self.tipo_de_folha == 'adiantamento_13':
-                self.tipo_de_folha = 'decimo_terceiro'
+                tipo_de_folha = 'decimo_terceiro'
+            else:
+                tipo_de_folha = self.tipo_de_folha
 
             # buscar payslip ja processadas dos contratos validos
             dominio_payslips = [
-                ('tipo_de_folha', '=', self.tipo_de_folha),
+                ('tipo_de_folha', '=', tipo_de_folha),
                 ('contract_id', 'in', contracts_id.ids)
             ]
 
