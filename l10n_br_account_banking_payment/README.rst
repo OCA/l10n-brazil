@@ -49,8 +49,8 @@ Contributors
 ------------
 
 * Luis Felipe Mileo <mileo@kmee.com.br>
-* Fernandomr
-* Hendrix Costa
+* Fernando Marcato <fernando.marcato@kmee.com.br>
+* Hendrix Costa <hendrix.costa@kmee.com.br>
 * Magno Costa <magno.costa@akretion.com.br>
 
 Do not contact contributors directly about support or help with technical issues.
