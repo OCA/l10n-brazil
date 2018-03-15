@@ -1157,14 +1157,23 @@ class L10nBrSefip(models.Model):
 
         """
         result = 0.00
-        #
-        # Não pode ser informado para a competência 13
-        #
-        if folha.tipo_de_folha == 'rescisao':
 
-            result += self._valor_rubrica(folha.line_ids, "DESCONTO_ADIANTAMENTO_13")
+        result += self._valor_rubrica(folha.line_ids, 'ADIANTAMENTO_13_FERIAS')
 
-            return result
+        # Buscar folha de 13 salario
+        folha_ids = self.env['hr.payslip'].search([
+            ('ano', '=', self.ano),
+            ('tipo_de_folha', 'in', ['decimo_terceiro']),
+            ('state', 'in', ['done','verify']),
+            ('contract_id', '=', folha.contract_id.id),
+            # ('company_id.partner_id.cnpj_cpf', 'like', raiz)
+        ], limit=1)
+
+        if folha_ids:
+            result += \
+                self._valor_rubrica(folha_ids.line_ids, "PRIMEIRA_PARCELA_13")
+
+        return result
 
         # #
         # # As remunerações pagas após rescisão do contrato de trabalho e
@@ -1188,7 +1197,7 @@ class L10nBrSefip(models.Model):
         #     result = 0.00
         # return result
 
-        return self._valor_rubrica(folha.line_ids, 'ADIANTAMENTO_13_FERIAS')
+        # return self._valor_rubrica(folha.line_ids, 'ADIANTAMENTO_13_FERIAS')
 
     def _trabalhador_classe_contrib(self, folha):
         """ Registro 30. Item 18
