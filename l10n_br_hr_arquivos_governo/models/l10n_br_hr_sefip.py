@@ -1161,6 +1161,9 @@ class L10nBrSefip(models.Model):
         # Não pode ser informado para a competência 13
         #
         if folha.tipo_de_folha == 'rescisao':
+
+            result += self._valor_rubrica(folha.line_ids, "DESCONTO_ADIANTAMENTO_13")
+
             return result
 
         # #
@@ -1185,8 +1188,7 @@ class L10nBrSefip(models.Model):
         #     result = 0.00
         # return result
 
-        return self._valor_rubrica(
-            folha.line_ids, 'ADIANTAMENTO_13_FERIAS')
+        return self._valor_rubrica(folha.line_ids, 'ADIANTAMENTO_13_FERIAS')
 
     def _trabalhador_classe_contrib(self, folha):
         """ Registro 30. Item 18
