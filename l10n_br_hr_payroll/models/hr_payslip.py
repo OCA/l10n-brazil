@@ -873,43 +873,29 @@ class HrPayslip(models.Model):
             return 0
 
     def MEDIA_RUBRICA(self, codigo):
-
+        media = 0
         if self.tipo_de_folha in ['ferias', 'provisao_ferias']:
             #
             #  Identifica os períodos aquisitivos com saldo de férias
             #
-            media = 0
             periodo = self.periodo_aquisitivo
-            folha_obj = self.env['hr.payslip']
+
+            # Seta a Data final do aquisitivo apartir da inicial, para sempre
+            # pegar os holerites validos do periodo cheio
+            dt_fim = fields.Datetime.from_string(periodo.inicio_aquisitivo) + relativedelta(years=1, days=-1)
 
             if periodo.saldo != 0:
                 #
-                #  Buscar Holerites do Período
+                #  Buscar Holerites do Período Aquisitivo
                 #
-                dt_inicio_aquis = datetime.strptime(
-                    periodo.inicio_aquisitivo, '%Y-%m-%d')
-
-                dt_fim_aquis = datetime.strptime(
-                    periodo.fim_aquisitivo, '%Y-%m-%d')
-
-                r = relativedelta(dt_fim_aquis, dt_inicio_aquis)
-
-                meses = r.months
-                if r.days >= 15:
-                    meses += 1
-
-                # Se tem data de demissao pegar a menor data
-                data_fim = min([dt_fim_aquis,
-                                datetime.strptime(self.date_to, '%Y-%m-%d')])
-
                 domain = [
                     ('date_to', '>=', periodo.inicio_aquisitivo),
-                    ('date_from', '<=', fields.Date.to_string(data_fim)),
+                    ('date_to', '<',  str(dt_fim.date())),
                     ('contract_id', '=', self.contract_id.id),
                     ('tipo_de_folha', '=', 'normal'),
                     ('state', 'in', ['done', 'verify']),
                 ]
-                folhas_periodo = folha_obj.search(domain)
+                folhas_periodo = self.env['hr.payslip'].search(domain)
                 folhas_periodo = \
                     folhas_periodo.sorted(key=lambda r: r.date_from)
 
@@ -918,10 +904,9 @@ class HrPayslip(models.Model):
                 #
                 valor = 0
                 for holerite in folhas_periodo:
-                    if holerite.date_from <= fields.Date.to_string(data_fim):
-                        for linha in holerite.line_ids:
-                            if linha.code == codigo:
-                                valor += linha.total
+                    for linha in holerite.line_ids:
+                        if linha.code == codigo:
+                            valor += linha.total
 
                 # Conforme e-mail enviado pela GECON-ABGF no dia 14/03/2018 às
                 # 16h52, foi considerado para o cálculo das médias o mês "cheio"
