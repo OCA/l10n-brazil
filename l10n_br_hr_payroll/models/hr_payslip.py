@@ -880,27 +880,31 @@ class HrPayslip(models.Model):
             #
             media = 0
             periodo = self.periodo_aquisitivo
+            folha_obj = self.env['hr.payslip']
+
             if periodo.saldo != 0:
                 #
                 #  Buscar Holerites do Período
                 #
-                inicio = datetime.strptime(
+                dt_inicio_aquis = datetime.strptime(
                     periodo.inicio_aquisitivo, '%Y-%m-%d')
-                fim = datetime.strptime(
+
+                dt_fim_aquis = datetime.strptime(
                     periodo.fim_aquisitivo, '%Y-%m-%d')
-                r = relativedelta(fim, inicio)
+
+                r = relativedelta(dt_fim_aquis, dt_inicio_aquis)
+
                 meses = r.months
                 if r.days >= 15:
                     meses += 1
-                folha_obj = self.env['hr.payslip']
-                data_fim = min([fim,
-                                datetime.strptime(self.date_to,
-                                                  '%Y-%m-%d')])
+
+                # Se tem data de demissao pegar a menor data
+                data_fim = min([dt_fim_aquis,
+                                datetime.strptime(self.date_to, '%Y-%m-%d')])
+
                 domain = [
-                #    ('date_from', '>=', periodo.inicio_aquisitivo),
-                #    ('date_from', '<=', data_fim),
                     ('date_to', '>=', periodo.inicio_aquisitivo),
-                    ('date_to', '<=', data_fim),
+                    ('date_from', '<=', fields.Date.to_string(data_fim)),
                     ('contract_id', '=', self.contract_id.id),
                     ('tipo_de_folha', '=', 'normal'),
                     ('state', 'in', ['done', 'verify']),
@@ -914,7 +918,7 @@ class HrPayslip(models.Model):
                 #
                 valor = 0
                 for holerite in folhas_periodo:
-                    if holerite.date_to <= fields.Date.to_string(data_fim):
+                    if holerite.date_from <= fields.Date.to_string(data_fim):
                         for linha in holerite.line_ids:
                             if linha.code == codigo:
                                 valor += linha.total
