@@ -13,10 +13,14 @@
         'sped_nfe',
     ],
     'data': [
+        'security/sped_documento.xml',
         'security/sped_operacao.xml',
+
+        'views/sped_documento.xml',
         'views/sped_operacao.xml',
     ],
     'demo': [
+        'demo/sped_documento.xml',
         'demo/sped_operacao.xml',
     ],
 }
