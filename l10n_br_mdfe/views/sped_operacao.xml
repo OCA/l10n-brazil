@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 KMEE INFORMATICA LTDA, Grupo Zenir
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="sped_operacao_form_view">
+        <field name="name">sped.operacao.form (in l10n_br_mdfe)</field>
+        <field name="model">sped.operacao</field>
+        <field name="arch" type="xml">
+            <form string="Operação Fiscal - Emissão de MDF-e">
+                <sheet>
+                    <field name="emissao" invisible="1"/>
+                    <field name="modelo" invisible="1"/>
+                    <field name="id" invisible="1"/>
+                    <div class="oe_title">
+                        <label for="nome" class="oe_edit_only"/>
+                        <h1>
+                            <field name="nome" default_focus="1" placeholder="Nome" required="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group colspan="4" col="4">
+                             <field name="empresa_id" colspan="4" options="{'no_create': True, 'no_open': True}" domain="[('contribuinte', '=', '1')]"/>
+                             <newline/>
+                             <field name="tipo_emitente" attrs="{'required': '1', 'readonly': [('id', '!=', False)]}" colspan="2"/>
+                             <field name="serie"/>
+                             <field name="modalidade_transporte" attrs="{'required': '1', 'readonly': [('id', '!=', False)]}"/>
+                             <field name="tipo_transportador"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Informações complementares">
+                            <group>
+                                <group colspan="4" col="4">
+                                    <separator string="Informações complementares" colspan="4"/>
+                                    <field name="infcomplementar" colspan="4" nolabel="1"/>
+                                    <separator string="Informações adicionais de interesse do fisco" colspan="4"/>
+                                    <field name="infadfisco" colspan="4" nolabel="1"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_operacao_search_view">
+        <field name="name">sped.operacao.search (in l10n_br_mdfe)</field>
+        <field name="model">sped.operacao</field>
+        <field name="arch" type="xml">
+            <search string="Operação Fiscal - Emissão de MDF-E">
+                <field name="nome" />
+                <field name="empresa_id" />
+                <field name="tipo_emitente" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sped_operacao_tree_view">
+        <field name="name">sped.operacao.tree (in l10n_br_mdfe)</field>
+        <field name="model">sped.operacao</field>
+        <field name="arch" type="xml">
+            <tree string="Operação Fiscal - Emissão de MDF-e">
+                    <field name="nome" />
+                    <field name="empresa_id" />
+                    <field name="tipo_emitente" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sped_operacao_act_window">
+        <field name="name">MDF-E</field> <!-- TODO -->
+        <field name="res_model">sped.operacao</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('emissao', '=', '0'), ('modelo', '=', '58')]</field>
+        <field name="context">{'default_emissao': '0', 'default_modelo': '58'}</field>
+    </record>
+    
+    <record model="ir.actions.act_window.view" id="sped_operacao_emissao_mdfe_tree_acao">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="sped_operacao_tree_view"/>
+        <field name="act_window_id" ref="sped_operacao_act_window"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="sped_operacao_emissao_mdfe_form_acao">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sped_operacao_form_view"/>
+        <field name="act_window_id" ref="sped_operacao_act_window"/>
+    </record>
+
+    <record model="ir.ui.menu" id="sped_operacao_menu">
+        <field name="name">MDF-E</field>
+        <field name="parent_id" ref="sped_imposto.menu_sped_operacao_emissao"/>
+        <field name="action" ref="sped_operacao_act_window"/>
+        <field name="sequence" eval="300"/>
+    </record>
+
+</odoo>

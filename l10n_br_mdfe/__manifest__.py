@@ -10,9 +10,13 @@
     'license': 'AGPL-3',
     'author': 'KMEE INFORMATICA LTDA, Grupo Zenir,Odoo Community Association (OCA)',
     'depends': [
+        'sped_nfe',
     ],
     'data': [
+        'security/sped_operacao.xml',
+        'views/sped_operacao.xml',
     ],
     'demo': [
+        'demo/sped_operacao.xml',
     ],
 }
