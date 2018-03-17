@@ -145,6 +145,11 @@ function l10n_br_pos_screens(instance, module) {
             new instance.web.Model('res.partner').call('create_from_ui',[partner]).then(function(partner_id){
                 self.pos.pos_widget.clientlist_screen.reload_partners().then(function(){
                     var new_partner = self.pos.db.get_partner_by_id(partner_id);
+                    for (key in new_partner){
+                        if (new_partner[key] == false)
+                            new_partner[key] = null;
+                    }
+                    new_partner['country_id'] = false
 //                    new_partner['cnpj_cpf'] = new_partner['name'];
                     if (self.pos.config.pricelist_id){
                        new_partner['property_product_pricelist'][0] = self.pos.pricelist.id;
@@ -568,6 +573,11 @@ function l10n_br_pos_screens(instance, module) {
                             new instance.web.Model('res.partner').call('create_from_ui', [new_partner]).then(function (partner_id) {
                                 self.pos.pos_widget.clientlist_screen.reload_partners().then(function () {
                                     var new_partner = self.pos.db.get_partner_by_id(partner_id);
+                                    for (key in new_partner){
+                                        if (new_partner[key] == false)
+                                            new_partner[key] = null;
+                                    }
+                                    new_partner['country_id'] = false
                                     new_partner['cnpj_cpf'] = cpf;
                                     if (self.pos.config.pricelist_id) {
                                         new_partner['property_product_pricelist'][0] = self.pos.pricelist.id;
@@ -607,7 +617,6 @@ function l10n_br_pos_screens(instance, module) {
 
                     if(self.pos.config.crm_ativo && !this.calcula_diferenca_data(partner.data_alteracao)){
                         var ss = self.pos.pos_widget.screen_selector;
-                        self.edit_client_details(partner);
                         ss.set_current_screen('clientlist');
                         self.pos_widget.clientlist_screen.edit_client_details(partner);
                     }

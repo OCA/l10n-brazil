@@ -148,10 +148,9 @@
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-country)" t-operation="after">
             <div class='client-detail'>
                 <span class='label'>Estado:</span>
-                                <t t-if="partner.state_id">
-
-                <span class='detail client-state'><t t-esc='partner.state_id[1]' /></span>
-                                </t>
+                <t t-if="partner.state_id">
+                    <span class='detail client-state'><t t-esc='partner.state_id[1]' /></span>
+                </t>
             </div>
         </t>
     </t>
@@ -160,10 +159,9 @@
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-state)" t-operation="after">
             <div class='client-detail'>
                 <span class='label'>Cidade:</span>
-                                <t t-if="partner.l10n_br_city_id">
-
-                <span class='detail client-city'><t t-esc='partner.l10n_br_city_id[1]' /></span>
-                                </t>
+                <t t-if="partner.l10n_br_city_id">
+                    <span class='detail client-city'><t t-esc='partner.l10n_br_city_id[1]' /></span>
+                </t>
             </div>
         </t>
     </t>
@@ -212,7 +210,9 @@
         <t t-jquery="div.client-details-right > div.client-detail:has(.opt_out)" t-operation="after">
             <div class='client-detail'>
                 <span class='label'>Cliente desde</span>
-                <span class="detail client-create_date"><t t-esc='partner.create_date.substr(0,7)'/></span>
+                <t t-if="partner.create_date">
+                    <span class="detail client-create_date"><t t-esc='partner.create_date.substr(0,7)'/></span>
+                </t>
             </div>
         </t>
     </t>
@@ -240,7 +240,7 @@
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-zip)" t-operation="after">
             <div class='client-detail'>
                 <span class='label'>Telefone</span>
-                <input class='detail client-phone'  name='phone'    type='tel'      t-att-value='partner.phone || ""'></input>
+                <input class='detail client-phone' name='phone' type='tel' placeholder='Telefone' t-att-value='partner.phone || ""'></input>
                 <span class='label'>Whatsapp?</span>
                 <select class='detail whatsapp' name="whatsapp" style='width:10%;'>
                     <t t-if="partner.whatsapp">
@@ -264,7 +264,7 @@
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-phone)" t-operation="after">
             <div class='client-detail'>
                 <span class='label'>Email</span>
-                <input class='detail client-email'  name='email'    type='email'  t-att-value='partner.email || ""'></input>
+                <input class='detail client-email' name='email' type='email' placeholder='Email' t-att-value='partner.email || ""'></input>
             </div>
         </t>
     </t>
