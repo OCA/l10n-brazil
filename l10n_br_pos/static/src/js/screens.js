@@ -83,7 +83,8 @@ function l10n_br_pos_screens(instance, module) {
             } else {
                 if (self.pos.config.save_identity_automatic) {
                     new_partner = {};
-                    new_partner["name"] = pos_db.add_pontuation_document(documento);
+//                  new_partner["name"] = pos_db.add_pontuation_document(documento);
+                    new_partner["name"] = 'Anonimo';
                     if (new_partner["name"].length > 14) {
                         new_partner["is_company"] = true;
                     }
@@ -144,7 +145,7 @@ function l10n_br_pos_screens(instance, module) {
             new instance.web.Model('res.partner').call('create_from_ui',[partner]).then(function(partner_id){
                 self.pos.pos_widget.clientlist_screen.reload_partners().then(function(){
                     var new_partner = self.pos.db.get_partner_by_id(partner_id);
-                    new_partner['cnpj_cpf'] = new_partner['name'];
+//                    new_partner['cnpj_cpf'] = new_partner['name'];
                     if (self.pos.config.pricelist_id){
                        new_partner['property_product_pricelist'][0] = self.pos.pricelist.id;
                     }
@@ -558,7 +559,7 @@ function l10n_br_pos_screens(instance, module) {
                                 self.pos_widget.payment_screen.validate_order();
                         } else {
                             new_partner = {};
-                            new_partner["name"] = cpf;
+                            new_partner["name"] = 'Anonimo';
                             if (new_partner["name"].length > 14) {
                                 new_partner["is_company"] = true;
                             }
@@ -567,7 +568,7 @@ function l10n_br_pos_screens(instance, module) {
                             new instance.web.Model('res.partner').call('create_from_ui', [new_partner]).then(function (partner_id) {
                                 self.pos.pos_widget.clientlist_screen.reload_partners().then(function () {
                                     var new_partner = self.pos.db.get_partner_by_id(partner_id);
-                                    new_partner['cnpj_cpf'] = new_partner['name'];
+                                    new_partner['cnpj_cpf'] = cpf;
                                     if (self.pos.config.pricelist_id) {
                                         new_partner['property_product_pricelist'][0] = self.pos.pricelist.id;
                                     }
