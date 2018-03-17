@@ -552,6 +552,7 @@ function l10n_br_pos_screens(instance, module) {
                             if(self.pos.config.crm_ativo && !this.calcula_diferenca_data(partner.data_alteracao)){
                                 var ss = self.pos.pos_widget.screen_selector;
                                 ss.set_current_screen('clientlist');
+                                self.pos_widget.clientlist_screen.edit_client_details(partner);
                             }
                             if(!self.pos.config.crm_ativo)
                                 self.pos_widget.payment_screen.validate_order();
@@ -576,6 +577,7 @@ function l10n_br_pos_screens(instance, module) {
                                     if (self.pos.config.crm_ativo) {
                                         var ss = self.pos.pos_widget.screen_selector;
                                         ss.set_current_screen('clientlist');
+                                        self.pos_widget.clientlist_screen.edit_client_details(self.old_client);
                                     }
                                     if (self.pos.config.pricelist_id) {
                                         self.pos.pricelist_engine.update_products_ui(self.new_client);
@@ -604,7 +606,9 @@ function l10n_br_pos_screens(instance, module) {
 
                     if(self.pos.config.crm_ativo && !this.calcula_diferenca_data(partner.data_alteracao)){
                         var ss = self.pos.pos_widget.screen_selector;
+                        self.edit_client_details(partner);
                         ss.set_current_screen('clientlist');
+                        self.pos_widget.clientlist_screen.edit_client_details(partner);
                     }
                     if(!self.pos.config.crm_ativo)
                         self.pos_widget.payment_screen.validate_order();
