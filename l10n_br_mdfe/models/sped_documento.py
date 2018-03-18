@@ -132,6 +132,10 @@ class SpedDocumento(models.Model):
         comodel_name='l10n_br.mdfe.condutor',
         inverse_name='documento_id',
     )
+    lacre_ids = fields.One2many(
+        comodel_name='l10n_br.mdfe.lacre',
+        inverse_name='documento_id',
+    )
     carregamento_municipio_ids = fields.Many2many(
         comodel_name='sped.municipio',
         string='Municípios carregamento',
