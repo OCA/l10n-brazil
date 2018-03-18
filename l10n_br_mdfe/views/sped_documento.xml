@@ -55,14 +55,14 @@
                                     <group>
                                         <group string="Veículo" name="dados_veiculo">
                                             <field name="veiculo_id"/>
-                                            <field name="veiculo_ciot"/>
-                                            <field name="veiculo_placa"/>
-                                            <field name="veiculo_estado_id"/>
-                                            <field name="veiculo_tipo_rodado"/>
-                                            <field name="veiculo_tipo_carroceria"/>
-                                            <field name="veiculo_tara_kg"/>
-                                            <field name="veiculo_capacidade_kg"/>
-                                            <field name="veiculo_capacidade_m3"/>
+                                            <field name="veiculo_placa" attrs="{'readonly': [('veiculo_id', '!=', False)]}"/>
+                                            <field name="veiculo_estado_id" attrs="{'readonly': [('veiculo_id', '!=', False)]}"/>
+                                            <field name="veiculo_tipo_rodado" attrs="{'readonly': [('veiculo_id', '!=', False)]}"/>
+                                            <field name="veiculo_tipo_carroceria" attrs="{'readonly': [('veiculo_id', '!=', False)]}"/>
+                                            <field name="veiculo_tara_kg" attrs="{'readonly': [('veiculo_id', '!=', False)]}"/>
+                                            <field name="veiculo_capacidade_kg" attrs="{'readonly': [('veiculo_id', '!=', False)]}"/>
+                                            <field name="veiculo_capacidade_m3" attrs="{'readonly': [('veiculo_id', '!=', False)]}"/>
+                                            <field name="veiculo_ciot" attrs="{'readonly': [('veiculo_id', '!=', False)]}"/>
                                         </group>
                                         <group string="Condutores" name="condutores">
                                             <!--<field name="condutor_id" colspan="2"/>-->

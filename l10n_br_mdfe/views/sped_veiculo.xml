@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="sped_veiculo_form_view">
+        <field name="name">sped.veiculo.form (in l10n_br_mdfe)</field>
+        <field name="model">sped.veiculo</field>
+        <field name="inherit_id" ref="sped.sped_veiculo_form"/>
+        <field name="arch" type="xml">
+            <label for="placa" position="before">
+                <h2>
+                    <field name="codigo" placeholder="Código"/>
+                </h2>
+            </label>
+            <field name="motorista_id" position="after">
+                <field name="tipo_rodado"/>
+                <field name="tipo_carroceria"/>
+                <field name="ciot"/>
+                <field name="tara_kg"/>
+                <field name="capacidade_kg"/>
+                <field name="capacidade_m3"/>
+            </field>
+        </field>
+    </record>
+
+    <!--<record model="ir.ui.view" id="sped_veiculo_search_view">-->
+        <!--<field name="name">sped.veiculo.search (in l10n_br_mdfe)</field>-->
+        <!--<field name="model">sped.veiculo</field>-->
+        <!--<field name="inherit_id" ref="TODO othermodule.search_view"/>-->
+        <!--<field name="arch" type="xml">-->
+            <!--&lt;!&ndash; TODO &ndash;&gt;-->
+        <!--</field>-->
+    <!--</record>-->
+
+    <!--<record model="ir.ui.view" id="sped_veiculo_tree_view">-->
+        <!--<field name="name">sped.veiculo.tree (in l10n_br_mdfe)</field>-->
+        <!--<field name="model">sped.veiculo</field>-->
+        <!--<field name="inherit_id" ref="TODO othermodule.tree_view"/>-->
+        <!--<field name="arch" type="xml">-->
+            <!--&lt;!&ndash; TODO &ndash;&gt;-->
+        <!--</field>-->
+    <!--</record>-->
+
+    <!--<record model="ir.actions.act_window" id="sped_veiculo_act_window">-->
+        <!--<field name="name">Sped Veiculo</field> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--<field name="res_model">sped.veiculo</field>-->
+        <!--<field name="view_mode">tree,form</field>-->
+        <!--<field name="domain">[]</field>-->
+        <!--<field name="context">{}</field>-->
+    <!--</record>-->
+
+    <!--<record model="ir.ui.menu" id="sped_veiculo_menu">-->
+        <!--<field name="name">Sped Veiculo</field>-->
+        <!--<field name="parent_id" ref="xmlid of parent menu"/> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--<field name="action" ref="sped_veiculo_act_window"/>-->
+        <!--<field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
+    <!--</record>-->
+
+</odoo>

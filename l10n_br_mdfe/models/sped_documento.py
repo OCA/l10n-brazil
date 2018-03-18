@@ -85,43 +85,56 @@ class SpedDocumento(models.Model):
         string='Veiculo',
         comodel_name='sped.veiculo',
     )
-    # veiculo_codigo = fields.Char(
-    #     string='Código veiculo',
-    # )
     veiculo_rntrc = fields.Char(
-        related='veiculo_id.rntrc',
+        string='RNTRC',
         size=20,
-        readonly=True,
-    )
-    veiculo_ciot = fields.Char(
-        string='Tipo CIOT',
-        help='Também Conhecido como conta frete',
+        related='veiculo_id.rntrc',
+        store=True,
     )
     veiculo_placa = fields.Char(
         string='Placa',
         size=8,
         related='veiculo_id.placa',
+        store=True,
     )
     veiculo_estado_id = fields.Many2one(
         comodel_name='sped.estado',
         string='Estado',
+        related='veiculo_id.estado_id',
+        store=True,
+    )
+    veiculo_ciot = fields.Char(
+        string='Tipo CIOT',
+        help='Também Conhecido como conta frete',
+        related='veiculo_id.ciot',
+        store=True,
     )
     veiculo_tipo_rodado = fields.Selection(
         selection=TIPO_RODADO,
         string='Rodado',
+        related='veiculo_id.tipo_rodado',
+        store=True,
     )
     veiculo_tipo_carroceria = fields.Selection(
         selection=TIPO_CARROCERIA,
         string='Tipo de carroceria',
+        related='veiculo_id.tipo_carroceria',
+        store=True,
     )
     veiculo_tara_kg = fields.Float(
-        string='Tara (kg)'
+        string='Tara (kg)',
+        related = 'veiculo_id.tara_kg',
+        store = True,
     )
     veiculo_capacidade_kg = fields.Float(
         string='Capacidade (kg)',
+        related='veiculo_id.capacidade_kg',
+        store=True,
     )
     veiculo_capacidade_m3 = fields.Float(
-        string='Capacidade (m³)'
+        string='Capacidade (m³)',
+        related='veiculo_id.capacidade_m3',
+        store=True,
     )
     carregamento_municipio_ids = fields.Many2many(
         comodel_name='sped.municipio',
