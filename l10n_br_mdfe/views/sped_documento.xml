@@ -183,6 +183,34 @@
                                 </group>
                             </group>
                         </page>
+                        <page name="mdfe_seguro" string="Seguro">
+                            <field name="seguro_ids">
+                                <tree>
+                                    <field name="documento_id" invisible="1"/>
+                                    <field name="responsavel_seguro"/>
+                                    <field name="responsavel_cnpj_cpf"/>
+                                    <field name="name"/>
+                                    <field name="cnpj_cpf"/>
+                                    <field name="numero_apolice"/>
+                                </tree>
+                                <form string="Seguro">
+                                    <group>
+                                        <field name="responsavel_seguro"/>
+                                        <field name="responsavel_cnpj_cpf"/>
+                                        <field name="seguradora_id"/>
+                                        <field name="name"/>
+                                        <field name="cnpj_cpf"/>
+                                        <field name="numero_apolice"/>
+                                    </group>
+                                    <field name="averbacao_ids">
+                                        <tree editable="top">
+                                            <field name="seguro_id" invisible="1"/>
+                                            <field name="name"/>
+                                        </tree>
+                                    </field>
+                                </form>
+                            </field>
+                        </page>
                         <!--<page name="transporte" string="Transporte">-->
                             <!--<group>-->
                                 <!--<group colspan="4" col="4">-->

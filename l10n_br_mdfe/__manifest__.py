@@ -22,6 +22,7 @@
         'views/sped_operacao.xml',
     ],
     'demo': [
+        'demo/l10n_br_mdfe_seguro.xml',
         'demo/l10n_br_mdfe_lacre.xml',
         'demo/l10n_br_mdfe_condutor.xml',
         'demo/sped_documento.xml',

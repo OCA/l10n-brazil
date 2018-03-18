@@ -150,6 +150,10 @@ class SpedDocumento(models.Model):
         comodel_name='sped.estado',
         string='Estado descarregamento'
     )
+    seguro_ids = fields.One2many(
+        comodel_name='l10n_br.mdfe.seguro',
+        inverse_name='documento_id',
+    )
 
     @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
     def _onchange_operacao_id(self):
