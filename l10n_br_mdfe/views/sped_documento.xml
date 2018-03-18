@@ -138,22 +138,13 @@
                                 <!--</group>-->
                             <!--</group>-->
                         </page>
-                        <!--<page name="itens" string="Itens">-->
-                            <!--<group>-->
-                                <!--<group colspan="4" col="4">-->
-                                    <!--<field name="item_ids" nolabel="1" colspan="4" attrs="{'readonly': [('permite_alteracao', '=', False)]}"/>-->
-                                <!--</group>-->
-                            <!--</group>-->
-                        <!--</page>-->
-                        <page name="itens_mdfe" string="Entregas">
-
-                        </page>
-                        <page name="percurso" string="Percurso">
+                        <page name="itens_mdfe" string="Percurso">
                             <group col="6">
                                 <field name="carregamento_municipio_ids" widget="many2many_tags" colspan="2"/>
                                 <field name="percurso_estado_ids"  widget="many2many_tags"  colspan="2"/>
                                 <field name="descarregamento_estado_id"  colspan="2"/>
                             </group>
+                            <field name="item_mdfe_ids"/>
                         </page>
 
                         <page name="totais" string="Totais">

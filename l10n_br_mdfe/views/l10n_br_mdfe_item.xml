@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 KMEE INFORMATICA LTDA, Grupo Zenir
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_mdfe_item_form_view">
+        <field name="name">l10n_br.mdfe.item.form (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br.mdfe.item</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="mdfe_id" invisible="1"/>
+                    <group>
+                        <group col="4" colspan="4">
+                            <field name="documento_id" colspan="2"/>
+                            <newline />
+                            <field name="documento_chave" colspan="4"/>
+                            <newline />
+                            <field name="documento_serie" />
+                            <field name="documento_numero" />
+                            <newline />
+                            <field name="documento_modelo" />
+                            <field name="documento_situacao"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Remetente">
+                            <field name="remetente_id"/>
+                            <field name="remetente_cidade_id"/>
+                            <field name="data_hora_solicitacao"/>
+                            <field name="data_hora_carregamento"/>
+                            <field name="data_hora_expedicao"/>
+                        </group>
+                        <group string="Destinatário">
+                            <field name="destinatario_cidade_id"/>
+                            <field name="destinatario_id"/>
+                            <field name="data_hora_entrega"/>
+                        </group>
+                        <group col="4" colspan="4">
+                            <field name="peso_liquido"/>
+                            <field name="peso_bruto"/>
+                            <field name="volume_liquido"/>
+                            <field name="volume_bruto"/>
+                            <field name="quantidade"/>
+                        </group>
+                        <field name="observacoes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_mdfe_item_tree_view">
+        <field name="name">l10n_br.mdfe.item.tree (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br.mdfe.item</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="mdfe_id" invisible="1"/>
+                <field name="remetente_cidade_id"/>
+                <field name="remetente_id"/>
+                <field name="destinatario_cidade_id"/>
+                <field name="destinatario_id"/>
+                <field name="data_hora_solicitacao"/>
+                <field name="documento_id"/>
+                <field name="documento_serie"/>
+                <field name="documento_numero"/>
+                <field name="documento_situacao"/>
+                <field name="volume_liquido"/>
+                <field name="volume_bruto"/>
+                <field name="peso_liquido"/>
+                <field name="peso_bruto"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--<record model="ir.actions.act_window" id="l10n_br_mdfe_item_act_window">-->
+        <!--<field name="name">L10n_br Mdfe Item</field> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--<field name="res_model">l10n_br.mdfe.item</field>-->
+        <!--<field name="view_mode">tree,form</field>-->
+        <!--<field name="domain">[]</field>-->
+        <!--<field name="context">{}</field>-->
+    <!--</record>-->
+
+    <!--<record model="ir.ui.menu" id="l10n_br_mdfe_item_menu">-->
+        <!--<field name="name">L10n_br Mdfe Item</field>-->
+        <!--<field name="parent_id" ref="xmlid of parent menu"/> &lt;!&ndash; TODO &ndash;&gt;-->
+        <!--<field name="action" ref="l10n_br_mdfe_item_act_window"/>-->
+        <!--<field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
+    <!--</record>-->
+
+</odoo>

@@ -123,19 +123,6 @@ class SpedDocumento(models.Model):
     veiculo_capacidade_m3 = fields.Float(
         string='Capacidade (m³)'
     )
-    condutor_id = fields.Many2one(
-        comodel_name='sped.participante',
-        string='Condutor',
-        # domain=[('eh_pessoa_fisica', '=', True)]
-    )
-    condutor_ids = fields.One2many(
-        comodel_name='l10n_br.mdfe.condutor',
-        inverse_name='documento_id',
-    )
-    lacre_ids = fields.One2many(
-        comodel_name='l10n_br.mdfe.lacre',
-        inverse_name='documento_id',
-    )
     carregamento_municipio_ids = fields.Many2many(
         comodel_name='sped.municipio',
         string='Municípios carregamento',
@@ -150,9 +137,21 @@ class SpedDocumento(models.Model):
         comodel_name='sped.estado',
         string='Estado descarregamento'
     )
+    condutor_ids = fields.One2many(
+        comodel_name='l10n_br.mdfe.condutor',
+        inverse_name='documento_id',
+    )
+    lacre_ids = fields.One2many(
+        comodel_name='l10n_br.mdfe.lacre',
+        inverse_name='documento_id',
+    )
     seguro_ids = fields.One2many(
         comodel_name='l10n_br.mdfe.seguro',
         inverse_name='documento_id',
+    )
+    item_mdfe_ids = fields.One2many(
+        comodel_name='l10n_br.mdfe.item',
+        inverse_name='mdfe_id',
     )
 
     @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
