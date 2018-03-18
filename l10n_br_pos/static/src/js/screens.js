@@ -631,14 +631,9 @@ function l10n_br_pos_screens(instance, module) {
         calcula_diferenca_data: function(data_alteracao){
             if(data_alteracao){
                 var today = new Date();
-                var month = parseInt(today.getMonth())+1;
-                var year = today.getFullYear();
-                var year_partner = parseInt(data_alteracao.substring(0,4));
-                var month_partner  = parseInt(data_alteracao.substring(5,7));
+                var date_partner = new Date(data_alteracao)
                 var lim_data_alteracao = parseInt(this.pos.config.lim_data_alteracao);
-                if ((year - year_partner) == 0 && (month_partner + lim_data_alteracao) >= month)
-                    return true;
-                else if ((year - year_partner) == 1 && (month_partner + lim_data_alteracao) >= 12+month)
+                if( Math.floor((today.getTime() - date_partner.getTime())*3.81E-10) <= lim_data_alteracao)
                     return true;
             }
             return false;
