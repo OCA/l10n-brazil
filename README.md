@@ -78,6 +78,7 @@ Available addons
 addon | version | summary
 --- | --- | ---
 [l10n_br_account](l10n_br_account/) | 8.0.2.0.0 | Brazilian Localization Account
+[l10n_br_account_banking_payment](l10n_br_account_banking_payment/) | 8.0.1.0.0 | Brazilian Banking - Debit and Payments Export Infrastructure
 [l10n_br_account_product](l10n_br_account_product/) | 8.0.3.0.0 | Brazilian Localization Account Product
 [l10n_br_account_product_service](l10n_br_account_product_service/) | 8.0.2.0.0 | Brazilian Localization Account Product and Service
 [l10n_br_account_service](l10n_br_account_service/) | 8.0.2.0.0 | Brazilian Localization Account Service
