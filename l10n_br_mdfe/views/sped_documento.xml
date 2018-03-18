@@ -65,9 +65,21 @@
                                             <field name="veiculo_capacidade_m3"/>
                                         </group>
                                         <group string="Condutores" name="condutores">
-                                            <field name="condutor_id"/>
-                                            <field name="condutor_nome"/>
-                                            <field name="condutor_cfp"/>
+                                            <!--<field name="condutor_id" colspan="2"/>-->
+                                            <field name="condutor_ids" nolabel="1" colspan="2">
+                                                <tree>
+                                                    <field name="condutor_id" invisible="1"/>
+                                                    <field name="name"/>
+                                                    <field name="cpf"/>
+                                                </tree>
+                                                <form>
+                                                    <group>
+                                                        <field name="condutor_id"/>
+                                                        <field name="name" required="1"/>
+                                                        <field name="cpf" required="1"/>
+                                                    </group>
+                                                </form>
+                                            </field>
                                         </group>
                                     </group>
                                 </page>
@@ -136,6 +148,14 @@
                         <page name="itens_mdfe" string="Entregas">
 
                         </page>
+                        <page name="percurso" string="Percurso">
+                            <group col="6">
+                                <field name="carregamento_municipio_ids" widget="many2many_tags" colspan="2"/>
+                                <field name="percurso_estado_ids"  widget="many2many_tags"  colspan="2"/>
+                                <field name="descarregamento_estado_id"  colspan="2"/>
+                            </group>
+                        </page>
+
                         <page name="totais" string="Totais">
                             <group colspan="4" col="4">
                                 <group colspan="4" col="4" string="Valores principais">

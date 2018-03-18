@@ -2,6 +2,8 @@
 # Copyright 2018 KMEE INFORMATICA LTDA, Grupo Zenir
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from __future__ import division, print_function, unicode_literals
+
 from odoo import api, fields, models, _
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODELO_FISCAL_MDFE,
@@ -126,16 +128,25 @@ class SpedDocumento(models.Model):
         string='Condutor',
         # domain=[('eh_pessoa_fisica', '=', True)]
     )
-    condutor_nome = fields.Char(
-        related='condutor_id.nome',
-        readonly=True,
-        string='Nome completo',
+    condutor_ids = fields.One2many(
+        comodel_name='l10n_br.mdfe.condutor',
+        inverse_name='documento_id',
     )
-    condutor_cfp = fields.Char(
-        related='condutor_id.cnpj_cpf',
-        readonly=True,
-        string='CPF',
+    carregamento_municipio_ids = fields.Many2many(
+        comodel_name='sped.municipio',
+        string='Municípios carregamento',
+        help='Máximo 50',
     )
+    percurso_estado_ids = fields.Many2many(
+        comodel_name='sped.estado',
+        string='UFs de percurso',
+        help='Máximo 25',
+    )
+    descarregamento_estado_id = fields.Many2one(
+        comodel_name='sped.estado',
+        string='Estado descarregamento'
+    )
+
     @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
     def _onchange_operacao_id(self):
         result = super(SpedDocumento, self)._onchange_operacao_id()

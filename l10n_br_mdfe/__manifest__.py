@@ -13,6 +13,7 @@
         'sped_nfe',
     ],
     'data': [
+        'security/l10n_br_mdfe_condutor.xml',
         'security/sped_documento.xml',
         'security/sped_operacao.xml',
 
@@ -20,6 +21,7 @@
         'views/sped_operacao.xml',
     ],
     'demo': [
+        'demo/l10n_br_mdfe_condutor.xml',
         'demo/sped_documento.xml',
         'demo/sped_operacao.xml',
     ],
