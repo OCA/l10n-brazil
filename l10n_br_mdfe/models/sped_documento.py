@@ -8,6 +8,8 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     TIPO_TRANSPORTADOR,
     MODALIDADE_TRANSPORTE,
     TIPO_EMITENTE,
+    TIPO_RODADO,
+    TIPO_CARROCERIA
 )
 
 
@@ -77,7 +79,63 @@ class SpedDocumento(models.Model):
         selection=MODALIDADE_TRANSPORTE,
         string='Modalidade',
     )
-
+    veiculo_id = fields.Many2one(
+        string='Veiculo',
+        comodel_name='sped.veiculo',
+    )
+    # veiculo_codigo = fields.Char(
+    #     string='Código veiculo',
+    # )
+    veiculo_rntrc = fields.Char(
+        related='veiculo_id.rntrc',
+        size=20,
+        readonly=True,
+    )
+    veiculo_ciot = fields.Char(
+        string='Tipo CIOT',
+        help='Também Conhecido como conta frete',
+    )
+    veiculo_placa = fields.Char(
+        string='Placa',
+        size=8,
+        related='veiculo_id.placa',
+    )
+    veiculo_estado_id = fields.Many2one(
+        comodel_name='sped.estado',
+        string='Estado',
+    )
+    veiculo_tipo_rodado = fields.Selection(
+        selection=TIPO_RODADO,
+        string='Rodado',
+    )
+    veiculo_tipo_carroceria = fields.Selection(
+        selection=TIPO_CARROCERIA,
+        string='Tipo de carroceria',
+    )
+    veiculo_tara_kg = fields.Float(
+        string='Tara (kg)'
+    )
+    veiculo_capacidade_kg = fields.Float(
+        string='Capacidade (kg)',
+    )
+    veiculo_capacidade_m3 = fields.Float(
+        string='Capacidade (m³)'
+    )
+    condutor_id = fields.Many2one(
+        comodel_name='sped.participante',
+        string='Condutor',
+        # domain=[('eh_pessoa_fisica', '=', True)]
+    )
+    condutor_nome = fields.Char(
+        related='condutor_id.nome',
+        readonly=True,
+        string='Nome completo',
+    )
+    condutor_cfp = fields.Char(
+        related='condutor_id.cnpj_cpf',
+        readonly=True,
+        string='CPF',
+    )
     @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
     def _onchange_operacao_id(self):
         result = super(SpedDocumento, self)._onchange_operacao_id()
