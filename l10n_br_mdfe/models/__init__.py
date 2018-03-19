@@ -5,3 +5,4 @@ from . import l10n_br_mdfe_lacre
 from . import l10n_br_mdfe_seguro
 from . import l10n_br_mdfe_item
 from . import sped_veiculo
+from . import sped_empresa

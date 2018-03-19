@@ -13,6 +13,7 @@
         'sped_nfe',
     ],
     'data': [
+        'views/sped_empresa.xml',
         'views/sped_veiculo.xml',
         'security/l10n_br_mdfe_item.xml',
         'views/l10n_br_mdfe_item.xml',
