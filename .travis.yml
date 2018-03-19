@@ -11,6 +11,7 @@ addons:
       - expect-dev  # provides unbuffer utility
       - python-lxml  # because pip installation is slow
       - libxmlsec1-dev
+      - poppler-utils
 
 env:
   - VERSION="8.0" LINT_CHECK="1"
