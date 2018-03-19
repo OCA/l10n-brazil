@@ -11,7 +11,10 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     MODALIDADE_TRANSPORTE,
     TIPO_EMITENTE,
     TIPO_RODADO,
-    TIPO_CARROCERIA
+    TIPO_CARROCERIA,
+    AMBIENTE_MDFE_PRODUCAO,
+    TIPO_EMISSAO_MDFE_NORMAL,
+    TIPO_EMISSAO_MDFE_CONTINGENCIA,
 )
 
 
@@ -167,6 +170,35 @@ class SpedDocumento(models.Model):
         inverse_name='mdfe_id',
     )
 
+    def _serie_padrao_mdfe(self, empresa, ambiente_mdfe, tipo_emissao_mdfe):
+        if tipo_emissao_mdfe == TIPO_EMISSAO_MDFE_NORMAL:
+            if ambiente_mdfe == AMBIENTE_MDFE_PRODUCAO:
+                serie = empresa.serie_mdfe_producao
+            else:
+                serie = empresa.serie_mdfe_homologacao
+
+        elif tipo_emissao_mdfe == TIPO_EMISSAO_MDFE_CONTINGENCIA:
+            if ambiente_mdfe == AMBIENTE_MDFE_PRODUCAO:
+                serie = empresa.serie_mdfe_contingencia_producao
+            else:
+                serie = empresa.serie_mdfe_contingencia_homologacao
+
+        return serie
+
+    @api.onchange('empresa_id', 'modelo', 'emissao')
+    def _onchange_empresa_id(self):
+        result = super(SpedDocumento, self)._onchange_empresa_id()
+
+        if self.modelo == MODELO_FISCAL_MDFE:
+            result['value']['ambiente_nfe'] = self.empresa_id.ambiente_mdfe
+            result['value']['tipo_emissao_nfe'] = self.empresa_id.tipo_emissao_mdfe
+            result['value']['serie'] = self._serie_padrao_mdfe(
+                self.empresa_id,
+                self.empresa_id.ambiente_mdfe,
+                self.empresa_id.tipo_emissao_mdfe
+            )
+        return result
+
     @api.onchange('operacao_id', 'emissao', 'natureza_operacao_id')
     def _onchange_operacao_id(self):
         result = super(SpedDocumento, self)._onchange_operacao_id()
@@ -179,3 +211,32 @@ class SpedDocumento(models.Model):
                 self.operacao_id.modalidade_transporte
 
         return result
+
+    @api.onchange('empresa_id', 'modelo', 'emissao', 'serie', 'ambiente_nfe')
+    def _onchange_serie(self):
+        result = super(SpedDocumento, self)._onchange_serie()
+
+        if not self.modelo == MODELO_FISCAL_MDFE:
+            return result
+
+        serie = self.serie and self.serie.strip()
+
+        ultimo_numero = self.search([
+            ('empresa_id.cnpj_cpf', '=', self.empresa_id.cnpj_cpf),
+            ('ambiente_nfe', '=', self.ambiente_nfe),
+            ('emissao', '=', self.emissao),
+            ('modelo', '=', self.modelo),
+            ('serie', '=', serie),
+            ('numero', '!=', False),
+        ], limit=1, order='numero desc')
+
+        result['value']['serie'] = serie
+
+        if not ultimo_numero:
+            result['value']['numero'] = 1
+        else:
+            result['value']['numero'] = ultimo_numero[0].numero + 1
+
+        return result
+
+
