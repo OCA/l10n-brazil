@@ -1570,7 +1570,6 @@ class HrPayslip(models.Model):
         valores = 0
 
         if holerite:
-            print 'Lala'
             print (self.date_from <= holerite.date_from <= self.date_to or
                     self.date_from <= holerite.date_to <= self.date_to)
             if (self.date_from <= holerite.date_from <= self.date_to or
