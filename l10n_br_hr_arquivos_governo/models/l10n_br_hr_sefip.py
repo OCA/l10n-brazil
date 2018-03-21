@@ -866,7 +866,7 @@ class L10nBrSefip(models.Model):
                     elif line.code == 'INSS_RAT_FAP':
                         empresas[line.slip_id.company_id.id][
                             'INSS_rat_fap'] += line.total
-                    elif line.code == 'IRPF':
+                    elif line.code in ['IRPF', 'IRPF_13']:
                         if line.slip_id.contract_id.categoria in \
                                 ['721', '722']:
                             codigo_darf = '0588'
