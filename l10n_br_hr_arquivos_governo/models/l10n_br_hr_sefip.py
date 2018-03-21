@@ -854,7 +854,7 @@ class L10nBrSefip(models.Model):
                                 'qtd_contribuintes'] = 1
                             contribuicao_sindical[id_sindicato][
                                 'total_remuneracao'] = remuneracao.total
-                    elif line.code == 'INSS':
+                    elif line.code in ['INSS', 'INSS_13']:
                         empresas[line.slip_id.company_id.id][
                             'INSS_funcionarios'] += line.total
                     elif line.code == 'INSS_EMPRESA':
