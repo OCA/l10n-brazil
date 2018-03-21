@@ -55,22 +55,3 @@ class L10nBrMdfeSeguro(models.Model):
     )
     # TODO: Validar o CNPJ/ CPF
     # TODO: Formatar o CNPJ / CPF
-
-
-class L10nBrMdfeSeguroAverbacao(models.Model):
-
-    _name = b'l10n_br.mdfe.seguro.averbacao'
-    _description = 'Mdfe Seguro Averbação'
-    name = fields.Char(
-        string='Numero da averbação',
-        size=40,
-    )
-    seguro_id = fields.Many2one(
-        comodel_name='l10n_br.mdfe.seguro',
-
-    )
-    documento_id = fields.Many2one(
-        comodel_name='sped.documento',
-        related='seguro_id.documento_id',
-        store=True,
-    )
