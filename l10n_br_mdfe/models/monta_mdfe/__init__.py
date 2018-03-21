@@ -11,4 +11,3 @@ from . import l10n_br_mdfe_seguro_averbacao
 from . import l10n_br_mdfe_item
 from . import sped_veiculo
 from . import sped_empresa
-from . import monta_mdfe
