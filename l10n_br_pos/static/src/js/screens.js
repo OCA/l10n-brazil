@@ -435,42 +435,10 @@ function l10n_br_pos_screens(instance, module) {
                 this.toggle_save_button();
 
                $( document ).ready(function() {
-                    if( partner.country_id != null){
-                        new instance.web.Model('res.country.state').call('get_states_ids', [partner.country_id[0]]).then(function (result) {
-                        $('.client-address-state').children('option:not(:first)').remove();
-                            $.each(result, function(key, value){
-                                if(partner.state_id != null && partner.state_id[0] == key){
-                                     $('.client-address-state').append($("<option></option>")
-                                                  .attr("value",key)
-                                                  .attr("selected",true)
-                                                  .text(value));
-                                }
-                                else{
-                                    $('.client-address-state').append($("<option></option>")
-                                                  .attr("value",key)
-                                                  .text(value));
-                                }
-                            });
-                        });
-                    }
-                    if(partner.state_id != null){
-                            new instance.web.Model('l10n_br_base.city').call('get_city_ids', [partner.state_id[0]]).then(function (result) {
-                            $('.client-address-city').children('option:not(:first)').remove();
-                                $.each(result, function(key, value){
-                                    if(partner.l10n_br_city_id != null && partner.l10n_br_city_id[0] == key){
-                                    $('.client-address-city').append($("<option></option>")
-                                                      .attr("value",key)
-                                                      .attr("selected", true)
-                                                      .text(value));
-                                    }
-                                    else{
-                                     $('.client-address-city').append($("<option></option>")
-                                                      .attr("value",key)
-                                                      .text(value));
-                                    }
-                                });
-                            });
-                    }
+                    if(partner.country_id != null && partner.state_id != null)
+                        self.pos_widget.clientlist_screen.carrega_cep(partner.country_id[0], partner.state_id[0], partner.l10n_br_city_id[0]);
+                    else if(partner.country_id != null)
+                      self.pos_widget.clientlist_screen.carrega_cep(partner.country_id[0]);
                 });
 		       $('.client-address-country', this.el).change(function(e){
                 var country_id = $('.client-address-country').val();
@@ -701,12 +669,16 @@ function l10n_br_pos_screens(instance, module) {
 
             this.$('.button.sim').click(function(){
                 this.cpf_na_nota = true;
+                $(".pos-leftpane :input").attr('disabled',false);
+                $(".pos-topheader *").attr('disabled',false);
                 self.cpf_cupom_fiscal(currentOrder);
             });
 
             this.$('.button.nao').click(function(){
                 this.cpf_na_nota = false;
-                self.pos_widget.screen_R.close_popup();
+                self.pos_widget.screen_selector.close_popup();
+                $(".pos-leftpane :input").attr('disabled', false);
+                $(".pos-topheader *").attr('disabled', false);
                 if(!self.pos.config.crm_ativo)
                     self.pos_widget.payment_screen.validate_order();
             });
