@@ -11,9 +11,10 @@ Installation
 
 This module depends on:
 
-* l10n_br_account
 * l10n_br_data_base
+* l10n_br_account_product
 * account_due_list_payment_mode
+* l10n_br_account_banking_payment
 
 Configuration
 =============
@@ -49,6 +50,11 @@ Credits
 Contributors
 ------------
 
+* Luis Felipe Mileo <mileo@kmee.com.br>
+* Hendrix Costa <hendrix.costa@kmee.com.br>
+* Magno Costa <magno.costa@akretion.com.br>
+
+Do not contact contributors directly about support or help with technical issues.
 
 Maintainer
 ----------
