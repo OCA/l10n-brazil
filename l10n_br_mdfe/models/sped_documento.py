@@ -239,4 +239,31 @@ class SpedDocumento(models.Model):
 
         return result
 
+    def _confirma_documento(self):
+        """
+        TODO: Calcular informações do MDF-E:
+            - Cidades/Estado do percurso;
+            - Realizar validações;
+            - Solicitar envio de NF-E em estado a_enviar;
+            - Providenciar o envio do MDF-E caso todas as notas estejam
+            autorizadas;
+            - etc.
 
+        :return:
+        """
+
+        result = super(SpedDocumento, self)._confirma_documento()
+        return result
+
+    def _envia_documento(self):
+        self.ensure_one()
+        result = super(SpedDocumento, self)._envia_documento()
+        if not self.modelo == MODELO_FISCAL_MDFE:
+            return result
+
+        # processador = self.processador_cfe()
+        processador = False
+
+        mdfe = self.monta_mdfe(processador)
+
+        print(mdfe)
