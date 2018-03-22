@@ -11,15 +11,17 @@
                         <div class="row">
                             <input class='busca-cpf-cnpj' name="busca-cpf-cnpj" placeholder="Insira o CPF/CNPJ"></input>
                         </div>
-                        <div class="row">
-                            <span class='label'>Cliente desde:</span>
-                            <span class='date_cliente' name="date_cliente"/>
-                        </div>
                     </div>
                     <div class="col-md-6">
                         <button class="input-button number-char btn-busca-cpf-cnpj">Buscar</button>
                     </div>
                     <div class="clear"></div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                            <span class='label'>Cliente desde:</span>
+                            <span class='date_cliente' name="date_cliente"/>
+                    </div>
                 </div>
             </div>
         </t>
