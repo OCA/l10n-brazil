@@ -686,6 +686,13 @@ function l10n_br_pos_screens(instance, module) {
                 $(".pos-topheader *").attr('disabled', false);
                 if(!self.pos.config.crm_ativo)
                     self.pos_widget.payment_screen.validate_order();
+                else{
+                    var ss = self.pos.pos_widget.screen_selector;
+                    ss.set_current_screen('clientlist');
+                    self.pos_widget.clientlist_screen.display_client_details('edit',{
+                        'country_id': self.pos.company.country_id,
+                    });
+                }
             });
         }
     });
