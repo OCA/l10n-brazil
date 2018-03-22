@@ -4,7 +4,7 @@
 Brazil Account Banking - Payments Mode
 ======================================
 
-This module provide an mode payment for payment orders.
+This module provides a mode for payment orders in Brazil.
 
 Installation
 ============
