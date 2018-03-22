@@ -1169,6 +1169,7 @@ class L10nBrSefip(models.Model):
         # Buscar folha de 13 salario
         folha_ids = self.env['hr.payslip'].search([
             ('ano', '=', self.ano),
+            ('mes_do_ano', '=', self.mes),
             ('tipo_de_folha', 'in', ['decimo_terceiro']),
             ('state', 'in', ['done','verify']),
             ('contract_id', '=', folha.contract_id.id),
