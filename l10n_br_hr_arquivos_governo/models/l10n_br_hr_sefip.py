@@ -12,13 +12,13 @@ import tempfile
 import logging
 import base64
 import pybrasil
-import sh
 from py3o.template import Template
 from datetime import timedelta
 from openerp import api, fields, models, _
 from openerp.exceptions import ValidationError
 from pybrasil.valor import formata_valor
 from pybrasil.data import formata_data
+import subprocess
 
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 
@@ -630,7 +630,7 @@ class L10nBrSefip(models.Model):
 
         dir_base = os.path.dirname(os.path.dirname(os.path.dirname(CURDIR)))
         arquivo_template_darf = os.path.join(dir_base,
-                                            'kmee_odoo_addons',
+                                            'odoo-brazil-hr',
                                             'l10n_br_hr_payroll_report',
                                             'data',
                                             'darf.odt'
@@ -659,8 +659,11 @@ class L10nBrSefip(models.Model):
 
             template = Template(template_darf, arquivo_temporario.name)
             template.render(vals_impressao)
-            sh.libreoffice('--headless', '--invisible', '--convert-to', 'pdf',
-                           '--outdir', '/tmp', arquivo_temporario.name)
+
+            p = subprocess.Popen(['libreoffice', '--headless', '--invisible',
+                                  '--convert-to', 'pdf', '--outdir', '/tmp',
+                                  arquivo_temporario.name])
+            p.wait()
 
             pdf = open(arquivo_temporario.name + '.pdf', 'rb').read()
 
@@ -728,7 +731,7 @@ class L10nBrSefip(models.Model):
 
         dir_base = os.path.dirname(os.path.dirname(os.path.dirname(CURDIR)))
         arquivo_template_gps = os.path.join(dir_base,
-                                            'kmee_odoo_addons',
+                                            'odoo-brazil-hr',
                                             'l10n_br_hr_payroll_report',
                                             'data',
                                             'gps.odt'
@@ -761,8 +764,11 @@ class L10nBrSefip(models.Model):
 
             template = Template(template_gps, arquivo_temporario.name)
             template.render(vals_impressao)
-            sh.libreoffice('--headless', '--invisible', '--convert-to', 'pdf',
-                           '--outdir', '/tmp', arquivo_temporario.name)
+
+            p = subprocess.Popen(['libreoffice', '--headless', '--invisible',
+                                '--convert-to', 'pdf', '--outdir', '/tmp',
+                                arquivo_temporario.name])
+            p.wait()
 
             pdf = open(arquivo_temporario.name + '.pdf', 'rb').read()
 
