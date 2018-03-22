@@ -5,4 +5,3 @@
 
 from . import payment_mode
 from . import account_invoice
-
