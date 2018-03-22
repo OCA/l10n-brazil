@@ -437,39 +437,13 @@ class SpedDocumento(models.Model):
         for duplicata in self.duplicata_ids:
             cobr.dup.append(duplicata.monta_nfe())
 
-    def _monta_pagamento(self, pag):
-        self.ensure_one()
-
-        if self.modelo != MODELO_FISCAL_NFE and \
-                self.modelo != MODELO_FISCAL_NFCE:
-            return
-
-        detPag = DetPag_400()
-        detPag.tPag.valor = self.condicao_pagamento_id.forma_pagamento
-        detPag.vPag.valor = str(D(self.vr_fatura))
-        # Troco somente na NF-e 4.00
-        pag.vTroco.valor = str(D(self.vr_troco))
-
-        if self.condicao_pagamento_id.forma_pagamento in FORMA_PAGAMENTO_CARTOES:
-            detPag.card.CNPJ.valor = limpa_formatacao(
-                self.condicao_pagamento_id.participante_id.cnpj_cpf or '')
-            detPag.card.tBand.valor = self.condicao_pagamento_id.bandeira_cartao
-            detPag.card.cAut.valor = '12345678901234567890'
-            # detPag.card.tpIntegra.valor = self.condicao_pagamento_id.integracao_cartao
-            detPag.card.tpIntegra.valor = '1'
-
-        pag.detPag.append(detPag)
-
-        return pag
-
-    def _monta_nfe_pagamentos(self, pag):
+    def _monta_nfe_pagamentos(self, nfe):
         if self.modelo not in (MODELO_FISCAL_NFCE, MODELO_FISCAL_NFE):
             return
 
         for pagamento in self.pagamento_ids:
             pag.detPag.append(pagamento.monta_nfe())
 
-        pag.vTroco.valor = str(D(self.vr_troco))
 
     def _monta_nfe_total(self, nfe):
         nfe.infNFe.total.ICMSTot.vBC.valor = str(D(self.bc_icms_proprio))
