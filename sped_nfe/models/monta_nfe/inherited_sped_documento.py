@@ -95,9 +95,7 @@ class SpedDocumento(models.Model):
         #
         # Duplicatas e pagamentos
         #
-        if self.condicao_pagamento_id.forma_pagamento == '14':
-            self._monta_nfe_cobranca(nfe.infNFe.cobr)
-        self._monta_nfe_pagamentos(nfe.infNFe.pag)
+        self._monta_nfe_pagamentos(nfe)
 
         #
         # Totais
@@ -442,8 +440,11 @@ class SpedDocumento(models.Model):
             return
 
         for pagamento in self.pagamento_ids:
-            pag.detPag.append(pagamento.monta_nfe())
+            if pagamento.condicao_pagamento_id.forma_pagamento == FORMA_PAGAMENTO_DUPLICATA_MERCANTIL:
+                self._monta_nfe_cobranca(nfe.infNFe.cobr)
+            nfe.infNFe.pag.detPag.append(pagamento.monta_nfe())
 
+        nfe.infNFe.pag.vTroco.valor = str(D(self.vr_troco))
 
     def _monta_nfe_total(self, nfe):
         nfe.infNFe.total.ICMSTot.vBC.valor = str(D(self.bc_icms_proprio))
