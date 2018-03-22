@@ -80,6 +80,7 @@ function l10n_br_pos_screens(instance, module) {
             self.new_client = self.old_client;
             if (partner) {
                 self.pos.get('selectedOrder').set_client(self.new_client);
+                $('.date_cliente').text(self.new_client.create_date.substr(0,7));
             } else {
                 if (self.pos.config.save_identity_automatic) {
                     new_partner = {};
@@ -261,7 +262,6 @@ function l10n_br_pos_screens(instance, module) {
 
                 return true;
             }
-4
         }
     });
 
@@ -518,6 +518,9 @@ function l10n_br_pos_screens(instance, module) {
             if (!partner.cnpj_cpf){
                this._super(partner);
             }
+            else{
+                $('.date_cliente').text(partner.create_date.substr(0,7));
+            }
         }
     });
 
@@ -536,6 +539,7 @@ function l10n_br_pos_screens(instance, module) {
                         pos_db = self.pos.db;
                         partner = pos_db.get_partner_by_identification(self.pos.partners, cpf.replace(/[^\d]+/g, ''));
                         if (partner) {
+                            $('.date_cliente').text(partner.create_date.substr(0,7));
                             self.pos.get('selectedOrder').set_client(partner);
                             currentOrder = self.pos.get('selectedOrder').attributes;
                             currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
@@ -568,6 +572,7 @@ function l10n_br_pos_screens(instance, module) {
                                     }
                                     self.old_client = new_partner;
                                     self.new_client = self.old_client;
+                                    $('.date_cliente').text(client.create_date.substr(0,7));
                                     self.pos.get('selectedOrder').set_client(self.new_client);
                                     if (self.pos.config.crm_ativo) {
                                         var ss = self.pos.pos_widget.screen_selector;
@@ -640,7 +645,7 @@ function l10n_br_pos_screens(instance, module) {
             this._super();
             this.message = options.message || '';
             $(".pos-leftpane :input").attr('disabled','disabled');
-            $(".pos-topheader *").attr('disabled','disabled');
+            $(".busca-cpf-cnpj").attr('disabled','disabled');
 
             this.comment = options.comment || '';
             var cliente_cpf = '';
