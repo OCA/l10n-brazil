@@ -1106,7 +1106,6 @@ class SpedDocumento(models.Model):
         return str_pdf
 
     def gera_xml(self):
-        super(SpedDocumento, self).gera_pdf()
 
         self.ensure_one()
         res = None
