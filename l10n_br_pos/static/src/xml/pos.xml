@@ -12,7 +12,7 @@
                             <input class='busca-cpf-cnpj' name="busca-cpf-cnpj" placeholder="Insira o CPF/CNPJ"></input>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <button class="input-button number-char btn-busca-cpf-cnpj">Buscar</button>
                     </div>
                     <div class="clear"></div>
