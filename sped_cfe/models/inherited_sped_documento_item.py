@@ -200,7 +200,7 @@ class SpedDocumentoItem(models.Model):
                 SpedDocumentoItem, self
             )._monta_informacoes_adicionais()
 
-        infcomplementar = '${item.infcomplementar}'
+        infcomplementar = self.infcomplementar
 
         dados_infcomplementar = {
             'nf': self.documento_id,
