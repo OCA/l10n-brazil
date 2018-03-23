@@ -23,3 +23,5 @@ l10n_br_base.GRUPO_SUPORTE,sped_nfe.model_sped_consulta_dfe_xml,Consulta DFE XML
 sped_imposto.GRUPO_FISCAL_LEITURA,sped_nfe.model_sped_consulta_dfe_xml,Consulta DFE XML (somente leitura),sped_consulta_dfe_xml_grupo_fiscal_leitura,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERAL,sped_nfe.model_sped_consulta_dfe_xml,Consulta DFE XML (geral),sped_consulta_dfe_xml_grupo_fiscal_geral,True,False,False,False
 sped_imposto.GRUPO_FISCAL_GERENTE,sped_nfe.model_sped_consulta_dfe_xml,Consulta DFE XML (gerente),sped_consulta_dfe_xml_grupo_fiscal_gerente,True,True,True,False
+sped_imposto.GRUPO_FISCAL_GERAL,sped_nfe.model_sped_inutilizacao_tipo_documento,Tipo de Documento Inutilizacao (geral),sped_inutilizacao_tipo_documento_grupo_fiscal_geral,True,True,True,False
+sped_imposto.GRUPO_FISCAL_GERAL,sped_nfe.model_sped_inutilizacao_documento,Inutilizacao Documento (geral),sped_sped_inutilizacao_documento_grupo_fiscal_geral,True,True,True,False
