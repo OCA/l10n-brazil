@@ -122,6 +122,7 @@ class AccountPaymentTerm(SpedBase, models.Model):
     )
     display_name = fields.Char(
         string='Condição da pagamento',
+        store=True,
     )
     em_parcelas_mensais = fields.Boolean(
         string='Em parcelas mensais?',
