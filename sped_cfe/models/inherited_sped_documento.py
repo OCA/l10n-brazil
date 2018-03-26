@@ -772,9 +772,6 @@ class SpedDocumento(models.Model):
                 self.grava_cfe_autorizacao(resposta.xml())
                 self.situacao_fiscal = SITUACAO_FISCAL_REGULAR
                 self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
-                if impressao:
-                    self.imprimir_documento()
-
                 # # self.grava_pdf(nfe, procNFe.danfe_pdf)
 
                 # data_autorizacao = protNFe.infProt.dhRecbto.valor
