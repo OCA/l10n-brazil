@@ -54,6 +54,7 @@ class SpedDocumentoItem(models.Model):
         self.ensure_one()
 
         kwargs = {}
+        kwargs_detalhamento = {}
 
         if self.documento_id.modelo != MODELO_FISCAL_CFE:
             return
@@ -173,6 +174,9 @@ class SpedDocumentoItem(models.Model):
         )
         imposto.validar()
 
+        if self.infcomplementar:
+            kwargs_detalhamento['infAdProd'] = self._monta_informacoes_adicionais()
+
         detalhe = Detalhamento(
             produto=ProdutoServico(
                 cProd=self.produto_id.codigo or str(self.produto_id.id),
@@ -186,8 +190,9 @@ class SpedDocumentoItem(models.Model):
                 **kwargs
             ),
             imposto=imposto,
-            infAdProd=self._monta_informacoes_adicionais() or '',
+            **kwargs_detalhamento
         )
+
         detalhe.validar()
 
         return detalhe
