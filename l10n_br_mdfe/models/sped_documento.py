@@ -171,6 +171,7 @@ class SpedDocumento(models.Model):
     )
 
     def _serie_padrao_mdfe(self, empresa, ambiente_mdfe, tipo_emissao_mdfe):
+        serie = False
         if tipo_emissao_mdfe == TIPO_EMISSAO_MDFE_NORMAL:
             if ambiente_mdfe == AMBIENTE_MDFE_PRODUCAO:
                 serie = empresa.serie_mdfe_producao

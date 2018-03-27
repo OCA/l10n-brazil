@@ -121,3 +121,21 @@ class L10nBrMdfeItem(models.Model):
         compute='_compute_informacoes_documento',
         store=True,
     )
+
+    @api.onchange('documento_chave')
+    def _onchange_chave(self):
+        if self.documento_chave:
+            self.documento_id = self.documento_id.search(
+                [('chave', '=', self.documento_chave)]
+            )
+
+    @api.onchange('documento_id')
+    def _onchange_documento(self):
+        if self.documento_id:
+            self.destinatario_cidade_id = self.documento_id.participante_municipio_id
+            self.destinatario_id = self.documento_id.participante_id
+
+            self.remetente_cidade_id = self.documento_id.empresa_id.municipio_id.id
+            self.remetente_id = self.documento_id.empresa_id.participante_id.id
+
+
