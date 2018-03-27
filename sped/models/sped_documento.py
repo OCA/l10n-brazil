@@ -1609,15 +1609,13 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
     def envia_email(self, mail_template):
         self.ensure_one()
 
-    def gera_pdf(self):
-        self.sudo().write({'documento_impresso': True})
-
     @api.multi
     def imprimir_documento(self):
         """ Print the invoice and mark it as sent, so that we can see more
             easily the next step of the workflow
         """
         self.ensure_one()
+        self.sudo().write({'documento_impresso': True})
         return self.env['report'].get_action(self, 'report_sped_documento')
 
     def executa_antes_create(self, dados):

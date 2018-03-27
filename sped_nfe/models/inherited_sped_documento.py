@@ -1027,15 +1027,13 @@ class SpedDocumento(models.Model):
         self.envia_email(mail_template)
 
     def gera_pdf(self):
-        super(SpedDocumento, self).gera_pdf()
-
         output = PdfFileWriter()
         s = StringIO()
         path = ''
 
         for record in self:
             if record.modelo not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
-                return
+                return super(SpedDocumento, self).gera_pdf()
     
             if record.emissao != TIPO_EMISSAO_PROPRIA:
                 return
@@ -1108,7 +1106,6 @@ class SpedDocumento(models.Model):
         return str_pdf
 
     def gera_xml(self):
-        super(SpedDocumento, self).gera_pdf()
 
         self.ensure_one()
         res = None

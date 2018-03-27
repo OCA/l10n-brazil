@@ -2318,6 +2318,9 @@ class SpedCalculoImpostoItem(SpedBase):
         if self.emissao != TIPO_EMISSAO_PROPRIA and not \
                 self.env.context.get('manual'):
             return
+        elif self.operacao_id.calcular_tributacao in (
+                'somente_calcula', 'manual'):
+            return
 
         self.bc_icms_proprio = 0
         self.vr_icms_proprio = 0

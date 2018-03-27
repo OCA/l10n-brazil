@@ -2,4 +2,3 @@
   !python {model: res.partner, id: base.main_partner}: |
     PROTOCOLO_ICMS_PADRAO = self.env['sped.protocolo.icms'].browse(ref('PROTOCOLO_ICMS_PADRAO'))
     PROTOCOLO_ICMS_PADRAO.atualizar_tabela()
--

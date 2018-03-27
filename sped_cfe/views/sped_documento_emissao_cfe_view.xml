@@ -55,7 +55,7 @@
                         attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada']),('pagamento_autorizado_cfe','!=', False)]}"
                 />
                 <button name="envia_documento" string="Envia CF-e" type="object" class="btn-primary"
-                        attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada']),('pagamento_autorizado_cfe','!=', False)]}" />
+                        attrs="{'invisible': [('situacao_nfe', 'not in', ['em_digitacao', 'rejeitada','a_enviar']),('pagamento_autorizado_cfe','!=', False)]}" />
                 <button name="envia_email_nfe" string="Enviar email" type="object" class="btn-default" />
                 <button name="imprimir_documento" string="Imprimir" type="object" class="btn-default"
                     attrs="{'invisible': [('situacao_nfe', '!=', 'autorizada'), ('modelo', '!=', '59')]}"
