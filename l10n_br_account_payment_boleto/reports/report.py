@@ -6,9 +6,10 @@
 from __future__ import with_statement
 
 from openerp import pooler
-from openerp.osv import osv
+from openerp.exceptions import Warning as UserError
 from openerp.report.interface import report_int
 from openerp.report.render import render
+from openerp import _
 
 from ..boleto.document import Boleto
 
@@ -51,8 +52,7 @@ class ReportCustom(report_int):
 
         boleto_list = aml_obj.send_payment(cr, uid, ids_move_lines)
         if not boleto_list:
-            raise osv.except_osv(
-                'Error !', ('Não é possível gerar os boletos\n'
+            raise UserError(_('Não é possível gerar os boletos\n'
                             'Certifique-se que a fatura esteja confirmada e o '
                             'forma de pagamento seja duplicatas'))
         pdf_string = Boleto.get_pdfs(boleto_list)
