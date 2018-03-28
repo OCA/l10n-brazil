@@ -716,6 +716,8 @@ class SpedCalculoImposto(SpedBase):
 
                 documento_item = item
 
+
+            ctx['gera_documento'] = True
             documento_item.with_context(ctx).calcula_impostos()
 
         #

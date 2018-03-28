@@ -2738,16 +2738,18 @@ class SpedCalculoImpostoItem(SpedBase):
         if not self.data_emissao:
             self.data_emissao = fields.Date.context_today(self)
 
-        self._onchange_produto_id()
-        self._onchange_operacao_item_id()
-        self._onchange_cfop_id()
+        if self.env.context.get('gera_documento'):
+            self._onchange_produto_id()
+            self._onchange_operacao_item_id()
+            self._onchange_cfop_id()
 
-        #
-        # Determina as aliquotas
-        #
-        self._onchange_al_pis_cofins_id()
-        self._onchange_cst_ipi()
-        self._onchange_cst_icms_cst_icms_sn()
+            #
+            # Determina as aliquotas
+            #
+
+            self._onchange_al_pis_cofins_id()
+            self._onchange_cst_ipi()
+            self._onchange_cst_icms_cst_icms_sn()
 
         #
         # Faz os cálculos propriamente ditos
