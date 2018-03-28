@@ -116,6 +116,12 @@ function l10n_br_pos_screens(instance, module) {
                     }
                     new_partner["cnpj_cpf"] = pos_db.add_pontuation_document(documento);
                     self.pos_widget.order_widget.save_client_details(new_partner);
+                    if(self.pos.config.crm_ativo && (!this.calcula_diferenca_data(new_partner.data_alteracao) || this.verifica_campos_vazios(new_partner))){
+                        var ss = self.pos.pos_widget.screen_selector;
+                        ss.set_current_screen('clientlist');
+                        self.pos_widget.clientlist_screen.display_client_details('edit',{
+                        'cnpj_cpf': new_partner['cnpj_cpf'], 'name':'Anonimo'});
+                    }
                 }
             }
         },
@@ -655,7 +661,7 @@ function l10n_br_pos_screens(instance, module) {
             if (currentOrder.client) {
                 this.cpf_nota = currentOrder.client.cnpj_cpf;
                 this.create_date = currentOrder.client.create_date.substring(0,7);
-                this.atualizacao = this.calcula_diferenca_data(currentOrder.client.data_alteracao);
+                this.atualizacao = self.pos.pos_widget.calcula_diferenca_data(currentOrder.client.data_alteracao);
                 this.renderElement();
             }
             else{
