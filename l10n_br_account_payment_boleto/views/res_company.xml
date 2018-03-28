@@ -12,9 +12,9 @@
                     <group string="Boleto">
                         <field name="own_number_type"/>
                         <field name="transaction_id_sequence" attrs="{'invisible': [('own_number_type', '!=', '1')],
-                        											'required': [('own_number_type', '==', '1')]}"/>
+                                    'required': [('own_number_type', '==', '1')]}"/>
                         <field name="own_number_sequence" attrs="{'invisible': [('own_number_type', '!=', '0')],
-                        										'required': [('own_number_type', '==', '0')]}"/>
+                                    'required': [('own_number_type', '==', '0')]}"/>
                     </group>
                 </group>
             </field>

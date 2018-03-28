@@ -10,8 +10,7 @@
     'category': 'Banking addons',
     'license': 'AGPL-3',
     'summary': 'Adds payment mode boleto on move lines',
-    'description': """ """,
-    'author': 'KMEE',
+    'author': 'KMEE, Odoo Community Association (OCA)',
     'website': 'http://www.kmee.com.br',
     'depends': [
         'l10n_br_account_payment_mode',
@@ -29,7 +28,6 @@
     'demo': [
         'demo/payment_demo.xml',
     ],
-    'active': False,
     'external_dependencies': {
         'python': [
             'pyboleto',
