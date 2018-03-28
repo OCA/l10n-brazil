@@ -54,7 +54,6 @@ class PaymentMode(models.Model):
         digits=dp.get_precision('Account')
     )
 
-
     @api.constrains('boleto_type', 'boleto_carteira',
                     'boleto_modalidade', 'boleto_convenio',
                     'boleto_variacao', 'boleto_aceite')
