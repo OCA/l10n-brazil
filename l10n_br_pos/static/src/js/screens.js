@@ -15,7 +15,6 @@
 *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 ******************************************************************************/
-
 function l10n_br_pos_screens(instance, module) {
     var QWeb = instance.web.qweb;
     var _t = instance.web._t;
@@ -572,7 +571,7 @@ function l10n_br_pos_screens(instance, module) {
                                     }
                                     self.old_client = new_partner;
                                     self.new_client = self.old_client;
-                                    $('.date_cliente').text(client.create_date.substr(0,7));
+                                    $('.date_cliente').text(self.old_client.create_date.substr(0,7));
                                     self.pos.get('selectedOrder').set_client(self.new_client);
                                     if (self.pos.config.crm_ativo) {
                                         var ss = self.pos.pos_widget.screen_selector;
