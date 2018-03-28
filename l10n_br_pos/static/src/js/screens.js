@@ -18,6 +18,7 @@
 function l10n_br_pos_screens(instance, module) {
     var QWeb = instance.web.qweb;
     var _t = instance.web._t;
+    var save_state = false;
 
     module.HaveCpfCnpj = module.OrderWidget.include({
         template: 'PosWidget',
@@ -30,7 +31,7 @@ function l10n_br_pos_screens(instance, module) {
         renderElement: function() {
             var self = this;
             this._super();
-
+            $(".pos-leftpane *").prop('disabled', save_state);
             var partner = null;
             var isSave = null;
             this.el.querySelector('.busca-cpf-cnpj').addEventListener('keydown',this.search_handler);
@@ -643,8 +644,6 @@ function l10n_br_pos_screens(instance, module) {
             var self = this;
             this._super();
             this.message = options.message || '';
-            $(".pos-leftpane :input").attr('disabled','disabled');
-            $(".busca-cpf-cnpj").attr('disabled','disabled');
 
             this.comment = options.comment || '';
             var cliente_cpf = '';
@@ -670,19 +669,19 @@ function l10n_br_pos_screens(instance, module) {
             };
 
             $('.busca-cpf-cnpj-popup').on('keyup',this.hotkey_handler);
-
+            save_state = true;
             this.$('.button.sim').click(function(){
                 this.cpf_na_nota = true;
-                $(".pos-leftpane :input").attr('disabled',false);
-                $(".pos-topheader *").attr('disabled',false);
+                save_state = false;
+                $(".pos-leftpane *").prop('disabled', false);
                 self.cpf_cupom_fiscal(currentOrder);
             });
 
             this.$('.button.nao').click(function(){
                 this.cpf_na_nota = false;
                 self.pos_widget.screen_selector.close_popup();
-                $(".pos-leftpane :input").attr('disabled', false);
-                $(".pos-topheader *").attr('disabled', false);
+                save_state = false;
+                $(".pos-leftpane *").prop('disabled', false);
                 if(!self.pos.config.crm_ativo)
                     self.pos_widget.payment_screen.validate_order();
                 else{
