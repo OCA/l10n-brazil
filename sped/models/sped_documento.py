@@ -429,11 +429,13 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         comodel_name='sped.documento.duplicata',
         inverse_name='documento_id',
         string='Duplicatas',
+        copy=True,
     )
     pagamento_ids = fields.One2many(
         comodel_name='sped.documento.pagamento',
         inverse_name='documento_id',
         string='Pagamentos',
+        copy=True,
     )
 
     #

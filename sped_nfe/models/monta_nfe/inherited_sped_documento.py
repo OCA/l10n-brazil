@@ -30,6 +30,7 @@ try:
                                agora)
     from pybrasil.valor import formata_valor
     from pybrasil.valor.decimal import Decimal as D
+    from pysped.nfe.leiaute import Pag_400, DetPag_400
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -94,8 +95,7 @@ class SpedDocumento(models.Model):
         #
         # Duplicatas e pagamentos
         #
-        self._monta_nfe_cobranca(nfe.infNFe.cobr)
-        self._monta_nfe_pagamentos(nfe.infNFe.pag)
+        self._monta_nfe_pagamentos(nfe)
 
         #
         # Totais
@@ -435,27 +435,33 @@ class SpedDocumento(models.Model):
         for duplicata in self.duplicata_ids:
             cobr.dup.append(duplicata.monta_nfe())
 
-    def _monta_nfe_pagamentos(self, pag):
-        if self.modelo != MODELO_FISCAL_NFCE:
+    def _monta_nfe_pagamentos(self, nfe):
+        if self.modelo not in (MODELO_FISCAL_NFCE, MODELO_FISCAL_NFE):
             return
 
         for pagamento in self.pagamento_ids:
-            pag.append(pagamento.monta_nfe())
+            if pagamento.condicao_pagamento_id.forma_pagamento == FORMA_PAGAMENTO_DUPLICATA_MERCANTIL:
+                self._monta_nfe_cobranca(nfe.infNFe.cobr)
+            nfe.infNFe.pag.detPag.append(pagamento.monta_nfe())
+
+        nfe.infNFe.pag.vTroco.valor = str(D(self.vr_troco))
 
     def _monta_nfe_total(self, nfe):
         nfe.infNFe.total.ICMSTot.vBC.valor = str(D(self.bc_icms_proprio))
         nfe.infNFe.total.ICMSTot.vICMS.valor = str(D(self.vr_icms_proprio))
         nfe.infNFe.total.ICMSTot.vICMSDeson.valor = str(D(self.vr_icms_desonerado))
-        nfe.infNFe.total.ICMSTot.vFCPUFDest.valor = str(D(self.vr_fcp))
+
         if nfe.infNFe.ide.idDest.valor == \
             IDENTIFICACAO_DESTINO_INTERESTADUAL and \
             nfe.infNFe.ide.indFinal.valor == \
             TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL and \
             nfe.infNFe.dest.indIEDest.valor == \
             INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE:
+            nfe.infNFe.total.ICMSTot.vICMSUFRemet.valor = str(
+                D(self.vr_icms_estado_origem))
 
             nfe.infNFe.total.ICMSTot.vICMSUFDest.valor = str(D(self.vr_icms_estado_destino))
-            nfe.infNFe.total.ICMSTot.vICMSUFRemet.valor = str(D(self.vr_icms_estado_origem))
+            nfe.infNFe.total.ICMSTot.vFCPUFDest.valor = str(D(self.vr_fcp))
 
         nfe.infNFe.total.ICMSTot.vBCST.valor = str(D(self.bc_icms_st))
         nfe.infNFe.total.ICMSTot.vST.valor = str(D(self.vr_icms_st))

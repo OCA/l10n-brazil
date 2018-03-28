@@ -331,20 +331,6 @@
                                 <group colspan="4" col="4">
                                     <field name="ind_forma_pagamento" required="1" colspan="4" attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
                                     <newline />
-                                    <field name="condicao_pagamento_id" colspan="4"
-                                           context="{'valor': vr_fatura}"
-                                           domain="[('forma_pagamento', '!=', False)]"
-                                           attrs="{'readonly': [('permite_alteracao', '=', False)]}" />
-                                    <separator name="vencimentos" string="Vencimentos" colspan="4" />
-                                    <field name="duplicata_ids" colspan="4" nolabel="1" attrs="{'readonly': [('permite_alteracao', '=', False)]}">
-                                        <tree string="Duplicatas" editable="bottom">
-                                            <field name="currency_id" invisible="1" />
-                                            <field name="numero" />
-                                            <field name="data_vencimento" />
-                                            <field name="valor" sum="valor" />
-                                        </tree>
-                                    </field>
-                                    <newline />
                                     <separator name="pagamentos" string="Pagamentos" colspan="4" />
                                     <field name="pagamento_ids" colspan="4" nolabel="1" attrs="{'readonly': [('permite_alteracao', '=', False)]}" context="{'default_valor': vr_fatura}" />
                                 </group>

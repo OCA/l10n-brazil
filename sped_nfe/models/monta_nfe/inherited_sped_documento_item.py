@@ -150,7 +150,7 @@ class SpedDocumentoItem(models.Model):
         det.prod.vUnCom.valor = \
             str(D(self.vr_unitario).quantize(D(10 * 10 ** -10)))
         det.prod.vProd.valor = str(D(self.vr_produtos))
-        det.prod.cEANTrib.valor = ''
+        det.prod.cEANTrib.valor = self.produto_id.codigo_barras or ''
 
         #
         # Trata corretamente a unidade e valor unitário da tributação

@@ -20,6 +20,7 @@ _logger = logging.getLogger(__name__)
 try:
     from pybrasil.valor.decimal import Decimal as D
     from pybrasil.inscricao import limpa_formatacao
+    from pysped.nfe.leiaute import DetPag_400
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -37,15 +38,16 @@ class SpedDocumentoPagamento(models.Model):
                 self.documento_id.modelo != MODELO_FISCAL_NFCE:
             return
 
-        pag = ClassePag()
-        pag.tPag.valor = self.forma_pagamento
-        pag.vPag.valor = str(D(self.valor))
-        # Troco somente na NF-e 4.00
-        pag.vTroco.valor = str(D(self.troco))
+        det_pag = DetPag_400()
+        det_pag.tPag.valor = self.forma_pagamento
+        det_pag.vPag.valor = str(D(self.valor))
 
         if self.forma_pagamento in FORMA_PAGAMENTO_CARTOES:
-            pag.card.CNPJ.valor = limpa_formatacao(self.cnpj_cpf or '')
-            pag.card.tBand.valor = self.bandeira_cartao
-            pag.card.cAut.valor = self.integracao_cartao
+            if self.integracao_cartao == '1':
+                det_pag.card.tpIntegra.valor = self.integracao_cartao
+                det_pag.card.CNPJ.valor = limpa_formatacao(
+                    self.participante_id.cnpj_cpf or '')
+                det_pag.card.tBand.valor = self.bandeira_cartao
+                det_pag.card.cAut.valor = self.numero_aprovacao
 
-        return pag
+        return det_pag

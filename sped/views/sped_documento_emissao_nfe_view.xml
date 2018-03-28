@@ -15,8 +15,6 @@
             <xpath expr="//form[1]" position="attributes">
                 <attribute name="string">Emissão de NF-e</attribute>
             </xpath>
-            <xpath expr="//separator[@name='pagamentos']" position="replace" />
-            <xpath expr="//field[@name='pagamento_ids']" position="replace" />
             <field name="item_ids" position="attributes" >
                 <attribute name="context">{'cfop_tam_desc': 'curta', 'form_view_ref' : 'sped.sped_documento_item_emissao_form', 'tree_view_ref' : 'sped.sped_documento_item_emissao_tree'}</attribute>
             </field>
