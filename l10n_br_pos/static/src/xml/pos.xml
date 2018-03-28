@@ -18,7 +18,7 @@
                     <div class="clear"></div>
                 </div>
                 <div class="row">
-                    <div class="col">
+                    <div class="col client_desde" style="display:none">
                             <span class='label'>Cliente desde:</span>
                             <span class='date_cliente' name="date_cliente"/>
                     </div>
