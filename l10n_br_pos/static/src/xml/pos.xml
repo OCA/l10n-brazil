@@ -23,6 +23,12 @@
                             <span class='date_cliente' name="date_cliente"/>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col client_desde" style="display:none">
+                            <span class='label'>Nome:</span>
+                            <span class='name_cliente' name="name_cliente"/>
+                    </div>
+                </div>
             </div>
         </t>
     </t>
