@@ -5,6 +5,7 @@
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from pybrasil.data import ultimo_dia_mes
+from pybrasil.data import formata_data
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -238,20 +239,37 @@ class HrPayslipRun(models.Model):
     def gerar_holerites(self):
         self.verificar_holerites_gerados()
         for contrato in self.contract_id:
+            # Provisionamento de férias
             if self.tipo_de_folha == 'provisao_ferias':
+
+                # recuperar primeiro dia do mes
                 inicio_mes = str(self.ano).zfill(4) + '-' + \
                               str(self.mes_do_ano).zfill(2) + '-01'
+
+                # se o contrato iniciou na metade do mes corrente
+                # ex.: provisionando mes março e contrato iniciou 15/03
                 if contrato.date_start > inicio_mes:
                     inicio_mes = contrato.date_start
+
                 data_inicio = fields.Date.to_string(ultimo_dia_mes(inicio_mes))
+
                 contrato.action_button_update_controle_ferias(
                     data_referencia=data_inicio)
+
                 for periodo in contrato.vacation_control_ids:
                     if periodo.saldo > 0 and not periodo.inicio_gozo:
                         try:
                             data_fim = fields.Date.from_string(inicio_mes) + \
                                   relativedelta(days=periodo.saldo)
                             payslip_obj = self.env['hr.payslip']
+
+                            periodo_aquisitivo_provisao = \
+                                str(int(periodo.saldo)) + \
+                                ' dias referente à ' + \
+                                formata_data(periodo.inicio_aquisitivo) + \
+                                ' - ' + \
+                                formata_data(periodo.fim_aquisitivo)
+
                             payslip = payslip_obj.create({
                                 'contract_id': contrato.id,
                                 'periodo_aquisitivo': periodo.id,
@@ -263,6 +281,8 @@ class HrPayslipRun(models.Model):
                                 'employee_id': contrato.employee_id.id,
                                 'tipo_de_folha': self.tipo_de_folha,
                                 'payslip_run_id': self.id,
+                                'periodo_aquisitivo_provisao':
+                                    periodo_aquisitivo_provisao,
                             })
                             # payslip._compute_set_dates()
                             payslip.compute_sheet()

@@ -261,6 +261,9 @@
 
                             <field name="periodo_aquisitivo" />
 
+                            <field name="periodo_aquisitivo_provisao"
+                                   attrs="{'invisible' : ['|', ('periodo_aquisitivo', '!=', False), ('tipo_de_folha', 'not in', ['provisao_ferias'])]}" />
+
                             <field name="saldo_periodo_aquisitivo" />
 
                         </group>
