@@ -60,7 +60,6 @@ function l10n_br_pos_screens(instance, module) {
             if(data_alteracao){
                 var today = new Date();
                 var date_partner = new Date(data_alteracao);
-                var lim_data_alteracao = parseInt(this.pos.config.lim_data_alteracao);
                 return Math.floor((today.getTime() - date_partner.getTime())*3.81E-10);
             }
        },
@@ -112,7 +111,7 @@ function l10n_br_pos_screens(instance, module) {
                 mm = '0'+mm
             }
 
-            return mm + '/' + yyyy;
+            return mm + '-' + yyyy;
         },
 
         active_client: function (self, documento, partner) {
@@ -123,7 +122,7 @@ function l10n_br_pos_screens(instance, module) {
                 self.pos.get('selectedOrder').set_client(self.new_client);
                 $('.date_cliente').text(partner.create_date.substr(0,7));
                 $('.name_cliente').text(partner.name);
-                $('.tempo_cliente').text(this.tempo_cliente(partner.create_date.substr(0,7))+' meses');
+                $('.tempo_cliente').text(this.tempo_cliente(partner.create_date)+' meses');
                 if(self.pos.config.crm_ativo && (!this.calcula_diferenca_data(partner.data_alteracao) || this.verifica_campos_vazios(partner))){
                         var ss = self.pos.pos_widget.screen_selector;
                         ss.set_current_screen('clientlist');
@@ -354,7 +353,7 @@ function l10n_br_pos_screens(instance, module) {
                     partner.data_alteracao = self.pos_widget.clientlist_screen.date_today();
                     $('.date_cliente').text(partner.create_date.substr(0,7));
                     $('.name_cliente').text(partner.name);
-                    $('.tempo_cliente').text(this.pos_widget.order_widget.tempo_cliente(partner.create_date.substr(0,7))+' meses');
+                    $('.tempo_cliente').text(this.pos_widget.order_widget.tempo_cliente(partner.create_date)+' meses');
                     $(document).ready(function(){
                         if(country != null)
                             partner.country_id = [country.id, country.name];
@@ -582,7 +581,7 @@ function l10n_br_pos_screens(instance, module) {
             else{
                 $('.date_cliente').text(partner.create_date.substr(0,7));
                 $('.name_cliente').text(partner.name);
-                $('.tempo_cliente').text(this.pos_widget.order_widget.tempo_cliente(partner.create_date.substr(0,7))+' meses');
+                $('.tempo_cliente').text(this.pos_widget.order_widget.tempo_cliente(partner.create_date)+' meses');
             }
         }
     });
@@ -604,7 +603,7 @@ function l10n_br_pos_screens(instance, module) {
                         if (partner) {
                             $('.date_cliente').text(partner.create_date.substr(0,7));
                             $('.name_cliente').text(partner.name);
-                            $('.tempo_cliente').text(self.pos_widget.order_widget.tempo_cliente(partner.create_date.substr(0,7))+' meses');
+                            $('.tempo_cliente').text(self.pos_widget.order_widget.tempo_cliente(partner.create_date)+' meses');
                             self.pos.get('selectedOrder').set_client(partner);
                             currentOrder = self.pos.get('selectedOrder').attributes;
                             currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
@@ -639,7 +638,7 @@ function l10n_br_pos_screens(instance, module) {
                                     self.new_client = self.old_client;
                                     $('.date_cliente').text(self.old_client.create_date.substr(0,7));
                                     $('.name_cliente').text(self.old_client.name);
-                                    $('.tempo_cliente').text(self.pos_widget.order_widget.tempo_cliente(self.old_client.create_date.substr(0,7))+' meses');
+                                    $('.tempo_cliente').text(self.pos_widget.order_widget.tempo_cliente(self.old_client.create_date)+' meses');
                                     self.pos.get('selectedOrder').set_client(self.new_client);
                                     if (self.pos.config.crm_ativo) {
                                         var ss = self.pos.pos_widget.screen_selector;
