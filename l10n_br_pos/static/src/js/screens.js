@@ -26,8 +26,8 @@ function l10n_br_pos_screens(instance, module) {
         init: function(parent, options){
             this._super(parent);
             var self = this;
-
         },
+
         renderElement: function() {
             var self = this;
             this._super();
@@ -46,7 +46,7 @@ function l10n_br_pos_screens(instance, module) {
                 self.search_client_by_cpf_cnpj($('.busca-cpf-cnpj').val().replace(/[^\d]+/g,''));
             });
 
-         },
+        },
 
         verifica_campos_vazios: function(partner){
             for (key in partner){
@@ -100,6 +100,7 @@ function l10n_br_pos_screens(instance, module) {
             if (partner) {
                 self.pos.get('selectedOrder').set_client(self.new_client);
                 $('.date_cliente').text(self.new_client.create_date.substr(0,7));
+                $('.name_cliente').text(self.new_client.name);
                 if(self.pos.config.crm_ativo && (!this.calcula_diferenca_data(partner.data_alteracao) || this.verifica_campos_vazios(partner))){
                         var ss = self.pos.pos_widget.screen_selector;
                         ss.set_current_screen('clientlist');
@@ -551,6 +552,7 @@ function l10n_br_pos_screens(instance, module) {
             }
             else{
                 $('.date_cliente').text(partner.create_date.substr(0,7));
+                $('.date_cliente').text(self.new_client.name);
             }
         }
     });
@@ -571,6 +573,7 @@ function l10n_br_pos_screens(instance, module) {
                         partner = pos_db.get_partner_by_identification(self.pos.partners, cpf.replace(/[^\d]+/g, ''));
                         if (partner) {
                             $('.date_cliente').text(partner.create_date.substr(0,7));
+                            $('.name_cliente').text(partner.name);
                             self.pos.get('selectedOrder').set_client(partner);
                             currentOrder = self.pos.get('selectedOrder').attributes;
                             currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
@@ -604,6 +607,7 @@ function l10n_br_pos_screens(instance, module) {
                                     self.old_client = new_partner;
                                     self.new_client = self.old_client;
                                     $('.date_cliente').text(self.old_client.create_date.substr(0,7));
+                                    $('.name_cliente').text(self.old_client.name);
                                     self.pos.get('selectedOrder').set_client(self.new_client);
                                     if (self.pos.config.crm_ativo) {
                                         var ss = self.pos.pos_widget.screen_selector;
