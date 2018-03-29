@@ -1006,7 +1006,7 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
             documento.data_entrada_saida = data
             documento.hora_entrada_saida = hora
 
-    @api.depends('pagamento_ids')
+    @api.depends('vr_fatura', 'vr_nf', 'pagamento_ids')
     def _compute_troco(self):
         for documento in self:
             dados = {}
