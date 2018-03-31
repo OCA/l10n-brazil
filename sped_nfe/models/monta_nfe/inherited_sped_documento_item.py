@@ -114,7 +114,7 @@ class SpedDocumentoItem(models.Model):
         det.prod.cProd.valor = \
             self.produto_id.codigo_cliente or \
             self.produto_id.codigo or str(self.produto_id.id)
-        det.prod.cEAN.valor = self.produto_id.codigo_barras or ''
+        det.prod.cEAN.valor = self.produto_id.codigo_barras or 'SEM GTIN'
 
         #
         # O 1º item da NFC-e tem que ter uma descrição específica em
@@ -150,7 +150,7 @@ class SpedDocumentoItem(models.Model):
         det.prod.vUnCom.valor = \
             str(D(self.vr_unitario).quantize(D(10 * 10 ** -10)))
         det.prod.vProd.valor = str(D(self.vr_produtos))
-        det.prod.cEANTrib.valor = self.produto_id.codigo_barras or ''
+        det.prod.cEANTrib.valor = self.produto_id.codigo_barras or 'SEM GTIN'
 
         #
         # Trata corretamente a unidade e valor unitário da tributação
