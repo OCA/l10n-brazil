@@ -34,6 +34,11 @@ function l10n_br_pos_screens(instance, module) {
             $(".pos-leftpane *").prop('disabled', save_state);
             var partner = null;
             var isSave = null;
+
+            $('.deleteorder-button').click(function(e){
+                save_state = false;
+            });
+
             this.el.querySelector('.busca-cpf-cnpj').addEventListener('keydown',this.search_handler);
             $('.busca-cpf-cnpj', this.el).keydown(function(e){
                 if(e.which == 13){
@@ -66,7 +71,8 @@ function l10n_br_pos_screens(instance, module) {
 
         calcula_diferenca_data: function(data_alteracao){
             if(data_alteracao){
-                var today = new Date();
+                var date = new Date();
+                var today = new Date(date.getUTCFullYear(), date.getUTCMonth());
                 var date_partner = new Date(data_alteracao);
                 var lim_data_alteracao = parseInt(this.pos.config.lim_data_alteracao);
                 if( Math.floor((today.getTime() - date_partner.getTime())*3.81E-10) <= lim_data_alteracao)
