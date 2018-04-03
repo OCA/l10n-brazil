@@ -301,10 +301,15 @@ class HrPayslipRun(models.Model):
                     if tipo_de_folha == 'adiantamento_13':
                         tipo_de_folha = 'decimo_terceiro'
                     payslip_obj = self.env['hr.payslip']
+
+                    mes_do_ano = self.mes_do_ano
+                    if mes_do_ano == 13:
+                        mes_do_ano = 12
+
                     payslip = payslip_obj.create({
                         'contract_id': contrato.id,
                         'mes_do_ano': self.mes_do_ano,
-                        'mes_do_ano2': self.mes_do_ano,
+                        'mes_do_ano2': mes_do_ano,
                         'ano': self.ano,
                         'employee_id': contrato.employee_id.id,
                         'tipo_de_folha': tipo_de_folha,
