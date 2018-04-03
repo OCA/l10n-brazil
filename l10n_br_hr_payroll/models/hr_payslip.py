@@ -2261,9 +2261,7 @@ class HrPayslip(models.Model):
     @api.multi
     def _buscar_holerites_periodo_aquisitivo(self):
         if not self.periodo_aquisitivo:
-            raise exceptions.Warning(
-                "Não foi escolhido um periodo aquisitivo!"
-            )
+            return False
         else:
             payslips = self.search(
                 [
