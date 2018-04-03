@@ -2324,41 +2324,6 @@ class HrPayslip(models.Model):
 
                     # Validação da quantidade de dias de férias
                     # sendo processada e a quantidade de saldo dísponivel
-                    # if self.holidays_ferias.number_of_days_temp > \
-                    #         self.saldo_periodo_aquisitivo:
-                    #     raise exceptions.Warning(
-                    #         _('Selecionado mais dias de ferias do que
-                    #           'o saldo do periodo aquisitivo selecionado!')
-                    #     )
-
-                    # Atualizar o controle de férias com informacao de
-                    # quantos dias o funcionario gozara
-                    self.periodo_aquisitivo.dias_gozados = \
-                        self.holidays_ferias.number_of_days_temp
-
-                    # Caso o funcionario opte por dividir as férias em dois
-                    # períodos, e ainda tenha saldo para tal, uma nova linha de
-                    # controle de féria é criada com base na linha atual
-                    if self.periodo_aquisitivo.saldo > 0 and not self.\
-                            is_simulacao:
-                        novo_controle_ferias = self.periodo_aquisitivo.copy()
-                        novas_datas = novo_controle_ferias.\
-                            calcular_datas_aquisitivo_concessivo(
-                                novo_controle_ferias.inicio_aquisitivo
-                            )
-                        novo_controle_ferias.write(novas_datas)
-
-                    # Atualizar o controle de férias com informacoes dos dias
-                    # gozados pelo funcionario de acordo com a
-                    # payslip de férias
-                    if not self.is_simulacao:
-                        self.periodo_aquisitivo.inicio_gozo = \
-                            self.holidays_ferias.date_from
-                        self.periodo_aquisitivo.fim_gozo = \
-                            self.holidays_ferias.date_to
-                    else:
-                        self.periodo_aquisitivo.inicio_gozo = self.date_from
-                        self.periodo_aquisitivo.fim_gozo = self.date_to
         self.atualizar_worked_days_inputs()
         super(HrPayslip, self).compute_sheet()
         self._compute_valor_total_folha()
