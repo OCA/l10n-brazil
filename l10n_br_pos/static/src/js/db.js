@@ -53,12 +53,42 @@ function l10n_br_pos_db(instance, module) {
             str = '' + partner.id + ':' + str.replace(':','') + '\n';
             return str;
         },
+
+        today_date: function(){
+            var today = new Date();
+            var dd = today.getDay();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+
+            if(dd<10) {
+                dd = '0'+dd
+            }
+
+            if(mm<10) {
+                mm = '0'+mm
+            }
+
+            return yyyy + '-' + mm + '-' + dd;
+        },
+        tempo_cliente: function(create_date){
+            if(create_date){
+                var date = new Date();
+                var today = new Date(date.getUTCFullYear(), date.getUTCMonth());
+                var date_partner = new Date(create_date);
+                var tempo = Math.floor((today.getTime() - date_partner.getTime())*3.81E-10)
+                return Math.floor((today.getTime() - date_partner.getTime())*3.81E-10) < 0? 0: tempo;
+            }
+        },
         get_partner_by_identification: function(partners, identification){
             var identification_with_pontuation = this.add_pontuation_document(identification);
             for (var i = 0; i < partners.length; i++){
                 var cnpj_cpf = partners[i].cnpj_cpf;
                 if (cnpj_cpf){
                     if ((cnpj_cpf == identification) || (cnpj_cpf == identification_with_pontuation)){
+                        partners[i].create_date = partners[i].create_date? partners[i].create_date.substr(0,7): (this.today_date()).substr(0,7);
+                        $('.date_cliente').text(partners[i].create_date.substr(0,7))
+                        $('.name_cliente').text(partners[i].name);
+                        $('.tempo_cliente').text(this.tempo_cliente(partners[i].create_date)+' meses');
                         return partners[i];
                     }
                 }
