@@ -86,9 +86,6 @@ function l10n_br_pos_db(instance, module) {
                 if (cnpj_cpf){
                     if ((cnpj_cpf == identification) || (cnpj_cpf == identification_with_pontuation)){
                         partners[i].create_date = partners[i].create_date? partners[i].create_date.substr(0,7): (this.today_date()).substr(0,7);
-                        $('.date_cliente').text(partners[i].create_date.substr(0,7))
-                        $('.name_cliente').text(partners[i].name);
-                        $('.tempo_cliente').text(this.tempo_cliente(partners[i].create_date)+' meses');
                         return partners[i];
                     }
                 }
