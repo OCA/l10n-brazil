@@ -1793,7 +1793,7 @@ class HrPayslip(models.Model):
                 fields.Date.from_string(payslip.contract_id.date_start).day
             mes_inicio_contrato = \
                 fields.Date.from_string(payslip.contract_id.date_start).month
-            avos_13 = int(payslip.mes_do_ano) - int(mes_inicio_contrato) + 1
+            avos_13 = int(payslip.mes_do_ano2) - int(mes_inicio_contrato) + 1
 
             adiantamento_avos_13 = 13 - int(mes_inicio_contrato)
 
@@ -1801,11 +1801,11 @@ class HrPayslip(models.Model):
                 avos_13 -= 1
                 adiantamento_avos_13 -= 1
         else:
-            avos_13 = payslip.mes_do_ano
+            avos_13 = payslip.mes_do_ano2
 
         if payslip.contract_id.date_end:
             if datetime.strptime(payslip.contract_id.date_end, '%Y-%m-%d').month \
-                    == payslip.mes_do_ano:
+                    == payslip.mes_do_ano2:
                 dia_fim_contrato = \
                     fields.Date.from_string(payslip.contract_id.date_end).day
                 if dia_fim_contrato <= 15:
