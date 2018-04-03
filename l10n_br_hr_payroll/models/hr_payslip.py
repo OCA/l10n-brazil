@@ -2302,16 +2302,9 @@ class HrPayslip(models.Model):
                 "decimo_terceiro", "ferias", "aviso_previo",
                 "provisao_ferias", "provisao_decimo_terceiro"
         ]:
-            if self.tipo_de_folha == 'ferias' and not self.\
+            if not self.tipo_de_folha == 'ferias' and not self.\
                     _buscar_holerites_periodo_aquisitivo():
-                print("Não tem problema!")
-                # raise exceptions.Warning(
-                #     "Não existem holerites normais confirmados"
-                #     "suficientes no periodo "
-                #     "aquisitivo para os cálculos "
-                #     "das férias!"
-                # )
-            else:
+
                 hr_medias_ids, data_de_inicio, data_final = \
                     self.gerar_media_dos_proventos()
 
