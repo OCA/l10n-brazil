@@ -2330,6 +2330,13 @@ class HrPayslip(models.Model):
 
                     # Validação da quantidade de dias de férias
                     # sendo processada e a quantidade de saldo dísponivel
+                    if self.holidays_ferias.number_of_days_temp > \
+                            self.saldo_periodo_aquisitivo:
+                        raise exceptions.Warning(
+                            _(u'Selecionado mais dias de ferias do que'
+                              u'o saldo do periodo aquisitivo selecionado!')
+                        )
+
         self.atualizar_worked_days_inputs()
         super(HrPayslip, self).compute_sheet()
         self._compute_valor_total_folha()
