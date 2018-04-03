@@ -31,7 +31,8 @@ function l10n_br_pos_screens(instance, module) {
         renderElement: function() {
             var self = this;
             this._super();
-            $(".pos-leftpane *").prop('disabled', save_state);
+            if(self.pos.config.crm_ativo)
+                $(".pos-leftpane *").prop('disabled', save_state);
             var partner = null;
             var isSave = null;
 
@@ -61,20 +62,10 @@ function l10n_br_pos_screens(instance, module) {
             return false
         },
 
-        tempo_cliente: function(create_date){
-            if(create_date){
-                var date = new Date();
-                var today = new Date(date.getUTCFullYear(), date.getUTCMonth());
-                var date_partner = new Date(create_date);
-                var tempo = Math.floor((today.getTime() - date_partner.getTime())*3.81E-10)
-                return Math.floor((today.getTime() - date_partner.getTime())*3.81E-10) < 0? 0: tempo;
-            }
-       },
-
         calcula_diferenca_data: function(data_alteracao){
             if(data_alteracao){
                 var today = new Date();
-                var date_partner = new Date(data_alteracao.substr(0,5), data_alteracao.substr(6,8));
+                var date_partner = new Date(data_alteracao.substr(0,4), data_alteracao.substr(5,2));
                 var lim_data_alteracao = parseInt(this.pos.config.lim_data_alteracao);
                 if( Math.floor((today.getTime() - date_partner.getTime())*3.81E-10) <= lim_data_alteracao)
                     return true;
@@ -109,23 +100,6 @@ function l10n_br_pos_screens(instance, module) {
                    },this);
         },
 
-        today_date: function(){
-            var today = new Date();
-            var dd = today.getDay();
-            var mm = today.getMonth()+1; //January is 0!
-            var yyyy = today.getFullYear();
-
-            if(dd<10) {
-                dd = '0'+dd
-            }
-
-            if(mm<10) {
-                mm = '0'+mm
-            }
-
-            return yyyy + '-' + mm + '-' + dd;
-        },
-
         active_client: function (self, documento, partner) {
             pos_db = self.pos.db;
             self.old_client = partner;
@@ -133,9 +107,9 @@ function l10n_br_pos_screens(instance, module) {
             if (partner) {
                 self.pos.get('selectedOrder').set_client(self.new_client);
                 if(self.pos.config.crm_ativo && (!this.calcula_diferenca_data(partner.data_alteracao) || this.verifica_campos_vazios(partner))){
-                        var ss = self.pos.pos_widget.screen_selector;
-                        ss.set_current_screen('clientlist');
-                        self.pos_widget.clientlist_screen.edit_client_details(partner);
+                    var ss = self.pos.pos_widget.screen_selector;
+                    ss.set_current_screen('clientlist');
+                    self.pos_widget.clientlist_screen.edit_client_details(partner);
                 }
 
             } else {
@@ -143,7 +117,7 @@ function l10n_br_pos_screens(instance, module) {
                     new_partner = {};
 //                  new_partner["name"] = pos_db.add_pontuation_document(documento);
                     new_partner["name"] = 'Anônimo';
-                    new_partner['create_date'] =  new Date(this.pos_widget.order_widget.today_date());
+                    new_partner['create_date'] =  new Date(pos_db.today_date());
                     if (new_partner["name"].length > 14) {
                         new_partner["is_company"] = true;
                     }
@@ -357,9 +331,9 @@ function l10n_br_pos_screens(instance, module) {
                     partner.street2 = fields.street2;
                     partner.whatsapp = 'sim' === fields.whatsapp;
                     partner.zip = fields.zip;
-                    partner.data_alteracao = self.pos_widget.clientlist_screen.date_today();
+                    partner.data_alteracao = this.pos.db.today_date();
                     if (partner.create_date == null){
-                        partner.create_date = new Date(this.pos_widget.order_widget.today_date());
+                        partner.create_date = new Date(self.pos.db.today_date());
                     }
                     $(document).ready(function(){
                         if(country != null)
@@ -377,11 +351,6 @@ function l10n_br_pos_screens(instance, module) {
                     });
                 }
             }
-        },
-
-        date_today: function(){
-            var date = new Date();
-            return date.getFullYear() + '-' + (String(date.getDate()).length == 1? '0'+date.getDate() : date.getDate());
         },
 
         // what happens when we've just pushed modifications for a partner of id partner_id
@@ -460,10 +429,10 @@ function l10n_br_pos_screens(instance, module) {
             var scroll   = parent.scrollTop();
             var height   = contents.height();
             if(partner){
-                partner.create_date = partner.create_date? partner.create_date.substr(0,7): (self.pos_widget.order_widget.today_date()).substr(0,7);
+                partner.create_date = partner.create_date? partner.create_date.substr(0,7): (self.pos.db.today_date()).substr(0,7);
                 $('.date_cliente').text(partner.create_date.substr(0,7))
                 $('.name_cliente').text(partner.name);
-                $('.tempo_cliente').text(self.pos_widget.order_widget.tempo_cliente(partner.create_date)+' meses');
+                $('.tempo_cliente').text(self.pos.db.tempo_cliente(partner.create_date)+' meses');
             }
             contents.off('click','.button.edit');
             contents.off('click','.button.save');
