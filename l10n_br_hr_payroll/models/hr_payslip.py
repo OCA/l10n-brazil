@@ -82,12 +82,18 @@ class HrPayslip(models.Model):
         for holerite in self:
             if holerite.state == 'draft':
                 holerite.write({'state': 'verify'})
+                # Atualizar o controle de férias, o controle de férias do
+                # contrato é baseado nos holerites validados
+                holerite.contract_id.action_button_update_controle_ferias()
 
     @api.multi
     def draft(self):
         for holerite in self:
             if holerite.state == 'verify':
                 holerite.write({'state': 'draft'})
+                # Atualizar o controle de férias, o controle de férias do
+                # contrato é baseado nos holerites validados
+                holerite.contract_id.action_button_update_controle_ferias()
 
     @api.multi
     def name_get(self):
