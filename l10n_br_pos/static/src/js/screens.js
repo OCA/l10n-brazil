@@ -100,6 +100,21 @@ function l10n_br_pos_screens(instance, module) {
                    },this);
         },
 
+        update_summary: function(){
+            var order = this.pos.get('selectedOrder');
+            var total     = order ? order.getTotalTaxIncluded() : 0;
+            var taxes     = order ? total - order.getTotalTaxExcluded() : 0;
+
+            this.el.querySelector('.summary .total > .value').textContent = this.format_currency(total);
+            this.el.querySelector('.summary .total .subentry .value').textContent = this.format_currency(taxes);
+            if(this.pos.get('selectedOrder').attributes.client) {
+                $('.client_mostra').show();
+                $('.date_cliente').text(this.pos.get('selectedOrder').attributes.client.create_date.substr(0, 7));
+                $('.name_cliente').text(this.pos.get('selectedOrder').attributes.client.name);
+                $('.tempo_cliente').text(this.pos.db.tempo_cliente(this.pos.get('selectedOrder').attributes.client.create_date) + ' meses');
+            }
+        },
+
         active_client: function (self, documento, partner) {
             pos_db = self.pos.db;
             self.old_client = partner;
@@ -428,12 +443,6 @@ function l10n_br_pos_screens(instance, module) {
             var parent   = this.$('.client-list').parent();
             var scroll   = parent.scrollTop();
             var height   = contents.height();
-            if(partner){
-                partner.create_date = partner.create_date? partner.create_date.substr(0,7): (self.pos.db.today_date()).substr(0,7);
-                $('.date_cliente').text(partner.create_date.substr(0,7))
-                $('.name_cliente').text(partner.name);
-                $('.tempo_cliente').text(self.pos.db.tempo_cliente(partner.create_date)+' meses');
-            }
             contents.off('click','.button.edit');
             contents.off('click','.button.save');
             contents.off('click','.button.undo');
