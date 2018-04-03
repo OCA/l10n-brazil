@@ -63,17 +63,18 @@ function l10n_br_pos_screens(instance, module) {
 
         tempo_cliente: function(create_date){
             if(create_date){
-                var today = new Date();
+                var date = new Date();
+                var today = new Date(date.getUTCFullYear(), date.getUTCMonth());
                 var date_partner = new Date(create_date);
-                return Math.floor((today.getTime() - date_partner.getTime())*3.81E-10);
+                var tempo = Math.floor((today.getTime() - date_partner.getTime())*3.81E-10)
+                return Math.floor((today.getTime() - date_partner.getTime())*3.81E-10) < 0? 0: tempo;
             }
        },
 
         calcula_diferenca_data: function(data_alteracao){
             if(data_alteracao){
-                var date = new Date();
-                var today = new Date(date.getUTCFullYear(), date.getUTCMonth());
-                var date_partner = new Date(data_alteracao);
+                var today = new Date();
+                var date_partner = new Date(data_alteracao.substr(0,5), data_alteracao.substr(6,8));
                 var lim_data_alteracao = parseInt(this.pos.config.lim_data_alteracao);
                 if( Math.floor((today.getTime() - date_partner.getTime())*3.81E-10) <= lim_data_alteracao)
                     return true;
@@ -110,14 +111,19 @@ function l10n_br_pos_screens(instance, module) {
 
         today_date: function(){
             var today = new Date();
+            var dd = today.getDay();
             var mm = today.getMonth()+1; //January is 0!
             var yyyy = today.getFullYear();
+
+            if(dd<10) {
+                dd = '0'+dd
+            }
 
             if(mm<10) {
                 mm = '0'+mm
             }
 
-            return mm + '-' + yyyy;
+            return yyyy + '-' + mm + '-' + dd;
         },
 
         active_client: function (self, documento, partner) {
@@ -140,14 +146,15 @@ function l10n_br_pos_screens(instance, module) {
                     new_partner = {};
 //                  new_partner["name"] = pos_db.add_pontuation_document(documento);
                     new_partner["name"] = 'Anônimo';
+                    new_partner['create_date'] =  new Date(this.pos_widget.order_widget.today_date());
                     if (new_partner["name"].length > 14) {
                         new_partner["is_company"] = true;
                     }
                     new_partner["cnpj_cpf"] = pos_db.add_pontuation_document(documento);
                     self.pos_widget.order_widget.save_client_details(new_partner);
-                    $('.date_cliente').text(this.today_date());
+                    $('.date_cliente').text(this.today_date().substr(0,7));
                     $('.name_cliente').text(new_partner['name']);
-                    $('.tempo_cliente').text('0 meses');
+                    $('.tempo_cliente').text(this.tempo_cliente(new_partner['create_date'])+' meses');
                     if(self.pos.config.crm_ativo && (!this.calcula_diferenca_data(new_partner.data_alteracao) || this.verifica_campos_vazios(new_partner))){
                         var ss = self.pos.pos_widget.screen_selector;
                         ss.set_current_screen('clientlist');
@@ -357,6 +364,9 @@ function l10n_br_pos_screens(instance, module) {
                     partner.whatsapp = 'sim' === fields.whatsapp;
                     partner.zip = fields.zip;
                     partner.data_alteracao = self.pos_widget.clientlist_screen.date_today();
+                    if (partner.create_date == null){
+                        partner.create_date = new Date(this.pos_widget.order_widget.today_date());
+                    }
                     $('.date_cliente').text(partner.create_date.substr(0,7));
                     $('.name_cliente').text(partner.name);
                     $('.tempo_cliente').text(this.pos_widget.order_widget.tempo_cliente(partner.create_date)+' meses');
@@ -414,7 +424,7 @@ function l10n_br_pos_screens(instance, module) {
         },
 
         carrega_cep: function(country_id, state_id, l10n_br_city){
-            if( country_id != null){
+            if(country_id != null){
                 new instance.web.Model('res.country.state').call('get_states_ids', [country_id]).then(function (result) {
                 $('.client-address-state').children('option:not(:first)').remove();
                     $.each(result, function(key, value){
@@ -736,11 +746,7 @@ function l10n_br_pos_screens(instance, module) {
                 if(!self.pos.config.crm_ativo)
                     self.pos_widget.payment_screen.validate_order();
                 else{
-                    var ss = self.pos.pos_widget.screen_selector;
-                    ss.set_current_screen('clientlist');
-                    self.pos_widget.clientlist_screen.display_client_details('edit',{
-                        'country_id': self.pos.company.country_id,
-                    });
+                    self.cpf_cupom_fiscal(currentOrder);
                 }
             });
         }
