@@ -210,9 +210,10 @@ class L10nBrHrMedias(models.Model):
         linha_obj.create(titulo)
 
         # definindo a linha
-        vals = {}
+        l10n_br_medias_dict = {}
         for rubrica in medias:
-            if not vals:
+            if rubrica not in l10n_br_medias_dict:
+                vals = {}
                 nome_rubrica = self.env['hr.salary.rule'].\
                     browse(rubrica).display_name
                 vals.update({'nome_rubrica': nome_rubrica})
@@ -231,6 +232,7 @@ class L10nBrHrMedias(models.Model):
                             break
                         mes_cont += 1
             else:
+                vals = l10n_br_medias_dict[rubrica]
                 for mes in medias[rubrica]:
                     mes_cont = 1
                     for mes_titulo in meses_titulos:
@@ -242,7 +244,11 @@ class L10nBrHrMedias(models.Model):
                             )
                             break
                         mes_cont += 1
-        vals = self._completar_colunas_vazias_linha_media(vals)
-        hr_medias_ids.append(linha_obj.create(vals))
+
+            vals = self._completar_colunas_vazias_linha_media(vals)
+            l10n_br_medias_dict[rubrica] = vals
+
+        for key in l10n_br_medias_dict:
+            hr_medias_ids.append(linha_obj.create(l10n_br_medias_dict[key]))
 
         return hr_medias_ids
