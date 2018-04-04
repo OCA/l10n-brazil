@@ -1786,14 +1786,20 @@ class HrPayslip(models.Model):
         # adiantamento do decimo terceiro salario
         adiantamento_avos_13 = 12
 
+        #
         # Calcula os Avos do payslip para Provisão de 13º Salário
+        #
+
+        # Ajusta para casos que mes = 13 representando decimo terceiro salario
+        mes_do_ano = payslip.mes_do_ano if payslip.mes_do_ano < 12 else 12
+
         if fields.Date.from_string(payslip.contract_id.date_start) > \
                 fields.Date.from_string(str(payslip.ano)+'-01-01'):
             dia_inicio_contrato = \
                 fields.Date.from_string(payslip.contract_id.date_start).day
             mes_inicio_contrato = \
                 fields.Date.from_string(payslip.contract_id.date_start).month
-            avos_13 = int(payslip.mes_do_ano2) - int(mes_inicio_contrato) + 1
+            avos_13 = int(mes_do_ano) - int(mes_inicio_contrato) + 1
 
             adiantamento_avos_13 = 13 - int(mes_inicio_contrato)
 
@@ -1801,11 +1807,11 @@ class HrPayslip(models.Model):
                 avos_13 -= 1
                 adiantamento_avos_13 -= 1
         else:
-            avos_13 = payslip.mes_do_ano2
+            avos_13 = mes_do_ano
 
         if payslip.contract_id.date_end:
             if datetime.strptime(payslip.contract_id.date_end, '%Y-%m-%d').month \
-                    == payslip.mes_do_ano2:
+                    == mes_do_ano:
                 dia_fim_contrato = \
                     fields.Date.from_string(payslip.contract_id.date_end).day
                 if dia_fim_contrato <= 15:
