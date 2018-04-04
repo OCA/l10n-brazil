@@ -33,9 +33,9 @@ class NfeXmlPeriodicExport(models.TransientModel):
                 ('cfe_return', '!=', False),
             ])
 
+        path_exportacao = mount_path_nfe(self.create_uid.company_id, 'sat')
         if pos_orders:
             caminhos_xmls = ''
-            path_exportacao = mount_path_nfe(self.create_uid.company_id, 'sat')
             for pos_order in pos_orders:
                 fp_new = open(
                     path_exportacao
@@ -80,36 +80,36 @@ class NfeXmlPeriodicExport(models.TransientModel):
                     + pos_order.chave_cfe + '.xml'
                 )
 
-        if not self.create_uid.company_id.parent_id.id:
-            orderFile = open(
-                os.path.join(
-                    path_exportacao,
-                    'cfes_xmls_' + time.strftime("%Y-%m-%d") + '.zip'
-                ), 'r'
-            )
-        else:
-            orderFile = open(
-                os.path.join(
-                    path_exportacao,
-                    'cfes_xmls_' + self.create_uid.company_id.name.replace(
-                        " ", "") + "_" + time.strftime("%Y-%m-%d") + '.zip'
-                ), 'r'
-            )
+            if not self.create_uid.company_id.parent_id.id:
+                orderFile = open(
+                    os.path.join(
+                        path_exportacao,
+                        'cfes_xmls_' + time.strftime("%Y-%m-%d") + '.zip'
+                    ), 'r'
+                )
+            else:
+                orderFile = open(
+                    os.path.join(
+                        path_exportacao,
+                        'cfes_xmls_' + self.create_uid.company_id.name.replace(
+                            " ", "") + "_" + time.strftime("%Y-%m-%d") + '.zip'
+                    ), 'r'
+                )
 
-        itemFile = orderFile.read()
+            itemFile = orderFile.read()
 
-        if not self.create_uid.company_id.parent_id.id:
-            self.write({
-                'state': 'done',
-                'zip_sat_file': base64.b64encode(itemFile),
-                'name': 'cfes_xmls_' + time.strftime("%Y-%m-%d") + '.zip',
-            })
-        else:
-            self.write({
-                'state': 'done',
-                'zip_sat_file': base64.b64encode(itemFile),
-                'name': 'cfes_xmls_' + self.create_uid.company_id.name.replace(
-                        " ", "") + "_" + time.strftime("%Y-%m-%d") + '.zip',
-            })
+            if not self.create_uid.company_id.parent_id.id:
+                self.write({
+                    'state': 'done',
+                    'zip_sat_file': base64.b64encode(itemFile),
+                    'name': 'cfes_xmls_' + time.strftime("%Y-%m-%d") + '.zip',
+                })
+            else:
+                self.write({
+                    'state': 'done',
+                    'zip_sat_file': base64.b64encode(itemFile),
+                    'name': 'cfes_xmls_' + self.create_uid.company_id.name.replace(
+                            " ", "") + "_" + time.strftime("%Y-%m-%d") + '.zip',
+                })
 
         return super(NfeXmlPeriodicExport, self).export()
