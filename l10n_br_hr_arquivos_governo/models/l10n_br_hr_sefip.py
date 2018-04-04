@@ -1144,8 +1144,8 @@ class L10nBrSefip(models.Model):
         # if not folha.base_inss:
         #     return self._valor_rubrica(folha.line_ids, "SALARIO")
 
-        result += self._valor_rubrica(folha.line_ids, "BASE_INSS")
-        result += self._valor_rubrica(folha.line_ids, "BASE_INSS_FERIAS")
+        result += self._valor_rubrica(folha.line_ids, "BASE_FGTS")
+        result += self._valor_rubrica(folha.line_ids, "BASE_FGTS_FERIAS")
 
         # base_inss_ferias = self._valor_rubrica(
         #     folha.line_ids, "BASE_INSS_FERIAS"
