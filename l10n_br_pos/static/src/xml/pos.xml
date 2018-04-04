@@ -517,7 +517,7 @@
                     </div>
                 </div>
                 <div class="footer">
-                        <span class='label'>CPF na nota?</span>
+                    <label>CPF na Nota?</label>
                     <div class="button nao">
                         Não
                     </div>

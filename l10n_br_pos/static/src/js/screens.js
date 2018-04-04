@@ -33,8 +33,6 @@ function l10n_br_pos_screens(instance, module) {
             this._super();
             if(self.pos.config.crm_ativo)
                 $(".pos-leftpane *").prop('disabled', save_state);
-            var partner = null;
-            var isSave = null;
 
             $('.deleteorder-button').click(function(e){
                 save_state = false;
@@ -81,11 +79,11 @@ function l10n_br_pos_screens(instance, module) {
            var lines = order.get('orderLines');
                lines.unbind();
                lines.bind('add', function(){
-                        if(lines.length == 1 && this.pos.config.crm_ativo){
-                        self.pos_widget.screen_selector.show_popup('cpf_nota_sat_popup',{
-                            message: _t('Informar CPF'),
-                        });
-                        }
+                       if(lines.length == 1 && this.pos.config.crm_ativo){
+                           self.pos_widget.screen_selector.show_popup('cpf_nota_sat_popup',{
+                           message: _t('Informar CPF'),
+                           });
+                       }
                        this.numpad_state.reset();
                        this.renderElement(true);
                    },this);

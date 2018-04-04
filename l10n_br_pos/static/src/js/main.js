@@ -91,6 +91,17 @@ if (typeof jQuery === 'undefined') { throw new Error('l10n_br POS Simplified inv
             },
         });
 
+        module.ScreenWidget.prototype.barcode_product_action = function (code) {
+            var self = this;
+            if(self.pos.scan_product(code)){
+                if(self.barcode_product_screen && !self.pos.config.crm_ativo){
+                    self.pos_widget.screen_selector.set_current_screen(self.barcode_product_screen);
+                }
+            }else{
+                self.pos_widget.screen_selector.show_popup('error-barcode',code.code);
+            }
+        };
+
         instance.web.Widget.include({
             is_button_disabled: function(name){
                 var b = this.buttons[name];
