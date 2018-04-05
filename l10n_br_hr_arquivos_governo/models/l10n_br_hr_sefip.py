@@ -947,10 +947,8 @@ class L10nBrSefip(models.Model):
         for record in self:
             record.folha_ids = False
             sefip = SEFIP()
-            record.sefip = ''
-            record.sefip += \
-                self._valida_tamanho_linha(
-                    record._preencher_registro_00(sefip))
+            record.sefip = self._valida_tamanho_linha(
+                record._preencher_registro_00(sefip))
             folha_ids = record._get_folha_ids()
             self._valida_centralizadora(folha_ids.mapped('company_id'))
 
@@ -1164,21 +1162,39 @@ class L10nBrSefip(models.Model):
         """
         result = 0.00
 
+        # Se o funcionario adiantou ferias no holerite do mes
         result += self._valor_rubrica(folha.line_ids, 'ADIANTAMENTO_13_FERIAS')
+
+        # Holerites de 13 gerados em dezembro tem a identificação do mes = 13
+        # quando sao gerados como adiantamento, sao setados com o mes corrente
+        mes_do_ano = [self.mes] if self.mes != '12' else [self.mes, '13']
 
         # Buscar folha de 13 salario
         folha_ids = self.env['hr.payslip'].search([
             ('ano', '=', self.ano),
-            ('mes_do_ano', '=', self.mes),
+            ('mes_do_ano', 'in', mes_do_ano),
             ('tipo_de_folha', 'in', ['decimo_terceiro']),
+            ('is_simulacao', '=', False),
             ('state', 'in', ['done','verify']),
             ('contract_id', '=', folha.contract_id.id),
             # ('company_id.partner_id.cnpj_cpf', 'like', raiz)
         ], limit=1)
 
         if folha_ids:
+
+            # Holerites de adiantamento de 13 gerados em maio para funcionarios
+            # que nao adiantaram o 13 salario nas ferias, vem com o codigo
+            #  de rubrica de PRIMEIRA_PARCELA_13
             result += \
                 self._valor_rubrica(folha_ids.line_ids, "PRIMEIRA_PARCELA_13")
+
+            # Holerites de decimo terceiro em dez, a rubrica é SALARIO_13
+            base_13 = \
+                self._valor_rubrica(folha_ids.line_ids, "SALARIO_13") - \
+                self._valor_rubrica(
+                    folha_ids.line_ids, "DESCONTO_ADIANTAMENTO_13")
+
+            result += base_13
 
         return result
 
