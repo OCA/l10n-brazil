@@ -207,6 +207,10 @@ function l10n_br_pos_screens(instance, module) {
                 return;
             }
 
+            if (this.uploaded_picture) {
+                fields.image = this.uploaded_picture;
+            }
+
             fields.id           = partner.id || false;
             fields.country_id   = fields.country_id || false;
             fields.ean13        = fields.ean13 ? this.pos.barcode_reader.sanitize_ean(fields.ean13) : false;
@@ -335,6 +339,7 @@ function l10n_br_pos_screens(instance, module) {
 
     module.ClientListScreenWidget = module.ClientListScreenWidget.extend({
         save_client_details: function(partner) {
+            var self = this;
             var fields = {}
             this.$('.client-details-contents .detail').each(function(idx,el){
                 fields[el.name] = el.value;
@@ -347,10 +352,12 @@ function l10n_br_pos_screens(instance, module) {
             } else {
                 var cliente_cpf = fields.cnpj_cpf;
                 if (self.pos_widget.order_widget.verificar_cpf_cnpj(cliente_cpf.replace(/[^\d]+/g,''))){
+                    fields.id           = partner.id || false;
+                    fields.ean13        = fields.ean13 ? this.pos.barcode_reader.sanitize_ean(fields.ean13) : false;
                     partner.name = fields.name;
                     partner.birthdate = fields.birthdate;
                     partner.cnpj_cpf = fields.cnpj_cpf;
-                    var country = this.pos.countries.find(function(element) {return element.id==fields.country_id;});
+                    var country = this.pos.countries.find(function(element) {return element.id==fields.country_id;}) || false;
                     partner.email = fields.email;
                     partner.gender = fields.gender;
                     var city = this.pos.cities.find(function(element) {return element.id==fields.l10n_br_city_id});
@@ -366,18 +373,26 @@ function l10n_br_pos_screens(instance, module) {
                         partner.create_date = new Date(this.pos.db.today_date());
                     }
                     $(document).ready(function(){
-                        if(country != null)
+                        if (country != null)
                             partner.country_id = [country.id, country.name];
-                        if(city != null){
+                        if (city != null) {
                             partner.l10n_br_city_id = [city.id, city.name];
                             partner.state_id = [city.state_id[0], city.state_id[1]];
                         }
                     });
-                    this._super(partner);
+                    new instance.web.Model('res.partner').call('create_from_ui', [fields]).then(function (partner_id) {
+                        self.saved_client_details(partner_id);
+                    }, function (err, event) {
+                        event.preventDefault();
+                        self.pos_widget.screen_selector.show_popup('error', {
+                            'message': _t('Error: Could not Save Changes'),
+                            'comment': _t('CPF já cadastrado no sistema.'),
+                        });
+                    });
                 } else {
-                   this.pos_widget.screen_selector.show_popup('error',{
+                    this.pos_widget.screen_selector.show_popup('error', {
                         message: _t('Erro no cadastro!'),
-                        comment:_t('CPF inválido!.')
+                        comment: _t('CPF inválido!.')
                     });
                 }
             }
@@ -594,7 +609,7 @@ function l10n_br_pos_screens(instance, module) {
         cpf_cupom_fiscal: function(currentOrder){
             self = this;
             var cpf = $('.busca-cpf-cnpj-popup').val();
-            $(".pos-leftpane *").prop('disabled', false);
+            $(".pos-leftpane *").prop('disabled', save_state);
             if (cpf){
                 self.pos_widget.screen_selector.close_popup();
                 if (!currentOrder.client) {
