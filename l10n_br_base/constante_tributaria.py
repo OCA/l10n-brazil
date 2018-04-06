@@ -4856,18 +4856,19 @@ TIPO_UNIDADE = (
 
 
 FORMA_PAGAMENTO = (
-    ('01', u'Dinheiro'),
-    ('02', u'Cheque'),
-    ('03', u'Cartão de crédito'),
-    ('04', u'Cartão de débito'),
-    ('05', u'Crédito na loja'),
-    ('10', u'Vale alimentação'),
-    ('11', u'Vale refeição'),
-    ('12', u'Vale presente'),
-    ('13', u'Vale combustível'),
-    ('14', u'Duplicata mercantil'),
-    # ('90', u''),
-    ('99', u'Outros'),
+    ('01', 'Dinheiro'),
+    ('02', 'Cheque'),
+    ('03', 'Cartão de crédito'),
+    ('04', 'Cartão de débito'),
+    ('05', 'Crédito na loja'),
+    ('10', 'Vale alimentação'),
+    ('11', 'Vale refeição'),
+    ('12', 'Vale presente'),
+    ('13', 'Vale combustível'),
+    ('14', 'Duplicata mercantil'),
+    ('15', 'Boleto bancário'),
+    ('90', 'Sem pagamento'),
+    ('99', 'Outros'),
 )
 FORMA_PAGAMENTO_DICT = dict(FORMA_PAGAMENTO)
 
