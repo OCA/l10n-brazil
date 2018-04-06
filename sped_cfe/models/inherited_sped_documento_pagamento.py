@@ -12,25 +12,10 @@ from odoo import api, models, fields, _
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODELO_FISCAL_CFE,
     FORMA_PAGAMENTO_CARTOES,
+    FORMA_PAGAMENTO,
 )
 
 _logger = logging.getLogger(__name__)
-
-FORMA_PAGAMENTO = (
-    ('01', 'Dinheiro'),
-    ('02', 'Cheque'),
-    ('03', 'Cartão de crédito'),
-    ('04', 'Cartão de débito'),
-    ('05', 'Crédito na loja'),
-    ('10', 'Vale alimentação'),
-    ('11', 'Vale refeição'),
-    ('12', 'Vale presente'),
-    ('13', 'Vale combustível'),
-    ('14', 'Duplicata mercantil'),
-    ('15', 'Boleto bancário'),
-    # ('90', 'Sem pagamento'),
-    ('99', 'Outros'),
-)
 
 try:
     from pybrasil.valor.decimal import Decimal as D
