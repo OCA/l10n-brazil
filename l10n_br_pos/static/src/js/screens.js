@@ -694,7 +694,7 @@ function l10n_br_pos_screens(instance, module) {
             this.message = options.message || '';
 
             this.comment = options.comment || '';
-            var cliente_cpf = '';
+
             var currentOrder = this.pos.get('selectedOrder').attributes;
             if (currentOrder.client) {
                 this.cpf_nota = currentOrder.client.cnpj_cpf;
@@ -824,6 +824,11 @@ function l10n_br_pos_screens(instance, module) {
                         var invoiced = this.pos.push_and_invoice_order(currentOrder);
 
                         invoiced.fail(function(error){
+                            if (this.pos.config.cpf_nota) {
+                                this.pos_widget.action_bar.set_button_disabled('validation',true);
+                            } else {
+                                this.pos_widget.action_bar.set_button_disabled('validation',false);
+                            }
                             if(error === 'error-no-client'){
                                 this.pos_widget.screen_selector.show_popup('error',{
                                     message: _t('An anonymous order cannot be invoiced'),
@@ -834,11 +839,6 @@ function l10n_br_pos_screens(instance, module) {
                                     message: _t('The order could not be sent'),
                                     comment: _t('Check your internet connection and try again.'),
                                 });
-                            }
-                            if (this.pos.config.cpf_nota) {
-                                this.pos_widget.action_bar.set_button_disabled('validation',true);
-                            } else {
-                                this.pos_widget.action_bar.set_button_disabled('validation',false);
                             }
 
                             this.pos_widget.action_bar.set_button_disabled('invoice',false);
