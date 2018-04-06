@@ -363,7 +363,7 @@ function l10n_br_pos_screens(instance, module) {
                     partner.zip = fields.zip;
                     partner.data_alteracao = this.pos.db.today_date();
                     if (partner.create_date == null){
-                        partner.create_date = new Date(self.pos.db.today_date());
+                        partner.create_date = new Date(this.pos.db.today_date());
                     }
                     $(document).ready(function(){
                         if(country != null)
