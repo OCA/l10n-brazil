@@ -4867,7 +4867,7 @@ FORMA_PAGAMENTO = (
     ('13', 'Vale combustível'),
     ('14', 'Duplicata mercantil'),
     ('15', 'Boleto bancário'),
-    #('90', 'Sem pagamento'),
+    ('90', 'Sem pagamento'),
     ('99', 'Outros'),
 )
 FORMA_PAGAMENTO_DICT = dict(FORMA_PAGAMENTO)
