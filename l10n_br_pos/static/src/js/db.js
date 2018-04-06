@@ -72,9 +72,14 @@ function l10n_br_pos_db(instance, module) {
         },
         tempo_cliente: function(create_date){
             if(create_date){
-                var date = new Date();
-                var today = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getDay());
-                var date_partner = new Date(create_date);
+                var today = new Date();
+                if (parseInt(create_date.substr(8,2)) < 12){
+                    create_date = create_date.substr(0, 4) + '-' + create_date.substr(8, 2) + '-' + create_date.substr(5, 2) //dia,mes e ano
+                }
+                if (create_date.substr(8, 2) == "") {
+                    create_date = create_date.substr(0, 4) + '-'+ '01' + '-' + create_date.substr(5, 2)
+                }
+                var date_partner = new Date(create_date.substr(0,4)+'-'+create_date.substr(5,2)+'-'+create_date.substr(8,2));
                 var tempo = parseInt(((today.getTime() - date_partner.getTime())*3.81E-10)+0.5)
                 return tempo < 0? 0: tempo;
             }

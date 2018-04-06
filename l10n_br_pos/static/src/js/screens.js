@@ -77,7 +77,10 @@ function l10n_br_pos_screens(instance, module) {
         calcula_diferenca_data: function(data_alteracao){
             if(data_alteracao){
                 var today = new Date();
-                var date_partner = new Date(data_alteracao.substr(0,4), data_alteracao.substr(5,2));
+                if (parseInt(data_alteracao.substr(8,2)) < 12){
+                    data_alteracao = data_alteracao.substr(0, 4) + '-' + data_alteracao.substr(8, 2) + '-' + data_alteracao.substr(5, 2) //dia,mes e ano
+                }
+                var date_partner = new Date(data_alteracao);
                 var lim_data_alteracao = parseInt(this.pos.config.lim_data_alteracao);
                 if( Math.floor((today.getTime() - date_partner.getTime())*3.81E-10) <= lim_data_alteracao)
                     return true;
@@ -123,8 +126,7 @@ function l10n_br_pos_screens(instance, module) {
                 $('.client_mostra').show();
                 $('.date_cliente').text(this.pos.get('selectedOrder').attributes.client.create_date.substr(0, 7));
                 $('.name_cliente').text(this.pos.get('selectedOrder').attributes.client.name);
-                $('.tempo_cliente').text(this.pos.db.tempo_cliente(this.pos.get('selectedOrder').attributes.client.create_date) + ' meses');
-            }
+                $('.tempo_cliente').text(this.pos.db.tempo_cliente(this.pos.get('selectedOrder').attributes.client.create_date)) + ' meses';            }
         },
 
         active_client: function (self, documento, partner) {
