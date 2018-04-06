@@ -829,6 +829,8 @@ function l10n_br_pos_screens(instance, module) {
                 if (this.pos.config.cpf_nota) {
                     this.pos_widget.action_bar.set_button_disabled('validation', true);
                 }
+                if(!cpf_na_nota)
+                    currentOrder.attributes.cpf_nota  = null;
 
                 if( sat_status == 'connected'){
                     if(options.invoice){
