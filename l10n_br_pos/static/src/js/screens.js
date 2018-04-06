@@ -126,7 +126,7 @@ function l10n_br_pos_screens(instance, module) {
                 $('.client_mostra').show();
                 $('.date_cliente').text(this.pos.get('selectedOrder').attributes.client.create_date.substr(0, 7));
                 $('.name_cliente').text(this.pos.get('selectedOrder').attributes.client.name);
-                $('.tempo_cliente').text(this.pos.db.tempo_cliente(this.pos.get('selectedOrder').attributes.client.create_date)+ ' meses');
+                $('.tempo_cliente').text(this.pos.db.tempo_cliente(this.pos.get('selectedOrder').attributes.client.create_date) + ' meses');
             }
         },
 
@@ -625,7 +625,7 @@ function l10n_br_pos_screens(instance, module) {
                                 ss.set_current_screen('clientlist');
                                 self.pos_widget.clientlist_screen.edit_client_details(partner);
                             }
-                            if(!self.pos.config.crm_ativo && self.cpf_na_nota)
+                            if(!self.pos.config.crm_ativo && cpf_na_nota)
                                 self.pos_widget.payment_screen.validate_order();
                         } else {
                             new_partner = {};
@@ -663,7 +663,7 @@ function l10n_br_pos_screens(instance, module) {
                                 }).then(function () {
                                     currentOrder = self.pos.get('selectedOrder').attributes;
                                     currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
-                                    if(!self.pos.config.crm_ativo && self.cpf_na_nota)
+                                    if(!self.pos.config.crm_ativo && cpf_na_nota)
                                         self.pos_widget.payment_screen.validate_order();
                                 });
                             });
@@ -691,14 +691,14 @@ function l10n_br_pos_screens(instance, module) {
                     }
                 }
             } else {
-                if (!this.cpf_na_nota && self.pos.config.crm_ativo) {
+                if (!cpf_na_nota && self.pos.config.crm_ativo) {
                     var ss = self.pos.pos_widget.screen_selector;
                     ss.set_current_screen('clientlist');
                     self.pos_widget.clientlist_screen.display_client_details('edit',{
                         'country_id': self.pos.company.country_id,
                     });
                 }
-                if(this.cpf_na_nota)
+                if(cpf_na_nota)
                     alert('O cpf deve ser inserido no campo para que seja transmitido no cupom fiscal.');
             }
         },
@@ -727,8 +727,8 @@ function l10n_br_pos_screens(instance, module) {
 
             this.hotkey_handler = function (event) {
                 if (event.which === 13) {
-                    self.cpf_na_nota = true;
-                    self.save_state = false;
+                    cpf_na_nota = true;
+                    save_state = false;
                     self.cpf_cupom_fiscal(currentOrder);
                 }
             };
@@ -736,14 +736,14 @@ function l10n_br_pos_screens(instance, module) {
             $('.busca-cpf-cnpj-popup').on('keyup',this.hotkey_handler);
             save_state = true;
             this.$('.button.sim').click(function(){
-                self.cpf_na_nota = true;
-                self.save_state = false;
+                cpf_na_nota = true;
+                save_state = false;
                 self.cpf_cupom_fiscal(currentOrder);
             });
 
             this.$('.button.nao').click(function(){
-                self.cpf_na_nota = false;
-                self.save_state = false;
+                cpf_na_nota = false;
+                save_state = false;
                 self.pos_widget.screen_selector.close_popup();
                 if(!self.pos.config.crm_ativo)
                     self.pos_widget.payment_screen.validate_order();
@@ -934,10 +934,13 @@ function l10n_br_pos_screens(instance, module) {
                     name: 'venda_sat',
                     icon: '/point_of_sale/static/src/img/icons/png48/validate.png',
                     click: function () {
-                        if(self.cpf_na_nota || !self.pos.config.crm_ativo)
+                        if(cpf_na_nota && self.pos.config.crm_ativo)
+                            self.pos_widget.payment_screen.validate_order();
+                        else if (!self.pos.config.crm_ativo)
                             self.validar_cpf_nota();
                         else
                             self.pos_widget.payment_screen.validate_order();
+
                     }
                 });
                 this.update_payment_summary();
