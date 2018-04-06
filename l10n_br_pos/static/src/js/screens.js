@@ -19,6 +19,20 @@ function l10n_br_pos_screens(instance, module) {
     var QWeb = instance.web.qweb;
     var _t = instance.web._t;
     var save_state = false;
+    var cpf_na_nota = false;
+
+    module.ScreenWidget.prototype.barcode_product_action = function (code) {
+            var self = this;
+            if(!save_state) {
+                if (self.pos.scan_product(code)) {
+                    if (self.barcode_product_screen && !self.pos.config.crm_ativo) {
+                        self.pos_widget.screen_selector.set_current_screen(self.barcode_product_screen);
+                    }
+                } else {
+                    self.pos_widget.screen_selector.show_popup('error-barcode', code.code);
+                }
+            }
+    };
 
     module.HaveCpfCnpj = module.OrderWidget.include({
         template: 'PosWidget',
@@ -577,6 +591,7 @@ function l10n_br_pos_screens(instance, module) {
         cpf_cupom_fiscal: function(currentOrder){
             self = this;
             var cpf = $('.busca-cpf-cnpj-popup').val();
+            $(".pos-leftpane *").prop('disabled', false);
             if (cpf){
                 self.pos_widget.screen_selector.close_popup();
                 if (!currentOrder.client) {
@@ -592,7 +607,7 @@ function l10n_br_pos_screens(instance, module) {
                                 ss.set_current_screen('clientlist');
                                 self.pos_widget.clientlist_screen.edit_client_details(partner);
                             }
-                            if(!self.pos.config.crm_ativo)
+                            if(!self.pos.config.crm_ativo && self.cpf_na_nota)
                                 self.pos_widget.payment_screen.validate_order();
                         } else {
                             new_partner = {};
@@ -630,7 +645,7 @@ function l10n_br_pos_screens(instance, module) {
                                 }).then(function () {
                                     currentOrder = self.pos.get('selectedOrder').attributes;
                                     currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
-                                    if(!self.pos.config.crm_ativo)
+                                    if(!self.pos.config.crm_ativo && self.cpf_na_nota)
                                         self.pos_widget.payment_screen.validate_order();
                                 });
                             });
@@ -658,7 +673,8 @@ function l10n_br_pos_screens(instance, module) {
                     }
                 }
             } else {
-                alert('O cpf deve ser inserido no campo para que seja transmitido no cupom fiscal.');
+                if(this.cpf_na_nota)
+                    alert('O cpf deve ser inserido no campo para que seja transmitido no cupom fiscal.');
             }
         },
 
@@ -686,6 +702,8 @@ function l10n_br_pos_screens(instance, module) {
 
             this.hotkey_handler = function (event) {
                 if (event.which === 13) {
+                    self.cpf_na_nota = true;
+                    self.save_state = false;
                     self.cpf_cupom_fiscal(currentOrder);
                 }
             };
@@ -693,17 +711,15 @@ function l10n_br_pos_screens(instance, module) {
             $('.busca-cpf-cnpj-popup').on('keyup',this.hotkey_handler);
             save_state = true;
             this.$('.button.sim').click(function(){
-                this.cpf_na_nota = true;
-                save_state = false;
-                $(".pos-leftpane *").prop('disabled', false);
+                self.cpf_na_nota = true;
+                self.save_state = false;
                 self.cpf_cupom_fiscal(currentOrder);
             });
 
             this.$('.button.nao').click(function(){
-                this.cpf_na_nota = false;
+                self.cpf_na_nota = false;
+                self.save_state = false;
                 self.pos_widget.screen_selector.close_popup();
-                save_state = false;
-                $(".pos-leftpane *").prop('disabled', false);
                 if(!self.pos.config.crm_ativo)
                     self.pos_widget.payment_screen.validate_order();
                 else{

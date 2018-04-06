@@ -73,10 +73,10 @@ function l10n_br_pos_db(instance, module) {
         tempo_cliente: function(create_date){
             if(create_date){
                 var date = new Date();
-                var today = new Date(date.getUTCFullYear(), date.getUTCMonth());
+                var today = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getDay());
                 var date_partner = new Date(create_date);
-                var tempo = Math.floor((today.getTime() - date_partner.getTime())*3.81E-10)
-                return Math.floor((today.getTime() - date_partner.getTime())*3.81E-10) < 0? 0: tempo;
+                var tempo = parseInt(((today.getTime() - date_partner.getTime())*3.81E-10)+0.5)
+                return tempo < 0? 0: tempo;
             }
         },
         get_partner_by_identification: function(partners, identification){
