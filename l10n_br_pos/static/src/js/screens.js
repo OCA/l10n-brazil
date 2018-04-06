@@ -126,7 +126,8 @@ function l10n_br_pos_screens(instance, module) {
                 $('.client_mostra').show();
                 $('.date_cliente').text(this.pos.get('selectedOrder').attributes.client.create_date.substr(0, 7));
                 $('.name_cliente').text(this.pos.get('selectedOrder').attributes.client.name);
-                $('.tempo_cliente').text(this.pos.db.tempo_cliente(this.pos.get('selectedOrder').attributes.client.create_date)) + ' meses';            }
+                $('.tempo_cliente').text(this.pos.db.tempo_cliente(this.pos.get('selectedOrder').attributes.client.create_date)+ ' meses');
+            }
         },
 
         active_client: function (self, documento, partner) {
@@ -675,6 +676,13 @@ function l10n_br_pos_screens(instance, module) {
                     }
                 }
             } else {
+                if (!this.cpf_na_nota && self.pos.config.crm_ativo) {
+                    var ss = self.pos.pos_widget.screen_selector;
+                    ss.set_current_screen('clientlist');
+                    self.pos_widget.clientlist_screen.display_client_details('edit',{
+                        'country_id': self.pos.company.country_id,
+                    });
+                }
                 if(this.cpf_na_nota)
                     alert('O cpf deve ser inserido no campo para que seja transmitido no cupom fiscal.');
             }
