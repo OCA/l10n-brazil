@@ -8,7 +8,7 @@
 from __future__ import division, print_function, unicode_literals
 
 import logging
-
+import base64
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.addons.l10n_br_base.constante_tributaria import *
@@ -158,7 +158,7 @@ class SpedCartaCorrecao(models.Model):
             'datas_fname': nome_arquivo,
             'res_model': 'sped.documento.carta.correcao',
             'res_id': self.id,
-            'datas': conteudo.encode('base64'),
+            'datas': base64.b64encode(conteudo),
             'mimetype': tipo,
         }
 
