@@ -7,5 +7,5 @@ from . import res_bank
 from . import res_partner
 from . import res_country
 from . import res_company
-from . import l10n_br_base
+from . import l10n_br_base_city
 from . import l10n_br_base_config

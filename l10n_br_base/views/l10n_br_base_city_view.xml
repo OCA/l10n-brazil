@@ -9,6 +9,7 @@
                 <tree string="Municípios">
                     <field name="name" select="1"/>
                     <field name="state_id" select="1"/>
+                    <field name="country_id" select="1"/>
                     <field name="ibge_code"/>
                 </tree>
             </field>
@@ -22,7 +23,11 @@
                     <group>
                         <field name="name"/>    
                         <field name="state_id"/>
+                        <field name="country_id"/>
                         <field name="ibge_code"/>
+                        <field name="anp_code"/>
+                        <field name="phone_code"/>
+                        <field name="cep_unico"/>
                     </group>
                 </form>
             </field>
