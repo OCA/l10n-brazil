@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="base.br" model="res.country">
+            <field name="address_format" eval="'%(street)s, %(number)s - %(street2)s\n%(district)s\n%(zip)s - %(l10n_br_city_name)s - %(state_code)s\n%(country_name)s'" />
+        </record>
+
+         <record id="view_cadastro_config" model="ir.ui.view">
+            <field name="name">Configurações cadastrais</field>
+            <field name="model">l10n_br_base.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configurações Cadastrais" class="oe_form_configuration">
+                    <header>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        <button string="Cancel" type="object" name="cancel" class="oe_link" special="cancel"/>
+                    </header>
+                    <separator string="Configurações Cadastrais"/>
+                    <group string="Pessoas e Empresas" name="config_pessoas_empresas">
+                        <label for="check_cnpj"/>
+                        <div>
+                            <field name="check_cnpj" class="oe_inline"/>
+                        </div>
+                        <label for="check_ie"/>
+                        <div>
+                            <field name="check_ie" class="oe_inline"/>
+                        </div>
+                        <label for="check_zip"/>
+                        <div>
+                            <field name="check_zip" class="oe_inline"/>
+                        </div>
+                        <label for="check_phone"/>
+                        <div>
+                            <field name="check_phone" class="oe_inline"/>
+                        </div>
+                        <label for="check_mail"/>
+                        <div>
+                            <field name="check_mail" class="oe_inline"/>
+                        </div>
+                        <label for="allow_cnpj_multi_ie"/>
+                        <div>
+                            <field name="allow_cnpj_multi_ie" class="oe_inline"/>
+                        </div>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_cadastro_config" model="ir.actions.act_window">
+            <field name="name">Configurações cadastrais</field>
+            <field name="res_model">l10n_br_base.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem
+            id="menu_item_cadastro_config"
+            name="Configurações cadastrais"
+            parent="l10n_br_base.submenu_cadastro_config"
+            sequence="1"
+            action="action_cadastro_config"
+            groups="base.group_system"
+        />
+
+    </data>
+</odoo>

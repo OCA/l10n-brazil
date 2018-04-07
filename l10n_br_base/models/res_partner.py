@@ -106,6 +106,11 @@ class ResPartner(models.Model):
     @api.multi
     @api.constrains('cnpj_cpf', 'country_id')
     def _check_cnpj_cpf(self):
+
+        if not self.env['ir.config_parameter'].get_param(
+                'l10n_br_base_check_cnpj') == u'True':
+            return
+
         result = True
         for record in self:
             country_code = record.country_id.code or ''
@@ -130,6 +135,11 @@ class ResPartner(models.Model):
 
         :Parameters:
         """
+
+        if not self.env['ir.config_parameter'].get_param(
+                'l10n_br_base_check_ie') == u'True':
+            return
+
         for record in self:
             result = True
             if record.inscr_est and record.is_company and record.state_id:
