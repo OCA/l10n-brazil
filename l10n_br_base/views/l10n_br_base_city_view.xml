@@ -2,30 +2,6 @@
 <openerp>
     <data>
 
-        <!-- TODO move elsewhere! -->
-        <record id="base.br" model="res.country">
-            <field name="address_format" eval="'%(street)s, %(number)s - %(street2)s\n%(district)s\n%(zip)s - %(l10n_br_city_name)s - %(state_code)s\n%(country_name)s'" />
-        </record>
-
-        <record id="view_general_configuration_cnpj" model="ir.ui.view">
-            <field name="name">base.config.settings.cnpj</field>
-            <field name="model">base.config.settings</field>
-            <field name="inherit_id" ref="base_setup.view_general_configuration"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='module_portal']/../../.." position="before">
-                    <group>
-                        <label for="allow_cnpj_multi_ie" string="Múltiplos IE's"/>
-                        <div name="email">
-                            <div name="email.outgoing_server">
-                                <field name="allow_cnpj_multi_ie" class="oe_inline" />
-                                <label string ="Permite parceiros com CNPJ's iguais e IE's diferentes."/>
-                            </div>
-                        </div>
-                    </group>
-                </xpath>
-            </field>
-        </record>
-
         <record id="view_l10n_br_base_city_tree" model="ir.ui.view">
             <field name="name">l10n_br_base.city</field>
             <field name="model">l10n_br_base.city</field>
@@ -60,6 +36,38 @@
             <field name="view_type">form</field>
             <field name="view_id" ref="view_l10n_br_base_city_tree"/>
         </record>
+
+    <menuitem
+        id="menu_item_locais_config"
+        name="Locais"
+        parent="l10n_br_base.submenu_cadastro_config"
+        sequence="100"
+        groups="base.group_system"
+        />
+
+    <menuitem
+        id="menu_l10n_br_base_city"
+        sequence="100"
+        name="Município"
+        parent="menu_item_locais_config"
+        action="action_l10n_br_base_city_form"
+        />
+
+    <menuitem
+        id="menu_l10n_br_base_state"
+        sequence="200"
+        name="Estados"
+        parent="menu_item_locais_config"
+        action="base.action_country_state"
+        />
+
+    <menuitem
+        id="menu_l10n_br_base_country"
+        sequence="300"
+        name="Paises"
+        parent="menu_item_locais_config"
+        action="base.action_country"
+        />
 
     </data>
 </openerp>

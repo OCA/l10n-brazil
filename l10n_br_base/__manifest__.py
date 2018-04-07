@@ -18,7 +18,7 @@
         'data/l10n_br_base_data.xml',
         'data/res.country.state.csv',
         'views/l10n_br_base_menu.xml',
-        'views/l10n_br_base_view.xml',
+        'views/l10n_br_base_city_view.xml',
         'views/res_bank_view.xml',
         'views/res_country_view.xml',
         'views/res_partner_view.xml',
