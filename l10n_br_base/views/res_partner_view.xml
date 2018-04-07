@@ -129,5 +129,45 @@
             </field>
         </record>
 
+    <menuitem
+        id="menu_res_partner_customer"
+        sequence="300"
+        name="Clientes"
+        parent="menu_cadastro_partner"
+        action="base.action_partner_customer_form"
+        />
+
+    <menuitem
+        id="menu_res_partner_supplier"
+        sequence="400"
+        name="Fornecedores"
+        parent="menu_cadastro_partner"
+        action="base.action_partner_supplier_form"
+        />
+
+    <menuitem
+        id="menu_res_partner_employee"
+        sequence="500"
+        name="Empregados"
+        parent="menu_cadastro_partner"
+        action="base.action_partner_employee_form"
+        />
+
+    <menuitem
+        id="menu_res_partner_other"
+        sequence="800"
+        name="Outros"
+        parent="menu_cadastro_partner"
+        action="base.action_partner_other_form"
+        />
+
+    <menuitem
+        id="menu_res_partner_other"
+        sequence="900"
+        name="Categorias"
+        parent="menu_cadastro_partner"
+        action="base.action_partner_category_form"
+        />
+
     </data>
 </openerp>

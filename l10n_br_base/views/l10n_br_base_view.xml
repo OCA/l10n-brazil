@@ -26,9 +26,6 @@
             </field>
         </record>
 
-        <menuitem id="menu_l10n_br_base" icon="terp-crm" name="Localização Brasil"/>
-        <menuitem id="menu_l10n_br_base_configuration" name="Configuração" parent="menu_l10n_br_base" sequence="0"/>
-
         <record id="view_l10n_br_base_city_tree" model="ir.ui.view">
             <field name="name">l10n_br_base.city</field>
             <field name="model">l10n_br_base.city</field>
@@ -64,9 +61,5 @@
             <field name="view_id" ref="view_l10n_br_base_city_tree"/>
         </record>
 
-        <menuitem id="menu_l10n_br_base_fiscal" name="Fiscal" parent="menu_l10n_br_base_configuration" sequence="0"/>
-		<!--
-        <menuitem id="menu_action_l10n_br_base_city_form" name="Municípios" parent="base.menu_localisation" action="action_l10n_br_base_city_form"/>
-		-->
     </data>
 </openerp>
