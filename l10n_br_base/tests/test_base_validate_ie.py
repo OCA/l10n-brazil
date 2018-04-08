@@ -62,7 +62,7 @@ invalid_ie = {
            '2713079810'],
     'to': ['290921014', '293799491', '290737544', '990655293', '693742782',
            '6937427820']
-    }
+}
 
 # Create a dictionary with a list of valid inscr_est for each state
 valid_ie = {
@@ -114,7 +114,7 @@ valid_ie = {
            '645098352117'],
     'se': ['271126973', '271233648', '271200634', '270622020', '271307986'],
     'to': ['290021014', '293799490', '290707544', '290655293', '293742782']
-    }
+}
 
 
 class ValidateIETest(TransactionCase):
@@ -125,7 +125,7 @@ class ValidateIETest(TransactionCase):
                 self.assertFalse(
                     validate_ie(est, inscr_est),
                     'Error on validate %s inscr_est' % (est)
-                    )
+                )
 
     def test_inscr_valid(self):
         for est in valid_ie:
@@ -133,4 +133,4 @@ class ValidateIETest(TransactionCase):
                 self.assertTrue(
                     validate_ie(est, inscr_est),
                     'Error on validate %s inscr_est' % (est)
-                    )
+                )

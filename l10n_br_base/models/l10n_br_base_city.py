@@ -57,7 +57,7 @@ class L10nBrBaseCity(models.Model):
         string='CEP único',
         size=9,
     )
-    
+
     _sql_constraints = [
         (
             'name_estado_pais_unique',
