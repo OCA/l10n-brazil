@@ -14,6 +14,8 @@
         'product',
     ],
     'data': [
+        'views/menu.xml',
+        'views/product_view.xml',
     ],
     'demo': [
     ],

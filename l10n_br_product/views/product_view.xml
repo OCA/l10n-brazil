@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    <menuitem
+        id="menu_product_template_action_all"
+        sequence="300"
+        name="Produtos"
+        parent="menu_product_service"
+        action="product.product_template_action_all"
+        />
+
+    <menuitem
+        id="menu_product_supplierinfo_type"
+        sequence="400"
+        name="Variantes"
+        parent="menu_product_service"
+        action="product.product_supplierinfo_type_action"
+        />
+
+    <menuitem
+        id="menu_product_category_action"
+        sequence="500"
+        name="Categorias"
+        parent="menu_product_service"
+        action="product.product_category_action_form"
+        />
+
+    <menuitem
+        id="menu_product_pricelist_action2"
+        sequence="450"
+        name="Listas de preço"
+        parent="menu_product_service"
+        action="product.product_pricelist_action2"
+        />
+
+    <menuitem
+        id="menu_product_uom_form_action"
+        sequence="480"
+        name="Unidades de medida"
+        parent="menu_product_service_config"
+        action="product.product_uom_form_action"
+        />
+    <menuitem
+        id="menu_product_uom_categ_form_action"
+        sequence="490"
+        name="Categorias de unidades de medida"
+        parent="menu_product_service_config"
+        action="product.product_uom_categ_form_action"
+        />
+
+    <menuitem
+        id="menu_packaging_view"
+        sequence="500"
+        name="Empacotamento"
+        parent="menu_product_service_config"
+        action="product.action_packaging_view"
+        />
+
+    <menuitem
+        id="menu_config_variantes"
+        sequence="600"
+        name="Variantes"
+        parent="menu_product_service_config"
+        />
+
+
+   <menuitem
+        id="menu_attributes"
+        sequence="200"
+        name="Atributos"
+        parent="menu_config_variantes"
+        action="product.attribute_action"
+    />
+
+    <menuitem
+        id="menu_attribute_values"
+        sequence="300"
+        name="Valores atributos"
+        parent="menu_config_variantes"
+        action="product.variants_action"
+        />
+
+    </data>
+</openerp>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="menu_product_service"
+                  name="Produtos e Serviços"
+                  sequence="2"
+                  parent="l10n_br_base.menu_cadastro"
+        />
+
+        <menuitem id="menu_product_service_config"
+                  name="Produtos e Serviços"
+                  sequence="500"
+                  parent="l10n_br_base.submenu_cadastro_config"
+        />
+
+    </data>
+</openerp>
