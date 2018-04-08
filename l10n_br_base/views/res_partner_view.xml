@@ -33,28 +33,20 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <field name="exige_cnpj_cpf" invisible="1" />
+                    <field name="exige_endereco" invisible="1" />
+                    <field name="tipo_pessoa" invisible="1" />
+                </xpath>
                 <xpath expr="//h1" position="after">
+                     <h2>
+                        <field name="cnpj_cpf" placeholder="CNPJ ou CPF" attrs="{'required': [('exige_cnpj_cpf', '=', True)]}" />
+                    </h2>
+                </xpath>
+                <xpath expr="//div[@class='oe_title']" position="after">
                     <group>
-                        <div class="oe_edit_only">
-                            <label for="legal_name" string="Nome e Sobrenome"
-                                   attrs="{'invisible': [('is_company','=', True)]}"/>
-                            <label for="legal_name" string="Razão Social"
-                                   attrs="{'invisible': [('is_company','!=', True)]}"/>
-                        </div>
-                        <field colspan="4" name="legal_name" nolabel="1"/>
-                        <div class="oe_edit_only">
-                            <label for="cnpj_cpf" string="CPF" attrs="{'invisible': [('is_company','=', True)]}"/>
-                            <label for="cnpj_cpf" string="CNPJ/Id Estrangeiro"
-                                   attrs="{'invisible': [('is_company','!=', True)]}"/>
-                        </div>
-                        <field colspan="4" name="cnpj_cpf" nolabel="1"/>
-                        <div class="oe_edit_only">
-                            <label for="inscr_est" string="Inscr. Estadual"
-                                   attrs="{'invisible': [('is_company','!=', True)]}"/>
-                            <label for="inscr_est" string="RG"
-                                   attrs="{'invisible': [('is_company','=', True)]}"/>
-                        </div>
-                        <field colspan="4" name="inscr_est" nolabel="1"/>
+                        <field name="legal_name" string="Nome completo Razão Social" attrs="{'required': [('exige_cnpj_cpf', '=', True)]}" />
+                        <!--<field name="fantasia" attrs="{'invisible': [('tipo_pessoa', '=', 'F')]}" />-->
                     </group>
                 </xpath>
                 <field name="street2" position="replace"/>
@@ -80,14 +72,6 @@
                 <field name="city" position="replace">
                     <field name="city" invisible="1"/>
                 </field>
-                <page position="after" name="sales_purchases">
-                    <page string="Fiscal" name="fiscal">
-                        <group>
-                            <field name="inscr_mun" attrs="{'invisible': [('is_company','!=', True)]}"/>
-                            <field name="suframa" attrs="{'invisible': [('is_company','!=', True)]}"/>
-                        </group>
-                    </page>
-                </page>
                 <xpath expr="//div[@name='div_address']/field[@name='street']" position="after">
                     <field name="number" placeholder="Número"/>
                 </xpath>
@@ -125,7 +109,57 @@
                         </div>
                     </div>
                 </xpath>
-
+                <xpath expr="//notebook/page" position="before">
+                    <page name="inscricoes" string="Inscrições e registros" autofocus="autofocus" >
+                        <group col="4">
+                            <group col="4" colspan="4">
+                                <separator string="Inscrição Estadual" colspan="4" />
+                                <field name="contribuinte" colspan="2" required="1"/>
+                                <field name="inscr_est" attrs="{'invisible': [('contribuinte', '!=', '1')], 'required': [('contribuinte', '=', '1')]}" colspan="2" />
+                            </group>
+                            <newline />
+                            <group col="6" colspan="4" attrs="{'invisible': [('tipo_pessoa', '!=', 'F')]}">
+                                <separator string="RG" colspan="6"  />
+                                <field name="rg_numero" string="Número" colspan="2" />
+                                <field name="rg_orgao_emissor" string="Órgão emissor" colspan="2" />
+                                <field name="rg_data_expedicao" string="Data de emissão" colspan="2" />
+                            </group>
+                            <newline />
+                            <group col="4" colspan="4" attrs="{'invisible': [('tipo_pessoa', '=', 'F')]}" >
+                                <separator string="Outras inscrições" colspan="6" />
+                                <separator string="Inscrição Municipal" colspan="2" />
+                                <separator string="CEI" colspan="2" />
+                                <field name="inscr_mun" colspan="2" nolabel="1" />
+                                <field name="cei" colspan="2" nolabel="1" />
+                                <separator string="SUFRAMA" colspan="2" />
+                                <separator string="RNTRC" colspan="2" />
+                                <field name="suframa" colspan="2" nolabel="1" />
+                                <field name="rntrc" colspan="2" nolabel="1" />
+                                <separator string="CRC" />
+                                <newline />
+                                <field name="crc" colspan="2" />
+                                <field name="crc_uf" colspan="2" options="{'no_open': True, 'no_create': True}" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <page position="after" name="sales_purchases">
+                    <page name="fiscal" string="Fiscal">
+                        <group col="4">
+                            <field name="regime_tributario"/>
+                            <newline/>
+                            <field name="eh_consumidor_final"/>
+                            <field name="eh_orgao_publico"/>
+                            <field name="eh_transportadora"/>
+                            <field name="employee"/>
+                        </group>
+                        <!--
+                        <field name="eh_cooperativa" />
+                        <field name="eh_convenio" />
+                        <field name="eh_sindicato" />
+                        -->
+                    </page>
+                </page>
             </field>
         </record>
 
