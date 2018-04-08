@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_cadastro_config" model="ir.ui.view">
+            <field name="name">l10n_br_base.config.settings in (l10n_br_product)</field>
+            <field name="model">l10n_br_base.config.settings</field>
+            <field name="inherit_id" ref="l10n_br_base.view_cadastro_config"/>
+            <field name="arch" type="xml">
+                <group name="config_pessoas_empresas" position="after">
+                    <group string="Produtos" name="config_produtos">
+                        <label for="check_gtin"/>
+                        <div>
+                            <field name="check_gtin" class="oe_inline"/>
+                        </div>
+                    </group>
+                </group>
+            </field>
+        </record>
+
+    </data>
+</odoo>

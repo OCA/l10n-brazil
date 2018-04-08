@@ -14,8 +14,13 @@
         'product',
     ],
     'data': [
+        'data/ir_config_parameter.xml',
+        #
+        #
+        #
         'views/menu.xml',
         'views/product_view.xml',
+        'views/l10n_br_base_config.xml',
     ],
     'demo': [
     ],

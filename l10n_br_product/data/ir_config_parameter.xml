@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="True">
+
+        <record id="default_l10n_br_base_check_getin" model="ir.config_parameter">
+            <field name="key">l10n_br_base_check_getin</field>
+            <field name="value" eval="True"/>
+        </record>
+
+    </data>
+
+</odoo>
