@@ -515,8 +515,10 @@ function l10n_br_pos_screens(instance, module) {
                 this.toggle_save_button();
 
                $( document ).ready(function() {
-                    if(partner.country_id != null && partner.state_id != null)
+                    if(partner.country_id != null && partner.state_id != null && partner.l10n_br_city_id != null)
                         self.pos_widget.clientlist_screen.carrega_cep(partner.country_id[0], partner.state_id[0], partner.l10n_br_city_id[0]);
+                    else if(partner.country_id != null && partner.state_id != null)
+                        self.pos_widget.clientlist_screen.carrega_cep(partner.country_id[0], partner.state_id[0]);
                     else if(partner.country_id != null)
                       self.pos_widget.clientlist_screen.carrega_cep(partner.country_id[0]);
                 });
