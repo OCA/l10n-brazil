@@ -4,3 +4,4 @@
 
 from . import l10n_br_base_config
 from . import inherited_product_template
+from . import product_packaging

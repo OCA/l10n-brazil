@@ -9,6 +9,7 @@
 from __future__ import division, print_function, unicode_literals
 
 import logging
+from lxml import etree
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
@@ -52,14 +53,6 @@ class ProductTemplate(models.Model):
     #
     # Para a automação dos volumes na NF-e
     #
-    especie = fields.Char(
-        string='Espécie/embalagem',
-        size=60,
-    )
-    fator_quantidade_especie = fields.Float(
-        string='Quantidade por espécie/embalagem',
-        # digits=dp.get_precision('SPED - Quantidade'),
-    )
     volume = fields.Float(
         string='Volume líquido',
     )
@@ -104,6 +97,25 @@ class ProductTemplate(models.Model):
     @api.onchange('barcode', 'codigo_barras_tributacao')
     def onchange_codigo_barras(self):
         return self._valida_codigo_barras()
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+        res = super(ProductTemplate, self).fields_view_get(
+            view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+        #
+        # Remove a view "estoque" utilizada pelo emissor de nf-e quando
+        # o módulo stock do core esta instalado, para evitar conflitos
+        #
+        if (self.env['ir.module.module'].search_count([
+            ('name', '=', 'stock'),
+            ('state', '=', 'installed')
+        ]) and res.get('type') == 'form'):
+            doc = etree.XML(res['arch'])
+            for node in doc.xpath("//page[@name='estoque']"):
+                node.getparent().remove(node)
+            res['arch'] = etree.tostring(doc)
+        return res
+
 
     # nome_unico = fields.Char(
     #     string='Nome',
