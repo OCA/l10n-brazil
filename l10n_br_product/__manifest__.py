@@ -12,6 +12,7 @@
     'depends': [
         'l10n_br_base',
         'product',
+        'barcodes',
     ],
     'data': [
         'data/ir_config_parameter.xml',
