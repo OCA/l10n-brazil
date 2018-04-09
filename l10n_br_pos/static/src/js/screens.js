@@ -609,11 +609,11 @@ function l10n_br_pos_screens(instance, module) {
         cpf_cupom_fiscal: function(currentOrder){
             self = this;
             var cpf = $('.busca-cpf-cnpj-popup').val();
-            $(".pos-leftpane *").prop('disabled', save_state);
             if (cpf){
-                self.pos_widget.screen_selector.close_popup();
                 if (!currentOrder.client) {
                     if (self.pos_widget.order_widget.verificar_cpf_cnpj(cpf.replace(/[^\d]+/g,''))) {
+                        $(".pos-leftpane *").prop('disabled', save_state);
+                        self.pos_widget.screen_selector.close_popup();
                         pos_db = self.pos.db;
                         partner = pos_db.get_partner_by_identification(self.pos.partners, cpf.replace(/[^\d]+/g, ''));
                         if (partner) {
@@ -692,6 +692,7 @@ function l10n_br_pos_screens(instance, module) {
                 }
             } else {
                 if (!cpf_na_nota && self.pos.config.crm_ativo) {
+                    self.pos_widget.screen_selector.close_popup();
                     var ss = self.pos.pos_widget.screen_selector;
                     ss.set_current_screen('clientlist');
                     self.pos_widget.clientlist_screen.display_client_details('edit',{
@@ -830,8 +831,8 @@ function l10n_br_pos_screens(instance, module) {
                     this.pos_widget.action_bar.set_button_disabled('validation', true);
                 }
                 if(!cpf_na_nota)
-                    currentOrder.attributes.cpf_nota  = null;
-
+                    currentOrder.attributes.cpf_nota = null;
+                
                 if( sat_status == 'connected'){
                     if(options.invoice){
                         // deactivate the validation button while we try to send the order
