@@ -3,6 +3,4 @@
 #    @author Luis Felipe Miléo (mileo@kmee.com.br)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from . import reports
-from . import boleto
 from . import models
