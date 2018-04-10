@@ -116,7 +116,11 @@ class L10nBrSefip(models.Model):
 
     @api.multi
     def _buscar_codigo_outras_entidades(self):
-        if (fields.Date.from_string(self.ano + "-" + self.mes + "-01") <
+
+        # Se adaptar com o 13 salario onde mes == '13'. A variavel sera set 12
+        mes = self.mes if self.mes <= '12' else '12'
+
+        if (fields.Date.from_string(self.ano + "-" + mes + "-01") <
                 fields.Date.from_string("1998-10-01")):
             return '    '
         if self.codigo_recolhimento in \
@@ -126,11 +130,11 @@ class L10nBrSefip(models.Model):
                 ['145', '307', '317', '327', '337', '345', '640', '660']:
             return self.company_id.codigo_outras_entidades
         if self.codigo_fpas == "582" and fields.Date.\
-                from_string(self.mes + "-" + self.ano + "-01") >= fields.\
+                from_string(mes + "-" + self.ano + "-01") >= fields.\
                 Date.from_string("1999-04-01"):
             return '0000'
         if self.codigo_fpas == "639" and fields.Date.\
-                from_string(self.mes + "-" + self.ano + "-01") < fields.Date.\
+                from_string(mes + "-" + self.ano + "-01") < fields.Date.\
                 from_string("1998-10-01"):
             return '    '
         if self.codigo_fpas == "868":
@@ -142,7 +146,11 @@ class L10nBrSefip(models.Model):
 
     @api.multi
     def _buscar_codigo_pagamento_gps(self):
-        if fields.Date.from_string(self.ano + "-" + self.mes + "-01") <\
+
+        # Se adaptar com o 13 salario onde mes == '13'. A variavel sera set 12
+        mes = self.mes if self.mes <= '12' else '12'
+
+        if fields.Date.from_string(self.ano + "-" + mes + "-01") <\
                 fields.Date.from_string("1998-10-01"):
             return '    '
         if self.codigo_recolhimento in ['115', '150', '211', '650']:
@@ -189,6 +197,18 @@ class L10nBrSefip(models.Model):
         selection=MODALIDADE_ARQUIVO, string=u'Modalidade do arquivo',
         readonly=True,
         states={'draft': [('readonly', False)]},
+        help= '• Pode ser:'
+              '\nBranco – Recolhimento ao FGTS e Declaração à Previdência'
+              '\n1 - Declaração ao FGTS e à Previdência'
+              '\n9 - Confirmação Informações anteriores – Rec/Decl ao FGTS e Decl à Previdência'
+              '\n • Para competência anterior a 10/1998 deve ser igual a branco ou 1.'
+              '\n • A modalidade 9 não pode ser informada para competências anteriores a 10/1998.'
+              '\n • Para os códigos 145, 307, 317, 327, 337, 345 e 640 deve ser igual a branco.'
+              '\n • Para o código 211 deve ser igual a 1 ou 9.'
+              '\n • Para o FPAS 868 deve igual a branco ou 9.'
+              '\n • Para a competência 13, deve ser igual a 1 ou 9.'
+              '\n • Serão acatadas até três cargas consecutivas de SEFIP.RE.'
+              '\n • Deverá existir apenas um arquivo SEFIP.RE para cada modalidade.',
     )
     codigo_recolhimento = fields.Selection(
         string=u'Código de recolhimento', selection=CODIGO_RECOLHIMENTO,
@@ -319,7 +339,8 @@ class L10nBrSefip(models.Model):
         if not (self.ano and self.mes and self.company_id):
             return
 
-        ultimo_dia_mes = str(self.ano) + '-' + self.mes + '-01'
+        mes = self.mes if self.mes < '13' else '12'
+        ultimo_dia_mes = str(self.ano) + '-' + mes + '-01'
         ultimo_dia_mes = pybrasil.data.mes_que_vem(ultimo_dia_mes)
         ultimo_dia_mes = pybrasil.data.ultimo_dia_mes(ultimo_dia_mes)
         estado = self.company_id.state_id.code
@@ -330,6 +351,12 @@ class L10nBrSefip(models.Model):
                 municipio=municipio,
                 antecipa=True
         )
+
+        # segundo o leiaute do SEFIP para competencia 13 esse campo deverá ser
+        # igual a 1 ou 9.
+        if self.mes == '13':
+            self.modalidade_arquivo = '1'
+            self.recolhimento_fgts = ' '
 
     def _valida_tamanho_linha(self, linha):
         """Valida tamanho da linha (sempre igual a 360 posições) e
@@ -961,6 +988,14 @@ class L10nBrSefip(models.Model):
         for record in self:
             record.folha_ids = False
             sefip = SEFIP()
+
+            if self.mes == '13':
+                if self.modalidade_arquivo != '1':
+                    raise ValidationError('Na competência 13 a Modalidade do Arquivo deverá ser igual a 1 ou 9.')
+
+                if self.recolhimento_fgts != ' ':
+                    raise ValidationError('Na competência 13 o Indicador de Recolhimento FGTS não deverá ser informado.')
+
             record.sefip = self._valida_tamanho_linha(
                 record._preencher_registro_00(sefip))
             folha_ids = record._get_folha_ids()
@@ -1175,6 +1210,10 @@ class L10nBrSefip(models.Model):
 
         """
         result = 0.00
+
+        # Na competencia 13 nao deve ser informado esses campos
+        if folha.tipo_de_folha == 'decimo_terceiro':
+            return result
 
         # Se o funcionario adiantou ferias no holerite do mes
         result += self._valor_rubrica(folha.line_ids, 'ADIANTAMENTO_13_FERIAS')
@@ -1433,6 +1472,15 @@ class L10nBrSefip(models.Model):
 
         if folha.tipo_de_folha == 'rescisao':
             return self._valor_rubrica(folha.line_ids, "BASE_INSS_13")
+
+        if folha.tipo_de_folha == 'decimo_terceiro':
+            if folha.base_inss:
+                return folha.base_inss
+            # No caso dos contratos que nao tem INSS
+            # pegar a Rubrica do salario de decimo terceiro
+            else:
+                return self._valor_rubrica(folha.line_ids, "SALARIO_13")
+
         return 0.00
 
     def _trabalhador_base_calc_13_previdencia_GPS(self, folha):
@@ -1447,8 +1495,8 @@ class L10nBrSefip(models.Model):
         a qual já houve recolhimento em GPS ).
 
         """
-        if folha.tipo_de_folha == 'decimo_terceiro':
-            return folha.base_inss
+        # if folha.tipo_de_folha == 'decimo_terceiro':
+        #     return folha.base_inss
         return 0.00
 
     def _preencher_registro_30(self, sefip, folha):
@@ -1525,10 +1573,11 @@ class L10nBrSefip(models.Model):
             sefip.trabalhador_cbo = '0' + \
                                     folha.contract_id.job_id.cbo_id.code[:4]
         # Revisar daqui para a frente
-        sefip.trabalhador_remun_sem_13 = \
-                self._trabalhador_remun_sem_13(folha) or ''
 
-        sefip.trabalhador_remun_13 = self._trabalhador_remun_13(folha) or ''
+        sefip.trabalhador_remun_13 = \
+            self._trabalhador_remun_13(folha) or ''
+        sefip.trabalhador_remun_sem_13 = \
+            self._trabalhador_remun_sem_13(folha) or ''
 
         sefip.trabalhador_classe_contrib = \
             self._trabalhador_classe_contrib(folha) or ''
