@@ -176,7 +176,7 @@ class ResPartner(models.Model):
 
     l10n_br_city_id = fields.Many2one(
         'l10n_br_base.city', u'Município',
-        domain="[('state_id','=',state_id)]")
+        )
 
     district = fields.Char('Bairro', size=32)
 
@@ -406,6 +406,11 @@ class ResPartner(models.Model):
         if self.l10n_br_city_id:
             self.city = self.l10n_br_city_id.name
 
+    @api.onchange('l10n_br_city_id')
+    def _onchange_city(self):
+        self.state_id = self.l10n_br_city_id.state_id
+        self.country_id = self.l10n_br_city_id.country_id
+
     @api.onchange('zip')
     def _onchange_zip(self):
         if self.zip:
@@ -432,7 +437,8 @@ class ResPartnerBank(models.Model):
     district = fields.Char('Bairro', size=32)
     state_id = fields.Many2one(
         "res.country.state", 'Fed. State',
-        change_default=True, domain="[('country_id','=',country_id)]")
+        change_default=True,
+    )
     l10n_br_city_id = fields.Many2one(
         'l10n_br_base.city', 'Municipio',
         domain="[('state_id','=',state_id)]")
