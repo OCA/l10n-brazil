@@ -68,7 +68,7 @@ function l10n_br_pos_screens(instance, module) {
 
         verifica_campos_vazios: function(partner){
             for (key in partner){
-                if ((key != 'ean13' && key != 'vat' && key != 'opt_out' && key != 'city' && key != 'mobile' && key != 'whatsapp') && (partner[key] == null || partner[key] === false || partner[key] === 'false' || partner[key] === ''))
+                if ((key != 'ean13' && key != 'vat' && key != 'opt_out' && key != 'city' && key != 'mobile' && key != 'whatsapp' && key != 'street2') && (partner[key] == null || partner[key] === false || partner[key] === 'false' || partner[key] === ''))
                     return true
             }
             return false
@@ -484,7 +484,7 @@ function l10n_br_pos_screens(instance, module) {
 
             if(visibility === 'show'){
                 for (key in partner){
-                    if ((key != 'ean13' && key != 'vat' && key != 'opt_out' && key != 'country_id' && key != 'city' && key != 'mobile' && key != 'whatsapp') && (partner[key] == null || partner[key] === false || partner[key] === 'false'))
+                    if ((key != 'ean13' && key != 'vat' && key != 'opt_out' && key != 'country_id' && key != 'city' && key != 'mobile' && key != 'whatsapp' && key != 'street2') && (partner[key] == null || partner[key] === false || partner[key] === 'false'))
                         partner[key] = null;
                 }
                 contents.empty();
