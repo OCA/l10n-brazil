@@ -613,6 +613,8 @@ function l10n_br_pos_screens(instance, module) {
             var cpf = $('.busca-cpf-cnpj-popup').val();
             if (cpf){
                 if (!currentOrder.client) {
+                    $(".pos-leftpane *").prop('disabled', save_state);
+                    self.pos_widget.screen_selector.close_popup();
                     if (self.pos_widget.order_widget.verificar_cpf_cnpj(cpf.replace(/[^\d]+/g,''))) {
                         $(".pos-leftpane *").prop('disabled', save_state);
                         self.pos_widget.screen_selector.close_popup();
@@ -683,6 +685,8 @@ function l10n_br_pos_screens(instance, module) {
                         if (partner[key] === 'false' )
                             partner[key] = null;
                     }
+                    $(".pos-leftpane *").prop('disabled', save_state);
+                    self.pos_widget.screen_selector.close_popup();
                     currentOrder = self.pos.get('selectedOrder').attributes;
                     currentOrder["cpf_nota"] = cpf.replace(/[^\d]+/g,'');
                     // this.active_client(self, documento, partner);
