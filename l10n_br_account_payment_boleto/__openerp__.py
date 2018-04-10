@@ -23,14 +23,8 @@
         'views/payment_mode.xml',
         'views/account_move_line.xml',
         'views/account_view.xml',
-        'reports/report_print_button_view.xml',
     ],
     'demo': [
         'demo/payment_demo.xml',
     ],
-    'external_dependencies': {
-        'python': [
-            'pyboleto',
-        ],
-    },
 }

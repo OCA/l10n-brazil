@@ -7,10 +7,6 @@ from openerp import models, fields, api, _
 from openerp.exceptions import ValidationError
 from openerp.addons import decimal_precision as dp
 
-from ..boleto.document import getBoletoSelection
-
-selection = getBoletoSelection()
-
 
 class PaymentMode(models.Model):
     _inherit = 'payment.mode'
@@ -22,8 +18,20 @@ class PaymentMode(models.Model):
     boleto_cnab_code = fields.Char(u'Código Cnab', size=20)
     boleto_aceite = fields.Selection(
         [('S', 'Sim'), ('N', 'Não')], string='Aceite', default='N')
-    boleto_type = fields.Selection(
-        selection, string="Boleto")
+    boleto_type = fields.Selection([
+        ('1', 'Banco do Brasil 18'),
+        ('2', 'Barisul x'),
+        ('3', 'Bradesco 06, 03'),
+        ('4', 'Caixa Economica SR'),
+        ('5', 'HSBC CNR CSB'),
+        ('6', 'Itau 157'),
+        ('7', 'Itau 175, 174, 178, 104, 109'),
+        ('8', 'Real 57'),
+        ('9', 'Santander 102'),
+        ('10', 'Santander 101, 201'),
+        ('11', 'Caixa Sigcb'),
+        ('12', 'Sicredi')
+    ], string="Boleto")
     boleto_especie = fields.Selection([
         ('01', u'DUPLICATA MERCANTIL'),
         ('02', u'NOTA PROMISSÓRIA'),
