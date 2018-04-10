@@ -522,14 +522,28 @@ class L10nBrSefip(models.Model):
             return total
 
     def _get_folha_ids(self):
+        """
+        Buscar os holerites que irao compor o SEFIP do mes
+        :return:
+        """
+        mes_do_ano = self.mes
+        tipo_de_folha = ['normal', 'rescisao']
+
+        # No caso do demonstrativo de decimo terceiro
+        if mes_do_ano == '13':
+            # Monta data para algumas vericacoes, logo deve setar
+            tipo_de_folha = ['decimo_terceiro']
+
         raiz = self.company_id.cnpj_cpf.split('/')[0]
         folha_ids = self.env['hr.payslip'].search([
-            ('mes_do_ano', '=', self.mes),
+            ('mes_do_ano', '=', mes_do_ano),
             ('ano', '=', self.ano),
-            ('tipo_de_folha', 'in', ['normal','rescisao']),
-           # ('state', 'in', ['done','verify']),
-            ('company_id.partner_id.cnpj_cpf', 'like', raiz)
-        ])
+            ('tipo_de_folha', 'in', tipo_de_folha),
+            ('state', 'in', ['done','verify']),
+            ('company_id.partner_id.cnpj_cpf', 'like', raiz),
+        ]).filtered('total_folha')
+        # Filtered eh para pegar apenas os holerites que nao estao zerados
+
         return folha_ids
 
     def _valida_centralizadora(self, companies):
