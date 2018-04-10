@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2016 Taŭga Tecnologia - Aristides Caldeira <aristides.caldeira@tauga.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="True">
+
+    <!-- Regas de acesso para cadastros -->
+    <record id="CATEGORIA_MODULO_CADASTROS" model="ir.module.category">
+        <field name="name">Cadastros</field>
+        <field name="description">Cadastros brasileiros</field>
+        <field name="sequence">-100</field>
+    </record>
+
+    <record id="GRUPO_SUPORTE" model="res.groups">
+        <field name="name">Suporte técnico</field>
+    </record>
+
+    <record id="GRUPO_CADASTRO_LEITURA" model="res.groups">
+        <field name="name">Cadastro (somente leitura)</field>
+        <field name="category_id" ref="l10n_br_base.CATEGORIA_MODULO_CADASTROS"/>
+    </record>
+
+    <record id="GRUPO_CADASTRO_GERAL" model="res.groups">
+        <field name="name">Cadastro (geral)</field>
+        <field name="category_id" ref="l10n_br_base.CATEGORIA_MODULO_CADASTROS"/>
+        <field name="implied_ids" eval="[(4, ref('GRUPO_CADASTRO_LEITURA'))]"/>
+    </record>
+
+    <record id="GRUPO_CADASTRO_GERENTE" model="res.groups">
+        <field name="name">Cadastro (gerente)</field>
+        <field name="category_id" ref="l10n_br_base.CATEGORIA_MODULO_CADASTROS"/>
+        <field name="implied_ids" eval="[(4, ref('GRUPO_CADASTRO_GERAL'))]"/>
+    </record>
+
+</odoo>
