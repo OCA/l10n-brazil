@@ -14,6 +14,8 @@
         'base_setup',
     ],
     'data': [
+        'security/inherited_res_groups_data.xml',
+        'security/ir.model.access.csv',
         'data/ir_config_paramater.xml',
         'data/l10n_br_base.city.csv',
         'data/l10n_br_base_data.xml',
@@ -25,7 +27,6 @@
         'views/res_country_view.xml',
         'views/res_partner_view.xml',
         'views/res_company_view.xml',
-        'security/ir.model.access.csv',
     ],
     'demo': [
         'demo/l10n_br_base_demo.xml',
