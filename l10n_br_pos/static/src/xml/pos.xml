@@ -502,19 +502,6 @@
                 <p class="message"><t t-esc=" widget.message" /></p>
                 <div clss="paymentline">
                     <input class='busca-cpf-cnpj-popup' name="busca-cpf-cnpj-popup" placeholder="Insira o CPF/CNPJ" t-att-value="widget.cpf_nota" />
-                    <div id="cliente_label_popup">
-                        <span class='label'>Cliente desde</span>
-                        <spam class='busca-create-date-popup' name="busca-create-date-popup"><t t-esc="widget.create_date" /></spam>
-                    </div>
-                    <div id="checkbox_popup">
-                    <span class='label' id="atualizado_label_popup">Atualizado?</span>
-                        <t t-if="widget.atualizacao">
-                           <input type="checkbox" checked="checked" disabled="disabled"/>
-                        </t>
-                        <t t-if="!(widget.atualizacao)">
-                           <input type="checkbox" disabled="disabled"/>
-                    </t>
-                    </div>
                 </div>
                 <div class="footer">
                     <label>CPF na Nota?</label>
