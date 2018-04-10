@@ -16,6 +16,7 @@
     ],
     'data': [
         'data/ir_config_parameter.xml',
+        'data/product_uom_data.xml',
         #
         #
         #

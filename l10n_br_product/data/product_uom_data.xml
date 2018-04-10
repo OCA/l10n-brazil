@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="True">
+
+    <record id="product_uom_categ_area" model="product.uom.categ">
+        <field name="name">Área</field>
+    </record>
+
+
+    <record id="product_uom_categ_energy" model="product.uom.categ">
+        <field name="name">Energia</field>
+    </record>
+
+     <record id="product_uom_mega_watt_hr" model="product.uom">
+        <field name="name">MWh</field>
+        <field ref="product_uom_categ_energy" name="category_id"/>
+        <field name="factor" eval="1"/>
+     </record>
+
+    <record id="product_uom_par" model="product.uom">
+        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="name">pares</field>
+        <field name="factor_inv" eval="2"/>
+        <field name="uom_type">bigger</field>
+    </record>
+
+    <record id="product_uom_milheiro" model="product.uom">
+        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="name">milhei</field>
+        <field name="factor_inv" eval="1000"/>
+        <field name="rounding" eval="0.001"/>
+        <field name="uom_type">bigger</field>
+    </record>
+
+    <record id="product_uom_quilate" model="product.uom">
+        <field name="category_id" ref="product.product_uom_categ_kgm"/>
+        <field name="name">K</field>
+        <field name="factor" eval="5000"/>
+        <field name="uom_type">smaller</field>
+    </record>
+
+    <record id="product_uom_jogo" model="product.uom">
+        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="name">jogo</field>
+        <field name="factor" eval="1.0"/>
+    </record>
+
+    <record id="product_uom_cm_2" model="product.uom">
+        <field name="name">cm²</field>
+        <field name="category_id" ref="product_uom_categ_area"/>
+        <field name="factor">10000.0</field>
+        <field name="uom_type">smaller</field>
+    </record>
+
+    <record id="product_uom_m_3" model="product.uom">
+        <field name="name">m³</field>
+        <field name="category_id" ref="product.product_uom_categ_vol"/>
+        <field name="factor">1000.0</field>
+        <field name="uom_type">bigger</field>
+    </record>
+
+
+    <record id="product_uom_ml" model="product.uom">
+        <field name="name">mL</field>
+        <field name="category_id" ref="product.product_uom_categ_vol"/>
+        <field name="factor">1000.0</field>
+        <field name="uom_type">smaller</field>
+    </record>
+
+    <record id="product_uom_m_2" model="product.uom">
+        <field name="name">m²</field>
+        <field name="category_id" ref="product_uom_categ_area"/>
+        <field name="factor">1.0</field>
+    </record>
+
+    <record id="product_uom_service" model="product.uom">
+        <field name="name">serviço</field>
+        <field ref="product.uom_categ_wtime" name="category_id"/>
+        <field name="factor" eval="8.0"/>
+        <field name="uom_type">smaller</field>
+    </record>
+    
+    <record id="product.product_uom_unit" model="product.uom">
+        <field name="name">unid</field>
+    </record>
+
+    <record id="product.product_uom_gram" model="product.uom">
+        <field name="name">gramas</field>
+    </record>
+
+    <record id="product.product_uom_kgm" model="product.uom">
+        <field name="name">kg</field>
+    </record>
+
+    <record id="product.product_uom_ton" model="product.uom">
+        <field name="name">ton</field>
+    </record>
+
+    <record id="product.product_uom_litre" model="product.uom">
+        <field name="name">litro</field>
+    </record>
+
+    <record id="product.product_uom_hour" model="product.uom">
+        <field name="name">hora</field>
+    </record>
+
+    <record id="product.product_uom_day" model="product.uom">
+        <field name="name">dia</field>
+    </record>
+
+    <record id="product.product_uom_dozen" model="product.uom">
+        <field name="name">dúzia</field>
+    </record>
+
+    <record id="product.product_uom_gal" model="product.uom">
+        <field name="name">galão</field>
+    </record>
+
+    <!--Unidades inexistentes-->
+
+    <!--<record id="product.UNIDADE_AMPOLA" model="product.uom">-->
+        <!--<field name="name">ampola</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_BALDE" model="product.uom">-->
+        <!--<field name="name">balde</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_BANDEJA" model="product.uom">-->
+        <!--<field name="name">bandej</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_BARRA" model="product.uom">-->
+        <!--<field name="name">barra</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_BISNAGA" model="product.uom">-->
+        <!--<field name="name">bisnag</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_BLOCO" model="product.uom">-->
+        <!--<field name="name">bloco</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_BOBINA" model="product.uom">-->
+        <!--<field name="name">bobina</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_BOMBONA" model="product.uom">-->
+        <!--<field name="name">bomb</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_CAPSULA" model="product.uom">-->
+        <!--<field name="name">caps</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_CARTELA" model="product.uom">-->
+        <!--<field name="name">cart</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_CENTO" model="product.uom">-->
+        <!--<field name="name">cento</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_CONJUNTO" model="product.uom">-->
+        <!--<field name="name">cj</field>-->
+    <!--</record>-->
+
+
+    <!--<record id="product.UNIDADE_CAIXA" model="product.uom">-->
+        <!--<field name="name">cx</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_CAIXA_2" model="product.uom">-->
+        <!--<field name="name">cx2</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_CAIXA_3" model="product.uom">-->
+        <!--<field name="name">cx3</field>-->
+    <!--</record>-->
+
+
+    <!--<record id="product.UNIDADE_CAIXA_5" model="product.uom">-->
+        <!--<field name="name">cx5</field>-->
+    <!--</record>-->
+
+
+
+    <!--<record id="product.UNIDADE_CAIXA_10" model="product.uom">-->
+        <!--<field name="name">cx10</field>-->
+    <!--</record>-->
+
+
+    <!--<record id="product.UNIDADE_CAIXA_15" model="product.uom">-->
+        <!--<field name="name">cx15</field>-->
+    <!--</record>-->
+
+
+    <!--<record id="product.UNIDADE_CAIXA_20" model="product.uom">-->
+        <!--<field name="name">cx20</field>-->
+    <!--</record>-->
+
+
+    <!--<record id="product.UNIDADE_CAIXA_25" model="product.uom">-->
+        <!--<field name="name">cx25</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_CAIXA_50" model="product.uom">-->
+        <!--<field name="name">cx50</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_CAIXA_100" model="product.uom">-->
+        <!--<field name="name">cx100</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_DISPLAY" model="product.uom">-->
+        <!--<field name="name">disp</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_EMBALAGEM" model="product.uom">-->
+        <!--<field name="name">embal</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_FARDO" model="product.uom">-->
+        <!--<field name="name">fardo</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_FOLHA" model="product.uom">-->
+        <!--<field name="name">folha</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_FRASCO" model="product.uom">-->
+        <!--<field name="name">frasco</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_GARRAFA" model="product.uom">-->
+        <!--<field name="name">gf</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_KIT" model="product.uom">-->
+        <!--<field name="name">kit</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_LATA" model="product.uom">-->
+        <!--<field name="name">lata</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_PACOTE" model="product.uom">-->
+        <!--<field name="name">pacote</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_PALETE" model="product.uom">-->
+        <!--<field name="name">palete</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_PECA" model="product.uom">-->
+        <!--<field name="name">pc</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_POTE" model="product.uom">-->
+        <!--<field name="name">pote</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_RESMA" model="product.uom">-->
+        <!--<field name="name">resma</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_ROLO" model="product.uom">-->
+        <!--<field name="name">rolo</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_SACO" model="product.uom">-->
+        <!--<field name="name">saco</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_SACOLA" model="product.uom">-->
+        <!--<field name="name">sacola</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_TAMBOR" model="product.uom">-->
+        <!--<field name="name">tambor</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_TANQUE" model="product.uom">-->
+        <!--<field name="name">tanque</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_TUBO" model="product.uom">-->
+        <!--<field name="name">tubo</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_VASILHAME" model="product.uom">-->
+        <!--<field name="name">vasil</field>-->
+    <!--</record>-->
+
+    <!--<record id="product.UNIDADE_VIDRO" model="product.uom">-->
+        <!--<field name="name">vidro</field>-->
+    <!--</record>-->
+    
+    
+
+</odoo>
