@@ -20,6 +20,8 @@ function l10n_br_pos_screens(instance, module) {
     var _t = instance.web._t;
     var save_state = false;
     var cpf_na_nota = false;
+    var ultima_venda = false;
+    var list_orders_frontend = [];
 
     module.ScreenWidget.prototype.barcode_product_action = function (code) {
             var self = this;
@@ -243,6 +245,7 @@ function l10n_br_pos_screens(instance, module) {
                     return true;
                 });
             },function(err,event){
+                // Nao deixa o javascript mostrar sua mensagem de erro
                 event.preventDefault();
                 self.pos_widget.screen_selector.show_popup('error',{
                     'message':_t('Error: Não foi possível salvar o cpf'),
@@ -383,6 +386,7 @@ function l10n_br_pos_screens(instance, module) {
                     new instance.web.Model('res.partner').call('create_from_ui', [fields]).then(function (partner_id) {
                         self.saved_client_details(partner_id);
                     }, function (err, event) {
+                        // Nao deixa o javascript mostrar sua mensagem de erro
                         event.preventDefault();
                         self.pos_widget.screen_selector.show_popup('error', {
                             'message': _t('Error: Could not Save Changes'),
@@ -838,7 +842,7 @@ function l10n_br_pos_screens(instance, module) {
                 }
                 if(!cpf_na_nota)
                     currentOrder.attributes.cpf_nota = null;
-                if( sat_status == 'connected'){
+                if(sat_status == 'connected'){
                     if(options.invoice){
                         // deactivate the validation button while we try to send the order
                         this.pos_widget.action_bar.set_button_disabled('validation',true);
@@ -874,6 +878,7 @@ function l10n_br_pos_screens(instance, module) {
                                 this.pos_widget.action_bar.set_button_disabled('validation',false);
                             }
                             this.pos_widget.action_bar.set_button_disabled('invoice',false);
+                            ultima_venda = this.pos.get('selectedOrder');
                             this.pos.get('selectedOrder').destroy();
                         });
 
@@ -994,32 +999,97 @@ function l10n_br_pos_screens(instance, module) {
             this.render_list(self.orders.Orders);
             this.$('.client-list-contents').delegate('.cancel_order','click',function(event){
                 var order_id = $(this).parent().parent().data('id');
-                self.pos_widget.screen_selector.show_popup('confirm',{
-                            message: _t('Cancelar Venda'),
-                            comment: _t('Voc\u00ea realmente deseja cancelar est\u00e1 venda?'),
-                            confirm: function(){
-                                var posOrderModel = new instance.web.Model('pos.order');
-                                var posOrder = posOrderModel.call('retornar_order_by_id', {'order_id': order_id})
+                if(order_id == ''){
+                    self.pos_widget.screen_selector.show_popup('error', {
+                        message: _t('Erro:Cancelar Venda'),
+                        comment: _t('Última venda ainda não foi sincronizada'),
+                    });
+                }
+                else {
+                    self.pos_widget.screen_selector.show_popup('confirm', {
+                        message: _t('Cancelar Venda'),
+                        comment: _t('Voc\u00ea realmente deseja cancelar est\u00e1 venda?'),
+                        confirm: function () {
+                            var posOrderModel = new instance.web.Model('pos.order');
+                            var posOrder = posOrderModel.call('retornar_order_by_id', {'order_id': order_id})
                                 .then(function (order) {
                                     self.cancel_last_order_sat(order);
-                                });
-                            },
-                        });
+                                },function(err,event){
+                                    // Nao deixa o javascript mostrar sua mensagem de erro
+                                    event.preventDefault();
+                                    self.pos_widget.screen_selector.show_popup('error',{
+                                        'message':_t('Erro: Não foi possível acessar o backend!'),
+                                        'comment':_t('Tente novamente em alguns instantes.')
+                                    });
+                                    return false;});
+                        },
+                    });
+                }
 
             });
             this.$('.client-list-contents').delegate('.reprint_order','click',function(event){
                 self.reprint_cfe($(this).parent().parent().data('id'));
             });
         },
+
+        push_list_order_frontend: function(currentOrder){
+            date = new Date(currentOrder.attributes.creationDate);
+            dict_order = {can_cancel:true,
+            canceled_order:false,
+            chave_cfe:currentOrder.chave_cfe,
+            date:date.getFullYear()+'-'+((date.getMonth()+1)<10?'0'+(date.getMonth()+1):(date.getMonth()+1))+'-'+(date.getDay()<10?'0'+date.getDay():date.getDay())+' '+(date.getHours()<10?'0'+date.getHours():date.getHours())+':'+(date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes())+':'+(date.getSeconds()<10?'0'+date.getSeconds():date.getSeconds()),
+            id:'',
+            name: '',//"LJ 0005 / CAIXA 1/900006030 / 000159",
+            partner:false,
+            pos_reference:currentOrder.attributes.name,
+            total:currentOrder.selected_paymentline.amount.toFixed(2)};
+            var aux_list = [];
+            aux_list[0] = dict_order;
+            if(list_orders_frontend.length != 0){
+                for( var i = 1; i < 5 && i<=list_orders_frontend.length; i ++){
+                    aux_list[i] = list_orders_frontend[i-1];
+                }
+            }
+            list_orders_frontend = aux_list;
+            this.get_last_orders();
+        },
+
         get_last_orders: function(){
             var self = this;
-
             var session_id = {'session_id': self.pos.pos_session.id};
             var posOrderModel = new instance.web.Model('pos.order');
             var posOrder = posOrderModel.call('return_orders_from_session', session_id)
             .then(function (orders) {
-                self.orders = orders;
-            });
+                var aux_list = [];
+                var cont_tam = 0;
+                for (var i=0; i < 5 && i < list_orders_frontend.length; i++)
+                    aux_list[cont_tam++] = list_orders_frontend[i];
+
+                for (var i=0; i < orders.Orders.length; i++){
+                    var index = -1;
+                    for (var j=0; j< 5 && j < list_orders_frontend.length; j++){
+                        if(list_orders_frontend[j].chave_cfe == orders.Orders[i].chave_cfe){
+                            index = j;
+                            break;
+                        }
+                    }
+                    if(index != -1)
+                        aux_list[index] = orders.Orders[i];
+                    else
+                        aux_list[cont_tam++] = orders.Orders[i];
+                }
+                for (var i=1; i < aux_list.length; i++){
+                    aux_list[i].can_cancel = false;
+                }
+                self.orders.Orders = aux_list;
+            },function(err,event){
+                // Nao deixa o javascript mostrar sua mensagem de erro
+                event.preventDefault();
+                self.pos_widget.screen_selector.show_popup('error',{
+                    'message':_t('Erro: Não foi possível acessar o backend!'),
+                    'comment':_t('Tente novamente em alguns instantes.')
+                });
+                return false;});
         },
         reprint_cfe: function(order_id){
             var self = this;
@@ -1104,7 +1174,7 @@ function l10n_br_pos_screens(instance, module) {
             }, 2000);
         },
         finishOrder: function() {
-            this.pos_widget.posorderlist_screen.get_last_orders();
+            // this.pos_widget.posorderlist_screen.get_last_orders();
             this.pos.get('selectedOrder').destroy();
         },
         refresh: function() {

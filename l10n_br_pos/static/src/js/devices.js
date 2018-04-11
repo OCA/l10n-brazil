@@ -57,6 +57,7 @@ function l10n_br_pos_devices(instance, module) {
                                     currentOrder.set_return_cfe(result['xml']);
                                     currentOrder.set_num_sessao_sat(result['numSessao']);
                                     currentOrder.set_chave_cfe(result['chave_cfe']);
+                                    self.pos.pos_widget.posorderlist_screen.push_list_order_frontend(currentOrder);
                                     self.pos.push_order(currentOrder);
                                 }else{
                                     self.pos.pos_widget.screen_selector.show_popup('error-traceback',{
@@ -100,6 +101,13 @@ function l10n_br_pos_devices(instance, module) {
                             self.pos.pos_widget.posorderlist_screen.get_last_orders();
                             self.pos.pos_widget.screen_selector.back();
                         }, 4000);
+                    },function(error,event){
+                        event.preventDefault();
+                        self.pos.pos_widget.screen_selector.show_popup('error',{
+                            'message':_t('Error: Tempo Excedido'),
+                            'comment':_t('Tempo limite de 30 minutos para cancelamento foi excedido.'),
+                        });
+                        return false;
                     });
                 }else{
                     self.pos.pos_widget.screen_selector.show_popup('error-traceback',{
@@ -107,8 +115,8 @@ function l10n_br_pos_devices(instance, module) {
                         'comment': _t(result['excessao']),
                     });
                 }
-
-            },function(error){
+            },function(error,event){
+                event.preventDefault();
                 if (error) {
                     self.pos.pos_widget.screen_selector.show_popup('error-traceback',{
                         'message': _t('Erro SAT: '),
