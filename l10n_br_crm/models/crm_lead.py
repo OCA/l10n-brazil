@@ -118,10 +118,10 @@ class CrmLead(models.Model):
             self.partner_id.id if self.partner_id else False
         )
         if self.partner_id:
-            result['legal_name'] = self.partner_id.legal_name
+            result['legal_name'] = self.partner_id.commercial_company_name
             result['name_surname'] = self.partner_id.legal_name
             result['cpf'] = self.partner_id.cnpj_cpf
-            result['inscr_est'] = self.partner_id.inscr_est
+            result['rg'] = self.partner_id.inscr_est
             result['suframa'] = self.partner_id.suframa
             result['number'] = self.partner_id.number
             result['district'] = self.partner_id.district
