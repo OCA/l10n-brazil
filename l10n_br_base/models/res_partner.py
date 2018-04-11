@@ -172,7 +172,13 @@ class ResPartner(models.Model):
 
     legal_name = fields.Char(
         u'Razão Social', size=60,
-        help="Nome utilizado em documentos fiscais")
+        help="Nome utilizado em documentos fiscais"
+    )
+    fantasia = fields.Char(
+        string='Fantasia',
+        size=60,
+        index=True
+    )
 
     l10n_br_city_id = fields.Many2one(
         'l10n_br_base.city', u'Município',

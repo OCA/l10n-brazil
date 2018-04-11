@@ -46,7 +46,7 @@
                 <xpath expr="//div[@class='oe_title']" position="after">
                     <group>
                         <field name="legal_name" string="Nome completo Razão Social" attrs="{'required': [('exige_cnpj_cpf', '=', True)]}" />
-                        <!--<field name="fantasia" attrs="{'invisible': [('tipo_pessoa', '=', 'F')]}" />-->
+                        <field name="fantasia" attrs="{'invisible': [('tipo_pessoa', '=', 'F')]}" />
                     </group>
                 </xpath>
                 <field name="street2" position="replace"/>
