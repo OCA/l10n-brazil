@@ -20,6 +20,7 @@ function l10n_br_pos_screens(instance, module) {
     var _t = instance.web._t;
     var save_state = false;
     var cpf_na_nota = false;
+    var ultima_venda = false;
 
     module.ScreenWidget.prototype.barcode_product_action = function (code) {
             var self = this;
@@ -884,6 +885,7 @@ function l10n_br_pos_screens(instance, module) {
                             this.pos_widget.action_bar.set_button_disabled('validation',true);
                             var receipt = currentOrder.export_for_printing();
                             var json = currentOrder.export_for_printing();
+                            ultima_venda = currentOrder;
                             self.pos.proxy.send_order_sat(
                                     currentOrder,
                                     QWeb.render('XmlReceipt',{
@@ -1018,7 +1020,10 @@ function l10n_br_pos_screens(instance, module) {
             var posOrderModel = new instance.web.Model('pos.order');
             var posOrder = posOrderModel.call('return_orders_from_session', session_id)
             .then(function (orders) {
-                self.orders = orders;
+                if(!ultima_venda || ultima_venda.chave_cfe == orders.Orders[0].chave_cfe)
+                    self.orders = orders;
+                else
+                    window.setTimeout(self.get_last_orders(), 3000);
             });
         },
         reprint_cfe: function(order_id){
