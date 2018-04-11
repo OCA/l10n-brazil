@@ -125,6 +125,7 @@ function l10n_br_pos_widgets(instance, module){
                     });
                 }
             },function(err, event){
+                // Nao deixa o javascript mostrar sua mensagem de erro
                 event.preventDefault();
                 self.pos_widget.screen_selector.show_popup('error',{
                     'message':_t('Erro: Não foi possível acessar o backend!'),
