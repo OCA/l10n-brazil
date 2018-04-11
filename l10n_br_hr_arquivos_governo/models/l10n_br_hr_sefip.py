@@ -851,6 +851,25 @@ class L10nBrSefip(models.Model):
 
         return financial_move_gps
 
+    def buscar_IRPF_holerite_13(self, contrato):
+        """
+        Buscar o valor do IRPF do holerite de 13º
+        :param contrato:
+        :return:
+        """
+        holerite = self.env['hr.payslip'].search([
+            ('contract_id', '=', contrato.id),
+            ('mes_do_ano', '=', '13'),
+            ('ano', '=', self.ano),
+            ('tipo_de_folha', 'in', ['decimo_terceiro']),
+            ('state', 'in', ['done','verify']),
+        ])
+        for line_id in holerite.line_ids:
+            if line_id.code == 'IRPF':
+                return line_id.total
+
+        return 0.0
+
     @api.multi
     def gerar_boletos(self):
         '''
@@ -865,12 +884,16 @@ class L10nBrSefip(models.Model):
         #for id in self.
         #    id.unlink()
 
+        valor_totas_13 = 0
+
         contribuicao_sindical = {}
         for record in self:
             created_ids = []
             empresas = {}
             darfs = {}
+
             for holerite in self.folha_ids:
+
                 if not empresas.get(holerite.company_id.id):
                     empresas.update({
                         holerite.company_id.id: {
@@ -880,6 +903,7 @@ class L10nBrSefip(models.Model):
                             'INSS_rat_fap': 0.00,
                         }
                     })
+
                 for line in holerite.line_ids:
                     remuneracao = line.slip_id.line_ids.filtered(
                         lambda x: x.code == 'LIQUIDO')
@@ -923,11 +947,14 @@ class L10nBrSefip(models.Model):
                         if darfs.get(codigo_darf):
                             darfs[codigo_darf] += line.total
                         else:
-                            darfs.update(
-                                {
-                                    codigo_darf: line.total
-                                }
-                            )
+                            darfs.update({
+                                codigo_darf: line.total
+                            })
+
+                # buscar o valor do IRPF do holerite de 13º
+                valor_13 = record.buscar_IRPF_holerite_13(holerite.contract_id)
+                valor_totas_13 += valor_13
+                darfs[codigo_darf] += valor_13
 
             for sindicato in contribuicao_sindical:
                 vals = self.prepara_financial_move(
