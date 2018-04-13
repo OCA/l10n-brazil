@@ -2,37 +2,73 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, fields, api, _
+from odoo import models, fields, api, _
 
-from openerp.addons.l10n_br_base.tools import fiscal
+from odoo.addons.l10n_br_base.tools import fiscal
 
 
 class L10nbrAccountDocumentRelated(models.Model):
     _name = 'l10n_br_account_product.document.related'
 
-    invoice_id = fields.Many2one('account.invoice', 'Documento Fiscal',
-                                 ondelete='cascade', select=True)
-    invoice_related_id = fields.Many2one('account.invoice',
-                                         'Documento Fiscal',
-                                         ondelete='cascade',
-                                         select=True)
+    invoice_id = fields.Many2one(
+        comodel_name='account.invoice',
+        string=u'Documento Fiscal',
+        ondelete='cascade',
+        index=True
+    )
+    invoice_related_id = fields.Many2one(
+        comodel_name='account.invoice',
+        string=u'Documento Fiscal',
+        ondelete='cascade',
+        index=True
+    )
     document_type = fields.Selection(
-        [('nf', 'NF'), ('nfe', 'NF-e'), ('cte', 'CT-e'),
-            ('nfrural', 'NF Produtor'), ('cf', 'Cupom Fiscal')],
-        'Tipo Documento', required=True)
-    access_key = fields.Char('Chave de Acesso', size=44)
-    serie = fields.Char(u'Série', size=12)
-    internal_number = fields.Char(u'Número', size=32)
-    state_id = fields.Many2one('res.country.state', 'Estado',
-                               domain="[('country_id.code', '=', 'BR')]")
-    cnpj_cpf = fields.Char('CNPJ/CPF', size=18)
+        selection=[('nf', 'NF'),
+                   ('nfe', 'NF-e'),
+                   ('cte', 'CT-e'),
+                   ('nfrural', 'NF Produtor'),
+                   ('cf', 'Cupom Fiscal')],
+        string=u'Tipo Documento',
+        required=True
+    )
+    access_key = fields.Char(
+        string=u'Chave de Acesso',
+        size=44
+    )
+    serie = fields.Char(
+        string=u'Série',
+        size=12
+    )
+    internal_number = fields.Char(
+        string=u'Número',
+        size=32
+    )
+    state_id = fields.Many2one(
+        comodel_name='res.country.state',
+        string=u'Estado',
+        domain="[('country_id.code', '=', 'BR')]"
+    )
+    cnpj_cpf = fields.Char(
+        string=u'CNPJ/CPF',
+        size=18
+    )
     cpfcnpj_type = fields.Selection(
-        [('cpf', 'CPF'), ('cnpj', 'CNPJ')], 'Tipo Doc.',
-        default='cnpj')
-    inscr_est = fields.Char('Inscr. Estadual/RG', size=16)
-    date = fields.Date('Data')
+        selection=[('cpf', 'CPF'),
+                   ('cnpj', 'CNPJ')],
+        string=u'Tipo Doc.',
+        default='cnpj'
+    )
+    inscr_est = fields.Char(
+        string='Inscr. Estadual/RG',
+        size=16
+    )
+    date = fields.Date(
+        string='Data'
+    )
     fiscal_document_id = fields.Many2one(
-        'l10n_br_account.fiscal.document', 'Documento')
+        comodel_name='l10n_br_account.fiscal.document',
+        string='Documento'
+    )
 
     @api.one
     @api.constrains('cnpj_cpf')
