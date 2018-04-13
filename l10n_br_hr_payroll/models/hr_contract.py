@@ -110,6 +110,7 @@ class HrContract(models.Model):
                     datetime.strptime(change[i].change_date, "%Y-%m-%d")
                 d_inicio = datetime.strptime(data_inicio, "%Y-%m-%d")
                 d_fim = datetime.strptime(data_fim, "%Y-%m-%d")
+                d_fim = d_fim.replace(day=30)
 
                 dias = (d_fim - d_inicio) + timedelta(days=1)
 
@@ -126,8 +127,8 @@ class HrContract(models.Model):
                     # Calcula o número de dias dentro do período e quantos dias
                     # são de cada lado da alteração contratual
                     #
-                    dias_2 = dias.days - data_mudanca.day
-                    dias_1 = (data_mudanca.day - d_inicio.day) + 1
+                    dias_2 = (dias.days - data_mudanca.day) + 1
+                    dias_1 = data_mudanca.day - d_inicio.day
 
                     # Calcula cada valor de salário nos dias em com valores
                     # diferentes
