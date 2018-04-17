@@ -143,6 +143,7 @@ class SpedDocumento(models.Model):
         comodel_name='sped.municipio',
         string='Municípios carregamento',
         help='Máximo 50',
+
     )
     percurso_estado_ids = fields.Many2many(
         comodel_name='sped.estado',
@@ -191,12 +192,12 @@ class SpedDocumento(models.Model):
         result = super(SpedDocumento, self)._onchange_empresa_id()
 
         if self.modelo == MODELO_FISCAL_MDFE:
-            result['value']['ambiente_nfe'] = self.empresa_id.ambiente_mdfe
-            result['value']['tipo_emissao_nfe'] = self.empresa_id.tipo_emissao_mdfe
+            result['value']['ambiente_nfe'] = self.empresa_id.ambiente_nfe
+            result['value']['tipo_emissao_nfe'] = self.empresa_id.tipo_emissao_nfe
             result['value']['serie'] = self._serie_padrao_mdfe(
                 self.empresa_id,
-                self.empresa_id.ambiente_mdfe,
-                self.empresa_id.tipo_emissao_mdfe
+                self.empresa_id.ambiente_nfe,
+                self.empresa_id.tipo_emissao_nfe
             )
         return result
 
@@ -268,3 +269,5 @@ class SpedDocumento(models.Model):
         mdfe = self.monta_mdfe(processador)
 
         print(mdfe)
+
+

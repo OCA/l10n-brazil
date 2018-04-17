@@ -67,7 +67,7 @@ class L10nBrMdfeItem(models.Model):
 
     documento_id = fields.Many2one(
         comodel_name='sped.documento',
-        domain=[('modelo', 'in', [MODELO_FISCAL_CFE, MODELO_FISCAL_NFE])],
+        domain=[('modelo', '=', [MODELO_FISCAL_NFE]), ('numero', '!=', 0)],
         string='NF-E/CT-E',
     )
     documento_chave = fields.Char(
