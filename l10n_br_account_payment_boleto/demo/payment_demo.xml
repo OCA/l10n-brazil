@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data noupdate="1">
+
         <record id="payment_mode_boleto_unregistred_bb" model="payment.mode">
             <field name="name">Boleto sem registro Banco do Brasil</field>
             <field name="journal" ref="account.bank_journal"/>
@@ -157,6 +158,42 @@
             <!--<field name="boleto_modalidade">DM</field>-->
             <!--<field name="boleto_variacao">19</field>-->
             <!--<field name="aceite">N</field>-->
+        </record>
+
+        <!-- Payment Mode Type - CNAB400  -->
+        <record model="payment.mode.type" id="payment_mode_cnab400">
+            <field name="name">CNAB400</field>
+            <field name="code">400</field>
+            <field name="suitable_bank_types"
+                eval="[(6,0,[ref('base.bank_normal'),ref('base_iban.bank_iban'),])]" />
+            <field name="ir_model_id"
+                   ref="account_banking_payment_export.model_payment_manual"/>
+            <field name="payment_order_type">cobranca</field>
+        </record>
+
+        <!-- Payment Mode - CNAB400 BRADESCO -->
+        <record id="payment_mode_boleto_unregistred_bradesco_cnab400"
+                model="payment.mode">
+            <field name="name">Boleto Bradesco - CNAB400</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_bradesco"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type"
+                   ref="payment_mode_cnab400"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o
+                vencimento
+            </field>
+            <field name="boleto_type">3</field>
+            <field name="boleto_convenio">06</field>
+            <field name="boleto_carteira">03</field>
+            <field name="boleto_modalidade">DM</field>
+            <field name="boleto_variacao">19</field>
+            <!--<field name="aceite">N</field>-->
+            <field name="type_sale_payment">00</field>
         </record>
 
     </data>
