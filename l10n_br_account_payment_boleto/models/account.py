@@ -14,6 +14,11 @@ class AccountPaymentTerm(models.Model):
     discount_perc = fields.Float(
         string=u"Percentual de Desconto até a Data de Vencimento",
         digits=dp.get_precision('Account'))
+    instrucao_discount_perc = fields.Text(
+        u'Instrução de Desconto antes do Vencimento',
+        help=u'Percentual de Desconto concedido antes da Data de Vencimento',
+        default=u'CONCEDER ABATIMENTO PERCENTUAL DE '
+    )
 
     @api.constrains('discount_perc')
     def _check_discount_perc(self):
