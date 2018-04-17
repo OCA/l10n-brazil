@@ -4,7 +4,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import models, fields, api, _
-from openerp.exceptions import ValidationError
+from openerp.exceptions import Warning as UserError
 from openerp.addons import decimal_precision as dp
 
 
@@ -58,8 +58,24 @@ class PaymentMode(models.Model):
     ], string=u'Códigos de Protesto', default='0')
     boleto_protesto_prazo = fields.Char(u'Prazo protesto', size=2)
     boleto_perc_mora = fields.Float(
-        string=u"Percentual de Mora",
+        string=u"Percentual de Juros de Mora",
         digits=dp.get_precision('Account')
+    )
+    instrucao_boleto_perc_mora = fields.Text(
+        u'Instrução Juros Mora',
+        help=u'Juros de mora - é o percentual ao'
+             u' mês sobre o valor principal.',
+        default=u'Após vencimento cobrar juros de mora de'
+    )
+    boleto_perc_multa = fields.Float(
+        string=u"Percentual de Multa",
+        digits=dp.get_precision('Account')
+    )
+    instrucao_boleto_perc_multa = fields.Text(
+        u'Instrução Multa por Atraso',
+        help=u' Multa por atraso - é o valor percentual acrescido uma única'
+             u' vez sobre o valor do principal. ',
+        default=u'Após vencimento cobrar multa de'
     )
 
     @api.constrains('boleto_type', 'boleto_carteira',
@@ -67,11 +83,16 @@ class PaymentMode(models.Model):
                     'boleto_variacao', 'boleto_aceite')
     def boleto_restriction(self):
         if self.boleto_type == '6' and not self.boleto_carteira:
-            raise ValidationError(u'Carteira no banco Itaú é obrigatória')
+            raise UserError(_(u'Carteira no banco Itaú é obrigatória'))
 
-    @api.constrains('boleto_perc_mora')
-    def _check_boleto_perc_mora(self):
+    @api.constrains('boleto_perc_mora', 'boleto_perc_multa')
+    def _check_boleto_percent(self):
         for record in self:
-            if record.boleto_perc_mora > 2 or record.boleto_perc_mora < 0:
-                raise ValidationError(
-                    _('O percentual de Mora deve ser um valor entre 0 a 2.'))
+            self.check_percent_field(record.boleto_perc_mora)
+            self.check_percent_field(record.boleto_perc_multa)
+
+    @api.multi
+    def check_percent_field(self, value):
+        if value > 100 or value < 0:
+            raise UserError(
+                _('O percentual deve ser um valor entre 0 a 100.'))

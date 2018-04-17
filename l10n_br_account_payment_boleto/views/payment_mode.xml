@@ -24,6 +24,9 @@
                         <field name="boleto_protesto"/>
                         <field name="boleto_protesto_prazo"/>
                         <field name="boleto_perc_mora"/>
+                        <field name="instrucao_boleto_perc_mora" placeholder="EXEMPLO: Após vencimento cobrar juros de mora de"/>
+                        <field name="boleto_perc_multa"/>
+                        <field name="instrucao_boleto_perc_multa" placeholder="EXEMPLO: Após vencimento cobrar multa de --"/>
                     </group>
                 </xpath>
                 <!--</data>-->
