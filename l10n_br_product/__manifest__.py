@@ -22,6 +22,7 @@
         #
         'views/menu.xml',
         'views/product_view.xml',
+        'views/product_uom_view.xml',
         'views/l10n_br_base_config.xml',
     ],
     'demo': [

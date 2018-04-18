@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="product_uom_form_view" model="ir.ui.view">
+            <field name="name">product.uom.form in (l10n_br_product)</field>
+            <field name="model">product.uom</field>
+            <field name="inherit_id" ref="product.product_uom_form_view"/>
+            <field name="arch" type="xml">
+                <field name="category_id" positon="after">
+                    <field name="codigo" groups="base.group_no_one"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
