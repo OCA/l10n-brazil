@@ -1051,6 +1051,7 @@ function l10n_br_pos_screens(instance, module) {
                 }
             }
             list_orders_frontend = aux_list;
+            this.get_last_orders();
         },
 
         get_last_orders: function(){
@@ -1076,6 +1077,9 @@ function l10n_br_pos_screens(instance, module) {
                         aux_list[index] = orders.Orders[i];
                     else
                         aux_list[cont_tam++] = orders.Orders[i];
+                }
+                for (var i=1; i < aux_list.length; i++){
+                    aux_list[i].can_cancel = false;
                 }
                 self.orders.Orders = aux_list;
             },function(err,event){
@@ -1170,7 +1174,7 @@ function l10n_br_pos_screens(instance, module) {
             }, 2000);
         },
         finishOrder: function() {
-            this.pos_widget.posorderlist_screen.get_last_orders();
+            // this.pos_widget.posorderlist_screen.get_last_orders();
             this.pos.get('selectedOrder').destroy();
         },
         refresh: function() {
