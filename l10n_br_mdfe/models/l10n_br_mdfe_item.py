@@ -17,9 +17,13 @@ class L10nBrMdfeItem(models.Model):
     _description = 'Documento MDF-E Carga Item'
     # _rec_name = 'documento_chave',
 
-    mdfe_id = fields.Many2one(
-        comodel_name='sped.documento',
-    )
+    @api.depends('documento_chave')
+    def _compute_dados(self):
+        for record in self:
+            if record.documento_chave:
+                record.documento_modelo = record.documento_chave[20:22]
+                record.documento_serie = record.documento_chave[23:25]
+                record.documento_numero = record.documento_chave[26:35]
 
     def _compute_informacoes_documento(self):
         for record in self:
@@ -39,6 +43,9 @@ class L10nBrMdfeItem(models.Model):
                     # 'volume_liquido': volume_liquido,
                 })
 
+    mdfe_id = fields.Many2one(
+        comodel_name='sped.documento',
+    )
     remetente_id = fields.Many2one(
         comodel_name='sped.participante',
         string='Remetente',
@@ -71,29 +78,28 @@ class L10nBrMdfeItem(models.Model):
         string='NF-E/CT-E',
     )
     documento_chave = fields.Char(
-        related='documento_id.chave',
         string='Chave',
         size=44,
         copy=False,
     )
     documento_modelo = fields.Selection(
-        related='documento_id.modelo',
         selection=MODELO_FISCAL,
         string='Modelo Fiscal',
         index=True,
+        compute=_compute_dados,
     )
     documento_serie = fields.Char(
-        related='documento_id.serie',
         string='Série',
         size=3,
         index=True,
+        compute=_compute_dados,
     )
     documento_numero = fields.Float(
-        related='documento_id.numero',
         string='Número',
         index=True,
+        readonly=True,
         digits=(18, 0),
-
+        compute=_compute_dados,
     )
     documento_situacao = fields.Selection(
         related='documento_id.situacao_nfe',
@@ -132,10 +138,9 @@ class L10nBrMdfeItem(models.Model):
     @api.onchange('documento_id')
     def _onchange_documento(self):
         if self.documento_id:
+            self.documento_chave = self.documento_id.chave
             self.destinatario_cidade_id = self.documento_id.participante_municipio_id
             self.destinatario_id = self.documento_id.participante_id
 
             self.remetente_cidade_id = self.documento_id.empresa_id.municipio_id.id
             self.remetente_id = self.documento_id.empresa_id.participante_id.id
-
-
