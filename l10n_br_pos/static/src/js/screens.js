@@ -1001,8 +1001,8 @@ function l10n_br_pos_screens(instance, module) {
                 var order_id = $(this).parent().parent().data('id');
                 if(order_id == ''){
                     self.pos_widget.screen_selector.show_popup('error', {
-                        message: _t('Cancelar Venda'),
-                        comment: _t('Ordem ainda não está totalmente sincronizada.'),
+                        message: _t('Erro:Cancelar Venda'),
+                        comment: _t('Última venda ainda não foi sincronizada'),
                     });
                 }
                 else {
