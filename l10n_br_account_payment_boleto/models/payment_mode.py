@@ -78,12 +78,47 @@ class PaymentMode(models.Model):
         default=u'Após vencimento cobrar multa de'
     )
 
-    @api.constrains('boleto_type', 'boleto_carteira',
-                    'boleto_modalidade', 'boleto_convenio',
-                    'boleto_variacao', 'boleto_aceite')
+    @api.constrains(
+        'boleto_type', 'boleto_carteira', 'boleto_modalidade',
+        'boleto_convenio', 'boleto_variacao', 'boleto_aceite',
+    )
     def boleto_restriction(self):
-        if self.boleto_type == '6' and not self.boleto_carteira:
-            raise UserError(_(u'Carteira no banco Itaú é obrigatória'))
+        for record in self:
+
+            if record.boleto_type == '6' and record.boleto_especie == '01':
+                if not record.boleto_carteira:
+                    raise UserError(_(u'Carteira no banco Itaú é obrigatória'))
+                if len(record.boleto_convenio) < 6:
+                    raise UserError(_(
+                        u'O Convenio no banco Itaú deve ser'
+                        u' igual ou menor que cinco digitos.'
+                    ))
+            if record.boleto_type == '4' and record.boleto_especie == '01':
+                if (not record.boleto_carteira or
+                        len(record.boleto_carteira) > 1):
+                    raise UserError(_(
+                        u'O campo Carteira no banco Caixa Economica é'
+                        u' obrigatório e não pode ter mais de um caracter.'
+                    ))
+                if len(record.boleto_convenio) > 6:
+                    raise UserError(_(
+                        u'O cógido de Convenio da Caixa Economica'
+                        u' não pode ser maior que seis caracteres.'
+                    ))
+            if (record.boleto_type in ('9', '10')
+                    and record.boleto_especie == '01'):
+                if len(record.boleto_convenio) > 7:
+                    raise UserError(_(
+                        u'O cógido de Convenio do Standander'
+                        u' não pode ser maior que sete caracteres.'
+                    ))
+            if (record.boleto_type == '12'
+                    and record.boleto_especie == '01'):
+                if len(record.boleto_convenio) > 5:
+                    raise UserError(_(
+                        u'O cógido de Convenio do Sicredi'
+                        u' não pode ser maior que cinco caracteres.'
+                    ))
 
     @api.constrains('boleto_perc_mora', 'boleto_perc_multa')
     def _check_boleto_percent(self):
