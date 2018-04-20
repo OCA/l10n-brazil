@@ -5,3 +5,4 @@
 
 from . import payment_mode
 from . import account_invoice
+from . import res_partner_bank
