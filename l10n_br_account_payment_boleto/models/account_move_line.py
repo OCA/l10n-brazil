@@ -6,7 +6,8 @@
 import logging
 from datetime import date
 
-from openerp import models, fields, api
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning as UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -23,7 +24,6 @@ class AccountMoveLine(models.Model):
     def send_payment(self):
 
         for move_line in self:
-
             if move_line.payment_mode_id.type_payment == '00':
                 number_type = move_line.company_id.own_number_type
                 if not move_line.boleto_own_number:
@@ -34,6 +34,13 @@ class AccountMoveLine(models.Model):
                         nosso_numero = \
                             move_line.transaction_ref.replace('/', '')
                     else:
+                        if not move_line.payment_mode_id.\
+                                internal_sequence_id.id:
+                            raise UserError(
+                                _('O campo Sequencia na aba Pagamento do Modo'
+                                  ' de Pagamento %s precisa ser informado pois'
+                                  ' é usado pelo campo Nosso Número.'
+                                  % move_line.payment_mode_id.name))
                         nosso_numero = self.env['ir.sequence'].next_by_id(
                             move_line.payment_mode_id.
                             internal_sequence_id.id)
