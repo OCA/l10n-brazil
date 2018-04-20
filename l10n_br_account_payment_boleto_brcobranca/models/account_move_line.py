@@ -183,5 +183,11 @@ class AccountMoveLine(models.Model):
                         move_line.payment_mode_id.bank_id.acc_number_dig
                 })
 
+            # TODO - Create or use a field to have byte_idt information
+            if move_line.payment_mode_id.bank_id.bank.bic == '748':
+                boleto_cnab_api_data.update({
+                    'byte_idt': '2',
+                })
+
             wrapped_boleto_list.append(BoletoWrapper(boleto_cnab_api_data))
         return wrapped_boleto_list
