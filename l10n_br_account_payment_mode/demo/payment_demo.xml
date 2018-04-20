@@ -43,7 +43,7 @@
         <record id="main_company_bank_santander" model="res.partner.bank">
             <field name="acc_number">1333</field>
             <field name="acc_number_dig">0</field>
-            <field name="bra_number">0707077</field>
+            <field name="bra_number">0707</field>
             <field name="bra_number_dig">0</field>
             <field name="state">bank</field>
             <field name="bank" ref="l10n_br_data_base.res_bank_12"/>
