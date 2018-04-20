@@ -2,164 +2,6 @@
 <openerp>
     <data noupdate="1">
 
-        <record id="payment_mode_boleto_unregistred_bb" model="payment.mode">
-            <field name="name">Boleto sem registro Banco do Brasil</field>
-            <field name="journal" ref="account.bank_journal"/>
-            <field name="bank_id"
-                   ref="l10n_br_account_payment_mode.main_company_bank_bb"/>
-            <field name="company_id" ref="base.main_company"/>
-            <field name="type"
-                   ref="account_banking_payment_export.manual_bank_tranfer"/>
-            <field name="sale_ok" eval="True"/>
-            <field name="purchase_ok" eval="True"/>
-            <field name="type_payment">00</field>
-            <field name="instrucoes">Pagavel em qualquer banco ate o
-                vencimento
-            </field>
-            <field name="boleto_type">1</field>
-            <field name="boleto_convenio">27</field>
-            <field name="boleto_carteira">18</field>
-            <field name="boleto_modalidade">DM</field>
-            <field name="boleto_variacao">29</field>
-            <!--<field name="aceite">S</field>-->
-        </record>
-
-        <record id="payment_mode_boleto_unregistred_bradesco"
-                model="payment.mode">
-            <field name="name">Boleto sem registro Bradesco</field>
-            <field name="journal" ref="account.bank_journal"/>
-            <field name="bank_id"
-                   ref="l10n_br_account_payment_mode.main_company_bank_bradesco"/>
-            <field name="company_id" ref="base.main_company"/>
-            <field name="type"
-                   ref="account_banking_payment_export.manual_bank_tranfer"/>
-            <field name="sale_ok" eval="True"/>
-            <field name="purchase_ok" eval="True"/>
-            <field name="type_payment">00</field>
-            <field name="instrucoes">Pagavel em qualquer banco ate o
-                vencimento
-            </field>
-            <field name="boleto_type">3</field>
-            <field name="boleto_convenio">06</field>
-            <field name="boleto_carteira">03</field>
-            <field name="boleto_modalidade">DM</field>
-            <field name="boleto_variacao">19</field>
-            <!--<field name="aceite">N</field>-->
-        </record>
-
-        <record id="payment_mode_boleto_unregistred_hsbc" model="payment.mode">
-            <field name="name">Boleto sem registro HSBC</field>
-            <field name="journal" ref="account.bank_journal"/>
-            <field name="bank_id"
-                   ref="l10n_br_account_payment_mode.main_company_bank_hsbc"/>
-            <field name="company_id" ref="base.main_company"/>
-            <field name="type"
-                   ref="account_banking_payment_export.manual_bank_tranfer"/>
-            <field name="sale_ok" eval="True"/>
-            <field name="purchase_ok" eval="True"/>
-            <field name="type_payment">00</field>
-            <field name="instrucoes">Pagavel em qualquer banco ate o
-                vencimento
-            </field>
-            <field name="boleto_type">5</field>
-            <!--<field name="boleto_convenio"></field>-->
-            <field name="boleto_carteira">CNR</field>
-            <field name="boleto_modalidade">PD</field>
-            <!--<field name="boleto_variacao">19</field>-->
-            <!--<field name="aceite">N</field>-->
-        </record>
-
-        <record id="payment_mode_boleto_unregistred_itau" model="payment.mode">
-            <field name="name">Boleto sem registro ITAU</field>
-            <field name="journal" ref="account.bank_journal"/>
-            <field name="bank_id"
-                   ref="l10n_br_account_payment_mode.main_company_bank_itau"/>
-            <field name="company_id" ref="base.main_company"/>
-            <field name="type"
-                   ref="account_banking_payment_export.manual_bank_tranfer"/>
-            <field name="sale_ok" eval="True"/>
-            <field name="purchase_ok" eval="True"/>
-            <field name="type_payment">00</field>
-            <field name="instrucoes">Pagavel em qualquer banco ate o
-                vencimento
-            </field>
-            <field name="boleto_type">7</field>
-            <field name="boleto_convenio">99999999</field>
-            <field name="boleto_carteira">109</field>
-            <field name="boleto_modalidade">DM</field>
-            <field name="internal_sequence_id" ref="sequence_boleto_own_number"/>
-            <!--<field name="boleto_variacao">19</field>-->
-            <!--<field name="aceite">N</field>-->
-        </record>
-
-        <record id="payment_mode_boleto_unregistred_santander"
-                model="payment.mode">
-            <field name="name">Boleto sem registro Santander</field>
-            <field name="journal" ref="account.bank_journal"/>
-            <field name="bank_id"
-                   ref="l10n_br_account_payment_mode.main_company_bank_santander"/>
-            <field name="company_id" ref="base.main_company"/>
-            <field name="type"
-                   ref="account_banking_payment_export.manual_bank_tranfer"/>
-            <field name="sale_ok" eval="True"/>
-            <field name="purchase_ok" eval="True"/>
-            <field name="type_payment">00</field>
-            <field name="instrucoes">Pagavel em qualquer banco ate o
-                vencimento
-            </field>
-            <field name="boleto_type">9</field>
-            <!--<field name="boleto_convenio">99999999</field>-->
-            <field name="boleto_carteira">102</field>
-            <field name="boleto_modalidade">DM</field>
-            <!--<field name="boleto_variacao">19</field>-->
-            <!--<field name="aceite">N</field>-->
-        </record>
-
-        <record id="payment_mode_boleto_unregistred_caixa" model="payment.mode">
-            <field name="name">Boleto sem registro Caixa Economica SR</field>
-            <field name="journal" ref="account.bank_journal"/>
-            <field name="bank_id"
-                   ref="l10n_br_account_payment_mode.main_company_bank_cef"/>
-            <field name="company_id" ref="base.main_company"/>
-            <field name="type"
-                   ref="account_banking_payment_export.manual_bank_tranfer"/>
-            <field name="sale_ok" eval="True"/>
-            <field name="purchase_ok" eval="True"/>
-            <field name="type_payment">00</field>
-            <field name="instrucoes">Pagavel em qualquer banco ate o
-                vencimento
-            </field>
-            <field name="boleto_type">4</field>
-            <!--<field name="boleto_convenio">99999999</field>-->
-            <field name="boleto_carteira">SR</field>
-            <!--<field name="boleto_modalidade">DM</field>-->
-            <!--<field name="boleto_variacao">19</field>-->
-            <!--<field name="aceite">N</field>-->
-        </record>
-
-        <record id="payment_mode_boleto_unregistred_caixa_sigcb"
-                model="payment.mode">
-            <field name="name">Boleto sem registro Caixa Economica SR</field>
-            <field name="journal" ref="account.bank_journal"/>
-            <field name="bank_id"
-                   ref="l10n_br_account_payment_mode.main_company_bank_cef"/>
-            <field name="company_id" ref="base.main_company"/>
-            <field name="type"
-                   ref="account_banking_payment_export.manual_bank_tranfer"/>
-            <field name="sale_ok" eval="True"/>
-            <field name="purchase_ok" eval="True"/>
-            <field name="type_payment">00</field>
-            <field name="instrucoes">Pagavel em qualquer banco ate o
-                vencimento
-            </field>
-            <field name="boleto_type">11</field>
-            <!--<field name="boleto_convenio">99999999</field>-->
-            <field name="boleto_carteira">SR</field>
-            <!--<field name="boleto_modalidade">DM</field>-->
-            <!--<field name="boleto_variacao">19</field>-->
-            <!--<field name="aceite">N</field>-->
-        </record>
-
         <!-- Payment Mode Type - CNAB400  -->
         <record model="payment.mode.type" id="payment_mode_cnab400">
             <field name="name">CNAB400</field>
@@ -171,22 +13,73 @@
             <field name="payment_order_type">cobranca</field>
         </record>
 
-        <!-- Payment Mode - CNAB400 BRADESCO -->
-        <record id="payment_mode_boleto_unregistred_bradesco_cnab400"
+        <!-- Payment Mode Type - CNAB240  -->
+        <record model="payment.mode.type" id="payment_mode_cnab240">
+            <field name="name">CNAB400</field>
+            <field name="code">400</field>
+            <field name="suitable_bank_types"
+                eval="[(6,0,[ref('base.bank_normal'),ref('base_iban.bank_iban'),])]" />
+            <field name="ir_model_id"
+                   ref="account_banking_payment_export.model_payment_manual"/>
+            <field name="payment_order_type">cobranca</field>
+        </record>
+
+        <!-- Included value to can test in print Boleto -->
+        <record id="l10n_br_account.account_payment_term_ddl1" model="account.payment.term">
+            <field name="discount_perc">10</field>
+        </record>
+
+        <!-- Banco Brasil -->
+        <record model="ir.sequence" id="seq_boleto_nosso_numero_bb">
+            <field name="name">Boleto BB</field>
+            <field name="code">bank_rec_voucher</field>
+            <field name="padding" eval="3"/>
+            <field name="prefix">%(year)s/</field>
+        </record>
+
+        <record id="payment_mode_boleto_unregistred_bb" model="payment.mode">
+            <field name="name">Boleto sem registro Banco do Brasil - CNAB240</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_bb"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type" ref="payment_mode_cnab240"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
+            <field name="boleto_type">1</field>
+            <field name="boleto_convenio">12345678</field>
+            <field name="boleto_carteira">18</field>
+            <field name="boleto_modalidade">DM</field>
+            <field name="boleto_variacao">29</field>
+            <!--<field name="aceite">S</field>-->
+            <field name="type_sale_payment">00</field>
+            <field name="internal_sequence_id" ref="seq_boleto_nosso_numero_bb"/>
+            <field name="boleto_perc_mora">20</field>
+            <field name="boleto_perc_multa">10</field>
+        </record>
+
+        <!-- Banco Bradesco -->
+        <record model="ir.sequence" id="seq_boleto_nosso_numero_bradesco">
+            <field name="name">Boleto Bradesco</field>
+            <field name="code">bank_rec_voucher</field>
+            <field name="padding" eval="3"/>
+            <field name="prefix">%(year)s/</field>
+        </record>
+
+        <record id="payment_mode_boleto_unregistred_bradesco"
                 model="payment.mode">
-            <field name="name">Boleto Bradesco - CNAB400</field>
+            <field name="name">Boleto sem registro Bradesco  - CNAB400</field>
             <field name="journal" ref="account.bank_journal"/>
             <field name="bank_id"
                    ref="l10n_br_account_payment_mode.main_company_bank_bradesco"/>
             <field name="company_id" ref="base.main_company"/>
-            <field name="type"
-                   ref="payment_mode_cnab400"/>
+            <field name="type" ref="payment_mode_cnab400"/>
             <field name="sale_ok" eval="True"/>
             <field name="purchase_ok" eval="True"/>
             <field name="type_payment">00</field>
-            <field name="instrucoes">Pagavel em qualquer banco ate o
-                vencimento
-            </field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
             <field name="boleto_type">3</field>
             <field name="boleto_convenio">06</field>
             <field name="boleto_carteira">03</field>
@@ -194,6 +87,327 @@
             <field name="boleto_variacao">19</field>
             <!--<field name="aceite">N</field>-->
             <field name="type_sale_payment">00</field>
+            <field name="internal_sequence_id" ref="seq_boleto_nosso_numero_bradesco"/>
+            <field name="boleto_perc_mora">20</field>
+            <field name="boleto_perc_multa">10</field>
+        </record>
+
+        <!-- Banco HSBC -->
+        <record model="ir.sequence" id="seq_boleto_nosso_numero_hsbc">
+            <field name="name">Boleto HSBC</field>
+            <field name="code">bank_rec_voucher</field>
+            <field name="padding" eval="3"/>
+            <field name="prefix">%(year)s/</field>
+        </record>
+
+        <record id="payment_mode_boleto_unregistred_hsbc" model="payment.mode">
+            <field name="name">Boleto sem registro HSBC - CNAB400</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_hsbc"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type" ref="payment_mode_cnab400"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
+            <field name="boleto_type">5</field>
+            <!--<field name="boleto_convenio"></field>-->
+            <field name="boleto_carteira">CNR</field>
+            <field name="boleto_modalidade">PD</field>
+            <!--<field name="boleto_variacao">19</field>-->
+            <!--<field name="aceite">N</field>-->
+            <field name="type_sale_payment">00</field>
+            <field name="internal_sequence_id" ref="seq_boleto_nosso_numero_hsbc"/>
+            <field name="boleto_perc_mora">20</field>
+            <field name="boleto_perc_multa">10</field>
+        </record>
+
+        <!-- Banco Itau -->
+        <record model="ir.sequence" id="seq_boleto_nosso_numero_itau">
+            <field name="name">Boleto Itau</field>
+            <field name="code">bank_rec_voucher</field>
+            <field name="padding" eval="3"/>
+            <field name="prefix">%(year)s/</field>
+        </record>
+
+        <record id="payment_mode_boleto_unregistred_itau" model="payment.mode">
+            <field name="name">Boleto sem registro Itau - CNAB400</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_itau"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type" ref="payment_mode_cnab400"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
+            <field name="boleto_type">7</field>
+            <field name="boleto_convenio">99999</field>
+            <field name="boleto_carteira">109</field>
+            <field name="boleto_modalidade">DM</field>
+            <field name="internal_sequence_id" ref="sequence_boleto_own_number"/>
+            <!--<field name="boleto_variacao">19</field>-->
+            <!--<field name="aceite">N</field>-->
+            <field name="type_sale_payment">00</field>
+            <field name="internal_sequence_id" ref="seq_boleto_nosso_numero_itau"/>
+            <field name="boleto_perc_mora">20</field>
+            <field name="boleto_perc_multa">10</field>
+        </record>
+
+        <!-- Banco Standader -->
+        <record model="ir.sequence" id="seq_boleto_nosso_numero_santander">
+            <field name="name">Boleto Santander</field>
+            <field name="code">bank_rec_voucher</field>
+            <field name="padding" eval="3"/>
+            <field name="prefix">%(year)s/</field>
+        </record>
+
+        <record id="payment_mode_boleto_unregistred_santander"
+                model="payment.mode">
+            <field name="name">Boleto sem registro Santander - CNAB400</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_santander"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type" ref="payment_mode_cnab400"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
+            <field name="boleto_type">9</field>
+            <field name="boleto_convenio">1234567</field>
+            <field name="boleto_carteira">102</field>
+            <field name="boleto_modalidade">DM</field>
+            <!--<field name="boleto_variacao">19</field>-->
+            <!--<field name="aceite">N</field>-->
+            <field name="type_sale_payment">00</field>
+            <field name="internal_sequence_id" ref="seq_boleto_nosso_numero_santander"/>
+            <field name="boleto_perc_mora">20</field>
+            <field name="boleto_perc_multa">10</field>
+        </record>
+
+        <!-- Banco Caixa -->
+        <record model="ir.sequence" id="seq_boleto_nosso_numero_caixa">
+            <field name="name">Boleto Caixa</field>
+            <field name="code">bank_rec_voucher</field>
+            <field name="padding" eval="3"/>
+            <field name="prefix">%(year)s/</field>
+        </record>
+
+        <record id="payment_mode_boleto_unregistred_caixa" model="payment.mode">
+            <field name="name">Boleto sem registro Caixa Economica SR - CNAB240</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_cef"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type" ref="payment_mode_cnab240"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
+            <field name="boleto_type">4</field>
+            <field name="boleto_convenio">999999</field>
+            <field name="boleto_carteira">0</field>
+            <!--<field name="boleto_modalidade">DM</field>-->
+            <!--<field name="boleto_variacao">19</field>-->
+            <!--<field name="aceite">N</field>-->
+            <field name="type_sale_payment">00</field>
+            <field name="internal_sequence_id" ref="seq_boleto_nosso_numero_caixa"/>
+            <field name="boleto_perc_mora">20</field>
+            <field name="boleto_perc_multa">10</field>
+        </record>
+
+        <!-- Banco Caixa Sigcb -->
+        <record model="ir.sequence" id="seq_boleto_nosso_numero_caixa_sigcb">
+            <field name="name">Boleto Caixa Sigcb</field>
+            <field name="code">bank_rec_voucher</field>
+            <field name="padding" eval="3"/>
+            <field name="prefix">%(year)s/</field>
+        </record>
+
+        <record id="payment_mode_boleto_unregistred_caixa_sigcb"
+                model="payment.mode">
+            <field name="name">Boleto sem registro Caixa Economica SR - CNAB240</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_cef"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type" ref="payment_mode_cnab240"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
+            <field name="boleto_type">11</field>
+            <field name="boleto_convenio">999999</field>
+            <field name="boleto_carteira">0</field>
+            <!--<field name="boleto_modalidade">DM</field>-->
+            <!--<field name="boleto_variacao">19</field>-->
+            <!--<field name="aceite">N</field>-->
+            <field name="type_sale_payment">00</field>
+            <field name="internal_sequence_id" ref="seq_boleto_nosso_numero_caixa_sigcb"/>
+            <field name="boleto_perc_mora">20</field>
+            <field name="boleto_perc_multa">10</field>
+        </record>
+
+        <!-- Banco Nordeste -->
+        <record model="ir.sequence" id="seq_boleto_nosso_numero_nordeste">
+            <field name="name">Boleto Banco Nordeste</field>
+            <field name="code">bank_rec_voucher</field>
+            <field name="padding" eval="3"/>
+            <field name="prefix">%(year)s/</field>
+        </record>
+
+        <record id="payment_mode_boleto_unregistred_nordeste"
+                model="payment.mode">
+            <field name="name">Boleto sem registro Nordeste - CNAB400</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_nordeste"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type" ref="payment_mode_cnab400"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
+            <field name="boleto_type">11</field>
+            <field name="boleto_convenio">999999</field>
+            <field name="boleto_carteira">0</field>
+            <!--<field name="boleto_modalidade">DM</field>-->
+            <!--<field name="boleto_variacao">19</field>-->
+            <!--<field name="aceite">N</field>-->
+            <field name="type_sale_payment">00</field>
+            <field name="internal_sequence_id" ref="seq_boleto_nosso_numero_nordeste"/>
+            <field name="boleto_perc_mora">20</field>
+            <field name="boleto_perc_multa">10</field>
+        </record>
+
+        <!-- Banco Banrisul -->
+        <record model="ir.sequence" id="seq_boleto_nosso_numero_banrisul">
+            <field name="name">Boleto Banco Banrisul</field>
+            <field name="code">bank_rec_voucher</field>
+            <field name="padding" eval="3"/>
+            <field name="prefix">%(year)s/</field>
+        </record>
+
+        <record id="payment_mode_boleto_unregistred_banrisul"
+                model="payment.mode">
+            <field name="name">Boleto sem registro Banrisul - CNAB400</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_banrisul"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type" ref="payment_mode_cnab400"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
+            <field name="boleto_type">11</field>
+            <field name="boleto_convenio">999999</field>
+            <field name="boleto_carteira">0</field>
+            <!--<field name="boleto_modalidade">DM</field>-->
+            <!--<field name="boleto_variacao">19</field>-->
+            <!--<field name="aceite">N</field>-->
+            <field name="type_sale_payment">00</field>
+            <field name="internal_sequence_id" ref="seq_boleto_nosso_numero_banrisul"/>
+            <field name="boleto_perc_mora">20</field>
+            <field name="boleto_perc_multa">10</field>
+        </record>
+
+        <!-- Banco Banestes -->
+        <record model="ir.sequence" id="seq_boleto_nosso_numero_banestes">
+            <field name="name">Boleto Banco Banestes</field>
+            <field name="code">bank_rec_voucher</field>
+            <field name="padding" eval="3"/>
+            <field name="prefix">%(year)s/</field>
+        </record>
+
+        <record id="payment_mode_boleto_unregistred_banestes"
+                model="payment.mode">
+            <field name="name">Boleto sem registro Banestes - CNAB400</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_banestes"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type" ref="payment_mode_cnab400"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
+            <field name="boleto_type">11</field>
+            <field name="boleto_convenio">999999</field>
+            <field name="boleto_carteira">0</field>
+            <!--<field name="boleto_modalidade">DM</field>-->
+            <!--<field name="boleto_variacao">19</field>-->
+            <!--<field name="aceite">N</field>-->
+            <field name="type_sale_payment">00</field>
+            <field name="internal_sequence_id" ref="seq_boleto_nosso_numero_banestes"/>
+            <field name="boleto_perc_mora">20</field>
+            <field name="boleto_perc_multa">10</field>
+        </record>
+
+        <!-- Banco Sicoob -->
+        <record model="ir.sequence" id="seq_boleto_nosso_numero_sicoob">
+            <field name="name">Boleto Banco Sicoob</field>
+            <field name="code">bank_rec_voucher</field>
+            <field name="padding" eval="3"/>
+            <field name="prefix">%(year)s/</field>
+        </record>
+
+        <record id="payment_mode_boleto_unregistred_sicoob"
+                model="payment.mode">
+            <field name="name">Boleto sem registro Sicoob - CNAB400</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_sicoob"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type" ref="payment_mode_cnab400"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
+            <field name="boleto_type">11</field>
+            <field name="boleto_convenio">999999</field>
+            <field name="boleto_carteira">0</field>
+            <!--<field name="boleto_modalidade">DM</field>-->
+            <!--<field name="boleto_variacao">19</field>-->
+            <!--<field name="aceite">N</field>-->
+            <field name="type_sale_payment">00</field>
+            <field name="internal_sequence_id" ref="seq_boleto_nosso_numero_sicoob"/>
+            <field name="boleto_perc_mora">20</field>
+            <field name="boleto_perc_multa">10</field>
+        </record>
+
+        <!-- Banco Sicredi -->
+        <record model="ir.sequence" id="seq_boleto_nosso_numero_sicredi">
+            <field name="name">Boleto Banco Sicredi</field>
+            <field name="code">bank_rec_voucher</field>
+            <field name="padding" eval="1"/>
+            <field name="prefix">%(year)s/</field>
+        </record>
+
+        <record id="payment_mode_boleto_unregistred_sicredi"
+                model="payment.mode">
+            <field name="name">Boleto sem registro Sicredi - CNAB400</field>
+            <field name="journal" ref="account.bank_journal"/>
+            <field name="bank_id"
+                   ref="l10n_br_account_payment_mode.main_company_bank_sicredi"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type" ref="payment_mode_cnab400"/>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="True"/>
+            <field name="type_payment">00</field>
+            <field name="instrucoes">Pagavel em qualquer banco ate o vencimento</field>
+            <field name="boleto_type">11</field>
+            <field name="boleto_convenio">999999</field>
+            <field name="boleto_carteira">0</field>
+            <!--<field name="boleto_modalidade">DM</field>-->
+            <!--<field name="boleto_variacao">19</field>-->
+            <!--<field name="aceite">N</field>-->
+            <field name="type_sale_payment">00</field>
+            <field name="internal_sequence_id" ref="seq_boleto_nosso_numero_sicredi"/>
+            <field name="boleto_perc_mora">20</field>
+            <field name="boleto_perc_multa">10</field>
         </record>
 
     </data>
