@@ -177,5 +177,11 @@ class AccountMoveLine(models.Model):
                   'instrucao5': instrucao_desconto_vencimento,
             }
 
+            if move_line.payment_mode_id.bank_id.bank.bic in ('021', '004'):
+                boleto_cnab_api_data.update({
+                    'digito_conta_corrente':
+                        move_line.payment_mode_id.bank_id.acc_number_dig
+                })
+
             wrapped_boleto_list.append(BoletoWrapper(boleto_cnab_api_data))
         return wrapped_boleto_list
