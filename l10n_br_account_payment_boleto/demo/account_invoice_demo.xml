@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- Invoice with payment mode CNAB400  Banco Brasil-->
+        <record id="invoice_boleto_bb" model="account.invoice">
+            <field name="currency_id" ref="base.BRL"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="journal_id" ref="account.sales_journal"/>
+            <field name="state">draft</field>
+            <field name="type">out_invoice</field>
+            <field name="account_id" ref="account.a_recv"/>
+            <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+            <field eval="time.strftime('%Y-%m') + '-15'" name="date_invoice"/>
+            <field name="payment_term" ref="l10n_br_account.account_payment_term_ddl1"/>
+            <field name="payment_mode_id" ref="payment_mode_boleto_unregistred_bb"/>
+            <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55"/>
+            <field name="document_serie_id" ref="l10n_br_account_product.l10n_br_document_serie_1_product"/>
+            <field name="nfe_purpose">1</field>
+        </record>
+
+        <record id="invoice_boleto_bb_line_1" model="account.invoice.line">
+            <field name="product_id" ref="product.product_product_8"/>
+            <field name="name">IMac</field>
+            <field name="invoice_id" ref="invoice_boleto_bb"/>
+            <field name="price_unit">1000</field>
+            <field name="quantity">1</field>
+            <field name="account_id" ref="account.a_sale"/>
+        </record>
+
+        <!--<workflow action="invoice_open" model="account.invoice" ref="invoice_boleto_bb"/>-->
+        <workflow action="invoice_validate" model="account.invoice" ref="invoice_boleto_bb"/>
+
+
+        <!-- Invoice with payment mode CNAB400  Bradesco-->
+        <record id="invoice_boleto_bradesco" model="account.invoice">
+            <field name="currency_id" ref="base.BRL"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="journal_id" ref="account.sales_journal"/>
+            <field name="state">draft</field>
+            <field name="type">out_invoice</field>
+            <field name="account_id" ref="account.a_recv"/>
+            <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+            <field eval="time.strftime('%Y-%m') + '-15'" name="date_invoice"/>
+            <field name="payment_term" ref="l10n_br_account.account_payment_term_ddl1"/>
+            <field name="payment_mode_id" ref="payment_mode_boleto_unregistred_bradesco"/>
+            <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55"/>
+            <field name="document_serie_id" ref="l10n_br_account_product.l10n_br_document_serie_1_product"/>
+            <field name="nfe_purpose">1</field>
+        </record>
+
+        <record id="invoice_boleto_bradesco_line_1" model="account.invoice.line">
+            <field name="product_id" ref="product.product_product_8"/>
+            <field name="name">IMac</field>
+            <field name="invoice_id" ref="invoice_boleto_bradesco"/>
+            <field name="price_unit">1000</field>
+            <field name="quantity">1</field>
+            <field name="account_id" ref="account.a_sale"/>
+        </record>
+
+        <!--<workflow action="invoice_open" model="account.invoice" ref="invoice_boleto_bradesco"/>-->
+        <workflow action="invoice_validate" model="account.invoice" ref="invoice_boleto_bradesco"/>
+
+        <!-- Invoice with payment mode CNAB400  HSBC-->
+        <record id="invoice_boleto_hsbc" model="account.invoice">
+            <field name="currency_id" ref="base.BRL"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="journal_id" ref="account.sales_journal"/>
+            <field name="state">draft</field>
+            <field name="type">out_invoice</field>
+            <field name="account_id" ref="account.a_recv"/>
+            <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+            <field eval="time.strftime('%Y-%m') + '-15'" name="date_invoice"/>
+            <field name="payment_term" ref="l10n_br_account.account_payment_term_ddl1"/>
+            <field name="payment_mode_id" ref="payment_mode_boleto_unregistred_hsbc"/>
+            <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55"/>
+            <field name="document_serie_id" ref="l10n_br_account_product.l10n_br_document_serie_1_product"/>
+            <field name="nfe_purpose">1</field>
+        </record>
+
+        <record id="invoice_boleto_hsbc_line_1" model="account.invoice.line">
+            <field name="product_id" ref="product.product_product_8"/>
+            <field name="name">IMac</field>
+            <field name="invoice_id" ref="invoice_boleto_hsbc"/>
+            <field name="price_unit">1000</field>
+            <field name="quantity">1</field>
+            <field name="account_id" ref="account.a_sale"/>
+        </record>
+
+        <!--<workflow action="invoice_open" model="account.invoice" ref="invoice_boleto_hsbc"/>-->
+        <workflow action="invoice_validate" model="account.invoice" ref="invoice_boleto_hsbc"/>
+
+        <!-- Invoice with payment mode CNAB400  Itau-->
+        <record id="invoice_boleto_itau" model="account.invoice">
+            <field name="currency_id" ref="base.BRL"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="journal_id" ref="account.sales_journal"/>
+            <field name="state">draft</field>
+            <field name="type">out_invoice</field>
+            <field name="account_id" ref="account.a_recv"/>
+            <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+            <field eval="time.strftime('%Y-%m') + '-15'" name="date_invoice"/>
+            <field name="payment_term" ref="l10n_br_account.account_payment_term_ddl1"/>
+            <field name="payment_mode_id" ref="payment_mode_boleto_unregistred_itau"/>
+            <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55"/>
+            <field name="document_serie_id" ref="l10n_br_account_product.l10n_br_document_serie_1_product"/>
+            <field name="nfe_purpose">1</field>
+        </record>
+
+        <record id="invoice_boleto_itau_line_1" model="account.invoice.line">
+            <field name="product_id" ref="product.product_product_8"/>
+            <field name="name">IMac</field>
+            <field name="invoice_id" ref="invoice_boleto_itau"/>
+            <field name="price_unit">1000</field>
+            <field name="quantity">1</field>
+            <field name="account_id" ref="account.a_sale"/>
+        </record>
+
+        <!--<workflow action="invoice_open" model="account.invoice" ref="invoice_boleto_itau"/>-->
+        <workflow action="invoice_validate" model="account.invoice" ref="invoice_boleto_itau"/>
+
+        <!-- Invoice with payment mode CNAB400  Banco Santander-->
+        <record id="invoice_boleto_santander" model="account.invoice">
+            <field name="currency_id" ref="base.BRL"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="journal_id" ref="account.sales_journal"/>
+            <field name="state">draft</field>
+            <field name="type">out_invoice</field>
+            <field name="account_id" ref="account.a_recv"/>
+            <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+            <field eval="time.strftime('%Y-%m') + '-15'" name="date_invoice"/>
+            <field name="payment_term" ref="l10n_br_account.account_payment_term_ddl1"/>
+            <field name="payment_mode_id" ref="payment_mode_boleto_unregistred_santander"/>
+            <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55"/>
+            <field name="document_serie_id" ref="l10n_br_account_product.l10n_br_document_serie_1_product"/>
+            <field name="nfe_purpose">1</field>
+        </record>
+
+        <record id="invoice_boleto_santander_line_1" model="account.invoice.line">
+            <field name="product_id" ref="product.product_product_8"/>
+            <field name="name">IMac</field>
+            <field name="invoice_id" ref="invoice_boleto_santander"/>
+            <field name="price_unit">1000</field>
+            <field name="quantity">1</field>
+            <field name="account_id" ref="account.a_sale"/>
+        </record>
+
+        <!--<workflow action="invoice_open" model="account.invoice" ref="invoice_boleto_santander"/>-->
+        <workflow action="invoice_validate" model="account.invoice" ref="invoice_boleto_santander"/>
+
+        <!-- Invoice with payment mode CNAB400 Caixa-->
+        <record id="invoice_boleto_caixa" model="account.invoice">
+            <field name="currency_id" ref="base.BRL"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="journal_id" ref="account.sales_journal"/>
+            <field name="state">draft</field>
+            <field name="type">out_invoice</field>
+            <field name="account_id" ref="account.a_recv"/>
+            <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+            <field eval="time.strftime('%Y-%m') + '-15'" name="date_invoice"/>
+            <field name="payment_term" ref="l10n_br_account.account_payment_term_ddl1"/>
+            <field name="payment_mode_id" ref="payment_mode_boleto_unregistred_caixa"/>
+            <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55"/>
+            <field name="document_serie_id" ref="l10n_br_account_product.l10n_br_document_serie_1_product"/>
+            <field name="nfe_purpose">1</field>
+        </record>
+
+        <record id="invoice_boleto_caixa_line_1" model="account.invoice.line">
+            <field name="product_id" ref="product.product_product_8"/>
+            <field name="name">IMac</field>
+            <field name="invoice_id" ref="invoice_boleto_caixa"/>
+            <field name="price_unit">1000</field>
+            <field name="quantity">1</field>
+            <field name="account_id" ref="account.a_sale"/>
+        </record>
+
+        <!--<workflow action="invoice_open" model="account.invoice" ref="invoice_boleto_caixa"/>-->
+        <workflow action="invoice_validate" model="account.invoice" ref="invoice_boleto_caixa"/>
+
+        <!-- Invoice with payment mode CNAB400  Caixa SIGBC-->
+        <record id="invoice_boleto_caixa_sigbc" model="account.invoice">
+            <field name="currency_id" ref="base.BRL"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="journal_id" ref="account.sales_journal"/>
+            <field name="state">draft</field>
+            <field name="type">out_invoice</field>
+            <field name="account_id" ref="account.a_recv"/>
+            <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+            <field eval="time.strftime('%Y-%m') + '-15'" name="date_invoice"/>
+            <field name="payment_term" ref="l10n_br_account.account_payment_term_ddl1"/>
+            <field name="payment_mode_id" ref="payment_mode_boleto_unregistred_caixa_sigcb"/>
+            <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55"/>
+            <field name="document_serie_id" ref="l10n_br_account_product.l10n_br_document_serie_1_product"/>
+            <field name="nfe_purpose">1</field>
+        </record>
+
+        <record id="invoice_boleto_caixa_sigbc_line_1" model="account.invoice.line">
+            <field name="product_id" ref="product.product_product_8"/>
+            <field name="name">IMac</field>
+            <field name="invoice_id" ref="invoice_boleto_caixa_sigbc"/>
+            <field name="price_unit">1000</field>
+            <field name="quantity">1</field>
+            <field name="account_id" ref="account.a_sale"/>
+        </record>
+
+        <!--<workflow action="invoice_open" model="account.invoice" ref="invoice_boleto_caixa_sigbc"/>-->
+        <workflow action="invoice_validate" model="account.invoice" ref="invoice_boleto_caixa_sigbc"/>
+
+        <!-- Invoice with payment mode CNAB400  Banco Nordeste-->
+        <record id="invoice_boleto_nordeste" model="account.invoice">
+            <field name="currency_id" ref="base.BRL"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="journal_id" ref="account.sales_journal"/>
+            <field name="state">draft</field>
+            <field name="type">out_invoice</field>
+            <field name="account_id" ref="account.a_recv"/>
+            <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+            <field eval="time.strftime('%Y-%m') + '-15'" name="date_invoice"/>
+            <field name="payment_term" ref="l10n_br_account.account_payment_term_ddl1"/>
+            <field name="payment_mode_id" ref="payment_mode_boleto_unregistred_nordeste"/>
+            <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55"/>
+            <field name="document_serie_id" ref="l10n_br_account_product.l10n_br_document_serie_1_product"/>
+            <field name="nfe_purpose">1</field>
+        </record>
+
+        <record id="invoice_boleto_nordeste_line_1" model="account.invoice.line">
+            <field name="product_id" ref="product.product_product_8"/>
+            <field name="name">IMac</field>
+            <field name="invoice_id" ref="invoice_boleto_nordeste"/>
+            <field name="price_unit">1000</field>
+            <field name="quantity">1</field>
+            <field name="account_id" ref="account.a_sale"/>
+        </record>
+
+        <!--<workflow action="invoice_open" model="account.invoice" ref="invoice_boleto_banrisul"/>-->
+        <workflow action="invoice_validate" model="account.invoice" ref="invoice_boleto_nordeste"/>
+
+        <!-- Invoice with payment mode CNAB400  Banco Banrisul-->
+        <record id="invoice_boleto_banrisul" model="account.invoice">
+            <field name="currency_id" ref="base.BRL"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="journal_id" ref="account.sales_journal"/>
+            <field name="state">draft</field>
+            <field name="type">out_invoice</field>
+            <field name="account_id" ref="account.a_recv"/>
+            <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+            <field eval="time.strftime('%Y-%m') + '-15'" name="date_invoice"/>
+            <field name="payment_term" ref="l10n_br_account.account_payment_term_ddl1"/>
+            <field name="payment_mode_id" ref="payment_mode_boleto_unregistred_banrisul"/>
+            <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55"/>
+            <field name="document_serie_id" ref="l10n_br_account_product.l10n_br_document_serie_1_product"/>
+            <field name="nfe_purpose">1</field>
+        </record>
+
+        <record id="invoice_boleto_banrisul_line_1" model="account.invoice.line">
+            <field name="product_id" ref="product.product_product_8"/>
+            <field name="name">IMac</field>
+            <field name="invoice_id" ref="invoice_boleto_banrisul"/>
+            <field name="price_unit">1000</field>
+            <field name="quantity">1</field>
+            <field name="account_id" ref="account.a_sale"/>
+        </record>
+
+        <!--<workflow action="invoice_open" model="account.invoice" ref="invoice_boleto_caixa_sigbc"/>-->
+        <workflow action="invoice_validate" model="account.invoice" ref="invoice_boleto_banrisul"/>
+
+        <!-- Invoice with payment mode CNAB400  Banco Banestes-->
+        <record id="invoice_boleto_banestes" model="account.invoice">
+            <field name="currency_id" ref="base.BRL"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="journal_id" ref="account.sales_journal"/>
+            <field name="state">draft</field>
+            <field name="type">out_invoice</field>
+            <field name="account_id" ref="account.a_recv"/>
+            <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+            <field eval="time.strftime('%Y-%m') + '-15'" name="date_invoice"/>
+            <field name="payment_term" ref="l10n_br_account.account_payment_term_ddl1"/>
+            <field name="payment_mode_id" ref="payment_mode_boleto_unregistred_banestes"/>
+            <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55"/>
+            <field name="document_serie_id" ref="l10n_br_account_product.l10n_br_document_serie_1_product"/>
+            <field name="nfe_purpose">1</field>
+        </record>
+
+        <record id="invoice_boleto_banestes_line_1" model="account.invoice.line">
+            <field name="product_id" ref="product.product_product_8"/>
+            <field name="name">IMac</field>
+            <field name="invoice_id" ref="invoice_boleto_banestes"/>
+            <field name="price_unit">1000</field>
+            <field name="quantity">1</field>
+            <field name="account_id" ref="account.a_sale"/>
+        </record>
+
+        <!--<workflow action="invoice_open" model="account.invoice" ref="invoice_boleto_banestes"/>-->
+        <workflow action="invoice_validate" model="account.invoice" ref="invoice_boleto_banestes"/>
+
+        <!-- Invoice with payment mode CNAB400  Banco Sicoob-->
+        <record id="invoice_boleto_sicoob" model="account.invoice">
+            <field name="currency_id" ref="base.BRL"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="journal_id" ref="account.sales_journal"/>
+            <field name="state">draft</field>
+            <field name="type">out_invoice</field>
+            <field name="account_id" ref="account.a_recv"/>
+            <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+            <field eval="time.strftime('%Y-%m') + '-15'" name="date_invoice"/>
+            <field name="payment_term" ref="l10n_br_account.account_payment_term_ddl1"/>
+            <field name="payment_mode_id" ref="payment_mode_boleto_unregistred_sicoob"/>
+            <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55"/>
+            <field name="document_serie_id" ref="l10n_br_account_product.l10n_br_document_serie_1_product"/>
+            <field name="nfe_purpose">1</field>
+        </record>
+
+        <record id="invoice_boleto_sicoob_line_1" model="account.invoice.line">
+            <field name="product_id" ref="product.product_product_8"/>
+            <field name="name">IMac</field>
+            <field name="invoice_id" ref="invoice_boleto_sicoob"/>
+            <field name="price_unit">1000</field>
+            <field name="quantity">1</field>
+            <field name="account_id" ref="account.a_sale"/>
+        </record>
+
+        <!--<workflow action="invoice_open" model="account.invoice" ref="invoice_boleto_sicoob"/>-->
+        <workflow action="invoice_validate" model="account.invoice" ref="invoice_boleto_sicoob"/>
+
+        <!-- Invoice with payment mode CNAB400  Banco Sicredi-->
+        <record id="invoice_boleto_sicredi" model="account.invoice">
+            <field name="currency_id" ref="base.BRL"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="journal_id" ref="account.sales_journal"/>
+            <field name="state">draft</field>
+            <field name="type">out_invoice</field>
+            <field name="account_id" ref="account.a_recv"/>
+            <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+            <field eval="time.strftime('%Y-%m') + '-15'" name="date_invoice"/>
+            <field name="payment_term" ref="l10n_br_account.account_payment_term_ddl1"/>
+            <field name="payment_mode_id" ref="payment_mode_boleto_unregistred_sicredi"/>
+            <field name="fiscal_document_id" ref="l10n_br_account_product.fiscal_document_55"/>
+            <field name="document_serie_id" ref="l10n_br_account_product.l10n_br_document_serie_1_product"/>
+            <field name="nfe_purpose">1</field>
+        </record>
+
+        <record id="invoice_boleto_sicredi_line_1" model="account.invoice.line">
+            <field name="product_id" ref="product.product_product_8"/>
+            <field name="name">IMac</field>
+            <field name="invoice_id" ref="invoice_boleto_sicredi"/>
+            <field name="price_unit">1000</field>
+            <field name="quantity">1</field>
+            <field name="account_id" ref="account.a_sale"/>
+        </record>
+
+        <!--<workflow action="invoice_open" model="account.invoice" ref="invoice_boleto_sicoob"/>-->
+        <workflow action="invoice_validate" model="account.invoice" ref="invoice_boleto_sicredi"/>
+
+
+    </data>
+</openerp>
