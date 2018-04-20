@@ -26,5 +26,6 @@
     ],
     'demo': [
         'demo/payment_demo.xml',
+        'demo/account_invoice_demo.xml',
     ],
 }
