@@ -31,7 +31,7 @@ class L10nBrMdfeItem(models.Model):
                     lambda f: f.documento_id.modelo in MODELO_FISCAL_NFE):
                 lista_nfe.append(
                     mdfe3.infNFeType(
-                        chNFe=nfe.documento_chave,
+                        chNFe=nfe.documento_chave or '',
                         # SegCodBarra=None,
                         # indReentrega=None,
                         # infUnidTransp=None,

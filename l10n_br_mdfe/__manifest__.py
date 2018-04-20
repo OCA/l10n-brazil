@@ -24,6 +24,7 @@
 
         'views/sped_documento.xml',
         'views/sped_operacao.xml',
+        'report/mdfe_report.xml',
     ],
     'demo': [
         'demo/sped_veiculo.xml',

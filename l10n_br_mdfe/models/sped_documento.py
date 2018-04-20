@@ -33,44 +33,25 @@ class SpedDocumento(models.Model):
 
             documento.permite_alteracao = True
 
-    # def _check_permite_alteracao(self, operacao='create', dados={},
-    #                              campos_proibidos=[]):
-    #
-    #     CAMPOS_PERMITIDOS = [
-    #         'message_follower_ids',
-    #         'justificativa',
-    #         'chave_cancelamento',
-    #     ]
-    #     for documento in self:
-    #         if documento.modelo != MODELO_FISCAL_CFE:
-    #             super(SpedDocumento, documento)._check_permite_alteracao(
-    #                 operacao,
-    #                 dados,
-    #             )
-    #             continue
-    #
-    #         if documento.emissao != TIPO_EMISSAO_PROPRIA:
-    #             super(SpedDocumento, documento)._check_permite_alteracao(
-    #                 operacao,
-    #                 dados,
-    #             )
-    #             continue
-    #
-    #         if documento.permite_alteracao:
-    #             continue
-    #
-    #         permite_alteracao = False
-    #
-    #         if documento.situacao_nfe == SITUACAO_NFE_AUTORIZADA:
-    #             for campo in dados:
-    #                 if campo in CAMPOS_PERMITIDOS:
-    #                     permite_alteracao = True
-    #                     break
-    #                 elif campo not in campos_proibidos:
-    #                     campos_proibidos.append(campo)
-    #
-    #         if permite_alteracao:
-    #             continue
+    def _check_permite_alteracao(self, operacao='create', dados={},
+                                 campos_proibidos=[]):
+
+        CAMPOS_PERMITIDOS = [
+            'message_follower_ids',
+            'justificativa',
+            'chave_cancelamento',
+        ]
+        for documento in self:
+            if not documento.modelo == MODELO_FISCAL_MDFE:
+                super(SpedDocumento, documento)._check_permite_alteracao(
+                    operacao,
+                    dados,
+                )
+                continue
+
+            if documento.permite_alteracao:
+                continue
+
 
     tipo_emitente = fields.Selection(
         selection=TIPO_EMITENTE,
@@ -255,6 +236,11 @@ class SpedDocumento(models.Model):
         """
 
         result = super(SpedDocumento, self)._confirma_documento()
+        for record in self:
+    #        record.carregamento_municipio_ids =
+            record.percurso_estado_ids = \
+                record.item_mdfe_ids.mapped('destinatario_cidade_id').mapped('estado_id')
+    #        record.item_mfe_ids.mapped()
         return result
 
     def _envia_documento(self):
