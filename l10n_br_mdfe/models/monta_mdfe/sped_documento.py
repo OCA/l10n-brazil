@@ -97,9 +97,10 @@ class SpedDocumento(models.Model):
             procEmi='0',
             verProc='Odoo',
             UFIni=self.empresa_id.estado,
-            UFFim=self.descarregamento_estado_id,
+            UFFim=self.descarregamento_estado_id.uf,
             infMunCarrega=inf_municipio_caregamento,
             infPercurso=inf_percurso,
+            dhIniViagem=self.data_hora_entrada_saida,
             dhIniViagem=self.data_hora_entrada_saida,
             indCanalVerde=None,
         )

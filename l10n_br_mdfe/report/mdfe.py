@@ -20,34 +20,30 @@ except (ImportError, IOError) as err:
 def formata_data(doc, data):	
     return Datetime.context_timestamp(doc, Datetime.from_string(data))
 
-
-@api.model
-@py3o_report_extender('sped_cfe.action_report_sped_documento_cfe')
-
-# def report_sped_documento_cfe(session, local_context):
-#     data = {
-#         'ChaveCFeSAT': ChaveCFeSAT,
-#         'meio_pagamento': meio_pagamento,
-#         'formata_data': formata_data,
-#     }
-#     local_context.update(data)
-
 import odoo
 from odoo.report.interface import report_int
 
+@api.model
+@py3o_report_extender('l10n_br_mdfe.action_report_sped_documento_mdfe')
+def report_sped_documento_mdfe(session, local_context):
+    data = {
+        'formata_data': formata_data,
+    }
+    local_context.update(data)
 
-# class report_custom(report_int):
-#     '''
-#         Custom report for return danfe
-#     '''
-#
-#     def create(self, cr, uid, ids, datas, context=None):
-#         if not context:
-#             context = dict()
-#         env = odoo.api.Environment(cr, uid, context)
-#         datas['ids'] = ids
-#         records = env['sped.documento'].browse(ids)
-#         pdf = records.gera_pdf()
-#         return pdf, 'pdf'
-#
-# report_custom('report.report_sped_documento_cfe')
+
+class report_custom(report_int):
+    '''
+        Custom report for return danfe
+    '''
+
+    def create(self, cr, uid, ids, datas, context=None):
+        if not context:
+            context = dict()
+        env = odoo.api.Environment(cr, uid, context)
+        datas['ids'] = ids
+        records = env['sped.documento'].browse(ids)
+        pdf = records.gera_pdf()
+        return pdf, 'pdf'
+
+report_custom('report.report_sped_documento_mdfe')

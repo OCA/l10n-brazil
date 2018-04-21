@@ -33,7 +33,7 @@ class L10nBrMdfeItem(models.Model):
                 peso_liquido = sum(line.peso_liquido for line in volume_ids)
                 peso_bruto = sum(line.peso_bruto for line in volume_ids)
                 # volume_liquido = sum(record.documento_id.volume_ids.volume)
-                # TODO: Taxa a ser cofigurada nas configuraões do módulo
+                # TODO: Taxa a ser configurada nas configuracões do módulo
                 taxa = 0.1
                 # volume = volume_liquido * (1 + taxa)
                 record.update({

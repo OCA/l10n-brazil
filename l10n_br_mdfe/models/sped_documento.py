@@ -8,6 +8,7 @@ from odoo import api, fields, models, _
 from odoo.addons.l10n_br_base.constante_tributaria import (
     MODELO_FISCAL_MDFE,
     TIPO_TRANSPORTADOR,
+    TIPO_EMISSAO_PROPRIA,
     MODALIDADE_TRANSPORTE,
     TIPO_EMITENTE,
     TIPO_RODADO,
@@ -16,6 +17,9 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     TIPO_EMISSAO_MDFE_NORMAL,
     TIPO_EMISSAO_MDFE_CONTINGENCIA,
 )
+
+
+from odoo.exceptions import UserError, Warning
 
 
 class SpedDocumento(models.Model):
@@ -257,3 +261,27 @@ class SpedDocumento(models.Model):
         print(mdfe)
 
 
+    def gera_pdf(self):
+        for record in self:
+            if record.modelo not in (MODELO_FISCAL_MDFE):
+                return super(SpedDocumento, self).gera_pdf()
+
+            if record.emissao != TIPO_EMISSAO_PROPRIA:
+                return
+
+        context = self.env.context.copy()
+        reportname = 'report_sped_documento_mdfe'
+        action_py3o_report = self.env.ref('l10n_br_mdfe.action_report_sped_documento_mdfe')
+
+        if not action_py3o_report:
+            raise UserError(
+                'Py3o action report not found for report_name')
+
+        context['report_name'] = reportname
+
+        py3o_report = self.env['py3o.report'].create({
+            'ir_actions_report_xml_id': action_py3o_report.id
+        }).with_context(context)
+
+        res, filetype = py3o_report.create_report(self.ids, {})
+        return res
