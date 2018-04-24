@@ -215,7 +215,9 @@ function l10n_br_pos_models(instance, module) {
             if (cashregister.journal.sat_payment_mode == "05" && this.attributes.client) {
                 if (!this.verificar_pagamento_limite_credito()){
                     if (cashregister.journal.pagamento_funcionarios) {
-                        if (this.attributes.client.user_ids.length > 0) {
+                        pos_db = self.pos.db;
+                        partner = pos_db.get_partner_by_identification(self.pos.partners, this.attributes.client.cnpj_cpf);
+                        if (partner.user_ids.length > 0 || (this.attributes.client.user_ids.length)) {
                             this.add_payment_credito_loja(cashregister);
                         } else {
                             alert("Somente funcionários podem utilizar esta forma de pagamento!");
