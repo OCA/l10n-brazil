@@ -355,6 +355,9 @@ function l10n_br_pos_screens(instance, module) {
             } else {
                 var cliente_cpf = fields.cnpj_cpf;
                 if (self.pos_widget.order_widget.verificar_cpf_cnpj(cliente_cpf.replace(/[^\d]+/g,''))){
+                    pos_db = self.pos.db;
+                    partner = pos_db.get_partner_by_identification(self.pos.partners, cliente_cpf.replace(/[^\d]+/g,''));
+                    partner['user_ids'] = partner.user_ids || [];
                     fields.id           = partner.id || false;
                     fields.ean13        = fields.ean13 ? this.pos.barcode_reader.sanitize_ean(fields.ean13) : false;
                     partner.name = fields.name;
@@ -409,6 +412,7 @@ function l10n_br_pos_screens(instance, module) {
                     var partner = self.pos.db.get_partner_by_id(partner_id);
                 if (partner) {
                     var date = new Date();
+                    partner['user_ids'] = partner.user_ids || [];
 //                  usando o pricelist da loja por padrao
                     partner['property_product_pricelist'][0] = self.pos.pricelist.id;
                     partner.birthdate = $('.birthdate').val();
@@ -626,8 +630,6 @@ function l10n_br_pos_screens(instance, module) {
                     if (self.pos_widget.order_widget.verificar_cpf_cnpj(cpf.replace(/[^\d]+/g,''))) {
                         $(".pos-leftpane *").prop('disabled', save_state);
                         self.pos_widget.screen_selector.close_popup();
-                        $(".pos-leftpane *").prop('disabled', save_state);
-                        self.pos_widget.screen_selector.close_popup();
                         pos_db = self.pos.db;
                         partner = pos_db.get_partner_by_identification(self.pos.partners, cpf.replace(/[^\d]+/g, ''));
                         if (partner) {
@@ -656,6 +658,7 @@ function l10n_br_pos_screens(instance, module) {
                                         if (new_partner[key] == false)
                                             new_partner[key] = null;
                                     }
+                                    new_partner['user_ids'] = [];
                                     new_partner['country_id'] = false
                                     new_partner['cnpj_cpf'] = cpf;
                                     if (self.pos.config.pricelist_id) {
