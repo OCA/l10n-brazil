@@ -177,6 +177,9 @@ class SpedDocumentoItem(models.Model):
         if self.infcomplementar:
             kwargs_detalhamento['infAdProd'] = self._monta_informacoes_adicionais()
 
+        if self.vr_desconto:
+            kwargs['vDesc'] = D(self.vr_desconto).quantize(D('0.01'))
+
         detalhe = Detalhamento(
             produto=ProdutoServico(
                 cProd=self.produto_id.codigo or str(self.produto_id.id),
