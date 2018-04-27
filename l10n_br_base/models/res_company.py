@@ -10,9 +10,7 @@
 import re
 
 from odoo import models, fields, api
-from odoo.addons.l10n_br_base.constante_tributaria import (
-    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
-    INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
+from ..constante_tributaria import (
     INDICADOR_IE_DESTINATARIO,
     REGIME_TRIBUTARIO,
     REGIME_TRIBUTARIO_SIMPLES,

@@ -10,9 +10,9 @@ import re
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
-from odoo.addons.l10n_br_base.tools import fiscal
-from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
-from odoo.addons.l10n_br_base.constante_tributaria import (
+from ..tools import fiscal
+from ..tools.misc import punctuation_rm
+from ..constante_tributaria import (
     INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
     INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
     INDICADOR_IE_DESTINATARIO,
