@@ -9,6 +9,10 @@
         <field name="name">Energia</field>
     </record>
 
+    <record id="product_uom_categ_unit_nconv" model="product.uom.categ">
+        <field name="name">Unidade não conversível</field>
+    </record>
+
     <record id="product_uom_milheiro" model="product.uom">
         <field name="category_id" ref="product.product_uom_categ_unit"/>
         <field name="name">Milheiro</field>
@@ -133,265 +137,265 @@
 
     <!--Unidades inexistentes no core-->
 
-    <record id="product.UNIDADE_AMPOLA" model="product.uom">
+    <record id="UNIDADE_AMPOLA" model="product.uom">
         <field name="name">Ampola</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">ampola</field>
     </record>
 
-    <record id="product.UNIDADE_BALDE" model="product.uom">
+    <record id="UNIDADE_BALDE" model="product.uom">
         <field name="name">Balde</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">balde</field>
     </record>
 
-    <record id="product.UNIDADE_BANDEJA" model="product.uom">
+    <record id="UNIDADE_BANDEJA" model="product.uom">
         <field name="name">Bandeja</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">bandej</field>
     </record>
 
-    <record id="product.UNIDADE_BARRA" model="product.uom">
+    <record id="UNIDADE_BARRA" model="product.uom">
         <field name="name">Barra</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">barra</field>
     </record>
 
-    <record id="product.UNIDADE_BISNAGA" model="product.uom">
+    <record id="UNIDADE_BISNAGA" model="product.uom">
         <field name="name">Bisnaga</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">bisnag</field>
     </record>
 
-    <record id="product.UNIDADE_BLOCO" model="product.uom">
+    <record id="UNIDADE_BLOCO" model="product.uom">
         <field name="name">Bloco</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">bloco</field>
     </record>
 
-    <record id="product.UNIDADE_BOBINA" model="product.uom">
+    <record id="UNIDADE_BOBINA" model="product.uom">
         <field name="name">Bobina</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">bobina</field>
     </record>
 
-    <record id="product.UNIDADE_BOMBONA" model="product.uom">
+    <record id="UNIDADE_BOMBONA" model="product.uom">
         <field name="name">Bombona</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">bomb</field>
     </record>
 
-    <record id="product.UNIDADE_CAPSULA" model="product.uom">
+    <record id="UNIDADE_CAPSULA" model="product.uom">
         <field name="name">Cápsula</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">caps</field>
     </record>
 
-    <record id="product.UNIDADE_CARTELA" model="product.uom">
+    <record id="UNIDADE_CARTELA" model="product.uom">
         <field name="name">Cartela</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">cart</field>
     </record>
 
-    <record id="product.UNIDADE_CENTO" model="product.uom">
+    <record id="UNIDADE_CENTO" model="product.uom">
         <field name="name">Cento</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">cento</field>
     </record>
 
-    <record id="product.UNIDADE_CONJUNTO" model="product.uom">
+    <record id="UNIDADE_CONJUNTO" model="product.uom">
         <field name="name">Conjunto</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">cj</field>
     </record>
 
 
-    <record id="product.UNIDADE_CAIXA" model="product.uom">
+    <record id="UNIDADE_CAIXA" model="product.uom">
         <field name="name">Caixa</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">cx</field>
     </record>
 
-    <record id="product.UNIDADE_CAIXA_2" model="product.uom">
+    <record id="UNIDADE_CAIXA_2" model="product.uom">
         <field name="name">Caixa com 2</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">cx2</field>
     </record>
 
-    <record id="product.UNIDADE_CAIXA_3" model="product.uom">
+    <record id="UNIDADE_CAIXA_3" model="product.uom">
         <field name="name">Caixa com 3</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">cx3</field>
     </record>
 
-    <record id="product.UNIDADE_CAIXA_5" model="product.uom">
+    <record id="UNIDADE_CAIXA_5" model="product.uom">
         <field name="name">Caixa com 5</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">cx5</field>
     </record>
 
-    <record id="product.UNIDADE_CAIXA_10" model="product.uom">
+    <record id="UNIDADE_CAIXA_10" model="product.uom">
         <field name="name">Caixa com 10</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">cx10</field>
     </record>
 
 
-    <record id="product.UNIDADE_CAIXA_15" model="product.uom">
+    <record id="UNIDADE_CAIXA_15" model="product.uom">
         <field name="name">Caixa com 15</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">cx15</field>
     </record>
 
 
-    <record id="product.UNIDADE_CAIXA_20" model="product.uom">
+    <record id="UNIDADE_CAIXA_20" model="product.uom">
         <field name="name">Caixa com 20</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">cx20</field>
     </record>
 
 
-    <record id="product.UNIDADE_CAIXA_25" model="product.uom">
+    <record id="UNIDADE_CAIXA_25" model="product.uom">
         <field name="name">Caixa com 25</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">cx25</field>
     </record>
 
-    <record id="product.UNIDADE_CAIXA_50" model="product.uom">
+    <record id="UNIDADE_CAIXA_50" model="product.uom">
         <field name="name">Caixa com 50</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">cx50</field>
     </record>
 
-    <record id="product.UNIDADE_CAIXA_100" model="product.uom">
+    <record id="UNIDADE_CAIXA_100" model="product.uom">
         <field name="name">Caixa com 100</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">cx100</field>
     </record>
 
-    <record id="product.UNIDADE_DISPLAY" model="product.uom">
+    <record id="UNIDADE_DISPLAY" model="product.uom">
         <field name="name">Display</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">disp</field>
     </record>
 
-    <record id="product.UNIDADE_EMBALAGEM" model="product.uom">
+    <record id="UNIDADE_EMBALAGEM" model="product.uom">
         <field name="name">Embalagem</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">embal</field>
     </record>
 
-    <record id="product.UNIDADE_FARDO" model="product.uom">
+    <record id="UNIDADE_FARDO" model="product.uom">
         <field name="name">Fardo</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">fardo</field>
     </record>
 
-    <record id="product.UNIDADE_FOLHA" model="product.uom">
+    <record id="UNIDADE_FOLHA" model="product.uom">
         <field name="name">Folha</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">folha</field>
     </record>
 
-    <record id="product.UNIDADE_FRASCO" model="product.uom">
+    <record id="UNIDADE_FRASCO" model="product.uom">
         <field name="name">Frasco</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">frasco</field>
     </record>
 
-    <record id="product.UNIDADE_GARRAFA" model="product.uom">
+    <record id="UNIDADE_GARRAFA" model="product.uom">
         <field name="name">Garrafa</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">gf</field>
     </record>
 
-    <record id="product.UNIDADE_KIT" model="product.uom">
+    <record id="UNIDADE_KIT" model="product.uom">
         <field name="name">Kit</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">kit</field>
     </record>
 
-    <record id="product.UNIDADE_LATA" model="product.uom">
+    <record id="UNIDADE_LATA" model="product.uom">
         <field name="name">lata</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">lata</field>
     </record>
 
-    <record id="product.UNIDADE_PACOTE" model="product.uom">
+    <record id="UNIDADE_PACOTE" model="product.uom">
         <field name="name">Pacote</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">pacote</field>
     </record>
 
-    <record id="product.UNIDADE_PALETE" model="product.uom">
+    <record id="UNIDADE_PALETE" model="product.uom">
         <field name="name">Palete</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">palete</field>
     </record>
 
-    <record id="product.UNIDADE_PECA" model="product.uom">
+    <record id="UNIDADE_PECA" model="product.uom">
         <field name="name">Peça</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">pc</field>
     </record>
 
-    <record id="product.UNIDADE_POTE" model="product.uom">
+    <record id="UNIDADE_POTE" model="product.uom">
         <field name="name">Pote</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">pote</field>
     </record>
 
-    <record id="product.UNIDADE_RESMA" model="product.uom">
+    <record id="UNIDADE_RESMA" model="product.uom">
         <field name="name">Resma</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">resma</field>
     </record>
 
-    <record id="product.UNIDADE_ROLO" model="product.uom">
+    <record id="UNIDADE_ROLO" model="product.uom">
         <field name="name">Rolo</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">rolo</field>
     </record>
 
-    <record id="product.UNIDADE_SACO" model="product.uom">
+    <record id="UNIDADE_SACO" model="product.uom">
         <field name="name">Saco</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">saco</field>
     </record>
 
-    <record id="product.UNIDADE_SACOLA" model="product.uom">
+    <record id="UNIDADE_SACOLA" model="product.uom">
         <field name="name">Sacola</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">sacola</field>
     </record>
 
-    <record id="product.UNIDADE_TAMBOR" model="product.uom">
+    <record id="UNIDADE_TAMBOR" model="product.uom">
         <field name="name">Tambor</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">tambor</field>
     </record>
 
-    <record id="product.UNIDADE_TANQUE" model="product.uom">
+    <record id="UNIDADE_TANQUE" model="product.uom">
         <field name="name">Tanque</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">tanque</field>
     </record>
 
-    <record id="product.UNIDADE_TUBO" model="product.uom">
+    <record id="UNIDADE_TUBO" model="product.uom">
         <field name="name">Tubo</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">tubo</field>
     </record>
 
-    <record id="product.UNIDADE_VASILHAME" model="product.uom">
+    <record id="UNIDADE_VASILHAME" model="product.uom">
         <field name="name">Vasilhame</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">vasil</field>
     </record>
 
-    <record id="product.UNIDADE_VIDRO" model="product.uom">
+    <record id="UNIDADE_VIDRO" model="product.uom">
         <field name="name">Vidro</field>
-        <field name="category_id" ref="product.product_uom_categ_unit"/>
+        <field name="category_id" ref="product_uom_categ_unit_nconv"/>
         <field name="codigo">vidro</field>
     </record>
     
