@@ -32,6 +32,7 @@
             <field name="name">l10n_br_base.partner.form</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority">60</field>
             <field name="arch" type="xml">
                 <xpath expr="//form" position="inside">
                     <field name="exige_cnpj_cpf" invisible="1" />

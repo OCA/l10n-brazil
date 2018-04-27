@@ -371,14 +371,6 @@
             <field name="active" eval="1"/>
         </record>
 
-        <!--
-        Resource: res.partner.title
-        -->
-        <record id="res_partner_title_pvt_ltd" model="res.partner.title">
-            <field name="name">Corp.</field>
-            <field name="shortcut">Corp.</field>
-        </record>
-
         <record id="res_partner_akretion" model="res.partner">
             <field name="title" ref="res_partner_title_pvt_ltd"/>
             <field name="cnpj_cpf">11.034.414/0001-58</field>
@@ -395,7 +387,6 @@
             <field name="number">586</field>
             <field name="phone">(21) 3010 9965</field>
             <field name="street">Rua Paulo Dias</field>
-            <field eval="1" name="active"/>
             <field name="l10n_br_city_id" ref="l10n_br_base.city_3501152"/>
             <field name="state_id" ref="base.state_br_sp"/>
             <field name="image">
@@ -408,7 +399,6 @@
             <field eval="0" name="employee"/>
             <field eval="1" name="customer"/>
             <field eval="1" name="supplier"/>
-            <field eval="1" name="active"/>
             <field name="is_company" eval="1"/>
             <field name="legal_name">AKRETION LTDA</field>
             <field name="name">Akretion Rio de Janeiro</field>
