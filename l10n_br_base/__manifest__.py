@@ -12,6 +12,7 @@
     'depends': [
         'base',
         'base_setup',
+        'decimal_precision',
     ],
     'data': [
         'security/inherited_res_groups_data.xml',
