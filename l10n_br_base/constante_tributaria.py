@@ -9,8 +9,8 @@
 from __future__ import division, print_function, unicode_literals
 
 import logging
-_logger = logging.getLogger(__name__)
 
+_logger = logging.getLogger(__name__)
 
 #
 # Definições para cálculo do ICMS próprio
@@ -32,7 +32,6 @@ MODALIDADE_BASE_ICMS_PROPRIO_PRECO_FIXO = (
     MODALIDADE_BASE_ICMS_PROPRIO_PAUTA,
     MODALIDADE_BASE_ICMS_PROPRIO_PRECO_TABELADO_MAXIMO,
 )
-
 
 #
 # Definições para cálculo do ICMS recolhido por substituição tributária
@@ -62,7 +61,6 @@ MODALIDADE_BASE_ICMS_ST_PRECO_FIXO = (
     MODALIDADE_BASE_ICMS_ST_PAUTA,
 )
 
-
 #
 # Definições para o cálculo do IPI
 #
@@ -75,7 +73,6 @@ MODALIDADE_BASE_IPI_DICT = dict(MODALIDADE_BASE_IPI)
 
 MODALIDADE_BASE_IPI_ALIQUOTA = '0'
 MODALIDADE_BASE_IPI_QUANTIDADE = '1'
-
 
 #
 # Definições para o cálculo do PIS e da COFINS
@@ -105,7 +102,6 @@ MODALIDADE_BASE_ISS_DICT = dict(MODALIDADE_BASE_ISS)
 MODALIDADE_BASE_ISS_ALIQUOTA = '0'
 MODALIDADE_BASE_ISS_QUANTIDADE = '1'
 
-
 #
 # Definições para a emissão e controle da NF-e
 #
@@ -118,7 +114,6 @@ AMBIENTE_NFE_DICT = dict(AMBIENTE_NFE)
 AMBIENTE_NFE_PRODUCAO = '1'
 AMBIENTE_NFE_HOMOLOGACAO = '2'
 
-
 ENTRADA_SAIDA = (
     ('0', 'Entrada'),
     ('1', 'Saída'),
@@ -127,7 +122,6 @@ ENTRADA_SAIDA_DICT = dict(ENTRADA_SAIDA)
 
 ENTRADA_SAIDA_ENTRADA = '0'
 ENTRADA_SAIDA_SAIDA = '1'
-
 
 FINALIDADE_NFE = (
     ('1', 'Normal'),
@@ -142,7 +136,6 @@ FINALIDADE_NFE_COMPLEMENTAR = '2'
 FINALIDADE_NFE_AJUSTE = '3'
 FINALIDADE_NFE_DEVOLUCAO = '4'
 
-
 IND_FORMA_PAGAMENTO = (
     ('0', 'À vista'),
     ('1', 'A prazo'),
@@ -153,7 +146,6 @@ IND_FORMA_PAGAMENTO_DICT = dict(IND_FORMA_PAGAMENTO)
 IND_FORMA_PAGAMENTO_A_VISTA = '0'
 IND_FORMA_PAGAMENTO_A_PRAZO = '1'
 IND_FORMA_PAGAMENTO_SEM_PAGAMENTO = '2'
-
 
 MODALIDADE_FRETE = (
     ('0', 'Do remetente (CIF)'),
@@ -172,7 +164,6 @@ MODALIDADE_FRETE_REMETENTE_PROPRIO = '3'
 MODALIDADE_FRETE_DESTINATARIO_PROPRIO = '4'
 MODALIDADE_FRETE_SEM_FRETE = '9'
 
-
 MODELO_DOCUMENTO_ARRECADACAO = (
     ('0', 'Documento estadual de arrecadacao'),
     ('1', 'GNRE'),
@@ -182,15 +173,15 @@ MODELO_DOCUMENTO_ARRECADACAO_DICT = dict(MODELO_DOCUMENTO_ARRECADACAO)
 MODELO_DOCUMENTO_ARRECADACAO_DEA = '0'
 MODELO_DOCUMENTO_ARRECADACAO_GNRE = '1'
 
-
 MOTIVO_DESONERACAO_ICMS = (
-    #('00', '00 - Não desonerado'),
+    # ('00', '00 - Não desonerado'),
     ('01', '01 - Táxi'),
-    #('02', '02 - Deficiente físico'),
+    # ('02', '02 - Deficiente físico'),
     ('03', '03 - Produtor agropecuário'),
     ('04', '04 - Frotista/locadora'),
     ('05', '05 - Diplomático/consular'),
-    ('06', '06 - Util. e mot. da Amazônia Ocidental e Áreas de Livre Comércio'),
+    ('06',
+     '06 - Util. e mot. da Amazônia Ocidental e Áreas de Livre Comércio'),
     ('07', '07 - SUFRAMA'),
     ('09', '09 - Outros'),
     ('10', '10 - Deficiente condutor'),
@@ -199,7 +190,7 @@ MOTIVO_DESONERACAO_ICMS = (
 )
 MOTIVO_DESONERACAO_ICMS_DICT = dict(MOTIVO_DESONERACAO_ICMS)
 
-#MOTIVO_DESONERACAO_ICMS_NAO_DESONERADO = '00'
+# MOTIVO_DESONERACAO_ICMS_NAO_DESONERADO = '00'
 MOTIVO_DESONERACAO_ICMS_TAXI = '01'
 MOTIVO_DESONERACAO_ICMS_DEFICIENTE_FISICO = '02'
 MOTIVO_DESONERACAO_ICMS_PRODUTOR_AGROPECUARIO = '03'
@@ -211,7 +202,6 @@ MOTIVO_DESONERACAO_ICMS_OUTROS = '09'
 MOTIVO_DESONERACAO_ICMS_DEFICIENTE_CONDUTOR = '10'
 MOTIVO_DESONERACAO_ICMS_DEFICIENTE_NAO_CONDUTOR = '11'
 MOTIVO_DESONERACAO_ICMS_ORGAO_FOMENTO_AGROPECUARIO = '12'
-
 
 MODELO_FISCAL = (
     # ('MERCADORIAS E SERVIÇOS', (
@@ -302,7 +292,6 @@ MODELO_FISCAL_EMISSAO_SERVICO = (
     MODELO_FISCAL_RL,
 )
 
-
 MODELO_FISCAL_REFERENCIADO = (
     ('55', 'NF-e - 55'),
     ('01', 'NF - 01, 1A'),
@@ -376,7 +365,6 @@ ORIGEM_MERCADORIA_IMPORTACAO_DIRETA = '1'
 ORIGEM_MERCADORIA_IMPORTACAO_INDIRETA = '2'
 ORIGEM_MERCADORIA_ALIQUOTA_4 = ['1', '2', '3', '8']
 
-
 PROCESSO_EMISSAO_NFE = (
     ('0', 'Contribuinte - aplicativo próprio'),
     ('1', 'Fisco - avulsa'),
@@ -389,7 +377,6 @@ PROCESSO_EMISSAO_NFE_CONTRIBUINTE_PROPRIO = '0'
 PROCESSO_EMISSAO_NFE_FISCO_AVULSA = '1'
 PROCESSO_EMISSAO_NFE_CONTRIBUINTE_AVULSA = '2'
 PROCESSO_EMISSAO_NFE_CONTRIBUINTE_APLICATIVO_FISCO = '3'
-
 
 REGIME_TRIBUTARIO = (
     ('1', 'SIMPLES'),
@@ -560,7 +547,6 @@ ST_ICMS_CODIGO_CEST = (
     ST_ICMS_SN_ANTERIOR,
     ST_ICMS_SN_OUTRAS)
 
-
 ST_IPI = (
     ('00', '00 - Entrada com recuperação de crédito'),
     ('01', '01 - Entrada tributada com alíquota zero'),
@@ -618,7 +604,6 @@ ST_IPI_SAIDA_OUTRAS = '99'
 ST_IPI_CALCULA = (ST_IPI_ENTRADA_RECUPERACAO_CREDITO, ST_IPI_ENTRADA_OUTRAS,
                   ST_IPI_SAIDA_TRIBUTADA, ST_IPI_SAIDA_OUTRAS)
 
-
 ST_ISS = (
     ('N', 'N - normal'),
     ('R', 'R - retido'),
@@ -631,7 +616,6 @@ ST_ISS_NORMAL = 'N'
 ST_ISS_RETIDO = 'R'
 ST_ISS_SUBSTITUTO = 'S'
 ST_ISS_ISENTO = 'I'
-
 
 ST_PIS = (
     ('01', '01 - Tributável - BC = valor da operação (alíquota normal - '
@@ -800,7 +784,6 @@ ST_PIS_CALCULA_ALIQUOTA = (ST_PIS_TRIB_NORMAL, ST_PIS_TRIB_DIFERENCIADA,
                            ST_PIS_AQUIS_SEM_CREDITO) + ST_PIS_CALCULA_CREDITO
 ST_PIS_CALCULA_QUANTIDADE = (ST_PIS_TRIB_QUANTIDADE,)
 
-
 ST_COFINS = ST_PIS
 ST_COFINS_DICT = dict(ST_COFINS)
 ST_COFINS_ENTRADA = ST_PIS_ENTRADA
@@ -851,7 +834,6 @@ ST_COFINS_CALCULA_ALIQUOTA = (
     ST_COFINS_TRIB_NORMAL, ST_COFINS_TRIB_DIFERENCIADA)
 ST_COFINS_CALCULA_QUANTIDADE = (ST_COFINS_TRIB_QUANTIDADE,)
 
-
 TIPO_EMISSAO = (
     ('0', 'Emissão própria'),
     ('1', 'Emissão por terceiros'),
@@ -867,7 +849,6 @@ TIPO_EMISSAO_TODAS = (
     ('1', 'Emissão por terceiros'),
 )
 TIPO_EMISSAO_TODAS_DICT = dict(TIPO_EMISSAO_TODAS)
-
 
 TIPO_EMISSAO_NFE = (
     ('1', 'Normal'),
@@ -890,7 +871,6 @@ TIPO_EMISSAO_NFE_CONTINGENCIA_SVCAN = '6'
 TIPO_EMISSAO_NFE_CONTINGENCIA_SVCRS = '7'
 TIPO_EMISSAO_NFE_CONTINGENCIA_OFFLINE_NFCE = '9'
 
-
 TIPO_IMPRESSAO_NFE = (
     ('1', 'DANFE retrato'),
     ('2', 'DANFE paisagem'),
@@ -906,7 +886,6 @@ TIPO_IMPRESSAO_NFE_SIMPLIFICADO = '3'
 TIPO_IMPRESSAO_NFCE_NORMAL = '4'
 TIPO_IMPRESSAO_NFCE_ELETRONICO = '5'
 
-
 VERSAO_NFE = (
     ('1.10', 'Versão 1.10'),
     ('2.00', 'Versão 2.00'),
@@ -919,7 +898,6 @@ VERSAO_NFE_110 = '1.10'
 VERSAO_NFE_200 = '2.00'
 VERSAO_NFE_310 = '3.10'
 VERSAO_NFE_400 = '4.00'
-
 
 TIPO_PRODUTO_SERVICO = (
     ('00', 'Mercadoria para revenda'),
@@ -950,7 +928,6 @@ TIPO_PRODUTO_SERVICO_SERVICOS = '09'
 TIPO_PRODUTO_SERVICO_OUTROS_INSUMOS = '10'
 TIPO_PRODUTO_SERVICO_OUTROS = '99'
 
-
 APURACAO_IPI = (
     ('0', 'Mensal'),
     ('1', 'Decendial'),
@@ -959,7 +936,6 @@ APURACAO_IPI_DICT = dict(APURACAO_IPI)
 
 APURACAO_IPI_MENSAL = '0'
 APURACAO_IPI_DECENDIAL = '1'
-
 
 SITUACAO_NFE = (
     ('em_digitacao', 'Em digitação'),
@@ -981,7 +957,6 @@ SITUACAO_NFE_CANCELADA = 'cancelada'
 SITUACAO_NFE_DENEGADA = 'denegada'
 SITUACAO_NFE_INUTILIZADA = 'inutilizada'
 
-
 NATUREZA_TRIBUTACAO_NFSE = (
     ('0', 'Tributada no município'),
     ('1', 'Tributada fora do município'),
@@ -998,7 +973,6 @@ NAT_OP_IMUNE = '3'
 NAT_OP_SUSPENSA_DECISAO_JUDICIAL = '4'
 NAT_OP_SUSPENSA_PROCEDIMENTO_ADMINISTRATIVO = '5'
 
-
 CLASSE_CONSUMO_ENERGIA = (
     ('01', 'Comercial'),
     ('02', 'Consumo próprio'),
@@ -1010,13 +984,11 @@ CLASSE_CONSUMO_ENERGIA = (
     ('08', 'Serviço público'),
 )
 
-
 TIPO_LIGACAO_ENERGIA = (
     ('1', 'Monofásica'),
     ('2', 'Bifásica'),
     ('3', 'Trifásica'),
 )
-
 
 GRUPO_TENSAO_ENERGIA = (
     ('01', 'A1 - Alta tensão (230 kV ou mais)'),
@@ -1035,9 +1007,7 @@ GRUPO_TENSAO_ENERGIA = (
     ('14', 'B4b - Iluminação pública - bulbo de lâmpada'),
 )
 
-
 CLASSE_CONSUMO_GAS = CLASSE_CONSUMO_ENERGIA
-
 
 CLASSE_CONSUMO_AGUA = (
     ('00', 'Registro consolidando os documentos de consumo residencial'
@@ -1122,7 +1092,6 @@ TIPO_CONSUMIDOR_FINAL = (
 TIPO_CONSUMIDOR_FINAL_NORMAL = '0'
 TIPO_CONSUMIDOR_FINAL_CONSUMIDOR_FINAL = '1'
 
-
 INDICADOR_PRESENCA_COMPRADOR = (
     ('0', 'Não se aplica'),
     ('1', 'Presencial'),
@@ -1140,7 +1109,6 @@ INDICADOR_PRESENCA_COMPRADOR_TELEATENDIMENTO = '3'
 INDICADOR_PRESENCA_COMPRADOR_ENTREGA_EM_DOMICILIO = '4'
 INDICADOR_PRESENCA_COMPRADOR_FORA_ESTABELECIMENTO = '5'
 INDICADOR_PRESENCA_COMPRADOR_OUTROS = '9'
-
 
 INDICADOR_IE_DESTINATARIO = (
     ('1', 'Contribuinte'),
@@ -1966,7 +1934,6 @@ NATUREZA_JURIDICA = (
              '(de natureza simples)'),
 )
 
-
 CFOPS_COMPRA_INDUSTRIALIZACAO = [
     '1101', '1111', '1116', '1120', '1122', '1401', '1651',
     '2101', '2111', '2116', '2120', '2122', '2401', '2651',
@@ -1997,11 +1964,14 @@ CFOPS_COMPRA_SERVICO = [
     '3949',
 ]
 
-CFOPS_COMPRA = CFOPS_COMPRA_INDUSTRIALIZACAO + CFOPS_COMPRA_COMERCIALIZACAO + \
+CFOPS_COMPRA = (
+    CFOPS_COMPRA_INDUSTRIALIZACAO + CFOPS_COMPRA_COMERCIALIZACAO +
     CFOPS_COMPRA_ATIVO + CFOPS_USO_CONSUMO + CFOPS_COMPRA_SERVICO
-CFOPS_COMPRA_CUSTO_VENDA = CFOPS_COMPRA_INDUSTRIALIZACAO + \
-    CFOPS_COMPRA_COMERCIALIZACAO
-#CFOPS_COMPRA_COMERCIALIZACAO + CFOPS_COMPRA_SERVICO
+)
+CFOPS_COMPRA_CUSTO_VENDA = (
+    CFOPS_COMPRA_INDUSTRIALIZACAO + CFOPS_COMPRA_COMERCIALIZACAO
+)
+# CFOPS_COMPRA_COMERCIALIZACAO + CFOPS_COMPRA_SERVICO
 
 
 CFOPS_VENDA_MERCADORIA = [
@@ -2132,9 +2102,9 @@ CFOPS_DEVOLUCAO_VENDA = [
     '3211',
 ]
 
-
-CFOPS_CUSTO_ESTOQUE_VENDA_DEVOLUCAO = CFOPS_VENDA_MERCADORIA + \
-    CFOPS_VENDA_ATIVO + CFOPS_DEVOLUCAO_VENDA
+CFOPS_CUSTO_ESTOQUE_VENDA_DEVOLUCAO = (
+    CFOPS_VENDA_MERCADORIA + CFOPS_VENDA_ATIVO + CFOPS_DEVOLUCAO_VENDA
+)
 # CFOPS_CUSTO_ESTOQUE_VENDA_DEVOLUCAO =
 #  CFOPS_VENDA_MERCADORIA + CFOPS_DEVOLUCAO_VENDA
 
@@ -2247,8 +2217,10 @@ CFOPS_VENDA_SERVICO = [
     '6933', '6949',
     '7949',
 ]
-CFOPS_CALCULA_SIMPLES_CSLL_IRPJ = CFOPS_VENDA_MERCADORIA + \
-    CFOPS_VENDA_ATIVO + CFOPS_DEVOLUCAO_VENDA + CFOPS_VENDA_SERVICO
+CFOPS_CALCULA_SIMPLES_CSLL_IRPJ = (
+    CFOPS_VENDA_MERCADORIA + CFOPS_VENDA_ATIVO +
+    CFOPS_DEVOLUCAO_VENDA + CFOPS_VENDA_SERVICO
+)
 
 #
 # Tabelas do SIMPLES
@@ -2267,11 +2239,11 @@ SIMPLES_NACIONAL_ANEXOS = (
     ('5_ate_35', 'Anexo 5 - Serviços - Folha < 35% (até 31/12/2017)'),
     ('5_ate_40', 'Anexo 5 - Serviços - Folha < 40% (até 31/12/2017)'),
     ('5_mais_40', 'Anexo 5 - Serviços - Folha >= 40% (até 31/12/2017)'),
-    #('1_2018', 'Anexo 1 - Comércio (a partir de 01/01/2018)'),
-    #('2_2018', 'Anexo 2 - Indústria (a partir de 01/01/2018)'),
-    #('3_2018', 'Anexo 3 - Serviços (a partir de 01/01/2018)'),
-    #('4_2018', 'Anexo 4 - Serviços (a partir de 01/01/2018)'),
-    #('5_2018', 'Anexo 5 - Serviços (a partir de 01/01/2018)'),
+    # ('1_2018', 'Anexo 1 - Comércio (a partir de 01/01/2018)'),
+    # ('2_2018', 'Anexo 2 - Indústria (a partir de 01/01/2018)'),
+    # ('3_2018', 'Anexo 3 - Serviços (a partir de 01/01/2018)'),
+    # ('4_2018', 'Anexo 4 - Serviços (a partir de 01/01/2018)'),
+    # ('5_2018', 'Anexo 5 - Serviços (a partir de 01/01/2018)'),
 )
 
 SIMPLES_NACIONAL_TETO_01 = '180000'
@@ -4804,7 +4776,6 @@ SIMPLES_NACIONAL_TABELAS = {
     '6_2018': SIMPLES_NACIONAL_ANEXO_01_2018,
 }
 
-
 POSICAO_CFOP = (
     ('E', 'Estadual'),
     ('I', 'Interestadual'),
@@ -4815,7 +4786,6 @@ POSICAO_CFOP_DICT = dict(POSICAO_CFOP)
 POSICAO_CFOP_ESTADUAL = 'E'
 POSICAO_CFOP_INTERESTADUAL = 'I'
 POSICAO_CFOP_ESTRANGEIRO = 'X'
-
 
 TIPO_CERTIFICADO = (
     ('A1', 'A1 - arquivo'),
@@ -4848,7 +4818,6 @@ TIPO_UNIDADE = (
     ('E', 'Embalagem'),
     ('X', 'Importado de sistema legado'),
 )
-
 
 FORMA_PAGAMENTO = (
     ('01', 'Dinheiro'),

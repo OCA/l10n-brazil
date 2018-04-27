@@ -6,7 +6,7 @@
 from __future__ import division, print_function, unicode_literals
 
 
-from odoo import models, fields, api
+from odoo import models, fields
 from odoo.addons.base.res.res_partner import _tz_get
 
 
