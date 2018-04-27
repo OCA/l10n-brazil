@@ -889,7 +889,6 @@ function l10n_br_pos_screens(instance, module) {
                         var retorno_sat = {};
                         if(this.pos.config.iface_sat_via_proxy){
                             this.pos_widget.action_bar.set_button_disabled('validation',true);
-                            this.pos_widget.action_bar.set_button_disabled('validation',true);
                             var receipt = currentOrder.export_for_printing();
                             var json = currentOrder.export_for_printing();
                             self.pos.proxy.send_order_sat(
@@ -950,13 +949,10 @@ function l10n_br_pos_screens(instance, module) {
                     name: 'venda_sat',
                     icon: '/point_of_sale/static/src/img/icons/png48/validate.png',
                     click: function () {
-                        if(cpf_na_nota && self.pos.config.crm_ativo)
+                        if(!cpf_na_nota || (cpf_na_nota && self.pos.config.crm_ativo))
                             self.pos_widget.payment_screen.validate_order();
-                        else if (!self.pos.config.crm_ativo)
-                            self.validar_cpf_nota();
                         else
-                            self.pos_widget.payment_screen.validate_order();
-
+                            self.validar_cpf_nota();
                     }
                 });
                 this.update_payment_summary();
@@ -1035,22 +1031,24 @@ function l10n_br_pos_screens(instance, module) {
             });
         },
 
-        push_list_order_frontend: function(currentOrder){
+        push_list_order_frontend: function (currentOrder) {
             date = new Date(currentOrder.attributes.creationDate);
-            dict_order = {can_cancel:true,
-            canceled_order:false,
-            chave_cfe:currentOrder.chave_cfe,
-            date:date.getFullYear()+'-'+((date.getMonth()+1)<10?'0'+(date.getMonth()+1):(date.getMonth()+1))+'-'+(date.getDay()<10?'0'+date.getDay():date.getDay())+' '+(date.getHours()<10?'0'+date.getHours():date.getHours())+':'+(date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes())+':'+(date.getSeconds()<10?'0'+date.getSeconds():date.getSeconds()),
-            id:'',
-            name: '',//"LJ 0005 / CAIXA 1/900006030 / 000159",
-            partner:false,
-            pos_reference:currentOrder.attributes.name,
-            total:currentOrder.selected_paymentline.amount.toFixed(2)};
+            dict_order = {
+                can_cancel: true,
+                canceled_order: false,
+                chave_cfe: currentOrder.chave_cfe,
+                date: date.getFullYear() + '-' + ((date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) + '-' + (date.getDay() < 10 ? '0' + date.getDay() : date.getDay()) + ' ' + (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':' + (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()),
+                id: '',
+                name: '',//"LJ 0005 / CAIXA 1/900006030 / 000159",
+                partner: false,
+                pos_reference: currentOrder.attributes.name,
+                total: currentOrder.selected_paymentline.amount ? currentOrder.selected_paymentline.amount.toFixed(2) : 0
+            };
             var aux_list = [];
             aux_list[0] = dict_order;
-            if(list_orders_frontend.length != 0){
-                for( var i = 1; i < 5 && i<=list_orders_frontend.length; i ++){
-                    aux_list[i] = list_orders_frontend[i-1];
+            if (list_orders_frontend.length != 0) {
+                for (var i = 1; i < 5 && i <= list_orders_frontend.length; i++) {
+                    aux_list[i] = list_orders_frontend[i - 1];
                 }
             }
             list_orders_frontend = aux_list;
@@ -1072,7 +1070,7 @@ function l10n_br_pos_screens(instance, module) {
                     var index = -1;
                     for (var j=0; j< 5 && j < list_orders_frontend.length; j++){
                         if(list_orders_frontend[j].chave_cfe == orders.Orders[i].chave_cfe){
-                            index = j;
+                             index = j;
                             break;
                         }
                     }
