@@ -9,6 +9,7 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     data_alteracao = fields.Date()
+    credit_funcionario = fields.Float(u'Crédito do Funcionário')
 
     @api.model
     def get_credit_limit(self, partner):

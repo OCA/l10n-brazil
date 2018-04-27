@@ -188,7 +188,16 @@ function l10n_br_pos_models(instance, module) {
         verificar_pagamento_limite_credito: function() {
             var linhas_pagamento = this.attributes.paymentLines.models;
             for (var i = 0; i < linhas_pagamento.length; i++) {
-                if (linhas_pagamento[i].cashregister.journal.sat_payment_mode == "05"){
+                if (linhas_pagamento[i].cashregister.journal.sat_payment_mode == "05" && !linhas_pagamento[i].cashregister.journal.pagamento_funcionarios){
+                    return true;
+                }
+            }
+            return false;
+        },
+        funcionario_verificar_pagamento_limite_credito: function() {
+            var linhas_pagamento = this.attributes.paymentLines.models;
+            for (var i = 0; i < linhas_pagamento.length; i++) {
+                if (linhas_pagamento[i].cashregister.journal.sat_payment_mode == "05" && linhas_pagamento[i].cashregister.journal.pagamento_funcionarios){
                     return true;
                 }
             }
@@ -197,7 +206,7 @@ function l10n_br_pos_models(instance, module) {
         add_payment_credito_loja: function(cashregister) {
             var paymentLines = this.get('paymentLines');
             var currentOrder = this.pos.get('selectedOrder');
-            var total = currentOrder.getTotalTaxIncluded();
+            var total = this.getDueLeft();
             var newPaymentline = new module.Paymentline({},{cashregister:cashregister, pos:this.pos});
             if (cashregister.journal.pagamento_funcionarios) {
                 newPaymentline.set_amount(total);
@@ -213,23 +222,21 @@ function l10n_br_pos_models(instance, module) {
         },
         addPaymentline: function(cashregister) {
             if (cashregister.journal.sat_payment_mode == "05" && this.attributes.client) {
-                if (!this.verificar_pagamento_limite_credito()){
-                    if (cashregister.journal.pagamento_funcionarios) {
+                    if (cashregister.journal.pagamento_funcionarios && !this.funcionario_verificar_pagamento_limite_credito()) {
                         pos_db = self.pos.db;
                         partner = pos_db.get_partner_by_identification(self.pos.partners, this.attributes.client.cnpj_cpf);
-                        if (partner.user_ids.length > 0 || (this.attributes.client.user_ids.length)) {
+                        if (partner.user_ids.length > 0 || (this.attributes.client.user_ids && this.attributes.client.user_ids.length)) {
                             this.add_payment_credito_loja(cashregister);
                         } else {
                             alert("Somente funcionários podem utilizar esta forma de pagamento!");
                         }
-                    } else {
+                    } else if(!this.verificar_pagamento_limite_credito()) {
                         if (this.attributes.client['credit_limit'] > 0){
                             this.add_payment_credito_loja(cashregister);
                         } else {
                             alert("Este cliente não possui limite de crédito na loja!");
                         }
                     }
-                }
             } else if (cashregister.journal.sat_payment_mode == "05" && !this.attributes.client){
                 if (cashregister.journal.pagamento_funcionarios) {
                     alert("Para usar esse pagamento é preciso selecionar um funcionário para a venda!");
