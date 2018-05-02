@@ -19,6 +19,7 @@ from openerp.exceptions import ValidationError
 from pybrasil.valor import formata_valor
 from pybrasil.data import formata_data
 import subprocess
+import calendar
 
 from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
 
@@ -538,11 +539,13 @@ class L10nBrSefip(models.Model):
             ])
             total = 0.00
             for rescisao in rescisoes:
+                ultimo_dia_mes = calendar.monthrange(int(self.ano), int(self.mes))[1]
                 for ocorrencia in self.env['hr.holidays'].search([
                     ('contrato_id.id', '=', rescisao.contract_id.id),
                     ('holiday_status_id.name', '=', 'Licença Maternidade'),
                     ('data_inicio', '>=', self.ano + '-01-01'),
-                    ('data_fim', '<=', self.ano + '-' + self.mes + '-31'),
+                    ('data_fim', '<=', self.ano + '-' + self.mes + '-' +
+                        str(ultimo_dia_mes)),
                 ]):
                     total += (ocorrencia.contrato_id.wage *
                               ocorrencia.number_of_days_temp / 30)
