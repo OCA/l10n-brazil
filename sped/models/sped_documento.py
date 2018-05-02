@@ -205,7 +205,8 @@ class SpedDocumento(SpedCalculoImposto, models.Model):
         string='Informações adicionais de interesse do fisco'
     )
     infcomplementar = fields.Text(
-        string='Informações complementares'
+        string='Informações complementares',
+        copy=False,
     )
     deduz_retencao = fields.Boolean(
         string='Deduz retenção do total da NF?',
