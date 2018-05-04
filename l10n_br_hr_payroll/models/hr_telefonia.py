@@ -36,7 +36,8 @@ class HrTelefonia(models.Model):
 
     ano = fields.Char(
         string=u'Ano Competência',
-        required=True
+        required=True,
+        size=4
     )
 
     ligacoes_id = fields.One2many(

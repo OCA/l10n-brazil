@@ -52,12 +52,17 @@
                         <h2><field name="display_name" /></h2>
                         <group>
                             <field name="arquivo_ligacoes" />
-                            <field name="mes" />
-                            <field name="ano" />
                         </group>
                         <group>
-                            <field name="ligacoes_id" />
+                            <group>
+                               <field name="mes" />
+                            </group>
+                            <group>
+                                <field name="ano" />
+                            </group>
                         </group>
+                        <separator string="Registros Ligações" />
+                        <field name="ligacoes_id" />
                     </sheet>
                 </form>
             </field>
