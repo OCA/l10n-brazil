@@ -22,3 +22,6 @@
 "access_hr_rule_rat_fap_officer","access_hr_rule_rat_fap_officer","model_l10n_br_hr_rat_fap","base.group_hr_user",1,1,1,1
 "access_hr_campos_rescisao","access_hr_campos_rescisao","model_hr_campos_rescisao","base.group_hr_user",1,1,1,1
 "access_hr_ramal_manager","access_hr_ramal_manager","model_hr_ramal","base.group_hr_manager",1,1,1,1
+"access_hr_telefonia_manager","access_hr_telefonia_manager","model_hr_telefonia","base.group_hr_manager",1,1,1,1
+"access_hr_telefonia_line_manager","access_hr_telefonia_line_manager","model_hr_telefonia_line","base.group_hr_manager",1,1,1,1
+"access_hr_telefonia_line_officer","access_hr_telefonia_line_officer","model_hr_telefonia_line","base.group_hr_user",1,1,1,1

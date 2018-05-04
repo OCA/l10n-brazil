@@ -10,7 +10,10 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <field name="name" />
+                        <h2>Registro Ramal</h2>
+                        <group>
+                            <field name="name" />
+                        </group>
                     </sheet>
                 </form>
             </field>
@@ -36,6 +39,84 @@
             <field name="name">Ramais</field>
             <field name="parent_id" ref="l10n_br_hr_payroll.menu_hr_root_telefonia" />
             <field name="action" ref="l10n_br_hr_payroll.action_hr_ramais" />
+            <field name="sequence" eval="1" />
+            <field name="groups" ref="base.group_hr_manager" />
+        </record>
+
+        <record model="ir.ui.view" id="hr_telefonia_form_view">
+            <field name="name">hr.telefonia.form</field>
+            <field name="model">hr.telefonia</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <h2><field name="display_name" /></h2>
+                        <group>
+                            <field name="arquivo_ligacoes" />
+                            <field name="mes" />
+                            <field name="ano" />
+                        </group>
+                        <group>
+                            <field name="ligacoes_id" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_telefonia_tree_view">
+            <field name="name">hr.telefonia.tree</field>
+            <field name="model">hr.telefonia</field>
+            <field name="arch" type="xml">
+                <tree string="Registros Telefonicos">
+                    <field name="mes"/>
+                    <field name="ano"/>
+                    <field name="arquivo_ligacoes"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_telefonia_line_form_view">
+            <field name="name">hr.telefonia.line.form</field>
+            <field name="model">hr.telefonia.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="ramal" />
+                        <field name="employee_id" />
+                        <field name="valor" />
+                        <field name="data" />
+                        <field name="tipo" />
+                        <field name="registro_telefonico_id" />
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_telefonia_line_tree_view">
+            <field name="name">hr.telefonia.line.tree</field>
+            <field name="model">hr.telefonia.line</field>
+            <field name="arch" type="xml">
+                <tree string="Registro Telefonico">
+                    <field name="ramal" />
+                    <field name="employee_id" />
+                    <field name="valor" />
+                    <field name="data" />
+                    <field name="tipo" />
+                    <field name="registro_telefonico_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_telefonia">
+            <field name="name">Registros Telefonicos</field>
+            <field name="res_model">hr.telefonia</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.menu" id="menu_hr_telefonia">
+            <field name="name">Registros Telefonicos</field>
+            <field name="parent_id" ref="l10n_br_hr_payroll.menu_hr_root_telefonia" />
+            <field name="action" ref="l10n_br_hr_payroll.action_hr_telefonia" />
             <field name="sequence" eval="1" />
             <field name="groups" ref="base.group_hr_manager" />
         </record>
