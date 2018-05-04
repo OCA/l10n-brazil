@@ -13,6 +13,9 @@
                 <field name="department_id" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
+                <field name="work_phone" position="after">
+                    <field name="ramais" widget="many2many_tags" string="Ramais" />
+                </field>
             </field>
         </record>
 

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+
+        <menuitem id="menu_hr_root_telefonia" parent="hr.menu_hr_root" name="Telefonia" sequence="48" groups="base.group_hr_manager" />
+
+        <record model="ir.ui.view" id="hr_ramal_form_view">
+            <field name="name">hr.ramal.form</field>
+            <field name="model">hr.ramal</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="name" />
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_ramal_tree_view">
+            <field name="name">hr.ramal.tree</field>
+            <field name="model">hr.ramal</field>
+            <field name="arch" type="xml">
+                <tree string="Ramais">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_ramais">
+            <field name="name">Ramais</field>
+            <field name="res_model">hr.ramal</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.menu" id="menu_hr_ramal">
+            <field name="name">Ramais</field>
+            <field name="parent_id" ref="l10n_br_hr_payroll.menu_hr_root_telefonia" />
+            <field name="action" ref="l10n_br_hr_payroll.action_hr_ramais" />
+            <field name="sequence" eval="1" />
+            <field name="groups" ref="base.group_hr_manager" />
+        </record>
+
+    </data>
+</openerp>
