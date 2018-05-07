@@ -76,7 +76,7 @@ class HrTelefonia(models.Model):
                         localidade = l[4]
                         inicio = l[5]
                         duracao = l[6]
-                        valor = l[7]
+                        valor = float(l[7].replace(',','.'))
 
                         vals = {
                             'ramal': ramal_id.id,
@@ -86,7 +86,9 @@ class HrTelefonia(models.Model):
                             'localidade': localidade,
                             'inicio': inicio,
                             'duracao': duracao,
+                            'valor': valor,
                             'registro_telefonico_id': record.id,
+                            'employee_id': ramal_id.hr_employee_ids[0].id if len(ramal_id.hr_employee_ids) == 1 else False
                         }
 
                         self.env['hr.telefonia.line'].create(vals)
