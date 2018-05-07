@@ -13,6 +13,7 @@
                         <h2>Registro Ramal</h2>
                         <group>
                             <field name="name" />
+                            <field name="hr_employee_ids"/>
                         </group>
                     </sheet>
                 </form>
@@ -25,6 +26,7 @@
             <field name="arch" type="xml">
                 <tree string="Ramais">
                     <field name="name"/>
+                    <field name="hr_employee_ids"/>
                 </tree>
             </field>
         </record>
@@ -91,11 +93,13 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <field name="ramal" />
-                        <field name="employee_id" />
-                        <field name="valor" />
-                        <field name="data" />
-                        <field name="tipo" />
+                        <group>
+                            <field name="ramal" />
+                            <field name="employee_id" />
+                            <field name="valor" />
+                            <field name="data" />
+                            <field name="tipo" />
+                        </group>
                     </sheet>
                 </form>
             </field>
