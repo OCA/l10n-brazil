@@ -13,7 +13,11 @@
                         <h2>Registro Ramal</h2>
                         <group>
                             <field name="name" />
-                            <field name="hr_employee_ids"/>
+                            <field name="hr_employee_ids">
+                                <tree>
+                                    <field name="name" />
+                                </tree>
+                            </field>
                         </group>
                     </sheet>
                 </form>
@@ -92,13 +96,28 @@
             <field name="model">hr.telefonia.line</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button name="set_particular" string="Particular" type="object" class="oe_highlight"
+                                attrs="{'invisible': [('tipo', '=', 'particular')]}" />
+                        <button name="set_empresa" string="Empresa" type="object" class="oe_highlight"
+                                attrs="{'invisible': [('tipo', '=', 'empresa')]}" />
+                        <field name="tipo" widget="statusbar" nolabel="1" />
+                    </header>
                     <sheet>
                         <group>
-                            <field name="ramal" />
                             <field name="employee_id" />
-                            <field name="valor" />
-                            <field name="data" />
-                            <field name="tipo" />
+                            <field name="ramal" />
+                            <field name="numero_discado" readonly="True" />
+                        </group>
+                        <group>
+                            <group>
+                                <field name="data" />
+                                <field name="inicio" />
+                            </group>
+                            <group>
+                                <field name="duracao" />
+                                <field name="valor" />
+                            </group>
                         </group>
                     </sheet>
                 </form>
