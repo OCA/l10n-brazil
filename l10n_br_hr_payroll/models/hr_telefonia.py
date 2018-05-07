@@ -107,20 +107,24 @@ class HrTelefoniaLine(models.Model):
         string='Ramal',
         comodel_name='hr.ramal',
         required=True,
+        states={'validate': [('readonly', True)]},
     )
 
     employee_id = fields.Many2one(
         string='Empregado',
         comodel_name='hr.employee',
+        states={'validate': [('readonly', True)]},
     )
 
     valor = fields.Float(
         string='Valor',
+        states={'validate': [('readonly', True)]},
     )
 
     data = fields.Date(
         string='Data e Hora',
         required=True,
+        states={'validate': [('readonly', True)]},
     )
 
     tipo = fields.Selection(
@@ -131,38 +135,56 @@ class HrTelefoniaLine(models.Model):
             ('empresa', 'Empresa')
         ],
         default='empresa',
+        states={'validate': [('readonly', True)]},
     )
+
+    state = fields.Selection(
+        string=u'Situação',
+        selection=[
+            ('draft', 'Em aberto'),
+            ('validate', 'Atestado')
+        ],
+        default='draft',
+    )
+
 
     registro_telefonico_id = fields.Many2one(
         string='Registro Telefonico',
         comodel_name='hr.telefonia',
         required=True,
+        states={'validate': [('readonly', True)]},
     )
 
     concessionaria = fields.Char(
         string='Concessionária',
+        states={'validate': [('readonly', True)]},
     )
 
     localidade = fields.Char(
         string='Localidade',
+        states={'validate': [('readonly', True)]},
     )
 
     hora_inicio = fields.Datetime(
         string='Hora de Início',
+        states={'validate': [('readonly', True)]},
     )
 
     inicio = fields.Char(
         string='Inicio',
         required=True,
+        states={'validate': [('readonly', True)]},
     )
 
     duracao = fields.Char(
         string='Duração da ligação',
         required=True,
+        states={'validate': [('readonly', True)]},
     )
 
     numero_discado = fields.Char(
         string='Numero Discado',
+        states={'validate': [('readonly', True)]},
     )
 
     @api.multi
@@ -181,6 +203,7 @@ class HrTelefoniaLine(models.Model):
         """
         for record in self:
             record.tipo = 'particular'
+            record.state = 'validate'
             # record.employee_id = self.env.user.employee_ids[0]
 
     @api.multi
@@ -191,4 +214,5 @@ class HrTelefoniaLine(models.Model):
         """
         for record in self:
             record.tipo = 'empresa'
+            record.state = 'validate'
             # record.employee_id = self.env.user.employee_ids[0]
