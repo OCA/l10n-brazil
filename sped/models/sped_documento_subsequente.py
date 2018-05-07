@@ -98,7 +98,7 @@ class SpedDocumentoSubsequente(models.Model):
         novo_doc._referencia_documento(referencia_ids)
 
         documento = novo_doc.gera_documento()
-        documento.situacao_nfe = SITUACAO_NFE_A_ENVIAR
+        documento.confirma_documento()
         documento.numero = False
         documento.data_entrada_saida = False
         self.documento_subsequente_id = documento
