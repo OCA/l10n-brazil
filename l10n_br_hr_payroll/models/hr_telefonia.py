@@ -112,7 +112,7 @@ class HrTelefoniaLine(models.Model):
         string='Valor',
     )
 
-    data = fields.Datetime(
+    data = fields.Date(
         string='Data e Hora',
         required=True,
     )
@@ -145,6 +145,36 @@ class HrTelefoniaLine(models.Model):
         string='Hora de Início',
     )
 
+    inicio = fields.Char(
+        string='Inicio',
+        required=True,
+    )
+
     duracao = fields.Char(
         string='Duração da ligação',
+        required=True,
     )
+
+    numero_discado = fields.Char(
+        string='Numero Discado',
+    )
+
+    @api.multi
+    def set_particular(self):
+        """
+        Setar as ligações para particular
+        :return:
+        """
+        for record in self:
+            record.tipo = 'particular'
+            # record.employee_id = self.env.user.employee_ids[0]
+
+    @api.multi
+    def set_empresa(self):
+        """
+        Setar as ligações como ligações da empresa
+        :return:
+        """
+        for record in self:
+            record.tipo = 'empresa'
+            # record.employee_id = self.env.user.employee_ids[0]
