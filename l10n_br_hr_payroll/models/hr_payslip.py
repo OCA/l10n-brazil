@@ -85,6 +85,9 @@ class HrPayslip(models.Model):
                 # Atualizar o controle de férias, o controle de férias do
                 # contrato é baseado nos holerites validados
                 holerite.contract_id.action_button_update_controle_ferias()
+                # setar as ligacoes telefonicas como debitadas
+                for ligacao_id in holerite.ligacoes_ids:
+                    ligacao_id.state = 'paid'
 
     @api.multi
     def draft(self):
@@ -94,6 +97,9 @@ class HrPayslip(models.Model):
                 # Atualizar o controle de férias, o controle de férias do
                 # contrato é baseado nos holerites validados
                 holerite.contract_id.action_button_update_controle_ferias()
+                # setar as ligacoes telefonicas como atestadas
+                for ligacao_id in holerite.ligacoes_ids:
+                    ligacao_id = 'validate'
 
     @api.multi
     def name_get(self):
@@ -609,6 +615,12 @@ class HrPayslip(models.Model):
         string=u'Campo de Rescisão'
     )
 
+    ligacoes_ids = fields.One2many(
+        comodel_name='hr.telefonia.line',
+        inverse_name='payslip_id',
+        string=u'Ligações',
+    )
+
     @api.depends('periodo_aquisitivo')
     @api.model
     def _compute_saldo_periodo_aquisitivo(self):
@@ -1087,6 +1099,28 @@ class HrPayslip(models.Model):
                 return rubrica.specific_quantity * \
                     rubrica.specific_percentual / 100 * \
                     rubrica.specific_amount
+
+    @api.multi
+    def get_desconto_ligacao_telefonica(self):
+        """
+        Função para buscar descontos de ligacoes telefonicas atestadas pelo 
+        funcionario
+        :return:
+        """
+        ligacao_obj = self.env['hr.telefonia.line']
+        for holerite_id in self:
+            domain = [
+                ('state','=','validate'),
+                ('tipo','=','particular'),
+                ('employee_id','=', holerite_id.contract_id.employee_id.id),
+            ]
+            ligacoes_ids = ligacao_obj.search(domain)
+            if ligacoes_ids:
+                # Criar relacao  entre a ligacao e o holerite
+                for ligacao_id in ligacoes_ids:
+                    ligacao_id.payslip_id = holerite_id.id
+                return sum(ligacoes_ids.mapped('valor'))
+            return 0.0
 
     @api.multi
     def _buscar_valor_salario(self, codigo):

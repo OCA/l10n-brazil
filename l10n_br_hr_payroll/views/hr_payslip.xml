@@ -206,6 +206,21 @@
                             </field>
                         </page>
 
+                         <page string="Ligacoes Telefônicas"
+                              attrs="{'invisible': [('ligacoes_ids', '=', [])]}">
+                            <field name="ligacoes_ids" colspan="4" nolabel="1">
+                                <tree>
+                                    <field name="numero_discado" />
+                                    <field name="localidade" />
+                                    <field name="data" />
+                                    <field name="inicio" />
+                                    <field name="duracao" />
+                                    <field name="valor" />
+                                    <field name="tipo" />
+                                </tree>
+                            </field>
+                        </page>
+
                     </notebook>
                 </xpath>
 

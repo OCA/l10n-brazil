@@ -105,10 +105,13 @@
                     </header>
                     <sheet>
                         <group>
+                            <field name="state" string="Situação" readonly="True"/>
                             <field name="employee_id" />
                             <field name="ramal" />
-                            <field name="numero_discado" readonly="True" />
-                            <field name="state" string="Situação" readonly="True"/>
+                            <group>
+                                <field name="numero_discado" readonly="True" />
+                                <field name="localidade"/>
+                            </group>
                         </group>
                         <group>
                             <group>
@@ -129,15 +132,17 @@
             <field name="name">hr.telefonia.line.tree</field>
             <field name="model">hr.telefonia.line</field>
             <field name="arch" type="xml">
-                <tree string="Registro Telefonico" colors="black:tipo == 'particular'">
-                    <field name="state" invisible="1"/>
-                    <field name="data" />
+                <tree string="Registro Telefonico" colors="red:state == 'validate   ';black:state == 'paid')">
                     <field name="numero_discado" />
+                    <field name="localidade" />
+                    <field name="data" />
+                    <field name="inicio" />
+                    <field name="duracao" />
                     <field name="valor" />
-                    <field name="ramal" />
-                    <field name="employee_id" />
                     <field name="tipo" />
-                    <!--<field name="registro_telefonico_id" />-->
+                    <field name="employee_id" />
+                    <field name="ramal" />
+                    <field name="state" />
                 </tree>
             </field>
         </record>
