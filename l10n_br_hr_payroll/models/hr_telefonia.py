@@ -92,33 +92,50 @@ class HrTelefoniaLine(models.Model):
     ramal = fields.Many2one(
         string='Ramal',
         comodel_name='hr.ramal',
-        required=True
     )
 
     employee_id = fields.Many2one(
         string='Empregado',
-        comodel_name='hr.employee'
+        comodel_name='hr.employee',
     )
 
     valor = fields.Float(
-        string='Valor'
+        string='Valor',
     )
 
     data = fields.Datetime(
         string='Data e Hora',
-        required=True
+        required=True,
     )
 
     tipo = fields.Selection(
         string='Tipo',
         selection=[
+            ('', ''),
             ('particular', 'Particular'),
             ('empresa', 'Empresa')
-        ]
+        ],
+        default='empresa',
     )
 
     registro_telefonico_id = fields.Many2one(
         string='Registro Telefonico',
         comodel_name='hr.telefonia',
-        required=True
+        required=True,
+    )
+
+    concessionaria = fields.Char(
+        string='Concessionária',
+    )
+
+    localidade = fields.Char(
+        string='Localidade',
+    )
+
+    hora_inicio = fields.Datetime(
+        string='Hora de Início',
+    )
+
+    duracao = fields.Char(
+        string='Duração da ligação',
     )
