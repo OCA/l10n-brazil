@@ -48,6 +48,11 @@
             <field name="model">hr.telefonia</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button name="button_importar_csv"
+                                string="Importar Ligações" type="object"
+                                class="oe_highlight" />
+                    </header>
                     <sheet>
                         <h2><field name="display_name" /></h2>
                         <group>
@@ -91,7 +96,6 @@
                         <field name="valor" />
                         <field name="data" />
                         <field name="tipo" />
-                        <field name="registro_telefonico_id" />
                     </sheet>
                 </form>
             </field>
@@ -124,6 +128,21 @@
             <field name="action" ref="l10n_br_hr_payroll.action_hr_telefonia" />
             <field name="sequence" eval="1" />
             <field name="groups" ref="base.group_hr_manager" />
+        </record>
+
+
+        <!-- Ligações individuais -->
+        <record model="ir.actions.act_window" id="action_hr_ligacoes">
+            <field name="name">Registros Telefonicos</field>
+            <field name="res_model">hr.telefonia.line</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.menu" id="menu_hr_ligacoes">
+            <field name="name">Registros Ligações</field>
+            <field name="parent_id" ref="l10n_br_hr_payroll.menu_hr_root_telefonia" />
+            <field name="action" ref="l10n_br_hr_payroll.action_hr_ligacoes" />
+            <field name="sequence" eval="2" />
         </record>
 
     </data>
