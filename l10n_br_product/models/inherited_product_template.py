@@ -13,13 +13,9 @@ from lxml import etree
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
-import odoo.addons.decimal_precision as dp
-from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
 from odoo.addons.l10n_br_base.constante_tributaria import (
     ORIGEM_MERCADORIA,
     TIPO_PRODUTO_SERVICO,
-    TIPO_PRODUTO_SERVICO_MATERIAL_USO_CONSUMO,
-    TIPO_PRODUTO_SERVICO_SERVICOS,
 )
 
 _logger = logging.getLogger(__name__)
@@ -99,9 +95,11 @@ class ProductTemplate(models.Model):
         return self._valida_codigo_barras()
 
     @api.model
-    def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
+                        submenu=False):
         res = super(ProductTemplate, self).fields_view_get(
-            view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+            view_id=view_id, view_type=view_type, toolbar=toolbar,
+            submenu=submenu)
         #
         # Remove a view "estoque" utilizada pelo emissor de nf-e quando
         # o módulo stock do core esta instalado, para evitar conflitos
@@ -115,7 +113,6 @@ class ProductTemplate(models.Model):
                 node.getparent().remove(node)
             res['arch'] = etree.tostring(doc)
         return res
-
 
     # nome_unico = fields.Char(
     #     string='Nome',
@@ -208,7 +205,8 @@ class ProductTemplate(models.Model):
     #         return produtos.name_get()
     #
     #     return super(ProductTemplate, self).name_search(name=name, args=args,
-    #                                             operator=operator, limit=limit)
+    #                                             operator=operator,
+    # limit=limit)
     #
     # @api.depends('unidade_tributacao_ncm_id', 'unidade_id')
     # def _compute_exige_fator_conversao_ncm(self):
