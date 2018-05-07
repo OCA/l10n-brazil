@@ -155,11 +155,28 @@
             <field name="groups" ref="base.group_hr_manager" />
         </record>
 
+        <record id="view_hr_telefonia_line_search" model="ir.ui.view">
+            <field name="name">hr.telefonia.line.search</field>
+            <field name="model">hr.telefonia.line</field>
+            <field name="arch" type="xml">
+                <search string="Registros Telefonicos por data">
+                    <group expand="1" string="Group By">
+                        <filter string="Data" icon="terp-accessories-archiver" context="{'group_by':'data'}" name='group_by_data'/>
+                        <filter string="Ramal" icon="terp-accessories-archiver" context="{'group_by':'ramal'}" name='group_by_ramal'/>
+                        <filter string="Empregado" icon="terp-accessories-archiver" context="{'group_by':'employee_id'}" name='group_by_employee'/>
+                        <filter string="Valor" icon="terp-accessories-archiver" context="{'group_by':'valor'}" name='group_by_valor'/>
+                        <filter string="Tipo" icon="terp-accessories-archiver" context="{'group_by':'tipo'}" name='group_by_tipo'/>
+                     </group>
+                </search>
+            </field>
+        </record>
 
         <!-- Ligações individuais -->
         <record model="ir.actions.act_window" id="action_hr_ligacoes">
             <field name="name">Registros Telefonicos</field>
             <field name="res_model">hr.telefonia.line</field>
+            <field name="domain">['|', ('employee_id.user_id.id', '=', uid), ('employee_id', '=', False)]</field>
+            <field name="context">{'search_default_group_by_data': True, 'search_default_group_by_employee': True}</field>
             <field name="view_mode">tree,form</field>
         </record>
 

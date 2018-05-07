@@ -96,6 +96,21 @@ class HrTelefonia(models.Model):
 
 class HrTelefoniaLine(models.Model):
     _name = 'hr.telefonia.line'
+    _rec_name = 'display_name'
+
+    @api.multi
+    def _get_telefonia_line_name(self):
+        for record in self:
+            title = '{} - {}{}'.format(
+                record.ramal.name,
+                record.employee_id.name + ' - ' if record.employee_id else '',
+                record.data
+            )
+            record.display_name = title
+
+    display_name = fields.Char(
+        compute='_get_telefonia_line_name'
+    )
 
     name = fields.Char(
         compute='compute_name',
