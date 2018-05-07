@@ -97,6 +97,12 @@ class HrTelefonia(models.Model):
 class HrTelefoniaLine(models.Model):
     _name = 'hr.telefonia.line'
 
+    name = fields.Char(
+        compute='compute_name',
+        string=u'Descrição',
+        store=True,
+    )
+
     ramal = fields.Many2one(
         string='Ramal',
         comodel_name='hr.ramal',
@@ -158,6 +164,14 @@ class HrTelefoniaLine(models.Model):
     numero_discado = fields.Char(
         string='Numero Discado',
     )
+
+    @api.multi
+    @api.depends('ramal', 'employee_id')
+    def compute_name(self):
+        for record in self:
+            if record.employee_id and record.ramal:
+                record.name = 'Ligação Ramal: {} ({})'.format(
+                    record.ramal.name,record.employee_id[0].name[:14])
 
     @api.multi
     def set_particular(self):
