@@ -47,10 +47,13 @@ class HrTelefonia(models.Model):
 
     @api.multi
     def button_importar_csv(self):
+
+        ramal_obj = self.env['hr.ramal']
+
         for record in self:
             if record.arquivo_ligacoes:
 
-                # import csv, sys
+                # import csv
                 import base64
 
                 arq = base64.b64decode(record.arquivo_ligacoes)
@@ -62,7 +65,10 @@ class HrTelefonia(models.Model):
 
                     if len(l) > 7 and len(l[0]) == 4:
                         name_ramal = l[0]
-                        ramal = self.env['hr.ramal'].search([('name', '=', name_ramal)])
+                        ramal_id = ramal_obj.search([('name', '=', name_ramal)])
+                        
+                        if not ramal_id:
+                            ramal_id = ramal_obj.create({'name': name_ramal})
 
                         data = l[1]
                         numero_discado = l[2]
@@ -73,7 +79,7 @@ class HrTelefonia(models.Model):
                         valor = l[7]
 
                         vals = {
-                            'ramal': ramal.id if ramal else False,
+                            'ramal': ramal_id.id,
                             'data': data,
                             'numero_discado': numero_discado,
                             'concessionaria': concessionaria,
@@ -92,6 +98,7 @@ class HrTelefoniaLine(models.Model):
     ramal = fields.Many2one(
         string='Ramal',
         comodel_name='hr.ramal',
+        required=True,
     )
 
     employee_id = fields.Many2one(
