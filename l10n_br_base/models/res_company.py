@@ -167,7 +167,6 @@ class ResCompany(models.Model):
     estado = fields.Char(
         string='Estado',
         related='state_id.code',
-        store=True,
         index=True
     )
     fantasia = fields.Char(
