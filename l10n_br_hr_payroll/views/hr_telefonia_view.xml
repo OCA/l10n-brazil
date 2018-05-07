@@ -131,10 +131,11 @@
             <field name="arch" type="xml">
                 <tree string="Registro Telefonico" colors="black:tipo == 'particular'">
                     <field name="state" invisible="1"/>
+                    <field name="data" />
+                    <field name="numero_discado" />
+                    <field name="valor" />
                     <field name="ramal" />
                     <field name="employee_id" />
-                    <field name="valor" />
-                    <field name="data" />
                     <field name="tipo" />
                     <!--<field name="registro_telefonico_id" />-->
                 </tree>
