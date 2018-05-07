@@ -73,7 +73,7 @@
                             </group>
                         </group>
                         <separator string="Registros Ligações" />
-                        <field name="ligacoes_id" />
+                        <field name="ligacoes_id" readonly="True" />
                     </sheet>
                 </form>
             </field>
