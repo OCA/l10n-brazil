@@ -2,7 +2,7 @@
 # Copyright 2018 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields
+from openerp import api, models, fields
 from openerp.addons.l10n_br_hr_payroll.models.hr_payslip import MES_DO_ANO
 
 
@@ -44,6 +44,46 @@ class HrTelefonia(models.Model):
         comodel_name='hr.telefonia.line',
         inverse_name='registro_telefonico_id'
     )
+
+    @api.multi
+    def button_importar_csv(self):
+        for record in self:
+            if record.arquivo_ligacoes:
+
+                # import csv, sys
+                import base64
+
+                arq = base64.b64decode(record.arquivo_ligacoes)
+                linhas = arq.splitlines(True)
+
+                for linha in linhas:
+
+                    l = linha.split(';')
+
+                    if len(l) > 7 and len(l[0]) == 4:
+                        name_ramal = l[0]
+                        ramal = self.env['hr.ramal'].search([('name', '=', name_ramal)])
+
+                        data = l[1]
+                        numero_discado = l[2]
+                        concessionaria = l[3]
+                        localidade = l[4]
+                        inicio = l[5]
+                        duracao = l[6]
+                        valor = l[7]
+
+                        vals = {
+                            'ramal': ramal.id if ramal else False,
+                            'data': data,
+                            'numero_discado': numero_discado,
+                            'concessionaria': concessionaria,
+                            'localidade': localidade,
+                            'inicio': inicio,
+                            'duracao': duracao,
+                            'registro_telefonico_id': record.id,
+                        }
+
+                        self.env['hr.telefonia.line'].create(vals)
 
 
 class HrTelefoniaLine(models.Model):
