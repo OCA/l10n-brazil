@@ -85,6 +85,7 @@ class HrPayslip(models.Model):
                 # Atualizar o controle de férias, o controle de férias do
                 # contrato é baseado nos holerites validados
                 holerite.contract_id.action_button_update_controle_ferias()
+
                 # setar as ligacoes telefonicas como debitadas
                 for ligacao_id in holerite.ligacoes_ids:
                     ligacao_id.state = 'paid'
@@ -97,9 +98,10 @@ class HrPayslip(models.Model):
                 # Atualizar o controle de férias, o controle de férias do
                 # contrato é baseado nos holerites validados
                 holerite.contract_id.action_button_update_controle_ferias()
+
                 # setar as ligacoes telefonicas como atestadas
                 for ligacao_id in holerite.ligacoes_ids:
-                    ligacao_id = 'validate'
+                    ligacao_id.write({'state': 'validate'})
 
     @api.multi
     def name_get(self):
@@ -1109,10 +1111,15 @@ class HrPayslip(models.Model):
         """
         ligacao_obj = self.env['hr.telefonia.line']
         for holerite_id in self:
+
+            # Desvincular antigas
+            holerite_id.ligacoes_ids = False
+
             domain = [
                 ('state','=','validate'),
                 ('tipo','=','particular'),
                 ('employee_id','=', holerite_id.contract_id.employee_id.id),
+                ('payslip_id','=', False)
             ]
             ligacoes_ids = ligacao_obj.search(domain)
             if ligacoes_ids:

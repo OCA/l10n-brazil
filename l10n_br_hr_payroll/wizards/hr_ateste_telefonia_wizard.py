@@ -34,5 +34,5 @@ class HrTelefoniaWizard(models.TransientModel):
         for record in proxy.browse(self._context.get('active_ids', [])):
             if not record.employee_id or not record.ramal:
                 raise ValidationError('Faltando informações na ligação!')
-            record.set_particular()
+            record.set_validate_ligacoes()
         return {'type': 'ir.actions.act_window_close'}

@@ -217,6 +217,7 @@
                                     <field name="duracao" />
                                     <field name="valor" />
                                     <field name="tipo" />
+                                    <field name="state" />
                                 </tree>
                             </field>
                         </page>

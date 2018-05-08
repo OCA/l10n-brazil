@@ -137,7 +137,7 @@ class HrTelefoniaLine(models.Model):
     )
 
     data = fields.Date(
-        string='Data e Hora',
+        string='Data',
         required=True,
         # states={'validate': [('readonly', True)]},
     )
@@ -216,15 +216,26 @@ class HrTelefoniaLine(models.Model):
                     record.ramal.name,record.employee_id[0].name[:14])
 
     @api.multi
+    def set_validate_ligacoes(self):
+        """
+        Rotina para atestar ligacoes como particulares ou nao
+        depois dessa rotina a ligacao sera bloqueada para edicoes
+        :return:
+        """
+        for record in self:
+            # Atesta as ligacoes
+            record.state = 'validate'
+
+    @api.multi
     def set_particular(self):
         """
         Setar as ligações para particular
         :return:
         """
         for record in self:
+            # record.particular = True
             record.tipo = 'particular'
-            record.state = 'validate'
-            # record.employee_id = self.env.user.employee_ids[0]
+
 
     @api.multi
     def set_empresa(self):
@@ -233,6 +244,5 @@ class HrTelefoniaLine(models.Model):
         :return:
         """
         for record in self:
+            # record.particular = False
             record.tipo = 'empresa'
-            record.state = 'validate'
-            # record.employee_id = self.env.user.employee_ids[0]
