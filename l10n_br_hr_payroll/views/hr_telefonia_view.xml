@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-        <menuitem id="menu_hr_root_telefonia" parent="hr.menu_hr_root" name="Telefonia" sequence="48" groups="base.group_hr_manager" />
+        <menuitem id="menu_hr_root_telefonia" parent="hr.menu_hr_root" name="Telefonia" sequence="48" groups="base.group_hr_user" />
 
         <record model="ir.ui.view" id="hr_ramal_form_view">
             <field name="name">hr.ramal.form</field>
@@ -46,7 +46,7 @@
             <field name="parent_id" ref="l10n_br_hr_payroll.menu_hr_root_telefonia" />
             <field name="action" ref="l10n_br_hr_payroll.action_hr_ramais" />
             <field name="sequence" eval="1" />
-            <field name="groups" ref="base.group_hr_manager" />
+            <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]" />
         </record>
 
         <record model="ir.ui.view" id="hr_telefonia_form_view">
@@ -57,7 +57,9 @@
                     <header>
                         <button name="button_importar_csv"
                                 string="Importar Ligações" type="object"
-                                class="oe_highlight" />
+                                class="oe_highlight"
+                                attrs="{'invisible': [('ligacoes_id','!=',[])]}"
+                        />
                     </header>
                     <sheet>
                         <h2><field name="display_name" /></h2>
@@ -72,8 +74,22 @@
                                 <field name="ano" />
                             </group>
                         </group>
-                        <separator string="Registros Ligações" />
-                        <field name="ligacoes_id" readonly="True" />
+                        <separator string="Registros de Ligações" />
+                        <field name="ligacoes_id" readonly="True" >
+                            <tree>
+                                <field name="numero_discado" />
+                                <field name="localidade" />
+                                <field name="data" />
+                                <field name="inicio" />
+                                <field name="duracao" />
+                                <field name="valor" />
+                                <field name="tipo" />
+                                <field name="employee_id" />
+                                <field name="ramal" />
+                                <field name="state" />
+                            </tree>
+                        </field>
+
                     </sheet>
                 </form>
             </field>
@@ -135,7 +151,7 @@
             <field name="name">hr.telefonia.line.tree</field>
             <field name="model">hr.telefonia.line</field>
             <field name="arch" type="xml">
-                <tree string="Registro Telefonico" colors="red:state == 'validate';black:state == 'paid')" >
+                <tree string="Registro Telefonico" colors="red:state=='open';green:state=='paid')" >
                     <field name="numero_discado" />
                     <field name="localidade" />
                     <field name="data" />
@@ -176,7 +192,7 @@
             <field name="parent_id" ref="l10n_br_hr_payroll.menu_hr_root_telefonia" />
             <field name="action" ref="l10n_br_hr_payroll.action_hr_telefonia" />
             <field name="sequence" eval="1" />
-            <field name="groups" ref="base.group_hr_manager" />
+            <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]" />
         </record>
 
         <record id="view_hr_telefonia_line_search" model="ir.ui.view">
@@ -184,7 +200,8 @@
             <field name="model">hr.telefonia.line</field>
             <field name="arch" type="xml">
                 <search string="Registros Telefonicos por data">
-                    <filter name="filter_ligacoes_open" icon="terp-document-new" string="Ligações em aberto" domain="[('state','in',['open', 'validate'])]" help="Apenas Ligações não foram debitadas"/>
+                    <filter name="filter_ligacoes_open" icon="terp-document-new" string="Ligações em aberto" domain="[('employee_id.user_id', '=',uid)]" help="Apenas Ligações não foram debitadas"/>
+                    <filter name="filter_minhas_ligacoes" icon="terp-document-new" string="Minhas Ligacoes" domain="[('state','in',['open', 'validate'])]" help="Apenas Minhas Ligações"/>
                     <group expand="1" string="Group By">
                         <filter string="Data" icon="terp-accessories-archiver" context="{'group_by':'data'}" name='group_by_data'/>
                         <filter string="Ramal" icon="terp-accessories-archiver" context="{'group_by':'ramal'}" name='group_by_ramal'/>
@@ -200,7 +217,8 @@
         <record model="ir.actions.act_window" id="action_hr_ligacoes">
             <field name="name">Registros Telefonicos</field>
             <field name="res_model">hr.telefonia.line</field>
-            <field name="context">{'search_default_group_by_data': True, "search_default_filter_ligacoes_open":1}</field>
+            <field name="context">{"search_default_filter_ligacoes_open":1}</field>
+            <!--<field name="context">{'search_default_group_by_data': True, "search_default_filter_ligacoes_open":1}</field>-->
             <field name="view_mode">tree,form</field>
         </record>
 
