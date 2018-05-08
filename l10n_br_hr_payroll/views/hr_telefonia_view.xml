@@ -200,8 +200,8 @@
             <field name="model">hr.telefonia.line</field>
             <field name="arch" type="xml">
                 <search string="Registros Telefonicos por data">
-                    <filter name="filter_ligacoes_open" icon="terp-document-new" string="Ligações em aberto" domain="[('employee_id.user_id', '=',uid)]" help="Apenas Ligações não foram debitadas"/>
-                    <filter name="filter_minhas_ligacoes" icon="terp-document-new" string="Minhas Ligacoes" domain="[('state','in',['open', 'validate'])]" help="Apenas Minhas Ligações"/>
+                    <filter name="filter_ligacoes_open" icon="terp-document-new" string="Ligações em aberto" domain="[('state','in',['open'])]" help="Apenas Ligações não foram debitadas"/>
+                    <filter name="filter_minhas_ligacoes" icon="terp-document-new" string="Minhas Ligacoes" domain="[('employee_id.user_id', '=',uid)]" help="Apenas Minhas Ligações"/>
                     <group expand="1" string="Group By">
                         <filter string="Data" icon="terp-accessories-archiver" context="{'group_by':'data'}" name='group_by_data'/>
                         <filter string="Ramal" icon="terp-accessories-archiver" context="{'group_by':'ramal'}" name='group_by_ramal'/>

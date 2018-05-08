@@ -122,24 +122,23 @@ class HrTelefoniaLine(models.Model):
         string='Ramal',
         comodel_name='hr.ramal',
         required=True,
-        # states={'validate': [('readonly', True)]},
+        readonly=True,
     )
 
     employee_id = fields.Many2one(
         string='Empregado',
         comodel_name='hr.employee',
-        # states={'validate': [('readonly', True)]},
     )
 
     valor = fields.Float(
         string='Valor',
-        # states={'validate': [('readonly', True)]},
+        readonly=True,
     )
 
     data = fields.Date(
         string='Data',
         required=True,
-        # states={'validate': [('readonly', True)]},
+        readonly=True,
     )
 
     tipo = fields.Selection(
@@ -182,7 +181,7 @@ class HrTelefoniaLine(models.Model):
 
     localidade = fields.Char(
         string='Localidade',
-        # states={'validate': [('readonly', True)]},
+        readonly=True,
     )
 
     hora_inicio = fields.Datetime(
@@ -193,18 +192,18 @@ class HrTelefoniaLine(models.Model):
     inicio = fields.Char(
         string='Inicio',
         required=True,
-        # states={'validate': [('readonly', True)]},
+        readonly=True,
     )
 
     duracao = fields.Char(
         string='Duração da ligação',
         required=True,
-        # states={'validate': [('readonly', True)]},
+        readonly=True,
     )
 
     numero_discado = fields.Char(
         string='Numero Discado',
-        # states={'validate': [('readonly', True)]},
+        readonly=True,
     )
 
     @api.multi
