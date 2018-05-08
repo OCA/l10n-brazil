@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="hr_telefonia_line_rule" model="ir.rule">
+            <field name="name">Ligações</field>
+            <field ref="model_hr_telefonia_line" name="model_id"/>
+            <field name="domain_force">['|', ('employee_id.user_id.id', '=', user.id), ('employee_id', '=', False)]</field>
+            <field name="groups" eval="[(4,ref('base.group_hr_user'))]"/>
+        </record>
+
+    </data>
+</openerp>

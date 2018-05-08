@@ -148,12 +148,12 @@
               <!--<field string="To transit moves" name="to_transit_moves_count" widget="statinfo" />-->
 
                     <button name="set_particular" string="Particular" type="object"
-                            attrs="{'invisible': ['|',('tipo', '=', 'particular'), ('state','=','validate')]}"
+                            attrs="{'invisible': ['|',('tipo', '=', 'particular'),('state','in',['validate','paid'])]}"
                             help="Definir ligação como Particular"
                             class="oe_highlight" />
 
                     <button name="set_empresa" string="Empresa" type="object"
-                            attrs="{'invisible': ['|',('tipo', '=', 'empresa'),('state','=','validate')]}"
+                            attrs="{'invisible': ['|',('tipo', '=', 'empresa'),('state','in',['validate','paid'])]}"
                             help="Definir ligação como Empresarial"
                             class="oe_link" />
 
