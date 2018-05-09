@@ -78,8 +78,13 @@
                         <button name="button_importar_csv"
                                 string="Importar Ligações" type="object"
                                 class="oe_highlight"
-                                attrs="{'invisible': [('ligacoes_id','!=',[])]}"
-                        />
+                                attrs="{'invisible': [('ligacoes_id','!=',[])]}" />
+
+                        <button name="button_import_ramais"
+                                string="Importar Ramais" type="object"
+                                class="oe_highlight"
+                                groups="base.group_no_one" />
+
                     </header>
                     <sheet>
                         <h2><field name="display_name" /></h2>

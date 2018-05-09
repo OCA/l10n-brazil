@@ -53,6 +53,43 @@ class HrTelefonia(models.Model):
     )
 
     @api.multi
+    @api.multi
+    def button_import_ramais(self):
+
+        ramal_obj = self.env['hr.ramal']
+
+        for record in self:
+            if record.arquivo_ramais:
+
+                # import csv
+                import base64
+
+                arq = base64.b64decode(record.arquivo_ramais)
+                linhas = arq.splitlines(True)
+
+                for linha in linhas:
+
+                    l = linha.split(',')
+
+                    email_ramal = l[1].strip()
+                    numero_ramal = l[2].strip('\n')
+
+                    funcionario_id = self.env['hr.employee'].search([('work_email','=',email_ramal)])
+
+                    if funcionario_id:
+
+                        ramal_id = ramal_obj.search([('name','=', numero_ramal)])
+
+                        if not numero_ramal in funcionario_id.ramais.mapped('name'):
+
+                            if not ramal_id:
+                                ramal_id = ramal_obj.create({'name': numero_ramal})
+
+                            funcionario_id.ramais = [(4, ramal_id.id)]
+
+                    else:
+                        print ("Nao encontrado funcionario: " + email_ramal)
+
     def button_importar_csv(self):
 
         ramal_obj = self.env['hr.ramal']
