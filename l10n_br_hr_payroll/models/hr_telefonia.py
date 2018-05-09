@@ -22,7 +22,7 @@ class HrTelefonia(models.Model):
     )
 
     arquivo_ligacoes = fields.Binary(
-        string='Arquivo de retorno',
+        string='Arquivo Telefonia (PABX)',
         filters='*.csv',
         require=True,
         copy=False,
