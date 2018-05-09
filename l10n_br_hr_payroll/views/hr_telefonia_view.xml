@@ -85,6 +85,10 @@
                                 class="oe_highlight"
                                 groups="base.group_no_one" />
 
+                        <button name="button_buscar_dono_ligacao"
+                                string="Conciliar Ligacões" type="object"
+                                class="oe_highlight"
+                                groups="base.group_hr_manager" />
                     </header>
                     <sheet>
                         <h2><field name="display_name" /></h2>
@@ -217,7 +221,7 @@
             <field name="name">Registros Telefonicos</field>
             <field name="parent_id" ref="l10n_br_hr_payroll.menu_hr_root_telefonia" />
             <field name="action" ref="l10n_br_hr_payroll.action_hr_telefonia" />
-            <field name="sequence" eval="1" />
+            <field name="sequence" eval="2" />
             <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]" />
         </record>
 
@@ -252,7 +256,7 @@
             <field name="name">Registros Ligações</field>
             <field name="parent_id" ref="l10n_br_hr_payroll.menu_hr_root_telefonia" />
             <field name="action" ref="l10n_br_hr_payroll.action_hr_ligacoes" />
-            <field name="sequence" eval="2" />
+            <field name="sequence" eval="3" />
         </record>
 
     </data>

@@ -53,6 +53,17 @@ class HrTelefonia(models.Model):
     )
 
     @api.multi
+    def button_buscar_dono_ligacao(self):
+
+        ligacoes_sem_dono_id = self.env['hr.telefonia.line'].search([('employee_id','=',False)])
+
+        for ligacoes_id in ligacoes_sem_dono_id:
+
+            funcionario_id = self.env['hr.employee'].search([('ramais', '=', ligacoes_id.ramal.name)])
+
+            if len(funcionario_id) == 1:
+                ligacoes_id.employee_id = funcionario_id
+
     @api.multi
     def button_import_ramais(self):
 
@@ -90,6 +101,8 @@ class HrTelefonia(models.Model):
                     else:
                         print ("Nao encontrado funcionario: " + email_ramal)
 
+
+    @api.multi
     def button_importar_csv(self):
 
         ramal_obj = self.env['hr.ramal']
