@@ -85,6 +85,7 @@
                         <h2><field name="display_name" /></h2>
                         <group>
                             <field name="arquivo_ligacoes" />
+                            <field name="arquivo_ramais" groups="base.group_hr_manager"/>
                         </group>
                         <group>
                             <group>

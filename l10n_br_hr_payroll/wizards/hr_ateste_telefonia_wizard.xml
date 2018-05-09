@@ -35,7 +35,7 @@
         </record>
 
         <act_window id="action_ateste_ligacoes_particulares"
-            name="Atestar Ligacoes"
+            name="Atestar Ligações"
             src_model="hr.telefonia.line"
             res_model="hr.ateste.telefonia.wizard"
             view_id="hr_ateste_telefonia_wizard"

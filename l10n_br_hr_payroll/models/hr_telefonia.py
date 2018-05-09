@@ -25,24 +25,31 @@ class HrTelefonia(models.Model):
         string='Arquivo de retorno',
         filters='*.csv',
         require=True,
-        copy=False
+        copy=False,
+    )
+
+    arquivo_ramais = fields.Binary(
+        string='Listagem de Ramais',
+        filters='*.csv',
+        require=True,
+        copy=False,
     )
 
     mes = fields.Selection(
         string=u'Mês Competência',
         selection=MES_DO_ANO,
-        require=True
+        require=True,
     )
 
     ano = fields.Char(
         string=u'Ano Competência',
         required=True,
-        size=4
+        size=4,
     )
 
     ligacoes_id = fields.One2many(
         comodel_name='hr.telefonia.line',
-        inverse_name='registro_telefonico_id'
+        inverse_name='registro_telefonico_id',
     )
 
     @api.multi
