@@ -194,14 +194,12 @@
               <!--<field string="To transit moves" name="to_transit_moves_count" widget="statinfo" />-->
 
                     <button name="set_particular" string="Particular" type="object"
-                            attrs="{'invisible': ['|',('tipo', '=', 'particular'),('state','in',['validate','paid'])]}"
-                            help="Definir ligação como Particular"
-                            class="oe_highlight" />
+                            attrs="{'readonly': ['|',('tipo', '=', 'particular'),('state','in',['validate','paid'])]}"
+                            help="Definir ligação como Particular"/>
 
                     <button name="set_empresa" string="Empresa" type="object"
-                            attrs="{'invisible': ['|',('tipo', '=', 'empresa'),('state','in',['validate','paid'])]}"
-                            help="Definir ligação como Empresarial"
-                            class="oe_link" />
+                            attrs="{'readonly': ['|',('tipo', '=', 'empresa'),('state','in',['validate','paid'])]}"
+                            help="Definir ligação como Empresarial" />
 
                     <field name="tipo" />
                     <field name="employee_id" invisible="1"/>
