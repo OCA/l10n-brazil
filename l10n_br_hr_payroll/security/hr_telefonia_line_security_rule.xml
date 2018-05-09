@@ -5,6 +5,13 @@
 <openerp>
     <data>
 
+        <!--Grupo de Gerente de ligacoes -->
+        <record id="group_manager_ligacoes" model="res.groups">
+            <field name="name">Gerenciar Ligações</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_hr_user'))]"/>
+        </record>
+
         <!--Regra geral de acesso as ligacoes-->
         <record id="hr_telefonia_line_rule_user" model="ir.rule">
             <field name="name">User Ligações</field>
@@ -18,7 +25,7 @@
             <field name="name">Gerente de Ligacoes</field>
             <field ref="model_hr_telefonia_line" name="model_id"/>
             <field name="domain_force">[(1,'=',1)]</field>
-            <field name="groups" eval="[(4,ref('base.group_hr_manager'))]"/>
+            <field name="groups" eval="[(4,ref('group_manager_ligacoes'))]"/>
         </record>
 
     </data>

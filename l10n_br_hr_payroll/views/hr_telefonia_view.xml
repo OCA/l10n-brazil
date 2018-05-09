@@ -51,7 +51,7 @@
             <field name="parent_id" ref="l10n_br_hr_payroll.menu_hr_root_telefonia" />
             <field name="action" ref="action_hr_employee_ramais" />
             <field name="sequence" eval="1" />
-            <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]" />
+            <field name="groups_id" eval="[(6, 0, [ref('l10n_br_hr_payroll.group_manager_ligacoes')])]" />
         </record>
 
         <record id="act_hr_employee_ramal_tree" model="ir.actions.act_window.view">
@@ -88,13 +88,13 @@
                         <button name="button_buscar_dono_ligacao"
                                 string="Conciliar Ligacões" type="object"
                                 class="oe_highlight"
-                                groups="base.group_hr_manager" />
+                                groups="l10n_br_hr_payroll.group_manager_ligacoes" />
                     </header>
                     <sheet>
                         <h2><field name="display_name" /></h2>
                         <group>
                             <field name="arquivo_ligacoes" />
-                            <field name="arquivo_ramais" groups="base.group_hr_manager"/>
+                            <field name="arquivo_ramais" groups="l10n_br_hr_payroll.group_manager_ligacoes"/>
                         </group>
                         <group>
                             <group>
@@ -222,7 +222,7 @@
             <field name="parent_id" ref="l10n_br_hr_payroll.menu_hr_root_telefonia" />
             <field name="action" ref="l10n_br_hr_payroll.action_hr_telefonia" />
             <field name="sequence" eval="2" />
-            <field name="groups_id" eval="[(4,ref('base.group_hr_manager'))]" />
+            <field name="groups_id" eval="[(6, 0, [ref('l10n_br_hr_payroll.group_manager_ligacoes')])]" />
         </record>
 
         <record id="view_hr_telefonia_line_search" model="ir.ui.view">
