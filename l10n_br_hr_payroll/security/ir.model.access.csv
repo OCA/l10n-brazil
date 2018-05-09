@@ -21,9 +21,9 @@
 "access_hr_rule_input_officer","access_hr_rule_input_officer","hr_payroll.model_hr_rule_input","base.group_hr_user",1,1,1,1
 "access_hr_rule_rat_fap_officer","access_hr_rule_rat_fap_officer","model_l10n_br_hr_rat_fap","base.group_hr_user",1,1,1,1
 "access_hr_campos_rescisao","access_hr_campos_rescisao","model_hr_campos_rescisao","base.group_hr_user",1,1,1,1
-"access_hr_ramal_user","access_hr_ramal_user","model_hr_ramal","base.group_hr_user",1,0,0,0
+"access_hr_ramal_user","access_hr_ramal_user","model_hr_ramal","base.group_user",1,0,0,0
 "access_hr_ramal_manager","access_hr_ramal_manager","model_hr_ramal","group_manager_ligacoes",1,1,1,1
-"access_hr_telefonia_user","access_hr_telefonia_user","model_hr_telefonia","base.group_hr_user",1,0,0,0
+"access_hr_telefonia_user","access_hr_telefonia_user","model_hr_telefonia","base.group_user",1,0,0,0
 "access_hr_telefonia_manager","access_hr_telefonia_manager","model_hr_telefonia","group_manager_ligacoes",1,1,1,1
-"access_hr_telefonia_line_user","access_hr_telefonia_line_user","model_hr_telefonia_line","base.group_hr_user",1,1,0,0
+"access_hr_telefonia_line_user","access_hr_telefonia_line_user","model_hr_telefonia_line","base.group_user",1,1,0,0
 "access_hr_telefonia_line_manager","access_hr_telefonia_line_manager","model_hr_telefonia_line","group_manager_ligacoes",1,1,1,1

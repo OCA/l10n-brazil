@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-        <menuitem id="menu_hr_root_telefonia" parent="hr.menu_hr_root" name="Telefonia" sequence="48" groups="base.group_hr_user" />
+        <menuitem id="menu_hr_root_telefonia" parent="hr.menu_hr_root" name="Telefonia" sequence="48" groups="base.group_user" />
 
         <record model="ir.ui.view" id="hr_employee_ramal_form_view">
             <field name="name">hr.employee.ramal.form</field>
