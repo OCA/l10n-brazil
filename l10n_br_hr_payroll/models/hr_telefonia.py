@@ -70,6 +70,8 @@ class HrTelefonia(models.Model):
                         if not ramal_id:
                             ramal_id = ramal_obj.create({'name': name_ramal})
 
+                        funcionario_id = self.env['hr.employee'].search([('ramais', '=', name_ramal)])
+
                         data = l[1]
                         numero_discado = l[2]
                         concessionaria = l[3]
@@ -88,7 +90,7 @@ class HrTelefonia(models.Model):
                             'duracao': duracao,
                             'valor': valor,
                             'registro_telefonico_id': record.id,
-                            'employee_id': ramal_id.hr_employee_ids[0].id if len(ramal_id.hr_employee_ids) == 1 else False
+                            'employee_id': funcionario_id.id if len(funcionario_id) == 1 else False
                         }
 
                         self.env['hr.telefonia.line'].create(vals)
@@ -211,8 +213,7 @@ class HrTelefoniaLine(models.Model):
     def compute_name(self):
         for record in self:
             if record.employee_id and record.ramal:
-                record.name = 'Ligação Ramal: {} ({})'.format(
-                    record.ramal.name,record.employee_id[0].name[:14])
+                record.name = 'Ligação Ramal: {} '.format(record.ramal.name)
 
     @api.multi
     def set_validate_ligacoes(self):

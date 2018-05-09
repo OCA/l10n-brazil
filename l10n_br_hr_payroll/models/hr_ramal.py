@@ -20,9 +20,3 @@ class HrRamal(models.Model):
         string=u'Nº Ramal',
         required=True,
     )
-
-    hr_employee_ids = fields.One2many(
-        comodel_name='hr.employee',
-        inverse_name='ramais',
-        string=u'Funcionários',
-    )
