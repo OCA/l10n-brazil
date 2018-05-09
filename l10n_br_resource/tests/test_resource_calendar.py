@@ -15,6 +15,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
 
         self.resource_calendar = self.env['resource.calendar']
         self.resource_leaves = self.env['resource.calendar.leaves']
+        self.holiday_import = self.env['wizard.workalendar.holiday.import']
 
         self.nacional_calendar_id = self.resource_calendar.create({
             'name': 'Calendario Nacional',
@@ -51,6 +52,15 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
             'calendar_id': self.municipal_calendar_id.id,
             'leave_type': 'F',
             'abrangencia': 'M',
+        })
+
+        # Testar workalendar_holiday_import
+
+        self.calendar_id_sp = self.resource_calendar.create({
+            'name': 'Calendario de Sao Paulo',
+            'country_id': self.env.ref("base.br").id,
+            'state_id': self.env.ref("base.state_br_sp").id,
+            'l10n_br_city_id': self.env.ref("l10n_br_base.city_3500105").id
         })
 
     def test_00_add_leave_nacional(self):
@@ -227,3 +237,39 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         data_eh_feriado_bancario = self.nacional_calendar_id.\
             data_eh_feriado_bancario(data)
         self.assertTrue(data_eh_feriado_bancario)
+
+    # Testar workalendar_holiday_import
+    def test_11_get_state_from_calendar(self):
+        """
+        Validar se o retorno do estado do holiday esta correto
+        :return:
+        """
+        holiday = self.holiday_import.create({
+            'interval_type': 'days',
+            'calendar_id': self.calendar_id_sp.id,
+        })
+
+        state_id = self.holiday_import.get_state_from_calendar(holiday)
+        self.assertEqual(state_id.code, 'SP', 'Estado incorreto.')
+
+    def test_13_get_calendar_for_country(self):
+        """
+        Validar se o retorno do calendario nacional do holiday esta correto
+        :return:
+        """
+        country = self.holiday_import.get_calendar_for_country()
+        self.assertEqual(country.name, 'Calendario Nacional',
+                         'Calendario incorreto.')
+
+    def test_15_get_calendar_for_city(self):
+        """
+        Validar se o retorno do calendario municipal do holiday esta correto
+        :return:
+        """
+        holiday = self.holiday_import.create({
+            'interval_type': 'days',
+            'calendar_id': self.calendar_id_sp.id,
+        })
+        city_id = self.holiday_import.get_calendar_for_city(holiday)
+        self.assertEqual(city_id.name, 'Calendario de Sao Paulo', 'Calendario '
+                                                            'incorreto.')
