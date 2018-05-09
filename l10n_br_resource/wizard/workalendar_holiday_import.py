@@ -63,7 +63,7 @@ class WorkalendarHolidayImport(models.TransientModel):
     @api.multi
     def get_state_from_calendar(self, holiday):
         state = self.env['res.country.state'].search(
-            [('ibge_code', '=', holiday.estado.codigo_ibge)])
+            [('ibge_code', '=', holiday.calendar_id.state_id.ibge_code)])
         return state or False
 
     @api.multi
@@ -106,22 +106,26 @@ class WorkalendarHolidayImport(models.TransientModel):
     @api.multi
     def get_calendar_for_city(self, holiday):
         if not self.env['l10n_br_base.city'].search_count(
-                [('ibge_code', '=', holiday.municipio.codigo_ibge)]):
+                [('ibge_code', '=',
+                  holiday.calendar_id.l10n_br_city_id.ibge_code)]):
             city_id = self.env['l10n_br_base.city'].create({
-                'name': holiday.municipio.nome,
+                'name': holiday.calendar_id.l10n_br_city_id.name,
                 'state_id': self.get_state_from_calendar(holiday).id,
-                'ibge_code': holiday.municipio.codigo_ibge,
+                'ibge_code': holiday.calendar_id.l10n_br_city_id.ibge_code,
             })
         else:
             city_id = self.env['l10n_br_base.city'].search(
-                [('ibge_code', '=', holiday.municipio.codigo_ibge)])
+                [('ibge_code', '=',
+                  holiday.calendar_id.l10n_br_city_id.ibge_code),
+                 ('state_id.ibge_code', '=',
+                  holiday.calendar_id.state_id.ibge_code)])
 
         if not self.env['resource.calendar'].search_count(
                 [('l10n_br_city_id', '=', city_id.id)]):
             parent_id = self.get_calendar_for_state(holiday)
 
             calendar_id = self.env['resource.calendar'].create({
-                'name': 'Calendar ' + holiday.municipio.nome,
+                'name': 'Calendar ' + holiday.calendar_id.l10n_br_city_id.name,
                 'l10n_br_city_id': city_id.id,
                 'parent_id': parent_id.id,
                 'state_id': self.get_state_from_calendar(holiday).id,
