@@ -299,3 +299,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         city_id = self.holiday_import.get_calendar_for_city(holiday)
         self.assertEqual(city_id.name, 'Calendario de Sao Paulo', 'Calendario '
                                                                   'incorreto.')
+
+    def test_16_holiday_import(self):
+        res = self.holiday_import.holiday_import()
+        self.assertTrue(res)
