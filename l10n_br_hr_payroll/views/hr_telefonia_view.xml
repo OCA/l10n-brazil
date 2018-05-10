@@ -94,7 +94,7 @@
                         <h2><field name="display_name" /></h2>
                         <group>
                             <field name="arquivo_ligacoes" />
-                            <field name="arquivo_ramais" groups="l10n_br_hr_payroll.group_manager_ligacoes"/>
+                            <field name="arquivo_ramais" groups="base.group_no_one"/>
                         </group>
                         <group>
                             <group>
