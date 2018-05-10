@@ -252,6 +252,19 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         state_id = self.holiday_import.get_state_from_calendar(holiday)
         self.assertEqual(state_id.code, 'SP', 'Estado incorreto.')
 
+    def test_12_get_country_from_calendar(self):
+        """
+        Validar se o retorno do país do holiday esta correto
+        :return:
+        """
+        holiday = self.holiday_import.create({
+            'interval_type': 'days',
+            'calendar_id': self.nacional_calendar_id.id,
+        })
+
+        country_id = self.holiday_import.get_country_from_calendar(holiday)
+        self.assertEqual(country_id.code, 'BR', 'País incorreto.')
+
     def test_13_get_calendar_for_country(self):
         """
         Validar se o retorno do calendario nacional do holiday esta correto
@@ -259,6 +272,19 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         """
         country = self.holiday_import.get_calendar_for_country()
         self.assertEqual(country.name, 'Calendario Nacional',
+                         'Calendario incorreto.')
+
+    def test_14_get_calendar_for_state(self):
+        """
+        Validar se o retorno do calendario estadual do holiday esta correto
+        :return:
+        """
+        holiday = self.holiday_import.create({
+            'interval_type': 'days',
+            'calendar_id': self.calendar_id_sp.id,
+        })
+        state = self.holiday_import.get_calendar_for_state(holiday)
+        self.assertEqual(state.name, 'Calendario de Sao Paulo',
                          'Calendario incorreto.')
 
     def test_15_get_calendar_for_city(self):
@@ -272,4 +298,4 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         })
         city_id = self.holiday_import.get_calendar_for_city(holiday)
         self.assertEqual(city_id.name, 'Calendario de Sao Paulo', 'Calendario '
-                                                            'incorreto.')
+                                                                  'incorreto.')
