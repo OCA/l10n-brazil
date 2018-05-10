@@ -359,9 +359,9 @@ class HrContract(models.Model):
         string="Data de admissão no vínculo cedente"
     )
 
-    onus_vinculo_cedente = fields.Selection(
-        selection=[],
-        string="Ônus para o cedente"
+    adiantamento_13_cedente = fields.Float(
+        string=u"Antecipação de 13º na Orgiem R$",
+        default=0.0,
     )
 
     # Aba Saúde ocupacional

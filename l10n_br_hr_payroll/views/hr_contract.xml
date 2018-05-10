@@ -117,7 +117,7 @@
                             <field name="cnpj_empregador_cedente"/>
                             <field name="matricula_cedente"/>
                             <field name="data_admissao_cedente"/>
-                            <field name="onus_vinculo_cedente"/>
+                            <field name="adiantamento_13_cedente"/>
                         </group>
                     </group>
                 </page>
