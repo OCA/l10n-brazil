@@ -1579,7 +1579,23 @@ class HrPayslip(models.Model):
                         if not (self.tipo_de_folha == 'ferias'
                                 and holerite.mes_do_ano == self.mes_do_ano):
                             valor += line.total
-        return valor
+
+            # PAra contratos de PSS temos a rubrica de desconto de adiantamento do cedido
+            # como é uma rubrica de deducao, diminuir o valor caso a encontre
+            if holerite.contract_id.adiantamento_13_cedente:
+
+                # Buscar nos holerites de primeira parcela se ja foi descontado
+                desconto_line_id = \
+                    holerites.mapped('line_ids').filtered(
+                        lambda x: x.code == 'ADIANTAMENTO_13_CEDIDO')
+
+                if desconto_line_id:
+                    valor -= desconto_line_id.total or 0
+            return valor
+
+        # caso nao encontre holerite de adiantamento,
+        # retorne o valor cadastrado no contrato
+        return self.contract_id.adiantamento_13_cedente or 0.0
 
     def rubrica_anterior_total(self, code, mes=-1, tipo_de_folha='normal'):
         '''Metodo para recuperar uma rubrica de um mes anterior
@@ -1834,12 +1850,21 @@ class HrPayslip(models.Model):
         # Ajusta para casos que mes = 13 representando decimo terceiro salario
         mes_do_ano = payslip.mes_do_ano if payslip.mes_do_ano < 12 else 12
 
+        # Se a data de contratação for no ano corrente,
+        # a variavel que indica a quantidade de meses de 13 salario
+        # deve ser contabilizada a partir da data de contratação
+        # exemplo.:
+        # Data Corrente: 01/12/2017
+        # contratação: 31/05/2017 -> avos_13 = (mescorrente - 05) -1  = 6
+        # contratação: 31/05/2016 -> avos_13 = mes corrente -1 = 11
         if fields.Date.from_string(payslip.contract_id.date_start) > \
                 fields.Date.from_string(str(payslip.ano)+'-01-01'):
+
             dia_inicio_contrato = \
                 fields.Date.from_string(payslip.contract_id.date_start).day
             mes_inicio_contrato = \
                 fields.Date.from_string(payslip.contract_id.date_start).month
+
             avos_13 = int(mes_do_ano) - int(mes_inicio_contrato) + 1
 
             adiantamento_avos_13 = 13 - int(mes_inicio_contrato)
@@ -1848,6 +1873,17 @@ class HrPayslip(models.Model):
                 avos_13 -= 1
                 adiantamento_avos_13 -= 1
         else:
+            avos_13 = mes_do_ano
+
+        # No contrato do PSS, o calculo do 13 Salario é diferente.
+        # mesmo que a data de contratação for no ano corrente,
+        # contabilizar todos os meses do ano.
+        # exemplo.:
+        # Data Corrente: 01/12/2017
+        # contratação: 31/11/2017 -> avos_13 = 12
+        # contratação: 31/05/2017 -> avos_13 = 12
+        # contratação: 31/05/2016 -> avos_13 = 12
+        if payslip.contract_id.data_admissao_cedente:
             avos_13 = mes_do_ano
 
         if payslip.contract_id.date_end:
