@@ -4,18 +4,18 @@
 
 from datetime import timedelta, date
 
-from openerp import models, fields, api
-from openerp.addons import decimal_precision as dp
+from odoo import models, fields, api
+from odoo.addons import decimal_precision as dp
 
-from openerp.addons.l10n_br_account.models.l10n_br_account import (
+from odoo.addons.l10n_br_account.models.l10n_br_account import (
     L10nBrTaxDefinition,
     L10nBrTaxDefinitionTemplate
 )
-from openerp.addons.l10n_br_account.sped.ibpt.deolhonoimposto import (
+from odoo.addons.l10n_br_account.sped.ibpt.deolhonoimposto import (
     DeOlhoNoImposto,
     get_ibpt_product
 )
-from openerp.addons.l10n_br_base.tools.misc import punctuation_rm
+from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
 
 
 class AccountProductFiscalClassification(models.Model):
@@ -47,54 +47,69 @@ class AccountProductFiscalClassification(models.Model):
                 last_estimated.federal_taxes_national +
                 last_estimated.state_taxes + last_estimated.municipal_taxes)
 
-    type = fields.Selection([('view', u'Visão'),
-                             ('normal', 'Normal'),
-                             ('extension', u'Extensão')], 'Tipo',
-                            default='normal')
-
-    note = fields.Text(u'Observações')
-
+    type = fields.Selection(
+        selection=[('view', u'Visão'),
+                   ('normal', 'Normal'),
+                   ('extension', u'Extensão')],
+        string=u'Tipo',
+        default='normal'
+    )
+    note = fields.Text(
+        string=u'Observações'
+    )
     inv_copy_note = fields.Boolean(
-        u'Copiar Observação',
-        help=u"Copia a observação no documento fiscal")
-
+        string=u'Copiar Observação',
+        help=u"Copia a observação no documento fiscal"
+    )
     parent_id = fields.Many2one(
-        'account.product.fiscal.classification',
-        'Parent Fiscal Classification',
-        domain="[('type', 'in', ('view', 'normal'))]", select=True)
-
+        comodel_name='account.product.fiscal.classification',
+        string=u'Parent Fiscal Classification',
+        domain="[('type', 'in', ('view', 'normal'))]",
+        index=True
+    )
     child_ids = fields.One2many(
-        'account.product.fiscal.classification', 'parent_id',
-        'Child Fiscal Classifications')
-
+        comodel_name='account.product.fiscal.classification',
+        inverse_name='parent_id',
+        string=u'Child Fiscal Classifications'
+    )
     sale_tax_definition_line = fields.One2many(
-        'l10n_br_tax.definition.sale',
-        'fiscal_classification_id', 'Taxes Definitions')
-
+        comodel_name='l10n_br_tax.definition.sale',
+        inverse_name='fiscal_classification_id',
+        string=u'Taxes Definitions'
+    )
     sale_tax_ids = fields.Many2many(
-        'account.tax', string='Sale Taxes',
-        compute='_compute_taxes', store=True)
-
+        comodel_name='account.tax',
+        string=u'Sale Taxes',
+        compute='_compute_taxes',
+        store=True
+    )
     purchase_tax_definition_line = fields.One2many(
-        'l10n_br_tax.definition.purchase', 'fiscal_classification_id',
-        'Taxes Definitions')
-
+        comodel_name='l10n_br_tax.definition.purchase',
+        inverse_name='fiscal_classification_id',
+        string=u'Taxes Definitions'
+    )
     purchase_tax_ids = fields.Many2many(
-        'account.tax', string='Purchase Taxes',
-        compute='_compute_taxes', store=True)
-
+        comodel_name='account.tax',
+        string='Purchase Taxes',
+        compute='_compute_taxes',
+        store=True
+    )
     tax_estimate_ids = fields.One2many(
         comodel_name='l10n_br_tax.estimate',
         inverse_name='fiscal_classification_id',
-        string=u'Impostos Estimados', readonly=True)
-
+        string=u'Impostos Estimados',
+        readonly=True
+    )
     estd_import_taxes_perct = fields.Float(
         string=u'Impostos de Importação Estimados(%)',
-        compute='_compute_product_estimated_taxes_percent', store=True)
-
+        compute='_compute_product_estimated_taxes_percent',
+        store=True
+    )
     estd_national_taxes_perct = fields.Float(
         string=u'Impostos Nacionais Estimados(%)',
-        compute='_compute_product_estimated_taxes_percent', store=True)
+        compute='_compute_product_estimated_taxes_percent',
+        store=True
+    )
 
     _sql_constraints = [
         ('account_fiscal_classfication_code_uniq', 'unique (code)',
@@ -181,16 +196,25 @@ class AccountProductFiscalClassification(models.Model):
                 pass
 
 
-class L10nBrTaxDefinitionModel(L10nBrTaxDefinition):
+class L10nBrTaxEstimate(models.Model):
+    _name = 'l10n_br_tax.estimate'
+    _inherit = 'l10n_br_tax.estimate.model'
+
+    fiscal_classification_id = fields.Many2one(
+        comodel_name='account.product.fiscal.classification',
+        string=u'Fiscal Classification',
+        index=True
+    )
+
+
+class L10nBrTaxDefinitionModel(L10nBrTaxDefinitionCompanyProduct):
     _name = 'l10n_br_tax.definition.model'
 
     fiscal_classification_id = fields.Many2one(
-        'account.product.fiscal.classification',
-        'Parent Fiscal Classification', select=True)
-    tax_ipi_guideline_id = fields.Many2one(
-        'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
-    tax_icms_relief_id = fields.Many2one(
-        'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
+        comodel_name='account.product.fiscal.classification',
+        string=u'Parent Fiscal Classification',
+        index=True
+    )
 
     _sql_constraints = [
         ('l10n_br_tax_definition_tax_id_uniq', 'unique (tax_id,\
@@ -205,12 +229,3 @@ class L10nBrTaxDefinitionSale(L10nBrTaxDefinitionModel, models.Model):
 
 class L10nBrTaxDefinitionPurchase(L10nBrTaxDefinitionModel, models.Model):
     _name = 'l10n_br_tax.definition.purchase'
-
-
-class L10nBrTaxEstimate(models.Model):
-    _name = 'l10n_br_tax.estimate'
-    _inherit = 'l10n_br_tax.estimate.model'
-
-    fiscal_classification_id = fields.Many2one(
-        'account.product.fiscal.classification',
-        'Fiscal Classification', select=True)
