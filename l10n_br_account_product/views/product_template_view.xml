@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_br_account_product_template_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_product.product.template.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="l10n_br_account.l10n_br_account_product_template_form_view"/>
+        <field name="arch" type="xml">
+            <field name="fiscal_classification_id" position="replace"></field>
+            <field name="taxes_id" position="replace"></field>
+            <field name="supplier_taxes_id" position="replace"></field>
+            <field name="fiscal_category_default_ids" position="before">
+                <group string="Dados Fiscais">
+                    <group>
+                        <field name="fiscal_type" required="1"/>
+                        <field name="origin" attrs="{'required': [('fiscal_type', '=', 'product')]}"/>
+                        <field name="estd_import_taxes_perct" attrs="{'invisible': [('origin', 'in', ('3', '4', '5', '8'))]}"/>
+                        <field name="estd_national_taxes_perct" attrs="{'invisible': [('origin', 'in', ('1', '2', '6', '7'))]}"/>
+                    </group>
+                    <group>
+                        <field name="fiscal_classification_id" attrs="{'required': [('fiscal_type', '=', 'product')]}" domain="[('type', '=', 'normal')]"/>
+                        <field name="cest_id"/>
+                        <field name="service_type_id" attrs="{'required': [('type', '=', 'service'), ('fiscal_type', '=', 'product')], 'invisible': [('type', '!=', 'service'), ('fiscal_type', '=', 'product')]}" domain="[('internal_type', '=', 'normal')]"/>
+                    </group>
+                </group>
+                <group string="Impostos">
+                    <group>
+                        <field name="taxes_id" colspan="2" widget="many2many_tags"/>
+                    </group>
+                    <group>
+                        <field name="supplier_taxes_id" colspan="2" widget="many2many_tags"/>
+                    </group>
+                </group>
+                <group string="Dados Fiscais de Importação">
+                    <field name="fci"/>
+                </group>
+            </field>
+        </field>
+    </record>
+
+</odoo>
