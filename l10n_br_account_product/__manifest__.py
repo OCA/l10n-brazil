@@ -31,6 +31,7 @@
         'views/l10n_br_account_product_ipi_guideline_view.xml',
         'views/l10n_br_account_product_icms_relief_view.xml',
         'views/l10n_br_account_product_import_declaration_view.xml',
+        'views/l10n_br_tax_icms_partition_view.xml',
         'views/account_tax_template_view.xml',
         'views/account_tax_view.xml',
         'views/account_payment_term_view.xml',
