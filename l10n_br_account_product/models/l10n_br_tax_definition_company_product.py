@@ -2,20 +2,25 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, fields
+from odoo import models, fields
 
 
-class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinition, models.Model):
-    _name = 'l10n_br_tax.definition.company.product'
+class L10nBrTaxDefinitionCompanyProduct(L10nBrTaxDefinition):
 
-    company_id = fields.Many2one('res.company', 'Empresa')
+    cst_id = fields.Many2one(
+        comodel_name='l10n_br_account_product.cst',
+        string=u'CST',
+        domain="['tax_group_id', '=', tax_id.tax_group_id]"
+    )
     tax_ipi_guideline_id = fields.Many2one(
-        'l10n_br_account_product.ipi_guideline', string=u'Enquadramento IPI')
+        comodel_name='l10n_br_account_product.ipi_guideline',
+        string=u'Enquadramento IPI'
+    )
     tax_icms_relief_id = fields.Many2one(
-        'l10n_br_account_product.icms_relief', string=u'Desoneração ICMS')
-
-    _sql_constraints = [
-        ('l10n_br_tax_definition_tax_id_uniq',
-         'unique (tax_id, company_id)',
-         u'Imposto já existente nesta empresa!')
-    ]
+        comodel_name='l10n_br_account_product.icms_relief',
+        string=u'Desoneração ICMS'
+    )
+    cest_id = fields.Many2one(
+        comodel_name='l10n_br_account_product.cest',
+        string=u'CEST'
+    )
