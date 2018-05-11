@@ -4,8 +4,8 @@
 
 import time
 
-from openerp import models, fields, api
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+from odoo import models, fields, api
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 
 
 class AccountTax(models.Model):
@@ -13,82 +13,118 @@ class AccountTax(models.Model):
     _inherit = 'account.tax'
 
     icms_base_type = fields.Selection(
-        [('0', 'Margem Valor Agregado (%)'), ('1', 'Pauta (valor)'),
-         ('2', 'Preço Tabelado Máximo (valor)'),
-         ('3', 'Valor da Operação')],
-        'Tipo Base ICMS', required=True, default='0')
+        selection=[('0', u'Margem Valor Agregado (%)'),
+                   ('1', u'Pauta (valor)'),
+                   ('2', u'Preço Tabelado Máximo (valor)'),
+                   ('3', u'Valor da Operação')],
+        string=u'Tipo Base ICMS',
+        required=True,
+        default='0'
+    )
     icms_st_base_type = fields.Selection(
-        [('0', 'Preço tabelado ou máximo  sugerido'),
-         ('1', 'Lista Negativa (valor)'),
-         ('2', 'Lista Positiva (valor)'), ('3', 'Lista Neutra (valor)'),
-         ('4', 'Margem Valor Agregado (%)'), ('5', 'Pauta (valor)')],
-        'Tipo Base ICMS ST', required=True, default='4')
+        selection=[('0', u'Preço tabelado ou máximo  sugerido'),
+                   ('1', u'Lista Negativa (valor)'),
+                   ('2', u'Lista Positiva (valor)'),
+                   ('3', u'Lista Neutra (valor)'),
+                   ('4', 'Margem Valor Agregado (%)'),
+                   ('5', 'Pauta (valor)')],
+        string=u'Tipo Base ICMS ST',
+        required=True,
+        default='4'
+    )
 
-    def _compute_tax(self, cr, uid, taxes, total_line, product, product_qty,
-                     precision, base_tax=0.0):
-        result = {'tax_discount': 0.0, 'taxes': []}
+    # @api.model
+    # def _compute_tax(self, cr, uid, taxes, total_line, product, product_qty,
+    #                 precision, base_tax=0.0):
+    #     result = {'tax_discount': 0.0, 'taxes': []}
 
-        for tax in taxes:
-            if tax.get('type') == 'weight' and product:
-                product_read = self.pool.get('product.product').read(
-                    cr, uid, product, ['weight_net'])
-                tax['amount'] = round((product_qty * product_read.get(
-                    'weight_net', 0.0)) * tax['percent'], precision)
+    #    for tax in taxes:
+    #        if tax.get('type') == 'weight' and product:
+    #            product_read = self.pool.get('product.product').read(
+    #                cr, uid, product, ['weight_net'])
+    #            tax['amount'] = round((product_qty * product_read.get(
+    #                'weight_net', 0.0)) * tax['percent'], precision)
 
-            if base_tax:
-                total_line = base_tax
+    #        if base_tax:
+    #            total_line = base_tax
 
-            if tax.get('type') == 'quantity':
-                tax['amount'] = round(product_qty * tax['percent'], precision)
+    #        if tax.get('type') == 'quantity':
+    #            tax['amount'] = round(product_qty * tax['percent'], precision)
 
-            tax['amount'] = round(total_line * tax['percent'], precision)
-            tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']),
-                                  precision)
+    #        tax['amount'] = round(total_line * tax['percent'], precision)
+    #        tax['amount'] = round(tax['amount'] * (1 - tax['base_reduction']),
+    #                              precision)
 
-            if tax.get('tax_discount'):
-                result['tax_discount'] += tax['amount']
+    #        if tax.get('tax_discount'):
+    #            result['tax_discount'] += tax['amount']
 
-            if tax['percent']:
-                unrounded_base = total_line * (1 - tax['base_reduction'])
-                tax['total_base'] = round(unrounded_base, precision)
-                tax['total_base_other'] = round(total_line - tax['total_base'],
-                                                precision)
-            else:
-                tax['total_base'] = 0.00
-                tax['total_base_other'] = 0.00
+    #        if tax['percent']:
+    #            unrounded_base = total_line * (1 - tax['base_reduction'])
+    #            tax['total_base'] = round(unrounded_base, precision)
+    #            tax['total_base_other'] = round(total_line - tax['total_base'],
+    #                                            precision)
+    #        else:
+    #            tax['total_base'] = 0.00
+    #            tax['total_base_other'] = 0.00
 
-        result['taxes'] = taxes
+    #    result['taxes'] = taxes
+    #    return result
+
+
+
+
+    @api.multi
+    def compute_all(self, price_unit, currency=None, quantity=1.0,
+                   product=None, partner=None, fiscal_position=False,
+                   insurance_value=0.0, freight_value=0.0,
+                   other_costs_value=0.0, base_tax=0.0):
+        """ Returns all information required to apply taxes
+            (in self + their children in case of a tax goup).
+            We consider the sequence of the parent for group of taxes.
+                Eg. considering letters as taxes and alphabetic order
+                as sequence :
+                [G, B([A, D, F]), E, C] will be computed as [A, D, F, C, E, G]
+        RETURN: {
+            'total_excluded': 0.0,    # Total without taxes
+            'total_included': 0.0,    # Total with taxes
+            'total_tax_discount': 0.0 # Total tax out of price
+            'taxes': [{               # One dict for each tax in self
+                                      # and their children
+                'id': int,
+                'name': str,
+                'amount': float,
+                'sequence': int,
+                'account_id': int,
+                'refund_account_id': int,
+                'analytic': boolean,
+            }]
+        } """
+        result = super(AccountTax, self).compute_all(price_unit, currency,
+                                                   quantity, product,
+                                                   partner)
+        result['total_tax_discount'] = 0.0
         return result
-
-    # TODO
-    # Refatorar este método, para ficar mais simples e não repetir
-    # o que esta sendo feito no método l10n_br_account_product
-    @api.v7
-    def compute_all(self, cr, uid, taxes, price_unit, quantity,
-                    product=None, partner=None, force_excluded=False,
-                    fiscal_position=False, insurance_value=0.0,
-                    freight_value=0.0, other_costs_value=0.0, base_tax=0.0):
-        """Compute taxes
-        Returns a dict of the form::
-        {
-            'total': Total without taxes,
-            'total_included': Total with taxes,
-            'total_tax_discount': Total Tax Discounts,
-            'taxes': <list of taxes, objects>,
-            'total_base': Total Base by tax,
-        }
-        :Parameters:
-            - 'cr': Database cursor.
-            - 'uid': Current user.
-            - 'taxes': List with all taxes id.
-            - 'price_unit': Product price unit.
-            - 'quantity': Product quantity.
-            - 'force_excluded': Used to say that we don't want to consider
-                                the value of field price_include of tax.
-                                It's used in encoding by line where you don't
-                                matter if you encoded a tax with that boolean
-                                to True or False.
-        """
+        """ Returns all information required to apply taxes
+            (in self + their children in case of a tax goup).
+            We consider the sequence of the parent for group of taxes.
+                Eg. considering letters as taxes and alphabetic
+                    order as sequence :
+                [G, B([A, D, F]), E, C] will be computed as [A, D, F, C, E, G]
+        RETURN: {
+            'total_excluded': 0.0,    # Total without taxes
+            'total_included': 0.0,    # Total with taxes
+            'total_tax_discount': 0.0 # Total tax out of price
+            'taxes': [{               # One dict for each tax in
+                'id': int,            # self and their children
+                'name': str,
+                'amount': float,
+                'sequence': int,
+                'account_id': int,
+                'refund_account_id': int,
+                'analytic': boolean,
+            }]
+        } """
+"""
         obj_precision = self.pool.get('decimal.precision')
         precision = obj_precision.precision_get(cr, uid, 'Account')
         result = super(AccountTax, self).compute_all(cr, uid, taxes,
@@ -275,17 +311,4 @@ class AccountTax(models.Model):
             'total_tax_discount': totaldc,
             'taxes': calculed_taxes,
             'total_taxes': result.get('total_taxes', 0.00),
-        }
-
-    @api.v8
-    def compute_all(self, price_unit, quantity, product=None, partner=None,
-                    force_excluded=False, fiscal_position=False,
-                    insurance_value=0.0, freight_value=0.0,
-                    other_costs_value=0.0, base_tax=0.00):
-        return self._model.compute_all(
-            self._cr, self._uid, self, price_unit, quantity,
-            product=product, partner=partner,
-            force_excluded=force_excluded,
-            fiscal_position=fiscal_position, insurance_value=insurance_value,
-            freight_value=freight_value, other_costs_value=other_costs_value,
-            base_tax=base_tax)
+        }"""
