@@ -1595,7 +1595,7 @@ class HrPayslip(models.Model):
 
         # caso nao encontre holerite de adiantamento,
         # retorne o valor cadastrado no contrato
-        return self.contract_id.adiantamento_13_cedente or 0.0
+        # return self.contract_id.adiantamento_13_cedente or 0.0
 
     def rubrica_anterior_total(self, code, mes=-1, tipo_de_folha='normal'):
         '''Metodo para recuperar uma rubrica de um mes anterior
