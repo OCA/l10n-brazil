@@ -20,16 +20,3 @@ class ProductTemplate(models.Model):
         'Tipo Fiscal',
         default=PRODUCT_FISCAL_TYPE_DEFAULT
     )
-
-
-class L10nBrAccountProductFiscalCategory(models.Model):
-    _name = 'l10n_br_account.product.category'
-
-    fiscal_category_source_id = fields.Many2one(
-        'l10n_br_account.fiscal.category', 'Categoria de Origem')
-    fiscal_category_destination_id = fields.Many2one(
-        'l10n_br_account.fiscal.category', 'Categoria de Destino')
-    product_tmpl_id = fields.Many2one(
-        'product.template', 'Produto', ondelete='cascade')
-    to_state_id = fields.Many2one(
-        'res.country.state', 'Estado Destino')
