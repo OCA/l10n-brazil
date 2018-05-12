@@ -46,7 +46,7 @@ class L10nBrAccountFiscalCategory(models.Model):
         comodel_name='account.journal',
         string=u"Diário Contábil",
         company_dependent=True,
-        help=u"Diário utilizado para esta categoria de operação fiscal)
+        help=u"Diário utilizado para esta categoria de operação fiscal")
 
     journal_type = fields.Selection(
         selection=[('sale', u'Saída'),
