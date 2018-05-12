@@ -3,6 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api, _
+from odoo.exceptions import Warning as UserError
 
 OPERATION_TYPE = {
     'out_invoice': 'output',
@@ -50,9 +51,10 @@ class AccountInvoice(models.Model):
     def _compute_receivables(self):
         lines = self.env['account.move.line']
         for line in self.move_id.line_ids:
-            if line.account_id.id == self.account_id.id and \
-                        line.account_id.user_type_id.type in ('receivable', 'payable') and \
-                    self.journal_id.revenue_expense:
+            if (line.account_id.id == self.account_id.id and
+                    self.journal_id.revenue_expense and
+                    line.account_id.user_type_id.type in ('receivable',
+                                                          'payable')):
                 lines |= line
         self.move_line_receivable_id = (lines).sorted()
 
@@ -61,78 +63,77 @@ class AccountInvoice(models.Model):
             ('sefaz_export', 'Enviar para Receita'),
             ('sefaz_exception', u'Erro de autorização da Receita'),
             ('sefaz_cancelled', 'Cancelado no Sefaz'),
-            ('sefaz_denied', 'Denegada no Sefaz')]
-    )
+            ('sefaz_denied', 'Denegada no Sefaz')])
+
     move_line_receivable_id = fields.Many2many(
         comodel_name='account.move.line',
         string=u'Receivables',
-        compute='_compute_receivables'
-    )
+        compute='_compute_receivables')
+
     document_serie_id = fields.Many2one(
         comodel_name='l10n_br_account.document.serie',
         string=u'Série',
         domain="[('fiscal_document_id', '=', fiscal_document_id),"
                "('company_id', '=', company_id)]",
         readonly=True,
-        states={'draft': [('readonly', False)]}
-    )
+        states={'draft': [('readonly', False)]})
+
     fiscal_document_id = fields.Many2one(
-        comodel_name='l10n_br_account.fiscal.document'
+        comodel_name='l10n_br_account.fiscal.document',
         string=u'Documento',
         readonly=True,
-        states={'draft': [('readonly', False)]}
-    )
+        states={'draft': [('readonly', False)]})
+
     fiscal_document_electronic = fields.Boolean(
         related='fiscal_document_id.electronic',
         store=True,
         readonly=True,
-        string='Electronic'
-    )
+        string='Electronic')
+
     fiscal_document_code = fields.Char(
         related='fiscal_document_id.code',
         store=True,
         readonly=True,
-        string='Document Code'
-    )
+        string='Document Code')
+
     fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
         string=u'Categoria Fiscal',
         readonly=True,
-        states={'draft': [('readonly', False)]}
-    )
+        states={'draft': [('readonly', False)]})
+
     fiscal_position_id = fields.Many2one(
         comodel_name='account.fiscal.position',
         string=u'Fiscal Position',
         readonly=True,
         states={'draft': [('readonly', False)]},
-    	oldname='fiscal_position',
-    )
+        oldname='fiscal_position')
+
     account_document_event_ids = fields.One2many(
         comodel_name='l10n_br_account.document_event',
         inverse_name='document_event_ids',
-        string=u'Eventos'
-    )
+        string=u'Eventos')
+
     fiscal_comment = fields.Text(
-        string=u'Observação Fiscal'
-    )
+        string=u'Observação Fiscal')
+
     cnpj_cpf = fields.Char(
         string=u'CNPJ/CPF',
-        related='partner_id.cnpj_cpf',
-    )
+        related='partner_id.cnpj_cpf')
+
     legal_name = fields.Char(
         string=u'Razão Social',
-        related='partner_id.legal_name',
-    )
+        related='partner_id.legal_name')
+
     ie = fields.Char(
         string=u'Inscrição Estadual',
-        related='partner_id.inscr_est',
-    )
+        related='partner_id.inscr_est')
+
     revenue_expense = fields.Boolean(
         related='journal_id.revenue_expense',
         readonly=True,
         store=True,
-        string=u'Gera Financeiro'
-    )
+        string=u'Gera Financeiro')
 
     @api.multi
     def name_get(self):
@@ -203,7 +204,7 @@ class AccountInvoice(models.Model):
             kwargs.get('fiscal_category_id'))
         result['value']['journal_id'] = fcategory.property_journal.id
         if not result['value'].get('journal_id', False):
-            raise except_orm(
+            raise UserError(
                 _('Nenhum Diário !'),
                 _("Categoria fiscal: '%s', não tem um diário contábil para a \
                 empresa %s") % (fcategory.name, company.name))
