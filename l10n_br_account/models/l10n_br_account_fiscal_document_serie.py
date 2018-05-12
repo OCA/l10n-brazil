@@ -5,6 +5,9 @@
 
 from odoo import models, fields, api
 
+from .l10n_br_account import (PRODUCT_FISCAL_TYPE,
+                              PRODUCT_FISCAL_TYPE_DEFAULT)
+
 
 class L10nBrAccountDocumentSerie(models.Model):
     _name = 'l10n_br_account.document.serie'
