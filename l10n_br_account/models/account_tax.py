@@ -2,7 +2,7 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields, api
+from odoo import models, api
 
 
 class AccountTax(models.Model):
@@ -43,9 +43,9 @@ class AccountTax(models.Model):
     @api.multi
     def compute_all(self, price_unit, currency=None,
                     quantity=1.0, product=None, partner=None):
-        """Returns all information required to apply taxes 
+        """Returns all information required to apply taxes
         (in self + their children in case of a tax goup).
-        
+
         We consider the sequence of the parent for group of taxes.
             Eg. considering letters as taxes and alphabetic order as sequence:
             [G, B([A, D, F]), E, C] will be computed as [A, D, F, C, E, G]
@@ -73,10 +73,10 @@ class AccountTax(models.Model):
 
         precision = self.env['decimal.precision'].precision_get('Account')
         if not currency:
-	    if len(self) == 0:
-	        company_id = self.env.user.company_id
+            if len(self) == 0:
+                company_id = self.env.user.company_id
             else:
-	        company_id = self[0].company_id
+                company_id = self[0].company_id
             currency = company_id.currency_id
         taxes = self
         result = super(AccountTax, self).compute_all(price_unit,
