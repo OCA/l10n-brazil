@@ -25,16 +25,27 @@ class L10nBrAccountCce(models.Model):
     _description = u'Carta de Correção no Sefaz'
 
     # TODO nome de campos devem ser em ingles
-    invoice_id = fields.Many2one('account.invoice', 'Fatura')
-    motivo = fields.Text('Motivo', readonly=True, required=True)
+    invoice_id = fields.Many2one(
+        comodel_name='account.invoice',
+        string=u'Fatura')
+
+    motivo = fields.Text(
+        string=u'Motivo',
+        readonly=True,
+        required=True)
+
     sequencia = fields.Char(
-        u'Sequência', help=u"Indica a sequência da carta de correcão")
+        string=u'Sequência',
+        help=u"Indica a sequência da carta de correcão")
+
     cce_document_event_ids = fields.One2many(
-        'l10n_br_account.document_event', 'document_event_ids', u'Eventos')
+        comodel_name='l10n_br_account.document_event',
+        inverse_name='document_event_ids',
+        string=u'Eventos')
 
     display_name = fields.Char(
-        string='Name', compute='_compute_display_name',
-    )
+        string='Name',
+        compute='_compute_display_name')
 
     @api.multi
     @api.depends('invoice_id.number', 'invoice_id.partner_id.name')
@@ -49,18 +60,29 @@ class L10nBrAccountInvoiceCancel(models.Model):
     _name = 'l10n_br_account.invoice.cancel'
     _description = u'Documento Eletrônico no Sefaz'
 
-    invoice_id = fields.Many2one('account.invoice', 'Fatura')
-    partner_id = fields.Many2one('res.partner',
-                                 related='invoice_id.partner_id',
-                                 string='Cliente')
-    justificative = fields.Char(string='Justificativa', size=255,
-                                readonly=True, required=True)
+    invoice_id = fields.Many2one(
+        comodel_name='account.invoice',
+        string=u'Fatura')
+
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        related='invoice_id.partner_id',
+        string='Cliente')
+
+    justificative = fields.Char(
+        string='Justificativa',
+        size=255,
+        readonly=True,
+        required=True)
+
     cancel_document_event_ids = fields.One2many(
-        'l10n_br_account.document_event', 'cancel_document_event_id',
-        u'Eventos')
+        comodel_name='l10n_br_account.document_event',
+        inverse_name='cancel_document_event_id',
+        string=u'Eventos')
 
     display_name = fields.Char(
-        string='Nome', compute='_compute_display_name',
+        string=u'Nome',
+        compute='_compute_display_name',
     )
 
     @api.multi
@@ -88,47 +110,94 @@ class L10nBrDocumentEvent(models.Model):
     _name = 'l10n_br_account.document_event'
 
     type = fields.Selection(
-        [('-1', u'Exception'),
-         ('0', u'Envio Lote'),
-         ('1', u'Consulta Recibo'),
-         ('2', u'Cancelamento'),
-         ('3', u'Inutilização'),
-         ('4', u'Consulta NFE'),
-         ('5', u'Consulta Situação'),
-         ('6', u'Consulta Cadastro'),
-         ('7', u'DPEC Recepção'),
-         ('8', u'DPEC Consulta'),
-         ('9', u'Recepção Evento'),
-         ('10', u'Download'),
-         ('11', u'Consulta Destinadas'),
-         ('12', u'Distribuição DFe'),
-         ('13', u'Manifestação'), ], 'Serviço')
-    response = fields.Char(u'Descrição', size=64, readonly=True)
+        selection=[('-1', u'Exception'),
+                   ('0', u'Envio Lote'),
+                   ('1', u'Consulta Recibo'),
+                   ('2', u'Cancelamento'),
+                   ('3', u'Inutilização'),
+                   ('4', u'Consulta NFE'),
+                   ('5', u'Consulta Situação'),
+                   ('6', u'Consulta Cadastro'),
+                   ('7', u'DPEC Recepção'),
+                   ('8', u'DPEC Consulta'),
+                   ('9', u'Recepção Evento'),
+                   ('10', u'Download'),
+                   ('11', u'Consulta Destinadas'),
+                   ('12', u'Distribuição DFe'),
+                   ('13', u'Manifestação')],
+        string='Serviço')
+
+    response = fields.Char(
+        string=u'Descrição',
+        size=64,
+        readonly=True)
+
     company_id = fields.Many2one(
-        'res.company', 'Empresa', readonly=True,
+        comodel_name='res.company',
+        string='Empresa',
+        readonly=True,
         states={'draft': [('readonly', False)]})
+
     origin = fields.Char(
-        'Documento de Origem', size=64,
-        readonly=True, states={'draft': [('readonly', False)]},
-        help="Referência ao documento que gerou o evento.")
-    file_sent = fields.Char('Envio', readonly=True)
-    file_returned = fields.Char('Retorno', readonly=True)
-    status = fields.Char(u'Código', readonly=True)
-    message = fields.Char('Mensagem', readonly=True)
-    create_date = fields.Datetime(u'Data Criação', readonly=True)
-    write_date = fields.Datetime(u'Data Alteração', readonly=True)
-    end_date = fields.Datetime(u'Data Finalização', readonly=True)
+        string=u'Documento de Origem',
+        size=64,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        help=u"Referência ao documento que gerou o evento.")
+
+    file_sent = fields.Char(
+        string='Envio',
+        readonly=True)
+
+    file_returned = fields.Char(
+        string='Retorno',
+        readonly=True)
+
+    status = fields.Char(
+        string=u'Código',
+        readonly=True)
+
+    message = fields.Char(
+        string=u'Mensagem',
+        readonly=True)
+
+    create_date = fields.Datetime(
+        string=u'Data Criação',
+        readonly=True)
+
+    write_date = fields.Datetime(
+        string=u'Data Alteração',
+        readonly=True)
+
+    end_date = fields.Datetime(
+        string=u'Data Finalização',
+        readonly=True)
+
     state = fields.Selection(
-        [('draft', 'Rascunho'), ('send', 'Enviado'),
-         ('wait', 'Aguardando Retorno'), ('done', 'Recebido Retorno')],
-        'Status', index=True, readonly=True, default='draft')
+        selection=[('draft', 'Rascunho'),
+                   ('send', 'Enviado'),
+                   ('wait', 'Aguardando Retorno'),
+                   ('done', 'Recebido Retorno')],
+        string=u'Status',
+        index=True,
+        readonly=True,
+        default='draft')
+
     document_event_ids = fields.Many2one(
-        'account.invoice', 'Documentos')
+        comodel_name='account.invoice',
+        string=u'Documentos')
+
     cancel_document_event_id = fields.Many2one(
-        'l10n_br_account.invoice.cancel', 'Cancelamento')
+        comodel_name='l10n_br_account.invoice.cancel',
+        string='Cancelamento')
+
     invalid_number_document_event_id = fields.Many2one(
-        'l10n_br_account.invoice.invalid.number', u'Inutilização')
-    display_name = fields.Char(string='Nome', compute='_compute_display_name')
+        comodel_name='l10n_br_account.invoice.invalid.number',
+        string=u'Inutilização')
+
+    display_name = fields.Char(
+        string='Nome',
+        compute='_compute_display_name')
 
     _order = 'write_date desc'
 
@@ -141,148 +210,9 @@ class L10nBrDocumentEvent(models.Model):
 
     @api.multi
     def set_done(self):
-        self.write({'state': 'done', 'end_date': datetime.datetime.now()})
+        self.write({'state': 'done', 
+                    'end_date': datetime.datetime.now()})
         return True
-
-
-class L10nBrAccountFiscalCategory(models.Model):
-    """Fiscal Category to apply fiscal and account parameters in documents."""
-    _name = 'l10n_br_account.fiscal.category'
-    _description = 'Categoria Fiscal'
-
-    code = fields.Char(u'Código', size=254, required=True)
-    name = fields.Char(
-        string=u'Descrição',
-        size=254,
-        help="Natureza da operação informada no XML")
-    type = fields.Selection(TYPE, 'Tipo', default='output')
-    fiscal_type = fields.Selection(
-        PRODUCT_FISCAL_TYPE, 'Tipo Fiscal',
-        default=PRODUCT_FISCAL_TYPE_DEFAULT)
-    property_journal = fields.Many2one(
-        'account.journal', string=u"Diário Contábil", company_dependent=True,
-        help=u"Diário utilizado para esta categoria de operação fiscal")
-    journal_type = fields.Selection(
-        [('sale', u'Saída'), ('sale_refund', u'Devolução de Saída'),
-         ('purchase', u'Entrada'),
-         ('purchase_refund', u'Devolução de Entrada')], u'Tipo do Diário',
-        size=32, required=True, default='sale')
-    refund_fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category', u'Categoria Fiscal de Devolução',
-        domain="""[('type', '!=', type), ('fiscal_type', '=', fiscal_type),
-            ('journal_type', 'like', journal_type),
-            ('state', '=', 'approved')]""")
-    reverse_fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category', u'Categoria Fiscal Inversa',
-        domain="""[('type', '!=', type), ('fiscal_type', '=', fiscal_type),
-            ('state', '=', 'approved')]""")
-    fiscal_position_ids = fields.One2many(
-        'account.fiscal.position',
-        'fiscal_category_id', string=u'Posições Fiscais')
-    note = fields.Text(u'Observações')
-    state = fields.Selection(
-        [('draft', u'Rascunho'),
-         ('review', u'Revisão'), ('approved', u'Aprovada'),
-         ('unapproved', u'Não Aprovada')],
-        'Status', readonly=True,
-        track_visibility='onchange', index=True, default='draft')
-
-    _sql_constraints = [
-        ('l10n_br_account_fiscal_category_code_uniq', 'unique (code)',
-         u'Já existe uma categoria fiscal com esse código!')
-    ]
-
-    @api.multi
-    def action_unapproved_draft(self):
-        """Set state to draft and create a new workflow instance"""
-        self.write({'state': 'draft'})
-        self.delete_workflow()
-        self.create_workflow()
-        return True
-
-    @api.multi
-    def onchange_journal_type(self, journal_type):
-        """Clear property_journal"""
-        return {'value': {'property_journal': None}}
-
-
-class L10nBrAccountServiceType(models.Model):
-    _name = 'l10n_br_account.service.type'
-    _description = u'Cadastro de Operações Fiscais de Serviço'
-
-    code = fields.Char(u'Código', size=16, required=True)
-    name = fields.Char(u'Descrição', size=256, required=True)
-    parent_id = fields.Many2one(
-        'l10n_br_account.service.type', 'Tipo de Serviço Pai')
-    child_ids = fields.One2many(
-        'l10n_br_account.service.type', 'parent_id',
-        u'Tipo de Serviço Filhos')
-    internal_type = fields.Selection(
-        [('view', u'Visualização'), ('normal', 'Normal')], 'Tipo Interno',
-        required=True, default='normal')
-
-    @api.multi
-    def name_get(self):
-        result = []
-        for record in self:
-            name = record['name']
-            if record['code']:
-                name = record['code'] + ' - ' + name
-            result.append((record['id'], name))
-        return result
-
-
-class L10nBrAccountFiscalDocument(models.Model):
-    _name = 'l10n_br_account.fiscal.document'
-    _description = 'Tipo de Documento Fiscal'
-
-    code = fields.Char(u'Codigo', size=8, required=True)
-    name = fields.Char(u'Descrição', size=64)
-    electronic = fields.Boolean(u'Eletrônico')
-
-
-class L10nBrAccountDocumentSerie(models.Model):
-    _name = 'l10n_br_account.document.serie'
-    _description = 'Serie de documentos fiscais'
-
-    code = fields.Char(u'Código', size=3, required=True)
-
-    name = fields.Char(u'Descrição', required=True)
-
-    active = fields.Boolean('Ativo')
-
-    fiscal_type = fields.Selection(PRODUCT_FISCAL_TYPE, 'Tipo Fiscal',
-                                   default=PRODUCT_FISCAL_TYPE_DEFAULT)
-
-    fiscal_document_id = fields.Many2one('l10n_br_account.fiscal.document',
-                                         'Documento Fiscal', required=True)
-
-    company_id = fields.Many2one('res.company', 'Empresa',
-                                 required=True)
-
-    internal_sequence_id = fields.Many2one('ir.sequence',
-                                           u'Sequência Interna')
-
-    @api.model
-    def _create_sequence(self, vals):
-        """ Create new no_gap entry sequence for every
-         new document serie """
-        seq = {
-            'name': vals['name'],
-            'implementation': 'no_gap',
-            'padding': 1,
-            'number_increment': 1}
-        if 'company_id' in vals:
-            seq['company_id'] = vals['company_id']
-        return self.env['ir.sequence'].create(seq).id
-
-    @api.model
-    def create(self, vals):
-        """ Overwrite method to create a new ir.sequence if
-         this field is null """
-        if not vals.get('internal_sequence_id'):
-            vals.update({'internal_sequence_id': self._create_sequence(vals)})
-        return super(L10nBrAccountDocumentSerie, self).create(vals)
 
 
 class L10nBrAccountInvoiceInvalidNumber(models.Model):
@@ -299,41 +229,62 @@ class L10nBrAccountInvoiceInvalidNumber(models.Model):
                  ) for rec in self]
 
     company_id = fields.Many2one(
-        'res.company', 'Empresa', readonly=True,
-        states={'draft': [('readonly', False)]}, required=True,
+        comodel_name='res.company',
+        string=u'Empresa',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        required=True,
         default=lambda self: self.env['res.company']._company_default_get(
             'l10n_br_account.invoice.invalid.number'))
 
     fiscal_document_id = fields.Many2one(
-        'l10n_br_account.fiscal.document', 'Documento Fiscal',
-        readonly=True, states={'draft': [('readonly', False)]},
+        comodel_name='l10n_br_account.fiscal.document',
+        string=u'Documento Fiscal',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
         required=True)
 
     document_serie_id = fields.Many2one(
-        'l10n_br_account.document.serie', u'Série',
+        comodel_name='l10n_br_account.document.serie',
+        string=u'Série',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
         domain="[('fiscal_document_id', '=', fiscal_document_id), "
-        "('company_id', '=', company_id)]", readonly=True,
-        states={'draft': [('readonly', False)]}, required=True)
+               "('company_id', '=', company_id)]",
+        required=True)
 
     number_start = fields.Integer(
-        u'Número Inicial', readonly=True,
-        states={'draft': [('readonly', False)]}, required=True)
+        string=u'Número Inicial',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        required=True)
 
     number_end = fields.Integer(
-        u'Número Final', readonly=True,
-        states={'draft': [('readonly', False)]}, required=True)
+        string=u'Número Final',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        required=True)
 
     state = fields.Selection(
-        [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
-         ('done', u'Concluído')], 'Status', required=True, default='draft')
+        selection=[('draft', 'Rascunho'),
+                   ('cancel', 'Cancelado'),
+                   ('done', u'Concluído')],
+        string='Status',
+        required=True,
+        default='draft')
 
     justificative = fields.Char(
-        'Justificativa', size=255, readonly=True,
-        states={'draft': [('readonly', False)]}, required=True)
+        string=u'Justificativa',
+        size=255,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        required=True)
 
     invalid_number_document_event_ids = fields.One2many(
-        'l10n_br_account.document_event', 'invalid_number_document_event_id',
-        u'Eventos', states={'done': [('readonly', True)]})
+        comodel_name='l10n_br_account.document_event',
+        inverse_name='invalid_number_document_event_id',
+        string=u'Eventos',
+        states={'done': [('readonly', True)]})
 
     _sql_constraints = [
         ('number_uniq',
@@ -394,126 +345,3 @@ class L10nBrAccountInvoiceInvalidNumber(models.Model):
                 raise UserError(_(
                     u'Você não pode excluir uma sequência concluída.'))
         return super(L10nBrAccountInvoiceInvalidNumber, self).unlink()
-
-
-class L10nBrAccountPartnerFiscalType(models.Model):
-
-    _name = 'l10n_br_account.partner.fiscal.type'
-    _description = 'Tipo Fiscal de Parceiros'
-
-    code = fields.Char(u'Código', size=16, required=True)
-
-    name = fields.Char(u'Descrição', size=64)
-
-    is_company = fields.Boolean(u'Pessoa Jurídica?')
-
-    default = fields.Boolean(u'Tipo Fiscal Padrão', default=True)
-
-    icms = fields.Boolean('Recupera ICMS')
-
-    ipi = fields.Boolean('Recupera IPI')
-
-    @api.constrains('default', 'is_company')
-    def _check_default(self):
-        for fiscal_type in self:
-            if len(fiscal_type.search([
-                ('default', '=', 'True'),
-                ('is_company', '=', fiscal_type.is_company)
-            ])) > 1:
-                raise UserError(
-                    _(u'Mantenha apenas um tipo fiscal padrão'
-                      u' para Pessoa Física ou para Pessoa Jurídica!'))
-            return True
-
-
-class L10nBrAccountPartnerSpecialFiscalType(models.Model):
-    _name = 'l10n_br_account.partner.special.fiscal.type'
-    _description = 'Regime especial do parceiro'
-
-    name = fields.Char(u'Nome', size=20)
-
-
-class L10nBrAccountCNAE(models.Model):
-    """Classe para cadastro de Código Nacional de Atividade Econômica.
-
-        Os CNAEs são utilizados no cadastro de empresa para definir o
-    ramo de atividade primário e secundários das empresas cadastradas no Odoo.
-    """
-
-    _name = 'l10n_br_account.cnae'
-    _description = 'Cadastro de CNAE'
-
-    code = fields.Char(
-        u'Código',
-        size=16,
-        required=True
-    )
-
-    name = fields.Char(
-        u'Descrição',
-        size=64,
-        required=True
-    )
-
-    version = fields.Char(
-        u'Versão',
-        size=16,
-        required=True
-    )
-
-    parent_id = fields.Many2one(
-        'l10n_br_account.cnae',
-        u'CNAE Pai'
-    )
-
-    child_ids = fields.One2many(
-        'l10n_br_account.cnae',
-        'parent_id',
-        u'CNAEs Filhos'
-    )
-
-    internal_type = fields.Selection(
-        [('view', u'Visualização'),
-         ('normal', 'Normal')],
-        u'Tipo Interno',
-        required=True,
-        default='normal'
-    )
-
-    @api.multi
-    def name_get(self):
-        result = []
-        for record in self:
-            name = record['name']
-            if record['code']:
-                name = record['code'] + ' - ' + name
-            result.append((record['id'], name))
-        return result
-
-
-class L10nBrTaxDefinitionTemplate(object):
-    _name = 'l10n_br_tax.definition.template'
-
-    tax_template_id = fields.Many2one('account.tax.template', u'Imposto',
-                                      required=True)
-
-    # TODO
-    # tax_code_template_id = fields.Many2one('account.tax.code.template',
-    #                                        u'Código de Imposto')
-
-
-class L10nBrTaxDefinition(object):
-    _name = 'l10n_br_tax.definition'
-
-    tax_id = fields.Many2one('account.tax', string='Imposto', required=True)
-
-    # TODO
-    # tax_code_id = fields.Many2one('account.tax.code', u'Código de Imposto')
-
-    company_id = fields.Many2one(
-        'res.company',
-        string=u'Company',
-        related='tax_id.company_id',
-        store=True,
-        readonly=True
-    )
