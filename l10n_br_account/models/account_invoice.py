@@ -3,7 +3,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import models, fields, api, _
-from odoo.addons import decimal_precision as dp
 
 OPERATION_TYPE = {
     'out_invoice': 'output',
@@ -52,7 +51,7 @@ class AccountInvoice(models.Model):
         lines = self.env['account.move.line']
         for line in self.move_id.line_ids:
             if line.account_id.id == self.account_id.id and \
-                            line.account_id.user_type_id.type in ('receivable', 'payable') and \
+                        line.account_id.user_type_id.type in ('receivable', 'payable') and \
                     self.journal_id.revenue_expense:
                 lines |= line
         self.move_line_receivable_id = (lines).sorted()
@@ -62,39 +61,60 @@ class AccountInvoice(models.Model):
             ('sefaz_export', 'Enviar para Receita'),
             ('sefaz_exception', u'Erro de autorização da Receita'),
             ('sefaz_cancelled', 'Cancelado no Sefaz'),
-            ('sefaz_denied', 'Denegada no Sefaz'),
-        ])
+            ('sefaz_denied', 'Denegada no Sefaz')]
+    )
     move_line_receivable_id = fields.Many2many(
-        'account.move.line', string='Receivables',
-        compute='_compute_receivables')
+        comodel_name='account.move.line',
+        string=u'Receivables',
+        compute='_compute_receivables'
+    )
     document_serie_id = fields.Many2one(
-        'l10n_br_account.document.serie', string=u'Série',
-        domain="[('fiscal_document_id', '=', fiscal_document_id),\
-        ('company_id','=',company_id)]", readonly=True,
-        states={'draft': [('readonly', False)]})
+        comodel_name='l10n_br_account.document.serie',
+        string=u'Série',
+        domain="[('fiscal_document_id', '=', fiscal_document_id),"
+               "('company_id', '=', company_id)]",
+        readonly=True,
+        states={'draft': [('readonly', False)]}
+    )
     fiscal_document_id = fields.Many2one(
-        'l10n_br_account.fiscal.document', string='Documento', readonly=True,
-        states={'draft': [('readonly', False)]})
+        comodel_name='l10n_br_account.fiscal.document'
+        string=u'Documento',
+        readonly=True,
+        states={'draft': [('readonly', False)]}
+    )
     fiscal_document_electronic = fields.Boolean(
-        related='fiscal_document_id.electronic', type='boolean', readonly=True,
-        store=True, string='Electronic')
+        related='fiscal_document_id.electronic',
+        store=True,
+        readonly=True,
+        string='Electronic'
+    )
     fiscal_document_code = fields.Char(
         related='fiscal_document_id.code',
-        readonly=True,
         store=True,
-        string='Document Code')
+        readonly=True,
+        string='Document Code'
+    )
     fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category', 'Categoria Fiscal',
-        readonly=True, states={'draft': [('readonly', False)]})
+        comodel_name='l10n_br_account.fiscal.category',
+        string=u'Categoria Fiscal',
+        readonly=True,
+        states={'draft': [('readonly', False)]}
+    )
     fiscal_position_id = fields.Many2one(
-        'account.fiscal.position', 'Fiscal Position', readonly=True,
-        states={'draft': [('readonly', False)]}, 
-	oldname='fiscal_position',
+        comodel_name='account.fiscal.position',
+        string=u'Fiscal Position',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    	oldname='fiscal_position',
     )
     account_document_event_ids = fields.One2many(
-        'l10n_br_account.document_event', 'document_event_ids',
-        u'Eventos')
-    fiscal_comment = fields.Text(u'Observação Fiscal')
+        comodel_name='l10n_br_account.document_event',
+        inverse_name='document_event_ids',
+        string=u'Eventos'
+    )
+    fiscal_comment = fields.Text(
+        string=u'Observação Fiscal'
+    )
     cnpj_cpf = fields.Char(
         string=u'CNPJ/CPF',
         related='partner_id.cnpj_cpf',
@@ -111,7 +131,7 @@ class AccountInvoice(models.Model):
         related='journal_id.revenue_expense',
         readonly=True,
         store=True,
-        string='Gera Financeiro'
+        string=u'Gera Financeiro'
     )
 
     @api.multi
@@ -207,58 +227,3 @@ class AccountInvoice(models.Model):
             'nodestroy': True,
             'res_id': self.id
         }
-
-
-class AccountInvoiceLine(models.Model):
-    _inherit = 'account.invoice.line'
-
-    @api.one
-    @api.depends('price_unit', 'discount', 'invoice_line_tax_ids',
-                 'quantity', 'product_id', 'invoice_id.partner_id',
-                 'invoice_id.currency_id', 'invoice_id.company_id')
-    def _compute_price(self):
-        currency = self.invoice_id and self.invoice_id.currency_id or None
-        price = self.price_unit * (1 - (self.discount or 0.0) / 100.0)
-        taxes = False
-        amount_tax_discount = 0.0
-        if self.invoice_line_tax_ids:
-            taxes = self.invoice_line_tax_ids.compute_all(
-                price, currency,
-                self.quantity,
-                product=self.product_id,
-                partner=self.invoice_id.partner_id)
-
-            amount_tax_discount = taxes['total_tax_discount']
-
-        self.price_subtotal = price_subtotal_signed = \
-            taxes['total_excluded'] if taxes else self.quantity * price
-
-        self.amount_tax_discount = amount_tax_discount
-
-        if (self.invoice_id.currency_id and self.invoice_id.company_id and
-                self.invoice_id.currency_id !=
-                self.invoice_id.company_id.currency_id):
-            price_subtotal_signed = self.invoice_id.currency_id.compute(
-                price_subtotal_signed, self.invoice_id.company_id.currency_id)
-        sign = self.invoice_id.type in ['in_refund', 'out_refund'] and -1 or 1
-        self.price_subtotal_signed = price_subtotal_signed * sign
-
-    fiscal_category_id = fields.Many2one(
-        codmodel_name='l10n_br_account.fiscal.category',
-        string='Categoria Fiscal'
-    )
-
-    fiscal_position_id = fields.Many2one(
-        comodel_name='account.fiscal.position', 
-        string=u'Posição Fiscal',
-        domain="[('fiscal_category_id', '=', fiscal_category_id)]"
-    )
-
-    amount_tax_discount = fields.Float(
-        string='Amount Tax discount',
-        store=True,
-        digits=dp.get_precision('Account'),
-        readonly=True,
-        compute='_compute_price',
-        oldname='price_tax_discount'
-    )
