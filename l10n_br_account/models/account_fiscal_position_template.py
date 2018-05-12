@@ -2,7 +2,7 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields, api
+from odoo import models, fields
 
 from .account_fiscal_position_abstract import (
     AccountFiscalPositionAbstract,
@@ -58,8 +58,7 @@ class AccountFiscalPositionTemplate(AccountFiscalPositionAbstract,
                 'asset_operation': position.asset_operation,
                 'fiscal_category_id': (position.fiscal_category_id and
                                        position.fiscal_category_id.id or
-                                       False)
-            })
+                                       False)})
 
             for tax in position.tax_ids:
                 obj_tax_fp.create({
@@ -77,8 +76,7 @@ class AccountFiscalPositionTemplate(AccountFiscalPositionAbstract,
                     'asset_operation': position.asset_operation,
                     'fiscal_category_id': (position.fiscal_category_id and
                                            position.fiscal_category_id.id or
-                                           False)
-                })
+                                           False)})
 
             for tax in position.tax_ids:
                 obj_tax_fp.create({
@@ -93,16 +91,14 @@ class AccountFiscalPositionTemplate(AccountFiscalPositionAbstract,
                     tax_template_ref.get(tax.tax_dest_id.id, False),
                     'tax_code_dest_id': tax.tax_code_dest_id and
                     tax_code_template_ref.get(tax.tax_code_dest_id.id, False),
-                    'position_id': new_fp
-                })
+                    'position_id': new_fp})
 
             for acc in position.account_ids:
                 obj_ac_fp.create({
                     'account_src_id': acc_template_ref[acc.account_src_id.id],
                     'account_dest_id':
                     acc_template_ref[acc.account_dest_id.id],
-                    'position_id': new_fp
-                })
+                    'position_id': new_fp})
 
         return True
 
@@ -115,5 +111,4 @@ class AccountFiscalPositionTaxTemplate(AccountFiscalPositionTaxAbstract,
     tax_src_id = fields.Many2one(
         comodel_name='account.tax.template',
         string=u'Tax on Product',
-        required=False
-    )
+        required=False)
