@@ -4,6 +4,11 @@
 
 from odoo import models, fields, api
 
+from .account_fiscal_position_abstract import (
+    AccountFiscalPositionAbstract,
+    AccountFiscalPositionTaxAbstract
+)
+
 
 class AccountFiscalPosition(AccountFiscalPositionAbstract,
                             models.Model):
@@ -45,4 +50,3 @@ class AccountFiscalPositionTax(AccountFiscalPositionTaxAbstract,
         string='Tax on Product',
         required=False
     )
-
