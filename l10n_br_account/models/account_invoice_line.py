@@ -2,7 +2,7 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api
 from odoo.addons import decimal_precision as dp
 
 
@@ -46,7 +46,7 @@ class AccountInvoiceLine(models.Model):
     )
 
     fiscal_position_id = fields.Many2one(
-        comodel_name='account.fiscal.position', 
+        comodel_name='account.fiscal.position',
         string=u'Posição Fiscal',
         domain="[('fiscal_category_id', '=', fiscal_category_id)]"
     )
