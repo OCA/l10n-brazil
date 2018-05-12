@@ -9,5 +9,6 @@ from . import res_config
 from . import account
 from . import account_invoice
 from . import product
+from . import l10n_br_account_product_category
 from . import account_fiscal_position_rule
 from . import account_move_line
