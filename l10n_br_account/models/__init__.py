@@ -17,11 +17,11 @@ from . import res_partner
 from . import res_company
 from . import res_config
 from . import account_journal
-from . import account
+from . import account_tax
 from . import wizard_multi_charts_accounts
 from . import account_invoice
 from . import account_invoice_line
-from . import product_product
+from . import product_template
 from . import l10n_br_account_product_category
 from . import account_fiscal_position_rule
 from . import account_move_line
