@@ -5,6 +5,7 @@
 
 from odoo import models, fields, api
 
+
 class L10nBrAccountCNAE(models.Model):
     """Classe para cadastro de Código Nacional de Atividade Econômica.
 
