@@ -13,6 +13,7 @@ from . import account_journal
 from . import account
 from . import wizard_multi_charts_accounts
 from . import account_invoice
+from . import account_invoice_line
 from . import product
 from . import l10n_br_account_product_category
 from . import account_fiscal_position_rule
