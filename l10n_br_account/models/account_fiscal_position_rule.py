@@ -45,8 +45,6 @@ class AccountFiscalPositionRuleTemplate(AccountFiscalPositionRuleAbstract,
         string='Regime especial'
     )
 
-    
-
 
 class AccountFiscalPositionRule(AccountFiscalPositionRuleAbstract,
                                 models.Model):

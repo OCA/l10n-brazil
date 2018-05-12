@@ -210,7 +210,7 @@ class L10nBrDocumentEvent(models.Model):
 
     @api.multi
     def set_done(self):
-        self.write({'state': 'done', 
+        self.write({'state': 'done',
                     'end_date': datetime.datetime.now()})
         return True
 
