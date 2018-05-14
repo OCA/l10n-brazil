@@ -3,8 +3,9 @@
 #    @author Michell Stuttgart <michellstut@gmail.com>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import re
+from __future__ import division, print_function, unicode_literals
 
+import re
 from odoo import models, fields, api
 
 
