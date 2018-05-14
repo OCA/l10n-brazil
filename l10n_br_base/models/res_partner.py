@@ -181,12 +181,14 @@ class ResPartner(models.Model):
     )
 
     l10n_br_city_id = fields.Many2one(
-        'l10n_br_base.city', u'Município',
-        )
+        comodel_name='l10n_br_base.city',
+        string=u'Município',
+    )
 
-    district = fields.Char('Bairro', size=32)
+    district = fields.Char(string='Bairro', size=32)
 
-    number = fields.Char(u'Número', size=10)
+    number = fields.Char(string=u'Número', size=10)
+
     endereco_completo = fields.Char(
         string='Endereço',
         compute='_compute_endereco_completo',

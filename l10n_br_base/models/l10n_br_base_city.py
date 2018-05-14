@@ -8,50 +8,50 @@ from odoo import models, fields, api
 
 
 class L10nBrBaseCity(models.Model):
-    """ Este objeto persite todos os municípios relacionado a um estado.
+    """ Este objeto persiste todos os municípios relacionado a um estado.
     No Brasil é necesário em alguns documentos fiscais informar o código
     do IBGE dos município envolvidos na transação.
     """
     _name = b'l10n_br_base.city'
-    _description = u'record'
+    _description = 'record'
 
     name = fields.Char(
         string='name',
         size=64,
-        required=True
+        required=True,
     )
     state_id = fields.Many2one(
         comodel_name='res.country.state',
         string='Estado',
-        required=True
+        required=True,
     )
     country_id = fields.Many2one(
         related='state_id.country_id',
         store=True,
-        string="Pais"
+        string="País",
     )
     ibge_code = fields.Char(
-        string=u'Código IBGE',
-        size=7
+        string='Código IBGE',
+        size=7,
     )
     siafi_code = fields.Char(
         string='Código SIAFI',
         size=5,
-        index=True
+        index=True,
     )
     anp_code = fields.Char(
         string='Código ANP',
-        size=7
+        size=7,
     )
     uf = fields.Char(
         string='Estado',
         related='state_id.code',
         store=True,
-        index=True
+        index=True,
     )
     phone_code = fields.Char(
         string='DDD',
-        size=2
+        size=2,
     )
     cep_unico = fields.Char(
         string='CEP único',

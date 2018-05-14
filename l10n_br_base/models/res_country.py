@@ -5,7 +5,6 @@
 
 from __future__ import division, print_function, unicode_literals
 
-
 from odoo import models, fields
 from odoo.addons.base.res.res_partner import _tz_get
 
@@ -15,7 +14,7 @@ class ResCountry(models.Model):
 
     bc_code = fields.Char(
         string='Codigo Bacen',
-        size=5
+        size=5,
     )
     ibge_code = fields.Char(
         string='Codigo IBGE',
@@ -23,7 +22,7 @@ class ResCountry(models.Model):
     )
     siscomex_code = fields.Char(
         string='Codigo Siscomex',
-        size=4
+        size=4,
     )
     iso_3166_alfa_2 = fields.Char(
         string='Código ISO 3166',
@@ -35,7 +34,7 @@ class ResCountry(models.Model):
 class ResCountryState(models.Model):
     _inherit = 'res.country.state'
 
-    ibge_code = fields.Char('Codigo IBGE', size=2)
+    ibge_code = fields.Char(string='Codigo IBGE', size=2)
 
     tz = fields.Selection(
         selection=_tz_get,
