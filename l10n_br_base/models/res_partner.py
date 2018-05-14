@@ -364,7 +364,7 @@ class ResPartner(models.Model):
         """
 
         if not self.env['ir.config_parameter'].get_param(
-                'l10n_br_base_check_ie') == u'1':
+                'l10n_br_base_check_ie') == u'True':
             return
 
         for record in self:
