@@ -11,5 +11,5 @@ class HrSalaryRule(models.Model):
     _inherit = b"hr.salary.rule"
 
     codigo_darf = fields.Char(
-        string=b"Código da DARF"
+        string=b"Código da DARF",
     )
