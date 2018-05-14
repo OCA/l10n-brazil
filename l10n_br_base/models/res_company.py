@@ -205,3 +205,27 @@ class ResCompany(models.Model):
             val = re.sub('[^0-9]', '', self.zip)
             if len(val) == 8:
                 self.zip = "%s-%s" % (val[0:5], val[5:8])
+
+    @api.model
+    def create(self, vals):
+        if not vals.get('name') or vals.get('partner_id'):
+            self.clear_caches()
+            return super(ResCompany, self).create(vals)
+        partner = self.env['res.partner'].create({
+            'name': vals['name'],
+            'is_company': True,
+            'image': vals.get('logo'),
+            'customer': False,
+            'email': vals.get('email'),
+            'phone': vals.get('phone'),
+            'website': vals.get('website'),
+            'vat': vals.get('vat'),
+            'inscr_est': vals.get('inscr_est'),
+            'cnpj_cpf': vals.get('cnpj_cpf'),
+            'state_id': vals.get('state_id'),
+        })
+        vals['partner_id'] = partner.id
+        self.clear_caches()
+        company = super(ResCompany, self).create(vals)
+        partner.write({'company_id': company.id})
+        return company
