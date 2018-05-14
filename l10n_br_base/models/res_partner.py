@@ -223,14 +223,6 @@ class ResPartner(models.Model):
         string='É grupo?',
         index=True,
     )
-    im = fields.Char(
-        string='Inscrição municipal',
-        size=14
-    )
-    suframa = fields.Char(
-        string='SUFRAMA',
-        size=12
-    )
     rntrc = fields.Char(
         string='RNTRC',
         size=15
