@@ -13,10 +13,17 @@ class L10nBrCrmOnchangeTest(TransactionCase):
 
         self.crm_lead_01 = self.env['crm.lead'].create({
             'name': 'Test Company Lead',
+            'partner_name': 'Test Company',
+            'legal_name': 'Test Company LTDA',
+            'contact_name': 'Test Name Contact',
+            'name_surname': 'Test NameSurname Contact',
             'cnpj': '56.647.352/0001-98',
             'l10n_br_city_id': self.env.ref('l10n_br_base.city_3205002').id,
+            'country_id': self.env.ref('base.br').id,
             'zip': '29161-695',
             'cpf': '70531160505',
+            'email_from': 'testcontact@email.com',
+            'phone': '999999999',
             })
 
     def test_onchange(self):
@@ -27,6 +34,5 @@ class L10nBrCrmOnchangeTest(TransactionCase):
         self.crm_lead_01.onchange_mask_cpf()
         self.crm_lead_01.onchange_l10n_br_city_id()
         self.crm_lead_01._onchange_zip()
-
-        self.crm_lead_01._create_lead_partner()
+        self.crm_lead_01.partner_id = self.crm_lead_01._create_lead_partner()
         self.crm_lead_01._onchange_partner_id()
