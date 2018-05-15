@@ -55,7 +55,8 @@ class CrmLeadTest(TransactionCase):
             'suframa': '99999999',
             'number': '1225',
             'district': 'centro',
-            'l10n_br_city_id': self.env.ref('l10n_br_base.city_4205407').id
+            'l10n_br_city_id': self.env.ref('l10n_br_base.city_4205407').id,
+            'is_company': True,
         })
 
     # Tests on crm_lead_company :
@@ -202,7 +203,7 @@ class CrmLeadTest(TransactionCase):
                          'In the change of the partner \
                          the field legal_name was not automatically filled.')
 
-        self.assertEqual(self.crm_lead_company_1.cpf,
+        self.assertEqual(self.crm_lead_company_1.cnpj,
                          '22.898.817/0001-61',
                          'In the change of the partner \
                          the field cpf was not automatically filled.')
