@@ -666,11 +666,6 @@ class L10nBrSefip(models.Model):
         :return: dict com valores para criar financial.move
         '''
 
-        # Calcular data de vencimento da DARF
-        data = self.ano + '-' + self.mes + '-' + str(
-            self.company_id.darf_dia_vencimento)
-        data_vencimento = fields.Date.from_string(data) + timedelta(days=31)
-
         # Número do documento da DARF
         sequence_id = self.company_id.darf_sequence_id.id
         doc_number = str(self.env['ir.sequence'].next_by_id(sequence_id))
@@ -680,7 +675,8 @@ class L10nBrSefip(models.Model):
         if not partner_id:
             partner_id = self.company_id.partner_id
 
-        # Preencher campo para indicar tipo de financial.move
+        # Preencher campo para indicar tipo de financial.move e tambem
+        # preencher a data de vencimento
         descricao = 'DARF'
 
         if codigo_receita == '0588':
@@ -694,6 +690,19 @@ class L10nBrSefip(models.Model):
 
         if codigo_receita == '1769':
             descricao += ' - PSS Patronal'
+
+        # Calcular data de vencimento da DARF
+        # data de vencimento setada na conf da empresa
+        dia = str(self.company_id.darf_dia_vencimento)
+        mes = self.mes
+
+        # ou se forem darfs especificas, cair no dia 07 de cada mes
+        if codigo_receita in ['1769', '1661']:
+            dia = '07'
+            mes = str(int(self.mes) + 1)
+
+        data = self.ano + '-' + mes + '-' + dia
+        data_vencimento = fields.Date.from_string(data) + timedelta(days=31)
 
         # Gerar FINANCEIRO da DARF
         vals_darf =  {
