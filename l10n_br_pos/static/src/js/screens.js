@@ -896,7 +896,6 @@ function l10n_br_pos_screens(instance, module) {
                                     QWeb.render('XmlReceipt',{
                                     receipt: receipt, widget: self,
                                 }), json);
-                                self.pos.get('selectedOrder').destroy();
                         }else{
                             this.pos.push_order(currentOrder);
                         }
