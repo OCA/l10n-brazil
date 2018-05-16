@@ -118,14 +118,18 @@ class CrmLead(models.Model):
             self.partner_id.id if self.partner_id else False
         )
         if self.partner_id:
-            result['legal_name'] = self.partner_id.legal_name
-            result['cpf'] = self.partner_id.cnpj_cpf
-            result['inscr_est'] = self.partner_id.inscr_est
-            result['suframa'] = self.partner_id.suframa
             result['number'] = self.partner_id.number
             result['district'] = self.partner_id.district
             result['l10n_br_city_id'] = \
                 self.partner_id.l10n_br_city_id.id
+            if self.partner_id.is_company:
+                result['legal_name'] = self.partner_id.legal_name
+                result['cnpj'] = self.partner_id.cnpj_cpf
+                result['inscr_est'] = self.partner_id.inscr_est
+                result['suframa'] = self.partner_id.suframa
+            else:
+                result['cpf'] = self.partner_id.cnpj_cpf
+                result['name_surname'] = self.partner_id.legal_name
         self.update(result)
 
     @api.model
