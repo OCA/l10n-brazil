@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="menu_cadastro"
+                  name="Cadastro"
+                  sequence="10"
+                  web_icon="l10n_br_base,static/description/cadastro.png"
+        />
+
+        <menuitem id="menu_cadastro_partner"
+                  name="Pessoas e empresas"
+                  sequence="1"
+                  parent="menu_cadastro"
+        />
+
+        <menuitem id="submenu_cadastro_config"
+                  name="Configuração"
+                  parent="menu_cadastro"
+                  sequence="900"
+        />
+
+        <menuitem id="menu_fiscal"
+                  name="Fiscal"
+                  sequence="300"
+                  web_icon="l10n_br_base,static/description/fiscal.png"
+        />
+
+        <menuitem id="submenu_fiscal_config"
+                  name="Configuração"
+                  parent="menu_fiscal"
+                  sequence="900"
+        />
+
+    </data>
+</openerp>

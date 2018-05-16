@@ -3,8 +3,9 @@
 #    @author Michell Stuttgart <michellstut@gmail.com>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import re
+from __future__ import division, print_function, unicode_literals
 
+import re
 from odoo import models, fields, api
 
 
@@ -12,17 +13,28 @@ class ResBank(models.Model):
 
     _inherit = 'res.bank'
 
-    district = fields.Char(u'Bairro', size=32)
-    number = fields.Char(u'Número', size=10)
+    district = fields.Char(string='Bairro', size=32)
 
-    country_id = fields.Many2one('res.country', related='country',
-                                 string=u'País')
+    number = fields.Char(string='Número', size=10)
 
-    state_id = fields.Many2one('res.country.state', related='state',
-                               string=u'Estado')
+    country_id = fields.Many2one(
+        comodel_name='res.country',
+        related='country',
+        string='País',
+    )
 
-    l10n_br_city_id = fields.Many2one('l10n_br_base.city', u'Municipio',
-                                      domain="[('state_id','=',state_id)]")
+    state_id = fields.Many2one(
+        comodel_name='res.country.state',
+        related='state',
+        string='Estado',
+        domain="[('country_id', '=', country_id)]",
+    )
+
+    l10n_br_city_id = fields.Many2one(
+        comodel_name='l10n_br_base.city',
+        string=u'Municipio',
+        domain="[('state_id', '=', state_id)]",
+    )
 
     @api.onchange('l10n_br_city_id')
     def _onchange_l10n_br_city_id(self):

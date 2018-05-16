@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="True">
+
+        <record id="default_l10n_br_base_check_cnpj" model="ir.config_parameter">
+            <field name="key">l10n_br_base_check_cnpj</field>
+            <field name="value" eval="True"/>
+        </record>
+
+        <record id="default_l10n_br_base_check_ie" model="ir.config_parameter">
+            <field name="key">l10n_br_base_check_ie</field>
+            <field name="value" eval="1"/>
+        </record>
+
+        <record id="default_l10n_br_base_check_mail" model="ir.config_parameter">
+            <field name="key">l10n_br_base_check_mail</field>
+            <field name="value" eval="1"/>
+        </record>
+
+        <record id="default_l10n_br_base_check_phone" model="ir.config_parameter">
+            <field name="key">l10n_br_base_check_phone</field>
+            <field name="value" eval="1"/>
+        </record>
+
+        <record id="default_l10n_br_base_check_zip" model="ir.config_parameter">
+            <field name="key">l10n_br_base_check_zip</field>
+            <field name="value" eval="1"/>
+        </record>
+
+    </data>
+
+</odoo>

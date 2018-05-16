@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_l10n_br_base_city_tree" model="ir.ui.view">
+            <field name="name">l10n_br_base.city</field>
+            <field name="model">l10n_br_base.city</field>
+            <field name="arch" type="xml">
+                <tree string="Municípios">
+                    <field name="name" select="1"/>
+                    <field name="state_id" select="1"/>
+                    <field name="country_id" select="1"/>
+                    <field name="ibge_code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_l10n_br_base_city_form" model="ir.ui.view">
+            <field name="name">l10n_br_base.city</field>
+            <field name="model">l10n_br_base.city</field>
+            <field name="arch" type="xml">
+                <form string="Municípios">
+                    <group>
+                        <field name="name"/>    
+                        <field name="state_id"/>
+                        <field name="country_id"/>
+                        <field name="ibge_code"/>
+                        <field name="anp_code"/>
+                        <field name="phone_code"/>
+                        <field name="cep_unico"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_l10n_br_base_city_form" model="ir.actions.act_window">
+            <field name="name">Município</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">l10n_br_base.city</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_l10n_br_base_city_tree"/>
+        </record>
+
+    <menuitem
+        id="menu_item_locais_config"
+        name="Locais"
+        parent="l10n_br_base.submenu_cadastro_config"
+        sequence="100"
+        groups="base.group_system"
+        />
+
+    <menuitem
+        id="menu_l10n_br_base_city"
+        sequence="100"
+        name="Município"
+        parent="menu_item_locais_config"
+        action="action_l10n_br_base_city_form"
+        />
+
+    <menuitem
+        id="menu_l10n_br_base_state"
+        sequence="200"
+        name="Estados"
+        parent="menu_item_locais_config"
+        action="base.action_country_state"
+        />
+
+    <menuitem
+        id="menu_l10n_br_base_country"
+        sequence="300"
+        name="Paises"
+        parent="menu_item_locais_config"
+        action="base.action_country"
+        />
+
+    </data>
+</openerp>

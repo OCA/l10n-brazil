@@ -7,21 +7,30 @@
             <field name="model">res.company</field>
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
+                <field name="rml_header1" position="replace" />
+                <xpath expr="//h1" position="after">
+                     <h2>
+                        <field name="cnpj_cpf" placeholder="CNPJ ou CPF" required="1" />
+                    </h2>
+                </xpath>
+                <xpath expr="//div[@class='oe_title']" position="after">
+                    <group>
+                        <field name="legal_name" string="Nome completo Razão Social" required="1" />
+                        <!--<field name="fantasia" attrs="{'invisible': [('tipo_pessoa', '=', 'F')]}" />-->
+                    </group>
+                </xpath>
                 <field name="street2" position="replace"/>
                 <field name="zip" position="replace"/>
                 <field name="street" position="replace">
                     <field name="zip" placeholder="CEP" style="width:50%" />
-                    <field name="street" placeholder="Logradouro" />
-                    <field name="number" placeholder="Número"/>
-                    <field name="street2" placeholder="Complemento"/>
-                    <field name="district" placeholder="Bairro"/>
+                    <field name="street" placeholder="Logradouro" class="o_address_street"/>
+                    <field name="number" placeholder="Número" class="o_address_street"/>
+                    <field name="street2" placeholder="Complemento" class="o_address_street"/>
+                    <field name="district" placeholder="Bairro" class="o_address_street"/>
                 </field>
                 <field name="state_id" position="attributes">
                     <attribute name="domain">[('country_id','=',country_id)]</attribute>
                     <attribute name="style">width:100%</attribute>
-                </field>
-                <field name="parent_id" position="before">
-                    <field name="legal_name" placeholder="Razão Social"/>
                 </field>
                 <field name="country_id" position="replace"/>
                 <field name="state_id" position="before">
@@ -33,12 +42,46 @@
                 <field name="city" position="replace">
                     <field name="city" invisible="1"/>
                 </field>
-                <field name="company_registry" position="after">
-                    <field name="cnpj_cpf" placeholder="CNPJ"/>
-                    <field name="inscr_est" placeholder="Inscr. Estadual"/>
-                    <field name="inscr_mun" placeholder="Inscr. Municipal"/>
-                    <field name="suframa" placeholder="Suframa"/>
-                </field>
+                <xpath expr="//notebook/page" position="after">
+                    <page string="Inscricões e Registros" name="inscricoes_registros">
+                        <group>
+                            <group col="4" colspan="4">
+                                <field name="contribuinte" colspan="2" required="1"/>
+                                <field name="inscr_est" attrs="{'invisible': [('contribuinte', '!=', '1')], 'required': [('contribuinte', '=', '1')]}" colspan="2" />
+                            </group>
+                            <group col="4" colspan='2' >
+                                <separator string="Outras inscrições" colspan="6" />
+                                <separator string="Inscrição Municipal" colspan="2" />
+                                <separator string="CEI" colspan="2" />
+                                <field name="inscr_mun" colspan="2" nolabel="1" />
+                                <field name="cei" colspan="2" nolabel="1" />
+                                <separator string="SUFRAMA" colspan="2" />
+                                <separator string="RNTRC" colspan="2" />
+                                <field name="suframa" colspan="2" nolabel="1" />
+                                <field name="rntrc" colspan="2" nolabel="1" />
+                                <separator string="CRC" />
+                                <newline />
+                                <field name="crc" colspan="2" />
+                                <field name="crc_uf" colspan="2" options="{'no_open': True, 'no_create': True}" />
+                            </group>
+                        </group>
+                    </page>
+                    <page name="fiscal" string="Fiscal">
+                        <group col="4" name="fiscal_geral_regime_tributario">
+                            <field name="regime_tributario"/>
+                            <newline/>
+                            <field name="eh_consumidor_final"/>
+                            <field name="eh_orgao_publico"/>
+                            <field name="eh_transportadora"/>
+                        </group>
+                        <!--
+                        <field name="eh_cooperativa" />
+                        <field name="eh_convenio" />
+                        <field name="eh_sindicato" />
+                        -->
+                    </page>
+                </xpath>
+
             </field>
         </record>
 

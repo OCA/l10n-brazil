@@ -12,6 +12,7 @@
                     <field name="bc_code"/>
                     <field name="siscomex_code"/>
                     <field name="ibge_code"/>
+                    <field name="iso_3166_alfa_2"/>
                 </field>
             </field>
         </record>
@@ -24,6 +25,7 @@
             <field name="arch" type="xml">
                 <field name="country_id" position="after">
                     <field name="ibge_code"/>
+                    <field name="tz"/>
                 </field>
             </field>
         </record>

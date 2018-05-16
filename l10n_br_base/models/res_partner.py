@@ -2,13 +2,23 @@
 # Copyright (C) 2009 Gabriel C. Stabel
 # Copyright (C) 2009 Renato Lima (Akretion)
 # Copyright (C) 2012 Raphaël Valyi (Akretion)
+# Copyright (C) 2018 Luis Felipe Mileo (KMEE INFORMATICA LTDA)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import re
 
 from odoo import models, fields, api
-from odoo.addons.l10n_br_base.tools import fiscal
 from odoo.exceptions import ValidationError
+
+from ..tools import fiscal
+from ..tools.misc import punctuation_rm
+from ..constante_tributaria import (
+    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE,
+    INDICADOR_IE_DESTINATARIO_CONTRIBUINTE,
+    INDICADOR_IE_DESTINATARIO,
+    REGIME_TRIBUTARIO,
+    REGIME_TRIBUTARIO_SIMPLES,
+)
 
 
 class ResPartner(models.Model):
@@ -20,7 +30,7 @@ class ResPartner(models.Model):
         if self.country_id and country_code.upper() != 'BR':
             # this ensure other localizations could do what they want
             return super(ResPartner, self)._display_address(
-                self, without_company=False)
+                without_company=False)
         else:
             address_format = (
                 self.country_id and self.country_id.address_format or
@@ -45,7 +55,114 @@ class ResPartner(models.Model):
                 address_format = '%(company_name)s\n' + address_format
             return address_format % args
 
-    cnpj_cpf = fields.Char('CNPJ/CPF', size=18)
+    @api.depends('cnpj_cpf')
+    def _compute_tipo_pessoa(self):
+        for record in self:
+            if not record.cnpj_cpf:
+                record.tipo_pessoa = 'I'
+                record.cnpj_cpf_raiz = ''
+                continue
+
+            if record.cnpj_cpf[:2] == 'EX':
+                record.tipo_pessoa = 'E'
+                record.contribuinte = \
+                    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
+                record.cnpj_cpf_raiz = record.cnpj_cpf
+
+            elif len(record.cnpj_cpf) == 18:
+                record.tipo_pessoa = 'J'
+                record.contribuinte = \
+                    INDICADOR_IE_DESTINATARIO_CONTRIBUINTE
+                record.cnpj_cpf_raiz = record.cnpj_cpf[:10]
+
+            else:
+                record.tipo_pessoa = 'F'
+                record.contribuinte = \
+                    INDICADOR_IE_DESTINATARIO_NAO_CONTRIBUINTE
+                record.cnpj_cpf_raiz = record.cnpj_cpf
+
+            record.cnpj_cpf_numero = \
+                punctuation_rm(record.cnpj_cpf)
+
+    @api.depends('eh_consumidor_final', 'street', 'number', 'street2',
+                 'district', 'l10n_br_city_id', 'zip', 'customer',
+                 'supplier')
+    def _compute_exige_cadastro_completo(self):
+        for record in self:
+            if not record.eh_consumidor_final or \
+                    record.customer:
+                record.exige_cnpj_cpf = True
+                record.exige_endereco = True
+                continue
+
+            record.exige_cnpj_cpf = False
+
+            if (record.street or record.number or
+                    record.stree2 or
+                    record.district or record.zip):
+                record.exige_endereco = True
+            else:
+                record.exige_endereco = False
+
+    @api.depends('street', 'number', 'street2', 'district',
+                 'l10n_br_city_id', 'zip')
+    def _compute_endereco_completo(self):
+        for record in self:
+            if not record.street:
+                record.endereco_completo = ''
+                continue
+
+            endereco = record.street
+            endereco += ', '
+            endereco += record.number
+
+            if record.stree2:
+                endereco += ' - '
+                endereco += record.stree2
+
+            endereco += ' - '
+            endereco += record.district
+            endereco += ' - '
+            endereco += record.l10n_br_city.name
+            endereco += '-'
+            endereco += record.l10n_br_city.uf
+            endereco += ' - '
+            endereco += record.zip
+            record.endereco_completo = endereco
+
+    contribuinte = fields.Selection(
+        selection=INDICADOR_IE_DESTINATARIO,
+        string='Contribuinte',
+        # required=True,
+    )
+    cnpj_cpf = fields.Char(
+        string='CNPJ/CPF',
+        size=18,
+        index=True,
+        help='''Para records estrangeiros, usar EX9999,
+        onde 9999 é um número a sua escolha'''
+    )
+    cnpj_cpf_raiz = fields.Char(
+        string='Raiz do CNPJ/CPF',
+        size=14,
+        compute='_compute_tipo_pessoa',
+        store=True,
+        index=True,
+    )
+    cnpj_cpf_numero = fields.Char(
+        string='CNPJ/CPF (somente números)',
+        size=14,
+        compute='_compute_tipo_pessoa',
+        store=True,
+        index=True,
+    )
+    tipo_pessoa = fields.Char(
+        string='Tipo pessoa',
+        size=1,
+        compute='_compute_tipo_pessoa',
+        store=True,
+        index=True
+    )
 
     inscr_est = fields.Char('Inscr. Estadual/RG', size=16)
 
@@ -54,16 +171,126 @@ class ResPartner(models.Model):
     suframa = fields.Char('Suframa', size=18)
 
     legal_name = fields.Char(
-        u'Razão Social', size=128,
-        help="Nome utilizado em documentos fiscais")
+        u'Razão Social', size=60,
+        help="Nome utilizado em documentos fiscais"
+    )
+    fantasia = fields.Char(
+        string='Fantasia',
+        size=60,
+        index=True
+    )
 
     l10n_br_city_id = fields.Many2one(
-        'l10n_br_base.city', u'Município',
-        domain="[('state_id','=',state_id)]")
+        comodel_name='l10n_br_base.city',
+        string=u'Município',
+    )
 
-    district = fields.Char('Bairro', size=32)
+    district = fields.Char(string='Bairro', size=32)
 
-    number = fields.Char(u'Número', size=10)
+    number = fields.Char(string=u'Número', size=10)
+
+    endereco_completo = fields.Char(
+        string='Endereço',
+        compute='_compute_endereco_completo',
+    )
+    exige_cnpj_cpf = fields.Boolean(
+        comodel_name='Exige CNPJ/CPF?',
+        compute='_compute_exige_cadastro_completo',
+    )
+    exige_endereco = fields.Boolean(
+        comodel_name='Exige endereço?',
+        compute='_compute_exige_cadastro_completo',
+    )
+    eh_orgao_publico = fields.Boolean(
+        string='É órgão público?',
+    )
+    eh_cooperativa = fields.Boolean(
+        string='É cooperativa?',
+    )
+    eh_sindicato = fields.Boolean(
+        string='É sindicato?',
+    )
+    eh_consumidor_final = fields.Boolean(
+        string='É consumidor final?',
+    )
+    eh_convenio = fields.Boolean(
+        string='É convênio?',
+    )
+    eh_transportadora = fields.Boolean(
+        string='É transportadora?'
+    )
+    eh_grupo = fields.Boolean(
+        string='É grupo?',
+        index=True,
+    )
+    rntrc = fields.Char(
+        string='RNTRC',
+        size=15
+    )
+    cei = fields.Char(
+        string='CEI',
+        size=15
+    )
+    rg_numero = fields.Char(
+        string='RG',
+        size=14
+    )
+    rg_orgao_emissor = fields.Char(
+        string='Órgão emisssor do RG',
+        size=20
+    )
+    rg_data_expedicao = fields.Date(
+        string='Data de expedição do RG'
+    )
+    crc = fields.Char(
+        string='Conselho Regional de Contabilidade',
+        size=14
+    )
+    crc_uf = fields.Many2one(
+        comodel_name='res.country.state',
+        string='UF do CRC',
+        ondelete='restrict'
+    )
+    profissao = fields.Char(
+        string='Cargo',
+        size=40
+    )
+    pais_nacionalidade_id = fields.Many2one(
+        comodel_name='res.country',
+        string='Nacionalidade',
+        ondelete='restrict'
+    )
+    codigo_sindical = fields.Char(
+        comodel_name='Código sindical',
+        size=30
+    )
+    codigo_ans = fields.Char(
+        comodel_name='Código ANS',
+        size=6
+    )
+    transportadora_id = fields.Many2one(
+        comodel_name='res.partner',
+        string='Transportadora',
+        ondelete='restrict',
+        domain=[('eh_transportadora', '=', True)]
+    )
+    regime_tributario = fields.Selection(
+        selection=REGIME_TRIBUTARIO,
+        string='Regime tributário',
+        default=REGIME_TRIBUTARIO_SIMPLES,
+        index=True,
+    )
+    estado = fields.Char(
+        string='Estado',
+        related='state_id.code',
+        store=True,
+        index=True,
+    )
+
+    @api.onchange('l10n_br_city_id')
+    def onchange_l10n_br_city_id(self):
+        if self.l10n_br_city_id and self.l10n_br_city_id.cep_unico:
+            self.zip = self.l10n_br_city_id.cep_unico
 
     @api.multi
     @api.constrains('cnpj_cpf', 'inscr_est')
@@ -106,6 +333,11 @@ class ResPartner(models.Model):
     @api.multi
     @api.constrains('cnpj_cpf', 'country_id')
     def _check_cnpj_cpf(self):
+
+        if not self.env['ir.config_parameter'].get_param(
+                'l10n_br_base_check_cnpj') == u'True':
+            return
+
         result = True
         for record in self:
             country_code = record.country_id.code or ''
@@ -130,6 +362,11 @@ class ResPartner(models.Model):
 
         :Parameters:
         """
+
+        if not self.env['ir.config_parameter'].get_param(
+                'l10n_br_base_check_ie') == u'1':
+            return
+
         for record in self:
             result = True
             if record.inscr_est and record.is_company and record.state_id:
@@ -169,6 +406,11 @@ class ResPartner(models.Model):
         if self.l10n_br_city_id:
             self.city = self.l10n_br_city_id.name
 
+    @api.onchange('l10n_br_city_id')
+    def _onchange_city(self):
+        self.state_id = self.l10n_br_city_id.state_id
+        self.country_id = self.l10n_br_city_id.country_id
+
     @api.onchange('zip')
     def _onchange_zip(self):
         if self.zip:
@@ -195,7 +437,8 @@ class ResPartnerBank(models.Model):
     district = fields.Char('Bairro', size=32)
     state_id = fields.Many2one(
         "res.country.state", 'Fed. State',
-        change_default=True, domain="[('country_id','=',country_id)]")
+        change_default=True,
+    )
     l10n_br_city_id = fields.Many2one(
         'l10n_br_base.city', 'Municipio',
         domain="[('state_id','=',state_id)]")

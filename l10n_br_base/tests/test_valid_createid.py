@@ -30,7 +30,7 @@ class ValidCreateIdTest(TransactionCase):
             'phone': '+55 27 2916-1695',
             'email': 'contact@companytest.com.br',
             'website': 'www.companytest.com.br'
-            }
+        }
 
         self.company_invalid_cnpj = {
             'name': 'Company Test 2',
@@ -49,7 +49,7 @@ class ValidCreateIdTest(TransactionCase):
             'phone': '+55 27 2916-1695',
             'email': 'contact@companytest.com.br',
             'website': 'www.companytest.com.br'
-            }
+        }
 
         self.company_invalid_inscr_est = {
             'name': 'Company Test 3',
@@ -68,7 +68,7 @@ class ValidCreateIdTest(TransactionCase):
             'phone': '+55 27 2916-1695',
             'email': 'contact@companytest.com.br',
             'website': 'www.companytest.com.br'
-            }
+        }
 
         self.partner_valid = {
             'name': 'Partner Test 1',
@@ -87,7 +87,7 @@ class ValidCreateIdTest(TransactionCase):
             'phone': '+55 27 2916-1695',
             'email': 'contact@partnertest.com.br',
             'website': 'www.partnertest.com.br'
-            }
+        }
 
         self.partner_invalid_cpf = {
             'name': 'Partner Test 2',
@@ -106,7 +106,7 @@ class ValidCreateIdTest(TransactionCase):
             'phone': '+55 27 2916-1695',
             'email': 'contact@partnertest.com.br',
             'website': 'www.partnertest.com.br'
-            }
+        }
 
 # Tests on companies
 

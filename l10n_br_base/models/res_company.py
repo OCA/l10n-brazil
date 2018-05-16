@@ -10,6 +10,11 @@
 import re
 
 from odoo import models, fields, api
+from ..constante_tributaria import (
+    INDICADOR_IE_DESTINATARIO,
+    REGIME_TRIBUTARIO,
+    REGIME_TRIBUTARIO_SIMPLES,
+)
 
 
 class ResCompany(models.Model):
@@ -78,6 +83,56 @@ class ResCompany(models.Model):
         self.partner_id.suframa = self.suframa
 
     legal_name = fields.Char(
+        u'Razão Social', size=60,
+        help="Nome utilizado em documentos fiscais")
+
+    eh_consumidor_final = fields.Boolean(
+        string='É consumidor final?',
+    )
+
+    eh_orgao_publico = fields.Boolean(
+        string='É órgão público?',
+    )
+
+    eh_transportadora = fields.Boolean(
+        string='É transportadora?',
+    )
+
+    contribuinte = fields.Selection(
+        selection=INDICADOR_IE_DESTINATARIO,
+        string='Contribuinte',
+        # required=True,
+    )
+
+    regime_tributario = fields.Selection(
+        selection=REGIME_TRIBUTARIO,
+        string='Regime tributário',
+        default=REGIME_TRIBUTARIO_SIMPLES,
+        index=True,
+    )
+
+    crc = fields.Char(
+        string='Conselho Regional de Contabilidade',
+        size=14
+    )
+
+    crc_uf = fields.Many2one(
+        comodel_name='res.country.state',
+        string='UF do CRC',
+        ondelete='restrict'
+    )
+
+    rntrc = fields.Char(
+        string='RNTRC',
+        size=15
+    )
+
+    cei = fields.Char(
+        string='CEI',
+        size=15
+    )
+
+    legal_name = fields.Char(
         compute=_get_l10n_br_data, inverse=_set_l10n_br_legal_name,
         size=128, string=u'Razão Social')
 
@@ -109,6 +164,17 @@ class ResCompany(models.Model):
         'l10n_br_base.city', 'Municipio', domain="[('state_id','=',state_id)]",
         compute=_get_l10n_br_data, inverse=_set_l10n_br_city_id)
 
+    estado = fields.Char(
+        string='Estado',
+        related='state_id.code',
+        index=True
+    )
+    fantasia = fields.Char(
+        string='Fantasia',
+        size=60,
+        index=True
+    )
+
     @api.onchange('cnpj_cpf')
     def _onchange_cnpj_cpf(self):
         country_code = self.country_id.code or ''
@@ -139,3 +205,27 @@ class ResCompany(models.Model):
             val = re.sub('[^0-9]', '', self.zip)
             if len(val) == 8:
                 self.zip = "%s-%s" % (val[0:5], val[5:8])
+
+    @api.model
+    def create(self, vals):
+        if not vals.get('name') or vals.get('partner_id'):
+            self.clear_caches()
+            return super(ResCompany, self).create(vals)
+        partner = self.env['res.partner'].create({
+            'name': vals['name'],
+            'is_company': True,
+            'image': vals.get('logo'),
+            'customer': False,
+            'email': vals.get('email'),
+            'phone': vals.get('phone'),
+            'website': vals.get('website'),
+            'vat': vals.get('vat'),
+            'inscr_est': vals.get('inscr_est'),
+            'cnpj_cpf': vals.get('cnpj_cpf'),
+            'state_id': vals.get('state_id'),
+        })
+        vals['partner_id'] = partner.id
+        self.clear_caches()
+        company = super(ResCompany, self).create(vals)
+        partner.write({'company_id': company.id})
+        return company

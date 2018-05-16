@@ -16,19 +16,19 @@ class L10nBrBaseOnchangeTest(TransactionCase):
             'cnpj_cpf': '02.960.895/0001-31',
             'l10n_br_city_id': self.env.ref('l10n_br_base.city_3205002').id,
             'zip': '29161-695',
-            })
+        })
 
         self.bank_01 = self.env['res.bank'].create({
             'name': 'Bank Test 1',
             'l10n_br_city_id': self.env.ref('l10n_br_base.city_3205002').id,
             'zip': '29161-695',
-            })
+        })
 
         self.partner_01 = self.env['res.partner'].create({
             'name': 'Partner Test 01',
             'l10n_br_city_id': self.env.ref('l10n_br_base.city_3205002').id,
             'zip': '29161-695',
-            })
+        })
 
     def test_onchange(self):
         """
