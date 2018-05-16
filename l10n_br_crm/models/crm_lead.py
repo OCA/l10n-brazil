@@ -129,6 +129,7 @@ class CrmLead(models.Model):
                 result['suframa'] = self.partner_id.suframa
             else:
                 result['cpf'] = self.partner_id.cnpj_cpf
+                result['name_surname'] = self.partner_id.legal_name
         self.update(result)
 
     @api.model
