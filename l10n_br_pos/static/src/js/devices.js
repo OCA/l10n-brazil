@@ -57,8 +57,9 @@ function l10n_br_pos_devices(instance, module) {
                                     currentOrder.set_return_cfe(result['xml']);
                                     currentOrder.set_num_sessao_sat(result['numSessao']);
                                     currentOrder.set_chave_cfe(result['chave_cfe']);
-                                    self.pos.pos_widget.posorderlist_screen.push_list_order_frontend(currentOrder);
                                     self.pos.push_order(currentOrder);
+                                    self.pos.pos_widget.posorderlist_screen.push_list_order_frontend(currentOrder);
+                                    self.pos.get('selectedOrder').destroy();
                                 }else{
                                     self.pos.pos_widget.screen_selector.show_popup('error-traceback',{
                                         'message': _t('Erro SAT: '),
