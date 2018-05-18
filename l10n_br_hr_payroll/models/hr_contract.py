@@ -293,11 +293,11 @@ class HrContract(models.Model):
     )
 
     segunda_experiencia = fields.Integer(
-        string="Tempo em dias do 2º período de experiência"
+        string=u"Tempo em dias do 2º período de experiência"
     )
 
     data_segunda_experiencia = fields.Date(
-        string="Início da segunda experiência"
+        string=u"Início da segunda experiência"
     )
 
     department_id = fields.Many2one(
