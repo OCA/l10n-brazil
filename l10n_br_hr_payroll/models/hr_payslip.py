@@ -1591,7 +1591,7 @@ class HrPayslip(models.Model):
 
                 if desconto_line_id:
                     valor -= desconto_line_id.total or 0
-            return valor
+        return valor
 
         # caso nao encontre holerite de adiantamento,
         # retorne o valor cadastrado no contrato
