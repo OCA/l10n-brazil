@@ -675,6 +675,14 @@ class HrPayslip(models.Model):
             if self.tipo_de_folha == 'rescisao':
                 dias_mes = fields.Date.from_string(date_to).day - \
                     fields.Date.from_string(date_from).day + 1
+                # Qaundo o afastamento for no primeiro dia do mes,
+                # significa que nao trabalhou nenhum dia
+                primeiro_dia_do_mes = \
+                    str(datetime.strptime(
+                        str(self.mes_do_ano) + '-' + str(self.ano), '%m-%Y'))
+                if self.data_afastamento == primeiro_dia_do_mes[:10]:
+                    dias_mes = 0
+
             else:
                 dias_mes = self.env['resource.calendar'].get_dias_base(
                     fields.Datetime.from_string(date_from),
@@ -2335,11 +2343,14 @@ class HrPayslip(models.Model):
             if data_final and ultimo_dia_do_mes > data_final:
                 record.date_to = record.contract_id.date_end
 
-            if record.data_afastamento and \
-               ultimo_dia_do_mes > record.data_afastamento:
+            if record.data_afastamento and record.data_afastamento < ultimo_dia_do_mes and not record.data_afastamento == primeiro_dia_do_mes[:10]:
                 record.date_to = \
                     fields.Date.from_string(record.data_afastamento) - \
                     timedelta(days=1)
+            # Afastamento no primeiro dia do mes,calcular apenas a rescisao.
+            # Outros calculos ficarao no holerite normal do mes anterior
+            if record.data_afastamento == primeiro_dia_do_mes[:10]:
+                record.date_to = primeiro_dia_do_mes
 
     @api.multi
     def _buscar_holerites_periodo_aquisitivo(self):
