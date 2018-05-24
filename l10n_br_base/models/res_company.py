@@ -205,14 +205,3 @@ class ResCompany(models.Model):
             val = re.sub('[^0-9]', '', self.zip)
             if len(val) == 8:
                 self.zip = "%s-%s" % (val[0:5], val[5:8])
-
-    @api.model
-    def create(self, vals):
-
-        company = super(ResCompany, self).create(vals)
-
-        company.inscr_est = vals.get('inscr_est')
-        company.cnpj_cpf = vals.get('cnpj_cpf')
-        company.state_id = vals.get('state_id')
-
-        return company
