@@ -83,8 +83,12 @@ class ResCompany(models.Model):
         self.partner_id.suframa = self.suframa
 
     legal_name = fields.Char(
-        u'Razão Social', size=60,
-        help="Nome utilizado em documentos fiscais")
+        u'Razão Social',
+        help="Nome utilizado em documentos fiscais",
+        compute=_get_l10n_br_data,
+        inverse=_set_l10n_br_legal_name,
+        size=128,
+    )
 
     eh_consumidor_final = fields.Boolean(
         string='É consumidor final?',
@@ -131,10 +135,6 @@ class ResCompany(models.Model):
         string='CEI',
         size=15
     )
-
-    legal_name = fields.Char(
-        compute=_get_l10n_br_data, inverse=_set_l10n_br_legal_name,
-        size=128, string=u'Razão Social')
 
     district = fields.Char(
         compute=_get_l10n_br_data, inverse=_set_l10n_br_district, size=32,
