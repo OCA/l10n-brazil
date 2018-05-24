@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2018 KMEE
+# Copyright 2018 ABGF BR
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, models, fields
@@ -13,6 +13,12 @@ class HrTelefoniaWizard(models.TransientModel):
         string='Mensagem do Ateste',
         readonly=True,
         default=u'Atesto que as ligações previamente selecionadas foram particulares.',
+    )
+
+    mensagem_valor = fields.Char(
+        string='Mensagem do Valor total',
+        readonly=True,
+        default=u'Total das ligações particulares: R$ 0.00',
     )
 
     ligacoes_ids = fields.Many2many(
@@ -36,3 +42,27 @@ class HrTelefoniaWizard(models.TransientModel):
                 raise ValidationError('Faltando informações na ligação!')
             record.set_validate_ligacoes()
         return {'type': 'ir.actions.act_window_close'}
+
+    @api.model
+    def default_get(self, fields):
+        """
+        Setar valor total das ligações selecionadas para ateste
+        :param fields:
+        :return:
+        """
+        res = super(HrTelefoniaWizard, self).default_get(fields)
+
+        hr_telefonia_line_ids = \
+            self.env['hr.telefonia.line'].browse(self.env.context.get('active_ids'))
+
+        total = sum(hr_telefonia_line_ids.filtered(
+            lambda x: x.tipo == 'particular').mapped('valor'))
+
+        mensagem  = 'Total das ligações particulares: R$ ' + \
+                    (str(total)).replace('.', ',') + ' .'
+
+        res.update({
+            'mensagem_valor': mensagem,
+            # 'ligacoes_ids': (6, 0, hr_telefonia_line_ids.ids),
+        })
+        return res

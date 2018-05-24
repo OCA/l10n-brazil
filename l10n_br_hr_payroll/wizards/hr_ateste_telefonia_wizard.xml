@@ -12,6 +12,11 @@
                             <field nolabel='1' name="mensagem_ateste" />
                         </p>
                     </group>
+                    <group>
+                        <p class="oe_bold">
+                            <field nolabel='1' name="mensagem_valor" />
+                        </p>
+                    </group>
                     <!--<group>-->
                         <!--<field name="ligacoes_ids">-->
                             <!--<tree>-->
