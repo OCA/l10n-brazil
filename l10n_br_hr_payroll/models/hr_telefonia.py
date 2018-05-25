@@ -120,7 +120,7 @@ class HrTelefonia(models.Model):
 
                     l = linha.split(';')
 
-                    if len(l) > 7 and len(l[0]) == 4:
+                    if len(l) > 7 and len(l[0]) == 4 and float(l[7].replace(',','.')) > 0 :
                         name_ramal = l[0]
                         ramal_id = ramal_obj.search([('name', '=', name_ramal)])
                         
