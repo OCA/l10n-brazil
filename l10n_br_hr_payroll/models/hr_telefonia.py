@@ -162,7 +162,7 @@ class HrTelefoniaLine(models.Model):
         for record in self:
             title = '{} - {}{}'.format(
                 record.ramal.name,
-                record.employee_id.name + ' - ' if record.employee_id else '',
+                record.employee_id.name.encode('utf-8') + ' - ' if record.employee_id else '',
                 record.data
             )
             record.display_name = title
