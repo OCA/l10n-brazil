@@ -1644,14 +1644,16 @@ class HrPayslip(models.Model):
         if mes == -1 and tipo_de_folha == 'ferias':
             domain.append(('mes_do_ano', 'in',
                            [self.mes_do_ano, mes_anterior]))
-            domain.append(('ano', 'in', anos))
 
-        holerite = self.search(
-            domain, order='date_from DESC', limit=1)
+        domain.append(('ano', 'in', anos))
+
+        holerite = self.search(domain, order='date_from DESC', limit=1)
+
+        if self.tipo_de_folha == 'rescisao' and holerite:
+            return sum(holerite.line_ids.filtered(lambda x: x.code == code).mapped('total')) or 0.0
 
         valores = 0
-
-        if holerite:            
+        if holerite:
             if (self.date_from <= holerite.date_from <= self.date_to or
                     self.date_from <= holerite.date_to <= self.date_to):
                 for line in holerite.line_ids:
