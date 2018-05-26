@@ -700,8 +700,6 @@ class HrPayslip(models.Model):
             result += [self.get_attendances(
                 u'Dias Base', 1, u'DIAS_BASE', dias_mes, 0.0, contract_id)]
 
-            print(dias_mes)
-
             # get dias uteis
             dias_uteis = self.env['resource.calendar'].quantidade_dias_uteis(
                 fields.Datetime.from_string(date_from),
