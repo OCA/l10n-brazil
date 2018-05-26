@@ -1912,8 +1912,38 @@ class HrPayslip(models.Model):
                     fields.Date.from_string(payslip.contract_id.date_end).day
                 if dia_fim_contrato <= 15:
                     avos_13 -= 1
+        #
+        # Quando for rescisao, verificar se ja foi calculado o holerite do mes.
+        # Por exemplo, a folha eh processado em 17/05 e no dia 30/05 acontece
+        # uma rescisao. nesse caso devemos deduzir os dias pagos no holerite
+        # normal ao funcionario.
+        DIAS_A_MAIOR = 0
 
-        # Obtém os avos do payslip para as Provisão de Férias
+        if payslip.tipo_de_folha == 'rescisao':
+
+            # verificar se ja foi gerado o holerite do mes
+            holerite_id = self.search([
+                ('contract_id', '=', payslip.contract_id.id),
+                ('is_simulacao', '=', False),
+                ('tipo_de_folha', '=', 'normal'),
+                ('mes_do_ano2', '=', payslip.mes_do_ano2),
+                ('ano', '=', payslip.ano),
+                ('state', 'in', ['done', 'verify']),
+            ])
+
+            # Seta todos na mesma data para nao calcular nenhum dia de saldo de
+            # salario, visto que ja foi calculado no holerite normal
+            if holerite_id:
+                payslip.date_from = payslip.data_afastamento
+                payslip.date_to = payslip.data_afastamento
+
+            ultimo_dia_trabalhado = \
+                fields.Date.from_string(payslip.data_afastamento).day - 1
+            ultimo_dia_holerite_normal = \
+                fields.Date.from_string(holerite_id.date_to).day
+
+            # Dias que deverão ser descontado do funcionario
+            DIAS_A_MAIOR = ultimo_dia_holerite_normal - ultimo_dia_trabalhado
 
         baselocaldict = {
             'CALCULAR': payslip, 'BASE_INSS': 0.0, 'BASE_FGTS': 0.0,
@@ -1930,6 +1960,7 @@ class HrPayslip(models.Model):
             'globals': locals,
             'Decimal': Decimal,
             'D': Decimal,
+            'DIAS_A_MAIOR': DIAS_A_MAIOR,
         }
 
         for contract_ids in self:
@@ -1950,18 +1981,11 @@ class HrPayslip(models.Model):
                     contract_ids, rule_ids)
 
             # Quando for rescisao, verificar se ja foi calculado o holerite
-            # do mes. Só aplicar as rubricas especificas se nao encontrar
-            # holerite do mes ja calculado
+            # do mes. Só aplicar as rubricas especificas se nao possuir
+            # DIAS_A_MAIOR. (Dias pagos no holerite normal procesado antes
+            # da rescisap)
             elif payslip.tipo_de_folha == 'resciscao':
-                holerite_id = self.search([
-                    ('contract_id', '=', self.contract_id.id),
-                    ('is_simulacao', '=', False),
-                    ('tipo_de_folha', '=', 'normal'),
-                    ('mes_do_ano2', '=', self.mes_do_ano2),
-                    ('ano', '=', self.ano),
-                    ('state', 'in', ['done', 'verify']),
-                ])
-                if not holerite_id:
+                if not DIAS_A_MAIOR:
                     applied_specific_rule = \
                         payslip.get_contract_specific_rubrics(contract_ids, rule_ids)
 
@@ -2370,7 +2394,9 @@ class HrPayslip(models.Model):
             if data_final and ultimo_dia_do_mes > data_final:
                 record.date_to = record.contract_id.date_end
 
+            #
             # validacoes abaixo daqui sopmente para casos de rescisoa
+            #
             if record.tipo_de_folha != 'rescisao':
                 return
 
