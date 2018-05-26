@@ -56,8 +56,7 @@ def payslip_rescisao(pool, cr, uid, localcontext, context):
     companylogo = self.env.user.company_id.logo
     data = {
         'companylogo': companylogo,
-        'ultimo_salario':
-            buscar_ultimo_salario(self),
+        'ultimo_salario':buscar_ultimo_salario(self),
         'provento_line': popula_valor(self, 'PROVENTO'),
         'deducao_line': popula_valor(self, ['DEDUCAO', 'INSS', 'IRPF']),
     }
