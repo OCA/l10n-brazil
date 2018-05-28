@@ -87,6 +87,10 @@ True
 True
 >>> AccountingNone == None
 True
+>>> AccountingNone >= AccountingNone
+True
+>>> AccountingNone <= AccountingNone
+True
 """
 
 __all__ = ['AccountingNone']
@@ -181,6 +185,12 @@ class AccountingNoneType(object):
 
     def __gt__(self, other):
         return other < 0
+
+    def __le__(self, other):
+        return other >= 0
+
+    def __ge__(self, other):
+        return other <= 0
 
 
 AccountingNone = AccountingNoneType()
