@@ -70,14 +70,18 @@ class HrPayslip(models.Model):
         self.write({'state': 'done'})
         return True
 
-    def create_payorder(self, mode_payment):
+    def create_payorder(self, mode_payment, tipo_pagamento='folha'):
         '''
         Cria um payment order com base no metodo de pagamento
         :param mode_payment: Modo de pagamento
         :return: objeto do payment.order
         '''
         payment_order_model = self.env['payment.order']
-        vals = {'mode': mode_payment.id, }
+        vals = {
+            'mode': mode_payment.id,
+            'tipo_pagamento': tipo_pagamento,
+            'tipo_de_folha': self.tipo_de_folha,
+        }
         return payment_order_model.create(vals)
 
     @api.multi
@@ -117,9 +121,11 @@ class HrPayslip(models.Model):
 
             # Buscar ordens de pagamento do mesmo tipo
             payorders = payment_order_model.search([
+                ('tipo_pagamento', '=', 'folha'),
                 ('mode', '=', holerite.payment_mode_id.id),
-                ('state', '=', 'draft')]
-            )
+                ('state', '=', 'draft'),
+                ('tipo_de_folha', '=', holerite.tipo_de_folha)
+            ])
 
             if payorders:
                 payorder = payorders[0]
