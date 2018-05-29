@@ -1937,13 +1937,13 @@ class HrPayslip(models.Model):
                 payslip.date_from = payslip.data_afastamento
                 payslip.date_to = payslip.data_afastamento
 
-            ultimo_dia_trabalhado = \
-                fields.Date.from_string(payslip.data_afastamento).day - 1
-            ultimo_dia_holerite_normal = \
-                fields.Date.from_string(holerite_id.date_to).day
+                ultimo_dia_trabalhado = \
+                    fields.Date.from_string(payslip.data_afastamento).day - 1
+                ultimo_dia_holerite_normal = \
+                    fields.Date.from_string(holerite_id.date_to).day
 
-            # Dias que deverão ser descontado do funcionario
-            DIAS_A_MAIOR = ultimo_dia_holerite_normal - ultimo_dia_trabalhado
+                # Dias que deverão ser descontado do funcionario
+                DIAS_A_MAIOR = ultimo_dia_holerite_normal - ultimo_dia_trabalhado
 
         baselocaldict = {
             'CALCULAR': payslip, 'BASE_INSS': 0.0, 'BASE_FGTS': 0.0,
