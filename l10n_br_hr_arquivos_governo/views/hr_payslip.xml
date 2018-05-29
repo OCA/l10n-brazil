@@ -16,64 +16,19 @@
                         <button string="Gerar GRRF"
                                 name="compute_grrf"
                                 type="object"/>
-                        <field name="grrf_txt" colspan="4"
-                               nolabel="1">
-                        </field>
+                        <field name="grrf_txt" colspan="4" nolabel="1" />
                     </page>
                     <page string="Seguro Desemprego"
                           attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])]}">
                         <button string="Gerar Seguro Desemprego"
                                 name="compute_seguro_desemprego"
                                 type="object"/>
-                        <field name="seguro_desemprego_txt" colspan="4"
-                               nolabel="1">
-                        </field>
+                        <field name="seguro_desemprego_txt" colspan="4" nolabel="1" />
                     </page>
-                </xpath>
-
-                <xpath expr="//div[@class='oe_right oe_button_box']"
-                       position="inside">
-                    <button class="oe_inline oe_stat_button"
-                            name="attachment_tree_view" type="object"
-                            icon="fa-files-o" string="Documents">
-                    </button>
                 </xpath>
 
             </field>
         </record>
-
-        <!--<record model="ir.ui.view" id="hr_payslip_search_view">-->
-        <!--<field name="name">hr.payslip.search (in l10n_br_hr_arquivos_governo)</field>-->
-        <!--<field name="model">hr.payslip</field>-->
-        <!--<field name="inherit_id" ref="TODO othermodule.search_view"/>-->
-        <!--<field name="arch" type="xml">-->
-        <!--&lt;!&ndash; TODO &ndash;&gt;-->
-        <!--</field>-->
-        <!--</record>-->
-
-        <!--<record model="ir.ui.view" id="hr_payslip_tree_view">-->
-        <!--<field name="name">hr.payslip.tree (in l10n_br_hr_arquivos_governo)</field>-->
-        <!--<field name="model">hr.payslip</field>-->
-        <!--<field name="inherit_id" ref="TODO othermodule.tree_view"/>-->
-        <!--<field name="arch" type="xml">-->
-        <!--&lt;!&ndash; TODO &ndash;&gt;-->
-        <!--</field>-->
-        <!--</record>-->
-
-        <!--<record model="ir.actions.act_window" id="hr_payslip_act_window">-->
-        <!--<field name="name">Hr Payslip</field> &lt;!&ndash; TODO &ndash;&gt;-->
-        <!--<field name="res_model">hr.payslip</field>-->
-        <!--<field name="view_mode">tree,form</field>-->
-        <!--<field name="domain">[]</field>-->
-        <!--<field name="context">{}</field>-->
-        <!--</record>-->
-
-        <!--<record model="ir.ui.menu" id="hr_payslip_menu">-->
-        <!--<field name="name">Hr Payslip</field>-->
-        <!--<field name="parent_id" ref="xmlid of parent menu"/> &lt;!&ndash; TODO &ndash;&gt;-->
-        <!--<field name="action" ref="hr_payslip_act_window"/>-->
-        <!--<field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
-        <!--</record>-->
 
     </data>
 </openerp>
