@@ -143,3 +143,20 @@ class HrPayslip(models.Model):
                         payorder, rubrica.total,
                         'PENSAO ALIMENTICIA ' + holerite.data_mes_ano,
                         rubrica.partner_id)
+
+    @api.multi
+    def button_payment_order_form_view(self):
+
+        res_id = \
+            self.payment_order_id.ids and self.payment_order_id.ids[0] or False
+
+        return {
+            'name': _('Pagamentos'),
+            'res_model': 'payment.order',
+            'res_id': res_id,
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'form,tree',
+            'view_type': 'form',
+            'limit': 80,
+        }

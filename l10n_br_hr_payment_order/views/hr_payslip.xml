@@ -28,6 +28,14 @@
                 </page>
             </xpath>
 
+            <!--Botao para visualizar a ordem de pagamento do holerite -->
+            <xpath expr="//div[@class='oe_right oe_button_box']" position="inside">
+                <button class="oe_inline oe_stat_button"
+                        name="button_payment_order_form_view" type="object"
+                        icon="fa-usd" string="Pagamento"
+                        attrs="{'invisible':[('payment_order_id','=', False)]}" />
+            </xpath>
+
         </field>
     </record>
 
