@@ -10,18 +10,27 @@
         <field name="model">hr.payslip</field>
         <field name="inherit_id" ref="l10n_br_hr_payroll.hr_payslip_form_view"/>
         <field name="arch" type="xml">
+
             <field name="number" position="after">
                 <field name="paid_order"/>
+                <field name="payment_order_id" invisible="1" />
             </field>
+
             <field name="credit_note" position="replace">
                 <field name="payment_mode_id" options="{'no_create': 1}"/>
             </field>
+
             <button name="refund_sheet" position="before">
                 <button name="action_done" states="verify" string="Change to Done" class="oe_highlight" type="object"/>
             </button>
+
+            <!-- Substituir botao de recusaar holerite por botao para gerar ordem de pagamento do holerite-->
             <button name="refund_sheet" position="replace">
-                <button name="create_payment_order" type="object" string="Add 2 Payment Order" states="verify"/>
+                <button name="create_payment_order" type="object"
+                        string="Criar ordem de Pgto"
+                        attrs="{'invisible':[('payment_order_id','!=',False)]}" />
             </button>
+
             <xpath expr="//notebook//page[@string='Holerite']" position="after">
                 <page string="Ordens de Pagamento">
                     <field name="payment_line_ids" readonly="1"/>
