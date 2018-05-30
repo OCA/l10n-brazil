@@ -1984,7 +1984,7 @@ class HrPayslip(models.Model):
             # do mes. Só aplicar as rubricas especificas se nao possuir
             # DIAS_A_MAIOR. (Dias pagos no holerite normal procesado antes
             # da rescisap)
-            elif payslip.tipo_de_folha == 'resciscao':
+            elif payslip.tipo_de_folha == 'rescisao':
                 if not DIAS_A_MAIOR:
                     applied_specific_rule = \
                         payslip.get_contract_specific_rubrics(contract_ids, rule_ids)
