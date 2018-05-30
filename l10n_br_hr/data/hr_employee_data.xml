@@ -66,12 +66,16 @@
             <field name="code">9</field>
         </record>
         <record id="educational_attainment_10" model="hr.educational.attainment">
-            <field name="name">Mestrado completo</field>
+            <field name="name">Pós Graduação</field>
             <field name="code">10</field>
         </record>
         <record id="educational_attainment_11" model="hr.educational.attainment">
-            <field name="name">Doutorado completo</field>
+            <field name="name">Mestrado completo</field>
             <field name="code">11</field>
+        </record>
+        <record id="educational_attainment_12" model="hr.educational.attainment">
+            <field name="name">Doutorado completo</field>
+            <field name="code">12</field>
         </record>
 
         <!--DEFICIENCY TYPE -->
