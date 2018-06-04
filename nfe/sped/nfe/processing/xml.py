@@ -98,7 +98,7 @@ def send(company, nfe):
     p = __processo(company)
     # Busca a versão da NF a ser emitida, não a do cadastro da empresa
     p.versao = str(nfe[0].infNFe.versao.valor)
-    p.danfe.logo = add_backgound_to_logo_image(company)
+    p.danfe.logo = company.nfe_logo or company.logo
     p.danfe.leiaute_logo_vertical = company.nfe_logo_vertical
     p.danfe.salvar_arquivo = company.danfe_automatic_generate
     p.danfe.nome_sistema = company.nfe_email or \
@@ -161,13 +161,32 @@ def print_danfe(invoices):
             file_xml = os.path.join(file_xml, 'tmp/')
         procnfe.xml = os.path.join(file_xml, inv.nfe_access_key + '-nfe.xml')
         danfe = DANFE()
-        danfe.logo = add_backgound_to_logo_image(inv.company_id)
+        danfe.logo = inv.company_id.nfe_logo or inv.company_id.logo
         danfe.NFe = procnfe.NFe
         danfe.leiaute_logo_vertical = inv.company_id.nfe_logo_vertical
         danfe.protNFe = procnfe.protNFe
         danfe.caminho = "/tmp/"
         danfe.gerar_danfe()
         paths.append(danfe.caminho + danfe.NFe.chave + '.pdf')
+        inv.is_danfe_printed = True
+
+        if inv.cce_document_event_ids:
+            daede = DAEDE()
+            daede.logo = add_backgound_to_logo_image(inv.company_id)
+            daede.NFe = procnfe.NFe
+            daede.protNFe = procnfe.protNFe
+            for item, event in enumerate(inv.cce_document_event_ids):
+                proc_evento = ProcEventoCCe_100()
+                doc_item = str(item + 1).zfill(2)
+                proc_evento.xml = os.path.join(
+                    file_xml,
+                    inv.nfe_access_key + '-' +
+                    doc_item + '-cce.xml')
+                daede.procEventos.append(proc_evento)
+
+            daede.caminho = "/tmp/"
+            daede.gerar_daede()
+            paths.append(daede.caminho + 'eventos-' + daede.NFe.chave + '.pdf')
 
     output = PdfFileWriter()
     s = StringIO()
@@ -185,15 +204,3 @@ def print_danfe(invoices):
     s.close()
 
     return str_pdf
-
-
-def add_backgound_to_logo_image(company):
-    logo = company.nfe_logo or company.logo
-    logo_image = Image.open(StringIO(logo.decode('base64')))
-    image_path = os.path.join(mount_path_nfe(company), 'company_logo.png')
-
-    bg = Image.new("RGB", logo_image.size, (255, 255, 255))
-    bg.paste(logo_image, logo_image)
-    bg.save(image_path)
-
-    return image_path
