@@ -152,6 +152,9 @@ def print_danfe(invoices):
         elif inv.nfe_version == '3.10':
             from pysped.nfe.leiaute import ProcNFe_310
             procnfe = ProcNFe_310()
+        elif inv.nfe_version == '4.00':
+            from pysped.nfe.leiaute import ProcNFe_400
+            procnfe = ProcNFe_400()
 
         file_xml = monta_caminho_nfe(inv.company_id, inv.nfe_access_key)
         if inv.state not in ('open', 'paid', 'sefaz_cancelled'):
