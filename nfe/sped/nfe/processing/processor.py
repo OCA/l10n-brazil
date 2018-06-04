@@ -27,7 +27,7 @@ _logger = logging.getLogger(__name__)
 try:
     from pysped.nfe import ProcessadorNFe as ProcessadorNFePySped
     from pysped.nfe.danfe import DANFE as DanfePySped
-    from pysped.nfe.danfe import DAEDE
+    from pysped.nfe.danfe.daede import DAEDE
 except ImportError as exc:
     logging.exception(exc.message)
 
