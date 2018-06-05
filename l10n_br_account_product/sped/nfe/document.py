@@ -79,6 +79,13 @@ class NFe200(FiscalDocument):
             except AttributeError:
                 pass
 
+            self.pag = self._get_Pag()
+            self._details_pag(invoice)
+
+            self.detPag = self._get_DetPag()
+            self._details_pag_data(invoice)
+            self.nfe.infNFe.pag.detPag.append(self.detPag)
+
             self.vol = self._get_Vol()
             self._weight_data(invoice)
             self.nfe.infNFe.transp.vol.append(self.vol)
@@ -811,3 +818,83 @@ class NFe310(NFe200):
             raise UserError(
                 _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
         return AutXML_310()
+
+
+class NFe400(NFe310):
+    def __init__(self):
+        super(NFe400, self).__init__()
+
+    def _details_pag(self, invoice):
+        # TODO
+        self.pag.vTroco.valor = ''
+
+    def _details_pag_data(self, invoice):
+        # TODO
+        self.detPag.tPag.valor = '14'
+        self.detPag.vPag.valor = '0'
+
+    def get_NFe(self):
+        try:
+            from pysped.nfe.leiaute import NFe_400
+        except ImportError:
+            raise UserError(
+                _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
+
+        return NFe_400()
+
+    def _get_NFRef(self):
+        try:
+            from pysped.nfe.leiaute import NFRef_400
+        except ImportError:
+            raise UserError(
+                _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
+
+        return NFRef_400()
+
+    def _get_Det(self):
+        try:
+            from pysped.nfe.leiaute import Det_400
+        except ImportError:
+            raise UserError(
+                _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
+        return Det_400()
+
+    def _get_Dup(self):
+        try:
+            from pysped.nfe.leiaute import Dup_400
+        except ImportError:
+            raise UserError(
+                _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
+        return Dup_400()
+
+    def _get_DI(self):
+        try:
+            from pysped.nfe.leiaute import DI_400
+        except ImportError:
+            raise UserError(
+                _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
+        return DI_400()
+
+    def _get_Pag(self):
+        try:
+            from pysped.nfe.leiaute import Pag_400
+        except ImportError:
+            raise UserError(
+                _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
+        return Pag_400()
+
+    def _get_DetPag(self):
+        try:
+            from pysped.nfe.leiaute import DetPag_400
+        except ImportError:
+            raise UserError(
+                _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
+        return DetPag_400()
+
+    def _get_AutXML(self):
+        try:
+            from pysped.nfe.leiaute import AutXML_400
+        except ImportError:
+            raise UserError(
+                _(u'Erro!'), _(u"Biblioteca PySPED não instalada!"))
+        return AutXML_400()
