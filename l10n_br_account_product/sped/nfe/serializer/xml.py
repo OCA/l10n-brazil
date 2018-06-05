@@ -4,12 +4,15 @@
 
 from ..document import NFe200
 from ..document import NFe310
+from ..document import NFe400
 
 
 def nfe_export(cr, uid, ids, nfe_environment='1',
                nfe_version='2.00', context=None):
 
-    if nfe_version == '3.10':
+    if nfe_version == '4.00':
+        NFe = NFe400()
+    elif nfe_version == '3.10':
         NFe = NFe310()
     else:
         NFe = NFe200()
