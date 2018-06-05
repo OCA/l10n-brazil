@@ -9,6 +9,7 @@ from openerp import fields, models
 TYPE_DAY = [
     ('uteis', u'Dias úteis Consecutivos'),
     ('corridos', u'Dias corridos'),
+    ('naouteis', u'Dias não úteis'),
 ]
 
 
@@ -24,8 +25,8 @@ class HrHolidaysStatus(models.Model):
         string=u'Limite de Dias',
     )
 
-    hours_limit = fields.Integer(
-        string=u'Limite de Horas',
+    hours_limit = fields.Float(
+        string=u'Equivalente em Horas',
     )
 
     type_day = fields.Selection(
