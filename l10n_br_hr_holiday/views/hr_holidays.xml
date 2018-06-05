@@ -10,15 +10,6 @@
         <field name="model">hr.holidays</field>
         <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
         <field name="arch" type="xml">
-            <button name="validate" position="attributes">
-                <attribute name="groups">abgf_holidays.group_manager_holidays</attribute>
-            </button>
-            <button name="second_validate" position="attributes">
-                <attribute name="groups">abgf_holidays.group_manager_holidays</attribute>
-            </button>
-            <button name="refuse" position="attributes">
-                <attribute name="groups">abgf_holidays.group_manager_holidays</attribute>
-            </button>
             <field name="date_from" position="attributes">
                 <attribute name="string">Período</attribute>
             </field>

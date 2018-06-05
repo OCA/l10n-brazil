@@ -9,6 +9,7 @@ from openerp.exceptions import Warning as UserError
 OCORRENCIA_TIPO = [
     ('ferias', u'Férias'),
     ('ocorrencias', u'Ocorrências'),
+    ('compensacao', u'Compensação de Horas'),
 ]
 
 
@@ -86,12 +87,12 @@ class HrHolidays(models.Model):
                                 record.holiday_status_id.days_limit:
                             raise UserError(_("Number of days exceeded!"))
                 # Validar Limite de Horas
-                if record.holiday_status_id.hours_limit:
-                    if fields.Datetime.from_string(record.date_to) - \
-                            fields.Datetime.from_string(record.date_from) > \
-                            timedelta(minutes=60 *
-                                      record.holiday_status_id.hours_limit):
-                        raise UserError(_("Number of hours exceeded!"))
+                # if record.holiday_status_id.hours_limit:
+                #     if fields.Datetime.from_string(record.date_to) - \
+                #             fields.Datetime.from_string(record.date_from) > \
+                #             timedelta(minutes=60 *
+                #                       record.holiday_status_id.hours_limit):
+                #         raise UserError(_("Number of hours exceeded!"))
 
     @api.onchange('payroll_discount', 'holiday_status_id')
     def _set_payroll_discount(self):
