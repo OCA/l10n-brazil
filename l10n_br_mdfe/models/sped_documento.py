@@ -16,9 +16,27 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     AMBIENTE_MDFE_PRODUCAO,
     TIPO_EMISSAO_MDFE_NORMAL,
     TIPO_EMISSAO_MDFE_CONTINGENCIA,
+    SITUACAO_NFE_AUTORIZADA,
+    SITUACAO_NFE_CANCELADA,
+    SITUACAO_NFE_DENEGADA,
+    SITUACAO_NFE_ENVIADA,
+    SITUACAO_NFE_REJEITADA,
+    SITUACAO_NFE_EM_DIGITACAO,
+    SITUACAO_FISCAL_DENEGADO,
 )
 
+from pynfe.utils.webservices import (
+    WS_MDFE_CONSULTA,
+    WS_MDFE_STATUS_SERVICO,
+    WS_MDFE_CONSULTA_NAO_ENCERRADOS,
+    WS_MDFE_RECEPCAO,
+    WS_MDFE_RET_RECEPCAO,
+)
 
+from pybrasil.data import (parse_datetime, UTC, data_hora_horario_brasilia,
+                           agora)
+
+from edoclib.edoc import DocumentoEletronico
 from odoo.exceptions import UserError, Warning
 
 
@@ -241,10 +259,8 @@ class SpedDocumento(models.Model):
 
         result = super(SpedDocumento, self)._confirma_documento()
         for record in self:
-    #        record.carregamento_municipio_ids =
             record.percurso_estado_ids = \
                 record.item_mdfe_ids.mapped('destinatario_cidade_id').mapped('estado_id')
-    #        record.item_mfe_ids.mapped()
         return result
 
     def _envia_documento(self):
@@ -257,9 +273,115 @@ class SpedDocumento(models.Model):
         processador = False
 
         mdfe = self.monta_mdfe(processador)
+        edoc = DocumentoEletronico(mdfe)
 
-        print(mdfe)
+        # TODO: Refatorar
+        cert = self.empresa_id.certificado_id.arquivo.decode('base64')
+        pw = self.empresa_id.certificado_id.senha
 
+        mdfe_assinado = edoc.assina_documento(cert, pw)
+
+        processo = None
+        for p in edoc.envia_documento():
+            processo = p
+
+        #
+        # Se o último processo foi a consulta do status do serviço, significa
+        # que ele não está online...
+        #
+        if processo.webservice == WS_MDFE_STATUS_SERVICO:
+            self.situacao_nfe = SITUACAO_NFE_EM_DIGITACAO
+        #
+        # Se o último processo foi a consulta da nota, significa que ela já
+        # está emitida
+        #
+        elif processo.webservice == WS_MDFE_CONSULTA:
+            if processo.resposta.cStat == '100':
+                # TODO Corrir o GenetateDS:
+                # http://www.davekuhlman.org/generateDS.html#support-for-xs-any
+                # implementar gds_build_any para infProt
+
+                # self.chave = processo.resposta.protMDFe.infProt.chMDFe
+                # self.executa_antes_autorizar()
+                self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
+                # self.executa_depois_autorizar()
+
+            else:
+                self.situacao_nfe = SITUACAO_NFE_EM_DIGITACAO
+        #
+        # Se o último processo foi o envio do lote, significa que a consulta
+        # falhou, mas o envio não
+        #
+        elif processo.webservice == WS_MDFE_RECEPCAO:
+            #
+            # Lote recebido, vamos guardar o recibo
+            #
+            if processo.resposta.cStat == '103':
+                self.recibo = processo.resposta.infRec.nRec
+            else:
+                mensagem = 'Código de retorno: ' + \
+                           processo.resposta.cStat
+                mensagem += '\nMensagem: ' + \
+                            processo.resposta.xMotivo
+                self.mensagem_nfe = mensagem
+                self.situacao_nfe = SITUACAO_NFE_REJEITADA
+        #
+        # Se o último processo foi o retorno do recibo, a nota foi rejeitada,
+        # denegada, autorizada, ou ainda não tem resposta
+        #
+        elif processo.webservice == WS_MDFE_RET_RECEPCAO:
+            #
+            # Consulta ainda sem resposta, a nota ainda não foi processada
+            #
+            if processo.resposta.cStat == '105':
+                self.situacao_nfe = SITUACAO_NFE_ENVIADA
+            #
+            # Lote processado
+            #
+            elif processo.resposta.cStat == '104':
+                protMDFe = processo.resposta.protMDFe
+
+                #
+                # Autorizada ou denegada
+                #
+                if protMDFe.infProt.cStat == '100':
+                    # procMDFe = processo.resposta.procMDFe
+                    # self.grava_xml(procMDFe.MDFe)
+                    # self.grava_xml_autorizacao(procMDFe)
+
+                    # TODO: Gravar o xml
+                    # TODO: Gravar o pdf
+                    # TODO: Salbar a gora de autorizaçao
+
+                    # data_autorizacao = protMDFe.infProt.dhRecbto
+                    # data_autorizacao = UTC.normalize(data_autorizacao)
+
+                    # self.data_hora_autorizacao = data_autorizacao
+                    self.protocolo_autorizacao = protMDFe.infProt.nProt
+                    self.chave = protMDFe.infProt.chMDFe
+
+                    if protMDFe.infProt.cStat == '100':
+                        self.executa_antes_autorizar()
+                        self.situacao_nfe = SITUACAO_NFE_AUTORIZADA
+                        self.executa_depois_autorizar()
+
+                else:
+                    mensagem = 'Código de retorno: ' + \
+                               protMDFe.infProt.cStat
+                    mensagem += '\nMensagem: ' + \
+                                protMDFe.infProt.xMotivo
+                    self.mensagem_nfe = mensagem
+                    self.situacao_nfe = SITUACAO_NFE_REJEITADA
+            else:
+                #
+                # Rejeitada por outros motivos, falha no schema etc. etc.
+                #
+                mensagem = 'Código de retorno: ' + \
+                           processo.resposta.cStat
+                mensagem += '\nMensagem: ' + \
+                            processo.resposta.xMotivo
+                self.mensagem_nfe = mensagem
+                self.situacao_nfe = SITUACAO_NFE_REJEITADA
 
     def gera_pdf(self):
         for record in self:
