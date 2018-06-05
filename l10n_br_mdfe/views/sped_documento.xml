@@ -38,6 +38,14 @@
                     </div>
                     <group>
                         <group col="4" colspan="4">
+                            <field name="situacao_nfe" readonly="1" colspan="4" string="Situação"
+                               decoration-warning="situacao_nfe == 'denegada' or situacao_fiscal == '04'"
+                               decoration-danger="situacao_nfe == 'rejeitada'"
+                               />
+                            <field name="mensagem_nfe" readonly="1" colspan="4" attrs="{'invisible': [('situacao_nfe', '!=', 'rejeitada')]}"
+                                   decoration-warning="situacao_nfe == 'denegada' or situacao_fiscal == '04'"
+                                   decoration-danger="situacao_nfe == 'rejeitada'"
+                                   />
                             <field name="empresa_id" colspan="4" options="{'no_create': True, 'no_open': True}" required="1" attrs="{'readonly': ['|', ('id', '!=', False), ('permite_alteracao', '=', False)]}" domain="[('contribuinte', '=', '1')]" />
                             <field name="empresa_cnpj_cpf" colspan="2" readonly="1" />
                             <newline />
@@ -300,6 +308,7 @@
                 <field name="currency_aliquota_id" invisible="1"/>
                 <field name="emissao" invisible="1"/>
                 <field name="modelo" invisible="1"/>
+                <field name="situacao_nfe" string="Situação" />
                 <field name="empresa_id" />
                 <field name="operacao_id" />
                 <field name="serie" />
