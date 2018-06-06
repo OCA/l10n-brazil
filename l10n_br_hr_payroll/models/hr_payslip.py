@@ -1887,8 +1887,12 @@ class HrPayslip(models.Model):
             avos_13 = int(mes_do_ano) - int(mes_inicio_contrato) + 1
 
             adiantamento_avos_13 = 13 - int(mes_inicio_contrato)
-
-            if dia_inicio_contrato > 15:
+            
+            # Se trabalhou mais do que 15 dias no mes, contar o mes nos avos
+            # de adiantamento de 13 salario. Senao trabalhou pelo menos 15
+            # dias na data de contratacao, diminuir um avo da contabilidade dos avos
+            if not ultimo_dia_mes(payslip.contract_id.date_start).day - \
+                    dia_inicio_contrato + 1 >= 15:
                 avos_13 -= 1
                 adiantamento_avos_13 -= 1
         else:
