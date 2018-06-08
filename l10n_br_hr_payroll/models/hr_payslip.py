@@ -1920,7 +1920,7 @@ class HrPayslip(models.Model):
                     == mes_do_ano:
                 dia_fim_contrato = \
                     fields.Date.from_string(payslip.contract_id.date_end).day
-                if dia_fim_contrato <= 15:
+                if dia_fim_contrato < 15:
                     avos_13 -= 1
         #
         # Quando for rescisao, verificar se ja foi calculado o holerite do mes.
