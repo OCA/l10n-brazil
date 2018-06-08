@@ -909,7 +909,7 @@ class HrPayslip(models.Model):
         else:
             return 0
 
-    def MEDIA_RUBRICA(self, codigo):
+    def MEDIA_RUBRICA(self, codigo, tipo_de_folha='normal'):
         media = 0
         if self.tipo_de_folha in ['ferias', 'provisao_ferias']:
             #
@@ -1005,6 +1005,13 @@ class HrPayslip(models.Model):
                 else:
                     data_de_inicio = str(self.ano - 1) + '-12-01'
                 data_final = str(self.ano) + '-11-30'
+
+                # Para calculo da media de substituicao no adiantamento de
+                #  13º salario, contar apenas o mes ate maio.
+                # Logo a media devera ser de apenas 5 meses
+                if tipo_de_folha == 'adiantamento':
+                    data_final = str(self.ano) + '-04-30'
+                    meses = 5
 
             #
             #  Buscar Holerites do Período
@@ -1647,7 +1654,7 @@ class HrPayslip(models.Model):
 
         holerite = self.search(domain, order='date_from DESC', limit=1)
 
-        if self.tipo_de_folha == 'rescisao' and holerite:
+        if holerite and self.tipo_de_folha in ['rescisao', 'decimo_terceiro']:
             return sum(holerite.line_ids.filtered(lambda x: x.code == code).mapped('total')) or 0.0
 
         valores = 0
@@ -1691,8 +1698,7 @@ class HrPayslip(models.Model):
                            [self.mes_do_ano, mes_anterior]))
             domain.append(('ano', 'in', anos))
 
-        holerite = self.search(
-            domain, order='create_date DESC', limit=1)
+        holerite = self.search(domain, order='create_date DESC', limit=1)
 
         valores = 0
 
