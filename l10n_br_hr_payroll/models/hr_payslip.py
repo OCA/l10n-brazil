@@ -2430,10 +2430,8 @@ class HrPayslip(models.Model):
             ])
 
             if holerite_id:
-                record.update({
-                    'date_from': record.data_afastamento,
-                    'date_to': record.data_afastamento,
-                })
+                record.date_to = record.data_afastamento
+                record.date_from = record.data_afastamento
 
     @api.multi
     def _buscar_holerites_periodo_aquisitivo(self):
