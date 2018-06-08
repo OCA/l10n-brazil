@@ -2438,27 +2438,22 @@ class HrPayslip(models.Model):
         if not self.periodo_aquisitivo:
             return False
         else:
-            payslips = self.search(
-                [
-                    ('contract_id', '=', self.contract_id.id),
-                    ('date_from', '>=',
-                     self.periodo_aquisitivo.inicio_aquisitivo),
-                    ('date_to', '<=', self.periodo_aquisitivo.fim_aquisitivo),
-                    ('tipo_de_folha', '=', 'normal'),
-                    ('state', 'in', ['done', 'verify']),
-                ]
-            )
+            payslips = self.search([
+                ('contract_id', '=', self.contract_id.id),
+                ('date_from', '>=', self.periodo_aquisitivo.inicio_aquisitivo),
+                ('date_to', '<=', self.periodo_aquisitivo.fim_aquisitivo),
+                ('tipo_de_folha', '=', 'normal'),
+                ('state', 'in', ['done', 'verify']),
+            ])
             return payslips
 
     @api.multi
     def _checar_holerites_aprovados(self):
-        return self.env['hr.payslip'].search(
-            [
-                ('contract_id', '=', self.contract_id.id),
-                ('tipo_de_folha', '=', 'normal'),
-                ('state', 'in', ['done', 'verify'])
-            ]
-        )
+        return self.search([
+            ('contract_id', '=', self.contract_id.id),
+            ('tipo_de_folha', '=', 'normal'),
+            ('state', 'in', ['done', 'verify'])
+        ])
 
     @api.multi
     def compute_sheet(self):
