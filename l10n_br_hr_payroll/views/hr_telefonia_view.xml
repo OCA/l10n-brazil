@@ -97,6 +97,9 @@
                             <field name="arquivo_ramais" groups="base.group_no_one"/>
                         </group>
                         <group>
+                            <field name="company_id" />
+                        </group>
+                        <group>
                             <group>
                                <field name="mes" />
                             </group>
@@ -132,6 +135,7 @@
                 <tree string="Registros Telefonicos">
                     <field name="mes"/>
                     <field name="ano"/>
+                    <field name="company_id"/>
                     <field name="arquivo_ligacoes"/>
                 </tree>
             </field>

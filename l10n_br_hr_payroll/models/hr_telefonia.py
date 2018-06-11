@@ -12,8 +12,9 @@ class HrTelefonia(models.Model):
 
     def _get_display_name(self):
         for record in self:
-            display_name = "Registros Telefônicos - {}/{}".format(
-                record.mes, record.ano
+            display_name = "Registros Telefônicos - {} - {}/{}".format(
+                record.company_id.display_name or '',
+                dict(MES_DO_ANO).get(record.mes), record.ano
             )
             record.display_name = display_name
 
@@ -50,6 +51,11 @@ class HrTelefonia(models.Model):
     ligacoes_id = fields.One2many(
         comodel_name='hr.telefonia.line',
         inverse_name='registro_telefonico_id',
+    )
+
+    company_id = fields.Many2one(
+        string='Empresa',
+        comodel_name='res.company',
     )
 
     @api.multi
@@ -263,6 +269,11 @@ class HrTelefoniaLine(models.Model):
     numero_discado = fields.Char(
         string='Numero Discado',
         readonly=True,
+    )
+
+    company_id = fields.Many2one(
+        string='Empresa',
+        comodel_name='res.company',
     )
 
     @api.multi
