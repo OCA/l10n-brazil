@@ -7,9 +7,15 @@
     <data>
 
         <menuitem
+                id="menu_sped"
+                name="SPED"
+                sequence="47"
+                groups="sped_tabelas.group_user"/>
+
+        <menuitem
                 id="menu_sped_tabelas"
                 name="Sped Tabelas"
-                sequence="47"
+                sequence="95"
                 groups="sped_tabelas.group_user"/>
 
         <menuitem

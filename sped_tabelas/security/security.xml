@@ -8,8 +8,8 @@
     <data>
 
         <record model="ir.module.category" id="sped_tabelas.module_management">
-            <field name="name">Sped Tabelas</field>
-            <field name="description">Sped Tabelas - Acesso ao módulo</field>
+            <field name="name">SPED</field>
+            <field name="description">SPED - Acesso ao módulo</field>
             <field name="sequence">3</field>
         </record>
 
