@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+        <record id="sped_transmissao_lote_form" model="ir.ui.view">
+            <field name="name">SPED Lotes de Transmissão</field>
+            <field name="model">sped.transmissao.lote</field>
+            <field name="arch" type="xml">
+                <form string="Lotes SPED">
+                    <header>
+                        <field name="situacao" widget="statusbar" select="1"
+                               nolabel="1"
+                               readonly="1"
+                               statusbar_colors='{"3":"red"}'/>
+                    </header>
+                    <sheet string="Lote de Transmissão">
+                        <div class="oe_title">
+                            <label for="tipo" class="oe_edit_only" string="Tipo"/>
+                            <h1>
+                                 <field name="tipo" string="Tipo" widget="radio"/>
+                            </h1>
+                            <label for="codigo" class="oe_edit_only" string="Código"/>
+                            <h1>
+                                 <field name="codigo" string="Registro"/>
+                            </h1>
+                        </div>
+                        <group colspan="4" col="4">
+                            <separator colspan="4" string="Detalhes"/>
+                            <group colspan="4" col="2">
+                                <field name="xml_transmissao" />
+                                <field name="xml_retorno" />
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="data_hora_transmissao" />
+                                <field name="data_hora_retorno" />
+                            </group>
+                        </group>
+                        <group colspan="4" col="1">
+                            <separator colspan="1" string="Registros deste Lote" />
+                            <field name="transmissao_ids" colspan="1" nolabel="1" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_transmissao_lote_tree">
+            <field name="name">SPED Lotes de Transmissão</field>
+            <field name="model">sped.transmissao.lote</field>
+            <field name="arch" type="xml">
+                <tree string="Lotes de Transmissão">
+                      <!--colors="blue:state in ('new','draft');black:state in ('open','done');gray:state == 'cancel'"-->
+                    <field name="tipo"/>
+                    <field name="codigo"/>
+                    <field name="ambiente"/>
+                    <field name="data_hora_transmissao"/>
+                    <field name="data_hora_retorno"/>
+                    <field name="situacao"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sped_transmissao_lote_search" model="ir.ui.view">
+            <field name="name">SPED Lotes de Transmissão</field>
+            <field name="model">sped.transmissao.lote</field>
+            <field name="arch" type="xml">
+                <search string="Transmissões">
+                    <filter name="com_erros" icon="terp-document-new" string="Com Erro(s)" domain="[('situacao', '=', '3')]" help="Registros com Erros"/>
+                    <filter name="pendentes" icon="terp-document-new" string="Pendente Transmissão" domain="[('situacao', '=', '1')]" />
+                    <filter name="transmitidas" icon="terp-document-new" string="Transmitidas" domain="[('situacao', '=', '2')]" />
+                    <filter name="sucessos" icon="terp-document-new" string="Com Sucesso" domain="[('situacao', '=', '4')]" />
+                    <field name="codigo" />
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_tipo" string="Tipo" context="{'group_by': 'tipo'}" />
+                        <filter name="group_by_situacao" string="Situação" context="{'group_by': 'situacao'}" />
+                        <filter name="group_by_transmissao" string="Data/Hora de Transmissão" context="{'group_by': 'data_hora_transmissao'}" />
+                        <filter name="group_by_retorno" string="Data/Hora de Retorno" context="{'group_by': 'data_hora_retorno'}" />
+                    </group>
+		        </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sped_transmissao_lote_action">
+            <field name="name">Lotes de Transmissão</field>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_com_erros': 1, 'search_default_pendentes': 1, 'search_default_transmitidas': 1}</field>
+            <field name="res_model">sped.transmissao.lote</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="sped_transmissao_lote_form_acao">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sped_transmissao_lote_form"/>
+            <field name="act_window_id" ref="sped_transmissao_lote_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="sped_transmissao_lote_tree_acao">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="sped_transmissao_lote_tree"/>
+            <field name="act_window_id" ref="sped_transmissao_lote_action"/>
+        </record>
+
+        <menuitem id="menu_sped_transmissao_lote"
+                  name="Lotes"
+                  sequence="10"
+                  parent="menu_sped_base"
+                  action="sped_transmissao_lote_action"
+        />
+
+        <record model="ir.sequence.type" id="sped_transmissao_lote_sequence_type">
+            <field name="name">Lotes de Transmissão SPED</field>
+            <field name="code">sped.transmissao.lote</field>
+        </record>
+
+        <record model="ir.sequence" id="sped_transmissao_lote_sequence">
+            <field name="name">Lotes de Transmissão SPED</field>
+            <field name="code">sped.transmissao.lote</field>
+            <field name="padding">4</field>
+            <field name="prefix">SPED/LOTE/</field>
+        </record>
+
+    </data>
+</openerp>
