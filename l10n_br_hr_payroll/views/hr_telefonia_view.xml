@@ -192,6 +192,7 @@
                     <!--<button class="oe_inline oe_stat_button" name="action_open_to_transit_moves"-->
               <!--type="object" icon="fa-upload">-->
               <!--<field string="To transit moves" name="to_transit_moves_count" widget="statinfo" />-->
+                    <field name="tipo" />
 
                     <button name="set_particular" string="Particular" type="object"
                             attrs="{'readonly': ['|',('tipo', '=', 'particular'),('state','in',['validate','paid'])]}"
@@ -201,7 +202,6 @@
                             attrs="{'readonly': ['|',('tipo', '=', 'empresa'),('state','in',['validate','paid'])]}"
                             help="Definir ligação como Empresarial" />
 
-                    <field name="tipo" />
                     <field name="employee_id" invisible="1"/>
                     <field name="ramal" invisible="1" />
                     <field name="state" />
