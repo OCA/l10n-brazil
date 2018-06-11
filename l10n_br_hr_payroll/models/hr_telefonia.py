@@ -143,20 +143,31 @@ class HrTelefonia(models.Model):
                         duracao = l[6]
                         valor = float(l[7].replace(',','.'))
 
-                        vals = {
-                            'ramal': ramal_id.id,
-                            'data': data,
-                            'numero_discado': numero_discado,
-                            'concessionaria': concessionaria,
-                            'localidade': localidade,
-                            'inicio': inicio,
-                            'duracao': duracao,
-                            'valor': valor,
-                            'registro_telefonico_id': record.id,
-                            'employee_id': funcionario_id.id if len(funcionario_id) == 1 else False
-                        }
+                        # Verificar se a ligacao ja foi importada
+                        existe_ligacao = self.env['hr.telefonia.line'].search([
+                            ('ramal', '=', ramal_id.id),
+                            ('data', '=', data),
+                            ('numero_discado', '=', numero_discado),
+                            ('inicio', '=', inicio),
+                            ('valor', '=', valor),
+                        ])
 
-                        self.env['hr.telefonia.line'].create(vals)
+                        if not existe_ligacao:
+                            vals = {
+                                'ramal': ramal_id.id,
+                                'data': data,
+                                'numero_discado': numero_discado,
+                                'concessionaria': concessionaria,
+                                'localidade': localidade,
+                                'inicio': inicio,
+                                'duracao': duracao,
+                                'valor': valor,
+                                'registro_telefonico_id': record.id,
+                                'employee_id': funcionario_id.id
+                                        if len(funcionario_id) == 1 else False,
+                                'company_id': record.company_id.id or False,
+                            }
+                            self.env['hr.telefonia.line'].create(vals)
 
 
 class HrTelefoniaLine(models.Model):
