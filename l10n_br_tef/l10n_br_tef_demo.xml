@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="1">
+
+<record id="account.check_journal" model="account.journal">
+    <field name="payment_mode">check</field>
+</record>
+
+<record id="point_of_sale.pos_config_main" model="pos.config">
+    <field name="iface_tef" eval="True"/>
+</record>
+
+</data>
+</openerp>

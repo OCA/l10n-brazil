@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="Paymentline" >
+        <t t-jquery=".paymentline-input" t-operation="append">
+            <t t-if="line.cashregister.journal.payment_mode">
+                <span class="payment-terminal-transaction-start">
+                    <button>Start transaction</button>
+                </span>
+            </t>
+        </t>
+    </t>
+</templates>
