@@ -6,6 +6,7 @@ from openerp import api, fields, models
 
 
 class ProductTemplate(models.Model):
+
     _inherit = 'product.template'
 
     tp_servico_id = fields.Many2one(

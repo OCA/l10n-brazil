@@ -5,7 +5,7 @@
         <menuitem id="menu_sped_efdreinf"
                   name="EFD/Reinf"
                   sequence="85"
-                  parent="l10n_br_account.menu_l10n_br_account"
+                  parent="sped_tabelas.menu_sped"
         />
     </data>
 </openerp>
