@@ -232,11 +232,18 @@
             <field name="model">hr.telefonia.line</field>
             <field name="arch" type="xml">
                 <search string="Registros Telefonicos por data">
-                    <filter name="filter_ligacoes_open" icon="terp-document-new" string="Ligações em aberto" domain="[('state','in',['open'])]" help="Apenas Ligações não foram debitadas"/>
-                    <filter name="filter_minhas_ligacoes" icon="terp-document-new" string="Minhas Ligacoes" domain="[('employee_id.user_id', '=',uid)]" help="Apenas Minhas Ligações"/>
+                    <field name="employee_id"/>
+                    <field name="ramal"/>
+                    <field name="data"/>
+                    <filter name="filter_ligacoes_open" icon="terp-call-start" string="Ligações em aberto"
+                            domain="[('state','in',['open'])]" help="Apenas Ligações não foram debitadas"/>
+                    <filter name="filter_minhas_ligacoes" icon="terp-call-start" string="Minhas Ligacoes"
+                            domain="[('employee_id.user_id', '=',uid)]" help="Apenas Minhas Ligações"/>
+                    <filter name="filter_minhas_ligacoes_abertas" icon="terp-call-start" string="Minhas Ligacoes em aberto"
+                            domain="[ ('employee_id.user_id','=',uid),('state','in',['open'])]" help="Apenas Minhas Ligações que estão em aberto"/>
                     <group expand="1" string="Group By">
                         <filter string="Data" icon="terp-accessories-archiver" context="{'group_by':'data'}" name='group_by_data'/>
-                        <filter string="Ramal" icon="terp-accessories-archiver" context="{'group_by':'ramal'}" name='group_by_ramal'/>
+                        <filter string="Ramal" icon="terp-call-start" context="{'group_by':'ramal'}" name='group_by_ramal'/>
                         <filter string="Empregado" icon="terp-accessories-archiver" context="{'group_by':'employee_id'}" name='group_by_employee'/>
                         <filter string="Valor" icon="terp-accessories-archiver" context="{'group_by':'valor'}" name='group_by_valor'/>
                         <filter string="Tipo" icon="terp-accessories-archiver" context="{'group_by':'tipo'}" name='group_by_tipo'/>
@@ -249,9 +256,11 @@
         <record model="ir.actions.act_window" id="action_hr_ligacoes">
             <field name="name">Registros Telefonicos</field>
             <field name="res_model">hr.telefonia.line</field>
-            <field name="context">{"search_default_filter_ligacoes_open":1}</field>
+            <!--<field name="context">{"search_default_group_by_ramal":1}</field>-->
             <!--<field name="context">{'search_default_group_by_data': True, "search_default_filter_ligacoes_open":1}</field>-->
+            <field name="context">{"search_default_filter_minhas_ligacoes_abertas":1}</field>
             <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="l10n_br_hr_payroll.view_hr_telefonia_line_search"/>
         </record>
 
         <record model="ir.ui.menu" id="menu_hr_ligacoes">
