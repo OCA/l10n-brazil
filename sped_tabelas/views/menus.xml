@@ -9,7 +9,7 @@
         <menuitem
                 id="menu_sped_tabelas"
                 name="Sped Tabelas"
-                sequence="95"
+                sequence="47"
                 groups="sped_tabelas.group_user"/>
 
         <menuitem
