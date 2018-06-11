@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record id="sped_efdreinf_form" model="ir.ui.view">
+            <field name="name">EFD/Reinf</field>
+            <field name="model">sped.efdreinf</field>
+            <field name="arch" type="xml">
+                <form string="EFD/Reinf">
+                    <header>
+                        <field name="situacao" widget="statusbar" select="1"
+                               nolabel="1"
+                               readonly="1"
+                               statusbar_colors='{"3":"red"}'/>
+                    </header>
+                    <field name="nome" invisible="1" />
+                    <field name="pode_sem_movto" invisible="1" />
+                    <field name="date_start" invisible="1" />
+                    <field name="id" invisible="1" />
+                    <div class="oe_title">
+                        <h1>
+                            <field name="nome_readonly" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group colspan="4" col="4">
+                        <group colspan="4" col="4">
+                            <group colspan="2" col="2">
+                                <field name="periodo_id" string="Período" attrs="{'invisible': [('situacao', '!=', '1')]}"
+                                       domain="[('date_start', '&gt;=', '2018-05-01')]"
+                                       options="{'no_create': True, 'no_open': True}" required="1"
+                                />
+                                <field name="periodo_id_readonly" string="Período" attrs="{'invisible': [('situacao', '=', '1')]}" />
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="company_id" string="Empresa" attrs="{'invisible': [('situacao', '!=', '1')]}"
+                                       domain="[('eh_empresa_base', '=', True)]"
+                                       options="{'no_create': True, 'no_open': True}" required="1"
+                                />
+                                <field name="company_id_readonly" string="Empresa" attrs="{'invisible': [('situacao', '=', '1')]}" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="R2010" string="R-2010">
+                                <group colspan="4" col="4">
+                                    <group colspan="2" col="1">
+                                        <div class="oe_title">
+                                            <button name="importar_movimento" type="object" string="Calcular" />
+                                            <button name="criar_R2010" type="object" string="Criar R-2010(s)" class="oe_highlight"
+                                                    attrs="{'invisible': [('estabelecimento_ids', '=', False)]}" />
+                                        </div>
+                                    </group>
+                                    <field name="estabelecimento_ids" readonly="1" nolabel="1" colspan="4">
+                                        <tree>
+                                            <field name="nome" invisible="1" />
+                                            <field name="estabelecimento_id" />
+                                            <field name="prestador_id" />
+                                            <field name="vr_total_bruto" />
+                                            <field name="vr_total_base_retencao" />
+                                            <field name="vr_total_ret_princ" />
+                                            <field name="vr_total_ret_adic" invisible="1" />
+                                            <field name="vr_total_nret_princ" invisible="1" />
+                                            <field name="vr_total_nret_adic" invisible="1" />
+                                            <field name="ind_cprb" />
+                                            <field name="situacao_R2010" />
+                                            <field name="sped_R2010" invisible="1" />
+                                            <field name="sped_R2010_registro" invisible="1" />
+                                            <field name="nfs_ids" invisible="1" />
+                                        </tree>
+                                        <form>
+                                            <sheet>
+                                                <group colspan="4" col="4">
+                                                    <group colspan="2" col="2">
+                                                        <field name="estabelecimento_id" readonly="1" />
+                                                        <field name="prestador_id" readonly="1" />
+                                                        <field name="sped_R2010" invisible="1" />
+                                                        <field name="sped_R2010_registro" attrs="{'invisible': [('sped_R2010', '=', False)]}" />
+                                                    </group>
+                                                    <group colspan="2" col="2">
+                                                        <field name="vr_total_bruto" readonly="1" />
+                                                        <field name="vr_total_base_retencao" readonly="1" />
+                                                        <field name="vr_total_ret_princ" readonly="1" />
+                                                        <field name="vr_total_ret_adic" readonly="1" />
+                                                        <field name="vr_total_nret_princ" readonly="1" />
+                                                        <field name="vr_total_nret_adic" readonly="1" />
+                                                        <field name="ind_cprb" readonly="1" />
+                                                    </group>
+                                                    <group colspan="4" col="1" string="Notas Fiscais">
+                                                        <field name="nfs_ids" nolabel="1" readonly="1">
+                                                            <tree>
+                                                                <field name="nfs_id" invisible="1"/>
+                                                                <field name="serie" />
+                                                                <field name="num_docto" />
+                                                                <field name="dt_emissao_nf" />
+                                                                <field name="vr_bruto" />
+                                                                <field name="observacoes" />
+                                                                <field name="servico_ids" invisible="1" />
+                                                            </tree>
+                                                            <form>
+                                                                <group colspan="4" col="4">
+                                                                    <group colspan="4" col="2">
+                                                                        <field name="nfs_id" readonly="1" />
+                                                                        <field name="serie" readonly="1" />
+                                                                        <field name="num_docto" invisible="1" />
+                                                                        <field name="dt_emissao_nf" readonly="1" />
+                                                                        <field name="vr_bruto" readonly="1" />
+                                                                        <field name="observacoes" />
+                                                                    </group>
+                                                                    <group colspan="4" col="1" string="Itens de NF">
+                                                                        <field name="servico_ids" nolabel="1" readonly="1">
+                                                                            <tree>
+                                                                                <field name="servico_nfs_id" invisible="1" />
+                                                                                <field name="tp_servico_id" />
+                                                                                <field name="vr_base_ret" />
+                                                                                <field name="vr_retencao" />
+                                                                                <field name="vr_ret_sub" invisible="1" />
+                                                                                <field name="vr_nret_princ" invisible="1" />
+                                                                                <field name="vr_servicos_15" invisible="1" />
+                                                                                <field name="vr_servicos_20" invisible="1" />
+                                                                                <field name="vr_servicos_25" invisible="1" />
+                                                                                <field name="vr_adicional" invisible="1" />
+                                                                                <field name="vr_nret_adic" invisible="1" />
+                                                                            </tree>
+                                                                            <form>
+                                                                                <group colspan="4" col="4">
+                                                                                    <group colspan="2" col="2" string="Item da NF">
+                                                                                        <field name="servico_nfs_id" readonly="1" />
+                                                                                        <field name="tp_servico_id" readonly="1" />
+                                                                                    </group>
+                                                                                    <group colspan="2" col="2" string="Retenção">
+                                                                                        <field name="vr_base_ret" readonly="1" />
+                                                                                        <field name="vr_retencao" readonly="1" />
+                                                                                        <field name="vr_ret_sub" readonly="1" />
+                                                                                        <field name="vr_nret_princ" readonly="1" />
+                                                                                        <field name="vr_servicos_15" readonly="1" />
+                                                                                        <field name="vr_servicos_20" readonly="1" />
+                                                                                        <field name="vr_servicos_25" readonly="1" />
+                                                                                        <field name="vr_adicional" readonly="1" />
+                                                                                        <field name="vr_nret_adic" readonly="1" />
+                                                                                    </group>
+                                                                                </group>
+                                                                            </form>
+                                                                        </field>
+                                                                    </group>
+                                                                </group>
+                                                            </form>
+                                                        </field>
+                                                    </group>
+                                                </group>
+                                            </sheet>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="R2099" string="R-2099">
+                                <group colspan="4" col="4">
+                                    <group colspan="2" col="4">
+                                        <label for="evt_serv_tm" colspan="3"/><field name="evt_serv_tm" nolabel="1" colspan="1" />
+                                        <label for="evt_serv_pr" colspan="3"/><field name="evt_serv_pr" nolabel="1" colspan="1" />
+                                        <label for="evt_ass_desp_rec" colspan="3"/><field name="evt_ass_desp_rec" nolabel="1" colspan="1" />
+                                        <label for="evt_ass_desp_rep" colspan="3"/><field name="evt_ass_desp_rep" nolabel="1" colspan="1" />
+                                        <label for="evt_com_prod" colspan="3"/><field name="evt_com_prod" nolabel="1" colspan="1" />
+                                        <label for="evt_cprb" colspan="3"/><field name="evt_cprb" nolabel="1" colspan="1" />
+                                        <label for="evt_pgtos" colspan="3"/><field name="evt_pgtos" nolabel="1" colspan="1" />
+                                        <label for="comp_sem_movto_id" colspan="3"
+                                               attrs="{'invisible': [('pode_sem_movto', '=', False)]}"
+                                        />
+                                        <field name="comp_sem_movto_id" nolabel="1" colspan="1"
+                                               domain="[('date_start', '&gt;=', '2018-05-01'), ('date_start', '&lt;=', date_start)]"
+                                               options="{'no_open': True, 'no_create': True}"
+                                               attrs="{'invisible': [('pode_sem_movto', '=', False)]}"
+                                        />
+                                    </group>
+                                    <group colspan="2" col="2">
+                                        <button name="criar_R2099" colspan="2" type="object" string="Criar R-2099" class="oe_highlight"
+                                                attrs="{'invisible': [('sped_R2099', '=', True)]}"
+                                        />
+                                        <field name="sped_R2099" readonly="1"/>
+                                        <field name="sped_R2099_registro" readonly="1"/>
+                                        <field name="situacao_R2099" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_efdreinf_tree">
+            <field name="name">SPED EFD/Reinf</field>
+            <field name="model">sped.efdreinf</field>
+            <field name="arch" type="xml">
+                <tree string="EFD/Reinf" duplicate="false">
+                      <!--colors="blue:state in ('new','draft');black:state in ('open','done');gray:state == 'cancel'"-->
+                    <field name="periodo_id" />
+                    <field name="company_id"/>
+                    <field name="situacao"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sped_efdreinf_search" model="ir.ui.view">
+            <field name="name">SPED EFD/Reinf</field>
+            <field name="model">sped.efdreinf</field>
+            <field name="arch" type="xml">
+                <search string="EFD/Reinf">
+                    <filter name="com_erros" icon="terp-document-new" string="Com Erro(s)" domain="[('situacao', '=', '3')]" help="Registros com Erros"/>
+                    <filter name="pendentes" icon="terp-document-new" string="Pendente Transmissão" domain="[('situacao', '=', '1')]" />
+                    <filter name="transmitidas" icon="terp-document-new" string="Transmitidas" domain="[('situacao', '=', '2')]" />
+                    <filter name="sucessos" icon="terp-document-new" string="Com Sucesso" domain="[('situacao', '=', '4')]" />
+                    <field name="periodo_id" />
+                    <field name="company_id" />
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_situacao" string="Situação" context="{'group_by': 'situacao'}" />
+                        <filter name="group_by_periodo_id" string="Período" context="{'group_by': 'periodo_id'}" />
+                        <filter name="group_by_company_id" string="Empresa" context="{'group_by': 'company_id'}" />
+                        <!--<filter name="group_by_retorno" string="Data/Hora de Retorno" context="{'group_by': 'data_hora_retorno'}" />-->
+                    </group>
+		        </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sped_efdreinf_action">
+            <field name="name">EFD/Reinf</field>
+            <field name="domain">[]</field>
+            <!--<field name="context">{'search_default_com_erros': 1, 'search_default_pendentes': 1, 'search_default_transmitidas': 1}</field>-->
+            <field name="res_model">sped.efdreinf</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="sped_efdreinf_form_acao">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sped_efdreinf_form"/>
+            <field name="act_window_id" ref="sped_efdreinf_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="sped_efdreinf_tree_acao">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="sped_efdreinf_tree"/>
+            <field name="act_window_id" ref="sped_efdreinf_action"/>
+        </record>
+
+        <menuitem id="menu_sped_periodo"
+                  name="Períodos"
+                  sequence="20"
+                  parent="menu_sped_efdreinf"
+                  action="sped_efdreinf_action"
+        />
+
+        <!--<record model="ir.sequence.type" id="sped_transmissao_sequence_type">-->
+            <!--<field name="name">Registros de Transmissão SPED</field>-->
+            <!--<field name="code">sped.transmissao</field>-->
+        <!--</record>-->
+
+        <!--<record model="ir.sequence" id="sped_transmissao_sequence">-->
+            <!--<field name="name">Registros de Transmissão SPED</field>-->
+            <!--<field name="code">sped.transmissao</field>-->
+            <!--<field name="padding">4</field>-->
+            <!--<field name="prefix">SPED/REG/</field>-->
+        <!--</record>-->
+
+    </data>
+</openerp>

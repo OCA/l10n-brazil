@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_res_company">
+            <field name="name">Adiciona EFD/Reinf na Empresa</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="l10n_br_account_product.view_l10n_br_account_company_form" />
+            <field name="arch" type="xml">
+                <field name="annual_revenue" position="before">
+                    <field name="eh_empresa_base" invisible="1"/>
+                </field>
+                <xpath expr="//page[@string='Retenções']" position="after">
+                    <page name="efdreinf" string="EFD/Reinf" attrs="{'invisible': [('eh_empresa_base', '=', False)]}">
+                        <group colspan="4" col="4">
+                            <group colspan="4" col="2">
+                                <field name="tpAmb" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="classificacao_tributaria_id" options="{'no_create': True, 'no_open': True}" />
+                                <field name="ind_escrituracao" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="ind_desoneracao" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="ind_acordoisenmulta" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="ind_sitpj"/>
+                                <field name="nmctt" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="cpfctt" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="cttfonefixo" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="cttfonecel" />
+                                <field name="cttemail" />
+                                <field name="periodo_id" attrs="{'required': [('eh_empresa_base', '=', True)]}"
+                                       domain="[('date_start', '&gt;=', '2018-05-01')]"
+                                       options="{'no_create': True, 'no_open': True}" required="1"
+                                />
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="sped_r1000" />
+                                <field name="sped_r1000_registro" />
+                                <field name="sped_r1000_situacao" />
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="sped_r1000_data_hora" />
+                                <button name="criar_r1000" colspan="4" type="object"
+                                        string="Enviar R-1000 - Informações do Contribuinte"
+                                        attrs="{'invisible': [('sped_r1000_registro', '!=', False)]}" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

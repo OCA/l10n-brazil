@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sped_efdreinf_sped_efdreinf_estabelecimento,sped_efdreinf.sped_efdreinf_estabelecimento,model_sped_efdreinf_estabelecimento,account.group_account_user,1,1,1,1
+sped_efdreinf_sped_efdreinf_nfs,sped_efdreinf.sped_efdreinf_nfs,model_sped_efdreinf_nfs,account.group_account_user,1,1,1,1
+sped_efdreinf_sped_efdreinf_servico,sped_efdreinf.sped_efdreinf_servico,model_sped_efdreinf_servico,account.group_account_user,1,1,1,1
+sped_efdreinf_sped_efdreinf,sped_efdreinf.sped_efdreinf,model_sped_efdreinf,account.group_account_user,1,1,1,1
