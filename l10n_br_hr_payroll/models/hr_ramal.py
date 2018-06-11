@@ -20,3 +20,11 @@ class HrRamal(models.Model):
         string=u'Nº Ramal',
         required=True,
     )
+
+    employee_ids = fields.Many2many(
+        string=u'Funcionário',
+        comodel_name='hr.employee',
+        relation='employee_ramal_rel',
+        column1='employee_id',
+        column2='ramal_id',
+    )

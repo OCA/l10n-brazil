@@ -4,6 +4,7 @@
 
         <menuitem id="menu_hr_root_telefonia" parent="hr.menu_hr_root" name="Telefonia" sequence="48" groups="base.group_user" />
 
+        <!-- Visao que mostra os funcionários e seus ramais-->
         <record model="ir.ui.view" id="hr_employee_ramal_form_view">
             <field name="name">hr.employee.ramal.form</field>
             <field name="model">hr.employee</field>
@@ -27,7 +28,6 @@
                 </form>
             </field>
         </record>
-
         <record model="ir.ui.view" id="hr_employee_ramal_tree_view">
             <field name="name">hr.employee.ramal.tree</field>
             <field name="model">hr.employee</field>
@@ -39,28 +39,24 @@
                 </tree>
             </field>
         </record>
-
         <record model="ir.actions.act_window" id="action_hr_employee_ramais">
-            <field name="name">Ramais</field>
+            <field name="name">Funcionários</field>
             <field name="res_model">hr.employee</field>
             <field name="view_mode">tree,form</field>
         </record>
-
         <record model="ir.ui.menu" id="menu_hr_employee_ramal">
-            <field name="name">Ramais</field>
+            <field name="name">Funcionários</field>
             <field name="parent_id" ref="l10n_br_hr_payroll.menu_hr_root_telefonia" />
             <field name="action" ref="action_hr_employee_ramais" />
             <field name="sequence" eval="1" />
             <field name="groups_id" eval="[(6, 0, [ref('l10n_br_hr_payroll.group_manager_ligacoes')])]" />
         </record>
-
         <record id="act_hr_employee_ramal_tree" model="ir.actions.act_window.view">
             <field eval="1" name="sequence"/>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="hr_employee_ramal_tree_view"/>
             <field name="act_window_id" ref="action_hr_employee_ramais"/>
         </record>
-
         <record id="act_hr_employee_ramal_form" model="ir.actions.act_window.view">
             <field eval="2" name="sequence"/>
             <field name="view_mode">form</field>
@@ -69,6 +65,59 @@
         </record>
 
 
+        <!-- Visao que mostra os Ramais e quem esta alocado a ele-->
+        <record model="ir.ui.view" id="hr_telefonia_ramal_form_view">
+            <field name="name">hr.telefonia.ramal.form</field>
+            <field name="model">hr.ramal</field>
+            <field name="arch" type="xml">
+                <form string="Ramal">
+                    <sheet>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <group>
+                            <field name="employee_ids" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="hr_telefonia_ramal_tree_view">
+            <field name="name">hr.telefonia.ramal.tree</field>
+            <field name="model">hr.ramal</field>
+            <field name="arch" type="xml">
+                <tree string="Ramais">
+                    <field name="name" />
+                    <field name="employee_ids" />
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_hr_telefonia_ramais">
+            <field name="name">Ramais</field>
+            <field name="res_model">hr.ramal</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.ui.menu" id="menu_hr_telefonia_ramal">
+            <field name="name">Ramal</field>
+            <field name="parent_id" ref="l10n_br_hr_payroll.menu_hr_root_telefonia" />
+            <field name="action" ref="action_hr_telefonia_ramais" />
+            <field name="sequence" eval="1" />
+            <field name="groups_id" eval="[(6, 0, [ref('l10n_br_hr_payroll.group_manager_ligacoes')])]" />
+        </record>
+        <record id="act_hr_telefonia_ramal_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="hr_telefonia_ramal_tree_view"/>
+            <field name="act_window_id" ref="action_hr_telefonia_ramais"/>
+        </record>
+        <record id="act_hr_telefonia_ramal_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="hr_telefonia_ramal_form_view"/>
+            <field name="act_window_id" ref="action_hr_telefonia_ramais"/>
+        </record>
+
+        <!--Visao que contem o registro telefonica com suas varias chamadas -->
         <record model="ir.ui.view" id="hr_telefonia_form_view">
             <field name="name">hr.telefonia.form</field>
             <field name="model">hr.telefonia</field>
@@ -174,7 +223,7 @@
                             </group>
                         </group>
                         <group>
-                            <field name="payslip_id" />
+                            <field name="payslip_id" groups="base.group_no_one" />
                         </group>
                     </sheet>
                 </form>
@@ -192,10 +241,6 @@
                     <field name="inicio" />
                     <field name="duracao" />
                     <field name="valor" />
-
-                    <!--<button class="oe_inline oe_stat_button" name="action_open_to_transit_moves"-->
-              <!--type="object" icon="fa-upload">-->
-              <!--<field string="To transit moves" name="to_transit_moves_count" widget="statinfo" />-->
                     <field name="tipo" />
 
                     <button name="set_particular" string="Particular" type="object"
