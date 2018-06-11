@@ -9,7 +9,6 @@
         <menuitem
                 id="menu_sped_tabelas"
                 name="Sped Tabelas"
-                parent="l10n_br_account.menu_l10n_br_account"
                 sequence="95"
                 groups="sped_tabelas.group_user"/>
 

@@ -15,9 +15,7 @@
     'license': 'AGPL-3',
     'author': 'ABGF, Agência Brasileira Gestora de Fundos Garantidores e Garantias S.A.',
     'website': 'www.abgf.gov.br',
-    'depends': [
-        'l10n_br_account_product',
-    ],
+    'depends': [],
     'external_dependencies': {
         'python': [
             'pybrasil',
