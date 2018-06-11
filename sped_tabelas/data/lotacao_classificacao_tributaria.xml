@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record id="tab11_1" model="sped.lotacao_classificacao_tributaria">
+            <field name="codigo">01</field>
+            <field name="c1">S</field>
+            <field name="c2">S</field>
+            <field name="c3">S</field>
+            <field name="c4">S</field>
+            <field name="c6">S</field>
+            <field name="c7">S</field>
+            <field name="c8">S</field>
+            <field name="c9">S</field>
+            <field name="c10">S</field>
+            <field name="c11">S</field>
+            <field name="c13">S</field>
+            <field name="c14">S</field>
+            <field name="c21">N</field>
+            <field name="c22">N</field>
+            <field name="c60">S</field>
+            <field name="c70">S</field>
+            <field name="c80">S</field>
+            <field name="c85">S</field>
+            <field name="c99">S</field>
+        </record>
+        <record id="tab11_2" model="sped.lotacao_classificacao_tributaria">
+            <field name="codigo">02</field>
+            <field name="c1">S</field>
+            <field name="c2">S</field>
+            <field name="c3">S</field>
+            <field name="c4">N</field>
+            <field name="c6">S</field>
+            <field name="c7">S</field>
+            <field name="c8">S</field>
+            <field name="c9">S</field>
+            <field name="c10">S</field>
+            <field name="c11">S</field>
+            <field name="c13">S</field>
+            <field name="c14">S</field>
+            <field name="c21">N</field>
+            <field name="c22">N</field>
+            <field name="c60">S</field>
+            <field name="c70">S</field>
+            <field name="c80">S</field>
+            <field name="c85">S</field>
+            <field name="c99">S</field>
+        </record>
+        <record id="tab11_3" model="sped.lotacao_classificacao_tributaria">
+            <field name="codigo">03</field>
+            <field name="c1">S</field>
+            <field name="c2">S</field>
+            <field name="c3">S</field>
+            <field name="c4">N</field>
+            <field name="c6">N</field>
+            <field name="c7">N</field>
+            <field name="c8">N</field>
+            <field name="c9">N</field>
+            <field name="c10">N</field>
+            <field name="c11">N</field>
+            <field name="c13">N</field>
+            <field name="c14">N</field>
+            <field name="c21">N</field>
+            <field name="c22">N</field>
+            <field name="c60">N</field>
+            <field name="c70">N</field>
+            <field name="c80">N</field>
+            <field name="c85">N</field>
+            <field name="c99">S</field>
+        </record>
+        <record id="tab11_4" model="sped.lotacao_classificacao_tributaria">
+            <field name="codigo">04</field>
+            <field name="c1">S</field>
+            <field name="c2">S</field>
+            <field name="c3">S</field>
+            <field name="c4">N</field>
+            <field name="c6">N</field>
+            <field name="c7">N</field>
+            <field name="c8">N</field>
+            <field name="c9">N</field>
+            <field name="c10">N</field>
+            <field name="c11">N</field>
+            <field name="c13">N</field>
+            <field name="c14">N</field>
+            <field name="c21">N</field>
+            <field name="c22">N</field>
+            <field name="c60">N</field>
+            <field name="c70">S</field>
+            <field name="c80">S</field>
+            <field name="c85">N</field>
+            <field name="c99">S</field>
+        </record>
+        <record id="tab11_5" model="sped.lotacao_classificacao_tributaria">
+            <field name="codigo">05</field>
+            <field name="c1">S</field>
+            <field name="c2">S</field>
+            <field name="c3">S</field>
+            <field name="c4">N</field>
+            <field name="c6">S</field>
+            <field name="c7">S</field>
+            <field name="c8">N</field>
+            <field name="c9">N</field>
+            <field name="c10">S</field>
+            <field name="c11">N</field>
+            <field name="c13">N</field>
+            <field name="c14">S</field>
+            <field name="c21">N</field>
+            <field name="c22">N</field>
+            <field name="c60">N</field>
+            <field name="c70">S</field>
+            <field name="c80">S</field>
+            <field name="c85">S</field>
+            <field name="c99">S</field>
+        </record>
+        <record id="tab11_6" model="sped.lotacao_classificacao_tributaria">
+            <field name="codigo">06</field>
+            <field name="c1">N</field>
+            <field name="c2">N</field>
+            <field name="c3">N</field>
+            <field name="c4">N</field>
+            <field name="c6">N</field>
+            <field name="c7">N</field>
+            <field name="c8">N</field>
+            <field name="c9">N</field>
+            <field name="c10">N</field>
+            <field name="c11">N</field>
+            <field name="c13">N</field>
+            <field name="c14">N</field>
+            <field name="c21">N</field>
+            <field name="c22">N</field>
+            <field name="c60">N</field>
+            <field name="c70">N</field>
+            <field name="c80">N</field>
+            <field name="c85">N</field>
+            <field name="c99">S</field>
+        </record>
+        <record id="tab11_7" model="sped.lotacao_classificacao_tributaria">
+            <field name="codigo">07</field>
+            <field name="c1">N</field>
+            <field name="c2">N</field>
+            <field name="c3">N</field>
+            <field name="c4">N</field>
+            <field name="c6">N</field>
+            <field name="c7">N</field>
+            <field name="c8">N</field>
+            <field name="c9">N</field>
+            <field name="c10">N</field>
+            <field name="c11">N</field>
+            <field name="c13">N</field>
+            <field name="c14">N</field>
+            <field name="c21">N</field>
+            <field name="c22">N</field>
+            <field name="c60">N</field>
+            <field name="c70">N</field>
+            <field name="c80">N</field>
+            <field name="c85">N</field>
+            <field name="c99">S</field>
+        </record>
+        <record id="tab11_8" model="sped.lotacao_classificacao_tributaria">
+            <field name="codigo">08</field>
+            <field name="c1">N</field>
+            <field name="c2">N</field>
+            <field name="c3">N</field>
+            <field name="c4">N</field>
+            <field name="c6">N</field>
+            <field name="c7">N</field>
+            <field name="c8">N</field>
+            <field name="c9">S</field>
+            <field name="c10">N</field>
+            <field name="c11">N</field>
+            <field name="c13">N</field>
+            <field name="c14">N</field>
+            <field name="c21">N</field>
+            <field name="c22">N</field>
+            <field name="c60">N</field>
+            <field name="c70">N</field>
+            <field name="c80">N</field>
+            <field name="c85">N</field>
+            <field name="c99">N</field>
+        </record>
+        <record id="tab11_9" model="sped.lotacao_classificacao_tributaria">
+            <field name="codigo">09</field>
+            <field name="c1">N</field>
+            <field name="c2">N</field>
+            <field name="c3">N</field>
+            <field name="c4">N</field>
+            <field name="c6">N</field>
+            <field name="c7">N</field>
+            <field name="c8">N</field>
+            <field name="c9">N</field>
+            <field name="c10">S</field>
+            <field name="c11">N</field>
+            <field name="c13">N</field>
+            <field name="c14">N</field>
+            <field name="c21">N</field>
+            <field name="c22">N</field>
+            <field name="c60">N</field>
+            <field name="c70">N</field>
+            <field name="c80">N</field>
+            <field name="c85">N</field>
+            <field name="c99">N</field>
+        </record>
+        <record id="tab11_10" model="sped.lotacao_classificacao_tributaria">
+            <field name="codigo">10</field>
+            <field name="c1">S</field>
+            <field name="c2">S</field>
+            <field name="c3">S</field>
+            <field name="c4">S</field>
+            <field name="c6">S</field>
+            <field name="c7">S</field>
+            <field name="c8">S</field>
+            <field name="c9">S</field>
+            <field name="c10">S</field>
+            <field name="c11">S</field>
+            <field name="c13">S</field>
+            <field name="c14">N</field>
+            <field name="c21">N</field>
+            <field name="c22">N</field>
+            <field name="c60">N</field>
+            <field name="c70">S</field>
+            <field name="c80">S</field>
+            <field name="c85">S</field>
+            <field name="c99">S</field>
+        </record>
+        <record id="tab11_21" model="sped.lotacao_classificacao_tributaria">
+            <field name="codigo">21</field>
+            <field name="c1">N</field>
+            <field name="c2">N</field>
+            <field name="c3">N</field>
+            <field name="c4">N</field>
+            <field name="c6">N</field>
+            <field name="c7">N</field>
+            <field name="c8">N</field>
+            <field name="c9">N</field>
+            <field name="c10">N</field>
+            <field name="c11">N</field>
+            <field name="c13">N</field>
+            <field name="c14">N</field>
+            <field name="c21">S</field>
+            <field name="c22">N</field>
+            <field name="c60">N</field>
+            <field name="c70">N</field>
+            <field name="c80">N</field>
+            <field name="c85">N</field>
+            <field name="c99">N</field>
+        </record>
+        <record id="tab11_24" model="sped.lotacao_classificacao_tributaria">
+            <field name="codigo">24</field>
+            <field name="c1">N</field>
+            <field name="c2">N</field>
+            <field name="c3">N</field>
+            <field name="c4">N</field>
+            <field name="c6">N</field>
+            <field name="c7">N</field>
+            <field name="c8">N</field>
+            <field name="c9">N</field>
+            <field name="c10">N</field>
+            <field name="c11">N</field>
+            <field name="c13">N</field>
+            <field name="c14">N</field>
+            <field name="c21">S</field>
+            <field name="c22">S</field>
+            <field name="c60">N</field>
+            <field name="c70">N</field>
+            <field name="c80">N</field>
+            <field name="c85">N</field>
+            <field name="c99">N</field>
+        </record>
+        <record id="tab11_90" model="sped.lotacao_classificacao_tributaria">
+            <field name="codigo">90</field>
+            <field name="c1">S</field>
+            <field name="c2">S</field>
+            <field name="c3">S</field>
+            <field name="c4">N</field>
+            <field name="c6">S</field>
+            <field name="c7">S</field>
+            <field name="c8">S</field>
+            <field name="c9">S</field>
+            <field name="c10">S</field>
+            <field name="c11">S</field>
+            <field name="c13">S</field>
+            <field name="c14">S</field>
+            <field name="c21">N</field>
+            <field name="c22">N</field>
+            <field name="c60">S</field>
+            <field name="c70">S</field>
+            <field name="c80">S</field>
+            <field name="c85">S</field>
+            <field name="c99">S</field>
+        </record>
+        <record id="tab11_91" model="sped.lotacao_classificacao_tributaria">
+            <field name="codigo">91</field>
+            <field name="c1">S</field>
+            <field name="c2">S</field>
+            <field name="c3">S</field>
+            <field name="c4">N</field>
+            <field name="c6">S</field>
+            <field name="c7">S</field>
+            <field name="c8">S</field>
+            <field name="c9">S</field>
+            <field name="c10">S</field>
+            <field name="c11">S</field>
+            <field name="c13">S</field>
+            <field name="c14">S</field>
+            <field name="c21">N</field>
+            <field name="c22">N</field>
+            <field name="c60">S</field>
+            <field name="c70">S</field>
+            <field name="c80">S</field>
+            <field name="c85">S</field>
+            <field name="c99">S</field>
+        </record>
+
+    </data>
+</openerp>

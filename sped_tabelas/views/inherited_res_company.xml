@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_res_company">
+            <field name="name">Adiciona campos de Tabelas SPED</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="l10n_br_account_product.view_l10n_br_account_company_form" />
+            <field name="arch" type="xml">
+                <field name="issqn_exigibilidade" position="after">
+                    <field name="classificacao_tributaria_id" options="{'no_create': True, 'no_open': True}" required="1"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

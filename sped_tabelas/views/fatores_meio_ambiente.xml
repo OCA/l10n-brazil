@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_tabelas.fatores_meio_ambiente_form">
+            <field name="name">sped_tabelas.fatores_meio_ambiente_form</field>
+            <field name="model">sped.fatores_meio_ambiente</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Fatores de Risco do Meio Ambiente do Trabalho"
+                edit="false" create="false" delete="false">
+                    <sheet>
+                        <group>
+                            <group name="geral" colspan="4" col="2">
+                                <field name="codigo"/>
+                                <field name="nome" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_tabelas.fatores_meio_ambiente_tree">
+            <field name="name">sped_tabelas.fatores_meio_ambiente_view</field>
+            <field name="model">sped.fatores_meio_ambiente</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="Fatores de Risco do Meio Ambiente do Trabalho"
+                edit="false" create="false" delete="false">
+                    <field name="codigo" />
+                    <field name="nome" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fatores_meio_ambiente_search">
+            <field name="name">sped_tabelas.fatores_meio_ambiente_search</field>
+            <field name="model">sped.fatores_meio_ambiente</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <search string="Fatores de Risco do Meio Ambiente do Trabalho">
+                    <field name="codigo" />
+                    <field name="nome" />
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="fatores_meio_ambiente_action">
+            <field name="name">Fatores de Risco do Meio Ambiente</field>
+            <field name="res_model">sped.fatores_meio_ambiente</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="fatores_meio_ambiente_tree_action">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="fatores_meio_ambiente_tree"/>
+            <field name="act_window_id" ref="fatores_meio_ambiente_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="fatores_meio_ambiente_form_action">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="fatores_meio_ambiente_form"/>
+            <field name="act_window_id" ref="fatores_meio_ambiente_action"/>
+        </record>
+
+        <menuitem
+            action="sped_tabelas.fatores_meio_ambiente_action"
+            id="menu_sped_tabelas_fatores_meio_ambiente"
+            name="23-Fatores de Risco do Meio Ambiente do Trabalho"
+            parent="sped_tabelas.menu_sped_tabelas_esocial"
+            sequence="23"
+        />
+
+    </data>
+</openerp>

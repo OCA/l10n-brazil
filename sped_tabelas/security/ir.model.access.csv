@@ -1,0 +1,51 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sped_tabelas_user_1,Operador (Leitura),model_sped_agente_causador,group_user,1,0,0,0
+access_sped_tabelas_gerente_1,Gerente (Todas permissões),model_sped_agente_causador,group_manager,1,1,1,1
+access_sped_tabelas_user_1,Operador (Leitura),model_sped_classificacao_servico,group_user,1,0,0,0
+access_sped_tabelas_gerente_1,Gerente (Todas permissões),model_sped_classificacao_servico,group_manager,1,1,1,1
+access_sped_tabelas_user_2,Operador (Leitura),model_sped_categoria_trabalhador,group_user,1,0,0,0
+access_sped_tabelas_gerente_2,Gerente (Todas permissões),model_sped_categoria_trabalhador,group_manager,1,1,1,1
+access_sped_tabelas_user_3,Operador (Leitura),model_sped_classificacao_tributaria,group_user,1,0,0,0
+access_sped_tabelas_gerente_3,Gerente (Todas permissões),model_sped_classificacao_tributaria,group_manager,1,1,1,1
+access_sped_tabelas_user_4,Operador (Leitura),model_sped_codificacao_acidente_trabalho,group_user,1,0,0,0
+access_sped_tabelas_gerente_4,Gerente (Todas permissões),model_sped_codificacao_acidente_trabalho,group_manager,1,1,1,1
+access_sped_tabelas_user_5,Operador (Leitura),model_sped_codigo_aliquota,group_user,1,0,0,0
+access_sped_tabelas_gerente_5,Gerente (Todas permissões),model_sped_codigo_aliquota,group_manager,1,1,1,1
+access_sped_tabelas_user_6,Operador (Leitura),model_sped_financiamento_aposentadoria,group_user,1,0,0,0
+access_sped_tabelas_gerente_6,Gerente (Todas permissões),model_sped_financiamento_aposentadoria,group_manager,1,1,1,1
+access_sped_tabelas_user_7,Operador (Leitura),model_sped_motivo_afastamento,group_user,1,0,0,0
+access_sped_tabelas_gerente_7,Gerente (Todas permissões),model_sped_motivo_afastamento,group_manager,1,1,1,1
+access_sped_tabelas_user_8,Operador (Leitura),model_sped_motivo_cessacao,group_user,1,0,0,0
+access_sped_tabelas_gerente_8,Gerente (Todas permissões),model_sped_motivo_cessacao,group_manager,1,1,1,1
+access_sped_tabelas_user_9,Operador (Leitura),model_sped_motivo_desligamento,group_user,1,0,0,0
+access_sped_tabelas_gerente_9,Gerente (Todas permissões),model_sped_motivo_desligamento,group_manager,1,1,1,1
+access_sped_tabelas_user_10,Operador (Leitura),model_sped_natureza_juridica,group_user,1,0,0,0
+access_sped_tabelas_gerente_10,Gerente (Todas permissões),model_sped_natureza_juridica,group_manager,1,1,1,1
+access_sped_tabelas_user_11,Operador (Leitura),model_sped_natureza_lesao,group_user,1,0,0,0
+access_sped_tabelas_gerente_11,Gerente (Todas permissões),model_sped_natureza_lesao,group_manager,1,1,1,1
+access_sped_tabelas_user_12,Operador (Leitura),model_sped_natureza_rubrica,group_user,1,0,0,0
+access_sped_tabelas_gerente_12,Gerente (Todas permissões),model_sped_natureza_rubrica,group_manager,1,1,1,1
+access_sped_tabelas_user_13,Operador (Leitura),model_sped_parte_corpo,group_user,1,0,0,0
+access_sped_tabelas_gerente_13,Gerente (Todas permissões),model_sped_parte_corpo,group_manager,1,1,1,1
+access_sped_tabelas_user_14,Operador (Leitura),model_sped_situacao_geradora_acidente,group_user,1,0,0,0
+access_sped_tabelas_gerente_14,Gerente (Todas permissões),model_sped_situacao_geradora_acidente,group_manager,1,1,1,1
+access_sped_tabelas_user_15,Operador (Leitura),model_sped_situacao_geradora_doenca,group_user,1,0,0,0
+access_sped_tabelas_gerente_15,Gerente (Todas permissões),model_sped_situacao_geradora_doenca,group_manager,1,1,1,1
+access_sped_tabelas_user_17,Operador (Leitura),model_sped_tipo_beneficio,group_user,1,0,0,0
+access_sped_tabelas_gerente_17,Gerente (Todas permissões),model_sped_tipo_beneficio,group_manager,1,1,1,1
+access_sped_tabelas_user_18,Operador (Leitura),model_sped_tipo_dependente,group_user,1,0,0,0
+access_sped_tabelas_gerente_18,Gerente (Todas permissões),model_sped_tipo_dependente,group_manager,1,1,1,1
+access_sped_tabelas_user_19,Operador (Leitura),model_sped_tipos_inscricao,group_user,1,0,0,0
+access_sped_tabelas_gerente_19,Gerente (Todas permissões),model_sped_tipos_inscricao,group_manager,1,1,1,1
+access_sped_tabelas_user_20,Operador (Leitura),model_sped_tipo_logradouro,group_user,1,0,0,0
+access_sped_tabelas_gerente_20,Gerente (Todas permissões),model_sped_tipo_logradouro,group_manager,1,1,1,1
+access_sped_tabelas_user_21,Operador (Leitura),model_sped_lotacao_tributaria,group_user,1,0,0,0
+access_sped_tabelas_gerente_21,Gerente (Todas permissões),model_sped_lotacao_tributaria,group_manager,1,1,1,1
+access_sped_tabelas_user_22,Operador (Leitura),model_sped_lotacao_classificacao,group_user,1,0,0,0
+access_sped_tabelas_gerente_22,Gerente (Todas permissões),model_sped_lotacao_classificacao,group_manager,1,1,1,1
+access_sped_tabelas_user_23,Operador (Leitura),model_sped_fatores_meio_ambiente,group_user,1,0,0,0
+access_sped_tabelas_gerente_23,Gerente (Todas permissões),model_sped_fatores_meio_ambiente,group_manager,1,1,1,1
+access_sped_tabelas_user_24,Operador (Leitura),model_sped_tributaria_fpas,group_user,1,0,0,0
+access_sped_tabelas_gerente_24,Gerente (Todas permissões),model_sped_tributaria_fpas,group_manager,1,1,1,1
+access_sped_tabelas_user_25,Operador (Leitura),model_sped_agente_causador,group_user,1,0,0,0
+access_sped_tabelas_gerente_25,Gerente (Todas permissões),model_sped_agente_causador,group_manager,1,1,1,1

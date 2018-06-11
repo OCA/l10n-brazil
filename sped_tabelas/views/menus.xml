@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <menuitem
+                id="menu_sped_tabelas"
+                name="Sped Tabelas"
+                parent="l10n_br_account.menu_l10n_br_account"
+                sequence="95"
+                groups="sped_tabelas.group_user"/>
+
+        <menuitem
+                id="menu_sped_tabelas_esocial"
+                name="e-Social"
+                parent="sped_tabelas.menu_sped_tabelas"
+                sequence="10"
+                groups="sped_tabelas.group_user"/>
+
+        <menuitem
+                id="menu_sped_tabelas_efdreinf"
+                name="EFD/Reinf"
+                parent="sped_tabelas.menu_sped_tabelas"
+                sequence="20"
+                groups="sped_tabelas.group_user"/>
+
+    </data>
+</openerp>
+

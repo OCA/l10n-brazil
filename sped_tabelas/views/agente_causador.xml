@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_tabelas.agente_causador_form">
+            <field name="name">sped_tabelas.agente_causador_form</field>
+            <field name="model">sped.agente_causador</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Agente Causador do Acidente de Trabalho"
+                edit="false" delete="false" create="false">
+                    <sheet>
+                        <group>
+                            <group name="geral" colspan="4" col="2">
+                                <field name="codigo"/>
+                                <field name="nome" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_tabelas.agente_causador_tree">
+            <field name="name">sped_tabelas.agente_causador_view</field>
+            <field name="model">sped.agente_causador</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="Agente Causador do Acidente de Trabalho"
+                edit="false" create="false" delete="false">
+                    <field name="codigo" />
+                    <field name="nome" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="agente_causador_search">
+            <field name="name">sped_tabelas.agente_causador_search</field>
+            <field name="model">sped.agente_causador</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <search string="Agente Causador do Acidente de Trabalho">
+                    <field name="codigo" />
+                    <field name="nome" />
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="agente_causador_action">
+            <field name="name">Agente Causador do Acidente de Trabalho</field>
+            <field name="res_model">sped.agente_causador</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="agente_causador_tree_action">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="agente_causador_tree"/>
+            <field name="act_window_id" ref="agente_causador_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="agente_causador_form_action">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="agente_causador_form"/>
+            <field name="act_window_id" ref="agente_causador_action"/>
+        </record>
+
+        <menuitem
+            action="sped_tabelas.agente_causador_action"
+            id="menu_sped_tabelas_agente_causador"
+            name="14-Agente Causador do Acidente de Trabalho"
+            parent="sped_tabelas.menu_sped_tabelas_esocial"
+            sequence="14"
+        />
+
+    </data>
+</openerp>

@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record id="tab01_101" model="sped.categoria_trabalhador">
+            <field name="codigo">101</field>
+            <field name="nome">Empregado CLT</field>
+            <field name="grupo">1</field>
+            <field name="classificacao_tributaria">Todos</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_03'),ref('sped_tabelas.tab10_04'),ref('sped_tabelas.tab10_10'),ref('sped_tabelas.tab10_21'),ref('sped_tabelas.tab10_90'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Empregado – Geral, inclusive o empregado público da administração direta ou indireta contratado pela CLT.</field>
+        </record>
+
+        <record id="tab01_102" model="sped.categoria_trabalhador">
+            <field name="codigo">102</field>
+            <field name="nome">Empregado Rural</field>
+            <field name="grupo">1</field>
+            <field name="classificacao_tributaria">classTrib igual a [21,22]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_21'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Empregado - Trabalhador Rural por Pequeno Prazo da Lei 11.718/2008</field>
+        </record>
+
+        <record id="tab01_103" model="sped.categoria_trabalhador">
+            <field name="codigo">103</field>
+            <field name="nome">Empregado Aprendiz</field>
+            <field name="grupo">1</field>
+            <field name="classificacao_tributaria">classTrib diferente de [22]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_03'),ref('sped_tabelas.tab10_04'),ref('sped_tabelas.tab10_21'),ref('sped_tabelas.tab10_90'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Empregado – Aprendiz</field>
+        </record>
+
+        <record id="tab01_104" model="sped.categoria_trabalhador">
+            <field name="codigo">104</field>
+            <field name="nome">Empregado Doméstico</field>
+            <field name="grupo">1</field>
+            <field name="classificacao_tributaria">classTrib igual a [21,22]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_24')])]"/>
+            <field name="descricao">Empregado – Doméstico</field>
+        </record>
+
+        <record id="tab01_105" model="sped.categoria_trabalhador">
+            <field name="codigo">105</field>
+            <field name="nome">Empregado Contrato a Termo</field>
+            <field name="grupo">1</field>
+            <field name="classificacao_tributaria">Todos</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_03'),ref('sped_tabelas.tab10_04'),ref('sped_tabelas.tab10_10'),ref('sped_tabelas.tab10_21'),ref('sped_tabelas.tab10_24'),ref('sped_tabelas.tab10_90'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Empregado - contrato a termo firmado nos termos da Lei 9601/98</field>
+        </record>
+
+        <record id="tab01_106" model="sped.categoria_trabalhador">
+            <field name="codigo">106</field>
+            <field name="nome">Trabalhador Temporário</field>
+            <field name="grupo">1</field>
+            <field name="classificacao_tributaria">Todos</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_03'),ref('sped_tabelas.tab10_04'),ref('sped_tabelas.tab10_10'),ref('sped_tabelas.tab10_21'),ref('sped_tabelas.tab10_24'),ref('sped_tabelas.tab10_90'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Trabalhador Temporário - contrato por prazo determinado nos termos da Lei 6019/74</field>
+        </record>
+
+        <record id="tab01_111" model="sped.categoria_trabalhador">
+            <field name="codigo">111</field>
+            <field name="nome">Empregado Intermitente</field>
+            <field name="grupo">1</field>
+            <field name="descricao">Empregado - contrato de trabalho intermitente</field>
+        </record>
+
+        <record id="tab01_201" model="sped.categoria_trabalhador">
+            <field name="codigo">201</field>
+            <field name="nome">Trabalhador Avulso Portuário</field>
+            <field name="grupo">2</field>
+            <field name="classificacao_tributaria">classTrib igual a [09]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_08')])]"/>
+            <field name="descricao">Trabalhador Avulso Portuário</field>
+        </record>
+
+        <record id="tab01_202" model="sped.categoria_trabalhador">
+            <field name="codigo">202</field>
+            <field name="nome">Trabalhador Avulso Não Portuário</field>
+            <field name="grupo">2</field>
+            <field name="classificacao_tributaria">classTrib igual a [10]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_09')])]"/>
+            <field name="descricao">Trabalhador Avulso Não Portuário</field>
+        </record>
+
+        <record id="tab01_301" model="sped.categoria_trabalhador">
+            <field name="codigo">301</field>
+            <field name="nome">Servidor Público Efetivo</field>
+            <field name="grupo">3</field>
+            <field name="classificacao_tributaria">classTrib igual a [85]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_90'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Servidor Público Titular de Cargo Efetivo, Magistrado, Ministro de Tribunal de Contas, Conselheiro de Tribunal de Contas e Membro do Ministério Público</field>
+        </record>
+
+        <record id="tab01_302" model="sped.categoria_trabalhador">
+            <field name="codigo">302</field>
+            <field name="nome">Servidor Público Comissionado</field>
+            <field name="grupo">3</field>
+            <field name="classificacao_tributaria">classTrib igual a [85]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_90'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Servidor Público Ocupante de Cargo exclusivo em comissão</field>
+        </record>
+
+        <record id="tab01_303" model="sped.categoria_trabalhador">
+            <field name="codigo">303</field>
+            <field name="nome">Agente Político</field>
+            <field name="grupo">3</field>
+            <field name="classificacao_tributaria">classTrib igual a [85]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_90'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Agente Político</field>
+        </record>
+
+        <record id="tab01_305" model="sped.categoria_trabalhador">
+            <field name="codigo">305</field>
+            <field name="nome">Servidor Público Conselheiro</field>
+            <field name="grupo">3</field>
+            <field name="classificacao_tributaria">classTrib igual a [13,80,85,99]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_90'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Servidor Público indicado para conselho ou órgão deliberativo, na condição de representante do governo, órgão ou entidade da administração pública.</field>
+        </record>
+
+        <record id="tab01_306" model="sped.categoria_trabalhador">
+            <field name="codigo">306</field>
+            <field name="nome">Servidor Público Temporário</field>
+            <field name="grupo">3</field>
+            <field name="classificacao_tributaria">classTrib igual a [85]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_90'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Servidor Público Temporário, sujeito a regime administrativo especial definido em lei própria</field>
+        </record>
+
+        <record id="tab01_307" model="sped.categoria_trabalhador">
+            <field name="codigo">307</field>
+            <field name="nome">Militar Efetivo</field>
+            <field name="grupo">3</field>
+            <field name="descricao">Militar Efetivo</field>
+        </record>
+
+        <record id="tab01_308" model="sped.categoria_trabalhador">
+            <field name="codigo">308</field>
+            <field name="nome">Conscrito</field>
+            <field name="grupo">3</field>
+            <field name="classificacao_tributaria">classTrib igual a [85]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_90'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Conscrito</field>
+        </record>
+
+        <record id="tab01_309" model="sped.categoria_trabalhador">
+            <field name="codigo">309</field>
+            <field name="nome">Agente Público – Outros</field>
+            <field name="grupo">3</field>
+            <field name="classificacao_tributaria">classTrib igual a [85]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_90'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Agente Público – Outros</field>
+        </record>
+
+        <record id="tab01_401" model="sped.categoria_trabalhador">
+            <field name="codigo">401</field>
+            <field name="nome">Dirigente Sindical</field>
+            <field name="grupo">4</field>
+            <field name="classificacao_tributaria">classTrib igual a [10,14]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_10')])]"/>
+            <field name="descricao">Dirigente Sindical - informação prestada pelo Sindicato</field>
+        </record>
+
+        <record id="tab01_410" model="sped.categoria_trabalhador">
+            <field name="codigo">410</field>
+            <field name="nome">Trabalhador Cedido</field>
+            <field name="grupo">4</field>
+            <field name="classificacao_tributaria">classTrib igual [13,70,85,99]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_10')])]"/>
+            <field name="descricao">Trabalhador cedido - informação prestada pelo Cessionário</field>
+        </record>
+
+        <record id="tab01_701" model="sped.categoria_trabalhador">
+            <field name="codigo">701</field>
+            <field name="nome">Autônomo em Geral</field>
+            <field name="grupo">7</field>
+            <field name="classificacao_tributaria">Todos</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_03'),ref('sped_tabelas.tab10_04'),ref('sped_tabelas.tab10_10'),ref('sped_tabelas.tab10_21'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Contribuinte individual - Autônomo em geral, exceto se enquadrado em uma das demais categorias de contribuinte individual</field>
+        </record>
+
+        <record id="tab01_711" model="sped.categoria_trabalhador">
+            <field name="codigo">711</field>
+            <field name="nome">Transportador Autônomo de Passageiros</field>
+            <field name="grupo">7</field>
+            <field name="classificacao_tributaria">Todos</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_03'),ref('sped_tabelas.tab10_04'),ref('sped_tabelas.tab10_10'),ref('sped_tabelas.tab10_21'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Contribuinte individual - Transportador autônomo de passageiros</field>
+        </record>
+
+        <record id="tab01_712" model="sped.categoria_trabalhador">
+            <field name="codigo">712</field>
+            <field name="nome">Transportador Autônomo de Carga</field>
+            <field name="grupo">7</field>
+            <field name="classificacao_tributaria">Todos</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_03'),ref('sped_tabelas.tab10_04'),ref('sped_tabelas.tab10_10'),ref('sped_tabelas.tab10_21'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Contribuinte individual - Transportador autônomo de carga</field>
+        </record>
+
+        <record id="tab01_721" model="sped.categoria_trabalhador">
+            <field name="codigo">721</field>
+            <field name="nome">Diretor não empregado, com FGTS</field>
+            <field name="grupo">7</field>
+            <field name="classificacao_tributaria">classTrib diferente de [04,21,22]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_90'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Contribuinte individual - Diretor não empregado, com FGTS</field>
+        </record>
+
+        <record id="tab01_722" model="sped.categoria_trabalhador">
+            <field name="codigo">722</field>
+            <field name="nome">Diretor não empregado, sem FGTS</field>
+            <field name="grupo">7</field>
+            <field name="classificacao_tributaria">classTrib diferente de [04,21,22]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_90'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Contribuinte individual - Diretor não empregado, sem FGTS</field>
+        </record>
+
+        <record id="tab01_723" model="sped.categoria_trabalhador">
+            <field name="codigo">723</field>
+            <field name="nome">Empresário, Sócio ou Conselheiro</field>
+            <field name="grupo">7</field>
+            <field name="classificacao_tributaria">classTrib diferente de [04,21,22]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_90'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Contribuinte individual - empresários, sócios e membro de conselho de administração ou fiscal</field>
+        </record>
+
+        <record id="tab01_731" model="sped.categoria_trabalhador">
+            <field name="codigo">731</field>
+            <field name="nome">Cooperado</field>
+            <field name="grupo">7</field>
+            <field name="classificacao_tributaria">classTrib igual a [99] e indCoop (evento S-1000) for igual a [1]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_03'),ref('sped_tabelas.tab10_04'),ref('sped_tabelas.tab10_05'),ref('sped_tabelas.tab10_06'),ref('sped_tabelas.tab10_07'),ref('sped_tabelas.tab10_10'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Contribuinte individual - Cooperado que presta serviços por intermédio de Cooperativa de Trabalho</field>
+        </record>
+
+        <record id="tab01_734" model="sped.categoria_trabalhador">
+            <field name="codigo">734</field>
+            <field name="nome">Transportador Cooperado</field>
+            <field name="grupo">7</field>
+            <field name="classificacao_tributaria">classTrib igual a [99] e indCoop (evento S-1000) for igual a [1]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_03'),ref('sped_tabelas.tab10_04'),ref('sped_tabelas.tab10_05'),ref('sped_tabelas.tab10_06'),ref('sped_tabelas.tab10_07'),ref('sped_tabelas.tab10_10'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Contribuinte individual - Transportador Cooperado que presta serviços por intermédio de cooperativa de trabalho</field>
+        </record>
+
+        <record id="tab01_738" model="sped.categoria_trabalhador">
+            <field name="codigo">738</field>
+            <field name="nome">Cooperado filiado a Cooperativa de Produção</field>
+            <field name="grupo">7</field>
+            <field name="classificacao_tributaria">classTrib igual a [99] e indCoop (evento S-1000) for igual a [2]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Contribuinte individual - Cooperado filiado a Cooperativa de Produção</field>
+        </record>
+
+        <record id="tab01_741" model="sped.categoria_trabalhador">
+            <field name="codigo">741</field>
+            <field name="nome">Microempreendedor Individual</field>
+            <field name="grupo">7</field>
+            <field name="classificacao_tributaria">classTrib diferente de [22]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_03'),ref('sped_tabelas.tab10_04'),ref('sped_tabelas.tab10_10'),ref('sped_tabelas.tab10_21')])]"/>
+            <field name="descricao">Contribuinte individual - Microempreendedor Individual</field>
+        </record>
+
+        <record id="tab01_751" model="sped.categoria_trabalhador">
+            <field name="codigo">751</field>
+            <field name="nome">Magistrado Classista Temporário</field>
+            <field name="grupo">7</field>
+            <field name="classificacao_tributaria">classTrib diferente de [04,21,22]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01')])]"/>
+            <field name="descricao">Contribuinte individual - magistrado classista temporário da Justiça do Trabalho ou da Justiça Eleitoral que seja aposentado de qualquer regime previdenciário</field>
+        </record>
+
+        <record id="tab01_761" model="sped.categoria_trabalhador">
+            <field name="codigo">761</field>
+            <field name="nome">Diretor(a) de Cooperativa</field>
+            <field name="grupo">7</field>
+            <field name="classificacao_tributaria">Todas</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Contribuinte individual - Associado eleito para direção de Cooperativa, associação ou entidade de classe de qualquer natureza ou finalidade, bem como o síndico ou administrador eleito para exercer atividade de direção condominial, desde que recebam remuneração</field>
+        </record>
+
+        <record id="tab01_771" model="sped.categoria_trabalhador">
+            <field name="codigo">771</field>
+            <field name="nome">Conselho Tutelar</field>
+            <field name="grupo">7</field>
+            <field name="classificacao_tributaria">classTrib igual [85]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Contribuinte individual - Membro de conselho tutelar, nos termos da Lei no 8.069, de 13 de julho de 1990</field>
+        </record>
+
+        <record id="tab01_781" model="sped.categoria_trabalhador">
+            <field name="codigo">781</field>
+            <field name="nome">Religioso(a)</field>
+            <field name="grupo">7</field>
+            <field name="classificacao_tributaria">classTrib igual [80,99]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_10'),ref('sped_tabelas.tab10_90'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Ministro de confissão religiosa ou membro de vida consagrada, de congregação ou de ordem religiosa</field>
+        </record>
+
+        <record id="tab01_901" model="sped.categoria_trabalhador">
+            <field name="codigo">901</field>
+            <field name="nome">Estagiário(a)</field>
+            <field name="grupo">9</field>
+            <field name="classificacao_tributaria">Todas</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_10'),ref('sped_tabelas.tab10_21'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Estagiário</field>
+        </record>
+
+        <record id="tab01_902" model="sped.categoria_trabalhador">
+            <field name="codigo">902</field>
+            <field name="nome">Médico(a) Residente</field>
+            <field name="grupo">9</field>
+            <field name="classificacao_tributaria">classTrib diferente de [22]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_10'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Médico Residente</field>
+        </record>
+
+        <record id="tab01_903" model="sped.categoria_trabalhador">
+            <field name="codigo">903</field>
+            <field name="nome">Bolsista</field>
+            <field name="grupo">9</field>
+            <field name="classificacao_tributaria">Todos</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_10'),ref('sped_tabelas.tab10_21'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Bolsista, nos termos da lei 8958/1994</field>
+        </record>
+
+        <record id="tab01_904" model="sped.categoria_trabalhador">
+            <field name="codigo">904</field>
+            <field name="nome">Participante de Curso de Formação</field>
+            <field name="grupo">9</field>
+            <field name="classificacao_tributaria">classTrib diferente de [22]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_10'),ref('sped_tabelas.tab10_21'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Participante de curso de formação, como etapa de concurso público, sem vínculo de emprego/estatutário</field>
+        </record>
+
+        <record id="tab01_905" model="sped.categoria_trabalhador">
+            <field name="codigo">905</field>
+            <field name="nome">Atleta não profissional</field>
+            <field name="grupo">9</field>
+            <field name="classificacao_tributaria">classTrib diferente de [22]</field>
+            <field name="codigo_tributaria_ids" eval="[(6,0, [ref('sped_tabelas.tab10_01'),ref('sped_tabelas.tab10_02'),ref('sped_tabelas.tab10_10'),ref('sped_tabelas.tab10_21'),ref('sped_tabelas.tab10_91')])]"/>
+            <field name="descricao">Atleta não profissional em formação que receba bolsa</field>
+        </record>
+
+    </data>
+</openerp>

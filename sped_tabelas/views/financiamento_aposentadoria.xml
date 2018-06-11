@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_tabelas.financiamento_aposentadoria_form" >
+            <field name="name">sped_tabelas.financiamento_aposentadoria_form</field>
+            <field name="model">sped.financiamento_aposentadoria</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Financiamento da Aposent. Especial e Redução do Tempo de Contrib."
+                edit="false" create="false" delete="false">
+                    <sheet>
+                        <group>
+                            <group name="geral" colspan="4" col="2">
+                                <field name="codigo"/>
+                                <field name="nome" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_tabelas.financiamento_aposentadoria_tree">
+            <field name="name">sped_tabelas.financiamento_aposentadoria_view</field>
+            <field name="model">sped.financiamento_aposentadoria</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="Financiamento da Aposent. Especial e Redução do Tempo de Contrib."
+                edit="false" create="false" delete="false">
+                    <field name="codigo" />
+                    <field name="nome" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="financiamento_aposentadoria_search">
+            <field name="name">sped_tabelas.financiamento_aposentadoria_search</field>
+            <field name="model">sped.financiamento_aposentadoria</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <search string="Categoria do Trabalhador">
+                    <field name="codigo" />
+                    <field name="nome" />
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="financiamento_aposentadoria_action">
+            <field name="name">Categorias de Trabalhadores</field>
+            <field name="res_model">sped.financiamento_aposentadoria</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="financiamento_aposentadoria_tree_action">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="financiamento_aposentadoria_tree"/>
+            <field name="act_window_id" ref="financiamento_aposentadoria_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="financiamento_aposentadoria_form_action">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="financiamento_aposentadoria_form"/>
+            <field name="act_window_id" ref="financiamento_aposentadoria_action"/>
+        </record>
+
+        <menuitem
+            action="sped_tabelas.financiamento_aposentadoria_action"
+            id="menu_sped_tabelas_financiamento_aposentadoria"
+            name="02-Financiamento da Aposent. Especial e Redução do Tempo de Contrib."
+            parent="sped_tabelas.menu_sped_tabelas_esocial"
+            sequence="02"
+        />
+
+    </data>
+</openerp>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+    <record id="tab24_1001" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">1.0.01</field>
+        <field name="nome">Lesão corporal que cause a morte ou a perda ou redução, permanente ou temporária, da capacidade para o
+trabalho, desde que não enquadrada em nenhum dos demais códigos.</field>
+    </record>
+
+    <record id="tab24_1002" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">1.0.02</field>
+        <field name="nome">Perturbação funcional que cause a morte ou a perda ou redução, permanente ou temporária, da capacidade para
+            o trabalho, desde que não enquadrada em nenhum dos demais códigos.</field>
+    </record>
+
+    <record id="tab24_2001" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">2.0.01</field>
+        <field name="nome">Doença profissional, assim entendida a produzida ou desencadeada pelo exercício do trabalho peculiar a
+        determinada atividade e constante da respectiva relação elaborada pelo Ministério do Trabalho e Previdência
+        Social, desde que não enquadrada em nenhum dos demais códigos.</field>
+    </record>
+
+    <record id="tab24_2002" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">2.0.02</field>
+        <field name="nome">Doença do trabalho, assim entendida a adquirida ou desencadeada em função de condições especiais em que o
+        trabalho é realizado e com ele se relacione diretamente, constante da respectiva relação elaborada pelo
+        Ministério do Trabalho e Previdência Social, desde que não enquadrada em nenhum dos demais códigos.</field>
+    </record>
+
+    <record id="tab24_2003" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">2.0.03</field>
+        <field name="nome">Doença proveniente de contaminação acidental do empregado no exercício de sua atividade.</field>
+    </record>
+
+    <record id="tab24_2004" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">2.0.04</field>
+        <field name="nome">Doença endêmica adquirida por segurado habitante de região em que ela se desenvolva quando resultante de
+exposição ou contato direto determinado pela natureza do trabalho.</field>
+    </record>
+
+    <record id="tab24_2005" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">2.0.05</field>
+        <field name="nome">Doença profissional ou do trabalho não incluída na relação elaborada pelo Ministério do Trabalho e
+Previdência Social quando resultante das condições especiais em que o trabalho é executado e com ele se
+relaciona diretamente.</field>
+    </record>
+
+    <record id="tab24_2006" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">2.0.06</field>
+        <field name="nome">Doença profissional ou do trabalho enquadrada na relação elaborada pelo Ministério do Trabalho e Previdência
+Social relativa nexo técnico epidemiológico previdenciário - NTEP.</field>
+    </record>
+
+    <record id="tab24_3001" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">3.0.01</field>
+        <field name="nome">Acidente ligado ao trabalho que, embora não tenha sido a causa única, haja contribuído diretamente para a
+morte do segurado, para redução ou perda da sua capacidade para o trabalho, ou produzido lesão que exija
+atenção médica para a sua recuperação.</field>
+    </record>
+
+    <record id="tab24_3002" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">3.0.02</field>
+        <field name="nome">Acidente sofrido pelo segurado no local e no horário do trabalho, em consequência de ato de agressão,
+sabotagem ou terrorismo praticado por terceiro ou companheiro de trabalho.</field>
+    </record>
+
+    <record id="tab24_3003" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">3.0.03</field>
+        <field name="nome">Acidente sofrido pelo segurado no local e no horário do trabalho, em consequência de ofensa física
+intencional, inclusive de terceiro, por motivo de disputa relacionada ao trabalho.</field>
+    </record>
+
+    <record id="tab24_3004" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">3.0.04</field>
+        <field name="nome">Acidente sofrido pelo segurado no local e no horário do trabalho, em consequência de ato de imprudência, de
+negligência ou de imperícia de terceiro ou de companheiro de trabalho.</field>
+    </record>
+
+    <record id="tab24_3005" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">3.0.05</field>
+        <field name="nome">Acidente sofrido pelo segurado no local e no horário do trabalho, em consequência de ato de pessoa privada do
+uso da razão.</field>
+    </record>
+
+    <record id="tab24_3006" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">3.0.06</field>
+        <field name="nome">Acidente sofrido pelo segurado no local e no horário do trabalho, em consequência de desabamento,
+inundação, incêndio e outros casos fortuitos ou decorrentes de força maior.</field>
+    </record>
+
+    <record id="tab24_3007" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">3.0.07</field>
+        <field name="nome">Acidente sofrido pelo segurado ainda que fora do local e horário de trabalho na execução de ordem ou na
+realização de serviço sob a autoridade da empresa.</field>
+    </record>
+
+    <record id="tab24_3008" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">3.0.08</field>
+        <field name="nome">Acidente sofrido pelo segurado ainda que fora do local e horário de trabalho na prestação espontânea de
+qualquer serviço à empresa para lhe evitar prejuízo ou proporcionar proveito.</field>
+    </record>
+
+    <record id="tab24_3009" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">3.0.09</field>
+        <field name="nome">Acidente sofrido pelo segurado ainda que fora do local e horário de trabalho em viagem a serviço da empresa,
+inclusive para estudo quando financiada por esta dentro de seus planos para melhor capacitação da mão-de-
+obra, independentemente do meio de locomoção utilizado, inclusive veículo de propriedade do segurado.</field>
+    </record>
+
+    <record id="tab24_3010" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">3.0.10</field>
+        <field name="nome">Acidente sofrido pelo segurado ainda que fora do local e horário de trabalho no percurso da residência para o
+local de trabalho ou deste para aquela, qualquer que seja o meio de locomoção, inclusive veículo de
+propriedade do segurado.</field>
+    </record>
+
+    <record id="tab24_3011" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">3.0.11</field>
+        <field name="nome">Acidente sofrido pelo segurado nos períodos destinados a refeição ou descanso, ou por ocasião da satisfação de
+outras necessidades fisiológicas, no local do trabalho ou durante este.</field>
+    </record>
+
+    <record id="tab24_4001" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">4.0.01</field>
+        <field name="nome">Suspeita de doenças profissionais ou do trabalho produzidas pelas condições especiais de trabalho, nos termos
+do art 169 da CLT.</field>
+    </record>
+
+    <record id="tab24_4002" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">4.0.02</field>
+        <field name="nome">Constatação de ocorrência ou agravamento de doenças profissionais, através de exames médicos que incluam
+os definidos na NR 07; ou sendo verificadas alterações que revelem qualquer tipo de disfunção de órgão ou
+sistema biológico, através dos exames constantes dos Quadros I (apenas aqueles com interpretação SC) e II, e
+do item 7.4.2.3 desta NR, mesmo sem sintomatologia, caberá ao médico-coordenador ou encarregado</field>
+    </record>
+
+    <record id="tab24_5001" model="sped.codificacao_acidente_trabalho">
+        <field name="codigo">5.0.01</field>
+        <field name="nome">Outros</field>
+    </record>
+
+    </data>
+</openerp>

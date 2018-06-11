@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record id="tab07_1" model="sped.tipo_dependente">
+            <field name="codigo">01</field>
+            <field name="descricao">Cônjuge</field>
+        </record>
+        <record id="tab07_2" model="sped.tipo_dependente">
+            <field name="codigo">02</field>
+            <field name="descricao">Companheiro(a) com o(a) qual tenha filho ou viva há mais de 5 (cinco) anos ou possua
+                                    Declaração de União Estável</field>
+        </record>
+        <record id="tab07_3" model="sped.tipo_dependente">
+            <field name="codigo">03</field>
+            <field name="descricao">Filho(a) ou enteado(a)</field>
+        </record>
+        <record id="tab07_4" model="sped.tipo_dependente">
+            <field name="codigo">04</field>
+            <field name="descricao">Filho(a) ou enteado(a) universitário(a) ou cursando escola técnica de 2º grau, até 24 (vinte e
+                                    quatro) anos</field>
+        </record>
+        <record id="tab07_6" model="sped.tipo_dependente">
+            <field name="codigo">06</field>
+            <field name="descricao">Irmão(ã), neto(a) ou bisneto(a) sem arrimo dos pais, do(a) qual detenha a guarda judicial</field>
+        </record>
+        <record id="tab07_9" model="sped.tipo_dependente">
+            <field name="codigo">09</field>
+            <field name="descricao">Pais, avós e bisavós</field>
+        </record>
+        <record id="tab07_10" model="sped.tipo_dependente">
+            <field name="codigo">10</field>
+            <field name="descricao">Menor pobre do qual detenha a guarda judicial</field>
+        </record>
+        <record id="tab07_11" model="sped.tipo_dependente">
+            <field name="codigo">11</field>
+            <field name="descricao">A pessoa absolutamente incapaz, da qual seja tutor ou curador</field>
+        </record>
+        <record id="tab07_12" model="sped.tipo_dependente">
+            <field name="codigo">12</field>
+            <field name="descricao">Ex-cônjuge</field>
+        </record>
+        <record id="tab07_99" model="sped.tipo_dependente">
+            <field name="codigo">99</field>
+            <field name="descricao">Agregado/Outros</field>
+        </record>
+
+    </data>
+</openerp>

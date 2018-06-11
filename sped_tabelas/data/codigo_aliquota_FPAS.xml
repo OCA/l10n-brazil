@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record id="tab15_507" model="sped.codigo_aliquota">
+          <field name="codigo">507</field>
+          <field name="descricao">INDÚSTRIA - TRANSPORTE FERROVIÁRIO e de CARRIS URBANOS (inclusive Cabos Aéreos)EMPRESA METROVIÁRIA - EMPRESA DE TELECOMUNICAÇÕES - OFICINA GRÁFICA DE  EMPRESA JORNALÍSTICA – Oficinas Mecânicas de Manutenção e Reparação de Veículose Máquinas, inclusive de concessionárias - ESCRITÓRIO E DEPÓSITO DE EMPRESA INDUSTRIAL - INDÚSTRIA DA CONSTRUÇÃO CIVIL - ARMAZÉNS GERAIS – SOCIEDADE COOPERATIVA (estabelecimento no qual exploraatividade econômica relacionada neste código) -TOMADOR DE SERVIÇO DE TRABALHADORAVULSO - contribuição sobre a remuneração detrabalhador avulso vinculado à indústria.INDÚSTRIA DE CARNES E DERIVADOS(frigorífico) de animal de qualquer espécie, inclusiveo setor industrial das agroindústrias de piscicultura,carcinicultura, suinocultura e avicultura (excetoquanto aos empregados envolvidos diretamente como abate - FPAS 531)SETOR INDUSTRIAL DA AGROINDÚSTRIA deflorestamento e reflorestamento quando nãoaplicável a substituição, na forma do art. 22 A da Lei8.212/91ESTALEIRO - setor de fabricação e desmontagem deembarcações navais</field>
+
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_4'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_8'),ref('sped_tabelas.tab08_9'),
+            ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),
+            ref('sped_tabelas.tab08_21'),ref('sped_tabelas.tab08_60'),
+            ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+        <record id="tab15_515" model="sped.codigo_aliquota">
+          <field name="codigo">515</field>
+          <field name="descricao">COMÉRCIO ATACADISTA - COMÉRCIOVAREJISTA - AGENTE AUTÔNOMO DOCOMÉRCIO - COMÉRCIO ARMAZENADOR -TURISMO E HOSPITALIDADE (inclusive salão de barbeiro, instituto de beleza, empresa de compra,venda, locação e administração de imóvel,engraxate, empresa de asseio e conservação,sociedade beneficente e religiosa etc.) - ESTABELECIMENTO DE SERVIÇO DE SAÚDE(hospital, clínica, casa de saúde, laboratório depesquisas e análises clínicas, cooperativa de serviçomédico, banco de sangue, estabelecimento deducha, massagem e fisioterapia e empresa de prótese) - COMÉRCIO TRANSPORTADOR,REVENDEDOR, RETALHISTA DE ÓLEO DIESEL, ÓLEO COMBUSTÍVEL E QUEROSENE (exceto quanto aos empregados envolvidos diretamente na atividade de transporte -Dec. 1.092/94 - FPAS 612) - EMPRESA ESERVIÇOS DE PROCESSAMENTO DE DADOS-ESCRITÓRIO,CONSULTÓRIO OU LABORATÓRIO DE PROFISSIONAIS LIBERAIS (pessoa jurídica) - CONSÓRCIO -AUTO-ESCOLA - CURSO LIVRE – LOCAÇÕES DIVERSAS - PARTIDO POLÍTICO - EMPRESADE TRABALHO TEMPORÁRIO (contribuição sobre a folha de salário de seus empregados) -SOCIEDADE COOPERATIVA (estabelecimentono qual explora atividade econômica relacionadaneste código) - TOMADOR DE SERVIÇO DE TRABALHADOR AVULSO - contribuição sobre aremuneração de trabalhador avulso vinculado ao comércio - EMPRESAS DE FACTORING</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_4'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_8'),ref('sped_tabelas.tab08_9'),
+            ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),
+            ref('sped_tabelas.tab08_21'),ref('sped_tabelas.tab08_60'),
+            ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+        <record id="tab15_523" model="sped.codigo_aliquota">
+          <field name="codigo">523</field>
+          <field name="descricao">SINDICATO OU ASSOCIAÇÃO PROFISSIONALDE EMPREGADO, TRABALHADOR AVULSOOUEMPREGADOR,PERTENCENTEAATIVIDADE OUTRORA NÃO VINCULADA AOex-IAPC - EMPRESA BRASILEIRA DENAVEGAÇÃO (exclusivamente em relação aostripulantes de embarcação inscrita no RegistroEspecial Brasileiro - REB, Lei no 9.432, de 1997 eDecreto n° 2.256, de 1997), PESSOAS JURÍDICASDE DIREITO PRIVADO CONSTITUÍDAS SOB AFORMA DE SERVIÇO SOCIAL AUTÔNOMO.</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_9'),ref('sped_tabelas.tab08_10'),
+                 ref('sped_tabelas.tab08_14'),ref('sped_tabelas.tab08_99'),])]"/>
+        </record>
+        <record id="tab15_531" model="sped.codigo_aliquota">
+          <field name="codigo">531</field>
+          <field name="descricao">INDÚSTRIA DE CANA-DE-AÇÚCAR - DELATICÍNIO - DE BENEFICIAMENTO DE CHÁ E MATE - DA UVA - DE EXTRAÇÃO E BENEFICIAMENTO DE FIBRAS VEGETAIS E DE DESCAROÇAMENTO DE ALGODÃO – DE BENEFICIAMENTO DE CAFÉ E DE CEREAIS -DE EXTRAÇÃO DE MADEIRA PARA SERRARIA, DE RESINA, LENHA E CARVÃO VEGETAL - MATADOURO OU ABATEDOURO E O SETOR DE ABATE DE ANIMAL DE QUALQUER ESPÉCIE, inclusive das agroindústrias de PISCICULTURA,CARCINICULTURA,SUINOCULTURA E AVICULTURA,ECHARQUEADA.</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_4'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_8'),
+            ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),
+            ref('sped_tabelas.tab08_21'),ref('sped_tabelas.tab08_22'), ref('sped_tabelas.tab08_60'),
+            ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_99')])]"/>
+
+        </record>
+        <record id="tab15_540" model="sped.codigo_aliquota">
+          <field name="codigo">540</field>
+          <field name="descricao">EMPRESA DE NAVEGAÇÃO MARÍTIMA,FLUVIAL OU LACUSTRE (exceto em relação aostripulantes de embarcação inscrita no RegistroEspecial Brasileiro - REB - FPAS 523) - AGÊNCIADE NAVEGAÇÃO - SERVIÇO PORTUÁRIO -EMPRESA DE DRAGAGEM [Serviços dedragagem em portos, terminais, marinas, áreamarítima (canais / mares) fluvial e lacustre, ouseja, dragagem no meio aquaviário] - EMPRESADE ADMINISTRAÇÃO E EXPLORAÇÃO DEPORTOS - SERVIÇOS PORTUÁRIOS (inclusiveempresas de Praticagem) - ÓRGÃO DE GESTÃODE MÃO-DE-OBRA (em relação aos empregadospermanentes) - EMPRESA DE CAPTURA DEPESCADO (inclusive armador de pesca em relaçãoaos empregados envolvidos na atividade de capturade pescado e do escritório). ESTALEIRO - setor dereparos e consertos sem desmontagem deembarcações navais</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_4'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_9'),
+            ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),
+            ref('sped_tabelas.tab08_21'),ref('sped_tabelas.tab08_60'),
+            ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_99')])]"/>
+
+        </record>
+        <record id="tab15_558" model="sped.codigo_aliquota">
+          <field name="codigo">558</field>
+          <field name="descricao">EMPRESA AEROVIÁRIA, INCLUSIVE TÁXI-AÉREO - EMPRESA DE SERVIÇO AÉREO ESPECIALIZADO-EMPRESA DE TELECOMUNICAÇÕES AERONÁUTICAS -IMPLANTAÇÃO,ADMINISTRAÇÃO,OPERAÇÃO E EXPLORAÇÃO DE INFRAESTRUTURA AEROPORTUÁRIA E DESERVIÇOS AUXILIARES - EMPRESA DEFABRICAÇÃO, REPARO E MANUTENÇÃO OU REPRESENTAÇÃO DE AERONAVE, SUAS PEÇAS E ACESSÓRIOS - EMPRESA DE EQUIPAMENTO AERONÁUTICO-TRANSPORTE ESPACIAL.</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_9'),
+            ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),
+            ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_99')])]"/>
+
+        </record>
+        <record id="tab15_566" model="sped.codigo_aliquota">
+          <field name="codigo">566</field>
+          <field name="descricao">EMPRESA DE COMUNICAÇÃO - EMPRESA DEPUBLICIDADE - EMPRESA JORNALÍSTICA -EMPRESA DE DIFUSÃO CULTURAL EARTÍSTICA-ESTABELECIMENTODECULTURA FÍSICA - ESTABELECIMENTOHÍPICO - ESCRITÓRIO, CONSULTÓRIO DEPROFISSIONAL LIBERAL (pessoa física) -SINDICATOOUASSOCIAÇÃODEPROFISSIONAL,EMPREGADOOUEMPREGADOR, PERTENCENTE A ATIVIDADEOUTRORA VINCULADA AO ex-IAPC -CONDOMÍNIO - CRECHE - ASSOCIAÇÕESDESPORTIVAS (exceto clubes de futebolprofissional - FPAS 647 e 779) - ENTIDADESRECREATIVAS,CULTURAIS,DEORIENTAÇÃO E FORMAÇÃO PROFISSIONALE DE ASSISTÊNCIA SOCIAL - SOCIEDADECOOPERATIVA (estabelecimento no qual exploraatividade econômica relacionada neste código)</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_9'),
+            ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),
+            ref('sped_tabelas.tab08_21'),ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+        <record id="tab15_574" model="sped.codigo_aliquota">
+          <field name="codigo">574</field>
+          <field name="descricao">ESTABELECIMENTO DE ENSINO-SOCIEDADE COOPERATIVA (estabelecimento no qual explora atividade econômica relacionada neste código)</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_9'),
+            ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),
+            ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+        <record id="tab15_582" model="sped.codigo_aliquota">
+          <field name="codigo">582</field>
+          <field name="descricao">ÓRGÃO DO PODER PÚBLICO (União, Estado,Distrito Federal e Município, inclusive suas respectivas Autarquias e as Fundações com personalidade jurídica de direito público.) -ORGANISMO OFICIAL BRASILEIRO E INTERNACIONAL do qual o Brasil seja membro efetivo e mantenha, no exterior, brasileiro civil que trabalhe para a união ainda que lá domiciliado econtratado – REPARTIÇÃO DIPLOMÁTICA BRASILEIRA sediada no exterior que contrata auxiliares locais - MISSÃO DIPLOMÁTICA OUREPARTIÇÃO CONSULAR de carreira estrangeira e órgão a ela subordinado no Brasil, ou a membro dessa missão ou repartição, observadas as exclusões legais (Decreto-Lei no 2.253/85), ORDEM DOSADVOGADOS DO BRASIL – CONSELHO DE FISCALIZAÇÃO DE PROFISSÃO REGULAMENTADA. Nota: não se incluem no FPAS 582 as MISSÕES DIPLOMÁTICAS E OUTROS ORGANISMOS A ELAS EQUIPARADOS, INCLUSIVE SEUS MEMBROS, que sejam partícipes de acordo internacional de isenção reconhecido pelo Brasil, os quais deverão se enquadrar no FPAS 876.</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_60'),ref('sped_tabelas.tab08_85'),
+            ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+        <record id="tab15_590" model="sped.codigo_aliquota">
+          <field name="codigo">590</field>
+          <field name="descricao">CARTÓRIO, TABELIONATO, oficializados ou não ou Brasileiros contratados no Brasil e transferido para prestar serviços no exterior, conforme disposto no
+        art. 11 da Lei no 7.064, de 1982.</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_9'),
+            ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),
+            ref('sped_tabelas.tab08_21'),ref('sped_tabelas.tab08_60'),
+            ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_80'),
+            ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+        <record id="tab15_604" model="sped.codigo_aliquota">
+          <field name="codigo">604</field>
+          <field name="descricao">PRODUTOR RURAL PESSOA FÍSICA, Contribuinte Individual e Segurado Especial, nos termos da Lei 11.718/2008;PRODUTOR RURAL PESSOA JURÍDICA, inclusive na atividade de criação de pescado em cativeiro, em relação a todos os seus empregados; CONSORCIO SIMPLIFICADO PRODUTORES RURAIS;AGROINDÚSTRIA não relacionada no caput do
+        Decreto Lei no 1.146/1970, relativamente aos segurados e envolvidos no processo de produção própria, setor rural, exceto as agroindústrias de piscicultura, carcinicultura, suinocultura, avicultura e florestamento e reflorestamento nos termos da Lei no 10.684/2003;SOCIEDADE COOPERATIVA DE PRODUÇÃO RURAL, relativamente em relação aos segurados contratados para a colheita da produção de seus Cooperados. Exclui-se deste código a prestação de serviços a terceiros, nos termos da Lei 10.256/2001.</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_8'),
+            ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),
+            ref('sped_tabelas.tab08_21'),ref('sped_tabelas.tab08_22')])]"/>
+        </record>
+        <record id="tab15_612" model="sped.codigo_aliquota">
+          <field name="codigo">612</field>
+          <field name="descricao">EMPRESA OPTANTE PELO SIMPLES NACIONAL EMPRESA DE TRANSPORTE RODOVIÁRIO - EMPRESA DE TRANSPORTE DE VALORES -
+        EMPRESA DE LOCAÇÃO DE VEÍCULO - EMPRESA DE DISTRIBUIÇÃO DE PETRÓLEO (exclusivamente em relação à folha de pagamento dos empregados envolvidos diretamente na atividade de transporte) - SOCIEDADE COOPERATIVA (estabelecimento no qual explora atividade econômica relacionada neste código)
+        </field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_4'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_9'),
+            ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),
+            ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+        <record id="tab15_620" model="sped.codigo_aliquota">
+          <field name="codigo">620</field>
+          <field name="descricao">TOMADOR DE SERVIÇO DE TRANSPORTADOR RODOVIÁRIO AUTÔNOMO
+        (contribuição previdenciária a cargo da empresa Previdenciária tomadora e contribuição descontada do transportador autônomo para o SEST e o SENAT).</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_4'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_8'),ref('sped_tabelas.tab08_9'),
+            ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),
+            ref('sped_tabelas.tab08_21'),ref('sped_tabelas.tab08_60'),
+            ref('sped_tabelas.tab08_70'), ref('sped_tabelas.tab08_80'),
+            ref('sped_tabelas.tab08_85'),
+            ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+        <record id="tab15_639" model="sped.codigo_aliquota">
+          <field name="codigo">639</field>
+          <field name="descricao">ENTIDADE BENEFICENTE DE ASSISTÊNCIA SOCIAL, com isenção requerida e concedida pela Previdência Social, inclusive aquela transformada em entidade de fins econômicos na forma do artigo 7° da Lei 9131/95, no período de pagamento parcial das contribuições patronais, nos termos do art. 13 da Lei
+        n° 11.096, de 13 de janeiro de 2005.</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_80')])]"/>
+        </record>
+        <record id="tab15_647" model="sped.codigo_aliquota">
+          <field name="codigo">647</field>
+          <field name="descricao">ASSOCIAÇÃO DESPORTIVA QUE MANTÉM EQUIPE DE FUTEBOL PROFISSIONAL, em qualquer modalidade desportiva e CLUBE DE
+        FUTEBOL PROFISSIONAL – contribuição descontada dos empregados, atletas ou não, e as destinadas a outras entidades ou fundos.</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_11')])]"/>
+        </record>
+        <record id="tab15_655" model="sped.codigo_aliquota">
+          <field name="codigo">655</field>
+          <field name="descricao">EMPRESA DE TRABALHO TEMPORÁRIO (Lei n.o 6.019/74) – contribuição sobre a remuneração do trabalhador temporário.</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),
+            ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+        <record id="tab15_680" model="sped.codigo_aliquota">
+          <field name="codigo">680</field>
+          <field name="descricao">ÓRGÃO GESTOR DE MÃO-DE-OBRA com relação a contribuição sobre a remuneração de trabalhador avulso vinculado à Diretoria de Portos e Costas.</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),
+                 ref('sped_tabelas.tab08_9')])]"/>
+        </record>
+        <record id="tab15_736" model="sped.codigo_aliquota">
+          <field name="codigo">736</field>
+          <field name="descricao">BANCO COMERCIAL – BANCO DE INVESTIMENTO – BANCO DE DESENVOLVIMENTO - CAIXA ECONÔMICA - SOCIEDADE DE CRÉDITO, FINANCIAMENTO E INVESTIMENTO - SOCIEDADE DE CRÉDITO IMOBILIÁRIO - SOCIEDADE CORRETORA - DISTRIBUIDORA DE TÍTULOS E VALORES MOBILIÁRIOS – EMPRESA DE ARRENDAMENTO MERCANTIL – EMPRESA DE SEGURO PRIVADO E DE CAPITALIZAÇÃO (inclusive seguro saúde) - AGENTE AUTÔNOMO DE SEGURO PRIVADO E DE CRÉDITO - ENTIDADE DE PREVIDÊNCIA PRIVADA (aberta e fechada).</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),
+            ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+        <record id="tab15_744" model="sped.codigo_aliquota">
+          <field name="codigo">744</field>
+          <field name="descricao">EMPRESA ADQUIRENTE, CONSUMIDORA, CONSIGNATÁRIA OU COOPERATIVA que adquire produção rural de produtor pessoa física; PRODUTOR RURAL PESSOA FÍSICA (Contribuinte Individual e Segurado Especial), quando venderem seus produtos a outro produtor rural pessoa física, consumidor pessoa física, destinatário incerto ou não comprovar formalmente o
+        destino da produção ou a adquirente domiciliado no exterior; PRODUTOR RURAL PESSOA JURÍDICA E AGROINDÚSTRIA (exceto as agroindústrias de
+        piscicultura, carcinicultura, suinocultura, avicultura, florestamento e reflorestamento nos termos da Lei no 10.684/2003).</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_4'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_8'),ref('sped_tabelas.tab08_9'),
+            ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),
+            ref('sped_tabelas.tab08_21'),ref('sped_tabelas.tab08_22'),
+            ref('sped_tabelas.tab08_60'),ref('sped_tabelas.tab08_70'),
+            ref('sped_tabelas.tab08_80'),ref('sped_tabelas.tab08_85'),
+            ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+        <record id="tab15_779" model="sped.codigo_aliquota">
+          <field name="codigo">779</field>
+          <field name="descricao">ASSOCIAÇÃO DESPORTIVA QUE MANTÉM EQUIPE DE FUTEBOL PROFISSIONAL - contribuição de 5% da receita bruta, decorrente de
+        espetáculo desportivo de que participe em todo território nacional em qualquer modalidade, inclusive jogos internacionais, a ser recolhida pela ENTIDADE
+        PROMOTORA DO EVENTO (federação ou confederação), e de QUALQUER FORMA DE PATROCÍNIO, LICENCIAMENTO DE USO DE MARCAS E SÍMBOLOS, PUBLICIDADE, PROPAGANDA E TRANSMISSÃO DE ESPETÁCULOS DESPORTIVOS, a ser recolhida pela empresa ou entidade  patrocinadora.</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_4'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_9'),
+            ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),
+            ref('sped_tabelas.tab08_21'),ref('sped_tabelas.tab08_22'),
+            ref('sped_tabelas.tab08_60'),ref('sped_tabelas.tab08_70'),
+            ref('sped_tabelas.tab08_80'),ref('sped_tabelas.tab08_85'),
+            ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+        <record id="tab15_787" model="sped.codigo_aliquota">
+          <field name="codigo">787</field>
+          <field name="descricao">SINDICATO, FEDERAÇÃO CONFEDERAÇÃO PATRONAL RURAL; E  ATIVIDADE COOPERATIVISTA RURAL (Cooperativa Rural) não relacionada no Decreto-Lei  no 1.146/1970 (com ou sem produção própria), somente em relação aos empregados que atuem diretamente na produção primária de origem animal ou vegetal; AGROINDUSTRIAS de piscicultura, carcinicultura, suinocultura,avicultura, florestamento e reflorestamento nos termos da Lei no 10.684/2003, somente em relação aos empregados que atuem diretamente na produção primária de origem animal ou vegetal; PRESTADOR DE MÃO-DE-OBRA RURAL legalmente constituído como pessoa jurídica;  PRODUTOR RURAL PESSOA JURÍDICA na prestação de serviços rurais (atividade não autônoma), AGROINDÚSTRIA (nos termos da Lei 10.256/2001) naprestação de serviços rurais ou  agroindustriais a terceiros, PRODUTOR RURAL PESSOA JURÍDICA que exerce outra atividade econômica autônoma, somente em relação aos empregados que atuem diretamente na produção primária de origem animal ou vegetal; PRODUTOR RURAL PESSOA FÍSICA, contribuinte Individual (empregador), recolhimento sobre a folha de salários por decisão judicial. SOCIEDADE COOPERATIVA DE CRÉDITO conforme Art. 10 da Lei no 11.524, de 24 de setembro de 2007.</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_8'),
+            ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),
+            ref('sped_tabelas.tab08_21'),ref('sped_tabelas.tab08_22'),
+            ref('sped_tabelas.tab08_60'),ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+        <record id="tab15_795" model="sped.codigo_aliquota">
+          <field name="codigo">795</field>
+          <field name="descricao">ESTABELECIMENTOS RURAL E INDUSTRIAL DA SOCIEDADE COOPERATIVA relacionada no  art. 2°, caput, do Decreto-Lei n.o 1.146/70</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),
+            ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),
+            ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),
+            ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+        <record id="tab15_825" model="sped.codigo_aliquota">
+          <field name="codigo">825</field>
+          <field name="descricao">AGROINDÚSTRIA relacionada no caput do art. 2o do Decreto-Lei no 1.146/70, a partir da competência novembro/2001 TOMADOR DE SERVIÇO DE TRABALHADOR AVULSO - contribuição sobre a remuneração de trabalhador avulso vinculado à agroindústria relacionada no caput do art. 2o do Decreto-Lei no 1.146/70 (Exclui-se deste código a prestação de serviços a Terceiros - Lei no 10.256, de 09/07/2001)</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+        <record id="tab15_833" model="sped.codigo_aliquota">
+          <field name="codigo">833</field>
+          <field name="descricao">SETOR INDUSTRIAL DA AGROINDÚSTRIA não relacionada no caput do art. 2o do Decreto-Lei no 1.146/70, a partir da competência novembro/2001, exceto as agroindústrias de piscicultura, carcinicultura, suinocultura e avicultura, inclusive sob a forma de cooperativa. SETOR INDUSTRIAL DAAGROINDÚSTRIA de florestamento e reflorestamento quando aplicável a substituição, na forma do art. 22 A da Lei 8.212/91. TOMADOR DE SERVIÇO DE TRABALHADOR VULSO - contribuição sobre a remuneração de trabalhador avulso vinculado à agroindústria não relacionada no caput do art. 2o do Decreto-Lei no 1.146/70 - Exclui-se deste código a prestação de serviços a Terceiros.</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),
+                 ref('sped_tabelas.tab08_3'),
+                 ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+        <record id="tab15_868" model="sped.codigo_aliquota">
+          <field name="codigo">868</field>
+          <field name="descricao">EMPREGADOR DOMÉSTICO - instituído para possibilitar o depósito do FGTS.</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [
+            ref('sped_tabelas.tab08_21'),ref('sped_tabelas.tab08_22')])]"/>
+        </record>
+        <record id="tab15_876" model="sped.codigo_aliquota">
+          <field name="codigo">876</field>
+          <field name="descricao">MISSÕES DIPLOMÁTICAS E OUTROS ORGANISMOS A ELAS EQUIPARADOS, INCLUSIVE SEUS MEMBROS, que sejam partícipes de acordo internacional de isenção reconhecido pelo Brasil.</field>
+          <field name="codigo_tributaria_fpas_ids"
+                 eval="[(6,0, [ref('sped_tabelas.tab08_60'),
+            ref('sped_tabelas.tab08_99')])]"/>
+        </record>
+
+    </data>
+</openerp>

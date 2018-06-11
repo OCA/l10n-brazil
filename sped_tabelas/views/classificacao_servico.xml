@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2018 ABGF
+    Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_tabelas.classificacao_servico_form">
+            <field name="name">sped_tabelas.classificacao_servico_form</field>
+            <field name="model">sped.classificacao_servico</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Classificação de Serviço Prestado mediante cessão de mão de obra/Empreitada"
+                edit="false" delete="false" create="false">
+                    <sheet>
+                        <group>
+                            <group name="geral" colspan="4" col="2">
+                                <field name="codigo"/>
+                                <field name="nome" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_tabelas.classificacao_servico_tree">
+            <field name="name">sped_tabelas.classificacao_servico_view</field>
+            <field name="model">sped.classificacao_servico</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="Classificação de Serviços Prestados mediante cessão de mão de obra/Empreitada"
+                edit="false" create="false" delete="false">
+                    <field name="codigo" />
+                    <field name="nome" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="classificacao_servico_search">
+            <field name="name">sped_tabelas.classificacao_servico_search</field>
+            <field name="model">sped.classificacao_servico</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <search string="Classificação de Serviços Prestados mediante cessão de mão de obra/Empreitada">
+                    <field name="codigo" />
+                    <field name="nome" />
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="classificacao_servico_action">
+            <field name="name">Classificação de Serviços Prestados mediante cessão de mão de obra/Empreitada</field>
+            <field name="res_model">sped.classificacao_servico</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="classificacao_servico_tree_action">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="classificacao_servico_tree"/>
+            <field name="act_window_id" ref="classificacao_servico_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="classificacao_servico_form_action">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="classificacao_servico_form"/>
+            <field name="act_window_id" ref="classificacao_servico_action"/>
+        </record>
+
+        <menuitem
+            action="sped_tabelas.classificacao_servico_action"
+            id="menu_sped_tabelas_classificacao_servico"
+            name="06-Classificação de Serviços"
+            parent="sped_tabelas.menu_sped_tabelas_efdreinf"
+            sequence="06"
+        />
+
+    </data>
+</openerp>

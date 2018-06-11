@@ -1,0 +1,1251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record id="tab14_302010200" model="sped.agente_causador">
+            <field name="codigo">302010200</field>
+            <field name="nome">Rua e estrada - superfície utilizada para sustentar pessoas</field>
+        </record>
+
+        <record id="tab14_302010250" model="sped.agente_causador">
+            <field name="codigo">302010250</field>
+            <field name="nome">Calçada ou caminho para pedestre - superfície utilizada para sustentar pessoas</field>
+        </record>
+
+        <record id="tab14_302010300" model="sped.agente_causador">
+            <field name="codigo">302010300</field>
+            <field name="nome">Piso de edifício - superfície utilizada para sustentar pessoas</field>
+        </record>
+
+        <record id="tab14_302010350" model="sped.agente_causador">
+            <field name="codigo">302010350</field>
+            <field name="nome">Escada permanente cujos degraus permitem apoio integral do pé, degrau - superfície utilizada para sustentar pessoas</field>
+        </record>
+
+        <record id="tab14_302010400" model="sped.agente_causador">
+            <field name="codigo">302010400</field>
+            <field name="nome">Rampa - superfície utilizada para sustentar pessoas</field>
+        </record>
+
+        <record id="tab14_302010450" model="sped.agente_causador">
+            <field name="codigo">302010450</field>
+            <field name="nome">Passarela ou plataforma permanentes - superfície utilizada para sustentar pessoas</field>
+        </record>
+
+        <record id="tab14_302010500" model="sped.agente_causador">
+            <field name="codigo">302010500</field>
+            <field name="nome">Piso de mina - superfície utilizada para sustentar pessoas</field>
+        </record>
+
+        <record id="tab14_302010550" model="sped.agente_causador">
+            <field name="codigo">302010550</field>
+            <field name="nome">Chão - superfície utilizada para sustentar pessoas</field>
+        </record>
+
+        <record id="tab14_302010600" model="sped.agente_causador">
+            <field name="codigo">302010600</field>
+            <field name="nome">Piso de andaime e plataforma desmontável - superfície utilizada para sustentar pessoas</field>
+        </record>
+
+        <record id="tab14_302010650" model="sped.agente_causador">
+            <field name="codigo">302010650</field>
+            <field name="nome">Piso de veiculo - superfície utilizada para sustentar pessoas</field>
+        </record>
+
+        <record id="tab14_302010700" model="sped.agente_causador">
+            <field name="codigo">302010700</field>
+            <field name="nome">Telhado</field>
+        </record>
+
+        <record id="tab14_302010900" model="sped.agente_causador">
+            <field name="codigo">302010900</field>
+            <field name="nome">Superfície de sustentação, NIC - superfície utilizada para sustentar pessoas</field>
+        </record>
+
+        <record id="tab14_302030900" model="sped.agente_causador">
+            <field name="codigo">302030900</field>
+            <field name="nome">Escada móvel ou fixada, NIC</field>
+        </record>
+
+        <record id="tab14_302050100" model="sped.agente_causador">
+            <field name="codigo">302050100</field>
+            <field name="nome">Edifício - edifício ou estrutura</field>
+        </record>
+
+        <record id="tab14_302050200" model="sped.agente_causador">
+            <field name="codigo">302050200</field>
+            <field name="nome">Depósito fixo (tanque, silo, paiol, etc.) - edifício ou estrutura</field>
+        </record>
+
+        <record id="tab14_302050300" model="sped.agente_causador">
+            <field name="codigo">302050300</field>
+            <field name="nome">Cais, doca - edifício ou estrutura</field>
+        </record>
+
+        <record id="tab14_302050400" model="sped.agente_causador">
+            <field name="codigo">302050400</field>
+            <field name="nome">Dique, barragem – edifício ou estrutura</field>
+        </record>
+
+        <record id="tab14_302050500" model="sped.agente_causador">
+            <field name="codigo">302050500</field>
+            <field name="nome">Ponte, viaduto - edifício ou estrutura</field>
+        </record>
+
+        <record id="tab14_302050600" model="sped.agente_causador">
+            <field name="codigo">302050600</field>
+            <field name="nome">Arquibancada, estádio - edifício ou estrutura</field>
+        </record>
+
+        <record id="tab14_302050700" model="sped.agente_causador">
+            <field name="codigo">302050700</field>
+            <field name="nome">Andaime, plataforma - edifício ou estrutura</field>
+        </record>
+
+        <record id="tab14_302050800" model="sped.agente_causador">
+            <field name="codigo">302050800</field>
+            <field name="nome">Torre, poste - edifício ou estrutura</field>
+        </record>
+
+        <record id="tab14_302050900" model="sped.agente_causador">
+            <field name="codigo">302050900</field>
+            <field name="nome">Edifício ou estrutura (exceto piso, superfície de sustentação ou área de circulação), NIC</field>
+        </record>
+
+        <record id="tab14_302070100" model="sped.agente_causador">
+            <field name="codigo">302070100</field>
+            <field name="nome">Escavação (para edifício, estrada, etc.)</field>
+        </record>
+
+        <record id="tab14_302070300" model="sped.agente_causador">
+            <field name="codigo">302070300</field>
+            <field name="nome">Canal, fosso</field>
+        </record>
+
+        <record id="tab14_302070500" model="sped.agente_causador">
+            <field name="codigo">302070500</field>
+            <field name="nome">Poço, entrada, galeria, etc., de mina</field>
+        </record>
+
+        <record id="tab14_302070700" model="sped.agente_causador">
+            <field name="codigo">302070700</field>
+            <field name="nome">Túnel</field>
+        </record>
+
+        <record id="tab14_302070900" model="sped.agente_causador">
+            <field name="codigo">302070900</field>
+            <field name="nome">Escavação, fosso, túnel, NIC</field>
+        </record>
+
+        <record id="tab14_302090000" model="sped.agente_causador">
+            <field name="codigo">302090000</field>
+            <field name="nome">Superfície e estrutura, NIC</field>
+        </record>
+
+        <record id="tab14_303010040" model="sped.agente_causador">
+            <field name="codigo">303010040</field>
+            <field name="nome">Martelo, malho, marreta - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010080" model="sped.agente_causador">
+            <field name="codigo">303010080</field>
+            <field name="nome">Machadinha, enxó - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010120" model="sped.agente_causador">
+            <field name="codigo">303010120</field>
+            <field name="nome">Faca, facão - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010160" model="sped.agente_causador">
+            <field name="codigo">303010160</field>
+            <field name="nome">Tesoura, tesourão - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010200" model="sped.agente_causador">
+            <field name="codigo">303010200</field>
+            <field name="nome">Formão, cinzel - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010240" model="sped.agente_causador">
+            <field name="codigo">303010240</field>
+            <field name="nome">Serra, serrote - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010280" model="sped.agente_causador">
+            <field name="codigo">303010280</field>
+            <field name="nome">Alicate, torques, tenaz - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010320" model="sped.agente_causador">
+            <field name="codigo">303010320</field>
+            <field name="nome">Plaina - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010360" model="sped.agente_causador">
+            <field name="codigo">303010360</field>
+            <field name="nome">Lima, grosa - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010400" model="sped.agente_causador">
+            <field name="codigo">303010400</field>
+            <field name="nome">Punção, ponteiro, vazador, talhadeira - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010440" model="sped.agente_causador">
+            <field name="codigo">303010440</field>
+            <field name="nome">Pua, trado, verruma, máquina de furar manual - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010480" model="sped.agente_causador">
+            <field name="codigo">303010480</field>
+            <field name="nome">Chave de parafuso - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010520" model="sped.agente_causador">
+            <field name="codigo">303010520</field>
+            <field name="nome">chave de porca ou de abertura regulável, chave de boca - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010560" model="sped.agente_causador">
+            <field name="codigo">303010560</field>
+            <field name="nome">Alavanca, pé-de-cabra - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010600" model="sped.agente_causador">
+            <field name="codigo">303010600</field>
+            <field name="nome">Corda, cabo, corrente - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010640" model="sped.agente_causador">
+            <field name="codigo">303010640</field>
+            <field name="nome">Machado - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010680" model="sped.agente_causador">
+            <field name="codigo">303010680</field>
+            <field name="nome">Enxada, enxadão, sacho - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010720" model="sped.agente_causador">
+            <field name="codigo">303010720</field>
+            <field name="nome">Pá, cavadeira - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010760" model="sped.agente_causador">
+            <field name="codigo">303010760</field>
+            <field name="nome">Picareta - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010800" model="sped.agente_causador">
+            <field name="codigo">303010800</field>
+            <field name="nome">Garfo, ancinho, forcado - ferramenta manual sem força motriz</field>
+        </record>
+
+        <record id="tab14_303010900" model="sped.agente_causador">
+            <field name="codigo">303010900</field>
+            <field name="nome">Ferramenta manual sem força motriz, NIC</field>
+        </record>
+
+        <record id="tab14_303015050" model="sped.agente_causador">
+            <field name="codigo">303015050</field>
+            <field name="nome">Martelete, socador - ferramenta portátil com força motriz ou aquecimento</field>
+        </record>
+
+        <record id="tab14_303015100" model="sped.agente_causador">
+            <field name="codigo">303015100</field>
+            <field name="nome">Talhadeira - ferramenta portátil com força motriz ou aquecimento</field>
+        </record>
+
+        <record id="tab14_303015150" model="sped.agente_causador">
+            <field name="codigo">303015150</field>
+            <field name="nome">Cortadeira, guilhotina - ferramenta portátil com força motriz ou aquecimento</field>
+        </record>
+
+        <record id="tab14_303015200" model="sped.agente_causador">
+            <field name="codigo">303015200</field>
+            <field name="nome">Serra - ferramenta portátil com força motriz ou aquecimento</field>
+        </record>
+
+        <record id="tab14_303015250" model="sped.agente_causador">
+            <field name="codigo">303015250</field>
+            <field name="nome">Punção, ponteiro, vazador - ferramenta portátil com força motriz ou aquecimento</field>
+        </record>
+
+        <record id="tab14_303015300" model="sped.agente_causador">
+            <field name="codigo">303015300</field>
+            <field name="nome">Perfuratriz - ferramenta portátil com força motriz ou aquecimento</field>
+        </record>
+
+        <record id="tab14_303015350" model="sped.agente_causador">
+            <field name="codigo">303015350</field>
+            <field name="nome">Rebitadeira - ferramenta portátil com força motriz ou aquecimento</field>
+        </record>
+
+        <record id="tab14_303015400" model="sped.agente_causador">
+            <field name="codigo">303015400</field>
+            <field name="nome">Máquina de aparafusar - ferramenta portátil com força motriz ou aquecimento</field>
+        </record>
+
+        <record id="tab14_303015450" model="sped.agente_causador">
+            <field name="codigo">303015450</field>
+            <field name="nome">Esmeril - ferramenta portátil com força motriz ou aquecimento</field>
+        </record>
+
+        <record id="tab14_303015500" model="sped.agente_causador">
+            <field name="codigo">303015500</field>
+            <field name="nome">Politriz, enceradeira - ferramenta portátil com força motriz ou aquecimento</field>
+        </record>
+
+        <record id="tab14_303015550" model="sped.agente_causador">
+            <field name="codigo">303015550</field>
+            <field name="nome">Ferro de passar - ferramenta portátil com força motriz ou aquecimento</field>
+        </record>
+
+        <record id="tab14_303015600" model="sped.agente_causador">
+            <field name="codigo">303015600</field>
+            <field name="nome">Ferramenta de soldagem - ferramenta portátil com força motriz ou aquecimento</field>
+        </record>
+
+        <record id="tab14_303015650" model="sped.agente_causador">
+            <field name="codigo">303015650</field>
+            <field name="nome">Maçarico - ferramenta portátil com força motriz ou aquecimento</field>
+        </record>
+
+        <record id="tab14_303015700" model="sped.agente_causador">
+            <field name="codigo">303015700</field>
+            <field name="nome">Ferramenta acionada por explosivo - ferramenta portátil com força motriz ou aquecimento</field>
+        </record>
+
+        <record id="tab14_303015750" model="sped.agente_causador">
+            <field name="codigo">303015750</field>
+            <field name="nome">Jato de areia - ferramenta portátil com força motriz ou aquecimento</field>
+        </record>
+
+        <record id="tab14_303015900" model="sped.agente_causador">
+            <field name="codigo">303015900</field>
+            <field name="nome">Ferramenta portátil com forca motriz ou aquecimento, NIC</field>
+        </record>
+
+        <record id="tab14_303020040" model="sped.agente_causador">
+            <field name="codigo">303020040</field>
+            <field name="nome">Serra - máquina</field>
+        </record>
+
+        <record id="tab14_303020080" model="sped.agente_causador">
+            <field name="codigo">303020080</field>
+            <field name="nome">Tesoura, guilhotina, máquina de cortar - máquina</field>
+        </record>
+
+        <record id="tab14_303020120" model="sped.agente_causador">
+            <field name="codigo">303020120</field>
+            <field name="nome">Laminadora, calandra - máquina</field>
+        </record>
+
+        <record id="tab14_303020160" model="sped.agente_causador">
+            <field name="codigo">303020160</field>
+            <field name="nome">Furadeira, broqueadeira, torno, freza - máquina</field>
+        </record>
+
+        <record id="tab14_303020200" model="sped.agente_causador">
+            <field name="codigo">303020200</field>
+            <field name="nome">Prensa - máquina</field>
+        </record>
+
+        <record id="tab14_303020240" model="sped.agente_causador">
+            <field name="codigo">303020240</field>
+            <field name="nome">Plaina, tupia - máquina</field>
+        </record>
+
+        <record id="tab14_303020280" model="sped.agente_causador">
+            <field name="codigo">303020280</field>
+            <field name="nome">Máquina de fundir, de forjar, de soldar</field>
+        </record>
+
+        <record id="tab14_303020320" model="sped.agente_causador">
+            <field name="codigo">303020320</field>
+            <field name="nome">Britador, moinho - máquina</field>
+        </record>
+
+        <record id="tab14_303020360" model="sped.agente_causador">
+            <field name="codigo">303020360</field>
+            <field name="nome">Misturador, batedeira, agitador - máquina</field>
+        </record>
+
+        <record id="tab14_303020400" model="sped.agente_causador">
+            <field name="codigo">303020400</field>
+            <field name="nome">Peneira mecânica, máquina separadora - máquina</field>
+        </record>
+
+        <record id="tab14_303020440" model="sped.agente_causador">
+            <field name="codigo">303020440</field>
+            <field name="nome">Politriz, lixadora, esmeril - máquina</field>
+        </record>
+
+        <record id="tab14_303020480" model="sped.agente_causador">
+            <field name="codigo">303020480</field>
+            <field name="nome">Máquina de terraplenagem e construção de estrada</field>
+        </record>
+
+        <record id="tab14_303020520" model="sped.agente_causador">
+            <field name="codigo">303020520</field>
+            <field name="nome">Máquina de mineração e perfuração (de túnel, poço, etc.)</field>
+        </record>
+
+        <record id="tab14_303020560" model="sped.agente_causador">
+            <field name="codigo">303020560</field>
+            <field name="nome">Máquina agrícola</field>
+        </record>
+
+        <record id="tab14_303020600" model="sped.agente_causador">
+            <field name="codigo">303020600</field>
+            <field name="nome">Máquina têxtil</field>
+        </record>
+
+        <record id="tab14_303020640" model="sped.agente_causador">
+            <field name="codigo">303020640</field>
+            <field name="nome">Máquina de costurar e de pespontar</field>
+        </record>
+
+        <record id="tab14_303020680" model="sped.agente_causador">
+            <field name="codigo">303020680</field>
+            <field name="nome">Máquina de imprimir</field>
+        </record>
+
+        <record id="tab14_303020720" model="sped.agente_causador">
+            <field name="codigo">303020720</field>
+            <field name="nome">Máquina de escritório</field>
+        </record>
+
+        <record id="tab14_303020760" model="sped.agente_causador">
+            <field name="codigo">303020760</field>
+            <field name="nome">Máquina de embalar ou empacotar</field>
+        </record>
+
+        <record id="tab14_303020900" model="sped.agente_causador">
+            <field name="codigo">303020900</field>
+            <field name="nome">Máquina, NIC</field>
+        </record>
+
+        <record id="tab14_303025300" model="sped.agente_causador">
+            <field name="codigo">303025300</field>
+            <field name="nome">Transportador por gravidade</field>
+        </record>
+
+        <record id="tab14_303025600" model="sped.agente_causador">
+            <field name="codigo">303025600</field>
+            <field name="nome">Transportador com força motriz</field>
+        </record>
+
+        <record id="tab14_303025900" model="sped.agente_causador">
+            <field name="codigo">303025900</field>
+            <field name="nome">Transportador, NIC</field>
+        </record>
+
+        <record id="tab14_303030050" model="sped.agente_causador">
+            <field name="codigo">303030050</field>
+            <field name="nome">Guindaste - equipamento de guindar</field>
+        </record>
+
+        <record id="tab14_303030100" model="sped.agente_causador">
+            <field name="codigo">303030100</field>
+            <field name="nome">Ponte rolante - equipamento de guindar</field>
+        </record>
+
+        <record id="tab14_303030150" model="sped.agente_causador">
+            <field name="codigo">303030150</field>
+            <field name="nome">Elevador - equipamento de guindar</field>
+        </record>
+
+        <record id="tab14_303030200" model="sped.agente_causador">
+            <field name="codigo">303030200</field>
+            <field name="nome">Elevador de caçamba para mineração - equipamento de guindar</field>
+        </record>
+
+        <record id="tab14_303030250" model="sped.agente_causador">
+            <field name="codigo">303030250</field>
+            <field name="nome">Pá mecânica, draga - equipamento de guindar</field>
+        </record>
+
+        <record id="tab14_303030300" model="sped.agente_causador">
+            <field name="codigo">303030300</field>
+            <field name="nome">Talha - equipamento de guindar</field>
+        </record>
+
+        <record id="tab14_303030350" model="sped.agente_causador">
+            <field name="codigo">303030350</field>
+            <field name="nome">Pau de carga - equipamento de guindar</field>
+        </record>
+
+        <record id="tab14_303030400" model="sped.agente_causador">
+            <field name="codigo">303030400</field>
+            <field name="nome">Macaco (mecânico, hidráulico, pneumático) - equipamento de guindar</field>
+        </record>
+
+        <record id="tab14_303030450" model="sped.agente_causador">
+            <field name="codigo">303030450</field>
+            <field name="nome">Guincho pneumático - equipamento de guindar</field>
+        </record>
+
+        <record id="tab14_303030500" model="sped.agente_causador">
+            <field name="codigo">303030500</field>
+            <field name="nome">Guincho elétrico - equipamento de guindar</field>
+        </record>
+
+        <record id="tab14_303030900" model="sped.agente_causador">
+            <field name="codigo">303030900</field>
+            <field name="nome">Equipamento de guindar, NIC</field>
+        </record>
+
+        <record id="tab14_303035300" model="sped.agente_causador">
+            <field name="codigo">303035300</field>
+            <field name="nome">Correia - dispositivo de transmissão de energia mecânica</field>
+        </record>
+
+        <record id="tab14_303035400" model="sped.agente_causador">
+            <field name="codigo">303035400</field>
+            <field name="nome">Corrente, corda, cabo - dispositivo de transmissão de energia mecânica</field>
+        </record>
+
+        <record id="tab14_303035500" model="sped.agente_causador">
+            <field name="codigo">303035500</field>
+            <field name="nome">Tambor, polia, roldana - dispositivo de transmissão de energia mecânica</field>
+        </record>
+
+        <record id="tab14_303035600" model="sped.agente_causador">
+            <field name="codigo">303035600</field>
+            <field name="nome">Embreagem de fricção - dispositivo de transmissão de energia mecânica</field>
+        </record>
+
+        <record id="tab14_303035700" model="sped.agente_causador">
+            <field name="codigo">303035700</field>
+            <field name="nome">Engrenagem - dispositivo de transmissão de energia mecânica</field>
+        </record>
+
+        <record id="tab14_303035900" model="sped.agente_causador">
+            <field name="codigo">303035900</field>
+            <field name="nome">Dispositivo de transmissão de energia mecânica, NIC</field>
+        </record>
+
+        <record id="tab14_303040100" model="sped.agente_causador">
+            <field name="codigo">303040100</field>
+            <field name="nome">Gerador - equipamento elétrico</field>
+        </record>
+
+        <record id="tab14_303040200" model="sped.agente_causador">
+            <field name="codigo">303040200</field>
+            <field name="nome">Condutor - equipamento elétrico</field>
+        </record>
+
+        <record id="tab14_303040300" model="sped.agente_causador">
+            <field name="codigo">303040300</field>
+            <field name="nome">Transformador, conversor - equipamento elétrico</field>
+        </record>
+
+        <record id="tab14_303040400" model="sped.agente_causador">
+            <field name="codigo">303040400</field>
+            <field name="nome">Painel de controle, barramento, chave, interruptor, disjuntor, fusível - equipamento elétrico</field>
+        </record>
+
+        <record id="tab14_303040500" model="sped.agente_causador">
+            <field name="codigo">303040500</field>
+            <field name="nome">Reostato, dispositivo de partida e aparelho de controle, capacitor, retificador, bateria de acumuladores - equipamento elétrico</field>
+        </record>
+
+        <record id="tab14_303040600" model="sped.agente_causador">
+            <field name="codigo">303040600</field>
+            <field name="nome">Motor elétrico - equipamento elétrico</field>
+        </record>
+
+        <record id="tab14_303040700" model="sped.agente_causador">
+            <field name="codigo">303040700</field>
+            <field name="nome">Equipamento magnético - equipamento elétrico</field>
+        </record>
+
+        <record id="tab14_303040750" model="sped.agente_causador">
+            <field name="codigo">303040750</field>
+            <field name="nome">Equipamento eletrolítico - equipamento elétrico</field>
+        </record>
+
+        <record id="tab14_303040800" model="sped.agente_causador">
+            <field name="codigo">303040800</field>
+            <field name="nome">Equipamento de aquecimento elétrico - equipamento elétrico</field>
+        </record>
+
+        <record id="tab14_303040900" model="sped.agente_causador">
+            <field name="codigo">303040900</field>
+            <field name="nome">Equipamento elétrico, NIC</field>
+        </record>
+
+        <record id="tab14_303045200" model="sped.agente_causador">
+            <field name="codigo">303045200</field>
+            <field name="nome">Motor (combustão interna, vapor)</field>
+        </record>
+
+        <record id="tab14_303045400" model="sped.agente_causador">
+            <field name="codigo">303045400</field>
+            <field name="nome">Bomba</field>
+        </record>
+
+        <record id="tab14_303045600" model="sped.agente_causador">
+            <field name="codigo">303045600</field>
+            <field name="nome">Turbina</field>
+        </record>
+
+        <record id="tab14_303045900" model="sped.agente_causador">
+            <field name="codigo">303045900</field>
+            <field name="nome">Motor, bomba, turbina, NIC</field>
+        </record>
+
+        <record id="tab14_303050200" model="sped.agente_causador">
+            <field name="codigo">303050200</field>
+            <field name="nome">Caldeira</field>
+        </record>
+
+        <record id="tab14_303050400" model="sped.agente_causador">
+            <field name="codigo">303050400</field>
+            <field name="nome">Vaso sob pressão (para líquido, gás ou vapor)</field>
+        </record>
+
+        <record id="tab14_303050600" model="sped.agente_causador">
+            <field name="codigo">303050600</field>
+            <field name="nome">Tubo sob pressão (mangueira ou tubo para liquido, gás ou vapor)</field>
+        </record>
+
+        <record id="tab14_303050900" model="sped.agente_causador">
+            <field name="codigo">303050900</field>
+            <field name="nome">Caldeira, vaso sob pressão, NIC</field>
+        </record>
+
+        <record id="tab14_303055200" model="sped.agente_causador">
+            <field name="codigo">303055200</field>
+            <field name="nome">Caixão pneumático - equipamento para trabalho em ambiente de pressão anormal</field>
+        </record>
+
+        <record id="tab14_303055400" model="sped.agente_causador">
+            <field name="codigo">303055400</field>
+            <field name="nome">Escafandro - equipamento para trabalho em ambiente de pressão anormal</field>
+        </record>
+
+        <record id="tab14_303055600" model="sped.agente_causador">
+            <field name="codigo">303055600</field>
+            <field name="nome">Equipamento de mergulho - equipamento para trabalho em ambiente de pressão anormal</field>
+        </record>
+
+        <record id="tab14_303055900" model="sped.agente_causador">
+            <field name="codigo">303055900</field>
+            <field name="nome">Equipamento para trabalho em ambiente de pressão anormal, NIC</field>
+        </record>
+
+        <record id="tab14_303060000" model="sped.agente_causador">
+            <field name="codigo">303060000</field>
+            <field name="nome">Forno, estufa, retorta, aquecedor de ambiente, fogão, etc., exceto quando a lesão principal for choque elétrico ou eletroplessão - equipamento de aquecimento</field>
+        </record>
+
+        <record id="tab14_303065000" model="sped.agente_causador">
+            <field name="codigo">303065000</field>
+            <field name="nome">Equipamento emissor de radiação não ionizante</field>
+        </record>
+
+        <record id="tab14_303065300" model="sped.agente_causador">
+            <field name="codigo">303065300</field>
+            <field name="nome">Equipamento de iluminação - equipamento emissor de radiação não ionizante</field>
+        </record>
+
+        <record id="tab14_303065600" model="sped.agente_causador">
+            <field name="codigo">303065600</field>
+            <field name="nome">Arco elétrico - equipamento emissor de radiação não ionizante</field>
+        </record>
+
+        <record id="tab14_303065900" model="sped.agente_causador">
+            <field name="codigo">303065900</field>
+            <field name="nome">Equipamento emissor de radiação não ionizante, NIC</field>
+        </record>
+
+        <record id="tab14_303066300" model="sped.agente_causador">
+            <field name="codigo">303066300</field>
+            <field name="nome">Equipamento de iluminação</field>
+        </record>
+
+        <record id="tab14_303066600" model="sped.agente_causador">
+            <field name="codigo">303066600</field>
+            <field name="nome">Arco elétrico</field>
+        </record>
+
+        <record id="tab14_303070200" model="sped.agente_causador">
+            <field name="codigo">303070200</field>
+            <field name="nome">Equipamento de raios X - equipamento ou substância emissores de radiação ionizante</field>
+        </record>
+
+        <record id="tab14_303070400" model="sped.agente_causador">
+            <field name="codigo">303070400</field>
+            <field name="nome">Reator (inclui combustível e resíduo) - equipamento ou substância emissores de radiação ionizante</field>
+        </record>
+
+        <record id="tab14_303070600" model="sped.agente_causador">
+            <field name="codigo">303070600</field>
+            <field name="nome">Fonte de radioisótopo - equipamento ou substância emissores de radiação ionizante</field>
+        </record>
+
+        <record id="tab14_303070900" model="sped.agente_causador">
+            <field name="codigo">303070900</field>
+            <field name="nome">Equipamento ou substância emissores de radiação ionizante, NIC</field>
+        </record>
+
+        <record id="tab14_303075100" model="sped.agente_causador">
+            <field name="codigo">303075100</field>
+            <field name="nome">Bicicleta</field>
+        </record>
+
+        <record id="tab14_303075150" model="sped.agente_causador">
+            <field name="codigo">303075150</field>
+            <field name="nome">Triciclo</field>
+        </record>
+
+        <record id="tab14_303075200" model="sped.agente_causador">
+            <field name="codigo">303075200</field>
+            <field name="nome">Motocicleta, motoneta</field>
+        </record>
+
+        <record id="tab14_303075250" model="sped.agente_causador">
+            <field name="codigo">303075250</field>
+            <field name="nome">Veículo rodoviário motorizado</field>
+        </record>
+
+        <record id="tab14_303075300" model="sped.agente_causador">
+            <field name="codigo">303075300</field>
+            <field name="nome">Veículo sobre trilho</field>
+        </record>
+
+        <record id="tab14_303075350" model="sped.agente_causador">
+            <field name="codigo">303075350</field>
+            <field name="nome">Veículo aquático</field>
+        </record>
+
+        <record id="tab14_303075400" model="sped.agente_causador">
+            <field name="codigo">303075400</field>
+            <field name="nome">Aeronave</field>
+        </record>
+
+        <record id="tab14_303075450" model="sped.agente_causador">
+            <field name="codigo">303075450</field>
+            <field name="nome">Empilhadeira</field>
+        </record>
+
+        <record id="tab14_303075500" model="sped.agente_causador">
+            <field name="codigo">303075500</field>
+            <field name="nome">Rebocador mecânico, mula mecânica</field>
+        </record>
+
+        <record id="tab14_303075550" model="sped.agente_causador">
+            <field name="codigo">303075550</field>
+            <field name="nome">Carro-de-mão</field>
+        </record>
+
+        <record id="tab14_303075600" model="sped.agente_causador">
+            <field name="codigo">303075600</field>
+            <field name="nome">Trator</field>
+        </record>
+
+        <record id="tab14_303075650" model="sped.agente_causador">
+            <field name="codigo">303075650</field>
+            <field name="nome">Veículo de terraplenagem</field>
+        </record>
+
+        <record id="tab14_303075700" model="sped.agente_causador">
+            <field name="codigo">303075700</field>
+            <field name="nome">Veículo de tração animal</field>
+        </record>
+
+        <record id="tab14_303075750" model="sped.agente_causador">
+            <field name="codigo">303075750</field>
+            <field name="nome">Veículo deslizante</field>
+        </record>
+
+        <record id="tab14_303075800" model="sped.agente_causador">
+            <field name="codigo">303075800</field>
+            <field name="nome">Veículo funicular (tração por cabo)</field>
+        </record>
+
+        <record id="tab14_303075900" model="sped.agente_causador">
+            <field name="codigo">303075900</field>
+            <field name="nome">Veículo, NIC</field>
+        </record>
+
+        <record id="tab14_303090000" model="sped.agente_causador">
+            <field name="codigo">303090000</field>
+            <field name="nome">Ferramenta, máquina, equipamento, veículo, NIC</field>
+        </record>
+
+        <record id="tab14_305004100" model="sped.agente_causador">
+            <field name="codigo">305004100</field>
+            <field name="nome">Composto metálico (de chumbo, mercúrio, zinco, cadmio, cromo, etc.)</field>
+        </record>
+
+        <record id="tab14_305004150" model="sped.agente_causador">
+            <field name="codigo">305004150</field>
+            <field name="nome">Composto de arsênio</field>
+        </record>
+
+        <record id="tab14_305004200" model="sped.agente_causador">
+            <field name="codigo">305004200</field>
+            <field name="nome">Gás carbônico (dióxido de carbono, CO 2 )</field>
+        </record>
+
+        <record id="tab14_305004250" model="sped.agente_causador">
+            <field name="codigo">305004250</field>
+            <field name="nome">Monóxido de carbono (CO)</field>
+        </record>
+
+        <record id="tab14_305004300" model="sped.agente_causador">
+            <field name="codigo">305004300</field>
+            <field name="nome">Óxidos de Nitrogênio (vapores nitrosos)</field>
+        </record>
+
+        <record id="tab14_305004350" model="sped.agente_causador">
+            <field name="codigo">305004350</field>
+            <field name="nome">Ácido</field>
+        </record>
+
+        <record id="tab14_305004400" model="sped.agente_causador">
+            <field name="codigo">305004400</field>
+            <field name="nome">Álcali</field>
+        </record>
+
+        <record id="tab14_305004450" model="sped.agente_causador">
+            <field name="codigo">305004450</field>
+            <field name="nome">Composto de fósforo</field>
+        </record>
+
+        <record id="tab14_305004500" model="sped.agente_causador">
+            <field name="codigo">305004500</field>
+            <field name="nome">Dissulfeto de carbono</field>
+        </record>
+
+        <record id="tab14_305004550" model="sped.agente_causador">
+            <field name="codigo">305004550</field>
+            <field name="nome">Cianeto ou composto de cianogênio</field>
+        </record>
+
+        <record id="tab14_305004600" model="sped.agente_causador">
+            <field name="codigo">305004600</field>
+            <field name="nome">Álcool</field>
+        </record>
+
+        <record id="tab14_305004650" model="sped.agente_causador">
+            <field name="codigo">305004650</field>
+            <field name="nome">Tetracloreto de carbono</field>
+        </record>
+
+        <record id="tab14_305004700" model="sped.agente_causador">
+            <field name="codigo">305004700</field>
+            <field name="nome">Composto orgânico halogenado (tricloretileno, percloretileno, cloreto de metilo, substâncias refrigerantes)</field>
+        </record>
+
+        <record id="tab14_305004750" model="sped.agente_causador">
+            <field name="codigo">305004750</field>
+            <field name="nome">Composto aromático (benzol, toluol, xilol, anilina, etc.)</field>
+        </record>
+
+        <record id="tab14_305004900" model="sped.agente_causador">
+            <field name="codigo">305004900</field>
+            <field name="nome">Substância química, NIC</field>
+        </record>
+
+        <record id="tab14_305008500" model="sped.agente_causador">
+            <field name="codigo">305008500</field>
+            <field name="nome">Água - usar quando o estado líquido contribuir preponderantemente para a ocorrência</field>
+        </record>
+
+        <record id="tab14_305008900" model="sped.agente_causador">
+            <field name="codigo">305008900</field>
+            <field name="nome">Líquido, NIC</field>
+        </record>
+
+        <record id="tab14_305020000" model="sped.agente_causador">
+            <field name="codigo">305020000</field>
+            <field name="nome">Partículas - não identificadas</field>
+        </record>
+
+        <record id="tab14_305024100" model="sped.agente_causador">
+            <field name="codigo">305024100</field>
+            <field name="nome">Pele, crina, pelo, lã (em bruto) - produto animal</field>
+        </record>
+
+        <record id="tab14_305024300" model="sped.agente_causador">
+            <field name="codigo">305024300</field>
+            <field name="nome">Pena - produto animal</field>
+        </record>
+
+        <record id="tab14_305024500" model="sped.agente_causador">
+            <field name="codigo">305024500</field>
+            <field name="nome">Couro cru ou curtido - produto animal</field>
+        </record>
+
+        <record id="tab14_305024700" model="sped.agente_causador">
+            <field name="codigo">305024700</field>
+            <field name="nome">Osso - produto animal</field>
+        </record>
+
+        <record id="tab14_305024900" model="sped.agente_causador">
+            <field name="codigo">305024900</field>
+            <field name="nome">Produto animal, NIC</field>
+        </record>
+
+        <record id="tab14_305028000" model="sped.agente_causador">
+            <field name="codigo">305028000</field>
+            <field name="nome">Madeira (toro, madeira serrada, pranchão, poste, barrote, ripa e produto de madeira)</field>
+        </record>
+
+        <record id="tab14_305032000" model="sped.agente_causador">
+            <field name="codigo">305032000</field>
+            <field name="nome">Produto mineral metálico - produto de mineração em bruto ou beneficiado, como minério e concentrado de minério</field>
+        </record>
+
+        <record id="tab14_305032500" model="sped.agente_causador">
+            <field name="codigo">305032500</field>
+            <field name="nome">Metal - inclui liga ferrosa e não ferrosa, tubo, placa, perfil, trilho, vergalhão, arame, porca, rebite, prego, etc. inclui metal fundido, lingote e sucata de fundição, exceto minério</field>
+        </record>
+
+        <record id="tab14_305036000" model="sped.agente_causador">
+            <field name="codigo">305036000</field>
+            <field name="nome">Produto mineral não metálico - produto de mineração, escavação, desbarrancamento, etc., como detrito, argila, areia, cascalho, pedra, etc.</field>
+        </record>
+
+        <record id="tab14_305040100" model="sped.agente_causador">
+            <field name="codigo">305040100</field>
+            <field name="nome">Petróleo bruto, bruto reduzido</field>
+        </record>
+
+        <record id="tab14_305040150" model="sped.agente_causador">
+            <field name="codigo">305040150</field>
+            <field name="nome">Asfalto, alcatrão, piche</field>
+        </record>
+
+        <record id="tab14_305040200" model="sped.agente_causador">
+            <field name="codigo">305040200</field>
+            <field name="nome">Óleo combustível</field>
+        </record>
+
+        <record id="tab14_305040250" model="sped.agente_causador">
+            <field name="codigo">305040250</field>
+            <field name="nome">Parafina, óleo lubrificante e de corte, graxas</field>
+        </record>
+
+        <record id="tab14_305040300" model="sped.agente_causador">
+            <field name="codigo">305040300</field>
+            <field name="nome">Gasóleo, óleo diesel</field>
+        </record>
+
+        <record id="tab14_305040350" model="sped.agente_causador">
+            <field name="codigo">305040350</field>
+            <field name="nome">Querosene</field>
+        </record>
+
+        <record id="tab14_305040400" model="sped.agente_causador">
+            <field name="codigo">305040400</field>
+            <field name="nome">Nafta e solvente de nafta (éter de petróleo, álcool mineral, solvente aromático, etc.)</field>
+        </record>
+
+        <record id="tab14_305040450" model="sped.agente_causador">
+            <field name="codigo">305040450</field>
+            <field name="nome">Gasolina (exceto quando a ocorrência for causada preponderantemente por composto de chumbo)</field>
+        </record>
+
+        <record id="tab14_305040500" model="sped.agente_causador">
+            <field name="codigo">305040500</field>
+            <field name="nome">Hidrocarboneto gasoso (inclui gás liquefeito, gás encanado de nafta, gás natural)</field>
+        </record>
+
+        <record id="tab14_305040600" model="sped.agente_causador">
+            <field name="codigo">305040600</field>
+            <field name="nome">Carvão</field>
+        </record>
+
+        <record id="tab14_305040650" model="sped.agente_causador">
+            <field name="codigo">305040650</field>
+            <field name="nome">Coque</field>
+        </record>
+
+        <record id="tab14_305040700" model="sped.agente_causador">
+            <field name="codigo">305040700</field>
+            <field name="nome">Gás encanado de carvão</field>
+        </record>
+
+        <record id="tab14_305040900" model="sped.agente_causador">
+            <field name="codigo">305040900</field>
+            <field name="nome">Produto de petróleo e de carvão, NIC</field>
+        </record>
+
+        <record id="tab14_305044000" model="sped.agente_causador">
+            <field name="codigo">305044000</field>
+            <field name="nome">Vidraria, fibra de vidro, lâmina, etc., exceto frasco, garrafa</field>
+        </record>
+
+        <record id="tab14_305048000" model="sped.agente_causador">
+            <field name="codigo">305048000</field>
+            <field name="nome">Cerâmica</field>
+        </record>
+
+        <record id="tab14_305048300" model="sped.agente_causador">
+            <field name="codigo">305048300</field>
+            <field name="nome">Tijolo e telha - cerâmica</field>
+        </record>
+
+        <record id="tab14_305048400" model="sped.agente_causador">
+            <field name="codigo">305048400</field>
+            <field name="nome">Louça de mesa e outros utensílios (de porcelana, barro, etc.) - cerâmica</field>
+        </record>
+
+        <record id="tab14_305048500" model="sped.agente_causador">
+            <field name="codigo">305048500</field>
+            <field name="nome">Tubo, manilha - cerâmica</field>
+        </record>
+
+        <record id="tab14_305048600" model="sped.agente_causador">
+            <field name="codigo">305048600</field>
+            <field name="nome">Revestimento cerâmico (azulejo, mosaico, etc.) - cerâmica</field>
+        </record>
+
+        <record id="tab14_305048700" model="sped.agente_causador">
+            <field name="codigo">305048700</field>
+            <field name="nome">Louca sanitária (pia, vaso sanitário, etc.) - cerâmica</field>
+        </record>
+
+        <record id="tab14_305048900" model="sped.agente_causador">
+            <field name="codigo">305048900</field>
+            <field name="nome">Cerâmica, NIC</field>
+        </record>
+
+        <record id="tab14_305052000" model="sped.agente_causador">
+            <field name="codigo">305052000</field>
+            <field name="nome">Têxteis - inclui fibras animais após o primeiro desengorduramento e limpeza, fibras vegetais e sintéticas (exceto vidro), fio, linha, tecido, passamanaria, feltro e produtos têxteis em geral</field>
+        </record>
+
+        <record id="tab14_305056000" model="sped.agente_causador">
+            <field name="codigo">305056000</field>
+            <field name="nome">Plástico - inclui pó, folha, trefilado, barra, perfil, etc., não incluindo produto a ser usado no fabrico de plástico</field>
+        </record>
+
+        <record id="tab14_305060000" model="sped.agente_causador">
+            <field name="codigo">305060000</field>
+            <field name="nome">Papel e pasta para papel</field>
+        </record>
+
+        <record id="tab14_305064000" model="sped.agente_causador">
+            <field name="codigo">305064000</field>
+            <field name="nome">Produtos alimentícios inclui carne leite e derivados legumes frutas cerais e derivados</field>
+        </record>
+
+        <record id="tab14_305064300" model="sped.agente_causador">
+            <field name="codigo">305064300</field>
+            <field name="nome">Carne e derivados - inclusive de origem animal</field>
+        </record>
+
+        <record id="tab14_305064400" model="sped.agente_causador">
+            <field name="codigo">305064400</field>
+            <field name="nome">Leite e derivados - inclusive de origem animal</field>
+        </record>
+
+        <record id="tab14_305064500" model="sped.agente_causador">
+            <field name="codigo">305064500</field>
+            <field name="nome">Legume, verdura e derivados</field>
+        </record>
+
+        <record id="tab14_305064600" model="sped.agente_causador">
+            <field name="codigo">305064600</field>
+            <field name="nome">Fruta e derivados</field>
+        </record>
+
+        <record id="tab14_305064700" model="sped.agente_causador">
+            <field name="codigo">305064700</field>
+            <field name="nome">Cereal e derivados</field>
+        </record>
+
+        <record id="tab14_305064900" model="sped.agente_causador">
+            <field name="codigo">305064900</field>
+            <field name="nome">Produto alimentício - inclusive de origem animal, NIC</field>
+        </record>
+
+        <record id="tab14_305068300" model="sped.agente_causador">
+            <field name="codigo">305068300</field>
+            <field name="nome">Medicamento em geral (exceto produto biológico)</field>
+        </record>
+
+        <record id="tab14_305068600" model="sped.agente_causador">
+            <field name="codigo">305068600</field>
+            <field name="nome">Produto biológico (soro, toxina, antitoxina, vacina, plasma) - medicamento</field>
+        </record>
+
+        <record id="tab14_305072000" model="sped.agente_causador">
+            <field name="codigo">305072000</field>
+            <field name="nome">Produto de limpeza, sabão, detergente</field>
+        </record>
+
+        <record id="tab14_305076000" model="sped.agente_causador">
+            <field name="codigo">305076000</field>
+            <field name="nome">Sucata, entulho, resíduo</field>
+        </record>
+
+        <record id="tab14_305090000" model="sped.agente_causador">
+            <field name="codigo">305090000</field>
+            <field name="nome">Substância química, material, produto, NIC</field>
+        </record>
+
+        <record id="tab14_306020000" model="sped.agente_causador">
+            <field name="codigo">306020000</field>
+            <field name="nome">Animal vivo</field>
+        </record>
+
+        <record id="tab14_306040000" model="sped.agente_causador">
+            <field name="codigo">306040000</field>
+            <field name="nome">Vegetal - planta, árvore, em estado natural, não beneficiada (não inclui grão debulhado, fruto colhido, toro mesmo com galho)</field>
+        </record>
+
+        <record id="tab14_306060000" model="sped.agente_causador">
+            <field name="codigo">306060000</field>
+            <field name="nome">Agente infeccioso ou parasitário - inclui bactéria, fungo, organismo parasitário, vírus, etc., não incluindo produto químico, preparado farmacêutico ou alimento</field>
+        </record>
+
+        <record id="tab14_306090000" model="sped.agente_causador">
+            <field name="codigo">306090000</field>
+            <field name="nome">Ser vivo, NIC</field>
+        </record>
+
+        <record id="tab14_307030100" model="sped.agente_causador">
+            <field name="codigo">307030100</field>
+            <field name="nome">Cadeira banco - mobiliário e acessórios</field>
+        </record>
+
+        <record id="tab14_307030200" model="sped.agente_causador">
+            <field name="codigo">307030200</field>
+            <field name="nome">Mesa, carteira, exceto mesa elástica desmontável - mobiliário e acessórios</field>
+        </record>
+
+        <record id="tab14_307030250" model="sped.agente_causador">
+            <field name="codigo">307030250</field>
+            <field name="nome">Mesa elástica desmontável - mobiliário e acessórios</field>
+        </record>
+
+        <record id="tab14_307030300" model="sped.agente_causador">
+            <field name="codigo">307030300</field>
+            <field name="nome">Balcão, bancada - mobiliário e acessórios</field>
+        </record>
+
+        <record id="tab14_307030400" model="sped.agente_causador">
+            <field name="codigo">307030400</field>
+            <field name="nome">Arquivo, fichário, estante - mobiliário e acessórios</field>
+        </record>
+
+        <record id="tab14_307030500" model="sped.agente_causador">
+            <field name="codigo">307030500</field>
+            <field name="nome">Tapete, forração de piso, capacho - mobiliário e acessórios</field>
+        </record>
+
+        <record id="tab14_307030600" model="sped.agente_causador">
+            <field name="codigo">307030600</field>
+            <field name="nome">Luminária, globo, lâmpada - mobiliário e acessórios</field>
+        </record>
+
+        <record id="tab14_307030900" model="sped.agente_causador">
+            <field name="codigo">307030900</field>
+            <field name="nome">Mobiliário e acessórios, NIC</field>
+        </record>
+
+        <record id="tab14_307040100" model="sped.agente_causador">
+            <field name="codigo">307040100</field>
+            <field name="nome">Caixa, engradado, caixote - embalagem, recipiente, vazio ou cheio</field>
+        </record>
+
+        <record id="tab14_307040300" model="sped.agente_causador">
+            <field name="codigo">307040300</field>
+            <field name="nome">Frasco, garrafa - embalagem, recipiente, vazio ou cheio</field>
+        </record>
+
+        <record id="tab14_307040500" model="sped.agente_causador">
+            <field name="codigo">307040500</field>
+            <field name="nome">Barril, barrica, barrilete, tambor - embalagem, recipiente, vazio ou cheio</field>
+        </record>
+
+        <record id="tab14_307040700" model="sped.agente_causador">
+            <field name="codigo">307040700</field>
+            <field name="nome">Tanque, cilindro (transportáveis e não sob pressão) - embalagem, recipiente, vazio ou cheio</field>
+        </record>
+
+        <record id="tab14_307040900" model="sped.agente_causador">
+            <field name="codigo">307040900</field>
+            <field name="nome">Embalagem e recipiente, vazio ou cheio, NIC</field>
+        </record>
+
+        <record id="tab14_307050900" model="sped.agente_causador">
+            <field name="codigo">307050900</field>
+            <field name="nome">Vestuário, NIC</field>
+        </record>
+
+        <record id="tab14_307070000" model="sped.agente_causador">
+            <field name="codigo">307070000</field>
+            <field name="nome">Área ou ambiente de trabalho - o agente do acidente ocorrido em consequência de fenômeno atmosférico, meteoro, etc., assim como da ação da radiação solar, deverá ser incluído neste item</field>
+        </record>
+
+        <record id="tab14_309000000" model="sped.agente_causador">
+            <field name="codigo">309000000</field>
+            <field name="nome">Agente do acidente, NIC</field>
+        </record>
+
+        <record id="tab14_309500000" model="sped.agente_causador">
+            <field name="codigo">309500000</field>
+            <field name="nome">Agente do acidente inexistente</field>
+        </record>
+
+        <record id="tab14_354000000" model="sped.agente_causador">
+            <field name="codigo">354000000</field>
+            <field name="nome">Energia</field>
+        </record>
+
+        <record id="tab14_354010300" model="sped.agente_causador">
+            <field name="codigo">354010300</field>
+            <field name="nome">Pressão ambiente alta trabalho em caixão pneumático mergulho</field>
+        </record>
+
+        <record id="tab14_354010600" model="sped.agente_causador">
+            <field name="codigo">354010600</field>
+            <field name="nome">Pressão ambiente baixa ar rarefeito</field>
+        </record>
+
+        <record id="tab14_354020000" model="sped.agente_causador">
+            <field name="codigo">354020000</field>
+            <field name="nome">Ruído</field>
+        </record>
+
+        <record id="tab14_354040000" model="sped.agente_causador">
+            <field name="codigo">354040000</field>
+            <field name="nome">Fogo chama material incandescente ou quente fumaça</field>
+        </record>
+
+        <record id="tab14_354050300" model="sped.agente_causador">
+            <field name="codigo">354050300</field>
+            <field name="nome">Temperatura ambiente - não inclui a de objeto ou substância quente</field>
+        </record>
+
+        <record id="tab14_355016000" model="sped.agente_causador">
+            <field name="codigo">355016000</field>
+            <field name="nome">Aerodispersóides</field>
+        </record>
+
+        <record id="tab14_355016600" model="sped.agente_causador">
+            <field name="codigo">355016600</field>
+            <field name="nome">Neblina</field>
+        </record>
+
+        <record id="tab14_355016800" model="sped.agente_causador">
+            <field name="codigo">355016800</field>
+            <field name="nome">Gás e vapor</field>
+        </record>
+
+    </data>
+</openerp>

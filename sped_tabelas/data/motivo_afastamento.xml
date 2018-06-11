@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record id="tab18_01" model="sped.motivo_afastamento">
+            <field name="codigo">01</field>
+            <field name="nome">Acidente/Doença do trabalho</field>
+            <field name="descricao">Acidente/Doença do trabalho</field>
+        </record>
+
+        <record id="tab18_03" model="sped.motivo_afastamento">
+            <field name="codigo">03</field>
+            <field name="nome">Acidente/Doença não relacionada ao trabalho</field>
+            <field name="descricao">Acidente/Doença não relacionada ao trabalho</field>
+        </record>
+
+        <record id="tab18_05" model="sped.motivo_afastamento">
+            <field name="codigo">05</field>
+            <field name="nome">Afastamento/licença prevista em regime próprio (estatuto), sem remuneração</field>
+            <field name="descricao">Afastamento/licença prevista em regime próprio (estatuto), sem remuneração</field>
+        </record>
+
+        <record id="tab18_06" model="sped.motivo_afastamento">
+            <field name="codigo">06</field>
+            <field name="nome">Aposentadoria por invalidez</field>
+            <field name="descricao">Aposentadoria por invalidez</field>
+        </record>
+
+        <record id="tab18_07" model="sped.motivo_afastamento">
+            <field name="codigo">07</field>
+            <field name="nome">Acompanhamento - Licença para acompanhamento de membro da família enfermo</field>
+            <field name="descricao">Acompanhamento - Licença para acompanhamento de membro da família enfermo</field>
+        </record>
+
+        <record id="tab18_08" model="sped.motivo_afastamento">
+            <field name="codigo">08</field>
+            <field name="nome">Afastamento do empregado para participar de atividade do Conselho Curador do FGTS</field>
+            <field name="descricao">Afastamento do empregado para participar de atividade do Conselho Curador do FGTS - art. 65, §6o, Dec. 99.684/90 (Regulamento do FGTS)</field>
+        </record>
+
+        <record id="tab18_10" model="sped.motivo_afastamento">
+            <field name="codigo">10</field>
+            <field name="nome">Afastamento/licença prevista em regime próprio (estatuto), com remuneração</field>
+            <field name="descricao">Afastamento/licença prevista em regime próprio (estatuto), com remuneração</field>
+        </record>
+
+        <record id="tab18_11" model="sped.motivo_afastamento">
+            <field name="codigo">11</field>
+            <field name="nome">Cárcere</field>
+            <field name="descricao">Cárcere</field>
+        </record>
+
+        <record id="tab18_12" model="sped.motivo_afastamento">
+            <field name="codigo">12</field>
+            <field name="nome">Cargo Eletivo - Candidato a cargo eletivo</field>
+            <field name="descricao">Cargo Eletivo - Candidato a cargo eletivo - Lei 7.664/1988. art. 25°, parágrafo único - Celetistas em geral</field>
+        </record>
+
+        <record id="tab18_13" model="sped.motivo_afastamento">
+            <field name="codigo">13</field>
+            <field name="nome">Cargo Eletivo - Candidato a cargo eletivo - Lei Complementar 64/1990</field>
+            <field name="descricao">Cargo Eletivo - Candidato a cargo eletivo - Lei Complementar 64/1990. art. 1°, inciso II, alínea 1 - Servidor público, estatutário ou não, dos órgãos ou entidades da Administração Direta ou Indireta da União, dos Estados, do Distrito Federal, dos Municípios e dos Territórios, inclusive das fundações mantidas pelo Poder Público.</field>
+        </record>
+
+        <record id="tab18_14" model="sped.motivo_afastamento">
+            <field name="codigo">14</field>
+            <field name="nome">Cessão / Requisição</field>
+            <field name="descricao">Cessão / Requisição</field>
+        </record>
+
+        <record id="tab18_15" model="sped.motivo_afastamento">
+            <field name="codigo">15</field>
+            <field name="nome">Gozo de férias ou recesso</field>
+            <field name="descricao">Gozo de férias ou recesso - Afastamento temporário para o gozo de férias ou recesso</field>
+        </record>
+
+        <record id="tab18_16" model="sped.motivo_afastamento">
+            <field name="codigo">16</field>
+            <field name="nome">Licença remunerada</field>
+            <field name="descricao">Licença remunerada - Lei, liberalidade da empresa ou Acordo/Convenção Coletiva de Trabalho</field>
+        </record>
+
+        <record id="tab18_17" model="sped.motivo_afastamento">
+            <field name="codigo">17</field>
+            <field name="nome">Licença Maternidade - 120 dias e suas prorrogações/antecipações</field>
+            <field name="descricao">Licença Maternidade - 120 dias e suas prorrogações/antecipações, inclusive para o cônjuge sobrevivente</field>
+        </record>
+
+        <record id="tab18_18" model="sped.motivo_afastamento">
+            <field name="codigo">18</field>
+            <field name="nome">Licença Maternidade - 121 dias a 180 dias</field>
+            <field name="descricao">Licença Maternidade - 121 dias a 180 dias, Lei 11.770/2008 (Empresa Cidadã), inclusive para o cônjuge sobrevivente</field>
+        </record>
+
+        <record id="tab18_19" model="sped.motivo_afastamento">
+            <field name="codigo">19</field>
+            <field name="nome">Licença Maternidade - Afastamento temporário por motivo de aborto não criminoso</field>
+            <field name="descricao">Licença Maternidade - Afastamento temporário por motivo de aborto não criminoso</field>
+        </record>
+
+        <record id="tab18_20" model="sped.motivo_afastamento">
+            <field name="codigo">20</field>
+            <field name="nome">Licença Maternidade - adoção ou guarda judicial de criança</field>
+            <field name="descricao">Licença Maternidade - Afastamento temporário por motivo de licença-maternidade decorrente de adoção ou guarda judicial de criança, inclusive para o cônjuge sobrevivente</field>
+        </record>
+
+        <record id="tab18_21" model="sped.motivo_afastamento">
+            <field name="codigo">21</field>
+            <field name="nome">Licença não remunerada ou Sem Vencimento</field>
+            <field name="descricao">Licença não remunerada ou Sem Vencimento</field>
+        </record>
+
+        <record id="tab18_22" model="sped.motivo_afastamento">
+            <field name="codigo">22</field>
+            <field name="nome">Mandato Eleitoral - sem remuneração</field>
+            <field name="descricao">Mandato Eleitoral - Afastamento temporário para o exercício de mandato eleitoral, sem remuneração</field>
+        </record>
+
+        <record id="tab18_23" model="sped.motivo_afastamento">
+            <field name="codigo">23</field>
+            <field name="nome">Mandato Eleitoral - com remuneração</field>
+            <field name="descricao">Mandato Eleitoral - Afastamento temporário para o exercício de mandato eleitoral, com remuneração</field>
+        </record>
+
+        <record id="tab18_24" model="sped.motivo_afastamento">
+            <field name="codigo">24</field>
+            <field name="nome">Mandato Sindical</field>
+            <field name="descricao">Mandato Sindical - Afastamento temporário para exercício de mandato sindical</field>
+        </record>
+
+        <record id="tab18_25" model="sped.motivo_afastamento">
+            <field name="codigo">25</field>
+            <field name="nome">Mulher vítima de violência</field>
+            <field name="descricao">Mulher vítima de violência - Lei 11.340/2006 - art. 9o §2o, II - Lei Maria da Penha</field>
+        </record>
+
+        <record id="tab18_26" model="sped.motivo_afastamento">
+            <field name="codigo">26</field>
+            <field name="nome">Participação de empregado no Conselho Nacional de Previdência Social-CNPS</field>
+            <field name="descricao">Participação de empregado no Conselho Nacional de Previdência Social-CNPS (art. 3o, Lei 8.213/1991)</field>
+        </record>
+
+        <record id="tab18_27" model="sped.motivo_afastamento">
+            <field name="codigo">27</field>
+            <field name="nome">Qualificação</field>
+            <field name="descricao">Qualificação - Afastamento por suspensão do contrato de acordo com o art 476-A da CLT</field>
+        </record>
+
+        <record id="tab18_28" model="sped.motivo_afastamento">
+            <field name="codigo">28</field>
+            <field name="nome">Representante Sindical</field>
+            <field name="descricao">Representante Sindical - Afastamento pelo tempo que se fizer necessário, quando, na qualidade de representante de entidade sindical, estiver participando de reunião oficial de organismo internacional do qual o Brasil seja membro</field>
+        </record>
+
+        <record id="tab18_29" model="sped.motivo_afastamento">
+            <field name="codigo">29</field>
+            <field name="nome">Serviço Militar</field>
+            <field name="descricao">Serviço Militar - Afastamento temporário para prestar serviço militar obrigatório;</field>
+        </record>
+
+        <record id="tab18_30" model="sped.motivo_afastamento">
+            <field name="codigo">30</field>
+            <field name="nome">Suspensão disciplinar</field>
+            <field name="descricao">Suspensão disciplinar - CLT, art. 474</field>
+        </record>
+
+        <record id="tab18_31" model="sped.motivo_afastamento">
+            <field name="codigo">31</field>
+            <field name="nome">Servidor Público em Disponibilidade</field>
+            <field name="descricao">Servidor Público em Disponibilidade</field>
+        </record>
+
+        <record id="tab18_33" model="sped.motivo_afastamento">
+            <field name="codigo">33</field>
+            <field name="nome">Licença Maternidade - de 180 dias</field>
+            <field name="descricao">Licença Maternidade - de 180 dias, Lei 13.301/2016.</field>
+        </record>
+
+        <record id="tab18_34" model="sped.motivo_afastamento">
+            <field name="codigo">34</field>
+            <field name="nome">Inatividade do trabalhador avulso</field>
+            <field name="descricao">Inatividade do trabalhador avulso (portuário ou não portuário) por período superior a 90 dias</field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,943 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record id="tab03_1000" model="sped.natureza_rubrica">
+            <field name="codigo">1000</field>
+            <field name="nome">Salario, vencimento, soldo ou subsídio</field>
+            <field name="descricao">Corresponde ao salário básico contratual do empregado contratado de acordo com a CLT e o vencimento mensal do servidor público e do militar</field>
+        </record>
+
+        <record id="tab03_1002" model="sped.natureza_rubrica">
+            <field name="codigo">1002</field>
+            <field name="nome">Descanso semanal remunerado - DSR</field>
+            <field name="descricao">Valor correspondente a um dia de trabalho incidente sobre as verbas de natureza variável, tais como: horas extras, adicional noturno, produção, comissão, etc.</field>
+        </record>
+
+        <record id="tab03_1003" model="sped.natureza_rubrica">
+            <field name="codigo">1003</field>
+            <field name="nome">Horas extraordinárias</field>
+            <field name="descricao">Valor correspondente a hora extraordinária de trabalho, acrescido de percentual de no mínimo 50%</field>
+        </record>
+
+        <record id="tab03_1004" model="sped.natureza_rubrica">
+            <field name="codigo">1004</field>
+            <field name="nome">Horas extraordinárias - Indenização de banco de horas</field>
+            <field name="descricao">Valor correspondente a pagamento das horas extraordinárias, inicialmente destinadas para o banco de horas e que não foram compensadas</field>
+        </record>
+
+        <record id="tab03_1005" model="sped.natureza_rubrica">
+            <field name="codigo">1005</field>
+            <field name="nome">Direito de arena</field>
+            <field name="descricao">Valores relativos a direito de arena decorrente do espetáculo, devidos ao atleta</field>
+        </record>
+
+        <record id="tab03_1006" model="sped.natureza_rubrica">
+            <field name="codigo">1006</field>
+            <field name="nome">Intervalos intra e inter jornadas não concedidos</field>
+            <field name="descricao">Valores relativos a intervalos não concedidos de intrajornada ou interjornada</field>
+        </record>
+
+        <record id="tab03_1007" model="sped.natureza_rubrica">
+            <field name="codigo">1007</field>
+            <field name="nome">Luvas e Premiações</field>
+            <field name="descricao">Valores correspondentes a prêmios e luvas, devidos ao atleta</field>
+        </record>
+
+        <record id="tab03_1009" model="sped.natureza_rubrica">
+            <field name="codigo">1009</field>
+            <field name="nome">Salário-família - complemento</field>
+            <field name="descricao">Valor excedente ao do fixado pela previdência social para o salário-família</field>
+        </record>
+
+        <record id="tab03_1010" model="sped.natureza_rubrica">
+            <field name="codigo">1010</field>
+            <field name="nome">Salário in natura - pagos em bens ou serviços</field>
+            <field name="descricao">Salário in natura, também conhecido por salário utilidade, correspondente a remunerações pagas em bens ou serviços</field>
+        </record>
+
+        <record id="tab03_1011" model="sped.natureza_rubrica">
+            <field name="codigo">1011</field>
+            <field name="nome">Sobreaviso e prontidão</field>
+            <field name="descricao">Valor correspondente a um percentual da hora normal de trabalho</field>
+        </record>
+
+        <record id="tab03_1020" model="sped.natureza_rubrica">
+            <field name="codigo">1020</field>
+            <field name="nome">Férias - gozadas</field>
+            <field name="descricao">Valor correspondente a remuneração a que faz jus na época da concessão das férias e o adicional constitucional a que o trabalhador adquiriu direito, inclusive o adiantamento de férias, quando pagas antecipadamente</field>
+        </record>
+
+        <record id="tab03_1021" model="sped.natureza_rubrica">
+            <field name="codigo">1021</field>
+            <field name="nome">Férias - abono ou gratificação de férias superior a 20 dias</field>
+            <field name="descricao">Remuneração a título de abono de férias, desde que excedente a 20 (vinte) dias do salário e concedido em virtude de cláusula contratual, do regulamento da empresa, de convenção ou acordo coletivo, como por exemplo, o art. 144 da CLT</field>
+        </record>
+
+        <record id="tab03_1022" model="sped.natureza_rubrica">
+            <field name="codigo">1022</field>
+            <field name="nome">Férias - abono ou gratificação de férias não excedente a 20 dias</field>
+            <field name="descricao">Remuneração a título de abono de férias, desde que não excedente a 20 (vinte) dias do salário e concedido em virtude de cláusula contratual, do regulamento da empresa, de convenção ou acordo coletivo, como por exemplo o art. 144 da CLT</field>
+        </record>
+
+        <record id="tab03_1023" model="sped.natureza_rubrica">
+            <field name="codigo">1023</field>
+            <field name="nome">Férias - abono pecuniário</field>
+            <field name="descricao">Valor correspondente a conversão em dinheiro de parte dos dias de férias a que o trabalhador adquiriu direito, inclusive o adicional constitucional</field>
+        </record>
+
+        <record id="tab03_1024" model="sped.natureza_rubrica">
+            <field name="codigo">1024</field>
+            <field name="nome">Férias - o dobro na vigência do contrato</field>
+            <field name="descricao">Valor correspondente a remuneração a que faz jus na época da concessão das férias, concedidas após o prazo de concessão, inclusive o adicional constitucional</field>
+        </record>
+
+        <record id="tab03_1040" model="sped.natureza_rubrica">
+            <field name="codigo">1040</field>
+            <field name="nome">Licença-prêmio</field>
+            <field name="descricao">Valor relativo a licença-prêmio, em decorrência de afastamento do trabalho</field>
+        </record>
+
+        <record id="tab03_1041" model="sped.natureza_rubrica">
+            <field name="codigo">1041</field>
+            <field name="nome">Licença-prêmio indenizada</field>
+            <field name="descricao">Valor correspondente à conversão em dinheiro da licença-prêmio</field>
+        </record>
+
+        <record id="tab03_1050" model="sped.natureza_rubrica">
+            <field name="codigo">1050</field>
+            <field name="nome">Remuneração de dias de afastamento</field>
+            <field name="descricao">Remuneração de dias nos quais o trabalhador esteja afastado do trabalho sem prejuízo de sua remuneração</field>
+        </record>
+
+        <record id="tab03_1080" model="sped.natureza_rubrica">
+            <field name="codigo">1080</field>
+            <field name="nome">Stock Option</field>
+            <field name="descricao">Remuneração pelo exercício de opção de compra de ações da empresa</field>
+        </record>
+
+        <record id="tab03_1099" model="sped.natureza_rubrica">
+            <field name="codigo">1099</field>
+            <field name="nome">Outras verbas salariais</field>
+            <field name="descricao">Outras verbas salariais não previstas nos itens anteriores</field>
+        </record>
+
+        <record id="tab03_1201" model="sped.natureza_rubrica">
+            <field name="codigo">1201</field>
+            <field name="nome">Adicional de função / cargo confiança</field>
+            <field name="descricao">Adicional ou gratificação concedida em virtude de cargo ou função de confiança</field>
+        </record>
+
+        <record id="tab03_1202" model="sped.natureza_rubrica">
+            <field name="codigo">1202</field>
+            <field name="nome">Adicional de insalubridade</field>
+            <field name="descricao">Adicional por serviços em condições de insalubridade</field>
+        </record>
+
+        <record id="tab03_1203" model="sped.natureza_rubrica">
+            <field name="codigo">1203</field>
+            <field name="nome">Adicional de periculosidade</field>
+            <field name="descricao">Adicional por serviços em condições perigosas</field>
+        </record>
+
+        <record id="tab03_1204" model="sped.natureza_rubrica">
+            <field name="codigo">1204</field>
+            <field name="nome">Adicional de transferência</field>
+            <field name="descricao">Adicional em razão de transferência de trabalhador, enquanto durar a transferência</field>
+        </record>
+
+        <record id="tab03_1205" model="sped.natureza_rubrica">
+            <field name="codigo">1205</field>
+            <field name="nome">Adicional noturno</field>
+            <field name="descricao">Adicional por trabalho em horário noturno</field>
+        </record>
+
+        <record id="tab03_1206" model="sped.natureza_rubrica">
+            <field name="codigo">1206</field>
+            <field name="nome">Adicional por tempo de serviço</field>
+            <field name="descricao">Adicional em virtude do tempo de serviço (anuênio, quinquênio, etc.)</field>
+        </record>
+
+        <record id="tab03_1207" model="sped.natureza_rubrica">
+            <field name="codigo">1207</field>
+            <field name="nome">Comissões, porcentagens, produção</field>
+            <field name="descricao">Valor correspondente a contraprestação de serviço, normalmente baseada em um percentual sobre as vendas totais desse trabalhador</field>
+        </record>
+
+        <record id="tab03_1208" model="sped.natureza_rubrica">
+            <field name="codigo">1208</field>
+            <field name="nome">Gueltas ou gorjetas - repassadas por fornecedores ou clientes</field>
+            <field name="descricao">Valores pagos diretamente por fornecedores a trabalhador a título de incentivos de vendas (gueltas) ou por clientes a título de recompensa por bons serviços prestados (gorjetas)</field>
+        </record>
+
+        <record id="tab03_1209" model="sped.natureza_rubrica">
+            <field name="codigo">1209</field>
+            <field name="nome">Gueltas ou gorjetas - repassadas pelo empregador</field>
+            <field name="descricao">Valores pagos relativos a gueltas ou gorjetas, por meio de repasse ao empregador</field>
+        </record>
+
+        <record id="tab03_1210" model="sped.natureza_rubrica">
+            <field name="codigo">1210</field>
+            <field name="nome">Gratificação por acordo ou convenção coletiva</field>
+            <field name="descricao">Verba estabelecida em acordo ou convenção coletiva de trabalho</field>
+        </record>
+
+        <record id="tab03_1211" model="sped.natureza_rubrica">
+            <field name="codigo">1211</field>
+            <field name="nome">Gratificações</field>
+            <field name="descricao">Verba não estabelecida em acordo ou convenção coletiva, mas paga para o empregado em decorrência de ajuste entre as partes ou por liberalidade do empregador, como por exemplo produtividade, assiduidade, etc.</field>
+        </record>
+
+        <record id="tab03_1212" model="sped.natureza_rubrica">
+            <field name="codigo">1212</field>
+            <field name="nome">Gratificações ou outras verbas de natureza permanente</field>
+            <field name="descricao">Órgão Público - Parcelas remuneratórias reconhecidamente inerentes às funções do cargo efetivo, cujo valor integra a remuneração do cargo efetivo</field>
+        </record>
+
+        <record id="tab03_1213" model="sped.natureza_rubrica">
+            <field name="codigo">1213</field>
+            <field name="nome">Gratificações ou outras verbas de natureza transitória</field>
+            <field name="descricao">Órgão Público - Parcelas remuneratórias vinculadas à atividade cujo recebimento dependa de avaliação de desempenho ou determinadas condições</field>
+        </record>
+
+        <record id="tab03_1214" model="sped.natureza_rubrica">
+            <field name="codigo">1214</field>
+            <field name="nome">Adicional de penosidade</field>
+            <field name="descricao">Adicional pela realização de atividade árdua que exija do trabalhador esforço, atenção ou vigilância acima do comum</field>
+        </record>
+
+        <record id="tab03_1215" model="sped.natureza_rubrica">
+            <field name="codigo">1215</field>
+            <field name="nome">Adicional de unidocência</field>
+            <field name="descricao">Adicional de Unidocência para Professores de 1a a 4a série</field>
+        </record>
+
+        <record id="tab03_1225" model="sped.natureza_rubrica">
+            <field name="codigo">1225</field>
+            <field name="nome">Quebra de caixa</field>
+            <field name="descricao">Valor destinado a cobrir os riscos assumidos por quem trabalha com manuseio de valores, para compensar eventuais descontos ou diferenças de numerários</field>
+        </record>
+
+        <record id="tab03_1230" model="sped.natureza_rubrica">
+            <field name="codigo">1230</field>
+            <field name="nome">Remuneração do dirigente sindical</field>
+            <field name="descricao">Remuneração paga ao trabalhador afastado, durante o exercício da atividade sindical</field>
+        </record>
+
+        <record id="tab03_1299" model="sped.natureza_rubrica">
+            <field name="codigo">1299</field>
+            <field name="nome">Outros adicionais</field>
+            <field name="descricao">Valores relativos a outros adicionais não previstos nos itens anteriores</field>
+        </record>
+
+        <record id="tab03_1300" model="sped.natureza_rubrica">
+            <field name="codigo">1300</field>
+            <field name="nome">PLR - Participação em Lucros ou Resultados</field>
+            <field name="descricao">Valor correspondente a participação em lucros ou resultados da empresa, de acordo com lei específica</field>
+        </record>
+
+        <record id="tab03_1350" model="sped.natureza_rubrica">
+            <field name="codigo">1350</field>
+            <field name="nome">Bolsa de estudo - estagiário</field>
+            <field name="descricao">Valor devido ao estagiário em atividades práticas de complementação do currículo escolar, inclusive os valores pagos a título de recesso remunerado - Lei no 11.788 de 25/09/2008</field>
+        </record>
+
+        <record id="tab03_1351" model="sped.natureza_rubrica">
+            <field name="codigo">1351</field>
+            <field name="nome">Bolsa de estudo - médico residente</field>
+            <field name="descricao">Bolsa de estudo ao médico residente</field>
+        </record>
+
+        <record id="tab03_1352" model="sped.natureza_rubrica">
+            <field name="codigo">1352</field>
+            <field name="nome">Bolsa de estudo ou pesquisa</field>
+            <field name="descricao">Remuneração a professores, pesquisadores e demais profissionais com a finalidade de estudos ou pesquisa, exceto pagamentos a estagiário e médico-residente</field>
+        </record>
+
+        <record id="tab03_1401" model="sped.natureza_rubrica">
+            <field name="codigo">1401</field>
+            <field name="nome">Abono</field>
+            <field name="descricao">Qualquer abono concedido de forma espontânea ou em virtude de acordo ou convenção coletiva, norma, etc.</field>
+        </record>
+
+        <record id="tab03_1402" model="sped.natureza_rubrica">
+            <field name="codigo">1402</field>
+            <field name="nome">Abono PIS / PASEP</field>
+            <field name="descricao">Abono e/ou rendimento do PIS / PASEP repassado pelo empregador ou órgão público</field>
+        </record>
+
+        <record id="tab03_1403" model="sped.natureza_rubrica">
+            <field name="codigo">1403</field>
+            <field name="nome">Abono legal</field>
+            <field name="descricao">As importâncias recebidas a título de ganhos eventuais e os abonos expressamente desvinculados do salário, por força da lei</field>
+        </record>
+
+        <record id="tab03_1404" model="sped.natureza_rubrica">
+            <field name="codigo">1404</field>
+            <field name="nome">Auxílio babá</field>
+            <field name="descricao">Valor relativo a reembolso de despesas com babá, limitado ao menor salário de contribuição mensal e condicionado à comprovação do registro na carteira de trabalho e previdência social da empregada, do pagamento da remuneração e do recolhimento da contribuição previdenciária, pago em conformidade com a legislação trabalhista, observado o limite máximo de 6 (seis) anos de idade da criança. Caso haja previsão em acordo coletivo da categoria, este limite de idade poderá ser maior.</field>
+        </record>
+
+        <record id="tab03_1405" model="sped.natureza_rubrica">
+            <field name="codigo">1405</field>
+            <field name="nome">Assistência médica</field>
+            <field name="descricao">Valor pago diretamente ao trabalhador a título de assistência médica ou odontológica, inclusive o reembolso de despesas com medicamentos, óculos, aparelhos ortopédicos, despesas médico-hospitalares e outras similares</field>
+        </record>
+
+        <record id="tab03_1406" model="sped.natureza_rubrica">
+            <field name="codigo">1406</field>
+            <field name="nome">Auxílio-creche</field>
+            <field name="descricao">O reembolso creche pago em conformidade com a legislação trabalhista, observado o limite máximo de 6 (seis) anos de idade da criança, quando devidamente comprovadas as despesas realizadas. Caso haja previsão em acordo coletivo da categoria, este limite de idade poderá ser maior.</field>
+        </record>
+
+        <record id="tab03_1407" model="sped.natureza_rubrica">
+            <field name="codigo">1407</field>
+            <field name="nome">Auxílio-educação</field>
+            <field name="descricao">Valor relativo a plano educacional, ou bolsa de estudo, que vise à educação básica de trabalhadores e seus dependentes e, desde que vinculada às atividades desenvolvidas pela empresa, à educação profissional e tecnológica de trabalhadores, nos termos da Lei no 9.394, de 20 de dezembro de 1996, e:\n
+    1) não seja utilizado em substituição de parcela salarial;\n
+    2) o valor mensal do plano educacional ou bolsa de estudo, considerado individualmente, não ultrapasse 5% (cinco por cento) da remuneração do segurado a que se destina ou o valor correspondente a uma vez e meia o valor do limite mínimo mensal do salário de contribuição, o que for maior</field>
+        </record>
+
+        <record id="tab03_1409" model="sped.natureza_rubrica">
+            <field name="codigo">1409</field>
+            <field name="nome">Salário-família</field>
+            <field name="descricao">Valor do salário-família, conforme limite legal, em virtude do número de filhos menores de 14 anos, ou inválidos de qualquer idade</field>
+        </record>
+
+        <record id="tab03_1410" model="sped.natureza_rubrica">
+            <field name="codigo">1410</field>
+            <field name="nome">Auxílio - Locais de difícil acesso</field>
+            <field name="descricao">Valor correspondente a transporte, habitação e alimentação fornecido ao trabalhador contratado para prestar serviço em localidade distante da sua residência, em canteiro de obras ou local que, por força da atividade, exija deslocamento e estada</field>
+        </record>
+
+        <record id="tab03_1601" model="sped.natureza_rubrica">
+            <field name="codigo">1601</field>
+            <field name="nome">Ajuda de custo - aeronauta</field>
+            <field name="descricao">Adicional mensal recebidos pelo aeronauta nos termos da lei no 5.929, de 30 de outubro de 1973</field>
+        </record>
+
+        <record id="tab03_1602" model="sped.natureza_rubrica">
+            <field name="codigo">1602</field>
+            <field name="nome">Ajuda de custo de transferência</field>
+            <field name="descricao">Ajuda de custo em parcela única, em razão de transferência de local de trabalho</field>
+        </record>
+
+        <record id="tab03_1620" model="sped.natureza_rubrica">
+            <field name="codigo">1620</field>
+            <field name="nome">Ressarcimento de despesas pelo uso de veículo próprio</field>
+            <field name="descricao">Ressarcimento de despesas ao trabalhador, pela utilização de veículo de sua propriedade</field>
+        </record>
+
+        <record id="tab03_1621" model="sped.natureza_rubrica">
+            <field name="codigo">1621</field>
+            <field name="nome">Ressarcimento de despesas de viagem, exceto despesas com veículos</field>
+            <field name="descricao">Ressarcimento de despesas pagas com recursos do trabalhador em viagens a trabalho</field>
+        </record>
+
+        <record id="tab03_1623" model="sped.natureza_rubrica">
+            <field name="codigo">1623</field>
+            <field name="nome">Ressarcimento de provisão</field>
+            <field name="descricao">Ressarcimento de desconto efetuado em recibos de férias relativo a provisão de contribuição previdenciária e IRRF</field>
+        </record>
+
+        <record id="tab03_1629" model="sped.natureza_rubrica">
+            <field name="codigo">1629</field>
+            <field name="nome">Ressarcimento de outras despesas</field>
+            <field name="descricao">Ressarcimento de outras despesas pagas pelo trabalhador, não previstas nos itens anteriores</field>
+        </record>
+
+        <record id="tab03_1651" model="sped.natureza_rubrica">
+            <field name="codigo">1651</field>
+            <field name="nome">Diárias de viagem - até 50% do salário</field>
+            <field name="descricao">Diárias de viagem ao trabalhador, desde que não exceda a 50% do seu salário-base mensal</field>
+        </record>
+
+        <record id="tab03_1652" model="sped.natureza_rubrica">
+            <field name="codigo">1652</field>
+            <field name="nome">Diárias de viagem - acima de 50% do salário</field>
+            <field name="descricao">Diárias de viagem superior a 50% do salário-base mensal</field>
+        </record>
+
+        <record id="tab03_1801" model="sped.natureza_rubrica">
+            <field name="codigo">1801</field>
+            <field name="nome">Alimentação</field>
+            <field name="descricao">Auxílio-alimentação</field>
+        </record>
+
+        <record id="tab03_1802" model="sped.natureza_rubrica">
+            <field name="codigo">1802</field>
+            <field name="nome">Etapas (marítimos)</field>
+            <field name="descricao">Auxílio-alimentação ao trabalhador marítimo</field>
+        </record>
+
+        <record id="tab03_1805" model="sped.natureza_rubrica">
+            <field name="codigo">1805</field>
+            <field name="nome">Moradia</field>
+            <field name="descricao">Auxílio-moradia</field>
+        </record>
+
+        <record id="tab03_1810" model="sped.natureza_rubrica">
+            <field name="codigo">1810</field>
+            <field name="nome">Transporte</field>
+            <field name="descricao">Auxílio-transporte</field>
+        </record>
+
+        <record id="tab03_2501" model="sped.natureza_rubrica">
+            <field name="codigo">2501</field>
+            <field name="nome">Prêmios</field>
+            <field name="descricao">Prêmios diversos</field>
+        </record>
+
+        <record id="tab03_2510" model="sped.natureza_rubrica">
+            <field name="codigo">2510</field>
+            <field name="nome">Direitos autorais e intelectuais</field>
+            <field name="descricao">Valor correspondente a participação em produção científica, intelectual ou artística</field>
+        </record>
+
+        <record id="tab03_2801" model="sped.natureza_rubrica">
+            <field name="codigo">2801</field>
+            <field name="nome">Quarentena remunerada</field>
+            <field name="descricao">Valor equivalente a remuneração se em exercício estivesse, devida ao trabalhador desligado, em período de quarentena</field>
+        </record>
+
+        <record id="tab03_2901" model="sped.natureza_rubrica">
+            <field name="codigo">2901</field>
+            <field name="nome">Empréstimos</field>
+            <field name="descricao">Empréstimos ao trabalhador para posterior desconto</field>
+        </record>
+
+        <record id="tab03_2902" model="sped.natureza_rubrica">
+            <field name="codigo">2902</field>
+            <field name="nome">Vestuário e equipamentos</field>
+            <field name="descricao">Valor correspondente a vestuários, equipamentos e outros acessórios fornecidos ao trabalhador e utilizados no local de trabalho para prestação dos respectivos serviços</field>
+        </record>
+
+        <record id="tab03_2920" model="sped.natureza_rubrica">
+            <field name="codigo">2920</field>
+            <field name="nome">Reembolsos diversos</field>
+            <field name="descricao">Valor relativo a reembolsos diversos referentes a descontos indevidos efetuados em competências anteriores</field>
+        </record>
+
+        <record id="tab03_2930" model="sped.natureza_rubrica">
+            <field name="codigo">2930</field>
+            <field name="nome">Insuficiência de saldo</field>
+            <field name="descricao">Valor lançado em folha de pagamento para cobertura de excesso de descontos em relação a vencimentos, tanto o valor do vencimento no mês em que houver a insuficiência de saldo, como o respectivo desconto no(s) mês(es) posteriores</field>
+        </record>
+
+        <record id="tab03_2999" model="sped.natureza_rubrica">
+            <field name="codigo">2999</field>
+            <field name="nome">Arredondamentos</field>
+            <field name="descricao">Valor lançado em folha de pagamento, não superior a 99 centavos, relativo a arrendamentos</field>
+        </record>
+
+        <record id="tab03_3501" model="sped.natureza_rubrica">
+            <field name="codigo">3501</field>
+            <field name="nome">Remuneração por prestação de serviços</field>
+            <field name="descricao">Remuneração (inclusive adiantamentos) a contribuintes individuais, inclusive honorários, em trabalhos de natureza eventual e sem vínculo trabalhista</field>
+        </record>
+
+        <record id="tab03_3505" model="sped.natureza_rubrica">
+            <field name="codigo">3505</field>
+            <field name="nome">Retiradas (pró-labore) de diretores empregados</field>
+            <field name="descricao">Pró-labore ou retirada (remuneração) a diretores empregados (CLT)</field>
+        </record>
+
+        <record id="tab03_3506" model="sped.natureza_rubrica">
+            <field name="codigo">3506</field>
+            <field name="nome">Retiradas (pró-labore) de diretores não empregados</field>
+            <field name="descricao">Pró-labore ou retirada (remuneração) a diretores não empregados</field>
+        </record>
+
+        <record id="tab03_3508" model="sped.natureza_rubrica">
+            <field name="codigo">3508</field>
+            <field name="nome">Retiradas (pró-labore) de proprietários ou sócios</field>
+            <field name="descricao">Pró-labore ou retirada (remuneração) a proprietários ou sócios da empresa</field>
+        </record>
+
+        <record id="tab03_3509" model="sped.natureza_rubrica">
+            <field name="codigo">3509</field>
+            <field name="nome">Honorários a conselheiros</field>
+            <field name="descricao">Valor correspondente a honorários pagos a membros de conselho</field>
+        </record>
+
+        <record id="tab03_3520" model="sped.natureza_rubrica">
+            <field name="codigo">3520</field>
+            <field name="nome">Remuneração de cooperado</field>
+            <field name="descricao">Remuneração a cooperado vinculado a cooperativa de trabalho</field>
+        </record>
+
+        <record id="tab03_4010" model="sped.natureza_rubrica">
+            <field name="codigo">4010</field>
+            <field name="nome">Complementação salarial de auxílio-doença</field>
+            <field name="descricao">Complementação salarial de auxílio-doença ao trabalhador afastado por acidente de trabalho ou por doença</field>
+        </record>
+
+        <record id="tab03_4050" model="sped.natureza_rubrica">
+            <field name="codigo">4050</field>
+            <field name="nome">Salário maternidade</field>
+            <field name="descricao">Remuneração mensal da trabalhadora empregada durante a licença maternidade, quando paga pelo contratante ou órgão público</field>
+        </record>
+
+        <record id="tab03_4051" model="sped.natureza_rubrica">
+            <field name="codigo">4051</field>
+            <field name="nome">Salário maternidade - 13° salário</field>
+            <field name="descricao">Valor correspondente ao 13° salário pago pelo contratante ou órgão público, no período de licença maternidade</field>
+        </record>
+
+        <record id="tab03_5001" model="sped.natureza_rubrica">
+            <field name="codigo">5001</field>
+            <field name="nome">13o salário</field>
+            <field name="descricao">Valor relativo ao 13° salário de trabalhador, inclusive as médias de 13° salário (horas extras, adicional noturno, etc.), exceto se relativo à primeira parcela ou se pago em rescisão contratual - nessa opção devem ser classificadas também o valor pago mensalmente ao trabalhador avulso, a título de 13° salário</field>
+        </record>
+
+        <record id="tab03_5005" model="sped.natureza_rubrica">
+            <field name="codigo">5005</field>
+            <field name="nome">13° salário complementar</field>
+            <field name="descricao">Valor do 13° salário complementar relativo a diferenças apuradas não consideradas na folha de fechamento do 13° salário</field>
+        </record>
+
+        <record id="tab03_5501" model="sped.natureza_rubrica">
+            <field name="codigo">5501</field>
+            <field name="nome">Adiantamento de salário</field>
+            <field name="descricao">Valor relativo a adiantamento, antecipação ou pagamento parcial de folha de salários</field>
+        </record>
+
+        <record id="tab03_5504" model="sped.natureza_rubrica">
+            <field name="codigo">5504</field>
+            <field name="nome">13o salário - Adiantamento</field>
+            <field name="descricao">Valor relativo a adiantamento do 13° salário</field>
+        </record>
+
+        <record id="tab03_5510" model="sped.natureza_rubrica">
+            <field name="codigo">5510</field>
+            <field name="nome">Adiantamento de benefícios previdenciários</field>
+            <field name="descricao">Valor relativo a adiantamento de benefícios a serem pagos pela Previdência Social Oficial</field>
+        </record>
+
+        <record id="tab03_6000" model="sped.natureza_rubrica">
+            <field name="codigo">6000</field>
+            <field name="nome">Saldo de salários na rescisão contratual</field>
+            <field name="descricao">Valor correspondente aos dias trabalhados no mês da rescisão contratual</field>
+        </record>
+
+        <record id="tab03_6001" model="sped.natureza_rubrica">
+            <field name="codigo">6001</field>
+            <field name="nome">13o salário relativo ao aviso-prévio indenizado</field>
+            <field name="descricao">Valor correspondente ao 13° salário incidente sobre o aviso-prévio indenizado</field>
+        </record>
+
+        <record id="tab03_6002" model="sped.natureza_rubrica">
+            <field name="codigo">6002</field>
+            <field name="nome">13° salário proporcional na rescisão</field>
+            <field name="descricao">Valor correspondente ao 13° salário proporcional pago na rescisão do contrato de trabalho, exceto o pago sobre o aviso-prévio indenizado</field>
+        </record>
+
+        <record id="tab03_6003" model="sped.natureza_rubrica">
+            <field name="codigo">6003</field>
+            <field name="nome">Indenização compensatória do aviso-prévio</field>
+            <field name="descricao">Valor da maior remuneração do trabalhador, correspondente ao número de dias relativo ao aviso prévio, calculado de acordo com o tempo de serviço do empregado</field>
+        </record>
+
+        <record id="tab03_6004" model="sped.natureza_rubrica">
+            <field name="codigo">6004</field>
+            <field name="nome">Férias - o dobro na rescisão</field>
+            <field name="descricao">Valor correspondente a remuneração a que faz jus a época da rescisão contratual, correspondente a férias não concedidas no prazo legal, inclusive o adicional constitucional</field>
+        </record>
+
+        <record id="tab03_6006" model="sped.natureza_rubrica">
+            <field name="codigo">6006</field>
+            <field name="nome">Férias proporcionais</field>
+            <field name="descricao">Valor correspondente a 1/12 avos da remuneração a que faz jus a época da rescisão contratual, fração superior a 14 dias por mês de trabalho e a projeção do aviso-prévio indenizado, inclusive o adicional constitucional</field>
+        </record>
+
+        <record id="tab03_6007" model="sped.natureza_rubrica">
+            <field name="codigo">6007</field>
+            <field name="nome">Férias vencidas na rescisão</field>
+            <field name="descricao">Valor correspondente a remuneração a que faz jus a época da rescisão contratual, correspondente a férias vencidas, mas dentro do prazo concessivo, inclusive o adicional constitucional</field>
+        </record>
+
+        <record id="tab03_6101" model="sped.natureza_rubrica">
+            <field name="codigo">6101</field>
+            <field name="nome">Indenização compensatória - multa rescisória 20 ou 40% (CF/88)</field>
+            <field name="descricao">Valor correspondente a indenização por demissão sem justa causa ou culpa recíproca (essa reconhecida pela justiça do trabalho), por ocasião da rescisão do contrato de trabalho</field>
+        </record>
+
+        <record id="tab03_6102" model="sped.natureza_rubrica">
+            <field name="codigo">6102</field>
+            <field name="nome">Indenização do art. 9o lei no 7.238/84</field>
+            <field name="descricao">Valor correspondente a indenização quando a dispensa ocorrer sem justa causa dentro dos trinta dias que antecedem a data base</field>
+        </record>
+
+        <record id="tab03_6103" model="sped.natureza_rubrica">
+            <field name="codigo">6103</field>
+            <field name="nome">Indenização do art. 14 da lei no 5.889, de 8 de junho de 1973</field>
+            <field name="descricao">Valor correspondente a indenização do tempo de serviço ao safrista, importância correspondente a 1/12 (um doze avos) do salário mensal, por mês de serviço ou fração superior a 14 (quatorze) dias</field>
+        </record>
+
+        <record id="tab03_6104" model="sped.natureza_rubrica">
+            <field name="codigo">6104</field>
+            <field name="nome">Indenização do art. 479 da CLT</field>
+            <field name="descricao">Valor correspondente a metade da remuneração devida ate o termino do contrato a prazo determinado em caso de rescisão antecipada</field>
+        </record>
+
+        <record id="tab03_6105" model="sped.natureza_rubrica">
+            <field name="codigo">6105</field>
+            <field name="nome">Indenização recebida a título de incentivo a demissão</field>
+            <field name="descricao">Valor correspondente a incentivo a demissão em Programas de Demissão Voluntária - PDV</field>
+        </record>
+
+        <record id="tab03_6106" model="sped.natureza_rubrica">
+            <field name="codigo">6106</field>
+            <field name="nome">Multa do art. 477 da CLT</field>
+            <field name="descricao">Valor devido ao trabalhador por atraso no pagamento de rescisão do contrato de trabalho (art. 477 da CLT, § 8o)</field>
+        </record>
+
+        <record id="tab03_6107" model="sped.natureza_rubrica">
+            <field name="codigo">6107</field>
+            <field name="nome">Indenização por quebra de estabilidade</field>
+            <field name="descricao">Valor correspondente a indenização por desligamento durante período de estabilidade legal, ou estabilidade derivada de acordo ou convenção coletiva de trabalho</field>
+        </record>
+
+        <record id="tab03_6129" model="sped.natureza_rubrica">
+            <field name="codigo">6129</field>
+            <field name="nome">Outras Indenizações</field>
+            <field name="descricao">Valor correspondente a outras indenizações previstas em leis ou em Instrumentos Coletivos de Trabalho, exceto as previstas nos itens anteriores</field>
+        </record>
+
+        <record id="tab03_6901" model="sped.natureza_rubrica">
+            <field name="codigo">6901</field>
+            <field name="nome">Desconto do aviso-prévio</field>
+            <field name="descricao">Valor descontado do trabalhador que tenha pedido demissão e não cumpriu aviso-prévio, total ou parcialmente</field>
+        </record>
+
+        <record id="tab03_6904" model="sped.natureza_rubrica">
+            <field name="codigo">6904</field>
+            <field name="nome">Multa prevista no art. 480 da CLT</field>
+            <field name="descricao">Valor descontado do empregado pela rescisão antecipada, por iniciativa do empregado, do contrato de trabalho a termo</field>
+        </record>
+
+        <record id="tab03_7001" model="sped.natureza_rubrica">
+            <field name="codigo">7001</field>
+            <field name="nome">Proventos</field>
+            <field name="descricao">Valor dos proventos de Aposentadoria a servidor público vinculado a Regime Próprio de Previdência Social</field>
+        </record>
+
+        <record id="tab03_7002" model="sped.natureza_rubrica">
+            <field name="codigo">7002</field>
+            <field name="nome">Proventos - Pensão por morte Civil</field>
+            <field name="descricao">Valor dos proventos por morte a beneficiário de servidor público vinculado a Regime Próprio de Previdência Social</field>
+        </record>
+
+        <record id="tab03_7003" model="sped.natureza_rubrica">
+            <field name="codigo">7003</field>
+            <field name="nome">Proventos - Reserva</field>
+            <field name="descricao">Valor dos proventos a militar da reserva remunerada</field>
+        </record>
+
+        <record id="tab03_7004" model="sped.natureza_rubrica">
+            <field name="codigo">7004</field>
+            <field name="nome">Proventos - Reforma</field>
+            <field name="descricao">Valor dos proventos a militar reformado</field>
+        </record>
+
+        <record id="tab03_7005" model="sped.natureza_rubrica">
+            <field name="codigo">7005</field>
+            <field name="nome">Pensão Militar</field>
+            <field name="descricao">Valor da pensão a beneficiário de militar</field>
+        </record>
+
+        <record id="tab03_9200" model="sped.natureza_rubrica">
+            <field name="codigo">9200</field>
+            <field name="nome">Desconto de Adiantamentos</field>
+            <field name="descricao">Valor relativo a descontos a título de adiantamentos em geral, como de salários e outros, exceto a 1a parcela do 13° salário</field>
+        </record>
+
+        <record id="tab03_9201" model="sped.natureza_rubrica">
+            <field name="codigo">9201</field>
+            <field name="nome">Contribuição Previdenciária</field>
+            <field name="descricao">Desconto a título de contribuição previdenciária</field>
+        </record>
+
+        <record id="tab03_9203" model="sped.natureza_rubrica">
+            <field name="codigo">9203</field>
+            <field name="nome">Imposto de renda retido na fonte</field>
+            <field name="descricao">Desconto a título de imposto de renda retido na fonte - IRRF</field>
+        </record>
+
+        <record id="tab03_9205" model="sped.natureza_rubrica">
+            <field name="codigo">9205</field>
+            <field name="nome">Provisão de contribuição previdenciária e IRRF</field>
+            <field name="descricao">Desconto efetuado em recibos de férias relativo a provisão de contribuição previdenciária e IRRF</field>
+        </record>
+
+        <record id="tab03_9209" model="sped.natureza_rubrica">
+            <field name="codigo">9209</field>
+            <field name="nome">Faltas ou atrasos</field>
+            <field name="descricao">Desconto correspondente a faltas, atrasos no início da jornada de trabalho ou à saída antecipada do trabalhador</field>
+        </record>
+
+        <record id="tab03_9210" model="sped.natureza_rubrica">
+            <field name="codigo">9210</field>
+            <field name="nome">DSR s/faltas e atrasos</field>
+            <field name="descricao">Desconto correspondente ao Descanso Semanal Remunerado - DSR, calculado sobre faltas e atrasos do trabalhador</field>
+        </record>
+
+        <record id="tab03_9213" model="sped.natureza_rubrica">
+            <field name="codigo">9213</field>
+            <field name="nome">Pensão alimentícia</field>
+            <field name="descricao">Desconto correspondente a pensão alimentícia sobre o salário mensal, 13° salário, PLR e férias</field>
+        </record>
+
+        <record id="tab03_9214" model="sped.natureza_rubrica">
+            <field name="codigo">9214</field>
+            <field name="nome">13° salário - desconto de adiantamento</field>
+            <field name="descricao">Desconto de antecipação do 13° salário</field>
+        </record>
+
+        <record id="tab03_9216" model="sped.natureza_rubrica">
+            <field name="codigo">9216</field>
+            <field name="nome">Desconto de vale-transporte</field>
+            <field name="descricao">Desconto do vale-transporte referente a participação do trabalhador no custo ou em virtude de concessão do benefício em valor maior</field>
+        </record>
+
+        <record id="tab03_9217" model="sped.natureza_rubrica">
+            <field name="codigo">9217</field>
+            <field name="nome">Contribuição a Outras Entidades e Fundos</field>
+            <field name="descricao">Desconto relativo a contribuições destinadas a outras entidades e fundos (Terceiros), como por exemplo, Sest, Senat, etc., devidas por algumas categorias de contribuintes individuais</field>
+        </record>
+
+        <record id="tab03_9218" model="sped.natureza_rubrica">
+            <field name="codigo">9218</field>
+            <field name="nome">Retenções judiciais</field>
+            <field name="descricao">Desconto relativo a retenções de verbas devidas a trabalhadores por ordem judicial, exceto pensão alimentícia</field>
+        </record>
+
+        <record id="tab03_9219" model="sped.natureza_rubrica">
+            <field name="codigo">9219</field>
+            <field name="nome">Desconto de assistência médica ou odontológica</field>
+            <field name="descricao">Desconto referente a participação do trabalhador no custo de assistência médica ou odontológica, ou em virtude de concessão do benefício em valor maior</field>
+        </record>
+
+        <record id="tab03_9220" model="sped.natureza_rubrica">
+            <field name="codigo">9220</field>
+            <field name="nome">Alimentação - desconto</field>
+            <field name="descricao">Desconto referente a participação do trabalhador no custo ou em virtude de concessão do benefício em valor maior</field>
+        </record>
+
+        <record id="tab03_9221" model="sped.natureza_rubrica">
+            <field name="codigo">9221</field>
+            <field name="nome">Desconto de férias</field>
+            <field name="descricao">Valor correspondente a remuneração (dias) de férias do mês corrente pago no mês anterior ou adiantamento de férias</field>
+        </record>
+
+        <record id="tab03_9222" model="sped.natureza_rubrica">
+            <field name="codigo">9222</field>
+            <field name="nome">Desconto de outros impostos e contribuições</field>
+            <field name="descricao">Desconto de outros impostos, taxas e contribuições, exceto Imposto de Renda Retido na Fonte, contribuição previdenciária e contribuições destinadas a outras entidades e fundos (Terceiros)</field>
+        </record>
+
+        <record id="tab03_9223" model="sped.natureza_rubrica">
+            <field name="codigo">9223</field>
+            <field name="nome">Previdência complementar - parte do empregado</field>
+            <field name="descricao">Desconto referente a participação do trabalhador no custo ou em virtude de concessão do benefício em valor maior</field>
+        </record>
+
+        <record id="tab03_9224" model="sped.natureza_rubrica">
+            <field name="codigo">9224</field>
+            <field name="nome">FAPI - parte do empregado</field>
+            <field name="descricao">Desconto referente a participação do trabalhador no custo de Fundo de Aposentadoria Programada Individual - FAPI, ou em virtude de concessão do benefício em valor maior</field>
+        </record>
+
+        <record id="tab03_9225" model="sped.natureza_rubrica">
+            <field name="codigo">9225</field>
+            <field name="nome">Previdência complementar - parte do servidor</field>
+            <field name="descricao">Desconto referente a participação do trabalhador no custeio de Plano de Previdência Complementar do Servidor Público</field>
+        </record>
+
+        <record id="tab03_9226" model="sped.natureza_rubrica">
+            <field name="codigo">9226</field>
+            <field name="nome">Desconto de férias - abono</field>
+            <field name="descricao">Desconto correspondente ao abono de férias pago no mês anterior ou adiantamento de férias</field>
+        </record>
+
+        <record id="tab03_9230" model="sped.natureza_rubrica">
+            <field name="codigo">9230</field>
+            <field name="nome">Contribuição Sindical - Compulsória</field>
+            <field name="descricao">Valor correspondente ao desconto da contribuição laboral correspondente a um dia de trabalho a título de contribuição sindical obrigatória</field>
+        </record>
+
+        <record id="tab03_9231" model="sped.natureza_rubrica">
+            <field name="codigo">9231</field>
+            <field name="nome">Contribuição Sindical - Associativa</field>
+            <field name="descricao">Valor correspondente ao desconto referente a mensalidade sindical do trabalhador</field>
+        </record>
+
+        <record id="tab03_9232" model="sped.natureza_rubrica">
+            <field name="codigo">9232</field>
+            <field name="nome">Contribuição Sindical - Assistencial</field>
+            <field name="descricao">Valor correspondente ao desconto da contribuição destinada ao custeio das atividades assistenciais do sindicato</field>
+        </record>
+
+        <record id="tab03_9233" model="sped.natureza_rubrica">
+            <field name="codigo">9233</field>
+            <field name="nome">Contribuição sindical - Confederativa</field>
+            <field name="descricao">Valor correspondente ao desconto da contribuição destinada ao custeio do sistema confederativo</field>
+        </record>
+
+        <record id="tab03_9250" model="sped.natureza_rubrica">
+            <field name="codigo">9250</field>
+            <field name="nome">Seguro de vida - desconto</field>
+            <field name="descricao">Desconto referente a participação do trabalhador no custo ou em virtude de concessão do benefício em valor maior</field>
+        </record>
+
+        <record id="tab03_9254" model="sped.natureza_rubrica">
+            <field name="codigo">9254</field>
+            <field name="nome">Empréstimos consignados - desconto</field>
+            <field name="descricao">Desconto de trabalhadores a título de empréstimos consignados, para repasse a instituição financeira consignatária</field>
+        </record>
+
+        <record id="tab03_9255" model="sped.natureza_rubrica">
+            <field name="codigo">9255</field>
+            <field name="nome">Empréstimos do empregador - desconto</field>
+            <field name="descricao">Desconto de trabalhadores a título de empréstimos efetuados pelo empregador ao trabalhador</field>
+        </record>
+
+        <record id="tab03_9258" model="sped.natureza_rubrica">
+            <field name="codigo">9258</field>
+            <field name="nome">Convênios</field>
+            <field name="descricao">Desconto relativos a convênios diversos com empresas para fornecimento de produtos ou serviços ao empregado, sem pagamento imediato, mas com posterior desconto em folha de pagamento como farmácias, supermercados, etc.</field>
+        </record>
+
+        <record id="tab03_9270" model="sped.natureza_rubrica">
+            <field name="codigo">9270</field>
+            <field name="nome">Danos e prejuízos causados pelo trabalhador</field>
+            <field name="descricao">Desconto do trabalhador para reparar danos e prejuízos por ele causados</field>
+        </record>
+
+        <record id="tab03_9290" model="sped.natureza_rubrica">
+            <field name="codigo">9290</field>
+            <field name="nome">Desconto de pagamento indevido em meses anteriores</field>
+            <field name="descricao">Valor correspondente a desconto de verbas pagas indevidamente ao trabalhador em meses anteriores e que estão sendo descontadas no mês de referência, exceto valores relativos a assistência médica, alimentação, previdência complementar e seguro de vida</field>
+        </record>
+
+        <record id="tab03_9299" model="sped.natureza_rubrica">
+            <field name="codigo">9299</field>
+            <field name="nome">Outros descontos</field>
+            <field name="descricao">Outros descontos não previstos nos itens anteriores</field>
+        </record>
+
+        <record id="tab03_9901" model="sped.natureza_rubrica">
+            <field name="codigo">9901</field>
+            <field name="nome">Base de cálculo da contribuição previdenciária</field>
+            <field name="descricao">Valor total da base de cálculo da contribuição previdenciária</field>
+        </record>
+
+        <record id="tab03_9902" model="sped.natureza_rubrica">
+            <field name="codigo">9902</field>
+            <field name="nome">Total da base de cálculo do FGTS</field>
+            <field name="descricao">Valor total da base de cálculo do FGTS</field>
+        </record>
+
+        <record id="tab03_9903" model="sped.natureza_rubrica">
+            <field name="codigo">9903</field>
+            <field name="nome">Total da base de cálculo do IRRF</field>
+            <field name="descricao">Valor total da base de cálculo do Imposto de Renda Retido na Fonte</field>
+        </record>
+
+        <record id="tab03_9904" model="sped.natureza_rubrica">
+            <field name="codigo">9904</field>
+            <field name="nome">Total da base de cálculo do FGTS rescisório</field>
+            <field name="descricao">Valor total da base de cálculo do FGTS rescisório</field>
+        </record>
+
+        <record id="tab03_9905" model="sped.natureza_rubrica">
+            <field name="codigo">9905</field>
+            <field name="nome">Serviço militar</field>
+            <field name="descricao">Valor não relativo a vencimento ou desconto, relativo à remuneração a que teria direito, se em atividade, o trabalhador afastado do trabalho para prestação do serviço militar obrigatório</field>
+        </record>
+
+        <record id="tab03_9906" model="sped.natureza_rubrica">
+            <field name="codigo">9906</field>
+            <field name="nome">Remuneração no exterior</field>
+            <field name="descricao">Remuneração recebida no exterior por trabalhador expatriado sobre a qual incida contribuição previdenciária e/ou IRRF e/ou FGTS</field>
+        </record>
+
+        <record id="tab03_9908" model="sped.natureza_rubrica">
+            <field name="codigo">9908</field>
+            <field name="nome">FGTS - depósito</field>
+            <field name="descricao">Valor do depósito do FGTS</field>
+        </record>
+
+        <record id="tab03_9910" model="sped.natureza_rubrica">
+            <field name="codigo">9910</field>
+            <field name="nome">Seguros</field>
+            <field name="descricao">Valor relativo a prêmio de seguro de vida em grupo pago a empresa de seguros como benefício do trabalhador</field>
+        </record>
+
+        <record id="tab03_9911" model="sped.natureza_rubrica">
+            <field name="codigo">9911</field>
+            <field name="nome">Assistência Médica</field>
+            <field name="descricao">Valor não relativo a vencimento ou desconto, relativo à assistência prestada por serviço médico ou odontológico, próprio da empresa ou por ela conveniado, como benefício ao trabalhador</field>
+        </record>
+
+        <record id="tab03_9930" model="sped.natureza_rubrica">
+            <field name="codigo">9930</field>
+            <field name="nome">Salário maternidade pago pela Previdência Social</field>
+            <field name="descricao">Valor correspondente a remuneração mensal do(a) trabalhador(a) durante a licença maternidade, quando paga pela Previdência Social</field>
+        </record>
+
+        <record id="tab03_9931" model="sped.natureza_rubrica">
+            <field name="codigo">9931</field>
+            <field name="nome">13° salário maternidade pago pela Previdência Social</field>
+            <field name="descricao">Valor correspondente ao 13° salário do(a) trabalhador(a) durante a licença maternidade, quando pago pela Previdência Social</field>
+        </record>
+
+        <record id="tab03_9932" model="sped.natureza_rubrica">
+            <field name="codigo">9932</field>
+            <field name="nome">Auxílio-doença acidentário</field>
+            <field name="descricao">Valor relativo a base de cálculo do FGTS incidente sobre benefício previdenciário pago por Previdência Social Oficial a trabalhador afastado por acidente de trabalho</field>
+        </record>
+
+        <record id="tab03_9933" model="sped.natureza_rubrica">
+            <field name="codigo">9933</field>
+            <field name="nome">Auxílio-doença</field>
+            <field name="descricao">Valor de benefício previdenciário pago por Regime Próprio de Previdência Social</field>
+        </record>
+
+        <record id="tab03_9938" model="sped.natureza_rubrica">
+            <field name="codigo">9938</field>
+            <field name="nome">Isenção IRRF - 65 anos</field>
+            <field name="descricao">Valor da parcela isenta dos rendimentos de aposentadoria e pensão, transferência para a reserva remunerada ou reforma, pagos por órgão público de previdência oficial ou por entidade de previdência complementar, no caso de contribuinte com idade igual ou superior a 65 anos</field>
+        </record>
+
+        <record id="tab03_9939" model="sped.natureza_rubrica">
+            <field name="codigo">9939</field>
+            <field name="nome">Outros valores tributáveis</field>
+            <field name="descricao">Valor não relativo a vencimento ou desconto mas considerado como base de cálculo do FGTS, e/ou da contribuição previdenciária e/ou do Imposto de Renda Retido na Fonte inclusive suas deduções e isenções</field>
+        </record>
+
+        <record id="tab03_9950" model="sped.natureza_rubrica">
+            <field name="codigo">9950</field>
+            <field name="nome">Horas extraordinárias - Banco de horas</field>
+            <field name="descricao">Quantidade (em número decimal com dois dígitos) de horas extraordinárias incorporadas ao banco de horas</field>
+        </record>
+
+        <record id="tab03_9951" model="sped.natureza_rubrica">
+            <field name="codigo">9951</field>
+            <field name="nome">Horas compensadas - Banco de horas</field>
+            <field name="descricao">Quantidade (em número decimal com dois dígitos) de horas compensadas no banco de horas</field>
+        </record>
+
+        <record id="tab03_9989" model="sped.natureza_rubrica">
+            <field name="codigo">9989</field>
+            <field name="nome">Outros valores informativos</field>
+            <field name="descricao">Outros valores informativos, que não sejam vencimentos nem descontos</field>
+        </record>
+
+    </data>
+</openerp>

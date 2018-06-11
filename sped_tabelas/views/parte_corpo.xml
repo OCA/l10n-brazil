@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_tabelas.parte_corpo_form">
+            <field name="name">sped_tabelas.parte_corpo_form</field>
+            <field name="model">sped.parte_corpo</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Parte do Corpo Atingida"
+                edit="false" create="false" delete="false">
+                    <sheet>
+                        <group>
+                            <group name="geral" colspan="4" col="2">
+                                <field name="codigo"/>
+                                <field name="nome" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_tabelas.parte_corpo_tree">
+            <field name="name">sped_tabelas.parte_corpo_view</field>
+            <field name="model">sped.parte_corpo</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="Parte do Corpo Atingida"
+                edit="false" create="false" delete="false">
+                    <field name="codigo" />
+                    <field name="nome" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="parte_corpo_search">
+            <field name="name">sped_tabelas.parte_corpo_search</field>
+            <field name="model">sped.parte_corpo</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <search string="Parte do Corpo Atingida">
+                    <field name="codigo" />
+                    <field name="nome" />
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="parte_corpo_action">
+            <field name="name">Parte do Corpo Atingida</field>
+            <field name="res_model">sped.parte_corpo</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="parte_corpo_tree_action">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="parte_corpo_tree"/>
+            <field name="act_window_id" ref="parte_corpo_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="parte_corpo_form_action">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="parte_corpo_form"/>
+            <field name="act_window_id" ref="parte_corpo_action"/>
+        </record>
+
+        <menuitem
+            action="sped_tabelas.parte_corpo_action"
+            id="menu_sped_tabelas_parte_corpo"
+            name="13-Partes do Corpo"
+            parent="sped_tabelas.menu_sped_tabelas_esocial"
+            sequence="13"
+        />
+
+    </data>
+</openerp>

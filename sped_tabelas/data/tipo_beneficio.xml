@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record id="tab25_1" model="sped.tipo_beneficio">
+            <field name="codigo">1</field>
+            <field name="nome">Aposentadoria Voluntária por Idade e Tempo de Contribuição - Proventos Integrais</field>
+            <field name="descricao">Aposentadoria Voluntária por Idade e Tempo de Contribuição - Proventos Integrais: Art. 40, § 1o, III “a” da CF, Redação EC 20/98</field>
+        </record>
+
+        <record id="tab25_2" model="sped.tipo_beneficio">
+            <field name="codigo">2</field>
+            <field name="nome">Aposentadoria por Idade - Proventos proporcionais</field>
+            <field name="descricao">Aposentadoria por Idade - Proventos proporcionais: Art. 40, III, c da CF redação original - Anterior à EC 20/1998</field>
+        </record>
+
+        <record id="tab25_3" model="sped.tipo_beneficio">
+            <field name="codigo">3</field>
+            <field name="nome">Aposentadoria por Invalidez - Proventos integrais ou proporcionais</field>
+            <field name="descricao">Aposentadoria por Invalidez - Proventos integrais ou proporcionais: Art. 40, I da CF redação original - anterior à EC 20/1998</field>
+        </record>
+
+        <record id="tab25_4" model="sped.tipo_beneficio">
+            <field name="codigo">4</field>
+            <field name="nome">Aposentadoria Compulsória - Proventos proporcionais</field>
+            <field name="descricao">Aposentadoria Compulsória - Proventos proporcionais: Art. 40, II da CF redação original, anterior à EC 20/1998 *</field>
+        </record>
+
+        <record id="tab25_5" model="sped.tipo_beneficio">
+            <field name="codigo">5</field>
+            <field name="nome">Aposentadoria por Tempo de Serviço Integral</field>
+            <field name="descricao">Aposentadoria por Tempo de Serviço Integral - Art. 40, III, a da CF redação original - anterior à EC 20/1998 *</field>
+        </record>
+
+        <record id="tab25_6" model="sped.tipo_beneficio">
+            <field name="codigo">6</field>
+            <field name="nome">Aposentadoria por Tempo de Serviço Proporcional</field>
+            <field name="descricao">Aposentadoria por Tempo de Serviço Proporcional - Art. 40, III, a da CF redação original - anterior à EC 20/1998 *</field>
+        </record>
+
+        <record id="tab25_7" model="sped.tipo_beneficio">
+            <field name="codigo">7</field>
+            <field name="nome">Aposentadoria Compulsória Proporcional calculada sobre a última remuneração</field>
+            <field name="descricao">Aposentadoria Compulsória Proporcional calculada sobre a última remuneração- Art. 40, § 1o, Inciso II da CF, Redação EC 20/1998</field>
+        </record>
+
+        <record id="tab25_8" model="sped.tipo_beneficio">
+            <field name="codigo">8</field>
+            <field name="nome">Aposentadoria Compulsória Proporcional calculada pela média</field>
+            <field name="descricao">Aposentadoria Compulsória Proporcional calculada pela média - Art. 40, § 1o Inciso II da CF, Redação EC 41/03</field>
+        </record>
+
+        <record id="tab25_9" model="sped.tipo_beneficio">
+            <field name="codigo">9</field>
+            <field name="nome">Aposentadoria Compulsória Proporcional calculada pela média</field>
+            <field name="descricao">Aposentadoria Compulsória Proporcional calculada pela média - Art. 40, § 1o Inciso II da CF, Redação EC 41/03, c/c EC 88/2015</field>
+        </record>
+
+        <record id="tab25_10" model="sped.tipo_beneficio">
+            <field name="codigo">10</field>
+            <field name="nome">Aposentadoria Compulsória Proporcional calculada pela média</field>
+            <field name="descricao">Aposentadoria Compulsória Proporcional calculada pela média - Art. 40, § 1o Inciso II da CF, Redação EC 41/03, c/c LC 152/2015</field>
+        </record>
+
+        <record id="tab25_11" model="sped.tipo_beneficio">
+            <field name="codigo">11</field>
+            <field name="nome">Aposentadoria - Magistrado, Membro do MP e TC</field>
+            <field name="descricao">Aposentadoria - Magistrado, Membro do MP e TC - Proventos Integrais correspondentes à última remuneração: Regra de Transição do Art. 8o, da EC 20/98</field>
+        </record>
+
+        <record id="tab25_12" model="sped.tipo_beneficio">
+            <field name="codigo">12</field>
+            <field name="nome">Aposentadoria - Proventos Integrais correspondentes à última remuneração</field>
+            <field name="descricao">Aposentadoria - Proventos Integrais correspondentes à última remuneração - Regra de Transição do Art. 8o, da EC 20/98: Geral</field>
+        </record>
+
+        <record id="tab25_13" model="sped.tipo_beneficio">
+            <field name="codigo">13</field>
+            <field name="nome">Aposentadoria Especial do Professor - Regra de Transição do Art. 8o, da EC 20/98</field>
+            <field name="descricao">Aposentadoria Especial do Professor - Regra de Transição do Art. 8o, da EC 20/98: Proventos Integrais correspondentes à última remuneração.</field>
+        </record>
+
+        <record id="tab25_14" model="sped.tipo_beneficio">
+            <field name="codigo">14</field>
+            <field name="nome">Aposentadoria com proventos proporcionais calculados sobre a última remuneração</field>
+            <field name="descricao">Aposentadoria com proventos proporcionais calculados sobre a última remuneração. Regra de Transição do Art. 8o, da EC20/98 - Geral</field>
+        </record>
+
+        <record id="tab25_15" model="sped.tipo_beneficio">
+            <field name="codigo">15</field>
+            <field name="nome">Aposentadoria</field>
+            <field name="descricao">Aposentadoria - Regra de Transição do Art. 3o, da EC 47/05: Proventos Integrais correspondentes à última remuneração</field>
+        </record>
+
+        <record id="tab25_16" model="sped.tipo_beneficio">
+            <field name="codigo">16</field>
+            <field name="nome">Aposentadoria Especial de Professor - Regra de Transição do Art. 2o, da EC41/03: Proventos pela Média com redutor (Implementação a partir de 01/01/2006)</field>
+            <field name="descricao">Aposentadoria Especial do Professor - Regra de Transição do Art. 8o, da EC 20/98: Proventos Integrais correspondentes à última remuneração.</field>
+        </record>
+
+        <record id="tab25_17" model="sped.tipo_beneficio">
+            <field name="codigo">17</field>
+            <field name="nome">Aposentadoria Especial de Professor - Regra de Transição do Art. 2o, da EC41/03: Proventos pela Média com redutor (Implementação até 31/12/2005)</field>
+            <field name="descricao">Aposentadoria Especial de Professor - Regra de Transição do Art. 2o, da EC41/03: Proventos pela Média com redutor (Implementação até 31/12/2005)</field>
+        </record>
+
+        <record id="tab25_18" model="sped.tipo_beneficio">
+            <field name="codigo">18</field>
+            <field name="nome">Aposentadoria Magistrado, Membro do MP e TC (homem) - Regra de Transição do Art. 2o, da EC41/03</field>
+            <field name="descricao">Aposentadoria Magistrado, Membro do MP e TC (homem) - Regra de Transição do Art. 2o, da EC41/03: Proventos pela Média com redutor (Implementação a partir de 01/01/2006)</field>
+        </record>
+
+        <record id="tab25_19" model="sped.tipo_beneficio">
+            <field name="codigo">19</field>
+            <field name="nome">Aposentadoria Magistrado, Membro do MP e TC - Regra de Transição do Art. 2o, da EC41/03</field>
+            <field name="descricao">Aposentadoria Magistrado, Membro do MP e TC - Regra de Transição do Art. 2o, da EC41/03: Proventos pela Média com redutor (Implementação até 31/12/2005)</field>
+        </record>
+
+        <record id="tab25_20" model="sped.tipo_beneficio">
+            <field name="codigo">20</field>
+            <field name="nome">Aposentadoria Voluntária - Regra de Transição do Art. 2o, da EC 41/03 - Proventos pela Média com redutor - Geral (Implementação a partir de 01/01/2006)</field>
+            <field name="descricao">Aposentadoria Voluntária - Regra de Transição do Art. 2o, da EC 41/03 - Proventos pela Média com redutor - Geral (Implementação a partir de 01/01/2006)</field>
+        </record>
+
+        <record id="tab25_21" model="sped.tipo_beneficio">
+            <field name="codigo">21</field>
+            <field name="nome">Aposentadoria Voluntária - Regra de Transição do Art. 2o, da EC 41/03 - Proventos pela Média reduzida - Geral (Implementação até 31/12/2005)</field>
+            <field name="descricao">Aposentadoria Voluntária - Regra de Transição do Art. 2o, da EC 41/03 - Proventos pela Média reduzida - Geral (Implementação até 31/12/2005)</field>
+        </record>
+
+        <record id="tab25_22" model="sped.tipo_beneficio">
+            <field name="codigo">22</field>
+            <field name="nome">Aposentadoria Voluntária - Regra de Transição do Art. 6o, da EC41/03: Proventos Integrais correspondentes á ultima remuneração do cargo - Geral</field>
+            <field name="descricao">Aposentadoria Voluntária - Regra de Transição do Art. 6o, da EC41/03: Proventos Integrais correspondentes á ultima remuneração do cargo - Geral</field>
+        </record>
+
+        <record id="tab25_23" model="sped.tipo_beneficio">
+            <field name="codigo">23</field>
+            <field name="nome">Aposentadoria Voluntária Professor Educação infantil, ensino fundamental e médioRegra de Transição do Art. 6o, da EC41/03: Proventos Integrais correspondentes à última remuneração do cargo</field>
+            <field name="descricao">Aposentadoria Voluntária Professor Educação infantil, ensino fundamental e médioRegra de Transição do Art. 6o, da EC41/03: Proventos Integrais correspondentes à última remuneração do cargo</field>
+        </record>
+
+        <record id="tab25_24" model="sped.tipo_beneficio">
+            <field name="codigo">24</field>
+            <field name="nome">Aposentadoria Voluntária por Idade - Proventos Proporcionais calculados sobre a última remuneração do cargo: Art. 40, § 1o, Inciso III, alínea "b" CF, Redação EC 20/98</field>
+            <field name="descricao">Aposentadoria Voluntária por Idade - Proventos Proporcionais calculados sobre a última remuneração do cargo: Art. 40, § 1o, Inciso III, alínea "b" CF, Redação EC 20/98</field>
+        </record>
+
+        <record id="tab25_25" model="sped.tipo_beneficio">
+            <field name="codigo">25</field>
+            <field name="nome">Aposentadoria Voluntária por Idade - Proventos pela Média proporcionais - Art. 40, § 1o, Inciso III, alínea "b" CF, Redação EC 41/03</field>
+            <field name="descricao">Aposentadoria Voluntária por Idade - Proventos pela Média proporcionais - Art. 40, § 1o, Inciso III, alínea "b" CF, Redação EC 41/03</field>
+        </record>
+
+        <record id="tab25_26" model="sped.tipo_beneficio">
+            <field name="codigo">26</field>
+            <field name="nome">Aposentadoria Voluntária por Idade e por Tempo de Contribuição - Proventos pela Média: Art. 40, § 1o, Inciso III, aliena "a", CF, Redação EC 41/03</field>
+            <field name="descricao">Aposentadoria Voluntária por Idade e por Tempo de Contribuição - Proventos pela Média: Art. 40, § 1o, Inciso III, aliena "a", CF, Redação EC 41/03</field>
+        </record>
+
+        <record id="tab25_27" model="sped.tipo_beneficio">
+            <field name="codigo">27</field>
+            <field name="nome">Aposentadoria Voluntária por Tempo de Contribuição - Especial do professor de q/q nível de ensino - Art. 40, III, alínea b, da CF- Red. Original até EC 20/1998</field>
+            <field name="descricao">Aposentadoria Voluntária por Tempo de Contribuição - Especial do professor de q/q nível de ensino - Art. 40, III, alínea b, da CF- Red. Original até EC 20/1998</field>
+        </record>
+
+        <record id="tab25_28" model="sped.tipo_beneficio">
+            <field name="codigo">28</field>
+            <field name="nome">Aposentadoria Voluntária por idade e Tempo de Contribuição - Especial do professor ed. infantil, ensino fundamental e médio - Art. 40, § 1o, Inciso III, alínea a, c/c § 5o da CF red. da EC 20/1998 )</field>
+            <field name="descricao">Aposentadoria Voluntária por idade e Tempo de Contribuição - Especial do professor ed. infantil, ensino fundamental e médio - Art. 40, § 1o, Inciso III, alínea a, c/c § 5o da CF red. da EC 20/1998 )</field>
+        </record>
+
+        <record id="tab25_29" model="sped.tipo_beneficio">
+            <field name="codigo">29</field>
+            <field name="nome">Aposentadoria Voluntária por idade e Tempo de Contribuição - Especial de Professor - Proventos pela Média: Art. 40, § 1o, Inciso III, alínea "a", C/C § 5o da CF, Redação EC 41/2003</field>
+            <field name="descricao">Aposentadoria Voluntária por idade e Tempo de Contribuição - Especial de Professor - Proventos pela Média: Art. 40, § 1o, Inciso III, alínea "a", C/C § 5o da CF, Redação EC 41/2003</field>
+        </record>
+
+        <record id="tab25_30" model="sped.tipo_beneficio">
+            <field name="codigo">30</field>
+            <field name="nome">Aposentadoria por Invalidez ( proporcionais ou integrais, calculadas com base na última remuneração do cargo) - Art. 40, Inciso I, Redação Original, CF</field>
+            <field name="descricao">Aposentadoria por Invalidez ( proporcionais ou integrais, calculadas com base na última remuneração do cargo) - Art. 40, Inciso I, Redação Original, CF</field>
+        </record>
+
+        <record id="tab25_31" model="sped.tipo_beneficio">
+            <field name="codigo">31</field>
+            <field name="nome">Aposentadoria por Invalidez (proporcionais ou integrais , calculadas com base na última remuneração do cargo) - Art. 40, § 1o, Inciso I da CF com Redação da EC 20/1998</field>
+            <field name="descricao">Aposentadoria por Invalidez (proporcionais ou integrais , calculadas com base na última remuneração do cargo) - Art. 40, § 1o, Inciso I da CF com Redação da EC 20/1998</field>
+        </record>
+
+        <record id="tab25_32" model="sped.tipo_beneficio">
+            <field name="codigo">32</field>
+            <field name="nome">Aposentadoria por Invalidez (proporcionais ou integrais, calculadas pela média) - Art. 40, § 1o, Inciso I da CF com Redação da EC 41/2003</field>
+            <field name="descricao">Aposentadoria por Invalidez (proporcionais ou integrais, calculadas pela média) - Art. 40, § 1o, Inciso I da CF com Redação da EC 41/2003</field>
+        </record>
+
+        <record id="tab25_33" model="sped.tipo_beneficio">
+            <field name="codigo">33</field>
+            <field name="nome">Aposentadoria por Invalidez (proporcionais ou integrais calculadas com base na última remuneração do cargo) - Art. 40 o 1o, Inciso I da CF C/C combinado com Art. 6a- A da EC 70/2012</field>
+            <field name="descricao">Aposentadoria por Invalidez (proporcionais ou integrais calculadas com base na última remuneração do cargo) - Art. 40 o 1o, Inciso I da CF C/C combinado com Art. 6a- A da EC 70/2012</field>
+        </record>
+
+        <record id="tab25_34" model="sped.tipo_beneficio">
+            <field name="codigo">34</field>
+            <field name="nome">Reforma por invalidez</field>
+            <field name="descricao">Reforma por invalidez</field>
+        </record>
+
+        <record id="tab25_35" model="sped.tipo_beneficio">
+            <field name="codigo">35</field>
+            <field name="nome">Reserva Remunerada Compulsória</field>
+            <field name="descricao">Reserva Remunerada Compulsória</field>
+        </record>
+
+        <record id="tab25_36" model="sped.tipo_beneficio">
+            <field name="codigo">36</field>
+            <field name="nome">Reserva Remunerada Integral</field>
+            <field name="descricao">Reserva Remunerada Integral</field>
+        </record>
+
+        <record id="tab25_37" model="sped.tipo_beneficio">
+            <field name="codigo">37</field>
+            <field name="nome">Reserva Remunerada Proporcional</field>
+            <field name="descricao">Reserva Remunerada Proporcional</field>
+        </record>
+
+        <record id="tab25_38" model="sped.tipo_beneficio">
+            <field name="codigo">38</field>
+            <field name="nome">Auxílio Doença - Conforme lei do Ente</field>
+            <field name="descricao">Auxílio Doença - Conforme lei do Ente</field>
+        </record>
+
+        <record id="tab25_39" model="sped.tipo_beneficio">
+            <field name="codigo">39</field>
+            <field name="nome">Auxílio Reclusão - Art. 13 da EC 20/1998 c/c lei do Ente</field>
+            <field name="descricao">Auxílio Reclusão - Art. 13 da EC 20/1998 c/c lei do Ente</field>
+        </record>
+
+        <record id="tab25_40" model="sped.tipo_beneficio">
+            <field name="codigo">40</field>
+            <field name="nome">Pensão por Morte</field>
+            <field name="descricao">Pensão por Morte</field>
+        </record>
+
+        <record id="tab25_41" model="sped.tipo_beneficio">
+            <field name="codigo">41</field>
+            <field name="nome">Salário Família - Art. 13 da EC 20/1998 c/c lei do Ente</field>
+            <field name="descricao">Salário Família - Art. 13 da EC 20/1998 c/c lei do Ente</field>
+        </record>
+
+        <record id="tab25_42" model="sped.tipo_beneficio">
+            <field name="codigo">42</field>
+            <field name="nome">Salário Maternidade - Art. 7o, XVIII c/c art. 39, § 3o da Constituição Federal</field>
+            <field name="descricao">Salário Maternidade - Art. 7o, XVIII c/c art. 39, § 3o da Constituição Federal</field>
+        </record>
+
+        <record id="tab25_43" model="sped.tipo_beneficio">
+            <field name="codigo">43</field>
+            <field name="nome">Complementação de Aposentadoria do Regime Geral de Previdência Social (RGPS)</field>
+            <field name="descricao">Complementação de Aposentadoria do Regime Geral de Previdência Social (RGPS)</field>
+        </record>
+
+        <record id="tab25_44" model="sped.tipo_beneficio">
+            <field name="codigo">44</field>
+            <field name="nome">Complementação de Pensão por Morte do Regime Geral de Previdência Social (RGPS)</field>
+            <field name="descricao">Complementação de Pensão por Morte do Regime Geral de Previdência Social (RGPS)</field>
+        </record>
+
+        <record id="tab25_91" model="sped.tipo_beneficio">
+            <field name="codigo">91</field>
+            <field name="nome">Aposentadoria sem paridade concedida antes do início de vigência do eSocial</field>
+            <field name="descricao">Aposentadoria sem paridade concedida antes do início de vigência do eSocial</field>
+        </record>
+
+        <record id="tab25_92" model="sped.tipo_beneficio">
+            <field name="codigo">92</field>
+            <field name="nome">Aposentadoria com paridade concedida antes do início de vigência do eSocial</field>
+            <field name="descricao">Aposentadoria com paridade concedida antes do início de vigência do eSocial</field>
+        </record>
+
+        <record id="tab25_93" model="sped.tipo_beneficio">
+            <field name="codigo">93</field>
+            <field name="nome">Aposentadoria por invalidez com paridade concedida antes do início de vigência do eSocial</field>
+            <field name="descricao">Aposentadoria por invalidez com paridade concedida antes do início de vigência do eSocial</field>
+        </record>
+
+        <record id="tab25_94" model="sped.tipo_beneficio">
+            <field name="codigo">94</field>
+            <field name="nome">Aposentadoria por invalidez sem paridade concedida antes do início de vigência do eSocial</field>
+            <field name="descricao">Aposentadoria por invalidez sem paridade concedida antes do início de vigência do eSocial</field>
+        </record>
+
+        <record id="tab25_95" model="sped.tipo_beneficio">
+            <field name="codigo">95</field>
+            <field name="nome">Transferência para reserva concedida antes do início de vigência do eSocial</field>
+            <field name="descricao">Transferência para reserva concedida antes do início de vigência do eSocial</field>
+        </record>
+
+        <record id="tab25_96" model="sped.tipo_beneficio">
+            <field name="codigo">96</field>
+            <field name="nome">Reforma concedida antes do início de vigência do eSocial</field>
+            <field name="descricao">Reforma concedida antes do início de vigência do eSocial</field>
+        </record>
+
+        <record id="tab25_97" model="sped.tipo_beneficio">
+            <field name="codigo">97</field>
+            <field name="nome">Pensão por morte com paridade concedida antes do início de vigência do eSocial</field>
+            <field name="descricao">Pensão por morte com paridade concedida antes do início de vigência do eSocial</field>
+        </record>
+
+        <record id="tab25_98" model="sped.tipo_beneficio">
+            <field name="codigo">98</field>
+            <field name="nome">Pensão por morte sem paridade concedida antes do início de vigência do eSocial</field>
+            <field name="descricao">Pensão por morte sem paridade concedida antes do início de vigência do eSocial</field>
+        </record>
+
+        <record id="tab25_99" model="sped.tipo_beneficio">
+            <field name="codigo">99</field>
+            <field name="nome">Outros Benefícios previdenciários concedidos antes do início de vigência do eSocial</field>
+            <field name="descricao">Outros Benefícios previdenciários concedidos antes do início de vigência do eSocial</field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_tabelas.motivo_afastamento_form">
+            <field name="name">sped_tabelas.motivo_afastamento_form</field>
+            <field name="model">sped.motivo_afastamento</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Motivos de Afastamento"
+                edit="false" create="false" delete="false">
+                    <sheet>
+                        <group>
+                            <group name="geral" colspan="4" col="2">
+                                <field name="codigo"/>
+                                <field name="nome" />
+                                <newline />
+                                <field name="descricao"  />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_tabelas.motivo_afastamento_tree">
+            <field name="name">sped_tabelas.motivo_afastamento_view</field>
+            <field name="model">sped.motivo_afastamento</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="Motivos de Afastamento"
+                edit="false" create="false" delete="false">
+                    <field name="codigo" />
+                    <field name="nome" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="motivo_afastamento_search">
+            <field name="name">sped_tabelas.motivo_afastamento_search</field>
+            <field name="model">sped.motivo_afastamento</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <search string="Motivos de Afastamento">
+                    <field name="codigo" />
+                    <field name="nome" />
+                    <field name="descricao" />
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="motivo_afastamento_action">
+            <field name="name">Motivos de Afastamento</field>
+            <field name="res_model">sped.motivo_afastamento</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="motivo_afastamento_tree_action">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="motivo_afastamento_tree"/>
+            <field name="act_window_id" ref="motivo_afastamento_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="motivo_afastamento_form_action">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="motivo_afastamento_form"/>
+            <field name="act_window_id" ref="motivo_afastamento_action"/>
+        </record>
+
+        <menuitem
+            action="sped_tabelas.motivo_afastamento_action"
+            id="menu_sped_tabelas_motivo_afastamento"
+            name="18-Motivos de Afastamento"
+            parent="sped_tabelas.menu_sped_tabelas_esocial"
+            sequence="18"
+        />
+
+    </data>
+</openerp>

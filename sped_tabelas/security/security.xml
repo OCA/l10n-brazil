@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record model="ir.module.category" id="sped_tabelas.module_management">
+            <field name="name">Sped Tabelas</field>
+            <field name="description">Sped Tabelas - Acesso ao módulo</field>
+            <field name="sequence">3</field>
+        </record>
+
+        <record id="group_user" model="res.groups">
+            <field name="name">Operador</field>
+            <field name="category_id" ref="sped_tabelas.module_management"/>
+        </record>
+
+        <record id="group_manager" model="res.groups">
+            <field name="name">Gerente</field>
+            <field name="implied_ids" eval="[(4, ref('sped_tabelas.group_user'))]"/>
+            <field name="category_id" ref="sped_tabelas.module_management"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]" />
+        </record>
+
+    </data>
+</openerp>

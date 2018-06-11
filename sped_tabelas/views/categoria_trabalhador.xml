@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_tabelas.categoria_trabalhador_form" >
+            <field name="name">sped_tabelas.categoria_trabalhador_form</field>
+            <field name="model">sped.categoria_trabalhador</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Categoria do Trabalhador"
+                edit="false" create="false" delete="false">
+                    <sheet>
+                        <group>
+                            <group name="geral" colspan="4" col="4">
+                                <field name="codigo"/>
+                                <field name="grupo"/>
+                                <field name="nome" colspan="4" />
+                                <field name="classificacao_tributaria"/>
+                            </group>
+                            <newline />
+                                <field name="descricao" colspan="4" />
+                                <field name="codigo_tributaria_ids" widget="many2many" nolabel="1"/>
+                            <newline />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_tabelas.categoria_trabalhador_tree">
+            <field name="name">sped_tabelas.categoria_trabalhador_view</field>
+            <field name="model">sped.categoria_trabalhador</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="Categoria do Trabalhador"
+                edit="false" create="false" delete="false">
+                    <field name="codigo" />
+                    <field name="nome" />
+                    <field name="grupo" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="categoria_trabalhador_search">
+            <field name="name">sped_tabelas.categoria_trabalhador_search</field>
+            <field name="model">sped.categoria_trabalhador</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <search string="Categoria do Trabalhador">
+                    <field name="codigo" />
+                    <field name="nome" />
+                    <field name="grupo" />
+                    <field name="descricao" />
+                    <filter name="group_grupo"
+                            string="Por Grupo"
+                            context="{'group_by': 'grupo'}"
+                    />
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="categoria_trabalhador_action">
+            <field name="name">Categorias de Trabalhadores</field>
+            <field name="res_model">sped.categoria_trabalhador</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="categoria_trabalhador_tree_action">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="categoria_trabalhador_tree"/>
+            <field name="act_window_id" ref="categoria_trabalhador_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="categoria_trabalhador_form_action">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="categoria_trabalhador_form"/>
+            <field name="act_window_id" ref="categoria_trabalhador_action"/>
+        </record>
+
+        <menuitem
+            action="sped_tabelas.categoria_trabalhador_action"
+            id="menu_sped_tabelas_categoria_trabalhador"
+            name="01-Categorias de Trabalhadores"
+            parent="sped_tabelas.menu_sped_tabelas_esocial"
+            sequence="01"
+        />
+    </data>
+</openerp>

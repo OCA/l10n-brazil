@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record id="tab02_1" model="sped.financiamento_aposentadoria">
+            <field name="codigo">1</field>
+            <field name="nome">Não ensejador de aposentadoria especial</field>
+        </record>
+
+        <record id="tab02_2" model="sped.financiamento_aposentadoria">
+            <field name="codigo">2</field>
+            <field name="nome">Ensejador de Aposentadoria Especial - FAE15_12% (15 anos de contribuição e alíquota de 12%)</field>
+        </record>
+
+        <record id="tab02_3" model="sped.financiamento_aposentadoria">
+            <field name="codigo">3</field>
+            <field name="nome">Ensejador de Aposentadoria Especial - FAE20_09% (20 anos de contribuição e alíquota de 9%)</field>
+        </record>
+
+        <record id="tab02_4" model="sped.financiamento_aposentadoria">
+            <field name="codigo">4</field>
+            <field name="nome">Ensejador de Aposentadoria Especial - FAE25_06% (25 anos de contribuição e alíquota de 6%)</field>
+        </record>
+
+    </data>
+</openerp>

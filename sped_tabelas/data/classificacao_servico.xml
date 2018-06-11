@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<openerp>
+    <data>
+
+        <record id="efdreinf_tab06_100000001" model="sped.classificacao_servico">
+            <field name="codigo">100000001</field>
+            <field name="nome">Limpeza, conservação ou zeladoria</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000002" model="sped.classificacao_servico">
+            <field name="codigo">100000002</field>
+            <field name="nome">Vigilância ou segurança</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000003" model="sped.classificacao_servico">
+            <field name="codigo">100000003</field>
+            <field name="nome">Construção civil</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000004" model="sped.classificacao_servico">
+            <field name="codigo">100000004</field>
+            <field name="nome">Serviços de natureza rural</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000005" model="sped.classificacao_servico">
+            <field name="codigo">100000005</field>
+            <field name="nome">Digitação</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000006" model="sped.classificacao_servico">
+            <field name="codigo">100000006</field>
+            <field name="nome">Preparação de dados para processamento</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000007" model="sped.classificacao_servico">
+            <field name="codigo">100000007</field>
+            <field name="nome">Acabamento</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000008" model="sped.classificacao_servico">
+            <field name="codigo">100000008</field>
+            <field name="nome">Embalagem</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000009" model="sped.classificacao_servico">
+            <field name="codigo">100000009</field>
+            <field name="nome">Acondicionamento</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000010" model="sped.classificacao_servico">
+            <field name="codigo">100000010</field>
+            <field name="nome">Cobrança</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000011" model="sped.classificacao_servico">
+            <field name="codigo">100000011</field>
+            <field name="nome">Coleta ou reciclagem de lixo ou de resíduos</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000012" model="sped.classificacao_servico">
+            <field name="codigo">100000012</field>
+            <field name="nome">Copa</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000013" model="sped.classificacao_servico">
+            <field name="codigo">100000013</field>
+            <field name="nome">Hotelaria</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000014" model="sped.classificacao_servico">
+            <field name="codigo">100000014</field>
+            <field name="nome">Corte ou ligação de serviços públicos</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000015" model="sped.classificacao_servico">
+            <field name="codigo">100000015</field>
+            <field name="nome">Distribuição</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000016" model="sped.classificacao_servico">
+            <field name="codigo">100000016</field>
+            <field name="nome">Treinamento e ensino</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000017" model="sped.classificacao_servico">
+            <field name="codigo">100000017</field>
+            <field name="nome">Entrega de contas e de documentos</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000018" model="sped.classificacao_servico">
+            <field name="codigo">100000018</field>
+            <field name="nome">Ligação de medidores</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000019" model="sped.classificacao_servico">
+            <field name="codigo">100000019</field>
+            <field name="nome">Leitura de medidores</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000020" model="sped.classificacao_servico">
+            <field name="codigo">100000020</field>
+            <field name="nome">Manutenção de instalações, de máquinas ou de equipamentos</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000021" model="sped.classificacao_servico">
+            <field name="codigo">100000021</field>
+            <field name="nome">Montagem</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000022" model="sped.classificacao_servico">
+            <field name="codigo">100000022</field>
+            <field name="nome">Operação de máquinas, de equipamentos e de veículos</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000023" model="sped.classificacao_servico">
+            <field name="codigo">100000023</field>
+            <field name="nome">Operação de pedágio ou de terminal de transporte</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000024" model="sped.classificacao_servico">
+            <field name="codigo">100000024</field>
+            <field name="nome">Operação de transporte de passageiros</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000025" model="sped.classificacao_servico">
+            <field name="codigo">100000025</field>
+            <field name="nome">Portaria, recepção ou ascensorista</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000026" model="sped.classificacao_servico">
+            <field name="codigo">100000026</field>
+            <field name="nome">Recepção, triagem ou movimentação de materiais</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000027" model="sped.classificacao_servico">
+            <field name="codigo">100000027</field>
+            <field name="nome">Promoção de vendas ou de eventos</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000028" model="sped.classificacao_servico">
+            <field name="codigo">100000028</field>
+            <field name="nome">Secretaria e expediente</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000029" model="sped.classificacao_servico">
+            <field name="codigo">100000029</field>
+            <field name="nome">Saúde</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000030" model="sped.classificacao_servico">
+            <field name="codigo">100000030</field>
+            <field name="nome">Telefonia ou telemarketing</field>
+        </record>
+
+        <record id="efdreinf_tab06_100000031" model="sped.classificacao_servico">
+            <field name="codigo">100000031</field>
+            <field name="nome">Trabalho temporário na forma da Lei no 6.019, de janeiro de 1974</field>
+        </record>
+
+    </data>
+</openerp>
