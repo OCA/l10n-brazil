@@ -15,14 +15,15 @@
             </field>
             <field name="employee_id" position="replace">
                 <field name="employee_id" invisible="1"/>
-                <field name="contrato_id" required="1" attrs="{'readonly':[('state','in',['validate','validate1','refuse'])]}"/>
+                <field name="contrato_id" attrs="{
+                         'readonly':[('state','in',['validate','validate1','refuse'])],
+                         'required':[('type','=', 'remove')],
+                         'invisible':[('holiday_type','=', 'category')]}"/>
             </field>
             <field name="holiday_status_id" position="before">
-                <field name="tipo" invisible="1"/>
+                <field name="tipo" attrs="{'invisible':[('type','=', 'remove')]}"/>
             </field>
-            <field name="holiday_type" position="replace">
-                <field name="holiday_type" invisible="1"/>
-            </field>
+
             <field name="notes" position="before">
                 <field name="payroll_discount"  invisible="1" />
                 <h2><field name="message" readonly="1" /></h2>
