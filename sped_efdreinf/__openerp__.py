@@ -29,6 +29,7 @@
     'website': 'http://www.abgf.gov.br',
     'depends': [
         'sped_transmissao',
+        'l10n_br_account_product',
     ],
     'data': [
 
