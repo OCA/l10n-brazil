@@ -32,11 +32,12 @@ class HrHolidays(models.Model):
     payroll_discount = fields.Boolean(
         string=u'Payroll Discount',
     )
+
     tipo = fields.Selection(
         selection=OCORRENCIA_TIPO,
         string="Tipo",
-        default='ocorrencias',
     )
+
     holiday_status_id = fields.Many2one(
         domain="[('tipo', '=', tipo)]",
     )
@@ -51,6 +52,17 @@ class HrHolidays(models.Model):
         compute='_compute_department_id',
         store=True,
     )
+
+    @api.multi
+    @api.onchange('holiday_status_id')
+    def _onchange_tipo(self):
+        """
+        Definir o tipo de holidays baseado no tipo do holidays_status
+        :return:
+        """
+        for record in self:
+            if record.holiday_status_id and record.holiday_status_id.tipo:
+                record.tipo = record.holiday_status_id.tipo
 
     @api.depends('contrato_id')
     def _compute_department_id(self):
