@@ -25,7 +25,7 @@ from odoo.addons.l10n_br_base.constante_tributaria import (
     SITUACAO_FISCAL_DENEGADO,
 )
 
-from pynfe.utils.webservices import (
+from pynfe.utils.flags import (
     WS_MDFE_CONSULTA,
     WS_MDFE_STATUS_SERVICO,
     WS_MDFE_CONSULTA_NAO_ENCERRADOS,
@@ -172,7 +172,19 @@ class SpedDocumento(models.Model):
     item_mdfe_ids = fields.One2many(
         comodel_name='l10n_br.mdfe.item',
         inverse_name='mdfe_id',
+        inverse='_inverse_item_mdfe_ids',
     )
+
+    @api.multi
+    @api.depends('item_mdfe_ids.documento_id')
+    def _inverse_item_mdfe_ids(self):
+        for record in self:
+            if record.item_mdfe_ids.mapped('documento_id'):
+                for campo in self._fields.keys():
+                    if campo.startswith('vr_'):
+                        record[campo] = \
+                            sum(record.item_mdfe_ids.mapped(
+                                'documento_id').mapped(campo))
 
     def _serie_padrao_mdfe(self, empresa, ambiente_mdfe, tipo_emissao_mdfe):
         serie = False
