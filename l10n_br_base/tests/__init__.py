@@ -7,3 +7,5 @@
 
 from . import test_amount_to_text
 from . import test_tools_fiscal
+from . import test_other_ie
+
