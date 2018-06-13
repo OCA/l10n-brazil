@@ -1130,54 +1130,39 @@ class L10nBrSefip(models.Model):
 
     def _trabalhador_remun_sem_13(self, folha):
         """ Registro 30. Item 16
-
-        Rubrica Base do INSS
-
+        Rubrica Base do FGTS
+        As remunerações pagas após rescisão do contrato de trabalho e
+        conforme determinação do Art. 466 da CLT,
+        não devem vir acompanhadas das respectivas movimentações.
         """
         result = 0.00
+
         #
         # Não pode ser informado para a competência 13
         #
         if folha.tipo_de_folha == 'decimo_terceiro':
             return result
-        #
-        # As remunerações pagas após rescisão do contrato de trabalho e
-        # conforme determinação do Art. 466 da CLT,
-        # não devem vir acompanhadas das respectivas movimentações.
-        #
-        #elif False:
-        #    # TODO:
-        #    result = 0.00
 
         #
-        # Obrigatório
+        # Para diretores buscar a base do INSS, pois a
+        # estrutura de salario deles nao tem BASE_FGTS
         #
-        # elif folha.contract_id.categoria_sefip in (
-        #         '05', '11', '13', '14', '15', '16', '17', '18', '22', '23',
-        #         '24', '25'):
-        #     result = folha.base_inss
-        #
-        # Opcional
-        #
-        # elif folha.contract_id.categoria_sefip in (
-        #         '01', '02', '03', '04', '06', '07', '12', '19', '20', '21',
-        #         '26'):
-        #     result = folha.base_inss
+        categoria_diretoria = ('05', '11', '13')
+        if folha.contract_id.categoria_sefip in categoria_diretoria:
+            result += self._valor_rubrica(folha.line_ids, "BASE_INSS")
 
-        # if not folha.base_inss:
-        #     return self._valor_rubrica(folha.line_ids, "SALARIO")
+        # Para categorias que tem BASE_FGTS
+        else:
+            result += self._valor_rubrica(folha.line_ids, "BASE_FGTS")
+            result += self._valor_rubrica(folha.line_ids, "BASE_FGTS_FERIAS")
 
-        result += self._valor_rubrica(folha.line_ids, "BASE_FGTS")
-        result += self._valor_rubrica(folha.line_ids, "BASE_FGTS_FERIAS")
-
-        # base_inss_ferias = self._valor_rubrica(
-        #     folha.line_ids, "BASE_INSS_FERIAS"
-        # )
-        # result += base_inss_ferias
-        #
-        # if not base_inss_ferias:
-        #     result += self._valor_rubrica(folha.line_ids, "1/3_FERIAS")
         return result
+
+        # Categorias Obrigatórias in ('05', '11', '13', '14', '15', '16',
+        # '17', '18', '22', '23', '24', '25')
+        #
+        # Categorias opcionais in ('01', '02', '03', '04', '06', '07', '12',
+        # '19', '20', '21', '26')
 
     def _trabalhador_remun_13(self, folha):
         """ Registro 30. Item 17
