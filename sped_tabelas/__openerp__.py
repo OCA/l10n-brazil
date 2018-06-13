@@ -53,9 +53,6 @@
         'views/codificacao_acidente_trabalho.xml',
         'views/fatores_meio_ambiente.xml',
 
-        # Inherited
-        'views/inherited_res_company.xml',
-        
         # Data
         'data/classificacao_servico.xml',
         'data/classificacao_tributaria.xml',
