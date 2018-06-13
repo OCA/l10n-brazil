@@ -14,7 +14,7 @@
 
         <menuitem
                 id="menu_sped_tabelas"
-                name="Sped Tabelas"
+                name="Tabelas"
                 parent="sped_tabelas.menu_sped"
                 sequence="95"
                 groups="sped_tabelas.group_user"/>
