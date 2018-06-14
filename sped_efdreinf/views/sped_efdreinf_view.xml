@@ -11,10 +11,11 @@
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1"
-                               statusbar_colors='{"3":"red"}'/>
+                               statusbar_colors='{"2":"red"}'/>
                     </header>
                     <field name="nome" invisible="1" />
                     <field name="pode_sem_movto" invisible="1" />
+                    <field name="pode_fechar" invisible="1" />
                     <field name="date_start" invisible="1" />
                     <field name="id" invisible="1" />
                     <div class="oe_title">
@@ -172,7 +173,7 @@
                                     </group>
                                     <group colspan="2" col="2">
                                         <button name="criar_R2099" colspan="2" type="object" string="Criar R-2099" class="oe_highlight"
-                                                attrs="{'invisible': [('sped_R2099', '=', True)]}"
+                                                attrs="{'invisible': ['|', ('sped_R2099', '=', True), ('pode_fechar', '=', False)]}"
                                         />
                                         <field name="sped_R2099" readonly="1"/>
                                         <field name="sped_R2099_registro" readonly="1"/>

@@ -75,9 +75,14 @@ class SpedEfdReinfEstab(models.Model):
             ('2', 'Transmitida'),
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
+            ('5', 'Precisa Retificar'),
         ],
         related='sped_R2010_registro.situacao',
         readonly=True,
+    )
+    sped_R2010_retificacao = fields.Many2one(
+        string='Registro R-2010 (Retificação)',
+        comodel_name='sped.transmissao',
     )
 
     @api.depends('estabelecimento_id', 'prestador_id')

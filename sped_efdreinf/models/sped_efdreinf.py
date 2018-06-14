@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
+from openerp.exceptions import ValidationError
 
 
 class SpedEfdReinf(models.Model):
@@ -55,9 +56,11 @@ class SpedEfdReinf(models.Model):
         string='Situação',
         selection=[
             ('1', 'Aberto'),
-            ('2', 'Fechado'),
+            ('2', 'Precisa Retificar'),
+            ('3', 'Fechado')
         ],
-        default='1',
+        compute='_compute_situacao',
+        store=True,
     )
 
     # R-2099 - Fechamento
@@ -105,6 +108,10 @@ class SpedEfdReinf(models.Model):
         compute='_compute_r2099',
         store=True,
     )
+    pode_fechar = fields.Boolean(
+        string='Pode Fechar?',
+        compute='_compute_r2099',
+    )
 
     # Registro R-2099
     sped_R2099 = fields.Boolean(
@@ -126,6 +133,32 @@ class SpedEfdReinf(models.Model):
         related='sped_R2099_registro.situacao',
         readonly=True,
     )
+
+    @api.multi
+    def unlink(self):
+        for efdreinf in self:
+            if efdreinf.situacao not in ['1']:
+                raise ValidationError("Não pode excluir um Período EFD/Reinf que já tem algum processamento!")
+
+            # Checa se algum registro já foi transmitido
+            for estabelecimento in efdreinf.estabelecimento_ids:
+                if estabelecimento.situacao_R2010 not in ['1', '3']:
+                    raise ValidationError("Não pode excluir um Período EFD/Reinf que já tem algum processamento!")
+
+    @api.depends('estabelecimento_ids', 'sped_R2099_registro')
+    def _compute_situacao(self):
+        for efdreinf in self:
+
+            # Verifica se está fechado ou aberto
+            situacao = '3' if efdreinf.situacao_R2099 == '4' else '1'
+
+            # Checa se tem algum problema que precise ser retificado
+            for estabelecimento in efdreinf.estabelecimento_ids:
+                if estabelecimento.situacao_R2010 == '5':
+                    situacao = '2'  # Precisa Retificar
+
+            # Atualiza o campo situacao
+            efdreinf.situacao = situacao
 
     @api.depends('periodo_id', 'company_id', 'estabelecimento_ids', 'sped_R2099_registro')
     def _compute_r2099(self):
@@ -150,6 +183,21 @@ class SpedEfdReinf(models.Model):
             else:
                 efdreinf.pode_sem_movto = True
 
+            # Roda todos os registros calculados para ver se todos já foram transmitidos
+            pode_fechar = True
+            contador = 0
+            for estabelecimento in efdreinf.estabelecimento_ids:
+                contador += 1
+                if estabelecimento.situacao_R2010 != '4':
+                    pode_fechar = False
+
+            # Se não tem movimento precisa definir um período inicial sem movimento antes
+            if contador == 0 and not efdreinf.comp_sem_movto_id:
+                pode_fechar = False
+
+            # Popula se pode fechar o movimento deste período
+            efdreinf.pode_fechar = pode_fechar
+
     @api.depends('periodo_id', 'company_id', 'nome')
     def _compute_readonly(self):
         for efdreinf in self:
@@ -173,9 +221,10 @@ class SpedEfdReinf(models.Model):
         data_hora_final = self.periodo_id.date_stop + ' 23:59:59'
         cnpj_base = self.company_id.cnpj_cpf[0:10]
 
-        # Limpar dados anteriores
+        # Limpar dados anteriores que não tenham registro SPED
         for estabelecimento in self.estabelecimento_ids:
-            estabelecimento.unlink()
+            if not estabelecimento.sped_R2010_registro:
+                estabelecimento.unlink()
 
         # Pegar a lista de empresas
         # domain = [
@@ -195,13 +244,19 @@ class SpedEfdReinf(models.Model):
                 ('type', '=', 'in_invoice'),
                 ('date_hour_invoice', '>=', data_hora_inicial),
                 ('date_hour_invoice', '<=', data_hora_final),
-                # ('inss_value_wh', '>', 0),  # Só pegar as NFs com retenção de INSS
-                # ('company_id', '=', empresa.id),  # Só pegar as NFs desta empresa
             ]
             nfs_busca = self.env['account.invoice'].search(domain, order='partner_id')
             prestador_id = False
-            estabelecimento_id = empresa
+            estabelecimento_id = False
             ind_cprb = False
+
+            # Inicia acumuladores do Estabelecimento
+            vr_total_bruto = 0
+            vr_total_base_retencao = 0
+            vr_total_ret_princ = 0
+            vr_total_ret_adic = 0
+            vr_total_nret_princ = 0
+            vr_total_nret_adic = 0
             for nf in nfs_busca:
 
                 if nf.company_id != empresa or nf.inss_value_wh == 0:
@@ -209,53 +264,138 @@ class SpedEfdReinf(models.Model):
 
                 if prestador_id != nf.partner_id and nf.company_id == empresa:
 
+                    # Popula os totalizadores do prestador anterior
+                    if prestador_id:
+
+                        # Precisa mudar o status do registro R-2010 ?
+                        if estabelecimento_id.sped_R2010 and \
+                                (round(estabelecimento_id.vr_total_bruto, 2) != round(vr_total_bruto, 2) or
+                                 round(estabelecimento_id.vr_total_base_retencao, 2) != round(vr_total_base_retencao, 2) or
+                                 round(estabelecimento_id.vr_total_ret_princ, 2) != round(vr_total_ret_princ, 2) or
+                                 round(estabelecimento_id.vr_total_ret_adic, 2) != round(vr_total_ret_adic, 2) or
+                                 round(estabelecimento_id.vr_total_nret_princ, 2) != round(vr_total_nret_princ, 2) or
+                                 round(estabelecimento_id.vr_total_nret_adic, 2) != round(vr_total_nret_adic, 2)):
+                            estabelecimento_id.sped_R2010_registro.situacao = '5'
+                            estabelecimento_id.vr_total_bruto = vr_total_bruto
+                            estabelecimento_id.vr_total_base_retencao = vr_total_base_retencao
+                            estabelecimento_id.vr_total_ret_princ = vr_total_ret_princ
+                            estabelecimento_id.vr_total_ret_adic = vr_total_ret_adic
+                            estabelecimento_id.vr_total_nret_princ = vr_total_nret_princ
+                            estabelecimento_id.vr_total_nret_adic = vr_total_nret_adic
+                        else:
+                            if estabelecimento_id.situacao_R2010 != '5':
+                                estabelecimento_id.vr_total_bruto = vr_total_bruto
+                                estabelecimento_id.vr_total_base_retencao = vr_total_base_retencao
+                                estabelecimento_id.vr_total_ret_princ = vr_total_ret_princ
+                                estabelecimento_id.vr_total_ret_adic = vr_total_ret_adic
+                                estabelecimento_id.vr_total_nret_princ = vr_total_nret_princ
+                                estabelecimento_id.vr_total_nret_adic = vr_total_nret_adic
+
+                        # Zera os totalizadores
+                        vr_total_bruto = 0
+                        vr_total_base_retencao = 0
+                        vr_total_ret_princ = 0
+                        vr_total_ret_adic = 0
+                        vr_total_nret_princ = 0
+                        vr_total_nret_adic = 0
+
                     # Define o próximo prestador_id
                     prestador_id = nf.partner_id
                     ind_cprb = False  # TODO Colocar no parceiro o campo de indicador de CPRB
 
-                    vals = {
-                        'efdreinf_id': self.id,
-                        'estabelecimento_id': empresa.id,
-                        'prestador_id': prestador_id.id,
-                        'ind_cprb': ind_cprb,
-                    }
-                    estabelecimento_id = self.env['sped.efdreinf.estabelecimento'].create(vals)
-                    self.estabelecimento_ids = [(4, estabelecimento_id.id)]
+                    # Acha o registro do prestador
+                    domain = [
+                        ('efdreinf_id', '=', self.id),
+                        ('estabelecimento_id', '=', empresa.id),
+                        ('prestador_id', '=', prestador_id.id),
+                    ]
+                    estabelecimento_id = self.env['sped.efdreinf.estabelecimento'].search(domain)
+
+                    # Cria o registro se ele não existir
+                    if not estabelecimento_id:
+                        vals = {
+                            'efdreinf_id': self.id,
+                            'estabelecimento_id': empresa.id,
+                            'prestador_id': prestador_id.id,
+                            'ind_cprb': ind_cprb,
+                        }
+                        estabelecimento_id = self.env['sped.efdreinf.estabelecimento'].create(vals)
+                        self.estabelecimento_ids = [(4, estabelecimento_id.id)]
 
                 # Soma os totalizadores desta NF
-                estabelecimento_id.vr_total_bruto += nf.amount_total
-                estabelecimento_id.vr_total_base_retencao += nf.inss_base_wh
-                estabelecimento_id.vr_total_ret_princ += nf.inss_value_wh
-                estabelecimento_id.vr_total_ret_adic += 0  # TODO Criar o campo vr_total_rec_adic na NF
-                estabelecimento_id.vr_total_nret_princ += 0  # TODO Criar o campo vr_total_nret_princ na NF
-                estabelecimento_id.vr_total_nret_adic += 0  # TODO Criar o campo vr_total_nret_adic na NF
+                vr_total_bruto += nf.amount_total
+                vr_total_base_retencao += nf.inss_base_wh
+                vr_total_ret_princ += nf.inss_value_wh
+                vr_total_ret_adic += 0  # TODO Criar o campo vr_total_rec_adic na NF
+                vr_total_nret_princ += 0  # TODO Criar o campo vr_total_nret_princ na NF
+                vr_total_nret_adic += 0  # TODO Criar o campo vr_total_nret_adic na NF
 
                 # Criar o registro da NF
-                vals = {
-                    'estabelecimento_id': estabelecimento_id.id,
-                    'nfs_id': nf.id,
-                }
-                nfs_estabelecimento = self.env['sped.efdreinf.nfs'].create(vals)
-                estabelecimento_id.nfs_ids = [(4, nfs_estabelecimento.id)]
+                domain = [
+                    ('estabelecimento_id', '=', estabelecimento_id.id),
+                    ('nfs_id', '=', nf.id),
+                ]
+                nfs_estabelecimento = self.env['sped.efdreinf.nfs'].search(domain)
+                if not nfs_estabelecimento:
+
+                    # Cria a NF que ainda não existe
+                    vals = {
+                        'estabelecimento_id': estabelecimento_id.id,
+                        'nfs_id': nf.id,
+                    }
+                    nfs_estabelecimento = self.env['sped.efdreinf.nfs'].create(vals)
+                    estabelecimento_id.nfs_ids = [(4, nfs_estabelecimento.id)]
 
                 # Criar os registros dos itens das NFs
                 for item in nf.invoice_line:
-                    vals = {
-                        'efdreinf_nfs_id': nfs_estabelecimento.id,
-                        'servico_nfs_id': item.id,
-                        'tp_servico_id': item.product_id.tp_servico_id.id or False,
-                        'vr_base_ret': item.inss_base,
-                        'vr_retencao': item.inss_wh_value,
-                        'vr_ret_sub': 0,  # TODO Criar esse campo no item da NF
-                        'vr_nret_princ': 0,  # TODO Criar esse campo no item da NF
-                        'vr_servicos_15': 0,  # TODO Criar esse campo no item da NF
-                        'vr_servicos_20': 0,  # TODO Criar esse campo no item da NF
-                        'vr_servicos_25': 0,  # TODO Criar esse campo no item da NF
-                        'vr_adicional': 0,  # TODO Criar esse campo no item da NF
-                        'vr_nret_adic': 0,  # TODO Criar esse campo no item da NF
-                    }
-                    servico = self.env['sped.efdreinf.servico'].create(vals)
-                    nfs_estabelecimento.servico_ids = [(4, servico.id)]
+                    domain = [
+                        ('efdreinf_nfs_id', '=', nfs_estabelecimento.id),
+                        ('servico_nfs_id', '=', item.id),
+                    ]
+                    servico = self.env['sped.efdreinf.servico'].search(domain)
+
+                    if not servico:
+                        vals = {
+                            'efdreinf_nfs_id': nfs_estabelecimento.id,
+                            'servico_nfs_id': item.id,
+                            'tp_servico_id': item.product_id.tp_servico_id.id or False,
+                            'vr_base_ret': item.inss_base,
+                            'vr_retencao': item.inss_wh_value,
+                            'vr_ret_sub': 0,  # TODO Criar esse campo no item da NF
+                            'vr_nret_princ': 0,  # TODO Criar esse campo no item da NF
+                            'vr_servicos_15': 0,  # TODO Criar esse campo no item da NF
+                            'vr_servicos_20': 0,  # TODO Criar esse campo no item da NF
+                            'vr_servicos_25': 0,  # TODO Criar esse campo no item da NF
+                            'vr_adicional': 0,  # TODO Criar esse campo no item da NF
+                            'vr_nret_adic': 0,  # TODO Criar esse campo no item da NF
+                        }
+                        servico = self.env['sped.efdreinf.servico'].create(vals)
+                        nfs_estabelecimento.servico_ids = [(4, servico.id)]
+
+            # Precisa mudar o status do registro R-2010 ?
+            if estabelecimento_id:
+                if estabelecimento_id.sped_R2010 and \
+                        (round(estabelecimento_id.vr_total_bruto, 2) != round(vr_total_bruto, 2) or
+                         round(estabelecimento_id.vr_total_base_retencao, 2) != round(vr_total_base_retencao, 2) or
+                         round(estabelecimento_id.vr_total_ret_princ, 2) != round(vr_total_ret_princ, 2) or
+                         round(estabelecimento_id.vr_total_ret_adic, 2) != round(vr_total_ret_adic, 2) or
+                         round(estabelecimento_id.vr_total_nret_princ, 2) != round(vr_total_nret_princ, 2) or
+                         round(estabelecimento_id.vr_total_nret_adic, 2) != round(vr_total_nret_adic, 2)):
+                    estabelecimento_id.sped_R2010_registro.situacao = '5'
+                    estabelecimento_id.vr_total_bruto = vr_total_bruto
+                    estabelecimento_id.vr_total_base_retencao = vr_total_base_retencao
+                    estabelecimento_id.vr_total_ret_princ = vr_total_ret_princ
+                    estabelecimento_id.vr_total_ret_adic = vr_total_ret_adic
+                    estabelecimento_id.vr_total_nret_princ = vr_total_nret_princ
+                    estabelecimento_id.vr_total_nret_adic = vr_total_nret_adic
+                else:
+                    if estabelecimento_id.situacao_R2010 != '5':
+                        estabelecimento_id.vr_total_bruto = vr_total_bruto
+                        estabelecimento_id.vr_total_base_retencao = vr_total_base_retencao
+                        estabelecimento_id.vr_total_ret_princ = vr_total_ret_princ
+                        estabelecimento_id.vr_total_ret_adic = vr_total_ret_adic
+                        estabelecimento_id.vr_total_nret_princ = vr_total_nret_princ
+                        estabelecimento_id.vr_total_nret_adic = vr_total_nret_adic
 
     @api.multi
     def criar_R2010(self):

@@ -4,6 +4,7 @@
 
 from openerp import api, fields, models, exceptions
 from pysped.efdreinf import ProcessadorEFDReinf
+from openerp.exceptions import ValidationError
 
 
 class ResCompany(models.Model):
@@ -115,7 +116,7 @@ class ResCompany(models.Model):
     def criar_r1000(self):
         self.ensure_one()
         if self.sped_r1000_registro:
-            raise exceptions.Warning('Esta Empresa já ativou o EFD/Reinf')
+            raise ValidationError('Esta Empresa já ativou o EFD/Reinf')
 
         values = {
             'tipo': 'efdreinf',
