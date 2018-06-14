@@ -31,6 +31,8 @@ openerp.l10n_br_tef = function(instance){
 
     var ls_transacao_valor_global = '';
 
+    var fila_transacoes = new Array();
+
     function Conectar()
     {
         // Retorna a conexão estabelecida.
@@ -111,6 +113,10 @@ openerp.l10n_br_tef = function(instance){
         if	( io_tags.retorno !== '0' )
         {
             in_sequencial = io_tags.sequencial;
+
+            // Tenta refazer a operação anterior, mudando apenas o sequencial
+            if( io_tags.retorno != 0 )
+                refaz_transacao(in_sequencial);
 
         }
 
@@ -690,6 +696,8 @@ openerp.l10n_br_tef = function(instance){
         // Envia o pacote.
         io_connection.send(as_buffer);
 
+        // Coloca a transação atual na fila
+        fila_transacoes.push(as_buffer);
         console.log(as_buffer);
     }
 
@@ -705,6 +713,15 @@ openerp.l10n_br_tef = function(instance){
 
         // document.getElementById('io_txt_sequencial').value = in_sequencial;
         return(in_sequencial);
+    }
+
+    function refaz_transacao(retorno_sequencial){
+        if(fila_transacoes.length > 0){
+            setTimeout(function(){
+                fila_transacoes[fila_transacoes.length-1] = fila_transacoes[fila_transacoes.length-1].replace(/sequencial="\d+"/, "sequencial=\"" + retorno_sequencial + "\"");
+                    Send(fila_transacoes[fila_transacoes.length-1]);
+                }, 2000);
+        }
     }
 
     function inicia_pagamento()
