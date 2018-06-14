@@ -6,6 +6,7 @@ from openerp import api, fields, models
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 from pybrasil.valor import formata_valor
 from datetime import datetime
+from openerp.exceptions import ValidationError
 import base64
 import pysped
 import tempfile
@@ -58,6 +59,7 @@ class SpedTransmissao(models.Model):
             ('2', 'Transmitida'),
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
+            ('5', 'Precisa Retificar'),
         ],
         default='1',
     )
@@ -200,25 +202,25 @@ class SpedTransmissao(models.Model):
 
         return anexo
 
-    # @api.multi
-    # def unlink(self):
-    #
-    #     for registro in self:
-    #
-    #         # Não permite excluir se a situação não for '1-Pendente'
-    #         if registro.situacao != '1':
-    #             raise Exception("Não pode excluir registros que não estejam Pendente(s) !")
-    #
-    #         # Exclui
-    #         super(SpedTransmissao, registro).unlink()
-    #
-    #     return True
+    @api.multi
+    def unlink(self):
+
+        for registro in self:
+
+            # Não permite excluir se a situação não for '1-Pendente' ou '3-Erro(s)'
+            if registro.situacao in ['1', '3']:
+                raise ValidationError("Não pode excluir registros que não estejam Pendente(s) !")
+
+            # Exclui
+            super(SpedTransmissao, registro).unlink()
+
+        return True
 
     @api.multi
     def limpa_db(self):
         self.ensure_one()
         if self.company_id.tpAmb == '1':
-            raise Exception("Ambiente de Produção não suporta Limpeza de Banco de Dados !")
+            raise ValidationError("Ambiente de Produção não suporta Limpeza de Banco de Dados !")
 
         self.limpar_db = True
         self.gera_xml()
@@ -412,10 +414,6 @@ class SpedTransmissao(models.Model):
             self.lote_ids = [(4, lote_id.id)]
             self.data_hora_transmissao = data_hora_transmissao
 
-            lote_id = self.env['sped.transmissao.lote'].create(vals)
-            self.lote_ids = [(4, lote_id.id)]
-            self.data_hora_transmissao = data_hora_transmissao
-
             # Transmite
             processo = processador.enviar_lote([R2010])
             envio_xml = processo.envio.envioLoteEventos.eventos[0].xml
@@ -600,7 +598,7 @@ class SpedTransmissao(models.Model):
         self.ensure_one()
 
         if not self.protocolo:
-            raise Exception("Protocolo não existe ! - Impossível consultar fechamento")
+            raise ValidationError("Protocolo não existe ! - Impossível consultar fechamento")
 
         # Gravar certificado em arquivo temporario
         arquivo = tempfile.NamedTemporaryFile()

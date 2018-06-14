@@ -20,7 +20,9 @@
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1"
-                               statusbar_colors='{"3":"red"}'/>
+                               statusbar_colors='{"3":"red"}'
+                               statusbar_visible="1,2,4"
+                        />
                     </header>
                     <sheet string="Registro de Transmissão">
                         <div class="oe_title">
@@ -113,7 +115,8 @@
                     <field name="codigo" />
                     <field name="tipo"/>
                     <field name="registro"/>
-                    <field name="origem" />
+                    <field name="company_id" />
+                    <!--<field name="origem" />-->
                     <field name="data_hora_origem"/>
                     <field name="data_hora_transmissao"/>
                     <field name="data_hora_retorno"/>
@@ -131,6 +134,7 @@
                     <filter name="pendentes" icon="terp-document-new" string="Pendente Transmissão" domain="[('situacao', '=', '1')]" />
                     <filter name="transmitidas" icon="terp-document-new" string="Transmitidas" domain="[('situacao', '=', '2')]" />
                     <filter name="sucessos" icon="terp-document-new" string="Com Sucesso" domain="[('situacao', '=', '4')]" />
+                    <filter name="retificar" icon="terp-document-new" string="Precisam retificar" domain="[('situacao', '=', '5')]" />
                     <field name="codigo" />
                     <field name="origem" />
                     <group expand="0" string="Group By">
@@ -146,7 +150,7 @@
         <record model="ir.actions.act_window" id="sped_transmissao_action">
             <field name="name">Registros</field>
             <field name="domain">[]</field>
-            <field name="context">{'search_default_com_erros': 1, 'search_default_pendentes': 1, 'search_default_transmitidas': 1}</field>
+            <field name="context">{'search_default_com_erros': 1, 'search_default_pendentes': 1, 'search_default_transmitidas': 1, 'search_default_retificar': 1}</field>
             <field name="res_model">sped.transmissao</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
@@ -168,7 +172,7 @@
 
         <menuitem id="menu_sped_transmissao"
                   name="Registros"
-                  sequence="20"
+                  sequence="10"
                   parent="menu_sped_base"
                   action="sped_transmissao_action"
         />

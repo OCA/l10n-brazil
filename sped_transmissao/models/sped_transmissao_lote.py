@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
+from openerp.exceptions import ValidationError
 
 
 class SpedTransmissaoLote(models.Model):
@@ -55,8 +56,12 @@ class SpedTransmissaoLote(models.Model):
             ('2', 'Transmitida'),
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
+            ('5', 'Precisa Retificar'),
         ]
     )
 
-    # Dados de retorno
-
+    @api.multi
+    def unlink(self):
+        for lote in self:
+            if lote.situacao not in ['1', '3']:
+                raise ValidationError("Não pode excluir um Lote transmitido!")

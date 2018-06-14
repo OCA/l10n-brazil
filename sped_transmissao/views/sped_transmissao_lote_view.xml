@@ -10,7 +10,9 @@
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1"
-                               statusbar_colors='{"3":"red"}'/>
+                               statusbar_colors='{"3":"red"}'
+                               statusbar_visible="1,2,4"
+                        />
                     </header>
                     <sheet string="Lote de Transmissão">
                         <div class="oe_title">
@@ -104,7 +106,7 @@
 
         <menuitem id="menu_sped_transmissao_lote"
                   name="Lotes"
-                  sequence="10"
+                  sequence="20"
                   parent="menu_sped_base"
                   action="sped_transmissao_lote_action"
         />
