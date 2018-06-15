@@ -641,6 +641,11 @@ class SpedTransmissao(models.Model):
             fechamento_xml_nome = processo.resposta.evtTotalContrib.Id.valor + '-R2099-fechamento.xml'
             anexo_id = self._grava_anexo(fechamento_xml_nome, fechamento_xml)
             self.fechamento_xml_id = anexo_id
+
+            # Popula o registro EFD/Reinf como sucesso
+            if self.origem.situacao != '2':
+                self.origem.situacao = '3'
+
         else:
             for ocorrencia in processo.resposta.evtTotalContrib.ideRecRetorno.regOcurrs:
                 vals = {
