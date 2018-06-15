@@ -11,7 +11,9 @@
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1"
-                               statusbar_colors='{"2":"red"}'/>
+                               statusbar_colors='{"2":"red"}'
+                               statusbar_visible="1,3"
+                        />
                     </header>
                     <field name="nome" invisible="1" />
                     <field name="pode_sem_movto" invisible="1" />
