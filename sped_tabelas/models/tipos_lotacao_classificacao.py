@@ -2,6 +2,7 @@
 #
 # Copyright 2017 KMEE
 #   Wagner Pereira <wagner.pereira@kmee.com.br>
+# Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -15,7 +16,6 @@ class TipoLotacaoClassificacao(models.Model):
 
     name = fields.Char(string='Class. Tributária')
     classificacao_tributaria_ids = fields.Many2many(
-        string='Tipos de Lotação Tributária',
-        comodel_name='sped.lotacao_tributaria',
+        'sped.lotacao_tributaria', string='Tipos de Lotação Tributária',
         relation='classificacao_tributaria_codigo_ids'
     )

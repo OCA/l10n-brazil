@@ -2,6 +2,7 @@
 #
 # Copyright 2017 KMEE
 #   Wagner Pereira <wagner.pereira@kmee.com.br>
+# Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -19,13 +20,13 @@ class ClassificacaoTributaria(models.Model):
          )
     ]
     codigo_tributaria_classificacao_ids = fields.Many2many(
+        'sped.lotacao_tributaria',
         string='Codigo',
-        comodel_name='sped.lotacao_tributaria',
         relation='tributaria_classificacao_ids',
     )
     codigo_tributaria_fpas_ids = fields.Many2many(
+        'sped.codigo_aliquota',
         string='Codigo',
-        comodel_name='sped.codigo_aliquota',
         relation='tributaria_fpas_ids',
     )
 
@@ -61,4 +62,4 @@ class ClassificacaoTributaria(models.Model):
     @api.depends('codigo', 'descricao')
     def _compute_name(self):
         for classificacao in self:
-            classificacao.name = classificacao.codigo + '-' + classificacao.descricao
+            classificacao.name = classificacao.codigo

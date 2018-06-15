@@ -6,6 +6,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 #
 
+from . import classificacao_servico
 from . import categoria_trabalhador
 from . import financiamento_aposentadoria
 from . import natureza_rubrica
@@ -30,4 +31,3 @@ from . import codigo_aliquota_FPAS
 from . import FPAS_classificacao_tributaria
 from . import tipos_lotacao_classificacao
 
-from . import classificacao_servico

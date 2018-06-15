@@ -2,6 +2,7 @@
 #
 # Copyright 2017 KMEE
 #   Wagner Pereira <wagner.pereira@kmee.com.br>
+# Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -36,8 +37,8 @@ class NaturezaJuridica(models.Model):
     )
     # empresa_ids = fields.One2many(
     #     string='Empresas',
-    #     comodel_name='sped.empresa',
-    #     inverse_name='natureza_juridica_id',
+    #     comodel_name='res.company',
+    #     reverse_name='natureza_juridica_id',
     #     ondelete='restrict',
     # )
 
@@ -49,7 +50,7 @@ class NaturezaJuridica(models.Model):
                 res = {'warning': {
                     'title': _('Código Incorreto!'),
                     'message': _('Campo Código somente aceita números!'
-                                 ' - Corrija antes dsped_classificacao_tributaria_sped_lotacao_tributaria_rel_sped_e salvar')
+                                 ' - Corrija antes de salvar')
                 }}
                 return res
 

@@ -2,6 +2,7 @@
 #
 # Copyright 2017 KMEE
 #   Wagner Pereira <wagner.pereira@kmee.com.br>
+# Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
@@ -29,14 +30,14 @@ class TipoLotacaoTributaria(models.Model):
     )
 
     codigo_trabalhador_ids = fields.Many2many(
+        'sped.categoria_trabalhador',
         string='Codigo',
-        comodel_name='sped.categoria_trabalhador',
         relation='trabalhador_tributaria_ids',
     )
 
     codigo_tributaria_classificacao_ids = fields.Many2many(
+        'sped.classificacao_tributaria',
         string='Codigo',
-        comodel_name='sped.classificacao_tributaria',
         relation='tributaria_classificacao_ids',
     )
 
