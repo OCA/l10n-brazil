@@ -208,7 +208,7 @@ class SpedTransmissao(models.Model):
         for registro in self:
 
             # Não permite excluir se a situação não for '1-Pendente' ou '3-Erro(s)'
-            if registro.situacao in ['1', '3']:
+            if registro.situacao not in ['1', '3']:
                 raise ValidationError("Não pode excluir registros que não estejam Pendente(s) !")
 
             # Exclui
