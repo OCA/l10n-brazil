@@ -15,7 +15,7 @@
                     <field name="tipo" />
                     <field name="message" />
                     <field name="days_limit" />
-                    <field name="hours_limit" attrs="{'invisible':[('tipo', '!=', 'compensacao')]}"/>
+                    <field name="hours_limit"/>
                     <field name="type_day" />
                     <field name="need_attachment" />
                     <field name="payroll_discount" />
