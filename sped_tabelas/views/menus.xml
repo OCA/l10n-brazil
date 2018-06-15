@@ -6,18 +6,21 @@
 <openerp>
     <data>
 
+
         <menuitem
                 id="menu_sped"
                 name="SPED"
-                sequence="47"
-                groups="sped_tabelas.group_user"/>
+                sequence="20"
+                groups="sped_tabelas.group_user"
+        />
 
         <menuitem
                 id="menu_sped_tabelas"
                 name="Tabelas"
-                parent="sped_tabelas.menu_sped"
-                sequence="95"
-                groups="sped_tabelas.group_user"/>
+                parent="menu_sped"
+                sequence="100"
+                groups="sped_tabelas.group_user"
+        />
 
         <menuitem
                 id="menu_sped_tabelas_esocial"

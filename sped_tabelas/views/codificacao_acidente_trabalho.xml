@@ -7,77 +7,77 @@
 <openerp>
     <data>
 
-        <record model="ir.ui.view" id="sped_tabelas.codificacao_acidente_trabalho_form">
-            <field name="name">sped_tabelas.codificacao_acidente_trabalho_form</field>
-            <field name="model">sped.codificacao_acidente_trabalho</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <form string="Codificação de Acidente de Trabalho"
-                edit="false" create="false" delete="false">
-                    <sheet>
-                        <group>
-                            <group name="geral" colspan="4" col="2">
-                                <field name="codigo"/>
-                                <field name="nome" />
-                            </group>
+    <record model="ir.ui.view" id="sped_tabelas.codificacao_acidente_trabalho_form">
+        <field name="name">sped_tabelas.codificacao_acidente_trabalho_form</field>
+        <field name="model">sped.codificacao_acidente_trabalho</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Codificação de Acidente de Trabalho"
+            edit="false" create="false" delete="false">
+                <sheet>
+                    <group>
+                        <group name="geral" colspan="2" col="2">
+                            <field name="codigo"/>
+                            <field name="nome" />
                         </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
-        <record model="ir.ui.view" id="sped_tabelas.codificacao_acidente_trabalho_tree">
-            <field name="name">sped_tabelas.codificacao_acidente_trabalho_view</field>
-            <field name="model">sped.codificacao_acidente_trabalho</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <tree string="Codificação de Acidente de Trabalho"
-                edit="false" create="false" delete="false">
-                    <field name="codigo" />
-                    <field name="nome" />
-                </tree>
-            </field>
-        </record>
+    <record model="ir.ui.view" id="sped_tabelas.codificacao_acidente_trabalho_tree">
+        <field name="name">sped_tabelas.codificacao_acidente_trabalho_view</field>
+        <field name="model">sped.codificacao_acidente_trabalho</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Codificação de Acidente de Trabalho"
+            edit="false" create="false" delete="false">
+                <field name="codigo" />
+                <field name="nome" />
+            </tree>
+        </field>
+    </record>
 
-        <record model="ir.ui.view" id="codificacao_acidente_trabalho_search">
-            <field name="name">sped_tabelas.codificacao_acidente_trabalho_search</field>
-            <field name="model">sped.codificacao_acidente_trabalho</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <search string="Codificação de Acidente de Trabalho">
-                    <field name="codigo" />
-                    <field name="nome" />
-                </search>
-            </field>
-        </record>
+    <record model="ir.ui.view" id="codificacao_acidente_trabalho_search">
+        <field name="name">sped_tabelas.codificacao_acidente_trabalho_search</field>
+        <field name="model">sped.codificacao_acidente_trabalho</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Codificação de Acidente de Trabalho">
+                <field name="codigo" />
+                <field name="nome" />
+            </search>
+        </field>
+    </record>
 
-        <record model="ir.actions.act_window" id="codificacao_acidente_trabalho_action">
-            <field name="name">Codificação de Acidente de Trabalho</field>
-            <field name="res_model">sped.codificacao_acidente_trabalho</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+    <record model="ir.actions.act_window" id="codificacao_acidente_trabalho_action">
+        <field name="name">Codificação de Acidente de Trabalho</field>
+        <field name="res_model">sped.codificacao_acidente_trabalho</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 
-        <record model="ir.actions.act_window.view" id="codificaco_acidente_trabalho_tree_action">
-            <field eval="1" name="sequence"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="codificacao_acidente_trabalho_tree"/>
-            <field name="act_window_id" ref="codificacao_acidente_trabalho_action"/>
-        </record>
+    <record model="ir.actions.act_window.view" id="codificaco_acidente_trabalho_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="codificacao_acidente_trabalho_tree"/>
+        <field name="act_window_id" ref="codificacao_acidente_trabalho_action"/>
+    </record>
 
-        <record model="ir.actions.act_window.view" id="codificacao_acidente_trabalho_form_action">
-            <field eval="2" name="sequence"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="codificacao_acidente_trabalho_form"/>
-            <field name="act_window_id" ref="codificacao_acidente_trabalho_action"/>
-        </record>
+    <record model="ir.actions.act_window.view" id="codificacao_acidente_trabalho_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="codificacao_acidente_trabalho_form"/>
+        <field name="act_window_id" ref="codificacao_acidente_trabalho_action"/>
+    </record>
 
-        <menuitem
-            action="sped_tabelas.codificacao_acidente_trabalho_action"
-            id="menu_sped_tabelas_codificacao_acidente_trabalho"
-            name="24-Codificação de Acidente de Trabalho"
-            parent="sped_tabelas.menu_sped_tabelas_esocial"
-            sequence="24"
-        />
+    <menuitem
+        action="sped_tabelas.codificacao_acidente_trabalho_action"
+        id="menu_sped_codificacao_acidente_trabalho"
+        name="24-Codificação de Acidente de Trabalho"
+        parent="menu_sped_tabelas_esocial"
+        sequence="24"
+    />
 
     </data>
 </openerp>

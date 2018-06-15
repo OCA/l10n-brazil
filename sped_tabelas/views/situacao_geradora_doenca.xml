@@ -7,80 +7,80 @@
 <openerp>
     <data>
 
-        <record model="ir.ui.view" id="sped_tabelas.situacao_geradora_doenca_form">
-            <field name="name">sped_tabelas.situacao_geradora_doenca_form</field>
-            <field name="model">sped.situacao_geradora_doenca</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <form string="Situação Geradora da Doença Profissional"
-                edit="false" create="false" delete="false">
-                    <sheet>
-                        <group>
-                            <group name="geral" colspan="4" col="2">
-                                <field name="codigo"/>
-                                <field name="nome" />
-                                <newline />
-                                <field name="descricao" />
-                            </group>
+    <record model="ir.ui.view" id="sped_tabelas.situacao_geradora_doenca_form">
+        <field name="name">sped_tabelas.situacao_geradora_doenca_form</field>
+        <field name="model">sped.situacao_geradora_doenca</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Situação Geradora da Doença Profissional"
+            edit="false" create="false" delete="false">
+                <sheet>
+                    <group>
+                        <group name="geral" colspan="2" col="2">
+                            <field name="codigo"/>
+                            <field name="nome" />
+                            <newline />
+                            <field name="descricao" colspan="2" nolabel="1" />
                         </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
-        <record model="ir.ui.view" id="sped_tabelas.situacao_geradora_doenca_tree">
-            <field name="name">sped_tabelas.situacao_geradora_doenca_view</field>
-            <field name="model">sped.situacao_geradora_doenca</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <tree string="Situação Geradora da Doença Profissional"
-                edit="false" create="false" delete="false">
-                    <field name="codigo" />
-                    <field name="nome" />
-                </tree>
-            </field>
-        </record>
+    <record model="ir.ui.view" id="sped_tabelas.situacao_geradora_doenca_tree">
+        <field name="name">sped_tabelas.situacao_geradora_doenca_view</field>
+        <field name="model">sped.situacao_geradora_doenca</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Situação Geradora da Doença Profissional"
+            edit="false" create="false" delete="false">
+                <field name="codigo" />
+                <field name="nome" />
+            </tree>
+        </field>
+    </record>
 
-        <record model="ir.ui.view" id="situacao_geradora_doenca_search">
-            <field name="name">sped_tabelas.situacao_geradora_doenca_search</field>
-            <field name="model">sped.situacao_geradora_doenca</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <search string="Situação Geradora da Doença Profissional">
-                    <field name="codigo" />
-                    <field name="nome" />
-                    <field name="descricao" />
-                </search>
-            </field>
-        </record>
+    <record model="ir.ui.view" id="situacao_geradora_doenca_search">
+        <field name="name">sped_tabelas.situacao_geradora_doenca_search</field>
+        <field name="model">sped.situacao_geradora_doenca</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Situação Geradora da Doença Profissional">
+                <field name="codigo" />
+                <field name="nome" />
+                <field name="descricao" />
+            </search>
+        </field>
+    </record>
 
-        <record model="ir.actions.act_window" id="situacao_geradora_doenca_action">
-            <field name="name">Situação Geradora da Doença Profissional</field>
-            <field name="res_model">sped.situacao_geradora_doenca</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+    <record model="ir.actions.act_window" id="situacao_geradora_doenca_action">
+        <field name="name">Situação Geradora da Doença Profissional</field>
+        <field name="res_model">sped.situacao_geradora_doenca</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 
-        <record model="ir.actions.act_window.view" id="situacao_geradora_doenca_tree_action">
-            <field eval="1" name="sequence"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="situacao_geradora_doenca_tree"/>
-            <field name="act_window_id" ref="situacao_geradora_doenca_action"/>
-        </record>
+    <record model="ir.actions.act_window.view" id="situacao_geradora_doenca_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="situacao_geradora_doenca_tree"/>
+        <field name="act_window_id" ref="situacao_geradora_doenca_action"/>
+    </record>
 
-        <record model="ir.actions.act_window.view" id="situacao_geradora_doenca_form_action">
-            <field eval="2" name="sequence"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="situacao_geradora_doenca_form"/>
-            <field name="act_window_id" ref="situacao_geradora_doenca_action"/>
-        </record>
+    <record model="ir.actions.act_window.view" id="situacao_geradora_doenca_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="situacao_geradora_doenca_form"/>
+        <field name="act_window_id" ref="situacao_geradora_doenca_action"/>
+    </record>
 
-        <menuitem
-            action="sped_tabelas.situacao_geradora_doenca_action"
-            id="menu_sped_tabelas_situacao_geradora_doenca"
-            name="15-Situação Geradora da Doença Profissional"
-            parent="sped_tabelas.menu_sped_tabelas_esocial"
-            sequence="15"
-        />
+    <menuitem
+        action="sped_tabelas.situacao_geradora_doenca_action"
+        id="menu_sped_situacao_geradora_doenca"
+        name="15-Situação Geradora da Doença Profissional"
+        parent="menu_sped_tabelas_esocial"
+        sequence="15"
+    />
 
     </data>
 </openerp>

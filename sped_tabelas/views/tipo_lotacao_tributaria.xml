@@ -7,84 +7,84 @@
 <openerp>
     <data>
 
-        <record model="ir.ui.view" id="sped_tabelas.lotacao_tributaria_form" >
-            <field name="name">sped_tabelas.lotacao_tributaria_form</field>
-            <field name="model">sped.lotacao_tributaria</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <form string="Tipos de Lotação Tributária"
-                    edit="false" create="false" delete="false">
-                    <sheet>
-                        <group>
-                            <group name="geral" colspan="4" col="2">
-                                <field name="codigo"/>
-                                <field name="nome"/>
-                                <field name="preenchimento_campo" />
-                                <field name="descricao"/>
-                                <field name="codigo_tributaria_classificacao_ids" widget="many2many" nolabel="1" colspan="2"/>
-                            </group>
-                            <newline />
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="sped_tabelas.lotacao_tributaria_tree">
-            <field name="name">sped_tabelas.lotacao_tributaria_view</field>
-            <field name="model">sped.lotacao_tributaria</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <tree string="Tipos de Lotação Tributária"
+    <record model="ir.ui.view" id="sped_tabelas.lotacao_tributaria_form" >
+        <field name="name">sped_tabelas.lotacao_tributaria_form</field>
+        <field name="model">sped.lotacao_tributaria</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Tipos de Lotação Tributária"
                 edit="false" create="false" delete="false">
-                    <field name="codigo" />
-                    <field name="nome"/>
-                    <field name="preenchimento_campo" />
-                </tree>
-            </field>
-        </record>
+                <sheet>
+                    <group>
+                        <group name="geral" colspan="1" col="3">
+                            <field name="codigo"/>
+                            <field name="nome"/>
+                            <field name="preenchimento_campo"></field>
+                        </group>
+                        <field name="descricao"/>
+                            <field name="codigo_tributaria_classificacao_ids" widget="many2many" clickable="True"/>
+                        <newline />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
-        <record model="ir.ui.view" id="lotacao_tributaria_search">
-            <field name="name">sped_tabelas.lotacao_tributaria_search</field>
-            <field name="model">sped.lotacao_tributaria</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <search string="Tipos de Lotação Tributária">
-                    <field name="nome" />
-                    <field name="codigo" />
-                    <field name="descricao"/>
-                    <field name="preenchimento_campo"/>
-                </search>
-            </field>
-        </record>
+    <record model="ir.ui.view" id="sped_tabelas.lotacao_tributaria_tree">
+        <field name="name">sped_tabelas.lotacao_tributaria_view</field>
+        <field name="model">sped.lotacao_tributaria</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Tipos de Lotação Tributária"
+            edit="false" create="false" delete="false">
+                <field name="codigo" />
+                <field name="nome"/>
+                <field name="preenchimento_campo" />
+            </tree>
+        </field>
+    </record>
 
-        <record model="ir.actions.act_window" id="lotacao_tributaria_action">
-            <field name="name">Tipos de Lotação Tributária</field>
-            <field name="res_model">sped.lotacao_tributaria</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+    <record model="ir.ui.view" id="lotacao_tributaria_search">
+        <field name="name">sped_tabelas.lotacao_tributaria_search</field>
+        <field name="model">sped.lotacao_tributaria</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Tipos de Lotação Tributária">
+                <field name="nome" />
+                <field name="codigo" />
+                <field name="descricao"/>
+                <field name="preenchimento_campo"/>
+            </search>
+        </field>
+    </record>
 
-        <record model="ir.actions.act_window.view" id="lotacao_tributaria_tree_action">
-            <field eval="1" name="sequence"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="lotacao_tributaria_tree"/>
-            <field name="act_window_id" ref="lotacao_tributaria_action"/>
-        </record>
+    <record model="ir.actions.act_window" id="lotacao_tributaria_action">
+        <field name="name">Tipos de Lotação Tributária</field>
+        <field name="res_model">sped.lotacao_tributaria</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 
-        <record model="ir.actions.act_window.view" id="lotacao_tributaria_form_action">
-            <field eval="2" name="sequence"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="lotacao_tributaria_form"/>
-            <field name="act_window_id" ref="lotacao_tributaria_action"/>
-        </record>
+    <record model="ir.actions.act_window.view" id="lotacao_tributaria_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="lotacao_tributaria_tree"/>
+        <field name="act_window_id" ref="lotacao_tributaria_action"/>
+    </record>
 
-        <menuitem
-            action="sped_tabelas.lotacao_tributaria_action"
-            id="menu_sped_tabelas_lotacao_tributaria"
-            name="10-Tipos de Lotação Tributária"
-            parent="sped_tabelas.menu_sped_tabelas_esocial"
-            sequence="10"
-        />
+    <record model="ir.actions.act_window.view" id="lotacao_tributaria_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="lotacao_tributaria_form"/>
+        <field name="act_window_id" ref="lotacao_tributaria_action"/>
+    </record>
+
+    <menuitem
+        action="sped_tabelas.lotacao_tributaria_action"
+        id="menu_sped_lotacao_tributaria"
+        name="10-Tipos de Lotação Tributária"
+        parent="menu_sped_tabelas_esocial"
+        sequence="10"
+    />
 
     </data>
 </openerp>

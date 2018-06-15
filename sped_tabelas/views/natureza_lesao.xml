@@ -7,80 +7,80 @@
 <openerp>
     <data>
 
-        <record model="ir.ui.view" id="sped_tabelas.natureza_lesao_form">
-            <field name="name">sped_tabelas.natureza_lesao_form</field>
-            <field name="model">sped.natureza_lesao</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <form string="Descrição da Natureza da Lesão"
-                edit="false" create="false" delete="false">
-                    <sheet>
-                        <group>
-                            <group name="geral" colspan="4" col="2">
-                                <field name="codigo"/>
-                                <field name="nome" />
-                                <newline />
-                                <field name="descricao" />
-                            </group>
+    <record model="ir.ui.view" id="sped_tabelas.natureza_lesao_form">
+        <field name="name">sped_tabelas.natureza_lesao_form</field>
+        <field name="model">sped.natureza_lesao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Descrição da Natureza da Lesão"
+            edit="false" create="false" delete="false">
+                <sheet>
+                    <group>
+                        <group name="geral" colspan="2" col="2">
+                            <field name="codigo"/>
+                            <field name="nome" />
+                            <newline />
+                            <field name="descricao" colspan="2" nolabel="1" />
                         </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
-        <record model="ir.ui.view" id="sped_tabelas.natureza_lesao_tree">
-            <field name="name">sped_tabelas.natureza_lesao_view</field>
-            <field name="model">sped.natureza_lesao</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <tree string="Descrição da Natureza da Lesão"
-                edit="false" create="false" delete="false">
-                    <field name="codigo" />
-                    <field name="nome" />
-                </tree>
-            </field>
-        </record>
+    <record model="ir.ui.view" id="sped_tabelas.natureza_lesao_tree">
+        <field name="name">sped_tabelas.natureza_lesao_view</field>
+        <field name="model">sped.natureza_lesao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Descrição da Natureza da Lesão"
+            edit="false" create="false" delete="false">
+                <field name="codigo" />
+                <field name="nome" />
+            </tree>
+        </field>
+    </record>
 
-        <record model="ir.ui.view" id="natureza_lesao_search">
-            <field name="name">sped_tabelas.natureza_lesao_search</field>
-            <field name="model">sped.natureza_lesao</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <search string="Descrição da Natureza da Lesão">
-                    <field name="codigo" />
-                    <field name="nome" />
-                    <field name="descricao" />
-                </search>
-            </field>
-        </record>
+    <record model="ir.ui.view" id="natureza_lesao_search">
+        <field name="name">sped_tabelas.natureza_lesao_search</field>
+        <field name="model">sped.natureza_lesao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Descrição da Natureza da Lesão">
+                <field name="codigo" />
+                <field name="nome" />
+                <field name="descricao" />
+            </search>
+        </field>
+    </record>
 
-        <record model="ir.actions.act_window" id="natureza_lesao_action">
-            <field name="name">Descrição da Natureza da Lesão</field>
-            <field name="res_model">sped.natureza_lesao</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+    <record model="ir.actions.act_window" id="natureza_lesao_action">
+        <field name="name">Descrição da Natureza da Lesão</field>
+        <field name="res_model">sped.natureza_lesao</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 
-        <record model="ir.actions.act_window.view" id="natureza_lesao_tree_action">
-            <field eval="1" name="sequence"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="natureza_lesao_tree"/>
-            <field name="act_window_id" ref="natureza_lesao_action"/>
-        </record>
+    <record model="ir.actions.act_window.view" id="natureza_lesao_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="natureza_lesao_tree"/>
+        <field name="act_window_id" ref="natureza_lesao_action"/>
+    </record>
 
-        <record model="ir.actions.act_window.view" id="natureza_lesao_form_action">
-            <field eval="2" name="sequence"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="natureza_lesao_form"/>
-            <field name="act_window_id" ref="natureza_lesao_action"/>
-        </record>
+    <record model="ir.actions.act_window.view" id="natureza_lesao_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="natureza_lesao_form"/>
+        <field name="act_window_id" ref="natureza_lesao_action"/>
+    </record>
 
-        <menuitem
-            action="sped_tabelas.natureza_lesao_action"
-            id="menu_sped_tabelas_natureza_lesao"
-            name="17-Natureza da Lesão"
-            parent="sped_tabelas.menu_sped_tabelas_esocial"
-            sequence="17"
-        />
+    <menuitem
+        action="sped_tabelas.natureza_lesao_action"
+        id="menu_sped_natureza_lesao"
+        name="17-Natureza da Lesão"
+        parent="menu_sped_tabelas_esocial"
+        sequence="17"
+    />
 
     </data>
 </openerp>

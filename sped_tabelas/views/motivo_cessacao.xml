@@ -7,77 +7,77 @@
 <openerp>
     <data>
 
-        <record model="ir.ui.view" id="sped_tabelas.motivo_cessacao_form">
-            <field name="name">sped_tabelas.motivo_cessacao_form</field>
-            <field name="model">sped.motivo_cessacao</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <form string="Agente Causador do Acidente de Trabalho"
-                      edit="false" create="false" delete="false">
-                    <sheet>
-                        <group>
-                            <group name="geral" colspan="4" col="2">
-                                <field name="codigo"/>
-                                <field name="nome" />
-                            </group>
+    <record model="ir.ui.view" id="sped_tabelas.motivo_cessacao_form">
+        <field name="name">sped_tabelas.motivo_cessacao_form</field>
+        <field name="model">sped.motivo_cessacao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Agente Causador do Acidente de Trabalho"
+            edit="false" create="false" delete="false">
+                <sheet>
+                    <group>
+                        <group name="geral" colspan="2" col="2">
+                            <field name="codigo"/>
+                            <field name="nome" />
                         </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
-        <record model="ir.ui.view" id="sped_tabelas.motivo_cessacao_tree">
-            <field name="name">sped_tabelas.motivo_cessacao_view</field>
-            <field name="model">sped.motivo_cessacao</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <tree string="Motivos de Cessação de Benefícios Previdenciários"
-                      edit="false" create="false" delete="false">
-                    <field name="codigo" />
-                    <field name="nome" />
-                </tree>
-            </field>
-        </record>
+    <record model="ir.ui.view" id="sped_tabelas.motivo_cessacao_tree">
+        <field name="name">sped_tabelas.motivo_cessacao_view</field>
+        <field name="model">sped.motivo_cessacao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Motivos de Cessação de Benefícios Previdenciários"
+            edit="false" create="false" delete="false">
+                <field name="codigo" />
+                <field name="nome" />
+            </tree>
+        </field>
+    </record>
 
-        <record model="ir.ui.view" id="motivo_cessacao_search">
-            <field name="name">sped_tabelas.motivo_cessacao_search</field>
-            <field name="model">sped.motivo_cessacao</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <search string="Motivos de Cessação de Benefícios Previdenciários">
-                    <field name="codigo" />
-                    <field name="nome" />
-                </search>
-            </field>
-        </record>
+    <record model="ir.ui.view" id="motivo_cessacao_search">
+        <field name="name">sped_tabelas.motivo_cessacao_search</field>
+        <field name="model">sped.motivo_cessacao</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Motivos de Cessação de Benefícios Previdenciários">
+                <field name="codigo" />
+                <field name="nome" />
+            </search>
+        </field>
+    </record>
 
-        <record model="ir.actions.act_window" id="motivo_cessacao_action">
-            <field name="name">Motivos de Cessação de Benefícios Previdenciários</field>
-            <field name="res_model">sped.motivo_cessacao</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+    <record model="ir.actions.act_window" id="motivo_cessacao_action">
+        <field name="name">Motivos de Cessação de Benefícios Previdenciários</field>
+        <field name="res_model">sped.motivo_cessacao</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 
-        <record model="ir.actions.act_window.view" id="motivo_cessacao_tree_action">
-            <field eval="1" name="sequence"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="motivo_cessacao_tree"/>
-            <field name="act_window_id" ref="motivo_cessacao_action"/>
-        </record>
+    <record model="ir.actions.act_window.view" id="motivo_cessacao_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="motivo_cessacao_tree"/>
+        <field name="act_window_id" ref="motivo_cessacao_action"/>
+    </record>
 
-        <record model="ir.actions.act_window.view" id="motivo_cessacao_form_action">
-            <field eval="2" name="sequence"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="motivo_cessacao_form"/>
-            <field name="act_window_id" ref="motivo_cessacao_action"/>
-        </record>
+    <record model="ir.actions.act_window.view" id="motivo_cessacao_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="motivo_cessacao_form"/>
+        <field name="act_window_id" ref="motivo_cessacao_action"/>
+    </record>
 
-        <menuitem
-                action="sped_tabelas.motivo_cessacao_action"
-                id="menu_sped_tabelas_motivo_cessacao"
-                name="26-Motivos de Cessação de Benefícios Previdenciários"
-                parent="sped_tabelas.menu_sped_tabelas_esocial"
-                sequence="26"
-        />
+    <menuitem
+        action="sped_tabelas.motivo_cessacao_action"
+        id="menu_sped_motivo_cessacao"
+        name="26-Motivos de Cessação de Benefícios Previdenciários"
+        parent="menu_sped_tabelas_esocial"
+        sequence="26"
+    />
 
     </data>
 </openerp>

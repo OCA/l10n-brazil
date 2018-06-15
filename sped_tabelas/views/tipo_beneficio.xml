@@ -7,80 +7,81 @@
 <openerp>
     <data>
 
-        <record model="ir.ui.view" id="sped_tabelas.tipo_beneficio_form" >
-            <field name="name">sped_tabelas.tipo_beneficio_form</field>
-            <field name="model">sped.tipo_beneficio</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <form string="Tipos de Benefícios Previdenciários dos Regimes Próprios de Previdência"
-                edit="false" create="false" delete="false">
-                    <sheet>
-                        <group>
-                            <group name="geral" colspan="4" col="2">
-                                <field name="codigo"/>
-                                <field name="nome" />
-                                <newline />
-                                <field name="descricao" />
-                            </group>
+    <record model="ir.ui.view" id="sped_tabelas.tipo_beneficio_form" >
+        <field name="name">sped_tabelas.tipo_beneficio_form</field>
+        <field name="model">sped.tipo_beneficio</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Tipos de Benefícios Previdenciários dos Regimes Próprios de Previdência"
+            edit="false" create="false" delete="false">
+                <sheet>
+                    <group>
+                        <group name="geral" colspan="2" col="2">
+                            <field name="codigo"/>
+                            <field name="nome" colspan="2" />
+                            <newline />
+                            <field name="descricao" colspan="2" nolabel="1" />
+                            <newline />
                         </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
-        <record model="ir.ui.view" id="sped_tabelas.tipo_beneficio_tree">
-            <field name="name">sped_tabelas.tipo_beneficio_view</field>
-            <field name="model">sped.tipo_beneficio</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <tree string="Tipos de Benefícios Previdenciários dos Regimes Próprios de Previdência"
-                edit="false" create="false" delete="false">
-                    <field name="codigo" />
-                    <field name="nome" />
-                </tree>
-            </field>
-        </record>
+    <record model="ir.ui.view" id="sped_tabelas.tipo_beneficio_tree">
+        <field name="name">sped_tabelas.tipo_beneficio_view</field>
+        <field name="model">sped.tipo_beneficio</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Tipos de Benefícios Previdenciários dos Regimes Próprios de Previdência"
+            edit="false" create="false" delete="false">
+                <field name="codigo" />
+                <field name="nome" />
+            </tree>
+        </field>
+    </record>
 
-        <record model="ir.ui.view" id="tipo_beneficio_search">
-            <field name="name">sped_tabelas.tipo_beneficio_search</field>
-            <field name="model">sped.tipo_beneficio</field>
-            <field name="priority">1</field>
-            <field name="arch" type="xml">
-                <search string="Tipos de Benefícios Previdenciários dos Regimes Próprios de Previdência">
-                    <field name="codigo" />
-                    <field name="nome" />
-                    <field name="descricao" />
-                </search>
-            </field>
-        </record>
+    <record model="ir.ui.view" id="tipo_beneficio_search">
+        <field name="name">sped_tabelas.tipo_beneficio_search</field>
+        <field name="model">sped.tipo_beneficio</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="Tipos de Benefícios Previdenciários dos Regimes Próprios de Previdência">
+                <field name="codigo" />
+                <field name="nome" />
+                <field name="descricao" />
+            </search>
+        </field>
+    </record>
 
-        <record model="ir.actions.act_window" id="tipo_beneficio_action">
-            <field name="name">Tipos de Benefícios Previdenciários dos Regimes Próprios de Previdência</field>
-            <field name="res_model">sped.tipo_beneficio</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+    <record model="ir.actions.act_window" id="tipo_beneficio_action">
+        <field name="name">Tipos de Benefícios Previdenciários dos Regimes Próprios de Previdência</field>
+        <field name="res_model">sped.tipo_beneficio</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 
-        <record model="ir.actions.act_window.view" id="tipo_beneficio_tree_action">
-            <field eval="1" name="sequence"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="tipo_beneficio_tree"/>
-            <field name="act_window_id" ref="tipo_beneficio_action"/>
-        </record>
+    <record model="ir.actions.act_window.view" id="tipo_beneficio_tree_action">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="tipo_beneficio_tree"/>
+        <field name="act_window_id" ref="tipo_beneficio_action"/>
+    </record>
 
-        <record model="ir.actions.act_window.view" id="tipo_beneficio_form_action">
-            <field eval="2" name="sequence"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="tipo_beneficio_form"/>
-            <field name="act_window_id" ref="tipo_beneficio_action"/>
-        </record>
+    <record model="ir.actions.act_window.view" id="tipo_beneficio_form_action">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="tipo_beneficio_form"/>
+        <field name="act_window_id" ref="tipo_beneficio_action"/>
+    </record>
 
-        <menuitem
-            action="sped_tabelas.tipo_beneficio_action"
-            id="menu_sped_tabelas_tipo_beneficio"
-            name="25-Tipo Benef.Previdenciário"
-            parent="sped_tabelas.menu_sped_tabelas_esocial"
-            sequence="25"
-        />
+    <menuitem
+        action="sped_tabelas.tipo_beneficio_action"
+        id="menu_sped_tipo_beneficio"
+        name="25-Tipo Benef.Previdenciário"
+        parent="menu_sped_tabelas_esocial"
+        sequence="25"
+    />
 
     </data>
 </openerp>
