@@ -2,184 +2,185 @@
 <!--
     Copyright 2017 KMEE
     Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
     <data>
 
-        <record id="tab17_702000000" model="sped.natureza_lesao">
-            <field name="codigo">702000000</field>
-            <field name="nome">Lesão imediata</field>
-            <field name="descricao">Lesão imediata</field>
-        </record>
+    <record id="tab17_702000000" model="sped.natureza_lesao">
+        <field name="codigo">702000000</field>
+        <field name="nome">Lesão imediata</field>
+        <field name="descricao">Lesão imediata</field>
+    </record>
 
-        <record id="tab17_702005000" model="sped.natureza_lesao">
-            <field name="codigo">702005000</field>
-            <field name="nome">Escoriação, abrasão (ferimento superficial)</field>
-            <field name="descricao">Escoriação, abrasão (ferimento superficial)</field>
-        </record>
+    <record id="tab17_702005000" model="sped.natureza_lesao">
+        <field name="codigo">702005000</field>
+        <field name="nome">Escoriação, abrasão (ferimento superficial)</field>
+        <field name="descricao">Escoriação, abrasão (ferimento superficial)</field>
+    </record>
 
-        <record id="tab17_702010000" model="sped.natureza_lesao">
-            <field name="codigo">702010000</field>
-            <field name="nome">Corte, laceração, ferida contusa, punctura (ferida aberta)</field>
-            <field name="descricao">Corte, laceração, ferida contusa, punctura (ferida aberta)</field>
-        </record>
+    <record id="tab17_702010000" model="sped.natureza_lesao">
+        <field name="codigo">702010000</field>
+        <field name="nome">Corte, laceração, ferida contusa, punctura (ferida aberta)</field>
+        <field name="descricao">Corte, laceração, ferida contusa, punctura (ferida aberta)</field>
+    </record>
 
-        <record id="tab17_702015000" model="sped.natureza_lesao">
-            <field name="codigo">702015000</field>
-            <field name="nome">Contusão, esmagamento (superfície cutânea intacta)</field>
-            <field name="descricao">Contusão, esmagamento (superfície cutânea intacta)</field>
-        </record>
+    <record id="tab17_702015000" model="sped.natureza_lesao">
+        <field name="codigo">702015000</field>
+        <field name="nome">Contusão, esmagamento (superfície cutânea intacta)</field>
+        <field name="descricao">Contusão, esmagamento (superfície cutânea intacta)</field>
+    </record>
 
-        <record id="tab17_702020000" model="sped.natureza_lesao">
-            <field name="codigo">702020000</field>
-            <field name="nome">Distensão, torção</field>
-            <field name="descricao">Distensão, torção</field>
-        </record>
+    <record id="tab17_702020000" model="sped.natureza_lesao">
+        <field name="codigo">702020000</field>
+        <field name="nome">Distensão, torção</field>
+        <field name="descricao">Distensão, torção</field>
+    </record>
 
-        <record id="tab17_702025000" model="sped.natureza_lesao">
-            <field name="codigo">702025000</field>
-            <field name="nome">Inflamação de articulação, tendão ou músculo - inclui sinovite, tenossionovite, etc</field>
-            <field name="descricao">Inflamação de articulação, tendão ou músculo - inclui sinovite, tenossionovite, etc. Não inclui distensão, torção ou suas consequências</field>
-        </record>
+    <record id="tab17_702025000" model="sped.natureza_lesao">
+        <field name="codigo">702025000</field>
+        <field name="nome">Inflamação de articulação, tendão ou músculo - inclui sinovite, tenossionovite, etc</field>
+        <field name="descricao">Inflamação de articulação, tendão ou músculo - inclui sinovite, tenossionovite, etc. Não inclui distensão, torção ou suas consequências</field>
+    </record>
 
-        <record id="tab17_702030000" model="sped.natureza_lesao">
-            <field name="codigo">702030000</field>
-            <field name="nome">Luxação</field>
-            <field name="descricao">Luxação</field>
-        </record>
+    <record id="tab17_702030000" model="sped.natureza_lesao">
+        <field name="codigo">702030000</field>
+        <field name="nome">Luxação</field>
+        <field name="descricao">Luxação</field>
+    </record>
 
-        <record id="tab17_702035000" model="sped.natureza_lesao">
-            <field name="codigo">702035000</field>
-            <field name="nome">Fratura</field>
-            <field name="descricao">Fratura</field>
-        </record>
+    <record id="tab17_702035000" model="sped.natureza_lesao">
+        <field name="codigo">702035000</field>
+        <field name="nome">Fratura</field>
+        <field name="descricao">Fratura</field>
+    </record>
 
-        <record id="tab17_702040000" model="sped.natureza_lesao">
-            <field name="codigo">702040000</field>
-            <field name="nome">Queimadura ou escaldadura - efeito de temperatura elevada</field>
-            <field name="descricao">Queimadura ou escaldadura - efeito de temperatura elevada. Efeito do contato com substância quente. Inclui queimadura por eletricidade, mas não inclui choque elétrico. Não inclui queimadura por substância química, efeito de radiação, queimadura de sol, incapacidade sistêmica como intermação, queimadura por atrito, etc.</field>
-        </record>
+    <record id="tab17_702040000" model="sped.natureza_lesao">
+        <field name="codigo">702040000</field>
+        <field name="nome">Queimadura ou escaldadura - efeito de temperatura elevada</field>
+        <field name="descricao">Queimadura ou escaldadura - efeito de temperatura elevada. Efeito do contato com substância quente. Inclui queimadura por eletricidade, mas não inclui choque elétrico. Não inclui queimadura por substância química, efeito de radiação, queimadura de sol, incapacidade sistêmica como intermação, queimadura por atrito, etc.</field>
+    </record>
 
-        <record id="tab17_702042000" model="sped.natureza_lesao">
-            <field name="codigo">702042000</field>
-            <field name="nome">Queimadura química</field>
-            <field name="descricao">Queimadura química (lesão de tecido provocada pela ação corrosiva de produto químico, suas emanações, etc.)</field>
-        </record>
+    <record id="tab17_702042000" model="sped.natureza_lesao">
+        <field name="codigo">702042000</field>
+        <field name="nome">Queimadura química</field>
+        <field name="descricao">Queimadura química (lesão de tecido provocada pela ação corrosiva de produto químico, suas emanações, etc.)</field>
+    </record>
 
-        <record id="tab17_702045000" model="sped.natureza_lesao">
-            <field name="codigo">702045000</field>
-            <field name="nome">Efeito de radiação (imediato)</field>
-            <field name="descricao">Efeito de radiação (imediato) - queimadura de sol e toda forma de lesão de tecido, osso ou fluido orgânico, por exposição à radiação</field>
-        </record>
+    <record id="tab17_702045000" model="sped.natureza_lesao">
+        <field name="codigo">702045000</field>
+        <field name="nome">Efeito de radiação (imediato)</field>
+        <field name="descricao">Efeito de radiação (imediato) - queimadura de sol e toda forma de lesão de tecido, osso ou fluido orgânico, por exposição à radiação</field>
+    </record>
 
-        <record id="tab17_702048000" model="sped.natureza_lesao">
-            <field name="codigo">702048000</field>
-            <field name="nome">Congelamento, geladura e outros efeitos da exposição à baixa temperatura</field>
-            <field name="descricao">Congelamento, geladura e outros efeitos da exposição à baixa temperatura</field>
-        </record>
+    <record id="tab17_702048000" model="sped.natureza_lesao">
+        <field name="codigo">702048000</field>
+        <field name="nome">Congelamento, geladura e outros efeitos da exposição à baixa temperatura</field>
+        <field name="descricao">Congelamento, geladura e outros efeitos da exposição à baixa temperatura</field>
+    </record>
 
-        <record id="tab17_702050000" model="sped.natureza_lesao">
-            <field name="codigo">702050000</field>
-            <field name="nome">Asfixia, estrangulamento, afogamento</field>
-            <field name="descricao">Asfixia, estrangulamento, afogamento</field>
-        </record>
+    <record id="tab17_702050000" model="sped.natureza_lesao">
+        <field name="codigo">702050000</field>
+        <field name="nome">Asfixia, estrangulamento, afogamento</field>
+        <field name="descricao">Asfixia, estrangulamento, afogamento</field>
+    </record>
 
-        <record id="tab17_702055000" model="sped.natureza_lesao">
-            <field name="codigo">702055000</field>
-            <field name="nome">Intermação, insolação, cãibra, exaustão e outros efeitos da temperatura ambiente elevada</field>
-            <field name="descricao">Intermação, insolação, cãibra, exaustão e outros efeitos da temperatura ambiente elevada - não inclui queimadura de sol ou outros efeitos de radiação</field>
-        </record>
+    <record id="tab17_702055000" model="sped.natureza_lesao">
+        <field name="codigo">702055000</field>
+        <field name="nome">Intermação, insolação, cãibra, exaustão e outros efeitos da temperatura ambiente elevada</field>
+        <field name="descricao">Intermação, insolação, cãibra, exaustão e outros efeitos da temperatura ambiente elevada - não inclui queimadura de sol ou outros efeitos de radiação</field>
+    </record>
 
-        <record id="tab17_702060000" model="sped.natureza_lesao">
-            <field name="codigo">702060000</field>
-            <field name="nome">Choque elétrico e eletroplessão (eletrocussão)</field>
-            <field name="descricao">Choque elétrico e eletroplessão (eletrocussão)</field>
-        </record>
+    <record id="tab17_702060000" model="sped.natureza_lesao">
+        <field name="codigo">702060000</field>
+        <field name="nome">Choque elétrico e eletroplessão (eletrocussão)</field>
+        <field name="descricao">Choque elétrico e eletroplessão (eletrocussão)</field>
+    </record>
 
-        <record id="tab17_702065000" model="sped.natureza_lesao">
-            <field name="codigo">702065000</field>
-            <field name="nome">Hérnia de qualquer natureza, ruptura</field>
-            <field name="descricao">Hérnia de qualquer natureza, ruptura</field>
-        </record>
+    <record id="tab17_702065000" model="sped.natureza_lesao">
+        <field name="codigo">702065000</field>
+        <field name="nome">Hérnia de qualquer natureza, ruptura</field>
+        <field name="descricao">Hérnia de qualquer natureza, ruptura</field>
+    </record>
 
-        <record id="tab17_702070000" model="sped.natureza_lesao">
-            <field name="codigo">702070000</field>
-            <field name="nome">Amputação ou enucleação</field>
-            <field name="descricao">Amputação ou enucleação</field>
-        </record>
+    <record id="tab17_702070000" model="sped.natureza_lesao">
+        <field name="codigo">702070000</field>
+        <field name="nome">Amputação ou enucleação</field>
+        <field name="descricao">Amputação ou enucleação</field>
+    </record>
 
-        <record id="tab17_702075000" model="sped.natureza_lesao">
-            <field name="codigo">702075000</field>
-            <field name="nome">Perda ou diminuição de sentido</field>
-            <field name="descricao">Perda ou diminuição de sentido (audição, visão, olfato, paladar e tato, desde que não seja sequela de outra lesão)</field>
-        </record>
+    <record id="tab17_702075000" model="sped.natureza_lesao">
+        <field name="codigo">702075000</field>
+        <field name="nome">Perda ou diminuição de sentido</field>
+        <field name="descricao">Perda ou diminuição de sentido (audição, visão, olfato, paladar e tato, desde que não seja sequela de outra lesão)</field>
+    </record>
 
-        <record id="tab17_702080000" model="sped.natureza_lesao">
-            <field name="codigo">702080000</field>
-            <field name="nome">Concussão cerebral</field>
-            <field name="descricao">Concussão cerebral</field>
-        </record>
+    <record id="tab17_702080000" model="sped.natureza_lesao">
+        <field name="codigo">702080000</field>
+        <field name="nome">Concussão cerebral</field>
+        <field name="descricao">Concussão cerebral</field>
+    </record>
 
-        <record id="tab17_702090000" model="sped.natureza_lesao">
-            <field name="codigo">702090000</field>
-            <field name="nome">Lesão imediata, NIC</field>
-            <field name="descricao">Lesão imediata, NIC</field>
-        </record>
+    <record id="tab17_702090000" model="sped.natureza_lesao">
+        <field name="codigo">702090000</field>
+        <field name="nome">Lesão imediata, NIC</field>
+        <field name="descricao">Lesão imediata, NIC</field>
+    </record>
 
-        <record id="tab17_704020000" model="sped.natureza_lesao">
-            <field name="codigo">704020000</field>
-            <field name="nome">Doença contagiosa ou infecciosa (tuberculose, brucelose, etc.)</field>
-            <field name="descricao">Doença contagiosa ou infecciosa (tuberculose, brucelose, etc.)</field>
-        </record>
+    <record id="tab17_704020000" model="sped.natureza_lesao">
+        <field name="codigo">704020000</field>
+        <field name="nome">Doença contagiosa ou infecciosa (tuberculose, brucelose, etc.)</field>
+        <field name="descricao">Doença contagiosa ou infecciosa (tuberculose, brucelose, etc.)</field>
+    </record>
 
-        <record id="tab17_704030000" model="sped.natureza_lesao">
-            <field name="codigo">704030000</field>
-            <field name="nome">Pneumoconiose (silicose, asbestose, etc.)</field>
-            <field name="descricao">Pneumoconiose (silicose, asbestose, etc.)</field>
-        </record>
+    <record id="tab17_704030000" model="sped.natureza_lesao">
+        <field name="codigo">704030000</field>
+        <field name="nome">Pneumoconiose (silicose, asbestose, etc.)</field>
+        <field name="descricao">Pneumoconiose (silicose, asbestose, etc.)</field>
+    </record>
 
-        <record id="tab17_704040000" model="sped.natureza_lesao">
-            <field name="codigo">704040000</field>
-            <field name="nome">Dermatose (erupção, inflamação da pele, inclusive furúnculo, etc.)</field>
-            <field name="descricao">Dermatose (erupção, inflamação da pele, inclusive furúnculo, etc.). Geralmente provocada pelo contato direto com substâncias ou agentes sensibilizantes ou irritantes, tais como medicamentos, óleos, agentes biológicos, plantas, madeiras ou metais. Não inclui lesão provocada pela ação corrosiva de produtos químicos, queimadura por contato com substâncias quentes, efeito de exposição à radiação, efeito de exposição a baixas temperaturas ou inflamação ou irritação causada por fricção ou impacto</field>
-        </record>
+    <record id="tab17_704040000" model="sped.natureza_lesao">
+        <field name="codigo">704040000</field>
+        <field name="nome">Dermatose (erupção, inflamação da pele, inclusive furúnculo, etc.)</field>
+        <field name="descricao">Dermatose (erupção, inflamação da pele, inclusive furúnculo, etc.). Geralmente provocada pelo contato direto com substâncias ou agentes sensibilizantes ou irritantes, tais como medicamentos, óleos, agentes biológicos, plantas, madeiras ou metais. Não inclui lesão provocada pela ação corrosiva de produtos químicos, queimadura por contato com substâncias quentes, efeito de exposição à radiação, efeito de exposição a baixas temperaturas ou inflamação ou irritação causada por fricção ou impacto</field>
+    </record>
 
-        <record id="tab17_704050000" model="sped.natureza_lesao">
-            <field name="codigo">704050000</field>
-            <field name="nome">Envenenamento sistêmico</field>
-            <field name="descricao">Envenenamento sistêmico - condição mórbida sistêmica provocada por inalação, ingestão ou absorção cutânea de substância tóxica, que afete o metabolismo, o funcionamento do sistema nervoso, do aparelho circulatório, do aparelho digestivo, do aparelho respiratório, dos órgãos de excreção, do sistema músculo-esquelético, etc., inclui ação de produto químico, medicamento, metal ou peçonha. Não inclui efeito de radiação, pneumoconiose, efeito corrosivo de produto químico, irritação cutânea, septicemia ou caso de ferida infectada</field>
-        </record>
+    <record id="tab17_704050000" model="sped.natureza_lesao">
+        <field name="codigo">704050000</field>
+        <field name="nome">Envenenamento sistêmico</field>
+        <field name="descricao">Envenenamento sistêmico - condição mórbida sistêmica provocada por inalação, ingestão ou absorção cutânea de substância tóxica, que afete o metabolismo, o funcionamento do sistema nervoso, do aparelho circulatório, do aparelho digestivo, do aparelho respiratório, dos órgãos de excreção, do sistema músculo-esquelético, etc., inclui ação de produto químico, medicamento, metal ou peçonha. Não inclui efeito de radiação, pneumoconiose, efeito corrosivo de produto químico, irritação cutânea, septicemia ou caso de ferida infectada</field>
+    </record>
 
-        <record id="tab17_704060000" model="sped.natureza_lesao">
-            <field name="codigo">704060000</field>
-            <field name="nome">Perda ou diminuição mediatas de sentido</field>
-            <field name="descricao">Perda ou diminuição mediatas de sentido (audição, visão, olfato, paladar e tato, desde que não seja sequela de outra lesão)</field>
-        </record>
+    <record id="tab17_704060000" model="sped.natureza_lesao">
+        <field name="codigo">704060000</field>
+        <field name="nome">Perda ou diminuição mediatas de sentido</field>
+        <field name="descricao">Perda ou diminuição mediatas de sentido (audição, visão, olfato, paladar e tato, desde que não seja sequela de outra lesão)</field>
+    </record>
 
-        <record id="tab17_704070000" model="sped.natureza_lesao">
-            <field name="codigo">704070000</field>
-            <field name="nome">Efeito de radiação (mediato)</field>
-            <field name="descricao">Efeito de radiação (mediato) - queimadura do sol e toda forma de lesão de tecido, osso, ou fluido orgânico por exposição à radiação.</field>
-        </record>
+    <record id="tab17_704070000" model="sped.natureza_lesao">
+        <field name="codigo">704070000</field>
+        <field name="nome">Efeito de radiação (mediato)</field>
+        <field name="descricao">Efeito de radiação (mediato) - queimadura do sol e toda forma de lesão de tecido, osso, ou fluido orgânico por exposição à radiação.</field>
+    </record>
 
-        <record id="tab17_704090000" model="sped.natureza_lesao">
-            <field name="codigo">704090000</field>
-            <field name="nome">Doença, NIC</field>
-            <field name="descricao">Doença, NIC</field>
-        </record>
+    <record id="tab17_704090000" model="sped.natureza_lesao">
+        <field name="codigo">704090000</field>
+        <field name="nome">Doença, NIC</field>
+        <field name="descricao">Doença, NIC</field>
+    </record>
 
-        <record id="tab17_706050000" model="sped.natureza_lesao">
-            <field name="codigo">706050000</field>
-            <field name="nome">Lesões múltiplas</field>
-            <field name="descricao">Lesões múltiplas</field>
-        </record>
+    <record id="tab17_706050000" model="sped.natureza_lesao">
+        <field name="codigo">706050000</field>
+        <field name="nome">Lesões múltiplas</field>
+        <field name="descricao">Lesões múltiplas</field>
+    </record>
 
-        <record id="tab17_706090000" model="sped.natureza_lesao">
-            <field name="codigo">706090000</field>
-            <field name="nome">Outras lesões, NIC</field>
-            <field name="descricao">Outras lesões, NIC</field>
-        </record>
+    <record id="tab17_706090000" model="sped.natureza_lesao">
+        <field name="codigo">706090000</field>
+        <field name="nome">Outras lesões, NIC</field>
+        <field name="descricao">Outras lesões, NIC</field>
+    </record>
 
     </data>
 </openerp>

@@ -2,50 +2,51 @@
 <!--
     Copyright 2017 KMEE
     Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
     <data>
 
-        <record id="tab26_1" model="sped.motivo_cessacao">
-            <field name="codigo">1</field>
-            <field name="nome">Óbito</field>
-        </record>
+    <record id="tab26_1" model="sped.motivo_cessacao">
+        <field name="codigo">1</field>
+        <field name="nome">Óbito</field>
+    </record>
 
-        <record id="tab26_2" model="sped.motivo_cessacao">
-            <field name="codigo">2</field>
-            <field name="nome">Reversão</field>
-        </record>
+    <record id="tab26_2" model="sped.motivo_cessacao">
+        <field name="codigo">2</field>
+        <field name="nome">Reversão</field>
+    </record>
 
-        <record id="tab26_3" model="sped.motivo_cessacao">
-            <field name="codigo">3</field>
-            <field name="nome">Por decisão judicial</field>
-        </record>
+    <record id="tab26_3" model="sped.motivo_cessacao">
+        <field name="codigo">3</field>
+        <field name="nome">Por decisão judicial</field>
+    </record>
 
-        <record id="tab26_4" model="sped.motivo_cessacao">
-            <field name="codigo">4</field>
-            <field name="nome">Cassação</field>
-        </record>
+    <record id="tab26_4" model="sped.motivo_cessacao">
+        <field name="codigo">4</field>
+        <field name="nome">Cassação</field>
+    </record>
 
-        <record id="tab26_5" model="sped.motivo_cessacao">
-            <field name="codigo">5</field>
-            <field name="nome">Término do prazo do benefício</field>
-        </record>
+    <record id="tab26_5" model="sped.motivo_cessacao">
+        <field name="codigo">5</field>
+        <field name="nome">Término do prazo do benefício</field>
+    </record>
 
-        <record id="tab26_6" model="sped.motivo_cessacao">
-            <field name="codigo">6</field>
-            <field name="nome">Extinção de Quota</field>
-        </record>
+    <record id="tab26_6" model="sped.motivo_cessacao">
+        <field name="codigo">6</field>
+        <field name="nome">Extinção de Quota</field>
+    </record>
 
-        <record id="tab26_7" model="sped.motivo_cessacao">
-            <field name="codigo">7</field>
-            <field name="nome">Não homologado pelo Tribunal de Contas</field>
-        </record>
+    <record id="tab26_7" model="sped.motivo_cessacao">
+        <field name="codigo">7</field>
+        <field name="nome">Não homologado pelo Tribunal de Contas</field>
+    </record>
 
-        <record id="tab26_8" model="sped.motivo_cessacao">
-            <field name="codigo">8</field>
-            <field name="nome">Renúncia Expressa</field>
-        </record>
+    <record id="tab26_8" model="sped.motivo_cessacao">
+        <field name="codigo">8</field>
+        <field name="nome">Renúncia Expressa</field>
+    </record>
 
     </data>
 </openerp>

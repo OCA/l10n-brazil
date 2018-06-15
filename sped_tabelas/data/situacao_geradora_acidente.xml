@@ -2,305 +2,306 @@
 <!--
     Copyright 2017 KMEE
     Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
     <data>
 
-        <record id="tab16_200004300" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200004300</field>
-            <field name="nome">Impacto de pessoa contra objeto parado</field>
-        </record>
+    <record id="tab16_200004300" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200004300</field>
+        <field name="nome">Impacto de pessoa contra objeto parado</field>
+    </record>
 
-        <record id="tab16_200004600" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200004600</field>
-            <field name="nome">Impacto de pessoa contra objeto em movimento</field>
-        </record>
+    <record id="tab16_200004600" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200004600</field>
+        <field name="nome">Impacto de pessoa contra objeto em movimento</field>
+    </record>
 
-        <record id="tab16_200008300" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200008300</field>
-            <field name="nome">Impacto sofrido por pessoa de objeto que cai</field>
-        </record>
+    <record id="tab16_200008300" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200008300</field>
+        <field name="nome">Impacto sofrido por pessoa de objeto que cai</field>
+    </record>
 
-        <record id="tab16_200008600" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200008600</field>
-            <field name="nome">Impacto sofrido por pessoa de objeto projetado</field>
-        </record>
+    <record id="tab16_200008600" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200008600</field>
+        <field name="nome">Impacto sofrido por pessoa de objeto projetado</field>
+    </record>
 
-        <record id="tab16_200008900" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200008900</field>
-            <field name="nome">Impacto sofrido por pessoa, NIC</field>
-        </record>
+    <record id="tab16_200008900" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200008900</field>
+        <field name="nome">Impacto sofrido por pessoa, NIC</field>
+    </record>
 
-        <record id="tab16_200012200" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200012200</field>
-            <field name="nome">Queda de pessoa com diferença de nível de andaime, passagem, plataforma, etc.</field>
-        </record>
+    <record id="tab16_200012200" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200012200</field>
+        <field name="nome">Queda de pessoa com diferença de nível de andaime, passagem, plataforma, etc.</field>
+    </record>
 
-        <record id="tab16_200012300" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200012300</field>
-            <field name="nome">Queda de pessoa com diferença de nível de escada móvel ou fixada cujos degraus</field>
-        </record>
+    <record id="tab16_200012300" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200012300</field>
+        <field name="nome">Queda de pessoa com diferença de nível de escada móvel ou fixada cujos degraus</field>
+    </record>
 
-        <record id="tab16_200012400" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200012400</field>
-            <field name="nome">Queda de pessoa com diferença de nível de material empilhado</field>
-        </record>
+    <record id="tab16_200012400" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200012400</field>
+        <field name="nome">Queda de pessoa com diferença de nível de material empilhado</field>
+    </record>
 
-        <record id="tab16_200012500" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200012500</field>
-            <field name="nome">Queda de pessoa com diferença de nível de veículo</field>
-        </record>
+    <record id="tab16_200012500" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200012500</field>
+        <field name="nome">Queda de pessoa com diferença de nível de veículo</field>
+    </record>
 
-        <record id="tab16_200012600" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200012600</field>
-            <field name="nome">Queda de pessoa com diferença de nível em escada permanente</field>
-        </record>
+    <record id="tab16_200012600" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200012600</field>
+        <field name="nome">Queda de pessoa com diferença de nível em escada permanente</field>
+    </record>
 
-        <record id="tab16_200012700" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200012700</field>
-            <field name="nome">Queda de pessoa com diferença de nível em poço, escavação, abertura no piso, etc.</field>
-        </record>
+    <record id="tab16_200012700" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200012700</field>
+        <field name="nome">Queda de pessoa com diferença de nível em poço, escavação, abertura no piso, etc.</field>
+    </record>
 
-        <record id="tab16_200012900" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200012900</field>
-            <field name="nome">Queda de pessoa com diferença de nível, NIC</field>
-        </record>
+    <record id="tab16_200012900" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200012900</field>
+        <field name="nome">Queda de pessoa com diferença de nível, NIC</field>
+    </record>
 
-        <record id="tab16_200016300" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200016300</field>
-            <field name="nome">Queda de pessoa em mesmo nível em passagem ou superfície de sustentação</field>
-        </record>
+    <record id="tab16_200016300" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200016300</field>
+        <field name="nome">Queda de pessoa em mesmo nível em passagem ou superfície de sustentação</field>
+    </record>
 
-        <record id="tab16_200016600" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200016600</field>
-            <field name="nome">Queda de pessoa em mesmo nível sobre ou contra alguma coisa</field>
-        </record>
+    <record id="tab16_200016600" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200016600</field>
+        <field name="nome">Queda de pessoa em mesmo nível sobre ou contra alguma coisa</field>
+    </record>
 
-        <record id="tab16_200016900" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200016900</field>
-            <field name="nome">Queda de pessoa em mesmo nível, NIC</field>
-        </record>
+    <record id="tab16_200016900" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200016900</field>
+        <field name="nome">Queda de pessoa em mesmo nível, NIC</field>
+    </record>
 
-        <record id="tab16_200020100" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200020100</field>
-            <field name="nome">Aprisionamento em, sobre ou entre objetos em movimento convergente</field>
-        </record>
+    <record id="tab16_200020100" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200020100</field>
+        <field name="nome">Aprisionamento em, sobre ou entre objetos em movimento convergente</field>
+    </record>
 
-        <record id="tab16_200020300" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200020300</field>
-            <field name="nome">Aprisionamento em, sobre ou entre objeto parado e outro em movimento</field>
-        </record>
+    <record id="tab16_200020300" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200020300</field>
+        <field name="nome">Aprisionamento em, sobre ou entre objeto parado e outro em movimento</field>
+    </record>
 
-        <record id="tab16_200020500" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200020500</field>
-            <field name="nome">Aprisionamento em, sobre ou entre dois ou mais objetos em movimento</field>
-        </record>
+    <record id="tab16_200020500" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200020500</field>
+        <field name="nome">Aprisionamento em, sobre ou entre dois ou mais objetos em movimento</field>
+    </record>
 
-        <record id="tab16_200020700" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200020700</field>
-            <field name="nome">Aprisionamento em, sobre ou entre desabamento ou desmoronamento</field>
-        </record>
+    <record id="tab16_200020700" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200020700</field>
+        <field name="nome">Aprisionamento em, sobre ou entre desabamento ou desmoronamento</field>
+    </record>
 
-        <record id="tab16_200020900" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200020900</field>
-            <field name="nome">Aprisionamento em, sob ou entre, NIC</field>
-        </record>
+    <record id="tab16_200020900" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200020900</field>
+        <field name="nome">Aprisionamento em, sob ou entre, NIC</field>
+    </record>
 
-        <record id="tab16_200024300" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200024300</field>
-            <field name="nome">Atrito ou abrasão por encostar, pisar, ajoelhar ou sentar em objeto</field>
-        </record>
+    <record id="tab16_200024300" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200024300</field>
+        <field name="nome">Atrito ou abrasão por encostar, pisar, ajoelhar ou sentar em objeto</field>
+    </record>
 
-        <record id="tab16_200024400" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200024400</field>
-            <field name="nome">Atrito ou abrasão por manusear objeto</field>
-        </record>
+    <record id="tab16_200024400" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200024400</field>
+        <field name="nome">Atrito ou abrasão por manusear objeto</field>
+    </record>
 
-        <record id="tab16_200024500" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200024500</field>
-            <field name="nome">Atrito ou abrasão por objeto em vibração</field>
-        </record>
+    <record id="tab16_200024500" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200024500</field>
+        <field name="nome">Atrito ou abrasão por objeto em vibração</field>
+    </record>
 
-        <record id="tab16_200024600" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200024600</field>
-            <field name="nome">Atrito ou abrasão por corpo estranho no olho</field>
-        </record>
+    <record id="tab16_200024600" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200024600</field>
+        <field name="nome">Atrito ou abrasão por corpo estranho no olho</field>
+    </record>
 
-        <record id="tab16_200024700" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200024700</field>
-            <field name="nome">Atrito ou abrasão por compressão repetitiva</field>
-        </record>
+    <record id="tab16_200024700" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200024700</field>
+        <field name="nome">Atrito ou abrasão por compressão repetitiva</field>
+    </record>
 
-        <record id="tab16_200024900" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200024900</field>
-            <field name="nome">Atrito ou abrasão, NIC</field>
-        </record>
+    <record id="tab16_200024900" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200024900</field>
+        <field name="nome">Atrito ou abrasão, NIC</field>
+    </record>
 
-        <record id="tab16_200028300" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200028300</field>
-            <field name="nome">Reação do corpo a movimento involuntário</field>
-        </record>
+    <record id="tab16_200028300" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200028300</field>
+        <field name="nome">Reação do corpo a movimento involuntário</field>
+    </record>
 
-        <record id="tab16_200028600" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200028600</field>
-            <field name="nome">Reação do corpo a movimento voluntário</field>
-        </record>
+    <record id="tab16_200028600" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200028600</field>
+        <field name="nome">Reação do corpo a movimento voluntário</field>
+    </record>
 
-        <record id="tab16_200032200" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200032200</field>
-            <field name="nome">Esforço excessivo ao erguer objeto</field>
-        </record>
+    <record id="tab16_200032200" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200032200</field>
+        <field name="nome">Esforço excessivo ao erguer objeto</field>
+    </record>
 
-        <record id="tab16_200032400" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200032400</field>
-            <field name="nome">Esforço excessivo ao empurrar ou puxar objeto</field>
-        </record>
+    <record id="tab16_200032400" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200032400</field>
+        <field name="nome">Esforço excessivo ao empurrar ou puxar objeto</field>
+    </record>
 
-        <record id="tab16_200032600" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200032600</field>
-            <field name="nome">Esforço excessivo ao manejar, sacudir ou arremessar objeto</field>
-        </record>
+    <record id="tab16_200032600" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200032600</field>
+        <field name="nome">Esforço excessivo ao manejar, sacudir ou arremessar objeto</field>
+    </record>
 
-        <record id="tab16_200032900" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200032900</field>
-            <field name="nome">Esforço excessivo, NIC</field>
-        </record>
+    <record id="tab16_200032900" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200032900</field>
+        <field name="nome">Esforço excessivo, NIC</field>
+    </record>
 
-        <record id="tab16_200036000" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200036000</field>
-            <field name="nome">Elétrica, exposição a energia</field>
-        </record>
+    <record id="tab16_200036000" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200036000</field>
+        <field name="nome">Elétrica, exposição a energia</field>
+    </record>
 
-        <record id="tab16_200040300" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200040300</field>
-            <field name="nome">Temperatura muito alta, contato com objeto ou substância a</field>
-        </record>
+    <record id="tab16_200040300" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200040300</field>
+        <field name="nome">Temperatura muito alta, contato com objeto ou substância a</field>
+    </record>
 
-        <record id="tab16_200040600" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200040600</field>
-            <field name="nome">Temperatura muito baixa, contato com objeto ou substância a</field>
-        </record>
+    <record id="tab16_200040600" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200040600</field>
+        <field name="nome">Temperatura muito baixa, contato com objeto ou substância a</field>
+    </record>
 
-        <record id="tab16_200044300" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200044300</field>
-            <field name="nome">Temperatura ambiente elevada, exposição a</field>
-        </record>
+    <record id="tab16_200044300" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200044300</field>
+        <field name="nome">Temperatura ambiente elevada, exposição a</field>
+    </record>
 
-        <record id="tab16_200044600" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200044600</field>
-            <field name="nome">Temperatura ambiente baixa, exposição a</field>
-        </record>
+    <record id="tab16_200044600" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200044600</field>
+        <field name="nome">Temperatura ambiente baixa, exposição a</field>
+    </record>
 
-        <record id="tab16_200048200" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200048200</field>
-            <field name="nome">Inalação de substância cáustica, tóxica ou nociva</field>
-        </record>
+    <record id="tab16_200048200" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200048200</field>
+        <field name="nome">Inalação de substância cáustica, tóxica ou nociva</field>
+    </record>
 
-        <record id="tab16_200048400" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200048400</field>
-            <field name="nome">Ingestão de substância cáustica</field>
-        </record>
+    <record id="tab16_200048400" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200048400</field>
+        <field name="nome">Ingestão de substância cáustica</field>
+    </record>
 
-        <record id="tab16_200048600" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200048600</field>
-            <field name="nome">Absorção de substância cáustica</field>
-        </record>
+    <record id="tab16_200048600" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200048600</field>
+        <field name="nome">Absorção de substância cáustica</field>
+    </record>
 
-        <record id="tab16_200048900" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200048900</field>
-            <field name="nome">Inalação, ingestão ou absorção, NIC</field>
-        </record>
+    <record id="tab16_200048900" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200048900</field>
+        <field name="nome">Inalação, ingestão ou absorção, NIC</field>
+    </record>
 
-        <record id="tab16_200052000" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200052000</field>
-            <field name="nome">Imersão</field>
-        </record>
+    <record id="tab16_200052000" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200052000</field>
+        <field name="nome">Imersão</field>
+    </record>
 
-        <record id="tab16_200056000" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200056000</field>
-            <field name="nome">Radiação não ionizante, exposição a</field>
-        </record>
+    <record id="tab16_200056000" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200056000</field>
+        <field name="nome">Radiação não ionizante, exposição a</field>
+    </record>
 
-        <record id="tab16_200060000" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200060000</field>
-            <field name="nome">Radiação ionizante, exposição a</field>
-        </record>
+    <record id="tab16_200060000" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200060000</field>
+        <field name="nome">Radiação ionizante, exposição a</field>
+    </record>
 
-        <record id="tab16_200064000" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200064000</field>
-            <field name="nome">Ruído, exposição a</field>
-        </record>
+    <record id="tab16_200064000" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200064000</field>
+        <field name="nome">Ruído, exposição a</field>
+    </record>
 
-        <record id="tab16_200068000" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200068000</field>
-            <field name="nome">Vibração, exposição a</field>
-        </record>
+    <record id="tab16_200068000" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200068000</field>
+        <field name="nome">Vibração, exposição a</field>
+    </record>
 
-        <record id="tab16_200072000" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200072000</field>
-            <field name="nome">Pressão ambiente, exposição a</field>
-        </record>
+    <record id="tab16_200072000" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200072000</field>
+        <field name="nome">Pressão ambiente, exposição a</field>
+    </record>
 
-        <record id="tab16_200072300" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200072300</field>
-            <field name="nome">Exposição à pressão ambiente elevada</field>
-        </record>
+    <record id="tab16_200072300" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200072300</field>
+        <field name="nome">Exposição à pressão ambiente elevada</field>
+    </record>
 
-        <record id="tab16_200072600" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200072600</field>
-            <field name="nome">Exposição à pressão ambiente baixa</field>
-        </record>
+    <record id="tab16_200072600" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200072600</field>
+        <field name="nome">Exposição à pressão ambiente baixa</field>
+    </record>
 
-        <record id="tab16_200076200" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200076200</field>
-            <field name="nome">Poluição da água, ação da (exposição à poluição da água)</field>
-        </record>
+    <record id="tab16_200076200" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200076200</field>
+        <field name="nome">Poluição da água, ação da (exposição à poluição da água)</field>
+    </record>
 
-        <record id="tab16_200076400" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200076400</field>
-            <field name="nome">Poluição do ar, ação da (exposição à poluição do ar)</field>
-        </record>
+    <record id="tab16_200076400" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200076400</field>
+        <field name="nome">Poluição do ar, ação da (exposição à poluição do ar)</field>
+    </record>
 
-        <record id="tab16_200076600" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200076600</field>
-            <field name="nome">Poluição do solo, ação da (exposição à poluição do solo)</field>
-        </record>
+    <record id="tab16_200076600" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200076600</field>
+        <field name="nome">Poluição do solo, ação da (exposição à poluição do solo)</field>
+    </record>
 
-        <record id="tab16_200076900" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200076900</field>
-            <field name="nome">Poluição, NIC, exposição a (exposição à poluição, NIC)</field>
-        </record>
+    <record id="tab16_200076900" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200076900</field>
+        <field name="nome">Poluição, NIC, exposição a (exposição à poluição, NIC)</field>
+    </record>
 
-        <record id="tab16_200080200" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200080200</field>
-            <field name="nome">Ataque de ser vivo por mordedura, picada, chifrada, coice, etc.</field>
-        </record>
+    <record id="tab16_200080200" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200080200</field>
+        <field name="nome">Ataque de ser vivo por mordedura, picada, chifrada, coice, etc.</field>
+    </record>
 
-        <record id="tab16_200080400" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200080400</field>
-            <field name="nome">Ataque de ser vivo com peçonha</field>
-        </record>
+    <record id="tab16_200080400" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200080400</field>
+        <field name="nome">Ataque de ser vivo com peçonha</field>
+    </record>
 
-        <record id="tab16_200080600" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200080600</field>
-            <field name="nome">Ataque de ser vivo com transmissão de doença</field>
-        </record>
+    <record id="tab16_200080600" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200080600</field>
+        <field name="nome">Ataque de ser vivo com transmissão de doença</field>
+    </record>
 
-        <record id="tab16_200080900" model="sped.situacao_geradora_acidente">
-            <field name="codigo">200080900</field>
-            <field name="nome">Ataque de ser vivo, NIC</field>
-        </record>
+    <record id="tab16_200080900" model="sped.situacao_geradora_acidente">
+        <field name="codigo">200080900</field>
+        <field name="nome">Ataque de ser vivo, NIC</field>
+    </record>
 
-        <record id="tab16_209000000" model="sped.situacao_geradora_acidente">
-            <field name="codigo">209000000</field>
-            <field name="nome">Tipo, NIC</field>
-        </record>
+    <record id="tab16_209000000" model="sped.situacao_geradora_acidente">
+        <field name="codigo">209000000</field>
+        <field name="nome">Tipo, NIC</field>
+    </record>
 
-        <record id="tab16_209500000" model="sped.situacao_geradora_acidente">
-            <field name="codigo">209500000</field>
-            <field name="nome">Tipo inexistente</field>
-        </record>
+    <record id="tab16_209500000" model="sped.situacao_geradora_acidente">
+        <field name="codigo">209500000</field>
+        <field name="nome">Tipo inexistente</field>
+    </record>
 
     </data>
 </openerp>

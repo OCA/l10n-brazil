@@ -2,27 +2,28 @@
 <!--
     Copyright 2017 KMEE
     Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
     <data>
 
-        <record id="tab05_1" model="sped.tipos_inscricao">
-            <field name="codigo">1</field>
-            <field name="descricao">CNPJ</field>
-        </record>
-        <record id="tab05_2" model="sped.tipos_inscricao">
-            <field name="codigo">2</field>
-            <field name="descricao">CPF</field>
-        </record>
-        <record id="tab05_3" model="sped.tipos_inscricao">
-            <field name="codigo">3</field>
-            <field name="descricao">CAEPF (Cadastro de Atividade Econômica de Pessoa Física)</field>
-        </record>
-        <record id="tab05_4" model="sped.tipos_inscricao">
-            <field name="codigo">4</field>
-            <field name="descricao">CNO (Cadastro Nacional de Obra)</field>
-        </record>
+    <record id="tab05_1" model="sped.tipos_inscricao">
+        <field name="codigo">1</field>
+        <field name="descricao">CNPJ</field>
+    </record>
+    <record id="tab05_2" model="sped.tipos_inscricao">
+        <field name="codigo">2</field>
+        <field name="descricao">CPF</field>
+    </record>
+    <record id="tab05_3" model="sped.tipos_inscricao">
+        <field name="codigo">3</field>
+        <field name="descricao">CAEPF (Cadastro de Atividade Econômica de Pessoa Física)</field>
+    </record>
+    <record id="tab05_4" model="sped.tipos_inscricao">
+        <field name="codigo">4</field>
+        <field name="descricao">CNO (Cadastro Nacional de Obra)</field>
+    </record>
 
     </data>
 </openerp>

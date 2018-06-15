@@ -2,214 +2,215 @@
 <!--
     Copyright 2017 KMEE
     Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
     <data>
 
-        <record id="tab19_01" model="sped.motivo_desligamento">
-            <field name="codigo">01</field>
-            <field name="nome">Rescisão com justa causa, por iniciativa do empregador</field>
-            <field name="descricao">Rescisão com justa causa, por iniciativa do empregador</field>
-        </record>
+    <record id="tab19_01" model="sped.motivo_desligamento">
+        <field name="codigo">01</field>
+        <field name="nome">Rescisão com justa causa, por iniciativa do empregador</field>
+        <field name="descricao">Rescisão com justa causa, por iniciativa do empregador</field>
+    </record>
 
-        <record id="tab19_02" model="sped.motivo_desligamento">
-            <field name="codigo">02</field>
-            <field name="nome">Rescisão sem justa causa, por iniciativa do empregador</field>
-            <field name="descricao">Rescisão sem justa causa, por iniciativa do empregador</field>
-        </record>
+    <record id="tab19_02" model="sped.motivo_desligamento">
+        <field name="codigo">02</field>
+        <field name="nome">Rescisão sem justa causa, por iniciativa do empregador</field>
+        <field name="descricao">Rescisão sem justa causa, por iniciativa do empregador</field>
+    </record>
 
-        <record id="tab19_03" model="sped.motivo_desligamento">
-            <field name="codigo">03</field>
-            <field name="nome">Rescisão antecipada do contrato a termo por iniciativa do empregador</field>
-            <field name="descricao">Rescisão antecipada do contrato a termo por iniciativa do empregador</field>
-        </record>
+    <record id="tab19_03" model="sped.motivo_desligamento">
+        <field name="codigo">03</field>
+        <field name="nome">Rescisão antecipada do contrato a termo por iniciativa do empregador</field>
+        <field name="descricao">Rescisão antecipada do contrato a termo por iniciativa do empregador</field>
+    </record>
 
-        <record id="tab19_04" model="sped.motivo_desligamento">
-            <field name="codigo">04</field>
-            <field name="nome">Rescisão antecipada do contrato a termo por iniciativa do empregado</field>
-            <field name="descricao">Rescisão antecipada do contrato a termo por iniciativa do empregado</field>
-        </record>
+    <record id="tab19_04" model="sped.motivo_desligamento">
+        <field name="codigo">04</field>
+        <field name="nome">Rescisão antecipada do contrato a termo por iniciativa do empregado</field>
+        <field name="descricao">Rescisão antecipada do contrato a termo por iniciativa do empregado</field>
+    </record>
 
-        <record id="tab19_05" model="sped.motivo_desligamento">
-            <field name="codigo">05</field>
-            <field name="nome">Rescisão por culpa recíproca</field>
-            <field name="descricao">Rescisão por culpa recíproca</field>
-        </record>
+    <record id="tab19_05" model="sped.motivo_desligamento">
+        <field name="codigo">05</field>
+        <field name="nome">Rescisão por culpa recíproca</field>
+        <field name="descricao">Rescisão por culpa recíproca</field>
+    </record>
 
-        <record id="tab19_06" model="sped.motivo_desligamento">
-            <field name="codigo">06</field>
-            <field name="nome">Rescisão por término do contrato a termo</field>
-            <field name="descricao">Rescisão por término do contrato a termo</field>
-        </record>
+    <record id="tab19_06" model="sped.motivo_desligamento">
+        <field name="codigo">06</field>
+        <field name="nome">Rescisão por término do contrato a termo</field>
+        <field name="descricao">Rescisão por término do contrato a termo</field>
+    </record>
 
-        <record id="tab19_07" model="sped.motivo_desligamento">
-            <field name="codigo">07</field>
-            <field name="nome">Rescisão do contrato de trabalho por iniciativa do empregado</field>
-            <field name="descricao">Rescisão do contrato de trabalho por iniciativa do empregado</field>
-        </record>
+    <record id="tab19_07" model="sped.motivo_desligamento">
+        <field name="codigo">07</field>
+        <field name="nome">Rescisão do contrato de trabalho por iniciativa do empregado</field>
+        <field name="descricao">Rescisão do contrato de trabalho por iniciativa do empregado</field>
+    </record>
 
-        <record id="tab19_08" model="sped.motivo_desligamento">
-            <field name="codigo">08</field>
-            <field name="nome">Rescisão do contrato de trabalho por interesse do(a) empregado(a)</field>
-            <field name="descricao">Rescisão do contrato de trabalho por interesse do(a) empregado(a), nas hipóteses previstas nos arts. 394 e 483, § 1o da CLT</field>
-        </record>
+    <record id="tab19_08" model="sped.motivo_desligamento">
+        <field name="codigo">08</field>
+        <field name="nome">Rescisão do contrato de trabalho por interesse do(a) empregado(a)</field>
+        <field name="descricao">Rescisão do contrato de trabalho por interesse do(a) empregado(a), nas hipóteses previstas nos arts. 394 e 483, § 1o da CLT</field>
+    </record>
 
-        <record id="tab19_09" model="sped.motivo_desligamento">
-            <field name="codigo">09</field>
-            <field name="nome">Rescisão por falecimento do empregador por opção do empregado</field>
-            <field name="descricao">Rescisão por falecimento do empregador individual ou empregador doméstico por opção do empregado</field>
-        </record>
+    <record id="tab19_09" model="sped.motivo_desligamento">
+        <field name="codigo">09</field>
+        <field name="nome">Rescisão por falecimento do empregador por opção do empregado</field>
+        <field name="descricao">Rescisão por falecimento do empregador individual ou empregador doméstico por opção do empregado</field>
+    </record>
 
-        <record id="tab19_10" model="sped.motivo_desligamento">
-            <field name="codigo">10</field>
-            <field name="nome">Rescisão por falecimento do empregado</field>
-            <field name="descricao">Rescisão por falecimento do empregado</field>
-        </record>
+    <record id="tab19_10" model="sped.motivo_desligamento">
+        <field name="codigo">10</field>
+        <field name="nome">Rescisão por falecimento do empregado</field>
+        <field name="descricao">Rescisão por falecimento do empregado</field>
+    </record>
 
-        <record id="tab19_11" model="sped.motivo_desligamento">
-            <field name="codigo">11</field>
-            <field name="nome">Transferência de empregado sem rescisão do contrato de trabalho</field>
-            <field name="descricao">Transferência de empregado para empresa do mesmo grupo empresarial que tenha assumido os encargos trabalhistas, sem que tenha havido rescisão do contrato de trabalho</field>
-        </record>
+    <record id="tab19_11" model="sped.motivo_desligamento">
+        <field name="codigo">11</field>
+        <field name="nome">Transferência de empregado sem rescisão do contrato de trabalho</field>
+        <field name="descricao">Transferência de empregado para empresa do mesmo grupo empresarial que tenha assumido os encargos trabalhistas, sem que tenha havido rescisão do contrato de trabalho</field>
+    </record>
 
-        <record id="tab19_12" model="sped.motivo_desligamento">
-            <field name="codigo">12</field>
-            <field name="nome">Transferência de empregado da empresa consorciada sem rescisão do contrato de trabalho</field>
-            <field name="descricao">Transferência de empregado da empresa consorciada para o consórcio que tenha assumido os encargos trabalhistas, e vice-versa, sem que tenha havido rescisão do contrato de trabalho</field>
-        </record>
+    <record id="tab19_12" model="sped.motivo_desligamento">
+        <field name="codigo">12</field>
+        <field name="nome">Transferência de empregado da empresa consorciada sem rescisão do contrato de trabalho</field>
+        <field name="descricao">Transferência de empregado da empresa consorciada para o consórcio que tenha assumido os encargos trabalhistas, e vice-versa, sem que tenha havido rescisão do contrato de trabalho</field>
+    </record>
 
-        <record id="tab19_13" model="sped.motivo_desligamento">
-            <field name="codigo">13</field>
-            <field name="nome">Transferência de empregado de empresa ou consórcio sem rescisão do contrato de trabalho</field>
-            <field name="descricao">Transferência de empregado de empresa ou consórcio, para outra empresa ou consórcio que tenha assumido os encargos trabalhistas por motivo de sucessão (fusão, cisão ou incorporação), sem que tenha havido rescisão do contrato de trabalho</field>
-        </record>
+    <record id="tab19_13" model="sped.motivo_desligamento">
+        <field name="codigo">13</field>
+        <field name="nome">Transferência de empregado de empresa ou consórcio sem rescisão do contrato de trabalho</field>
+        <field name="descricao">Transferência de empregado de empresa ou consórcio, para outra empresa ou consórcio que tenha assumido os encargos trabalhistas por motivo de sucessão (fusão, cisão ou incorporação), sem que tenha havido rescisão do contrato de trabalho</field>
+    </record>
 
-        <record id="tab19_14" model="sped.motivo_desligamento">
-            <field name="codigo">14</field>
-            <field name="nome">Rescisão do contrato de trabalho por encerramento da empresa</field>
-            <field name="descricao">Rescisão do contrato de trabalho por encerramento da empresa, de seus estabelecimentos ou supressão de parte de suas atividades ou falecimento do empregador individual ou empregador doméstico sem continuação da atividade</field>
-        </record>
+    <record id="tab19_14" model="sped.motivo_desligamento">
+        <field name="codigo">14</field>
+        <field name="nome">Rescisão do contrato de trabalho por encerramento da empresa</field>
+        <field name="descricao">Rescisão do contrato de trabalho por encerramento da empresa, de seus estabelecimentos ou supressão de parte de suas atividades ou falecimento do empregador individual ou empregador doméstico sem continuação da atividade</field>
+    </record>
 
-        <record id="tab19_15" model="sped.motivo_desligamento">
-            <field name="codigo">15</field>
-            <field name="nome">Demissão de Aprendizes por Desempenho Insuficiente ou Inadaptação</field>
-            <field name="descricao">Demissão de Aprendizes por Desempenho Insuficiente ou Inadaptação</field>
-        </record>
+    <record id="tab19_15" model="sped.motivo_desligamento">
+        <field name="codigo">15</field>
+        <field name="nome">Demissão de Aprendizes por Desempenho Insuficiente ou Inadaptação</field>
+        <field name="descricao">Demissão de Aprendizes por Desempenho Insuficiente ou Inadaptação</field>
+    </record>
 
-        <record id="tab19_16" model="sped.motivo_desligamento">
-            <field name="codigo">16</field>
-            <field name="nome">Declaração de nulidade do contrato de trabalho quando mantido o direito ao salário</field>
-            <field name="descricao">Declaração de nulidade do contrato de trabalho por infringência ao inciso II do art. 37 da Constituição Federal, quando mantido o direito ao salário</field>
-        </record>
+    <record id="tab19_16" model="sped.motivo_desligamento">
+        <field name="codigo">16</field>
+        <field name="nome">Declaração de nulidade do contrato de trabalho quando mantido o direito ao salário</field>
+        <field name="descricao">Declaração de nulidade do contrato de trabalho por infringência ao inciso II do art. 37 da Constituição Federal, quando mantido o direito ao salário</field>
+    </record>
 
-        <record id="tab19_17" model="sped.motivo_desligamento">
-            <field name="codigo">17</field>
-            <field name="nome">Rescisão Indireta do Contrato de Trabalho</field>
-            <field name="descricao">Rescisão Indireta do Contrato de Trabalho</field>
-        </record>
+    <record id="tab19_17" model="sped.motivo_desligamento">
+        <field name="codigo">17</field>
+        <field name="nome">Rescisão Indireta do Contrato de Trabalho</field>
+        <field name="descricao">Rescisão Indireta do Contrato de Trabalho</field>
+    </record>
 
-        <record id="tab19_18" model="sped.motivo_desligamento">
-            <field name="codigo">18</field>
-            <field name="nome">Aposentadoria Compulsória (somente para categorias de trabalhadores 301 a 309)</field>
-            <field name="descricao">Aposentadoria Compulsória (somente para categorias de trabalhadores 301 a 309)</field>
-        </record>
+    <record id="tab19_18" model="sped.motivo_desligamento">
+        <field name="codigo">18</field>
+        <field name="nome">Aposentadoria Compulsória (somente para categorias de trabalhadores 301 a 309)</field>
+        <field name="descricao">Aposentadoria Compulsória (somente para categorias de trabalhadores 301 a 309)</field>
+    </record>
 
-        <record id="tab19_19" model="sped.motivo_desligamento">
-            <field name="codigo">19</field>
-            <field name="nome">Aposentadoria por idade (somente para categorias de trabalhadores 301 a 309)</field>
-            <field name="descricao">Aposentadoria por idade (somente para categorias de trabalhadores 301 a 309)</field>
-        </record>
+    <record id="tab19_19" model="sped.motivo_desligamento">
+        <field name="codigo">19</field>
+        <field name="nome">Aposentadoria por idade (somente para categorias de trabalhadores 301 a 309)</field>
+        <field name="descricao">Aposentadoria por idade (somente para categorias de trabalhadores 301 a 309)</field>
+    </record>
 
-        <record id="tab19_20" model="sped.motivo_desligamento">
-            <field name="codigo">20</field>
-            <field name="nome">Aposentadoria por idade e tempo de contribuição (somente categorias 301 a 309)</field>
-            <field name="descricao">Aposentadoria por idade e tempo de contribuição (somente categorias 301 a 309)</field>
-        </record>
+    <record id="tab19_20" model="sped.motivo_desligamento">
+        <field name="codigo">20</field>
+        <field name="nome">Aposentadoria por idade e tempo de contribuição (somente categorias 301 a 309)</field>
+        <field name="descricao">Aposentadoria por idade e tempo de contribuição (somente categorias 301 a 309)</field>
+    </record>
 
-        <record id="tab19_21" model="sped.motivo_desligamento">
-            <field name="codigo">21</field>
-            <field name="nome">Reforma Militar (somente para categorias de trabalhadores 301 a 309)</field>
-            <field name="descricao">Reforma Militar (somente para categorias de trabalhadores 301 a 309)</field>
-        </record>
+    <record id="tab19_21" model="sped.motivo_desligamento">
+        <field name="codigo">21</field>
+        <field name="nome">Reforma Militar (somente para categorias de trabalhadores 301 a 309)</field>
+        <field name="descricao">Reforma Militar (somente para categorias de trabalhadores 301 a 309)</field>
+    </record>
 
-        <record id="tab19_22" model="sped.motivo_desligamento">
-            <field name="codigo">22</field>
-            <field name="nome">Reserva Militar (somente para categorias de trabalhadores 301 a 309)</field>
-            <field name="descricao">Reserva Militar (somente para categorias de trabalhadores 301 a 309)</field>
-        </record>
+    <record id="tab19_22" model="sped.motivo_desligamento">
+        <field name="codigo">22</field>
+        <field name="nome">Reserva Militar (somente para categorias de trabalhadores 301 a 309)</field>
+        <field name="descricao">Reserva Militar (somente para categorias de trabalhadores 301 a 309)</field>
+    </record>
 
-        <record id="tab19_23" model="sped.motivo_desligamento">
-            <field name="codigo">23</field>
-            <field name="nome">Exoneração (somente para categorias de trabalhadores 301 a 309)</field>
-            <field name="descricao">Exoneração (somente para categorias de trabalhadores 301 a 309)</field>
-        </record>
+    <record id="tab19_23" model="sped.motivo_desligamento">
+        <field name="codigo">23</field>
+        <field name="nome">Exoneração (somente para categorias de trabalhadores 301 a 309)</field>
+        <field name="descricao">Exoneração (somente para categorias de trabalhadores 301 a 309)</field>
+    </record>
 
-        <record id="tab19_24" model="sped.motivo_desligamento">
-            <field name="codigo">24</field>
-            <field name="nome">Demissão (somente para categorias de trabalhadores 301 a 309)</field>
-            <field name="descricao">Demissão (somente para categorias de trabalhadores 301 a 309)</field>
-        </record>
+    <record id="tab19_24" model="sped.motivo_desligamento">
+        <field name="codigo">24</field>
+        <field name="nome">Demissão (somente para categorias de trabalhadores 301 a 309)</field>
+        <field name="descricao">Demissão (somente para categorias de trabalhadores 301 a 309)</field>
+    </record>
 
-        <record id="tab19_25" model="sped.motivo_desligamento">
-            <field name="codigo">25</field>
-            <field name="nome">Vacância para assumir outro cargo efetivo (somente para categorias de trabalhadores 301 a 309)</field>
-            <field name="descricao">Vacância para assumir outro cargo efetivo (somente para categorias de trabalhadores 301 a 309)</field>
-        </record>
+    <record id="tab19_25" model="sped.motivo_desligamento">
+        <field name="codigo">25</field>
+        <field name="nome">Vacância para assumir outro cargo efetivo (somente para categorias de trabalhadores 301 a 309)</field>
+        <field name="descricao">Vacância para assumir outro cargo efetivo (somente para categorias de trabalhadores 301 a 309)</field>
+    </record>
 
-        <record id="tab19_26" model="sped.motivo_desligamento">
-            <field name="codigo">26</field>
-            <field name="nome">Rescisão do contrato de trabalho por paralisação temporária ou definitiva da empresa</field>
-            <field name="descricao">Rescisão do contrato de trabalho por paralisação temporária ou definitiva da empresa, estabelecimento ou parte das atividades motivada por atos de autoridade municipal, estadual ou federal</field>
-        </record>
+    <record id="tab19_26" model="sped.motivo_desligamento">
+        <field name="codigo">26</field>
+        <field name="nome">Rescisão do contrato de trabalho por paralisação temporária ou definitiva da empresa</field>
+        <field name="descricao">Rescisão do contrato de trabalho por paralisação temporária ou definitiva da empresa, estabelecimento ou parte das atividades motivada por atos de autoridade municipal, estadual ou federal</field>
+    </record>
 
-        <record id="tab19_27" model="sped.motivo_desligamento">
-            <field name="codigo">27</field>
-            <field name="nome">Rescisão por motivo de força maior</field>
-            <field name="descricao">Rescisão por motivo de força maior</field>
-        </record>
+    <record id="tab19_27" model="sped.motivo_desligamento">
+        <field name="codigo">27</field>
+        <field name="nome">Rescisão por motivo de força maior</field>
+        <field name="descricao">Rescisão por motivo de força maior</field>
+    </record>
 
-        <record id="tab19_28" model="sped.motivo_desligamento">
-            <field name="codigo">28</field>
-            <field name="nome">Término da Cessão/Requisição</field>
-            <field name="descricao">Término da Cessão/Requisição</field>
-        </record>
+    <record id="tab19_28" model="sped.motivo_desligamento">
+        <field name="codigo">28</field>
+        <field name="nome">Término da Cessão/Requisição</field>
+        <field name="descricao">Término da Cessão/Requisição</field>
+    </record>
 
-        <record id="tab19_29" model="sped.motivo_desligamento">
-            <field name="codigo">29</field>
-            <field name="nome">Redistribuição</field>
-            <field name="descricao">Redistribuição</field>
-        </record>
+    <record id="tab19_29" model="sped.motivo_desligamento">
+        <field name="codigo">29</field>
+        <field name="nome">Redistribuição</field>
+        <field name="descricao">Redistribuição</field>
+    </record>
 
-        <record id="tab19_30" model="sped.motivo_desligamento">
-            <field name="codigo">30</field>
-            <field name="nome">Mudança de Regime Trabalhista</field>
-            <field name="descricao">Mudança de Regime Trabalhista</field>
-        </record>
+    <record id="tab19_30" model="sped.motivo_desligamento">
+        <field name="codigo">30</field>
+        <field name="nome">Mudança de Regime Trabalhista</field>
+        <field name="descricao">Mudança de Regime Trabalhista</field>
+    </record>
 
-        <record id="tab19_31" model="sped.motivo_desligamento">
-            <field name="codigo">31</field>
-            <field name="nome">Reversão de Reintegração</field>
-            <field name="descricao">Reversão de Reintegração</field>
-        </record>
+    <record id="tab19_31" model="sped.motivo_desligamento">
+        <field name="codigo">31</field>
+        <field name="nome">Reversão de Reintegração</field>
+        <field name="descricao">Reversão de Reintegração</field>
+    </record>
 
-        <record id="tab19_32" model="sped.motivo_desligamento">
-            <field name="codigo">32</field>
-            <field name="nome">Extravio de Militar</field>
-            <field name="descricao">Extravio de Militar</field>
-        </record>
+    <record id="tab19_32" model="sped.motivo_desligamento">
+        <field name="codigo">32</field>
+        <field name="nome">Extravio de Militar</field>
+        <field name="descricao">Extravio de Militar</field>
+    </record>
 
-        <record id="tab19_33" model="sped.motivo_desligamento">
-            <field name="codigo">33</field>
-            <field name="nome">Rescisão por acordo entre as partes (art. 484-A da CLT)</field>
-            <field name="descricao">Rescisão por acordo entre as partes (art. 484-A da CLT)</field>
-        </record>
+    <record id="tab19_33" model="sped.motivo_desligamento">
+        <field name="codigo">33</field>
+        <field name="nome">Rescisão por acordo entre as partes (art. 484-A da CLT)</field>
+        <field name="descricao">Rescisão por acordo entre as partes (art. 484-A da CLT)</field>
+    </record>
 
-        <record id="tab19_34" model="sped.motivo_desligamento">
-            <field name="codigo">34</field>
-            <field name="nome">Transferência de titularidade do empregado doméstico para outro representante da mesma unidade familiar</field>
-            <field name="descricao">Transferência de titularidade do empregado doméstico para outro representante da mesma unidade familiar</field>
-        </record>
+    <record id="tab19_34" model="sped.motivo_desligamento">
+        <field name="codigo">34</field>
+        <field name="nome">Transferência de titularidade do empregado doméstico para outro representante da mesma unidade familiar</field>
+        <field name="descricao">Transferência de titularidade do empregado doméstico para outro representante da mesma unidade familiar</field>
+    </record>
 
     </data>
 </openerp>

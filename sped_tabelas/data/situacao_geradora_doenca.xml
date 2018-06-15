@@ -2,292 +2,293 @@
 <!--
     Copyright 2017 KMEE
     Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
     <data>
 
-        <record id="tab15_200016300" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200016300</field>
-            <field name="nome">Queda de pessoa em mesmo nível em passagem ou superfície de sustentação</field>
-            <field name="descricao">Queda de pessoa em mesmo nível em passagem ou superfície de sustentação. Aplica-se a casos em que a lesão foi produzida por Impacto entre o acidentado e um objeto externo, tendo sido do acidentado o movimento que produziu o contato, nas seguintes circunstâncias: 1) O movimento do acidentado foi devido à ação da gravidade com perda do equilíbrio e impossibilidade de manter-se de pé. 2) O ponto de contato com a fonte da lesão estava, no momento do início da queda, ao nível ou acima da superfície que suportava o acidentado.</field>
-        </record>
+    <record id="tab15_200016300" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200016300</field>
+        <field name="nome">Queda de pessoa em mesmo nível em passagem ou superfície de sustentação</field>
+        <field name="descricao">Queda de pessoa em mesmo nível em passagem ou superfície de sustentação. Aplica-se a casos em que a lesão foi produzida por Impacto entre o acidentado e um objeto externo, tendo sido do acidentado o movimento que produziu o contato, nas seguintes circunstâncias: 1) O movimento do acidentado foi devido à ação da gravidade com perda do equilíbrio e impossibilidade de manter-se de pé. 2) O ponto de contato com a fonte da lesão estava, no momento do início da queda, ao nível ou acima da superfície que suportava o acidentado.</field>
+    </record>
 
-        <record id="tab15_200016600" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200016600</field>
-            <field name="nome">Queda de pessoa em mesmo nível sobre ou contra alguma coisa</field>
-            <field name="descricao">Queda de pessoa em mesmo nível sobre ou contra alguma coisa. Aplica-se a casos em que a lesão foi produzida por Impacto entre o acidentado e um objeto externo, tendo sido do acidentado o movimento que produziu o contato, nas seguintes circunstâncias: 1) O movimento do acidentado foi devido à ação da gravidade com perda do equilíbrio e impossibilidade de manter-se de pé. 2) O ponto de contato com a fonte da lesão estava, no momento do início da queda, ao nível ou acima da superfície que suportava o acidentado.</field>
-        </record>
+    <record id="tab15_200016600" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200016600</field>
+        <field name="nome">Queda de pessoa em mesmo nível sobre ou contra alguma coisa</field>
+        <field name="descricao">Queda de pessoa em mesmo nível sobre ou contra alguma coisa. Aplica-se a casos em que a lesão foi produzida por Impacto entre o acidentado e um objeto externo, tendo sido do acidentado o movimento que produziu o contato, nas seguintes circunstâncias: 1) O movimento do acidentado foi devido à ação da gravidade com perda do equilíbrio e impossibilidade de manter-se de pé. 2) O ponto de contato com a fonte da lesão estava, no momento do início da queda, ao nível ou acima da superfície que suportava o acidentado.</field>
+    </record>
 
-        <record id="tab15_200016900" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200016900</field>
-            <field name="nome">Queda de pessoa em mesmo nível, NIC</field>
-            <field name="descricao">Queda de pessoa em mesmo nível, NIC. Aplica-se a casos em que a lesão foi produzida por Impacto entre o acidentado e um objeto externo, tendo sido do acidentado o movimento que produziu o contato, nas seguintes circunstâncias: 1) O movimento do acidentado foi devido à ação da gravidade com perda do equilíbrio e impossibilidade de manter-se de pé. 2) O ponto de contato com a fonte da lesão estava, no momento do início da queda, ao nível ou acima da superfície que suportava o acidentado.</field>
-        </record>
+    <record id="tab15_200016900" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200016900</field>
+        <field name="nome">Queda de pessoa em mesmo nível, NIC</field>
+        <field name="descricao">Queda de pessoa em mesmo nível, NIC. Aplica-se a casos em que a lesão foi produzida por Impacto entre o acidentado e um objeto externo, tendo sido do acidentado o movimento que produziu o contato, nas seguintes circunstâncias: 1) O movimento do acidentado foi devido à ação da gravidade com perda do equilíbrio e impossibilidade de manter-se de pé. 2) O ponto de contato com a fonte da lesão estava, no momento do início da queda, ao nível ou acima da superfície que suportava o acidentado.</field>
+    </record>
 
-        <record id="tab15_200020100" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200020100</field>
-            <field name="nome">Aprisionamento em, sob ou entre objetos em movimento convergente (calandra) ou de encaixe</field>
-            <field name="descricao">Aprisionamento em, sob ou entre objetos em movimento convergente (calandra) ou de encaixe. Aplica-se a casos, sem impacto, em que a lesão foi produzida por compressão, pinçamento ou esmagamento entre um objeto em movimento e outro parado, entre dois objetos em movimento ou entre partes de um mesmo objeto. Não se aplica quando a fonte da lesão for um objeto livremente projetado ou em queda livre.</field>
-        </record>
+    <record id="tab15_200020100" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200020100</field>
+        <field name="nome">Aprisionamento em, sob ou entre objetos em movimento convergente (calandra) ou de encaixe</field>
+        <field name="descricao">Aprisionamento em, sob ou entre objetos em movimento convergente (calandra) ou de encaixe. Aplica-se a casos, sem impacto, em que a lesão foi produzida por compressão, pinçamento ou esmagamento entre um objeto em movimento e outro parado, entre dois objetos em movimento ou entre partes de um mesmo objeto. Não se aplica quando a fonte da lesão for um objeto livremente projetado ou em queda livre.</field>
+    </record>
 
-        <record id="tab15_200020300" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200020300</field>
-            <field name="nome">Aprisionamento em, sob ou entre um objeto parado e outro em movimento</field>
-            <field name="descricao">Aprisionamento em, sob ou entre um objeto parado e outro em movimento. Aplica-se a casos, sem impacto, em que a lesão foi produzida por compressão, pinçamento ou esmagamento entre um objeto em movimento e outro parado, entre dois objetos em movimento ou entre partes de um mesmo objeto. Não se aplica quando a fonte da lesão for um objeto livremente projetado ou em queda livre.</field>
-        </record>
+    <record id="tab15_200020300" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200020300</field>
+        <field name="nome">Aprisionamento em, sob ou entre um objeto parado e outro em movimento</field>
+        <field name="descricao">Aprisionamento em, sob ou entre um objeto parado e outro em movimento. Aplica-se a casos, sem impacto, em que a lesão foi produzida por compressão, pinçamento ou esmagamento entre um objeto em movimento e outro parado, entre dois objetos em movimento ou entre partes de um mesmo objeto. Não se aplica quando a fonte da lesão for um objeto livremente projetado ou em queda livre.</field>
+    </record>
 
-        <record id="tab15_200020500" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200020500</field>
-            <field name="nome">Aprisionamento em, sob ou entre dois ou mais objetos em movimento (sem encaixe)</field>
-            <field name="descricao">Aprisionamento em, sob ou entre dois ou mais objetos em movimento (sem encaixe). Aplica-se a casos, sem impacto, em que a lesão foi produzida por compressão, pinçamento ou esmagamento entre um objeto em movimento e outro parado, entre dois objetos em movimento ou entre partes de um mesmo objeto. Não se aplica quando a fonte da lesão for um objeto livremente projetado ou em queda livre.</field>
-        </record>
+    <record id="tab15_200020500" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200020500</field>
+        <field name="nome">Aprisionamento em, sob ou entre dois ou mais objetos em movimento (sem encaixe)</field>
+        <field name="descricao">Aprisionamento em, sob ou entre dois ou mais objetos em movimento (sem encaixe). Aplica-se a casos, sem impacto, em que a lesão foi produzida por compressão, pinçamento ou esmagamento entre um objeto em movimento e outro parado, entre dois objetos em movimento ou entre partes de um mesmo objeto. Não se aplica quando a fonte da lesão for um objeto livremente projetado ou em queda livre.</field>
+    </record>
 
-        <record id="tab15_200020700" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200020700</field>
-            <field name="nome">Aprisionamento em, sob ou entre desabamento ou desmoronamento de edificação, barreira, etc</field>
-            <field name="descricao">Aprisionamento em, sob ou entre desabamento ou desmoronamento de edificação, barreira, etc. Aplica-se a casos, sem impacto, em que a lesão foi produzida por compressão, pinçamento ou esmagamento entre um objeto em movimento e outro parado, entre dois objetos em movimento ou entre partes de um mesmo objeto. Não se aplica quando a fonte da lesão for um objeto livremente projetado ou em queda livre.</field>
-        </record>
+    <record id="tab15_200020700" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200020700</field>
+        <field name="nome">Aprisionamento em, sob ou entre desabamento ou desmoronamento de edificação, barreira, etc</field>
+        <field name="descricao">Aprisionamento em, sob ou entre desabamento ou desmoronamento de edificação, barreira, etc. Aplica-se a casos, sem impacto, em que a lesão foi produzida por compressão, pinçamento ou esmagamento entre um objeto em movimento e outro parado, entre dois objetos em movimento ou entre partes de um mesmo objeto. Não se aplica quando a fonte da lesão for um objeto livremente projetado ou em queda livre.</field>
+    </record>
 
-        <record id="tab15_200020900" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200020900</field>
-            <field name="nome">Aprisionamento em, sob ou entre, NIC</field>
-            <field name="descricao">Aprisionamento em, sob ou entre, NIC. Aplica-se a casos, sem impacto, em que a lesão foi produzida por compressão, pinçamento ou esmagamento entre um objeto em movimento e outro parado, entre dois objetos em movimento ou entre partes de um mesmo objeto. Não se aplica quando a fonte da lesão for um objeto livremente projetado ou em queda livre.</field>
-        </record>
+    <record id="tab15_200020900" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200020900</field>
+        <field name="nome">Aprisionamento em, sob ou entre, NIC</field>
+        <field name="descricao">Aprisionamento em, sob ou entre, NIC. Aplica-se a casos, sem impacto, em que a lesão foi produzida por compressão, pinçamento ou esmagamento entre um objeto em movimento e outro parado, entre dois objetos em movimento ou entre partes de um mesmo objeto. Não se aplica quando a fonte da lesão for um objeto livremente projetado ou em queda livre.</field>
+    </record>
 
-        <record id="tab15_200024300" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200024300</field>
-            <field name="nome">Atrito ou abrasão por encostar, pisar, ajoelhar ou sentar em objeto (não em vibração)</field>
-            <field name="descricao">Atrito ou abrasão por encostar, pisar, ajoelhar ou sentar em objeto (não em vibração). Aplica-se a casos, sem impacto, em que a lesão foi produzida por pressão, vibração ou atrito entre o acidentado e a fonte da lesão.</field>
-        </record>
+    <record id="tab15_200024300" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200024300</field>
+        <field name="nome">Atrito ou abrasão por encostar, pisar, ajoelhar ou sentar em objeto (não em vibração)</field>
+        <field name="descricao">Atrito ou abrasão por encostar, pisar, ajoelhar ou sentar em objeto (não em vibração). Aplica-se a casos, sem impacto, em que a lesão foi produzida por pressão, vibração ou atrito entre o acidentado e a fonte da lesão.</field>
+    </record>
 
-        <record id="tab15_200024400" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200024400</field>
-            <field name="nome">Atrito ou abrasão por manusear objeto (não em vibração)</field>
-            <field name="descricao">Atrito ou abrasão por manusear objeto (não em vibração). Aplica-se a casos, sem impacto, em que a lesão foi produzida por pressão, vibração ou atrito entre o acidentado e a fonte da lesão.</field>
-        </record>
+    <record id="tab15_200024400" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200024400</field>
+        <field name="nome">Atrito ou abrasão por manusear objeto (não em vibração)</field>
+        <field name="descricao">Atrito ou abrasão por manusear objeto (não em vibração). Aplica-se a casos, sem impacto, em que a lesão foi produzida por pressão, vibração ou atrito entre o acidentado e a fonte da lesão.</field>
+    </record>
 
-        <record id="tab15_200024500" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200024500</field>
-            <field name="nome">Atrito ou abrasão por objeto em vibração</field>
-            <field name="descricao">Atrito ou abrasão por objeto em vibração. Aplica-se a casos, sem impacto, em que a lesão foi produzida por pressão, vibração ou atrito entre o acidentado e a fonte da lesão.</field>
-        </record>
+    <record id="tab15_200024500" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200024500</field>
+        <field name="nome">Atrito ou abrasão por objeto em vibração</field>
+        <field name="descricao">Atrito ou abrasão por objeto em vibração. Aplica-se a casos, sem impacto, em que a lesão foi produzida por pressão, vibração ou atrito entre o acidentado e a fonte da lesão.</field>
+    </record>
 
-        <record id="tab15_200024600" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200024600</field>
-            <field name="nome">Atrito ou abrasão por corpo estranho no olho</field>
-            <field name="descricao">Atrito ou abrasão por corpo estranho no olho. Aplica-se a casos, sem impacto, em que a lesão foi produzida por pressão, vibração ou atrito entre o acidentado e a fonte da lesão.</field>
-        </record>
+    <record id="tab15_200024600" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200024600</field>
+        <field name="nome">Atrito ou abrasão por corpo estranho no olho</field>
+        <field name="descricao">Atrito ou abrasão por corpo estranho no olho. Aplica-se a casos, sem impacto, em que a lesão foi produzida por pressão, vibração ou atrito entre o acidentado e a fonte da lesão.</field>
+    </record>
 
-        <record id="tab15_200024700" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200024700</field>
-            <field name="nome">Atrito ou abrasão por compressão repetitiva</field>
-            <field name="descricao">Atrito ou abrasão por compressão repetitiva. Aplica-se a casos, sem impacto, em que a lesão foi produzida por pressão, vibração ou atrito entre o acidentado e a fonte da lesão.</field>
-        </record>
+    <record id="tab15_200024700" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200024700</field>
+        <field name="nome">Atrito ou abrasão por compressão repetitiva</field>
+        <field name="descricao">Atrito ou abrasão por compressão repetitiva. Aplica-se a casos, sem impacto, em que a lesão foi produzida por pressão, vibração ou atrito entre o acidentado e a fonte da lesão.</field>
+    </record>
 
-        <record id="tab15_200024900" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200024900</field>
-            <field name="nome">Atrito ou abrasão, NIC</field>
-            <field name="descricao">Atrito ou abrasão, NIC. Aplica-se a casos, sem impacto, em que a lesão foi produzida por pressão, vibração ou atrito entre o acidentado e a fonte da lesão.</field>
-        </record>
+    <record id="tab15_200024900" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200024900</field>
+        <field name="nome">Atrito ou abrasão, NIC</field>
+        <field name="descricao">Atrito ou abrasão, NIC. Aplica-se a casos, sem impacto, em que a lesão foi produzida por pressão, vibração ou atrito entre o acidentado e a fonte da lesão.</field>
+    </record>
 
-        <record id="tab15_200028300" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200028300</field>
-            <field name="nome">Reação do corpo a seus movimentos - movimento involuntário (escorregão sem queda, etc.)</field>
-            <field name="descricao">Reação do corpo a seus movimentos - movimento involuntário (escorregão sem queda, etc.). Aplica-se a casos, sem impacto, em que a lesão foi causada exclusivamente por movimento livre do corpo humano que causou tensão ou torção em alguma parte do corpo. Geralmente, aplica-se à ocorrência de torções, distensões, rupturas ou outras lesões internas, resultantes da adoção de uma posição forçada ou de movimentos involuntários provocados por sustos ou esforços de recuperação da posição normal em casos de escorregão ou perda de equilíbrio. Inclui casos de lesão muscular ou interna resultantes de movimentos individuais como andar, subir, correr, tentar alcançar algo, voltar-se, curvar-se, etc., quando tais movimentos forem a própria fonte da lesão. Não se aplica a esforço excessivo ao erguer, puxar ou empurrar objetos ou a casos em que o movimento do corpo, voluntário ou involuntário, tenha tido por resultado contato violento com algum objeto.</field>
-        </record>
+    <record id="tab15_200028300" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200028300</field>
+        <field name="nome">Reação do corpo a seus movimentos - movimento involuntário (escorregão sem queda, etc.)</field>
+        <field name="descricao">Reação do corpo a seus movimentos - movimento involuntário (escorregão sem queda, etc.). Aplica-se a casos, sem impacto, em que a lesão foi causada exclusivamente por movimento livre do corpo humano que causou tensão ou torção em alguma parte do corpo. Geralmente, aplica-se à ocorrência de torções, distensões, rupturas ou outras lesões internas, resultantes da adoção de uma posição forçada ou de movimentos involuntários provocados por sustos ou esforços de recuperação da posição normal em casos de escorregão ou perda de equilíbrio. Inclui casos de lesão muscular ou interna resultantes de movimentos individuais como andar, subir, correr, tentar alcançar algo, voltar-se, curvar-se, etc., quando tais movimentos forem a própria fonte da lesão. Não se aplica a esforço excessivo ao erguer, puxar ou empurrar objetos ou a casos em que o movimento do corpo, voluntário ou involuntário, tenha tido por resultado contato violento com algum objeto.</field>
+    </record>
 
-        <record id="tab15_200028600" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200028600</field>
-            <field name="nome">Reação do corpo a seus movimentos - movimento voluntário</field>
-            <field name="descricao">Reação do corpo a seus movimentos - movimento voluntário. Aplica-se a casos, sem impacto, em que a lesão foi causada exclusivamente por movimento livre do corpo humano que causou tensão ou torção em alguma parte do corpo. Geralmente, aplica-se à ocorrência de torções, distensões, rupturas ou outras lesões internas, resultantes da adoção de uma posição forçada ou de movimentos involuntários provocados por sustos ou esforços de recuperação da posição normal em casos de escorregão ou perda de equilíbrio. Inclui casos de lesão muscular ou interna resultantes de movimentos individuais como andar, subir, correr, tentar alcançar algo, voltar-se, curvar-se, etc., quando tais movimentos forem a própria fonte da lesão. Não se aplica a esforço excessivo ao erguer, puxar ou empurrar objetos ou a casos em que o movimento do corpo, voluntário ou involuntário, tenha tido por resultado contato violento com algum objeto.</field>
-        </record>
+    <record id="tab15_200028600" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200028600</field>
+        <field name="nome">Reação do corpo a seus movimentos - movimento voluntário</field>
+        <field name="descricao">Reação do corpo a seus movimentos - movimento voluntário. Aplica-se a casos, sem impacto, em que a lesão foi causada exclusivamente por movimento livre do corpo humano que causou tensão ou torção em alguma parte do corpo. Geralmente, aplica-se à ocorrência de torções, distensões, rupturas ou outras lesões internas, resultantes da adoção de uma posição forçada ou de movimentos involuntários provocados por sustos ou esforços de recuperação da posição normal em casos de escorregão ou perda de equilíbrio. Inclui casos de lesão muscular ou interna resultantes de movimentos individuais como andar, subir, correr, tentar alcançar algo, voltar-se, curvar-se, etc., quando tais movimentos forem a própria fonte da lesão. Não se aplica a esforço excessivo ao erguer, puxar ou empurrar objetos ou a casos em que o movimento do corpo, voluntário ou involuntário, tenha tido por resultado contato violento com algum objeto.</field>
+    </record>
 
-        <record id="tab15_200032200" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200032200</field>
-            <field name="nome">Esforço excessivo ao erguer objeto</field>
-            <field name="descricao">Esforço excessivo ao erguer objeto. Ver explicações da classificação anterior (200028000).</field>
-        </record>
+    <record id="tab15_200032200" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200032200</field>
+        <field name="nome">Esforço excessivo ao erguer objeto</field>
+        <field name="descricao">Esforço excessivo ao erguer objeto. Ver explicações da classificação anterior (200028000).</field>
+    </record>
 
-        <record id="tab15_200032400" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200032400</field>
-            <field name="nome">Esforço excessivo ao empurrar ou puxar objeto</field>
-            <field name="descricao">Esforço excessivo ao empurrar ou puxar objeto. Ver explicações da classificação anterior (200028000).</field>
-        </record>
+    <record id="tab15_200032400" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200032400</field>
+        <field name="nome">Esforço excessivo ao empurrar ou puxar objeto</field>
+        <field name="descricao">Esforço excessivo ao empurrar ou puxar objeto. Ver explicações da classificação anterior (200028000).</field>
+    </record>
 
-        <record id="tab15_200032600" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200032600</field>
-            <field name="nome">Esforço excessivo ao manejar, sacudir ou arremessar objeto</field>
-            <field name="descricao">Esforço excessivo ao manejar, sacudir ou arremessar objeto. Ver explicações da classificação anterior (200028000).</field>
-        </record>
+    <record id="tab15_200032600" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200032600</field>
+        <field name="nome">Esforço excessivo ao manejar, sacudir ou arremessar objeto</field>
+        <field name="descricao">Esforço excessivo ao manejar, sacudir ou arremessar objeto. Ver explicações da classificação anterior (200028000).</field>
+    </record>
 
-        <record id="tab15_200032900" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200032900</field>
-            <field name="nome">Esforço excessivo, NIC</field>
-            <field name="descricao">Esforço excessivo, NIC. Ver explicações da classificação anterior (200028000).</field>
-        </record>
+    <record id="tab15_200032900" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200032900</field>
+        <field name="nome">Esforço excessivo, NIC</field>
+        <field name="descricao">Esforço excessivo, NIC. Ver explicações da classificação anterior (200028000).</field>
+    </record>
 
-        <record id="tab15_200036000" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200036000</field>
-            <field name="nome">Exposição a energia elétrica</field>
-            <field name="descricao">Exposição a energia elétrica. Aplica-se somente a casos sem impacto, em que a lesão consiste em choque elétrico, queimadura ou eletroplessão (eletrocussão).</field>
-        </record>
+    <record id="tab15_200036000" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200036000</field>
+        <field name="nome">Exposição a energia elétrica</field>
+        <field name="descricao">Exposição a energia elétrica. Aplica-se somente a casos sem impacto, em que a lesão consiste em choque elétrico, queimadura ou eletroplessão (eletrocussão).</field>
+    </record>
 
-        <record id="tab15_200040300" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200040300</field>
-            <field name="nome">Contato com objeto ou substância a temperatura muito alta</field>
-            <field name="descricao">Contato com objeto ou substância a temperatura muito alta. Aplica-se somente a casos, sem impacto, em que a lesão consiste em queimadura, geladura, etc., resultante queimadura, geladura, etc., resultante de contato com objetos, ar, gases, vapores ou líquidos quentes ou frios. Não se aplica a casos em que a lesão foi provocada pelas características tóxicas ou cáusticas de produtos químicos ou a queimadura por descarga elétrica.</field>
-        </record>
+    <record id="tab15_200040300" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200040300</field>
+        <field name="nome">Contato com objeto ou substância a temperatura muito alta</field>
+        <field name="descricao">Contato com objeto ou substância a temperatura muito alta. Aplica-se somente a casos, sem impacto, em que a lesão consiste em queimadura, geladura, etc., resultante queimadura, geladura, etc., resultante de contato com objetos, ar, gases, vapores ou líquidos quentes ou frios. Não se aplica a casos em que a lesão foi provocada pelas características tóxicas ou cáusticas de produtos químicos ou a queimadura por descarga elétrica.</field>
+    </record>
 
-        <record id="tab15_200040600" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200040600</field>
-            <field name="nome">Contato com objeto ou substância a temperatura muito baixa</field>
-            <field name="descricao">Contato com objeto ou substância a temperatura muito baixa. Aplica-se somente a casos, sem impacto, em que a lesão consiste em queimadura, geladura, etc., resultante queimadura, geladura, etc., resultante de contato com objetos, ar, gases, vapores ou líquidos quentes ou frios. Não se aplica a casos em que a lesão foi provocada pelas características tóxicas ou cáusticas de produtos químicos ou a queimadura por descarga elétrica.</field>
-        </record>
+    <record id="tab15_200040600" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200040600</field>
+        <field name="nome">Contato com objeto ou substância a temperatura muito baixa</field>
+        <field name="descricao">Contato com objeto ou substância a temperatura muito baixa. Aplica-se somente a casos, sem impacto, em que a lesão consiste em queimadura, geladura, etc., resultante queimadura, geladura, etc., resultante de contato com objetos, ar, gases, vapores ou líquidos quentes ou frios. Não se aplica a casos em que a lesão foi provocada pelas características tóxicas ou cáusticas de produtos químicos ou a queimadura por descarga elétrica.</field>
+    </record>
 
-        <record id="tab15_200044300" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200044300</field>
-            <field name="nome">Exposição à temperatura ambiente elevada</field>
-            <field name="descricao">Exposição à temperatura ambiente elevada. Não se aplica aos casos de lesão proveniente de exposição à radiação solar ou outras radiações. Também não se aplica a casos de queimadura ou geladura provocada por contato com objeto ou substância a temperaturas extremas ou queimadura devida à energia elétrica.</field>
-        </record>
+    <record id="tab15_200044300" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200044300</field>
+        <field name="nome">Exposição à temperatura ambiente elevada</field>
+        <field name="descricao">Exposição à temperatura ambiente elevada. Não se aplica aos casos de lesão proveniente de exposição à radiação solar ou outras radiações. Também não se aplica a casos de queimadura ou geladura provocada por contato com objeto ou substância a temperaturas extremas ou queimadura devida à energia elétrica.</field>
+    </record>
 
-        <record id="tab15_200044600" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200044600</field>
-            <field name="nome">Não se aplica aos casos de lesão proveniente de exposição à radiação solar ou outras radiações</field>
-            <field name="descricao">Não se aplica aos casos de lesão proveniente de exposição à radiação solar ou outras radiações. Também não se aplica a casos de queimadura ou geladura provocada por contato com objeto ou substância a temperaturas extremas ou queimadura devida à energia elétrica.</field>
-        </record>
+    <record id="tab15_200044600" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200044600</field>
+        <field name="nome">Não se aplica aos casos de lesão proveniente de exposição à radiação solar ou outras radiações</field>
+        <field name="descricao">Não se aplica aos casos de lesão proveniente de exposição à radiação solar ou outras radiações. Também não se aplica a casos de queimadura ou geladura provocada por contato com objeto ou substância a temperaturas extremas ou queimadura devida à energia elétrica.</field>
+    </record>
 
-        <record id="tab15_200048200" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200048200</field>
-            <field name="nome">Inalação de substância cáustica, tóxica ou nociva</field>
-            <field name="descricao">Inalação de substância cáustica, tóxica ou nociva. Aplica-se somente a casos, sem impacto, em que a lesão foi provocada por inalação, absorção ou ingestão de substâncias nocivas. Geralmente, refere-se a intoxicações, envenenamentos, queimaduras, irritações ou reações alérgicas por produtos químicos.</field>
-        </record>
+    <record id="tab15_200048200" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200048200</field>
+        <field name="nome">Inalação de substância cáustica, tóxica ou nociva</field>
+        <field name="descricao">Inalação de substância cáustica, tóxica ou nociva. Aplica-se somente a casos, sem impacto, em que a lesão foi provocada por inalação, absorção ou ingestão de substâncias nocivas. Geralmente, refere-se a intoxicações, envenenamentos, queimaduras, irritações ou reações alérgicas por produtos químicos.</field>
+    </record>
 
-        <record id="tab15_200048400" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200048400</field>
-            <field name="nome">Ingestão de substancia cáustica, tóxica ou nociva</field>
-            <field name="descricao">Ingestão de substancia cáustica, tóxica ou nociva. Aplica-se somente a casos, sem impacto, em que a lesão foi provocada por inalação, absorção ou ingestão de substâncias nocivas. Geralmente, refere-se a intoxicações, envenenamentos, queimaduras, irritações ou reações alérgicas por produtos químicos.</field>
-        </record>
+    <record id="tab15_200048400" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200048400</field>
+        <field name="nome">Ingestão de substancia cáustica, tóxica ou nociva</field>
+        <field name="descricao">Ingestão de substancia cáustica, tóxica ou nociva. Aplica-se somente a casos, sem impacto, em que a lesão foi provocada por inalação, absorção ou ingestão de substâncias nocivas. Geralmente, refere-se a intoxicações, envenenamentos, queimaduras, irritações ou reações alérgicas por produtos químicos.</field>
+    </record>
 
-        <record id="tab15_200048600" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200048600</field>
-            <field name="nome">Absorção (por contato) de substância cáustica, tóxica ou nociva</field>
-            <field name="descricao">Absorção (por contato) de substância cáustica, tóxica ou nociva. Aplica-se somente a casos, sem impacto, em que a lesão foi provocada por inalação, absorção ou ingestão de substâncias nocivas. Geralmente, refere-se a intoxicações, envenenamentos, queimaduras, irritações ou reações alérgicas por produtos químicos.</field>
-        </record>
+    <record id="tab15_200048600" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200048600</field>
+        <field name="nome">Absorção (por contato) de substância cáustica, tóxica ou nociva</field>
+        <field name="descricao">Absorção (por contato) de substância cáustica, tóxica ou nociva. Aplica-se somente a casos, sem impacto, em que a lesão foi provocada por inalação, absorção ou ingestão de substâncias nocivas. Geralmente, refere-se a intoxicações, envenenamentos, queimaduras, irritações ou reações alérgicas por produtos químicos.</field>
+    </record>
 
-        <record id="tab15_200048900" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200048900</field>
-            <field name="nome">Inalação, ingestão e absorção, NIC</field>
-            <field name="descricao">Inalação, ingestão e absorção, NIC. Aplica-se somente a casos, sem impacto, em que a lesão foi provocada por inalação, absorção ou ingestão de substâncias nocivas. Geralmente, refere-se a intoxicações, envenenamentos, queimaduras, irritações ou reações alérgicas por produtos químicos.</field>
-        </record>
+    <record id="tab15_200048900" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200048900</field>
+        <field name="nome">Inalação, ingestão e absorção, NIC</field>
+        <field name="descricao">Inalação, ingestão e absorção, NIC. Aplica-se somente a casos, sem impacto, em que a lesão foi provocada por inalação, absorção ou ingestão de substâncias nocivas. Geralmente, refere-se a intoxicações, envenenamentos, queimaduras, irritações ou reações alérgicas por produtos químicos.</field>
+    </record>
 
-        <record id="tab15_200052000" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200052000</field>
-            <field name="nome">Imersão.</field>
-            <field name="descricao">Imersão. Aplica-se aos acidentes que têm por consequência o afogamento.</field>
-        </record>
+    <record id="tab15_200052000" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200052000</field>
+        <field name="nome">Imersão.</field>
+        <field name="descricao">Imersão. Aplica-se aos acidentes que têm por consequência o afogamento.</field>
+    </record>
 
-        <record id="tab15_200056000" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200056000</field>
-            <field name="nome">Exposição à radiação não ionizante</field>
-            <field name="descricao">Exposição à radiação não ionizante. Aplica-se a casos em que as lesões são provocadas por exposição à radiação solar ou outras radiações não ionizantes (por exemplo: ultravioleta e infravermelho).</field>
-        </record>
+    <record id="tab15_200056000" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200056000</field>
+        <field name="nome">Exposição à radiação não ionizante</field>
+        <field name="descricao">Exposição à radiação não ionizante. Aplica-se a casos em que as lesões são provocadas por exposição à radiação solar ou outras radiações não ionizantes (por exemplo: ultravioleta e infravermelho).</field>
+    </record>
 
-        <record id="tab15_200060000" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200060000</field>
-            <field name="nome">Exposição à radiação ionizante.</field>
-            <field name="descricao">Exposição à radiação ionizante.</field>
-        </record>
+    <record id="tab15_200060000" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200060000</field>
+        <field name="nome">Exposição à radiação ionizante.</field>
+        <field name="descricao">Exposição à radiação ionizante.</field>
+    </record>
 
-        <record id="tab15_200064000" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200064000</field>
-            <field name="nome">Exposição ao ruído.</field>
-            <field name="descricao">Exposição ao ruído.</field>
-        </record>
+    <record id="tab15_200064000" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200064000</field>
+        <field name="nome">Exposição ao ruído.</field>
+        <field name="descricao">Exposição ao ruído.</field>
+    </record>
 
-        <record id="tab15_200068000" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200068000</field>
-            <field name="nome">Exposição à vibração.</field>
-            <field name="descricao">Exposição à vibração.</field>
-        </record>
+    <record id="tab15_200068000" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200068000</field>
+        <field name="nome">Exposição à vibração.</field>
+        <field name="descricao">Exposição à vibração.</field>
+    </record>
 
-        <record id="tab15_200072300" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200072300</field>
-            <field name="nome">Exposição à pressão ambiente elevada.</field>
-            <field name="descricao">Exposição à pressão ambiente elevada.</field>
-        </record>
+    <record id="tab15_200072300" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200072300</field>
+        <field name="nome">Exposição à pressão ambiente elevada.</field>
+        <field name="descricao">Exposição à pressão ambiente elevada.</field>
+    </record>
 
-        <record id="tab15_200072600" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200072600</field>
-            <field name="nome">Exposição à pressão ambiente baixa.</field>
-            <field name="descricao">Exposição à pressão ambiente baixa.</field>
-        </record>
+    <record id="tab15_200072600" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200072600</field>
+        <field name="nome">Exposição à pressão ambiente baixa.</field>
+        <field name="descricao">Exposição à pressão ambiente baixa.</field>
+    </record>
 
-        <record id="tab15_200076200" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200076200</field>
-            <field name="nome">Exposição à poluição da água.</field>
-            <field name="descricao">Exposição à poluição da água.</field>
-        </record>
+    <record id="tab15_200076200" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200076200</field>
+        <field name="nome">Exposição à poluição da água.</field>
+        <field name="descricao">Exposição à poluição da água.</field>
+    </record>
 
-        <record id="tab15_200076400" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200076400</field>
-            <field name="nome">Exposição à poluição do ar.</field>
-            <field name="descricao">Exposição à poluição do ar.</field>
-        </record>
+    <record id="tab15_200076400" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200076400</field>
+        <field name="nome">Exposição à poluição do ar.</field>
+        <field name="descricao">Exposição à poluição do ar.</field>
+    </record>
 
-        <record id="tab15_200076600" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200076600</field>
-            <field name="nome">Exposição à poluição do solo.</field>
-            <field name="descricao">Exposição à poluição do solo.</field>
-        </record>
+    <record id="tab15_200076600" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200076600</field>
+        <field name="nome">Exposição à poluição do solo.</field>
+        <field name="descricao">Exposição à poluição do solo.</field>
+    </record>
 
-        <record id="tab15_200076900" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200076900</field>
-            <field name="nome">Exposição à poluição, NIC.</field>
-            <field name="descricao">Exposição à poluição, NIC.</field>
-        </record>
+    <record id="tab15_200076900" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200076900</field>
+        <field name="nome">Exposição à poluição, NIC.</field>
+        <field name="descricao">Exposição à poluição, NIC.</field>
+    </record>
 
-        <record id="tab15_200080200" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200080200</field>
-            <field name="nome">Ataque de ser vivo por mordedura, picada, chifrada, coice, etc.</field>
-            <field name="descricao">Ataque de ser vivo por mordedura, picada, chifrada, coice, etc., não se aplicando no caso de haver peçonha ou transmissão de doença.</field>
-        </record>
+    <record id="tab15_200080200" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200080200</field>
+        <field name="nome">Ataque de ser vivo por mordedura, picada, chifrada, coice, etc.</field>
+        <field name="descricao">Ataque de ser vivo por mordedura, picada, chifrada, coice, etc., não se aplicando no caso de haver peçonha ou transmissão de doença.</field>
+    </record>
 
-        <record id="tab15_200080400" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200080400</field>
-            <field name="nome">Ataque de ser vivo com peçonha.</field>
-            <field name="descricao">Ataque de ser vivo com peçonha.</field>
-        </record>
+    <record id="tab15_200080400" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200080400</field>
+        <field name="nome">Ataque de ser vivo com peçonha.</field>
+        <field name="descricao">Ataque de ser vivo com peçonha.</field>
+    </record>
 
-        <record id="tab15_200080600" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200080600</field>
-            <field name="nome">Ataque de ser vivo com transmissão de doença.</field>
-            <field name="descricao">Ataque de ser vivo com transmissão de doença.</field>
-        </record>
+    <record id="tab15_200080600" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200080600</field>
+        <field name="nome">Ataque de ser vivo com transmissão de doença.</field>
+        <field name="descricao">Ataque de ser vivo com transmissão de doença.</field>
+    </record>
 
-        <record id="tab15_200080900" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200080900</field>
-            <field name="nome">Ataque de ser vivo (inclusive do homem), NIC.</field>
-            <field name="descricao">Ataque de ser vivo (inclusive do homem), NIC.</field>
-        </record>
+    <record id="tab15_200080900" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200080900</field>
+        <field name="nome">Ataque de ser vivo (inclusive do homem), NIC.</field>
+        <field name="descricao">Ataque de ser vivo (inclusive do homem), NIC.</field>
+    </record>
 
-        <record id="tab15_200080901" model="sped.situacao_geradora_doenca">
-            <field name="codigo">200080901</field>
-            <field name="nome">Contato com pessoas doentes ou material infecto-contagiante - agentes biológicos.</field>
-            <field name="descricao">Contato com pessoas doentes ou material infecto-contagiante - agentes biológicos.</field>
-        </record>
+    <record id="tab15_200080901" model="sped.situacao_geradora_doenca">
+        <field name="codigo">200080901</field>
+        <field name="nome">Contato com pessoas doentes ou material infecto-contagiante - agentes biológicos.</field>
+        <field name="descricao">Contato com pessoas doentes ou material infecto-contagiante - agentes biológicos.</field>
+    </record>
 
-        <record id="tab15_209000000" model="sped.situacao_geradora_doenca">
-            <field name="codigo">209000000</field>
-            <field name="nome">Tipo, NIC</field>
-            <field name="descricao">Tipo, NIC</field>
-        </record>
+    <record id="tab15_209000000" model="sped.situacao_geradora_doenca">
+        <field name="codigo">209000000</field>
+        <field name="nome">Tipo, NIC</field>
+        <field name="descricao">Tipo, NIC</field>
+    </record>
 
-        <record id="tab15_209500000" model="sped.situacao_geradora_doenca">
-            <field name="codigo">209500000</field>
-            <field name="nome">Tipo inexistente</field>
-            <field name="descricao">Tipo inexistente</field>
-        </record>
+    <record id="tab15_209500000" model="sped.situacao_geradora_doenca">
+        <field name="codigo">209500000</field>
+        <field name="nome">Tipo inexistente</field>
+        <field name="descricao">Tipo inexistente</field>
+    </record>
 
     </data>
 </openerp>

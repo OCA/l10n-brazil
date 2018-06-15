@@ -2,6 +2,7 @@
 <!--
     Copyright 2017 KMEE
     Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
@@ -144,6 +145,7 @@ do item 7.4.2.3 desta NR, mesmo sem sintomatologia, caberá ao médico-coordenad
         <field name="codigo">5.0.01</field>
         <field name="nome">Outros</field>
     </record>
+
 
     </data>
 </openerp>

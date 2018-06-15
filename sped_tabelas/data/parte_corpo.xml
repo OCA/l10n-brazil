@@ -2,235 +2,236 @@
 <!--
     Copyright 2017 KMEE
     Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
     <data>
 
-        <record id="tab13_753030000" model="sped.parte_corpo">
-            <field name="codigo">753030000</field>
-            <field name="nome">Crânio (inclusive encéfalo)</field>
-        </record>
+    <record id="tab13_753030000" model="sped.parte_corpo">
+        <field name="codigo">753030000</field>
+        <field name="nome">Crânio (inclusive encéfalo)</field>
+    </record>
 
-        <record id="tab13_753050000" model="sped.parte_corpo">
-            <field name="codigo">753050000</field>
-            <field name="nome">Ouvido (externo, médio, interno, audição e equilíbrio)</field>
-        </record>
+    <record id="tab13_753050000" model="sped.parte_corpo">
+        <field name="codigo">753050000</field>
+        <field name="nome">Ouvido (externo, médio, interno, audição e equilíbrio)</field>
+    </record>
 
-        <record id="tab13_753070100" model="sped.parte_corpo">
-            <field name="codigo">753070100</field>
-            <field name="nome">Olho (inclusive nervo ótico e visão)</field>
-        </record>
+    <record id="tab13_753070100" model="sped.parte_corpo">
+        <field name="codigo">753070100</field>
+        <field name="nome">Olho (inclusive nervo ótico e visão)</field>
+    </record>
 
-        <record id="tab13_753070300" model="sped.parte_corpo">
-            <field name="codigo">753070300</field>
-            <field name="nome">Nariz (inclusive fossas nasais, seios da face e olfato)</field>
-        </record>
+    <record id="tab13_753070300" model="sped.parte_corpo">
+        <field name="codigo">753070300</field>
+        <field name="nome">Nariz (inclusive fossas nasais, seios da face e olfato)</field>
+    </record>
 
-        <record id="tab13_753070500" model="sped.parte_corpo">
-            <field name="codigo">753070500</field>
-            <field name="nome">Boca (inclusive lábios, dentes, língua, garganta e paladar)</field>
-        </record>
+    <record id="tab13_753070500" model="sped.parte_corpo">
+        <field name="codigo">753070500</field>
+        <field name="nome">Boca (inclusive lábios, dentes, língua, garganta e paladar)</field>
+    </record>
 
-        <record id="tab13_753070700" model="sped.parte_corpo">
-            <field name="codigo">753070700</field>
-            <field name="nome">Mandíbula (inclusive queixo)</field>
-        </record>
+    <record id="tab13_753070700" model="sped.parte_corpo">
+        <field name="codigo">753070700</field>
+        <field name="nome">Mandíbula (inclusive queixo)</field>
+    </record>
 
-        <record id="tab13_753070800" model="sped.parte_corpo">
-            <field name="codigo">753070800</field>
-            <field name="nome">Face, partes múltiplas (qualquer combinação das partes acima)</field>
-        </record>
+    <record id="tab13_753070800" model="sped.parte_corpo">
+        <field name="codigo">753070800</field>
+        <field name="nome">Face, partes múltiplas (qualquer combinação das partes acima)</field>
+    </record>
 
-        <record id="tab13_753080000" model="sped.parte_corpo">
-            <field name="codigo">753080000</field>
-            <field name="nome">Cabeça, partes múltiplas (qualquer combinação das partes acima)</field>
-        </record>
+    <record id="tab13_753080000" model="sped.parte_corpo">
+        <field name="codigo">753080000</field>
+        <field name="nome">Cabeça, partes múltiplas (qualquer combinação das partes acima)</field>
+    </record>
 
-        <record id="tab13_753090000" model="sped.parte_corpo">
-            <field name="codigo">753090000</field>
-            <field name="nome">Cabeça, NIC</field>
-        </record>
+    <record id="tab13_753090000" model="sped.parte_corpo">
+        <field name="codigo">753090000</field>
+        <field name="nome">Cabeça, NIC</field>
+    </record>
 
-        <record id="tab13_753510000" model="sped.parte_corpo">
-            <field name="codigo">753510000</field>
-            <field name="nome">Braço (entre o punho a o ombro)</field>
-        </record>
+    <record id="tab13_753510000" model="sped.parte_corpo">
+        <field name="codigo">753510000</field>
+        <field name="nome">Braço (entre o punho a o ombro)</field>
+    </record>
 
-        <record id="tab13_753510200" model="sped.parte_corpo">
-            <field name="codigo">753510200</field>
-            <field name="nome">Braço (acima do cotovelo)</field>
-        </record>
+    <record id="tab13_753510200" model="sped.parte_corpo">
+        <field name="codigo">753510200</field>
+        <field name="nome">Braço (acima do cotovelo)</field>
+    </record>
 
-        <record id="tab13_754000000" model="sped.parte_corpo">
-            <field name="codigo">754000000</field>
-            <field name="nome">Pescoço</field>
-        </record>
+    <record id="tab13_754000000" model="sped.parte_corpo">
+        <field name="codigo">754000000</field>
+        <field name="nome">Pescoço</field>
+    </record>
 
-        <record id="tab13_755010400" model="sped.parte_corpo">
-            <field name="codigo">755010400</field>
-            <field name="nome">Cotovelo</field>
-        </record>
+    <record id="tab13_755010400" model="sped.parte_corpo">
+        <field name="codigo">755010400</field>
+        <field name="nome">Cotovelo</field>
+    </record>
 
-        <record id="tab13_755010600" model="sped.parte_corpo">
-            <field name="codigo">755010600</field>
-            <field name="nome">Antebraço (entre o punho e o cotovelo)</field>
-        </record>
+    <record id="tab13_755010600" model="sped.parte_corpo">
+        <field name="codigo">755010600</field>
+        <field name="nome">Antebraço (entre o punho e o cotovelo)</field>
+    </record>
 
-        <record id="tab13_755030000" model="sped.parte_corpo">
-            <field name="codigo">755030000</field>
-            <field name="nome">Punho</field>
-        </record>
+    <record id="tab13_755030000" model="sped.parte_corpo">
+        <field name="codigo">755030000</field>
+        <field name="nome">Punho</field>
+    </record>
 
-        <record id="tab13_755050000" model="sped.parte_corpo">
-            <field name="codigo">755050000</field>
-            <field name="nome">Mão (exceto punho ou dedos)</field>
-        </record>
+    <record id="tab13_755050000" model="sped.parte_corpo">
+        <field name="codigo">755050000</field>
+        <field name="nome">Mão (exceto punho ou dedos)</field>
+    </record>
 
-        <record id="tab13_755070000" model="sped.parte_corpo">
-            <field name="codigo">755070000</field>
-            <field name="nome">Dedo</field>
-        </record>
+    <record id="tab13_755070000" model="sped.parte_corpo">
+        <field name="codigo">755070000</field>
+        <field name="nome">Dedo</field>
+    </record>
 
-        <record id="tab13_755080000" model="sped.parte_corpo">
-            <field name="codigo">755080000</field>
-            <field name="nome">Membros superiores, partes múltiplas (qualquer combinação das partes acima)</field>
-        </record>
+    <record id="tab13_755080000" model="sped.parte_corpo">
+        <field name="codigo">755080000</field>
+        <field name="nome">Membros superiores, partes múltiplas (qualquer combinação das partes acima)</field>
+    </record>
 
-        <record id="tab13_755090000" model="sped.parte_corpo">
-            <field name="codigo">755090000</field>
-            <field name="nome">Membros superiores, NIC</field>
-        </record>
+    <record id="tab13_755090000" model="sped.parte_corpo">
+        <field name="codigo">755090000</field>
+        <field name="nome">Membros superiores, NIC</field>
+    </record>
 
-        <record id="tab13_756020000" model="sped.parte_corpo">
-            <field name="codigo">756020000</field>
-            <field name="nome">Ombro</field>
-        </record>
+    <record id="tab13_756020000" model="sped.parte_corpo">
+        <field name="codigo">756020000</field>
+        <field name="nome">Ombro</field>
+    </record>
 
-        <record id="tab13_756030000" model="sped.parte_corpo">
-            <field name="codigo">756030000</field>
-            <field name="nome">Tórax (inclusive órgãos internos)</field>
-        </record>
+    <record id="tab13_756030000" model="sped.parte_corpo">
+        <field name="codigo">756030000</field>
+        <field name="nome">Tórax (inclusive órgãos internos)</field>
+    </record>
 
-        <record id="tab13_756040000" model="sped.parte_corpo">
-            <field name="codigo">756040000</field>
-            <field name="nome">Dorso (inclusive músculos dorsais, coluna e medula espinhal)</field>
-        </record>
+    <record id="tab13_756040000" model="sped.parte_corpo">
+        <field name="codigo">756040000</field>
+        <field name="nome">Dorso (inclusive músculos dorsais, coluna e medula espinhal)</field>
+    </record>
 
-        <record id="tab13_756050000" model="sped.parte_corpo">
-            <field name="codigo">756050000</field>
-            <field name="nome">Abdome (inclusive órgãos internos)</field>
-        </record>
+    <record id="tab13_756050000" model="sped.parte_corpo">
+        <field name="codigo">756050000</field>
+        <field name="nome">Abdome (inclusive órgãos internos)</field>
+    </record>
 
-        <record id="tab13_756060000" model="sped.parte_corpo">
-            <field name="codigo">756060000</field>
-            <field name="nome">Quadris (inclusive pélvis, órgãos pélvicos e nádegas)</field>
-        </record>
+    <record id="tab13_756060000" model="sped.parte_corpo">
+        <field name="codigo">756060000</field>
+        <field name="nome">Quadris (inclusive pélvis, órgãos pélvicos e nádegas)</field>
+    </record>
 
-        <record id="tab13_756070000" model="sped.parte_corpo">
-            <field name="codigo">756070000</field>
-            <field name="nome">Tronco, partes múltiplas (qualquer combinação das partes acima)</field>
-        </record>
+    <record id="tab13_756070000" model="sped.parte_corpo">
+        <field name="codigo">756070000</field>
+        <field name="nome">Tronco, partes múltiplas (qualquer combinação das partes acima)</field>
+    </record>
 
-        <record id="tab13_756090000" model="sped.parte_corpo">
-            <field name="codigo">756090000</field>
-            <field name="nome">Tronco, NIC</field>
-        </record>
+    <record id="tab13_756090000" model="sped.parte_corpo">
+        <field name="codigo">756090000</field>
+        <field name="nome">Tronco, NIC</field>
+    </record>
 
-        <record id="tab13_757010000" model="sped.parte_corpo">
-            <field name="codigo">757010000</field>
-            <field name="nome">Perna (entre o tornozelo e a pélvis)</field>
-        </record>
+    <record id="tab13_757010000" model="sped.parte_corpo">
+        <field name="codigo">757010000</field>
+        <field name="nome">Perna (entre o tornozelo e a pélvis)</field>
+    </record>
 
-        <record id="tab13_757010200" model="sped.parte_corpo">
-            <field name="codigo">757010200</field>
-            <field name="nome">Coxa</field>
-        </record>
+    <record id="tab13_757010200" model="sped.parte_corpo">
+        <field name="codigo">757010200</field>
+        <field name="nome">Coxa</field>
+    </record>
 
-        <record id="tab13_757010400" model="sped.parte_corpo">
-            <field name="codigo">757010400</field>
-            <field name="nome">Joelho</field>
-        </record>
+    <record id="tab13_757010400" model="sped.parte_corpo">
+        <field name="codigo">757010400</field>
+        <field name="nome">Joelho</field>
+    </record>
 
-        <record id="tab13_757010600" model="sped.parte_corpo">
-            <field name="codigo">757010600</field>
-            <field name="nome">Perna (do tornozelo, exclusive, ao joelho, exclusive)</field>
-        </record>
+    <record id="tab13_757010600" model="sped.parte_corpo">
+        <field name="codigo">757010600</field>
+        <field name="nome">Perna (do tornozelo, exclusive, ao joelho, exclusive)</field>
+    </record>
 
-        <record id="tab13_757030000" model="sped.parte_corpo">
-            <field name="codigo">757030000</field>
-            <field name="nome">Articulação do tornozelo</field>
-        </record>
+    <record id="tab13_757030000" model="sped.parte_corpo">
+        <field name="codigo">757030000</field>
+        <field name="nome">Articulação do tornozelo</field>
+    </record>
 
-        <record id="tab13_757050000" model="sped.parte_corpo">
-            <field name="codigo">757050000</field>
-            <field name="nome">Pé (exceto artelhos)</field>
-        </record>
+    <record id="tab13_757050000" model="sped.parte_corpo">
+        <field name="codigo">757050000</field>
+        <field name="nome">Pé (exceto artelhos)</field>
+    </record>
 
-        <record id="tab13_757070000" model="sped.parte_corpo">
-            <field name="codigo">757070000</field>
-            <field name="nome">Artelho</field>
-        </record>
+    <record id="tab13_757070000" model="sped.parte_corpo">
+        <field name="codigo">757070000</field>
+        <field name="nome">Artelho</field>
+    </record>
 
-        <record id="tab13_757080000" model="sped.parte_corpo">
-            <field name="codigo">757080000</field>
-            <field name="nome">Membros inferiores, partes múltiplas (qualquer combinação das partes acima)</field>
-        </record>
+    <record id="tab13_757080000" model="sped.parte_corpo">
+        <field name="codigo">757080000</field>
+        <field name="nome">Membros inferiores, partes múltiplas (qualquer combinação das partes acima)</field>
+    </record>
 
-        <record id="tab13_757090000" model="sped.parte_corpo">
-            <field name="codigo">757090000</field>
-            <field name="nome">Membros inferiores, NIC</field>
-        </record>
+    <record id="tab13_757090000" model="sped.parte_corpo">
+        <field name="codigo">757090000</field>
+        <field name="nome">Membros inferiores, NIC</field>
+    </record>
 
-        <record id="tab13_758000000" model="sped.parte_corpo">
-            <field name="codigo">758000000</field>
-            <field name="nome">Partes múltiplas. Aplica-se quando mais de uma parte importante do corpo for afetada, como por exemplo, um braço e uma perna</field>
-        </record>
+    <record id="tab13_758000000" model="sped.parte_corpo">
+        <field name="codigo">758000000</field>
+        <field name="nome">Partes múltiplas. Aplica-se quando mais de uma parte importante do corpo for afetada, como por exemplo, um braço e uma perna</field>
+    </record>
 
-        <record id="tab13_758500000" model="sped.parte_corpo">
-            <field name="codigo">758500000</field>
-            <field name="nome">Sistemas e aparelhos. Aplica-se quando o funcionamento de todo um sistema ou aparelho do corpo humano for afetado, sem lesão específica de qualquer outra parte, como no caso do envenenamento, ação corrosiva que afete órgãos internos, lesão dos centros nervosos, etc. não se aplica quando a lesão sistêmica for provocada por lesão externa, como lesão dorsal que afete nervos da medula espinhal.</field>
-        </record>
+    <record id="tab13_758500000" model="sped.parte_corpo">
+        <field name="codigo">758500000</field>
+        <field name="nome">Sistemas e aparelhos. Aplica-se quando o funcionamento de todo um sistema ou aparelho do corpo humano for afetado, sem lesão específica de qualquer outra parte, como no caso do envenenamento, ação corrosiva que afete órgãos internos, lesão dos centros nervosos, etc. não se aplica quando a lesão sistêmica for provocada por lesão externa, como lesão dorsal que afete nervos da medula espinhal.</field>
+    </record>
 
-        <record id="tab13_758520000" model="sped.parte_corpo">
-            <field name="codigo">758520000</field>
-            <field name="nome">Aparelho circulatório</field>
-        </record>
+    <record id="tab13_758520000" model="sped.parte_corpo">
+        <field name="codigo">758520000</field>
+        <field name="nome">Aparelho circulatório</field>
+    </record>
 
-        <record id="tab13_758530000" model="sped.parte_corpo">
-            <field name="codigo">758530000</field>
-            <field name="nome">Aparelho respiratório</field>
-        </record>
+    <record id="tab13_758530000" model="sped.parte_corpo">
+        <field name="codigo">758530000</field>
+        <field name="nome">Aparelho respiratório</field>
+    </record>
 
-        <record id="tab13_758540000" model="sped.parte_corpo">
-            <field name="codigo">758540000</field>
-            <field name="nome">Sistema nervoso</field>
-        </record>
+    <record id="tab13_758540000" model="sped.parte_corpo">
+        <field name="codigo">758540000</field>
+        <field name="nome">Sistema nervoso</field>
+    </record>
 
-        <record id="tab13_758550000" model="sped.parte_corpo">
-            <field name="codigo">758550000</field>
-            <field name="nome">Aparelho digestivo</field>
-        </record>
+    <record id="tab13_758550000" model="sped.parte_corpo">
+        <field name="codigo">758550000</field>
+        <field name="nome">Aparelho digestivo</field>
+    </record>
 
-        <record id="tab13_758560000" model="sped.parte_corpo">
-            <field name="codigo">758560000</field>
-            <field name="nome">Aparelho gênito-urinário</field>
-        </record>
+    <record id="tab13_758560000" model="sped.parte_corpo">
+        <field name="codigo">758560000</field>
+        <field name="nome">Aparelho gênito-urinário</field>
+    </record>
 
-        <record id="tab13_758570000" model="sped.parte_corpo">
-            <field name="codigo">758570000</field>
-            <field name="nome">Sistema musculoesquelético</field>
-        </record>
+    <record id="tab13_758570000" model="sped.parte_corpo">
+        <field name="codigo">758570000</field>
+        <field name="nome">Sistema musculoesquelético</field>
+    </record>
 
-        <record id="tab13_758590000" model="sped.parte_corpo">
-            <field name="codigo">758590000</field>
-            <field name="nome">Sistemas e aparelhos, NIC</field>
-        </record>
+    <record id="tab13_758590000" model="sped.parte_corpo">
+        <field name="codigo">758590000</field>
+        <field name="nome">Sistemas e aparelhos, NIC</field>
+    </record>
 
-        <record id="tab13_759000000" model="sped.parte_corpo">
-            <field name="codigo">759000000</field>
-            <field name="nome">Localização da lesão, NIC</field>
-        </record>
+    <record id="tab13_759000000" model="sped.parte_corpo">
+        <field name="codigo">759000000</field>
+        <field name="nome">Localização da lesão, NIC</field>
+    </record>
 
     </data>
 </openerp>

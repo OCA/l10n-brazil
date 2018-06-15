@@ -2,900 +2,901 @@
 <!--
     Copyright 2017 KMEE
     Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
     <data>
 
-        <record id="tab20_A" model="sped.tipo_logradouro">
-            <field name="codigo">A</field>
-            <field name="nome">Área</field>
-        </record>
-
-        <record id="tab20_AC" model="sped.tipo_logradouro">
-            <field name="codigo">AC</field>
-            <field name="nome">Acesso</field>
-        </record>
-
-        <record id="tab20_ACA" model="sped.tipo_logradouro">
-            <field name="codigo">ACA</field>
-            <field name="nome">Acampamento</field>
-        </record>
-
-        <record id="tab20_ACL" model="sped.tipo_logradouro">
-            <field name="codigo">ACL</field>
-            <field name="nome">Acesso Local</field>
-        </record>
-
-        <record id="tab20_AD" model="sped.tipo_logradouro">
-            <field name="codigo">AD</field>
-            <field name="nome">Adro</field>
-        </record>
-
-        <record id="tab20_AE" model="sped.tipo_logradouro">
-            <field name="codigo">AE</field>
-            <field name="nome">Área Especial</field>
-        </record>
-
-        <record id="tab20_AER" model="sped.tipo_logradouro">
-            <field name="codigo">AER</field>
-            <field name="nome">Aeroporto</field>
-        </record>
-
-        <record id="tab20_AL" model="sped.tipo_logradouro">
-            <field name="codigo">AL</field>
-            <field name="nome">Alameda</field>
-        </record>
-
-        <record id="tab20_AMD" model="sped.tipo_logradouro">
-            <field name="codigo">AMD</field>
-            <field name="nome">Avenida Marginal Direita</field>
-        </record>
-
-        <record id="tab20_AME" model="sped.tipo_logradouro">
-            <field name="codigo">AME</field>
-            <field name="nome">Avenida Marginal Esquerda</field>
-        </record>
-
-        <record id="tab20_AN" model="sped.tipo_logradouro">
-            <field name="codigo">AN</field>
-            <field name="nome">Anel Viário</field>
-        </record>
-
-        <record id="tab20_ANT" model="sped.tipo_logradouro">
-            <field name="codigo">ANT</field>
-            <field name="nome">Antiga Estrada</field>
-        </record>
-
-        <record id="tab20_ART" model="sped.tipo_logradouro">
-            <field name="codigo">ART</field>
-            <field name="nome">Artéria</field>
-        </record>
-
-        <record id="tab20_AT" model="sped.tipo_logradouro">
-            <field name="codigo">AT</field>
-            <field name="nome">Alto</field>
-        </record>
-
-        <record id="tab20_ATL" model="sped.tipo_logradouro">
-            <field name="codigo">ATL</field>
-            <field name="nome">Atalho</field>
-        </record>
-
-        <record id="tab20_A_V" model="sped.tipo_logradouro">
-            <field name="codigo">A V</field>
-            <field name="nome">Área Verde</field>
-        </record>
-
-        <record id="tab20_AV" model="sped.tipo_logradouro">
-            <field name="codigo">AV</field>
-            <field name="nome">Avenida</field>
-        </record>
-
-        <record id="tab20_AVC" model="sped.tipo_logradouro">
-            <field name="codigo">AVC</field>
-            <field name="nome">Avenida Contorno</field>
-        </record>
-
-        <record id="tab20_AVM" model="sped.tipo_logradouro">
-            <field name="codigo">AVM</field>
-            <field name="nome">Avenida Marginal</field>
-        </record>
-
-        <record id="tab20_AVV" model="sped.tipo_logradouro">
-            <field name="codigo">AVV</field>
-            <field name="nome">Avenida Velha</field>
-        </record>
-
-        <record id="tab20_BAL" model="sped.tipo_logradouro">
-            <field name="codigo">BAL</field>
-            <field name="nome">Balneário</field>
-        </record>
-
-        <record id="tab20_BC" model="sped.tipo_logradouro">
-            <field name="codigo">BC</field>
-            <field name="nome">Beco</field>
-        </record>
-
-        <record id="tab20_BCO" model="sped.tipo_logradouro">
-            <field name="codigo">BCO</field>
-            <field name="nome">Buraco</field>
-        </record>
-
-        <record id="tab20_BEL" model="sped.tipo_logradouro">
-            <field name="codigo">BEL</field>
-            <field name="nome">Belvedere</field>
-        </record>
-
-        <record id="tab20_BL" model="sped.tipo_logradouro">
-            <field name="codigo">BL</field>
-            <field name="nome">Bloco</field>
-        </record>
-
-        <record id="tab20_BLO" model="sped.tipo_logradouro">
-            <field name="codigo">BLO</field>
-            <field name="nome">Balão</field>
-        </record>
-
-        <record id="tab20_BLS" model="sped.tipo_logradouro">
-            <field name="codigo">BLS</field>
-            <field name="nome">Blocos</field>
-        </record>
-
-        <record id="tab20_BLV" model="sped.tipo_logradouro">
-            <field name="codigo">BLV</field>
-            <field name="nome">Bulevar</field>
-        </record>
-
-        <record id="tab20_BSQ" model="sped.tipo_logradouro">
-            <field name="codigo">BSQ</field>
-            <field name="nome">Bosque</field>
-        </record>
-
-        <record id="tab20_BVD" model="sped.tipo_logradouro">
-            <field name="codigo">BVD</field>
-            <field name="nome">Boulevard</field>
-        </record>
-
-        <record id="tab20_BX" model="sped.tipo_logradouro">
-            <field name="codigo">BX</field>
-            <field name="nome">Baixa</field>
-        </record>
-
-        <record id="tab20_C" model="sped.tipo_logradouro">
-            <field name="codigo">C</field>
-            <field name="nome">Cais</field>
-        </record>
-
-        <record id="tab20_CAL" model="sped.tipo_logradouro">
-            <field name="codigo">CAL</field>
-            <field name="nome">Calçada</field>
-        </record>
-
-        <record id="tab20_CAM" model="sped.tipo_logradouro">
-            <field name="codigo">CAM</field>
-            <field name="nome">Caminho</field>
-        </record>
-
-        <record id="tab20_CAN" model="sped.tipo_logradouro">
-            <field name="codigo">CAN</field>
-            <field name="nome">Canal</field>
-        </record>
-
-        <record id="CH" model="sped.tipo_logradouro">
-            <field name="codigo">CH</field>
-            <field name="nome">Chácara</field>
-        </record>
-
-        <record id="tab20_CHA" model="sped.tipo_logradouro">
-            <field name="codigo">CHA</field>
-            <field name="nome">Chapadão</field>
-        </record>
-
-        <record id="tab20_CIC" model="sped.tipo_logradouro">
-            <field name="codigo">CIC</field>
-            <field name="nome">Ciclovia</field>
-        </record>
-
-        <record id="tab20_CIR" model="sped.tipo_logradouro">
-            <field name="codigo">CIR</field>
-            <field name="nome">Circular</field>
-        </record>
-
-        <record id="tab20_CJ" model="sped.tipo_logradouro">
-            <field name="codigo">CJ</field>
-            <field name="nome">Conjunto</field>
-        </record>
-
-        <record id="tab20_CJM" model="sped.tipo_logradouro">
-            <field name="codigo">CJM</field>
-            <field name="nome">Conjunto Mutirão</field>
-        </record>
-
-        <record id="tab20_CMP" model="sped.tipo_logradouro">
-            <field name="codigo">CMP</field>
-            <field name="nome">Complexo Viário</field>
-        </record>
-
-        <record id="tab20_COL" model="sped.tipo_logradouro">
-            <field name="codigo">COL</field>
-            <field name="nome">Colônia</field>
-        </record>
-
-        <record id="tab20_COM" model="sped.tipo_logradouro">
-            <field name="codigo">COM</field>
-            <field name="nome">Comunidade</field>
-        </record>
-
-        <record id="tab20_CON" model="sped.tipo_logradouro">
-            <field name="codigo">CON</field>
-            <field name="nome">Condomínio</field>
-        </record>
-
-        <record id="tab20_COR" model="sped.tipo_logradouro">
-            <field name="codigo">COR</field>
-            <field name="nome">Corredor</field>
-        </record>
-
-        <record id="tab20_CPO" model="sped.tipo_logradouro">
-            <field name="codigo">CPO</field>
-            <field name="nome">Campo</field>
-        </record>
-
-        <record id="tab20_CRG" model="sped.tipo_logradouro">
-            <field name="codigo">CRG</field>
-            <field name="nome">Córrego</field>
-        </record>
-
-        <record id="tab20_CTN" model="sped.tipo_logradouro">
-            <field name="codigo">CTN</field>
-            <field name="nome">Contorno</field>
-        </record>
-
-        <record id="tab20_DSC" model="sped.tipo_logradouro">
-            <field name="codigo">DSC</field>
-            <field name="nome">Descida</field>
-        </record>
-
-        <record id="tab20_DSV" model="sped.tipo_logradouro">
-            <field name="codigo">DSV</field>
-            <field name="nome">Desvio</field>
-        </record>
-
-        <record id="tab20_DT" model="sped.tipo_logradouro">
-            <field name="codigo">DT</field>
-            <field name="nome">Distrito</field>
-        </record>
-
-        <record id="tab20_EB" model="sped.tipo_logradouro">
-            <field name="codigo">EB</field>
-            <field name="nome">Entre Bloco</field>
-        </record>
-
-        <record id="tab20_EIM" model="sped.tipo_logradouro">
-            <field name="codigo">EIM</field>
-            <field name="nome">Estrada Intermunicipal</field>
-        </record>
-
-        <record id="tab20_ENS" model="sped.tipo_logradouro">
-            <field name="codigo">ENS</field>
-            <field name="nome">Enseada</field>
-        </record>
-
-        <record id="tab20_ENT" model="sped.tipo_logradouro">
-            <field name="codigo">ENT</field>
-            <field name="nome">Entrada Particular</field>
-        </record>
-
-        <record id="tab20_EQ" model="sped.tipo_logradouro">
-            <field name="codigo">EQ</field>
-            <field name="nome">Entre Quadra</field>
-        </record>
-
-        <record id="tab20_ESC" model="sped.tipo_logradouro">
-            <field name="codigo">ESC</field>
-            <field name="nome">Escada</field>
-        </record>
-
-        <record id="tab20_ESD" model="sped.tipo_logradouro">
-            <field name="codigo">ESD</field>
-            <field name="nome">Escadaria</field>
-        </record>
-
-        <record id="tab20_ESE" model="sped.tipo_logradouro">
-            <field name="codigo">ESE</field>
-            <field name="nome">Estrada Estadual</field>
-        </record>
-
-        <record id="tab20_ESI" model="sped.tipo_logradouro">
-            <field name="codigo">ESI</field>
-            <field name="nome">Estrada Vicinal</field>
-        </record>
-
-        <record id="tab20_ESL" model="sped.tipo_logradouro">
-            <field name="codigo">ESL</field>
-            <field name="nome">Estrada de Ligação</field>
-        </record>
-
-        <record id="tab20_ESM" model="sped.tipo_logradouro">
-            <field name="codigo">ESM</field>
-            <field name="nome">Estrada Municipal</field>
-        </record>
-
-        <record id="tab20_ESP" model="sped.tipo_logradouro">
-            <field name="codigo">ESP</field>
-            <field name="nome">Esplanada</field>
-        </record>
-
-        <record id="tab20_ESS" model="sped.tipo_logradouro">
-            <field name="codigo">ESS</field>
-            <field name="nome">Estrada de Servidão</field>
-        </record>
-
-        <record id="tab20_EST" model="sped.tipo_logradouro">
-            <field name="codigo">EST</field>
-            <field name="nome">Estrada</field>
-        </record>
-
-        <record id="tab20_ESV" model="sped.tipo_logradouro">
-            <field name="codigo">ESV</field>
-            <field name="nome">Estrada Velha</field>
-        </record>
-
-        <record id="tab20_ETA" model="sped.tipo_logradouro">
-            <field name="codigo">ETA</field>
-            <field name="nome">Estrada Antiga</field>
-        </record>
-
-        <record id="tab20_ETC" model="sped.tipo_logradouro">
-            <field name="codigo">ETC</field>
-            <field name="nome">Estação</field>
-        </record>
-
-        <record id="tab20_ETD" model="sped.tipo_logradouro">
-            <field name="codigo">ETD</field>
-            <field name="nome">Estádio</field>
-        </record>
-
-        <record id="tab20_ETN" model="sped.tipo_logradouro">
-            <field name="codigo">ETN</field>
-            <field name="nome">Estância</field>
-        </record>
-
-        <record id="tab20_ETP" model="sped.tipo_logradouro">
-            <field name="codigo">ETP</field>
-            <field name="nome">Estrada Particular</field>
-        </record>
-
-        <record id="tab20_ETT" model="sped.tipo_logradouro">
-            <field name="codigo">ETT</field>
-            <field name="nome">Estacionamento</field>
-        </record>
-
-        <record id="tab20_EVA" model="sped.tipo_logradouro">
-            <field name="codigo">EVA</field>
-            <field name="nome">Evangélica</field>
-        </record>
-
-        <record id="tab20_EVD" model="sped.tipo_logradouro">
-            <field name="codigo">EVD</field>
-            <field name="nome">Elevada</field>
-        </record>
-
-        <record id="tab20_EX" model="sped.tipo_logradouro">
-            <field name="codigo">EX</field>
-            <field name="nome">Eixo Industrial</field>
-        </record>
-
-        <record id="tab20_FAV" model="sped.tipo_logradouro">
-            <field name="codigo">FAV</field>
-            <field name="nome">Favela</field>
-        </record>
-
-        <record id="tab20_FAZ" model="sped.tipo_logradouro">
-            <field name="codigo">FAZ</field>
-            <field name="nome">Fazenda</field>
-        </record>
-
-        <record id="tab20_FER" model="sped.tipo_logradouro">
-            <field name="codigo">FER</field>
-            <field name="nome">Ferrovia</field>
-        </record>
-
-        <record id="tab20_FNT" model="sped.tipo_logradouro">
-            <field name="codigo">FNT</field>
-            <field name="nome">Fonte</field>
-        </record>
-
-        <record id="tab20_FRA" model="sped.tipo_logradouro">
-            <field name="codigo">FRA</field>
-            <field name="nome">Feira</field>
-        </record>
-
-        <record id="tab20_FTE" model="sped.tipo_logradouro">
-            <field name="codigo">FTE</field>
-            <field name="nome">Forte</field>
-        </record>
-
-        <record id="tab20_GAL" model="sped.tipo_logradouro">
-            <field name="codigo">GAL</field>
-            <field name="nome">Galeria</field>
-        </record>
-
-        <record id="tab20_GJA" model="sped.tipo_logradouro">
-            <field name="codigo">GJA</field>
-            <field name="nome">Granja</field>
-        </record>
-
-        <record id="tab20_HAB" model="sped.tipo_logradouro">
-            <field name="codigo">HAB</field>
-            <field name="nome">Núcleo Habitacional</field>
-        </record>
-
-        <record id="tab20_IA" model="sped.tipo_logradouro">
-            <field name="codigo">IA</field>
-            <field name="nome">Ilha</field>
-        </record>
-
-        <record id="tab20_IND" model="sped.tipo_logradouro">
-            <field name="codigo">IND</field>
-            <field name="nome">Indeterminado</field>
-        </record>
-
-        <record id="tab20_IOA" model="sped.tipo_logradouro">
-            <field name="codigo">IOA</field>
-            <field name="nome">Ilhota</field>
-        </record>
-
-        <record id="tab20_JD" model="sped.tipo_logradouro">
-            <field name="codigo">JD</field>
-            <field name="nome">Jardim</field>
-        </record>
-
-        <record id="tab20_JDE" model="sped.tipo_logradouro">
-            <field name="codigo">JDE</field>
-            <field name="nome">Jardinete</field>
-        </record>
-
-        <record id="tab20_LD" model="sped.tipo_logradouro">
-            <field name="codigo">LD</field>
-            <field name="nome">Ladeira</field>
-        </record>
-
-        <record id="tab20_LGA" model="sped.tipo_logradouro">
-            <field name="codigo">LGA</field>
-            <field name="nome">Lagoa</field>
-        </record>
-
-        <record id="tab20_LGO" model="sped.tipo_logradouro">
-            <field name="codigo">LGO</field>
-            <field name="nome">Lago</field>
-        </record>
-
-        <record id="tab20_LOT" model="sped.tipo_logradouro">
-            <field name="codigo">LOT</field>
-            <field name="nome">Loteamento</field>
-        </record>
-
-        <record id="tab20_LRG" model="sped.tipo_logradouro">
-            <field name="codigo">LRG</field>
-            <field name="nome">Largo</field>
-        </record>
-
-        <record id="tab20_LT" model="sped.tipo_logradouro">
-            <field name="codigo">LT</field>
-            <field name="nome">Lote</field>
-        </record>
-
-        <record id="tab20_MER" model="sped.tipo_logradouro">
-            <field name="codigo">MER</field>
-            <field name="nome">Mercado</field>
-        </record>
-
-        <record id="tab20_MNA" model="sped.tipo_logradouro">
-            <field name="codigo">MNA</field>
-            <field name="nome">Marina</field>
-        </record>
-
-        <record id="tab20_MOD" model="sped.tipo_logradouro">
-            <field name="codigo">MOD</field>
-            <field name="nome">Modulo</field>
-        </record>
-
-        <record id="tab20_MRG" model="sped.tipo_logradouro">
-            <field name="codigo">MRG</field>
-            <field name="nome">Projeção</field>
-        </record>
-
-        <record id="tab20_MRO" model="sped.tipo_logradouro">
-            <field name="codigo">MRO</field>
-            <field name="nome">Morro</field>
-        </record>
-
-        <record id="tab20_MTE" model="sped.tipo_logradouro">
-            <field name="codigo">MTE</field>
-            <field name="nome">Monte</field>
-        </record>
-
-        <record id="tab20_NUC" model="sped.tipo_logradouro">
-            <field name="codigo">NUC</field>
-            <field name="nome">Núcleo</field>
-        </record>
-
-        <record id="tab20_NUR" model="sped.tipo_logradouro">
-            <field name="codigo">NUR</field>
-            <field name="nome">Núcleo Rural</field>
-        </record>
-
-        <record id="tab20_OUT" model="sped.tipo_logradouro">
-            <field name="codigo">OUT</field>
-            <field name="nome">Outeiro</field>
-        </record>
-
-        <record id="tab20_PAR" model="sped.tipo_logradouro">
-            <field name="codigo">PAR</field>
-            <field name="nome">Paralela</field>
-        </record>
-
-        <record id="tab20_PAS" model="sped.tipo_logradouro">
-            <field name="codigo">PAS</field>
-            <field name="nome">Passeio</field>
-        </record>
-
-        <record id="tab20_PAT" model="sped.tipo_logradouro">
-            <field name="codigo">PAT</field>
-            <field name="nome">Pátio</field>
-        </record>
-
-        <record id="tab20_PC" model="sped.tipo_logradouro">
-            <field name="codigo">PC</field>
-            <field name="nome">Praça</field>
-        </record>
-
-        <record id="tab20_PCE" model="sped.tipo_logradouro">
-            <field name="codigo">PCE</field>
-            <field name="nome">Praça de Esportes</field>
-        </record>
-
-        <record id="tab20_PDA" model="sped.tipo_logradouro">
-            <field name="codigo">PDA</field>
-            <field name="nome">Parada</field>
-        </record>
-
-        <record id="tab20_PDO" model="sped.tipo_logradouro">
-            <field name="codigo">PDO</field>
-            <field name="nome">Paradouro</field>
-        </record>
-
-        <record id="tab20_PNT" model="sped.tipo_logradouro">
-            <field name="codigo">PNT</field>
-            <field name="nome">Ponta</field>
-        </record>
-
-        <record id="tab20_PR" model="sped.tipo_logradouro">
-            <field name="codigo">PR</field>
-            <field name="nome">Praia</field>
-        </record>
-
-        <record id="tab20_PRL" model="sped.tipo_logradouro">
-            <field name="codigo">PRL</field>
-            <field name="nome">Prolongamento</field>
-        </record>
-
-        <record id="tab20_PRM" model="sped.tipo_logradouro">
-            <field name="codigo">PRM</field>
-            <field name="nome">Parque Municipal</field>
-        </record>
-
-        <record id="tab20_PRQ" model="sped.tipo_logradouro">
-            <field name="codigo">PRQ</field>
-            <field name="nome">Parque</field>
-        </record>
-
-        <record id="tab20_PRR" model="sped.tipo_logradouro">
-            <field name="codigo">PRR</field>
-            <field name="nome">Parque Residencial</field>
-        </record>
-
-        <record id="tab20_PSA" model="sped.tipo_logradouro">
-            <field name="codigo">PSA</field>
-            <field name="nome">Passarela</field>
-        </record>
-
-        <record id="tab20_PSG" model="sped.tipo_logradouro">
-            <field name="codigo">PSG</field>
-            <field name="nome">Passagem</field>
-        </record>
-
-        <record id="tab20_PSP" model="sped.tipo_logradouro">
-            <field name="codigo">PSP</field>
-            <field name="nome">Passagem de Pedestre</field>
-        </record>
-
-        <record id="tab20_PSS" model="sped.tipo_logradouro">
-            <field name="codigo">PSS</field>
-            <field name="nome">Passagem Subterrânea</field>
-        </record>
-
-        <record id="tab20_PTE" model="sped.tipo_logradouro">
-            <field name="codigo">PTE</field>
-            <field name="nome">Ponte</field>
-        </record>
-
-        <record id="tab20_PTO" model="sped.tipo_logradouro">
-            <field name="codigo">PTO</field>
-            <field name="nome">Porto</field>
-        </record>
-
-        <record id="tab20_Q" model="sped.tipo_logradouro">
-            <field name="codigo">Q</field>
-            <field name="nome">Quadra</field>
-        </record>
-
-        <record id="tab20_QTA" model="sped.tipo_logradouro">
-            <field name="codigo">QTA</field>
-            <field name="nome">Quinta</field>
-        </record>
-
-        <record id="tab20_QTS" model="sped.tipo_logradouro">
-            <field name="codigo">QTS</field>
-            <field name="nome">Quintas</field>
-        </record>
-
-        <record id="tab20_R" model="sped.tipo_logradouro">
-            <field name="codigo">R</field>
-            <field name="nome">Rua</field>
-        </record>
-
-        <record id="tab20_R_I" model="sped.tipo_logradouro">
-            <field name="codigo">R I</field>
-            <field name="nome">Rua Integração</field>
-        </record>
-
-        <record id="tab20_R_L" model="sped.tipo_logradouro">
-            <field name="codigo">R L</field>
-            <field name="nome">Rua de Ligação</field>
-        </record>
-
-        <record id="tab20_R_P" model="sped.tipo_logradouro">
-            <field name="codigo">R P</field>
-            <field name="nome">Rua Particular</field>
-        </record>
-
-        <record id="tab20_R_V" model="sped.tipo_logradouro">
-            <field name="codigo">R V</field>
-            <field name="nome">Rua Velha</field>
-        </record>
-
-        <record id="tab20_RAM" model="sped.tipo_logradouro">
-            <field name="codigo">RAM</field>
-            <field name="nome">Ramal</field>
-        </record>
-
-        <record id="tab20_RCR" model="sped.tipo_logradouro">
-            <field name="codigo">RCR</field>
-            <field name="nome">Recreio</field>
-        </record>
-
-        <record id="tab20_REC" model="sped.tipo_logradouro">
-            <field name="codigo">REC</field>
-            <field name="nome">Recanto</field>
-        </record>
-
-        <record id="tab20_RER" model="sped.tipo_logradouro">
-            <field name="codigo">RER</field>
-            <field name="nome">Retiro</field>
-        </record>
-
-        <record id="tab20_RES" model="sped.tipo_logradouro">
-            <field name="codigo">RES</field>
-            <field name="nome">Residencial</field>
-        </record>
-
-        <record id="tab20_RET" model="sped.tipo_logradouro">
-            <field name="codigo">RET</field>
-            <field name="nome">Reta</field>
-        </record>
-
-        <record id="tab20_RLA" model="sped.tipo_logradouro">
-            <field name="codigo">RLA</field>
-            <field name="nome">Ruela</field>
-        </record>
-
-        <record id="tab20_RMP" model="sped.tipo_logradouro">
-            <field name="codigo">RMP</field>
-            <field name="nome">Rampa</field>
-        </record>
-
-        <record id="tab20_ROA" model="sped.tipo_logradouro">
-            <field name="codigo">ROA</field>
-            <field name="nome">Rodo Anel</field>
-        </record>
-
-        <record id="tab20_ROD" model="sped.tipo_logradouro">
-            <field name="codigo">ROD</field>
-            <field name="nome">Rodovia</field>
-        </record>
-
-        <record id="tab20_ROT" model="sped.tipo_logradouro">
-            <field name="codigo">ROT</field>
-            <field name="nome">Rotula</field>
-        </record>
-
-        <record id="tab20_RPE" model="sped.tipo_logradouro">
-            <field name="codigo">RPE</field>
-            <field name="nome">Rua de Pedestre</field>
-        </record>
-
-        <record id="tab20_RPR" model="sped.tipo_logradouro">
-            <field name="codigo">RPR</field>
-            <field name="nome">Margem</field>
-        </record>
-
-        <record id="tab20_RTN" model="sped.tipo_logradouro">
-            <field name="codigo">RTN</field>
-            <field name="nome">Retorno</field>
-        </record>
-
-        <record id="tab20_RTT" model="sped.tipo_logradouro">
-            <field name="codigo">RTT</field>
-            <field name="nome">Rotatória</field>
-        </record>
-
-        <record id="tab20_SEG" model="sped.tipo_logradouro">
-            <field name="codigo">SEG</field>
-            <field name="nome">Segunda Avenida</field>
-        </record>
-
-        <record id="tab20_SIT" model="sped.tipo_logradouro">
-            <field name="codigo">SIT</field>
-            <field name="nome">Sitio</field>
-        </record>
-
-        <record id="tab20_SRV" model="sped.tipo_logradouro">
-            <field name="codigo">SRV</field>
-            <field name="nome">Servidão</field>
-        </record>
-
-        <record id="tab20_ST" model="sped.tipo_logradouro">
-            <field name="codigo">ST</field>
-            <field name="nome">Setor</field>
-        </record>
-
-        <record id="tab20_SUB" model="sped.tipo_logradouro">
-            <field name="codigo">SUB</field>
-            <field name="nome">Subida</field>
-        </record>
-
-        <record id="tab20_TCH" model="sped.tipo_logradouro">
-            <field name="codigo">TCH</field>
-            <field name="nome">Trincheira</field>
-        </record>
-
-        <record id="tab20_TER" model="sped.tipo_logradouro">
-            <field name="codigo">TER</field>
-            <field name="nome">Terminal</field>
-        </record>
-
-        <record id="tab20_TR" model="sped.tipo_logradouro">
-            <field name="codigo">TR</field>
-            <field name="nome">Trecho</field>
-        </record>
-
-        <record id="tab20_TRV" model="sped.tipo_logradouro">
-            <field name="codigo">TRV</field>
-            <field name="nome">Trevo</field>
-        </record>
-
-        <record id="tab20_TUN" model="sped.tipo_logradouro">
-            <field name="codigo">TUN</field>
-            <field name="nome">Túnel</field>
-        </record>
-
-        <record id="tab20_TV" model="sped.tipo_logradouro">
-            <field name="codigo">TV</field>
-            <field name="nome">Travessa</field>
-        </record>
-
-        <record id="tab20_TVP" model="sped.tipo_logradouro">
-            <field name="codigo">TVP</field>
-            <field name="nome">Travessa Particular</field>
-        </record>
-
-        <record id="tab20_TVV" model="sped.tipo_logradouro">
-            <field name="codigo">TVV</field>
-            <field name="nome">Travessa Velha</field>
-        </record>
-
-        <record id="tab20_UNI" model="sped.tipo_logradouro">
-            <field name="codigo">UNI</field>
-            <field name="nome">Unidade</field>
-        </record>
-
-        <record id="tab20_V" model="sped.tipo_logradouro">
-            <field name="codigo">V</field>
-            <field name="nome">Via</field>
-        </record>
-
-        <record id="tab20_V_C" model="sped.tipo_logradouro">
-            <field name="codigo">V C</field>
-            <field name="nome">Via Coletora</field>
-        </record>
-
-        <record id="tab20_V_L" model="sped.tipo_logradouro">
-            <field name="codigo">V L</field>
-            <field name="nome">Via Local</field>
-        </record>
-
-        <record id="tab20_VAC" model="sped.tipo_logradouro">
-            <field name="codigo">VAC</field>
-            <field name="nome">Via de Acesso</field>
-        </record>
-
-        <record id="tab20_VAL" model="sped.tipo_logradouro">
-            <field name="codigo">VAL</field>
-            <field name="nome">Vala</field>
-        </record>
-
-        <record id="tab20_VCO" model="sped.tipo_logradouro">
-            <field name="codigo">VCO</field>
-            <field name="nome">Via Costeira</field>
-        </record>
-
-        <record id="tab20_VD" model="sped.tipo_logradouro">
-            <field name="codigo">VD</field>
-            <field name="nome">Viaduto</field>
-        </record>
-
-        <record id="tab20_V_E" model="sped.tipo_logradouro">
-            <field name="codigo">V-E</field>
-            <field name="nome">Via Expressa</field>
-        </record>
-
-        <record id="tab20_VER" model="sped.tipo_logradouro">
-            <field name="codigo">VER</field>
-            <field name="nome">Vereda</field>
-        </record>
-
-        <record id="tab20_VEV" model="sped.tipo_logradouro">
-            <field name="codigo">VEV</field>
-            <field name="nome">Via Elevado</field>
-        </record>
-
-        <record id="tab20_VL" model="sped.tipo_logradouro">
-            <field name="codigo">VL</field>
-            <field name="nome">Vila</field>
-        </record>
-
-        <record id="tab20_VLA" model="sped.tipo_logradouro">
-            <field name="codigo">VLA</field>
-            <field name="nome">Viela</field>
-        </record>
-
-        <record id="tab20_VLE" model="sped.tipo_logradouro">
-            <field name="codigo">VLE</field>
-            <field name="nome">Vale</field>
-        </record>
-
-        <record id="tab20_VLT" model="sped.tipo_logradouro">
-            <field name="codigo">VLT</field>
-            <field name="nome">Via Litorânea</field>
-        </record>
-
-        <record id="tab20_VPE" model="sped.tipo_logradouro">
-            <field name="codigo">VPE</field>
-            <field name="nome">Via de Pedestre</field>
-        </record>
-
-        <record id="tab20_VRT" model="sped.tipo_logradouro">
-            <field name="codigo">VRT</field>
-            <field name="nome">Variante</field>
-        </record>
-
-        <record id="tab20_ZIG" model="sped.tipo_logradouro">
-            <field name="codigo">ZIG</field>
-            <field name="nome">Zigue-Zague</field>
-        </record>
+    <record id="tab20_A" model="sped.tipo_logradouro">
+        <field name="codigo">A</field>
+        <field name="nome">Área</field>
+    </record>
+
+    <record id="tab20_AC" model="sped.tipo_logradouro">
+        <field name="codigo">AC</field>
+        <field name="nome">Acesso</field>
+    </record>
+
+    <record id="tab20_ACA" model="sped.tipo_logradouro">
+        <field name="codigo">ACA</field>
+        <field name="nome">Acampamento</field>
+    </record>
+
+    <record id="tab20_ACL" model="sped.tipo_logradouro">
+        <field name="codigo">ACL</field>
+        <field name="nome">Acesso Local</field>
+    </record>
+
+    <record id="tab20_AD" model="sped.tipo_logradouro">
+        <field name="codigo">AD</field>
+        <field name="nome">Adro</field>
+    </record>
+
+    <record id="tab20_AE" model="sped.tipo_logradouro">
+        <field name="codigo">AE</field>
+        <field name="nome">Área Especial</field>
+    </record>
+
+    <record id="tab20_AER" model="sped.tipo_logradouro">
+        <field name="codigo">AER</field>
+        <field name="nome">Aeroporto</field>
+    </record>
+
+    <record id="tab20_AL" model="sped.tipo_logradouro">
+        <field name="codigo">AL</field>
+        <field name="nome">Alameda</field>
+    </record>
+
+    <record id="tab20_AMD" model="sped.tipo_logradouro">
+        <field name="codigo">AMD</field>
+        <field name="nome">Avenida Marginal Direita</field>
+    </record>
+
+    <record id="tab20_AME" model="sped.tipo_logradouro">
+        <field name="codigo">AME</field>
+        <field name="nome">Avenida Marginal Esquerda</field>
+    </record>
+
+    <record id="tab20_AN" model="sped.tipo_logradouro">
+        <field name="codigo">AN</field>
+        <field name="nome">Anel Viário</field>
+    </record>
+
+    <record id="tab20_ANT" model="sped.tipo_logradouro">
+        <field name="codigo">ANT</field>
+        <field name="nome">Antiga Estrada</field>
+    </record>
+
+    <record id="tab20_ART" model="sped.tipo_logradouro">
+        <field name="codigo">ART</field>
+        <field name="nome">Artéria</field>
+    </record>
+
+    <record id="tab20_AT" model="sped.tipo_logradouro">
+        <field name="codigo">AT</field>
+        <field name="nome">Alto</field>
+    </record>
+
+    <record id="tab20_ATL" model="sped.tipo_logradouro">
+        <field name="codigo">ATL</field>
+        <field name="nome">Atalho</field>
+    </record>
+
+    <record id="tab20_A_V" model="sped.tipo_logradouro">
+        <field name="codigo">A V</field>
+        <field name="nome">Área Verde</field>
+    </record>
+
+    <record id="tab20_AV" model="sped.tipo_logradouro">
+        <field name="codigo">AV</field>
+        <field name="nome">Avenida</field>
+    </record>
+
+    <record id="tab20_AVC" model="sped.tipo_logradouro">
+        <field name="codigo">AVC</field>
+        <field name="nome">Avenida Contorno</field>
+    </record>
+
+    <record id="tab20_AVM" model="sped.tipo_logradouro">
+        <field name="codigo">AVM</field>
+        <field name="nome">Avenida Marginal</field>
+    </record>
+
+    <record id="tab20_AVV" model="sped.tipo_logradouro">
+        <field name="codigo">AVV</field>
+        <field name="nome">Avenida Velha</field>
+    </record>
+
+    <record id="tab20_BAL" model="sped.tipo_logradouro">
+        <field name="codigo">BAL</field>
+        <field name="nome">Balneário</field>
+    </record>
+
+    <record id="tab20_BC" model="sped.tipo_logradouro">
+        <field name="codigo">BC</field>
+        <field name="nome">Beco</field>
+    </record>
+
+    <record id="tab20_BCO" model="sped.tipo_logradouro">
+        <field name="codigo">BCO</field>
+        <field name="nome">Buraco</field>
+    </record>
+
+    <record id="tab20_BEL" model="sped.tipo_logradouro">
+        <field name="codigo">BEL</field>
+        <field name="nome">Belvedere</field>
+    </record>
+
+    <record id="tab20_BL" model="sped.tipo_logradouro">
+        <field name="codigo">BL</field>
+        <field name="nome">Bloco</field>
+    </record>
+
+    <record id="tab20_BLO" model="sped.tipo_logradouro">
+        <field name="codigo">BLO</field>
+        <field name="nome">Balão</field>
+    </record>
+
+    <record id="tab20_BLS" model="sped.tipo_logradouro">
+        <field name="codigo">BLS</field>
+        <field name="nome">Blocos</field>
+    </record>
+
+    <record id="tab20_BLV" model="sped.tipo_logradouro">
+        <field name="codigo">BLV</field>
+        <field name="nome">Bulevar</field>
+    </record>
+
+    <record id="tab20_BSQ" model="sped.tipo_logradouro">
+        <field name="codigo">BSQ</field>
+        <field name="nome">Bosque</field>
+    </record>
+
+    <record id="tab20_BVD" model="sped.tipo_logradouro">
+        <field name="codigo">BVD</field>
+        <field name="nome">Boulevard</field>
+    </record>
+
+    <record id="tab20_BX" model="sped.tipo_logradouro">
+        <field name="codigo">BX</field>
+        <field name="nome">Baixa</field>
+    </record>
+
+    <record id="tab20_C" model="sped.tipo_logradouro">
+        <field name="codigo">C</field>
+        <field name="nome">Cais</field>
+    </record>
+
+    <record id="tab20_CAL" model="sped.tipo_logradouro">
+        <field name="codigo">CAL</field>
+        <field name="nome">Calçada</field>
+    </record>
+
+    <record id="tab20_CAM" model="sped.tipo_logradouro">
+        <field name="codigo">CAM</field>
+        <field name="nome">Caminho</field>
+    </record>
+
+    <record id="tab20_CAN" model="sped.tipo_logradouro">
+        <field name="codigo">CAN</field>
+        <field name="nome">Canal</field>
+    </record>
+
+    <record id="CH" model="sped.tipo_logradouro">
+        <field name="codigo">CH</field>
+        <field name="nome">Chácara</field>
+    </record>
+
+    <record id="tab20_CHA" model="sped.tipo_logradouro">
+        <field name="codigo">CHA</field>
+        <field name="nome">Chapadão</field>
+    </record>
+
+    <record id="tab20_CIC" model="sped.tipo_logradouro">
+        <field name="codigo">CIC</field>
+        <field name="nome">Ciclovia</field>
+    </record>
+
+    <record id="tab20_CIR" model="sped.tipo_logradouro">
+        <field name="codigo">CIR</field>
+        <field name="nome">Circular</field>
+    </record>
+
+    <record id="tab20_CJ" model="sped.tipo_logradouro">
+        <field name="codigo">CJ</field>
+        <field name="nome">Conjunto</field>
+    </record>
+
+    <record id="tab20_CJM" model="sped.tipo_logradouro">
+        <field name="codigo">CJM</field>
+        <field name="nome">Conjunto Mutirão</field>
+    </record>
+
+    <record id="tab20_CMP" model="sped.tipo_logradouro">
+        <field name="codigo">CMP</field>
+        <field name="nome">Complexo Viário</field>
+    </record>
+
+    <record id="tab20_COL" model="sped.tipo_logradouro">
+        <field name="codigo">COL</field>
+        <field name="nome">Colônia</field>
+    </record>
+
+    <record id="tab20_COM" model="sped.tipo_logradouro">
+        <field name="codigo">COM</field>
+        <field name="nome">Comunidade</field>
+    </record>
+
+    <record id="tab20_CON" model="sped.tipo_logradouro">
+        <field name="codigo">CON</field>
+        <field name="nome">Condomínio</field>
+    </record>
+
+    <record id="tab20_COR" model="sped.tipo_logradouro">
+        <field name="codigo">COR</field>
+        <field name="nome">Corredor</field>
+    </record>
+
+    <record id="tab20_CPO" model="sped.tipo_logradouro">
+        <field name="codigo">CPO</field>
+        <field name="nome">Campo</field>
+    </record>
+
+    <record id="tab20_CRG" model="sped.tipo_logradouro">
+        <field name="codigo">CRG</field>
+        <field name="nome">Córrego</field>
+    </record>
+
+    <record id="tab20_CTN" model="sped.tipo_logradouro">
+        <field name="codigo">CTN</field>
+        <field name="nome">Contorno</field>
+    </record>
+
+    <record id="tab20_DSC" model="sped.tipo_logradouro">
+        <field name="codigo">DSC</field>
+        <field name="nome">Descida</field>
+    </record>
+
+    <record id="tab20_DSV" model="sped.tipo_logradouro">
+        <field name="codigo">DSV</field>
+        <field name="nome">Desvio</field>
+    </record>
+
+    <record id="tab20_DT" model="sped.tipo_logradouro">
+        <field name="codigo">DT</field>
+        <field name="nome">Distrito</field>
+    </record>
+
+    <record id="tab20_EB" model="sped.tipo_logradouro">
+        <field name="codigo">EB</field>
+        <field name="nome">Entre Bloco</field>
+    </record>
+
+    <record id="tab20_EIM" model="sped.tipo_logradouro">
+        <field name="codigo">EIM</field>
+        <field name="nome">Estrada Intermunicipal</field>
+    </record>
+
+    <record id="tab20_ENS" model="sped.tipo_logradouro">
+        <field name="codigo">ENS</field>
+        <field name="nome">Enseada</field>
+    </record>
+
+    <record id="tab20_ENT" model="sped.tipo_logradouro">
+        <field name="codigo">ENT</field>
+        <field name="nome">Entrada Particular</field>
+    </record>
+
+    <record id="tab20_EQ" model="sped.tipo_logradouro">
+        <field name="codigo">EQ</field>
+        <field name="nome">Entre Quadra</field>
+    </record>
+
+    <record id="tab20_ESC" model="sped.tipo_logradouro">
+        <field name="codigo">ESC</field>
+        <field name="nome">Escada</field>
+    </record>
+
+    <record id="tab20_ESD" model="sped.tipo_logradouro">
+        <field name="codigo">ESD</field>
+        <field name="nome">Escadaria</field>
+    </record>
+
+    <record id="tab20_ESE" model="sped.tipo_logradouro">
+        <field name="codigo">ESE</field>
+        <field name="nome">Estrada Estadual</field>
+    </record>
+
+    <record id="tab20_ESI" model="sped.tipo_logradouro">
+        <field name="codigo">ESI</field>
+        <field name="nome">Estrada Vicinal</field>
+    </record>
+
+    <record id="tab20_ESL" model="sped.tipo_logradouro">
+        <field name="codigo">ESL</field>
+        <field name="nome">Estrada de Ligação</field>
+    </record>
+
+    <record id="tab20_ESM" model="sped.tipo_logradouro">
+        <field name="codigo">ESM</field>
+        <field name="nome">Estrada Municipal</field>
+    </record>
+
+    <record id="tab20_ESP" model="sped.tipo_logradouro">
+        <field name="codigo">ESP</field>
+        <field name="nome">Esplanada</field>
+    </record>
+
+    <record id="tab20_ESS" model="sped.tipo_logradouro">
+        <field name="codigo">ESS</field>
+        <field name="nome">Estrada de Servidão</field>
+    </record>
+
+    <record id="tab20_EST" model="sped.tipo_logradouro">
+        <field name="codigo">EST</field>
+        <field name="nome">Estrada</field>
+    </record>
+
+    <record id="tab20_ESV" model="sped.tipo_logradouro">
+        <field name="codigo">ESV</field>
+        <field name="nome">Estrada Velha</field>
+    </record>
+
+    <record id="tab20_ETA" model="sped.tipo_logradouro">
+        <field name="codigo">ETA</field>
+        <field name="nome">Estrada Antiga</field>
+    </record>
+
+    <record id="tab20_ETC" model="sped.tipo_logradouro">
+        <field name="codigo">ETC</field>
+        <field name="nome">Estação</field>
+    </record>
+
+    <record id="tab20_ETD" model="sped.tipo_logradouro">
+        <field name="codigo">ETD</field>
+        <field name="nome">Estádio</field>
+    </record>
+
+    <record id="tab20_ETN" model="sped.tipo_logradouro">
+        <field name="codigo">ETN</field>
+        <field name="nome">Estância</field>
+    </record>
+
+    <record id="tab20_ETP" model="sped.tipo_logradouro">
+        <field name="codigo">ETP</field>
+        <field name="nome">Estrada Particular</field>
+    </record>
+
+    <record id="tab20_ETT" model="sped.tipo_logradouro">
+        <field name="codigo">ETT</field>
+        <field name="nome">Estacionamento</field>
+    </record>
+
+    <record id="tab20_EVA" model="sped.tipo_logradouro">
+        <field name="codigo">EVA</field>
+        <field name="nome">Evangélica</field>
+    </record>
+
+    <record id="tab20_EVD" model="sped.tipo_logradouro">
+        <field name="codigo">EVD</field>
+        <field name="nome">Elevada</field>
+    </record>
+
+    <record id="tab20_EX" model="sped.tipo_logradouro">
+        <field name="codigo">EX</field>
+        <field name="nome">Eixo Industrial</field>
+    </record>
+
+    <record id="tab20_FAV" model="sped.tipo_logradouro">
+        <field name="codigo">FAV</field>
+        <field name="nome">Favela</field>
+    </record>
+
+    <record id="tab20_FAZ" model="sped.tipo_logradouro">
+        <field name="codigo">FAZ</field>
+        <field name="nome">Fazenda</field>
+    </record>
+
+    <record id="tab20_FER" model="sped.tipo_logradouro">
+        <field name="codigo">FER</field>
+        <field name="nome">Ferrovia</field>
+    </record>
+
+    <record id="tab20_FNT" model="sped.tipo_logradouro">
+        <field name="codigo">FNT</field>
+        <field name="nome">Fonte</field>
+    </record>
+
+    <record id="tab20_FRA" model="sped.tipo_logradouro">
+        <field name="codigo">FRA</field>
+        <field name="nome">Feira</field>
+    </record>
+
+    <record id="tab20_FTE" model="sped.tipo_logradouro">
+        <field name="codigo">FTE</field>
+        <field name="nome">Forte</field>
+    </record>
+
+    <record id="tab20_GAL" model="sped.tipo_logradouro">
+        <field name="codigo">GAL</field>
+        <field name="nome">Galeria</field>
+    </record>
+
+    <record id="tab20_GJA" model="sped.tipo_logradouro">
+        <field name="codigo">GJA</field>
+        <field name="nome">Granja</field>
+    </record>
+
+    <record id="tab20_HAB" model="sped.tipo_logradouro">
+        <field name="codigo">HAB</field>
+        <field name="nome">Núcleo Habitacional</field>
+    </record>
+
+    <record id="tab20_IA" model="sped.tipo_logradouro">
+        <field name="codigo">IA</field>
+        <field name="nome">Ilha</field>
+    </record>
+
+    <record id="tab20_IND" model="sped.tipo_logradouro">
+        <field name="codigo">IND</field>
+        <field name="nome">Indeterminado</field>
+    </record>
+
+    <record id="tab20_IOA" model="sped.tipo_logradouro">
+        <field name="codigo">IOA</field>
+        <field name="nome">Ilhota</field>
+    </record>
+
+    <record id="tab20_JD" model="sped.tipo_logradouro">
+        <field name="codigo">JD</field>
+        <field name="nome">Jardim</field>
+    </record>
+
+    <record id="tab20_JDE" model="sped.tipo_logradouro">
+        <field name="codigo">JDE</field>
+        <field name="nome">Jardinete</field>
+    </record>
+
+    <record id="tab20_LD" model="sped.tipo_logradouro">
+        <field name="codigo">LD</field>
+        <field name="nome">Ladeira</field>
+    </record>
+
+    <record id="tab20_LGA" model="sped.tipo_logradouro">
+        <field name="codigo">LGA</field>
+        <field name="nome">Lagoa</field>
+    </record>
+
+    <record id="tab20_LGO" model="sped.tipo_logradouro">
+        <field name="codigo">LGO</field>
+        <field name="nome">Lago</field>
+    </record>
+
+    <record id="tab20_LOT" model="sped.tipo_logradouro">
+        <field name="codigo">LOT</field>
+        <field name="nome">Loteamento</field>
+    </record>
+
+    <record id="tab20_LRG" model="sped.tipo_logradouro">
+        <field name="codigo">LRG</field>
+        <field name="nome">Largo</field>
+    </record>
+
+    <record id="tab20_LT" model="sped.tipo_logradouro">
+        <field name="codigo">LT</field>
+        <field name="nome">Lote</field>
+    </record>
+
+    <record id="tab20_MER" model="sped.tipo_logradouro">
+        <field name="codigo">MER</field>
+        <field name="nome">Mercado</field>
+    </record>
+
+    <record id="tab20_MNA" model="sped.tipo_logradouro">
+        <field name="codigo">MNA</field>
+        <field name="nome">Marina</field>
+    </record>
+
+    <record id="tab20_MOD" model="sped.tipo_logradouro">
+        <field name="codigo">MOD</field>
+        <field name="nome">Modulo</field>
+    </record>
+
+    <record id="tab20_MRG" model="sped.tipo_logradouro">
+        <field name="codigo">MRG</field>
+        <field name="nome">Projeção</field>
+    </record>
+
+    <record id="tab20_MRO" model="sped.tipo_logradouro">
+        <field name="codigo">MRO</field>
+        <field name="nome">Morro</field>
+    </record>
+
+    <record id="tab20_MTE" model="sped.tipo_logradouro">
+        <field name="codigo">MTE</field>
+        <field name="nome">Monte</field>
+    </record>
+
+    <record id="tab20_NUC" model="sped.tipo_logradouro">
+        <field name="codigo">NUC</field>
+        <field name="nome">Núcleo</field>
+    </record>
+
+    <record id="tab20_NUR" model="sped.tipo_logradouro">
+        <field name="codigo">NUR</field>
+        <field name="nome">Núcleo Rural</field>
+    </record>
+
+    <record id="tab20_OUT" model="sped.tipo_logradouro">
+        <field name="codigo">OUT</field>
+        <field name="nome">Outeiro</field>
+    </record>
+
+    <record id="tab20_PAR" model="sped.tipo_logradouro">
+        <field name="codigo">PAR</field>
+        <field name="nome">Paralela</field>
+    </record>
+
+    <record id="tab20_PAS" model="sped.tipo_logradouro">
+        <field name="codigo">PAS</field>
+        <field name="nome">Passeio</field>
+    </record>
+
+    <record id="tab20_PAT" model="sped.tipo_logradouro">
+        <field name="codigo">PAT</field>
+        <field name="nome">Pátio</field>
+    </record>
+
+    <record id="tab20_PC" model="sped.tipo_logradouro">
+        <field name="codigo">PC</field>
+        <field name="nome">Praça</field>
+    </record>
+
+    <record id="tab20_PCE" model="sped.tipo_logradouro">
+        <field name="codigo">PCE</field>
+        <field name="nome">Praça de Esportes</field>
+    </record>
+
+    <record id="tab20_PDA" model="sped.tipo_logradouro">
+        <field name="codigo">PDA</field>
+        <field name="nome">Parada</field>
+    </record>
+
+    <record id="tab20_PDO" model="sped.tipo_logradouro">
+        <field name="codigo">PDO</field>
+        <field name="nome">Paradouro</field>
+    </record>
+
+    <record id="tab20_PNT" model="sped.tipo_logradouro">
+        <field name="codigo">PNT</field>
+        <field name="nome">Ponta</field>
+    </record>
+
+    <record id="tab20_PR" model="sped.tipo_logradouro">
+        <field name="codigo">PR</field>
+        <field name="nome">Praia</field>
+    </record>
+
+    <record id="tab20_PRL" model="sped.tipo_logradouro">
+        <field name="codigo">PRL</field>
+        <field name="nome">Prolongamento</field>
+    </record>
+
+    <record id="tab20_PRM" model="sped.tipo_logradouro">
+        <field name="codigo">PRM</field>
+        <field name="nome">Parque Municipal</field>
+    </record>
+
+    <record id="tab20_PRQ" model="sped.tipo_logradouro">
+        <field name="codigo">PRQ</field>
+        <field name="nome">Parque</field>
+    </record>
+
+    <record id="tab20_PRR" model="sped.tipo_logradouro">
+        <field name="codigo">PRR</field>
+        <field name="nome">Parque Residencial</field>
+    </record>
+
+    <record id="tab20_PSA" model="sped.tipo_logradouro">
+        <field name="codigo">PSA</field>
+        <field name="nome">Passarela</field>
+    </record>
+
+    <record id="tab20_PSG" model="sped.tipo_logradouro">
+        <field name="codigo">PSG</field>
+        <field name="nome">Passagem</field>
+    </record>
+
+    <record id="tab20_PSP" model="sped.tipo_logradouro">
+        <field name="codigo">PSP</field>
+        <field name="nome">Passagem de Pedestre</field>
+    </record>
+
+    <record id="tab20_PSS" model="sped.tipo_logradouro">
+        <field name="codigo">PSS</field>
+        <field name="nome">Passagem Subterrânea</field>
+    </record>
+
+    <record id="tab20_PTE" model="sped.tipo_logradouro">
+        <field name="codigo">PTE</field>
+        <field name="nome">Ponte</field>
+    </record>
+
+    <record id="tab20_PTO" model="sped.tipo_logradouro">
+        <field name="codigo">PTO</field>
+        <field name="nome">Porto</field>
+    </record>
+
+    <record id="tab20_Q" model="sped.tipo_logradouro">
+        <field name="codigo">Q</field>
+        <field name="nome">Quadra</field>
+    </record>
+
+    <record id="tab20_QTA" model="sped.tipo_logradouro">
+        <field name="codigo">QTA</field>
+        <field name="nome">Quinta</field>
+    </record>
+
+    <record id="tab20_QTS" model="sped.tipo_logradouro">
+        <field name="codigo">QTS</field>
+        <field name="nome">Quintas</field>
+    </record>
+
+    <record id="tab20_R" model="sped.tipo_logradouro">
+        <field name="codigo">R</field>
+        <field name="nome">Rua</field>
+    </record>
+
+    <record id="tab20_R_I" model="sped.tipo_logradouro">
+        <field name="codigo">R I</field>
+        <field name="nome">Rua Integração</field>
+    </record>
+
+    <record id="tab20_R_L" model="sped.tipo_logradouro">
+        <field name="codigo">R L</field>
+        <field name="nome">Rua de Ligação</field>
+    </record>
+
+    <record id="tab20_R_P" model="sped.tipo_logradouro">
+        <field name="codigo">R P</field>
+        <field name="nome">Rua Particular</field>
+    </record>
+
+    <record id="tab20_R_V" model="sped.tipo_logradouro">
+        <field name="codigo">R V</field>
+        <field name="nome">Rua Velha</field>
+    </record>
+
+    <record id="tab20_RAM" model="sped.tipo_logradouro">
+        <field name="codigo">RAM</field>
+        <field name="nome">Ramal</field>
+    </record>
+
+    <record id="tab20_RCR" model="sped.tipo_logradouro">
+        <field name="codigo">RCR</field>
+        <field name="nome">Recreio</field>
+    </record>
+
+    <record id="tab20_REC" model="sped.tipo_logradouro">
+        <field name="codigo">REC</field>
+        <field name="nome">Recanto</field>
+    </record>
+
+    <record id="tab20_RER" model="sped.tipo_logradouro">
+        <field name="codigo">RER</field>
+        <field name="nome">Retiro</field>
+    </record>
+
+    <record id="tab20_RES" model="sped.tipo_logradouro">
+        <field name="codigo">RES</field>
+        <field name="nome">Residencial</field>
+    </record>
+
+    <record id="tab20_RET" model="sped.tipo_logradouro">
+        <field name="codigo">RET</field>
+        <field name="nome">Reta</field>
+    </record>
+
+    <record id="tab20_RLA" model="sped.tipo_logradouro">
+        <field name="codigo">RLA</field>
+        <field name="nome">Ruela</field>
+    </record>
+
+    <record id="tab20_RMP" model="sped.tipo_logradouro">
+        <field name="codigo">RMP</field>
+        <field name="nome">Rampa</field>
+    </record>
+
+    <record id="tab20_ROA" model="sped.tipo_logradouro">
+        <field name="codigo">ROA</field>
+        <field name="nome">Rodo Anel</field>
+    </record>
+
+    <record id="tab20_ROD" model="sped.tipo_logradouro">
+        <field name="codigo">ROD</field>
+        <field name="nome">Rodovia</field>
+    </record>
+
+    <record id="tab20_ROT" model="sped.tipo_logradouro">
+        <field name="codigo">ROT</field>
+        <field name="nome">Rotula</field>
+    </record>
+
+    <record id="tab20_RPE" model="sped.tipo_logradouro">
+        <field name="codigo">RPE</field>
+        <field name="nome">Rua de Pedestre</field>
+    </record>
+
+    <record id="tab20_RPR" model="sped.tipo_logradouro">
+        <field name="codigo">RPR</field>
+        <field name="nome">Margem</field>
+    </record>
+
+    <record id="tab20_RTN" model="sped.tipo_logradouro">
+        <field name="codigo">RTN</field>
+        <field name="nome">Retorno</field>
+    </record>
+
+    <record id="tab20_RTT" model="sped.tipo_logradouro">
+        <field name="codigo">RTT</field>
+        <field name="nome">Rotatória</field>
+    </record>
+
+    <record id="tab20_SEG" model="sped.tipo_logradouro">
+        <field name="codigo">SEG</field>
+        <field name="nome">Segunda Avenida</field>
+    </record>
+
+    <record id="tab20_SIT" model="sped.tipo_logradouro">
+        <field name="codigo">SIT</field>
+        <field name="nome">Sitio</field>
+    </record>
+
+    <record id="tab20_SRV" model="sped.tipo_logradouro">
+        <field name="codigo">SRV</field>
+        <field name="nome">Servidão</field>
+    </record>
+
+    <record id="tab20_ST" model="sped.tipo_logradouro">
+        <field name="codigo">ST</field>
+        <field name="nome">Setor</field>
+    </record>
+
+    <record id="tab20_SUB" model="sped.tipo_logradouro">
+        <field name="codigo">SUB</field>
+        <field name="nome">Subida</field>
+    </record>
+
+    <record id="tab20_TCH" model="sped.tipo_logradouro">
+        <field name="codigo">TCH</field>
+        <field name="nome">Trincheira</field>
+    </record>
+
+    <record id="tab20_TER" model="sped.tipo_logradouro">
+        <field name="codigo">TER</field>
+        <field name="nome">Terminal</field>
+    </record>
+
+    <record id="tab20_TR" model="sped.tipo_logradouro">
+        <field name="codigo">TR</field>
+        <field name="nome">Trecho</field>
+    </record>
+
+    <record id="tab20_TRV" model="sped.tipo_logradouro">
+        <field name="codigo">TRV</field>
+        <field name="nome">Trevo</field>
+    </record>
+
+    <record id="tab20_TUN" model="sped.tipo_logradouro">
+        <field name="codigo">TUN</field>
+        <field name="nome">Túnel</field>
+    </record>
+
+    <record id="tab20_TV" model="sped.tipo_logradouro">
+        <field name="codigo">TV</field>
+        <field name="nome">Travessa</field>
+    </record>
+
+    <record id="tab20_TVP" model="sped.tipo_logradouro">
+        <field name="codigo">TVP</field>
+        <field name="nome">Travessa Particular</field>
+    </record>
+
+    <record id="tab20_TVV" model="sped.tipo_logradouro">
+        <field name="codigo">TVV</field>
+        <field name="nome">Travessa Velha</field>
+    </record>
+
+    <record id="tab20_UNI" model="sped.tipo_logradouro">
+        <field name="codigo">UNI</field>
+        <field name="nome">Unidade</field>
+    </record>
+
+    <record id="tab20_V" model="sped.tipo_logradouro">
+        <field name="codigo">V</field>
+        <field name="nome">Via</field>
+    </record>
+
+    <record id="tab20_V_C" model="sped.tipo_logradouro">
+        <field name="codigo">V C</field>
+        <field name="nome">Via Coletora</field>
+    </record>
+
+    <record id="tab20_V_L" model="sped.tipo_logradouro">
+        <field name="codigo">V L</field>
+        <field name="nome">Via Local</field>
+    </record>
+
+    <record id="tab20_VAC" model="sped.tipo_logradouro">
+        <field name="codigo">VAC</field>
+        <field name="nome">Via de Acesso</field>
+    </record>
+
+    <record id="tab20_VAL" model="sped.tipo_logradouro">
+        <field name="codigo">VAL</field>
+        <field name="nome">Vala</field>
+    </record>
+
+    <record id="tab20_VCO" model="sped.tipo_logradouro">
+        <field name="codigo">VCO</field>
+        <field name="nome">Via Costeira</field>
+    </record>
+
+    <record id="tab20_VD" model="sped.tipo_logradouro">
+        <field name="codigo">VD</field>
+        <field name="nome">Viaduto</field>
+    </record>
+
+    <record id="tab20_V_E" model="sped.tipo_logradouro">
+        <field name="codigo">V-E</field>
+        <field name="nome">Via Expressa</field>
+    </record>
+
+    <record id="tab20_VER" model="sped.tipo_logradouro">
+        <field name="codigo">VER</field>
+        <field name="nome">Vereda</field>
+    </record>
+
+    <record id="tab20_VEV" model="sped.tipo_logradouro">
+        <field name="codigo">VEV</field>
+        <field name="nome">Via Elevado</field>
+    </record>
+
+    <record id="tab20_VL" model="sped.tipo_logradouro">
+        <field name="codigo">VL</field>
+        <field name="nome">Vila</field>
+    </record>
+
+    <record id="tab20_VLA" model="sped.tipo_logradouro">
+        <field name="codigo">VLA</field>
+        <field name="nome">Viela</field>
+    </record>
+
+    <record id="tab20_VLE" model="sped.tipo_logradouro">
+        <field name="codigo">VLE</field>
+        <field name="nome">Vale</field>
+    </record>
+
+    <record id="tab20_VLT" model="sped.tipo_logradouro">
+        <field name="codigo">VLT</field>
+        <field name="nome">Via Litorânea</field>
+    </record>
+
+    <record id="tab20_VPE" model="sped.tipo_logradouro">
+        <field name="codigo">VPE</field>
+        <field name="nome">Via de Pedestre</field>
+    </record>
+
+    <record id="tab20_VRT" model="sped.tipo_logradouro">
+        <field name="codigo">VRT</field>
+        <field name="nome">Variante</field>
+    </record>
+
+    <record id="tab20_ZIG" model="sped.tipo_logradouro">
+        <field name="codigo">ZIG</field>
+        <field name="nome">Zigue-Zague</field>
+    </record>
 
     </data>
 </openerp>

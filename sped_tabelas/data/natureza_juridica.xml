@@ -2,425 +2,426 @@
 <!--
     Copyright 2017 KMEE
     Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
     <data>
 
-        <record id="tab21_1015" model="sped.natureza_juridica">
-            <field name="codigo">101-5</field>
-            <field name="nome">Órgão Público do Poder Executivo Federal</field>
-        </record>
-
-        <record id="tab21_1023" model="sped.natureza_juridica">
-            <field name="codigo">102-3</field>
-            <field name="nome">Órgão Público do Poder Executivo Estadual ou do Distrito Federal</field>
-        </record>
-
-        <record id="tab21_1031" model="sped.natureza_juridica">
-            <field name="codigo">103-1</field>
-            <field name="nome">Órgão Público do Poder Executivo Municipal</field>
-        </record>
-
-        <record id="tab21_1040" model="sped.natureza_juridica">
-            <field name="codigo">104-0</field>
-            <field name="nome">Órgão Público do Poder Legislativo Federal</field>
-        </record>
-
-        <record id="tab21_1058" model="sped.natureza_juridica">
-            <field name="codigo">105-8</field>
-            <field name="nome">Órgão Público do Poder Legislativo Estadual ou do Distrito Federal</field>
-        </record>
-
-        <record id="tab21_1066" model="sped.natureza_juridica">
-            <field name="codigo">106-6</field>
-            <field name="nome">Órgão Público do Poder Legislativo Municipal</field>
-        </record>
-
-        <record id="tab21_1074" model="sped.natureza_juridica">
-            <field name="codigo">107-4</field>
-            <field name="nome">Órgão Público do Poder Judiciário Federal</field>
-        </record>
-
-        <record id="tab21_1082" model="sped.natureza_juridica">
-            <field name="codigo">108-2</field>
-            <field name="nome">Órgão Público do Poder Judiciário Estadual</field>
-        </record>
-
-        <record id="tab21_1104" model="sped.natureza_juridica">
-            <field name="codigo">110-4</field>
-            <field name="nome">Autarquia Federal</field>
-        </record>
-
-        <record id="tab21_1112" model="sped.natureza_juridica">
-            <field name="codigo">111-2</field>
-            <field name="nome">Autarquia Estadual ou do Distrito Federal</field>
-        </record>
-
-        <record id="tab21_1120" model="sped.natureza_juridica">
-            <field name="codigo">112-0</field>
-            <field name="nome">Autarquia Municipal</field>
-        </record>
-
-        <record id="tab21_1139" model="sped.natureza_juridica">
-            <field name="codigo">113-9</field>
-            <field name="nome">Fundação Pública de Direito Público Federal</field>
-        </record>
-
-        <record id="tab21_1147" model="sped.natureza_juridica">
-            <field name="codigo">114-7</field>
-            <field name="nome">Fundação Pública de Direito Público Estadual ou do Distrito Federal</field>
-        </record>
-
-        <record id="tab21_1155" model="sped.natureza_juridica">
-            <field name="codigo">115-5</field>
-            <field name="nome">Fundação Pública de Direito Público Municipal</field>
-        </record>
-
-        <record id="tab21_1163" model="sped.natureza_juridica">
-            <field name="codigo">116-3</field>
-            <field name="nome">Órgão Público Autônomo Federal</field>
-        </record>
-
-        <record id="tab21_1171" model="sped.natureza_juridica">
-            <field name="codigo">117-1</field>
-            <field name="nome">Órgão Público Autônomo Estadual ou do Distrito Federal</field>
-        </record>
-
-        <record id="tab21_1180" model="sped.natureza_juridica">
-            <field name="codigo">118-0</field>
-            <field name="nome">Órgão Público Autônomo Municipal</field>
-        </record>
-
-        <record id="tab21_1198" model="sped.natureza_juridica">
-            <field name="codigo">119-8</field>
-            <field name="nome">Comissão Polinacional</field>
-        </record>
-
-        <record id="tab21_1201" model="sped.natureza_juridica">
-            <field name="codigo">120-1</field>
-            <field name="nome">Fundo Público</field>
-        </record>
-
-        <record id="tab21_1210" model="sped.natureza_juridica">
-            <field name="codigo">121-0</field>
-            <field name="nome">Consórcio Público de Direito Público (Associação Pública)</field>
-        </record>
-
-        <record id="tab21_1228" model="sped.natureza_juridica">
-            <field name="codigo">122-8</field>
-            <field name="nome">Consórcio Público de Direito Privado</field>
-        </record>
-
-        <record id="tab21_1236" model="sped.natureza_juridica">
-            <field name="codigo">123-6</field>
-            <field name="nome">Estado ou Distrito Federal</field>
-        </record>
-
-        <record id="tab21_1244" model="sped.natureza_juridica">
-            <field name="codigo">124-4</field>
-            <field name="nome">Município</field>
-        </record>
-
-        <record id="tab21_1252" model="sped.natureza_juridica">
-            <field name="codigo">125-2</field>
-            <field name="nome">Fundação Pública de Direito Privado Federal</field>
-        </record>
-
-        <record id="tab21_1260" model="sped.natureza_juridica">
-            <field name="codigo">126-0</field>
-            <field name="nome">Fundação Pública de Direito Privado Estadual ou do Distrito Federal</field>
-        </record>
-
-        <record id="tab21_1279" model="sped.natureza_juridica">
-            <field name="codigo">127-9</field>
-            <field name="nome">Fundação Pública de Direito Privado Municipal</field>
-        </record>
-
-        <record id="tab21_2011" model="sped.natureza_juridica">
-            <field name="codigo">201-1</field>
-            <field name="nome">Empresa Pública</field>
-        </record>
-
-        <record id="tab21_2038" model="sped.natureza_juridica">
-            <field name="codigo">203-8</field>
-            <field name="nome">Sociedade de Economia Mista</field>
-        </record>
-
-        <record id="tab21_2046" model="sped.natureza_juridica">
-            <field name="codigo">204-6</field>
-            <field name="nome">Sociedade Anônima Aberta</field>
-        </record>
-
-        <record id="tab21_2054" model="sped.natureza_juridica">
-            <field name="codigo">205-4</field>
-            <field name="nome">Sociedade Anônima Fechada</field>
-        </record>
-
-        <record id="tab21_2062" model="sped.natureza_juridica">
-            <field name="codigo">206-2</field>
-            <field name="nome">Sociedade Empresária Limitada</field>
-        </record>
-
-        <record id="tab21_2070" model="sped.natureza_juridica">
-            <field name="codigo">207-0</field>
-            <field name="nome">Sociedade Empresária em Nome Coletivo</field>
-        </record>
-
-        <record id="tab21_2089" model="sped.natureza_juridica">
-            <field name="codigo">208-9</field>
-            <field name="nome">Sociedade Empresária em Comandita Simples</field>
-        </record>
-
-        <record id="tab21_2097" model="sped.natureza_juridica">
-            <field name="codigo">209-7</field>
-            <field name="nome">Sociedade Empresária em Comandita por Ações</field>
-        </record>
-
-        <record id="tab21_2127" model="sped.natureza_juridica">
-            <field name="codigo">212-7</field>
-            <field name="nome">Sociedade em Conta de Participação</field>
-        </record>
-
-        <record id="tab21_2135" model="sped.natureza_juridica">
-            <field name="codigo">213-5</field>
-            <field name="nome">Empresário (Individual)</field>
-        </record>
-
-        <record id="tab21_2143" model="sped.natureza_juridica">
-            <field name="codigo">214-3</field>
-            <field name="nome">Cooperativa</field>
-        </record>
-
-        <record id="tab21_2151" model="sped.natureza_juridica">
-            <field name="codigo">215-1</field>
-            <field name="nome">Consórcio de Sociedades</field>
-        </record>
-
-        <record id="tab21_2160" model="sped.natureza_juridica">
-            <field name="codigo">216-0</field>
-            <field name="nome">Grupo de Sociedades</field>
-        </record>
-
-        <record id="tab21_2178" model="sped.natureza_juridica">
-            <field name="codigo">217-8</field>
-            <field name="nome">Estabelecimento, no Brasil, de Sociedade Estrangeira</field>
-        </record>
-
-        <record id="tab21_2194" model="sped.natureza_juridica">
-            <field name="codigo">219-4</field>
-            <field name="nome">Estabelecimento, no Brasil, de Empresa Binacional Argentino-Brasileira</field>
-        </record>
-
-        <record id="tab21_2216" model="sped.natureza_juridica">
-            <field name="codigo">221-6</field>
-            <field name="nome">Empresa Domiciliada no Exterior</field>
-        </record>
-
-        <record id="tab21_2224" model="sped.natureza_juridica">
-            <field name="codigo">222-4</field>
-            <field name="nome">Clube/Fundo de Investimento</field>
-        </record>
-
-        <record id="tab21_2232" model="sped.natureza_juridica">
-            <field name="codigo">223-2</field>
-            <field name="nome">Sociedade Simples Pura</field>
-        </record>
-
-        <record id="tab21_2240" model="sped.natureza_juridica">
-            <field name="codigo">224-0</field>
-            <field name="nome">Sociedade Simples Limitada</field>
-        </record>
-
-        <record id="tab21_2259" model="sped.natureza_juridica">
-            <field name="codigo">225-9</field>
-            <field name="nome">Sociedade Simples em Nome Coletivo</field>
-        </record>
-
-        <record id="tab21_2267" model="sped.natureza_juridica">
-            <field name="codigo">226-7</field>
-            <field name="nome">Sociedade Simples em Comandita Simples</field>
-        </record>
-
-        <record id="tab21_2275" model="sped.natureza_juridica">
-            <field name="codigo">227-5</field>
-            <field name="nome">Empresa Binacional</field>
-        </record>
-
-        <record id="tab21_2283" model="sped.natureza_juridica">
-            <field name="codigo">228-3</field>
-            <field name="nome">Consórcio de Empregadores</field>
-        </record>
-
-        <record id="tab21_2291" model="sped.natureza_juridica">
-            <field name="codigo">229-1</field>
-            <field name="nome">Consórcio Simples</field>
-        </record>
-
-        <record id="tab21_2305" model="sped.natureza_juridica">
-            <field name="codigo">230-5</field>
-            <field name="nome">Empresa Individual de Responsabilidade Limitada (de Natureza Empresária)</field>
-        </record>
-
-        <record id="tab21_2313" model="sped.natureza_juridica">
-            <field name="codigo">231-3</field>
-            <field name="nome">Empresa Individual de Responsabilidade Limitada (de Natureza Simples)</field>
-        </record>
-
-        <record id="tab21_2321" model="sped.natureza_juridica">
-            <field name="codigo">232-1</field>
-            <field name="nome">Sociedade Unipessoal de Advogados</field>
-        </record>
-
-        <record id="tab21_2330" model="sped.natureza_juridica">
-            <field name="codigo">233-0</field>
-            <field name="nome">Cooperativas de Consumo</field>
-        </record>
-
-        <record id="tab21_3034" model="sped.natureza_juridica">
-            <field name="codigo">303-4</field>
-            <field name="nome">Serviço Notarial e Registral (Cartório)</field>
-        </record>
-
-        <record id="tab21_3069" model="sped.natureza_juridica">
-            <field name="codigo">306-9</field>
-            <field name="nome">Fundação Privada</field>
-        </record>
-
-        <record id="tab21_3077" model="sped.natureza_juridica">
-            <field name="codigo">307-7</field>
-            <field name="nome">Serviço Social Autônomo</field>
-        </record>
-
-        <record id="tab21_3085" model="sped.natureza_juridica">
-            <field name="codigo">308-5</field>
-            <field name="nome">Condomínio Edilício</field>
-        </record>
-
-        <record id="tab21_3107" model="sped.natureza_juridica">
-            <field name="codigo">310-7</field>
-            <field name="nome">Comissão de Conciliação Prévia</field>
-        </record>
-
-        <record id="tab21_3115" model="sped.natureza_juridica">
-            <field name="codigo">311-5</field>
-            <field name="nome">Entidade de Mediação e Arbitragem</field>
-        </record>
-
-        <record id="tab21_3131" model="sped.natureza_juridica">
-            <field name="codigo">313-1</field>
-            <field name="nome">Entidade Sindical</field>
-        </record>
-
-        <record id="tab21_3204" model="sped.natureza_juridica">
-            <field name="codigo">320-4</field>
-            <field name="nome">Estabelecimento, no Brasil, de Fundação ou Associação Estrangeiras</field>
-        </record>
-
-        <record id="tab21_3212" model="sped.natureza_juridica">
-            <field name="codigo">321-2</field>
-            <field name="nome">Fundação ou Associação Domiciliada no Exterior</field>
-        </record>
-
-        <record id="tab21_3220" model="sped.natureza_juridica">
-            <field name="codigo">322-0</field>
-            <field name="nome">Organização Religiosa</field>
-        </record>
-
-        <record id="tab21_3239" model="sped.natureza_juridica">
-            <field name="codigo">323-9</field>
-            <field name="nome">Comunidade Indígena</field>
-        </record>
-
-        <record id="tab21_3247" model="sped.natureza_juridica">
-            <field name="codigo">324-7</field>
-            <field name="nome">Fundo Privado</field>
-        </record>
-
-        <record id="tab21_3255" model="sped.natureza_juridica">
-            <field name="codigo">325-5</field>
-            <field name="nome">Órgão de Direção Nacional de Partido Político</field>
-        </record>
-
-        <record id="tab21_3263" model="sped.natureza_juridica">
-            <field name="codigo">326-3</field>
-            <field name="nome">Órgão de Direção Regional de Partido Político</field>
-        </record>
-
-        <record id="tab21_3271" model="sped.natureza_juridica">
-            <field name="codigo">327-1</field>
-            <field name="nome">Órgão de Direção Local de Partido Político</field>
-        </record>
-
-        <record id="tab21_3280" model="sped.natureza_juridica">
-            <field name="codigo">328-0</field>
-            <field name="nome">Comitê Financeiro de Partido Político</field>
-        </record>
-
-        <record id="tab21_3298" model="sped.natureza_juridica">
-            <field name="codigo">329-8</field>
-            <field name="nome">Frente Plebiscitária ou Referendária</field>
-        </record>
-
-        <record id="tab21_3306" model="sped.natureza_juridica">
-            <field name="codigo">330-6</field>
-            <field name="nome">Organização Social (OS)</field>
-        </record>
-
-        <record id="tab21_3310" model="sped.natureza_juridica">
-            <field name="codigo">331-0</field>
-            <field name="nome">Demais Condomínios</field>
-        </record>
-
-        <record id="tab21_3999" model="sped.natureza_juridica">
-            <field name="codigo">399-9</field>
-            <field name="nome">Associação Privada</field>
-        </record>
-
-        <record id="tab21_4014" model="sped.natureza_juridica">
-            <field name="codigo">401-4</field>
-            <field name="nome">Empresa Individual Imobiliária</field>
-        </record>
-
-        <record id="tab21_4022" model="sped.natureza_juridica">
-            <field name="codigo">402-2</field>
-            <field name="nome">Segurado Especial</field>
-        </record>
-
-        <record id="tab21_4081" model="sped.natureza_juridica">
-            <field name="codigo">408-1</field>
-            <field name="nome">Contribuinte individual</field>
-        </record>
-
-        <record id="tab21_4090" model="sped.natureza_juridica">
-            <field name="codigo">409-0</field>
-            <field name="nome">Candidato a Cargo Político Eletivo</field>
-        </record>
-
-        <record id="tab21_4111" model="sped.natureza_juridica">
-            <field name="codigo">411-1</field>
-            <field name="nome">Leiloeiro</field>
-        </record>
-
-        <record id="tab21_4124" model="sped.natureza_juridica">
-            <field name="codigo">412-4</field>
-            <field name="nome">Produtor Rural (Pessoa Física)</field>
-        </record>
-
-        <record id="tab21_5010" model="sped.natureza_juridica">
-            <field name="codigo">501-0</field>
-            <field name="nome">Organização Internacional</field>
-        </record>
-
-        <record id="tab21_5029" model="sped.natureza_juridica">
-            <field name="codigo">502-9</field>
-            <field name="nome">Representação Diplomática Estrangeira</field>
-        </record>
-
-        <record id="tab21_5037" model="sped.natureza_juridica">
-            <field name="codigo">503-7</field>
-            <field name="nome">Outras Instituições Extraterritoriais</field>
-        </record>
+    <record id="tab21_1015" model="sped.natureza_juridica">
+        <field name="codigo">101-5</field>
+        <field name="nome">Órgão Público do Poder Executivo Federal</field>
+    </record>
+
+    <record id="tab21_1023" model="sped.natureza_juridica">
+        <field name="codigo">102-3</field>
+        <field name="nome">Órgão Público do Poder Executivo Estadual ou do Distrito Federal</field>
+    </record>
+
+    <record id="tab21_1031" model="sped.natureza_juridica">
+        <field name="codigo">103-1</field>
+        <field name="nome">Órgão Público do Poder Executivo Municipal</field>
+    </record>
+
+    <record id="tab21_1040" model="sped.natureza_juridica">
+        <field name="codigo">104-0</field>
+        <field name="nome">Órgão Público do Poder Legislativo Federal</field>
+    </record>
+
+    <record id="tab21_1058" model="sped.natureza_juridica">
+        <field name="codigo">105-8</field>
+        <field name="nome">Órgão Público do Poder Legislativo Estadual ou do Distrito Federal</field>
+    </record>
+
+    <record id="tab21_1066" model="sped.natureza_juridica">
+        <field name="codigo">106-6</field>
+        <field name="nome">Órgão Público do Poder Legislativo Municipal</field>
+    </record>
+
+    <record id="tab21_1074" model="sped.natureza_juridica">
+        <field name="codigo">107-4</field>
+        <field name="nome">Órgão Público do Poder Judiciário Federal</field>
+    </record>
+
+    <record id="tab21_1082" model="sped.natureza_juridica">
+        <field name="codigo">108-2</field>
+        <field name="nome">Órgão Público do Poder Judiciário Estadual</field>
+    </record>
+
+    <record id="tab21_1104" model="sped.natureza_juridica">
+        <field name="codigo">110-4</field>
+        <field name="nome">Autarquia Federal</field>
+    </record>
+
+    <record id="tab21_1112" model="sped.natureza_juridica">
+        <field name="codigo">111-2</field>
+        <field name="nome">Autarquia Estadual ou do Distrito Federal</field>
+    </record>
+
+    <record id="tab21_1120" model="sped.natureza_juridica">
+        <field name="codigo">112-0</field>
+        <field name="nome">Autarquia Municipal</field>
+    </record>
+
+    <record id="tab21_1139" model="sped.natureza_juridica">
+        <field name="codigo">113-9</field>
+        <field name="nome">Fundação Pública de Direito Público Federal</field>
+    </record>
+
+    <record id="tab21_1147" model="sped.natureza_juridica">
+        <field name="codigo">114-7</field>
+        <field name="nome">Fundação Pública de Direito Público Estadual ou do Distrito Federal</field>
+    </record>
+
+    <record id="tab21_1155" model="sped.natureza_juridica">
+        <field name="codigo">115-5</field>
+        <field name="nome">Fundação Pública de Direito Público Municipal</field>
+    </record>
+
+    <record id="tab21_1163" model="sped.natureza_juridica">
+        <field name="codigo">116-3</field>
+        <field name="nome">Órgão Público Autônomo Federal</field>
+    </record>
+
+    <record id="tab21_1171" model="sped.natureza_juridica">
+        <field name="codigo">117-1</field>
+        <field name="nome">Órgão Público Autônomo Estadual ou do Distrito Federal</field>
+    </record>
+
+    <record id="tab21_1180" model="sped.natureza_juridica">
+        <field name="codigo">118-0</field>
+        <field name="nome">Órgão Público Autônomo Municipal</field>
+    </record>
+
+    <record id="tab21_1198" model="sped.natureza_juridica">
+        <field name="codigo">119-8</field>
+        <field name="nome">Comissão Polinacional</field>
+    </record>
+
+    <record id="tab21_1201" model="sped.natureza_juridica">
+        <field name="codigo">120-1</field>
+        <field name="nome">Fundo Público</field>
+    </record>
+
+    <record id="tab21_1210" model="sped.natureza_juridica">
+        <field name="codigo">121-0</field>
+        <field name="nome">Consórcio Público de Direito Público (Associação Pública)</field>
+    </record>
+
+    <record id="tab21_1228" model="sped.natureza_juridica">
+        <field name="codigo">122-8</field>
+        <field name="nome">Consórcio Público de Direito Privado</field>
+    </record>
+
+    <record id="tab21_1236" model="sped.natureza_juridica">
+        <field name="codigo">123-6</field>
+        <field name="nome">Estado ou Distrito Federal</field>
+    </record>
+
+    <record id="tab21_1244" model="sped.natureza_juridica">
+        <field name="codigo">124-4</field>
+        <field name="nome">Município</field>
+    </record>
+
+    <record id="tab21_1252" model="sped.natureza_juridica">
+        <field name="codigo">125-2</field>
+        <field name="nome">Fundação Pública de Direito Privado Federal</field>
+    </record>
+
+    <record id="tab21_1260" model="sped.natureza_juridica">
+        <field name="codigo">126-0</field>
+        <field name="nome">Fundação Pública de Direito Privado Estadual ou do Distrito Federal</field>
+    </record>
+
+    <record id="tab21_1279" model="sped.natureza_juridica">
+        <field name="codigo">127-9</field>
+        <field name="nome">Fundação Pública de Direito Privado Municipal</field>
+    </record>
+
+    <record id="tab21_2011" model="sped.natureza_juridica">
+        <field name="codigo">201-1</field>
+        <field name="nome">Empresa Pública</field>
+    </record>
+
+    <record id="tab21_2038" model="sped.natureza_juridica">
+        <field name="codigo">203-8</field>
+        <field name="nome">Sociedade de Economia Mista</field>
+    </record>
+
+    <record id="tab21_2046" model="sped.natureza_juridica">
+        <field name="codigo">204-6</field>
+        <field name="nome">Sociedade Anônima Aberta</field>
+    </record>
+
+    <record id="tab21_2054" model="sped.natureza_juridica">
+        <field name="codigo">205-4</field>
+        <field name="nome">Sociedade Anônima Fechada</field>
+    </record>
+
+    <record id="tab21_2062" model="sped.natureza_juridica">
+        <field name="codigo">206-2</field>
+        <field name="nome">Sociedade Empresária Limitada</field>
+    </record>
+
+    <record id="tab21_2070" model="sped.natureza_juridica">
+        <field name="codigo">207-0</field>
+        <field name="nome">Sociedade Empresária em Nome Coletivo</field>
+    </record>
+
+    <record id="tab21_2089" model="sped.natureza_juridica">
+        <field name="codigo">208-9</field>
+        <field name="nome">Sociedade Empresária em Comandita Simples</field>
+    </record>
+
+    <record id="tab21_2097" model="sped.natureza_juridica">
+        <field name="codigo">209-7</field>
+        <field name="nome">Sociedade Empresária em Comandita por Ações</field>
+    </record>
+
+    <record id="tab21_2127" model="sped.natureza_juridica">
+        <field name="codigo">212-7</field>
+        <field name="nome">Sociedade em Conta de Participação</field>
+    </record>
+
+    <record id="tab21_2135" model="sped.natureza_juridica">
+        <field name="codigo">213-5</field>
+        <field name="nome">Empresário (Individual)</field>
+    </record>
+
+    <record id="tab21_2143" model="sped.natureza_juridica">
+        <field name="codigo">214-3</field>
+        <field name="nome">Cooperativa</field>
+    </record>
+
+    <record id="tab21_2151" model="sped.natureza_juridica">
+        <field name="codigo">215-1</field>
+        <field name="nome">Consórcio de Sociedades</field>
+    </record>
+
+    <record id="tab21_2160" model="sped.natureza_juridica">
+        <field name="codigo">216-0</field>
+        <field name="nome">Grupo de Sociedades</field>
+    </record>
+
+    <record id="tab21_2178" model="sped.natureza_juridica">
+        <field name="codigo">217-8</field>
+        <field name="nome">Estabelecimento, no Brasil, de Sociedade Estrangeira</field>
+    </record>
+
+    <record id="tab21_2194" model="sped.natureza_juridica">
+        <field name="codigo">219-4</field>
+        <field name="nome">Estabelecimento, no Brasil, de Empresa Binacional Argentino-Brasileira</field>
+    </record>
+
+    <record id="tab21_2216" model="sped.natureza_juridica">
+        <field name="codigo">221-6</field>
+        <field name="nome">Empresa Domiciliada no Exterior</field>
+    </record>
+
+    <record id="tab21_2224" model="sped.natureza_juridica">
+        <field name="codigo">222-4</field>
+        <field name="nome">Clube/Fundo de Investimento</field>
+    </record>
+
+    <record id="tab21_2232" model="sped.natureza_juridica">
+        <field name="codigo">223-2</field>
+        <field name="nome">Sociedade Simples Pura</field>
+    </record>
+
+    <record id="tab21_2240" model="sped.natureza_juridica">
+        <field name="codigo">224-0</field>
+        <field name="nome">Sociedade Simples Limitada</field>
+    </record>
+
+    <record id="tab21_2259" model="sped.natureza_juridica">
+        <field name="codigo">225-9</field>
+        <field name="nome">Sociedade Simples em Nome Coletivo</field>
+    </record>
+
+    <record id="tab21_2267" model="sped.natureza_juridica">
+        <field name="codigo">226-7</field>
+        <field name="nome">Sociedade Simples em Comandita Simples</field>
+    </record>
+
+    <record id="tab21_2275" model="sped.natureza_juridica">
+        <field name="codigo">227-5</field>
+        <field name="nome">Empresa Binacional</field>
+    </record>
+
+    <record id="tab21_2283" model="sped.natureza_juridica">
+        <field name="codigo">228-3</field>
+        <field name="nome">Consórcio de Empregadores</field>
+    </record>
+
+    <record id="tab21_2291" model="sped.natureza_juridica">
+        <field name="codigo">229-1</field>
+        <field name="nome">Consórcio Simples</field>
+    </record>
+
+    <record id="tab21_2305" model="sped.natureza_juridica">
+        <field name="codigo">230-5</field>
+        <field name="nome">Empresa Individual de Responsabilidade Limitada (de Natureza Empresária)</field>
+    </record>
+
+    <record id="tab21_2313" model="sped.natureza_juridica">
+        <field name="codigo">231-3</field>
+        <field name="nome">Empresa Individual de Responsabilidade Limitada (de Natureza Simples)</field>
+    </record>
+
+    <record id="tab21_2321" model="sped.natureza_juridica">
+        <field name="codigo">232-1</field>
+        <field name="nome">Sociedade Unipessoal de Advogados</field>
+    </record>
+
+    <record id="tab21_2330" model="sped.natureza_juridica">
+        <field name="codigo">233-0</field>
+        <field name="nome">Cooperativas de Consumo</field>
+    </record>
+
+    <record id="tab21_3034" model="sped.natureza_juridica">
+        <field name="codigo">303-4</field>
+        <field name="nome">Serviço Notarial e Registral (Cartório)</field>
+    </record>
+
+    <record id="tab21_3069" model="sped.natureza_juridica">
+        <field name="codigo">306-9</field>
+        <field name="nome">Fundação Privada</field>
+    </record>
+
+    <record id="tab21_3077" model="sped.natureza_juridica">
+        <field name="codigo">307-7</field>
+        <field name="nome">Serviço Social Autônomo</field>
+    </record>
+
+    <record id="tab21_3085" model="sped.natureza_juridica">
+        <field name="codigo">308-5</field>
+        <field name="nome">Condomínio Edilício</field>
+    </record>
+
+    <record id="tab21_3107" model="sped.natureza_juridica">
+        <field name="codigo">310-7</field>
+        <field name="nome">Comissão de Conciliação Prévia</field>
+    </record>
+
+    <record id="tab21_3115" model="sped.natureza_juridica">
+        <field name="codigo">311-5</field>
+        <field name="nome">Entidade de Mediação e Arbitragem</field>
+    </record>
+
+    <record id="tab21_3131" model="sped.natureza_juridica">
+        <field name="codigo">313-1</field>
+        <field name="nome">Entidade Sindical</field>
+    </record>
+
+    <record id="tab21_3204" model="sped.natureza_juridica">
+        <field name="codigo">320-4</field>
+        <field name="nome">Estabelecimento, no Brasil, de Fundação ou Associação Estrangeiras</field>
+    </record>
+
+    <record id="tab21_3212" model="sped.natureza_juridica">
+        <field name="codigo">321-2</field>
+        <field name="nome">Fundação ou Associação Domiciliada no Exterior</field>
+    </record>
+
+    <record id="tab21_3220" model="sped.natureza_juridica">
+        <field name="codigo">322-0</field>
+        <field name="nome">Organização Religiosa</field>
+    </record>
+
+    <record id="tab21_3239" model="sped.natureza_juridica">
+        <field name="codigo">323-9</field>
+        <field name="nome">Comunidade Indígena</field>
+    </record>
+
+    <record id="tab21_3247" model="sped.natureza_juridica">
+        <field name="codigo">324-7</field>
+        <field name="nome">Fundo Privado</field>
+    </record>
+
+    <record id="tab21_3255" model="sped.natureza_juridica">
+        <field name="codigo">325-5</field>
+        <field name="nome">Órgão de Direção Nacional de Partido Político</field>
+    </record>
+
+    <record id="tab21_3263" model="sped.natureza_juridica">
+        <field name="codigo">326-3</field>
+        <field name="nome">Órgão de Direção Regional de Partido Político</field>
+    </record>
+
+    <record id="tab21_3271" model="sped.natureza_juridica">
+        <field name="codigo">327-1</field>
+        <field name="nome">Órgão de Direção Local de Partido Político</field>
+    </record>
+
+    <record id="tab21_3280" model="sped.natureza_juridica">
+        <field name="codigo">328-0</field>
+        <field name="nome">Comitê Financeiro de Partido Político</field>
+    </record>
+
+    <record id="tab21_3298" model="sped.natureza_juridica">
+        <field name="codigo">329-8</field>
+        <field name="nome">Frente Plebiscitária ou Referendária</field>
+    </record>
+
+    <record id="tab21_3306" model="sped.natureza_juridica">
+        <field name="codigo">330-6</field>
+        <field name="nome">Organização Social (OS)</field>
+    </record>
+
+    <record id="tab21_3310" model="sped.natureza_juridica">
+        <field name="codigo">331-0</field>
+        <field name="nome">Demais Condomínios</field>
+    </record>
+
+    <record id="tab21_3999" model="sped.natureza_juridica">
+        <field name="codigo">399-9</field>
+        <field name="nome">Associação Privada</field>
+    </record>
+
+    <record id="tab21_4014" model="sped.natureza_juridica">
+        <field name="codigo">401-4</field>
+        <field name="nome">Empresa Individual Imobiliária</field>
+    </record>
+
+    <record id="tab21_4022" model="sped.natureza_juridica">
+        <field name="codigo">402-2</field>
+        <field name="nome">Segurado Especial</field>
+    </record>
+
+    <record id="tab21_4081" model="sped.natureza_juridica">
+        <field name="codigo">408-1</field>
+        <field name="nome">Contribuinte individual</field>
+    </record>
+
+    <record id="tab21_4090" model="sped.natureza_juridica">
+        <field name="codigo">409-0</field>
+        <field name="nome">Candidato a Cargo Político Eletivo</field>
+    </record>
+
+    <record id="tab21_4111" model="sped.natureza_juridica">
+        <field name="codigo">411-1</field>
+        <field name="nome">Leiloeiro</field>
+    </record>
+
+    <record id="tab21_4124" model="sped.natureza_juridica">
+        <field name="codigo">412-4</field>
+        <field name="nome">Produtor Rural (Pessoa Física)</field>
+    </record>
+
+    <record id="tab21_5010" model="sped.natureza_juridica">
+        <field name="codigo">501-0</field>
+        <field name="nome">Organização Internacional</field>
+    </record>
+
+    <record id="tab21_5029" model="sped.natureza_juridica">
+        <field name="codigo">502-9</field>
+        <field name="nome">Representação Diplomática Estrangeira</field>
+    </record>
+
+    <record id="tab21_5037" model="sped.natureza_juridica">
+        <field name="codigo">503-7</field>
+        <field name="nome">Outras Instituições Extraterritoriais</field>
+    </record>
 
     </data>
 </openerp>

@@ -2,89 +2,90 @@
 <!--
     Copyright 2017 KMEE
     Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
     <data>
 
-        <record id="tab08_1" model="sped.classificacao_tributaria">
-            <field name="codigo">01</field>
-            <field name="descricao">Empresa enquadrada no regime de tributação Simples Nacional com tributação previdenciária substituída</field>
-        </record>
-        <record id="tab08_2" model="sped.classificacao_tributaria">
-            <field name="codigo">02</field>
-            <field name="descricao">Empresa enquadrada no regime de tributação Simples Nacional com tributação
-                                previdenciária não substituída</field>
-        </record>
-        <record id="tab08_3" model="sped.classificacao_tributaria">
-            <field name="codigo">03</field>
-            <field name="descricao">Empresa enquadrada no regime de tributação Simples Nacional com tributação previdenciária substituída e não substituída</field>
-        </record>
-        <record id="tab08_4" model="sped.classificacao_tributaria">
-            <field name="codigo">04</field>
-            <field name="descricao">MEI - Micro Empreendedor Individual</field>
-        </record>
-        <record id="tab08_6" model="sped.classificacao_tributaria">
-            <field name="codigo">06</field>
-            <field name="descricao">Agroindústria</field>
-        </record>
-        <record id="tab08_7" model="sped.classificacao_tributaria">
-            <field name="codigo">07</field>
-            <field name="descricao">Produtor Rural Pessoa Jurídica</field>
-        </record>
-        <record id="tab08_8" model="sped.classificacao_tributaria">
-            <field name="codigo">08</field>
-            <field name="descricao">Consórcio Simplificado de Produtores Rurais</field>
-        </record>
-        <record id="tab08_9" model="sped.classificacao_tributaria">
-            <field name="codigo">09</field>
-            <field name="descricao">Órgão Gestor de Mão de Obra</field>
-        </record>
-        <record id="tab08_10" model="sped.classificacao_tributaria">
-            <field name="codigo">10</field>
-            <field name="descricao">Entidade Sindical a que se refere a Lei 12.023/2009</field>
-        </record>
-        <record id="tab08_11" model="sped.classificacao_tributaria">
-            <field name="codigo">11</field>
-            <field name="descricao">Associação Desportiva que mantém Clube de Futebol Profissional</field>
-        </record>
-        <record id="tab08_13" model="sped.classificacao_tributaria">
-            <field name="codigo">13</field>
-            <field name="descricao">Banco, caixa econômica, sociedade de crédito, financiamento e investimento e
-                                    demais empresas relacionadas no parágrafo 1º do art. 22 da Lei 8.212./91</field>
-        </record>
-        <record id="tab08_14" model="sped.classificacao_tributaria">
-            <field name="codigo">14</field>
-            <field name="descricao">Sindicatos em geral, exceto aquele classificado no código [10]</field>
-        </record>
-        <record id="tab08_21" model="sped.classificacao_tributaria">
-            <field name="codigo">21</field>
-            <field name="descricao">Pessoa Física, exceto Segurado Especial</field>
-        </record>
-        <record id="tab08_22" model="sped.classificacao_tributaria">
-            <field name="codigo">22</field>
-            <field name="descricao">Segurado Especial</field>
-        </record>
-        <record id="tab08_60" model="sped.classificacao_tributaria">
-            <field name="codigo">60</field>
-            <field name="descricao">Missão Diplomática ou Repartição Consular de carreira estrangeira</field>
-        </record>
-        <record id="tab08_70" model="sped.classificacao_tributaria">
-            <field name="codigo">70</field>
-            <field name="descricao">Empresa de que trata o Decreto 5.436/2005</field>
-        </record>
-        <record id="tab08_80" model="sped.classificacao_tributaria">
-            <field name="codigo">80</field>
-            <field name="descricao">Entidade Beneficente de Assistência Social isenta de contribuições sociais</field>
-        </record>
-        <record id="tab08_85" model="sped.classificacao_tributaria">
-            <field name="codigo">85</field>
-            <field name="descricao">Ente Federativo, Órgãos da União, Autarquias e Fundações Públicas</field>
-        </record>
-        <record id="tab08_99" model="sped.classificacao_tributaria">
-            <field name="codigo">99</field>
-            <field name="descricao">Pessoas Jurídicas em Geral</field>
-        </record>
+    <record id="tab08_1" model="sped.classificacao_tributaria">
+        <field name="codigo">01</field>
+        <field name="descricao">Empresa enquadrada no regime de tributação Simples Nacional com tributação previdenciária substituída</field>
+    </record>
+    <record id="tab08_2" model="sped.classificacao_tributaria">
+        <field name="codigo">02</field>
+        <field name="descricao">Empresa enquadrada no regime de tributação Simples Nacional com tributação
+                            previdenciária não substituída</field>
+    </record>
+    <record id="tab08_3" model="sped.classificacao_tributaria">
+        <field name="codigo">03</field>
+        <field name="descricao">Empresa enquadrada no regime de tributação Simples Nacional com tributação previdenciária substituída e não substituída</field>
+    </record>
+    <record id="tab08_4" model="sped.classificacao_tributaria">
+        <field name="codigo">04</field>
+        <field name="descricao">MEI - Micro Empreendedor Individual</field>
+    </record>
+    <record id="tab08_6" model="sped.classificacao_tributaria">
+        <field name="codigo">06</field>
+        <field name="descricao">Agroindústria</field>
+    </record>
+    <record id="tab08_7" model="sped.classificacao_tributaria">
+        <field name="codigo">07</field>
+        <field name="descricao">Produtor Rural Pessoa Jurídica</field>
+    </record>
+    <record id="tab08_8" model="sped.classificacao_tributaria">
+        <field name="codigo">08</field>
+        <field name="descricao">Consórcio Simplificado de Produtores Rurais</field>
+    </record>
+    <record id="tab08_9" model="sped.classificacao_tributaria">
+        <field name="codigo">09</field>
+        <field name="descricao">Órgão Gestor de Mão de Obra</field>
+    </record>
+    <record id="tab08_10" model="sped.classificacao_tributaria">
+        <field name="codigo">10</field>
+        <field name="descricao">Entidade Sindical a que se refere a Lei 12.023/2009</field>
+    </record>
+    <record id="tab08_11" model="sped.classificacao_tributaria">
+        <field name="codigo">11</field>
+        <field name="descricao">Associação Desportiva que mantém Clube de Futebol Profissional</field>
+    </record>
+    <record id="tab08_13" model="sped.classificacao_tributaria">
+        <field name="codigo">13</field>
+        <field name="descricao">Banco, caixa econômica, sociedade de crédito, financiamento e investimento e
+                                demais empresas relacionadas no parágrafo 1º do art. 22 da Lei 8.212./91</field>
+    </record>
+    <record id="tab08_14" model="sped.classificacao_tributaria">
+        <field name="codigo">14</field>
+        <field name="descricao">Sindicatos em geral, exceto aquele classificado no código [10]</field>
+    </record>
+    <record id="tab08_21" model="sped.classificacao_tributaria">
+        <field name="codigo">21</field>
+        <field name="descricao">Pessoa Física, exceto Segurado Especial</field>
+    </record>
+    <record id="tab08_22" model="sped.classificacao_tributaria">
+        <field name="codigo">22</field>
+        <field name="descricao">Segurado Especial</field>
+    </record>
+    <record id="tab08_60" model="sped.classificacao_tributaria">
+        <field name="codigo">60</field>
+        <field name="descricao">Missão Diplomática ou Repartição Consular de carreira estrangeira</field>
+    </record>
+    <record id="tab08_70" model="sped.classificacao_tributaria">
+        <field name="codigo">70</field>
+        <field name="descricao">Empresa de que trata o Decreto 5.436/2005</field>
+    </record>
+    <record id="tab08_80" model="sped.classificacao_tributaria">
+        <field name="codigo">80</field>
+        <field name="descricao">Entidade Beneficente de Assistência Social isenta de contribuições sociais</field>
+    </record>
+    <record id="tab08_85" model="sped.classificacao_tributaria">
+        <field name="codigo">85</field>
+        <field name="descricao">Ente Federativo, Órgãos da União, Autarquias e Fundações Públicas</field>
+    </record>
+    <record id="tab08_99" model="sped.classificacao_tributaria">
+        <field name="codigo">99</field>
+        <field name="descricao">Pessoas Jurídicas em Geral</field>
+    </record>
 
     </data>
 </openerp>

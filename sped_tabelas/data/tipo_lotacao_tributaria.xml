@@ -2,109 +2,110 @@
 <!--
     Copyright 2017 KMEE
     Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
     <data>
 
-        <record id="tab10_01" model="sped.lotacao_tributaria">
-            <field name="codigo">01</field>
-            <field name="nome">Classificação da atividade econômica exercida pela Pessoa Jurídica</field>
-            <field name="descricao">Classificação da atividade econômica exercida pela Pessoa Jurídica para fins de atribuição de código FPAS, inclusive obras de construção civil própria, exceto: a) empreitada parcial ou sub-empreitada de obra de construção civil (utilizar opção 02); b) prestação de serviços em instalações de terceiros (utilizar opções 03 a 09); c) Embarcação inscrita no Registro Especial Brasileiro - REB (utilizar opção 10)</field>
-            <field name="preenchimento_campo">Não Preencher</field>
-            <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_4'),ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),ref('sped_tabelas.tab08_8'),ref('sped_tabelas.tab08_9'),ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),ref('sped_tabelas.tab08_60'),ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_80'),ref('sped_tabelas.tab08_85'),ref('sped_tabelas.tab08_99')])]"/>
-        </record>
-        <record id="tab10_02" model="sped.lotacao_tributaria">
-            <field name="codigo">02</field>
-            <field name="nome">Obra de Construção Civil</field>
-            <field name="descricao">Obra de Construção Civil - Empreitada Parcial ou Sub- CNO da Obra - A informação de empreitada</field>
-            <field name="preenchimento_campo">CNO da Obra - A informação do CNPJ do Contratante/Proprietário do CNO é prestada nos sub-registros</field>
-            <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),ref('sped_tabelas.tab08_8'),ref('sped_tabelas.tab08_9'),ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),ref('sped_tabelas.tab08_60'),ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_80'),ref('sped_tabelas.tab08_85'),ref('sped_tabelas.tab08_99')])]"/>
-        </record>
-        <record id="tab10_03" model="sped.lotacao_tributaria">
-            <field name="codigo">03</field>
-            <field name="nome">Pessoa Física Tomadora de Serviços prestados mediante cessão de mão de obra</field>
-            <field name="descricao">Pessoa Física Tomadora de Serviços prestados mediante cessão de mão de obra, exceto contratante de cooperativa</field>
-            <field name="preenchimento_campo">CPF do contratante</field>
-            <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_99')])]"/>
-        </record>
-        <record id="tab10_04" model="sped.lotacao_tributaria">
-            <field name="codigo">04</field>
-            <field name="nome">Pessoa Jurídica Tomadora de Serviços prestados mediante cessão de mão de obra</field>
-            <field name="descricao">Pessoa Jurídica Tomadora de Serviços prestados mediante cessão de mão de obra, exceto contratante de cooperativa, nos termos da lei 8.212/1991</field>
-            <field name="preenchimento_campo">CNPJ do Estabelecimento Contratante</field>
-            <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_80'),ref('sped_tabelas.tab08_99')])]"/>
-        </record>
-        <record id="tab10_05" model="sped.lotacao_tributaria">
-            <field name="codigo">05</field>
-            <field name="nome">Pessoa Jurídica Tomadora de Serviços prestados por cooperados por intermédio de cooperativa de trabalho</field>
-            <field name="descricao">Pessoa Jurídica Tomadora de Serviços prestados por cooperados por intermédio de cooperativa de trabalho, exceto aqueles prestados a entidade beneficente/isenta</field>
-            <field name="preenchimento_campo">CNPJ do Estabelecimento Contratante</field>
-            <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_14'),ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_80'),ref('sped_tabelas.tab08_85'),ref('sped_tabelas.tab08_99')])]"/>
-        </record>
-        <record id="tab10_06" model="sped.lotacao_tributaria">
-            <field name="codigo">06</field>
-            <field name="nome">Entidade beneficente/isenta</field>
-            <field name="descricao">Entidade beneficente/isenta Tomadora de Serviços prestados por cooperados por intermédio de cooperativa de trabalho</field>
-            <field name="preenchimento_campo">CNPJ do Estabelecimento Contratante</field>
-            <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_99')])]"/>
-        </record>
-        <record id="tab10_07" model="sped.lotacao_tributaria">
-            <field name="codigo">07</field>
-            <field name="nome">Pessoa Física tomadora de Serviços prestados por Cooperados</field>
-            <field name="descricao">Pessoa Física tomadora de Serviços prestados por Cooperados por intermédio de Cooperativa de Trabalho</field>
-            <field name="preenchimento_campo"> CPF do contratante</field>
-            <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_99')])]"/>
-        </record>
-        <record id="tab10_08" model="sped.lotacao_tributaria">
-            <field name="codigo">08</field>
-            <field name="nome">Operador Portuário</field>
-            <field name="descricao">Operador Portuário tomador de serviços de trabalhadores avulsos</field>
-            <field name="preenchimento_campo">CNPJ do Operador Portuário</field>
-            <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_9')])]"/>
-        </record>
-        <record id="tab10_09" model="sped.lotacao_tributaria">
-            <field name="codigo">09</field>
-            <field name="nome">Contratante de trabalhadores avulsos</field>
-            <field name="descricao">Contratante de trabalhadores avulsos não portuários por intermédio de Sindicato</field>
-            <field name="preenchimento_campo">CNPJ ou CPF do Contratante</field>
-            <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_10')])]"/>
-        </record>
-        <record id="tab10_10" model="sped.lotacao_tributaria">
-            <field name="codigo">10</field>
-            <field name="nome">Embarcação</field>
-            <field name="descricao">Embarcação inscrita no Registro Especial Brasileiro - REB</field>
-            <field name="preenchimento_campo">Não Preencher</field>
-            <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_4'),ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),ref('sped_tabelas.tab08_8'),ref('sped_tabelas.tab08_9'),ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_80'),ref('sped_tabelas.tab08_85'),ref('sped_tabelas.tab08_99')])]"/>
-        </record>
-        <record id="tab10_21" model="sped.lotacao_tributaria">
-            <field name="codigo">21</field>
-            <field name="nome">Classificação da atividade econômica ou obra própria de construção civil</field>
-            <field name="descricao">Classificação da atividade econômica ou obra própria de construção civil da Pessoa Física</field>
-            <field name="preenchimento_campo">Não Preencher</field>
-            <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_21')])]"/>
-        </record>
-        <record id="tab10_24" model="sped.lotacao_tributaria">
-            <field name="codigo">24</field>
-            <field name="nome">Empregador Doméstico</field>
-            <field name="descricao">Empregador Doméstico</field>
-            <field name="preenchimento_campo">Não Preencher</field>
-            <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_21'),ref('sped_tabelas.tab08_22')])]"/>
-        </record>
-        <record id="tab10_90" model="sped.lotacao_tributaria">
-            <field name="codigo">90</field>
-            <field name="nome">Atividades desenvolvidas no exterior</field>
-            <field name="descricao">Atividades desenvolvidas no exterior por trabalhador vinculado ao Regime Geral de Previdência Social (expatriados)</field>
-            <field name="preenchimento_campo">Não Preencher</field>
-            <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),ref('sped_tabelas.tab08_8'),ref('sped_tabelas.tab08_9'),ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),ref('sped_tabelas.tab08_60'),ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_80'),ref('sped_tabelas.tab08_85'),ref('sped_tabelas.tab08_99')])]"/>
-        </record>
-        <record id="tab10_91" model="sped.lotacao_tributaria">
-            <field name="codigo">91</field>
-            <field name="nome">Atividades desenvolvidas por trabalhador estrangeiro</field>
-            <field name="descricao">Atividades desenvolvidas por trabalhador estrangeiro vinculado a Regime de Previdência Social Estrangeiro</field>
-            <field name="preenchimento_campo">Não Preencher</field>
-            <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),ref('sped_tabelas.tab08_8'),ref('sped_tabelas.tab08_9'),ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),ref('sped_tabelas.tab08_60'),ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_80'),ref('sped_tabelas.tab08_85'),ref('sped_tabelas.tab08_99')])]"/>
-        </record>
+    <record id="tab10_01" model="sped.lotacao_tributaria">
+        <field name="codigo">01</field>
+        <field name="nome">Classificação da atividade econômica exercida pela Pessoa Jurídica</field>
+        <field name="descricao">Classificação da atividade econômica exercida pela Pessoa Jurídica para fins de atribuição de código FPAS, inclusive obras de construção civil própria, exceto: a) empreitada parcial ou sub-empreitada de obra de construção civil (utilizar opção 02); b) prestação de serviços em instalações de terceiros (utilizar opções 03 a 09); c) Embarcação inscrita no Registro Especial Brasileiro - REB (utilizar opção 10)</field>
+        <field name="preenchimento_campo">Não Preencher</field>
+        <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_4'),ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),ref('sped_tabelas.tab08_8'),ref('sped_tabelas.tab08_9'),ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),ref('sped_tabelas.tab08_60'),ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_80'),ref('sped_tabelas.tab08_85'),ref('sped_tabelas.tab08_99')])]"/>
+    </record>
+    <record id="tab10_02" model="sped.lotacao_tributaria">
+        <field name="codigo">02</field>
+        <field name="nome">Obra de Construção Civil</field>
+        <field name="descricao">Obra de Construção Civil - Empreitada Parcial ou Sub- CNO da Obra - A informação de empreitada</field>
+        <field name="preenchimento_campo">CNO da Obra - A informação do CNPJ do Contratante/Proprietário do CNO é prestada nos sub-registros</field>
+        <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),ref('sped_tabelas.tab08_8'),ref('sped_tabelas.tab08_9'),ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),ref('sped_tabelas.tab08_60'),ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_80'),ref('sped_tabelas.tab08_85'),ref('sped_tabelas.tab08_99')])]"/>
+    </record>
+    <record id="tab10_03" model="sped.lotacao_tributaria">
+        <field name="codigo">03</field>
+        <field name="nome">Pessoa Física Tomadora de Serviços prestados mediante cessão de mão de obra</field>
+        <field name="descricao">Pessoa Física Tomadora de Serviços prestados mediante cessão de mão de obra, exceto contratante de cooperativa</field>
+        <field name="preenchimento_campo">CPF do contratante</field>
+        <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_99')])]"/>
+    </record>
+    <record id="tab10_04" model="sped.lotacao_tributaria">
+        <field name="codigo">04</field>
+        <field name="nome">Pessoa Jurídica Tomadora de Serviços prestados mediante cessão de mão de obra</field>
+        <field name="descricao">Pessoa Jurídica Tomadora de Serviços prestados mediante cessão de mão de obra, exceto contratante de cooperativa, nos termos da lei 8.212/1991</field>
+        <field name="preenchimento_campo">CNPJ do Estabelecimento Contratante</field>
+        <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_80'),ref('sped_tabelas.tab08_99')])]"/>
+    </record>
+    <record id="tab10_05" model="sped.lotacao_tributaria">
+        <field name="codigo">05</field>
+        <field name="nome">Pessoa Jurídica Tomadora de Serviços prestados por cooperados por intermédio de cooperativa de trabalho</field>
+        <field name="descricao">Pessoa Jurídica Tomadora de Serviços prestados por cooperados por intermédio de cooperativa de trabalho, exceto aqueles prestados a entidade beneficente/isenta</field>
+        <field name="preenchimento_campo">CNPJ do Estabelecimento Contratante</field>
+        <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_14'),ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_80'),ref('sped_tabelas.tab08_85'),ref('sped_tabelas.tab08_99')])]"/>
+    </record>
+    <record id="tab10_06" model="sped.lotacao_tributaria">
+        <field name="codigo">06</field>
+        <field name="nome">Entidade beneficente/isenta</field>
+        <field name="descricao">Entidade beneficente/isenta Tomadora de Serviços prestados por cooperados por intermédio de cooperativa de trabalho</field>
+        <field name="preenchimento_campo">CNPJ do Estabelecimento Contratante</field>
+        <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_99')])]"/>
+    </record>
+    <record id="tab10_07" model="sped.lotacao_tributaria">
+        <field name="codigo">07</field>
+        <field name="nome">Pessoa Física tomadora de Serviços prestados por Cooperados</field>
+        <field name="descricao">Pessoa Física tomadora de Serviços prestados por Cooperados por intermédio de Cooperativa de Trabalho</field>
+        <field name="preenchimento_campo"> CPF do contratante</field>
+        <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_99')])]"/>
+    </record>
+    <record id="tab10_08" model="sped.lotacao_tributaria">
+        <field name="codigo">08</field>
+        <field name="nome">Operador Portuário</field>
+        <field name="descricao">Operador Portuário tomador de serviços de trabalhadores avulsos</field>
+        <field name="preenchimento_campo">CNPJ do Operador Portuário</field>
+        <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_9')])]"/>
+    </record>
+    <record id="tab10_09" model="sped.lotacao_tributaria">
+        <field name="codigo">09</field>
+        <field name="nome">Contratante de trabalhadores avulsos</field>
+        <field name="descricao">Contratante de trabalhadores avulsos não portuários por intermédio de Sindicato</field>
+        <field name="preenchimento_campo">CNPJ ou CPF do Contratante</field>
+        <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_10')])]"/>
+    </record>
+    <record id="tab10_10" model="sped.lotacao_tributaria">
+        <field name="codigo">10</field>
+        <field name="nome">Embarcação</field>
+        <field name="descricao">Embarcação inscrita no Registro Especial Brasileiro - REB</field>
+        <field name="preenchimento_campo">Não Preencher</field>
+        <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_4'),ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),ref('sped_tabelas.tab08_8'),ref('sped_tabelas.tab08_9'),ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_80'),ref('sped_tabelas.tab08_85'),ref('sped_tabelas.tab08_99')])]"/>
+    </record>
+    <record id="tab10_21" model="sped.lotacao_tributaria">
+        <field name="codigo">21</field>
+        <field name="nome">Classificação da atividade econômica ou obra própria de construção civil</field>
+        <field name="descricao">Classificação da atividade econômica ou obra própria de construção civil da Pessoa Física</field>
+        <field name="preenchimento_campo">Não Preencher</field>
+        <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_21')])]"/>
+    </record>
+    <record id="tab10_24" model="sped.lotacao_tributaria">
+        <field name="codigo">24</field>
+        <field name="nome">Empregador Doméstico</field>
+        <field name="descricao">Empregador Doméstico</field>
+        <field name="preenchimento_campo">Não Preencher</field>
+        <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_21'),ref('sped_tabelas.tab08_22')])]"/>
+    </record>
+    <record id="tab10_90" model="sped.lotacao_tributaria">
+        <field name="codigo">90</field>
+        <field name="nome">Atividades desenvolvidas no exterior</field>
+        <field name="descricao">Atividades desenvolvidas no exterior por trabalhador vinculado ao Regime Geral de Previdência Social (expatriados)</field>
+        <field name="preenchimento_campo">Não Preencher</field>
+        <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),ref('sped_tabelas.tab08_8'),ref('sped_tabelas.tab08_9'),ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),ref('sped_tabelas.tab08_60'),ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_80'),ref('sped_tabelas.tab08_85'),ref('sped_tabelas.tab08_99')])]"/>
+    </record>
+    <record id="tab10_91" model="sped.lotacao_tributaria">
+        <field name="codigo">91</field>
+        <field name="nome">Atividades desenvolvidas por trabalhador estrangeiro</field>
+        <field name="descricao">Atividades desenvolvidas por trabalhador estrangeiro vinculado a Regime de Previdência Social Estrangeiro</field>
+        <field name="preenchimento_campo">Não Preencher</field>
+        <field name="codigo_tributaria_classificacao_ids" eval="[(6,0, [ref('sped_tabelas.tab08_1'),ref('sped_tabelas.tab08_2'),ref('sped_tabelas.tab08_3'),ref('sped_tabelas.tab08_6'),ref('sped_tabelas.tab08_7'),ref('sped_tabelas.tab08_8'),ref('sped_tabelas.tab08_9'),ref('sped_tabelas.tab08_10'),ref('sped_tabelas.tab08_11'),ref('sped_tabelas.tab08_13'),ref('sped_tabelas.tab08_14'),ref('sped_tabelas.tab08_60'),ref('sped_tabelas.tab08_70'),ref('sped_tabelas.tab08_80'),ref('sped_tabelas.tab08_85'),ref('sped_tabelas.tab08_99')])]"/>
+    </record>
 
     </data>
 </openerp>
