@@ -39,40 +39,6 @@ openerp.l10n_br_tef = function(instance){
         return	(new WebSocket('ws://localhost:60906'));
     }
 
-    function insere_senha(){
-        if(io_tags.automacao_coleta_mensagem === "Aguarde !!! Processando a transacao ..."){
-            io_tags.automacao_coleta_mensagem = "";
-
-                setTimeout(function(){
-                    Coleta('');
-
-                    setTimeout(function(){
-                        Coleta('');
-                    }, 6000);
-
-                }, 8000);
-
-        }
-    }
-
-    function insere_cartao(){
-            if(io_tags.automacao_coleta_palavra_chave === "transacao_valor"){
-                io_tags.automacao_coleta_palavra_chave = "";
-
-                setTimeout(function(){
-                    ls_transacao_valor_global = "1";
-                    Coleta('');
-
-                    setTimeout(function(){
-                        ls_transacao_valor_global = '';
-                        Coleta('');
-                    }, 2000);
-
-                }, 2000);
-            }
-    }
-
-
     // Abre a conexão e envia o primeiro servico.
     io_connection.onopen = function()
     {
@@ -101,7 +67,7 @@ openerp.l10n_br_tef = function(instance){
     io_connection.onmessage	= function(e)
     {
         // Apresenta a mensagem.
-        Trace(e.data);
+        Trace("Received >>> " + e.data);
 
         // Inicia as tag's.
         io_tags.TagsInicializar();
@@ -110,23 +76,127 @@ openerp.l10n_br_tef = function(instance){
         ServicoDesmontar(e.data);
 
         // Se retorno não for de pacote ok...
-        if	( io_tags.retorno !== '0' )
+        if	( io_tags.retorno !== "0" )
         {
             in_sequencial = io_tags.sequencial;
-
-            // Tenta refazer a operação anterior, mudando apenas o sequencial
-            if( io_tags.retorno != 0 )
-                refaz_transacao(in_sequencial);
 
         }
 
         // Guarda o sequencial corrente da coleta.
         in_sequencial_executar = io_tags.automacao_coleta_sequencial;
 
+        setTimeout(function(){
+            verifica_consultar_completo();
+            verifica_executar_completo();
+            verifica_executar_enviar_completo();
+            verifica_cartao_inserido();
+            verifica_valor_preenchido();
+            verifica_valor_preenchido_enviar();
+            verifica_senha_inserida();
+            verifica_transacao_aprovada();
+            verifica_cartao_removido();
+            finaliza_operacao();
+        }, 1000);
+
+
         // Apresenta o comprovante..
-        if	( io_tags.transacao_comprovante_1via !== '')
-        {
-            alert(io_tags.transacao_comprovante_1via+io_tags.transacao_comprovante_2via);
+        // if	( io_tags.transacao_comprovante_1via !== '')
+        // {
+        //     alert(io_tags.transacao_comprovante_1via+io_tags.transacao_comprovante_2via);
+        // }
+    }
+
+    function verifica_consultar_completo(){
+
+        if((io_tags.servico == "consultar") && (io_tags.retorno == "0")) {
+            Executar();
+        }
+        else if((io_tags.servico == '')&& (io_tags.retorno != "0")) {
+            refaz_transacao(io_tags.sequencial);
+        }
+    }
+
+    function verifica_executar_completo(){
+        if((io_tags.automacao_coleta_palavra_chave == "transacao_cartao_numero") && (io_tags.automacao_coleta_retorno == "0")) {
+            Coleta('');
+        }else{
+            //Tratar excessões
+        }
+    }
+
+    function verifica_executar_enviar_completo(){
+
+        if(io_tags.automacao_coleta_retorno == "0"){
+            // Aqui o usuário\funcionário deverá inserir o cartão no PinPad
+        } else {
+            //Tratar Excessões
+        }
+    }
+
+    function verifica_cartao_inserido(){
+            if((io_tags.automacao_coleta_palavra_chave === "transacao_valor") && (io_tags.automacao_coleta_mensagem === "Valor" )){
+
+                /* Aqui deverão ser preenchidos os valores
+                    --> Pagamento
+                    --> Produto
+                    --> Tipo de Transação
+                    --> Tipo Cartão
+                */
+                ls_transacao_valor_global = "1";
+
+
+                Coleta('');
+            }
+    }
+
+    function verifica_valor_preenchido(){
+        if(io_tags.automacao_coleta_mensagem == "AGUARDE A SENHA"){
+
+            ls_transacao_valor_global = '';
+            Coleta('');
+
+        } else {
+          // Tratar Excessões
+        }
+    }
+
+    function verifica_valor_preenchido_enviar(){
+        // Aqui o usuário deverá preencher sua senha no PinPad
+    }
+
+    function verifica_senha_inserida(){
+        if(io_tags.automacao_coleta_mensagem === "Aguarde !!! Processando a transacao ..."){
+            Coleta('');
+        } else {
+            // Tratar Excessões
+        }
+    }
+
+    function verifica_transacao_aprovada(){
+        if((io_tags.automacao_coleta_mensagem === "Transacao aprovada.") && (io_tags.servico == "") && (io_tags.transacao == "")) {
+            Coleta('');
+        }else{
+            // Tratar Excessões
+        }
+    }
+
+    function verifica_cartao_removido(){
+
+        if((io_tags.servico=="executar") && (io_tags.mensagem=="Transacao aprovada., RETIRE O CARTAO")){
+
+            Confirmar(io_tags.sequencial);
+            io_tags.mensagem = ""
+
+        } else {
+            // Tratar Excessões
+        }
+    }
+
+    function finaliza_operacao(){
+        if((io_tags.retorno=="1") && (io_tags.servico=="executar") && (io_tags.transacao=="Cartao Vender") ){
+            Finalizar();
+        } else {
+            // Tratar Excessões
         }
     }
 
@@ -143,84 +213,10 @@ openerp.l10n_br_tef = function(instance){
     //     Send('servico="iniciar"sequencial="'+Sequencial()+'"retorno="1"versao="1.0.0"aplicacao_tela="VBIAutomationTest"aplicacao="V$PagueClient"');
     // }
     //
-    // function Finalizar()
-    // {
-    //     Send('servico="finalizar"sequencial="'+Sequencial()+'"retorno="1"');
-    // }
     //
     // /**
     // Função responsável por montar e enviar o serviço "executar".
     // */
-    // function Executar()
-    // {
-    //     var
-    //     ls_tags_executar	=	'servico="executar"retorno="1"sequencial="'+Sequencial()+'"';
-    //
-    //     var
-    //     ls_tipo_cartao		=	document.getElementById('io_lst_tipo_cartao').options[io_lst_tipo_cartao.selectedIndex].text;
-    //
-    //     var
-    //     ls_tipo_transacao	=	document.getElementById('io_lst_transacao_tipo').options[io_lst_transacao_tipo.selectedIndex].text;
-    //
-    //     var
-    //     ls_tipo_produto		=	document.getElementById('io_lst_tipo_produto').options[io_lst_tipo_produto.selectedIndex].text;
-    //
-    //     var
-    //     ls_transacao_pagamento	=	document.getElementById('io_lst_transacao_pagamento').options[io_lst_transacao_pagamento.selectedIndex].text;
-    //
-    //     var
-    //     ls_transacao_valor	=	document.getElementById('io_txt_coleta_valor').value;
-    //
-    //     if (ls_transacao_valor	!==	"")
-    //     {
-    //         ls_transacao_valor		=	'transacao_valor="'+ls_transacao_valor+'"';
-    //         ls_tags_executar		=	 ls_tags_executar+ls_transacao_valor;
-    //     }
-    //
-    //
-    //     if	(
-    //             io_lst_transacao_tipo.selectedIndex
-    //                         >=	0
-    //         )
-    //     {
-    //         ls_tipo_transacao		=		'transacao="'+ls_tipo_transacao+'"';
-    //         ls_tags_executar		=		ls_tags_executar+ls_tipo_transacao;
-    //     }
-    //
-    //     if	(
-    //             io_lst_tipo_cartao.selectedIndex
-    //                         >=	0
-    //         )
-    //     {
-    //         ls_tipo_cartao		=	'transacao_tipo_cartao="'+ls_tipo_cartao+'"';
-    //         ls_tags_executar	=	ls_tags_executar+ls_tipo_cartao;
-    //
-    //     }
-    //
-    //     if	(
-    //             io_lst_transacao_pagamento.selectedIndex
-    //                         >=	0
-    //         )
-    //     {
-    //         ls_transacao_pagamento		=	'transacao_pagamento="'+ls_transacao_pagamento+'"';
-    //         ls_tags_executar			=	ls_tags_executar+ls_transacao_pagamento;
-    //     }
-    //
-    //     if	(
-    //             io_lst_tipo_produto.selectedIndex
-    //                         >=	0
-    //         )
-    //     {
-    //         ls_tipo_produto		=	'transacao_produto="'+ls_tipo_produto+'"';
-    //         ls_tags_executar			=	ls_tags_executar+ls_tipo_produto;
-    //     }
-    //
-    //     //
-    //     // Envia o pacote para o V$PagueClient.
-    //     //
-    //     Send(ls_tags_executar);
-    // }
-    //
     //
     // function Limpar()
     // {
@@ -245,25 +241,6 @@ openerp.l10n_br_tef = function(instance){
     //     return(in_sequencial);
     // }
     //
-    // function Confirmar()
-    // {
-    //     var
-    //     ls_tipo_transacao	=	document.getElementById('io_lst_transacao_tipo').options[io_lst_transacao_tipo.selectedIndex].text;
-    //
-    //     var
-    //     ls_tags_executar	=	'servico="executar"retorno="0"sequencial="'+document.getElementById('io_txt_sequencial').value+'"';
-    //
-    //     if	(
-    //                 io_lst_transacao_tipo.selectedIndex
-    //                             >=	0
-    //         )
-    //     {
-    //         ls_tipo_transacao		=		'transacao="'+ls_tipo_transacao+'"';
-    //         ls_tags_executar		=		ls_tags_executar+ls_tipo_transacao;
-    //     }
-    //
-    //     Send(ls_tags_executar);
-    // }
     //
     // function CartaoDigitar()
     // {
@@ -316,31 +293,7 @@ openerp.l10n_br_tef = function(instance){
     // //
     // // Função para envio dos dados.
     // //
-    // function Send(as_buffer)
-    // {
-    //     //
-    //     // Envia o pacote.
-    //     //
-    //     io_connection.send(as_buffer);
-    //
-    //     /*
-    //     Apresenta no browser.
-    //     */
-    //     var
-    //     obj			=		document.getElementById("output");
-    //     obj.innerHTML		=	"<br> >>> SEND: <br>"+as_buffer.fontsize(ln_font_size)+"<br><br>"+obj.innerHTML;
-    // }
-    //
-    // function Consultar()
-    // {
-    //     Send('servico="consultar"retorno="0"sequencial="'+Sequencial()+'"');
-    // }
-    //
-    // function Testar()
-    // {
-    //     alert("Atilla esteve aqui!!!")
-    // }
-    //
+
 
     /**
     Tags nessessárias para a integração.
@@ -440,6 +393,22 @@ openerp.l10n_br_tef = function(instance){
         {
             //Trace('Alimentando...'+as_tag);
 
+            //this.automacao_coleta_opcao = "";
+            //this.automacao_coleta_informacao = "";
+            //this.automacao_coleta_mensagem = "";
+            //this.automacao_coleta_retorno = "";
+            //this.automacao_coleta_sequencial = "";
+            //this.transacao_comprovante_1via = "";
+            //this.transacao_comprovante_2via = "";
+            //this.transacao_comprovante_resumido = "";
+            //this.servico = "";
+            //this.transacao = "";
+            //this.transacao_produto = "";
+            //this.retorno = 0;
+            //this.sequencial = 0;
+            //this.automacao_coleta_palavra_chave = "";
+
+
             if('automacao_coleta_opcao' === as_tag)
                 this.automacao_coleta_opcao	= as_value;
 
@@ -477,6 +446,9 @@ openerp.l10n_br_tef = function(instance){
             else if	('retorno' === as_tag)
                 this.retorno = as_value;
 
+            else if	('mensagem' === as_tag)
+                this.mensagem = as_value;
+
             else if	('sequencial' === as_tag)
                 this.sequencial = parseInt(as_value,0);
 
@@ -484,17 +456,15 @@ openerp.l10n_br_tef = function(instance){
                 this.automacao_coleta_palavra_chave = as_value;
         }
 
-        this.TagsInicializar	=	function()
+        this.TagsInicializar = function()
         {
-            this.transacao_comprovante_1via
-                        =	'';
-            this.transacao_comprovante_2via
-                        =	'';
-            this.transacao		=	'';
-            this.transacao_produto	=	'';
-            this.servico		=	'';
-            this.retorno		=	0;
-            this.sequencial		=	0;
+            this.transacao_comprovante_1via = '';
+            this.transacao_comprovante_2via = '';
+            this.transacao = '';
+            this.transacao_produto = '';
+            this.servico = '';
+            this.retorno = 0;
+            this.sequencial = 0;
         }
     }
 
@@ -591,9 +561,6 @@ openerp.l10n_br_tef = function(instance){
                         // lo_lst_obj.options.add(lo_option);
                     }
                 }
-            }else{
-                insere_cartao();
-                insere_senha();
             }
         }
         catch (err) {
@@ -624,6 +591,19 @@ openerp.l10n_br_tef = function(instance){
         {
             Send('automacao_coleta_sequencial="'+in_sequencial_executar+'"automacao_coleta_retorno="0"automacao_coleta_informacao="'+ ls_transacao_valor_global+ '"');
         }
+    }
+
+    function Confirmar(sequencial)
+    {
+        // var ls_tipo_transacao = document.getElementById('io_lst_transacao_tipo').options[io_lst_transacao_tipo.selectedIndex].text;
+        var ls_tipo_transacao = "Cartao Vender";
+
+        var ls_tags_executar = 'servico="executar"retorno="0"sequencial="'+ sequencial + '"';
+
+        ls_tipo_transacao = 'transacao="'+ls_tipo_transacao+'"';
+        ls_tags_executar = ls_tags_executar+ls_tipo_transacao;
+
+        Send(ls_tags_executar);
     }
 
     function Executar()
@@ -698,7 +678,12 @@ openerp.l10n_br_tef = function(instance){
 
         // Coloca a transação atual na fila
         fila_transacoes.push(as_buffer);
-        console.log(as_buffer);
+        Trace("Send >>> " + as_buffer);
+    }
+
+    function Finalizar()
+    {
+        Send('servico="finalizar"sequencial="'+Sequencial()+'"retorno="1"');
     }
 
     function Consultar()
@@ -735,11 +720,6 @@ openerp.l10n_br_tef = function(instance){
                 && (io_tags.transacao_produto != '')){
 
                 Executar();
-
-                setTimeout(function(){
-                    Coleta('');
-                }, 3000);
-
             }
         }, 3000);
     }
