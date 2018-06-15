@@ -2,7 +2,8 @@
 <openerp>
     <data>
 
-        <menuitem id="menu_hr_root_telefonia" parent="hr.menu_hr_root" name="Telefonia" sequence="48" groups="base.group_user" />
+        <menuitem id="menu_hr_root_telefonia" parent="hr.menu_hr_root"
+                  name="Telefonia" sequence="48" groups="base.group_user" />
 
         <!-- Visao que mostra os funcionários e seus ramais-->
         <record model="ir.ui.view" id="hr_employee_ramal_form_view">
