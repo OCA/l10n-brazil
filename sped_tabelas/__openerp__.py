@@ -3,6 +3,7 @@
 # Copyright 2017 KMEE - Átila Graciano <atilla.silva@kmee.com.br>
 # Copyright 2017 KMEE - Bianca Bartolomei <bianca.bartolomei@kmee.com.br>
 # Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+# Copyright 2018 ABGF - Wagner Pereira <wagner.pereira@abgf.gov.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
@@ -13,8 +14,8 @@
     'version': '8.0.0.1.0',
     'category': 'Hidden',
     'license': 'AGPL-3',
-    'author': 'ABGF, Agência Brasileira Gestora de Fundos Garantidores e Garantias S.A.',
-    'website': 'www.abgf.gov.br',
+    'author': 'KMEE & ABGF',
+    'website': 'www.odoobrasil.org.br, www.abgf.gov.br',
     'depends': [],
     'external_dependencies': {
         'python': [
