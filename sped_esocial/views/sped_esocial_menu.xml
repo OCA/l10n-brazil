@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <menuitem id="menu_sped_esocial"
+                  name="e-Social"
+                  sequence="86"
+                  parent="sped_tabelas.menu_sped"
+        />
+    </data>
+</openerp>

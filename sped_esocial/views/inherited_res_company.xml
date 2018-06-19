@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_res_company">
+            <field name="name">Adiciona e-Social na Empresa</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="sped_efdreinf.sped_res_company" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='efdreinf']" position="after">
+                    <page name="esocial" string="e-Social" attrs="{'invisible': [('eh_empresa_base', '=', False)]}">
+                        <group colspan="4" col="4">
+                            <group colspan="4" col="2">
+                                <field name="esocial_tpAmb" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="natureza_juridica_id" options="{'no_create': True, 'no_open': True}" />
+                                <field name="ind_coop" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="ind_constr" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="ind_desoneracao" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="ind_opt_reg_eletron" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="ind_sitpj"/>
+                                <field name="ind_ent_ed"/>
+                                <field name="ind_ett" />
+                                <field name="nr_reg_ett" />
+                                <field name="esocial_nm_ctt" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="esocial_cpf_ctt" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="esocial_fone_fixo" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="esocial_fone_cel" />
+                                <field name="esocial_email" />
+                                <field name="esocial_periodo_id" attrs="{'required': [('eh_empresa_base', '=', True)]}"
+                                       domain="[('date_start', '&gt;=', '2018-05-01')]"
+                                       options="{'no_create': True, 'no_open': True}" required="1"
+                                />
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="sped_s1000" />
+                                <field name="sped_s1000_registro" />
+                                <field name="sped_s1000_situacao" />
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="sped_s1000_data_hora" />
+                                <button name="criar_s1000" colspan="4" type="object"
+                                        string="Enviar S-1000 - Informações do Empregador/Contribuinte/Órgão Público"
+                                        attrs="{'invisible': [('sped_s1000_registro', '!=', False)]}" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
