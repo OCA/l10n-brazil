@@ -10,18 +10,20 @@
         <field name="model">hr.holidays</field>
         <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
         <field name="arch" type="xml">
-            <field name="date_from" position="attributes">
-                <attribute name="string">Período</attribute>
-            </field>
+
             <field name="employee_id" position="replace">
                 <field name="employee_id" invisible="1"/>
-                <field name="contrato_id" attrs="{
-                         'readonly':[('state','in',['validate','validate1','refuse'])],
-                         'required':[('type','=', 'remove')],
-                         'invisible':[('holiday_type','=', 'category')]}"/>
+                <field name="contrato_id"
+                       attrs="{'readonly':[('state','in',['validate','validate1','refuse'])],
+                               'required':[('type','=', 'remove')],
+                               'invisible':[('holiday_type','=', 'category')]}"/>
             </field>
+
             <field name="holiday_status_id" position="before">
-                <field name="tipo" attrs="{'invisible':[('type','=', 'remove')]}"/>
+                <field name="tipo"
+                       attrs="{'invisible':[('type','=', 'remove')],
+                               'readonly':[('state','in',['validate','validate1','refuse'])],
+                               'required':[('type','=', 'add')]}"/>
             </field>
 
             <field name="notes" position="before">
@@ -39,6 +41,11 @@
         </field>
     </record>
 
+    <!-- Libera o MENU de Pedido de Férias para todos os usuarios-->
+    <record id="hr_holidays.menu_open_ask_holidays_new" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4,ref('base.group_user'))]" />
+    </record>
+
     <act_window
             id="l10n_br_hr_holiday_action_ocorrencias"
             name="Ocorrências"
@@ -54,11 +61,6 @@
             parent="hr_holidays.menu_open_ask_holidays"
             groups="base.group_user"
             sequence="6"/>
-
-    <!-- Libera o MENU de Pedido de Férias para todos os usuarios-->
-    <record id="hr_holidays.menu_open_ask_holidays_new" model="ir.ui.menu">
-        <field name="groups_id" eval="[(4,ref('base.group_user'))]" />
-    </record>
 
     <record model="ir.actions.act_window" id="open_ask_holidays">
             <field name="name">Pedido de Férias</field>
