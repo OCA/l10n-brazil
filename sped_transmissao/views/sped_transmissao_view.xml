@@ -12,10 +12,13 @@
                                 attrs="{'invisible': [('situacao', 'in', ['2', '4'])]}"
                         />
                         <button name="limpa_db" type="object" string="Limpar DB" class="oe_highlight"
-                                attrs="{'invisible': ['|', ('situacao', '=', '1'), ('registro', '!=', 'R-1000')]}"
+                                attrs="{'invisible': ['&amp;', ('situacao', '=', '1'), ('registro', 'in', ['R-1000', 'S-1000'])]}"
                         />
                         <button name="consulta_fechamento" type="object" string="Consultar Fechamento" class="oe_highlight"
                                 attrs="{'invisible': ['|', ('registro', '!=', 'R-2099'), ('situacao', '!=', '2')]}"
+                        />
+                        <button name="consulta_esocial" type="object" string="Consultar e-Social" class="oe_highlight"
+                                attrs="{'invisible': ['|', ('tipo', '!=', 'esocial'), ('situacao', '!=', '2')]}"
                         />
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"

@@ -143,11 +143,11 @@ class SpedTransmissao(models.Model):
         compute='_compute_arquivo_xml',
     )
     recibo = fields.Char(
-        string='Recibo EFD/Reinf',
+        string='Recibo',
         size=60,
     )
     protocolo = fields.Char(
-        string='Protocolo EFD/Reinf',
+        string='Protocolo',
         size=60,
     )
 
@@ -245,6 +245,87 @@ class SpedTransmissao(models.Model):
         # Prepara variaveis para gravar os XMLs
         envio_xml = False
         retorno_xml = False
+
+        # Registro S-1000 - Informações do Empregador (e-Social)
+        if self.registro == 'S-1000':
+
+            # Cria o registro
+            S1000 = pysped.esocial.leiaute.S1000_2()
+
+            # Popula ideEvento
+            S1000.tpInsc = '1'
+            S1000.nrInsc = limpa_formatacao(self.origem.cnpj_cpf)
+            S1000.evento.ideEvento.tpAmb.valor = int(self.company_id.esocial_tpAmb)
+            S1000.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
+            S1000.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
+
+            # Popula ideEmpregador (Dados do Empregador)
+            S1000.evento.ideEmpregador.tpInsc.valor = '1'
+            S1000.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.origem.cnpj_cpf)[0:8]
+
+            # Popula infoEmpregador
+            S1000.evento.infoEmpregador.operacao = 'I'
+            S1000.evento.infoEmpregador.idePeriodo.iniValid.valor = self.origem.esocial_periodo_id.code[3:7] + '-' + self.origem.esocial_periodo_id.code[0:2]
+
+            # Popula infoEmpregador.InfoCadastro
+            S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = self.origem.legal_name
+            S1000.evento.infoEmpregador.infoCadastro.classTrib.valor = self.origem.classificacao_tributaria_id.codigo
+            S1000.evento.infoEmpregador.infoCadastro.natJurid.valor = self.origem.natureza_juridica_id.codigo
+            S1000.evento.infoEmpregador.infoCadastro.indCoop.valor = self.origem.ind_coop
+            S1000.evento.infoEmpregador.infoCadastro.indConstr.valor = self.origem.ind_constr
+            S1000.evento.infoEmpregador.infoCadastro.indDesFolha.valor = self.origem.ind_desoneracao
+            S1000.evento.infoEmpregador.infoCadastro.indOptRegEletron.valor = self.origem.ind_opt_reg_eletron
+            S1000.evento.infoEmpregador.infoCadastro.indEntEd.valor = self.origem.ind_ent_ed
+            S1000.evento.infoEmpregador.infoCadastro.indEtt.valor = self.origem.ind_ett
+            if self.origem.nr_reg_ett:
+                S1000.evento.infoEmpregador.infoCadastro.nrRegEtt.valor = self.origem.nr_reg_ett
+            if self.limpar_db:
+                S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = 'RemoverEmpregadorDaBaseDeDadosDaProducaoRestrita'
+                S1000.evento.infoEmpregador.infoCadastro.classTrib.valor = '00'
+
+            # Popula infoEmpregador.Infocadastro.contato
+            S1000.evento.infoEmpregador.infoCadastro.contato.nmCtt.valor = self.origem.esocial_nm_ctt
+            S1000.evento.infoEmpregador.infoCadastro.contato.cpfCtt.valor = self.origem.esocial_cpf_ctt
+            S1000.evento.infoEmpregador.infoCadastro.contato.foneFixo.valor = self.origem.esocial_fone_fixo
+            # S1000.evento.infoEmpregador.infoCadastro.contato.foneCel.valor = self.origem.esocial_fone_cel
+            # S1000.evento.infoEmpregador.infoCadastro.contato.email.valor = self.origem.esocial_email
+
+            # Popula infoEmpregador.infoCadastro.infoComplementares.situacaoPJ
+            # S1000.evento.infoEmpregador.infoCadastro.infoComplementares.situacaoPJ.indSitPJ.valor = self.origem.ind_sitpj
+
+            # Gera
+            data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            dh_transmissao = datetime.now().strftime('%Y%m%d%H%M%S')
+            S1000.gera_id_evento(dh_transmissao)
+            processador = pysped.ProcessadorESocial()
+
+            processador.certificado.arquivo = arquivo.name
+            processador.certificado.senha = self.company_id.nfe_a1_password
+            processador.ambiente = int(self.company_id.esocial_tpAmb)
+
+            # Define a Inscrição do Processados
+            processador.tpInsc = '1'
+            processador.nrInsc = limpa_formatacao(self.origem.cnpj_cpf)
+
+            # Criar registro do Lote
+            vals = {
+                'tipo': 'esocial',
+                'ambiente': self.origem.tpAmb,
+                'transmissao_ids': [(4, self.id)],
+                'data_hora_transmissao': data_hora_transmissao,
+                'xml_transmissao': False,
+            }
+
+            lote_id = self.env['sped.transmissao.lote'].create(vals)
+            self.lote_ids = [(4, lote_id.id)]
+            self.data_hora_transmissao = data_hora_transmissao
+
+            # Transmite
+            processo = processador.enviar_lote([S1000])
+            envio_xml = processo.envio.envioLoteEventos.eventos[0].xml
+            envio_xml_nome = S1000.evento.Id.valor + '-S1000-env.xml'
+            retorno_xml = processo.resposta.xml
+            retorno_xml_nome = S1000.evento.Id.valor + '-S1000-ret.xml'
 
         # Registro R-1000 - Informações do Contribuinte (EFD-REINF)
         if self.registro == 'R-1000':
@@ -519,79 +600,150 @@ class SpedTransmissao(models.Model):
             retorno_xml = processo.resposta.retornoEventos[0].xml
             retorno_xml_nome = R2099.evento.Id.valor + '-R2099-ret.xml'
 
-
         # Registro R-3010 - Receita de Espetáculo Desportivo
         elif self.registro == 'R-3010':
             return "<xml>R-3010</xml>"
 
-        if processo:
+        # Processa retorno do EFD/Reinf
+        if self.tipo == 'efdreinf':
+            if processo:
 
-            # Limpar ocorrências
-            for ocorrencia in self.ocorrencia_ids:
-                ocorrencia.unlink()
+                # Limpar ocorrências
+                for ocorrencia in self.ocorrencia_ids:
+                    ocorrencia.unlink()
 
-            if processo.resposta.retornoStatus.dadosRegistroOcorrenciaLote.ocorrencias:
-                for ocorrencia in processo.resposta.retornoStatus.dadosRegistroOcorrenciaLote.ocorrencias:
-                    vals = {
-                        'transmissao_id': self.id,
-                        'tipo': ocorrencia.tipo.valor,
-                        'local': ocorrencia.localizacaoErroAviso.valor,
-                        'codigo': ocorrencia.codigo.valor,
-                        'descricao': ocorrencia.descricao.valor,
-                    }
-                    self.ocorrencia_ids.create(vals)
-
-            for evento in processo.resposta.retornoEventos:
-                if self.limpar_db:
-                    self.cd_retorno = False
-                    self.desc_retorno = False
-                else:
-                    self.cd_retorno = evento.evtTotal.ideRecRetorno.ideStatus.cdRetorno.valor
-                    self.desc_retorno = evento.evtTotal.ideRecRetorno.ideStatus.descRetorno.valor
-                    self.recibo = evento.evtTotal.infoTotal.nrRecArqBase.valor
-                    self.protocolo = evento.evtTotal.infoRecEv.nrProtEntr.valor
-
-                if evento.evtTotal.ideRecRetorno.ideStatus.regOcorrs:
-                    for ocorrencia in evento.evtTotal.ideRecRetorno.ideStatus.regOcorrs:
+                if processo.resposta.retornoStatus.dadosRegistroOcorrenciaLote.ocorrencias:
+                    for ocorrencia in processo.resposta.retornoStatus.dadosRegistroOcorrenciaLote.ocorrencias:
                         vals = {
                             'transmissao_id': self.id,
-                            'tipo': ocorrencia.tpOcorr.valor,
-                            'local': ocorrencia.localErroAviso.valor,
-                            'codigo': ocorrencia.codResp.valor,
-                            'descricao': ocorrencia.dscResp.valor,
+                            'tipo': ocorrencia.tipo.valor,
+                            'local': ocorrencia.localizacaoErroAviso.valor,
+                            'codigo': ocorrencia.codigo.valor,
+                            'descricao': ocorrencia.descricao.valor,
                         }
                         self.ocorrencia_ids.create(vals)
 
-            if self.cd_retorno == '0':
-                self.situacao = '4'
-            elif self.cd_retorno == '1':
-                self.situacao = '3'
-            elif self.cd_retorno == '2':
-                self.situacao = '2'
-            else:
-                self.situacao = '1'
+                for evento in processo.resposta.retornoEventos:
+                    if self.limpar_db:
+                        self.cd_retorno = False
+                        self.desc_retorno = False
+                    else:
+                        self.cd_retorno = evento.evtTotal.ideRecRetorno.ideStatus.cdRetorno.valor
+                        self.desc_retorno = evento.evtTotal.ideRecRetorno.ideStatus.descRetorno.valor
+                        self.recibo = evento.evtTotal.infoTotal.nrRecArqBase.valor
+                        self.protocolo = evento.evtTotal.infoRecEv.nrProtEntr.valor
 
-            # Popula dados de retorno
-            data_hora_retorno = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            lote_id.data_hora_retorno = data_hora_retorno
-            lote_id.situacao = '3' if self.situacao == 3 else '4'
-            self.data_hora_retorno = data_hora_retorno
+                    if evento.evtTotal.ideRecRetorno.ideStatus.regOcorrs:
+                        for ocorrencia in evento.evtTotal.ideRecRetorno.ideStatus.regOcorrs:
+                            vals = {
+                                'transmissao_id': self.id,
+                                'tipo': ocorrencia.tpOcorr.valor,
+                                'local': ocorrencia.localErroAviso.valor,
+                                'codigo': ocorrencia.codResp.valor,
+                                'descricao': ocorrencia.dscResp.valor,
+                            }
+                            self.ocorrencia_ids.create(vals)
 
-            # Grava anexos
-            if envio_xml:
-                if self.envio_xml_id:
-                    envio = self.envio_xml_id
-                    self.envio_xml_id = False
-                    envio.unlink()
-                anexo_id = self._grava_anexo(envio_xml_nome, envio_xml)
-                self.envio_xml_id = anexo_id
-            if retorno_xml:
-                if self.retorno_xml_id:
-                    retorno = self.retorno_xml_id
-                    self.retorno_xml_id = False
-                    retorno.unlink()
-                anexo_id = self._grava_anexo(retorno_xml_nome, retorno_xml)
-                self.retorno_xml_id = anexo_id
+                if self.cd_retorno == '0':
+                    self.situacao = '4'
+                elif self.cd_retorno == '1':
+                    self.situacao = '3'
+                elif self.cd_retorno == '2':
+                    self.situacao = '2'
+                else:
+                    self.situacao = '1'
+
+        # Popula retorno do e-Social
+        elif self.tipo == 'esocial':
+            if processo:
+
+                # Limpar ocorrências
+                for ocorrencia in self.ocorrencia_ids:
+                    ocorrencia.unlink()
+
+                if processo.resposta.retornoEnvioLoteEventos.status.ocorrencias:
+                    for ocorrencia in processo.resposta.retornoEnvioLoteEventos.status.ocorrencias:
+                        vals = {
+                            'transmissao_id': self.id,
+                            'codigo': ocorrencia.codigo.valor,
+                            'descricao': ocorrencia.descricao.valor,
+                            'tipo': ocorrencia.tipo.valor,
+                            'local': ocorrencia.localizacao.valor,
+                        }
+                        self.ocorrencia_ids.create(vals)
+                    self.situacao = '3'
+                else:
+                    self.situacao = '2'
+
+                if self.limpar_db:
+                    self.cd_retorno = False
+                    self.desc_retorno = False
+                    self.situacao = '1'
+                else:
+                    self.cd_retorno = processo.resposta.retornoEnvioLoteEventos.status.cdResposta.valor
+                    self.desc_retorno = processo.resposta.retornoEnvioLoteEventos.status.descResposta.valor
+                    self.protocolo = processo.resposta.retornoEnvioLoteEventos.dadosRecepcaoLote.protocoloEnvio.valor
+
+                # if self.cd_retorno == '0':
+                #     self.situacao = '4'
+                # elif self.cd_retorno == '1':
+                #     self.situacao = '3'
+                # elif self.cd_retorno == '201':
+                #     self.situacao = '2'
+                # else:
+                #     self.situacao = '1'
+
+        # Popula dados de retorno
+        data_hora_retorno = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        lote_id.data_hora_retorno = data_hora_retorno
+        lote_id.situacao = '3' if self.situacao == 3 else '4'
+        self.data_hora_retorno = data_hora_retorno
+
+        # Grava anexos
+        if envio_xml:
+            if self.envio_xml_id:
+                envio = self.envio_xml_id
+                self.envio_xml_id = False
+                envio.unlink()
+            anexo_id = self._grava_anexo(envio_xml_nome, envio_xml)
+            self.envio_xml_id = anexo_id
+        if retorno_xml:
+            if self.retorno_xml_id:
+                retorno = self.retorno_xml_id
+                self.retorno_xml_id = False
+                retorno.unlink()
+            anexo_id = self._grava_anexo(retorno_xml_nome, retorno_xml)
+            self.retorno_xml_id = anexo_id
+
+    @api.multi
+    def consulta_esocial(self):
+        self.ensure_one()
+
+        if not self.protocolo:
+            raise ValidationError("Protocolo não existe ! - Impossível consultar")
+
+        # Gravar certificado em arquivo temporario
+        arquivo = tempfile.NamedTemporaryFile()
+        arquivo.seek(0)
+        arquivo.write(
+            base64.decodestring(self.company_id.nfe_a1_file)
+        )
+        arquivo.flush()
+
+        processador = pysped.ProcessadorESocial()
+        processador.certificado.arquivo = arquivo.name
+        processador.certificado.senha = self.company_id.nfe_a1_password
+        processador.ambiente = int(self.company_id.esocial_tpAmb)
+
+        # Consulta
+        processo = processador.consultar_lote(self.protocolo)
+
+        import ipdb; ipdb.set_trace();
+
+        print(processo.resposta.original)
+
+        self.cd_retorno = processo.resposta.evtTotalContrib.ideRecRetorno.ideStatus.cdRetorno.valor
+        self.desc_retorno = processo.resposta.evtTotalContrib.ideRecRetorno.ideStatus.descRetorno.valor
 
     @api.multi
     def consulta_fechamento(self):
