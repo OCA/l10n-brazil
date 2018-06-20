@@ -254,7 +254,7 @@ class SpedTransmissao(models.Model):
 
             # Popula ideEvento
             S1000.tpInsc = '1'
-            S1000.nrInsc = limpa_formatacao(self.origem.cnpj_cpf)
+            S1000.nrInsc = limpa_formatacao(self.origem.cnpj_cpf)[0:8]
             S1000.evento.ideEvento.tpAmb.valor = int(self.company_id.esocial_tpAmb)
             S1000.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
             S1000.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
@@ -270,7 +270,7 @@ class SpedTransmissao(models.Model):
             # Popula infoEmpregador.InfoCadastro
             S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = self.origem.legal_name
             S1000.evento.infoEmpregador.infoCadastro.classTrib.valor = self.origem.classificacao_tributaria_id.codigo
-            S1000.evento.infoEmpregador.infoCadastro.natJurid.valor = self.origem.natureza_juridica_id.codigo
+            S1000.evento.infoEmpregador.infoCadastro.natJurid.valor = limpa_formatacao(self.origem.natureza_juridica_id.codigo)
             S1000.evento.infoEmpregador.infoCadastro.indCoop.valor = self.origem.ind_coop
             S1000.evento.infoEmpregador.infoCadastro.indConstr.valor = self.origem.ind_constr
             S1000.evento.infoEmpregador.infoCadastro.indDesFolha.valor = self.origem.ind_desoneracao
@@ -291,7 +291,7 @@ class SpedTransmissao(models.Model):
             # S1000.evento.infoEmpregador.infoCadastro.contato.email.valor = self.origem.esocial_email
 
             # Popula infoEmpregador.infoCadastro.infoComplementares.situacaoPJ
-            # S1000.evento.infoEmpregador.infoCadastro.infoComplementares.situacaoPJ.indSitPJ.valor = self.origem.ind_sitpj
+            S1000.evento.infoEmpregador.infoCadastro.indSitPJ.valor = self.origem.ind_sitpj
 
             # Gera
             data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -738,12 +738,40 @@ class SpedTransmissao(models.Model):
         # Consulta
         processo = processador.consultar_lote(self.protocolo)
 
-        import ipdb; ipdb.set_trace();
+        # Pega o status do Evento transmitido
+        if len(processo.resposta.lista_eventos) >= 1:
 
-        print(processo.resposta.original)
+            self.cd_retorno = processo.resposta.lista_eventos[0].codigo_retorno
+            self.desc_retorno = processo.resposta.lista_eventos[0].descricao_retorno
 
-        self.cd_retorno = processo.resposta.evtTotalContrib.ideRecRetorno.ideStatus.cdRetorno.valor
-        self.desc_retorno = processo.resposta.evtTotalContrib.ideRecRetorno.ideStatus.descRetorno.valor
+            # Limpar ocorrências
+            for ocorrencia in self.ocorrencia_ids:
+                ocorrencia.unlink()
+
+            # Atualiza o registro com o resultado
+            if self.cd_retorno == '201':
+                self.situacao = '4'
+
+                if self.fechamento_xml_id:
+                    fechamento = self.fechamento_xml_id
+                    self.fechamento_xml_id = False
+                    fechamento.unlink()
+                fechamento_xml = processo.resposta.lista_eventos[0].xml
+                fechamento_xml_nome = processo.resposta.lista_eventos[0].Id.valor + '-' + self.registro + '-consulta.xml'
+                anexo_id = self._grava_anexo(fechamento_xml_nome, fechamento_xml)
+                self.fechamento_xml_id = anexo_id
+            else:
+                self.situacao = '3'
+                if processo.resposta.lista_eventos[0].lista_ocorrencias:
+                    for ocorrencia in processo.resposta.lista_eventos[0].lista_ocorrencias:
+                        vals = {
+                            'transmissao_id': self.id,
+                            'tipo': ocorrencia['tipo'],
+                            'codigo': ocorrencia['codigo'],
+                            'descricao': ocorrencia['descricao'],
+                            'local': ocorrencia['localizacao'],
+                        }
+                        self.ocorrencia_ids.create(vals)
 
     @api.multi
     def consulta_fechamento(self):
