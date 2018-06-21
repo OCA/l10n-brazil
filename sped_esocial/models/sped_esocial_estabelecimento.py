@@ -5,9 +5,9 @@
 from openerp import api, fields, models
 
 
-class SpedEfdReinfEstab(models.Model):
-    _name = 'sped.efdreinf.estabelecimento'
-    _description = 'Prestadores de Eventos Periódicos EFD/Reinf'
+class SpedEsocialEstabelecimento(models.Model):
+    _name = 'sped.esocial.estabelecimento'
+    _description = 'Estabelecimentos de Eventos Periódicos EFD/Reinf'
     _rec_name = 'nome'
     _order = "nome"
 
@@ -16,60 +16,33 @@ class SpedEfdReinfEstab(models.Model):
         compute='_compute_nome',
         store=True,
     )
-    efdreinf_id = fields.Many2one(
-        string='EFD/Reinf',
-        comodel_name='sped.efdreinf',
+    esocial_id = fields.Many2one(
+        string='e-Social',
+        comodel_name='sped.esocial',
+        ondelete="cascade",
     )
     estabelecimento_id = fields.Many2one(
         string='Estabelecimento',
         comodel_name='res.company',
+        required=True,
     )
-    prestador_id = fields.Many2one(
-        string='Prestador',
-        comodel_name='res.partner',
+
+    # S-1005 (Necessidade e Execução)
+    requer_S1005 = fields.Boolean(
+        string='Requer S1005 neste Período',
+        compute='_compute_requer_S1005',
+        store=True,
     )
-    vr_total_bruto = fields.Float(
-        string='Valor Total Bruto',
-        digits=[14, 2],
+    sped_S1005 = fields.Boolean(
+        string='Registro de Estabelecimento',
+        compute='_compute_sped_S1005',
     )
-    vr_total_base_retencao = fields.Float(
-        string='Base de Retenção',
-        digits=[14, 2],
-    )
-    vr_total_ret_princ = fields.Float(
-        string='Total de Retenções',
-        digits=[14, 2],
-    )
-    vr_total_ret_adic = fields.Float(
-        string='Adicionais de Retenção das NFs',
-        digits=[14, 2],
-    )
-    vr_total_nret_princ = fields.Float(
-        string='Total Não Retido devido a Ações',
-        digits=[14, 2],
-    )
-    vr_total_nret_adic = fields.Float(
-        string='Total Retido Adicional devido a Ações',
-        digits=[14, 2],
-    )
-    ind_cprb = fields.Binary(
-        string='Prestador é CPRB ?',
-    )
-    nfs_ids = fields.One2many(
-        string='Notas Fiscais',
-        comodel_name='sped.efdreinf.nfs',
-        inverse_name='estabelecimento_id',
-    )
-    sped_R2010 = fields.Boolean(
-        string='Ativação EFD/Reinf',
-        compute='_compute_sped_R2010',
-    )
-    sped_R2010_registro = fields.Many2one(
-        string='Registro R-2010',
+    sped_S1005_registro = fields.Many2one(
+        string='Registro S-1005',
         comodel_name='sped.transmissao',
     )
-    situacao_R2010 = fields.Selection(
-        string='Situação R-2010',
+    situacao_S1005 = fields.Selection(
+        string='Situação S-1005',
         selection=[
             ('1', 'Pendente'),
             ('2', 'Transmitida'),
@@ -77,25 +50,31 @@ class SpedEfdReinfEstab(models.Model):
             ('4', 'Sucesso'),
             ('5', 'Precisa Retificar'),
         ],
-        related='sped_R2010_registro.situacao',
+        related='sped_S1005_registro.situacao',
         readonly=True,
     )
-    sped_R2010_retificacao = fields.Many2one(
-        string='Registro R-2010 (Retificação)',
-        comodel_name='sped.transmissao',
-    )
 
-    @api.depends('estabelecimento_id', 'prestador_id')
+    @api.depends('estabelecimento_id')
+    def _compute_requer_S1005(self):
+        for estabelecimento in self:
+            requer_S1005 = False
+            if not estabelecimento.sped_S1005 or \
+                    estabelecimento.write_date > estabelecimento.sped_S1005_registro.data_hora_transmissao:
+                requer_S1005 = True
+            estabelecimento.requer_S1005 = requer_S1005
+
+    @api.depends('estabelecimento_id', 'esocial_id')
     def _compute_nome(self):
-        for prestador in self:
-            nome = prestador.estabelecimento_id.name
-            if prestador.prestador_id and prestador.prestador_id != prestador.estabelecimento_id:
-                nome += '/' + prestador.prestador_id.name
+        for estabelecimento in self:
+            nome = ""
+            if estabelecimento.estabelecimento_id:
+                nome += estabelecimento.estabelecimento_id.name
+            if estabelecimento.esocial_id.periodo_id:
+                nome += ' (' + estabelecimento.esocial_id.periodo_id.name + ')'
+            estabelecimento.nome = nome
 
-            prestador.nome = nome
-
-    @api.depends('sped_R2010_registro')
-    def _compute_sped_R2010(self):
-        for efdreinf in self:
-            efdreinf.sped_R2010 = True if efdreinf.sped_R2010_registro else False
+    @api.depends('sped_S1005_registro')
+    def _compute_sped_S1005(self):
+        for estabelecimento in self:
+            estabelecimento.sped_S1005 = True if estabelecimento.sped_S1005_registro else False
 

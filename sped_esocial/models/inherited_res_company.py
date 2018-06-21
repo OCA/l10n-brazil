@@ -88,19 +88,17 @@ class ResCompany(models.Model):
         string='e-mail',
         size=60,
     )
-    esocial_periodo_id = fields.Many2one(
-        string='Período Inicial',
-        comodel_name='account.period',
-    )
-    sped_s1000 = fields.Boolean(
+
+    # Ativação do e-Social para a empresa mãe (Registro S-1000)
+    sped_S1000 = fields.Boolean(
         string='Ativação eSocial',
-        compute='_compute_sped_s1000',
+        compute='_compute_sped_S1000',
     )
-    sped_s1000_registro = fields.Many2one(
+    sped_S1000_registro = fields.Many2one(
         string='Registro S-1000 - Informações do Contribuinte',
         comodel_name='sped.transmissao',
     )
-    sped_s1000_situacao = fields.Selection(
+    sped_S1000_situacao = fields.Selection(
         string='Situação S-1000',
         selection=[
             ('1', 'Pendente'),
@@ -108,24 +106,80 @@ class ResCompany(models.Model):
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
         ],
-        related='sped_s1000_registro.situacao',
+        related='sped_S1000_registro.situacao',
         readonly=True,
     )
-    sped_s1000_data_hora = fields.Datetime(
+    sped_S1000_data_hora = fields.Datetime(
         string='Data/Hora',
-        related='sped_s1000_registro.data_hora_origem',
+        related='sped_S1000_registro.data_hora_origem',
         readonly=True,
+    )
+    esocial_periodo_id = fields.Many2one(
+        string='Período Inicial',
+        comodel_name='account.period',
     )
 
-    @api.depends('sped_r1000_registro')
-    def _compute_sped_s1000(self):
+    # Dados para registro S-1005
+    tp_caepf = fields.Selection(
+        string='Tipo de CAEPF',
+        selection=[
+            ('1', 'Contribuinte Invididual'),
+            ('2', 'Produtor Rural'),
+            ('3', 'Segurado Especial'),
+        ],
+    )
+    reg_pt = fields.Selection(
+        string='Opção de Registro de Ponto',
+        selection=[
+            ('0', 'Não utiliza'),
+            ('1', 'Manual'),
+            ('2', 'Mecânico'),
+            ('3', 'Eletrônico (portaria MTE 1.510/2019)'),
+            ('4', 'Não eletrônico alternativo (art. 1º da Portaria MTE 373/2011)'),
+            ('5', 'Eletrônico alternativo (art. 2º da Portaria MTE 373/2011)'),
+            ('6', 'Eletrônico - outros.'),
+        ],
+        default='0',
+    )
+    cont_apr = fields.Selection(
+        string='Empresa Contrata Aprendiz',
+        selection=[
+            ('0', 'Dispensado de acordo com a lei'),
+            ('1', 'Dispensado, mesmo que parcialmente, em virtude processo judicial'),
+            ('2', 'Obrigado'),
+        ],
+    )
+    cont_ent_ed = fields.Selection(
+        string='Usa Entidade Educativa sem fins lucrativos para contratar aprendiz',
+        selection=[
+            ('S', 'Sim'),
+            ('N', 'Não'),
+        ],
+    )
+    info_ent_educ_ids = fields.Many2many(
+        string='Entidades Educativas ou de prática desportiva',
+        comodel_name='res.partner',
+        domain=[('is_company', '=', True)],
+    )
+    cont_pcd = fields.Selection(
+        string='Contrata PCD',
+        selection=[
+            ('0', 'Dispensado de acordo com a lei'),
+            ('1', 'Dispensado, mesmo que parcialmente, em virtude de processo judicial'),
+            ('2', 'Com exigibilidade suspensa, mesmo que parcialmente em virtude de Termo de Compromisso firmado com o Ministério do Trabalho'),
+            ('9', 'Obrigado'),
+        ],
+    )
+
+    @api.depends('sped_S1000_registro')
+    def _compute_sped_S1000(self):
         for empresa in self:
-            empresa.sped_s1000 = True if empresa.sped_s1000_registro else False
+            empresa.sped_S1000 = True if empresa.sped_S1000_registro else False
 
     @api.multi
-    def criar_s1000(self):
+    def criar_S1000(self):
         self.ensure_one()
-        if self.sped_s1000_registro:
+        if self.sped_S1000_registro:
             raise ValidationError('Esta Empresa já ativou o e-Social')
 
         values = {
@@ -137,8 +191,34 @@ class ResCompany(models.Model):
             'origem': ('res.company,%s' % self.id),
         }
 
-        sped_s1000_registro = self.env['sped.transmissao'].create(values)
-        self.sped_s1000_registro = sped_s1000_registro
+        sped_S1000_registro = self.env['sped.transmissao'].create(values)
+        self.sped_S1000_registro = sped_S1000_registro
+
+    # Último envio da Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos (Registro S-1005)
+    sped_S1005 = fields.Boolean(
+        string='(S-1005) Tabela de Estabelecimentos',
+        compute='_compute_sped_S1005',
+    )
+    sped_S1005_registro = fields.Many2one(
+        string='(S-1005) - Tabela de Estabelecimentos',
+        comodel_name='sped.transmissao',
+    )
+    sped_S1005_situacao = fields.Selection(
+        string='Situação S-1005',
+        selection=[
+            ('1', 'Pendente'),
+            ('2', 'Transmitida'),
+            ('3', 'Erro(s)'),
+            ('4', 'Sucesso'),
+        ],
+        related='sped_S1005_registro.situacao',
+        readonly=True,
+    )
+
+    @api.depends('sped_S1005_registro')
+    def _compute_sped_S1005(self):
+        for empresa in self:
+            empresa.sped_S1005 = True if empresa.sped_S1005_registro else False
 
     @api.multi
     def processador_esocial(self):

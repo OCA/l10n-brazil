@@ -5,10 +5,10 @@
         <record model="ir.ui.view" id="sped_res_company">
             <field name="name">Adiciona e-Social na Empresa</field>
             <field name="model">res.company</field>
-            <field name="inherit_id" ref="sped_efdreinf.sped_res_company" />
+            <field name="inherit_id" ref="l10n_br_account_product.view_l10n_br_account_company_form" />
             <field name="arch" type="xml">
-                <xpath expr="//page[@name='efdreinf']" position="after">
-                    <page name="esocial" string="e-Social" attrs="{'invisible': [('eh_empresa_base', '=', False)]}">
+                <xpath expr="//page[@string='Retenções']" position="after">
+                    <page name="esocial_matriz" string="e-Social Matriz" attrs="{'invisible': [('eh_empresa_base', '=', False)]}">
                         <group colspan="4" col="4">
                             <group colspan="4" col="2">
                                 <field name="esocial_tpAmb" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
@@ -28,19 +28,33 @@
                                 <field name="esocial_email" />
                                 <field name="esocial_periodo_id" attrs="{'required': [('eh_empresa_base', '=', True)]}"
                                        domain="[('date_start', '&gt;=', '2018-05-01')]"
-                                       options="{'no_create': True, 'no_open': True}" required="1"
+                                       options="{'no_create': True, 'no_open': True}"
                                 />
                             </group>
                             <group colspan="2" col="2">
-                                <field name="sped_s1000" />
-                                <field name="sped_s1000_registro" />
-                                <field name="sped_s1000_situacao" />
+                                <field name="sped_S1000" />
+                                <field name="sped_S1000_registro" />
+                                <field name="sped_S1000_situacao" />
                             </group>
                             <group colspan="2" col="2">
-                                <field name="sped_s1000_data_hora" />
-                                <button name="criar_s1000" colspan="4" type="object"
+                                <field name="sped_S1000_data_hora" />
+                                <button name="criar_S1000" colspan="4" type="object"
                                         string="Enviar S-1000 - Informações do Empregador/Contribuinte/Órgão Público"
-                                        attrs="{'invisible': [('sped_s1000_registro', '!=', False)]}" />
+                                        attrs="{'invisible': [('sped_S1000_registro', '!=', False)]}" />
+                            </group>
+                        </group>
+                    </page>
+                    <page name="esocial_estabelecimento" string="e-Social Estabelecimento">
+                        <group colspan="4" col="4">
+                            <group colspan="4" col="4">
+                                <field name="tp_caepf" colspan="4"/>
+                                <field name="reg_pt" required="1" colspan="4"/>
+                                <field name="cont_apr" required="1" colspan="4"/>
+                                <field name="cont_ent_ed" colspan="4"/>
+                                <field name="cont_pcd" colspan="4"/>
+                            </group>
+                            <group colspan="4" col="1">
+                                <field name="info_ent_educ_ids" />
                             </group>
                         </group>
                     </page>

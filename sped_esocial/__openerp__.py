@@ -21,7 +21,7 @@
 
 
 {
-    'name': 'Sped EFD/Reinf',
+    'name': 'Sped e-Social',
     'version': '8.0.0.0.1',
     'category': 'Base',
     'license': 'AGPL-3',
@@ -29,7 +29,6 @@
     'website': 'http://www.abgf.gov.br',
     'depends': [
         'sped_transmissao',
-        'sped_efdreinf',
     ],
     'data': [
 
@@ -37,8 +36,7 @@
         'views/sped_esocial_menu.xml',
 
         # Views
-        # 'views/sped_efdreinf_view.xml',
-        # 'views/inherited_product_template.xml',
+        'views/sped_esocial_view.xml',
         'views/inherited_res_company.xml',
 
         # Segurança
