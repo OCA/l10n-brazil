@@ -20,6 +20,7 @@
 ##############################################################################
 
 from . import inherited_ir_attachment
+from . import inherited_res_company
 from . import sped_ocorrencia
 from . import sped_transmissao
 from . import sped_transmissao_lote

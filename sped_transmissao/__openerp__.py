@@ -29,6 +29,7 @@
     'website': 'http://www.abgf.gov.br',
     'depends': [
         'sped_tabelas',
+        'l10n_br_account_product',
     ],
     'data': [
 
@@ -36,6 +37,7 @@
         'views/sped_transmissao_menu.xml',
 
         # Views
+        'views/inherited_res_company.xml',
         'views/sped_transmissao_view.xml',
         'views/sped_transmissao_lote_view.xml',
 

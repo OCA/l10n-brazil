@@ -12,7 +12,7 @@
                                 attrs="{'invisible': [('situacao', 'in', ['2', '4'])]}"
                         />
                         <button name="limpa_db" type="object" string="Limpar DB" class="oe_highlight"
-                                attrs="{'invisible': ['|', ('registro', 'not in', ['R-1000', 'S-1000']), ('ambiente', '!=', '2')]"
+                                attrs="{'invisible': ['|', '|', ('registro', 'not in', ['R-1000', 'S-1000']), ('ambiente', '!=', '2'), ('situacao', '=', '1')]}"
                         />
                         <button name="consulta_fechamento" type="object" string="Consultar Fechamento" class="oe_highlight"
                                 attrs="{'invisible': ['|', ('registro', '!=', 'R-2099'), ('situacao', '!=', '2')]}"
@@ -50,42 +50,41 @@
                                 <field name="data_hora_retorno" readonly="1"/>
                             </group>
                         </group>
-                        <group colspan="4" col="4" string="Dados de Retorno da Transmissão">
-                            <group colspan="2" col="2" string="Status">
-                                <field name="cd_retorno" readonly="1"/>
-                                <field name="desc_retorno" readonly="1"/>
-                                <field name="recibo" readonly="1" attrs="{'invisible': [('recibo', '=', False)]}"/>
-                                <field name="protocolo" readonly="1" attrs="{'invisible': [('protocolo', '=', False)]}"/>
-                            </group>
-                            <group colspan="2" col="2" string="EFD/Reinf">
-                                <field name="per_apur" readonly="1"/>
-                                <field name="dh_process" readonly="1"/>
-                                <field name="tp_ev" readonly="1"/>
-                                <field name="id_ev" readonly="1"/>
-                                <field name="hash" readonly="1"/>
-                            </group>
-                            <!--<group colspan="2" col="2">-->
-                                <!--<field name="data_hora_origem" readonly="1"/>-->
-                                <!--<field name="data_hora_transmissao" readonly="1"/>-->
-                                <!--<field name="data_hora_retorno" readonly="1"/>-->
-                            <!--</group>-->
-                        </group>
-                        <group colspan="4" col="1">
-                            <separator colspan="1" string="Ocorrencias" />
-                            <field name="ocorrencia_ids" colspan="1" nolabel="1" readonly="1">
-                                <tree editable="bottom">
-                                    <field name="tipo" />
-                                    <field name="local" />
-                                    <field name="codigo" />
-                                    <field name="descricao" />
-                                </tree>
-                            </field>
-                        </group>
-                        <group colspan="4" col="1">
-                            <separator colspan="1" string="Lotes de Transmissão" />
-                            <field name="lote_ids" colspan="1" nolabel="1" readonly="1"/>
-                        </group>
                         <notebook>
+                            <page name="retorno" string='Dados de Retorno'>
+                                <group colspan="4" col="4">
+                                    <group colspan="2" col="2">
+                                        <field name="cd_retorno" readonly="1"/>
+                                        <field name="desc_retorno" readonly="1"/>
+                                        <field name="recibo" readonly="1" attrs="{'invisible': [('recibo', '=', False)]}"/>
+                                        <field name="protocolo" readonly="1" attrs="{'invisible': [('protocolo', '=', False)]}"/>
+                                    </group>
+                                    <group colspan="2" col="2">
+                                        <field name="per_apur" readonly="1"/>
+                                        <field name="dh_process" readonly="1"/>
+                                        <field name="tp_ev" readonly="1"/>
+                                        <field name="id_ev" readonly="1"/>
+                                        <field name="hash" readonly="1"/>
+                                    </group>
+                                    <group colspan="4" col="1">
+                                        <separator colspan="1" string="Ocorrencias" />
+                                        <field name="ocorrencia_ids" colspan="1" nolabel="1" readonly="1">
+                                            <tree editable="bottom">
+                                                <field name="tipo" />
+                                                <field name="local" />
+                                                <field name="codigo" />
+                                                <field name="descricao" />
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="lotes" string="Lote(s)">
+                                <group colspan="4" col="1">
+                                    <separator colspan="1" string="Lotes de Transmissão" />
+                                    <field name="lote_ids" colspan="1" nolabel="1" readonly="1"/>
+                                </group>
+                            </page>
                             <page name="envio_xml" string="XML de Envio">
                                 <group colspan="4" col="2">
                                     <field name="envio_xml_id" />
@@ -96,6 +95,12 @@
                                 <group colspan="4" col="2">
                                     <field name="retorno_xml_id" />
                                     <field name="retorno_xml" widget="ace" />
+                                </group>
+                            </page>
+                            <page name="consulta_xml" string="XML de Retorno de Consulta" attrs="{'invisible': [('consulta_xml_id', '=', False)]}">
+                                <group colspan="4" col="2">
+                                    <field name="consulta_xml_id" />
+                                    <field name="consulta_xml" widget="ace" />
                                 </group>
                             </page>
                             <page name="fechamento_xml" string="XML de Fechamento" attrs="{'invisible': [('registro', '!=', 'R-2099')]}">
