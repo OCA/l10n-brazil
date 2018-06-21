@@ -19,6 +19,7 @@ class SpedEfdReinfEstab(models.Model):
     efdreinf_id = fields.Many2one(
         string='EFD/Reinf',
         comodel_name='sped.efdreinf',
+        ondelete="cascade",
     )
     estabelecimento_id = fields.Many2one(
         string='Estabelecimento',

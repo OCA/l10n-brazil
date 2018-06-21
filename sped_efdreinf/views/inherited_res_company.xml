@@ -7,9 +7,6 @@
             <field name="model">res.company</field>
             <field name="inherit_id" ref="l10n_br_account_product.view_l10n_br_account_company_form" />
             <field name="arch" type="xml">
-                <field name="annual_revenue" position="before">
-                    <field name="eh_empresa_base" invisible="1"/>
-                </field>
                 <xpath expr="//page[@string='Retenções']" position="after">
                     <page name="efdreinf" string="EFD/Reinf" attrs="{'invisible': [('eh_empresa_base', '=', False)]}">
                         <group colspan="4" col="4">
@@ -27,7 +24,7 @@
                                 <field name="cttemail" />
                                 <field name="periodo_id" attrs="{'required': [('eh_empresa_base', '=', True)]}"
                                        domain="[('date_start', '&gt;=', '2018-05-01')]"
-                                       options="{'no_create': True, 'no_open': True}" required="1"
+                                       options="{'no_create': True, 'no_open': True}"
                                 />
                             </group>
                             <group colspan="2" col="2">

@@ -92,20 +92,10 @@ class ResCompany(models.Model):
         related='sped_r1000_registro.data_hora_origem',
         readonly=True,
     )
-    eh_empresa_base = fields.Boolean(
-        string='É Empresa Base?',
-        compute='_compute_empresa_base',
-        store=True,
-    )
     periodo_id = fields.Many2one(
         string='Período Inicial',
         comodel_name='account.period',
     )
-
-    @api.depends('cnpj_cpf')
-    def _compute_empresa_base(self):
-        for empresa in self:
-            empresa.eh_empresa_base = ('0001' in empresa.cnpj_cpf)
 
     @api.depends('sped_r1000_registro')
     def _compute_sped_r1000(self):
