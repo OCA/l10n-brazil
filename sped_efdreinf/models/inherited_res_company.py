@@ -121,6 +121,7 @@ class ResCompany(models.Model):
         values = {
             'tipo': 'efdreinf',
             'registro': 'R-1000',
+            'ambiente': self.tpAmb,
             'company_id': self.id,
             'evento': 'evtInfoContribuinte',
             'origem': ('res.company,%s' % self.id),
