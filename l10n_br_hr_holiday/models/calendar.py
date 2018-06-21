@@ -63,10 +63,10 @@ class L10nBrHrCalendar(models.Model):
         return (format_date, format_time)
 
     @api.multi
-    def unlink(self):
+    def verificar_permissoes(self):
         """
-        Validação que permite apenas ao grupo de Gerente de RH à excluir
-        eventos do calendario, que tenham um holidays atrelado
+        Verificar permissoes para mudancas no modelo
+        :return:
         """
         if not self.env.user.has_group('base.group_hr_manager'):
             if self.models_id.id == \
@@ -74,4 +74,13 @@ class L10nBrHrCalendar(models.Model):
                 raise Warning(
                     'Ocorrências já aprovadas somente podem ser rejeitadas '
                     'por usuários com perfil de Gerente de RH')
+
+    @api.multi
+    def unlink(self):
+        """
+        Validação que permite apenas ao grupo de Gerente de RH à excluir
+        eventos do calendario, que tenham um holidays atrelado
+        """
+        for record in self:
+            record.verificar_permissoes()
         return super(L10nBrHrCalendar, self).unlink()
