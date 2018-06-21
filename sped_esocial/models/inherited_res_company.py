@@ -131,6 +131,7 @@ class ResCompany(models.Model):
         values = {
             'tipo': 'esocial',
             'registro': 'S-1000',
+            'ambiente': self.esocial_tpAmb,
             'company_id': self.id,
             'evento': 'evtInfoEmpregador',
             'origem': ('res.company,%s' % self.id),
