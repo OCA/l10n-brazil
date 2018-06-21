@@ -42,6 +42,14 @@ class SpedTransmissao(models.Model):
         string='Evento Sped',
         size=30,
     )
+    ambiente = fields.Selection(
+        string='Ambiente',
+        selection=[
+            ('1', 'Produção'),
+            ('2', 'Produção Restrita'),
+            ('3', 'Homologação'),
+        ],
+    )
     origem = fields.Reference(
         string='Documento de Origem',
         selection=[
@@ -219,7 +227,7 @@ class SpedTransmissao(models.Model):
     @api.multi
     def limpa_db(self):
         self.ensure_one()
-        if self.company_id.tpAmb == '1':
+        if self.ambiente == '1':
             raise ValidationError("Ambiente de Produção não suporta Limpeza de Banco de Dados !")
 
         self.limpar_db = True
@@ -255,7 +263,7 @@ class SpedTransmissao(models.Model):
             # Popula ideEvento
             S1000.tpInsc = '1'
             S1000.nrInsc = limpa_formatacao(self.origem.cnpj_cpf)[0:8]
-            S1000.evento.ideEvento.tpAmb.valor = int(self.company_id.esocial_tpAmb)
+            S1000.evento.ideEvento.tpAmb.valor = int(self.ambiente)
             S1000.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
             S1000.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
 
@@ -301,7 +309,7 @@ class SpedTransmissao(models.Model):
 
             processador.certificado.arquivo = arquivo.name
             processador.certificado.senha = self.company_id.nfe_a1_password
-            processador.ambiente = int(self.company_id.esocial_tpAmb)
+            processador.ambiente = int(self.ambiente)
 
             # Define a Inscrição do Processados
             processador.tpInsc = '1'
@@ -310,7 +318,7 @@ class SpedTransmissao(models.Model):
             # Criar registro do Lote
             vals = {
                 'tipo': 'esocial',
-                'ambiente': self.origem.tpAmb,
+                'ambiente': self.ambiente,
                 'transmissao_ids': [(4, self.id)],
                 'data_hora_transmissao': data_hora_transmissao,
                 'xml_transmissao': False,
@@ -334,7 +342,7 @@ class SpedTransmissao(models.Model):
             R1000 = pysped.efdreinf.leiaute.R1000_1()
 
             # Popula ideEvento
-            R1000.evento.ideEvento.tpAmb.valor = self.company_id.tpAmb
+            R1000.evento.ideEvento.tpAmb.valor = self.ambiente
             R1000.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
             R1000.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
             if self.limpar_db:
@@ -373,12 +381,12 @@ class SpedTransmissao(models.Model):
 
             processador.certificado.arquivo = arquivo.name
             processador.certificado.senha = self.company_id.nfe_a1_password
-            processador.ambiente = int(self.company_id.tpAmb)
+            processador.ambiente = int(self.ambiente)
 
             # Criar registro do Lote
             vals = {
                 'tipo': 'efdreinf',
-                'ambiente': self.origem.tpAmb,
+                'ambiente': self.ambiente,
                 'transmissao_ids': [(4, self.id)],
                 'data_hora_transmissao': data_hora_transmissao,
                 'xml_transmissao': False,
@@ -409,7 +417,7 @@ class SpedTransmissao(models.Model):
             R2010 = pysped.efdreinf.leiaute.R2010_1()
 
             # Popula ideEvento
-            R2010.evento.ideEvento.tpAmb.valor = self.company_id.tpAmb
+            R2010.evento.ideEvento.tpAmb.valor = self.ambiente
             R2010.evento.ideEvento.indRetif.valor = '1'
             R2010.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
             R2010.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
@@ -480,12 +488,12 @@ class SpedTransmissao(models.Model):
 
             processador.certificado.arquivo = arquivo.name
             processador.certificado.senha = self.company_id.nfe_a1_password
-            processador.ambiente = int(self.company_id.tpAmb)
+            processador.ambiente = int(self.ambiente)
 
             # Criar registro do Lote
             vals = {
                 'tipo': 'efdreinf',
-                'ambiente': self.company_id.tpAmb,
+                'ambiente': self.ambiente,
                 'transmissao_ids': [(4, self.id)],
                 'data_hora_transmissao': data_hora_transmissao,
                 'xml_transmissao': False,
@@ -541,7 +549,7 @@ class SpedTransmissao(models.Model):
 
             # Popula ideEvento
             R2099.evento.ideEvento.perApur.valor = periodo
-            R2099.evento.ideEvento.tpAmb.valor = self.company_id.tpAmb
+            R2099.evento.ideEvento.tpAmb.valor = self.ambiente
             R2099.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
             R2099.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
 
@@ -578,12 +586,12 @@ class SpedTransmissao(models.Model):
             processador = pysped.ProcessadorEFDReinf()
             processador.certificado.arquivo = arquivo.name
             processador.certificado.senha = self.company_id.nfe_a1_password
-            processador.ambiente = int(self.company_id.tpAmb)
+            processador.ambiente = int(self.ambiente)
 
             # Criar registro do Lote
             vals = {
                 'tipo': 'efdreinf',
-                'ambiente': self.origem.company_id.tpAmb,
+                'ambiente': self.ambiente,
                 'transmissao_ids': [(4, self.id)],
                 'data_hora_transmissao': data_hora_transmissao,
                 'xml_transmissao': False,
@@ -733,7 +741,7 @@ class SpedTransmissao(models.Model):
         processador = pysped.ProcessadorESocial()
         processador.certificado.arquivo = arquivo.name
         processador.certificado.senha = self.company_id.nfe_a1_password
-        processador.ambiente = int(self.company_id.esocial_tpAmb)
+        processador.ambiente = int(self.ambiente)
 
         # Consulta
         processo = processador.consultar_lote(self.protocolo)
@@ -792,7 +800,7 @@ class SpedTransmissao(models.Model):
 
         processador.certificado.arquivo = arquivo.name
         processador.certificado.senha = self.company_id.nfe_a1_password
-        processador.ambiente = int(self.company_id.tpAmb)
+        processador.ambiente = int(self.ambiente)
 
         # Carrega os dados de consulta
         processador.tipoInscricaoContribuinte = '1'
@@ -800,7 +808,7 @@ class SpedTransmissao(models.Model):
         processador.numeroProtocoloFechamento = self.protocolo
 
         # Consulta
-        processo = processador.consultar_fechamento(ambiente=int(self.company_id.tpAmb))
+        processo = processador.consultar_fechamento(ambiente=int(self.ambiente))
         self.cd_retorno = processo.resposta.evtTotalContrib.ideRecRetorno.ideStatus.cdRetorno.valor
         self.desc_retorno = processo.resposta.evtTotalContrib.ideRecRetorno.ideStatus.descRetorno.valor
 

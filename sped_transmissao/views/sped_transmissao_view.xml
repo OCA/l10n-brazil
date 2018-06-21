@@ -12,7 +12,7 @@
                                 attrs="{'invisible': [('situacao', 'in', ['2', '4'])]}"
                         />
                         <button name="limpa_db" type="object" string="Limpar DB" class="oe_highlight"
-                                attrs="{'invisible': ['&amp;', ('situacao', '=', '1'), ('registro', 'in', ['R-1000', 'S-1000'])]}"
+                                attrs="{'invisible': ['|', ('registro', 'not in', ['R-1000', 'S-1000']), ('ambiente', '!=', '2')]"
                         />
                         <button name="consulta_fechamento" type="object" string="Consultar Fechamento" class="oe_highlight"
                                 attrs="{'invisible': ['|', ('registro', '!=', 'R-2099'), ('situacao', '!=', '2')]}"
@@ -39,6 +39,7 @@
                             <group colspan="2" col="2">
                                 <field name="tipo" string="Tipo" widget="radio" readonly="1"/>
                                 <field name="registro" string="Registro" readonly="1"/>
+                                <field name="ambiente" string="Ambiente" readonly="1"/>
                                 <field name="company_id" options="{'no_create': True, 'no_open': True}" readonly="1"/>
                                 <field name="evento" readonly="1"/>
                                 <field name="origem" readonly="1"/>
@@ -113,13 +114,14 @@
             <field name="name">SPED Transmissões</field>
             <field name="model">sped.transmissao</field>
             <field name="arch" type="xml">
-                <tree string="Registros" create="false" edit="false" duplicate="false">
-                      <!--colors="blue:state in ('new','draft');black:state in ('open','done');gray:state == 'cancel'"-->
+                <tree string="Registros" create="false" edit="false" duplicate="false"
+                      colors="blue:situacao in ('2','4');black:situacao == '1';read:situacao in ('3', '5')"
+                >
                     <field name="codigo" />
                     <field name="tipo"/>
                     <field name="registro"/>
+                    <field name="ambiente" />
                     <field name="company_id" />
-                    <!--<field name="origem" />-->
                     <field name="data_hora_origem"/>
                     <field name="data_hora_transmissao"/>
                     <field name="data_hora_retorno"/>
@@ -133,6 +135,8 @@
             <field name="model">sped.transmissao</field>
             <field name="arch" type="xml">
                 <search string="Transmissões">
+                    <filter name="esocial" icon="terp-document-new" string="e-Social" domain="[('tipo', '=', 'esocial')]" />
+                    <filter name="efdreinf" icon="terp-document-new" string="EFD/Reinf" domain="[('tipo', '=', 'efdreinf')]" />
                     <filter name="com_erros" icon="terp-document-new" string="Com Erro(s)" domain="[('situacao', '=', '3')]" help="Registros com Erros"/>
                     <filter name="pendentes" icon="terp-document-new" string="Pendente Transmissão" domain="[('situacao', '=', '1')]" />
                     <filter name="transmitidas" icon="terp-document-new" string="Transmitidas" domain="[('situacao', '=', '2')]" />
@@ -141,7 +145,9 @@
                     <field name="codigo" />
                     <field name="origem" />
                     <group expand="0" string="Group By">
+                        <filter name="group_by_tipo" string="Tipo" context="{'group_by': 'tipo'}" />
                         <filter name="group_by_situacao" string="Situação" context="{'group_by': 'situacao'}" />
+                        <filter name="group_by_ambiente" string="Ambiente" context="{'group_by': 'ambiente'}" />
                         <filter name="group_by_origem" string="Data/Hora de Origem" context="{'group_by': 'data_hora_origem'}" />
                         <filter name="group_by_transmissao" string="Data/Hora de Transmissão" context="{'group_by': 'data_hora_transmissao'}" />
                         <filter name="group_by_retorno" string="Data/Hora de Retorno" context="{'group_by': 'data_hora_retorno'}" />
