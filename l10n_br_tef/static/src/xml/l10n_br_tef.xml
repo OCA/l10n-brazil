@@ -2,7 +2,7 @@
 <templates id="template" xml:space="preserve">
     <t t-extend="Paymentline">
         <t t-jquery=".paymentline-input" t-operation="append">
-            <t t-if="line.cashregister.journal.payment_mode">
+            <t t-if="['CD01', 'CC01'].indexOf(line.cashregister.journal.code) > -1">
                 <span class="payment-terminal-transaction-start">
                     <button>Start transaction</button>
                 </span>
