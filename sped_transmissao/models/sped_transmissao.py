@@ -446,6 +446,250 @@ class SpedTransmissao(models.Model):
             retorno_xml = processo.resposta.xml
             retorno_xml_nome = S1005.evento.Id.valor + '-S1005-ret.xml'
 
+        # Registro S-1010 - Tabela de Rubricas
+        elif self.registro == 'S-1010':
+
+            # Cria o registro
+            S1010 = pysped.esocial.leiaute.S1010_2()
+
+            # Popula ideEvento
+            S1010.tpInsc = '1'
+            S1010.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
+            S1010.evento.ideEvento.tpAmb.valor = int(self.ambiente)
+            S1010.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
+            S1010.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
+
+            # Popula ideEmpregador (Dados do Empregador)
+            S1010.evento.ideEmpregador.tpInsc.valor = '1'
+            S1010.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
+
+            # Popula infoRubrica (Informações da Rubrica)
+            S1010.evento.infoRubrica.operacao = 'I'  # Inclusão TODO lidar com alteração e exclusão
+            S1010.evento.infoRubrica.ideRubrica.codRubr.valor = self.origem.rubrica_id.codigo
+            S1010.evento.infoRubrica.ideRubrica.ideTabRubr.valor = self.origem.rubrica_id.identificador
+
+            # Início da Validade neste evento
+            S1010.evento.infoRubrica.ideRubrica.iniValid.valor = \
+                self.origem.rubrica_id.ini_valid.code[3:7] + '-' + self.origem.rubrica_id.ini_valid.code[0:2]
+
+            # Preencher dadosRubrica
+            S1010.evento.infoRubrica.dadosRubrica.dscRubr.valor = self.origem.rubrica_id.name
+            S1010.evento.infoRubrica.dadosRubrica.natRubr.valor = self.origem.rubrica_id.nat_rubr.codigo
+            S1010.evento.infoRubrica.dadosRubrica.tpRubr.valor = self.origem.rubrica_id.tp_rubr
+            S1010.evento.infoRubrica.dadosRubrica.codIncFGTS.valor = self.origem.rubrica_id.cod_inc_fgts
+            S1010.evento.infoRubrica.dadosRubrica.codIncSIND.valor = self.origem.rubrica_id.cod_inc_sind
+
+            # Preencher codIncCP
+            if self.origem.rubrica_id.cod_inc_cp == '0':
+                cod_inc_cp = self.origem.rubrica_id.cod_inc_cp_0
+            elif self.origem.rubrica_id.cod_inc_cp == '1':
+                cod_inc_cp = self.origem.rubrica_id.cod_inc_cp_1
+            elif self.origem.rubrica_id.cod_inc_cp == '3':
+                cod_inc_cp = self.origem.rubrica_id.cod_inc_cp_3
+            elif self.origem.rubrica_id.cod_inc_cp == '5':
+                cod_inc_cp = self.origem.rubrica_id.cod_inc_cp_5
+            elif self.origem.rubrica_id.cod_inc_cp == '9':
+                cod_inc_cp = self.origem.rubrica_id.cod_inc_cp_9
+            S1010.evento.infoRubrica.dadosRubrica.codIncCP.valor = cod_inc_cp
+
+            # Preencher codIncIRRF
+            if self.origem.rubrica_id.cod_inc_irrf == '0':
+                cod_inc_irrf = self.origem.rubrica_id.cod_inc_irrf_0
+            elif self.origem.rubrica_id.cod_inc_irrf == '1':
+                cod_inc_irrf = self.origem.rubrica_id.cod_inc_irrf_1
+            elif self.origem.rubrica_id.cod_inc_irrf == '3':
+                cod_inc_irrf = self.origem.rubrica_id.cod_inc_irrf_3
+            elif self.origem.rubrica_id.cod_inc_irrf == '4':
+                cod_inc_irrf = self.origem.rubrica_id.cod_inc_irrf_4
+            elif self.origem.rubrica_id.cod_inc_irrf == '7':
+                cod_inc_irrf = self.origem.rubrica_id.cod_inc_irrf_7
+            elif self.origem.rubrica_id.cod_inc_irrf == '8':
+                cod_inc_irrf = self.origem.rubrica_id.cod_inc_irrf_8
+            elif self.origem.rubrica_id.cod_inc_irrf == '9':
+                cod_inc_irrf = self.origem.rubrica_id.cod_inc_irrf_9
+            S1010.evento.infoRubrica.dadosRubrica.codIncIRRF.valor = cod_inc_irrf
+
+            # Preencher observação
+            if self.origem.rubrica_id.note:
+                S1010.evento.infoRubrica.dadosRubrica.observacao.valor = self.origem.rubrica_id.note
+
+            # Gera
+            data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            dh_transmissao = datetime.now().strftime('%Y%m%d%H%M%S')
+            S1010.gera_id_evento(dh_transmissao)
+            processador = pysped.ProcessadorESocial()
+
+            processador.certificado.arquivo = arquivo.name
+            processador.certificado.senha = self.company_id.nfe_a1_password
+            processador.ambiente = int(self.ambiente)
+
+            # Define a Inscrição do Processador
+            processador.tpInsc = '1'
+            processador.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)
+
+            # Criar registro do Lote
+            vals = {
+                'tipo': 'esocial',
+                'ambiente': self.ambiente,
+                'transmissao_ids': [(4, self.id)],
+                'data_hora_transmissao': data_hora_transmissao,
+                'xml_transmissao': False,
+            }
+
+            lote_id = self.env['sped.transmissao.lote'].create(vals)
+            self.lote_ids = [(4, lote_id.id)]
+            self.data_hora_transmissao = data_hora_transmissao
+
+            # Transmite
+            processo = processador.enviar_lote([S1010])
+            envio_xml = processo.envio.envioLoteEventos.eventos[0].xml
+            envio_xml_nome = S1010.evento.Id.valor + '-S1010-env.xml'
+            retorno_xml = processo.resposta.xml
+            retorno_xml_nome = S1010.evento.Id.valor + '-S1010-ret.xml'
+
+        # Registro S-1020 - Tabela de Lotações Tributárias
+        elif self.registro == 'S-1020':
+
+            # Cria o registro
+            S1020 = pysped.esocial.leiaute.S1020_2()
+
+            # Popula ideEvento
+            S1020.tpInsc = '1'
+            S1020.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
+            S1020.evento.ideEvento.tpAmb.valor = int(self.ambiente)
+            S1020.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
+            S1020.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
+
+            # Popula ideEmpregador (Dados do Empregador)
+            S1020.evento.ideEmpregador.tpInsc.valor = '1'
+            S1020.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
+
+            # Popula infoLotacao (Informações do Lotação Tributária)
+            S1020.evento.infoLotacao.operacao = 'I'  # Inclusão TODO lidar com alteração e exclusão
+            S1020.evento.infoLotacao.ideLotacao.codLotacao.valor = self.origem.lotacao_id.cod_lotacao
+            S1020.evento.infoLotacao.ideLotacao.iniValid.valor = self.origem.esocial_id.periodo_id.code[
+                                                             3:7] + '-' + self.origem.esocial_id.periodo_id.code[0:2]
+
+            # Popula dadosLotacao
+            S1020.evento.infoLotacao.dadosLotacao.tpLotacao.valor = self.origem.lotacao_id.tp_lotacao_id.codigo
+            if self.origem.lotacao_id.tp_insc_id:
+                S1020.evento.infoLotacao.dadosLotacao.tpInsc.valor = self.origem.lotacao_id.tp_insc_id.codigo
+            if self.origem.lotacao_id.nr_insc:
+                S1020.evento.infoLotacao.dadosLotacao.nrInsc.valor = self.origem.lotacao_id.nr_insc
+
+            # Popula fpasLotacao
+            S1020.evento.infoLotacao.dadosLotacao.fpasLotacao.fpas.valor = self.origem.lotacao_id.fpas_id.codigo
+            S1020.evento.infoLotacao.dadosLotacao.fpasLotacao.codTercs.valor = self.origem.lotacao_id.cod_tercs
+            # S1020.evento.infoLotacao.dadosLotacao.fpasLotacao.codTercs.valor = self.origem.lotacao_id.cod_tercs_id.codigo
+
+            # Gera
+            data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            dh_transmissao = datetime.now().strftime('%Y%m%d%H%M%S')
+            S1020.gera_id_evento(dh_transmissao)
+            processador = pysped.ProcessadorESocial()
+
+            processador.certificado.arquivo = arquivo.name
+            processador.certificado.senha = self.company_id.nfe_a1_password
+            processador.ambiente = int(self.ambiente)
+
+            # Define a Inscrição do Processador
+            processador.tpInsc = '1'
+            processador.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)
+
+            # Criar registro do Lote
+            vals = {
+                'tipo': 'esocial',
+                'ambiente': self.ambiente,
+                'transmissao_ids': [(4, self.id)],
+                'data_hora_transmissao': data_hora_transmissao,
+                'xml_transmissao': False,
+            }
+
+            lote_id = self.env['sped.transmissao.lote'].create(vals)
+            self.lote_ids = [(4, lote_id.id)]
+            self.data_hora_transmissao = data_hora_transmissao
+
+            # Transmite
+            processo = processador.enviar_lote([S1020])
+            envio_xml = processo.envio.envioLoteEventos.eventos[0].xml
+            envio_xml_nome = S1020.evento.Id.valor + '-S1020-env.xml'
+            retorno_xml = processo.resposta.xml
+            retorno_xml_nome = S1020.evento.Id.valor + '-S1020-ret.xml'
+
+        # Registro S-1030 - Tabela de Cargos/Empregos Públicos
+        elif self.registro == 'S-1030':
+
+            # Cria o registro
+            S1030 = pysped.esocial.leiaute.S1030_2()
+
+            # Popula ideEvento
+            S1030.tpInsc = '1'
+            S1030.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
+            S1030.evento.ideEvento.tpAmb.valor = int(self.ambiente)
+            S1030.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
+            S1030.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
+
+            # Popula ideEmpregador (Dados do Empregador)
+            S1030.evento.ideEmpregador.tpInsc.valor = '1'
+            S1030.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
+
+            # Popula infoCargo (Informações da Rubrica)
+            S1030.evento.infoCargo.operacao = 'I'  # Inclusão TODO lidar com alteração e exclusão
+            S1030.evento.infoCargo.ideCargo.codCargo.valor = self.origem.cargo_id.codigo
+
+            # Início da Validade neste evento
+            S1030.evento.infoCargo.ideCargo.iniValid.valor = \
+                self.origem.cargo_id.ini_valid.code[3:7] + '-' + self.origem.cargo_id.ini_valid.code[0:2]
+
+            # Preencher dadosCargo
+            S1030.evento.infoCargo.dadosCargo.nmCargo.valor = self.origem.cargo_id.name
+            S1030.evento.infoCargo.dadosCargo.codCBO.valor = self.origem.cargo_id.cbo_id.code
+
+            # Preencher dados de cargoPublico (se for o caso)
+            if self.origem.cargo_id.cargo_publico:
+                CargoPublico = pysped.esocial.leiaute.S1030_CargoPublico_2()
+
+                CargoPublico.acumCargo.valor = self.origem.cargo_id.acum_cargo
+                CargoPublico.contagemEsp.valor = self.origem.cargo_id.contagem_esp
+                CargoPublico.dedicExcl.valor = self.origem.cargo_id.dedic_excl
+                CargoPublico.nrLei.valor = self.origem.cargo_id.nr_lei
+                CargoPublico.dtLei.valor = self.origem.cargo_id.dt_lei
+                CargoPublico.sitCargo.valor = self.origem.cargo_id.sit_cargo
+
+            # Gera
+            data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            dh_transmissao = datetime.now().strftime('%Y%m%d%H%M%S')
+            S1030.gera_id_evento(dh_transmissao)
+            processador = pysped.ProcessadorESocial()
+
+            processador.certificado.arquivo = arquivo.name
+            processador.certificado.senha = self.company_id.nfe_a1_password
+            processador.ambiente = int(self.ambiente)
+
+            # Define a Inscrição do Processador
+            processador.tpInsc = '1'
+            processador.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)
+
+            # Criar registro do Lote
+            vals = {
+                'tipo': 'esocial',
+                'ambiente': self.ambiente,
+                'transmissao_ids': [(4, self.id)],
+                'data_hora_transmissao': data_hora_transmissao,
+                'xml_transmissao': False,
+            }
+
+            lote_id = self.env['sped.transmissao.lote'].create(vals)
+            self.lote_ids = [(4, lote_id.id)]
+            self.data_hora_transmissao = data_hora_transmissao
+
+            # Transmite
+            processo = processador.enviar_lote([S1030])
+            envio_xml = processo.envio.envioLoteEventos.eventos[0].xml
+            envio_xml_nome = S1030.evento.Id.valor + '-S1030-env.xml'
+            retorno_xml = processo.resposta.xml
+            retorno_xml_nome = S1030.evento.Id.valor + '-S1030-ret.xml'
+
         # Registro R-1000 - Informações do Contribuinte (EFD-REINF)
         if self.registro == 'R-1000':
 
