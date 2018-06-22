@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
     <t t-extend="Paymentline">
-        <t t-jquery="span.paymentline-delete" t-operation="after">
-            <!--<t t-if="line.cashregister.journal.pos_payment_card_reconciliation">-->
-        <br>Tipo Cartão</br>
-            <select class='tipo_cartao' name="tipo_cartao">
-            </select>
-        <br>
-            <br>Tipo da Transação</br>
-                <select class='tipo_transacao' name="tipo_transacao">
-                </select>
-        </br>
-        <br>
-            <br>Produto</br>
-                <select class='produto' name="produto">
-                </select>
-        </br>
-        <br>
-            <br>Pagamento</br>
-                <select class='pagamento' name="pagamento">
-                </select>
-        </br>
-        </t>
         <t t-jquery=".paymentline-input" t-operation="append">
             <t t-if="line.cashregister.journal.payment_mode">
                 <span class="payment-terminal-transaction-start">
