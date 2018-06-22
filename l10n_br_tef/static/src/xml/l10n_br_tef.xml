@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
-    <t t-extend="Paymentline" >
+    <t t-extend="Paymentline">
+        <t t-jquery="span.paymentline-delete" t-operation="after">
+            <!--<t t-if="line.cashregister.journal.pos_payment_card_reconciliation">-->
+        <br>Tipo Cartão</br>
+            <select class='tipo_cartao' name="tipo_cartao">
+            </select>
+        </t>
         <t t-jquery=".paymentline-input" t-operation="append">
             <t t-if="line.cashregister.journal.payment_mode">
                 <span class="payment-terminal-transaction-start">

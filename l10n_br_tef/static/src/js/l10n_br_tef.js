@@ -725,15 +725,21 @@ openerp.l10n_br_tef = function(instance){
     }
 
     module.PaymentScreenWidget.include({
+        rerender_paymentline: function(line) {
+            this._super(line);
+
+            if (line.cashregister.journal.payment_mode && this.pos.config.iface_tef) {
+                $('.tipo_cartao').append('<option value=\'credito\'>' + 'Credito' + '</option>');
+                $('.tipo_cartao').append('<option value=\'debito\'>' + 'Debito' + '</option>');
+            }
+        },
         render_paymentline: function(line){
             el_node = this._super(line);
             var self = this;
-
             if (line.cashregister.journal.payment_mode && this.pos.config.iface_tef){
-
                 el_node.querySelector('.payment-terminal-transaction-start')
                     .addEventListener('click', function(){inicia_pagamento()});
-                }
+            }
             return el_node;
         },
     });
