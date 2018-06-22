@@ -29,6 +29,8 @@
     'website': 'http://www.abgf.gov.br',
     'depends': [
         'sped_transmissao',
+        'l10n_br_hr_payroll',
+        'l10n_br_hr',
     ],
     'data': [
 
@@ -38,6 +40,8 @@
         # Views
         'views/sped_esocial_view.xml',
         'views/inherited_res_company.xml',
+        'views/inherited_hr_salary_rule.xml',
+        'views/inherited_hr_job.xml',
 
         # Segurança
         # 'security/ir.model.access.csv',

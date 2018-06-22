@@ -20,7 +20,11 @@
 ##############################################################################
 
 from . import inherited_res_company
+from . import inherited_hr_salary_rule
+from . import inherited_hr_job
 
 from . import sped_esocial
 from . import sped_esocial_estabelecimento
-
+from . import sped_esocial_rubrica
+from . import sped_esocial_lotacao
+from . import sped_esocial_cargo

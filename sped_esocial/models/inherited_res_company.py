@@ -88,6 +88,37 @@ class ResCompany(models.Model):
         string='e-mail',
         size=60,
     )
+    cod_lotacao = fields.Char(
+        string='Código para Lotação Tributária',
+        size=30,
+    )
+    tp_lotacao_id = fields.Many2one(
+        string='Tipo de Lotação Tributária',
+        comodel_name='sped.lotacao_tributaria',
+    )
+    tp_insc_id = fields.Many2one(
+        string='Tipo de Inscrição',
+        comodel_name='sped.tipos_inscricao',
+    )
+    nr_insc = fields.Char(
+        string='Número de Inscrição',
+        size=15,
+    )
+    fpas_id = fields.Many2one(
+        string='Código FPAS',
+        comodel_name='sped.codigo_aliquota',
+    )
+    cod_tercs = fields.Char(
+        string='Código de Terceiros',
+        size=4,
+    )
+
+    # TODO Investigar melhor se o cod_tercs é relacionado a alguma tabela ou não
+    # cod_tercs_id = fields.Many2one(
+    #     string='Codigo de Terceiros',
+    #     comodel_name='sped.classificacao_tributaria',
+    #     # domain=[('id', 'in', fpas_id.codigo_tributaria_fpas_ids.ids)],
+    # )
 
     # Ativação do e-Social para a empresa mãe (Registro S-1000)
     sped_S1000 = fields.Boolean(

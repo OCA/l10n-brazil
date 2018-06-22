@@ -44,14 +44,32 @@
                             </group>
                         </group>
                     </page>
-                    <page name="esocial_estabelecimento" string="e-Social Estabelecimento">
+                    <page name="esocial_estabelecimento" string="e-Social Estab./Lotação">
                         <group colspan="4" col="4">
-                            <group colspan="4" col="4">
+                            <group colspan="4" col="4" string="Estabelecimento">
                                 <field name="tp_caepf" colspan="4"/>
                                 <field name="reg_pt" required="1" colspan="4"/>
                                 <field name="cont_apr" required="1" colspan="4"/>
                                 <field name="cont_ent_ed" colspan="4"/>
                                 <field name="cont_pcd" colspan="4"/>
+                            </group>
+                            <group colspan="4" col="4" string="Lotação Tributária">
+                                <field name="cod_lotacao" attrs="{'required': True}" />
+                                <field name="tp_lotacao_id" attrs="{'required': True}"
+                                       options="{'no_create': True, 'no_open': True}"
+                                />
+                                <field name="tp_insc_id"
+                                       options="{'no_create': True, 'no_open': True}"
+                                />
+                                <field name="nr_insc" />
+                                <field name="fpas_id" attrs="{'required': True}"
+                                       options="{'no_create': True, 'no_open': True}"
+                                />
+                                <field name="cod_tercs" attrs="{'required': True}" />
+                                <!--<field name="cod_tercs_id" attrs="{'required': True}"-->
+                                       <!--options="{'no_create': True, 'no_open': True}"-->
+                                <!--/>-->
+                                <!--domain="[('codigo_tributaria_fpas_ids', '=', fpas_id.id)]"-->
                             </group>
                             <group colspan="4" col="1">
                                 <field name="info_ent_educ_ids" />

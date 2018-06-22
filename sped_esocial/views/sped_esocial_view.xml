@@ -70,76 +70,105 @@
                                                         <field name="sped_S1005" invisible="0" />
                                                         <field name="sped_S1005_registro" attrs="{'invisible': [('sped_S1005', '=', False)]}" />
                                                     </group>
-                                                    <!--<group colspan="2" col="2">-->
-                                                        <!--<field name="vr_total_bruto" readonly="1" />-->
-                                                        <!--<field name="vr_total_base_retencao" readonly="1" />-->
-                                                        <!--<field name="vr_total_ret_princ" readonly="1" />-->
-                                                        <!--<field name="vr_total_ret_adic" readonly="1" />-->
-                                                        <!--<field name="vr_total_nret_princ" readonly="1" />-->
-                                                        <!--<field name="vr_total_nret_adic" readonly="1" />-->
-                                                        <!--<field name="ind_cprb" readonly="1" />-->
-                                                    <!--</group>-->
-                                                    <!--<group colspan="4" col="1" string="Notas Fiscais">-->
-                                                        <!--<field name="nfs_ids" nolabel="1" readonly="1">-->
-                                                            <!--<tree>-->
-                                                                <!--<field name="nfs_id" invisible="1"/>-->
-                                                                <!--<field name="serie" />-->
-                                                                <!--<field name="num_docto" />-->
-                                                                <!--<field name="dt_emissao_nf" />-->
-                                                                <!--<field name="vr_bruto" />-->
-                                                                <!--<field name="observacoes" />-->
-                                                                <!--<field name="servico_ids" invisible="1" />-->
-                                                            <!--</tree>-->
-                                                            <!--<form>-->
-                                                                <!--<group colspan="4" col="4">-->
-                                                                    <!--<group colspan="4" col="2">-->
-                                                                        <!--<field name="nfs_id" readonly="1" />-->
-                                                                        <!--<field name="serie" readonly="1" />-->
-                                                                        <!--<field name="num_docto" invisible="1" />-->
-                                                                        <!--<field name="dt_emissao_nf" readonly="1" />-->
-                                                                        <!--<field name="vr_bruto" readonly="1" />-->
-                                                                        <!--<field name="observacoes" />-->
-                                                                    <!--</group>-->
-                                                                    <!--<group colspan="4" col="1" string="Itens de NF">-->
-                                                                        <!--<field name="servico_ids" nolabel="1" readonly="1">-->
-                                                                            <!--<tree>-->
-                                                                                <!--<field name="servico_nfs_id" invisible="1" />-->
-                                                                                <!--<field name="tp_servico_id" />-->
-                                                                                <!--<field name="vr_base_ret" />-->
-                                                                                <!--<field name="vr_retencao" />-->
-                                                                                <!--<field name="vr_ret_sub" invisible="1" />-->
-                                                                                <!--<field name="vr_nret_princ" invisible="1" />-->
-                                                                                <!--<field name="vr_servicos_15" invisible="1" />-->
-                                                                                <!--<field name="vr_servicos_20" invisible="1" />-->
-                                                                                <!--<field name="vr_servicos_25" invisible="1" />-->
-                                                                                <!--<field name="vr_adicional" invisible="1" />-->
-                                                                                <!--<field name="vr_nret_adic" invisible="1" />-->
-                                                                            <!--</tree>-->
-                                                                            <!--<form>-->
-                                                                                <!--<group colspan="4" col="4">-->
-                                                                                    <!--<group colspan="2" col="2" string="Item da NF">-->
-                                                                                        <!--<field name="servico_nfs_id" readonly="1" />-->
-                                                                                        <!--<field name="tp_servico_id" readonly="1" />-->
-                                                                                    <!--</group>-->
-                                                                                    <!--<group colspan="2" col="2" string="Retenção">-->
-                                                                                        <!--<field name="vr_base_ret" readonly="1" />-->
-                                                                                        <!--<field name="vr_retencao" readonly="1" />-->
-                                                                                        <!--<field name="vr_ret_sub" readonly="1" />-->
-                                                                                        <!--<field name="vr_nret_princ" readonly="1" />-->
-                                                                                        <!--<field name="vr_servicos_15" readonly="1" />-->
-                                                                                        <!--<field name="vr_servicos_20" readonly="1" />-->
-                                                                                        <!--<field name="vr_servicos_25" readonly="1" />-->
-                                                                                        <!--<field name="vr_adicional" readonly="1" />-->
-                                                                                        <!--<field name="vr_nret_adic" readonly="1" />-->
-                                                                                    <!--</group>-->
-                                                                                <!--</group>-->
-                                                                            <!--</form>-->
-                                                                        <!--</field>-->
-                                                                    <!--</group>-->
-                                                                <!--</group>-->
-                                                            <!--</form>-->
-                                                        <!--</field>-->
-                                                    <!--</group>-->
+                                                </group>
+                                            </sheet>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="S1010" string="S-1010">
+                                <group colspan="4" col="4">
+                                    <group colspan="2" col="1">
+                                        <div class="oe_title">
+                                            <button name="importar_rubricas" type="object" string="Calcular" />
+                                            <button name="criar_S1010" type="object" string="Criar S-1010(s)" class="oe_highlight"
+                                                    attrs="{'invisible': [('rubrica_ids', '=', False)]}" />
+                                        </div>
+                                    </group>
+                                    <field name="rubrica_ids" readonly="1" nolabel="1" colspan="4">
+                                        <tree>
+                                            <field name="nome" invisible="0" />
+                                            <field name="rubrica_id" />
+                                            <field name="requer_S1010" />
+                                            <field name="sped_S1010" invisible="1" />
+                                            <field name="sped_S1010_registro" invisible="1" />
+                                            <field name="situacao_S1010" />
+                                        </tree>
+                                        <form>
+                                            <sheet>
+                                                <group colspan="4" col="4">
+                                                    <group colspan="2" col="2">
+                                                        <field name="rubrica_id" readonly="1" />
+                                                        <field name="requer_S1010" invisible="0" />
+                                                        <field name="sped_S1010" invisible="0" />
+                                                        <field name="sped_S1010_registro" attrs="{'invisible': [('sped_S1010', '=', False)]}" />
+                                                    </group>
+                                                </group>
+                                            </sheet>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="S1020" string="S-1020">
+                                <group colspan="4" col="4">
+                                    <group colspan="2" col="1">
+                                        <div class="oe_title">
+                                            <button name="importar_lotacoes" type="object" string="Calcular" />
+                                            <button name="criar_S1020" type="object" string="Criar S-1020(s)" class="oe_highlight"
+                                                    attrs="{'invisible': [('lotacao_ids', '=', False)]}" />
+                                        </div>
+                                    </group>
+                                    <field name="lotacao_ids" readonly="1" nolabel="1" colspan="4">
+                                        <tree>
+                                            <field name="nome" invisible="0" />
+                                            <field name="lotacao_id" />
+                                            <field name="requer_S1020" />
+                                            <field name="sped_S1020" invisible="1" />
+                                            <field name="sped_S1020_registro" invisible="1" />
+                                            <field name="situacao_S1020" />
+                                        </tree>
+                                        <form>
+                                            <sheet>
+                                                <group colspan="4" col="4">
+                                                    <group colspan="2" col="2">
+                                                        <field name="lotacao_id" readonly="1" />
+                                                        <field name="requer_S1020" invisible="0" />
+                                                        <field name="sped_S1020" invisible="0" />
+                                                        <field name="sped_S1020_registro" attrs="{'invisible': [('sped_S1020', '=', False)]}" />
+                                                    </group>
+                                                </group>
+                                            </sheet>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="S1030" string="S-1030">
+                                <group colspan="4" col="4">
+                                    <group colspan="2" col="1">
+                                        <div class="oe_title">
+                                            <button name="importar_cargos" type="object" string="Calcular" />
+                                            <button name="criar_S1030" type="object" string="Criar S-1030(s)" class="oe_highlight"
+                                                    attrs="{'invisible': [('cargo_ids', '=', False)]}" />
+                                        </div>
+                                    </group>
+                                    <field name="cargo_ids" readonly="1" nolabel="1" colspan="4">
+                                        <tree>
+                                            <field name="nome" invisible="0" />
+                                            <field name="cargo_id" />
+                                            <field name="requer_S1030" />
+                                            <field name="sped_S1030" invisible="1" />
+                                            <field name="sped_S1030_registro" invisible="1" />
+                                            <field name="situacao_S1030" />
+                                        </tree>
+                                        <form>
+                                            <sheet>
+                                                <group colspan="4" col="4">
+                                                    <group colspan="2" col="2">
+                                                        <field name="cargo_id" readonly="1" />
+                                                        <field name="requer_S1030" invisible="0" />
+                                                        <field name="sped_S1030" invisible="0" />
+                                                        <field name="sped_S1030_registro" attrs="{'invisible': [('sped_S1030', '=', False)]}" />
+                                                    </group>
                                                 </group>
                                             </sheet>
                                         </form>

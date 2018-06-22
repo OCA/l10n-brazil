@@ -52,6 +52,21 @@ class SpedEsocial(models.Model):
         comodel_name='sped.esocial.estabelecimento',
         inverse_name='esocial_id',
     )
+    lotacao_ids = fields.One2many(
+        string='Lotações Tributárias',
+        comodel_name='sped.esocial.lotacao',
+        inverse_name='esocial_id',
+    )
+    rubrica_ids = fields.One2many(
+        string='Rubricas',
+        comodel_name='sped.esocial.rubrica',
+        inverse_name='esocial_id',
+    )
+    cargo_ids = fields.One2many(
+        string='Cargos',
+        comodel_name='sped.esocial.cargo',
+        inverse_name='esocial_id',
+    )
     situacao = fields.Selection(
         string='Situação',
         selection=[
@@ -135,6 +150,65 @@ class SpedEsocial(models.Model):
                 self.estabelecimento_ids = [(4, estabelecimento_id.id)]
 
     @api.multi
+    def importar_rubricas(self):
+        self.ensure_one()
+
+        rubricas = self.env['hr.salary.rule'].search([
+            ('nat_rubr', '!=', False),
+        ])
+
+        for rubrica in rubricas:
+
+            # Criar uma nova rubrica neste período
+            vals = {
+                'esocial_id': self.id,
+                'rubrica_id': rubrica.id,
+            }
+            rubrica_id = self.env['sped.esocial.rubrica'].create(vals)
+            self.rubrica_ids = [(4, rubrica_id.id)]
+
+    @api.multi
+    def importar_lotacoes(self):
+        self.ensure_one()
+
+        lotacoes = self.env['res.company'].search([
+            '|',
+            ('id', '=', self.company_id.id),
+            ('matriz', '=', self.company_id.id),
+        ])
+
+        for lotacao in lotacoes:
+            incluir = True
+            for empresa in self.lotacao_ids:
+                if empresa.lotacao_id == lotacao:
+                    incluir = False
+
+            if incluir:
+                # Criar uma nova lotacao neste período
+                vals = {
+                    'esocial_id': self.id,
+                    'lotacao_id': lotacao.id,
+                }
+                lotacao_id = self.env['sped.esocial.lotacao'].create(vals)
+                self.lotacao_ids = [(4, lotacao_id.id)]
+
+    @api.multi
+    def importar_cargos(self):
+        self.ensure_one()
+
+        cargos = self.env['hr.job'].search([])
+
+        for cargo in cargos:
+
+            # Criar um novo cargo neste período
+            vals = {
+                'esocial_id': self.id,
+                'cargo_id': cargo.id,
+            }
+            cargo_id = self.env['sped.esocial.cargo'].create(vals)
+            self.cargo_ids = [(4, cargo_id.id)]
+
+    @api.multi
     def criar_S1005(self):
         self.ensure_one()
         for estabelecimento in self.estabelecimento_ids:
@@ -152,223 +226,56 @@ class SpedEsocial(models.Model):
                 sped_S1005_registro = self.env['sped.transmissao'].create(values)
                 estabelecimento.sped_S1005_registro = sped_S1005_registro
 
-    # @api.multi
-    # def importar_movimento(self):
-    #     self.ensure_one()
-    #
-    #     data_hora_inicial = self.periodo_id.date_start + ' 00:00:00'
-    #     data_hora_final = self.periodo_id.date_stop + ' 23:59:59'
-    #     cnpj_base = self.company_id.cnpj_cpf[0:10]
-    #
-    #     # Limpar dados anteriores que não tenham registro SPED
-    #     for estabelecimento in self.estabelecimento_ids:
-    #         if not estabelecimento.sped_R2010_registro:
-    #             estabelecimento.unlink()
-    #
-    #     # Pegar a lista de empresas
-    #     # domain = [
-    #     #     ('cnpj_cpf', '=ilike', cnpj_base),
-    #     # ]
-    #     empresas = self.env['res.company'].search([])
-    #
-    #     # Roda 1 empresa por vez (cada empresa é um Estabelecimento no EFD/Reinf)
-    #     for empresa in empresas:
-    #
-    #         if empresa.cnpj_cpf[0:10] != cnpj_base:
-    #             continue
-    #
-    #         # Identificar NFs de entrada do período com retenção de INSS nesta empresa
-    #         domain = [
-    #             ('state', 'in', ['open', 'paid']),
-    #             ('type', '=', 'in_invoice'),
-    #             ('date_hour_invoice', '>=', data_hora_inicial),
-    #             ('date_hour_invoice', '<=', data_hora_final),
-    #         ]
-    #         nfs_busca = self.env['account.invoice'].search(domain, order='partner_id')
-    #         prestador_id = False
-    #         estabelecimento_id = False
-    #         ind_cprb = False
-    #
-    #         # Inicia acumuladores do Estabelecimento
-    #         vr_total_bruto = 0
-    #         vr_total_base_retencao = 0
-    #         vr_total_ret_princ = 0
-    #         vr_total_ret_adic = 0
-    #         vr_total_nret_princ = 0
-    #         vr_total_nret_adic = 0
-    #         for nf in nfs_busca:
-    #
-    #             if nf.company_id != empresa or nf.inss_value_wh == 0:
-    #                 continue
-    #
-    #             if prestador_id != nf.partner_id and nf.company_id == empresa:
-    #
-    #                 # Popula os totalizadores do prestador anterior
-    #                 if prestador_id:
-    #
-    #                     # Precisa mudar o status do registro R-2010 ?
-    #                     if estabelecimento_id.sped_R2010 and \
-    #                             (round(estabelecimento_id.vr_total_bruto, 2) != round(vr_total_bruto, 2) or
-    #                              round(estabelecimento_id.vr_total_base_retencao, 2) != round(vr_total_base_retencao, 2) or
-    #                              round(estabelecimento_id.vr_total_ret_princ, 2) != round(vr_total_ret_princ, 2) or
-    #                              round(estabelecimento_id.vr_total_ret_adic, 2) != round(vr_total_ret_adic, 2) or
-    #                              round(estabelecimento_id.vr_total_nret_princ, 2) != round(vr_total_nret_princ, 2) or
-    #                              round(estabelecimento_id.vr_total_nret_adic, 2) != round(vr_total_nret_adic, 2)):
-    #                         estabelecimento_id.sped_R2010_registro.situacao = '5'
-    #                         estabelecimento_id.vr_total_bruto = vr_total_bruto
-    #                         estabelecimento_id.vr_total_base_retencao = vr_total_base_retencao
-    #                         estabelecimento_id.vr_total_ret_princ = vr_total_ret_princ
-    #                         estabelecimento_id.vr_total_ret_adic = vr_total_ret_adic
-    #                         estabelecimento_id.vr_total_nret_princ = vr_total_nret_princ
-    #                         estabelecimento_id.vr_total_nret_adic = vr_total_nret_adic
-    #                     else:
-    #                         if estabelecimento_id.situacao_R2010 != '5':
-    #                             estabelecimento_id.vr_total_bruto = vr_total_bruto
-    #                             estabelecimento_id.vr_total_base_retencao = vr_total_base_retencao
-    #                             estabelecimento_id.vr_total_ret_princ = vr_total_ret_princ
-    #                             estabelecimento_id.vr_total_ret_adic = vr_total_ret_adic
-    #                             estabelecimento_id.vr_total_nret_princ = vr_total_nret_princ
-    #                             estabelecimento_id.vr_total_nret_adic = vr_total_nret_adic
-    #
-    #                     # Zera os totalizadores
-    #                     vr_total_bruto = 0
-    #                     vr_total_base_retencao = 0
-    #                     vr_total_ret_princ = 0
-    #                     vr_total_ret_adic = 0
-    #                     vr_total_nret_princ = 0
-    #                     vr_total_nret_adic = 0
-    #
-    #                 # Define o próximo prestador_id
-    #                 prestador_id = nf.partner_id
-    #                 ind_cprb = False  # TODO Colocar no parceiro o campo de indicador de CPRB
-    #
-    #                 # Acha o registro do prestador
-    #                 domain = [
-    #                     ('efdreinf_id', '=', self.id),
-    #                     ('estabelecimento_id', '=', empresa.id),
-    #                     ('prestador_id', '=', prestador_id.id),
-    #                 ]
-    #                 estabelecimento_id = self.env['sped.efdreinf.estabelecimento'].search(domain)
-    #
-    #                 # Cria o registro se ele não existir
-    #                 if not estabelecimento_id:
-    #                     vals = {
-    #                         'efdreinf_id': self.id,
-    #                         'estabelecimento_id': empresa.id,
-    #                         'prestador_id': prestador_id.id,
-    #                         'ind_cprb': ind_cprb,
-    #                     }
-    #                     estabelecimento_id = self.env['sped.efdreinf.estabelecimento'].create(vals)
-    #                     self.estabelecimento_ids = [(4, estabelecimento_id.id)]
-    #
-    #             # Soma os totalizadores desta NF
-    #             vr_total_bruto += nf.amount_total
-    #             vr_total_base_retencao += nf.inss_base_wh
-    #             vr_total_ret_princ += nf.inss_value_wh
-    #             vr_total_ret_adic += 0  # TODO Criar o campo vr_total_rec_adic na NF
-    #             vr_total_nret_princ += 0  # TODO Criar o campo vr_total_nret_princ na NF
-    #             vr_total_nret_adic += 0  # TODO Criar o campo vr_total_nret_adic na NF
-    #
-    #             # Criar o registro da NF
-    #             domain = [
-    #                 ('estabelecimento_id', '=', estabelecimento_id.id),
-    #                 ('nfs_id', '=', nf.id),
-    #             ]
-    #             nfs_estabelecimento = self.env['sped.efdreinf.nfs'].search(domain)
-    #             if not nfs_estabelecimento:
-    #
-    #                 # Cria a NF que ainda não existe
-    #                 vals = {
-    #                     'estabelecimento_id': estabelecimento_id.id,
-    #                     'nfs_id': nf.id,
-    #                 }
-    #                 nfs_estabelecimento = self.env['sped.efdreinf.nfs'].create(vals)
-    #                 estabelecimento_id.nfs_ids = [(4, nfs_estabelecimento.id)]
-    #
-    #             # Criar os registros dos itens das NFs
-    #             for item in nf.invoice_line:
-    #                 domain = [
-    #                     ('efdreinf_nfs_id', '=', nfs_estabelecimento.id),
-    #                     ('servico_nfs_id', '=', item.id),
-    #                 ]
-    #                 servico = self.env['sped.efdreinf.servico'].search(domain)
-    #
-    #                 if not servico:
-    #                     vals = {
-    #                         'efdreinf_nfs_id': nfs_estabelecimento.id,
-    #                         'servico_nfs_id': item.id,
-    #                         'tp_servico_id': item.product_id.tp_servico_id.id or False,
-    #                         'vr_base_ret': item.inss_base,
-    #                         'vr_retencao': item.inss_wh_value,
-    #                         'vr_ret_sub': 0,  # TODO Criar esse campo no item da NF
-    #                         'vr_nret_princ': 0,  # TODO Criar esse campo no item da NF
-    #                         'vr_servicos_15': 0,  # TODO Criar esse campo no item da NF
-    #                         'vr_servicos_20': 0,  # TODO Criar esse campo no item da NF
-    #                         'vr_servicos_25': 0,  # TODO Criar esse campo no item da NF
-    #                         'vr_adicional': 0,  # TODO Criar esse campo no item da NF
-    #                         'vr_nret_adic': 0,  # TODO Criar esse campo no item da NF
-    #                     }
-    #                     servico = self.env['sped.efdreinf.servico'].create(vals)
-    #                     nfs_estabelecimento.servico_ids = [(4, servico.id)]
-    #
-    #         # Precisa mudar o status do registro R-2010 ?
-    #         if estabelecimento_id:
-    #             if estabelecimento_id.sped_R2010 and \
-    #                     (round(estabelecimento_id.vr_total_bruto, 2) != round(vr_total_bruto, 2) or
-    #                      round(estabelecimento_id.vr_total_base_retencao, 2) != round(vr_total_base_retencao, 2) or
-    #                      round(estabelecimento_id.vr_total_ret_princ, 2) != round(vr_total_ret_princ, 2) or
-    #                      round(estabelecimento_id.vr_total_ret_adic, 2) != round(vr_total_ret_adic, 2) or
-    #                      round(estabelecimento_id.vr_total_nret_princ, 2) != round(vr_total_nret_princ, 2) or
-    #                      round(estabelecimento_id.vr_total_nret_adic, 2) != round(vr_total_nret_adic, 2)):
-    #                 estabelecimento_id.sped_R2010_registro.situacao = '5'
-    #                 estabelecimento_id.vr_total_bruto = vr_total_bruto
-    #                 estabelecimento_id.vr_total_base_retencao = vr_total_base_retencao
-    #                 estabelecimento_id.vr_total_ret_princ = vr_total_ret_princ
-    #                 estabelecimento_id.vr_total_ret_adic = vr_total_ret_adic
-    #                 estabelecimento_id.vr_total_nret_princ = vr_total_nret_princ
-    #                 estabelecimento_id.vr_total_nret_adic = vr_total_nret_adic
-    #             else:
-    #                 if estabelecimento_id.situacao_R2010 != '5':
-    #                     estabelecimento_id.vr_total_bruto = vr_total_bruto
-    #                     estabelecimento_id.vr_total_base_retencao = vr_total_base_retencao
-    #                     estabelecimento_id.vr_total_ret_princ = vr_total_ret_princ
-    #                     estabelecimento_id.vr_total_ret_adic = vr_total_ret_adic
-    #                     estabelecimento_id.vr_total_nret_princ = vr_total_nret_princ
-    #                     estabelecimento_id.vr_total_nret_adic = vr_total_nret_adic
+    @api.multi
+    def criar_S1010(self):
+        self.ensure_one()
+        for rubrica in self.rubrica_ids:
+            if not rubrica.sped_S1010_registro:
 
-    # @api.multi
-    # def criar_R2010(self):
-    #     self.ensure_one()
-    #
-    #     for estabelecimento in self.estabelecimento_ids:
-    #         if not estabelecimento.sped_R2010_registro:
-    #
-    #             values = {
-    #                 'tipo': 'efdreinf',
-    #                 'registro': 'R-2010',
-    #                 'ambiente': self.company_id.tpAmb,
-    #                 'company_id': self.company_id.id,
-    #                 'evento': 'evtServTom',
-    #                 'origem': ('sped.efdreinf.estabelecimento,%s' % estabelecimento.id),
-    #             }
-    #
-    #             sped_R2010_registro = self.env['sped.transmissao'].create(values)
-    #             estabelecimento.sped_R2010_registro = sped_R2010_registro
+                # Criar registro
+                values = {
+                    'tipo': 'esocial',
+                    'registro': 'S-1010',
+                    'ambiente': self.company_id.esocial_tpAmb,
+                    'company_id': self.company_id.id,
+                    'evento': 'evtTabRubrica',
+                    'origem': ('sped.esocial.rubrica,%s' % rubrica.id),
+                }
+                sped_S1010_registro = self.env['sped.transmissao'].create(values)
+                rubrica.sped_S1010_registro = sped_S1010_registro
 
-    # @api.multi
-    # def criar_R2099(self):
-    #     self.ensure_one()
-    #
-    #     for efdreinf in self:
-    #
-    #         values = {
-    #             'tipo': 'efdreinf',
-    #             'registro': 'R-2099',
-    #             'ambiente': self.company_id.tpAmb,
-    #             'company_id': self.company_id.id,
-    #             'evento': 'evtFechamento',
-    #             'origem': ('sped.efdreinf,%s' % efdreinf.id),
-    #         }
-    #
-    #         sped_R2099_registro = self.env['sped.transmissao'].create(values)
-    #         efdreinf.sped_R2099_registro = sped_R2099_registro
+    @api.multi
+    def criar_S1020(self):
+        self.ensure_one()
+        for lotacao in self.lotacao_ids:
+            if not lotacao.sped_S1020_registro:
+
+                # Criar registro
+                values = {
+                    'tipo': 'esocial',
+                    'registro': 'S-1020',
+                    'ambiente': self.company_id.esocial_tpAmb,
+                    'company_id': self.company_id.id,
+                    'evento': 'evtTabLotacao',
+                    'origem': ('sped.esocial.lotacao,%s' % lotacao.id),
+                }
+                sped_S1020_registro = self.env['sped.transmissao'].create(values)
+                lotacao.sped_S1020_registro = sped_S1020_registro
+
+    @api.multi
+    def criar_S1030(self):
+        self.ensure_one()
+        for cargo in self.cargo_ids:
+            if not cargo.sped_S1030_registro:
+
+                # Criar registro
+                values = {
+                    'tipo': 'esocial',
+                    'registro': 'S-1030',
+                    'ambiente': self.company_id.esocial_tpAmb,
+                    'company_id': self.company_id.id,
+                    'evento': 'evtTabCargo',
+                    'origem': ('sped.esocial.cargo,%s' % cargo.id),
+                }
+                sped_S1030_registro = self.env['sped.transmissao'].create(values)
+                cargo.sped_S1030_registro = sped_S1030_registro

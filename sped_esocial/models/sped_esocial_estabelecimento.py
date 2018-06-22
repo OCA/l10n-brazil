@@ -7,7 +7,7 @@ from openerp import api, fields, models
 
 class SpedEsocialEstabelecimento(models.Model):
     _name = 'sped.esocial.estabelecimento'
-    _description = 'Estabelecimentos de Eventos Periódicos EFD/Reinf'
+    _description = 'Tabela de Estabelecimentos e-Social'
     _rec_name = 'nome'
     _order = "nome"
 

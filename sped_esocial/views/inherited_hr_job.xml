@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_hr_job">
+            <field name="name">Adiciona e-Social nas Funcoes</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="l10n_br_hr.view_l10n_br_hr_job_form" />
+            <field name="arch" type="xml">
+                <group name="employee_data" position="after">
+                    <notebook>
+                        <page name="esocial" string="e-Social">
+                            <group colspan="4" col="4">
+                                <field name="codigo" required="1" />
+                                <field name="cargo_publico"/>
+                                <field name="ini_valid"
+                                       domain="[('date_start', '&gt;=', '2018-05-01')]"
+                                       options="{'no_create': True, 'no_open': True}"
+                                       attrs="{'required': True}"
+                                />
+                                <field name="fim_valid"
+                                       domain="[('date_start', '&gt;=', '2018-05-01')]"
+                                       options="{'no_create': True, 'no_open': True}"
+                                />
+                                <field name="acum_cargo" colspan="4"
+                                       attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
+                                <field name="contagem_esp" colspan="4"
+                                       attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
+                                <field name="dedic_excl" colspan="4"
+                                       attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
+                                <field name="nr_lei" colspan="4"
+                                       attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
+                                <field name="dt_lei" colspan="4"
+                                       attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
+                                <field name="sit_cargo" colspan="4"
+                                       attrs="{'required': [('cargo_publico', '=', True)], 'invisible': [('cargo_publico', '=', False)]}" />
+                            </group>
+                        </page>
+                    </notebook>
+                </group>
+            </field>
+        </record>
+
+    </data>
+</openerp>
