@@ -175,6 +175,31 @@
                                     </field>
                                 </group>
                             </page>
+                            <page name="S1050" string="S-1050">
+                                <group colspan="4" col="4">
+                                    <group colspan="2" col="1">
+                                        <div class="oe_title">
+                                            <button name="importar_turnos_trabalho" type="object" string="Calcular" />
+                                            <button name="criar_S1050" type="object" string="Criar S-1050(s)" class="oe_highlight"
+                                                    attrs="{'invisible': [('sped_esocial_turnos_trabalho_ids', '=', False)]}" />
+                                        </div>
+                                    </group>
+                                    <field name="sped_esocial_turnos_trabalho_ids" readonly="1" nolabel="1" colspan="4" />
+                                        <!--<tree>-->
+                                            <!--<field name="sped_esocial_turnos_trabalho_ids" />-->
+                                        <!--</tree>-->
+                                        <!--<form>-->
+                                            <!--<sheet>-->
+                                                <!--<group colspan="4" col="4">-->
+                                                    <!--<group colspan="2" col="2">-->
+                                                        <!--<field name="sped_esocial_turnos_trabalho_ids" readonly="1" />-->
+                                                    <!--</group>-->
+                                                <!--</group>-->
+                                            <!--</sheet>-->
+                                        <!--</form>-->
+                                    <!--</field>-->
+                                </group>
+                            </page>
                             <!--<page name="R2099" string="R-2099">-->
                                 <!--<group colspan="4" col="4">-->
                                     <!--<group colspan="2" col="4">-->

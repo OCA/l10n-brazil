@@ -67,6 +67,11 @@ class SpedEsocial(models.Model):
         comodel_name='sped.esocial.cargo',
         inverse_name='esocial_id',
     )
+    sped_esocial_turnos_trabalho_ids = fields.One2many(
+        string='sped_esocial_turnos_trabalho_id',
+        comodel_name='sped.esocial.turnos.trabalho',
+        inverse_name='esocial_id',
+    )
     situacao = fields.Selection(
         string='Situação',
         selection=[
@@ -279,3 +284,48 @@ class SpedEsocial(models.Model):
                 }
                 sped_S1030_registro = self.env['sped.transmissao'].create(values)
                 cargo.sped_S1030_registro = sped_S1030_registro
+
+    @api.multi
+    def criar_S1050(self):
+        self.ensure_one()
+        for turno in self.sped_esocial_turnos_trabalho_ids:
+            if not turno.sped_S1050_registro:
+                # Criar registro
+                values = {
+                    'tipo': 'esocial',
+                    'registro': 'S-1050',
+                    'ambiente': self.company_id.esocial_tpAmb,
+                    'company_id': self.company_id.id,
+                    'evento': 'evtTabHorTur',
+                    'origem': ('sped.esocial.turnos.trabalho,%s' % turno.id),
+                }
+                sped_S1050_registro = self.env['sped.transmissao'].create(
+                    values)
+                turno.sped_S1030_registro = sped_S1050_registro
+
+    @api.multi
+    def get_esocial_vigente(self, company_id=False):
+        """
+        Buscar o esocial vigente, se não existir um criar-lo
+        :return:
+        """
+        if not company_id:
+            raise ValidationError('Não existe o registro de uma empresa!')
+        # Buscar o periodo vigente
+        periodo_atual_id = self.env['account.period'].find()
+        esocial_id = self.search([
+            ('periodo_id', '=', periodo_atual_id.id),
+            ('company_id', '=', company_id.id)
+        ])
+
+        if esocial_id:
+            return esocial_id
+
+        esocial_id = self.create(
+            {
+                'periodo_id': periodo_atual_id.id,
+                'company_id': company_id.id,
+            }
+        )
+
+        return esocial_id
