@@ -690,6 +690,69 @@ class SpedTransmissao(models.Model):
             retorno_xml = processo.resposta.xml
             retorno_xml_nome = S1030.evento.Id.valor + '-S1030-ret.xml'
 
+        # Registro S-1050 - Informações de Turno de Jornada de Trabalho
+        if self.registro == 'S-1050':
+            S1050 = pysped.esocial.leiaute.S1050_2()
+
+            # Popula ideEvento
+            S1050.tpInsc = '1'
+            S1050.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
+            S1050.evento.ideEvento.tpAmb.valor = int(self.ambiente)
+            S1050.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
+            S1050.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
+
+            # Popula ideEmpregador (Dados do Empregador)
+            S1050.evento.ideEmpregador.tpInsc.valor = '1'
+            S1050.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(
+                self.company_id.cnpj_cpf)[0:8]
+
+            # Popula ideHorContratual
+            S1050.evento.infoHorContratual.operacao = 'I'
+            S1050.evento.infoHorContratual.ideHorContratual.codHorContrat.valor = self.origem.sped_esocial_turnos_trabalho_id.cod_hor_contrat
+            S1050.evento.infoHorContratual.ideHorContratual.iniValid.valor = self.origem.sped_esocial_turnos_trabalho_id.ini_valid
+            if self.origem.sped_esocial_turnos_trabalho_id.fim_valid:
+                S1050.evento.infoHorContratual.ideHorContratual.fim_valid.valor = self.origem.sped_esocial_turnos_trabalho_id.fim_valid
+
+            # Popula dadosHorContratual
+            S1050.evento.infoHorContratual.dadosHorContratual.hrEntr.valor = self.origem.sped_esocial_turnos_trabalho_id.hr_entr.replace(":", "")
+            S1050.evento.infoHorContratual.dadosHorContratual.hrSaida.valor = self.origem.sped_esocial_turnos_trabalho_id.hr_saida.replace(":", "")
+            S1050.evento.infoHorContratual.dadosHorContratual.durJornada.valor = self.origem.sped_esocial_turnos_trabalho_id.dur_jornada
+            S1050.evento.infoHorContratual.dadosHorContratual.perHorFlexivel.valor = self.origem.sped_esocial_turnos_trabalho_id.per_hor_flexivel
+
+            # Gera
+            data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            dh_transmissao = datetime.now().strftime('%Y%m%d%H%M%S')
+            S1050.gera_id_evento(dh_transmissao)
+            processador = pysped.ProcessadorESocial()
+
+            processador.certificado.arquivo = arquivo.name
+            processador.certificado.senha = self.company_id.nfe_a1_password
+            processador.ambiente = int(self.ambiente)
+
+            # Define a Inscrição do Processador
+            processador.tpInsc = '1'
+            processador.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)
+
+            # Criar registro do Lote
+            vals = {
+                'tipo': 'esocial',
+                'ambiente': self.ambiente,
+                'transmissao_ids': [(4, self.id)],
+                'data_hora_transmissao': data_hora_transmissao,
+                'xml_transmissao': False,
+            }
+
+            lote_id = self.env['sped.transmissao.lote'].create(vals)
+            self.lote_ids = [(4, lote_id.id)]
+            self.data_hora_transmissao = data_hora_transmissao
+
+            # Transmite
+            processo = processador.enviar_lote([S1050])
+            envio_xml = processo.envio.envioLoteEventos.eventos[0].xml
+            envio_xml_nome = S1050.evento.Id.valor + '-S1050-env.xml'
+            retorno_xml = processo.resposta.xml
+            retorno_xml_nome = S1050.evento.Id.valor + '-S1050-ret.xml'
+
         # Registro R-1000 - Informações do Contribuinte (EFD-REINF)
         if self.registro == 'R-1000':
 
