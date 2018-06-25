@@ -29,28 +29,11 @@ class ResCompany(models.Model):
             ('1', 'Empresa obrigada à ECD'),
         ],
     )
-    ind_desoneracao = fields.Selection(
-        string='Desoneração da folha pela CPRB',
-        selection=[
-            ('0', 'Não Aplicável'),
-            ('1', 'Empresa enquadrada nos termos da Lei 12.546/2011 e alterações'),
-        ],
-    )
     ind_acordoisenmulta = fields.Selection(
         string='Acordo de isenção de multa internacional',
         selection=[
             ('0', 'Sem acordo'),
             ('1', 'Com acordo'),
-        ],
-    )
-    ind_sitpj = fields.Selection(
-        string='Situação da Pessoa Jurídica',
-        selection=[
-            ('0', 'Situação Normal'),
-            ('1', 'Extinção'),
-            ('2', 'Fusão'),
-            ('3', 'Cisão'),
-            ('4', 'Incorporação'),
         ],
     )
     nmctt = fields.Char(
