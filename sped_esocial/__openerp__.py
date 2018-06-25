@@ -43,6 +43,7 @@
         'views/inherited_hr_salary_rule.xml',
         'views/inherited_hr_job.xml',
         'views/inherited_hr_contract.xml',
+	'views/esocial_turnos_trabalho_view.xml',
 
         # Segurança
         # 'security/ir.model.access.csv',
