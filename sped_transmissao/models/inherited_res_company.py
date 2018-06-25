@@ -22,6 +22,24 @@ class ResCompany(models.Model):
         compute='_compute_matriz',
         store=True,
     )
+    ind_sitpj = fields.Selection(
+        string='Situação da Pessoa Jurídica',
+        selection=[
+            ('0', 'Situação Normal'),
+            ('1', 'Extinção'),
+            ('2', 'Fusão'),
+            ('3', 'Cisão'),
+            ('4', 'Incorporação'),
+        ],
+    )
+    ind_desoneracao = fields.Selection(
+        string='Desoneração da folha pela CPRB',
+        selection=[
+            ('0', 'Não Aplicável'),
+            ('1',
+             'Empresa enquadrada nos termos da Lei 12.546/2011 e alterações'),
+        ],
+    )
 
     @api.depends('cnpj_cpf')
     def _compute_empresa_base(self):
