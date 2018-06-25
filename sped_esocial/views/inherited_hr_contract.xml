@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_res_company">
+            <field name="name">Adiciona e-Social na Empresa</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="l10n_br_account_product.view_l10n_br_account_company_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='Retenções']" position="after">
+                    <page name="esocial_matriz" string="e-Social Matriz" attrs="{'invisible': [('eh_empresa_base', '=', False)]}">
+                        <group colspan="4" col="4">
+                            <group colspan="4" col="2">
+                                <field name="esocial_tpAmb" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="natureza_juridica_id" options="{'no_create': True, 'no_open': True}" />
+                                <field name="ind_coop" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="ind_constr" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="ind_desoneracao" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="ind_opt_reg_eletron" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="ind_sitpj"/>
+                                <field name="ind_ent_ed"/>
+                                <field name="ind_ett" />
+                                <field name="nr_reg_ett" />
+                                <field name="esocial_nm_ctt" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="esocial_cpf_ctt" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="esocial_fone_fixo" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <field name="esocial_fone_cel" />
+                                <field name="esocial_email" />
+                                <field name="esocial_periodo_id" attrs="{'required': [('eh_empresa_base', '=', True)]}"
+                                       domain="[('date_start', '&gt;=', '2018-05-01')]"
+                                       options="{'no_create': True, 'no_open': True}"
+                                />
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="sped_S1000" />
+                                <field name="sped_S1000_registro" />
+                                <field name="sped_S1000_situacao" />
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="sped_S1000_data_hora" />
+                                <button name="criar_S1000" colspan="4" type="object"
+                                        string="Enviar S-1000 - Informações do Empregador/Contribuinte/Órgão Público"
+                                        attrs="{'invisible': [('sped_S1000_registro', '!=', False)]}" />
+                            </group>
+                        </group>
+                    </page>
+                    <page name="esocial_estabelecimento" string="e-Social Estab./Lotação">
+                        <group colspan="4" col="4">
+                            <group colspan="4" col="4" string="Estabelecimento">
+                                <field name="tp_caepf" colspan="4"/>
+                                <field name="reg_pt" required="1" colspan="4"/>
+                                <field name="cont_apr" required="1" colspan="4"/>
+                                <field name="cont_ent_ed" colspan="4"/>
+                                <field name="cont_pcd" colspan="4"/>
+                            </group>
+                            <group colspan="4" col="4" string="Lotação Tributária">
+                                <field name="cod_lotacao" attrs="{'required': True}" />
+                                <field name="tp_lotacao_id" attrs="{'required': True}"
+                                       options="{'no_create': True, 'no_open': True}"
+                                />
+                                <field name="tp_insc_id"
+                                       options="{'no_create': True, 'no_open': True}"
+                                />
+                                <field name="nr_insc" />
+                                <field name="fpas_id" attrs="{'required': True}"
+                                       options="{'no_create': True, 'no_open': True}"
+                                />
+                                <field name="cod_tercs" attrs="{'required': True}" />
+                                <!--<field name="cod_tercs_id" attrs="{'required': True}"-->
+                                       <!--options="{'no_create': True, 'no_open': True}"-->
+                                <!--/>-->
+                                <!--domain="[('codigo_tributaria_fpas_ids', '=', fpas_id.id)]"-->
+                            </group>
+                            <group colspan="4" col="1">
+                                <field name="info_ent_educ_ids" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
