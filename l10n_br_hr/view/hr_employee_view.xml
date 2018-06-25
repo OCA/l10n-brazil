@@ -14,7 +14,7 @@
                 </xpath>
                 <xpath expr="//group[@string='Birth']" position="after">
                     <group string="Characteristics">
-                        <field name="ethnicity"/>
+                        <field name="ethnicity" options="{'no_create': True, 'no_open': True}"/>
                     </group>
                 </xpath>
                 <xpath expr="//field[@name='coach_id']" position="after">
@@ -179,10 +179,27 @@
             <field name="model">hr.ethnicity</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree edit="false" delete="false" create="false">
                     <field name="code"/>
                     <field name="name"/>
                 </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_hr_ethnicity_form">
+            <field name="name">hr.ethnicity.form.view</field>
+            <field name="model">hr.ethnicity</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <form string="Raça/Cor" edit="false" delete="false" create="false">
+                    <sheet>
+                        <group>
+                            <group name="geral" colspan="2" col="2">
+                                <field name="code"/>
+                                <field name="name" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
             </field>
         </record>
         <record model="ir.ui.view" id="view_hr_educational_attainment_tree">
