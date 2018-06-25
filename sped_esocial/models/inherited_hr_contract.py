@@ -3,67 +3,58 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
+from openerp.exceptions import ValidationError
 
 
-class HrJob(models.Model):
+class HrContract(models.Model):
 
-    _inherit = 'hr.job'
-    _sql_constraints = [
-        ('codigo_unique', 'unique(codigo)', 'Este Código e-Social já existe !'),
-    ]
+    _inherit = 'hr.contract'
 
-    codigo = fields.Char(
-        string='Código',
-        size=30,
+    # Registro S-2200
+    sped_S2200 = fields.Boolean(
+        string='Cadastro do Vínculo',
+        compute='_compute_sped_S2200',
     )
-    ini_valid = fields.Many2one(
-        string='Válido desde',
-        comodel_name='account.period',
+    sped_S2200_registro = fields.Many2one(
+        string='Registro S-2200 - Cadastramento Inicial do Vínculo',
+        comodel_name='sped.transmissao',
     )
-    fim_valid = fields.Many2one(
-        string='Válido até',
-        comodel_name='account.period',
-    )
-    cargo_publico = fields.Boolean(
-        string='É cargo Público',
-    )
-    acum_cargo = fields.Selection(
-        string='Acúmulo de Cargo Público',
+    sped_S2200_situacao = fields.Selection(
+        string='Situação S-2200',
         selection=[
-            ('1', '1-Não acumulável'),
-            ('2', '2-Profissional de Saúde'),
-            ('3', '3-Professor'),
-            ('4', '4-Técnico/Científico'),
+            ('1', 'Pendente'),
+            ('2', 'Transmitida'),
+            ('3', 'Erro(s)'),
+            ('4', 'Sucesso'),
         ],
+        related='sped_S2200_registro.situacao',
+        readonly=True,
     )
-    contagem_esp = fields.Selection(
-        string='Código de Contagem de tempo Especial',
-        selection=[
-            ('1', 'Não'),
-            ('2', 'Professor (Infantil, Fundamental e Médio'),
-            ('3', 'Professor de Ensino Superior, Magistrado, Membro de Ministério Público, Membro de Tribunal de Contas (com ingresso anterior a 16/12/1998 EC nr. 20/98)'),
-            ('4', 'Atividade de risco'),
-        ],
+    sped_S2200_data_hora = fields.Datetime(
+        string='Data/Hora',
+        related='sped_S2200_registro.data_hora_origem',
+        readonly=True,
     )
-    dedic_excl = fields.Selection(
-        string='Cargo de Dedicação Exclusiva',
-        selection=[
-            ('S', 'Sim'),
-            ('N', 'Não'),
-        ],
-    )
-    nr_lei = fields.Char(
-        string='Nº Lei que criou o cargo',
-        size=12,
-    )
-    dt_lei = fields.Date(
-        string='Data da Lei',
-    )
-    sit_cargo = fields.Selection(
-        string='Situação gerada pela Lei.',
-        selection=[
-            ('1', '1-Criação'),
-            ('2', '2-Extinção'),
-            ('3', '3-Reestruturação'),
-        ],
-    )
+
+    @api.depends('sped_S2200_registro')
+    def _compute_sped_S2200(self):
+        for contrato in self:
+            contrato.sped_S2200 = True if contrato.sped_S2200_registro else False
+
+    @api.multi
+    def criar_S2200(self):
+        self.ensure_one()
+        if self.sped_S2200_registro:
+            raise ValidationError('Esta contrato já registro este vínculo')
+
+        values = {
+            'tipo': 'esocial',
+            'registro': 'S-2200',
+            'ambiente': self.company_id.esocial_tpAmb or self.company_id.matriz.esocial_tpAmb,
+            'company_id': self.company_id.id,
+            'evento': 'evtAdmissao',
+            'origem': ('hr.contract,%s' % self.id),
+        }
+
+        sped_S2200_registro = self.env['sped.transmissao'].create(values)
+        self.sped_S2200_registro = sped_S2200_registro

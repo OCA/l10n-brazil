@@ -42,6 +42,7 @@
         'views/inherited_res_company.xml',
         'views/inherited_hr_salary_rule.xml',
         'views/inherited_hr_job.xml',
+        'views/inherited_hr_contract.xml',
 
         # Segurança
         # 'security/ir.model.access.csv',
