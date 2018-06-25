@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="esocial_turnos_trabalho_form">
+            <field name="name">e-Social turnos de trabalho</field>
+            <field name="model">esocial.turnos.trabalho</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="gerar_documento_sped" string="Gerar Documento Sped" type="object" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="hr_entr" />
+                                <field name="hr_saida" />
+                            </group>
+                            <group>
+                                <field name="per_hor_flexivel" />
+                                <field name="dur_jornada" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Intervalos">
+                                <separator string="Intervalos" />
+                                <field name="horario_intervalo_ids" />
+                            </page>
+                            <page string="e-Social">
+                                <group>
+                                    <field name="cod_hor_contrat" />
+                                    <field name="ini_valid" />
+                                    <field name="fim_valid" />
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="esocial_turnos_trabalho_tree">
+            <field name="name">e-Social turnos de trabalho Tree</field>
+            <field name="model">esocial.turnos.trabalho</field>
+            <field name="arch" type="xml">
+                <tree string="Turnos">
+                    <field name="hr_entr" />
+                    <field name="hr_saida" />
+                    <field name="per_hor_flexivel" />
+                    <field name="dur_jornada" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="esocial_turnos_trabalho_action">
+            <field name="name">Turnos de Trabalho</field>
+            <field name="domain">[]</field>
+            <field name="res_model">esocial.turnos.trabalho</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="esocial_turnos_trabalho_form_acao">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="esocial_turnos_trabalho_form"/>
+            <field name="act_window_id" ref="esocial_turnos_trabalho_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="esocial_turnos_trabalho_tree_acao">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="esocial_turnos_trabalho_tree"/>
+            <field name="act_window_id" ref="esocial_turnos_trabalho_action"/>
+        </record>
+
+        <menuitem id="menu_esocial_turnos_trabalho"
+                  name="Turnos de Trabalho"
+                  sequence="31"
+                  parent="sped_esocial.menu_sped_esocial"
+                  action="esocial_turnos_trabalho_action"
+        />
+
+        <record model="ir.ui.view" id="esocial_turnos_trabalho_intervalo_tree">
+            <field name="name">Sped e-Social turnos de trabalho Intervalo Tree</field>
+            <field name="model">sped.esocial.turnos.intervalo</field>
+            <field name="arch" type="xml">
+                <tree string="Intervalos">
+                    <field name="ini_interv" />
+                    <field name="term_interv" />
+                    <field name="dur_interv" />
+                    <field name="tp_interv" />
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</openerp>
