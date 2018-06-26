@@ -72,5 +72,10 @@
             <field name="code">12</field>
         </record>
 
+        <record id='l10n_br_dependent_99' model="hr.dependent.type">
+            <field name="name">Agregado/Outros</field>
+            <field name="code">99</field>
+        </record>
+
     </data>
 </openerp>
