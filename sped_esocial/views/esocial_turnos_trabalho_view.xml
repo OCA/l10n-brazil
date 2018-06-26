@@ -8,13 +8,17 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="gerar_documento_sped" string="Gerar Documento Sped" type="object" class="oe_highlight"/>
+                        <button name="gerar_documento_sped"
+                                string="Gerar Documento Sped"
+                                type="object" class="oe_highlight"
+                                attrs="{'invisible': [('sped_esocial_turnos_trabalho_ids', '!=', False)]}"
+                        />
                     </header>
                     <sheet>
                         <group>
                             <group>
-                                <field name="hr_entr" />
-                                <field name="hr_saida" />
+                                <field name="hr_entr" placeholder="HH:MM"/>
+                                <field name="hr_saida" placeholder="HH:MM" />
                             </group>
                             <group>
                                 <field name="per_hor_flexivel" />
@@ -29,8 +33,9 @@
                             <page string="e-Social">
                                 <group>
                                     <field name="cod_hor_contrat" />
-                                    <field name="ini_valid" />
-                                    <field name="fim_valid" />
+                                    <field name="ini_valid" placeholder="AAAA-MM" />
+                                    <field name="fim_valid" placeholder="AAAA-MM" />
+                                    <field name="sped_esocial_turnos_trabalho_ids" invisible="1"/>
                                 </group>
                             </page>
                         </notebook>
@@ -86,11 +91,32 @@
             <field name="model">sped.esocial.turnos.intervalo</field>
             <field name="arch" type="xml">
                 <tree string="Intervalos">
-                    <field name="ini_interv" />
-                    <field name="term_interv" />
+                    <field name="ini_interv"  placeholder="HH:MM"/>
+                    <field name="term_interv" placeholder="HH:MM" />
                     <field name="dur_interv" />
                     <field name="tp_interv" />
                 </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="esocial_turnos_trabalho_intervalo_form">
+            <field name="name">Sped e-Social turnos de trabalho Intervalo form</field>
+            <field name="model">sped.esocial.turnos.intervalo</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="ini_interv"  placeholder="HH:MM"/>
+                                <field name="term_interv" placeholder="HH:MM" />
+                            </group>
+                            <group>
+                                <field name="dur_interv" />
+                                <field name="tp_interv" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
             </field>
         </record>
 
