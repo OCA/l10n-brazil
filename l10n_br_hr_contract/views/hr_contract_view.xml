@@ -9,7 +9,7 @@
                 <xpath expr="//field[@name='type_id']" position="after">
                     <field name="admission_type_id"/>
                     <field name="labor_bond_type_id"/>
-                    <field name="labor_regime_id"/>
+                    <field name="labor_regime_id" options="{'no_create': True, 'no_create': False}" required="1"/>
                 </xpath>
                 <xpath expr="//group[@name='duration_group']" position="after">
                     <group name="union" string="Union">
@@ -25,7 +25,7 @@
                     </group>
                 </xpath>
                 <xpath expr="//field[@name='wage']" position="after">
-                    <field name="salary_unit"/>
+                    <field name="salary_unit" options="{'no_create': True, 'no_open': True}" required="1"/>
                     <field name="welfare_policy"/>
 
                 </xpath>
