@@ -100,7 +100,7 @@
                                 <tree>
                                     <field name="dependent_name"/>
                                     <field name="dependent_dob"/>
-                                    <field name="dependent_type_id"/>
+                                    <field name="dependent_type_id" options="{'no_create': True, 'no_open': True}"/>
                                     <field name="pension_benefits"/>
                                     <field name="health_verification"/>
                                     <field name="dependent_verification"/>
