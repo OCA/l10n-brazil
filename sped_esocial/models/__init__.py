@@ -23,6 +23,7 @@ from . import inherited_res_company
 from . import inherited_hr_salary_rule
 from . import inherited_hr_job
 from . import inherited_hr_contract
+from . import inherited_hr_employee
 
 from . import sped_esocial
 from . import sped_esocial_estabelecimento

@@ -31,6 +31,7 @@
         'sped_transmissao',
         'l10n_br_hr_payroll',
         'l10n_br_hr',
+        'hr_contract',
     ],
     'data': [
 
@@ -44,6 +45,7 @@
         'views/inherited_hr_job.xml',
         'views/inherited_hr_contract.xml',
 	'views/esocial_turnos_trabalho_view.xml',
+        'views/inherited_hr_employee.xml',
 
         # Segurança
         # 'security/ir.model.access.csv',
