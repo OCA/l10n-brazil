@@ -184,10 +184,12 @@
                                                     attrs="{'invisible': [('sped_esocial_turnos_trabalho_ids', '=', False)]}" />
                                         </div>
                                     </group>
-                                    <field name="sped_esocial_turnos_trabalho_ids" readonly="1" nolabel="1" colspan="4" />
-                                        <!--<tree>-->
-                                            <!--<field name="sped_esocial_turnos_trabalho_ids" />-->
-                                        <!--</tree>-->
+                                    <field name="sped_esocial_turnos_trabalho_ids" readonly="1" nolabel="1" colspan="4" >
+                                        <tree>
+                                            <field name="sped_esocial_turnos_trabalho_id" />
+                                            <field name="sped_s1050_registro" />
+                                            <field name="situacao_s1050" />
+                                        </tree>
                                         <!--<form>-->
                                             <!--<sheet>-->
                                                 <!--<group colspan="4" col="4">-->
@@ -197,7 +199,7 @@
                                                 <!--</group>-->
                                             <!--</sheet>-->
                                         <!--</form>-->
-                                    <!--</field>-->
+                                    </field>
                                 </group>
                             </page>
                             <!--<page name="R2099" string="R-2099">-->
