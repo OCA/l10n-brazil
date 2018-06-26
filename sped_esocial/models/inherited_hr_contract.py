@@ -11,15 +11,15 @@ class HrContract(models.Model):
     _inherit = 'hr.contract'
 
     # Registro S-2200
-    sped_S2200 = fields.Boolean(
+    sped_s2200 = fields.Boolean(
         string='Cadastro do Vínculo',
         compute='_compute_sped_S2200',
     )
-    sped_S2200_registro = fields.Many2one(
+    sped_s2200_registro = fields.Many2one(
         string='Registro S-2200 - Cadastramento Inicial do Vínculo',
         comodel_name='sped.transmissao',
     )
-    sped_S2200_situacao = fields.Selection(
+    sped_s2200_situacao = fields.Selection(
         string='Situação S-2200',
         selection=[
             ('1', 'Pendente'),
@@ -27,24 +27,24 @@ class HrContract(models.Model):
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
         ],
-        related='sped_S2200_registro.situacao',
+        related='sped_s2200_registro.situacao',
         readonly=True,
     )
-    sped_S2200_data_hora = fields.Datetime(
+    sped_s2200_data_hora = fields.Datetime(
         string='Data/Hora',
-        related='sped_S2200_registro.data_hora_origem',
+        related='sped_s2200_registro.data_hora_origem',
         readonly=True,
     )
 
-    @api.depends('sped_S2200_registro')
-    def _compute_sped_S2200(self):
+    @api.depends('sped_s2200_registro')
+    def _compute_sped_s2200(self):
         for contrato in self:
-            contrato.sped_S2200 = True if contrato.sped_S2200_registro else False
+            contrato.sped_s2200 = True if contrato.sped_s2200_registro else False
 
     @api.multi
-    def criar_S2200(self):
+    def criar_s2200(self):
         self.ensure_one()
-        if self.sped_S2200_registro:
+        if self.sped_s2200_registro:
             raise ValidationError('Esta contrato já registro este vínculo')
 
         values = {
@@ -56,5 +56,5 @@ class HrContract(models.Model):
             'origem': ('hr.contract,%s' % self.id),
         }
 
-        sped_S2200_registro = self.env['sped.transmissao'].create(values)
-        self.sped_S2200_registro = sped_S2200_registro
+        sped_s2200_registro = self.env['sped.transmissao'].create(values)
+        self.sped_s2200_registro = sped_s2200_registro

@@ -28,20 +28,20 @@ class SpedEsocialCargo(models.Model):
     )
 
     # S-1030 (Necessidade e Execução)
-    requer_S1030 = fields.Boolean(
-        string='Requer S1030 neste Período',
-        compute='_compute_requer_S1030',
+    requer_s1030 = fields.Boolean(
+        string='Requer S-1030 neste Período',
+        compute='_compute_requer_s1030',
         store=True,
     )
-    sped_S1030 = fields.Boolean(
+    sped_s1030 = fields.Boolean(
         string='Registro de Cargo',
-        compute='_compute_sped_S1030',
+        compute='_compute_sped_s1030',
     )
-    sped_S1030_registro = fields.Many2one(
+    sped_s1030_registro = fields.Many2one(
         string='Registro S-1030',
         comodel_name='sped.transmissao',
     )
-    situacao_S1030 = fields.Selection(
+    situacao_s1030 = fields.Selection(
         string='Situação S-1030',
         selection=[
             ('1', 'Pendente'),
@@ -50,18 +50,18 @@ class SpedEsocialCargo(models.Model):
             ('4', 'Sucesso'),
             ('5', 'Precisa Retificar'),
         ],
-        related='sped_S1030_registro.situacao',
+        related='sped_s1030_registro.situacao',
         readonly=True,
     )
 
     @api.depends('cargo_id')
-    def _compute_requer_S1030(self):
+    def _compute_requer_s1030(self):
         for cargo in self:
-            requer_S1030 = False
-            if not cargo.sped_S1030 or \
-                    cargo.write_date > cargo.sped_S1030_registro.data_hora_transmissao:
-                requer_S1030 = True
-            cargo.requer_S1030 = requer_S1030
+            requer_s1030 = False
+            if not cargo.sped_s1030 or \
+                    cargo.write_date > cargo.sped_s1030_registro.data_hora_transmissao:
+                requer_s1030 = True
+            cargo.requer_s1030 = requer_s1030
 
     @api.depends('cargo_id', 'esocial_id')
     def _compute_nome(self):
@@ -73,7 +73,7 @@ class SpedEsocialCargo(models.Model):
                 nome += ' (' + cargo.esocial_id.periodo_id.name + ')'
             cargo.nome = nome
 
-    @api.depends('sped_S1030_registro')
-    def _compute_sped_S1030(self):
+    @api.depends('sped_s1030_registro')
+    def _compute_sped_s1030(self):
         for cargo in self:
-            cargo.sped_S1030 = True if cargo.sped_S1030_registro else False
+            cargo.sped_s1030 = True if cargo.sped_s1030_registro else False

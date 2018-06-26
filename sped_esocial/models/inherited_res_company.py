@@ -121,15 +121,15 @@ class ResCompany(models.Model):
     # )
 
     # Ativação do e-Social para a empresa mãe (Registro S-1000)
-    sped_S1000 = fields.Boolean(
+    sped_s1000 = fields.Boolean(
         string='Ativação eSocial',
-        compute='_compute_sped_S1000',
+        compute='_compute_sped_s1000',
     )
-    sped_S1000_registro = fields.Many2one(
+    sped_s1000_registro = fields.Many2one(
         string='Registro S-1000 - Informações do Contribuinte',
         comodel_name='sped.transmissao',
     )
-    sped_S1000_situacao = fields.Selection(
+    sped_s1000_situacao = fields.Selection(
         string='Situação S-1000',
         selection=[
             ('1', 'Pendente'),
@@ -137,12 +137,12 @@ class ResCompany(models.Model):
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
         ],
-        related='sped_S1000_registro.situacao',
+        related='sped_s1000_registro.situacao',
         readonly=True,
     )
-    sped_S1000_data_hora = fields.Datetime(
+    sped_s1000_data_hora = fields.Datetime(
         string='Data/Hora',
-        related='sped_S1000_registro.data_hora_origem',
+        related='sped_s1000_registro.data_hora_origem',
         readonly=True,
     )
     esocial_periodo_id = fields.Many2one(
@@ -202,15 +202,15 @@ class ResCompany(models.Model):
         ],
     )
 
-    @api.depends('sped_S1000_registro')
-    def _compute_sped_S1000(self):
+    @api.depends('sped_s1000_registro')
+    def _compute_sped_s1000(self):
         for empresa in self:
-            empresa.sped_S1000 = True if empresa.sped_S1000_registro else False
+            empresa.sped_s1000 = True if empresa.sped_s1000_registro else False
 
     @api.multi
-    def criar_S1000(self):
+    def criar_s1000(self):
         self.ensure_one()
-        if self.sped_S1000_registro:
+        if self.sped_s1000_registro:
             raise ValidationError('Esta Empresa já ativou o e-Social')
 
         values = {
@@ -222,19 +222,19 @@ class ResCompany(models.Model):
             'origem': ('res.company,%s' % self.id),
         }
 
-        sped_S1000_registro = self.env['sped.transmissao'].create(values)
-        self.sped_S1000_registro = sped_S1000_registro
+        sped_s1000_registro = self.env['sped.transmissao'].create(values)
+        self.sped_s1000_registro = sped_s1000_registro
 
     # Último envio da Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos (Registro S-1005)
-    sped_S1005 = fields.Boolean(
+    sped_s1005 = fields.Boolean(
         string='(S-1005) Tabela de Estabelecimentos',
-        compute='_compute_sped_S1005',
+        compute='_compute_sped_s1005',
     )
-    sped_S1005_registro = fields.Many2one(
+    sped_s1005_registro = fields.Many2one(
         string='(S-1005) - Tabela de Estabelecimentos',
         comodel_name='sped.transmissao',
     )
-    sped_S1005_situacao = fields.Selection(
+    sped_s1005_situacao = fields.Selection(
         string='Situação S-1005',
         selection=[
             ('1', 'Pendente'),
@@ -242,14 +242,14 @@ class ResCompany(models.Model):
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
         ],
-        related='sped_S1005_registro.situacao',
+        related='sped_s1005_registro.situacao',
         readonly=True,
     )
 
-    @api.depends('sped_S1005_registro')
-    def _compute_sped_S1005(self):
+    @api.depends('sped_s1005_registro')
+    def _compute_sped_s1005(self):
         for empresa in self:
-            empresa.sped_S1005 = True if empresa.sped_S1005_registro else False
+            empresa.sped_s1005 = True if empresa.sped_s1005_registro else False
 
     @api.multi
     def processador_esocial(self):

@@ -28,20 +28,20 @@ class SpedEsocialLotacao(models.Model):
     )
 
     # S-1020 (Necessidade e Execução)
-    requer_S1020 = fields.Boolean(
-        string='Requer S1020 neste Período',
-        compute='_compute_requer_S1020',
+    requer_s1020 = fields.Boolean(
+        string='Requer S-1020 neste Período',
+        compute='_compute_requer_s1020',
         store=True,
     )
-    sped_S1020 = fields.Boolean(
+    sped_s1020 = fields.Boolean(
         string='Registro de Estabelecimento',
-        compute='_compute_sped_S1020',
+        compute='_compute_sped_s1020',
     )
-    sped_S1020_registro = fields.Many2one(
+    sped_s1020_registro = fields.Many2one(
         string='Registro S-1020',
         comodel_name='sped.transmissao',
     )
-    situacao_S1020 = fields.Selection(
+    situacao_s1020 = fields.Selection(
         string='Situação S-1020',
         selection=[
             ('1', 'Pendente'),
@@ -50,18 +50,18 @@ class SpedEsocialLotacao(models.Model):
             ('4', 'Sucesso'),
             ('5', 'Precisa Retificar'),
         ],
-        related='sped_S1020_registro.situacao',
+        related='sped_s1020_registro.situacao',
         readonly=True,
     )
 
     @api.depends('lotacao_id')
-    def _compute_requer_S1020(self):
+    def _compute_requer_s1020(self):
         for lotacao in self:
-            requer_S1020 = False
-            if not lotacao.sped_S1020 or \
-                    lotacao.write_date > lotacao.sped_S1020_registro.data_hora_transmissao:
-                requer_S1020 = True
-            lotacao.requer_S1020 = requer_S1020
+            requer_s1020 = False
+            if not lotacao.sped_s1020 or \
+                    lotacao.write_date > lotacao.sped_s1020_registro.data_hora_transmissao:
+                requer_s1020 = True
+            lotacao.requer_s1020 = requer_s1020
 
     @api.depends('lotacao_id', 'esocial_id')
     def _compute_nome(self):
@@ -73,7 +73,7 @@ class SpedEsocialLotacao(models.Model):
                 nome += ' (' + lotacao.esocial_id.periodo_id.name + ')'
             lotacao.nome = nome
 
-    @api.depends('sped_S1020_registro')
-    def _compute_sped_S1020(self):
+    @api.depends('sped_s1020_registro')
+    def _compute_sped_s1020(self):
         for lotacao in self:
-            lotacao.sped_S1020 = True if lotacao.sped_S1020_registro else False
+            lotacao.sped_s1020 = True if lotacao.sped_s1020_registro else False

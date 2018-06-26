@@ -91,7 +91,7 @@ class SpedEsocial(models.Model):
     #
     #         # Checa se algum registro já foi transmitido
     #         for estabelecimento in esocial.estabelecimento_ids:
-    #             if estabelecimento.requer_S1005 and estabelecimento.situacao_S1005 in ['2', '4']:
+    #             if estabelecimento.requer_s1005 and estabelecimento.situacao_s1005 in ['2', '4']:
     #                 raise ValidationError("Não pode excluir um Período e-Social que já tem algum processamento!")
 
     @api.depends('estabelecimento_ids')
@@ -214,10 +214,10 @@ class SpedEsocial(models.Model):
             self.cargo_ids = [(4, cargo_id.id)]
 
     @api.multi
-    def criar_S1005(self):
+    def criar_s1005(self):
         self.ensure_one()
         for estabelecimento in self.estabelecimento_ids:
-            if not estabelecimento.sped_S1005_registro:
+            if not estabelecimento.sped_s1005_registro:
 
                 # Criar registro
                 values = {
@@ -228,14 +228,14 @@ class SpedEsocial(models.Model):
                     'evento': 'evtTabEstab',
                     'origem': ('sped.esocial.estabelecimento,%s' % estabelecimento.id),
                 }
-                sped_S1005_registro = self.env['sped.transmissao'].create(values)
-                estabelecimento.sped_S1005_registro = sped_S1005_registro
+                sped_s1005_registro = self.env['sped.transmissao'].create(values)
+                estabelecimento.sped_s1005_registro = sped_s1005_registro
 
     @api.multi
-    def criar_S1010(self):
+    def criar_s1010(self):
         self.ensure_one()
         for rubrica in self.rubrica_ids:
-            if not rubrica.sped_S1010_registro:
+            if not rubrica.sped_s1010_registro:
 
                 # Criar registro
                 values = {
@@ -246,14 +246,14 @@ class SpedEsocial(models.Model):
                     'evento': 'evtTabRubrica',
                     'origem': ('sped.esocial.rubrica,%s' % rubrica.id),
                 }
-                sped_S1010_registro = self.env['sped.transmissao'].create(values)
-                rubrica.sped_S1010_registro = sped_S1010_registro
+                sped_s1010_registro = self.env['sped.transmissao'].create(values)
+                rubrica.sped_s1010_registro = sped_s1010_registro
 
     @api.multi
-    def criar_S1020(self):
+    def criar_s1020(self):
         self.ensure_one()
         for lotacao in self.lotacao_ids:
-            if not lotacao.sped_S1020_registro:
+            if not lotacao.sped_s1020_registro:
 
                 # Criar registro
                 values = {
@@ -264,14 +264,14 @@ class SpedEsocial(models.Model):
                     'evento': 'evtTabLotacao',
                     'origem': ('sped.esocial.lotacao,%s' % lotacao.id),
                 }
-                sped_S1020_registro = self.env['sped.transmissao'].create(values)
-                lotacao.sped_S1020_registro = sped_S1020_registro
+                sped_s1020_registro = self.env['sped.transmissao'].create(values)
+                lotacao.sped_s1020_registro = sped_s1020_registro
 
     @api.multi
-    def criar_S1030(self):
+    def criar_s1030(self):
         self.ensure_one()
         for cargo in self.cargo_ids:
-            if not cargo.sped_S1030_registro:
+            if not cargo.sped_s1030_registro:
 
                 # Criar registro
                 values = {

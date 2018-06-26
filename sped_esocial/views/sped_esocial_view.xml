@@ -43,12 +43,12 @@
                             </group>
                         </group>
                         <notebook>
-                            <page name="S1005" string="S-1005">
+                            <page name="s1005" string="S-1005">
                                 <group colspan="4" col="4">
                                     <group colspan="2" col="1">
                                         <div class="oe_title">
                                             <button name="importar_estabelecimentos" type="object" string="Calcular" />
-                                            <button name="criar_S1005" type="object" string="Criar S-1005(s)" class="oe_highlight"
+                                            <button name="criar_s1005" type="object" string="Criar S-1005(s)" class="oe_highlight"
                                                     attrs="{'invisible': [('estabelecimento_ids', '=', False)]}" />
                                         </div>
                                     </group>
@@ -56,19 +56,19 @@
                                         <tree>
                                             <field name="nome" invisible="0" />
                                             <field name="estabelecimento_id" />
-                                            <field name="requer_S1005" />
-                                            <field name="sped_S1005" invisible="1" />
-                                            <field name="sped_S1005_registro" invisible="1" />
-                                            <field name="situacao_S1005" />
+                                            <field name="requer_s1005" />
+                                            <field name="sped_s1005" invisible="1" />
+                                            <field name="sped_s1005_registro" invisible="1" />
+                                            <field name="situacao_s1005" />
                                         </tree>
                                         <form>
                                             <sheet>
                                                 <group colspan="4" col="4">
                                                     <group colspan="2" col="2">
                                                         <field name="estabelecimento_id" readonly="1" />
-                                                        <field name="requer_S1005" invisible="0" />
-                                                        <field name="sped_S1005" invisible="0" />
-                                                        <field name="sped_S1005_registro" attrs="{'invisible': [('sped_S1005', '=', False)]}" />
+                                                        <field name="requer_s1005" invisible="0" />
+                                                        <field name="sped_s1005" invisible="0" />
+                                                        <field name="sped_s1005_registro" attrs="{'invisible': [('sped_s1005', '=', False)]}" />
                                                     </group>
                                                 </group>
                                             </sheet>
@@ -76,12 +76,12 @@
                                     </field>
                                 </group>
                             </page>
-                            <page name="S1010" string="S-1010">
+                            <page name="s1010" string="S-1010">
                                 <group colspan="4" col="4">
                                     <group colspan="2" col="1">
                                         <div class="oe_title">
                                             <button name="importar_rubricas" type="object" string="Calcular" />
-                                            <button name="criar_S1010" type="object" string="Criar S-1010(s)" class="oe_highlight"
+                                            <button name="criar_s1010" type="object" string="Criar S-1010(s)" class="oe_highlight"
                                                     attrs="{'invisible': [('rubrica_ids', '=', False)]}" />
                                         </div>
                                     </group>
@@ -89,19 +89,19 @@
                                         <tree>
                                             <field name="nome" invisible="0" />
                                             <field name="rubrica_id" />
-                                            <field name="requer_S1010" />
-                                            <field name="sped_S1010" invisible="1" />
-                                            <field name="sped_S1010_registro" invisible="1" />
-                                            <field name="situacao_S1010" />
+                                            <field name="requer_s1010" />
+                                            <field name="sped_s1010" invisible="1" />
+                                            <field name="sped_s1010_registro" invisible="1" />
+                                            <field name="situacao_s1010" />
                                         </tree>
                                         <form>
                                             <sheet>
                                                 <group colspan="4" col="4">
                                                     <group colspan="2" col="2">
                                                         <field name="rubrica_id" readonly="1" />
-                                                        <field name="requer_S1010" invisible="0" />
-                                                        <field name="sped_S1010" invisible="0" />
-                                                        <field name="sped_S1010_registro" attrs="{'invisible': [('sped_S1010', '=', False)]}" />
+                                                        <field name="requer_s1010" invisible="0" />
+                                                        <field name="sped_s1010" invisible="0" />
+                                                        <field name="sped_s1010_registro" attrs="{'invisible': [('sped_s1010', '=', False)]}" />
                                                     </group>
                                                 </group>
                                             </sheet>
@@ -109,12 +109,12 @@
                                     </field>
                                 </group>
                             </page>
-                            <page name="S1020" string="S-1020">
+                            <page name="s1020" string="S-1020">
                                 <group colspan="4" col="4">
                                     <group colspan="2" col="1">
                                         <div class="oe_title">
                                             <button name="importar_lotacoes" type="object" string="Calcular" />
-                                            <button name="criar_S1020" type="object" string="Criar S-1020(s)" class="oe_highlight"
+                                            <button name="criar_s1020" type="object" string="Criar S-1020(s)" class="oe_highlight"
                                                     attrs="{'invisible': [('lotacao_ids', '=', False)]}" />
                                         </div>
                                     </group>
@@ -122,19 +122,19 @@
                                         <tree>
                                             <field name="nome" invisible="0" />
                                             <field name="lotacao_id" />
-                                            <field name="requer_S1020" />
-                                            <field name="sped_S1020" invisible="1" />
-                                            <field name="sped_S1020_registro" invisible="1" />
-                                            <field name="situacao_S1020" />
+                                            <field name="requer_s1020" />
+                                            <field name="sped_s1020" invisible="1" />
+                                            <field name="sped_s1020_registro" invisible="1" />
+                                            <field name="situacao_s1020" />
                                         </tree>
                                         <form>
                                             <sheet>
                                                 <group colspan="4" col="4">
                                                     <group colspan="2" col="2">
                                                         <field name="lotacao_id" readonly="1" />
-                                                        <field name="requer_S1020" invisible="0" />
-                                                        <field name="sped_S1020" invisible="0" />
-                                                        <field name="sped_S1020_registro" attrs="{'invisible': [('sped_S1020', '=', False)]}" />
+                                                        <field name="requer_s1020" invisible="0" />
+                                                        <field name="sped_s1020" invisible="0" />
+                                                        <field name="sped_s1020_registro" attrs="{'invisible': [('sped_s1020', '=', False)]}" />
                                                     </group>
                                                 </group>
                                             </sheet>
@@ -142,12 +142,12 @@
                                     </field>
                                 </group>
                             </page>
-                            <page name="S1030" string="S-1030">
+                            <page name="s1030" string="S-1030">
                                 <group colspan="4" col="4">
                                     <group colspan="2" col="1">
                                         <div class="oe_title">
                                             <button name="importar_cargos" type="object" string="Calcular" />
-                                            <button name="criar_S1030" type="object" string="Criar S-1030(s)" class="oe_highlight"
+                                            <button name="criar_s1030" type="object" string="Criar S-1030(s)" class="oe_highlight"
                                                     attrs="{'invisible': [('cargo_ids', '=', False)]}" />
                                         </div>
                                     </group>
@@ -155,19 +155,19 @@
                                         <tree>
                                             <field name="nome" invisible="0" />
                                             <field name="cargo_id" />
-                                            <field name="requer_S1030" />
-                                            <field name="sped_S1030" invisible="1" />
-                                            <field name="sped_S1030_registro" invisible="1" />
-                                            <field name="situacao_S1030" />
+                                            <field name="requer_s1030" />
+                                            <field name="sped_s1030" invisible="1" />
+                                            <field name="sped_s1030_registro" invisible="1" />
+                                            <field name="situacao_s1030" />
                                         </tree>
                                         <form>
                                             <sheet>
                                                 <group colspan="4" col="4">
                                                     <group colspan="2" col="2">
                                                         <field name="cargo_id" readonly="1" />
-                                                        <field name="requer_S1030" invisible="0" />
-                                                        <field name="sped_S1030" invisible="0" />
-                                                        <field name="sped_S1030_registro" attrs="{'invisible': [('sped_S1030', '=', False)]}" />
+                                                        <field name="requer_s1030" invisible="0" />
+                                                        <field name="sped_s1030" invisible="0" />
+                                                        <field name="sped_s1030_registro" attrs="{'invisible': [('sped_s1030', '=', False)]}" />
                                                     </group>
                                                 </group>
                                             </sheet>

@@ -28,20 +28,20 @@ class SpedEsocialRubrica(models.Model):
     )
 
     # S-1010 (Necessidade e Execução)
-    requer_S1010 = fields.Boolean(
-        string='Requer S1010 neste Período',
-        compute='_compute_requer_S1010',
+    requer_s1010 = fields.Boolean(
+        string='Requer S-1010 neste Período',
+        compute='_compute_requer_s1010',
         store=True,
     )
-    sped_S1010 = fields.Boolean(
+    sped_s1010 = fields.Boolean(
         string='Registro de Rubrica',
-        compute='_compute_sped_S1010',
+        compute='_compute_sped_s1010',
     )
-    sped_S1010_registro = fields.Many2one(
+    sped_s1010_registro = fields.Many2one(
         string='Registro S-1010',
         comodel_name='sped.transmissao',
     )
-    situacao_S1010 = fields.Selection(
+    situacao_s1010 = fields.Selection(
         string='Situação S-1010',
         selection=[
             ('1', 'Pendente'),
@@ -50,18 +50,18 @@ class SpedEsocialRubrica(models.Model):
             ('4', 'Sucesso'),
             ('5', 'Precisa Retificar'),
         ],
-        related='sped_S1010_registro.situacao',
+        related='sped_s1010_registro.situacao',
         readonly=True,
     )
 
     @api.depends('rubrica_id')
-    def _compute_requer_S1010(self):
+    def _compute_requer_s1010(self):
         for rubrica in self:
-            requer_S1010 = False
-            if not rubrica.sped_S1010 or \
-                    rubrica.write_date > rubrica.sped_S1010_registro.data_hora_transmissao:
-                requer_S1010 = True
-            rubrica.requer_S1010 = requer_S1010
+            requer_s1010 = False
+            if not rubrica.sped_s1010 or \
+                    rubrica.write_date > rubrica.sped_s1010_registro.data_hora_transmissao:
+                requer_s1010 = True
+            rubrica.requer_s1010 = requer_s1010
 
     @api.depends('rubrica_id', 'esocial_id')
     def _compute_nome(self):
@@ -73,7 +73,7 @@ class SpedEsocialRubrica(models.Model):
                 nome += ' (' + rubrica.esocial_id.periodo_id.name + ')'
             rubrica.nome = nome
 
-    @api.depends('sped_S1010_registro')
-    def _compute_sped_S1010(self):
+    @api.depends('sped_s1010_registro')
+    def _compute_sped_s1010(self):
         for rubrica in self:
-            rubrica.sped_S1010 = True if rubrica.sped_S1010_registro else False
+            rubrica.sped_s1010 = True if rubrica.sped_s1010_registro else False

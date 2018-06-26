@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_hr_contract">
+            <field name="name">Adiciona e-Social no Contrato</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="l10n_br_hr_payroll.hr_contract_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='Alterações Contratuais']" position="after">
+                    <page name="esocial" string="e-Social">
+                        <group colspan="4" col="4">
+                            <group colspan="2" col="2">
+                                <field name="sped_s2200" />
+                                <field name="sped_s2200_registro" />
+                                <field name="sped_s2200_situacao" />
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="sped_s2200_data_hora" />
+                                <button name="criar_s2200" colspan="4" type="object"
+                                        string="Enviar S-2200 - Cadastro de Vínculo"
+                                        attrs="{'invisible': [('sped_s2200_registro', '!=', False)]}" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="sped_hr_employee">
+            <field name="name">Adiciona campos de Pais de Nascimento e Nacionalidade</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="l10n_br_hr.view_l10n_br_hr_employee_form" />
+            <field name="arch" type="xml">
+                <field name="place_of_birth" position="attributes">
+                    <attribute name="string">Naturalidade (antiga)</attribute>
+                    <attribute name="required">0</attribute>
+                    <attribute name="invisible">0</attribute>
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="place_of_birth" position="before">
+                    <field name="pais_nascto_id" options="{'no_create': True, 'no_edit': True}" required="1" />
+                    <field name="pais_nac_id" options="{'no_create': True, 'no_edit': True}" required="1" />
+                </field>
+                <field name="driver_categ" position="after">
+                    <field name="cnh_dt_exped" />
+                    <field name="cnh_dt_pri_hab" />
+                    <field name="cnh_uf" domain="[('country_id','=',country_id)]" attrs="{'required': [('driver_license', '!=', False)]}" />
+                </field>
+                <field name="address_home_id" position="before">
+                    <field name="tp_lograd" required="1" />
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

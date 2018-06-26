@@ -28,20 +28,20 @@ class SpedEsocialEstabelecimento(models.Model):
     )
 
     # S-1005 (Necessidade e Execução)
-    requer_S1005 = fields.Boolean(
-        string='Requer S1005 neste Período',
-        compute='_compute_requer_S1005',
+    requer_s1005 = fields.Boolean(
+        string='Requer S-1005 neste Período',
+        compute='_compute_requer_s1005',
         store=True,
     )
-    sped_S1005 = fields.Boolean(
+    sped_s1005 = fields.Boolean(
         string='Registro de Estabelecimento',
-        compute='_compute_sped_S1005',
+        compute='_compute_sped_s1005',
     )
-    sped_S1005_registro = fields.Many2one(
+    sped_s1005_registro = fields.Many2one(
         string='Registro S-1005',
         comodel_name='sped.transmissao',
     )
-    situacao_S1005 = fields.Selection(
+    situacao_s1005 = fields.Selection(
         string='Situação S-1005',
         selection=[
             ('1', 'Pendente'),
@@ -50,18 +50,18 @@ class SpedEsocialEstabelecimento(models.Model):
             ('4', 'Sucesso'),
             ('5', 'Precisa Retificar'),
         ],
-        related='sped_S1005_registro.situacao',
+        related='sped_s1005_registro.situacao',
         readonly=True,
     )
 
     @api.depends('estabelecimento_id')
-    def _compute_requer_S1005(self):
+    def _compute_requer_s1005(self):
         for estabelecimento in self:
-            requer_S1005 = False
-            if not estabelecimento.sped_S1005 or \
-                    estabelecimento.write_date > estabelecimento.sped_S1005_registro.data_hora_transmissao:
-                requer_S1005 = True
-            estabelecimento.requer_S1005 = requer_S1005
+            requer_s1005 = False
+            if not estabelecimento.sped_s1005 or \
+                    estabelecimento.write_date > estabelecimento.sped_s1005_registro.data_hora_transmissao:
+                requer_s1005 = True
+            estabelecimento.requer_s1005 = requer_s1005
 
     @api.depends('estabelecimento_id', 'esocial_id')
     def _compute_nome(self):
@@ -73,8 +73,7 @@ class SpedEsocialEstabelecimento(models.Model):
                 nome += ' (' + estabelecimento.esocial_id.periodo_id.name + ')'
             estabelecimento.nome = nome
 
-    @api.depends('sped_S1005_registro')
-    def _compute_sped_S1005(self):
+    @api.depends('sped_s1005_registro')
+    def _compute_sped_s1005(self):
         for estabelecimento in self:
-            estabelecimento.sped_S1005 = True if estabelecimento.sped_S1005_registro else False
-
+            estabelecimento.sped_s1005 = True if estabelecimento.sped_s1005_registro else False

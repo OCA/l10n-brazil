@@ -11,22 +11,19 @@
                     <page name="esocial" string="e-Social">
                         <group colspan="4" col="4">
                             <group colspan="2" col="2">
-                                <field name="sped_S2200" />
-                                <field name="sped_S2200_registro" />
-                                <field name="sped_S2200_situacao" />
+                                <field name="sped_s2200" />
+                                <field name="sped_s2200_registro" />
+                                <field name="sped_s2200_situacao" />
                             </group>
                             <group colspan="2" col="2">
-                                <field name="sped_S2200_data_hora" />
-                                <button name="criar_S2200" colspan="4" type="object"
+                                <field name="sped_s2200_data_hora" />
+                                <button name="criar_s2200" colspan="4" type="object"
                                         string="Enviar S-2200 - Cadastro de Vínculo"
-                                        attrs="{'invisible': [('sped_S2200_registro', '!=', False)]}" />
+                                        attrs="{'invisible': [('sped_s2200_registro', '!=', False)]}" />
                             </group>
                         </group>
                     </page>
                 </xpath>
-                <field name="ethnicity" position="attributes">
-                    <attribute option="{'no_create': True, 'no_open': True}" />
-                </field>
             </field>
         </record>
 
