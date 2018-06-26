@@ -8,229 +8,1845 @@
 <openerp>
     <data>
 
-    <record id="tab13_753030000" model="sped.parte_corpo">
-        <field name="codigo">753030000</field>
-        <field name="nome">Crânio (inclusive encéfalo)</field>
+    <record id="tab06_008" model="sped.pais">
+        <field name="codigo">008</field>
+        <field name="nome">Abu Dhabi</field>
+        <field name="data_criacao" />
+        <field name="data_extincao">1996-12-13</field>
     </record>
 
-    <record id="tab13_753050000" model="sped.parte_corpo">
-        <field name="codigo">753050000</field>
-        <field name="nome">Ouvido (externo, médio, interno, audição e equilíbrio)</field>
+    <record id="tab06_009" model="sped.pais">
+        <field name="codigo">009</field>
+        <field name="nome">Dirce</field>
+        <field name="data_criacao" />
+        <field name="data_extincao">1996-12-13</field>
     </record>
 
-    <record id="tab13_753070100" model="sped.parte_corpo">
-        <field name="codigo">753070100</field>
-        <field name="nome">Olho (inclusive nervo ótico e visão)</field>
+    <record id="tab06_013" model="sped.pais">
+        <field name="codigo">013</field>
+        <field name="nome">Afeganistão</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_753070300" model="sped.parte_corpo">
-        <field name="codigo">753070300</field>
-        <field name="nome">Nariz (inclusive fossas nasais, seios da face e olfato)</field>
+    <record id="tab06_017" model="sped.pais">
+        <field name="codigo">017</field>
+        <field name="nome">Albânia, República Da</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_753070500" model="sped.parte_corpo">
-        <field name="codigo">753070500</field>
-        <field name="nome">Boca (inclusive lábios, dentes, língua, garganta e paladar)</field>
+    <record id="tab06_020" model="sped.pais">
+        <field name="codigo">020</field>
+        <field name="nome">Alboran-Perejil, Ilhas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao">1996-12-13</field>
     </record>
 
-    <record id="tab13_753070700" model="sped.parte_corpo">
-        <field name="codigo">753070700</field>
-        <field name="nome">Mandíbula (inclusive queixo)</field>
+    <record id="tab06_023" model="sped.pais">
+        <field name="codigo">023</field>
+        <field name="nome">Alemanha</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_753070800" model="sped.parte_corpo">
-        <field name="codigo">753070800</field>
-        <field name="nome">Face, partes múltiplas (qualquer combinação das partes acima)</field>
+    <record id="tab06_025" model="sped.pais">
+        <field name="codigo">025</field>
+        <field name="nome">Alemanha, República Democrática</field>
+        <field name="data_criacao" />
+        <field name="data_extincao">1996-12-13</field>
     </record>
 
-    <record id="tab13_753080000" model="sped.parte_corpo">
-        <field name="codigo">753080000</field>
-        <field name="nome">Cabeça, partes múltiplas (qualquer combinação das partes acima)</field>
+    <record id="tab06_031" model="sped.pais">
+        <field name="codigo">031</field>
+        <field name="nome">Burkina Faso</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_753090000" model="sped.parte_corpo">
-        <field name="codigo">753090000</field>
-        <field name="nome">Cabeça, NIC</field>
+    <record id="tab06_037" model="sped.pais">
+        <field name="codigo">037</field>
+        <field name="nome">Andorra</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_753510000" model="sped.parte_corpo">
-        <field name="codigo">753510000</field>
-        <field name="nome">Braço (entre o punho a o ombro)</field>
+    <record id="tab06_040" model="sped.pais">
+        <field name="codigo">040</field>
+        <field name="nome">Angola</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_753510200" model="sped.parte_corpo">
-        <field name="codigo">753510200</field>
-        <field name="nome">Braço (acima do cotovelo)</field>
+    <record id="tab06_041" model="sped.pais">
+        <field name="codigo">041</field>
+        <field name="nome">Anguilla</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_754000000" model="sped.parte_corpo">
-        <field name="codigo">754000000</field>
-        <field name="nome">Pescoço</field>
+    <record id="tab06_043" model="sped.pais">
+        <field name="codigo">043</field>
+        <field name="nome">Antigua E Barbuda</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_755010400" model="sped.parte_corpo">
-        <field name="codigo">755010400</field>
-        <field name="nome">Cotovelo</field>
+    <record id="tab06_047" model="sped.pais">
+        <field name="codigo">047</field>
+        <field name="nome">Antilhas Holandesas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_755010600" model="sped.parte_corpo">
-        <field name="codigo">755010600</field>
-        <field name="nome">Antebraço (entre o punho e o cotovelo)</field>
+    <record id="tab06_053" model="sped.pais">
+        <field name="codigo">053</field>
+        <field name="nome">Arabia Saudita</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_755030000" model="sped.parte_corpo">
-        <field name="codigo">755030000</field>
-        <field name="nome">Punho</field>
+    <record id="tab06_059" model="sped.pais">
+        <field name="codigo">059</field>
+        <field name="nome">Argélia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_755050000" model="sped.parte_corpo">
-        <field name="codigo">755050000</field>
-        <field name="nome">Mão (exceto punho ou dedos)</field>
+    <record id="tab06_063" model="sped.pais">
+        <field name="codigo">063</field>
+        <field name="nome">Argentina</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_755070000" model="sped.parte_corpo">
-        <field name="codigo">755070000</field>
-        <field name="nome">Dedo</field>
+    <record id="tab06_064" model="sped.pais">
+        <field name="codigo">064</field>
+        <field name="nome">Armenia, República Da</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_755080000" model="sped.parte_corpo">
-        <field name="codigo">755080000</field>
-        <field name="nome">Membros superiores, partes múltiplas (qualquer combinação das partes acima)</field>
+    <record id="tab06_065" model="sped.pais">
+        <field name="codigo">065</field>
+        <field name="nome">Aruba</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_755090000" model="sped.parte_corpo">
-        <field name="codigo">755090000</field>
-        <field name="nome">Membros superiores, NIC</field>
+    <record id="tab06_069" model="sped.pais">
+        <field name="codigo">069</field>
+        <field name="nome">Austrália</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_756020000" model="sped.parte_corpo">
-        <field name="codigo">756020000</field>
-        <field name="nome">Ombro</field>
+    <record id="tab06_072" model="sped.pais">
+        <field name="codigo">072</field>
+        <field name="nome">Austria</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_756030000" model="sped.parte_corpo">
-        <field name="codigo">756030000</field>
-        <field name="nome">Tórax (inclusive órgãos internos)</field>
+    <record id="tab06_073" model="sped.pais">
+        <field name="codigo">073</field>
+        <field name="nome">Azerbaijao, República Do</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_756040000" model="sped.parte_corpo">
-        <field name="codigo">756040000</field>
-        <field name="nome">Dorso (inclusive músculos dorsais, coluna e medula espinhal)</field>
+    <record id="tab06_077" model="sped.pais">
+        <field name="codigo">077</field>
+        <field name="nome">Bahamas, Ilhas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_756050000" model="sped.parte_corpo">
-        <field name="codigo">756050000</field>
-        <field name="nome">Abdome (inclusive órgãos internos)</field>
+    <record id="tab06_080" model="sped.pais">
+        <field name="codigo">080</field>
+        <field name="nome">Bahrein, Ilhas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_756060000" model="sped.parte_corpo">
-        <field name="codigo">756060000</field>
-        <field name="nome">Quadris (inclusive pélvis, órgãos pélvicos e nádegas)</field>
+    <record id="tab06_081" model="sped.pais">
+        <field name="codigo">081</field>
+        <field name="nome">Bangladesh</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_756070000" model="sped.parte_corpo">
-        <field name="codigo">756070000</field>
-        <field name="nome">Tronco, partes múltiplas (qualquer combinação das partes acima)</field>
+    <record id="tab06_083" model="sped.pais">
+        <field name="codigo">083</field>
+        <field name="nome">Barbados</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_756090000" model="sped.parte_corpo">
-        <field name="codigo">756090000</field>
-        <field name="nome">Tronco, NIC</field>
+    <record id="tab06_085" model="sped.pais">
+        <field name="codigo">085</field>
+        <field name="nome">Belarus, República Da</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_757010000" model="sped.parte_corpo">
-        <field name="codigo">757010000</field>
-        <field name="nome">Perna (entre o tornozelo e a pélvis)</field>
+    <record id="tab06_087" model="sped.pais">
+        <field name="codigo">087</field>
+        <field name="nome">Bélgica</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_757010200" model="sped.parte_corpo">
-        <field name="codigo">757010200</field>
-        <field name="nome">Coxa</field>
+    <record id="tab06_088" model="sped.pais">
+        <field name="codigo">088</field>
+        <field name="nome">Belize</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_757010400" model="sped.parte_corpo">
-        <field name="codigo">757010400</field>
-        <field name="nome">Joelho</field>
+    <record id="tab06_090" model="sped.pais">
+        <field name="codigo">090</field>
+        <field name="nome">Bermudas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_757010600" model="sped.parte_corpo">
-        <field name="codigo">757010600</field>
-        <field name="nome">Perna (do tornozelo, exclusive, ao joelho, exclusive)</field>
+    <record id="tab06_093" model="sped.pais">
+        <field name="codigo">093</field>
+        <field name="nome">Mianmar (BIRMANIA)</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_757030000" model="sped.parte_corpo">
-        <field name="codigo">757030000</field>
-        <field name="nome">Articulação do tornozelo</field>
+    <record id="tab06_097" model="sped.pais">
+        <field name="codigo">097</field>
+        <field name="nome">Bolivia, Estado Plurinacional Da</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_757050000" model="sped.parte_corpo">
-        <field name="codigo">757050000</field>
-        <field name="nome">Pé (exceto artelhos)</field>
+    <record id="tab06_098" model="sped.pais">
+        <field name="codigo">098</field>
+        <field name="nome">Bosnia-Herzegovina (República Da)</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_757070000" model="sped.parte_corpo">
-        <field name="codigo">757070000</field>
-        <field name="nome">Artelho</field>
+    <record id="tab06_100" model="sped.pais">
+        <field name="codigo">100</field>
+        <field name="nome">Int.Z.F.Manaus</field>
+        <field name="data_criacao">1992-12-01</field>
+        <field name="data_extincao">1996-12-13</field>
     </record>
 
-    <record id="tab13_757080000" model="sped.parte_corpo">
-        <field name="codigo">757080000</field>
-        <field name="nome">Membros inferiores, partes múltiplas (qualquer combinação das partes acima)</field>
+    <record id="tab06_101" model="sped.pais">
+        <field name="codigo">101</field>
+        <field name="nome">Botsuana</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
     </record>
 
-    <record id="tab13_757090000" model="sped.parte_corpo">
-        <field name="codigo">757090000</field>
-        <field name="nome">Membros inferiores, NIC</field>
+    <record id="tab06_105" model="sped.pais">
+        <field name="codigo">105</field>
+        <field name="nome">Brasil</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
     </record>
 
-    <record id="tab13_758000000" model="sped.parte_corpo">
-        <field name="codigo">758000000</field>
-        <field name="nome">Partes múltiplas. Aplica-se quando mais de uma parte importante do corpo for afetada, como por exemplo, um braço e uma perna</field>
+    <record id="tab06_106" model="sped.pais">
+        <field name="codigo">106</field>
+        <field name="nome">Fretado P/Brasil</field>
+        <field name="data_criacao">1992-12-01</field>
+        <field name="data_extincao">1996-11-14</field>
     </record>
 
-    <record id="tab13_758500000" model="sped.parte_corpo">
-        <field name="codigo">758500000</field>
-        <field name="nome">Sistemas e aparelhos. Aplica-se quando o funcionamento de todo um sistema ou aparelho do corpo humano for afetado, sem lesão específica de qualquer outra parte, como no caso do envenenamento, ação corrosiva que afete órgãos internos, lesão dos centros nervosos, etc. não se aplica quando a lesão sistêmica for provocada por lesão externa, como lesão dorsal que afete nervos da medula espinhal.</field>
+    <record id="tab06_108" model="sped.pais">
+        <field name="codigo">108</field>
+        <field name="nome">Brunei</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_758520000" model="sped.parte_corpo">
-        <field name="codigo">758520000</field>
-        <field name="nome">Aparelho circulatório</field>
+    <record id="tab06_111" model="sped.pais">
+        <field name="codigo">111</field>
+        <field name="nome">Bulgaria, República Da</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_758530000" model="sped.parte_corpo">
-        <field name="codigo">758530000</field>
-        <field name="nome">Aparelho respiratório</field>
+    <record id="tab06_115" model="sped.pais">
+        <field name="codigo">115</field>
+        <field name="nome">Burundi</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_758540000" model="sped.parte_corpo">
-        <field name="codigo">758540000</field>
-        <field name="nome">Sistema nervoso</field>
+    <record id="tab06_119" model="sped.pais">
+        <field name="codigo">119</field>
+        <field name="nome">Butão</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_758550000" model="sped.parte_corpo">
-        <field name="codigo">758550000</field>
-        <field name="nome">Aparelho digestivo</field>
+    <record id="tab06_127" model="sped.pais">
+        <field name="codigo">127</field>
+        <field name="nome">Cabo Verde, República De</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_758560000" model="sped.parte_corpo">
-        <field name="codigo">758560000</field>
-        <field name="nome">Aparelho gênito-urinário</field>
+    <record id="tab06_131" model="sped.pais">
+        <field name="codigo">131</field>
+        <field name="nome">Cachemira</field>
+        <field name="data_criacao" />
+        <field name="data_extincao">1992-12-31</field>
     </record>
 
-    <record id="tab13_758570000" model="sped.parte_corpo">
-        <field name="codigo">758570000</field>
-        <field name="nome">Sistema musculoesquelético</field>
+    <record id="tab06_137" model="sped.pais">
+        <field name="codigo">137</field>
+        <field name="nome">Cayman, Ilhas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao">1992-12-31</field>
     </record>
 
-    <record id="tab13_758590000" model="sped.parte_corpo">
-        <field name="codigo">758590000</field>
-        <field name="nome">Sistemas e aparelhos, NIC</field>
+    <record id="tab06_141" model="sped.pais">
+        <field name="codigo">141</field>
+        <field name="nome">Camboja</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
     </record>
 
-    <record id="tab13_759000000" model="sped.parte_corpo">
-        <field name="codigo">759000000</field>
-        <field name="nome">Localização da lesão, NIC</field>
+    <record id="tab06_145" model="sped.pais">
+        <field name="codigo">145</field>
+        <field name="nome">Camarões</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_149" model="sped.pais">
+        <field name="codigo">149</field>
+        <field name="nome">Canada</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_150" model="sped.pais">
+        <field name="codigo">150</field>
+        <field name="nome">Jersey, Ilha Do Canal</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_151" model="sped.pais">
+        <field name="codigo">151</field>
+        <field name="nome">Canairas, Ilhas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_152" model="sped.pais">
+        <field name="codigo">152</field>
+        <field name="nome">Canal, Ilhas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao">1996-12-13</field>
+    </record>
+
+    <record id="tab06_153" model="sped.pais">
+        <field name="codigo">153</field>
+        <field name="nome">Cazaquistão, República Do</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_154" model="sped.pais">
+        <field name="codigo">154</field>
+        <field name="nome">Catar</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_158" model="sped.pais">
+        <field name="codigo">158</field>
+        <field name="nome">Chile</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_160" model="sped.pais">
+        <field name="codigo">160</field>
+        <field name="nome">China, República Popular</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_161" model="sped.pais">
+        <field name="codigo">161</field>
+        <field name="nome">Formosa (TAIWAN)</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_163" model="sped.pais">
+        <field name="codigo">163</field>
+        <field name="nome">Chipre</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_165" model="sped.pais">
+        <field name="codigo">165</field>
+        <field name="nome">Cocos(Keeling), Ilhas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_169" model="sped.pais">
+        <field name="codigo">169</field>
+        <field name="nome">Colombia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_173" model="sped.pais">
+        <field name="codigo">173</field>
+        <field name="nome">Comores, Ilhas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_177" model="sped.pais">
+        <field name="codigo">177</field>
+        <field name="nome">Congo</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_183" model="sped.pais">
+        <field name="codigo">183</field>
+        <field name="nome">Cook, Ilhas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_187" model="sped.pais">
+        <field name="codigo">187</field>
+        <field name="nome">Coreia (DO Norte), Rep.Pop.Democrática</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_190" model="sped.pais">
+        <field name="codigo">190</field>
+        <field name="nome">Coreia (DO Sul), República Da</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_193" model="sped.pais">
+        <field name="codigo">193</field>
+        <field name="nome">Costa do Marfim</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_195" model="sped.pais">
+        <field name="codigo">195</field>
+        <field name="nome">Croácia (REPÚBLICA Da)</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_196" model="sped.pais">
+        <field name="codigo">196</field>
+        <field name="nome">Costa Rica</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_198" model="sped.pais">
+        <field name="codigo">198</field>
+        <field name="nome">Coveite</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_199" model="sped.pais">
+        <field name="codigo">199</field>
+        <field name="nome">Cuba</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_229" model="sped.pais">
+        <field name="codigo">229</field>
+        <field name="nome">Benin</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_232" model="sped.pais">
+        <field name="codigo">232</field>
+        <field name="nome">Dinamarca</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_235" model="sped.pais">
+        <field name="codigo">235</field>
+        <field name="nome">Dominica, Ilha</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_237" model="sped.pais">
+        <field name="codigo">237</field>
+        <field name="nome">Dubai</field>
+        <field name="data_criacao" />
+        <field name="data_extincao">1996-12-13</field>
+    </record>
+
+    <record id="tab06_239" model="sped.pais">
+        <field name="codigo">239</field>
+        <field name="nome">Equador</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_240" model="sped.pais">
+        <field name="codigo">240</field>
+        <field name="nome">Egito</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_243" model="sped.pais">
+        <field name="codigo">243</field>
+        <field name="nome">Eritreia</field>
+        <field name="data_criacao">2006-07-17</field>
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_244" model="sped.pais">
+        <field name="codigo">244</field>
+        <field name="nome">Emirados Árabes Unidos</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_245" model="sped.pais">
+        <field name="codigo">245</field>
+        <field name="nome">Espanha</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_246" model="sped.pais">
+        <field name="codigo">246</field>
+        <field name="nome">Eslovenia, República Da</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_247" model="sped.pais">
+        <field name="codigo">247</field>
+        <field name="nome">Eslovaca, República</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_249" model="sped.pais">
+        <field name="codigo">249</field>
+        <field name="nome">Estados Unidos</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_251" model="sped.pais">
+        <field name="codigo">251</field>
+        <field name="nome">Estonia, República Da</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_253" model="sped.pais">
+        <field name="codigo">253</field>
+        <field name="nome">Etiópia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_255" model="sped.pais">
+        <field name="codigo">255</field>
+        <field name="nome">Falkland (ILHAS Malvinas)</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_259" model="sped.pais">
+        <field name="codigo">259</field>
+        <field name="nome">Feroe, Ilhas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_263" model="sped.pais">
+        <field name="codigo">263</field>
+        <field name="nome">Fezzan</field>
+        <field name="data_criacao" />
+        <field name="data_extincao">1996-12-31</field>
+    </record>
+
+    <record id="tab06_267" model="sped.pais">
+        <field name="codigo">267</field>
+        <field name="nome">Filipinas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_271" model="sped.pais">
+        <field name="codigo">271</field>
+        <field name="nome">Finlandia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_275" model="sped.pais">
+        <field name="codigo">275</field>
+        <field name="nome">França</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_281" model="sped.pais">
+        <field name="codigo">281</field>
+        <field name="nome">Gabão</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_285" model="sped.pais">
+        <field name="codigo">285</field>
+        <field name="nome">Gambia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_289" model="sped.pais">
+        <field name="codigo">289</field>
+        <field name="nome">Gana</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_291" model="sped.pais">
+        <field name="codigo">291</field>
+        <field name="nome">Georgia, República Da</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_293" model="sped.pais">
+        <field name="codigo">293</field>
+        <field name="nome">Gibraltar</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_297" model="sped.pais">
+        <field name="codigo">297</field>
+        <field name="nome">Granada</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_301" model="sped.pais">
+        <field name="codigo">301</field>
+        <field name="nome">Grecia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_305" model="sped.pais">
+        <field name="codigo">305</field>
+        <field name="nome">Groenlandia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_309" model="sped.pais">
+        <field name="codigo">309</field>
+        <field name="nome">Guadalupe</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_313" model="sped.pais">
+        <field name="codigo">313</field>
+        <field name="nome">Guam</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_317" model="sped.pais">
+        <field name="codigo">317</field>
+        <field name="nome">Guatemala</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_325" model="sped.pais">
+        <field name="codigo">325</field>
+        <field name="nome">Guiana Francesa</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_329" model="sped.pais">
+        <field name="codigo">329</field>
+        <field name="nome">Guine</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_331" model="sped.pais">
+        <field name="codigo">331</field>
+        <field name="nome">Guine-Equatorial</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_334" model="sped.pais">
+        <field name="codigo">334</field>
+        <field name="nome">Guine-Bissau</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_337" model="sped.pais">
+        <field name="codigo">337</field>
+        <field name="nome">Guiana</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_341" model="sped.pais">
+        <field name="codigo">341</field>
+        <field name="nome">Haiti</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_345" model="sped.pais">
+        <field name="codigo">345</field>
+        <field name="nome">Honduras</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_351" model="sped.pais">
+        <field name="codigo">351</field>
+        <field name="nome">Hong Kong</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_355" model="sped.pais">
+        <field name="codigo">355</field>
+        <field name="nome">Hungria, República Da</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_357" model="sped.pais">
+        <field name="codigo">357</field>
+        <field name="nome">Iemen</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_358" model="sped.pais">
+        <field name="codigo">358</field>
+        <field name="nome">Iemem Do Sul</field>
+        <field name="data_criacao" />
+        <field name="data_extincao">1996-12-13</field>
+    </record>
+
+    <record id="tab06_359" model="sped.pais">
+        <field name="codigo">359</field>
+        <field name="nome">Man, Ilha De</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_361" model="sped.pais">
+        <field name="codigo">361</field>
+        <field name="nome">India</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_365" model="sped.pais">
+        <field name="codigo">365</field>
+        <field name="nome">Indonésia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_367" model="sped.pais">
+        <field name="codigo">367</field>
+        <field name="nome">Inglaterra</field>
+        <field name="data_criacao" />
+        <field name="data_extincao">1997-03-18</field>
+    </record>
+
+    <record id="tab06_369" model="sped.pais">
+        <field name="codigo">369</field>
+        <field name="nome">Iraque</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_372" model="sped.pais">
+        <field name="codigo">372</field>
+        <field name="nome">Ira, República Islâmica Do</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_372" model="sped.pais">
+        <field name="codigo">372</field>
+        <field name="nome">Ira, República Islâmica Do</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_375" model="sped.pais">
+        <field name="codigo">375</field>
+        <field name="nome">Irlanda</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_379" model="sped.pais">
+        <field name="codigo">379</field>
+        <field name="nome">Islandia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_383" model="sped.pais">
+        <field name="codigo">383</field>
+        <field name="nome">Israel</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_386" model="sped.pais">
+        <field name="codigo">386</field>
+        <field name="nome">Italia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_388" model="sped.pais">
+        <field name="codigo">388</field>
+        <field name="nome">Servia E Montenegro</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_391" model="sped.pais">
+        <field name="codigo">391</field>
+        <field name="nome">Jamaica</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_395" model="sped.pais">
+        <field name="codigo">395</field>
+        <field name="nome">Jammu</field>
+        <field name="data_criacao" />
+        <field name="data_extincao">1996-12-13</field>
+    </record>
+
+    <record id="tab06_396" model="sped.pais">
+        <field name="codigo">396</field>
+        <field name="nome">Johnston, Ilhas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_399" model="sped.pais">
+        <field name="codigo">399</field>
+        <field name="nome">Japão</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_403" model="sped.pais">
+        <field name="codigo">403</field>
+        <field name="nome">Jordania</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_411" model="sped.pais">
+        <field name="codigo">411</field>
+        <field name="nome">Kiribati</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_420" model="sped.pais">
+        <field name="codigo">420</field>
+        <field name="nome">Laos, Rep.Pop.Democr.Do</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_423" model="sped.pais">
+        <field name="codigo">423</field>
+        <field name="nome">Lebuan, Ilhas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_426" model="sped.pais">
+        <field name="codigo">426</field>
+        <field name="nome">Lesoto</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_427" model="sped.pais">
+        <field name="codigo">427</field>
+        <field name="nome">Letonia, República Da</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_431" model="sped.pais">
+        <field name="codigo">431</field>
+        <field name="nome">Líbano</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_434" model="sped.pais">
+        <field name="codigo">434</field>
+        <field name="nome">Liberia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_438" model="sped.pais">
+        <field name="codigo">438</field>
+        <field name="nome">Libia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_440" model="sped.pais">
+        <field name="codigo">440</field>
+        <field name="nome">Liechtenstein</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_442" model="sped.pais">
+        <field name="codigo">442</field>
+        <field name="nome">Lituania, Republica Da</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_445" model="sped.pais">
+        <field name="codigo">445</field>
+        <field name="nome">Luxemburgo</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_447" model="sped.pais">
+        <field name="codigo">447</field>
+        <field name="nome">Macau</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_449" model="sped.pais">
+        <field name="codigo">449</field>
+        <field name="nome">Macedonia, Ant.Rep.Iugoslava</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_450" model="sped.pais">
+        <field name="codigo">450</field>
+        <field name="nome">Madagascar</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_452" model="sped.pais">
+        <field name="codigo">452</field>
+        <field name="nome">Ilha Da Madeira</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_455" model="sped.pais">
+        <field name="codigo">455</field>
+        <field name="nome">Malasia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_458" model="sped.pais">
+        <field name="codigo">458</field>
+        <field name="nome">Malavi</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_461" model="sped.pais">
+        <field name="codigo">461</field>
+        <field name="nome">Maldivas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_464" model="sped.pais">
+        <field name="codigo">464</field>
+        <field name="nome">Mali</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_467" model="sped.pais">
+        <field name="codigo">467</field>
+        <field name="nome">Malta</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_472" model="sped.pais">
+        <field name="codigo">472</field>
+        <field name="nome">Marianas Do Norte</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_474" model="sped.pais">
+        <field name="codigo">474</field>
+        <field name="nome">Marrocos</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_476" model="sped.pais">
+        <field name="codigo">476</field>
+        <field name="nome">Marshall, Ilhas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_477" model="sped.pais">
+        <field name="codigo">477</field>
+        <field name="nome">Martinica</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_485" model="sped.pais">
+        <field name="codigo">485</field>
+        <field name="nome">Mauricio</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_488" model="sped.pais">
+        <field name="codigo">488</field>
+        <field name="nome">Mauritania</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_490" model="sped.pais">
+        <field name="codigo">490</field>
+        <field name="nome">Midway, Ilhas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_493" model="sped.pais">
+        <field name="codigo">493</field>
+        <field name="nome">Mexico</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_494" model="sped.pais">
+        <field name="codigo">494</field>
+        <field name="nome">Moldavia, República Da</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_495" model="sped.pais">
+        <field name="codigo">495</field>
+        <field name="nome">Monaco</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_497" model="sped.pais">
+        <field name="codigo">497</field>
+        <field name="nome">Mongolia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_499" model="sped.pais">
+        <field name="codigo">499</field>
+        <field name="nome">Micronesia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_501" model="sped.pais">
+        <field name="codigo">501</field>
+        <field name="nome">Montserrat, Ilhas</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_505" model="sped.pais">
+        <field name="codigo">505</field>
+        <field name="nome">Moçambique</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_507" model="sped.pais">
+        <field name="codigo">507</field>
+        <field name="nome">Namíbia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_508" model="sped.pais">
+        <field name="codigo">508</field>
+        <field name="nome">Nauru</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_511" model="sped.pais">
+        <field name="codigo">511</field>
+        <field name="nome">Christmas, Ilha (NAVIDAD)</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_517" model="sped.pais">
+        <field name="codigo">517</field>
+        <field name="nome">Nepal</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_521" model="sped.pais">
+        <field name="codigo">521</field>
+        <field name="nome">Nicaragua</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_525" model="sped.pais">
+        <field name="codigo">525</field>
+        <field name="nome">Niger</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_528" model="sped.pais">
+        <field name="codigo">527</field>
+        <field name="nome">Nigeria</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_531" model="sped.pais">
+        <field name="codigo">531</field>
+        <field name="nome">Niue, Ilha</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_535" model="sped.pais">
+        <field name="codigo">535</field>
+        <field name="nome">Norfolk, Ilha</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_538" model="sped.pais">
+        <field name="codigo">538</field>
+        <field name="nome">Noruega</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_542" model="sped.pais">
+        <field name="codigo">542</field>
+        <field name="nome">Nova Caledonia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_545" model="sped.pais">
+        <field name="codigo">545</field>
+        <field name="nome">Papua Nova Guine</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_548" model="sped.pais">
+        <field name="codigo">548</field>
+        <field name="nome">Nova Zelandia</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_551" model="sped.pais">
+        <field name="codigo">551</field>
+        <field name="nome">Vanuatu</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_556" model="sped.pais">
+        <field name="codigo">556</field>
+        <field name="nome">Oma</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_563" model="sped.pais">
+        <field name="codigo">563</field>
+        <field name="nome">Pacífico, Ilhas Do (Administração dos EUA)</field>
+        <field name="data_criacao" />
+        <field name="data_extincao">1996-12-13</field>
+    </record>
+
+    <record id="tab06_566" model="sped.pais">
+        <field name="codigo">566</field>
+        <field name="nome">Pacífico, Ilhas Do (Possessão dos EUA)</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_569" model="sped.pais">
+        <field name="codigo">569</field>
+        <field name="nome">Pacífico, Ilhas Do (Território Em Fideicomisso Dos)</field>
+        <field name="data_criacao" />
+        <field name="data_extincao">1996-12-13</field>
+    </record>
+
+    <record id="tab06_573" model="sped.pais">
+        <field name="codigo">573</field>
+        <field name="nome">Paises Baixos (Holanda)</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_575" model="sped.pais">
+        <field name="codigo">575</field>
+        <field name="nome">Palau</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_576" model="sped.pais">
+        <field name="codigo">576</field>
+        <field name="nome">Paquistão</field>
+        <field name="data_criacao" />
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_578" model="sped.pais">
+        <field name="codigo">578</field>
+        <field name="nome">Palestina</field>
+        <field name="data_criacao">2011-01-25</field>
+        <field name="data_extincao" />
+    </record>
+
+    <record id="tab06_580" model="sped.pais">
+        <field name="codigo">580</field>
+        <field name="nome">Panamá</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_583" model="sped.pais">
+        <field name="codigo">583</field>
+        <field name="nome">Papua Nova Guiné</field>
+        <field name="data_criacao">1991-12-01</field>
+        <field name="data_extincao">1996-12-13</field>
+    </record>
+
+    <record id="tab06_586" model="sped.pais">
+        <field name="codigo">586</field>
+        <field name="nome">Paraguai</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_589" model="sped.pais">
+        <field name="codigo">589</field>
+        <field name="nome">Peru</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_593" model="sped.pais">
+        <field name="codigo">593</field>
+        <field name="nome">Pitcairn, Ilha</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_599" model="sped.pais">
+        <field name="codigo">599</field>
+        <field name="nome">Polinesia Francesa</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_603" model="sped.pais">
+        <field name="codigo">603</field>
+        <field name="nome">Polonia, República Da</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_607" model="sped.pais">
+        <field name="codigo">607</field>
+        <field name="nome">Portugal</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_611" model="sped.pais">
+        <field name="codigo">611</field>
+        <field name="nome">Porto Rico</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_623" model="sped.pais">
+        <field name="codigo">623</field>
+        <field name="nome">Quenia</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_625" model="sped.pais">
+        <field name="codigo">625</field>
+        <field name="nome">Quirguiz, República</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_628" model="sped.pais">
+        <field name="codigo">628</field>
+        <field name="nome">Reino Unido</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_640" model="sped.pais">
+        <field name="codigo">640</field>
+        <field name="nome">República Centro-Africana</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_647" model="sped.pais">
+        <field name="codigo">647</field>
+        <field name="nome">República Dominicana</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_660" model="sped.pais">
+        <field name="codigo">660</field>
+        <field name="nome">Reunião, Ilha</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_665" model="sped.pais">
+        <field name="codigo">665</field>
+        <field name="nome">Zimbabue</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_670" model="sped.pais">
+        <field name="codigo">670</field>
+        <field name="nome">Romenia</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_675" model="sped.pais">
+        <field name="codigo">675</field>
+        <field name="nome">Ruanda</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_676" model="sped.pais">
+        <field name="codigo">676</field>
+        <field name="nome">Russia, Federacao Da</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_677" model="sped.pais">
+        <field name="codigo">677</field>
+        <field name="nome">Salomão, Ilhas</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_678" model="sped.pais">
+        <field name="codigo">678</field>
+        <field name="nome">Saint Kitts E Nevis</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_685" model="sped.pais">
+        <field name="codigo">685</field>
+        <field name="nome">Saara Ocidental</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_687" model="sped.pais">
+        <field name="codigo">687</field>
+        <field name="nome">El Salvador</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_690" model="sped.pais">
+        <field name="codigo">690</field>
+        <field name="nome">Samoa</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_691" model="sped.pais">
+        <field name="codigo">691</field>
+        <field name="nome">Samoa Americana</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_695" model="sped.pais">
+        <field name="codigo">695</field>
+        <field name="nome">São Cristovão E Neves, Ilhas</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_697" model="sped.pais">
+        <field name="codigo">697</field>
+        <field name="nome">San Marino</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_700" model="sped.pais">
+        <field name="codigo">700</field>
+        <field name="nome">São Pedro E Miquelon</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_705" model="sped.pais">
+        <field name="codigo">705</field>
+        <field name="nome">São Vicente E Granadinas</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_710" model="sped.pais">
+        <field name="codigo">710</field>
+        <field name="nome">Santa Helena</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_715" model="sped.pais">
+        <field name="codigo">715</field>
+        <field name="nome">Santa Lucia</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_720" model="sped.pais">
+        <field name="codigo">720</field>
+        <field name="nome">São Tome e Principe, Ilhas</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_728" model="sped.pais">
+        <field name="codigo">728</field>
+        <field name="nome">Senegal</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_731" model="sped.pais">
+        <field name="codigo">731</field>
+        <field name="nome">Seychelles</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_735" model="sped.pais">
+        <field name="codigo">735</field>
+        <field name="nome">Serra Leoa</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_738" model="sped.pais">
+        <field name="codigo">738</field>
+        <field name="nome">Sikkim</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao">1996-12-13</field>
+    </record>
+
+    <record id="tab06_741" model="sped.pais">
+        <field name="codigo">741</field>
+        <field name="nome">Cingapura</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_744" model="sped.pais">
+        <field name="codigo">744</field>
+        <field name="nome">Siria, República Árabe Da</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_748" model="sped.pais">
+        <field name="codigo">748</field>
+        <field name="nome">Somália</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_750" model="sped.pais">
+        <field name="codigo">750</field>
+        <field name="nome">Sri Lanka</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_754" model="sped.pais">
+        <field name="codigo">754</field>
+        <field name="nome">Suazilandia</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_756" model="sped.pais">
+        <field name="codigo">756</field>
+        <field name="nome">África Do Sul</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_759" model="sped.pais">
+        <field name="codigo">759</field>
+        <field name="nome">Sudão</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_764" model="sped.pais">
+        <field name="codigo">764</field>
+        <field name="nome">Suécia</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_767" model="sped.pais">
+        <field name="codigo">767</field>
+        <field name="nome">Suíça</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_770" model="sped.pais">
+        <field name="codigo">770</field>
+        <field name="nome">Suriname</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_772" model="sped.pais">
+        <field name="codigo">772</field>
+        <field name="nome">Tadjiquistão, República Do</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_776" model="sped.pais">
+        <field name="codigo">776</field>
+        <field name="nome">Tailandia</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_780" model="sped.pais">
+        <field name="codigo">780</field>
+        <field name="nome">Tanzania, Rep.Unida Da</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_782" model="sped.pais">
+        <field name="codigo">782</field>
+        <field name="nome">Território Brit.Oc.Índico</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_783" model="sped.pais">
+        <field name="codigo">783</field>
+        <field name="nome">Djibuti</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_785" model="sped.pais">
+        <field name="codigo">785</field>
+        <field name="nome">Território da Alta Comissão do Pacífico Ocidental</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao">1996-12-13</field>
+    </record>
+
+    <record id="tab06_788" model="sped.pais">
+        <field name="codigo">788</field>
+        <field name="nome">Chade</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_790" model="sped.pais">
+        <field name="codigo">790</field>
+        <field name="nome">Tchecoslováquia</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao">1996-12-13</field>
+    </record>
+
+    <record id="tab06_791" model="sped.pais">
+        <field name="codigo">791</field>
+        <field name="nome">Tcheca, República</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_795" model="sped.pais">
+        <field name="codigo">795</field>
+        <field name="nome">Timor Leste</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_800" model="sped.pais">
+        <field name="codigo">800</field>
+        <field name="nome">Togo</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_805" model="sped.pais">
+        <field name="codigo">805</field>
+        <field name="nome">Toquelau, Ilhas</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_810" model="sped.pais">
+        <field name="codigo">810</field>
+        <field name="nome">Tonga</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_815" model="sped.pais">
+        <field name="codigo">815</field>
+        <field name="nome">Trinidad E Tobago</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_820" model="sped.pais">
+        <field name="codigo">820</field>
+        <field name="nome">Tunisia</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_823" model="sped.pais">
+        <field name="codigo">823</field>
+        <field name="nome">Turcas E Caicos, Ilhas</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_824" model="sped.pais">
+        <field name="codigo">824</field>
+        <field name="nome">Turcomenistão, República Do</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_827" model="sped.pais">
+        <field name="codigo">827</field>
+        <field name="nome">Turquia</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_828" model="sped.pais">
+        <field name="codigo">828</field>
+        <field name="nome">Tuvalu</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_831" model="sped.pais">
+        <field name="codigo">831</field>
+        <field name="nome">Ucrania</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_833" model="sped.pais">
+        <field name="codigo">833</field>
+        <field name="nome">Uganda</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_840" model="sped.pais">
+        <field name="codigo">840</field>
+        <field name="nome">União Das Repúblicas Socialistas Soviéticas</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao">1996-12-13</field>
+    </record>
+
+    <record id="tab06_845" model="sped.pais">
+        <field name="codigo">845</field>
+        <field name="nome">Uruguai</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_847" model="sped.pais">
+        <field name="codigo">847</field>
+        <field name="nome">Uzbequistão, República Do</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_848" model="sped.pais">
+        <field name="codigo">848</field>
+        <field name="nome">Vaticano, Est.Da Cidade Do</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_850" model="sped.pais">
+        <field name="codigo">850</field>
+        <field name="nome">Venezuela</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_855" model="sped.pais">
+        <field name="codigo">855</field>
+        <field name="nome">Vietiname Norte</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao">1996-12-13</field>
+    </record>
+
+    <record id="tab06_858" model="sped.pais">
+        <field name="codigo">858</field>
+        <field name="nome">Vietna</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_863" model="sped.pais">
+        <field name="codigo">863</field>
+        <field name="nome">Virgens, Ilhas (Britânicas)</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_866" model="sped.pais">
+        <field name="codigo">866</field>
+        <field name="nome">Virgens, Ilhas (E.U.A.)</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_870" model="sped.pais">
+        <field name="codigo">870</field>
+        <field name="nome">Fiji</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_873" model="sped.pais">
+        <field name="codigo">873</field>
+        <field name="nome">Wake, Ilha</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_875" model="sped.pais">
+        <field name="codigo">875</field>
+        <field name="nome">Wallis E Futuna, Ilhas</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_888" model="sped.pais">
+        <field name="codigo">888</field>
+        <field name="nome">Congo, República Democrática Do</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
+    </record>
+
+    <record id="tab06_890" model="sped.pais">
+        <field name="codigo">890</field>
+        <field name="nome">Zambia</field>
+        <field name="data_criacao"/>
+        <field name="data_extincao"/>
     </record>
 
     </data>

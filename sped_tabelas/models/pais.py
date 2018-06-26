@@ -9,9 +9,9 @@
 from openerp import api, fields, models, _
 
 
-class ParteCorpo(models.Model):
-    _name = 'sped.parte_corpo'
-    _description = 'Parte do corpo atingida'
+class Pais(models.Model):
+    _name = 'sped.pais'
+    _description = 'Países'
     _order = 'name'
     _sql_constraints = [
         ('codigo',
@@ -21,7 +21,7 @@ class ParteCorpo(models.Model):
     ]
 
     codigo = fields.Char(
-        size=9,
+        size=3,
         string='Codigo',
         required=True,
     )
@@ -33,23 +33,29 @@ class ParteCorpo(models.Model):
         compute='_compute_name',
         store=True,
     )
+    data_criacao = fields.Date(
+        string='Data de Criação',
+    )
+    data_extincao = fields.Date(
+        string='Data de Extinção',
+    )
 
     @api.onchange('codigo')
     def _valida_codigo(self):
-        for parte in self:
-            if parte.codigo:
-                if parte.codigo.isdigit():
-                    parte.codigo = parte.codigo.zfill(9)
+        for pais in self:
+            if pais.codigo:
+                if pais.codigo.isdigit():
+                    pais.codigo = pais.codigo.zfill(3)
                 else:
                     res = {'warning': {
                         'title': _('Código Incorreto!'),
                         'message': _('Campo Código somente aceita números!'
                                      ' - Corrija antes de salvar')
                     }}
-                    parte.codigo = False
+                    pais.codigo = False
                     return res
 
     @api.depends('codigo', 'nome')
     def _compute_name(self):
-        for parte in self:
-            parte.name = parte.codigo + '-' + parte.nome
+        for pais in self:
+            pais.name = pais.codigo + '-' + pais.nome

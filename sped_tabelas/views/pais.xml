@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2017 KMEE
-    Copyright 2017 KMEE - Wagner Pereira <wagner.pereira@kmee.com.br>
+    Copyright 2018 KMEE
+    Copyright 2018 KMEE - Wagner Pereira <wagner.pereira@abgf.gov.br>
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <openerp>
     <data>
 
-    <record model="ir.ui.view" id="sped_tabelas.parte_corpo_form">
-        <field name="name">sped_tabelas.parte_corpo_form</field>
-        <field name="model">sped.parte_corpo</field>
+    <record model="ir.ui.view" id="sped_tabelas.pais_form">
+        <field name="name">sped_tabelas.pais_form</field>
+        <field name="model">sped.pais</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Parte do Corpo Atingida"
+            <form string="País"
             edit="false" create="false" delete="false">
                 <sheet>
                     <group>
@@ -20,63 +20,69 @@
                             <field name="codigo"/>
                             <field name="nome" />
                         </group>
+                        <group name="datas" colspan="2" col="2">
+                            <field name="data_criacao" />
+                            <field name="data_extincao" />
+                        </group>
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="sped_tabelas.parte_corpo_tree">
-        <field name="name">sped_tabelas.parte_corpo_view</field>
-        <field name="model">sped.parte_corpo</field>
+    <record model="ir.ui.view" id="sped_tabelas.pais_tree">
+        <field name="name">sped_tabelas.pais_view</field>
+        <field name="model">sped.pais</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Parte do Corpo Atingida"
+            <tree string="País"
             edit="false" create="false" delete="false">
                 <field name="codigo" />
                 <field name="nome" />
+                <field name="data_criacao" />
+                <field name="data_extincao" />
             </tree>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="parte_corpo_search">
-        <field name="name">sped_tabelas.parte_corpo_search</field>
-        <field name="model">sped.parte_corpo</field>
+    <record model="ir.ui.view" id="pais_search">
+        <field name="name">sped_tabelas.pais_search</field>
+        <field name="model">sped.pais</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <search string="Parte do Corpo Atingida">
+            <search string="País">
                 <field name="codigo" />
                 <field name="nome" />
             </search>
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="parte_corpo_action">
-        <field name="name">Parte do Corpo Atingida</field>
-        <field name="res_model">sped.parte_corpo</field>
+    <record model="ir.actions.act_window" id="pais_action">
+        <field name="name">Paíss</field>
+        <field name="res_model">sped.pais</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="parte_corpo_tree_action">
+    <record model="ir.actions.act_window.view" id="pais_tree_action">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="parte_corpo_tree"/>
-        <field name="act_window_id" ref="parte_corpo_action"/>
+        <field name="view_id" ref="pais_tree"/>
+        <field name="act_window_id" ref="pais_action"/>
     </record>
 
-    <record model="ir.actions.act_window.view" id="parte_corpo_form_action">
+    <record model="ir.actions.act_window.view" id="pais_form_action">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="parte_corpo_form"/>
-        <field name="act_window_id" ref="parte_corpo_action"/>
+        <field name="view_id" ref="pais_form"/>
+        <field name="act_window_id" ref="pais_action"/>
     </record>
 
     <menuitem
-        action="sped_tabelas.parte_corpo_action"
-        id="menu_sped_parte_corpo"
-        name="13-Partes do Corpo"
+        action="sped_tabelas.pais_action"
+        id="menu_sped_pais"
+        name="06-Países"
         parent="menu_sped_tabelas_esocial"
-        sequence="13"
+        sequence="06"
     />
 
     </data>

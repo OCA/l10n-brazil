@@ -11,6 +11,7 @@ from . import categoria_trabalhador
 from . import financiamento_aposentadoria
 from . import natureza_rubrica
 from . import parte_corpo
+from . import pais
 from . import agente_causador
 from . import situacao_geradora_doenca
 from . import situacao_geradora_acidente
