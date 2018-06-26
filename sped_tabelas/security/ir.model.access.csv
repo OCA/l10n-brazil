@@ -49,3 +49,5 @@ access_sped_user_25,Operador (Leitura),model_sped_agente_causador,sped_tabelas.g
 access_sped_gerente_25,Gerente (Todas permissões),model_sped_agente_causador,sped_tabelas.group_manager,1,1,1,1
 access_sped_user_26,Operador (Leitura),model_sped_classificacao_servico,sped_tabelas.group_user,1,0,0,0
 access_sped_gerente_26,Gerente (Todas permissões),model_sped_classificacao_servico,sped_tabelas.group_manager,1,1,1,1
+access_sped_user_27,Operador (Leitura),model_sped_pais,sped_tabelas.group_user,1,0,0,0
+access_sped_gerente_27,Gerente (Todas permissões),model_sped_pais,sped_tabelas.group_manager,1,1,1,1
