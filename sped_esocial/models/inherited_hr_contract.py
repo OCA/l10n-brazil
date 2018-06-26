@@ -13,7 +13,7 @@ class HrContract(models.Model):
     # Registro S-2200
     sped_s2200 = fields.Boolean(
         string='Cadastro do Vínculo',
-        compute='_compute_sped_S2200',
+        compute='_compute_sped_s2200',
     )
     sped_s2200_registro = fields.Many2one(
         string='Registro S-2200 - Cadastramento Inicial do Vínculo',
