@@ -8,9 +8,15 @@
             <field name="priority">60</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
+                <field name="place_of_birth" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="place_of_birth" position="after">
+                    <field name="naturalidade" options="{'no_create': True, 'no_open': True}" required="1" />
+                </field>
                 <xpath expr="//field[@name='identification_id']" position="replace">
                     <field name="cpf"/>
-                    <field name="educational_attainment"/>
+                    <field name="educational_attainment" options="{'no_create': True, 'no_open': True}"/>
                 </xpath>
                 <xpath expr="//group[@string='Birth']" position="after">
                     <group string="Characteristics">
@@ -68,8 +74,8 @@
                                 </group>
                                 <group string="Driver License">
                                     <field name="driver_license" string="Number"/>
-                                    <field name="driver_categ"/>
-                                    <field name="expiration_date"/>
+                                    <field name="driver_categ" attrs="{'required': [('driver_license', '!=', False)]}"/>
+                                    <field name="expiration_date" attrs="{'required': [('driver_license', '!=', False)]}"/>
                                 </group>
                                 <group string="PIS/PASEP">
                                     <field name="pis_pasep" placeholder="XXX.XXXXX.XX-X"/>
@@ -188,7 +194,7 @@
         <record model="ir.ui.view" id="view_hr_ethnicity_form">
             <field name="name">hr.ethnicity.form.view</field>
             <field name="model">hr.ethnicity</field>
-            <field name="type">tree</field>
+            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Raça/Cor" edit="false" delete="false" create="false">
                     <sheet>
@@ -207,10 +213,27 @@
             <field name="model">hr.educational.attainment</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree edit="false" delete="false" create="false">
                     <field name="code"/>
                     <field name="name"/>
                 </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_hr_educational_attainment_form">
+            <field name="name">hr.educational.attainment.form.view</field>
+            <field name="model">hr.educational.attainment</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Escolaridade" edit="false" delete="false" create="false">
+                    <sheet>
+                        <group>
+                            <group name="geral" colspan="4" col="4">
+                                <field name="code" colspan="4"/>
+                                <field name="name" colspan="4"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
             </field>
         </record>
         <record model="ir.ui.view" id="view_hr_nationality_code_tree">
