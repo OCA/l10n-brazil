@@ -720,6 +720,15 @@ class SpedTransmissao(models.Model):
             S1050.evento.infoHorContratual.dadosHorContratual.durJornada.valor = self.origem.sped_esocial_turnos_trabalho_id.dur_jornada
             S1050.evento.infoHorContratual.dadosHorContratual.perHorFlexivel.valor = self.origem.sped_esocial_turnos_trabalho_id.per_hor_flexivel
 
+            for intervalo in self.origem.sped_esocial_turnos_trabalho_id.horario_intervalo_ids:
+                sped_intervalo = pysped.esocial.leiaute.HorarioIntervalo_2()
+                sped_intervalo.tpInterv.valor = intervalo.tp_interv
+                sped_intervalo.durInterv.valor = intervalo.dur_interv
+                sped_intervalo.iniInterv.valor = intervalo.ini_interv
+                sped_intervalo.termInterv.valor = intervalo.term_interv
+
+                S1050.evento.infoHorContratual.dadosHorContratual.\
+                    horarioIntervalo.append(sped_intervalo)
             # Gera
             data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             dh_transmissao = datetime.now().strftime('%Y%m%d%H%M%S')
@@ -733,6 +742,19 @@ class SpedTransmissao(models.Model):
             # Define a Inscrição do Processador
             processador.tpInsc = '1'
             processador.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)
+
+            # Criar registro do Lote
+            vals = {
+                'tipo': 'esocial',
+                'ambiente': self.ambiente,
+                'transmissao_ids': [(4, self.id)],
+                'data_hora_transmissao': data_hora_transmissao,
+                'xml_transmissao': False,
+            }
+
+            lote_id = self.env['sped.transmissao.lote'].create(vals)
+            self.lote_ids = [(4, lote_id.id)]
+            self.data_hora_transmissao = data_hora_transmissao
 
             # Transmite
             processo = processador.enviar_lote([S1050])
