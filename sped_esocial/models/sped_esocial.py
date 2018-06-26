@@ -286,10 +286,10 @@ class SpedEsocial(models.Model):
                 cargo.sped_S1030_registro = sped_S1030_registro
 
     @api.multi
-    def criar_S1050(self):
+    def criar_s1050(self):
         self.ensure_one()
         for turno in self.sped_esocial_turnos_trabalho_ids:
-            if not turno.sped_S1050_registro:
+            if not turno.sped_s1050_registro:
                 # Criar registro
                 values = {
                     'tipo': 'esocial',
@@ -299,9 +299,9 @@ class SpedEsocial(models.Model):
                     'evento': 'evtTabHorTur',
                     'origem': ('sped.esocial.turnos.trabalho,%s' % turno.id),
                 }
-                sped_S1050_registro = self.env['sped.transmissao'].create(
+                sped_s1050_registro = self.env['sped.transmissao'].create(
                     values)
-                turno.sped_S1030_registro = sped_S1050_registro
+                turno.sped_s1030_registro = sped_s1050_registro
 
     @api.multi
     def get_esocial_vigente(self, company_id=False):

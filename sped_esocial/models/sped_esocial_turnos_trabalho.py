@@ -18,7 +18,7 @@ class SpedEsocialTurnosTrabalho(models.Model):
         comodel_name="esocial.turnos.trabalho",
         required=True,
     )
-    sped_S1050_registro = fields.Many2one(
+    sped_s1050_registro = fields.Many2one(
         string='Registro S-1050',
         comodel_name='sped.transmissao',
     )
