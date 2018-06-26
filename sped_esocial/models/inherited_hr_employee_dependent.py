@@ -6,32 +6,14 @@ from openerp import api, fields, models
 from openerp.exceptions import ValidationError
 
 
-class HrEmployee(models.Model):
+class HrEmployeeDependent(models.Model):
 
-    _inherit = 'hr.employee'
+    _inherit = 'hr.employee.dependent'
 
-    # Cria campos pais_nac_id e pais_nascto_id para substituir o place_of_birth (que é texto)
-    pais_nascto_id = fields.Many2one(
-        string='País de Nascimento',
-        comodel_name='sped.pais',
+    # Cria campos dep_sf e inc_trab (Dependentes) que não existe na l10n_br
+    dep_sf = fields.Boolean(
+        string='Salário Família?',
     )
-    pais_nac_id = fields.Many2one(
-        string='Nacionalidade',
-        comodel_name='sped.pais',
-    )
-
-    # Dados que faltam em l10n_br_hr
-    cnh_dt_exped = fields.Date(
-        string='Data de Emissão',
-    )
-    cnh_uf = fields.Many2one(
-        string='UF',
-        comodel_name='res.country.state',
-    )
-    cnh_dt_pri_hab = fields.Date(
-        string='Data da 1ª Hab.',
-    )
-    tp_lograd = fields.Many2one(
-        string='Tipo de Lograd.',
-        comodel_name='sped.tipo_logradouro',
+    inc_trab = fields.Boolean(
+        string='Incapacidade Física ou Mental?',
     )
