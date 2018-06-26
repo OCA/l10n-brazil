@@ -1257,6 +1257,9 @@ class SpedTransmissao(models.Model):
         lote_id.situacao = '3' if self.situacao == 3 else '4'
         self.data_hora_retorno = data_hora_retorno
 
+        if not self.protocolo:
+            self.situacao == '1'
+
         # Grava anexos
         if envio_xml:
             if self.envio_xml_id:
