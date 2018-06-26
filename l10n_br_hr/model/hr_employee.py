@@ -14,6 +14,11 @@ from openerp.exceptions import ValidationError
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
+    naturalidade = fields.Many2one(
+        string='Naturalidade',
+        comodel_name='l10n_br_base.city',
+    )
+
     def _default_country(self):
         return self.env['res.country'].search([('code', '=', 'BR')])
 
