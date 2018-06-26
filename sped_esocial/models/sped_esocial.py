@@ -214,6 +214,24 @@ class SpedEsocial(models.Model):
             self.cargo_ids = [(4, cargo_id.id)]
 
     @api.multi
+    def importar_turnos_trabalho(self):
+        self.ensure_one()
+
+        turnos_trabalho = self.env['esocial.turnos.trabalho'].search([])
+
+        for turno in turnos_trabalho:
+            if not turno.sped_esocial_turnos_trabalho_ids:
+                # Criar um novo documento sped para o turno de trabalho
+                vals = {
+                    'esocial_id': self.id,
+                    'sped_esocial_turnos_trabalho_id': turno.id,
+                }
+                sped_turno_id = self.env['sped.esocial.turnos.trabalho'].create(
+                    vals
+                )
+                self.sped_esocial_turnos_trabalho_ids = [(4, sped_turno_id.id)]
+
+    @api.multi
     def criar_s1005(self):
         self.ensure_one()
         for estabelecimento in self.estabelecimento_ids:
@@ -301,7 +319,7 @@ class SpedEsocial(models.Model):
                 }
                 sped_s1050_registro = self.env['sped.transmissao'].create(
                     values)
-                turno.sped_s1030_registro = sped_s1050_registro
+                turno.sped_s1050_registro = sped_s1050_registro
 
     @api.multi
     def get_esocial_vigente(self, company_id=False):
