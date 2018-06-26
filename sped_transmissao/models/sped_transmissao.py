@@ -876,7 +876,7 @@ class SpedTransmissao(models.Model):
                 CNH.categoriaCnh.valor = self.origem.employee_id.driver_categ
                 S2200.evento.trabalhador.documentos.CNH.append(CNH)
 
-            # Popula trabalhador.documentos
+            # Popula trabalhador.endereco.brasil
             Brasil = pysped.leiaute.S2200_Brasil_2()
             Brasil.tpLograd.valor = self.origem.employee_id.tp_lograd.codigo or ''
             Brasil.dscLograd.valor = self.origem.employee_id.address_home_id.street or ''
@@ -886,6 +886,92 @@ class SpedTransmissao(models.Model):
             Brasil.cep.valor = limpa_formatacao(self.origem.employee_id.zip) or ''
             Brasil.codMunic.valor = self.origem.employee_id.address_home_id.l10n_br_city_id.ibge_code
             Brasil.uf.valor = self.origem.employee_id.address_home_id.state_id.code
+            S2200.evento.trabalhador.endereco.Brasil.append(Brasil)
+
+            # Popula trabalhador.dependente
+            if self.origem.employee_id.have_dependent:
+                for dependente in self.origem.employee_id.dependent_ids:
+                    Dependente = pysped.leiaute.S2200_Dependente_2()
+                    Dependente.tpDep.valor = dependente.dependent_type_id.code.zfill(2)
+                    Dependente.nmDep.valor = dependente.dependent_name
+                    Dependente.cpfDep.valor = dependente.dependent_cpf
+                    Dependente.dtNascto.valor = formata_data(dependente.dependent_dob)
+                    Dependente.depIRRF.valor = 'S' if dependente.dependent_verification else 'N'
+                    Dependente.depSF.valor = 'S' if dependente.dep_sf else 'N'
+                    Dependente.incTrab.valor = 'S' if dependente.inc_trab else 'N'
+                    S2200.evento.trabalhador.dependente.append(Dependente)
+
+            # Popula trabalhador.contato
+            Contato = pysped.leiaute.S2200_Contato_2()
+            Contato.fonePrinc.valor = limpa_formatacao(self.origem.employee_id.address_home_id.phone or '')
+            Contato.foneAlternat.valor = limpa_formatacao(self.origem.employee_id.alternate_phone or '')
+            Contato.emailPrinc.valor = self.origem.employee_id.address_home_id.email or ''
+            Contato.emailAlternat.valor = self.origem.employee_id.alternate_email or ''
+            S2200.evento.trabalhador.contato.append(Contato)
+
+            # Popula "vinculo"
+            S2200.evento.vinculo.matricula.valor = self.origem.codigo_contrato
+            S2200.evento.vinculo.tpRegTrab.valor = self.origem.labor_regime_id.code
+            S2200.evento.vinculo.tpRegPrev.valor = self.origem.tp_reg_prev
+            S2200.evento.vinculo.cadIni.valor = self.origem.cad_ini
+
+            # Popula vinculo.infoRegimeTrab
+            if self.origem.labor_regime_id.code == '1':
+
+                # Popula infoCeletista
+                InfoCeletista = pysped.leiaute.S2200_InfoCeletista_2()
+                InfoCeletista.dtAdm.valor = formata_data(self.origem.date_start)
+                InfoCeletista.tpAdmissao.valor = self.origem.tp_admissao
+                InfoCeletista.indAdmissao.valor = self.origem.ind_admissao
+                InfoCeletista.tpRegJor.valor = self.origem.tp_reg_jor
+                InfoCeletista.cnpjSindCategProf.valor = limpa_formatacao(self.origem.partner_union.cnpj_cpf)
+                InfoCeletista.FGTS.opcFGTS.valor = self.origem.opc_fgts
+                if self.origem.dt_opc_fgts:
+                    InfoCeletista.FGTS.dtOpcFGTS.valor = formata_data(self.origem.dt_opc_fgts)
+                S2200.evento.vinculo.infoRegimeTrab.infoCeletista.append(InfoCeletista)
+
+            elif self.origem.labor_regime_id.code == '2':
+
+                # Popula infoEstatutario  # TODO
+                InfoEstatutario = pysped.leiaute.S2200_InfoEstatutario_2()
+
+
+            # Popula vinculo.infoContrato
+            # S2200.evento.vinculo.infoContrato.codCargo.valor =   # TODO Quando lidar com Estatutários
+            # S2200.evento.vinculo.infoContrato.codFuncao.valor =   # TODO Quando lidar com Estatutários
+            S2200.evento.vinculo.infoContrato.codCateg.valor = self.origem.categoria  # TODO Migrar esse campo para
+                                                                                      # relacionar com tabela 1 do eSocial
+            # S2200.evento.vinculo.infoContrato.codCarreira.valor =   # TODO Quando lidar com Estatutários
+            # S2200.evento.vinculo.infoContrato.dtIngrCarr.valor =   # TODO Quando lidar com Estatutários
+
+            # Popula vinculo.infoContrato.remuneracao
+            S2200.evento.vinculo.infoContrato.vrSalFx.valor = formata_valor(self.origem.wage)
+            S2200.evento.vinculo.infoContrato.undSalFixo.valor = self.origem.salary_unit.code
+            S2200.evento.vinculo.infoContrato.dscSalVar.valor = self.origem.dsc_sal_var or ''
+
+            # Popula vinculo.infoContrato.duracao
+            S2200.evento.vinculo.infoContrato.tpContr.valor = self.origem.tp_contr
+            if self.origem.tp_contr == '2':
+                S2200.evento.vinculo.infoContrato.dtTerm.valor = formata_data(self.origem.date_end)
+                S2200.evento.vinculo.infoContrato.clauAssec.valor = self.origem.clau_assec
+
+            # Popula vinculo.infoContrato.localTrabalho
+            LocalTrabGeral = pysped.leiaute.S2200_LocalTrabGeral_2()
+            LocalTrabGeral.tpInsc.valor = '1'
+            LocalTrabGeral.nrInsc.valor = limpa_formatacao(self.company_id.cnpj_cpf)
+            # LocalTrabGeral.descComp.valor = ''  # TODO Criar no contrato
+            S2200.evento.vinculo.infoContrato.localTrabalho.localTrabGeral.append(LocalTrabGeral)
+
+            # Popula vinculo.horContratual
+            HorContratual = pysped.leiaute.S2200_HorContratual_2()
+            HorContratual.qtdHorSem.valor = formata_valor(self.origem.weekly_hours)
+            HorContratual.tpJornada.valor = self.origem.tp_jornada
+            if self.origem.tp_jornada == '9':
+                HorContratual.dscTpJor.valor = self.origem.dsc_tp_jorn
+            HorContratual.tmpParc.valor = self.origem.tmp_parc
+
+            # Popula vinculo.horContratual.horario
+            
 
             # Gera
             data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
