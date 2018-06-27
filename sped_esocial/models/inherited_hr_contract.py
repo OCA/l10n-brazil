@@ -11,7 +11,7 @@ class HrContract(models.Model):
     _inherit = 'hr.contract'
 
     # Criar campos que faltam para o eSocial
-    tp_reg_trab = fields.Selection(
+    tp_reg_prev = fields.Selection(
         string='Tipo de Regime Previdenciário',
         selection=[
             ('1', 'Regime Geral da Previdência Social - RGPS'),
@@ -52,6 +52,13 @@ class HrContract(models.Model):
             ('3', '3-Funções especificadas no Inciso II do Art. 62 da CLT'),
             ('4', '4-Teletrabalho, previsto no Inciso III do Art. 62 da CLT'),
         ],
+    )
+    nat_atividade = fields.Selection(
+        string='Natureza da Atividade',
+        selection=[
+            ('1', '1-Trabalho Urbano'),
+            ('2', '2-Trabalho Rural'),
+        ]
     )
     opc_fgts = fields.Selection(
         string='Optante do FGTS',
