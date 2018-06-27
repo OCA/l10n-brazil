@@ -810,7 +810,8 @@ class SpedTransmissao(models.Model):
 
             # Popula trabalhador.nascimento
             S2200.evento.trabalhador.nascimento.dtNascto.valor = self.origem.employee_id.birthday
-            S2200.evento.trabalhador.nascimento.codMunic.valor = self.origem.employee_id.naturalidade.ibge_code or ''
+            S2200.evento.trabalhador.nascimento.codMunic.valor = \
+                self.origem.employee_id.naturalidade.state_id.ibge_code + self.origem.employee_id.naturalidade.ibge_code
             S2200.evento.trabalhador.nascimento.uf.valor = self.origem.employee_id.naturalidade.state_id.code or ''
             S2200.evento.trabalhador.nascimento.paisNascto.valor = self.origem.employee_id.pais_nascto_id.codigo
             S2200.evento.trabalhador.nascimento.paisNac.valor = self.origem.employee_id.pais_nac_id.codigo
@@ -888,7 +889,9 @@ class SpedTransmissao(models.Model):
             Brasil.complemento.valor = self.origem.employee_id.address_home_id.street2 or ''
             Brasil.bairro.valor = self.origem.employee_id.address_home_id.district or ''
             Brasil.cep.valor = limpa_formatacao(self.origem.employee_id.address_home_id.zip) or ''
-            Brasil.codMunic.valor = self.origem.employee_id.address_home_id.l10n_br_city_id.ibge_code
+            Brasil.codMunic.valor = \
+                self.origem.employee_id.address_home_id.l10n_br_city_id.state_id.ibge_code + \
+                self.origem.employee_id.address_home_id.l10n_br_city_id.ibge_code
             Brasil.uf.valor = self.origem.employee_id.address_home_id.state_id.code
             S2200.evento.trabalhador.endereco.brasil.append(Brasil)
 
@@ -942,7 +945,7 @@ class SpedTransmissao(models.Model):
 
 
             # Popula vinculo.infoContrato
-            # S2200.evento.vinculo.infoContrato.codCargo.valor =   # TODO Quando lidar com Estatutários
+            S2200.evento.vinculo.infoContrato.codCargo.valor = self.origem.job_id.codigo
             # S2200.evento.vinculo.infoContrato.codFuncao.valor =   # TODO Quando lidar com Estatutários
             S2200.evento.vinculo.infoContrato.codCateg.valor = self.origem.categoria  # TODO Migrar esse campo para
                                                                                       # relacionar com tabela 1 do eSocial
@@ -963,13 +966,14 @@ class SpedTransmissao(models.Model):
             # Popula vinculo.infoContrato.localTrabalho
             LocalTrabGeral = pysped.esocial.leiaute.S2200_LocalTrabGeral_2()
             LocalTrabGeral.tpInsc.valor = '1'
-            LocalTrabGeral.nrInsc.valor = limpa_formatacao(self.company_id.cnpj_cpf)
+            LocalTrabGeral.nrInsc.valor = limpa_formatacao(self.origem.company_id.cnpj_cpf)
             # LocalTrabGeral.descComp.valor = ''  # TODO Criar no contrato
             S2200.evento.vinculo.infoContrato.localTrabalho.localTrabGeral.append(LocalTrabGeral)
 
             # Popula vinculo.infoContrato.horContratual (Campos)
             HorContratual = pysped.esocial.leiaute.S2200_HorContratual_2()
-            HorContratual.qtdHorSem.valor = formata_valor(self.origem.weekly_hours)
+            HorContratual.qtdHrsSem.valor = formata_valor(self.origem.weekly_hours)
+            print(formata_valor(self.origem.weekly_hours))
             HorContratual.tpJornada.valor = self.origem.tp_jornada
             if self.origem.tp_jornada == '9':
                 HorContratual.dscTpJor.valor = self.origem.dsc_tp_jorn
@@ -1003,7 +1007,7 @@ class SpedTransmissao(models.Model):
                 SucessaoVinc.cnpjEmpregAnt.valor = limpa_formatacao(self.origem.cnpj_empregador_anterior)
                 if self.origem.matricula_anterior:
                     SucessaoVinc.matricAnt.valor = self.origem.matricula_anterior
-                SucessaoVinc.dtTransf.valor = limpa_formatacao(self.origem.date_start)  # Se for transf. a data de inicio do contrato é a correta neste campo
+                SucessaoVinc.dtTransf.valor = self.origem.date_start  # Se for transf. a data de inicio do contrato é a correta neste campo
                 if self.origem.observacoes_vinculo_anterior:
                     SucessaoVinc.observacao.valor = self.origem.observacoes_vinculo_anterior
                 S2200.evento.vinculo.sucessaoVinc.append(SucessaoVinc)
