@@ -48,6 +48,7 @@
 	    'views/esocial_turnos_trabalho_view.xml',
         'views/inherited_resource_calendar_attendance.xml',
         'views/inherited_hr_employee.xml',
+        'views/inherited_res_partner.xml',
 
         # Segurança
         # 'security/ir.model.access.csv',

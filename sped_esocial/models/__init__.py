@@ -27,6 +27,7 @@ from . import inherited_hr_contract
 from . import inherited_hr_employee
 from . import inherited_hr_employee_dependent
 from . import inherited_resource_calendar_attendance
+from . import inherited_res_partner
 
 from . import sped_esocial
 from . import sped_esocial_estabelecimento

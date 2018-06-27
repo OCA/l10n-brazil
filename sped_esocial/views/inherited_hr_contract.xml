@@ -28,28 +28,29 @@
                     <attribute name="required">1</attribute>
                 </field>
                 <field name="primeiro_emprego" position="before">
-                    <field name="tp_admissao"
-                           attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"
-                    />
-                    <field name="tp_reg_jor"
-                           attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"
-                    />
-                    <field name="nat_atividade"
-                           attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"
-                    />
+                    <!--<field name="tp_admissao"-->
+                           <!--attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"-->
+                    <!--/>-->
+                    <field name="tp_reg_jor" required="1"/>
+                           <!--attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"-->
+                    <!--/>-->
+                    <field name="nat_atividade" required="1"/>
+                           <!--attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"-->
+                    <!--/>-->
                     <field name="tp_reg_prev" required="1" />
                     <field name="cad_ini" required="1" />
-                    <field name="opc_fgts"
-                           attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"
-                    />
-                    <field name="dt_opc_fgts"
-                           attrs="{'invisible': [('labor_regime_id.code', '!=', '1')]}"
-                    />
+                    <field name="opc_fgts" required="1"/>
+                           <!--attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"-->
+                    <!--/>-->
+                    <field name="dt_opc_fgts" />
+                           <!--attrs="{'invisible': [('labor_regime_id.code', '!=', '1')]}"-->
+                    <!--/>-->
                 </field>
                 <field name="salary_unit" position="after">
-                    <field name="dsc_sal_var" attrs="{'required': [('salary_unit.code', 'in', ['6', '7'])]}" />
+                    <field name="dsc_sal_var" />
+                           <!--attrs="{'required': [('salary_unit.code', 'in', ['6', '7'])]}" />-->
                 </field>
-                <field name="trial_date_start" position="before">
+                <field name="working_hours" position="before">
                     <field name="tp_contr" required="1" />
                     <field name="clau_assec" attrs="{'invisible': [('tp_contr', '!=', '2')], 'required': [('tp_contr', '=', '2')]}" />
                 </field>

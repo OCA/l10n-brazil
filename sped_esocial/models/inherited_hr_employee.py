@@ -86,16 +86,16 @@ class HrEmployee(models.Model):
 
                 # Se a data da alteracao do registro for maior que a data de
                 # envio do registro do contrato, sinalizo falta de retificacao
-                if record.contract_id.sped_S2200_data_hora < record.write_date:
+                if record.contract_id.sped_s2200_data_hora < record.write_date:
                     record.sped_s2205_situacao = '5'
 
-                # se ja foi transmitido o registro S2200 do contrato,
+                # se ja foi transmitido o registro S-2200 do contrato,
                 # marco que esta transmitido e nao foi feito alteração ainda
                 # se a data de edicao do registro for igua do contrato,
                 #  sinaliza apenas commo transmitida
                 else:
                     record.sped_s2205_situacao = \
-                        record.contract_id.sped_S2200_situacao
+                        record.contract_id.sped_s2200_situacao
 
             # Se nao informo que nem o contrato foi transmitido ainda
             else:
@@ -104,14 +104,16 @@ class HrEmployee(models.Model):
     @api.multi
     def criar_s2205(self):
         """
-        Criar registro do esocial S2205
+        Criar registro do esocial S-2205
         """
+        empresa = self.company_id.id if self.company_id.eh_empresa_base else self.company_id.matriz.id
+
         self.ensure_one()
         values = {
             'tipo': 'esocial',
             'registro': 'S-2205',
             'ambiente': self.company_id.esocial_tpAmb or self.company_id.matriz.esocial_tpAmb,
-            'company_id': self.company_id.id,
+            'company_id': empresa,
             'evento': 'evtAltCadastral',
             'origem': ('hr.employee,%s' % self.id),
         }
