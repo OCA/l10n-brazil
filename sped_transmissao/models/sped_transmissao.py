@@ -710,10 +710,10 @@ class SpedTransmissao(models.Model):
             S1050.evento.infoHorContratual.operacao = 'I'
             S1050.evento.infoHorContratual.ideHorContratual.codHorContrat.valor = self.origem.sped_esocial_turnos_trabalho_id.cod_hor_contrat
             # S1050.evento.infoHorContratual.ideHorContratual.iniValid.valor = self.origem.sped_esocial_turnos_trabalho_id.ini_valid
-            S1050.evento.infoHorContratual.ideHorContratual.iniValid.valor = self.origem.sped_esocial_turnos_trabalho_id.ini_valid.code[3:7] + '-' + self.origem.sped_esocial_turnos_trbalho_id.ini_valid.code[0:2]
+            S1050.evento.infoHorContratual.ideHorContratual.iniValid.valor = self.origem.sped_esocial_turnos_trabalho_id.ini_valid.code[3:7] + '-' + self.origem.sped_esocial_turnos_trabalho_id.ini_valid.code[0:2]
             if self.origem.sped_esocial_turnos_trabalho_id.fim_valid:
                 # S1050.evento.infoHorContratual.ideHorContratual.fimValid.valor = self.origem.sped_esocial_turnos_trabalho_id.fim_valid
-                S1050.evento.infoHorContratual.ideHorContratual.fimValid.valor = self.origem.sped_esocial_turnos_trabalho_id.fim_valid.code[3:7] + '-' + self.origem.sped_esocial_turnos_trbalho_id.fim_valid.code[0:2]
+                S1050.evento.infoHorContratual.ideHorContratual.fimValid.valor = self.origem.sped_esocial_turnos_trabalho_id.fim_valid.code[3:7] + '-' + self.origem.sped_esocial_turnos_trabalho_id.fim_valid.code[0:2]
 
             # Popula dadosHorContratual
             S1050.evento.infoHorContratual.dadosHorContratual.hrEntr.valor = self.origem.sped_esocial_turnos_trabalho_id.hr_entr.replace(":", "")
@@ -725,8 +725,8 @@ class SpedTransmissao(models.Model):
                 sped_intervalo = pysped.esocial.leiaute.HorarioIntervalo_2()
                 sped_intervalo.tpInterv.valor = intervalo.tp_interv
                 sped_intervalo.durInterv.valor = intervalo.dur_interv
-                sped_intervalo.iniInterv.valor = intervalo.ini_interv
-                sped_intervalo.termInterv.valor = intervalo.term_interv
+                sped_intervalo.iniInterv.valor = intervalo.ini_interv.replace(":", "")
+                sped_intervalo.termInterv.valor = intervalo.term_interv.replace(":", "")
 
                 S1050.evento.infoHorContratual.dadosHorContratual.\
                     horarioIntervalo.append(sped_intervalo)
@@ -879,7 +879,10 @@ class SpedTransmissao(models.Model):
 
             # Popula trabalhador.endereco.brasil
             Brasil = pysped.esocial.leiaute.S2200_Brasil_2()
-            Brasil.tpLograd.valor = self.origem.employee_id.tp_lograd.codigo or ''
+            if self.origem.employee_id.address_home_id.tp_lograd:
+                Brasil.tpLograd.valor = self.origem.employee_id.address_home_id.tp_lograd.codigo or ''
+            else:
+                Brasil.tpLograd.valor = 'R'
             Brasil.dscLograd.valor = self.origem.employee_id.address_home_id.street or ''
             Brasil.nrLograd.valor = self.origem.employee_id.address_home_id.number or ''
             Brasil.complemento.valor = self.origem.employee_id.address_home_id.street2 or ''
@@ -925,6 +928,7 @@ class SpedTransmissao(models.Model):
                 InfoCeletista.tpAdmissao.valor = str(self.origem.admission_type_id.code)
                 InfoCeletista.indAdmissao.valor = self.origem.indicativo_de_admissao
                 InfoCeletista.tpRegJor.valor = self.origem.tp_reg_jor
+                InfoCeletista.natAtividade.valor = self.origem.nat_atividade
                 InfoCeletista.cnpjSindCategProf.valor = limpa_formatacao(self.origem.partner_union.cnpj_cpf)
                 InfoCeletista.FGTS.opcFGTS.valor = self.origem.opc_fgts
                 if self.origem.dt_opc_fgts:
@@ -1032,7 +1036,7 @@ class SpedTransmissao(models.Model):
             self.data_hora_transmissao = data_hora_transmissao
 
             # Transmite
-            processo = processador.enviar_lote([S2200])
+            processo = processador.enviar_lote(lista_eventos=[S2200], grupo='2')
             envio_xml = processo.envio.envioLoteEventos.eventos[0].xml
             envio_xml_nome = S2200.evento.Id.valor + '-S2200-env.xml'
             retorno_xml = processo.resposta.xml
