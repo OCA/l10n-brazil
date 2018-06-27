@@ -62,7 +62,7 @@ class HrContractLaborRegime(models.Model):
 
     name = fields.Char(string='Labor regime')
     short_name = fields.Char(string='Short name')
-    code = fields.Char(string='Code', size='1')
+    code = fields.Char(string='Code', size=1)
 
     @api.multi
     def name_get(self):
