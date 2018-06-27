@@ -11,11 +11,11 @@ from openerp.exceptions import Warning
 class SpedEsocialTurnosTrabalho(models.Model):
     _name = "esocial.turnos.trabalho"
 
-    @api.multi
-    def _get_periodo_atual_default(self):
-        periodo_atual = fields.Datetime.from_string(fields.Datetime.now())
-
-        return "{}-{:0>2}".format(periodo_atual.year, periodo_atual.month)
+    # @api.multi
+    # def _get_periodo_atual_default(self):
+    #     periodo_atual = fields.Datetime.from_string(fields.Datetime.now())
+    #
+    #     return "{}-{:0>2}".format(periodo_atual.year, periodo_atual.month)
 
     name = fields.Char(
         compute="_get_display_name",
@@ -53,16 +53,25 @@ class SpedEsocialTurnosTrabalho(models.Model):
         required=True,
         size=30,
     )
-    ini_valid = fields.Char(
-        string="Competência de início",
+    ini_valid = fields.Many2one(
+        string="Competência Inicial",
+        comodel_name='account.period',
         required=True,
-        size=7,
-        default=_get_periodo_atual_default,
     )
-    fim_valid = fields.Char(
-        string="Competência final",
-        size=7,
+    # ini_valid = fields.Char(
+    #     string="Competência de início",
+    #     required=True,
+    #     size=7,
+    #     default=_get_periodo_atual_default,
+    # )
+    fim_valid = fields.Many2one(
+        string="Competência Final",
+        comodel_name='account.period',
     )
+    # fim_valid = fields.Char(
+    #     string="Competência final",
+    #     size=7,
+    # )
     sped_esocial_turnos_trabalho_ids = fields.One2many(
         comodel_name="sped.esocial.turnos.trabalho",
         inverse_name="sped_esocial_turnos_trabalho_id"
@@ -123,7 +132,7 @@ class SpedEsocialTurnosTrabalho(models.Model):
     @api.multi
     def _validacoes_campos_turno(self, vals):
         self._validar_campos_horas(vals)
-        self._validar_campos_periodo(vals)
+        # self._validar_campos_periodo(vals)
 
     @api.multi
     def _validar_campos_horas(self, vals):
@@ -152,25 +161,25 @@ class SpedEsocialTurnosTrabalho(models.Model):
                 "Minuto deve estar entre 00 e 59!"
             )
 
-    @api.multi
-    def _validar_campos_periodo(self, vals):
-        if vals.get('ini_valid'):
-            self._validar_formato_campo_periodo(vals.get('ini_valid'))
-        if vals.get('fim_valid'):
-            self._validar_formato_campo_periodo(vals.get('fim_valid'))
+    # @api.multi
+    # def _validar_campos_periodo(self, vals):
+    #     if vals.get('ini_valid'):
+    #         self._validar_formato_campo_periodo(vals.get('ini_valid'))
+    #     if vals.get('fim_valid'):
+    #         self._validar_formato_campo_periodo(vals.get('fim_valid'))
 
-    @api.multi
-    def _validar_formato_campo_periodo(self, periodo):
-        if not periodo[4] == '-':
-            raise Warning(
-                "Formato do campo periodo está incorreto, "
-                "o modelo correto é AAAA-MM!"
-            )
-        mes = int(periodo[5:])
-        if mes < 1 or mes > 12:
-            raise Warning(
-                "Mês deve estar entre 1 e 12!"
-            )
+    # @api.multi
+    # def _validar_formato_campo_periodo(self, periodo):
+    #     if not periodo[4] == '-':
+    #         raise Warning(
+    #             "Formato do campo periodo está incorreto, "
+    #             "o modelo correto é AAAA-MM!"
+    #         )
+    #     mes = int(periodo[5:])
+    #     if mes < 1 or mes > 12:
+    #         raise Warning(
+    #             "Mês deve estar entre 1 e 12!"
+    #         )
 
 
 class SpedEsocialTurnosIntervalo(models.Model):
@@ -219,6 +228,7 @@ class SpedEsocialTurnosIntervalo(models.Model):
     @api.model
     def create(self, vals):
         self._validacoes_campos_turno(vals)
+        return super(SpedEsocialTurnosIntervalo, self).create(vals)
 
     @api.multi
     def _validacoes_campos_turno(self, vals):
@@ -227,10 +237,12 @@ class SpedEsocialTurnosIntervalo(models.Model):
     @api.multi
     def _validar_campos_horas(self, vals):
         if vals.get('ini_interv'):
-            self.sped_esocial_turnos_trabalho_id._validar_formato_campo_hora(
+            self.env['esocial.turnos.trabalho']._validar_formato_campo_hora(
                 vals.get('ini_interv')
             )
+            # self.sped_esocial_turnos_trabalho_id._validar_formato_campo_hora(
+
         if vals.get('term_interv'):
-            self.sped_esocial_turnos_trabalho_id._validar_formato_campo_hora(
-                vals.get('term_interv')
-            )
+            self.env['esocial.turnos.trabalho']._validar_formato_campo_hora(
+                    vals.get('term_interv')
+                )
