@@ -710,9 +710,11 @@ class SpedTransmissao(models.Model):
             # Popula ideHorContratual
             S1050.evento.infoHorContratual.operacao = 'I'
             S1050.evento.infoHorContratual.ideHorContratual.codHorContrat.valor = self.origem.sped_esocial_turnos_trabalho_id.cod_hor_contrat
-            S1050.evento.infoHorContratual.ideHorContratual.iniValid.valor = self.origem.sped_esocial_turnos_trabalho_id.ini_valid
+            # S1050.evento.infoHorContratual.ideHorContratual.iniValid.valor = self.origem.sped_esocial_turnos_trabalho_id.ini_valid
+            S1050.evento.infoHorContratual.ideHorContratual.iniValid.valor = self.origem.sped_esocial_turnos_trabalho_id.ini_valid.code[3:7] + '-' + self.origem.sped_esocial_turnos_trbalho_id.ini_valid.code[0:2]
             if self.origem.sped_esocial_turnos_trabalho_id.fim_valid:
-                S1050.evento.infoHorContratual.ideHorContratual.fim_valid.valor = self.origem.sped_esocial_turnos_trabalho_id.fim_valid
+                # S1050.evento.infoHorContratual.ideHorContratual.fimValid.valor = self.origem.sped_esocial_turnos_trabalho_id.fim_valid
+                S1050.evento.infoHorContratual.ideHorContratual.fimValid.valor = self.origem.sped_esocial_turnos_trabalho_id.fim_valid.code[3:7] + '-' + self.origem.sped_esocial_turnos_trbalho_id.fim_valid.code[0:2]
 
             # Popula dadosHorContratual
             S1050.evento.infoHorContratual.dadosHorContratual.hrEntr.valor = self.origem.sped_esocial_turnos_trabalho_id.hr_entr.replace(":", "")
