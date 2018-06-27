@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="sped_resource_calendar_attendance">
+            <field name="name">Adiciona e-Social nas Funcoes</field>
+            <field name="model">resource.calendar.attendance</field>
+            <field name="inherit_id" ref="resource.view_resource_calendar_attendance_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="editable">bottom</attribute>
+                </xpath>
+                <field name="hour_from" position="replace" />
+                <field name="hour_to" position="replace" />
+                <field name="date_from" position="replace" />
+                <field name="dayofweek" position="after">
+                    <field name="turno_id" required="1" options="{'no_create': True, 'no_open': True}"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
