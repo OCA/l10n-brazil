@@ -922,8 +922,8 @@ class SpedTransmissao(models.Model):
                 # Popula infoCeletista
                 InfoCeletista = pysped.esocial.leiaute.S2200_InfoCeletista_2()
                 InfoCeletista.dtAdm.valor = self.origem.date_start
-                InfoCeletista.tpAdmissao.valor = self.origem.tp_admissao
-                InfoCeletista.indAdmissao.valor = self.origem.ind_admissao
+                InfoCeletista.tpAdmissao.valor = str(self.origem.admission_type_id.code)
+                InfoCeletista.indAdmissao.valor = self.origem.indicativo_de_admissao
                 InfoCeletista.tpRegJor.valor = self.origem.tp_reg_jor
                 InfoCeletista.cnpjSindCategProf.valor = limpa_formatacao(self.origem.partner_union.cnpj_cpf)
                 InfoCeletista.FGTS.opcFGTS.valor = self.origem.opc_fgts
