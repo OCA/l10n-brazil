@@ -61,9 +61,6 @@
                     <field name="dsc_tp_jorn" attrs="{'invisible': [('tp_jornada', '!=', '9')], 'required': [('tp_jornada', '=', '9')]}" />
                     <field name="tmp_parc" required="1" />
                 </field>
-                <field name="admission_type_id" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </field>
                 <field name="tipo_do_contrato" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>

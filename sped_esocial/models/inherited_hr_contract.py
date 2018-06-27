@@ -27,15 +27,6 @@ class HrContract(models.Model):
         ],
         default='N',
     )
-    tp_admissao = fields.Selection(
-        string='Tipo de Admissão',
-        selection=[
-            ('1', '1-Admissão'),
-            ('2', '2-Transferência de empresa do mesmo grupo econômico'),
-            ('3', '3-Transferência de empresa consorciada ou de consórcio'),
-            ('4', '4-Transferência por motivo de sucessão, incorporação, cisão ou fusão'),
-        ],
-    )
     ind_admissao = fields.Selection(
         string='Indicativo de Admissão',
         selection=[
