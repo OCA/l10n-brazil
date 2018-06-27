@@ -251,16 +251,6 @@ msgid "October"
 msgstr "Outubro"
 
 #. module: l10n_br_hr_contract
-#: selection:hr.contract,welfare_policy:0
-msgid "Regime Geral da Previdência Social"
-msgstr "Regime Geral da Previdência Social"
-
-#. module: l10n_br_hr_contract
-#: selection:hr.contract,welfare_policy:0
-msgid "Regime Próprio da Previdência Social"
-msgstr "Regime Próprio da Previdência Social"
-
-#. module: l10n_br_hr_contract
 #: view:hr.contract:l10n_br_hr_contract.l10n_br_hr_contract_view_form
 msgid "Resignation"
 msgstr "Demissão"
@@ -335,8 +325,4 @@ msgstr "código do sindicato"
 msgid "Weekly hours"
 msgstr "Horas semanais"
 
-#. module: l10n_br_hr_contract
-#: field:hr.contract,welfare_policy:0
-msgid "Welfare policy"
-msgstr "Política de bem estar"
 
