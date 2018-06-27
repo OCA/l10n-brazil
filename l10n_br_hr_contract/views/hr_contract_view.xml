@@ -24,10 +24,9 @@
                                attrs="{'invisible':[('discount_union_contribution','=', False)]}"/>
                     </group>
                 </xpath>
+
                 <xpath expr="//field[@name='wage']" position="after">
                     <field name="salary_unit" options="{'no_create': True, 'no_open': True}" required="1"/>
-                    <field name="welfare_policy"/>
-
                 </xpath>
                 <xpath expr="//group[@name='duration_group']" position="inside">
                     <field name="monthly_hours"/>

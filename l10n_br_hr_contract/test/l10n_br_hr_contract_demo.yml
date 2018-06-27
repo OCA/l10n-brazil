@@ -18,7 +18,6 @@
     labor_bond_type_id: l10n_br_hr_contract.labor_bond_type_10
     labor_regime_id: l10n_br_hr_contract.labor_regime_clt
     salary_unit: l10n_br_hr_contract.salary_unit_1
-    welfare_policy: 'rgps'
     union: 'Demo union'
     union_cnpj: '00.874.955/0001-78'
     union_entity_code: 'DU'

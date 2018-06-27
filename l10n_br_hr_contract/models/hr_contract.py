@@ -127,13 +127,11 @@ class HrContract(models.Model):
         comodel_name='hr.contract.labor.bond.type')
     labor_regime_id = fields.Many2one(
         string='Labor regime', comodel_name='hr.contract.labor.regime')
-    welfare_policy = fields.Selection(
-        string='Welfare policy',
-        selection=[
-            ('rgps', u'Regime Geral da Previdência Social'),
-            ('rpps', u'Regime Próprio da Previdência Social')])
-    salary_unit = fields.Many2one(string='Salary Unity',
-                                  comodel_name='hr.contract.salary.unit')
+
+    salary_unit = fields.Many2one(
+        string='Salary Unity',
+        comodel_name='hr.contract.salary.unit')
+
     weekly_hours = fields.Float(string='Weekly hours')
     monthly_hours = fields.Float(string='Monthly hours')
 
