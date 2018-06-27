@@ -6,11 +6,13 @@
             <field name="name">l10n_br.hr.contract.view.form</field>
             <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
             <field name="arch" type="xml">
+
                 <xpath expr="//field[@name='type_id']" position="after">
-                    <field name="admission_type_id"/>
+                    <field name="admission_type_id" options="{'no_create': True, 'create_edit': False, 'no_open': True}" required="1" />
                     <field name="labor_bond_type_id"/>
                     <field name="labor_regime_id" options="{'no_create': True, 'no_create': False}" required="1"/>
                 </xpath>
+
                 <xpath expr="//group[@name='duration_group']" position="after">
                     <group name="union" string="Union">
                         <field name="partner_union"/>
