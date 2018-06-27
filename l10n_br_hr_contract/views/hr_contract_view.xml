@@ -10,7 +10,7 @@
                 <xpath expr="//field[@name='type_id']" position="after">
                     <field name="admission_type_id" options="{'no_create': True, 'create_edit': False, 'no_open': True}" required="1" />
                     <field name="labor_bond_type_id"/>
-                    <field name="labor_regime_id" options="{'no_create': True, 'no_create': False}" required="1"/>
+                    <field name="labor_regime_id" options="{'no_create': True, 'create_edit': False}" required="1"/>
                 </xpath>
 
                 <xpath expr="//group[@name='duration_group']" position="after">
