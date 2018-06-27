@@ -148,11 +148,13 @@ class HrContract(models.Model):
         if self.sped_s2200_registro:
             raise ValidationError('Esta contrato já registro este vínculo')
 
+        empresa = self.company_id.id if self.company_id.eh_empresa_base else self.company_id.matriz.id
+
         values = {
             'tipo': 'esocial',
             'registro': 'S-2200',
             'ambiente': self.company_id.esocial_tpAmb or self.company_id.matriz.esocial_tpAmb,
-            'company_id': self.company_id.id,
+            'company_id': empresa,
             'evento': 'evtAdmissao',
             'origem': ('hr.contract,%s' % self.id),
         }
