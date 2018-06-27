@@ -5,7 +5,6 @@
 from openerp import api, fields, models
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 from pybrasil.valor import formata_valor
-from pybrasil.data import formata_data
 from datetime import datetime
 from openerp.exceptions import ValidationError
 import base64
@@ -404,7 +403,7 @@ class SpedTransmissao(models.Model):
 
             # Popula infoEntEduc
             for entidade in self.origem.estabelecimento_id.info_ent_educ_ids:
-                info_ent_educ = pysped.leiaute.InfoEntEduc_2()
+                info_ent_educ = pysped.esocial.leiaute.InfoEntEduc_2()
                 info_ent_educ.nrInsc = limpa_formatacao(entidade.cnpj_cpf)
                 S1005.evento.infoEstab.dadosEstab.infoTrab.infoApr.infoEntEduc.append(info_ent_educ)
 
@@ -810,9 +809,9 @@ class SpedTransmissao(models.Model):
             # S2200.evento.trabalhador.nmSoc =  # TODO separar Nome Legal de Nome Social no Odoo
 
             # Popula trabalhador.nascimento
-            S2200.evento.trabalhador.nascimento.dtNascto.valor = formata_data(self.origem.employee_id.birthday)
-            S2200.evento.trabalhador.nascimento.codMunic.valor = self.origem.employee_id.place_of_birth.ibge_code or ''
-            S2200.evento.trabalhador.nascimento.uf.valor = self.origem.employee_id.place_of_birth.state_id.code or ''
+            S2200.evento.trabalhador.nascimento.dtNascto.valor = self.origem.employee_id.birthday
+            S2200.evento.trabalhador.nascimento.codMunic.valor = self.origem.employee_id.naturalidade.ibge_code or ''
+            S2200.evento.trabalhador.nascimento.uf.valor = self.origem.employee_id.naturalidade.state_id.code or ''
             S2200.evento.trabalhador.nascimento.paisNascto.valor = self.origem.employee_id.pais_nascto_id.codigo
             S2200.evento.trabalhador.nascimento.paisNac.valor = self.origem.employee_id.pais_nac_id.codigo
             S2200.evento.trabalhador.nascimento.nmMae.valor = self.origem.employee_id.mother_name or ''
@@ -821,90 +820,90 @@ class SpedTransmissao(models.Model):
             # Popula trabalhador.documentos
             # CTPS
             if self.origem.employee_id.ctps:
-                CTPS = pysped.leiaute.S2200_CTPS_2()
+                CTPS = pysped.esocial.leiaute.S2200_CTPS_2()
                 CTPS.nrCtps.valor = self.origem.employee_id.ctps or ''
-                CTPS.serieCtps.valor = self.origem.employee_id.ctps_serie or ''
+                CTPS.serieCtps.valor = self.origem.employee_id.ctps_series or ''
                 CTPS.ufCtps.valor = self.origem.employee_id.ctps_uf_id.code or ''
                 S2200.evento.trabalhador.documentos.CTPS.append(CTPS)
 
             # # RIC  # TODO (Criar campos em l10n_br_hr)
             # if self.origem.employee_id.ric:
-            #     RIC = pysped.leiaute.S2200_RIC_2()
+            #     RIC = pysped.esocial.leiaute.S2200_RIC_2()
             #     RIC.nrRic.valor = self.origem.employee_id.ric
             #     RIC.orgaoEmissor.valor = self.origem.employee_id.ric_orgao_emissor
             #     if self.origem.employee_id.ric_dt_exped:
-            #         RIC.dtExped.valor = formata_data(self.origem.employee_id.ric_dt_exped)
+            #         RIC.dtExped.valor = self.origem.employee_id.ric_dt_exped
             #     S2200.evento.trabalhador.documentos.RG.append(RIC)
 
             # RG
             if self.origem.employee_id.rg:
-                RG = pysped.leiaute.S2200_RG_2()
+                RG = pysped.esocial.leiaute.S2200_RG_2()
                 RG.nrRg.valor = self.origem.employee_id.rg or ''
                 RG.orgaoEmissor.valor = self.origem.employee_id.organ_exp or ''
                 if self.origem.employee_id.rg_emission:
-                    RG.dtExped.valor = formata_data(self.origem.employee_id.rg_emission)
+                    RG.dtExped.valor = self.origem.employee_id.rg_emission
                 S2200.evento.trabalhador.documentos.RG.append(RG)
 
             # # RNE  # TODO (Criar campos em l10n_br_hr)
             # if self.origem.employee_id.rne:
-            #     RNE = pysped.leiaute.S2200_RNE_2()
+            #     RNE = pysped.esocial.leiaute.S2200_RNE_2()
             #     RNE.nrRne.valor = self.origem.employee_id.rne
             #     RNE.orgaoEmissor.valor = self.origem.employee_id.rne_orgao_emissor
             #     if self.origem.employee_id.rne_dt_exped:
-            #         RNE.dtExped.valor = formata_data(self.origem.employee_id.rne_dt_exped)
+            #         RNE.dtExped.valor = self.origem.employee_id.rne_dt_exped
             #     S2200.evento.trabalhador.documentos.RNE.append(RNE)
 
             # # OC  # TODO (Criar campos em l10n_br_hr)
             # if self.origem.employee_id.oc:
-            #     OC = pysped.leiaute.S2200_OC_2()
+            #     OC = pysped.esocial.leiaute.S2200_OC_2()
             #     OC.nrOc.valor = self.origem.employee_id.oc
             #     OC.orgaoEmissor.valor = self.origem.employee_id.oc_orgao_emissor
             #     if self.origem.employee_id.oc_dt_exped:
-            #         OC.dtExped.valor = formata_data(self.origem.employee_id.oc_dt_exped)
+            #         OC.dtExped.valor = self.origem.employee_id.oc_dt_exped
             #     if self.origem.employee_id.oc_dt_valid:
-            #         OC.dtValid.valor = formata_data(self.origem.employee_id.oc_dt_valid)
+            #         OC.dtValid.valor = self.origem.employee_id.oc_dt_valid
             #     S2200.evento.trabalhador.documentos.OC.append(OC)
 
             # CNH
             if self.origem.employee_id.driver_license:
-                CNH = pysped.leiaute.S2200_CNH_2()
+                CNH = pysped.esocial.leiaute.S2200_CNH_2()
                 CNH.nrRegCnh.valor = self.origem.employee_id.driver_license
                 if self.origem.employee_id.cnh_dt_exped:
-                    CNH.dtExped.valor = formata_data(self.origem.employee_id.cnh_dt_exped)
+                    CNH.dtExped.valor = self.origem.employee_id.cnh_dt_exped
                 CNH.ufCnh.valor = self.origem.employee_id.cnh_uf.code
-                CNH.dtValid.valor = formata_data(self.origem.employee_id.expiration_date)
+                CNH.dtValid.valor = self.origem.employee_id.expiration_date
                 if self.origem.employee_id.cnh_dt_pri_hab:
-                    CNH.dtPriHab.valor = formata_data(self.origem.employee_id.cnh_dt_pri_hab)
+                    CNH.dtPriHab.valor = self.origem.employee_id.cnh_dt_pri_hab
                 CNH.categoriaCnh.valor = self.origem.employee_id.driver_categ
                 S2200.evento.trabalhador.documentos.CNH.append(CNH)
 
             # Popula trabalhador.endereco.brasil
-            Brasil = pysped.leiaute.S2200_Brasil_2()
+            Brasil = pysped.esocial.leiaute.S2200_Brasil_2()
             Brasil.tpLograd.valor = self.origem.employee_id.tp_lograd.codigo or ''
             Brasil.dscLograd.valor = self.origem.employee_id.address_home_id.street or ''
             Brasil.nrLograd.valor = self.origem.employee_id.address_home_id.number or ''
             Brasil.complemento.valor = self.origem.employee_id.address_home_id.street2 or ''
             Brasil.bairro.valor = self.origem.employee_id.address_home_id.district or ''
-            Brasil.cep.valor = limpa_formatacao(self.origem.employee_id.zip) or ''
+            Brasil.cep.valor = limpa_formatacao(self.origem.employee_id.address_home_id.zip) or ''
             Brasil.codMunic.valor = self.origem.employee_id.address_home_id.l10n_br_city_id.ibge_code
             Brasil.uf.valor = self.origem.employee_id.address_home_id.state_id.code
-            S2200.evento.trabalhador.endereco.Brasil.append(Brasil)
+            S2200.evento.trabalhador.endereco.brasil.append(Brasil)
 
             # Popula trabalhador.dependente
             if self.origem.employee_id.have_dependent:
                 for dependente in self.origem.employee_id.dependent_ids:
-                    Dependente = pysped.leiaute.S2200_Dependente_2()
+                    Dependente = pysped.esocial.leiaute.S2200_Dependente_2()
                     Dependente.tpDep.valor = dependente.dependent_type_id.code.zfill(2)
                     Dependente.nmDep.valor = dependente.dependent_name
                     Dependente.cpfDep.valor = dependente.dependent_cpf
-                    Dependente.dtNascto.valor = formata_data(dependente.dependent_dob)
+                    Dependente.dtNascto.valor = dependente.dependent_dob
                     Dependente.depIRRF.valor = 'S' if dependente.dependent_verification else 'N'
                     Dependente.depSF.valor = 'S' if dependente.dep_sf else 'N'
                     Dependente.incTrab.valor = 'S' if dependente.inc_trab else 'N'
                     S2200.evento.trabalhador.dependente.append(Dependente)
 
             # Popula trabalhador.contato
-            Contato = pysped.leiaute.S2200_Contato_2()
+            Contato = pysped.esocial.leiaute.S2200_Contato_2()
             Contato.fonePrinc.valor = limpa_formatacao(self.origem.employee_id.address_home_id.phone or '')
             Contato.foneAlternat.valor = limpa_formatacao(self.origem.employee_id.alternate_phone or '')
             Contato.emailPrinc.valor = self.origem.employee_id.address_home_id.email or ''
@@ -921,21 +920,21 @@ class SpedTransmissao(models.Model):
             if self.origem.labor_regime_id.code == '1':
 
                 # Popula infoCeletista
-                InfoCeletista = pysped.leiaute.S2200_InfoCeletista_2()
-                InfoCeletista.dtAdm.valor = formata_data(self.origem.date_start)
+                InfoCeletista = pysped.esocial.leiaute.S2200_InfoCeletista_2()
+                InfoCeletista.dtAdm.valor = self.origem.date_start
                 InfoCeletista.tpAdmissao.valor = self.origem.tp_admissao
                 InfoCeletista.indAdmissao.valor = self.origem.ind_admissao
                 InfoCeletista.tpRegJor.valor = self.origem.tp_reg_jor
                 InfoCeletista.cnpjSindCategProf.valor = limpa_formatacao(self.origem.partner_union.cnpj_cpf)
                 InfoCeletista.FGTS.opcFGTS.valor = self.origem.opc_fgts
                 if self.origem.dt_opc_fgts:
-                    InfoCeletista.FGTS.dtOpcFGTS.valor = formata_data(self.origem.dt_opc_fgts)
+                    InfoCeletista.FGTS.dtOpcFGTS.valor = self.origem.dt_opc_fgts
                 S2200.evento.vinculo.infoRegimeTrab.infoCeletista.append(InfoCeletista)
 
             elif self.origem.labor_regime_id.code == '2':
 
                 # Popula infoEstatutario  # TODO
-                InfoEstatutario = pysped.leiaute.S2200_InfoEstatutario_2()
+                InfoEstatutario = pysped.esocial.leiaute.S2200_InfoEstatutario_2()
 
 
             # Popula vinculo.infoContrato
@@ -954,18 +953,18 @@ class SpedTransmissao(models.Model):
             # Popula vinculo.infoContrato.duracao
             S2200.evento.vinculo.infoContrato.tpContr.valor = self.origem.tp_contr
             if self.origem.tp_contr == '2':
-                S2200.evento.vinculo.infoContrato.dtTerm.valor = formata_data(self.origem.date_end)
+                S2200.evento.vinculo.infoContrato.dtTerm.valor = self.origem.date_end
                 S2200.evento.vinculo.infoContrato.clauAssec.valor = self.origem.clau_assec
 
             # Popula vinculo.infoContrato.localTrabalho
-            LocalTrabGeral = pysped.leiaute.S2200_LocalTrabGeral_2()
+            LocalTrabGeral = pysped.esocial.leiaute.S2200_LocalTrabGeral_2()
             LocalTrabGeral.tpInsc.valor = '1'
             LocalTrabGeral.nrInsc.valor = limpa_formatacao(self.company_id.cnpj_cpf)
             # LocalTrabGeral.descComp.valor = ''  # TODO Criar no contrato
             S2200.evento.vinculo.infoContrato.localTrabalho.localTrabGeral.append(LocalTrabGeral)
 
             # Popula vinculo.infoContrato.horContratual (Campos)
-            HorContratual = pysped.leiaute.S2200_HorContratual_2()
+            HorContratual = pysped.esocial.leiaute.S2200_HorContratual_2()
             HorContratual.qtdHorSem.valor = formata_valor(self.origem.weekly_hours)
             HorContratual.tpJornada.valor = self.origem.tp_jornada
             if self.origem.tp_jornada == '9':
@@ -975,28 +974,28 @@ class SpedTransmissao(models.Model):
             # Popula vinculo.horContratual.horario
             if self.origem.working_hours:
                 for horario in self.origem.working_hours.attendance_ids:
-                    Horario = pysped.leiaute.S2200_Horario_2()
+                    Horario = pysped.esocial.leiaute.S2200_Horario_2()
                     Horario.dia.valor = horario.diadasemana
                     Horario.codHorContrat.valor = horario.turno_id.cod_hor_contrat
-                    HorContratual.append(Horario)
+                    HorContratual.horario.append(Horario)
 
             # Popula vinculo.infoContrato.horContratual (Efetivamente)
             S2200.evento.vinculo.infoContrato.horContratual.append(HorContratual)
 
             # Popula vinculo.infoContrato.filiacaoSindical
-            FiliacaoSindical = pysped.leiaute.S2200_FiliacaoSindical_2()
+            FiliacaoSindical = pysped.esocial.leiaute.S2200_FiliacaoSindical_2()
             FiliacaoSindical.cnpjSindTrab.valor = limpa_formatacao(self.origem.partner_union.cnpj_cpf or '')
             S2200.evento.vinculo.infoContrato.filiacaoSindical.append(FiliacaoSindical)
 
             # Popula vinculo.infoContrato.observacoes
             if self.origem.notes:
-                Observacoes = pysped.leiaute.S2200_Observacoes_2()
+                Observacoes = pysped.esocial.leiaute.S2200_Observacoes_2()
                 Observacoes.observacao.valor = self.origem.notes[0:254]
                 S2200.evento.vinculo.infoContrato.observacoes.append(Observacoes)
 
             # Popula vinculo.sucessaoVinc
             if self.origem.cnpj_empregador_anterior:
-                SucessaoVinc = pysped.leiaute.S2200_SucessaoVinc_2()
+                SucessaoVinc = pysped.esocial.leiaute.S2200_SucessaoVinc_2()
                 SucessaoVinc.cnpjEmpregAnt.valor = limpa_formatacao(self.origem.cnpj_empregador_anterior)
                 if self.origem.matricula_anterior:
                     SucessaoVinc.matricAnt.valor = self.origem.matricula_anterior
