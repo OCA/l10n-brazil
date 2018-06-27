@@ -31,9 +31,6 @@
                     <field name="tp_admissao"
                            attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"
                     />
-                    <field name="ind_admissao"
-                           attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"
-                    />
                     <field name="tp_reg_jor"
                            attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"
                     />

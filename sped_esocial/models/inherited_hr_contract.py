@@ -27,14 +27,6 @@ class HrContract(models.Model):
         ],
         default='N',
     )
-    ind_admissao = fields.Selection(
-        string='Indicativo de Admissão',
-        selection=[
-            ('1', '1-Normal'),
-            ('2', '2-Decorrente de Ação Fiscal'),
-            ('3', '3-Decorrente de Decisão Judicial'),
-        ],
-    )
     tp_reg_jor = fields.Selection(
         string='Regime de Jornada',
         selection=[
