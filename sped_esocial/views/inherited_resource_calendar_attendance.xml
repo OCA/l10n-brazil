@@ -10,10 +10,15 @@
                 <xpath expr="//tree" position="attributes">
                     <attribute name="editable">bottom</attribute>
                 </xpath>
+                <field name="name" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
                 <field name="hour_from" position="replace" />
                 <field name="hour_to" position="replace" />
                 <field name="date_from" position="replace" />
-                <field name="dayofweek" position="after">
+                <field name="dayofweek" position="replace" />
+                <field name="name" position="after">
+                    <field name="diadasemana" required="1" />
                     <field name="turno_id" required="1" options="{'no_create': True, 'no_open': True}"/>
                 </field>
             </field>

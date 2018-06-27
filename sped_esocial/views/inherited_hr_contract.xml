@@ -24,6 +24,9 @@
                         </group>
                     </page>
                 </xpath>
+                <field name="partner_union" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
                 <field name="primeiro_emprego" position="before">
                     <field name="tp_admissao"
                            attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"
