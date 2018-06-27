@@ -85,10 +85,10 @@ class HrContractSalaryUnit(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            name = record['name']
-            if record['code']:
-                name = record['code'] + ' - ' + name
-            result.append((record['id'], name))
+            # name = record['name']
+            # if record['code']:
+            #     name = record.code + '-' + record.name
+            result.append((record['id'], record.code + '-' + record.name))
         return result
 
 
