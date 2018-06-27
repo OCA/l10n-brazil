@@ -47,9 +47,6 @@
                     <field name="cnh_dt_pri_hab" />
                     <field name="cnh_uf" domain="[('country_id','=',country_id)]" attrs="{'required': [('driver_license', '!=', False)]}" />
                 </field>
-                <field name="address_home_id" position="before">
-                    <field name="tp_lograd" required="1" options="{'no_create': True, 'no_open': True}"/>
-                </field>
                 <field name="dependent_verification" position="after">
                     <field name="dep_sf" />
                     <field name="inc_trab" />

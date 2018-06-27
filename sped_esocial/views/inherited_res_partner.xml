@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record id="view_l10n_br_base_partner_esocial_form" model="ir.ui.view">
+            <field name="name">view.res.partner.form (in sped_esocial)</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="l10n_br_base.view_l10n_br_base_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="street" position="before">
+                    <field name="tp_lograd" options="{'no_create': True, 'no_edit': True}" />
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

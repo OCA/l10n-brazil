@@ -20,6 +20,7 @@
 ##############################################################################
 
 from . import inherited_res_company
+from . import inherited_res_partner
 from . import inherited_hr_salary_rule
 from . import inherited_hr_job
 from . import inherited_hr_contract

@@ -7,7 +7,6 @@ from openerp.exceptions import ValidationError
 
 
 class HrEmployee(models.Model):
-
     _inherit = 'hr.employee'
 
     # Cria campos pais_nac_id e pais_nascto_id para substituir o place_of_birth (que é texto)
@@ -31,7 +30,4 @@ class HrEmployee(models.Model):
     cnh_dt_pri_hab = fields.Date(
         string='Data da 1ª Hab.',
     )
-    tp_lograd = fields.Many2one(
-        string='Tipo de Lograd.',
-        comodel_name='sped.tipo_logradouro',
     )
