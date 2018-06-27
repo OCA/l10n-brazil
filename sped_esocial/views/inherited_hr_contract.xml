@@ -43,6 +43,7 @@
                            <!--attrs="{'invisible': [('labor_regime_id.code', '!=', '1')], 'required': [('labor_regime_id.code', '=', '1')]}"-->
                     <!--/>-->
                     <field name="dt_opc_fgts" />
+                    <!--attrs="{'required': ['opc_fgts', '=', '1']}"/>-->
                            <!--attrs="{'invisible': [('labor_regime_id.code', '!=', '1')]}"-->
                     <!--/>-->
                 </field>
