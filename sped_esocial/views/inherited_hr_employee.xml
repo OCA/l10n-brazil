@@ -29,5 +29,39 @@
             </field>
         </record>
 
+        <record id="hr_employee_view_form" model="ir.ui.view">
+            <field name="name">hr.employee.view.form (in sped_esocial)</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_inline oe_stat_button"
+                        name="criar_s2205" type="object"
+                        icon="fa-file-o" string="Retificar e-Social"
+                        attrs="{'invisible': [('sped_s2205_situacao', 'not in', ('5'))]}" />
+                    <field name="sped_s2205_situacao" widget="statinfo" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//notebook[last()]" position="inside">
+                    <page name="esocial" string="e-Social">
+                        <group colspan="4">
+                            <separator string="Registro S-2205 Alterações Cadastrais" />
+                        </group>
+                        <group>
+                            <field name="sped_s2205_situacao" />
+                        </group>
+                        <group>
+                            <button name="criar_s2205" colspan="4"
+                                    type="object" class="oe_highlight"
+                                    attrs="{'invisible': [('sped_s2205_situacao', 'not in', ('5'))]}"
+                                    string="Retificar Registro S-2205"/>
+                        </group>
+                        <field name="sped_s2205_registro_ids" options="{'always_reload': True}" />
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </openerp>
