@@ -964,7 +964,7 @@ class SpedTransmissao(models.Model):
             # LocalTrabGeral.descComp.valor = ''  # TODO Criar no contrato
             S2200.evento.vinculo.infoContrato.localTrabalho.localTrabGeral.append(LocalTrabGeral)
 
-            # Popula vinculo.horContratual
+            # Popula vinculo.infoContrato.horContratual (Campos)
             HorContratual = pysped.leiaute.S2200_HorContratual_2()
             HorContratual.qtdHorSem.valor = formata_valor(self.origem.weekly_hours)
             HorContratual.tpJornada.valor = self.origem.tp_jornada
@@ -973,7 +973,37 @@ class SpedTransmissao(models.Model):
             HorContratual.tmpParc.valor = self.origem.tmp_parc
 
             # Popula vinculo.horContratual.horario
-            
+            if self.origem.working_hours:
+                for horario in self.origem.working_hours.attendance_ids:
+                    Horario = pysped.leiaute.S2200_Horario_2()
+                    Horario.dia.valor = horario.diadasemana
+                    Horario.codHorContrat.valor = horario.turno_id.cod_hor_contrat
+                    HorContratual.append(Horario)
+
+            # Popula vinculo.infoContrato.horContratual (Efetivamente)
+            S2200.evento.vinculo.infoContrato.horContratual.append(HorContratual)
+
+            # Popula vinculo.infoContrato.filiacaoSindical
+            FiliacaoSindical = pysped.leiaute.S2200_FiliacaoSindical_2()
+            FiliacaoSindical.cnpjSindTrab.valor = limpa_formatacao(self.origem.partner_union.cnpj_cpf or '')
+            S2200.evento.vinculo.infoContrato.filiacaoSindical.append(FiliacaoSindical)
+
+            # Popula vinculo.infoContrato.observacoes
+            if self.origem.notes:
+                Observacoes = pysped.leiaute.S2200_Observacoes_2()
+                Observacoes.observacao.valor = self.origem.notes[0:254]
+                S2200.evento.vinculo.infoContrato.observacoes.append(Observacoes)
+
+            # Popula vinculo.sucessaoVinc
+            if self.origem.cnpj_empregador_anterior:
+                SucessaoVinc = pysped.leiaute.S2200_SucessaoVinc_2()
+                SucessaoVinc.cnpjEmpregAnt.valor = limpa_formatacao(self.origem.cnpj_empregador_anterior)
+                if self.origem.matricula_anterior:
+                    SucessaoVinc.matricAnt.valor = self.origem.matricula_anterior
+                SucessaoVinc.dtTransf.valor = limpa_formatacao(self.origem.date_start)  # Se for transf. a data de inicio do contrato é a correta neste campo
+                if self.origem.observacoes_vinculo_anterior:
+                    SucessaoVinc.observacao.valor = self.origem.observacoes_vinculo_anterior
+                S2200.evento.vinculo.sucessaoVinc.append(SucessaoVinc)
 
             # Gera
             data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
