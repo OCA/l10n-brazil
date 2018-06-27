@@ -16,7 +16,7 @@
     'license': 'AGPL-3',
     'author': 'KMEE & ABGF',
     'website': 'www.odoobrasil.org.br, www.abgf.gov.br',
-    'depends': [],
+    'depends': ['l10n_br_hr'],
     'external_dependencies': {
         'python': [
             'pybrasil',
