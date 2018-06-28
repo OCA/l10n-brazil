@@ -14,12 +14,12 @@
                                 <field name="codigo" required="1" />
                                 <field name="cargo_publico"/>
                                 <field name="ini_valid"
-                                       domain="[('date_start', '&gt;=', '2018-05-01')]"
+                                       domain="[('date_start', '&gt;=', '2018-01-01')]"
                                        options="{'no_create': True, 'no_open': True}"
                                        attrs="{'required': True}"
                                 />
                                 <field name="fim_valid"
-                                       domain="[('date_start', '&gt;=', '2018-05-01')]"
+                                       domain="[('date_start', '&gt;=', '2018-01-01')]"
                                        options="{'no_create': True, 'no_open': True}"
                                 />
                                 <field name="acum_cargo" colspan="4"

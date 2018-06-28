@@ -22,12 +22,12 @@
                             <page string="Dados Requeridos pelo e-Social" attrs="{'invisible': [('nat_rubr', '=', False)]}">
                                 <group colspan="4" col="4">
                                     <field name="ini_valid"
-                                           domain="[('date_start', '&gt;=', '2018-05-01')]"
+                                           domain="[('date_start', '&gt;=', '2018-01-01')]"
                                            options="{'no_create': True, 'no_open': True}"
                                            attrs="{'required': [('nat_rubr', '!=', False)]}"
                                     />
                                     <field name="fim_valid"
-                                           domain="[('date_start', '&gt;=', '2018-05-01')]"
+                                           domain="[('date_start', '&gt;=', '2018-01-01')]"
                                            options="{'no_create': True, 'no_open': True}"
                                     />
                                     <field name="tp_rubr" colspan="4" attrs="{'required': [('nat_rubr', '!=', False)]}" />

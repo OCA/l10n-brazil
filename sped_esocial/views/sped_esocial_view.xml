@@ -29,7 +29,7 @@
                         <group colspan="4" col="4">
                             <group colspan="2" col="2">
                                 <field name="periodo_id" string="Período" attrs="{'invisible': [('situacao', '!=', '1')]}"
-                                       domain="[('date_start', '&gt;=', '2018-05-01')]"
+                                       domain="[('date_start', '&gt;=', '2018-01-01')]"
                                        options="{'no_create': True, 'no_open': True}" required="1"
                                 />
                                 <field name="periodo_id_readonly" string="Período" attrs="{'invisible': [('situacao', '=', '1')]}" />
@@ -216,7 +216,7 @@
                                                <!--attrs="{'invisible': [('pode_sem_movto', '=', False)]}"-->
                                         <!--/>-->
                                         <!--<field name="comp_sem_movto_id" nolabel="1" colspan="1"-->
-                                               <!--domain="[('date_start', '&gt;=', '2018-05-01'), ('date_start', '&lt;=', date_start)]"-->
+                                               <!--domain="[('date_start', '&gt;=', '2018-01-01'), ('date_start', '&lt;=', date_start)]"-->
                                                <!--options="{'no_open': True, 'no_create': True}"-->
                                                <!--attrs="{'invisible': [('pode_sem_movto', '=', False)]}"-->
                                         <!--/>-->

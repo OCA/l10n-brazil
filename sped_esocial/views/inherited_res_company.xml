@@ -26,7 +26,7 @@
                                 <field name="esocial_fone_cel" />
                                 <field name="esocial_email" />
                                 <field name="esocial_periodo_id" attrs="{'required': [('eh_empresa_base', '=', True)]}"
-                                       domain="[('date_start', '&gt;=', '2018-05-01')]"
+                                       domain="[('date_start', '&gt;=', '2018-01-01')]"
                                        options="{'no_create': True, 'no_open': True}"
                                 />
                             </group>
