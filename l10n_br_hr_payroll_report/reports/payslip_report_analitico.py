@@ -186,7 +186,7 @@ def analytic_report(pool, cr, uid, local_context, context):
     valor_retencao_do_mes_deducao = 0.00
     total_inss_deducao = 0.00
     base_fgts = 0.00
-#    fgts = 0.00
+    fgts = 0.00
 
     for rubrica in payslip_lines_sefip:
         if rubrica['code'] == 'INSS_EMPRESA':
@@ -244,8 +244,8 @@ def analytic_report(pool, cr, uid, local_context, context):
                 inss_funcionario_retido += rubrica['sum']
         if rubrica['code'] in ['BASE_FGTS', 'BASE_FGTS_13']:
                 base_fgts += rubrica['sum']
-#        if rubrica['code'] == 'FGTS':
-#            fgts = rubrica['sum']
+        if rubrica['code'] == 'FGTS':
+            fgts += rubrica['sum']
 
     legal_name = payslips[0].company_id.legal_name
     endereco = \
@@ -355,6 +355,7 @@ def analytic_report(pool, cr, uid, local_context, context):
         'total_inss_deducao': total_inss_deducao,
         'total_liquido_inss': total_liquido_inss,
         'base_fgts': base_fgts,
+        'fgts': fgts,
         'aliquota': aliquota_fgts,
         'valor_total_fgts': valor_total_fgts,
         'empresa_abc':
