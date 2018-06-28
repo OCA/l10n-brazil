@@ -1,207 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <openerp>
     <data>
-        <record id="sped_transmissao_form" model="ir.ui.view">
-            <field name="name">SPED Transmissões</field>
-            <field name="model">sped.transmissao</field>
+
+        <record id="sped_transmissao_lote_wizard" model="ir.ui.view">
+            <field name="name">sped_criacao_wizard</field>
+            <field name="model">sped.criacao.wizard</field>
             <field name="arch" type="xml">
-                <form string="Registros SPED" edit="false" create="false" duplicate="false">
-                    <field name="limpar_db" invisible="1"/>
-                    <header>
-                        <button name="gera_xml" type="object" string="Transmitir" class="oe_highlight"
-                                attrs="{'invisible': [('situacao', 'in', ['2', '4'])]}"
-                        />
-                        <button name="limpa_db" type="object" string="Limpar DB" class="oe_highlight"
-                                attrs="{'invisible': ['|', '|', ('registro', 'not in', ['R-1000', 'S-1000']), ('ambiente', '!=', '2'), ('situacao', '=', '1')]}"
-                        />
-                        <button name="consulta_fechamento" type="object" string="Consultar Fechamento" class="oe_highlight"
-                                attrs="{'invisible': ['|', ('registro', '!=', 'R-2099'), ('situacao', '!=', '2')]}"
-                        />
-                        <button name="consulta_esocial" type="object" string="Consultar e-Social" class="oe_highlight"
-                                attrs="{'invisible': ['|', ('tipo', '!=', 'esocial'), ('situacao', '!=', '2')]}"
-                        />
-                        <field name="situacao" widget="statusbar" select="1"
-                               nolabel="1"
-                               readonly="1"
-                               statusbar_colors='{"3":"red"}'
-                               statusbar_visible="1,2,4"
-                        />
-                    </header>
-                    <sheet string="Registro de Transmissão">
-                        <div class="oe_title">
-                            <label for="codigo" class="oe_edit_only" string="Código"/>
-                            <h1>
-                                <field name="codigo" string="Código" readonly="1"/>
-                            </h1>
-                        </div>
-                        <group colspan="4" col="4">
-                            <separator colspan="4" string="Detalhes"/>
-                            <group colspan="2" col="2">
-                                <field name="tipo" string="Tipo" widget="radio" readonly="1"/>
-                                <field name="registro" string="Registro" readonly="1"/>
-                                <field name="ambiente" string="Ambiente" readonly="1"/>
-                                <field name="company_id" options="{'no_create': True, 'no_open': True}" readonly="1"/>
-                                <field name="evento" readonly="1"/>
-                                <field name="origem" readonly="1"/>
-                            </group>
-                            <group colspan="2" col="2">
-                                <field name="data_hora_origem" readonly="1"/>
-                                <field name="data_hora_transmissao" readonly="1"/>
-                                <field name="data_hora_retorno" readonly="1"/>
-                            </group>
-                        </group>
-                        <notebook>
-                            <page name="retorno" string='Dados de Retorno'>
+                <form string="Criação de Lotes de Transmissão">
+                    <group colspan="4" col="1">
+                        <field name="lote_ids" nolabel="1" readonly="1">
+                            <tree>
+                                <field name="tipo" />
+                                <field name="grupo" />
+                                <field name="ambiente" />
+                                <field name="quantidade" />
+                            </tree>
+                            <form>
                                 <group colspan="4" col="4">
-                                    <group colspan="2" col="2">
-                                        <field name="cd_retorno" readonly="1"/>
-                                        <field name="desc_retorno" readonly="1"/>
-                                        <field name="recibo" readonly="1" attrs="{'invisible': [('recibo', '=', False)]}"/>
-                                        <field name="protocolo" readonly="1" attrs="{'invisible': [('protocolo', '=', False)]}"/>
-                                    </group>
-                                    <group colspan="2" col="2">
-                                        <field name="per_apur" readonly="1"/>
-                                        <field name="dh_process" readonly="1"/>
-                                        <field name="tp_ev" readonly="1"/>
-                                        <field name="id_ev" readonly="1"/>
-                                        <field name="hash" readonly="1"/>
+                                    <group colspan="4" col="2">
+                                        <field name="tipo" />
+                                        <field name="grupo" />
+                                        <field name="ambiente" />
+                                        <field name="quantidade" />
                                     </group>
                                     <group colspan="4" col="1">
-                                        <separator colspan="1" string="Ocorrencias" />
-                                        <field name="ocorrencia_ids" colspan="1" nolabel="1" readonly="1">
-                                            <tree editable="bottom">
-                                                <field name="tipo" />
-                                                <field name="local" />
-                                                <field name="codigo" />
-                                                <field name="descricao" />
-                                            </tree>
-                                        </field>
+                                        <label string="Registros deste Lote" />
+                                        <field name="registro_ids" readonly="1" />
                                     </group>
                                 </group>
-                            </page>
-                            <page name="lotes" string="Lote(s)">
-                                <group colspan="4" col="1">
-                                    <separator colspan="1" string="Lotes de Transmissão" />
-                                    <field name="lote_ids" colspan="1" nolabel="1" readonly="1"/>
-                                </group>
-                            </page>
-                            <page name="envio_xml" string="XML de Envio">
-                                <group colspan="4" col="2">
-                                    <field name="envio_xml_id" />
-                                    <field name="envio_xml" widget="ace" />
-                                </group>
-                            </page>
-                            <page name="retorno_xml" string="XML de Retorno">
-                                <group colspan="4" col="2">
-                                    <field name="retorno_xml_id" />
-                                    <field name="retorno_xml" widget="ace" />
-                                </group>
-                            </page>
-                            <page name="consulta_xml" string="XML de Retorno de Consulta" attrs="{'invisible': [('consulta_xml_id', '=', False)]}">
-                                <group colspan="4" col="2">
-                                    <field name="consulta_xml_id" />
-                                    <field name="consulta_xml" widget="ace" />
-                                </group>
-                            </page>
-                            <page name="fechamento_xml" string="XML de Fechamento" attrs="{'invisible': [('registro', '!=', 'R-2099')]}">
-                                <group colspan="4" col="2">
-                                    <field name="fechamento_xml_id" />
-                                    <field name="fechamento_xml" widget="ace" />
-                                </group>
-                            </page>
-                        </notebook>
-                    </sheet>
+                            </form>
+                        </field>
+                    </group>
+                    <footer>
+                        <button type="object" name="criar_lotes" string="Criar" class="oe_highlight" />
+                        <button special="cancel" string="Cancelar" />
+                    </footer>
                 </form>
             </field>
         </record>
 
-        <record model="ir.ui.view" id="sped_transmissao_tree">
-            <field name="name">SPED Transmissões</field>
-            <field name="model">sped.transmissao</field>
-            <field name="arch" type="xml">
-                <tree string="Registros" create="false" edit="false" duplicate="false"
-                      colors="blue:situacao in ('2','4');black:situacao == '1';read:situacao in ('3', '5')"
-                >
-                    <field name="codigo" />
-                    <field name="tipo"/>
-                    <field name="registro"/>
-                    <field name="ambiente" />
-                    <field name="company_id" />
-                    <field name="data_hora_origem"/>
-                    <field name="data_hora_transmissao"/>
-                    <field name="data_hora_retorno"/>
-                    <field name="situacao"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="sped_transmissao_search" model="ir.ui.view">
-            <field name="name">SPED Transmissões</field>
-            <field name="model">sped.transmissao</field>
-            <field name="arch" type="xml">
-                <search string="Transmissões">
-                    <filter name="esocial" icon="terp-document-new" string="e-Social" domain="[('tipo', '=', 'esocial')]" />
-                    <filter name="efdreinf" icon="terp-document-new" string="EFD/Reinf" domain="[('tipo', '=', 'efdreinf')]" />
-                    <filter name="com_erros" icon="terp-document-new" string="Com Erro(s)" domain="[('situacao', '=', '3')]" help="Registros com Erros"/>
-                    <filter name="pendentes" icon="terp-document-new" string="Pendente Transmissão" domain="[('situacao', '=', '1')]" />
-                    <filter name="transmitidas" icon="terp-document-new" string="Transmitidas" domain="[('situacao', '=', '2')]" />
-                    <filter name="sucessos" icon="terp-document-new" string="Com Sucesso" domain="[('situacao', '=', '4')]" />
-                    <filter name="retificar" icon="terp-document-new" string="Precisam retificar" domain="[('situacao', '=', '5')]" />
-                    <field name="codigo" />
-                    <field name="origem" />
-                    <group expand="0" string="Group By">
-                        <filter name="group_by_tipo" string="Tipo" context="{'group_by': 'tipo'}" />
-                        <filter name="group_by_situacao" string="Situação" context="{'group_by': 'situacao'}" />
-                        <filter name="group_by_ambiente" string="Ambiente" context="{'group_by': 'ambiente'}" />
-                        <filter name="group_by_origem" string="Data/Hora de Origem" context="{'group_by': 'data_hora_origem'}" />
-                        <filter name="group_by_transmissao" string="Data/Hora de Transmissão" context="{'group_by': 'data_hora_transmissao'}" />
-                        <filter name="group_by_retorno" string="Data/Hora de Retorno" context="{'group_by': 'data_hora_retorno'}" />
-                    </group>
-		        </search>
-            </field>
-        </record>
-
-        <record model="ir.actions.act_window" id="sped_transmissao_action">
-            <field name="name">Registros</field>
-            <field name="domain">[]</field>
-            <field name="context">{'search_default_com_erros': 1, 'search_default_pendentes': 1, 'search_default_transmitidas': 1, 'search_default_retificar': 1}</field>
-            <field name="res_model">sped.transmissao</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-
-        <record model="ir.actions.act_window.view" id="sped_transmissao_form_acao">
-            <field eval="2" name="sequence"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="sped_transmissao_form"/>
-            <field name="act_window_id" ref="sped_transmissao_action"/>
-        </record>
-
-        <record model="ir.actions.act_window.view" id="sped_transmissao_tree_acao">
-            <field eval="1" name="sequence"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="sped_transmissao_tree"/>
-            <field name="act_window_id" ref="sped_transmissao_action"/>
-        </record>
-
-        <menuitem id="menu_sped_transmissao"
-                  name="Registros"
-                  sequence="10"
-                  parent="menu_sped_base"
-                  action="sped_transmissao_action"
+        <act_window
+            id="sped_transmissao.criar_lote"
+            name="Criar Lote(s)"
+            src_model="sped.transmissao"
+            res_model="sped.criacao.wizard"
+            view_id="sped_transmissao.sped_transmissao_lote_wizard"
+            target="new"
+            multi="True"
         />
-
-        <record model="ir.sequence.type" id="sped_transmissao_sequence_type">
-            <field name="name">Registros de Transmissão SPED</field>
-            <field name="code">sped.transmissao</field>
-        </record>
-
-        <record model="ir.sequence" id="sped_transmissao_sequence">
-            <field name="name">Registros de Transmissão SPED</field>
-            <field name="code">sped.transmissao</field>
-            <field name="padding">4</field>
-            <field name="prefix">SPED/REG/</field>
-        </record>
 
     </data>
 </openerp>

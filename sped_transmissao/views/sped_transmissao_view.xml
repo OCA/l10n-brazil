@@ -151,6 +151,7 @@
                     <field name="origem" />
                     <group expand="0" string="Group By">
                         <filter name="group_by_tipo" string="Tipo" context="{'group_by': 'tipo'}" />
+                        <filter name="group_by_registro" string="Registro" context="{'group_by': 'registro'}" />
                         <filter name="group_by_situacao" string="Situação" context="{'group_by': 'situacao'}" />
                         <filter name="group_by_ambiente" string="Ambiente" context="{'group_by': 'ambiente'}" />
                         <filter name="group_by_origem" string="Data/Hora de Origem" context="{'group_by': 'data_hora_origem'}" />

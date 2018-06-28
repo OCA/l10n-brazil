@@ -25,6 +25,16 @@ class SpedTransmissaoLote(models.Model):
             ('esocial', 'e-Social'),
         ],
     )
+    grupo = fields.Selection(
+        string='Grupo',
+        selection=[
+            ('na', 'N/A'),
+            ('1', 'Eventos de Tabela'),
+            ('2', 'Eventos Não Periódicos'),
+            ('3', 'Eventos Periódicos'),
+        ],
+        default='na',
+    )
     ambiente = fields.Selection(
         string='Ambiente',
         selection=[

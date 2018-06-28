@@ -41,6 +41,9 @@
         'views/sped_transmissao_view.xml',
         'views/sped_transmissao_lote_view.xml',
 
+        # Wizards
+        'wizards/sped_transmissao_lote_view.xml',
+
         # Segurança
         'security/ir.model.access.csv',
 

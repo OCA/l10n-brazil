@@ -12,6 +12,7 @@ import pysped
 import tempfile
 from decimal import Decimal
 
+
 class SpedTransmissao(models.Model):
     _name = 'sped.transmissao'
     _inherit = []

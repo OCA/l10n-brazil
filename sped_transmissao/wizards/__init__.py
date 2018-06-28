@@ -2,7 +2,7 @@
 # ############################################################################
 #
 #    Author: Wagner Pereira
-#    Copyright 2017 KMEE - www.kmee.com.br
+#    Copyright 2018 ABGF - www.abgf.gov.br
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,8 +19,4 @@
 #
 ##############################################################################
 
-from . import inherited_ir_attachment
-from . import inherited_res_company
-from . import sped_ocorrencia
-from . import sped_transmissao
 from . import sped_transmissao_lote
