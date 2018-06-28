@@ -250,17 +250,6 @@ class HrContract(models.Model):
         default=lambda self: self.env.user.company_id or '',
     )
 
-    # Admissão
-    tipo_do_contrato = fields.Selection(
-        selection=[],
-        string="Tipo do contrato"
-    )
-
-    tipo_de_admissao = fields.Selection(
-        selection=[],
-        string="Tipo de admissão"
-    )
-
     indicativo_de_admissao = fields.Selection(
         selection=[
             ('1', '1-Normal'),
