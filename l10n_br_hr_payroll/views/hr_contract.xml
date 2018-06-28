@@ -77,8 +77,6 @@
             <!--Aba Informações-->
             <xpath expr="//group[@name='union']" position="after">
                 <group name="admissao" string="Admissão">
-                    <field name="tipo_do_contrato"/>
-                    <field name="tipo_de_admissao"/>
                     <field name="indicativo_de_admissao" required="1"/>
                     <field name="contrato_transferido"
                            attrs="{'invisible': [
