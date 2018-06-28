@@ -29,9 +29,9 @@
                         <group colspan="4" col="4">
                             <group colspan="2" col="2">
                                 <field name="periodo_id" string="Período" attrs="{'invisible': [('situacao', '!=', '1')]}"
-                                       domain="[('date_start', '&gt;=', '2018-01-01')]"
                                        options="{'no_create': True, 'no_open': True}" required="1"
                                 />
+                                       <!--domain="[('date_start', '&gt;=', '2018-01-01')]"-->
                                 <field name="periodo_id_readonly" string="Período" attrs="{'invisible': [('situacao', '=', '1')]}" />
                             </group>
                             <group colspan="2" col="2">

@@ -33,10 +33,14 @@
                             <page string="e-Social">
                                 <group>
                                     <field name="cod_hor_contrat" />
-                                    <field name="ini_valid" domain="[('date_start', '&gt;=', '2018-01-01')]"
-                                           options="{'no_create': True, 'no_open': True}" />
-                                    <field name="fim_valid" domain="[('date_start', '&gt;=', '2018-01-01')]"
-                                           options="{'no_create': True, 'no_open': True}" />
+                                    <field name="ini_valid"
+                                           options="{'no_create': True, 'no_open': True}"
+                                    />
+                                           <!--domain="[('date_start', '&gt;=', '2018-01-01')]"-->
+                                    <field name="fim_valid"
+                                           options="{'no_create': True, 'no_open': True}"
+                                    />
+                                           <!--domain="[('date_start', '&gt;=', '2018-01-01')]"-->
                                     <!--<field name="ini_valid" placeholder="AAAA-MM" />-->
                                     <!--<field name="fim_valid" placeholder="AAAA-MM" />-->
                                     <field name="sped_esocial_turnos_trabalho_ids" invisible="1"/>

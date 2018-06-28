@@ -26,9 +26,9 @@
                                 <field name="esocial_fone_cel" />
                                 <field name="esocial_email" />
                                 <field name="esocial_periodo_id" attrs="{'required': [('eh_empresa_base', '=', True)]}"
-                                       domain="[('date_start', '&gt;=', '2018-01-01')]"
                                        options="{'no_create': True, 'no_open': True}"
                                 />
+                                       <!--domain="[('date_start', '&gt;=', '2018-01-01')]"-->
                             </group>
                             <group colspan="2" col="2">
                                 <field name="sped_s1000" />
