@@ -5,8 +5,12 @@
 from openerp import api, fields, models
 from openerp.exceptions import ValidationError
 
+GRUPO_0 = [
+    'R-1000',  # Informações do Contribuinte (EFD/Reinf)
+    'S-1000',  # Informações do Empregador/Contribuinte/Órgão Público (e-Social)
+]
+
 GRUPO_1 = [  # Registros de Tabela
-    'S-1000',   # Informações do Empregador/Contribuinte/Órgão Público
     'S-1005',   # Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos
     'S-1010',   # Tabela de Rubricas
     'S-1020',   # Tabela de Lotações Tributárias
@@ -79,13 +83,16 @@ class SpedCriacaoWizard(models.TransientModel):
         for registro in registros_originais:
             if registro.situacao not in ['1', '3']:
                 continue
+            ja_tem_lote = False
             for lote in registro.lote_ids:
                 if lote.situacao != '4':
+                    ja_tem_lote = True
                     continue
-            registros.append(registro)
+            if not ja_tem_lote:
+                registros.append(registro)
 
-        if len(registros) == 0:
-            raise ValidationError("Os registros selecionados não podem ser incluídos em um novo lote!")
+        # if len(registros) == 0:
+        #     raise ValidationError("Os registros selecionados não podem ser incluídos em um novo lote!")
 
         # Agrupa os registros em seus respectivos lotes
         lotes = []
@@ -93,7 +100,9 @@ class SpedCriacaoWizard(models.TransientModel):
 
             # Verifica se o lote correto para este registro já existe
             grupo = 'na'
-            if registro.tipo == 'esocial' and registro.registro in GRUPO_1:
+            if registro.registro in GRUPO_0:
+                grupo = '0'
+            elif registro.tipo == 'esocial' and registro.registro in GRUPO_1:
                 grupo = '1'
             elif registro.tipo == 'esocial' and registro.registro in GRUPO_2:
                 grupo = '2'
@@ -173,6 +182,7 @@ class SpedLoteWizard(models.TransientModel):
         string='Grupo',
         selection=[
             ('na', 'N/A'),
+            ('0' , 'Iniciais'),
             ('1' , 'Eventos de Tabela'),
             ('2' , 'Eventos Não Periódicos'),
             ('3' , 'Eventos Periódicos'),
@@ -207,4 +217,9 @@ class SpedLoteWizard(models.TransientModel):
     def compute_quantidade(self):
         for lote in self:
             lote.quantidade = len(lote.registro_ids)
-            lote.cheio = (len(lote.registro_ids) == 50)
+            cheio = (len(lote.registro_ids) == 50)
+            if not cheio:
+                for registro in lote.registro_ids:
+                    if registro.registro in ['R-1000', 'S-1000']:
+                        cheio = True
+            lote.cheio = cheio

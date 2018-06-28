@@ -47,6 +47,11 @@ class SpedTransmissaoLote(models.Model):
         string='Registros',
         comodel_name='sped.transmissao',
     )
+    quantidade = fields.Integer(
+        string='Registros',
+        compute='compute_quantidade',
+        store=True,
+    )
     data_hora_transmissao = fields.Datetime(
         string='Data/Hora da Transmissão',
     )
@@ -75,3 +80,8 @@ class SpedTransmissaoLote(models.Model):
         for lote in self:
             if lote.situacao not in ['1', '3']:
                 raise ValidationError("Não pode excluir um Lote transmitido!")
+
+    @api.depends('transmissao_ids')
+    def compute_quantidade(self):
+        for lote in self:
+            lote.quantidade = len(lote.transmissao_ids)

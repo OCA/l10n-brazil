@@ -38,7 +38,7 @@
                         </group>
                         <group colspan="4" col="1">
                             <separator colspan="1" string="Registros deste Lote" />
-                            <field name="transmissao_ids" colspan="1" nolabel="1" />
+                            <field name="transmissao_ids" colspan="1" nolabel="1" count="situacao"/>
                         </group>
                     </sheet>
                 </form>
@@ -53,7 +53,8 @@
                       <!--colors="blue:state in ('new','draft');black:state in ('open','done');gray:state == 'cancel'"-->
                     <field name="tipo"/>
                     <field name="codigo"/>
-                    <field name="ambiente"/>
+                    <!--<field name="ambiente"/>-->
+                    <field name="quantidade" />
                     <field name="data_hora_transmissao"/>
                     <field name="data_hora_retorno"/>
                     <field name="situacao"/>

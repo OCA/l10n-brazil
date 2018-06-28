@@ -15,20 +15,20 @@
                                 <field name="ambiente" />
                                 <field name="quantidade" />
                             </tree>
-                            <form>
-                                <group colspan="4" col="4">
-                                    <group colspan="4" col="2">
-                                        <field name="tipo" />
-                                        <field name="grupo" />
-                                        <field name="ambiente" />
-                                        <field name="quantidade" />
-                                    </group>
-                                    <group colspan="4" col="1">
-                                        <label string="Registros deste Lote" />
-                                        <field name="registro_ids" readonly="1" />
-                                    </group>
-                                </group>
-                            </form>
+                            <!--<form>-->
+                                <!--<group colspan="4" col="4">-->
+                                    <!--<group colspan="4" col="2">-->
+                                        <!--<field name="tipo" />-->
+                                        <!--<field name="grupo" />-->
+                                        <!--<field name="ambiente" />-->
+                                        <!--<field name="quantidade" />-->
+                                    <!--</group>-->
+                                    <!--<group colspan="4" col="1">-->
+                                        <!--<label string="Registros deste Lote" />-->
+                                        <!--<field name="registro_ids" readonly="1" />-->
+                                    <!--</group>-->
+                                <!--</group>-->
+                            <!--</form>-->
                         </field>
                     </group>
                     <footer>
