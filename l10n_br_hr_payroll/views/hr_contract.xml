@@ -106,23 +106,34 @@
             </xpath>
             <xpath expr="//page[@string='Work Permit']" position="before">
                 <!--Aba Vínculos anteriores e cedentes-->
-                <page string="Vínculos anteriores e cedentes">
-                    <group>
-                        <group name="vinculo_anterior"
-                               string="Vínculo anterior">
-                            <field name="cnpj_empregador_anterior"/>
-                            <field name="matricula_anterior"/>
-                            <field name="data_admissao_anterior"/>
-                            <field name="observacoes_vinculo_anterior"/>
-                        </group>
-                        <group name="vinculo_cedente"
-                               string="Vínculo cedente">
-                            <field name="cnpj_empregador_cedente"/>
-                            <field name="matricula_cedente"/>
-                            <field name="data_admissao_cedente"/>
-                            <field name="adiantamento_13_cedente"/>
-                        </group>
+                <page string="Vínculos">
+                    <group name="vinculo_anterior"
+                           string="Vínculo anterior">
+                        <field name="cnpj_empregador_anterior"/>
+                        <field name="matricula_anterior"/>
+                        <field name="data_admissao_anterior"/>
+                        <field name="observacoes_vinculo_anterior"/>
                     </group>
+                    <group name="vinculo_cedente"
+                           string="Vínculo cedente">
+                        <field name="cnpj_empregador_cedente"/>
+                        <field name="matricula_cedente"/>
+                        <field name="data_admissao_cedente"/>
+                        <field name="adiantamento_13_cedente"/>
+                    </group>
+                    <separator string="Outros Vínculos/Atividades" />
+                    <h3>Contribuições para a previdência nos outros Vínculos/Atividades</h3>
+                    <newline/>
+                    <field name="contribuicao_inss_ids" widget="one2many_list">
+                        <tree editable="bottom">
+                            <field name="tipo_inscricao_vinculo" />
+                            <field name="cnpj_cpf_vinculo" />
+                            <field name="cod_categ_vinculo" />
+                            <field name="valor_remuneracao_vinculo" />
+                            <field name="valor_alicota_vinculo" />
+                            <field name="period_id" options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                        </tree>
+                    </field>
                 </page>
                 <!--Aba Saúde ocupacional-->
                 <page string="Saúde ocupacional">

@@ -6,8 +6,8 @@ from openerp import api, fields, models
 from openerp import exceptions
 from datetime import datetime, timedelta
 
-class HrContract(models.Model):
 
+class HrContract(models.Model):
     _inherit = 'hr.contract'
     _rec_name = 'nome_contrato'
 
@@ -331,37 +331,43 @@ class HrContract(models.Model):
     # Aba Vínculos Anteriores e cedentes
     # Vínculo anterior
     cnpj_empregador_anterior = fields.Char(
-        string="CNPJ do empregador anterior"
+        string="CNPJ do empregador"
     )
 
     matricula_anterior = fields.Char(
-        string="Matrícula anterior"
+        string="Matrícula"
     )
 
     data_admissao_anterior = fields.Date(
-        string="Data de admissão no vínculo anterior"
+        string="Data de admissão no vínculo"
     )
 
     observacoes_vinculo_anterior = fields.Text(
-        string="Observações do vínculo anterior"
+        string="Observações do vínculo"
     )
 
     # Vínculo cedente
     cnpj_empregador_cedente = fields.Char(
-        string="CNPJ do empregador cedente"
+        string="CNPJ do empregador"
     )
 
     matricula_cedente = fields.Char(
-        string="Matrícula cedente"
+        string="Matrícula"
     )
 
     data_admissao_cedente = fields.Date(
-        string="Data de admissão no vínculo cedente"
+        string="Data de admissão no vínculo"
     )
 
     adiantamento_13_cedente = fields.Float(
         string=u"Antecipação de 13º na Orgiem R$",
         default=0.0,
+    )
+
+    contribuicao_inss_ids = fields.One2many(
+        string='Contribuições INSS',
+        comodel_name='hr.contribuicao.inss.vinculos',
+        inverse_name='contrato_id',
     )
 
     # Aba Saúde ocupacional
@@ -521,3 +527,72 @@ class HrContractSalaryUnit(models.Model):
                 name = record['code'] + ' - ' + name
             result.append((record['id'], name))
         return result
+
+
+class HrContribuicaoInssVinculos(models.Model):
+    _name = "hr.contribuicao.inss.vinculos"
+
+    contrato_id = fields.Many2one(
+        string='Contrato',
+        comode_name='hr.contract',
+        required=True,
+    )
+    tipo_inscricao_vinculo = fields.Selection(
+        string='Tipo do Vínculo',
+        selection=[
+            ('1', 'CNPJ'),
+            ('2', 'CPF'),
+        ],
+        required=True,
+        help='e-Social: S-2299 - tpInsc',
+    )
+    cnpj_cpf_vinculo = fields.Char(
+        string='CNPJ/CPF Vínculo',
+        required=True,
+        size=17,
+        help='e-Social: S-2299 - nrInsc',
+    )
+    cod_categ_vinculo = fields.Char(
+        string='Cód Categoria',
+        size=3,
+        required=True,
+    )
+    valor_remuneracao_vinculo = fields.Float(
+        string='Remuneração Bruto',
+        required=True,
+        help='e-Social: S-2299 - vlrRemunOE'
+    )
+    valor_alicota_vinculo = fields.Float(
+        string='Valor Pago',
+        required=True,
+    )
+    period_id = fields.Many2one(
+        string='Competência',
+        comodel_name='account.period',
+        required=True,
+    )
+
+    @api.model
+    def create(self, vals):
+        self._valida_valores_unicos(vals)
+        return super(HrContribuicaoInssVinculos, self).create(vals)
+
+    @api.multi
+    def write(self, vals):
+        self._valida_valores_unicos(vals)
+        return super(HrContribuicaoInssVinculos, self).write(vals)
+
+    @api.multi
+    def _valida_valores_unicos(self, vals):
+        domain = [
+            (
+                'cnpj_cpf_vinculo', '=',
+                vals.get('cnpj_cpf_vinculo') or self.cnpj_cpf_vinculo
+            ),
+            ('period_id', '=', vals.get('period_id') or self.period_id.id),
+        ]
+        vinculo_ids = self.search(domain)
+        if vinculo_ids:
+            raise exceptions.Warning(
+                'Só é possível uma entrada por vínculo no período selecionado!'
+            )
