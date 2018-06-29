@@ -1,11 +1,13 @@
 # -*- encoding: utf-8 -*-
-# Copyright (C) 2017 - TODAY Albert De La Fuente - KMEE
+# Copyright (C) 2017  Albert De La Fuente - KMEE
+# Copyright (C) 2018  ABGF
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 from datetime import datetime
 
 from openerp import api
-from openerp.addons.report_py3o.py3o_parser import py3o_report_extender
 from openerp.addons.l10n_br_hr_payroll.models.hr_payslip import TIPO_DE_FOLHA
+from openerp.addons.report_py3o.py3o_parser import py3o_report_extender
+
 
 class inss_empresa_obj(object):
     def __init__(self, valores_inss_empresa):
@@ -208,6 +210,7 @@ def analytic_report(pool, cr, uid, local_context, context):
     inss_empresa_pro_labore = inss_empresa_obj(inss_empresa_vals)
     inss_empresa_autonomo = inss_empresa_obj(inss_empresa_vals)
     inss_empresa_cooperativa = inss_empresa_obj(inss_empresa_vals)
+
     for rubrica in payslip_lines:
         # Somar os valores do INSS_EMPRESA e outros calculados nos holerites
         # Ao invés de recalcular os valores aqui
