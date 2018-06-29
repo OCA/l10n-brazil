@@ -49,6 +49,7 @@
         'views/inherited_resource_calendar_attendance.xml',
         'views/inherited_hr_employee.xml',
         'views/inherited_res_partner.xml',
+        'views/inherited_hr_payslip_view.xml',
 
         # Segurança
         # 'security/ir.model.access.csv',

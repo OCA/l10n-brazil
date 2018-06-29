@@ -37,4 +37,4 @@ from . import sped_esocial_cargo
 from . import esocial_turnos_trabalho
 from . import sped_esocial_turnos_trabalho
 from . import inherited_hr_employee
-
+from . import inherited_hr_payslip
