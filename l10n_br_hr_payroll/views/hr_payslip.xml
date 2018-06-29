@@ -92,6 +92,7 @@
                                 <tree string="Salary Structure"
                                       editable="bottom"
                                       colors="orange:total == 0">
+                                    <field name="id" string="Cód Identificador" />
                                     <field name="name"/>
                                     <field name="code"/>
                                     <field name="category_id"/>
@@ -310,6 +311,7 @@
                 </field>
                 <field name="credit_note" position="after">
                     <field name="data_afastamento" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])]}"/>
+                    <field name="mtv_deslig" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])], 'required': [('tipo_de_folha', '=', 'rescisao')]}"/>
                     <field name="data_pagamento_demissao" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])]}"/>
                     <field name="valor_saldo_fgts" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])]}"/>
                     <field name="valor_multa_fgts" attrs="{'invisible': [('tipo_de_folha', 'not in', ['rescisao'])]}"/>

@@ -622,6 +622,10 @@ class HrPayslip(models.Model):
         inverse_name='payslip_id',
         string=u'Ligações',
     )
+    mtv_deslig = fields.Char(
+        string='Motivo Desligamento',
+        required=True,
+    )
 
     @api.depends('periodo_aquisitivo')
     @api.model
@@ -2575,7 +2579,6 @@ class HrPayslip(models.Model):
                         'tipo': tipo,
                     })
         self.rescisao_ids = rescisao_ids
-
 
     def validacao_holerites_anteriores(self, data_inicio, data_fim, contrato):
         """
