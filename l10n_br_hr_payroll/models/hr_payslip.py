@@ -86,6 +86,12 @@ class HrPayslip(models.Model):
                 # contrato é baseado nos holerites validados
                 holerite.contract_id.action_button_update_controle_ferias()
 
+                if holerite.tipo_de_folha == 'rescisao':
+                    holerite.contract_id.resignation_cause_id = \
+                        holerite.mtv_deslig
+                    holerite.contract_id.resignation_date = \
+                        holerite.data_afastamento
+
                 # setar as ligacoes telefonicas como debitadas
                 for ligacao_id in holerite.ligacoes_ids:
                     ligacao_id.state = 'paid'
