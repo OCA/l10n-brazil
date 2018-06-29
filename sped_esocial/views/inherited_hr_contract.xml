@@ -60,7 +60,15 @@
                     <field name="dsc_tp_jorn" attrs="{'invisible': [('tp_jornada', '!=', '9')], 'required': [('tp_jornada', '=', '9')]}" />
                     <field name="tmp_parc" required="1" />
                 </field>
-
+                <field name="resignation_cause_id" position="replace">
+                    <field name="resignation_cause_id" />
+                </field>
+                <field name="resignation_code" position="replace">
+                    <field name="resignation_code" invisible="1"/>
+                </field>
+                <field name="resignation_cause_id" position="after">
+                    <field name="nr_cert_obito" attrs="{'invisible': [('resignation_code', 'not in', ['09', '10'])]}" />
+                </field>
             </field>
         </record>
 

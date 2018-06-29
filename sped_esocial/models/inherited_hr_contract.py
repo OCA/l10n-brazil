@@ -93,6 +93,17 @@ class HrContract(models.Model):
             ('3', '3-Limitado a 26 horas semanais'),
         ],
     )
+    resignation_cause_id = fields.Many2one(
+        comodel_name='sped.motivo_desligamento',
+        string='Resignation cause'
+    )
+    resignation_code = fields.Char(
+        related='resignation_cause_id.codigo',
+    )
+    nr_cert_obito = fields.Char(
+        string='Certidão de Óbito',
+        size=32,
+    )
 
     # Registro S-2200
     sped_s2200 = fields.Boolean(
