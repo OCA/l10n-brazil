@@ -423,6 +423,11 @@ class HrContract(models.Model):
         string="Conta bancaria",
         comodel_name='res.partner.bank',
     )
+    matricula = fields.Char(
+        string='Matrícula',
+        required=True,
+        help="e-Social: S-2299 - matricula"
+    )
 
 
 class Exame(models.Model):

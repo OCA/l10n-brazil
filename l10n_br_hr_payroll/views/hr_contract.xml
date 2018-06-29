@@ -28,6 +28,9 @@
                 <field name="conta_bancaria_id"/>
             </field>
 -->
+            <field name="job_id" position="after">
+                <field name="matricula" />
+            </field>
             <xpath expr="//page[@string='Resignation']" position="after">
                     <page string="Rubricas específicas">
                         <field name="specific_rule_ids">
