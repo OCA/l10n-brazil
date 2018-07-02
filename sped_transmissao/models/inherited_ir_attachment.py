@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-#    Copyright © 2017; Brasil; Taŭga Tecnologia; Todos os direitos reservados
-#    Copyright © 2017; Brazil; Taŭga Technology; All rights reserved
+# Copyright 2018 ABGF
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
 from lxml import etree
