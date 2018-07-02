@@ -24,7 +24,7 @@ class SpedEsocialTurnosTrabalho(models.Model):
     )
     sped_s1050_registro = fields.Many2one(
         string='Registro S-1050',
-        comodel_name='sped.transmissao',
+        comodel_name='sped.registro',
     )
     situacao_s1050 = fields.Selection(
         string="Situação S-1050",

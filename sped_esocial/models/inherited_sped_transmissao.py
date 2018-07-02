@@ -11,7 +11,7 @@ import pysped
 
 
 class SpedTransmissao(models.Model):
-    _inherit = 'sped.transmissao'
+    _inherit = 'sped.registro'
 
     @api.multi
     def s1000(self):

@@ -112,7 +112,7 @@ class HrContract(models.Model):
     )
     sped_s2200_registro = fields.Many2one(
         string='Registro S-2200 - Cadastramento Inicial do Vínculo',
-        comodel_name='sped.transmissao',
+        comodel_name='sped.registro',
     )
     sped_s2200_situacao = fields.Selection(
         string='Situação S-2200',
@@ -153,5 +153,5 @@ class HrContract(models.Model):
             'origem': ('hr.contract,%s' % self.id),
         }
 
-        sped_s2200_registro = self.env['sped.transmissao'].create(values)
+        sped_s2200_registro = self.env['sped.registro'].create(values)
         self.sped_s2200_registro = sped_s2200_registro

@@ -127,7 +127,7 @@ class ResCompany(models.Model):
     )
     sped_s1000_registro = fields.Many2one(
         string='Registro S-1000 - Informações do Contribuinte',
-        comodel_name='sped.transmissao',
+        comodel_name='sped.registro',
     )
     sped_s1000_situacao = fields.Selection(
         string='Situação S-1000',
@@ -222,7 +222,7 @@ class ResCompany(models.Model):
             'origem': ('res.company,%s' % self.id),
         }
 
-        sped_s1000_registro = self.env['sped.transmissao'].create(values)
+        sped_s1000_registro = self.env['sped.registro'].create(values)
         self.sped_s1000_registro = sped_s1000_registro
 
     # Último envio da Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos (Registro S-1005)
@@ -232,7 +232,7 @@ class ResCompany(models.Model):
     )
     sped_s1005_registro = fields.Many2one(
         string='(S-1005) - Tabela de Estabelecimentos',
-        comodel_name='sped.transmissao',
+        comodel_name='sped.registro',
     )
     sped_s1005_situacao = fields.Selection(
         string='Situação S-1005',

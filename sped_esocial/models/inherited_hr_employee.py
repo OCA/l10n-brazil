@@ -33,7 +33,7 @@ class HrEmployee(models.Model):
     #  Guardar toedas as alteracoes
     sped_s2205_registro_ids = fields.Many2many(
         string='Registro S-2205 de Alterações Cadastrais',
-        comodel_name='sped.transmissao',
+        comodel_name='sped.registro',
         # column1='employee_id',
         # column2='sped_transmissao_id',
     )
@@ -118,7 +118,7 @@ class HrEmployee(models.Model):
             'origem': ('hr.employee,%s' % self.id),
         }
 
-        sped_s2205_registro_id = self.env['sped.transmissao'].create(values)
+        sped_s2205_registro_id = self.env['sped.registro'].create(values)
 
         self.write({
             'sped_s2205_registro_ids': [(4, sped_s2205_registro_id.id)]

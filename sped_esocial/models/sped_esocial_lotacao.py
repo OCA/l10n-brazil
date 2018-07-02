@@ -39,7 +39,7 @@ class SpedEsocialLotacao(models.Model):
     )
     sped_s1020_registro = fields.Many2one(
         string='Registro S-1020',
-        comodel_name='sped.transmissao',
+        comodel_name='sped.registro',
     )
     situacao_s1020 = fields.Selection(
         string='Situação S-1020',

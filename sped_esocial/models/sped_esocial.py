@@ -246,7 +246,7 @@ class SpedEsocial(models.Model):
                     'evento': 'evtTabEstab',
                     'origem': ('sped.esocial.estabelecimento,%s' % estabelecimento.id),
                 }
-                sped_s1005_registro = self.env['sped.transmissao'].create(values)
+                sped_s1005_registro = self.env['sped.registro'].create(values)
                 estabelecimento.sped_s1005_registro = sped_s1005_registro
 
     @api.multi
@@ -264,7 +264,7 @@ class SpedEsocial(models.Model):
                     'evento': 'evtTabRubrica',
                     'origem': ('sped.esocial.rubrica,%s' % rubrica.id),
                 }
-                sped_s1010_registro = self.env['sped.transmissao'].create(values)
+                sped_s1010_registro = self.env['sped.registro'].create(values)
                 rubrica.sped_s1010_registro = sped_s1010_registro
 
     @api.multi
@@ -282,7 +282,7 @@ class SpedEsocial(models.Model):
                     'evento': 'evtTabLotacao',
                     'origem': ('sped.esocial.lotacao,%s' % lotacao.id),
                 }
-                sped_s1020_registro = self.env['sped.transmissao'].create(values)
+                sped_s1020_registro = self.env['sped.registro'].create(values)
                 lotacao.sped_s1020_registro = sped_s1020_registro
 
     @api.multi
@@ -300,8 +300,8 @@ class SpedEsocial(models.Model):
                     'evento': 'evtTabCargo',
                     'origem': ('sped.esocial.cargo,%s' % cargo.id),
                 }
-                sped_S1030_registro = self.env['sped.transmissao'].create(values)
-                cargo.sped_S1030_registro = sped_S1030_registro
+                sped_s1030_registro = self.env['sped.registro'].create(values)
+                cargo.sped_s1030_registro = sped_s1030_registro
 
     @api.multi
     def criar_s1050(self):
@@ -317,7 +317,7 @@ class SpedEsocial(models.Model):
                     'evento': 'evtTabHorTur',
                     'origem': ('sped.esocial.turnos.trabalho,%s' % turno.id),
                 }
-                sped_s1050_registro = self.env['sped.transmissao'].create(
+                sped_s1050_registro = self.env['sped.registro'].create(
                     values)
                 turno.sped_s1050_registro = sped_s1050_registro
 
