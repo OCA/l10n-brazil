@@ -31,12 +31,12 @@
                                        <!--domain="[('date_start', '&gt;=', '2018-01-01')]"-->
                             </group>
                             <group colspan="2" col="2">
-                                <field name="sped_s1000" />
-                                <field name="sped_s1000_registro" />
-                                <field name="sped_s1000_situacao" />
+                                <!--<field name="sped_s1000" />-->
+                                <!--<field name="sped_s1000_registro" />-->
+                                <!--<field name="sped_s1000_situacao" />-->
                             </group>
                             <group colspan="2" col="2">
-                                <field name="sped_s1000_data_hora" />
+                                <!--<field name="sped_s1000_data_hora" />-->
                                 <button name="criar_s1000" colspan="4" type="object"
                                         string="Enviar S-1000 - Informações do Empregador/Contribuinte/Órgão Público"
                                         attrs="{'invisible': [('sped_s1000_registro', '!=', False)]}" />

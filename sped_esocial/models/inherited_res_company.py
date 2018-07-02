@@ -121,30 +121,30 @@ class ResCompany(models.Model):
     # )
 
     # Ativação do e-Social para a empresa mãe (Registro S-1000)
-    sped_s1000 = fields.Boolean(
-        string='Ativação eSocial',
-        compute='_compute_sped_s1000',
-    )
-    sped_s1000_registro = fields.Many2one(
-        string='Registro S-1000 - Informações do Contribuinte',
-        comodel_name='sped.registro',
-    )
-    sped_s1000_situacao = fields.Selection(
-        string='Situação S-1000',
-        selection=[
-            ('1', 'Pendente'),
-            ('2', 'Transmitida'),
-            ('3', 'Erro(s)'),
-            ('4', 'Sucesso'),
-        ],
-        related='sped_s1000_registro.situacao',
-        readonly=True,
-    )
-    sped_s1000_data_hora = fields.Datetime(
-        string='Data/Hora',
-        related='sped_s1000_registro.data_hora_origem',
-        readonly=True,
-    )
+    # sped_s1000 = fields.Boolean(
+    #     string='Ativação eSocial',
+    #     compute='_compute_sped_s1000',
+    # )
+    # sped_s1000_registro = fields.Many2one(
+    #     string='Registro S-1000 - Informações do Contribuinte',
+    #     comodel_name='sped.registro',
+    # )
+    # sped_s1000_situacao = fields.Selection(
+    #     string='Situação S-1000',
+    #     selection=[
+    #         ('1', 'Pendente'),
+    #         ('2', 'Transmitida'),
+    #         ('3', 'Erro(s)'),
+    #         ('4', 'Sucesso'),
+    #     ],
+    #     related='sped_s1000_registro.situacao',
+    #     readonly=True,
+    # )
+    # sped_s1000_data_hora = fields.Datetime(
+    #     string='Data/Hora',
+    #     related='sped_s1000_registro.data_hora_origem',
+    #     readonly=True,
+    # )
     esocial_periodo_id = fields.Many2one(
         string='Período Inicial',
         comodel_name='account.period',
@@ -202,10 +202,10 @@ class ResCompany(models.Model):
         ],
     )
 
-    @api.depends('sped_s1000_registro')
-    def _compute_sped_s1000(self):
-        for empresa in self:
-            empresa.sped_s1000 = True if empresa.sped_s1000_registro else False
+    # @api.depends('sped_s1000_registro')
+    # def _compute_sped_s1000(self):
+    #     for empresa in self:
+    #         empresa.sped_s1000 = True if empresa.sped_s1000_registro else False
 
     @api.multi
     def criar_s1000(self):
