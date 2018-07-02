@@ -28,6 +28,7 @@ from . import inherited_hr_employee
 from . import inherited_hr_employee_dependent
 from . import inherited_resource_calendar_attendance
 from . import inherited_res_partner
+from . import inherited_hr_payslip
 
 from . import sped_esocial
 from . import sped_esocial_estabelecimento
@@ -36,5 +37,3 @@ from . import sped_esocial_lotacao
 from . import sped_esocial_cargo
 from . import esocial_turnos_trabalho
 from . import sped_esocial_turnos_trabalho
-from . import inherited_hr_employee
-from . import inherited_hr_payslip
