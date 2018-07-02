@@ -88,13 +88,13 @@
                                     <field name="lote_ids" colspan="1" nolabel="1" readonly="1"/>
                                 </group>
                             </page>
-                            <page name="envio_xml" string="XML de Envio">
+                            <page name="envio_xml" string="XML de Envio" attrs="{'invisible': [('envio_xml_id', '=', False)]}">
                                 <group colspan="4" col="2">
                                     <field name="envio_xml_id" />
                                     <field name="envio_xml" widget="ace" />
                                 </group>
                             </page>
-                            <page name="retorno_xml" string="XML de Retorno">
+                            <page name="retorno_xml" string="XML de Retorno" attrs="{'invisible': [('retorno_xml_id', '=', False)]}">
                                 <group colspan="4" col="2">
                                     <field name="retorno_xml_id" />
                                     <field name="retorno_xml" widget="ace" />

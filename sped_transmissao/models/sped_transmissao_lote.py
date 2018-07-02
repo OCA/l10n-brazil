@@ -85,7 +85,6 @@ class SpedTransmissaoLote(models.Model, ):
     envio_xml_id = fields.Many2one(
         comodel_name='ir.attachment',
         string='XML enviado',
-        ondelete='restrict',
         copy=False,
     )
     envio_xml = fields.Text(
@@ -106,7 +105,6 @@ class SpedTransmissaoLote(models.Model, ):
     retorno_xml_id = fields.Many2one(
         comodel_name='ir.attachment',
         string='XML de retorno',
-        ondelete='restrict',
         copy=False,
     )
     retorno_xml = fields.Text(
@@ -135,22 +133,21 @@ class SpedTransmissaoLote(models.Model, ):
         compute='_compute_ocorrencias',
     )
 
-    @api.depends('ocorrencia_ids')
-    def _compute_ocorrencias(self):
-        for lote in self:
-            lote.ocorrencias = True if lote.ocorrencia_ids else False
-
     # Dados da Consulta
     consulta_xml_id = fields.Many2one(
         comodel_name='ir.attachment',
         string='XML de consulta',
-        ondelete='restrict',
         copy=False,
     )
     consulta_xml = fields.Text(
         string='XML',
         compute='_compute_arquivo_xml',
     )
+
+    @api.depends('ocorrencia_ids')
+    def _compute_ocorrencias(self):
+        for lote in self:
+            lote.ocorrencias = True if lote.ocorrencia_ids else False
 
     @api.multi
     def unlink(self):
@@ -310,14 +307,14 @@ class SpedTransmissaoLote(models.Model, ):
                 registro.situacao = '3'
 
             # Atualiza o XML de Fechamento (retorno da consulta)
-            if registro.fechamento_xml_id:
-                fechamento = registro.fechamento_xml_id
-                registro.fechamento_xml_id = False
-                fechamento.unlink()
-            fechamento_xml = evento.xml
-            fechamento_xml_nome = registro.id_evento + '-consulta.xml'
-            anexo_id = self._grava_anexo(fechamento_xml_nome, fechamento_xml)
-            registro.fechamento_xml_id = anexo_id
+            if registro.consulta_xml_id:
+                consulta = registro.consulta_xml_id
+                registro.consulta_xml_id = False
+                consulta.unlink()
+            consulta_xml = evento.xml
+            consulta_xml_nome = registro.id_evento + '-consulta.xml'
+            anexo_id = self._grava_anexo(consulta_xml_nome, consulta_xml)
+            registro.consulta_xml_id = anexo_id
 
     # Transmite todos os registros contidos neste lote
     @api.multi
