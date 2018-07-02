@@ -14,7 +14,7 @@ import tempfile
 from decimal import Decimal
 
 
-class SpedTransmissaoLote(models.Model):
+class SpedTransmissaoLote(models.Model, ):
     _name = 'sped.transmissao.lote'
     _inherit = []
     _description = 'Lotes de transmissões de registros SPED'
