@@ -42,7 +42,7 @@
         <act_window
             id="sped_transmissao.criar_lote"
             name="Criar Lote(s)"
-            src_model="sped.transmissao"
+            src_model="sped.registro"
             res_model="sped.criacao.wizard"
             view_id="sped_transmissao.sped_transmissao_lote_wizard"
             target="new"

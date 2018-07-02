@@ -12,7 +12,7 @@ class SpedOcorrencia(models.Model):
 
     transmissao_id = fields.Many2one(
         string='Transmissão',
-        comodel_name='sped.transmissao',
+        comodel_name='sped.registro',
     )
     lote_id = fields.Many2one(
         string='Lote',

@@ -34,12 +34,12 @@
     'data': [
 
         # Menus
-        'views/sped_transmissao_menu.xml',
+        'views/sped_registro_menu.xml',
 
         # Views
         'views/inherited_res_company.xml',
-        'views/sped_transmissao_view.xml',
         'views/sped_transmissao_lote_view.xml',
+        'views/sped_registro_view.xml',
 
         # Wizards
         'wizards/sped_transmissao_lote_view.xml',

@@ -76,7 +76,7 @@ class SpedCriacaoWizard(models.TransientModel):
     def default_get(self, fields):
         res = super(SpedCriacaoWizard, self).default_get(fields)
 
-        registros_originais = self.env['sped.transmissao'].browse(self.env.context.get('active_ids'))
+        registros_originais = self.env['sped.registro'].browse(self.env.context.get('active_ids'))
 
         # Elimina da lista registros já transmitidos e/ou em outros lotes pendentes transmissão ou retorno
         registros = []
@@ -207,7 +207,7 @@ class SpedLoteWizard(models.TransientModel):
     )
     registro_ids = fields.Many2many(
         string='Registros',
-        comodel_name='sped.transmissao',
+        comodel_name='sped.registro',
         relation='criacao_transmissao_rel',
     )
     quantidade = fields.Integer(
