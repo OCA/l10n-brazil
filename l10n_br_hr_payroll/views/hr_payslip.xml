@@ -307,6 +307,8 @@
                            attrs="{'invisible': [('tipo_de_folha', 'not in', ['aviso_previo', 'rescisao'])]}"/>
                     <field name="dias_aviso_previo_trabalhados"
                            attrs="{'invisible': [('tipo_de_folha', 'not in', ['aviso_previo', 'rescisao'])],'required': [('tipo_de_folha', 'in', ['aviso_previo','rescisao'])]}"/>
+                    <field name="valor_pgto_aviso_previo_indenizado"
+                           attrs="{'invisible': [('tipo_de_folha', 'not in', ['aviso_previo', 'rescisao'])],'required': [('tipo_de_folha', 'in', ['aviso_previo','rescisao'])]}"/>
                     <field name="is_simulacao" invisible="1"/>
                 </field>
                 <field name="credit_note" position="after">
