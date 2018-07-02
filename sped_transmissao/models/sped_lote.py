@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # Copyright 2017 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -304,10 +305,20 @@ class SpedLote(models.Model, ):
                 self.ocorrencia_ids.create(vals)
 
             # Atualiza o status do evento
-            if evento.codigo_retorno == '201':
-                registro.situacao = '4'
-            else:
-                registro.situacao = '3'
+            if self.tipo == 'esocial':
+                if evento.codigo_retorno == '201':
+                    registro.situacao = '4'
+                else:
+                    registro.situacao = '3'
+            elif self.tipo == 'efdreinf':
+                if registro.cd_retorno == '0':
+                    registro.situacao = '4'
+                elif registro.cd_retorno == '1':
+                    registro.situacao = '3'
+                elif registro.cd_retorno == '2':
+                    registro.situacao = '2'
+                else:
+                    registro.situacao = '1'
 
             # Atualiza o XML de Fechamento (retorno da consulta)
             if registro.fechamento_xml_id:
@@ -341,7 +352,10 @@ class SpedLote(models.Model, ):
         self.data_hora_transmissao = data_hora_transmissao
 
         # Popula o processador
-        processador = pysped.ProcessadorESocial()
+        if self.tipo == 'efdreinf':
+            processador = pysped.ProcessadorEFDReinf()
+        else:
+            processador = pysped.ProcessadorESocial()
         processador.certificado.arquivo = arquivo.name
         processador.certificado.senha = self.company_id.nfe_a1_password
         processador.ambiente = int(self.ambiente)
@@ -379,30 +393,96 @@ class SpedLote(models.Model, ):
         for ocorrencia in self.ocorrencia_ids:
             ocorrencia.unlink()
 
-        if self.tipo == 'efdreinf':     # TODO Tratar reposta do EFD/Reinf
-            print(processo.resposta.original)
-            print(processo.resposta.xml)
-
-        elif self.tipo == 'esocial':
-
-            # Guarda os dados de retorno do Lote
+        # Guarda os dados de retorno do Lote
+        if self.tipo == 'efdreinf':   # Estes campos somente existem no retorno EFD/Reinf
+            self.cd_resposta = processo.resposta.cdRetorno
+            self.desc_resposta = processo.resposta.descRetorno
+        elif self.tipo == 'esocial':  # Estes campos somente existem no retorno e-Social
             self.cd_resposta = processo.resposta.cdResposta
             self.desc_resposta = processo.resposta.descResposta
             self.dh_recepcao = processo.resposta.dhRecepcao
             self.versao_aplicativo_recepcao = processo.resposta.versaoAplicativoRecepcao
             self.protocolo = processo.resposta.protocoloEnvio
 
-            # Popula as ocorrências do Lote
-            if len(processo.resposta.ocorrencias) > 0:
-                for ocorrencia in processo.resposta.ocorrencias:
+        # Se teve ocorrências do lote, armazená-las
+        for ocorrencia in processo.resposta.ocorrencias:
+            vals = {
+                'tipo': ocorrencia.tipo.valor,
+                'local': ocorrencia.localizacaoErroAviso.valor,
+                'codigo': ocorrencia.codigo.valor,
+                'descricao': ocorrencia.descricao.valor,
+            }
+            self.ocorrencia_ids.create(vals)
+
+        # Processa o status do retorno (valores de retorno são muito diferentes do eSocial e EFD/Reinf
+        if self.tipo == 'efdreinf':
+
+            # Popula o status do lote
+            if self.cd_resposta == '0':
+                self.situacao = '4'
+            elif self.cd_resposta == '1':
+                self.situacao = '3'
+            elif self.cd_resposta == '2':
+                self.situacao = '2'
+            else:
+                self.situacao = '1'
+
+            # Popula o resultado da transmissão de cada evento (transmissão sincrona somente no EFD/Reinf)
+            for evento in processo.resposta.eventos:
+
+                # Localiza o registro original pelo Id
+                id = evento.evtTotal.infoRecEv.idEv.valor
+
+                registro = self.env['sped.transmissao'].search([('id_evento', '=', id)])
+                if not registro:
+                    raise ValidationError("ID %s não encontrado !" % id)
+
+                # Popula o status, protocolo e recibo
+                if registro.limpar_db:
+                    registro.cd_retorno = False
+                    registro.desc_retorno = False
+                else:
+                    registro.cd_retorno = evento.evtTotal.ideRecRetorno.ideStatus.cdRetorno.valor
+                    registro.desc_retorno = evento.evtTotal.ideRecRetorno.ideStatus.descRetorno.valor
+                    registro.recibo = evento.evtTotal.infoTotal.nrRecArqBase.valor
+                    registro.protocolo = evento.evtTotal.infoRecEv.nrProtEntr.valor
+
+                # Limpa as ocorrências do registro
+                for ocorrencia in registro.ocorrencia_ids:
+                    ocorrencia.unlink()
+
+                # Popula as novas ocorrências do registro (se houver)
+                for ocorrencia in evento.evtTotal.ideRecRetorno.ideStatus.regOcorrs:
                     vals = {
-                        'lote_id': self.id,
-                        'tipo': ocorrencia.tipo.valor,
-                        'local': ocorrencia.localizacaoErroAviso.valor,
-                        'codigo': ocorrencia.codigo.valor,
-                        'descricao': ocorrencia.descricao.valor,
+                        'transmissao_id': registro.id,
+                        'tipo': ocorrencia.tpOcorr.valor,
+                        'local': ocorrencia.localErroAviso.valor,
+                        'codigo': ocorrencia.codResp.valor,
+                        'descricao': ocorrencia.dscResp.valor,
                     }
-                    self.ocorrencia_ids.create(vals)
+                    registro.ocorrencia_ids.create(vals)
+
+                # Popula o status do registro
+                if registro.cd_retorno == '0':
+                    registro.situacao = '4'
+                elif registro.cd_retorno == '1':
+                    registro.situacao = '3'
+                elif registro.cd_retorno == '2':
+                    registro.situacao = '2'
+                else:
+                    registro.situacao = '1'
+
+                # Atualiza o XML de Retorno (retorno do evento síncrono)
+                if registro.retorno_xml_id:
+                    retorno = registro.retorno_xml_id
+                    registro.retorno_xml_id = False
+                    retorno.unlink()
+                retorno_xml = evento.xml
+                retorno_xml_nome = registro.id_evento + '-retorno.xml'
+                anexo_id = self._grava_anexo(retorno_xml_nome, retorno_xml)
+                registro.retorno_xml_id = anexo_id
+
+        elif self.tipo == 'esocial':
 
             # Popula situação do lote
             if self.cd_resposta in ['201', '202']:
