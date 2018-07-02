@@ -660,34 +660,6 @@ class HrPayslip(models.Model):
         for record in self:
             pass
 
-    valor_pgto_aviso_previo_indenizado = fields.Float(
-        string='Aviso Prévio Indenizado',
-        compute='_compute_aviso_previo_indenizado',
-        inverse='_set_aviso_previo_indenizado',
-    )
-
-    @api.multi
-    def _compute_aviso_previo_indenizado(self):
-        """
-        Buscar valor do pagamento de aviso prévio indenizado
-        :return:
-        """
-        for record in self:
-            for rubrica in record.line_ids:
-                if rubrica.code == "AVISO_PREV_IND":
-                    return rubrica.total
-            return 0.0
-
-    @api.multi
-    def _set_aviso_previo_indenizado(self):
-        """
-        Função para setar o valor do aviso previo indenizado
-        :return:
-        """
-        for record in self:
-            pass
-
-
     @api.depends('periodo_aquisitivo')
     @api.model
     def _compute_saldo_periodo_aquisitivo(self):
