@@ -14,7 +14,7 @@
                                 <field name="tpAmb" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
                                 <field name="classificacao_tributaria_id" options="{'no_create': True, 'no_open': True}" />
                                 <field name="ind_escrituracao" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
-                                <field name="ind_desoneracao" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
+                                <!--<field name="ind_desoneracao" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>-->
                                 <field name="ind_acordoisenmulta" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
                                 <field name="ind_sitpj"/>
                                 <field name="nmctt" attrs="{'required': [('eh_empresa_base', '=', True)]}"/>
