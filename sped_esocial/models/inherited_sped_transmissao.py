@@ -4,154 +4,75 @@
 
 from openerp import api, fields, models
 from openerp.exceptions import ValidationError
+from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
+from pybrasil.valor import formata_valor
+from datetime import datetime
+import pysped
 
 
-class HrContract(models.Model):
-
-    _inherit = 'hr.contract'
-
-    # Criar campos que faltam para o eSocial
-    tp_reg_prev = fields.Selection(
-        string='Tipo de Regime Previdenciário',
-        selection=[
-            ('1', 'Regime Geral da Previdência Social - RGPS'),
-            ('2', 'Regime Próprio de Previdência Social - RPPS'),
-            ('3', 'Remige de Previdência Social no Exterior'),
-        ],
-    )
-    cad_ini = fields.Selection(
-        string='Cad.Inicial de Vínculo',
-        selection=[
-            ('N', 'Não (Admissão)'),
-            ('S', 'Sim (Cadastramento Inicial)'),
-        ],
-        default='N',
-    )
-    tp_reg_jor = fields.Selection(
-        string='Regime de Jornada',
-        selection=[
-            ('1', '1-Submetidos a Horário de Trabalho (Cap. II da CLT)'),
-            ('2', '2-Atividade Externa especifica no Inciso I do Art. 62 da CLT'),
-            ('3', '3-Funções especificadas no Inciso II do Art. 62 da CLT'),
-            ('4', '4-Teletrabalho, previsto no Inciso III do Art. 62 da CLT'),
-        ],
-    )
-    nat_atividade = fields.Selection(
-        string='Natureza da Atividade',
-        selection=[
-            ('1', '1-Trabalho Urbano'),
-            ('2', '2-Trabalho Rural'),
-        ]
-    )
-    opc_fgts = fields.Selection(
-        string='Optante do FGTS',
-        selection=[
-            ('1', '1-Optante'),
-            ('2', '2-Não Optante'),
-        ],
-    )
-    dt_opc_fgts = fields.Date(
-        string='Data de Opção do FGTS',
-    )
-    dsc_sal_var = fields.Char(
-        string='Descr. Salário Variável',
-        size=255,
-    )
-    tp_contr = fields.Selection(
-        string='Tipo de Contrato de Trabalho',
-        selection=[
-            ('1', '1-Prazo indeterminado'),
-            ('2', '2-Prazo determinado'),
-        ],
-    )
-    clau_assec = fields.Selection(
-        string='Contém Cláusula Assecuratória',
-        selection=[
-            ('S', 'Sim'),
-            ('N', 'Não'),
-        ],
-    )
-    tp_jornada = fields.Selection(
-        string='Tipo da Jornada',
-        selection=[
-            ('1', '1-Jornada com horário diário e folga fixos'),
-            ('2', '2-Jornada 12x36 (12 horas de trabalho seguidas de 36 horas ininterruptas de descanso'),
-            ('3', '3-Jornada com horário diário fixo e folga variável'),
-            ('9', '9-Demais tipos de jornada'),
-        ],
-    )
-    dsc_tp_jorn = fields.Char(
-        string='Descrição da Jornada',
-        size=100,
-    )
-    tmp_parc = fields.Selection(
-        string='Código Tipo Contrato em Tempo Parcial',
-        selection=[
-            ('0', '0-Não é contrato em tempo parcial'),
-            ('1', '1-Limitado a 25 horas semanais'),
-            ('2', '2-Limitado a 30 horas semanais'),
-            ('3', '3-Limitado a 26 horas semanais'),
-        ],
-    )
-    resignation_cause_id = fields.Many2one(
-        comodel_name='sped.motivo_desligamento',
-        string='Resignation cause'
-    )
-    resignation_code = fields.Char(
-        related='resignation_cause_id.codigo',
-    )
-    nr_cert_obito = fields.Char(
-        string='Certidão de Óbito',
-        size=32,
-    )
-
-    # Registro S-2200
-    sped_s2200 = fields.Boolean(
-        string='Cadastro do Vínculo',
-        compute='_compute_sped_s2200',
-    )
-    sped_s2200_registro = fields.Many2one(
-        string='Registro S-2200 - Cadastramento Inicial do Vínculo',
-        comodel_name='sped.transmissao',
-    )
-    sped_s2200_situacao = fields.Selection(
-        string='Situação S-2200',
-        selection=[
-            ('1', 'Pendente'),
-            ('2', 'Transmitida'),
-            ('3', 'Erro(s)'),
-            ('4', 'Sucesso'),
-        ],
-        related='sped_s2200_registro.situacao',
-        readonly=True,
-    )
-    sped_s2200_data_hora = fields.Datetime(
-        string='Data/Hora',
-        related='sped_s2200_registro.data_hora_origem',
-        readonly=True,
-    )
-
-    @api.depends('sped_s2200_registro')
-    def _compute_sped_s2200(self):
-        for contrato in self:
-            contrato.sped_s2200 = True if contrato.sped_s2200_registro else False
+class SpedTransmissao(models.Model):
+    _inherit = 'sped.transmissao'
 
     @api.multi
-    def criar_s2200(self):
+    def s1000(self):
         self.ensure_one()
-        if self.sped_s2200_registro:
-            raise ValidationError('Esta contrato já registro este vínculo')
 
-        empresa = self.company_id.id if self.company_id.eh_empresa_base else self.company_id.matriz.id
+        # Cria o registro
+        S1000 = pysped.esocial.leiaute.S1000_2()
 
-        values = {
-            'tipo': 'esocial',
-            'registro': 'S-2200',
-            'ambiente': self.company_id.esocial_tpAmb or self.company_id.matriz.esocial_tpAmb,
-            'company_id': empresa,
-            'evento': 'evtAdmissao',
-            'origem': ('hr.contract,%s' % self.id),
-        }
+        # Popula ideEvento
+        S1000.tpInsc = '1'
+        S1000.nrInsc = limpa_formatacao(self.origem.cnpj_cpf)[0:8]
+        S1000.evento.ideEvento.tpAmb.valor = int(self.ambiente)
+        S1000.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
+        S1000.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
 
-        sped_s2200_registro = self.env['sped.transmissao'].create(values)
-        self.sped_s2200_registro = sped_s2200_registro
+        # Popula ideEmpregador (Dados do Empregador)
+        S1000.evento.ideEmpregador.tpInsc.valor = '1'
+        S1000.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.origem.cnpj_cpf)[0:8]
+
+        # Popula infoEmpregador
+        S1000.evento.infoEmpregador.operacao = 'I'
+        S1000.evento.infoEmpregador.idePeriodo.iniValid.valor = self.origem.esocial_periodo_id.code[
+                                                                3:7] + '-' + self.origem.esocial_periodo_id.code[0:2]
+
+        # Popula infoEmpregador.InfoCadastro
+        S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = self.origem.legal_name
+        S1000.evento.infoEmpregador.infoCadastro.classTrib.valor = self.origem.classificacao_tributaria_id.codigo
+        S1000.evento.infoEmpregador.infoCadastro.natJurid.valor = limpa_formatacao(
+            self.origem.natureza_juridica_id.codigo)
+        S1000.evento.infoEmpregador.infoCadastro.indCoop.valor = self.origem.ind_coop
+        S1000.evento.infoEmpregador.infoCadastro.indConstr.valor = self.origem.ind_constr
+        S1000.evento.infoEmpregador.infoCadastro.indDesFolha.valor = self.origem.ind_desoneracao
+        S1000.evento.infoEmpregador.infoCadastro.indOptRegEletron.valor = self.origem.ind_opt_reg_eletron
+        S1000.evento.infoEmpregador.infoCadastro.indEntEd.valor = self.origem.ind_ent_ed
+        S1000.evento.infoEmpregador.infoCadastro.indEtt.valor = self.origem.ind_ett
+        if self.origem.nr_reg_ett:
+            S1000.evento.infoEmpregador.infoCadastro.nrRegEtt.valor = self.origem.nr_reg_ett
+        if self.limpar_db:
+            S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = 'RemoverEmpregadorDaBaseDeDadosDaProducaoRestrita'
+            S1000.evento.infoEmpregador.infoCadastro.classTrib.valor = '00'
+
+        # Popula infoEmpregador.Infocadastro.contato
+        S1000.evento.infoEmpregador.infoCadastro.contato.nmCtt.valor = self.origem.esocial_nm_ctt
+        S1000.evento.infoEmpregador.infoCadastro.contato.cpfCtt.valor = self.origem.esocial_cpf_ctt
+        S1000.evento.infoEmpregador.infoCadastro.contato.foneFixo.valor = limpa_formatacao(
+            self.origem.esocial_fone_fixo)
+        if self.origem.esocial_fone_cel:
+            S1000.evento.infoEmpregador.infoCadastro.contato.foneCel.valor = limpa_formatacao(
+                self.origem.esocial_fone_cel)
+        if self.origem.esocial_email:
+            S1000.evento.infoEmpregador.infoCadastro.contato.email.valor = self.origem.esocial_email
+
+        # Popula infoEmpregador.infoCadastro.infoComplementares.situacaoPJ
+        S1000.evento.infoEmpregador.infoCadastro.indSitPJ.valor = self.origem.ind_sitpj
+
+        # Gera o ID do evento
+        S1000.gera_id_evento(datetime.now().strftime('%Y%m%d%H%M%S'))
+        data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        self.data_hora_transmissao = data_hora_transmissao
+
+        # Grava o ID gerado
+        self.id_evento = S1000.evento.Id.valor
+
+        return S1000
