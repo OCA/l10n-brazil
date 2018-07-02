@@ -119,7 +119,7 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="sped_transmissao_tree">
+        <record model="ir.ui.view" id="sped_registro_tree">
             <field name="name">SPED Transmissões</field>
             <field name="model">sped.registro</field>
             <field name="arch" type="xml">
@@ -139,7 +139,7 @@
             </field>
         </record>
 
-        <record id="sped_transmissao_search" model="ir.ui.view">
+        <record id="sped_registro_search" model="ir.ui.view">
             <field name="name">SPED Transmissões</field>
             <field name="model">sped.registro</field>
             <field name="arch" type="xml">
@@ -166,7 +166,7 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="sped_transmissao_action">
+        <record model="ir.actions.act_window" id="sped_registro_action">
             <field name="name">Registros</field>
             <field name="domain">[]</field>
             <field name="context">{'search_default_com_erros': 1, 'search_default_pendentes': 1, 'search_default_transmitidas': 1, 'search_default_retificar': 1}</field>
@@ -175,33 +175,33 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <record model="ir.actions.act_window.view" id="sped_transmissao_form_acao">
+        <record model="ir.actions.act_window.view" id="sped_registro_form_acao">
             <field eval="2" name="sequence"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="sped_transmissao_form"/>
-            <field name="act_window_id" ref="sped_transmissao_action"/>
+            <field name="view_id" ref="sped_registro_form"/>
+            <field name="act_window_id" ref="sped_registro_action"/>
         </record>
 
-        <record model="ir.actions.act_window.view" id="sped_transmissao_tree_acao">
+        <record model="ir.actions.act_window.view" id="sped_registro_tree_acao">
             <field eval="1" name="sequence"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="sped_transmissao_tree"/>
-            <field name="act_window_id" ref="sped_transmissao_action"/>
+            <field name="view_id" ref="sped_registro_tree"/>
+            <field name="act_window_id" ref="sped_registro_action"/>
         </record>
 
-        <menuitem id="menu_sped_transmissao"
+        <menuitem id="menu_sped_registro"
                   name="Registros"
                   sequence="10"
                   parent="menu_sped_base"
-                  action="sped_transmissao_action"
+                  action="sped_registro_action"
         />
 
-        <record model="ir.sequence.type" id="sped_transmissao_sequence_type">
+        <record model="ir.sequence.type" id="sped_registro_sequence_type">
             <field name="name">Registros de Transmissão SPED</field>
             <field name="code">sped.registro</field>
         </record>
 
-        <record model="ir.sequence" id="sped_transmissao_sequence">
+        <record model="ir.sequence" id="sped_registro_sequence">
             <field name="name">Registros de Transmissão SPED</field>
             <field name="code">sped.registro</field>
             <field name="padding">4</field>

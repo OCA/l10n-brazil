@@ -433,7 +433,7 @@ class SpedLote(models.Model, ):
                 # Localiza o registro original pelo Id
                 id = evento.evtTotal.infoRecEv.idEv.valor
 
-                registro = self.env['sped.transmissao'].search([('id_evento', '=', id)])
+                registro = self.env['sped.registro'].search([('id_evento', '=', id)])
                 if not registro:
                     raise ValidationError("ID %s não encontrado !" % id)
 
