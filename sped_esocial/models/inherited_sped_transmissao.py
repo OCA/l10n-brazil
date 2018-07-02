@@ -75,4 +75,14 @@ class SpedTransmissao(models.Model):
         # Grava o ID gerado
         self.id_evento = S1000.evento.Id.valor
 
+        # Grava o XML gerado
+        if self.envio_xml_id:
+            envio = self.consulta_xml_id
+            envio.consulta_xml_id = False
+            envio.unlink()
+        envio_xml = S1000.evento.xml
+        envio_xml_nome = self.id_evento + '-envio.xml'
+        anexo_id = self._grava_anexo(envio_xml_nome, envio_xml)
+        self.envio_xml_id = anexo_id
+
         return S1000
