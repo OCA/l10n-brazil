@@ -161,7 +161,7 @@ class SpedCriacaoWizard(models.TransientModel):
                 'company_id': lote.company_id.id,
                 'situacao': '1',
             }
-            novo_lote = self.env['sped.transmissao.lote'].create(vals)
+            novo_lote = self.env['sped.lote'].create(vals)
             for registro in lote.registro_ids:
                 registro.lote_ids = [(4, novo_lote.id)]
 

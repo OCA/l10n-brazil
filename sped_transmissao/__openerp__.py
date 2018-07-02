@@ -38,11 +38,11 @@
 
         # Views
         'views/inherited_res_company.xml',
-        'views/sped_transmissao_lote_view.xml',
         'views/sped_registro_view.xml',
+        'views/sped_lote_view.xml',
 
         # Wizards
-        'wizards/sped_transmissao_lote_view.xml',
+        'wizards/sped_lote_view.xml',
 
         # Segurança
         'security/ir.model.access.csv',

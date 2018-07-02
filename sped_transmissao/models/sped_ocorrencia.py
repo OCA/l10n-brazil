@@ -16,7 +16,7 @@ class SpedOcorrencia(models.Model):
     )
     lote_id = fields.Many2one(
         string='Lote',
-        comodel_name='sped.transmissao.lote',
+        comodel_name='sped.lote',
     )
 
     tipo = fields.Char(
