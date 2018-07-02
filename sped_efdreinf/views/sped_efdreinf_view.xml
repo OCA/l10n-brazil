@@ -43,12 +43,12 @@
                             </group>
                         </group>
                         <notebook>
-                            <page name="R2010" string="R-2010">
+                            <page name="r2010" string="R-2010">
                                 <group colspan="4" col="4">
                                     <group colspan="2" col="1">
                                         <div class="oe_title">
                                             <button name="importar_movimento" type="object" string="Calcular" />
-                                            <button name="criar_R2010" type="object" string="Criar R-2010(s)" class="oe_highlight"
+                                            <button name="criar_r2010" type="object" string="Criar R-2010(s)" class="oe_highlight"
                                                     attrs="{'invisible': [('estabelecimento_ids', '=', False)]}" />
                                         </div>
                                     </group>
@@ -64,9 +64,9 @@
                                             <field name="vr_total_nret_princ" invisible="1" />
                                             <field name="vr_total_nret_adic" invisible="1" />
                                             <field name="ind_cprb" />
-                                            <field name="situacao_R2010" />
-                                            <field name="sped_R2010" invisible="1" />
-                                            <field name="sped_R2010_registro" invisible="1" />
+                                            <field name="situacao_r2010" />
+                                            <field name="sped_r2010" invisible="1" />
+                                            <field name="sped_r2010_registro" invisible="1" />
                                             <field name="nfs_ids" invisible="1" />
                                         </tree>
                                         <form>
@@ -75,8 +75,8 @@
                                                     <group colspan="2" col="2">
                                                         <field name="estabelecimento_id" readonly="1" />
                                                         <field name="prestador_id" readonly="1" />
-                                                        <field name="sped_R2010" invisible="1" />
-                                                        <field name="sped_R2010_registro" attrs="{'invisible': [('sped_R2010', '=', False)]}" />
+                                                        <field name="sped_r2010" invisible="1" />
+                                                        <field name="sped_r2010_registro" attrs="{'invisible': [('sped_r2010', '=', False)]}" />
                                                     </group>
                                                     <group colspan="2" col="2">
                                                         <field name="vr_total_bruto" readonly="1" />
@@ -154,7 +154,7 @@
                                     </field>
                                 </group>
                             </page>
-                            <page name="R2099" string="R-2099">
+                            <page name="r2099" string="R-2099">
                                 <group colspan="4" col="4">
                                     <group colspan="2" col="4">
                                         <label for="evt_serv_tm" colspan="3"/><field name="evt_serv_tm" nolabel="1" colspan="1" />
@@ -174,12 +174,12 @@
                                         />
                                     </group>
                                     <group colspan="2" col="2">
-                                        <button name="criar_R2099" colspan="2" type="object" string="Criar R-2099" class="oe_highlight"
-                                                attrs="{'invisible': ['|', ('sped_R2099', '=', True), ('pode_fechar', '=', False)]}"
+                                        <button name="criar_r2099" colspan="2" type="object" string="Criar R-2099" class="oe_highlight"
+                                                attrs="{'invisible': ['|', ('sped_r2099', '=', True), ('pode_fechar', '=', False)]}"
                                         />
-                                        <field name="sped_R2099" readonly="1"/>
-                                        <field name="sped_R2099_registro" readonly="1"/>
-                                        <field name="situacao_R2099" />
+                                        <field name="sped_r2099" readonly="1"/>
+                                        <field name="sped_r2099_registro" readonly="1"/>
+                                        <field name="situacao_r2099" />
                                     </group>
                                 </group>
                             </page>

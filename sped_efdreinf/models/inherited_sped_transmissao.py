@@ -10,9 +10,9 @@ from datetime import datetime
 import pysped
 
 
-class SpedTransmissao(models.Model):
+class SpedRegistro(models.Model):
 
-    _inherit = 'sped.transmissao'
+    _inherit = 'sped.registro'
 
     @api.multi
     def r1000(self):

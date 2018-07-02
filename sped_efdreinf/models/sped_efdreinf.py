@@ -114,15 +114,15 @@ class SpedEfdReinf(models.Model):
     )
 
     # Registro R-2099
-    sped_R2099 = fields.Boolean(
+    sped_r2099 = fields.Boolean(
         string='Fechamento EFD/Reinf',
         compute='_compute_r2099',
     )
-    sped_R2099_registro = fields.Many2one(
+    sped_r2099_registro = fields.Many2one(
         string='Registro R-2099',
         comodel_name='sped.registro',
     )
-    situacao_R2099 = fields.Selection(
+    situacao_r2099 = fields.Selection(
         string='Situação R-2099',
         selection=[
             ('1', 'Pendente'),
@@ -130,7 +130,7 @@ class SpedEfdReinf(models.Model):
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
         ],
-        related='sped_R2099_registro.situacao',
+        related='sped_r2099_registro.situacao',
         readonly=True,
     )
 
@@ -142,28 +142,28 @@ class SpedEfdReinf(models.Model):
 
             # Checa se algum registro já foi transmitido
             for estabelecimento in efdreinf.estabelecimento_ids:
-                if estabelecimento.situacao_R2010 not in ['1', '3']:
+                if estabelecimento.situacao_r2010 not in ['1', '3']:
                     raise ValidationError("Não pode excluir um Período EFD/Reinf que já tem algum processamento!")
 
-    @api.depends('estabelecimento_ids', 'sped_R2099_registro')
+    @api.depends('estabelecimento_ids', 'sped_r2099_registro')
     def _compute_situacao(self):
         for efdreinf in self:
 
             # Verifica se está fechado ou aberto
-            situacao = '3' if efdreinf.situacao_R2099 == '4' else '1'
+            situacao = '3' if efdreinf.situacao_r2099 == '4' else '1'
 
             # Checa se tem algum problema que precise ser retificado
             for estabelecimento in efdreinf.estabelecimento_ids:
-                if estabelecimento.situacao_R2010 == '5':
+                if estabelecimento.situacao_r2010 == '5':
                     situacao = '2'  # Precisa Retificar
 
             # Atualiza o campo situacao
             efdreinf.situacao = situacao
 
-    @api.depends('periodo_id', 'company_id', 'estabelecimento_ids', 'sped_R2099_registro')
+    @api.depends('periodo_id', 'company_id', 'estabelecimento_ids', 'sped_r2099_registro')
     def _compute_r2099(self):
         for efdreinf in self:
-            efdreinf.sped_R2099 = True if efdreinf.sped_R2099_registro else False
+            efdreinf.sped_r2099 = True if efdreinf.sped_r2099_registro else False
             efdreinf.evt_serv_tm = True if efdreinf.estabelecimento_ids else False
             efdreinf.evt_serv_pr = False  # TODO
             efdreinf.evt_ass_desp_rec = False  # TODO
@@ -188,7 +188,7 @@ class SpedEfdReinf(models.Model):
             contador = 0
             for estabelecimento in efdreinf.estabelecimento_ids:
                 contador += 1
-                if estabelecimento.situacao_R2010 != '4':
+                if estabelecimento.situacao_r2010 != '4':
                     pode_fechar = False
 
             # Se não tem movimento precisa definir um período inicial sem movimento antes
@@ -223,7 +223,7 @@ class SpedEfdReinf(models.Model):
 
         # Limpar dados anteriores que não tenham registro SPED
         for estabelecimento in self.estabelecimento_ids:
-            if not estabelecimento.sped_R2010_registro:
+            if not estabelecimento.sped_r2010_registro:
                 estabelecimento.unlink()
 
         # Pegar a lista de empresas
@@ -268,14 +268,14 @@ class SpedEfdReinf(models.Model):
                     if prestador_id:
 
                         # Precisa mudar o status do registro R-2010 ?
-                        if estabelecimento_id.sped_R2010 and \
+                        if estabelecimento_id.sped_r2010 and \
                                 (round(estabelecimento_id.vr_total_bruto, 2) != round(vr_total_bruto, 2) or
                                  round(estabelecimento_id.vr_total_base_retencao, 2) != round(vr_total_base_retencao, 2) or
                                  round(estabelecimento_id.vr_total_ret_princ, 2) != round(vr_total_ret_princ, 2) or
                                  round(estabelecimento_id.vr_total_ret_adic, 2) != round(vr_total_ret_adic, 2) or
                                  round(estabelecimento_id.vr_total_nret_princ, 2) != round(vr_total_nret_princ, 2) or
                                  round(estabelecimento_id.vr_total_nret_adic, 2) != round(vr_total_nret_adic, 2)):
-                            estabelecimento_id.sped_R2010_registro.situacao = '5'
+                            estabelecimento_id.sped_r2010_registro.situacao = '5'
                             estabelecimento_id.vr_total_bruto = vr_total_bruto
                             estabelecimento_id.vr_total_base_retencao = vr_total_base_retencao
                             estabelecimento_id.vr_total_ret_princ = vr_total_ret_princ
@@ -283,7 +283,7 @@ class SpedEfdReinf(models.Model):
                             estabelecimento_id.vr_total_nret_princ = vr_total_nret_princ
                             estabelecimento_id.vr_total_nret_adic = vr_total_nret_adic
                         else:
-                            if estabelecimento_id.situacao_R2010 != '5':
+                            if estabelecimento_id.situacao_r2010 != '5':
                                 estabelecimento_id.vr_total_bruto = vr_total_bruto
                                 estabelecimento_id.vr_total_base_retencao = vr_total_base_retencao
                                 estabelecimento_id.vr_total_ret_princ = vr_total_ret_princ
@@ -375,14 +375,14 @@ class SpedEfdReinf(models.Model):
 
             # Precisa mudar o status do registro R-2010 ?
             if estabelecimento_id:
-                if estabelecimento_id.sped_R2010 and \
+                if estabelecimento_id.sped_r2010 and \
                         (round(estabelecimento_id.vr_total_bruto, 2) != round(vr_total_bruto, 2) or
                          round(estabelecimento_id.vr_total_base_retencao, 2) != round(vr_total_base_retencao, 2) or
                          round(estabelecimento_id.vr_total_ret_princ, 2) != round(vr_total_ret_princ, 2) or
                          round(estabelecimento_id.vr_total_ret_adic, 2) != round(vr_total_ret_adic, 2) or
                          round(estabelecimento_id.vr_total_nret_princ, 2) != round(vr_total_nret_princ, 2) or
                          round(estabelecimento_id.vr_total_nret_adic, 2) != round(vr_total_nret_adic, 2)):
-                    estabelecimento_id.sped_R2010_registro.situacao = '5'
+                    estabelecimento_id.sped_r2010_registro.situacao = '5'
                     estabelecimento_id.vr_total_bruto = vr_total_bruto
                     estabelecimento_id.vr_total_base_retencao = vr_total_base_retencao
                     estabelecimento_id.vr_total_ret_princ = vr_total_ret_princ
@@ -390,7 +390,7 @@ class SpedEfdReinf(models.Model):
                     estabelecimento_id.vr_total_nret_princ = vr_total_nret_princ
                     estabelecimento_id.vr_total_nret_adic = vr_total_nret_adic
                 else:
-                    if estabelecimento_id.situacao_R2010 != '5':
+                    if estabelecimento_id.situacao_r2010 != '5':
                         estabelecimento_id.vr_total_bruto = vr_total_bruto
                         estabelecimento_id.vr_total_base_retencao = vr_total_base_retencao
                         estabelecimento_id.vr_total_ret_princ = vr_total_ret_princ
@@ -399,11 +399,11 @@ class SpedEfdReinf(models.Model):
                         estabelecimento_id.vr_total_nret_adic = vr_total_nret_adic
 
     @api.multi
-    def criar_R2010(self):
+    def criar_r2010(self):
         self.ensure_one()
 
         for estabelecimento in self.estabelecimento_ids:
-            if not estabelecimento.sped_R2010_registro:
+            if not estabelecimento.sped_r2010_registro:
 
                 values = {
                     'tipo': 'efdreinf',
@@ -414,11 +414,11 @@ class SpedEfdReinf(models.Model):
                     'origem': ('sped.efdreinf.estabelecimento,%s' % estabelecimento.id),
                 }
 
-                sped_R2010_registro = self.env['sped.registro'].create(values)
-                estabelecimento.sped_R2010_registro = sped_R2010_registro
+                sped_r2010_registro = self.env['sped.registro'].create(values)
+                estabelecimento.sped_r2010_registro = sped_r2010_registro
 
     @api.multi
-    def criar_R2099(self):
+    def criar_r2099(self):
         self.ensure_one()
 
         for efdreinf in self:
@@ -432,5 +432,5 @@ class SpedEfdReinf(models.Model):
                 'origem': ('sped.efdreinf,%s' % efdreinf.id),
             }
 
-            sped_R2099_registro = self.env['sped.registro'].create(values)
-            efdreinf.sped_R2099_registro = sped_R2099_registro
+            sped_r2099_registro = self.env['sped.registro'].create(values)
+            efdreinf.sped_r2099_registro = sped_r2099_registro

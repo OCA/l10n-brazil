@@ -61,15 +61,15 @@ class SpedEfdReinfEstab(models.Model):
         comodel_name='sped.efdreinf.nfs',
         inverse_name='estabelecimento_id',
     )
-    sped_R2010 = fields.Boolean(
+    sped_r2010 = fields.Boolean(
         string='Ativação EFD/Reinf',
-        compute='_compute_sped_R2010',
+        compute='_compute_sped_r2010',
     )
-    sped_R2010_registro = fields.Many2one(
+    sped_r2010_registro = fields.Many2one(
         string='Registro R-2010',
         comodel_name='sped.registro',
     )
-    situacao_R2010 = fields.Selection(
+    situacao_r2010 = fields.Selection(
         string='Situação R-2010',
         selection=[
             ('1', 'Pendente'),
@@ -78,10 +78,10 @@ class SpedEfdReinfEstab(models.Model):
             ('4', 'Sucesso'),
             ('5', 'Precisa Retificar'),
         ],
-        related='sped_R2010_registro.situacao',
+        related='sped_r2010_registro.situacao',
         readonly=True,
     )
-    sped_R2010_retificacao = fields.Many2one(
+    sped_r2010_retificacao = fields.Many2one(
         string='Registro R-2010 (Retificação)',
         comodel_name='sped.registro',
     )
@@ -95,8 +95,8 @@ class SpedEfdReinfEstab(models.Model):
 
             prestador.nome = nome
 
-    @api.depends('sped_R2010_registro')
-    def _compute_sped_R2010(self):
+    @api.depends('sped_r2010_registro')
+    def _compute_sped_r2010(self):
         for efdreinf in self:
-            efdreinf.sped_R2010 = True if efdreinf.sped_R2010_registro else False
+            efdreinf.sped_r2010 = True if efdreinf.sped_r2010_registro else False
 
