@@ -170,11 +170,11 @@ class SpedRegistro(models.Model):
     # Identifica se o registro ja está na fila de um lote para transmissão
     transmissao_lote = fields.Boolean(
         string='Transmissão por Lote?',
-        compute='_compute_transmissao_lote',
+        compute='_compute_lote',
     )
 
     @api.depends('lote_ids')
-    def _compute_transmissao_lote(self):
+    def _compute_lote(self):
         for registro in self:
             transmissao_lote = False
             for lote in registro.lote_ids:

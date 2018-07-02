@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2018 ABGF
+# Copyright 2017 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
@@ -17,7 +17,7 @@ from decimal import Decimal
 class SpedLote(models.Model, ):
     _name = 'sped.lote'
     _inherit = []
-    _description = 'Lotes de registros SPED'
+    _description = 'Lotes de transmissões de registros SPED'
     _rec_name = 'codigo'
     _order = "data_hora_transmissao DESC, situacao"
 
@@ -157,7 +157,7 @@ class SpedLote(models.Model, ):
         for lote in self:
             if lote.situacao not in ['1', '3']:
                 raise ValidationError("Não pode excluir um Lote transmitido!")
-            super(SpedTransmissaoLote, lote).unlink()
+            super(SpedLote, lote).unlink()
 
     @api.depends('transmissao_ids')
     def compute_quantidade(self):
