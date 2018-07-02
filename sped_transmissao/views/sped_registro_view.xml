@@ -50,7 +50,7 @@
                             </group>
                             <group colspan="2" col="2">
                                 <field name="data_hora_origem" readonly="1"/>
-                                <field name="data_hora_transmissao" readonly="1"/>
+                                <!--<field name="data_hora_transmissao" readonly="1"/>-->
                                 <field name="data_hora_retorno" readonly="1"/>
                             </group>
                         </group>
@@ -120,7 +120,7 @@
         </record>
 
         <record model="ir.ui.view" id="sped_registro_tree">
-            <field name="name">SPED Transmissões</field>
+            <field name="name">SPED Registros</field>
             <field name="model">sped.registro</field>
             <field name="arch" type="xml">
                 <tree string="Registros" create="false" edit="false" duplicate="false"
@@ -140,10 +140,10 @@
         </record>
 
         <record id="sped_registro_search" model="ir.ui.view">
-            <field name="name">SPED Transmissões</field>
+            <field name="name">SPED Registro</field>
             <field name="model">sped.registro</field>
             <field name="arch" type="xml">
-                <search string="Transmissões">
+                <search string="Registros">
                     <filter name="esocial" icon="terp-document-new" string="e-Social" domain="[('tipo', '=', 'esocial')]" />
                     <filter name="efdreinf" icon="terp-document-new" string="EFD/Reinf" domain="[('tipo', '=', 'efdreinf')]" />
                     <filter name="com_erros" icon="terp-document-new" string="Com Erro(s)" domain="[('situacao', '=', '3')]" help="Registros com Erros"/>
@@ -159,7 +159,7 @@
                         <filter name="group_by_situacao" string="Situação" context="{'group_by': 'situacao'}" />
                         <filter name="group_by_ambiente" string="Ambiente" context="{'group_by': 'ambiente'}" />
                         <filter name="group_by_origem" string="Data/Hora de Origem" context="{'group_by': 'data_hora_origem'}" />
-                        <filter name="group_by_transmissao" string="Data/Hora de Transmissão" context="{'group_by': 'data_hora_transmissao'}" />
+                        <!--<filter name="group_by_transmissao" string="Data/Hora de Transmissão" context="{'group_by': 'data_hora_transmissao'}" />-->
                         <filter name="group_by_retorno" string="Data/Hora de Retorno" context="{'group_by': 'data_hora_retorno'}" />
                     </group>
 		        </search>
@@ -169,7 +169,7 @@
         <record model="ir.actions.act_window" id="sped_registro_action">
             <field name="name">Registros</field>
             <field name="domain">[]</field>
-            <field name="context">{'search_default_com_erros': 1, 'search_default_pendentes': 1, 'search_default_transmitidas': 1, 'search_default_retificar': 1}</field>
+            <!--<field name="context">{'search_default_com_erros': 1, 'search_default_pendentes': 1, 'search_default_transmitidas': 1, 'search_default_retificar': 1}</field>-->
             <field name="res_model">sped.registro</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
@@ -189,7 +189,7 @@
             <field name="act_window_id" ref="sped_registro_action"/>
         </record>
 
-        <menuitem id="menu_sped_registro"
+        <menuitem id="menu_sped_registros"
                   name="Registros"
                   sequence="10"
                   parent="menu_sped_base"
@@ -197,13 +197,13 @@
         />
 
         <record model="ir.sequence.type" id="sped_registro_sequence_type">
-            <field name="name">Registros de Transmissão SPED</field>
+            <field name="name">Registros SPED</field>
             <field name="code">sped.registro</field>
         </record>
 
         <record model="ir.sequence" id="sped_registro_sequence">
-            <field name="name">Registros de Transmissão SPED</field>
-            <field name="code">sped.registro</field>
+            <field name="name">Registros SPED</field>
+             <field name="code">sped.registro</field>
             <field name="padding">4</field>
             <field name="prefix">SPED/REG/</field>
         </record>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <openerp>
     <data>
-        <record id="sped_transmissao_lote_form" model="ir.ui.view">
-            <field name="name">SPED Lotes de Transmissão</field>
+        <record id="sped_lote_form" model="ir.ui.view">
+            <field name="name">SPED Lotes</field>
             <field name="model">sped.lote</field>
             <field name="arch" type="xml">
                 <form string="Lotes SPED" edit="false" create="false" duplicate="false">
@@ -40,7 +40,7 @@
                                         <field name="quantidade" />
                                     </group>
                                     <group colspan="2" col="2">
-                                        <field name="data_hora_transmissao" />
+                                        <!--<field name="data_hora_transmissao" />-->
                                         <field name="data_hora_retorno" />
                                     </group>
                                     <group colspan="2" col="2">
@@ -96,8 +96,8 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="sped_transmissao_lote_tree">
-            <field name="name">SPED Lotes de Transmissão</field>
+        <record model="ir.ui.view" id="sped_lote_tree">
+            <field name="name">SPED Lotes</field>
             <field name="model">sped.lote</field>
             <field name="arch" type="xml">
                 <tree string="Lotes de Transmissão" edit="false" create="false" duplicate="false"
@@ -112,8 +112,8 @@
             </field>
         </record>
 
-        <record id="sped_transmissao_lote_search" model="ir.ui.view">
-            <field name="name">SPED Lotes de Transmissão</field>
+        <record id="sped_lote_search" model="ir.ui.view">
+            <field name="name">SPED Lotes</field>
             <field name="model">sped.lote</field>
             <field name="arch" type="xml">
                 <search string="Transmissões">
@@ -125,50 +125,50 @@
                     <group expand="0" string="Group By">
                         <filter name="group_by_tipo" string="Tipo" context="{'group_by': 'tipo'}" />
                         <filter name="group_by_situacao" string="Situação" context="{'group_by': 'situacao'}" />
-                        <filter name="group_by_transmissao" string="Data/Hora de Transmissão" context="{'group_by': 'data_hora_transmissao'}" />
+                        <!--<filter name="group_by_transmissao" string="Data/Hora de Transmissão" context="{'group_by': 'data_hora_transmissao'}" />-->
                         <filter name="group_by_retorno" string="Data/Hora de Retorno" context="{'group_by': 'data_hora_retorno'}" />
                     </group>
 		        </search>
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="sped_transmissao_lote_action">
+        <record model="ir.actions.act_window" id="sped_lote_action">
             <field name="name">Lotes de Transmissão</field>
             <field name="domain">[]</field>
-            <field name="context">{'search_default_com_erros': 1, 'search_default_pendentes': 1, 'search_default_transmitidas': 1}</field>
+            <!--<field name="context">{'search_default_com_erros': 1, 'search_default_pendentes': 1, 'search_default_transmitidas': 1}</field>-->
             <field name="res_model">sped.lote</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
-        <record model="ir.actions.act_window.view" id="sped_transmissao_lote_form_acao">
+        <record model="ir.actions.act_window.view" id="sped_lote_form_acao">
             <field eval="2" name="sequence"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="sped_transmissao_lote_form"/>
-            <field name="act_window_id" ref="sped_transmissao_lote_action"/>
+            <field name="view_id" ref="sped_lote_form"/>
+            <field name="act_window_id" ref="sped_lote_action"/>
         </record>
 
-        <record model="ir.actions.act_window.view" id="sped_transmissao_lote_tree_acao">
+        <record model="ir.actions.act_window.view" id="sped_lote_tree_acao">
             <field eval="1" name="sequence"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="sped_transmissao_lote_tree"/>
-            <field name="act_window_id" ref="sped_transmissao_lote_action"/>
+            <field name="view_id" ref="sped_lote_tree"/>
+            <field name="act_window_id" ref="sped_lote_action"/>
         </record>
 
-        <menuitem id="menu_sped_transmissao_lote"
+        <menuitem id="menu_sped_lote"
                   name="Lotes"
                   sequence="20"
                   parent="menu_sped_base"
-                  action="sped_transmissao_lote_action"
+                  action="sped_lote_action"
         />
 
-        <record model="ir.sequence.type" id="sped_transmissao_lote_sequence_type">
-            <field name="name">Lotes de Transmissão SPED</field>
+        <record model="ir.sequence.type" id="sped_lote_sequence_type">
+            <field name="name">Lotes de Registro SPED</field>
             <field name="code">sped.lote</field>
         </record>
 
-        <record model="ir.sequence" id="sped_transmissao_lote_sequence">
-            <field name="name">Lotes de Transmissão SPED</field>
+        <record model="ir.sequence" id="sped_lote_sequence">
+            <field name="name">Lotes de Registro SPED</field>
             <field name="code">sped.lote</field>
             <field name="padding">4</field>
             <field name="prefix">SPED-LOTE-</field>
