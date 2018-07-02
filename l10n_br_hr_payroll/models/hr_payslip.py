@@ -660,6 +660,18 @@ class HrPayslip(models.Model):
         for record in self:
             pass
 
+    @api.multi
+    def buscar_pensao_alimenticia(self):
+        """
+        Verificar se o empregado do contrato paga pensão alimentícia
+        :return:
+        """
+        for dependente in self.contract_id.employee_id.dependent_ids:
+            if dependente.have_alimony:
+                return True
+
+        return False
+
     @api.depends('periodo_aquisitivo')
     @api.model
     def _compute_saldo_periodo_aquisitivo(self):
