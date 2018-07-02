@@ -5,8 +5,15 @@
             <field name="name">SPED Lotes de Transmissão</field>
             <field name="model">sped.transmissao.lote</field>
             <field name="arch" type="xml">
-                <form string="Lotes SPED">
+                <form string="Lotes SPED" edit="false" create="false" duplicate="false">
+                    <field name="ocorrencias" invisible="1" />
                     <header>
+                        <button name="transmitir" type="object" string="Transmitir" class="oe_highlight"
+                                attrs="{'invisible': [('situacao', '!=', '1')]}"
+                        />
+                        <button name="consultar" type="object" string="Consultar" class="oe_highlight"
+                                attrs="{'invisible': [('situacao', '!=', '2')]}"
+                        />
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1"
@@ -25,21 +32,65 @@
                                  <field name="codigo" string="Registro"/>
                             </h1>
                         </div>
-                        <group colspan="4" col="4">
-                            <separator colspan="4" string="Detalhes"/>
-                            <group colspan="4" col="2">
-                                <field name="xml_transmissao" />
-                                <field name="xml_retorno" />
-                            </group>
-                            <group colspan="2" col="2">
-                                <field name="data_hora_transmissao" />
-                                <field name="data_hora_retorno" />
-                            </group>
-                        </group>
-                        <group colspan="4" col="1">
-                            <separator colspan="1" string="Registros deste Lote" />
-                            <field name="transmissao_ids" colspan="1" nolabel="1" count="situacao"/>
-                        </group>
+                        <notebook>
+                            <page name="registros" string="Registros">
+                                <group colspan="4" col="4">
+                                    <group colspan="4" col="4">
+                                        <field name="company_id" />
+                                        <field name="quantidade" />
+                                    </group>
+                                    <group colspan="2" col="2">
+                                        <field name="data_hora_transmissao" />
+                                        <field name="data_hora_retorno" />
+                                    </group>
+                                    <group colspan="2" col="2">
+                                        <field name="cd_resposta" attrs="{'invisible': [('cd_resposta', '=', False)]}"/>
+                                        <field name="desc_resposta" attrs="{'invisible': [('desc_resposta', '=', False)]}"/>
+                                        <field name="tempo_estimado" attrs="{'invisible': [('tempo_estimado', '=', False)]}"/>
+                                    </group>
+                                    <group colspan="4" col="2">
+                                        <field name="dh_recepcao" attrs="{'invisible': [('dh_recepcao', '=', False)]}" />
+                                        <field name="versao_aplicativo_recepcao" attrs="{'invisible': [('versao_aplicativo_recepcao', '=', False)]}" />
+                                        <field name="versao_aplicativo_processamento" attrs="{'invisible': [('versao_aplicativo_processamento', '=', False)]}" />
+                                        <field name="protocolo" attrs="{'invisible': [('protocolo', '=', False)]}" />
+                                    </group>
+                                </group>
+                                <group colspan="4" col="1">
+                                    <!--<separator colspan="1" string="Registros deste Lote" />-->
+                                    <field name="transmissao_ids" colspan="1" nolabel="1" count="situacao"/>
+                                </group>
+                            </page>
+                            <page name="envio_xml" string="XML Envio" attrs="{'invisible': [('envio_xml_id', '=', False)]}">
+                                <group colspan="4" col="2" string="XML">
+                                    <field name="envio_xml_id" />
+                                    <field name="envio_xml" widget="ace" />
+                                </group>
+                            </page>
+                            <page name="retorno_xml" string="XML Retorno" attrs="{'invisible': [('retorno_xml_id', '=', False)]}">
+                                <group colspan="4" col="2">
+                                    <field name="retorno_xml_id" />
+                                    <field name="retorno_xml" widget="ace" />
+                                </group>
+                            </page>
+                            <page name="consulta_xml" string="XML Consulta" attrs="{'invisible': [('consulta_xml_id', '=', False)]}">
+                                <group colspan="4" col="2">
+                                    <field name="consulta_xml_id" />
+                                    <field name="consulta_xml" widget="ace" />
+                                </group>
+                            </page>
+                            <page name="ocorrencias" string="Ocorrências" attrs="{'invisible': [('ocorrencias', '=', False)]}">
+                                <group colspan="4" col="1">
+                                    <field name="ocorrencia_ids" nolabel="1" readonly="1">
+                                        <tree editable="bottom">
+                                            <field name="tipo" />
+                                            <field name="local" />
+                                            <field name="codigo" />
+                                            <field name="descricao" />
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
@@ -49,14 +100,13 @@
             <field name="name">SPED Lotes de Transmissão</field>
             <field name="model">sped.transmissao.lote</field>
             <field name="arch" type="xml">
-                <tree string="Lotes de Transmissão">
-                      <!--colors="blue:state in ('new','draft');black:state in ('open','done');gray:state == 'cancel'"-->
+                <tree string="Lotes de Transmissão" edit="false" create="false" duplicate="false"
+                      colors="blue:situacao in ('2','4');black:situacao == '1';read:situacao in ('3', '5')"
+                >
                     <field name="tipo"/>
                     <field name="codigo"/>
-                    <!--<field name="ambiente"/>-->
+                    <field name="company_id"/>
                     <field name="quantidade" />
-                    <field name="data_hora_transmissao"/>
-                    <field name="data_hora_retorno"/>
                     <field name="situacao"/>
                 </tree>
             </field>
@@ -121,7 +171,7 @@
             <field name="name">Lotes de Transmissão SPED</field>
             <field name="code">sped.transmissao.lote</field>
             <field name="padding">4</field>
-            <field name="prefix">SPED/LOTE/</field>
+            <field name="prefix">SPED-LOTE-</field>
         </record>
 
     </data>

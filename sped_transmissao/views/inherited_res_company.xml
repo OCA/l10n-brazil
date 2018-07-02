@@ -11,6 +11,9 @@
                     <field name="eh_empresa_base" invisible="1"/>
                     <field name="matriz" invisible="1" />
                 </field>
+                <field name="issqn_exigibilidade" position="after">
+                    <field name="ind_desoneracao" attrs="{'required': [('eh_empresa_base', '=', True)]}" />
+                </field>
             </field>
         </record>
 

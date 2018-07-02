@@ -36,8 +36,7 @@ class ResCompany(models.Model):
         string='Desoneração da folha pela CPRB',
         selection=[
             ('0', 'Não Aplicável'),
-            ('1',
-             'Empresa enquadrada nos termos da Lei 12.546/2011 e alterações'),
+            ('1', 'Empresa enquadrada nos termos da Lei 12.546/2011 e alterações'),
         ],
     )
 

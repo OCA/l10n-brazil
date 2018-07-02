@@ -123,6 +123,7 @@ class SpedCriacaoWizard(models.TransientModel):
                     ('tipo', '=', registro.tipo),
                     ('ambiente', '=', registro.ambiente),
                     ('grupo', '=', grupo),
+                    ('company_id', '=', registro.company_id.id),
                     ('cheio', '=', False),
                 ]
                 lote = self.env['sped.lote.wizard'].search(domain)
@@ -133,6 +134,7 @@ class SpedCriacaoWizard(models.TransientModel):
                         'tipo': registro.tipo,
                         'ambiente': registro.ambiente,
                         'grupo': grupo,
+                        'company_id': registro.company_id.id,
                     }
                     lote = self.env['sped.lote.wizard'].create(vals)
                     lotes.append(lote.id)
@@ -156,6 +158,7 @@ class SpedCriacaoWizard(models.TransientModel):
             vals = {
                 'tipo': lote.tipo,
                 'ambiente': lote.ambiente,
+                'company_id': lote.company_id.id,
                 'situacao': '1',
             }
             novo_lote = self.env['sped.transmissao.lote'].create(vals)
@@ -163,6 +166,7 @@ class SpedCriacaoWizard(models.TransientModel):
                 registro.lote_ids = [(4, novo_lote.id)]
 
         return True
+
 
 class SpedLoteWizard(models.TransientModel):
     _name = 'sped.lote.wizard'
@@ -196,6 +200,10 @@ class SpedLoteWizard(models.TransientModel):
             ('2', 'Produção Restrita'),
             ('3', 'Homologação'),
         ],
+    )
+    company_id = fields.Many2one(
+        string='Empresa',
+        comodel_name='res.company',
     )
     registro_ids = fields.Many2many(
         string='Registros',

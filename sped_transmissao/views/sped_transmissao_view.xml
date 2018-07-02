@@ -7,18 +7,19 @@
             <field name="arch" type="xml">
                 <form string="Registros SPED" edit="false" create="false" duplicate="false">
                     <field name="limpar_db" invisible="1"/>
+                    <field name="transmissao_lote" invisible="1" />
                     <header>
                         <button name="gera_xml" type="object" string="Transmitir" class="oe_highlight"
-                                attrs="{'invisible': [('situacao', 'in', ['2', '4'])]}"
+                                attrs="{'invisible': ['|', ('situacao', 'in', ['2', '4']), ('transmissao_lote', '=', True)]}"
                         />
                         <button name="limpa_db" type="object" string="Limpar DB" class="oe_highlight"
-                                attrs="{'invisible': ['|', '|', ('registro', 'not in', ['R-1000', 'S-1000']), ('ambiente', '!=', '2'), ('situacao', '=', '1')]}"
+                                attrs="{'invisible': ['|', '|', ('registro', 'not in', ['R-1000', 'S-1000']), ('ambiente', '!=', '2'), ('situacao', 'in', ['1', '2'])]}"
                         />
                         <button name="consulta_fechamento" type="object" string="Consultar Fechamento" class="oe_highlight"
-                                attrs="{'invisible': ['|', ('registro', '!=', 'R-2099'), ('situacao', '!=', '2')]}"
+                                attrs="{'invisible': ['|', '|', ('registro', '!=', 'R-2099'), '|', ('situacao', '!=', '2'), ('transmissao_lote', '=', True)]}"
                         />
                         <button name="consulta_esocial" type="object" string="Consultar e-Social" class="oe_highlight"
-                                attrs="{'invisible': ['|', ('tipo', '!=', 'esocial'), ('situacao', '!=', '2')]}"
+                                attrs="{'invisible': ['|', '|', ('tipo', '!=', 'esocial'), '|', ('situacao', '!=', '2'), ('transmissao_lote', '=', True)]}"
                         />
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
@@ -127,9 +128,9 @@
                     <field name="registro"/>
                     <field name="ambiente" />
                     <field name="company_id" />
-                    <field name="data_hora_origem"/>
-                    <field name="data_hora_transmissao"/>
-                    <field name="data_hora_retorno"/>
+                    <!--<field name="data_hora_origem"/>-->
+                    <!--<field name="data_hora_transmissao"/>-->
+                    <!--<field name="data_hora_retorno"/>-->
                     <field name="situacao"/>
                 </tree>
             </field>

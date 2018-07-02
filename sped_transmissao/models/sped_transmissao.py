@@ -61,6 +61,10 @@ class SpedTransmissao(models.Model):
         string='Empresa',
         comodel_name='res.company',
     )
+    id_evento = fields.Char(
+        string='ID do Evento',
+        size=36,
+    )
     situacao = fields.Selection(
         string='Situação',
         selection=[
@@ -161,14 +165,25 @@ class SpedTransmissao(models.Model):
         string='XML',
         compute='_compute_arquivo_xml',
     )
-    recibo = fields.Char(
-        string='Recibo',
-        size=60,
-    )
     protocolo = fields.Char(
         string='Protocolo',
         size=60,
     )
+
+    # Identifica se o registro ja está na fila de um lote para transmissão
+    transmissao_lote = fields.Boolean(
+        string='Transmissão por Lote?',
+        compute='_compute_transmissao_lote',
+    )
+
+    @api.depends('lote_ids')
+    def _compute_transmissao_lote(self):
+        for registro in self:
+            transmissao_lote = False
+            for lote in registro.lote_ids:
+                if lote.situacao != '4':
+                    transmissao_lote = True
+            registro.transmissao_lote = transmissao_lote
 
     @api.depends('envio_xml_id', 'retorno_xml_id', 'consulta_xml', 'fechamento_xml_id')
     def _compute_arquivo_xml(self):
@@ -272,85 +287,86 @@ class SpedTransmissao(models.Model):
         # Registro S-1000 - Informações do Empregador (e-Social)
         if self.registro == 'S-1000':
 
-            # Cria o registro
-            S1000 = pysped.esocial.leiaute.S1000_2()
+            # S1000 = self.calcula_xml()
 
-            # Popula ideEvento
-            S1000.tpInsc = '1'
-            S1000.nrInsc = limpa_formatacao(self.origem.cnpj_cpf)[0:8]
-            S1000.evento.ideEvento.tpAmb.valor = int(self.ambiente)
-            S1000.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
-            S1000.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
+            # # Cria o registro
+            # S1000 = pysped.esocial.leiaute.S1000_2()
+            #
+            # # Popula ideEvento
+            # S1000.tpInsc = '1'
+            # S1000.nrInsc = limpa_formatacao(self.origem.cnpj_cpf)[0:8]
+            # S1000.evento.ideEvento.tpAmb.valor = int(self.ambiente)
+            # S1000.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
+            # S1000.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
+            #
+            # # Popula ideEmpregador (Dados do Empregador)
+            # S1000.evento.ideEmpregador.tpInsc.valor = '1'
+            # S1000.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.origem.cnpj_cpf)[0:8]
+            #
+            # # Popula infoEmpregador
+            # S1000.evento.infoEmpregador.operacao = 'I'
+            # S1000.evento.infoEmpregador.idePeriodo.iniValid.valor = self.origem.esocial_periodo_id.code[3:7] + '-' + self.origem.esocial_periodo_id.code[0:2]
+            #
+            # # Popula infoEmpregador.InfoCadastro
+            # S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = self.origem.legal_name
+            # S1000.evento.infoEmpregador.infoCadastro.classTrib.valor = self.origem.classificacao_tributaria_id.codigo
+            # S1000.evento.infoEmpregador.infoCadastro.natJurid.valor = limpa_formatacao(self.origem.natureza_juridica_id.codigo)
+            # S1000.evento.infoEmpregador.infoCadastro.indCoop.valor = self.origem.ind_coop
+            # S1000.evento.infoEmpregador.infoCadastro.indConstr.valor = self.origem.ind_constr
+            # S1000.evento.infoEmpregador.infoCadastro.indDesFolha.valor = self.origem.ind_desoneracao
+            # S1000.evento.infoEmpregador.infoCadastro.indOptRegEletron.valor = self.origem.ind_opt_reg_eletron
+            # S1000.evento.infoEmpregador.infoCadastro.indEntEd.valor = self.origem.ind_ent_ed
+            # S1000.evento.infoEmpregador.infoCadastro.indEtt.valor = self.origem.ind_ett
+            # if self.origem.nr_reg_ett:
+            #     S1000.evento.infoEmpregador.infoCadastro.nrRegEtt.valor = self.origem.nr_reg_ett
+            # if self.limpar_db:
+            #     S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = 'RemoverEmpregadorDaBaseDeDadosDaProducaoRestrita'
+            #     S1000.evento.infoEmpregador.infoCadastro.classTrib.valor = '00'
+            #
+            # # Popula infoEmpregador.Infocadastro.contato
+            # S1000.evento.infoEmpregador.infoCadastro.contato.nmCtt.valor = self.origem.esocial_nm_ctt
+            # S1000.evento.infoEmpregador.infoCadastro.contato.cpfCtt.valor = self.origem.esocial_cpf_ctt
+            # S1000.evento.infoEmpregador.infoCadastro.contato.foneFixo.valor = limpa_formatacao(self.origem.esocial_fone_fixo)
+            # if self.origem.esocial_fone_cel:
+            #     S1000.evento.infoEmpregador.infoCadastro.contato.foneCel.valor = limpa_formatacao(self.origem.esocial_fone_cel)
+            # if self.origem.esocial_email:
+            #     S1000.evento.infoEmpregador.infoCadastro.contato.email.valor = self.origem.esocial_email
+            #
+            # # Popula infoEmpregador.infoCadastro.infoComplementares.situacaoPJ
+            # S1000.evento.infoEmpregador.infoCadastro.indSitPJ.valor = self.origem.ind_sitpj
 
-            # Popula ideEmpregador (Dados do Empregador)
-            S1000.evento.ideEmpregador.tpInsc.valor = '1'
-            S1000.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.origem.cnpj_cpf)[0:8]
-
-            # Popula infoEmpregador
-            S1000.evento.infoEmpregador.operacao = 'I'
-            S1000.evento.infoEmpregador.idePeriodo.iniValid.valor = self.origem.esocial_periodo_id.code[3:7] + '-' + self.origem.esocial_periodo_id.code[0:2]
-
-            # Popula infoEmpregador.InfoCadastro
-            S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = self.origem.legal_name
-            S1000.evento.infoEmpregador.infoCadastro.classTrib.valor = self.origem.classificacao_tributaria_id.codigo
-            S1000.evento.infoEmpregador.infoCadastro.natJurid.valor = limpa_formatacao(self.origem.natureza_juridica_id.codigo)
-            S1000.evento.infoEmpregador.infoCadastro.indCoop.valor = self.origem.ind_coop
-            S1000.evento.infoEmpregador.infoCadastro.indConstr.valor = self.origem.ind_constr
-            S1000.evento.infoEmpregador.infoCadastro.indDesFolha.valor = self.origem.ind_desoneracao
-            S1000.evento.infoEmpregador.infoCadastro.indOptRegEletron.valor = self.origem.ind_opt_reg_eletron
-            S1000.evento.infoEmpregador.infoCadastro.indEntEd.valor = self.origem.ind_ent_ed
-            S1000.evento.infoEmpregador.infoCadastro.indEtt.valor = self.origem.ind_ett
-            if self.origem.nr_reg_ett:
-                S1000.evento.infoEmpregador.infoCadastro.nrRegEtt.valor = self.origem.nr_reg_ett
-            if self.limpar_db:
-                S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = 'RemoverEmpregadorDaBaseDeDadosDaProducaoRestrita'
-                S1000.evento.infoEmpregador.infoCadastro.classTrib.valor = '00'
-
-            # Popula infoEmpregador.Infocadastro.contato
-            S1000.evento.infoEmpregador.infoCadastro.contato.nmCtt.valor = self.origem.esocial_nm_ctt
-            S1000.evento.infoEmpregador.infoCadastro.contato.cpfCtt.valor = self.origem.esocial_cpf_ctt
-            S1000.evento.infoEmpregador.infoCadastro.contato.foneFixo.valor = limpa_formatacao(self.origem.esocial_fone_fixo)
-            if self.origem.esocial_fone_cel:
-                S1000.evento.infoEmpregador.infoCadastro.contato.foneCel.valor = limpa_formatacao(self.origem.esocial_fone_cel)
-            if self.origem.esocial_email:
-                S1000.evento.infoEmpregador.infoCadastro.contato.email.valor = self.origem.esocial_email
-
-            # Popula infoEmpregador.infoCadastro.infoComplementares.situacaoPJ
-            S1000.evento.infoEmpregador.infoCadastro.indSitPJ.valor = self.origem.ind_sitpj
-
-            # Gera
-            data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            dh_transmissao = datetime.now().strftime('%Y%m%d%H%M%S')
-            S1000.gera_id_evento(dh_transmissao)
-            processador = pysped.ProcessadorESocial()
-
-            processador.certificado.arquivo = arquivo.name
-            processador.certificado.senha = self.company_id.nfe_a1_password
-            processador.ambiente = int(self.ambiente)
-
-            # Define a Inscrição do Processador
-            processador.tpInsc = '1'
-            processador.nrInsc = limpa_formatacao(self.origem.cnpj_cpf)
+            # # Gera
+            # # dh_transmissao = datetime.now().strftime('%Y%m%d%H%M%S')
+            # data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            # processador = pysped.ProcessadorESocial()
+            #
+            # processador.certificado.arquivo = arquivo.name
+            # processador.certificado.senha = self.company_id.nfe_a1_password
+            # processador.ambiente = int(self.ambiente)
+            #
+            # # Define a Inscrição do Processador
+            # processador.tpInsc = '1'
+            # processador.nrInsc = limpa_formatacao(self.origem.cnpj_cpf)
 
             # Criar registro do Lote
             vals = {
                 'tipo': 'esocial',
+                'company_id': self.company_id.id,
                 'ambiente': self.ambiente,
                 'transmissao_ids': [(4, self.id)],
-                'data_hora_transmissao': data_hora_transmissao,
-                'xml_transmissao': False,
+                # 'data_hora_transmissao': data_hora_transmissao,
             }
 
             lote_id = self.env['sped.transmissao.lote'].create(vals)
             self.lote_ids = [(4, lote_id.id)]
-            self.data_hora_transmissao = data_hora_transmissao
 
             # Transmite
-            processo = processador.enviar_lote([S1000])
-            envio_xml = processo.envio.envioLoteEventos.eventos[0].xml
-            envio_xml_nome = S1000.evento.Id.valor + '-S1000-env.xml'
-            retorno_xml = processo.resposta.xml
-            retorno_xml_nome = S1000.evento.Id.valor + '-S1000-ret.xml'
+            lote_id.transmitir()
+            # processo = processador.enviar_lote([S1000])
+            # envio_xml = processo.envio.envioLoteEventos.eventos[0].xml
+            # envio_xml_nome = S1000.evento.Id.valor + '-S1000-env.xml'
+            # retorno_xml = processo.resposta.xml
+            # retorno_xml_nome = S1000.evento.Id.valor + '-S1000-ret.xml'
 
         # Registro S-1005 - Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos
         elif self.registro == 'S-1005':
@@ -432,7 +448,6 @@ class SpedTransmissao(models.Model):
                 'ambiente': self.ambiente,
                 'transmissao_ids': [(4, self.id)],
                 'data_hora_transmissao': data_hora_transmissao,
-                'xml_transmissao': False,
             }
 
             lote_id = self.env['sped.transmissao.lote'].create(vals)
@@ -534,7 +549,6 @@ class SpedTransmissao(models.Model):
                 'ambiente': self.ambiente,
                 'transmissao_ids': [(4, self.id)],
                 'data_hora_transmissao': data_hora_transmissao,
-                'xml_transmissao': False,
             }
 
             lote_id = self.env['sped.transmissao.lote'].create(vals)
@@ -603,7 +617,6 @@ class SpedTransmissao(models.Model):
                 'ambiente': self.ambiente,
                 'transmissao_ids': [(4, self.id)],
                 'data_hora_transmissao': data_hora_transmissao,
-                'xml_transmissao': False,
             }
 
             lote_id = self.env['sped.transmissao.lote'].create(vals)
@@ -677,7 +690,6 @@ class SpedTransmissao(models.Model):
                 'ambiente': self.ambiente,
                 'transmissao_ids': [(4, self.id)],
                 'data_hora_transmissao': data_hora_transmissao,
-                'xml_transmissao': False,
             }
 
             lote_id = self.env['sped.transmissao.lote'].create(vals)
@@ -751,7 +763,6 @@ class SpedTransmissao(models.Model):
                 'ambiente': self.ambiente,
                 'transmissao_ids': [(4, self.id)],
                 'data_hora_transmissao': data_hora_transmissao,
-                'xml_transmissao': False,
             }
 
             lote_id = self.env['sped.transmissao.lote'].create(vals)
@@ -765,7 +776,7 @@ class SpedTransmissao(models.Model):
             retorno_xml = processo.resposta.xml
             retorno_xml_nome = S1050.evento.Id.valor + '-S1050-ret.xml'
 
-    # Registro S-2200 - Cadastramento Inicial do Vínculo e Admissão/Ingresso do Trabalhador
+        # Registro S-2200 - Cadastramento Inicial do Vínculo e Admissão/Ingresso do Trabalhador
         elif self.registro == 'S-2200':
 
             # Cria o registro
@@ -1033,7 +1044,6 @@ class SpedTransmissao(models.Model):
                 'ambiente': self.ambiente,
                 'transmissao_ids': [(4, self.id)],
                 'data_hora_transmissao': data_hora_transmissao,
-                'xml_transmissao': False,
             }
 
             lote_id = self.env['sped.transmissao.lote'].create(vals)
@@ -1101,7 +1111,6 @@ class SpedTransmissao(models.Model):
                 'ambiente': self.ambiente,
                 'transmissao_ids': [(4, self.id)],
                 'data_hora_transmissao': data_hora_transmissao,
-                'xml_transmissao': False,
             }
 
             lote_id = self.env['sped.transmissao.lote'].create(vals)
@@ -1204,7 +1213,6 @@ class SpedTransmissao(models.Model):
                 'ambiente': self.ambiente,
                 'transmissao_ids': [(4, self.id)],
                 'data_hora_transmissao': data_hora_transmissao,
-                'xml_transmissao': False,
             }
 
             lote_id = self.env['sped.transmissao.lote'].create(vals)
@@ -1274,7 +1282,6 @@ class SpedTransmissao(models.Model):
                 'ambiente': self.ambiente,
                 'transmissao_ids': [(4, self.id)],
                 'data_hora_transmissao': data_hora_transmissao,
-                'xml_transmissao': False,
             }
 
             lote_id = self.env['sped.transmissao.lote'].create(vals)
@@ -1288,119 +1295,120 @@ class SpedTransmissao(models.Model):
             retorno_xml = processo.resposta.retornoEventos[0].xml
             retorno_xml_nome = R2099.evento.Id.valor + '-R2099-ret.xml'
 
-        # Processa retorno do EFD/Reinf
-        if self.tipo == 'efdreinf':
-            if processo:
+        if self.registro != 'S-1000':
+            # Processa retorno do EFD/Reinf
+            if self.tipo == 'efdreinf':
+                if processo:
 
-                # Limpar ocorrências
-                for ocorrencia in self.ocorrencia_ids:
-                    ocorrencia.unlink()
+                    # Limpar ocorrências
+                    for ocorrencia in self.ocorrencia_ids:
+                        ocorrencia.unlink()
 
-                if processo.resposta.retornoStatus.dadosRegistroOcorrenciaLote.ocorrencias:
-                    for ocorrencia in processo.resposta.retornoStatus.dadosRegistroOcorrenciaLote.ocorrencias:
-                        vals = {
-                            'transmissao_id': self.id,
-                            'tipo': ocorrencia.tipo.valor,
-                            'local': ocorrencia.localizacaoErroAviso.valor,
-                            'codigo': ocorrencia.codigo.valor,
-                            'descricao': ocorrencia.descricao.valor,
-                        }
-                        self.ocorrencia_ids.create(vals)
-
-                for evento in processo.resposta.retornoEventos:
-                    if self.limpar_db:
-                        self.cd_retorno = False
-                        self.desc_retorno = False
-                    else:
-                        self.cd_retorno = evento.evtTotal.ideRecRetorno.ideStatus.cdRetorno.valor
-                        self.desc_retorno = evento.evtTotal.ideRecRetorno.ideStatus.descRetorno.valor
-                        self.recibo = evento.evtTotal.infoTotal.nrRecArqBase.valor
-                        self.protocolo = evento.evtTotal.infoRecEv.nrProtEntr.valor
-
-                    if evento.evtTotal.ideRecRetorno.ideStatus.regOcorrs:
-                        for ocorrencia in evento.evtTotal.ideRecRetorno.ideStatus.regOcorrs:
+                    if processo.resposta.retornoStatus.dadosRegistroOcorrenciaLote.ocorrencias:
+                        for ocorrencia in processo.resposta.retornoStatus.dadosRegistroOcorrenciaLote.ocorrencias:
                             vals = {
                                 'transmissao_id': self.id,
-                                'tipo': ocorrencia.tpOcorr.valor,
-                                'local': ocorrencia.localErroAviso.valor,
-                                'codigo': ocorrencia.codResp.valor,
-                                'descricao': ocorrencia.dscResp.valor,
+                                'tipo': ocorrencia.tipo.valor,
+                                'local': ocorrencia.localizacaoErroAviso.valor,
+                                'codigo': ocorrencia.codigo.valor,
+                                'descricao': ocorrencia.descricao.valor,
                             }
                             self.ocorrencia_ids.create(vals)
 
-                if self.cd_retorno == '0':
-                    self.situacao = '4'
-                elif self.cd_retorno == '1':
-                    self.situacao = '3'
-                elif self.cd_retorno == '2':
-                    self.situacao = '2'
-                else:
-                    self.situacao = '1'
+                    for evento in processo.resposta.retornoEventos:
+                        if self.limpar_db:
+                            self.cd_retorno = False
+                            self.desc_retorno = False
+                        else:
+                            self.cd_retorno = evento.evtTotal.ideRecRetorno.ideStatus.cdRetorno.valor
+                            self.desc_retorno = evento.evtTotal.ideRecRetorno.ideStatus.descRetorno.valor
+                            self.recibo = evento.evtTotal.infoTotal.nrRecArqBase.valor
+                            self.protocolo = evento.evtTotal.infoRecEv.nrProtEntr.valor
 
-        # Popula retorno do e-Social
-        elif self.tipo == 'esocial':
-            if processo:
+                        if evento.evtTotal.ideRecRetorno.ideStatus.regOcorrs:
+                            for ocorrencia in evento.evtTotal.ideRecRetorno.ideStatus.regOcorrs:
+                                vals = {
+                                    'transmissao_id': self.id,
+                                    'tipo': ocorrencia.tpOcorr.valor,
+                                    'local': ocorrencia.localErroAviso.valor,
+                                    'codigo': ocorrencia.codResp.valor,
+                                    'descricao': ocorrencia.dscResp.valor,
+                                }
+                                self.ocorrencia_ids.create(vals)
 
-                # Limpar ocorrências
-                for ocorrencia in self.ocorrencia_ids:
-                    ocorrencia.unlink()
+                    if self.cd_retorno == '0':
+                        self.situacao = '4'
+                    elif self.cd_retorno == '1':
+                        self.situacao = '3'
+                    elif self.cd_retorno == '2':
+                        self.situacao = '2'
+                    else:
+                        self.situacao = '1'
 
-                if processo.resposta.retornoEnvioLoteEventos.status.ocorrencias:
-                    for ocorrencia in processo.resposta.retornoEnvioLoteEventos.status.ocorrencias:
-                        vals = {
-                            'transmissao_id': self.id,
-                            'codigo': ocorrencia.codigo.valor,
-                            'descricao': ocorrencia.descricao.valor,
-                            'tipo': ocorrencia.tipo.valor,
-                            'local': ocorrencia.localizacao.valor,
-                        }
-                        self.ocorrencia_ids.create(vals)
-                    self.situacao = '3'
-                else:
-                    self.situacao = '2'
+            # Popula retorno do e-Social
+            elif self.tipo == 'esocial':
+                if processo:
 
-                if self.limpar_db:
-                    self.cd_retorno = False
-                    self.desc_retorno = False
-                    self.situacao = '1'
-                else:
-                    self.cd_retorno = processo.resposta.retornoEnvioLoteEventos.status.cdResposta.valor
-                    self.desc_retorno = processo.resposta.retornoEnvioLoteEventos.status.descResposta.valor
-                    self.protocolo = processo.resposta.retornoEnvioLoteEventos.dadosRecepcaoLote.protocoloEnvio.valor
+                    # Limpar ocorrências
+                    for ocorrencia in self.ocorrencia_ids:
+                        ocorrencia.unlink()
 
-                # if self.cd_retorno == '0':
-                #     self.situacao = '4'
-                # elif self.cd_retorno == '1':
-                #     self.situacao = '3'
-                # elif self.cd_retorno == '201':
-                #     self.situacao = '2'
-                # else:
-                #     self.situacao = '1'
+                    if processo.resposta.retornoEnvioLoteEventos.status.ocorrencias:
+                        for ocorrencia in processo.resposta.retornoEnvioLoteEventos.status.ocorrencias:
+                            vals = {
+                                'transmissao_id': self.id,
+                                'codigo': ocorrencia.codigo.valor,
+                                'descricao': ocorrencia.descricao.valor,
+                                'tipo': ocorrencia.tipo.valor,
+                                'local': ocorrencia.localizacao.valor,
+                            }
+                            self.ocorrencia_ids.create(vals)
+                        self.situacao = '3'
+                    else:
+                        self.situacao = '2'
 
-        # Popula dados de retorno
-        data_hora_retorno = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        lote_id.data_hora_retorno = data_hora_retorno
-        lote_id.situacao = '3' if self.situacao == 3 else '4'
-        self.data_hora_retorno = data_hora_retorno
+                    if self.limpar_db:
+                        self.cd_retorno = False
+                        self.desc_retorno = False
+                        self.situacao = '1'
+                    else:
+                        self.cd_retorno = processo.resposta.retornoEnvioLoteEventos.status.cdResposta.valor
+                        self.desc_retorno = processo.resposta.retornoEnvioLoteEventos.status.descResposta.valor
+                        self.protocolo = processo.resposta.retornoEnvioLoteEventos.dadosRecepcaoLote.protocoloEnvio.valor
 
-        if not self.protocolo:
-            self.situacao == '1'
+                    # if self.cd_retorno == '0':
+                    #     self.situacao = '4'
+                    # elif self.cd_retorno == '1':
+                    #     self.situacao = '3'
+                    # elif self.cd_retorno == '201':
+                    #     self.situacao = '2'
+                    # else:
+                    #     self.situacao = '1'
 
-        # Grava anexos
-        if envio_xml:
-            if self.envio_xml_id:
-                envio = self.envio_xml_id
-                self.envio_xml_id = False
-                envio.unlink()
-            anexo_id = self._grava_anexo(envio_xml_nome, envio_xml)
-            self.envio_xml_id = anexo_id
-        if retorno_xml:
-            if self.retorno_xml_id:
-                retorno = self.retorno_xml_id
-                self.retorno_xml_id = False
-                retorno.unlink()
-            anexo_id = self._grava_anexo(retorno_xml_nome, retorno_xml)
-            self.retorno_xml_id = anexo_id
+            # Popula dados de retorno
+            data_hora_retorno = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            lote_id.data_hora_retorno = data_hora_retorno
+            lote_id.situacao = '3' if self.situacao == 3 else '4'
+            self.data_hora_retorno = data_hora_retorno
+
+            if not self.protocolo:
+                self.situacao == '1'
+
+            # Grava anexos
+            if envio_xml:
+                if self.envio_xml_id:
+                    envio = self.envio_xml_id
+                    self.envio_xml_id = False
+                    envio.unlink()
+                anexo_id = self._grava_anexo(envio_xml_nome, envio_xml)
+                self.envio_xml_id = anexo_id
+            if retorno_xml:
+                if self.retorno_xml_id:
+                    retorno = self.retorno_xml_id
+                    self.retorno_xml_id = False
+                    retorno.unlink()
+                anexo_id = self._grava_anexo(retorno_xml_nome, retorno_xml)
+                self.retorno_xml_id = anexo_id
 
     @api.multi
     def consulta_esocial(self):
@@ -1536,3 +1544,79 @@ class SpedTransmissao(models.Model):
                     'descricao': ocorrencia.descricao.valor,
                 }
                 self.ocorrencia_ids.create(vals)
+
+    # Este método será usado pelo lote na transmissão
+    @api.multi
+    def calcula_xml(self):
+        self.ensure_one()
+
+        # Define o nome do método a ser chamado via getattr como sendo o nome do registro sem traço e minúsculo
+        # Exemplo: 'S-1000' vira 's1000'
+        metodo = limpa_formatacao(self.registro).lower()
+
+        # Chama o método que retorna a classe com o XML montado
+        return getattr(self, metodo)()
+
+    @api.multi
+    def s1000(self):
+        self.ensure_one()
+
+        # Cria o registro
+        S1000 = pysped.esocial.leiaute.S1000_2()
+
+        # Popula ideEvento
+        S1000.tpInsc = '1'
+        S1000.nrInsc = limpa_formatacao(self.origem.cnpj_cpf)[0:8]
+        S1000.evento.ideEvento.tpAmb.valor = int(self.ambiente)
+        S1000.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
+        S1000.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
+
+        # Popula ideEmpregador (Dados do Empregador)
+        S1000.evento.ideEmpregador.tpInsc.valor = '1'
+        S1000.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.origem.cnpj_cpf)[0:8]
+
+        # Popula infoEmpregador
+        S1000.evento.infoEmpregador.operacao = 'I'
+        S1000.evento.infoEmpregador.idePeriodo.iniValid.valor = self.origem.esocial_periodo_id.code[
+                                                                3:7] + '-' + self.origem.esocial_periodo_id.code[0:2]
+
+        # Popula infoEmpregador.InfoCadastro
+        S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = self.origem.legal_name
+        S1000.evento.infoEmpregador.infoCadastro.classTrib.valor = self.origem.classificacao_tributaria_id.codigo
+        S1000.evento.infoEmpregador.infoCadastro.natJurid.valor = limpa_formatacao(
+            self.origem.natureza_juridica_id.codigo)
+        S1000.evento.infoEmpregador.infoCadastro.indCoop.valor = self.origem.ind_coop
+        S1000.evento.infoEmpregador.infoCadastro.indConstr.valor = self.origem.ind_constr
+        S1000.evento.infoEmpregador.infoCadastro.indDesFolha.valor = self.origem.ind_desoneracao
+        S1000.evento.infoEmpregador.infoCadastro.indOptRegEletron.valor = self.origem.ind_opt_reg_eletron
+        S1000.evento.infoEmpregador.infoCadastro.indEntEd.valor = self.origem.ind_ent_ed
+        S1000.evento.infoEmpregador.infoCadastro.indEtt.valor = self.origem.ind_ett
+        if self.origem.nr_reg_ett:
+            S1000.evento.infoEmpregador.infoCadastro.nrRegEtt.valor = self.origem.nr_reg_ett
+        if self.limpar_db:
+            S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = 'RemoverEmpregadorDaBaseDeDadosDaProducaoRestrita'
+            S1000.evento.infoEmpregador.infoCadastro.classTrib.valor = '00'
+
+        # Popula infoEmpregador.Infocadastro.contato
+        S1000.evento.infoEmpregador.infoCadastro.contato.nmCtt.valor = self.origem.esocial_nm_ctt
+        S1000.evento.infoEmpregador.infoCadastro.contato.cpfCtt.valor = self.origem.esocial_cpf_ctt
+        S1000.evento.infoEmpregador.infoCadastro.contato.foneFixo.valor = limpa_formatacao(
+            self.origem.esocial_fone_fixo)
+        if self.origem.esocial_fone_cel:
+            S1000.evento.infoEmpregador.infoCadastro.contato.foneCel.valor = limpa_formatacao(
+                self.origem.esocial_fone_cel)
+        if self.origem.esocial_email:
+            S1000.evento.infoEmpregador.infoCadastro.contato.email.valor = self.origem.esocial_email
+
+        # Popula infoEmpregador.infoCadastro.infoComplementares.situacaoPJ
+        S1000.evento.infoEmpregador.infoCadastro.indSitPJ.valor = self.origem.ind_sitpj
+
+        # Gera o ID do evento
+        S1000.gera_id_evento(datetime.now().strftime('%Y%m%d%H%M%S'))
+        data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        self.data_hora_transmissao = data_hora_transmissao
+
+        # Grava o ID gerado
+        self.id_evento = S1000.evento.Id.valor
+
+        return S1000
