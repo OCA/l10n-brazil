@@ -120,7 +120,7 @@ class SpedEfdReinf(models.Model):
     )
     sped_R2099_registro = fields.Many2one(
         string='Registro R-2099',
-        comodel_name='sped.transmissao',
+        comodel_name='sped.registro',
     )
     situacao_R2099 = fields.Selection(
         string='Situação R-2099',
@@ -414,7 +414,7 @@ class SpedEfdReinf(models.Model):
                     'origem': ('sped.efdreinf.estabelecimento,%s' % estabelecimento.id),
                 }
 
-                sped_R2010_registro = self.env['sped.transmissao'].create(values)
+                sped_R2010_registro = self.env['sped.registro'].create(values)
                 estabelecimento.sped_R2010_registro = sped_R2010_registro
 
     @api.multi
@@ -432,5 +432,5 @@ class SpedEfdReinf(models.Model):
                 'origem': ('sped.efdreinf,%s' % efdreinf.id),
             }
 
-            sped_R2099_registro = self.env['sped.transmissao'].create(values)
+            sped_R2099_registro = self.env['sped.registro'].create(values)
             efdreinf.sped_R2099_registro = sped_R2099_registro

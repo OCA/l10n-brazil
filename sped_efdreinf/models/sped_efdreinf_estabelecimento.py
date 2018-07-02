@@ -67,7 +67,7 @@ class SpedEfdReinfEstab(models.Model):
     )
     sped_R2010_registro = fields.Many2one(
         string='Registro R-2010',
-        comodel_name='sped.transmissao',
+        comodel_name='sped.registro',
     )
     situacao_R2010 = fields.Selection(
         string='Situação R-2010',
@@ -83,7 +83,7 @@ class SpedEfdReinfEstab(models.Model):
     )
     sped_R2010_retificacao = fields.Many2one(
         string='Registro R-2010 (Retificação)',
-        comodel_name='sped.transmissao',
+        comodel_name='sped.registro',
     )
 
     @api.depends('estabelecimento_id', 'prestador_id')

@@ -57,7 +57,7 @@ class ResCompany(models.Model):
     )
     sped_r1000_registro = fields.Many2one(
         string='Registro R-1000 - Informações do Contribuinte',
-        comodel_name='sped.transmissao',
+        comodel_name='sped.registro',
     )
     sped_r1000_situacao = fields.Selection(
         string='Situação R-1000',
@@ -100,7 +100,7 @@ class ResCompany(models.Model):
             'origem': ('res.company,%s' % self.id),
         }
 
-        sped_r1000_registro = self.env['sped.transmissao'].create(values)
+        sped_r1000_registro = self.env['sped.registro'].create(values)
         self.sped_r1000_registro = sped_r1000_registro
 
     @api.multi
