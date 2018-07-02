@@ -77,8 +77,8 @@ class SpedRegistro(models.Model):
 
         # Grava o XML gerado
         if self.envio_xml_id:
-            envio = self.consulta_xml_id
-            envio.consulta_xml_id = False
+            envio = self.envio_xml_id
+            envio.envio_xml_id = False
             envio.unlink()
         envio_xml = S1000.evento.xml
         envio_xml_nome = self.id_evento + '-envio.xml'
