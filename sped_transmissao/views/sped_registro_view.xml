@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <openerp>
     <data>
+
         <record id="sped_transmissao_form" model="ir.ui.view">
             <field name="name">SPED Transmissões</field>
-            <field name="model">sped.transmissao</field>
+            <field name="model">sped.registro</field>
             <field name="arch" type="xml">
                 <form string="Registros SPED" edit="false" create="false" duplicate="false">
                     <field name="limpar_db" invisible="1"/>
@@ -120,7 +121,7 @@
 
         <record model="ir.ui.view" id="sped_transmissao_tree">
             <field name="name">SPED Transmissões</field>
-            <field name="model">sped.transmissao</field>
+            <field name="model">sped.registro</field>
             <field name="arch" type="xml">
                 <tree string="Registros" create="false" edit="false" duplicate="false"
                       colors="blue:situacao in ('2','4');black:situacao == '1';read:situacao in ('3', '5')"
@@ -140,7 +141,7 @@
 
         <record id="sped_transmissao_search" model="ir.ui.view">
             <field name="name">SPED Transmissões</field>
-            <field name="model">sped.transmissao</field>
+            <field name="model">sped.registro</field>
             <field name="arch" type="xml">
                 <search string="Transmissões">
                     <filter name="esocial" icon="terp-document-new" string="e-Social" domain="[('tipo', '=', 'esocial')]" />
@@ -169,7 +170,7 @@
             <field name="name">Registros</field>
             <field name="domain">[]</field>
             <field name="context">{'search_default_com_erros': 1, 'search_default_pendentes': 1, 'search_default_transmitidas': 1, 'search_default_retificar': 1}</field>
-            <field name="res_model">sped.transmissao</field>
+            <field name="res_model">sped.registro</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
@@ -197,12 +198,12 @@
 
         <record model="ir.sequence.type" id="sped_transmissao_sequence_type">
             <field name="name">Registros de Transmissão SPED</field>
-            <field name="code">sped.transmissao</field>
+            <field name="code">sped.registro</field>
         </record>
 
         <record model="ir.sequence" id="sped_transmissao_sequence">
             <field name="name">Registros de Transmissão SPED</field>
-            <field name="code">sped.transmissao</field>
+            <field name="code">sped.registro</field>
             <field name="padding">4</field>
             <field name="prefix">SPED/REG/</field>
         </record>

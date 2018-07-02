@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-# -*- coding: utf-8 -*-
-# Copyright 2017 KMEE INFORMATICA LTDA
+# Copyright 2018 ABGF
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, fields, models
@@ -14,10 +13,10 @@ import tempfile
 from decimal import Decimal
 
 
-class SpedTransmissao(models.Model):
-    _name = 'sped.transmissao'
+class SpedRegistro(models.Model):
+    _name = 'sped.registro'
     _inherit = []
-    _description = 'Transmissão de registros SPED'
+    _description = 'Registros SPED'
     _rec_name = 'registro'
     _order = "data_hora_origem DESC, situacao"
 
@@ -33,7 +32,7 @@ class SpedTransmissao(models.Model):
     )
     codigo = fields.Char(
         string='Código',
-        default=lambda self: self.env['ir.sequence'].next_by_code('sped.transmissao'),
+        default=lambda self: self.env['ir.sequence'].next_by_code('sped.registro'),
         readonly=True,
     )
     registro = fields.Char(
@@ -89,7 +88,7 @@ class SpedTransmissao(models.Model):
     )
     lote_ids = fields.Many2many(
         string='Lotes de Transmissão',
-        comodel_name='sped.transmissao.lote',
+        comodel_name='sped.lote',
     )
 
     # Status de Retorno
@@ -369,7 +368,7 @@ class SpedTransmissao(models.Model):
                 # 'data_hora_transmissao': data_hora_transmissao,
             }
 
-            lote_id = self.env['sped.transmissao.lote'].create(vals)
+            lote_id = self.env['sped.lote'].create(vals)
             self.lote_ids = [(4, lote_id.id)]
 
             # Transmite
@@ -462,7 +461,7 @@ class SpedTransmissao(models.Model):
                 'data_hora_transmissao': data_hora_transmissao,
             }
 
-            lote_id = self.env['sped.transmissao.lote'].create(vals)
+            lote_id = self.env['sped.lote'].create(vals)
             self.lote_ids = [(4, lote_id.id)]
             self.data_hora_transmissao = data_hora_transmissao
 
@@ -563,7 +562,7 @@ class SpedTransmissao(models.Model):
                 'data_hora_transmissao': data_hora_transmissao,
             }
 
-            lote_id = self.env['sped.transmissao.lote'].create(vals)
+            lote_id = self.env['sped.lote'].create(vals)
             self.lote_ids = [(4, lote_id.id)]
             self.data_hora_transmissao = data_hora_transmissao
 
@@ -631,7 +630,7 @@ class SpedTransmissao(models.Model):
                 'data_hora_transmissao': data_hora_transmissao,
             }
 
-            lote_id = self.env['sped.transmissao.lote'].create(vals)
+            lote_id = self.env['sped.lote'].create(vals)
             self.lote_ids = [(4, lote_id.id)]
             self.data_hora_transmissao = data_hora_transmissao
 
@@ -704,7 +703,7 @@ class SpedTransmissao(models.Model):
                 'data_hora_transmissao': data_hora_transmissao,
             }
 
-            lote_id = self.env['sped.transmissao.lote'].create(vals)
+            lote_id = self.env['sped.lote'].create(vals)
             self.lote_ids = [(4, lote_id.id)]
             self.data_hora_transmissao = data_hora_transmissao
 
@@ -777,7 +776,7 @@ class SpedTransmissao(models.Model):
                 'data_hora_transmissao': data_hora_transmissao,
             }
 
-            lote_id = self.env['sped.transmissao.lote'].create(vals)
+            lote_id = self.env['sped.lote'].create(vals)
             self.lote_ids = [(4, lote_id.id)]
             self.data_hora_transmissao = data_hora_transmissao
 
@@ -1058,7 +1057,7 @@ class SpedTransmissao(models.Model):
                 'data_hora_transmissao': data_hora_transmissao,
             }
 
-            lote_id = self.env['sped.transmissao.lote'].create(vals)
+            lote_id = self.env['sped.lote'].create(vals)
             self.lote_ids = [(4, lote_id.id)]
             self.data_hora_transmissao = data_hora_transmissao
 
@@ -1125,7 +1124,7 @@ class SpedTransmissao(models.Model):
                 'data_hora_transmissao': data_hora_transmissao,
             }
 
-            lote_id = self.env['sped.transmissao.lote'].create(vals)
+            lote_id = self.env['sped.lote'].create(vals)
             self.lote_ids = [(4, lote_id.id)]
             self.data_hora_transmissao = data_hora_transmissao
 
@@ -1227,7 +1226,7 @@ class SpedTransmissao(models.Model):
                 'data_hora_transmissao': data_hora_transmissao,
             }
 
-            lote_id = self.env['sped.transmissao.lote'].create(vals)
+            lote_id = self.env['sped.lote'].create(vals)
             self.lote_ids = [(4, lote_id.id)]
             self.data_hora_transmissao = data_hora_transmissao
 
@@ -1296,7 +1295,7 @@ class SpedTransmissao(models.Model):
                 'data_hora_transmissao': data_hora_transmissao,
             }
 
-            lote_id = self.env['sped.transmissao.lote'].create(vals)
+            lote_id = self.env['sped.lote'].create(vals)
             self.lote_ids = [(4, lote_id.id)]
             self.data_hora_transmissao = data_hora_transmissao
 
