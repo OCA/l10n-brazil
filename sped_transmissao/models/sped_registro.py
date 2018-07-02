@@ -247,7 +247,7 @@ class SpedRegistro(models.Model):
                 raise ValidationError("Não pode excluir registros que não estejam Pendente(s) !")
 
             # Exclui
-            super(SpedTransmissao, registro).unlink()
+            super(SpedRegistro, registro).unlink()
 
         return True
 

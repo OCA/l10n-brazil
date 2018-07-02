@@ -2,8 +2,8 @@
 <openerp>
     <data>
 
-        <record id="sped_transmissao_form" model="ir.ui.view">
-            <field name="name">SPED Transmissões</field>
+        <record id="sped_registro_form" model="ir.ui.view">
+            <field name="name">SPED Registro</field>
             <field name="model">sped.registro</field>
             <field name="arch" type="xml">
                 <form string="Registros SPED" edit="false" create="false" duplicate="false">
