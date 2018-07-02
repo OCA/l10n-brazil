@@ -21,6 +21,8 @@
                         <button name="consulta_esocial" type="object" string="Consultar e-Social" class="oe_highlight"
                                 attrs="{'invisible': ['|', '|', ('tipo', '!=', 'esocial'), '|', ('situacao', '!=', '2'), ('transmissao_lote', '=', True)]}"
                         />
+                        <button name="consulta_lote" type="object" string="Consultar Resultado" class="oe_highlight"
+                                attrs="{'invisible': ['|', ('situacao', '!  =', '2'), ('transmissao_lote', '!=', True)]}" />
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1"

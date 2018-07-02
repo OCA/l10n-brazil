@@ -251,7 +251,7 @@ class SpedTransmissaoLote(models.Model):
                 }
                 self.ocorrencia_ids.create(vals)
 
-        # Atualiza o XML de Fechamento (retorno da consulta)
+        # Atualiza o XML de Consulta (retorno da consulta)
         if self.consulta_xml_id:
             consulta = self.consulta_xml_id
             consulta.consulta_xml_id = False
@@ -259,7 +259,7 @@ class SpedTransmissaoLote(models.Model):
         consulta_xml = processo.resposta.xml
         consulta_xml_nome = self.codigo + '-consulta.xml'
         anexo_id = self._grava_anexo(consulta_xml_nome, consulta_xml)
-        self.fechamento_xml_id = anexo_id
+        self.consulta_xml_id = anexo_id
 
         # Lote Aguardando Processamento (nada mais a fazer no momento)
         if processo.resposta.cdResposta == '101':
@@ -277,7 +277,6 @@ class SpedTransmissaoLote(models.Model):
 
         # Processar os eventos
         for evento in processo.resposta.lista_eventos:
-            print(evento.Id.valor)
 
             # Localiza o evento pelo ID
             id = evento.Id.valor

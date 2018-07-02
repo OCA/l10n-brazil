@@ -267,6 +267,20 @@ class SpedTransmissao(models.Model):
         self.limpar_db = False
 
     @api.multi
+    def consulta_lote(self):
+        self.ensure_one()
+
+        # Identifica o lote que pode ser consultado
+        lote_consultar = False
+        for lote in self.lote_ids:
+            if lote.situacao == '2':
+                lote_consultar = lote
+
+        # Executa a consulta
+        if lote_consultar:
+            lote_consultar.consultar()
+
+    @api.multi
     def gera_xml(self):
         self.ensure_one()
 
