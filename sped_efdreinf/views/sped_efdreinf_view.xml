@@ -253,12 +253,12 @@
                   action="sped_efdreinf_action"
         />
 
-        <!--<record model="ir.sequence.type" id="sped_transmissao_sequence_type">-->
+        <!--<record model="ir.sequence.type" id="sped_registro_sequence_type">-->
             <!--<field name="name">Registros de Transmissão SPED</field>-->
             <!--<field name="code">sped.registro</field>-->
         <!--</record>-->
 
-        <!--<record model="ir.sequence" id="sped_transmissao_sequence">-->
+        <!--<record model="ir.sequence" id="sped_registro_sequence">-->
             <!--<field name="name">Registros de Transmissão SPED</field>-->
             <!--<field name="code">sped.registro</field>-->
             <!--<field name="padding">4</field>-->
