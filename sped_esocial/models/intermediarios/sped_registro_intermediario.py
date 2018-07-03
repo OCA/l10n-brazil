@@ -2,10 +2,10 @@
 # Copyright 2018 - ABGF
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from abc import ABCMeta, abstractmethod
+from abc import abstractmethod
 
 
-class SpedRegistroIntermediario(ABCMeta):
+class SpedRegistroIntermediario(object):
 
     @abstractmethod
     def popula_xml(self):
