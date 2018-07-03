@@ -93,7 +93,32 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
             infoDeslig.nrProcTrab.valor = \
                 rescisao_id.contract_id.numero_processo
         infoDeslig.indCumprParc.valor = '4'
+        verba_rescisoria = pysped.esocial.leiaute.S2299_VerbasResc_2()
+        ide_dm_dev = pysped.esocial.leiaute.S2299_DmDev_2()
         for rubrica_line in rescisao_id.line_ids:
-            pass
+            ide_dm_dev.ideDmDev.valor = rubrica_line.id
+            info_per_apur = pysped.esocial.leiaute.S2299_InforPerApur_2()
+
+            ide_estab_lot = pysped.esocial.leiaute.S2299_IdeEstabLotApur_2()
+            ide_estab_lot.tpInsc.valor = '1'
+            ide_estab_lot.nrInsc.valor = limpa_formatacao(
+                rescisao_id.company_id.cnpj_cpf
+            )[0:8]
+
+            det_verbas = pysped.esocial.leiaute.S2299_DetVerbas_2()
+            det_verbas.codRubr.valor = rubrica_line.salary_rule_id.codigo
+            det_verbas.ideTabRubr.valor = \
+                rubrica_line.salary_rule_id.identificador
+            # det_verbas.qtdRubr.valor = ''
+            # det_verbas.fatorRubr.valor = ''
+            # det_verbas.vrunit.valor = ''
+            det_verbas.vrRubr.valor = rubrica_line.total
+
+            ide_estab_lot.detVerbas.append(det_verbas)
+            info_per_apur.ideEstabLot.append(ide_estab_lot)
+
+            ide_dm_dev.infoPerApur.append(info_per_apur)
+
+        verba_rescisoria.dmDev.append(ide_dm_dev)
 
         return S2299
