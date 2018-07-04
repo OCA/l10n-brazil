@@ -72,6 +72,13 @@
                             <group colspan="4" col="1">
                                 <field name="info_ent_educ_ids" />
                             </group>
+                            <group colspan="2" col="2">
+                                <field name="sped_s1005_situacao" attrs="{'invisible': [('situacao_esocial', '=', False)]}" />
+                                <field name="sped_s1005_registro" invisible="1" />
+                                <button name="atualizar_esocial" colspan="4" type="object"
+                                        string="Ativar/Atualizar e-Social"
+                                        attrs="{'invisible': ['|', ('sped_s1005_situacao', 'in', ['1', '3', '9']), ('sped_s1005_registro', '=', False)]}" />
+                            </group>
                         </group>
                     </page>
                 </xpath>
