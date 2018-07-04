@@ -393,79 +393,8 @@ class SpedRegistro(models.Model):
 
         # Registro S-1005 - Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos
         elif self.registro == 'S-1005':
-
-            # Cria o registro
-            S1005 = pysped.esocial.leiaute.S1005_2()
-
-            # Popula ideEvento
-            S1005.tpInsc = '1'
-            S1005.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
-            S1005.evento.ideEvento.tpAmb.valor = int(self.ambiente)
-            S1005.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
-            S1005.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
-
-            # Popula ideEmpregador (Dados do Empregador)
-            S1005.evento.ideEmpregador.tpInsc.valor = '1'
-            S1005.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
-
-            # Popula infoEstab (Informações do Estabelecimentou o Obra)
-            S1005.evento.infoEstab.operacao = 'I'  # Inclusão TODO lidar com alteração e exclusão
-            S1005.evento.infoEstab.ideEstab.tpInsc.valor = '1'
-            S1005.evento.infoEstab.ideEstab.nrInsc.valor = limpa_formatacao(self.origem.estabelecimento_id.cnpj_cpf)
-            S1005.evento.infoEstab.ideEstab.iniValid.valor = self.origem.esocial_id.periodo_id.code[3:7] + '-' + self.origem.esocial_id.periodo_id.code[0:2]
-            S1005.evento.infoEstab.dadosEstab.cnaePrep.valor = limpa_formatacao(self.origem.estabelecimento_id.cnae_main_id.code)
-
-            # Localiza o percentual de RAT e FAP para esta empresa neste período
-            ano = self.origem.esocial_id.periodo_id.fiscalyear_id.code
-            domain = [
-                ('company_id', '=', self.origem.estabelecimento_id.id),
-                ('year', '=', int(ano)),
-            ]
-            rat_fap = self.env['l10n_br.hr.rat.fap'].search(domain)
-            if not rat_fap:
-                raise Exception("Tabela de RAT/FAP não encontrada para este período")
-
-            # Popula aligGilRat
-            S1005.evento.infoEstab.dadosEstab.aliqGilrat.aliqRat.valor = int(rat_fap.rat_rate)
-            S1005.evento.infoEstab.dadosEstab.aliqGilrat.fap.valor = formata_valor(rat_fap.fap_rate)
-            S1005.evento.infoEstab.dadosEstab.aliqGilrat.aliqRatAjust.valor = formata_valor(rat_fap.rat_rate * rat_fap.fap_rate)
-            
-            # Popula infoCaepf
-            if self.origem.estabelecimento_id.tp_caepf:
-                S1005.evento.infoEstab.dadosEstab.infoCaepf.tpCaepf.valor = int(self.origem.estabelecimento_id.tp_caepf)
-
-            # Popula infoTrab
-            S1005.evento.infoEstab.dadosEstab.infoTrab.regPt.valor = self.origem.estabelecimento_id.reg_pt
-
-            # Popula infoApr
-            S1005.evento.infoEstab.dadosEstab.infoTrab.infoApr.contApr.valor = self.origem.estabelecimento_id.cont_apr
-            S1005.evento.infoEstab.dadosEstab.infoTrab.infoApr.contEntEd.valor = self.origem.estabelecimento_id.cont_ent_ed
-
-            # Popula infoEntEduc
-            for entidade in self.origem.estabelecimento_id.info_ent_educ_ids:
-                info_ent_educ = pysped.esocial.leiaute.InfoEntEduc_2()
-                info_ent_educ.nrInsc = limpa_formatacao(entidade.cnpj_cpf)
-                S1005.evento.infoEstab.dadosEstab.infoTrab.infoApr.infoEntEduc.append(info_ent_educ)
-
-            # Popula infoPCD
-            if self.origem.estabelecimento_id.cont_pcd:
-                S1005.evento.infoEstab.dadosEstab.infoTrab.infoPCD.contPCD = self.origem.estabelecimento_id.cont_pcd
-
-            # Gera
-            data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            dh_transmissao = datetime.now().strftime('%Y%m%d%H%M%S')
-            S1005.gera_id_evento(dh_transmissao)
-            processador = pysped.ProcessadorESocial()
-
-            processador.certificado.arquivo = arquivo.name
-            processador.certificado.senha = self.company_id.nfe_a1_password
-            processador.ambiente = int(self.ambiente)
-
-            # Define a Inscrição do Processador
-            processador.tpInsc = '1'
-            processador.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)
-
             # Criar registro do Lote
+            data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             vals = {
                 'tipo': 'esocial',
                 'ambiente': self.ambiente,
@@ -476,14 +405,6 @@ class SpedRegistro(models.Model):
             lote_id = self.env['sped.lote'].create(vals)
             self.lote_ids = [(4, lote_id.id)]
             self.data_hora_transmissao = data_hora_transmissao
-
-            # Transmite
-            processo = processador.enviar_lote([S1005])
-            envio_xml = processo.envio.envioLoteEventos.eventos[0].xml
-            envio_xml_nome = S1005.evento.Id.valor + '-S1005-env.xml'
-            # retorno_xml = processo.resposta.retornoEventos[0].xml
-            retorno_xml = processo.resposta.xml
-            retorno_xml_nome = S1005.evento.Id.valor + '-S1005-ret.xml'
 
         # Registro S-1010 - Tabela de Rubricas
         elif self.registro == 'S-1010':
