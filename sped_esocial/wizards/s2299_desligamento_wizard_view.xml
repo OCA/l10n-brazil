@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="s2299_desligamento_wizard">
+            <field name="name">S2299 Desligamento Wizard</field>
+            <field name="model">s2299.desligamento.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="pens_alim" />
+                    </group>
+                    <separator string="Pensões" attrs="{'invisible': [('pens_alim', '=', '0')]}"/>
+                    <field name="pensao_id" attrs="{'invisible': [('pens_alim', '=', '0')], 'required': [('pens_alim', '!=', '0')]}">
+                        <tree editable="bottom">
+                            <field name="perc_aliment" />
+                            <field name="vr_alim" />
+                        </tree>
+                    </field>
+                    <footer>
+                        <button type="object" name="button_transmitir" string="Criar" class="oe_highlight" />
+                        <button special="cancel" string="Cancelar" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window
+            id="sped_esocial.criar_s2299_desligamento"
+            name="Criar Registro"
+            src_model="hr.payslip"
+            res_model="s2299.desligamento.wizard"
+            view_id="s2299_desligamento_wizard"
+            target="new"
+            multi="True"
+        />
+
+    </data>
+</openerp>

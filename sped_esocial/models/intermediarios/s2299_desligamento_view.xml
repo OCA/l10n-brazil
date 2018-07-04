@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="s2299_desligamento_form">
+            <field name="name">S2299 Desligamento Form</field>
+            <field name="model">sped.hr.rescisao</field>
+            <field name="arch" type="xml">
+                <group>
+                    <field name="sped_hr_rescisao_id" />
+                    <field name="sped_s2200_registro" />
+                    <field name="situacao_s2200" />
+                    <field name="pagamento_pensao" />
+                </group>
+                <separator string="Pensões" />
+                <field name="pensao_id" attrs="{'required': [('pagamento_pensao', '=', True)]">
+                    <tree>
+                        <field name="pens_alim" />
+                        <field name="perc_aliment" attrs="{'required': [('pens_alim', 'in', [1,3])]}"/>
+                        <field name="vr_alim" attrs="{'required': [('pens_alim', 'in', [2,3])]}"/>
+                    </tree>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

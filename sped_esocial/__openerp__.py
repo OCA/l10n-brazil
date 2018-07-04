@@ -40,6 +40,7 @@
         'views/sped_esocial_menu.xml',
 
         # Views
+        'wizards/s2299_desligamento_wizard_view.xml',
         'views/sped_esocial_view.xml',
         'views/inherited_res_company.xml',
         'views/inherited_hr_salary_rule.xml',
