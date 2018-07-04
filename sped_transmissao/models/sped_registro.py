@@ -168,7 +168,6 @@ class SpedRegistro(models.Model):
     fechamento_xml_id = fields.Many2one(
         comodel_name='ir.attachment',
         string='XML de Fechamento',
-        ondelete='restrict',
         copy=False,
     )
     fechamento_xml = fields.Text(
@@ -1549,7 +1548,7 @@ class SpedRegistro(models.Model):
         self.ensure_one()
 
         # Gera o XML usando o popula_xml da tabela intermediária
-        registro = self.origem_intermediario.popula_xml()
+        registro = self.origem_intermediario.popula_xml(ambiente=self.ambiente)
 
         # Gera o ID do evento
         agora = datetime.now()

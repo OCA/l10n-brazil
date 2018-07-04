@@ -7,7 +7,6 @@
             <field name="model">sped.registro</field>
             <field name="arch" type="xml">
                 <form string="Registros SPED" edit="false" create="false" duplicate="false">
-                    <field name="limpar_db" invisible="1"/>
                     <field name="transmissao_lote" invisible="1" />
                     <header>
                         <button name="gera_xml" type="object" string="Transmitir" class="oe_highlight"

@@ -86,7 +86,6 @@ class SpedLote(models.Model, ):
     envio_xml_id = fields.Many2one(
         comodel_name='ir.attachment',
         string='XML enviado',
-        ondelete='restrict',
         copy=False,
     )
     envio_xml = fields.Text(
@@ -107,7 +106,6 @@ class SpedLote(models.Model, ):
     retorno_xml_id = fields.Many2one(
         comodel_name='ir.attachment',
         string='XML de retorno',
-        ondelete='restrict',
         copy=False,
     )
     retorno_xml = fields.Text(
@@ -145,7 +143,6 @@ class SpedLote(models.Model, ):
     consulta_xml_id = fields.Many2one(
         comodel_name='ir.attachment',
         string='XML de consulta',
-        ondelete='restrict',
         copy=False,
     )
     consulta_xml = fields.Text(
