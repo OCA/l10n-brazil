@@ -27,9 +27,6 @@ class SpedRegistro(models.Model):
             ('esocial', 'e-Social'),
         ],
     )
-    limpar_db = fields.Boolean(
-        string='Limpar DB',
-    )
     codigo = fields.Char(
         string='Código',
         default=lambda self: self.env['ir.sequence'].next_by_code('sped.registro'),
@@ -273,11 +270,11 @@ class SpedRegistro(models.Model):
         if self.ambiente == '1':
             raise ValidationError("Ambiente de Produção não suporta Limpeza de Banco de Dados !")
 
-        self.limpar_db = True
+        self.origem_intermediario.limpar_db = True
         self.gera_xml()
         self.recibo = False
         self.protocolo = False
-        self.limpar_db = False
+        self.origem_intermediario.limpar_db = False
 
     @api.multi
     def consulta_lote(self):
@@ -1551,9 +1548,27 @@ class SpedRegistro(models.Model):
     def calcula_xml(self):
         self.ensure_one()
 
-        # Define o nome do método a ser chamado via getattr como sendo o nome do registro sem traço e minúsculo
-        # Exemplo: 'S-1000' vira 's1000'
-        metodo = limpa_formatacao(self.registro).lower()
+        # Gera o XML usando o popula_xml da tabela intermediária
+        registro = self.origem_intermediario.popula_xml()
 
-        # Chama o método que retorna a classe com o XML montado
-        return getattr(self, metodo)()
+        # Gera o ID do evento
+        agora = datetime.now()
+        data_hora_transmissao = agora.strftime('%Y-%m-%d %H:%M:%S')
+        registro.gera_id_evento(agora.strftime('%Y%m%d%H%M%S'))
+        self.data_hora_transmissao = data_hora_transmissao
+
+        # Grava o ID gerado
+        self.id_evento = registro.evento.Id.valor
+
+        # Grava o XML gerado
+        if self.envio_xml_id:
+            envio = self.envio_xml_id
+            envio.envio_xml_id = False
+            envio.unlink()
+        envio_xml = registro.evento.xml
+        envio_xml_nome = self.id_evento + '-envio.xml'
+        anexo_id = self._grava_anexo(envio_xml_nome, envio_xml)
+        self.envio_xml_id = anexo_id
+
+        # Retorno XML preenchido
+        return registro
