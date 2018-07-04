@@ -527,4 +527,3 @@ class SpedLote(models.Model, ):
         anexo = self.env['ir.attachment'].create(dados)
 
         return anexo
-

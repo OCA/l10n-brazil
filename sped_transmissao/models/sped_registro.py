@@ -43,6 +43,16 @@ class SpedRegistro(models.Model):
         string='Evento Sped',
         size=30,
     )
+    operacao = fields.Selection(
+        string='Operação',
+        selection=[
+            ('na', 'N/A'),
+            ('I', 'Inclusão'),
+            ('A', 'Alteração'),
+            ('E', 'Exclusão'),
+        ],
+        default='na',
+    )
     ambiente = fields.Selection(
         string='Ambiente',
         selection=[
@@ -55,6 +65,12 @@ class SpedRegistro(models.Model):
         string='Documento de Origem',
         selection=[
             ('res.company', 'Empresa')
+        ],
+    )
+    origem_intermediario = fields.Reference(
+        string='Registro Intermediário',
+        selection=[
+            ('sped.empregador', 'S-1000')
         ],
     )
     company_id = fields.Many2one(

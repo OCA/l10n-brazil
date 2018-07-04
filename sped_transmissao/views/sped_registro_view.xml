@@ -43,14 +43,16 @@
                             <group colspan="2" col="2">
                                 <field name="tipo" string="Tipo" widget="radio" readonly="1"/>
                                 <field name="registro" string="Registro" readonly="1"/>
+                                <field name="operacao" string="Operação" readonly="1"/>
                                 <field name="ambiente" string="Ambiente" readonly="1"/>
                                 <field name="company_id" options="{'no_create': True, 'no_open': True}" readonly="1"/>
                                 <field name="evento" readonly="1"/>
                                 <field name="origem" readonly="1"/>
+                                <field name="origem_intermediario" readonly="1" invisible="1" />
                             </group>
                             <group colspan="2" col="2">
                                 <field name="data_hora_origem" readonly="1"/>
-                                <!--<field name="data_hora_transmissao" readonly="1"/>-->
+                                <field name="data_hora_transmissao" readonly="1"/>
                                 <field name="data_hora_retorno" readonly="1"/>
                             </group>
                         </group>
@@ -129,11 +131,9 @@
                     <field name="codigo" />
                     <field name="tipo"/>
                     <field name="registro"/>
+                    <field name="operacao" />
                     <field name="ambiente" />
                     <field name="company_id" />
-                    <!--<field name="data_hora_origem"/>-->
-                    <!--<field name="data_hora_transmissao"/>-->
-                    <!--<field name="data_hora_retorno"/>-->
                     <field name="situacao"/>
                 </tree>
             </field>
@@ -159,7 +159,7 @@
                         <filter name="group_by_situacao" string="Situação" context="{'group_by': 'situacao'}" />
                         <filter name="group_by_ambiente" string="Ambiente" context="{'group_by': 'ambiente'}" />
                         <filter name="group_by_origem" string="Data/Hora de Origem" context="{'group_by': 'data_hora_origem'}" />
-                        <!--<filter name="group_by_transmissao" string="Data/Hora de Transmissão" context="{'group_by': 'data_hora_transmissao'}" />-->
+                        <filter name="group_by_transmissao" string="Data/Hora de Transmissão" context="{'group_by': 'data_hora_transmissao'}" />
                         <filter name="group_by_retorno" string="Data/Hora de Retorno" context="{'group_by': 'data_hora_retorno'}" />
                     </group>
 		        </search>
@@ -169,7 +169,7 @@
         <record model="ir.actions.act_window" id="sped_registro_action">
             <field name="name">Registros</field>
             <field name="domain">[]</field>
-            <!--<field name="context">{'search_default_com_erros': 1, 'search_default_pendentes': 1, 'search_default_transmitidas': 1, 'search_default_retificar': 1}</field>-->
+            <field name="context">{'search_default_com_erros': 1, 'search_default_pendentes': 1, 'search_default_transmitidas': 1, 'search_default_retificar': 1}</field>
             <field name="res_model">sped.registro</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>

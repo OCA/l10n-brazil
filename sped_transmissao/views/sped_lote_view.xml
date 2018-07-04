@@ -125,7 +125,7 @@
                     <group expand="0" string="Group By">
                         <filter name="group_by_tipo" string="Tipo" context="{'group_by': 'tipo'}" />
                         <filter name="group_by_situacao" string="Situação" context="{'group_by': 'situacao'}" />
-                        <!--<filter name="group_by_transmissao" string="Data/Hora de Transmissão" context="{'group_by': 'data_hora_transmissao'}" />-->
+                        <filter name="group_by_transmissao" string="Data/Hora de Transmissão" context="{'group_by': 'data_hora_transmissao'}" />
                         <filter name="group_by_retorno" string="Data/Hora de Retorno" context="{'group_by': 'data_hora_retorno'}" />
                     </group>
 		        </search>
@@ -135,7 +135,7 @@
         <record model="ir.actions.act_window" id="sped_lote_action">
             <field name="name">Lotes de Transmissão</field>
             <field name="domain">[]</field>
-            <!--<field name="context">{'search_default_com_erros': 1, 'search_default_pendentes': 1, 'search_default_transmitidas': 1}</field>-->
+            <field name="context">{'search_default_com_erros': 1, 'search_default_pendentes': 1, 'search_default_transmitidas': 1}</field>
             <field name="res_model">sped.lote</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
