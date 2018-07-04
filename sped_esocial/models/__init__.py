@@ -37,5 +37,4 @@ from . import sped_esocial_rubrica
 from . import sped_esocial_lotacao
 from . import sped_esocial_cargo
 from . import esocial_turnos_trabalho
-from . import sped_esocial_turnos_trabalho
 from . import intermediarios
