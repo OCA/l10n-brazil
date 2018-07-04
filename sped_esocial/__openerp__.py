@@ -52,6 +52,9 @@
         'views/inherited_res_partner.xml',
         'views/inherited_hr_payslip_view.xml',
 
+        # Intermediarios
+        'views/intermediarios/s1000_informacoes_do_empregador_contribuinte_orgao_publico.xml',
+
         # Segurança
         # 'security/ir.model.access.csv',
 

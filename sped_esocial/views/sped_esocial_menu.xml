@@ -7,5 +7,12 @@
                   sequence="90"
                   parent="sped_tabelas.menu_sped"
         />
+
+        <menuitem id="menu_sped_esocial_intermediarios"
+                  name="Intermediários"
+                  sequence="90"
+                  parent="sped_esocial.menu_sped_esocial"
+        />
+
     </data>
 </openerp>

@@ -11,12 +11,32 @@ class ResCompany(models.Model):
 
     _inherit = 'res.company'
 
+    # Campos de controle S-1000
+    sped_empregador_id = fields.Many2one(
+        string='SPED Empregador',
+        comodel_name='sped.empregador',
+    )
+    situacao_esocial = fields.Selection(
+        selection=[
+            ('0', 'Inativa'),
+            ('1', 'Ativa'),
+            ('2', 'Precisa Atualizar'),
+            ('9', 'Finalizada'),
+        ],
+        string='Situação no e-Social',
+        related='sped_empregador_id.situacao_esocial',
+        readonly=True,
+        store=True,
+    )
+
+    # Campos de dados diversos
     esocial_tpAmb = fields.Selection(
         string='Ambiente de Transmissão',
         selection=[
             ('1', 'Produção'),
             ('2', 'Produção Restrita'),
-        ]
+        ],
+        help='S-1000 (//evtInfoEmpregador/ideEvento/tpAmb)',
     )
     natureza_juridica_id = fields.Many2one(
         string='Tab.21-Natureza Jurídica',
@@ -145,7 +165,15 @@ class ResCompany(models.Model):
     #     related='sped_s1000_registro.data_hora_origem',
     #     readonly=True,
     # )
-    esocial_periodo_id = fields.Many2one(
+    esocial_periodo_inicial_id = fields.Many2one(
+        string='Período Inicial',
+        comodel_name='account.period',
+    )
+    esocial_periodo_atualizacao_id = fields.Many2one(
+        string='Período da Última Atualização',
+        comodel_name='account.period',
+    )
+    esocial_periodo_final_id = fields.Many2one(
         string='Período Inicial',
         comodel_name='account.period',
     )
@@ -207,23 +235,37 @@ class ResCompany(models.Model):
     #     for empresa in self:
     #         empresa.sped_s1000 = True if empresa.sped_s1000_registro else False
 
+    # @api.multi
+    # def criar_s1000(self):
+    #     self.ensure_one()
+    #     if self.sped_s1000_registro:
+    #         raise ValidationError('Esta Empresa já ativou o e-Social')
+    #
+    #     values = {
+    #         'tipo': 'esocial',
+    #         'registro': 'S-1000',
+    #         'ambiente': self.esocial_tpAmb,
+    #         'company_id': self.id,
+    #         'evento': 'evtInfoEmpregador',
+    #         'origem': ('res.company,%s' % self.id),
+    #     }
+    #
+    #     sped_s1000_registro = self.env['sped.registro'].create(values)
+    #     self.sped_s1000_registro = sped_s1000_registro
+
     @api.multi
-    def criar_s1000(self):
+    def atualizar_esocial(self):
         self.ensure_one()
-        if self.sped_s1000_registro:
-            raise ValidationError('Esta Empresa já ativou o e-Social')
 
-        values = {
-            'tipo': 'esocial',
-            'registro': 'S-1000',
-            'ambiente': self.esocial_tpAmb,
-            'company_id': self.id,
-            'evento': 'evtInfoEmpregador',
-            'origem': ('res.company,%s' % self.id),
-        }
+        # Se o registro intermediário do S-1000 não existe, criá-lo
+        if not self.sped_empregador_id:
+            self.sped_empregador_id = self.env['sped.empregador'].create({'company_id': self.id})
 
-        sped_s1000_registro = self.env['sped.registro'].create(values)
-        self.sped_s1000_registro = sped_s1000_registro
+        # Processa cada tipo de operação do S-1000 (Inclusão / Alteração / Exclusão)
+        # O que realmente precisará ser feito é tratado no método do registro intermediário
+        self.sped_empregador_id.atualiza_esocial()
+
+        # TODO Incluir registro S-1005 aqui
 
     # Último envio da Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos (Registro S-1005)
     sped_s1005 = fields.Boolean(
