@@ -216,7 +216,7 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
             self.sped_exclusao = sped_exclusao
 
     @api.multi
-    def popula_xml(self):
+    def popula_xml(self, ambiente='2'):
         self.ensure_one()
 
         # Cria o registro
@@ -224,8 +224,8 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
 
         # Popula ideEvento
         S1000.tpInsc = '1'
-        S1000.nrInsc = limpa_formatacao(self.origem.cnpj_cpf)[0:8]
-        S1000.evento.ideEvento.tpAmb.valor = int(self.company_id.ambiente)
+        S1000.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
+        S1000.evento.ideEvento.tpAmb.valor = int(ambiente)
         S1000.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
         S1000.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
 
@@ -261,10 +261,10 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         S1000.evento.infoEmpregador.infoCadastro.contato.cpfCtt.valor = self.company_id.esocial_cpf_ctt
         S1000.evento.infoEmpregador.infoCadastro.contato.foneFixo.valor = limpa_formatacao(
             self.company_id.esocial_fone_fixo)
-        if self.origem.esocial_fone_cel:
+        if self.company_id.esocial_fone_cel:
             S1000.evento.infoEmpregador.infoCadastro.contato.foneCel.valor = limpa_formatacao(
                 self.company_id.esocial_fone_cel)
-        if self.origem.esocial_email:
+        if self.company_id.esocial_email:
             S1000.evento.infoEmpregador.infoCadastro.contato.email.valor = self.company_id.esocial_email
 
         # Popula infoEmpregador.infoCadastro.infoComplementares.situacaoPJ
