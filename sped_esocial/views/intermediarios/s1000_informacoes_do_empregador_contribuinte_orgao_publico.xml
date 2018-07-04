@@ -82,6 +82,7 @@
         <menuitem id="menu_sped_esocial_s1000"
                   name="S-1000 (Empregador)"
                   sequence="10"
+                  action="sped_esocial.sped_esocial_s1000_action"
                   parent="sped_esocial.menu_sped_esocial_intermediarios"
         />
 

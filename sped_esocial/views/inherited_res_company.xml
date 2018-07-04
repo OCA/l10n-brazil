@@ -38,7 +38,7 @@
                                 <field name="sped_empregador_id" invisible="1" />
                                 <button name="atualizar_esocial" colspan="4" type="object"
                                         string="Ativar/Atualizar e-Social"
-                                        attrs="{'invisible': ['|', ('situacao_esocial', 'in', ['1', '9']), ('esocial_periodo_inicial_id', '=', False)]}" />
+                                        attrs="{'invisible': ['|', ('situacao_esocial', 'in', ['1', '3', '9']), ('esocial_periodo_inicial_id', '=', False)]}" />
                             </group>
                         </group>
                     </page>

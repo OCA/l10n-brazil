@@ -10,7 +10,7 @@
 
         <menuitem id="menu_sped_esocial_intermediarios"
                   name="Intermediários"
-                  sequence="90"
+                  sequence="100"
                   parent="sped_esocial.menu_sped_esocial"
         />
 

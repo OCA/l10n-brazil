@@ -78,10 +78,15 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
                 if empregador.sped_exclusao and empregador.sped_exclusao.situacao == '4':
                     situacao_esocial = '9'
 
-            # Se a empresa possui um registro de inclusão que esteja em fase de transmissão
+            # Se a empresa possui algum registro que esteja em fase de transmissão
             # então a situação é Aguardando Transmissão
-            elif empregador.sped_inclusao and empregador.sped_inclusao.situacao != '4':
+            if empregador.sped_inclusao and empregador.sped_inclusao.situacao != '4':
                 situacao_esocial = '3'
+            if empregador.sped_exclusao and empregador.sped_exclusao.situacao != '4':
+                situacao_esocial = '3'
+            for alteracao in empregador.sped_alteracao:
+                if alteracao.situacao != '4':
+                    situacao_esocial = '3'
 
             # Popula na tabela
             empregador.situacao_esocial = situacao_esocial

@@ -21,12 +21,12 @@ class ResCompany(models.Model):
             ('0', 'Inativa'),
             ('1', 'Ativa'),
             ('2', 'Precisa Atualizar'),
+            ('3', 'Aguardando Transmissão'),
             ('9', 'Finalizada'),
         ],
         string='Situação no e-Social',
         related='sped_empregador_id.situacao_esocial',
         readonly=True,
-        store=True,
     )
 
     # Campos de dados diversos
