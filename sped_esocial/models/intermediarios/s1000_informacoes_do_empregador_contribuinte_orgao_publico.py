@@ -60,6 +60,11 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         compute='compute_ultima_atualizacao',
     )
 
+    # Controle de limpeza do database (para uso em Produção Restrita somente)
+    limpar_db = fields.Boolean(
+        string='Limpar DB',
+    )
+
     @api.depends('sped_inclusao', 'sped_exclusao')
     def compute_situacao_esocial(self):
         for empregador in self:
@@ -213,6 +218,59 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
     @api.multi
     def popula_xml(self):
         self.ensure_one()
+
+        # Cria o registro
+        S1000 = pysped.esocial.leiaute.S1000_2()
+
+        # Popula ideEvento
+        S1000.tpInsc = '1'
+        S1000.nrInsc = limpa_formatacao(self.origem.cnpj_cpf)[0:8]
+        S1000.evento.ideEvento.tpAmb.valor = int(self.company_id.ambiente)
+        S1000.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
+        S1000.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
+
+        # Popula ideEmpregador (Dados do Empregador)
+        S1000.evento.ideEmpregador.tpInsc.valor = '1'
+        S1000.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
+
+        # Popula infoEmpregador
+        S1000.evento.infoEmpregador.operacao = 'I'
+        S1000.evento.infoEmpregador.idePeriodo.iniValid.valor = \
+            self.company_id.esocial_periodo_inicial_id.code[3:7] + '-' + \
+            self.company_id.esocial_periodo_inicial_id.code[0:2]
+
+        # Popula infoEmpregador.InfoCadastro
+        S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = self.company_id.legal_name
+        S1000.evento.infoEmpregador.infoCadastro.classTrib.valor = self.company_id.classificacao_tributaria_id.codigo
+        S1000.evento.infoEmpregador.infoCadastro.natJurid.valor = limpa_formatacao(
+            self.company_id.natureza_juridica_id.codigo)
+        S1000.evento.infoEmpregador.infoCadastro.indCoop.valor = self.company_id.ind_coop
+        S1000.evento.infoEmpregador.infoCadastro.indConstr.valor = self.company_id.ind_constr
+        S1000.evento.infoEmpregador.infoCadastro.indDesFolha.valor = self.company_id.ind_desoneracao
+        S1000.evento.infoEmpregador.infoCadastro.indOptRegEletron.valor = self.company_id.ind_opt_reg_eletron
+        S1000.evento.infoEmpregador.infoCadastro.indEntEd.valor = self.company_id.ind_ent_ed
+        S1000.evento.infoEmpregador.infoCadastro.indEtt.valor = self.company_id.ind_ett
+        if self.company_id.nr_reg_ett:
+            S1000.evento.infoEmpregador.infoCadastro.nrRegEtt.valor = self.company_id.nr_reg_ett
+        if self.limpar_db:
+            S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = 'RemoverEmpregadorDaBaseDeDadosDaProducaoRestrita'
+            S1000.evento.infoEmpregador.infoCadastro.classTrib.valor = '00'
+
+        # Popula infoEmpregador.Infocadastro.contato
+        S1000.evento.infoEmpregador.infoCadastro.contato.nmCtt.valor = self.company_id.esocial_nm_ctt
+        S1000.evento.infoEmpregador.infoCadastro.contato.cpfCtt.valor = self.company_id.esocial_cpf_ctt
+        S1000.evento.infoEmpregador.infoCadastro.contato.foneFixo.valor = limpa_formatacao(
+            self.company_id.esocial_fone_fixo)
+        if self.origem.esocial_fone_cel:
+            S1000.evento.infoEmpregador.infoCadastro.contato.foneCel.valor = limpa_formatacao(
+                self.company_id.esocial_fone_cel)
+        if self.origem.esocial_email:
+            S1000.evento.infoEmpregador.infoCadastro.contato.email.valor = self.company_id.esocial_email
+
+        # Popula infoEmpregador.infoCadastro.infoComplementares.situacaoPJ
+        S1000.evento.infoEmpregador.infoCadastro.indSitPJ.valor = self.company_id.ind_sitpj
+
+        return S1000
 
     @api.multi
     def retorno_sucesso(self):
