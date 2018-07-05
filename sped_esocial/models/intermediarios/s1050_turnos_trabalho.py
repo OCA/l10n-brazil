@@ -17,10 +17,9 @@ class SpedEsocialTurnosTrabalho(models.Model, SpedRegistroIntermediario):
     name = fields.Char(
         related='sped_esocial_turnos_trabalho_id.name'
     )
-
-    esocial_id = fields.Many2one(
-        string="e-Social",
-        comodel_name="sped.esocial",
+    company_id = fields.Many2one(
+        string='Empresa',
+        comodel_name='res.company',
         required=True,
     )
     sped_esocial_turnos_trabalho_id = fields.Many2one(
@@ -28,22 +27,158 @@ class SpedEsocialTurnosTrabalho(models.Model, SpedRegistroIntermediario):
         comodel_name="esocial.turnos.trabalho",
         required=True,
     )
-    sped_s1050_registro = fields.Many2one(
-        string='Registro S-1050',
+
+    sped_inclusao = fields.Many2one(
+        string='Inclusão',
         comodel_name='sped.registro',
     )
-    situacao_s1050 = fields.Selection(
-        string="Situação S-1050",
-        selection=[
-            ('1', 'Pendente'),
-            ('2', 'Transmitida'),
-            ('3', 'Erro(s)'),
-            ('4', 'Sucesso'),
-            ('5', 'Precisa Retificar'),
-        ],
-        related="sped_s1050_registro.situacao",
-        readonly=True,
+    sped_alteracao = fields.Many2many(
+        string='Alterações',
+        comodel_name='sped.registro',
     )
+    sped_exclusao = fields.Many2one(
+        string='Exclusão',
+        comodel_name='sped.registro',
+    )
+    situacao_esocial = fields.Selection(
+        selection=[
+            ('0', 'Inativa'),
+            ('1', 'Ativa'),
+            ('2', 'Precisa Atualizar'),
+            ('3', 'Aguardando Transmissão'),
+            ('9', 'Finalizada'),
+        ],
+        string='Situação no e-Social',
+        compute='compute_situacao_esocial',
+    )
+    precisa_incluir = fields.Boolean(
+        string='Precisa incluir dados?',
+        compute='compute_precisa_enviar',
+    )
+    precisa_atualizar = fields.Boolean(
+        string='Precisa atualizar dados?',
+        compute='compute_precisa_enviar',
+    )
+    precisa_excluir = fields.Boolean(
+        string='Precisa excluir dados?',
+        compute='compute_precisa_enviar',
+    )
+    ultima_atualizacao = fields.Datetime(
+        string='Data da última atualização',
+        compute='compute_ultima_atualizacao',
+    )
+
+    @api.depends('sped_inclusao', 'sped_exclusao')
+    def compute_situacao_esocial(self):
+        for turno in self:
+            situacao_esocial = '0'  # Inativa
+
+            # Se a empresa possui um registro de inclusão confirmado e
+            # não precisa atualizar nem excluir então ela está Ativa
+            if turno.sped_inclusao and \
+                    turno.sped_inclusao.situacao == '4':
+                if not turno.precisa_atualizar and not \
+                        turno.precisa_excluir:
+                    situacao_esocial = '1'
+                else:
+                    situacao_esocial = '2'
+
+                # Se já possui um registro de exclusão confirmado, então
+                # é situação é Finalizada
+                if turno.sped_exclusao and \
+                        turno.sped_exclusao.situacao == '4':
+                    situacao_esocial = '9'
+
+            # Se a empresa possui algum registro que esteja em fase de
+            # transmissão então a situação é Aguardando Transmissão
+            if turno.sped_inclusao and \
+                    turno.sped_inclusao.situacao != '4':
+                situacao_esocial = '3'
+            if turno.sped_exclusao and \
+                    turno.sped_exclusao.situacao != '4':
+                situacao_esocial = '3'
+            for alteracao in turno.sped_alteracao:
+                if alteracao.situacao != '4':
+                    situacao_esocial = '3'
+
+            # Popula na tabela
+            turno.situacao_esocial = situacao_esocial
+
+    @api.depends('sped_inclusao',
+                 'sped_alteracao', 'sped_alteracao.situacao',
+                 'sped_exclusao')
+    def compute_precisa_enviar(self):
+
+        # Roda todos os registros da lista
+        for turno in self:
+
+            # Inicia as variáveis como False
+            precisa_incluir = False
+            precisa_atualizar = False
+            precisa_excluir = False
+
+            # Se a empresa matriz tem um período inicial definido e não
+            # tem um registro S1000 de inclusão # confirmado,
+            # então precisa incluir
+            if turno.company_id.esocial_periodo_inicial_id:
+                if not turno.sped_inclusao or \
+                        turno.sped_inclusao.situacao != '4':
+                    precisa_incluir = True
+
+            # Se a empresa já tem um registro de inclusão confirmado mas a
+            # data da última atualização é menor que a o write_date da empresa,
+            # então precisa atualizar
+            if turno.sped_inclusao and \
+                    turno.sped_inclusao.situacao == '4':
+                if turno.ultima_atualizacao < \
+                        turno.company_id.write_date:
+                    precisa_atualizar = True
+
+            # Se a empresa já tem um registro de inclusão confirmado, tem um
+            # período final definido e não tem um
+            # registro de exclusão confirmado, então precisa excluir
+            if turno.sped_inclusao and \
+                    turno.sped_inclusao.situacao == '4':
+                if turno.company_id.esocial_periodo_final_id:
+                    if not turno.sped_exclusao or \
+                            turno.sped_exclusao != '4':
+                        precisa_excluir = True
+
+            # Popula os campos na tabela
+            turno.precisa_incluir = precisa_incluir
+            turno.precisa_atualizar = precisa_atualizar
+            turno.precisa_excluir = precisa_excluir
+
+    @api.depends('sped_inclusao',
+                 'sped_alteracao', 'sped_alteracao.situacao',
+                 'sped_exclusao')
+    def compute_ultima_atualizacao(self):
+
+        # Roda todos os registros da lista
+        for turno in self:
+
+            # Inicia a última atualização com a data/hora now()
+            ultima_atualizacao = fields.Datetime.now()
+
+            # Se tiver o registro de inclusão, pega a data/hora de origem
+            if turno.sped_inclusao and \
+                    turno.sped_inclusao.situacao == '4':
+                ultima_atualizacao = turno.sped_inclusao.data_hora_origem
+
+            # Se tiver alterações, pega a data/hora de
+            # origem da última alteração
+            for alteracao in turno.sped_alteracao:
+                if alteracao.situacao == '4':
+                    if alteracao.data_hora_origem > ultima_atualizacao:
+                        ultima_atualizacao = alteracao.data_hora_origem
+
+            # Se tiver exclusão, pega a data/hora de origem da exclusão
+            if turno.sped_exclusao and \
+                    turno.sped_exclusao.situacao == '4':
+                ultima_atualizacao = turno.sped_exclusao.data_hora_origem
+
+            # Popula o campo na tabela
+            turno.ultima_atualizacao = ultima_atualizacao
 
     @api.multi
     def popula_xml(self):

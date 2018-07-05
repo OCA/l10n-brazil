@@ -31,6 +31,5 @@ from . import inherited_res_partner
 from . import inherited_hr_payslip
 
 from . import sped_esocial
-from . import sped_esocial_estabelecimento
 from . import esocial_turnos_trabalho
 from . import intermediarios
