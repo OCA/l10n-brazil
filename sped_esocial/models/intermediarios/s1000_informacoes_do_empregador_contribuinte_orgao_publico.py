@@ -221,7 +221,7 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
             self.sped_exclusao = sped_exclusao
 
     @api.multi
-    def popula_xml(self, ambiente='2'):
+    def popula_xml(self, ambiente='2', operacao='I'):
         self.ensure_one()
 
         # Cria o registro
@@ -238,11 +238,39 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
         S1000.evento.ideEmpregador.tpInsc.valor = '1'
         S1000.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
 
-        # Popula infoEmpregador
-        S1000.evento.infoEmpregador.operacao = 'I'
+        # Popula a operação que será realizada com esse registro
+        S1000.evento.infoEmpregador.operacao = operacao
+
+        # Popula infoEmpregador.idePeriodo
         S1000.evento.infoEmpregador.idePeriodo.iniValid.valor = \
             self.company_id.esocial_periodo_inicial_id.code[3:7] + '-' + \
             self.company_id.esocial_periodo_inicial_id.code[0:2]
+
+        # Se for operacao=='A' (Alteração) Popula idePeriodo usando company_id.periodo_atualizacao_id
+        if operacao == 'A':
+
+            # Se o campo periodo_atualizacao_id não estiver preenchido, retorne erro de dados para o usuário
+            if not self.company_id.esocial_periodo_atualizacao_id:
+                raise ValidationError("O campo 'Período da Última Atualização' na Empresa não está preenchido !")
+
+            # Popula infoEmpregador.novaValidade
+            S1000.evento.infoEmpregador.novaValidade.iniValid.valor = \
+                self.company_id.esocial_periodo_atualizacao_id.code[3:7] + '-' + \
+                self.company_id.esocial_periodo_atualizacao_id.code[0:2]
+
+            # Popula
+
+        # Se for operacao=='E' (Exclusão) Popula idePeriodo usando
+        if operacao == 'E':
+
+            # Se o campo periodo_exclusao_id não estiver preenchido, retorne erro de dados para o usuário
+            if not self.company_id.esocial_periodo_final_id:
+                raise ValidationError("O campo 'Período Final' na Empresa não está preenchido !")
+
+            # Popula infoEmpregador.idePeriodo.fimValid
+            S1000.evento.infoEmpregador.idePeriodo.fimValid.valor = \
+                self.company_id.esocial_periodo_final_id.code[3:7] + '-' + \
+                self.company_id.esocial_periodo_final_id.code[0:2]
 
         # Popula infoEmpregador.InfoCadastro
         S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = self.company_id.legal_name

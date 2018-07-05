@@ -174,7 +174,7 @@ class ResCompany(models.Model):
         comodel_name='account.period',
     )
     esocial_periodo_final_id = fields.Many2one(
-        string='Período Inicial',
+        string='Período Final',
         comodel_name='account.period',
     )
 

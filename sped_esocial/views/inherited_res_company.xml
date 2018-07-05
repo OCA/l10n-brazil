@@ -29,6 +29,9 @@
                                 <field name="esocial_periodo_inicial_id"
                                        options="{'no_create': True, 'no_open': True}"
                                 />
+                                <field name="esocial_periodo_atualizacao_id"
+                                       options="{'no_create': True, 'no_open': True}"
+                                />
                                 <field name="esocial_periodo_final_id"
                                        options="{'no_create': True, 'no_open': True}"
                                 />
