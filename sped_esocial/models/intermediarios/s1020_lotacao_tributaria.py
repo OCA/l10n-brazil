@@ -132,10 +132,9 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
             # Se a empresa matriz tem um período inicial definido e não
             # tem um registro S1000 de inclusão # confirmado,
             # então precisa incluir
-            if lotacao.company_id.esocial_periodo_inicial_id:
-                if not lotacao.sped_inclusao or \
+            if not lotacao.sped_inclusao or \
                         lotacao.sped_inclusao.situacao != '4':
-                    precisa_incluir = True
+                precisa_incluir = True
 
             # Se a empresa já tem um registro de inclusão confirmado mas a
             # data da última atualização é menor que a o write_date da empresa,
@@ -191,6 +190,33 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
 
             # Popula o campo na tabela
             lotacao.ultima_atualizacao = ultima_atualizacao
+
+    @api.multi
+    def gerar_registro(self):
+        if self.precisa_incluir or self.precisa_atualizar or \
+                self.precisa_excluir:
+            values = {
+                'tipo': 'esocial',
+                'registro': 'S-1020',
+                'ambiente': self.company_id.esocial_tpAmb,
+                'company_id': self.company_id.id,
+                'evento': 'evtTabLotacao',
+                'origem': ('res.company' % self.lotacao_id.id),
+                'origem_intermediario': (
+                        'sped.esocial.lotacao,%s' % self.id),
+            }
+            if self.precisa_incluir:
+                values['operacao'] = 'I'
+                sped_inclusao = self.env['sped.registro'].create(values)
+                self.sped_inclusao = sped_inclusao
+            elif self.precisa_atualizar:
+                values['operacao'] = 'A'
+                sped_alteracao = self.env['sped.registro'].create(values)
+                self.sped_inclusao = sped_alteracao
+            elif self.precisa_excluir:
+                values['operacao'] = 'E'
+                sped_exclusao = self.env['sped.registro'].create(values)
+                self.sped_exclusao = sped_exclusao
 
     @api.multi
     def popula_xml(self):
