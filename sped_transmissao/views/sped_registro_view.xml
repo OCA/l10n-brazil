@@ -9,10 +9,10 @@
                 <form string="Registros SPED" edit="false" create="false" duplicate="false">
                     <field name="transmissao_lote" invisible="1" />
                     <header>
-                        <button name="gera_xml" type="object" string="Transmitir" class="oe_highlight"
+                        <button name="gera_xml" type="object" string="Transmitir (não usar)" class="oe_highlight"
                                 attrs="{'invisible': ['|', ('situacao', 'in', ['2', '4']), ('transmissao_lote', '=', True)]}"
                         />
-                        <button name="transmitir_lote" type="object" string="Transmitir" class="oe_highlight"
+                        <button name="transmitir_lote" type="object" string="Transmitir Lote" class="oe_highlight"
                                 attrs="{'invisible': [('situacao', 'in', ['2', '4'])]}" />
                         <button name="limpa_db" type="object" string="Limpar DB" class="oe_highlight"
                                 attrs="{'invisible': ['|', '|', ('registro', 'not in', ['R-1000', 'S-1000']), ('ambiente', '!=', '2'), ('situacao', 'in', ['1', '2'])]}"

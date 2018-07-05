@@ -270,7 +270,7 @@ class SpedRegistro(models.Model):
             raise ValidationError("Ambiente de Produção não suporta Limpeza de Banco de Dados !")
 
         self.origem_intermediario.limpar_db = True
-        self.gera_xml()
+        self.transmitir_lote()
         self.recibo = False
         self.protocolo = False
         self.origem_intermediario.limpar_db = False
@@ -1427,7 +1427,7 @@ class SpedRegistro(models.Model):
         self.ensure_one()
 
         # Gera o XML usando o popula_xml da tabela intermediária
-        registro = self.origem_intermediario.popula_xml(ambiente=self.ambiente)
+        registro = self.origem_intermediario.popula_xml(ambiente=self.ambiente, operacao=self.operacao)
 
         # Gera o ID do evento
         agora = datetime.now()
