@@ -45,35 +45,35 @@
                         <notebook>
                             <page name="s1005" string="S-1005">
                                 <group colspan="4" col="4">
-                                    <group colspan="2" col="1">
-                                        <div class="oe_title">
-                                            <button name="importar_estabelecimentos" type="object" string="Calcular" />
-                                            <button name="criar_s1005" type="object" string="Criar S-1005(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('estabelecimento_ids', '=', False)]}" />
-                                        </div>
-                                    </group>
-                                    <field name="estabelecimento_ids" readonly="1" nolabel="1" colspan="4">
-                                        <tree>
-                                            <field name="nome" invisible="0" />
-                                            <field name="estabelecimento_id" />
-                                            <field name="requer_s1005" />
-                                            <field name="sped_s1005" invisible="1" />
-                                            <field name="sped_s1005_registro" invisible="1" />
-                                            <field name="situacao_s1005" />
-                                        </tree>
-                                        <form>
-                                            <sheet>
-                                                <group colspan="4" col="4">
-                                                    <group colspan="2" col="2">
-                                                        <field name="estabelecimento_id" readonly="1" />
-                                                        <field name="requer_s1005" invisible="0" />
-                                                        <field name="sped_s1005" invisible="0" />
-                                                        <field name="sped_s1005_registro" attrs="{'invisible': [('sped_s1005', '=', False)]}" />
-                                                    </group>
-                                                </group>
-                                            </sheet>
-                                        </form>
-                                    </field>
+                                    <!--<group colspan="2" col="1">-->
+                                        <!--<div class="oe_title">-->
+                                            <!--<button name="importar_estabelecimentos" type="object" string="Calcular" />-->
+                                            <!--<button name="criar_s1005" type="object" string="Criar S-1005(s)" class="oe_highlight"-->
+                                                    <!--attrs="{'invisible': [('estabelecimento_ids', '=', False)]}" />-->
+                                        <!--</div>-->
+                                    <!--</group>-->
+                                    <!--<field name="estabelecimento_ids" readonly="1" nolabel="1" colspan="4">-->
+                                        <!--<tree>-->
+                                            <!--<field name="nome" invisible="0" />-->
+                                            <!--<field name="estabelecimento_id" />-->
+                                            <!--<field name="requer_s1005" />-->
+                                            <!--<field name="sped_s1005" invisible="1" />-->
+                                            <!--<field name="sped_s1005_registro" invisible="1" />-->
+                                            <!--<field name="situacao_s1005" />-->
+                                        <!--</tree>-->
+                                        <!--<form>-->
+                                            <!--<sheet>-->
+                                                <!--<group colspan="4" col="4">-->
+                                                    <!--<group colspan="2" col="2">-->
+                                                        <!--<field name="estabelecimento_id" readonly="1" />-->
+                                                        <!--<field name="requer_s1005" invisible="0" />-->
+                                                        <!--<field name="sped_s1005" invisible="0" />-->
+                                                        <!--<field name="sped_s1005_registro" attrs="{'invisible': [('sped_s1005', '=', False)]}" />-->
+                                                    <!--</group>-->
+                                                <!--</group>-->
+                                            <!--</sheet>-->
+                                        <!--</form>-->
+                                    <!--</field>-->
                                 </group>
                             </page>
                             <page name="s1010" string="S-1010">
@@ -89,19 +89,19 @@
                                         <tree>
                                             <field name="nome" invisible="0" />
                                             <field name="rubrica_id" />
-                                            <field name="requer_s1010" />
-                                            <field name="sped_s1010" invisible="1" />
-                                            <field name="sped_s1010_registro" invisible="1" />
-                                            <field name="situacao_s1010" />
+                                            <field name="precisa_incluir" />
+                                            <field name="precisa_atualizar" />
+                                            <field name="precisa_excluir" />
+                                            <field name="situacao_esocial" />
                                         </tree>
                                         <form>
                                             <sheet>
                                                 <group colspan="4" col="4">
                                                     <group colspan="2" col="2">
-                                                        <field name="rubrica_id" readonly="1" />
-                                                        <field name="requer_s1010" invisible="0" />
-                                                        <field name="sped_s1010" invisible="0" />
-                                                        <field name="sped_s1010_registro" attrs="{'invisible': [('sped_s1010', '=', False)]}" />
+                                                        <field name="rubrica_id" />
+                                                        <field name="precisa_incluir" />
+                                                        <field name="precisa_atualizar" />
+                                                        <field name="precisa_excluir" />
                                                     </group>
                                                 </group>
                                             </sheet>
@@ -111,95 +111,95 @@
                             </page>
                             <page name="s1020" string="S-1020">
                                 <group colspan="4" col="4">
-                                    <group colspan="2" col="1">
-                                        <div class="oe_title">
-                                            <button name="importar_lotacoes" type="object" string="Calcular" />
-                                            <button name="criar_s1020" type="object" string="Criar S-1020(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('lotacao_ids', '=', False)]}" />
-                                        </div>
-                                    </group>
-                                    <field name="lotacao_ids" readonly="1" nolabel="1" colspan="4">
-                                        <tree>
-                                            <field name="nome" invisible="0" />
-                                            <field name="lotacao_id" />
-                                            <field name="requer_s1020" />
-                                            <field name="sped_s1020" invisible="1" />
-                                            <field name="sped_s1020_registro" invisible="1" />
-                                            <field name="situacao_s1020" />
-                                        </tree>
-                                        <form>
-                                            <sheet>
-                                                <group colspan="4" col="4">
-                                                    <group colspan="2" col="2">
-                                                        <field name="lotacao_id" readonly="1" />
-                                                        <field name="requer_s1020" invisible="0" />
-                                                        <field name="sped_s1020" invisible="0" />
-                                                        <field name="sped_s1020_registro" attrs="{'invisible': [('sped_s1020', '=', False)]}" />
-                                                    </group>
-                                                </group>
-                                            </sheet>
-                                        </form>
-                                    </field>
-                                </group>
-                            </page>
-                            <page name="s1030" string="S-1030">
-                                <group colspan="4" col="4">
-                                    <group colspan="2" col="1">
-                                        <div class="oe_title">
-                                            <button name="importar_cargos" type="object" string="Calcular" />
-                                            <button name="criar_s1030" type="object" string="Criar S-1030(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('cargo_ids', '=', False)]}" />
-                                        </div>
-                                    </group>
-                                    <field name="cargo_ids" readonly="1" nolabel="1" colspan="4">
-                                        <tree>
-                                            <field name="nome" invisible="0" />
-                                            <field name="cargo_id" />
-                                            <field name="requer_s1030" />
-                                            <field name="sped_s1030" invisible="1" />
-                                            <field name="sped_s1030_registro" invisible="1" />
-                                            <field name="situacao_s1030" />
-                                        </tree>
-                                        <form>
-                                            <sheet>
-                                                <group colspan="4" col="4">
-                                                    <group colspan="2" col="2">
-                                                        <field name="cargo_id" readonly="1" />
-                                                        <field name="requer_s1030" invisible="0" />
-                                                        <field name="sped_s1030" invisible="0" />
-                                                        <field name="sped_s1030_registro" attrs="{'invisible': [('sped_s1030', '=', False)]}" />
-                                                    </group>
-                                                </group>
-                                            </sheet>
-                                        </form>
-                                    </field>
-                                </group>
-                            </page>
-                            <page name="s1050" string="S-1050">
-                                <group colspan="4" col="4">
-                                    <group colspan="2" col="1">
-                                        <div class="oe_title">
-                                            <button name="importar_turnos_trabalho" type="object" string="Calcular" />
-                                            <button name="criar_s1050" type="object" string="Criar S-1050(s)" class="oe_highlight"
-                                                    attrs="{'invisible': [('sped_esocial_turnos_trabalho_ids', '=', False)]}" />
-                                        </div>
-                                    </group>
-                                    <field name="sped_esocial_turnos_trabalho_ids" readonly="1" nolabel="1" colspan="4" >
-                                        <tree>
-                                            <field name="sped_esocial_turnos_trabalho_id" />
-                                            <field name="sped_s1050_registro" />
-                                            <field name="situacao_s1050" />
-                                        </tree>
+                                    <!--<group colspan="2" col="1">-->
+                                        <!--<div class="oe_title">-->
+                                            <!--<button name="importar_lotacoes" type="object" string="Calcular" />-->
+                                            <!--<button name="criar_s1020" type="object" string="Criar S-1020(s)" class="oe_highlight"-->
+                                                    <!--attrs="{'invisible': [('lotacao_ids', '=', False)]}" />-->
+                                        <!--</div>-->
+                                    <!--</group>-->
+                                    <!--<field name="lotacao_ids" readonly="1" nolabel="1" colspan="4">-->
+                                        <!--<tree>-->
+                                            <!--<field name="nome" invisible="0" />-->
+                                            <!--<field name="lotacao_id" />-->
+                                            <!--<field name="requer_s1020" />-->
+                                            <!--<field name="sped_s1020" invisible="1" />-->
+                                            <!--<field name="sped_s1020_registro" invisible="1" />-->
+                                            <!--<field name="situacao_s1020" />-->
+                                        <!--</tree>-->
                                         <!--<form>-->
                                             <!--<sheet>-->
                                                 <!--<group colspan="4" col="4">-->
                                                     <!--<group colspan="2" col="2">-->
-                                                        <!--<field name="sped_esocial_turnos_trabalho_ids" readonly="1" />-->
+                                                        <!--<field name="lotacao_id" readonly="1" />-->
+                                                        <!--<field name="requer_s1020" invisible="0" />-->
+                                                        <!--<field name="sped_s1020" invisible="0" />-->
+                                                        <!--<field name="sped_s1020_registro" attrs="{'invisible': [('sped_s1020', '=', False)]}" />-->
                                                     <!--</group>-->
                                                 <!--</group>-->
                                             <!--</sheet>-->
                                         <!--</form>-->
-                                    </field>
+                                    <!--</field>-->
+                                </group>
+                            </page>
+                            <page name="s1030" string="S-1030">
+                                <group colspan="4" col="4">
+                                    <!--<group colspan="2" col="1">-->
+                                        <!--<div class="oe_title">-->
+                                            <!--<button name="importar_cargos" type="object" string="Calcular" />-->
+                                            <!--<button name="criar_s1030" type="object" string="Criar S-1030(s)" class="oe_highlight"-->
+                                                    <!--attrs="{'invisible': [('cargo_ids', '=', False)]}" />-->
+                                        <!--</div>-->
+                                    <!--</group>-->
+                                    <!--<field name="cargo_ids" readonly="1" nolabel="1" colspan="4">-->
+                                        <!--<tree>-->
+                                            <!--<field name="nome" invisible="0" />-->
+                                            <!--<field name="cargo_id" />-->
+                                            <!--<field name="requer_s1030" />-->
+                                            <!--<field name="sped_s1030" invisible="1" />-->
+                                            <!--<field name="sped_s1030_registro" invisible="1" />-->
+                                            <!--<field name="situacao_s1030" />-->
+                                        <!--</tree>-->
+                                        <!--<form>-->
+                                            <!--<sheet>-->
+                                                <!--<group colspan="4" col="4">-->
+                                                    <!--<group colspan="2" col="2">-->
+                                                        <!--<field name="cargo_id" readonly="1" />-->
+                                                        <!--<field name="requer_s1030" invisible="0" />-->
+                                                        <!--<field name="sped_s1030" invisible="0" />-->
+                                                        <!--<field name="sped_s1030_registro" attrs="{'invisible': [('sped_s1030', '=', False)]}" />-->
+                                                    <!--</group>-->
+                                                <!--</group>-->
+                                            <!--</sheet>-->
+                                        <!--</form>-->
+                                    <!--</field>-->
+                                </group>
+                            </page>
+                            <page name="s1050" string="S-1050">
+                                <group colspan="4" col="4">
+                                    <!--<group colspan="2" col="1">-->
+                                        <!--<div class="oe_title">-->
+                                            <!--<button name="importar_turnos_trabalho" type="object" string="Calcular" />-->
+                                            <!--<button name="criar_s1050" type="object" string="Criar S-1050(s)" class="oe_highlight"-->
+                                                    <!--attrs="{'invisible': [('sped_esocial_turnos_trabalho_ids', '=', False)]}" />-->
+                                        <!--</div>-->
+                                    <!--</group>-->
+                                    <!--<field name="sped_esocial_turnos_trabalho_ids" readonly="1" nolabel="1" colspan="4" >-->
+                                        <!--<tree>-->
+                                            <!--<field name="sped_esocial_turnos_trabalho_id" />-->
+                                            <!--<field name="sped_s1050_registro" />-->
+                                            <!--<field name="situacao_s1050" />-->
+                                        <!--</tree>-->
+                                        <!--&lt;!&ndash;<form>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<sheet>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<group colspan="4" col="4">&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<group colspan="2" col="2">&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;<field name="sped_esocial_turnos_trabalho_ids" readonly="1" />&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</group>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</group>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</sheet>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</form>&ndash;&gt;-->
+                                    <!--</field>-->
                                 </group>
                             </page>
                             <!--<page name="R2099" string="R-2099">-->

@@ -49,29 +49,28 @@ class SpedEsocial(models.Model):
     )
     estabelecimento_ids = fields.One2many(
         string='Estabelecimentos',
-        comodel_name='sped.esocial.estabelecimento',
+        comodel_name='sped.estabelecimentos',
         inverse_name='esocial_id',
     )
-    lotacao_ids = fields.One2many(
+    lotacao_ids = fields.Many2many(
         string='Lotações Tributárias',
         comodel_name='sped.esocial.lotacao',
-        inverse_name='esocial_id',
     )
-    rubrica_ids = fields.One2many(
+    rubrica_ids = fields.Many2many(
         string='Rubricas',
         comodel_name='sped.esocial.rubrica',
         inverse_name='esocial_id',
     )
-    cargo_ids = fields.One2many(
-        string='Cargos',
-        comodel_name='sped.esocial.cargo',
-        inverse_name='esocial_id',
-    )
-    sped_esocial_turnos_trabalho_ids = fields.One2many(
-        string='sped_esocial_turnos_trabalho_id',
-        comodel_name='sped.esocial.turnos.trabalho',
-        inverse_name='esocial_id',
-    )
+    # cargo_ids = fields.One2many(
+    #     string='Cargos',
+    #     comodel_name='sped.esocial.cargo',
+    #     inverse_name='esocial_id',
+    # )
+    # sped_esocial_turnos_trabalho_ids = fields.One2many(
+    #     string='sped_esocial_turnos_trabalho_id',
+    #     comodel_name='sped.esocial.turnos.trabalho',
+    #     inverse_name='esocial_id',
+    # )
     situacao = fields.Selection(
         string='Situação',
         selection=[
@@ -79,7 +78,8 @@ class SpedEsocial(models.Model):
             ('2', 'Precisa Retificar'),
             ('3', 'Fechado')
         ],
-        compute='_compute_situacao',
+        default='1',
+        #compute='_compute_situacao',
         store=True,
     )
 
@@ -94,23 +94,23 @@ class SpedEsocial(models.Model):
     #             if estabelecimento.requer_s1005 and estabelecimento.situacao_s1005 in ['2', '4']:
     #                 raise ValidationError("Não pode excluir um Período e-Social que já tem algum processamento!")
 
-    @api.depends('estabelecimento_ids')
-    def _compute_situacao(self):
-        for esocial in self:
-
-            situacao = '1'
-
-            # Verifica se está fechado ou aberto
-            # situacao = '3' if efdreinf.situacao_R2099 == '4' else '1'
-
-            # # Checa se tem algum problema que precise ser retificado
-            # for estabelecimento in esocial.estabelecimento_ids:
-            #     if estabelecimento.requer_
-            #     if estabelecimento.situacao_R2010 == '5':
-            #         situacao = '2'  # Precisa Retificar
-
-            # Atualiza o campo situacao
-            esocial.situacao = situacao
+    # @api.depends('estabelecimento_ids')
+    # def _compute_situacao(self):
+    #     for esocial in self:
+    #
+    #         situacao = '1'
+    #
+    #         # Verifica se está fechado ou aberto
+    #         # situacao = '3' if efdreinf.situacao_R2099 == '4' else '1'
+    #
+    #         # # Checa se tem algum problema que precise ser retificado
+    #         # for estabelecimento in esocial.estabelecimento_ids:
+    #         #     if estabelecimento.requer_
+    #         #     if estabelecimento.situacao_R2010 == '5':
+    #         #         situacao = '2'  # Precisa Retificar
+    #
+    #         # Atualiza o campo situacao
+    #         esocial.situacao = situacao
 
     @api.depends('periodo_id', 'company_id', 'nome')
     def _compute_readonly(self):
@@ -163,14 +163,16 @@ class SpedEsocial(models.Model):
         ])
 
         for rubrica in rubricas:
+            sped_rubrica_id = rubrica.sped_esocial_rubrica_ids
 
-            # Criar uma nova rubrica neste período
-            vals = {
-                'esocial_id': self.id,
-                'rubrica_id': rubrica.id,
-            }
-            rubrica_id = self.env['sped.esocial.rubrica'].create(vals)
-            self.rubrica_ids = [(4, rubrica_id.id)]
+            if not sped_rubrica_id:
+                # Criar uma nova rubrica neste período
+                vals = {
+                    'rubrica_id': rubrica.id,
+                    'company_id': self.company_id.id,
+                }
+                sped_rubrica_id = self.env['sped.esocial.rubrica'].create(vals)
+            self.rubrica_ids = [(4, sped_rubrica_id.id)]
 
     @api.multi
     def importar_lotacoes(self):
@@ -253,19 +255,7 @@ class SpedEsocial(models.Model):
     def criar_s1010(self):
         self.ensure_one()
         for rubrica in self.rubrica_ids:
-            if not rubrica.sped_s1010_registro:
-
-                # Criar registro
-                values = {
-                    'tipo': 'esocial',
-                    'registro': 'S-1010',
-                    'ambiente': self.company_id.esocial_tpAmb,
-                    'company_id': self.company_id.id,
-                    'evento': 'evtTabRubrica',
-                    'origem': ('sped.esocial.rubrica,%s' % rubrica.id),
-                }
-                sped_s1010_registro = self.env['sped.registro'].create(values)
-                rubrica.sped_s1010_registro = sped_s1010_registro
+            rubrica.gerar_registro()
 
     @api.multi
     def criar_s1020(self):
