@@ -15,6 +15,8 @@ import pysped
 
 class SpedEmpregador(models.Model, SpedRegistroIntermediario):
     _name = "sped.empregador"
+    _rec_name = "company_id"
+    _order = "company_id"
 
     company_id = fields.Many2one(
         string='Empresa',
@@ -110,24 +112,27 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
             precisa_atualizar = False
             precisa_excluir = False
 
-            # Se a empresa matriz tem um período inicial definido e não tem um registro S1000 de inclusão
-            # confirmado, então precisa incluir
-            if empregador.company_id.esocial_periodo_inicial_id:
-                if not empregador.sped_inclusao or empregador.sped_inclusao.situacao != '4':
-                    precisa_incluir = True
+            # Se a situação for '3' (Aguardando Transmissão) fica tudo falso
+            if self.situacao_esocial != '3':
 
-            # Se a empresa já tem um registro de inclusão confirmado mas a data da última atualização
-            # é menor que a o write_date da empresa, então precisa atualizar
-            if empregador.sped_inclusao and empregador.sped_inclusao.situacao == '4':
-                if empregador.ultima_atualizacao < empregador.company_id.write_date:
-                    precisa_atualizar = True
+                # Se a empresa matriz tem um período inicial definido e não tem um registro S1000 de inclusão
+                # confirmado, então precisa incluir
+                if empregador.company_id.esocial_periodo_inicial_id:
+                    if not empregador.sped_inclusao or empregador.sped_inclusao.situacao != '4':
+                        precisa_incluir = True
 
-            # Se a empresa já tem um registro de inclusão confirmado, tem um período final definido e
-            # não tem um registro de exclusão confirmado, então precisa excluir
-            if empregador.sped_inclusao and empregador.sped_inclusao.situacao == '4':
-                if empregador.company_id.esocial_periodo_final_id:
-                    if not empregador.sped_exclusao or empregador.sped_exclusao != '4':
-                        precisa_excluir = True
+                # Se a empresa já tem um registro de inclusão confirmado mas a data da última atualização
+                # é menor que a o write_date da empresa, então precisa atualizar
+                if empregador.sped_inclusao and empregador.sped_inclusao.situacao == '4':
+                    if empregador.ultima_atualizacao < empregador.company_id.write_date:
+                        precisa_atualizar = True
+
+                # Se a empresa já tem um registro de inclusão confirmado, tem um período final definido e
+                # não tem um registro de exclusão confirmado, então precisa excluir
+                if empregador.sped_inclusao and empregador.sped_inclusao.situacao == '4':
+                    if empregador.company_id.esocial_periodo_final_id:
+                        if not empregador.sped_exclusao or empregador.sped_exclusao != '4':
+                            precisa_excluir = True
 
             # Popula os campos na tabela
             empregador.precisa_incluir = precisa_incluir
@@ -164,7 +169,7 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
 
     # Roda a atualização do e-Social (não transmite ainda)
     @api.multi
-    def atualiza_esocial(self):
+    def atualizar_esocial(self):
         self.ensure_one()
 
         # Criar o registro S-1000 de inclusão, se for necessário
@@ -192,12 +197,12 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
                 'company_id': self.company_id.id,
                 'operacao': 'A',
                 'evento': 'evtInfoEmpregador',
-                'origem': ('res.company,%s' % self.comapny_id.id),
+                'origem': ('res.company,%s' % self.company_id.id),
                 'origem_intermediario': ('sped.empregador,%s' % self.id),
             }
 
-            sped_atualizacao = self.env['sped.registro'].create(values)
-            self.sped_atualizacao = [(4, sped_atualizacao.id)]
+            sped_alteracao = self.env['sped.registro'].create(values)
+            self.sped_alteracao = [(4, sped_alteracao.id)]
 
         # Criar o registro S-1000 de exclusão, se for necessário
         if self.precisa_excluir:

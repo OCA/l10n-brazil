@@ -263,7 +263,7 @@ class ResCompany(models.Model):
 
         # Processa cada tipo de operação do S-1000 (Inclusão / Alteração / Exclusão)
         # O que realmente precisará ser feito é tratado no método do registro intermediário
-        self.sped_empregador_id.atualiza_esocial()
+        self.sped_empregador_id.atualizar_esocial()
 
         # TODO Incluir registro S-1005 aqui
 
