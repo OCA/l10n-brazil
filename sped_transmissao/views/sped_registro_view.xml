@@ -12,6 +12,8 @@
                         <button name="gera_xml" type="object" string="Transmitir" class="oe_highlight"
                                 attrs="{'invisible': ['|', ('situacao', 'in', ['2', '4']), ('transmissao_lote', '=', True)]}"
                         />
+                        <button name="transmitir_lote" type="object" string="Transmitir" class="oe_highlight"
+                                attrs="{'invisible': [('situacao', 'in', ['2', '4'])]}" />
                         <button name="limpa_db" type="object" string="Limpar DB" class="oe_highlight"
                                 attrs="{'invisible': ['|', '|', ('registro', 'not in', ['R-1000', 'S-1000']), ('ambiente', '!=', '2'), ('situacao', 'in', ['1', '2'])]}"
                         />
@@ -22,7 +24,7 @@
                                 attrs="{'invisible': ['|', '|', ('tipo', '!=', 'esocial'), '|', ('situacao', '!=', '2'), ('transmissao_lote', '=', True)]}"
                         />
                         <button name="consulta_lote" type="object" string="Consultar Resultado" class="oe_highlight"
-                                attrs="{'invisible': ['|', ('situacao', '!  =', '2'), ('transmissao_lote', '!=', True)]}" />
+                                attrs="{'invisible': ['|', ('situacao', '!=', '2'), ('transmissao_lote', '!=', True)]}" />
                         <field name="situacao" widget="statusbar" select="1"
                                nolabel="1"
                                readonly="1"

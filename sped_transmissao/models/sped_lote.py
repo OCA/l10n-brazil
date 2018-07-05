@@ -318,14 +318,14 @@ class SpedLote(models.Model, ):
                     registro.situacao = '1'
 
             # Atualiza o XML de Fechamento (retorno da consulta)
-            if registro.fechamento_xml_id:
-                fechamento = registro.fechamento_xml_id
-                registro.fechamento_xml_id = False
-                fechamento.unlink()
-            fechamento_xml = evento.xml
-            fechamento_xml_nome = registro.id_evento + '-consulta.xml'
-            anexo_id = self._grava_anexo(fechamento_xml_nome, fechamento_xml)
-            registro.fechamento_xml_id = anexo_id
+            if registro.consulta_xml_id:
+                consulta = registro.consulta_xml_id
+                registro.consulta_xml_id = False
+                consulta.unlink()
+            consulta_xml = evento.xml
+            consulta_xml_nome = registro.id_evento + '-consulta.xml'
+            anexo_id = self._grava_anexo(consulta_xml_nome, consulta_xml)
+            registro.consulta_xml_id = anexo_id
 
     # Transmite todos os registros contidos neste lote
     @api.multi

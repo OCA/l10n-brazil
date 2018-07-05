@@ -208,7 +208,7 @@ class SpedLoteWizard(models.TransientModel):
     registro_ids = fields.Many2many(
         string='Registros',
         comodel_name='sped.registro',
-        relation='criacao_transmissao_rel',
+        relation='criacao_registro_rel',
     )
     quantidade = fields.Integer(
         string='Quantidade',
