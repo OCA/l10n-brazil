@@ -17,17 +17,25 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         string='name',
         compute='_compute_display_name'
     )
+    company_id = fields.Many2one(
+        string='Empresa',
+        comodel_name='res.company',
+    )
     sped_hr_rescisao_id = fields.Many2one(
         string="Rescisão Trabalhista",
         comodel_name="hr.payslip",
         required=True,
     )
-    sped_s2200_registro = fields.Many2one(
+    sped_s2200_registro_inclusao = fields.Many2one(
         string='Registro S-1050',
         comodel_name='sped.registro',
     )
+    sped_s2200_registro_retificacao = fields.Many2many(
+        string='Registro S-1050 - Retificação',
+        comodel_name='sped.registro',
+    )
     situacao_s2200 = fields.Selection(
-        string="Situação S-1050",
+        string='Situação no e-Social',
         selection=[
             ('1', 'Pendente'),
             ('2', 'Transmitida'),
@@ -35,8 +43,12 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
             ('4', 'Sucesso'),
             ('5', 'Precisa Retificar'),
         ],
-        related="sped_s2200_registro.situacao",
+        compute="compute_situacao_esocial",
         readonly=True,
+    )
+    ultima_atualizacao = fields.Datetime(
+        string='Data da última atualização',
+        compute='compute_ultima_atualizacao',
     )
     pagamento_pensao = fields.Boolean(
         string='Funcionário paga pensão?',
@@ -60,6 +72,47 @@ class SpedHrRescisao(models.Model, SpedRegistroIntermediario):
         string='Valor da Pensão',
         help='e-Social: S2299 - vrAlim'
     )
+
+    @api.depends('sped_s2200_registro_inclusao',
+                 'sped_s2200_registro_retificacao')
+    def compute_ultima_atualizacao(self):
+
+        # Roda todos os registros da lista
+        for desligamento in self:
+
+            # Inicia a última atualização com a data/hora now()
+            ultima_atualizacao = fields.Datetime.now()
+
+            # Se tiver o registro de inclusão, pega a data/hora de origem
+            if desligamento.sped_s2200_registro_inclusao and \
+                    desligamento.sped_s2200_registro_inclusao.situacao == '4':
+                ultima_atualizacao = \
+                    desligamento.sped_s2200_registro_inclusao.data_hora_origem
+
+            # Se tiver alterações, pega a data/hora de origem da última alteração
+            for retificacao in desligamento.sped_s2200_registro_retificacao:
+                if retificacao.situacao == '4':
+                    if retificacao.data_hora_origem > ultima_atualizacao:
+                        ultima_atualizacao = retificacao.data_hora_origem
+
+            # Popula o campo na tabela
+            desligamento.ultima_atualizacao = ultima_atualizacao
+
+    @api.depends('sped_s2200_registro_inclusao',
+                 'sped_s2200_registro_retificacao')
+    def compute_situacao_esocial(self):
+        for desligamento in self:
+            situacao_esocial = '1'
+
+            if desligamento.sped_s2200_registro_inclusao:
+                situacao_esocial = \
+                    desligamento.sped_s2200_registro_inclusao.situacao
+
+            for retificao in desligamento.sped_s2200_registro_retificacao:
+                situacao_esocial = retificao.situacao
+
+            # Popula na tabela
+            desligamento.situacao_esocial = situacao_esocial
 
     @api.multi
     def _compute_display_name(self):
