@@ -32,6 +32,5 @@ from . import inherited_hr_payslip
 
 from . import sped_esocial
 from . import sped_esocial_estabelecimento
-from . import sped_esocial_cargo
 from . import esocial_turnos_trabalho
 from . import intermediarios

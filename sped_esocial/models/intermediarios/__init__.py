@@ -8,4 +8,5 @@ from . import s1000_informacoes_do_empregador_contribuinte_orgao_publico
 from . import s1005_estabelecimentos_obras_unidades_orgaos_publicos
 from . import s1010_rubrica
 from . import s1020_lotacao_tributaria
+from . import s1030_cargos_empregos_publicos
 from . import s2299_desligamento
