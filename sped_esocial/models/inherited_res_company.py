@@ -265,33 +265,31 @@ class ResCompany(models.Model):
         # O que realmente precisará ser feito é tratado no método do registro intermediário
         self.sped_empregador_id.atualizar_esocial()
 
-        # TODO Incluir registro S-1005 aqui
+        # Se o registro intermediário do S-1005 não existe, criá-lo
+        if not self.sped_estabelecimento_id:
+            self.sped_estabelecimento_id = \
+                self.env['sped.estabelecimentos'].create({'company_id': self.id})
 
-    # Último envio da Tabela de Estabelecimentos, Obras ou Unidades de Órgãos Públicos (Registro S-1005)
-    sped_s1005 = fields.Boolean(
-        string='(S-1005) Tabela de Estabelecimentos',
-        compute='_compute_sped_s1005',
+        # Processa cada tipo de operação do S-1000 (Inclusão / Alteração / Exclusão)
+        # O que realmente precisará ser feito é tratado no método do registro intermediário
+        self.sped_estabelecimento_id.atualiza_esocial()
+
+    sped_estabelecimento_id = fields.Many2one(
+        string='SPED Estabelecimento',
+        comodel_name='sped.estabelecimentos',
     )
-    sped_s1005_registro = fields.Many2one(
-        string='(S-1005) - Tabela de Estabelecimentos',
-        comodel_name='sped.registro',
-    )
-    sped_s1005_situacao = fields.Selection(
-        string='Situação S-1005',
+    situacao_estabelecimento_esocial = fields.Selection(
         selection=[
-            ('1', 'Pendente'),
-            ('2', 'Transmitida'),
-            ('3', 'Erro(s)'),
-            ('4', 'Sucesso'),
+            ('0', 'Inativa'),
+            ('1', 'Ativa'),
+            ('2', 'Precisa Atualizar'),
+            ('3', 'Aguardando Transmissão'),
+            ('9', 'Finalizada'),
         ],
-        related='sped_s1005_registro.situacao',
+        string='Situação no e-Social',
+        related='sped_estabelecimento_id.situacao_esocial',
         readonly=True,
     )
-
-    @api.depends('sped_s1005_registro')
-    def _compute_sped_s1005(self):
-        for empresa in self:
-            empresa.sped_s1005 = True if empresa.sped_s1005_registro else False
 
     @api.multi
     def processador_esocial(self):
