@@ -55,6 +55,7 @@
         # Intermediarios
         'views/intermediarios/s1000_informacoes_do_empregador_contribuinte_orgao_publico.xml',
         'views/intermediarios/s1005_estabelecimentos_obras_unidades_orgaos_publicos.xml',
+        'views/intermediarios/s2299_desligamento_view.xml',
 
         # Segurança
         # 'security/ir.model.access.csv',
