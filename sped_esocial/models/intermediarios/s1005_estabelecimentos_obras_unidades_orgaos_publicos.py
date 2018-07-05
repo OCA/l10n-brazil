@@ -186,7 +186,7 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
                 'operacao': 'I',
                 'evento': 'evtTabEstab',
                 'origem': ('res.company,%s' % self.company_id.id),
-                'origem_intermediario': ('sped.estabelecimento,%s' % self.id),
+                'origem_intermediario': ('sped.estabelecimentos,%s' % self.id),
             }
 
             sped_inclusao = self.env['sped.registro'].create(values)
@@ -202,7 +202,7 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
                 'operacao': 'A',
                 'evento': 'evtTabEstab',
                 'origem': ('res.company,%s' % self.comapny_id.id),
-                'origem_intermediario': ('sped.estabelecimento,%s' % self.id),
+                'origem_intermediario': ('sped.estabelecimentos,%s' % self.id),
             }
 
             sped_atualizacao = self.env['sped.registro'].create(values)
@@ -218,7 +218,7 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
                 'operacao': 'E',
                 'evento': 'evtTabEstab',
                 'origem': ('res.company,%s' % self.company_id.id),
-                'origem_intermediario': ('sped.estabelecimento,%s' % self.id),
+                'origem_intermediario': ('sped.estabelecimentos,%s' % self.id),
             }
 
             sped_exclusao = self.env['sped.registro'].create(values)
