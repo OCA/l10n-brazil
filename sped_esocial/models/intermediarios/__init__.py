@@ -7,3 +7,4 @@ from . import s2299_desligamento
 from . import s1000_informacoes_do_empregador_contribuinte_orgao_publico
 from . import s1050_turnos_trabalho
 from . import s1005_estabelecimentos_obras_unidades_orgaos_publicos
+from . import s1010_rubrica
