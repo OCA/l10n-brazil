@@ -2,11 +2,11 @@
 <openerp>
     <data>
 
-        <record id="sped_esocial_s1000_form" model="ir.ui.view">
-            <field name="name">e-Social S-1000</field>
-            <field name="model">sped.empregador</field>
+        <record id="sped_esocial_s1005_form" model="ir.ui.view">
+            <field name="name">e-Social S-1005</field>
+            <field name="model">sped.estabelecimentos</field>
             <field name="arch" type="xml">
-                <form string="e-Social - Registro S-1000" edit="false" delete="false" create="false" duplicate="false">
+                <form string="e-Social - Registro S-1005" edit="false" delete="false" create="false" duplicate="false">
                     <header>
                         <button name="atualizar_esocial" colspan="4" type="object"
                                 string="Ativar/Atualizar e-Social" class="oe_highlight"
@@ -39,20 +39,20 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="sped_esocial_s1000_tree">
-            <field name="name">S-1000 (Empregador)</field>
-            <field name="model">sped.empregador</field>
+        <record model="ir.ui.view" id="sped_esocial_s1005_tree">
+            <field name="name">S-1005 (Estabelecimento)</field>
+            <field name="model">sped.estabelecimentos</field>
             <field name="arch" type="xml">
-                <tree string="S-1000 (Empregador)" duplicate="false" edit="false" delete="false" create="false">
+                <tree string="S-1005 (Empregador)" duplicate="false" edit="false" delete="false" create="false">
                     <field name="company_id"/>
                     <field name="situacao_esocial"/>
                 </tree>
             </field>
         </record>
 
-        <record id="sped_esocial_s1000_search" model="ir.ui.view">
-            <field name="name">S-1000 (Empregador)</field>
-            <field name="model">sped.empregador</field>
+        <record id="sped_esocial_s1005_search" model="ir.ui.view">
+            <field name="name">S-1005 (Estabelecimento)</field>
+            <field name="model">sped.estabelecimentos</field>
             <field name="arch" type="xml">
                 <search string="S-1000 (Empregador)">
                     <field name="company_id" />
@@ -60,32 +60,32 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="sped_esocial_s1000_action">
-            <field name="name">S-1000 (Empregador)</field>
+        <record model="ir.actions.act_window" id="sped_esocial_s1005_action">
+            <field name="name">S-1005 (Estabelecimento)</field>
             <field name="domain">[]</field>
-            <field name="res_model">sped.empregador</field>
+            <field name="res_model">sped.estabelecimentos</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
-        <record model="ir.actions.act_window.view" id="sped_esocial_s1000_form_acao">
+        <record model="ir.actions.act_window.view" id="sped_esocial_s1005_form_acao">
             <field eval="2" name="sequence"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="sped_esocial_s1000_form"/>
-            <field name="act_window_id" ref="sped_esocial_s1000_action"/>
+            <field name="view_id" ref="sped_esocial_s1005_form"/>
+            <field name="act_window_id" ref="sped_esocial_s1005_action"/>
         </record>
 
-        <record model="ir.actions.act_window.view" id="sped_esocial_s1000_tree_acao">
+        <record model="ir.actions.act_window.view" id="sped_esocial_s1005_tree_acao">
             <field eval="1" name="sequence"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="sped_esocial_s1000_tree"/>
-            <field name="act_window_id" ref="sped_esocial_s1000_action"/>
+            <field name="view_id" ref="sped_esocial_s1005_tree"/>
+            <field name="act_window_id" ref="sped_esocial_s1005_action"/>
         </record>
 
-        <menuitem id="menu_sped_esocial_s1000"
-                  name="S-1000 (Empregador)"
-                  sequence="1000"
-                  action="sped_esocial.sped_esocial_s1000_action"
+        <menuitem id="menu_sped_esocial_s10050"
+                  name="S-1005 (Estabelecimento)"
+                  sequence="1005"
+                  action="sped_esocial.sped_esocial_s1005_action"
                   parent="sped_esocial.menu_sped_esocial_intermediarios"
         />
 

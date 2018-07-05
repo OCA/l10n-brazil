@@ -76,11 +76,22 @@
                                 <field name="info_ent_educ_ids" />
                             </group>
                             <group colspan="2" col="2">
-                                <field name="situacao_estabelecimento_esocial" attrs="{'invisible': [('situacao_esocial', '=', False)]}" />
+                                <field name="estabelecimento_periodo_inicial_id"
+                                       options="{'no_create': True, 'no_open': True}"
+                                />
+                                <field name="estabelecimento_periodo_atualizacao_id"
+                                       options="{'no_create': True, 'no_open': True}"
+                                />
+                                <field name="estabelecimento_periodo_final_id"
+                                       options="{'no_create': True, 'no_open': True}"
+                                />
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="situacao_estabelecimento_esocial" attrs="{'invisible': [('situacao_estabelecimento_esocial', '=', False)]}" />
                                 <field name="sped_estabelecimento_id" invisible="1" />
-                                <button name="atualizar_esocial" colspan="4" type="object"
-                                        string="Ativar/Atualizar e-Social"
-                                        attrs="{'invisible': ['|', ('situacao_estabelecimento_esocial', 'in', ['1', '3', '9']), ('sped_estabelecimento_id', '=', False)]}" />
+                                <button name="atualizar_estabelecimento" colspan="4" type="object"
+                                        string="Ativar/Atualizar e-Social" class="oe_highlight"
+                                        attrs="{'invisible': ['|', ('situacao_estabelecimento_esocial', 'in', ['1', '3', '9']), ('estabelecimento_periodo_inicial_id', '=', False)]}" />
                             </group>
                         </group>
                     </page>

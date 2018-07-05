@@ -46,7 +46,7 @@
         'views/inherited_hr_salary_rule.xml',
         'views/inherited_hr_job.xml',
         'views/inherited_hr_contract.xml',
-	    'views/esocial_turnos_trabalho_view.xml',
+        'views/esocial_turnos_trabalho_view.xml',
         'views/inherited_resource_calendar_attendance.xml',
         'views/inherited_hr_employee.xml',
         'views/inherited_res_partner.xml',
@@ -54,6 +54,7 @@
 
         # Intermediarios
         'views/intermediarios/s1000_informacoes_do_empregador_contribuinte_orgao_publico.xml',
+        'views/intermediarios/s1005_estabelecimentos_obras_unidades_orgaos_publicos.xml',
 
         # Segurança
         # 'security/ir.model.access.csv',

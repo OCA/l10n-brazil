@@ -4,6 +4,7 @@
 
 import pysped
 from openerp import api, fields, models
+from openerp.exceptions import ValidationError
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 from pybrasil.valor import formata_valor
 
@@ -59,86 +60,86 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
 
     @api.depends('sped_inclusao', 'sped_exclusao')
     def compute_situacao_esocial(self):
-        for empregador in self:
+        for estabelecimento in self:
             situacao_esocial = '0'  # Inativa
 
-            # Se a empresa possui um registro de inclusão confirmado e
+            # Se o estabelecimento possui um registro de inclusão confirmado e
             # não precisa atualizar nem excluir então ela está Ativa
-            if empregador.sped_inclusao and \
-                    empregador.sped_inclusao.situacao == '4':
-                if not empregador.precisa_atualizar and not \
-                        empregador.precisa_excluir:
+            if estabelecimento.sped_inclusao and \
+                    estabelecimento.sped_inclusao.situacao == '4':
+                if not estabelecimento.precisa_atualizar and not \
+                        estabelecimento.precisa_excluir:
                     situacao_esocial = '1'
                 else:
                     situacao_esocial = '2'
 
                 # Se já possui um registro de exclusão confirmado, então
                 # é situação é Finalizada
-                if empregador.sped_exclusao and \
-                        empregador.sped_exclusao.situacao == '4':
+                if estabelecimento.sped_exclusao and \
+                        estabelecimento.sped_exclusao.situacao == '4':
                     situacao_esocial = '9'
 
             # Se a empresa possui algum registro que esteja em fase de
             # transmissão então a situação é Aguardando Transmissão
-            if empregador.sped_inclusao and \
-                    empregador.sped_inclusao.situacao != '4':
+            if estabelecimento.sped_inclusao and \
+                    estabelecimento.sped_inclusao.situacao != '4':
                 situacao_esocial = '3'
-            if empregador.sped_exclusao and \
-                    empregador.sped_exclusao.situacao != '4':
+            if estabelecimento.sped_exclusao and \
+                    estabelecimento.sped_exclusao.situacao != '4':
                 situacao_esocial = '3'
-            for alteracao in empregador.sped_alteracao:
+            for alteracao in estabelecimento.sped_alteracao:
                 if alteracao.situacao != '4':
                     situacao_esocial = '3'
 
             # Popula na tabela
-            empregador.situacao_esocial = situacao_esocial
+            estabelecimento.situacao_esocial = situacao_esocial
 
     @api.depends('sped_inclusao',
                  'sped_alteracao', 'sped_alteracao.situacao',
                  'sped_exclusao',
-                 'company_id.esocial_periodo_inicial_id',
-                 'company_id.esocial_periodo_final_id')
+                 'company_id.estabelecimento_periodo_inicial_id',
+                 'company_id.estabelecimento_periodo_final_id')
     def compute_precisa_enviar(self):
 
         # Roda todos os registros da lista
-        for empregador in self:
+        for estabelecimento in self:
 
             # Inicia as variáveis como False
             precisa_incluir = False
             precisa_atualizar = False
             precisa_excluir = False
 
-            # Se a empresa matriz tem um período inicial definido e não
-            # tem um registro S1000 de inclusão # confirmado,
+            # Se a empresa filial tem um período inicial definido e não
+            # tem um registro S1005 de inclusão # confirmado,
             # então precisa incluir
-            if empregador.company_id.esocial_periodo_inicial_id:
-                if not empregador.sped_inclusao or \
-                        empregador.sped_inclusao.situacao != '4':
+            if estabelecimento.company_id.estabelecimento_periodo_inicial_id:
+                if not estabelecimento.sped_inclusao or \
+                        estabelecimento.sped_inclusao.situacao != '4':
                     precisa_incluir = True
 
             # Se a empresa já tem um registro de inclusão confirmado mas a
             # data da última atualização é menor que a o write_date da empresa,
             # então precisa atualizar
-            if empregador.sped_inclusao and \
-                    empregador.sped_inclusao.situacao == '4':
-                if empregador.ultima_atualizacao < \
-                        empregador.company_id.write_date:
+            if estabelecimento.sped_inclusao and \
+                    estabelecimento.sped_inclusao.situacao == '4':
+                if estabelecimento.ultima_atualizacao < \
+                        estabelecimento.company_id.write_date:
                     precisa_atualizar = True
 
             # Se a empresa já tem um registro de inclusão confirmado, tem um
             # período final definido e não tem um
             # registro de exclusão confirmado, então precisa excluir
-            if empregador.sped_inclusao and \
-                    empregador.sped_inclusao.situacao == '4':
-                if empregador.company_id.esocial_periodo_final_id:
-                    if not empregador.sped_exclusao or \
-                            empregador.sped_exclusao != '4':
+            if estabelecimento.sped_inclusao and \
+                    estabelecimento.sped_inclusao.situacao == '4':
+                if estabelecimento.company_id.estabelecimento_periodo_final_id:
+                    if not estabelecimento.sped_exclusao or \
+                            estabelecimento.sped_exclusao != '4':
                         precisa_excluir = True
 
             # Popula os campos na tabela
-            empregador.precisa_incluir = precisa_incluir
-            empregador.precisa_atualizar = precisa_atualizar
-            empregador.precisa_excluir = precisa_excluir
+            estabelecimento.precisa_incluir = precisa_incluir
+            estabelecimento.precisa_atualizar = precisa_atualizar
+            estabelecimento.precisa_excluir = precisa_excluir
 
     @api.depends('sped_inclusao',
                  'sped_alteracao', 'sped_alteracao.situacao',
@@ -146,43 +147,45 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
     def compute_ultima_atualizacao(self):
 
         # Roda todos os registros da lista
-        for empregador in self:
+        for estabelecimento in self:
 
             # Inicia a última atualização com a data/hora now()
             ultima_atualizacao = fields.Datetime.now()
 
             # Se tiver o registro de inclusão, pega a data/hora de origem
-            if empregador.sped_inclusao and \
-                    empregador.sped_inclusao.situacao == '4':
-                ultima_atualizacao = empregador.sped_inclusao.data_hora_origem
+            if estabelecimento.sped_inclusao and \
+                    estabelecimento.sped_inclusao.situacao == '4':
+                ultima_atualizacao = estabelecimento.sped_inclusao.data_hora_origem
 
             # Se tiver alterações, pega a data/hora de
             # origem da última alteração
-            for alteracao in empregador.sped_alteracao:
+            for alteracao in estabelecimento.sped_alteracao:
                 if alteracao.situacao == '4':
                     if alteracao.data_hora_origem > ultima_atualizacao:
                         ultima_atualizacao = alteracao.data_hora_origem
 
             # Se tiver exclusão, pega a data/hora de origem da exclusão
-            if empregador.sped_exclusao and \
-                    empregador.sped_exclusao.situacao == '4':
-                ultima_atualizacao = empregador.sped_exclusao.data_hora_origem
+            if estabelecimento.sped_exclusao and \
+                    estabelecimento.sped_exclusao.situacao == '4':
+                ultima_atualizacao = estabelecimento.sped_exclusao.data_hora_origem
 
             # Popula o campo na tabela
-            empregador.ultima_atualizacao = ultima_atualizacao
+            estabelecimento.ultima_atualizacao = ultima_atualizacao
 
     # Roda a atualização do e-Social (não transmite ainda)
     @api.multi
-    def atualiza_esocial(self):
+    def atualizar_esocial(self):
         self.ensure_one()
 
-        # Criar o registro S-1000 de inclusão, se for necessário
+        matriz = self.company_id if self.company_id.eh_empresa_base else self.company_id.matriz
+
+        # Criar o registro S-1005 de inclusão, se for necessário
         if self.precisa_incluir:
             values = {
                 'tipo': 'esocial',
                 'registro': 'S-1005',
-                'ambiente': self.company_id.esocial_tpAmb,
-                'company_id': self.company_id.id,
+                'ambiente': matriz.esocial_tpAmb,
+                'company_id': matriz.id,
                 'operacao': 'I',
                 'evento': 'evtTabEstab',
                 'origem': ('res.company,%s' % self.company_id.id),
@@ -192,13 +195,13 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
             sped_inclusao = self.env['sped.registro'].create(values)
             self.sped_inclusao = sped_inclusao
 
-        # Criar o registro S-1000 de alteração, se for necessário
+        # Criar o registro S-1005 de alteração, se for necessário
         if self.precisa_atualizar:
             values = {
                 'tipo': 'esocial',
                 'registro': 'S-1005',
-                'ambiente': self.company_id.esocial_tpAmb,
-                'company_id': self.company_id.id,
+                'ambiente': matriz.esocial_tpAmb,
+                'company_id': matriz.id,
                 'operacao': 'A',
                 'evento': 'evtTabEstab',
                 'origem': ('res.company,%s' % self.comapny_id.id),
@@ -206,15 +209,15 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
             }
 
             sped_atualizacao = self.env['sped.registro'].create(values)
-            self.sped_atualizacao = [(4, sped_atualizacao.id)]
+            self.sped_alteracao = [(4, sped_atualizacao.id)]
 
-        # Criar o registro S-1000 de exclusão, se for necessário
+        # Criar o registro S-1005 de exclusão, se for necessário
         if self.precisa_excluir:
             values = {
                 'tipo': 'esocial',
                 'registro': 'S-1005',
-                'ambiente': self.company_id.esocial_tpAmb,
-                'company_id': self.company_id.id,
+                'ambiente': matriz.esocial_tpAmb,
+                'company_id': matriz.id,
                 'operacao': 'E',
                 'evento': 'evtTabEstab',
                 'origem': ('res.company,%s' % self.company_id.id),
@@ -225,14 +228,15 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
             self.sped_exclusao = sped_exclusao
 
     @api.multi
-    def popula_xml(self):
+    def popula_xml(self, ambiente='2', operacao='I'):
         # Cria o registro
         S1005 = pysped.esocial.leiaute.S1005_2()
 
         # Popula ideEvento
         S1005.tpInsc = '1'
         S1005.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
-        S1005.evento.ideEvento.tpAmb.valor = int(self.ambiente)
+        S1005.evento.ideEvento.tpAmb.valor = int(ambiente)
+
         # Processo de Emissão = Aplicativo do Contribuinte
         S1005.evento.ideEvento.procEmi.valor = '1'
         S1005.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
@@ -242,22 +246,52 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
         S1005.evento.ideEmpregador.nrInsc.valor = limpa_formatacao(
             self.company_id.cnpj_cpf)[0:8]
 
+        # Popula a operação que será realizada com esse registro
+        S1005.evento.infoEstab.operacao = operacao
+
         # Popula infoEstab (Informações do Estabelecimentou o Obra)
-        # Inclusão TODO lidar com alteração e exclusão
-        S1005.evento.infoEstab.operacao = 'I'
         S1005.evento.infoEstab.ideEstab.tpInsc.valor = '1'
         S1005.evento.infoEstab.ideEstab.nrInsc.valor = limpa_formatacao(
-            self.origem.estabelecimento_id.cnpj_cpf)
+            self.company_id.cnpj_cpf)
+
         S1005.evento.infoEstab.ideEstab.iniValid.valor = \
-            self.origem.esocial_id.periodo_id.code[3:7] + '-' + \
-            self.origem.esocial_id.periodo_id.code[0:2]
+            self.company_id.estabelecimento_periodo_inicial_id.code[3:7] + '-' + \
+            self.company_id.estabelecimento_periodo_inicial_id.code[0:2]
+
         S1005.evento.infoEstab.dadosEstab.cnaePrep.valor = limpa_formatacao(
-            self.origem.estabelecimento_id.cnae_main_id.code)
+            self.company_id.cnae_main_id.code)
+
+        # Se for operacao=='A' (Alteração) Popula idePeriodo usando company_id.periodo_atualizacao_id
+        if operacao == 'A':
+
+            # Se o campo periodo_atualizacao_id não estiver preenchido, retorne erro de dados para o usuário
+            if not self.company_id.estabelecimento_periodo_atualizacao_id:
+                raise ValidationError("O campo 'Período da Última Atualização' no Estabelecimento não está preenchido !")
+
+            # Popula infoEstab.novaValidade
+            S1005.evento.infoEstab.novaValidade.iniValid.valor = \
+                self.company_id.estabelecimento_periodo_atualizacao_id.code[3:7] + '-' + \
+                self.company_id.estabelecimento_periodo_atualizacao_id.code[0:2]
+
+        # Se for operacao=='E' (Exclusão) Popula idePeriodo usando
+        if operacao == 'E':
+
+            # Se o campo periodo_exclusao_id não estiver preenchido, retorne erro de dados para o usuário
+            if not self.company_id.estabelecimento_periodo_final_id:
+                raise ValidationError("O campo 'Período Final' no Estabelecimento não está preenchido !")
+
+            # Popula infoEmpregador.idePeriodo.fimValid
+            S1005.evento.infoEstab.novaValidade.fimValid.valor = \
+                self.company_id.estabelecimento_periodo_final_id.code[3:7] + '-' + \
+                self.company_id.estabelecimento_periodo_final_id.code[0:2]
 
         # Localiza o percentual de RAT e FAP para esta empresa neste período
-        ano = self.origem.esocial_id.periodo_id.fiscalyear_id.code
+        if self.company_id.estabelecimento_periodo_atualizacao_id:
+            ano = self.company_id.estabelecimento_periodo_atualizacao_id.fiscalyear_id.code
+        else:
+            ano = self.company_id.estabelecimento_periodo_inicial_id.fiscalyear_id.code
         domain = [
-            ('company_id', '=', self.origem.estabelecimento_id.id),
+            ('company_id', '=', self.company_id.id),
             ('year', '=', int(ano)),
         ]
         rat_fap = self.env['l10n_br.hr.rat.fap'].search(domain)
@@ -274,31 +308,31 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
             formata_valor(rat_fap.rat_rate * rat_fap.fap_rate)
 
         # Popula infoCaepf
-        if self.origem.estabelecimento_id.tp_caepf:
+        if self.company_id.tp_caepf:
             S1005.evento.infoEstab.dadosEstab.infoCaepf.tpCaepf.valor = int(
-                self.origem.estabelecimento_id.tp_caepf)
+                self.company_id.tp_caepf)
 
         # Popula infoTrab
         S1005.evento.infoEstab.dadosEstab.infoTrab.regPt.valor = \
-            self.origem.estabelecimento_id.reg_pt
+            self.company_id.reg_pt
 
         # Popula infoApr
         S1005.evento.infoEstab.dadosEstab.infoTrab.infoApr.contApr.valor = \
-            self.origem.estabelecimento_id.cont_apr
+            self.company_id.cont_apr
         S1005.evento.infoEstab.dadosEstab.infoTrab.infoApr.contEntEd.valor = \
-            self.origem.estabelecimento_id.cont_ent_ed
+            self.company_id.cont_ent_ed
 
         # Popula infoEntEduc
-        for entidade in self.origem.estabelecimento_id.info_ent_educ_ids:
+        for entidade in self.company_id.info_ent_educ_ids:
             info_ent_educ = pysped.esocial.leiaute.InfoEntEduc_2()
             info_ent_educ.nrInsc = limpa_formatacao(entidade.cnpj_cpf)
             S1005.evento.infoEstab.dadosEstab.infoTrab.infoApr.infoEntEduc\
                 .append(info_ent_educ)
 
         # Popula infoPCD
-        if self.origem.estabelecimento_id.cont_pcd:
+        if self.company_id.cont_pcd:
             S1005.evento.infoEstab.dadosEstab.infoTrab.infoPCD.contPCD = \
-                self.origem.estabelecimento_id.cont_pcd
+                self.company_id.cont_pcd
 
         return S1005
 

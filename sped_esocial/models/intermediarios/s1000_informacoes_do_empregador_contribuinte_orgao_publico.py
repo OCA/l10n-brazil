@@ -243,65 +243,63 @@ class SpedEmpregador(models.Model, SpedRegistroIntermediario):
 
         # Popula infoEmpregador.idePeriodo
         S1000.evento.infoEmpregador.idePeriodo.iniValid.valor = \
-            self.company_id.esocial_periodo_inicial_id.code[3:7] + '-' + \
-            self.company_id.esocial_periodo_inicial_id.code[0:2]
+            self.origem.esocial_periodo_inicial_id.code[3:7] + '-' + \
+            self.origem.esocial_periodo_inicial_id.code[0:2]
 
         # Se for operacao=='A' (Alteração) Popula idePeriodo usando company_id.periodo_atualizacao_id
         if operacao == 'A':
 
             # Se o campo periodo_atualizacao_id não estiver preenchido, retorne erro de dados para o usuário
-            if not self.company_id.esocial_periodo_atualizacao_id:
+            if not self.origem.esocial_periodo_atualizacao_id:
                 raise ValidationError("O campo 'Período da Última Atualização' na Empresa não está preenchido !")
 
             # Popula infoEmpregador.novaValidade
             S1000.evento.infoEmpregador.novaValidade.iniValid.valor = \
-                self.company_id.esocial_periodo_atualizacao_id.code[3:7] + '-' + \
-                self.company_id.esocial_periodo_atualizacao_id.code[0:2]
-
-            # Popula
+                self.origem.esocial_periodo_atualizacao_id.code[3:7] + '-' + \
+                self.origem.esocial_periodo_atualizacao_id.code[0:2]
 
         # Se for operacao=='E' (Exclusão) Popula idePeriodo usando
         if operacao == 'E':
 
             # Se o campo periodo_exclusao_id não estiver preenchido, retorne erro de dados para o usuário
-            if not self.company_id.esocial_periodo_final_id:
+            if not self.origem.esocial_periodo_final_id:
                 raise ValidationError("O campo 'Período Final' na Empresa não está preenchido !")
 
             # Popula infoEmpregador.idePeriodo.fimValid
             S1000.evento.infoEmpregador.idePeriodo.fimValid.valor = \
-                self.company_id.esocial_periodo_final_id.code[3:7] + '-' + \
-                self.company_id.esocial_periodo_final_id.code[0:2]
+                self.origem.esocial_periodo_final_id.code[3:7] + '-' + \
+                self.origem.esocial_periodo_final_id.code[0:2]
 
         # Popula infoEmpregador.InfoCadastro
-        S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = self.company_id.legal_name
-        S1000.evento.infoEmpregador.infoCadastro.classTrib.valor = self.company_id.classificacao_tributaria_id.codigo
+        S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = self.origem.legal_name
+        S1000.evento.infoEmpregador.infoCadastro.classTrib.valor = self.origem.classificacao_tributaria_id.codigo
         S1000.evento.infoEmpregador.infoCadastro.natJurid.valor = limpa_formatacao(
-            self.company_id.natureza_juridica_id.codigo)
-        S1000.evento.infoEmpregador.infoCadastro.indCoop.valor = self.company_id.ind_coop
-        S1000.evento.infoEmpregador.infoCadastro.indConstr.valor = self.company_id.ind_constr
-        S1000.evento.infoEmpregador.infoCadastro.indDesFolha.valor = self.company_id.ind_desoneracao
-        S1000.evento.infoEmpregador.infoCadastro.indOptRegEletron.valor = self.company_id.ind_opt_reg_eletron
-        S1000.evento.infoEmpregador.infoCadastro.indEntEd.valor = self.company_id.ind_ent_ed
-        S1000.evento.infoEmpregador.infoCadastro.indEtt.valor = self.company_id.ind_ett
-        if self.company_id.nr_reg_ett:
-            S1000.evento.infoEmpregador.infoCadastro.nrRegEtt.valor = self.company_id.nr_reg_ett
+            self.origem.natureza_juridica_id.codigo)
+        S1000.evento.infoEmpregador.infoCadastro.indCoop.valor = self.origem.ind_coop
+        S1000.evento.infoEmpregador.infoCadastro.indConstr.valor = self.origem.ind_constr
+        S1000.evento.infoEmpregador.infoCadastro.indDesFolha.valor = self.origem.ind_desoneracao
+        S1000.evento.infoEmpregador.infoCadastro.indOptRegEletron.valor = self.origem.ind_opt_reg_eletron
+        S1000.evento.infoEmpregador.infoCadastro.indEntEd.valor = self.origem.ind_ent_ed
+        S1000.evento.infoEmpregador.infoCadastro.indEtt.valor = self.origem.ind_ett
+        if self.origem.nr_reg_ett:
+            S1000.evento.infoEmpregador.infoCadastro.nrRegEtt.valor = self.origem.nr_reg_ett
         if self.limpar_db:
             S1000.evento.infoEmpregador.infoCadastro.nmRazao.valor = 'RemoverEmpregadorDaBaseDeDadosDaProducaoRestrita'
             S1000.evento.infoEmpregador.infoCadastro.classTrib.valor = '00'
 
         # Popula infoEmpregador.Infocadastro.contato
-        S1000.evento.infoEmpregador.infoCadastro.contato.nmCtt.valor = self.company_id.esocial_nm_ctt
-        S1000.evento.infoEmpregador.infoCadastro.contato.cpfCtt.valor = self.company_id.esocial_cpf_ctt
+        S1000.evento.infoEmpregador.infoCadastro.contato.nmCtt.valor = self.origem.esocial_nm_ctt
+        S1000.evento.infoEmpregador.infoCadastro.contato.cpfCtt.valor = self.origem.esocial_cpf_ctt
         S1000.evento.infoEmpregador.infoCadastro.contato.foneFixo.valor = limpa_formatacao(
-            self.company_id.esocial_fone_fixo)
-        if self.company_id.esocial_fone_cel:
+            self.origem.esocial_fone_fixo)
+        if self.origem.esocial_fone_cel:
             S1000.evento.infoEmpregador.infoCadastro.contato.foneCel.valor = limpa_formatacao(
-                self.company_id.esocial_fone_cel)
-        if self.company_id.esocial_email:
-            S1000.evento.infoEmpregador.infoCadastro.contato.email.valor = self.company_id.esocial_email
+                self.origem.esocial_fone_cel)
+        if self.origem.esocial_email:
+            S1000.evento.infoEmpregador.infoCadastro.contato.email.valor = self.origem.esocial_email
 
         # Popula infoEmpregador.infoCadastro.infoComplementares.situacaoPJ
-        S1000.evento.infoEmpregador.infoCadastro.indSitPJ.valor = self.company_id.ind_sitpj
+        S1000.evento.infoEmpregador.infoCadastro.indSitPJ.valor = self.origem.ind_sitpj
 
         return S1000
 
