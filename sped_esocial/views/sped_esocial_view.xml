@@ -96,31 +96,7 @@
                                                     attrs="{'invisible': [('lotacao_ids', '=', False)]}" />
                                         </div>
                                     </group>
-                                    <field name="lotacao_ids" readonly="1" nolabel="1" colspan="4">
-                                        <tree>
-                                            <field name="nome" invisible="0" />
-                                            <field name="lotacao_id" />
-                                            <field name="precisa_incluir" />
-                                            <field name="precisa_atualizar" />
-                                            <field name="precisa_excluir" />
-                                            <field name="situacao_esocial" />
-                                        </tree>
-                                        <form>
-                                            <sheet>
-                                                <group colspan="4" col="4">
-                                                    <group colspan="2" col="2">
-                                                        <field name="lotacao_id" readonly="1" />
-                                                        <field name="sped_inclusao" />
-                                                        <field name="sped_alteracao" />
-                                                        <field name="sped_exclusao" />
-                                                        <field name="precisa_incluir" />
-                                                        <field name="precisa_atualizar" />
-                                                        <field name="precisa_excluir" />
-                                                    </group>
-                                                </group>
-                                            </sheet>
-                                        </form>
-                                    </field>
+                                    <field name="lotacao_ids" readonly="1" nolabel="1" colspan="4" />
                                 </group>
                             </page>
                             <page name="s1030" string="S-1030">

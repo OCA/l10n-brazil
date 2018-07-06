@@ -270,19 +270,7 @@ class SpedEsocial(models.Model):
     def criar_s1020(self):
         self.ensure_one()
         for lotacao in self.lotacao_ids:
-            if not lotacao.sped_s1020_registro:
-
-                # Criar registro
-                values = {
-                    'tipo': 'esocial',
-                    'registro': 'S-1020',
-                    'ambiente': self.company_id.esocial_tpAmb,
-                    'company_id': self.company_id.id,
-                    'evento': 'evtTabLotacao',
-                    'origem': ('sped.esocial.lotacao,%s' % lotacao.id),
-                }
-                sped_s1020_registro = self.env['sped.registro'].create(values)
-                lotacao.sped_s1020_registro = sped_s1020_registro
+            lotacao.gerar_registro()
 
     @api.multi
     def criar_s1030(self):

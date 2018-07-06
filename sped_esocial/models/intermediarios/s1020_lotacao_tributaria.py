@@ -201,7 +201,7 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
                 'ambiente': self.company_id.esocial_tpAmb,
                 'company_id': self.company_id.id,
                 'evento': 'evtTabLotacao',
-                'origem': ('res.company' % self.lotacao_id.id),
+                'origem': ('res.company,%s' % self.lotacao_id.id),
                 'origem_intermediario': (
                         'sped.esocial.lotacao,%s' % self.id),
             }
