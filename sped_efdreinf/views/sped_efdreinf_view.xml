@@ -177,9 +177,9 @@
                                         <button name="criar_r2099" colspan="2" type="object" string="Criar R-2099" class="oe_highlight"
                                                 attrs="{'invisible': ['|', ('sped_r2099', '=', True), ('pode_fechar', '=', False)]}"
                                         />
-                                        <!--<field name="sped_R2099" readonly="1"/>-->
-                                        <!--<field name="sped_R2099_registro" readonly="1"/>-->
-                                        <!--<field name="situacao_R2099" />-->
+                                        <field name="sped_r2099" readonly="1"/>
+                                        <field name="sped_r2099_registro" readonly="1"/>
+                                        <field name="situacao_r2099" />
                                     </group>
                                 </group>
                             </page>

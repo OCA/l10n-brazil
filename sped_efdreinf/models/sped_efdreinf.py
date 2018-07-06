@@ -118,21 +118,21 @@ class SpedEfdReinf(models.Model):
         string='Fechamento EFD/Reinf',
         compute='_compute_r2099',
     )
-    # sped_R2099_registro = fields.Many2one(
-    #     string='Registro R-2099',
-    #     comodel_name='sped.registro',
-    # )
-    # situacao_R2099 = fields.Selection(
-    #     string='Situação R-2099',
-    #     selection=[
-    #         ('1', 'Pendente'),
-    #         ('2', 'Transmitida'),
-    #         ('3', 'Erro(s)'),
-    #         ('4', 'Sucesso'),
-    #     ],
-    #     related='sped_R2099_registro.situacao',
-    #     readonly=True,
-    # )
+    sped_r2099_registro = fields.Many2one(
+        string='Registro R-2099',
+        comodel_name='sped.registro',
+    )
+    situacao_r2099 = fields.Selection(
+        string='Situação R-2099',
+        selection=[
+            ('1', 'Pendente'),
+            ('2', 'Transmitida'),
+            ('3', 'Erro(s)'),
+            ('4', 'Sucesso'),
+        ],
+        related='sped_r2099_registro.situacao',
+        readonly=True,
+    )
 
     @api.multi
     def unlink(self):
