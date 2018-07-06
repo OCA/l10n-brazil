@@ -157,9 +157,7 @@ class SpedEsocial(models.Model):
         self.ensure_one()
 
         estabelecimentos = self.env['sped.estabelecimentos'].search([
-            '|',
-            ('id', '=', self.company_id.id),
-            ('matriz', '=', self.company_id.id),
+            ('company_id', '=', self.company_id.id),
         ])
         for estabelecimento in estabelecimentos:
             if estabelecimento.id not in self.estabelecimento_ids.ids:
