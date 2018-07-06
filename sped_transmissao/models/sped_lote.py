@@ -342,8 +342,10 @@ class SpedLote(models.Model, ):
         arquivo.flush()
 
         eventos = []
+        sequencia = 1
         for registro in self.transmissao_ids:
-            eventos.append(registro.calcula_xml())
+            eventos.append(registro.calcula_xml(sequencia=sequencia))
+            sequencia += 1
 
         # Popula a data/hora da transmissão do lote
         data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')

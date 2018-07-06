@@ -1265,7 +1265,7 @@ class SpedRegistro(models.Model):
 
     # Este método será usado pelo lote na transmissão
     @api.multi
-    def calcula_xml(self):
+    def calcula_xml(self, sequencia=False):
         self.ensure_one()
 
         # Gera o XML usando o popula_xml da tabela intermediária
@@ -1274,7 +1274,7 @@ class SpedRegistro(models.Model):
         # Gera o ID do evento
         agora = datetime.now()
         data_hora_transmissao = agora.strftime('%Y-%m-%d %H:%M:%S')
-        registro.gera_id_evento(agora.strftime('%Y%m%d%H%M%S'))
+        registro.gera_id_evento(agora.strftime('%Y%m%d%H%M%S'), sequencia)
         self.data_hora_transmissao = data_hora_transmissao
 
         # Grava o ID gerado
