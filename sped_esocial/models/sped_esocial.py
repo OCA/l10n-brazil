@@ -202,7 +202,7 @@ class SpedEsocial(models.Model):
             if incluir:
                 # Criar uma nova lotacao neste período
                 vals = {
-                    'esocial_id': self.id,
+                    'company_id': self.company_id.id,
                     'lotacao_id': lotacao.id,
                 }
                 lotacao_id = self.env['sped.esocial.lotacao'].create(vals)
