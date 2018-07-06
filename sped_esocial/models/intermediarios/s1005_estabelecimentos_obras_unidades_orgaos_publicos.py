@@ -246,6 +246,8 @@ class SpedEstabelecimentos(models.Model, SpedRegistroIntermediario):
         S1005.evento.infoEstab.dadosEstab.cnaePrep.valor = limpa_formatacao(
             self.estabelecimento_id.cnae_main_id.code)
 
+        # Inclusão, não precisa adicionar mais nada aqui
+
         # Se for operacao=='A' (Alteração) Popula idePeriodo usando company_id.periodo_atualizacao_id
         if operacao == 'A':
 

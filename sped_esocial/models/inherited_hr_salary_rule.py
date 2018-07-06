@@ -27,6 +27,10 @@ class HrSalaryRule(models.Model):
         string='Válido desde',
         comodel_name='account.period',
     )
+    alt_valid = fields.Many2one(
+        string='Alterado desde',
+        comodel_name='account.period',
+    )
     fim_valid = fields.Many2one(
         string='Válido até',
         comodel_name='account.period',

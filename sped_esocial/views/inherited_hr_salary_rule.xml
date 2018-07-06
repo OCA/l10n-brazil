@@ -25,11 +25,12 @@
                                            options="{'no_create': True, 'no_open': True}"
                                            attrs="{'required': [('nat_rubr', '!=', False)]}"
                                     />
-                                           <!--domain="[('date_start', '&gt;=', '2018-01-01')]"-->
                                     <field name="fim_valid"
                                            options="{'no_create': True, 'no_open': True}"
                                     />
-                                           <!--domain="[('date_start', '&gt;=', '2018-01-01')]"-->
+                                    <field name="alt_valid" colspan="4"
+                                           options="{'no_create': True, 'no_open': True}"
+                                    />
                                     <field name="tp_rubr" colspan="4" attrs="{'required': [('nat_rubr', '!=', False)]}" />
                                     <separator colspan="4" string="Código de Incidência tributária da rubrica para a Previdência Social" />
                                     <field name="cod_inc_cp" colspan="4" attrs="{'required': [('nat_rubr', '!=', False)]}" />

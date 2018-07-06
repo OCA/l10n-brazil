@@ -4,6 +4,7 @@
 
 import pysped
 from openerp import api, fields, models
+from openerp.exceptions import ValidationError
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 
 from .sped_registro_intermediario import SpedRegistroIntermediario
@@ -220,14 +221,14 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
                 self.sped_exclusao = sped_exclusao
 
     @api.multi
-    def popula_xml(self):
+    def popula_xml(self, ambiente='2', operacao='I'):
         # Cria o registro
         S1010 = pysped.esocial.leiaute.S1010_2()
 
         # Popula ideEvento
         S1010.tpInsc = '1'
         S1010.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
-        S1010.evento.ideEvento.tpAmb.valor = int(self.ambiente)
+        S1010.evento.ideEvento.tpAmb.valor = int(ambiente)
         # Processo de Emissão = Aplicativo do Contribuinte
         S1010.evento.ideEvento.procEmi.valor = '1'
         S1010.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
@@ -238,64 +239,83 @@ class SpedEsocialRubrica(models.Model, SpedRegistroIntermediario):
             self.company_id.cnpj_cpf)[0:8]
 
         # Popula infoRubrica (Informações da Rubrica)
-        # Inclusão TODO lidar com alteração e exclusão
-        S1010.evento.infoRubrica.operacao = 'I'
+        S1010.evento.infoRubrica.operacao = operacao
         S1010.evento.infoRubrica.ideRubrica.codRubr.valor = \
-            self.origem.rubrica_id.codigo
+            self.rubrica_id.codigo
         S1010.evento.infoRubrica.ideRubrica.ideTabRubr.valor = \
-            self.origem.rubrica_id.identificador
+            self.rubrica_id.identificador
 
         # Início da Validade neste evento
         S1010.evento.infoRubrica.ideRubrica.iniValid.valor = \
-            self.origem.rubrica_id.ini_valid.code[3:7] + '-' + \
-            self.origem.rubrica_id.ini_valid.code[0:2]
+            self.rubrica_id.ini_valid.code[3:7] + '-' + \
+            self.rubrica_id.ini_valid.code[0:2]
+
+        # Inclusão não precisa adicionar mais nada aqui
+
+        # Alteração adiciona a tag de novaValidade
+        if operacao == 'A':
+
+            if not self.rubrica_id.alt_valid:
+                raise ValidationError("O período de Alteração não está definido na Rubrica !")
+
+            # Alteração da Validade neste evento
+            S1010.evento.infoRubrica.novaValidade.iniValid.valor = \
+                self.rubrica_id.alt_valid.code[3:7] + '-' + \
+                self.rubrica_id.alt_valid.code[0:2]
+
+        # Exclusão popula a tag fimValid
+        if operacao == 'E':
+
+            S1010.evento.infoRubrica.ideRubrica.fimValid.valor = \
+                self.rubrica_id.fim_valid.code[3:7] + '-' + \
+                self.rubrica_id.fim_valid.code[0:2]
 
         # Preencher dadosRubrica
         S1010.evento.infoRubrica.dadosRubrica.dscRubr.valor = \
-            self.origem.rubrica_id.name
+            self.rubrica_id.name
         S1010.evento.infoRubrica.dadosRubrica.natRubr.valor = \
-            self.origem.rubrica_id.nat_rubr.codigo
+            self.rubrica_id.nat_rubr.codigo
         S1010.evento.infoRubrica.dadosRubrica.tpRubr.valor = \
-            self.origem.rubrica_id.tp_rubr
+            self.rubrica_id.tp_rubr
         S1010.evento.infoRubrica.dadosRubrica.codIncFGTS.valor = \
-            self.origem.rubrica_id.cod_inc_fgts
+            self.rubrica_id.cod_inc_fgts
         S1010.evento.infoRubrica.dadosRubrica.codIncSIND.valor = \
-            self.origem.rubrica_id.cod_inc_sind
+            self.rubrica_id.cod_inc_sind
 
         # Preencher codIncCP
-        if self.origem.rubrica_id.cod_inc_cp == '0':
-            cod_inc_cp = self.origem.rubrica_id.cod_inc_cp_0
-        elif self.origem.rubrica_id.cod_inc_cp == '1':
-            cod_inc_cp = self.origem.rubrica_id.cod_inc_cp_1
-        elif self.origem.rubrica_id.cod_inc_cp == '3':
-            cod_inc_cp = self.origem.rubrica_id.cod_inc_cp_3
-        elif self.origem.rubrica_id.cod_inc_cp == '5':
-            cod_inc_cp = self.origem.rubrica_id.cod_inc_cp_5
-        elif self.origem.rubrica_id.cod_inc_cp == '9':
-            cod_inc_cp = self.origem.rubrica_id.cod_inc_cp_9
+        if self.rubrica_id.cod_inc_cp == '0':
+            cod_inc_cp = self.rubrica_id.cod_inc_cp_0
+        elif self.rubrica_id.cod_inc_cp == '1':
+            cod_inc_cp = self.rubrica_id.cod_inc_cp_1
+        elif self.rubrica_id.cod_inc_cp == '3':
+            cod_inc_cp = self.rubrica_id.cod_inc_cp_3
+        elif self.rubrica_id.cod_inc_cp == '5':
+            cod_inc_cp = self.rubrica_id.cod_inc_cp_5
+        elif self.rubrica_id.cod_inc_cp == '9':
+            cod_inc_cp = self.rubrica_id.cod_inc_cp_9
         S1010.evento.infoRubrica.dadosRubrica.codIncCP.valor = cod_inc_cp
 
         # Preencher codIncIRRF
-        if self.origem.rubrica_id.cod_inc_irrf == '0':
-            cod_inc_irrf = self.origem.rubrica_id.cod_inc_irrf_0
-        elif self.origem.rubrica_id.cod_inc_irrf == '1':
-            cod_inc_irrf = self.origem.rubrica_id.cod_inc_irrf_1
-        elif self.origem.rubrica_id.cod_inc_irrf == '3':
-            cod_inc_irrf = self.origem.rubrica_id.cod_inc_irrf_3
-        elif self.origem.rubrica_id.cod_inc_irrf == '4':
-            cod_inc_irrf = self.origem.rubrica_id.cod_inc_irrf_4
-        elif self.origem.rubrica_id.cod_inc_irrf == '7':
-            cod_inc_irrf = self.origem.rubrica_id.cod_inc_irrf_7
-        elif self.origem.rubrica_id.cod_inc_irrf == '8':
-            cod_inc_irrf = self.origem.rubrica_id.cod_inc_irrf_8
-        elif self.origem.rubrica_id.cod_inc_irrf == '9':
-            cod_inc_irrf = self.origem.rubrica_id.cod_inc_irrf_9
+        if self.rubrica_id.cod_inc_irrf == '0':
+            cod_inc_irrf = self.rubrica_id.cod_inc_irrf_0
+        elif self.rubrica_id.cod_inc_irrf == '1':
+            cod_inc_irrf = self.rubrica_id.cod_inc_irrf_1
+        elif self.rubrica_id.cod_inc_irrf == '3':
+            cod_inc_irrf = self.rubrica_id.cod_inc_irrf_3
+        elif self.rubrica_id.cod_inc_irrf == '4':
+            cod_inc_irrf = self.rubrica_id.cod_inc_irrf_4
+        elif self.rubrica_id.cod_inc_irrf == '7':
+            cod_inc_irrf = self.rubrica_id.cod_inc_irrf_7
+        elif self.rubrica_id.cod_inc_irrf == '8':
+            cod_inc_irrf = self.rubrica_id.cod_inc_irrf_8
+        elif self.rubrica_id.cod_inc_irrf == '9':
+            cod_inc_irrf = self.rubrica_id.cod_inc_irrf_9
         S1010.evento.infoRubrica.dadosRubrica.codIncIRRF.valor = cod_inc_irrf
 
         # Preencher observação
-        if self.origem.rubrica_id.note:
+        if self.rubrica_id.note:
             S1010.evento.infoRubrica.dadosRubrica.observacao.valor = \
-                self.origem.rubrica_id.note
+                self.rubrica_id.note
 
         return S1010
 
