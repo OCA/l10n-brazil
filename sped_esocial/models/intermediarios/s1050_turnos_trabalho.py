@@ -181,6 +181,35 @@ class SpedEsocialTurnosTrabalho(models.Model, SpedRegistroIntermediario):
             turno.ultima_atualizacao = ultima_atualizacao
 
     @api.multi
+    def gerar_registro(self):
+        if self.precisa_incluir or self.precisa_atualizar or \
+                self.precisa_excluir:
+            values = {
+                'tipo': 'esocial',
+                'registro': 'S-1050',
+                'ambiente': self.company_id.esocial_tpAmb,
+                'company_id': self.company_id.id,
+                'evento': 'evtTabHorTur',
+                'origem': (
+                        'esocial.turnos.trabalho,%s' %
+                        self.sped_esocial_turnos_trabalho_id.id),
+                'origem_intermediario': (
+                        'sped.esocial.turnos.trabalho,%s' % self.id),
+            }
+            if self.precisa_incluir:
+                values['operacao'] = 'I'
+                sped_inclusao = self.env['sped.registro'].create(values)
+                self.sped_inclusao = sped_inclusao
+            elif self.precisa_atualizar:
+                values['operacao'] = 'A'
+                sped_alteracao = self.env['sped.registro'].create(values)
+                self.sped_inclusao = sped_alteracao
+            elif self.precisa_excluir:
+                values['operacao'] = 'E'
+                sped_exclusao = self.env['sped.registro'].create(values)
+                self.sped_exclusao = sped_exclusao
+
+    @api.multi
     def popula_xml(self):
         S1050 = pysped.esocial.leiaute.S1050_2()
 
