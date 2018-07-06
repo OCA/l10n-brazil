@@ -4,6 +4,7 @@
 
 import pysped
 from openerp import api, fields, models
+from openerp.exceptions import ValidationError
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 
 from .sped_registro_intermediario import SpedRegistroIntermediario
@@ -219,14 +220,14 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
                 self.sped_exclusao = sped_exclusao
 
     @api.multi
-    def popula_xml(self):
+    def popula_xml(self, ambiente='2', operacao='I'):
         # Cria o registro
         S1020 = pysped.esocial.leiaute.S1020_2()
 
         # Popula ideEvento
         S1020.tpInsc = '1'
         S1020.nrInsc = limpa_formatacao(self.company_id.cnpj_cpf)[0:8]
-        S1020.evento.ideEvento.tpAmb.valor = int(self.ambiente)
+        S1020.evento.ideEvento.tpAmb.valor = int(ambiente)
         # Processo de Emissão = Aplicativo do Contribuinte
         S1020.evento.ideEvento.procEmi.valor = '1'
         S1020.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
@@ -237,29 +238,47 @@ class SpedEsocialLotacao(models.Model, SpedRegistroIntermediario):
             self.company_id.cnpj_cpf)[0:8]
 
         # Popula infoLotacao (Informações do Lotação Tributária)
-        # Inclusão TODO lidar com alteração e exclusão
-        S1020.evento.infoLotacao.operacao = 'I'
+        S1020.evento.infoLotacao.operacao = operacao
         S1020.evento.infoLotacao.ideLotacao.codLotacao.valor = \
-            self.origem.lotacao_id.cod_lotacao
+            self.lotacao_id.cod_lotacao
         S1020.evento.infoLotacao.ideLotacao.iniValid.valor = \
-            self.origem.esocial_id.periodo_id.code[3:7] + '-' + \
-            self.origem.esocial_id.periodo_id.code[0:2]
+            self.lotacao_id.lotacao_periodo_inicial_id.code[3:7] + '-' + \
+            self.lotacao_id.lotacao_periodo_inicial_id.code[0:2]
+
+        # Inclusão, não precisa fazer mais nada
+
+        # Alteração, incluir a tag novaValidade
+        if operacao == 'A':
+
+            if not self.lotacao_id.lotacao_periodo_atualizacao_id:
+                raise ValidationError("O período de Atualização da Lotação Tributária não está definido na Empresa !")
+
+            S1020.evento.infoLotacao.novaValidade.iniValid.valor = \
+                self.lotacao_id.lotacao_periodo_atualizacao_id.code[3:7] + '-' + \
+                self.lotacao_id.lotacao_periodo_atualizacao_id.code[0:2]
+
+        # Exclusão popula a tag fimValid
+        if operacao == 'E':
+
+            S1020.evento.infoLotacao.ideLotacao.fimValid.valor = \
+                self.lotacao_id.lotacao_periodo_final_id.code[3:7] + '-' + \
+                self.lotacao_id.lotacao_periodo_final_id.code[0:2]
 
         # Popula dadosLotacao
         S1020.evento.infoLotacao.dadosLotacao.tpLotacao.valor = \
-            self.origem.lotacao_id.tp_lotacao_id.codigo
-        if self.origem.lotacao_id.tp_insc_id:
+            self.lotacao_id.tp_lotacao_id.codigo
+        if self.lotacao_id.tp_insc_id:
             S1020.evento.infoLotacao.dadosLotacao.tpInsc.valor = \
-                self.origem.lotacao_id.tp_insc_id.codigo
-        if self.origem.lotacao_id.nr_insc:
+                self.lotacao_id.tp_insc_id.codigo
+        if self.lotacao_id.nr_insc:
             S1020.evento.infoLotacao.dadosLotacao.nrInsc.valor = \
-                self.origem.lotacao_id.nr_insc
+                self.lotacao_id.nr_insc
 
         # Popula fpasLotacao
         S1020.evento.infoLotacao.dadosLotacao.fpasLotacao.fpas.valor = \
-            self.origem.lotacao_id.fpas_id.codigo
+            self.lotacao_id.fpas_id.codigo
         S1020.evento.infoLotacao.dadosLotacao.fpasLotacao.codTercs.valor = \
-            self.origem.lotacao_id.cod_tercs
+            self.lotacao_id.cod_tercs
         # S1020.evento.infoLotacao.dadosLotacao.fpasLotacao.codTercs.valor =
         # self.origem.lotacao_id.cod_tercs_id.codigo
 

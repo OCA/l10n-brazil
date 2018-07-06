@@ -47,6 +47,24 @@ class ResCompany(models.Model):
         readonly=True,
     )
 
+    # Campos de controle S-1020
+    sped_lotacao_id = fields.Many2one(
+        string='SPED Lotacao',
+        comodel_name='sped.esocial.lotacao',
+    )
+    situacao_lotacao_esocial = fields.Selection(
+        selection=[
+            ('0', 'Inativa'),
+            ('1', 'Ativa'),
+            ('2', 'Precisa Atualizar'),
+            ('3', 'Aguardando Transmissão'),
+            ('9', 'Finalizada'),
+        ],
+        string='Situação no e-Social',
+        related='sped_lotacao_id.situacao_esocial',
+        readonly=True,
+    )
+
     # Campos de dados diversos
     esocial_tpAmb = fields.Selection(
         string='Ambiente de Transmissão',
@@ -186,6 +204,20 @@ class ResCompany(models.Model):
         comodel_name='account.period',
     )
 
+    # Ativação do e-Social para a Lotação Tributária (Registro S-1020)
+    lotacao_periodo_inicial_id = fields.Many2one(
+        string='Período Inicial',
+        comodel_name='account.period',
+    )
+    lotacao_periodo_atualizacao_id = fields.Many2one(
+        string='Período da Última Atualização',
+        comodel_name='account.period',
+    )
+    lotacao_periodo_final_id = fields.Many2one(
+        string='Período Final',
+        comodel_name='account.period',
+    )
+
     # Dados para registro S-1005
     tp_caepf = fields.Selection(
         string='Tipo de CAEPF',
@@ -265,6 +297,22 @@ class ResCompany(models.Model):
         # Processa cada tipo de operação do S-1005 (Inclusão / Alteração / Exclusão)
         # O que realmente precisará ser feito é tratado no método do registro intermediário
         self.sped_estabelecimento_id.atualizar_esocial()
+
+    @api.multi
+    def atualizar_lotacao(self):
+        self.ensure_one()
+
+        # Se o registro intermediário do S-1020 não existe, criá-lo
+        if not self.sped_lotacao_id:
+            matriz = self.id if self.eh_empresa_base else self.matriz.id
+            self.sped_lotacao_id = self.env['sped.esocial.lotacao'].create({
+                'company_id': matriz,
+                'lotacao_id': self.id,
+            })
+
+        # Processa cada tipo de operação do S-1020 (Inclusão / Alteração / Exclusão)
+        # O que realmente precisará ser feito é tratado no método do registro intermediário
+        self.sped_lotacao_id.gerar_registro()
 
     @api.multi
     def processador_esocial(self):

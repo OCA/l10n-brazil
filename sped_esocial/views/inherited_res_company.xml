@@ -28,9 +28,11 @@
                             <group colspan="2" col="2">
                                 <field name="esocial_periodo_inicial_id"
                                        options="{'no_create': True, 'no_open': True}"
+                                       attrs="{'required': [('sped_empregador_id', '!=', False)]}"
                                 />
                                 <field name="esocial_periodo_atualizacao_id"
                                        options="{'no_create': True, 'no_open': True}"
+                                       attrs="{'required': [('sped_empregador_id', '!=', False)]}"
                                 />
                                 <field name="esocial_periodo_final_id"
                                        options="{'no_create': True, 'no_open': True}"
@@ -75,23 +77,45 @@
                             <group colspan="4" col="1">
                                 <field name="info_ent_educ_ids" />
                             </group>
-                            <group colspan="2" col="2">
+                            <group colspan="2" col="2" string="Estabelecimento">
                                 <field name="estabelecimento_periodo_inicial_id"
                                        options="{'no_create': True, 'no_open': True}"
+                                       attrs="{'required': [('sped_estabelecimento_id', '!=', False)]}"
                                 />
                                 <field name="estabelecimento_periodo_atualizacao_id"
                                        options="{'no_create': True, 'no_open': True}"
+                                       attrs="{'required': [('sped_estabelecimento_id', '!=', False)]}"
                                 />
                                 <field name="estabelecimento_periodo_final_id"
                                        options="{'no_create': True, 'no_open': True}"
                                 />
                             </group>
-                            <group colspan="2" col="2">
+                            <group colspan="2" col="2" string="Estabelecimento">
                                 <field name="situacao_estabelecimento_esocial" attrs="{'invisible': [('situacao_estabelecimento_esocial', '=', False)]}" />
                                 <field name="sped_estabelecimento_id" invisible="1" />
                                 <button name="atualizar_estabelecimento" colspan="4" type="object"
                                         string="Ativar/Atualizar e-Social" class="oe_highlight"
                                         attrs="{'invisible': ['|', ('situacao_estabelecimento_esocial', 'in', ['1', '3', '9']), ('estabelecimento_periodo_inicial_id', '=', False)]}" />
+                            </group>
+                            <group colspan="2" col="2" string="Lotação Tributária">
+                                <field name="lotacao_periodo_inicial_id"
+                                       options="{'no_create': True, 'no_open': True}"
+                                       attrs="{'required': [('sped_lotacao_id', '!=', False)]}"
+                                />
+                                <field name="lotacao_periodo_atualizacao_id"
+                                       options="{'no_create': True, 'no_open': True}"
+                                       attrs="{'required': [('sped_lotacao_id', '!=', False)]}"
+                                />
+                                <field name="lotacao_periodo_final_id"
+                                       options="{'no_create': True, 'no_open': True}"
+                                />
+                            </group>
+                            <group colspan="2" col="2" string="Lotação Tributária">
+                                <field name="situacao_lotacao_esocial" attrs="{'invisible': [('situacao_lotacao_esocial', '=', False)]}" />
+                                <field name="sped_lotacao_id" invisible="1" />
+                                <button name="atualizar_lotacao" colspan="4" type="object"
+                                        string="Ativar/Atualizar e-Social" class="oe_highlight"
+                                        attrs="{'invisible': ['|', ('situacao_lotacao_esocial', 'in', ['1', '3', '9']), ('lotacao_periodo_inicial_id', '=', False)]}" />
                             </group>
                         </group>
                     </page>

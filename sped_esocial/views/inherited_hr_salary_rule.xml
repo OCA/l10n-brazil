@@ -30,6 +30,7 @@
                                     />
                                     <field name="alt_valid" colspan="4"
                                            options="{'no_create': True, 'no_open': True}"
+                                           attrs="{'required': [('nat_rubr', '!=', False)]}"
                                     />
                                     <field name="tp_rubr" colspan="4" attrs="{'required': [('nat_rubr', '!=', False)]}" />
                                     <separator colspan="4" string="Código de Incidência tributária da rubrica para a Previdência Social" />
