@@ -79,7 +79,8 @@ class SpedLote(models.Model, ):
             ('3', 'Erro(s)'),
             ('4', 'Sucesso'),
             # ('5', 'Precisa Retificar'),
-        ]
+        ],
+        default='1',
     )
 
     # Dados de Envio
@@ -404,8 +405,9 @@ class SpedLote(models.Model, ):
         # Se teve ocorrências do lote, armazená-las
         for ocorrencia in processo.resposta.ocorrencias:
             vals = {
+                'lote_id': self.id,
                 'tipo': ocorrencia.tipo.valor,
-                'local': ocorrencia.localizacaoErroAviso.valor,
+                'local': ocorrencia.localizacao.valor,
                 'codigo': ocorrencia.codigo.valor,
                 'descricao': ocorrencia.descricao.valor,
             }

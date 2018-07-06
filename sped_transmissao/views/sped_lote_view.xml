@@ -9,7 +9,7 @@
                     <field name="ocorrencias" invisible="1" />
                     <header>
                         <button name="transmitir" type="object" string="Transmitir" class="oe_highlight"
-                                attrs="{'invisible': [('situacao', '!=', '1')]}"
+                                attrs="{'invisible': [('situacao', 'not in', ['1', '3'])]}"
                         />
                         <button name="consultar" type="object" string="Consultar" class="oe_highlight"
                                 attrs="{'invisible': [('situacao', '!=', '2')]}"

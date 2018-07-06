@@ -20,6 +20,9 @@ class SpedRegistro(models.Model):
     _rec_name = 'registro'
     _order = "data_hora_origem DESC, situacao"
 
+    # Campo para mostrar que está limpado db
+    limpar_db = fields.Boolean()
+
     tipo = fields.Selection(
         string='Tipo',
         selection=[
@@ -269,11 +272,18 @@ class SpedRegistro(models.Model):
         if self.ambiente == '1':
             raise ValidationError("Ambiente de Produção não suporta Limpeza de Banco de Dados !")
 
-        self.origem_intermediario.limpar_db = True
-        self.transmitir_lote()
-        self.recibo = False
-        self.protocolo = False
-        self.origem_intermediario.limpar_db = False
+        if self.registro == 'S-1000':
+            self.origem_intermediario.limpar_db = True
+            self.transmitir_lote()
+            self.recibo = False
+            self.protocolo = False
+            self.origem_intermediario.limpar_db = False
+        elif self.registro == 'R-1000':
+            self.limpar_db = True
+            self.gera_xml()
+            self.recibo = False
+            self.protocolo = False
+            self.limpar_db = False
 
     @api.multi
     def consulta_lote(self):
@@ -753,84 +763,84 @@ class SpedRegistro(models.Model):
         # Registro R-1000 - Informações do Contribuinte (EFD-REINF)
         if self.registro == 'R-1000':
 
-            # # Cria o registro
-            # R1000 = pysped.efdreinf.leiaute.R1000_1()
+            # Cria o registro
+            R1000 = pysped.efdreinf.leiaute.R1000_1()
+
+            # Popula ideEvento
+            R1000.evento.ideEvento.tpAmb.valor = self.ambiente
+            R1000.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
+            R1000.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
+            if self.limpar_db:
+                R1000.evento.ideEvento.verProc.valor = 'RemoverContribuinte'
+
+            # Popula ideContri (Dados do Contribuinte)
+            R1000.evento.ideContri.tpInsc.valor = '1'
+            R1000.evento.ideContri.nrInsc.valor = limpa_formatacao(self.origem.cnpj_cpf)[0:8]
+
+            # Popula infoContri
+            R1000.evento.infoContri.operacao = 'I'
+            R1000.evento.infoContri.idePeriodo.iniValid.valor = self.origem.periodo_id.code[3:7] + '-' + self.origem.periodo_id.code[0:2]
+
+            # Popula infoContri.InfoCadastro
+            R1000.evento.infoContri.infoCadastro.classTrib.valor = self.origem.classificacao_tributaria_id.codigo
+            if self.limpar_db:
+                R1000.evento.infoContri.infoCadastro.classTrib.valor = '00'
+
+            R1000.evento.infoContri.infoCadastro.indEscrituracao.valor = self.origem.ind_escrituracao
+            R1000.evento.infoContri.infoCadastro.indDesoneracao.valor = self.origem.ind_desoneracao
+            R1000.evento.infoContri.infoCadastro.indAcordoIsenMulta.valor = self.origem.ind_acordoisenmulta
+            R1000.evento.infoContri.infoCadastro.indSitPJ.valor = self.origem.ind_sitpj
+            R1000.evento.infoContri.infoCadastro.contato.nmCtt.valor = self.origem.nmctt
+            R1000.evento.infoContri.infoCadastro.contato.cpfCtt.valor = self.origem.cpfctt
+            R1000.evento.infoContri.infoCadastro.contato.foneFixo.valor = self.origem.cttfonefixo
+            if self.origem.cttfonecel:
+                R1000.evento.infoContri.infoCadastro.contato.foneCel.valor = self.origem.cttfonecel
+            if self.origem.cttemail:
+                R1000.evento.infoContri.infoCadastro.contato.email.valor = self.origem.cttemail
+
+            # # Criar registro do Lote
+            # vals = {
+            #     'tipo': 'efdreinf',
+            #     'company_id': self.company_id.id,
+            #     'ambiente': self.ambiente,
+            #     'transmissao_ids': [(4, self.id)],
+            #     # 'data_hora_transmissao': data_hora_transmissao,
+            # }
             #
-            # # Popula ideEvento
-            # R1000.evento.ideEvento.tpAmb.valor = self.ambiente
-            # R1000.evento.ideEvento.procEmi.valor = '1'  # Processo de Emissão = Aplicativo do Contribuinte
-            # R1000.evento.ideEvento.verProc.valor = '8.0'  # Odoo v8.0
-            # if self.limpar_db:
-            #     R1000.evento.ideEvento.verProc.valor = 'RemoverContribuinte'
-            #
-            # # Popula ideContri (Dados do Contribuinte)
-            # R1000.evento.ideContri.tpInsc.valor = '1'
-            # R1000.evento.ideContri.nrInsc.valor = limpa_formatacao(self.origem.cnpj_cpf)[0:8]
-            #
-            # # Popula infoContri
-            # R1000.evento.infoContri.operacao = 'I'
-            # R1000.evento.infoContri.idePeriodo.iniValid.valor = self.origem.periodo_id.code[3:7] + '-' + self.origem.periodo_id.code[0:2]
-            #
-            # # Popula infoContri.InfoCadastro
-            # R1000.evento.infoContri.infoCadastro.classTrib.valor = self.origem.classificacao_tributaria_id.codigo
-            # if self.limpar_db:
-            #     R1000.evento.infoContri.infoCadastro.classTrib.valor = '00'
-            #
-            # R1000.evento.infoContri.infoCadastro.indEscrituracao.valor = self.origem.ind_escrituracao
-            # R1000.evento.infoContri.infoCadastro.indDesoneracao.valor = self.origem.ind_desoneracao
-            # R1000.evento.infoContri.infoCadastro.indAcordoIsenMulta.valor = self.origem.ind_acordoisenmulta
-            # R1000.evento.infoContri.infoCadastro.indSitPJ.valor = self.origem.ind_sitpj
-            # R1000.evento.infoContri.infoCadastro.contato.nmCtt.valor = self.origem.nmctt
-            # R1000.evento.infoContri.infoCadastro.contato.cpfCtt.valor = self.origem.cpfctt
-            # R1000.evento.infoContri.infoCadastro.contato.foneFixo.valor = self.origem.cttfonefixo
-            # if self.origem.cttfonecel:
-            #     R1000.evento.infoContri.infoCadastro.contato.foneCel.valor = self.origem.cttfonecel
-            # if self.origem.cttemail:
-            #     R1000.evento.infoContri.infoCadastro.contato.email.valor = self.origem.cttemail
+            # lote_id = self.env['sped.lote'].create(vals)
+            # self.lote_ids = [(4, lote_id.id)]
+
+            # # Transmite
+            # lote_id.transmitir()
+
+            # Gera
+            data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            dh_transmissao = datetime.now().strftime('%Y%m%d%H%M%S')
+            R1000.gera_id_evento(dh_transmissao)
+            processador = pysped.ProcessadorEFDReinf()
+
+            processador.certificado.arquivo = arquivo.name
+            processador.certificado.senha = self.company_id.nfe_a1_password
+            processador.ambiente = int(self.ambiente)
 
             # Criar registro do Lote
             vals = {
                 'tipo': 'efdreinf',
-                'company_id': self.company_id.id,
                 'ambiente': self.ambiente,
                 'transmissao_ids': [(4, self.id)],
-                # 'data_hora_transmissao': data_hora_transmissao,
+                'data_hora_transmissao': data_hora_transmissao,
             }
 
             lote_id = self.env['sped.lote'].create(vals)
             self.lote_ids = [(4, lote_id.id)]
+            self.data_hora_transmissao = data_hora_transmissao
 
             # Transmite
-            lote_id.transmitir()
-
-            # # Gera
-            # data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            # dh_transmissao = datetime.now().strftime('%Y%m%d%H%M%S')
-            # R1000.gera_id_evento(dh_transmissao)
-            # processador = pysped.ProcessadorEFDReinf()
-            #
-            # processador.certificado.arquivo = arquivo.name
-            # processador.certificado.senha = self.company_id.nfe_a1_password
-            # processador.ambiente = int(self.ambiente)
-            #
-            # # Criar registro do Lote
-            # vals = {
-            #     'tipo': 'efdreinf',
-            #     'ambiente': self.ambiente,
-            #     'transmissao_ids': [(4, self.id)],
-            #     'data_hora_transmissao': data_hora_transmissao,
-            # }
-            #
-            # lote_id = self.env['sped.transmissao.lote'].create(vals)
-            # self.lote_ids = [(4, lote_id.id)]
-            # self.data_hora_transmissao = data_hora_transmissao
-            #
-            # # Transmite
-            # processo = processador.enviar_lote([R1000])
-            # envio_xml = processo.envio.envioLoteEventos.eventos[0].xml
-            # envio_xml_nome = R1000.evento.Id.valor + '-R1000-env.xml'
-            # retorno_xml = processo.resposta.retornoEventos[0].xml
-            # retorno_xml_nome = R1000.evento.Id.valor + '-R1000-ret.xml'
+            processo = processador.enviar_lote([R1000])
+            envio_xml = processo.envio.envioLoteEventos.eventos[0].xml
+            envio_xml_nome = R1000.evento.Id.valor + '-R1000-env.xml'
+            retorno_xml = processo.resposta.retornoEventos[0].xml
+            retorno_xml_nome = R1000.evento.Id.valor + '-R1000-ret.xml'
 
         # Registro R-2010 - Retenção Contribuição Previdenciária - Serviços Tomados (EFD-REINF)
         elif self.registro == 'R-2010':
@@ -1003,7 +1013,7 @@ class SpedRegistro(models.Model):
             retorno_xml = processo.resposta.retornoEventos[0].xml
             retorno_xml_nome = R2099.evento.Id.valor + '-R2099-ret.xml'
 
-        if self.registro not in ['S-1000', 'R-1000']:
+        if self.registro not in ['S-1000']:
             # Processa retorno do EFD/Reinf
             if self.tipo == 'efdreinf':
                 if processo:
@@ -1215,41 +1225,43 @@ class SpedRegistro(models.Model):
 
         # Consulta
         processo = processador.consultar_fechamento(ambiente=int(self.ambiente))
-        self.cd_retorno = processo.resposta.evtTotalContrib.ideRecRetorno.ideStatus.cdRetorno.valor
-        self.desc_retorno = processo.resposta.evtTotalContrib.ideRecRetorno.ideStatus.descRetorno.valor
+        self.cd_retorno = processo.resposta.cdResposta
+        self.desc_retorno = processo.resposta.descResposta
 
         # Limpar ocorrências
         for ocorrencia in self.ocorrencia_ids:
             ocorrencia.unlink()
 
         # Atualiza o registro com o resultado
-        if processo.resposta.evtTotalContrib.ideRecRetorno.ideStatus.cdRetorno.valor == '0':
+        if processo.resposta.cdResposta == '0':
             self.situacao = '4'
 
             if self.fechamento_xml_id:
                 fechamento = self.fechamento_xml_id
                 self.fechamento_xml_id = False
                 fechamento.unlink()
-            # fechamento_xml = processo.resposta.xml
-            fechamento_xml = processo.resposta.original
-            fechamento_xml_nome = processo.resposta.evtTotalContrib.Id.valor + '-R2099-fechamento.xml'
-            anexo_id = self._grava_anexo(fechamento_xml_nome, fechamento_xml)
-            self.fechamento_xml_id = anexo_id
 
             # Popula o registro EFD/Reinf como sucesso
             if self.origem.situacao != '2':
                 self.origem.situacao = '3'
 
         else:
-            for ocorrencia in processo.resposta.evtTotalContrib.ideRecRetorno.regOcurrs:
+            for ocorrencia in processo.resposta.ocorrencias:
                 vals = {
                     'transmissao_id': self.id,
-                    'tipo': ocorrencia.tipo.valor,
-                    'local': ocorrencia.localizacaoErroAviso.valor,
-                    'codigo': ocorrencia.codigo.valor,
-                    'descricao': ocorrencia.descricao.valor,
+                    'tipo': ocorrencia.tpOcorr.valor,
+                    'local': ocorrencia.localErroAviso.valor,
+                    'codigo': ocorrencia.codResp.valor,
+                    'descricao': ocorrencia.dscResp.valor,
                 }
                 self.ocorrencia_ids.create(vals)
+
+        # fechamento_xml = processo.resposta.xml
+        fechamento_xml = processo.resposta.original
+        fechamento_xml_nome = processo.resposta.evtTotalContrib.Id.valor + '-R2099-fechamento.xml'
+        anexo_id = self._grava_anexo(fechamento_xml_nome, fechamento_xml)
+        self.fechamento_xml_id = anexo_id
+
 
     # Este método será usado pelo lote na transmissão
     @api.multi
