@@ -58,6 +58,7 @@
         'views/intermediarios/s1010_rubrica_view.xml',
         'views/intermediarios/s1020_lotacao_tributaria_view.xml',
         'views/intermediarios/s1030_cargos_empregos_publicos_view.xml',
+        'views/intermediarios/s1050_turnos_trabalho_view.xml',
         'views/intermediarios/s2299_desligamento_view.xml',
 
         # Segurança
