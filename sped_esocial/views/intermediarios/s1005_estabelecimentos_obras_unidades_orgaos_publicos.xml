@@ -45,6 +45,7 @@
             <field name="arch" type="xml">
                 <tree string="S-1005 (Empregador)" duplicate="false" edit="false" delete="false" create="false">
                     <field name="company_id"/>
+                    <field name="estabelecimento_id" />
                     <field name="situacao_esocial"/>
                 </tree>
             </field>

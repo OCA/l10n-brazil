@@ -16,6 +16,7 @@
                         />
                     </header>
                     <field name="nome" invisible="1" />
+                    <field name="necessita_s1000" invisible="1" />
                     <field name="necessita_s1005" invisible="1" />
                     <!--<field name="pode_sem_movto" invisible="1" />-->
                     <!--<field name="pode_fechar" invisible="1" />-->
@@ -43,12 +44,27 @@
                             </group>
                         </group>
                         <notebook>
+                            <page name="s1000" string="S-1000">
+                                <group colspan="4" col="4">
+                                    <group colspan="2" col="1">
+                                        <div class="oe_title">
+                                            <button name="importar_empregador" type="object" string="Calcular" />
+                                            <button name="criar_s1000" type="object" string="Criar S-1000(s)" class="oe_highlight"
+                                                    attrs="{'invisible': [('necessita_s1000', '=', False)]}"
+                                            />
+                                        </div>
+                                    </group>
+                                    <field name="empregador_ids" readonly="1" nolabel="1" colspan="4" />
+                                </group>
+                            </page>
                             <page name="s1005" string="S-1005">
                                 <group colspan="4" col="4">
                                     <group colspan="2" col="1">
                                         <div class="oe_title">
                                             <button name="importar_estabelecimentos" type="object" string="Calcular" />
-                                            <button name="criar_s1005" type="object" string="Criar S-1005(s)" class="oe_highlight" />
+                                            <button name="criar_s1005" type="object" string="Criar S-1005(s)" class="oe_highlight"
+                                                    attrs="{'invisible': [('necessita_s1005', '=', False)]}"
+                                            />
                                         </div>
                                     </group>
                                     <field name="estabelecimento_ids" readonly="1" nolabel="1" colspan="4" />

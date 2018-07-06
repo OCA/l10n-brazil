@@ -76,7 +76,49 @@ class SpedEsocial(models.Model):
         store=True,
     )
 
+    # Controle dos registros S-1000
+    empregador_ids = fields.Many2many(
+        string='Empregadores',
+        comodel_name='sped.empregador',
+    )
+    necessita_s1000 = fields.Boolean(
+        string='Necessita S-1000(s)',
+        compute='compute_necessita_s1000',
+    )
+
+    #
+    # Calcula se é necessário criar algum registro S-1000
+    #
+    @api.depends('empregador_ids.situacao_esocial')
+    def compute_necessita_s1000(self):
+        for esocial in self:
+            necessita_s1000 = False
+            for empregador in esocial.empregador_ids:
+                if empregador.situacao_esocial in ['2']:
+                    necessita_s1000 = True
+            esocial.necessita_s1000 = necessita_s1000
+
+    @api.multi
+    def importar_empregador(self):
+        self.ensure_one()
+
+        empregadores = self.env['sped.empregador'].search([
+            ('company_id', '=', self.company_id.id),
+        ])
+        for empregador in empregadores:
+            if empregador.id not in self.empregador_ids.ids:
+                self.empregador_ids = [(4, empregador.id)]
+
+    # Cria o registro S-1000
+    @api.multi
+    def criar_s1000(self):
+        self.ensure_one()
+        for empregador in self.empregador_ids:
+            empregador.atualizar_esocial()
+
+    #
     # Controle dos registros S-1005
+    #
     estabelecimento_ids = fields.Many2many(
         string='Estabelecimentos',
         comodel_name='sped.estabelecimentos',
@@ -84,11 +126,10 @@ class SpedEsocial(models.Model):
     necessita_s1005 = fields.Boolean(
         string='Necessita S-1005(s)',
         compute='compute_necessita_s1005',
-        store=True,
     )
 
     # Calcula se é necessário criar algum registro S-1005
-    @api.depends('estabelecimento_ids')
+    @api.depends('estabelecimento_ids.situacao_esocial')
     def compute_necessita_s1005(self):
         for esocial in self:
             necessita_s1005 = False
@@ -97,12 +138,23 @@ class SpedEsocial(models.Model):
                     necessita_s1005 = True
             esocial.necessita_s1005 = necessita_s1005
 
+    @api.multi
+    def importar_estabelecimentos(self):
+        self.ensure_one()
+
+        estabelecimentos = self.env['sped.estabelecimentos'].search([
+            ('company_id', '=', self.company_id.id),
+        ])
+        for estabelecimento in estabelecimentos:
+            if estabelecimento.id not in self.estabelecimento_ids.ids:
+                self.estabelecimento_ids = [(4, estabelecimento.id)]
+
     # Cria os registros S-1005
     @api.multi
     def criar_s1005(self):
         self.ensure_one()
         for estabelecimento in self.estabelecimento_ids:
-            estabelecimento.atualizar_estabelecimento()
+            estabelecimento.atualizar_esocial()
 
     # @api.multi
     # def unlink(self):
@@ -149,17 +201,6 @@ class SpedEsocial(models.Model):
             if esocial.periodo_id:
                 nome += ' (' + esocial.periodo_id.name + ')'
             esocial.nome = nome
-
-    @api.multi
-    def importar_estabelecimentos(self):
-        self.ensure_one()
-
-        estabelecimentos = self.env['sped.estabelecimentos'].search([
-            ('company_id', '=', self.company_id.id),
-        ])
-        for estabelecimento in estabelecimentos:
-            if estabelecimento.id not in self.estabelecimento_ids.ids:
-                self.estabelecimento_ids = [(4, estabelecimento.id)]
 
     @api.multi
     def importar_rubricas(self):
@@ -239,24 +280,6 @@ class SpedEsocial(models.Model):
                     vals
                 )
                 self.turno_trabalho_ids = [(4, sped_turno_id.id)]
-
-    @api.multi
-    def criar_s1005(self):
-        self.ensure_one()
-        for estabelecimento in self.estabelecimento_ids:
-            if not estabelecimento.sped_s1005_registro:
-
-                # Criar registro
-                values = {
-                    'tipo': 'esocial',
-                    'registro': 'S-1005',
-                    'ambiente': self.company_id.esocial_tpAmb,
-                    'company_id': self.company_id.id,
-                    'evento': 'evtTabEstab',
-                    'origem': ('sped.esocial.estabelecimento,%s' % estabelecimento.id),
-                }
-                sped_s1005_registro = self.env['sped.registro'].create(values)
-                estabelecimento.sped_s1005_registro = sped_s1005_registro
 
     @api.multi
     def criar_s1010(self):
