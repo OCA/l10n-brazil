@@ -76,6 +76,12 @@ class SpedCriacaoWizard(models.TransientModel):
     def default_get(self, fields):
         res = super(SpedCriacaoWizard, self).default_get(fields)
 
+        # Limpa a tabela do wizard
+        for wizard in self.env['sped.criacao.wizard'].search([]):
+            for lote in wizard.lote_ids:
+                lote.unlink()
+            wizard.unlink()
+
         registros_originais = self.env['sped.registro'].browse(self.env.context.get('active_ids'))
 
         # Elimina da lista registros já transmitidos e/ou em outros lotes pendentes transmissão ou retorno
