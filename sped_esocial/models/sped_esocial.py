@@ -56,11 +56,10 @@ class SpedEsocial(models.Model):
         comodel_name='sped.esocial.rubrica',
         inverse_name='esocial_id',
     )
-    # cargo_ids = fields.One2many(
-    #     string='Cargos',
-    #     comodel_name='sped.esocial.cargo',
-    #     inverse_name='esocial_id',
-    # )
+    cargo_ids = fields.Many2many(
+        string='Cargos',
+        comodel_name='sped.esocial.cargo',
+    )
     # sped_esocial_turnos_trabalho_ids = fields.One2many(
     #     string='sped_esocial_turnos_trabalho_id',
     #     comodel_name='sped.esocial.turnos.trabalho',
@@ -218,7 +217,7 @@ class SpedEsocial(models.Model):
 
             # Criar um novo cargo neste período
             vals = {
-                'esocial_id': self.id,
+                'company_id': self.company_id.id,
                 'cargo_id': cargo.id,
             }
             cargo_id = self.env['sped.esocial.cargo'].create(vals)
@@ -276,19 +275,7 @@ class SpedEsocial(models.Model):
     def criar_s1030(self):
         self.ensure_one()
         for cargo in self.cargo_ids:
-            if not cargo.sped_s1030_registro:
-
-                # Criar registro
-                values = {
-                    'tipo': 'esocial',
-                    'registro': 'S-1030',
-                    'ambiente': self.company_id.esocial_tpAmb,
-                    'company_id': self.company_id.id,
-                    'evento': 'evtTabCargo',
-                    'origem': ('sped.esocial.cargo,%s' % cargo.id),
-                }
-                sped_s1030_registro = self.env['sped.registro'].create(values)
-                cargo.sped_s1030_registro = sped_s1030_registro
+            cargo.gerar_registro()
 
     @api.multi
     def criar_s1050(self):

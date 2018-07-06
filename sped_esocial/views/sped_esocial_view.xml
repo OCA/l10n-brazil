@@ -80,35 +80,14 @@
                             </page>
                             <page name="s1030" string="S-1030">
                                 <group colspan="4" col="4">
-                                    <!--<group colspan="2" col="1">-->
-                                        <!--<div class="oe_title">-->
-                                            <!--<button name="importar_cargos" type="object" string="Calcular" />-->
-                                            <!--<button name="criar_s1030" type="object" string="Criar S-1030(s)" class="oe_highlight"-->
-                                                    <!--attrs="{'invisible': [('cargo_ids', '=', False)]}" />-->
-                                        <!--</div>-->
-                                    <!--</group>-->
-                                    <!--<field name="cargo_ids" readonly="1" nolabel="1" colspan="4">-->
-                                        <!--<tree>-->
-                                            <!--<field name="nome" invisible="0" />-->
-                                            <!--<field name="cargo_id" />-->
-                                            <!--<field name="requer_s1030" />-->
-                                            <!--<field name="sped_s1030" invisible="1" />-->
-                                            <!--<field name="sped_s1030_registro" invisible="1" />-->
-                                            <!--<field name="situacao_s1030" />-->
-                                        <!--</tree>-->
-                                        <!--<form>-->
-                                            <!--<sheet>-->
-                                                <!--<group colspan="4" col="4">-->
-                                                    <!--<group colspan="2" col="2">-->
-                                                        <!--<field name="cargo_id" readonly="1" />-->
-                                                        <!--<field name="requer_s1030" invisible="0" />-->
-                                                        <!--<field name="sped_s1030" invisible="0" />-->
-                                                        <!--<field name="sped_s1030_registro" attrs="{'invisible': [('sped_s1030', '=', False)]}" />-->
-                                                    <!--</group>-->
-                                                <!--</group>-->
-                                            <!--</sheet>-->
-                                        <!--</form>-->
-                                    <!--</field>-->
+                                    <group colspan="2" col="1">
+                                        <div class="oe_title">
+                                            <button name="importar_cargos" type="object" string="Calcular" />
+                                            <button name="criar_s1030" type="object" string="Criar S-1030(s)" class="oe_highlight"
+                                                    attrs="{'invisible': [('cargo_ids', '=', False)]}" />
+                                        </div>
+                                    </group>
+                                    <field name="cargo_ids" readonly="1" nolabel="1" colspan="4" />
                                 </group>
                             </page>
                             <page name="s1050" string="S-1050">
