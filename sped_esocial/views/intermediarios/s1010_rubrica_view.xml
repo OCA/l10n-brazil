@@ -45,6 +45,7 @@
             <field name="arch" type="xml">
                 <tree string="S-1010 (Rúbrica)" duplicate="false" edit="false" delete="false" create="false">
                     <field name="company_id"/>
+                    <field name="rubrica_id" />
                     <field name="precisa_incluir" />
                     <field name="precisa_atualizar" />
                     <field name="precisa_excluir" />

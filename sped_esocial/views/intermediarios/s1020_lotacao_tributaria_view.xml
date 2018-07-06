@@ -45,6 +45,7 @@
             <field name="arch" type="xml">
                 <tree string="S-1020 (Lotação Tributária)" duplicate="false" edit="false" delete="false" create="false">
                     <field name="company_id"/>
+                    <field name="lotacao_id" />
                     <field name="precisa_incluir" />
                     <field name="precisa_atualizar" />
                     <field name="precisa_excluir" />

@@ -63,28 +63,7 @@
                                                     attrs="{'invisible': [('rubrica_ids', '=', False)]}" />
                                         </div>
                                     </group>
-                                    <field name="rubrica_ids" readonly="1" nolabel="1" colspan="4">
-                                        <tree>
-                                            <field name="nome" invisible="0" />
-                                            <field name="rubrica_id" />
-                                            <field name="precisa_incluir" />
-                                            <field name="precisa_atualizar" />
-                                            <field name="precisa_excluir" />
-                                            <field name="situacao_esocial" />
-                                        </tree>
-                                        <form>
-                                            <sheet>
-                                                <group colspan="4" col="4">
-                                                    <group colspan="2" col="2">
-                                                        <field name="rubrica_id" />
-                                                        <field name="precisa_incluir" />
-                                                        <field name="precisa_atualizar" />
-                                                        <field name="precisa_excluir" />
-                                                    </group>
-                                                </group>
-                                            </sheet>
-                                        </form>
-                                    </field>
+                                    <field name="rubrica_ids" readonly="1" nolabel="1" colspan="4" />
                                 </group>
                             </page>
                             <page name="s1020" string="S-1020">
