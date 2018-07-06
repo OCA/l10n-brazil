@@ -60,11 +60,10 @@ class SpedEsocial(models.Model):
         string='Cargos',
         comodel_name='sped.esocial.cargo',
     )
-    # sped_esocial_turnos_trabalho_ids = fields.One2many(
-    #     string='sped_esocial_turnos_trabalho_id',
-    #     comodel_name='sped.esocial.turnos.trabalho',
-    #     inverse_name='esocial_id',
-    # )
+    turno_trabalho_ids = fields.Many2many(
+        string='sped_esocial_turnos_trabalho_id',
+        comodel_name='sped.esocial.turnos.trabalho',
+    )
     situacao = fields.Selection(
         string='Situação',
         selection=[
@@ -230,16 +229,16 @@ class SpedEsocial(models.Model):
         turnos_trabalho = self.env['esocial.turnos.trabalho'].search([])
 
         for turno in turnos_trabalho:
-            if not turno.sped_esocial_turnos_trabalho_ids:
+            if not turno.turno_trabalho_ids:
                 # Criar um novo documento sped para o turno de trabalho
                 vals = {
-                    'esocial_id': self.id,
+                    'company_id': self.company_id.id,
                     'sped_esocial_turnos_trabalho_id': turno.id,
                 }
                 sped_turno_id = self.env['sped.esocial.turnos.trabalho'].create(
                     vals
                 )
-                self.sped_esocial_turnos_trabalho_ids = [(4, sped_turno_id.id)]
+                self.turno_trabalho_ids = [(4, sped_turno_id.id)]
 
     @api.multi
     def criar_s1005(self):
@@ -280,20 +279,8 @@ class SpedEsocial(models.Model):
     @api.multi
     def criar_s1050(self):
         self.ensure_one()
-        for turno in self.sped_esocial_turnos_trabalho_ids:
-            if not turno.sped_s1050_registro:
-                # Criar registro
-                values = {
-                    'tipo': 'esocial',
-                    'registro': 'S-1050',
-                    'ambiente': self.company_id.esocial_tpAmb,
-                    'company_id': self.company_id.id,
-                    'evento': 'evtTabHorTur',
-                    'origem': ('sped.esocial.turnos.trabalho,%s' % turno.id),
-                }
-                sped_s1050_registro = self.env['sped.registro'].create(
-                    values)
-                turno.sped_s1050_registro = sped_s1050_registro
+        for turno in self.turno_trabalho_ids:
+            turno.gerar_registro()
 
     @api.multi
     def get_esocial_vigente(self, company_id=False):
