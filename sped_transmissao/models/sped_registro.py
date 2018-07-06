@@ -379,33 +379,37 @@ class SpedRegistro(models.Model):
 
         # Registro S-1010 - Tabela de Rubricas
         elif self.registro == 'S-1010':
-            # Criar registro do Lote
-            data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            vals = {
-                'tipo': 'esocial',
-                'ambiente': self.ambiente,
-                'transmissao_ids': [(4, self.id)],
-                'data_hora_transmissao': data_hora_transmissao,
-            }
+            return
 
-            lote_id = self.env['sped.lote'].create(vals)
-            self.lote_ids = [(4, lote_id.id)]
-            self.data_hora_transmissao = data_hora_transmissao
+            # # Criar registro do Lote
+            # data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            # vals = {
+            #     'tipo': 'esocial',
+            #     'ambiente': self.ambiente,
+            #     'transmissao_ids': [(4, self.id)],
+            #     'data_hora_transmissao': data_hora_transmissao,
+            # }
+            #
+            # lote_id = self.env['sped.lote'].create(vals)
+            # self.lote_ids = [(4, lote_id.id)]
+            # self.data_hora_transmissao = data_hora_transmissao
 
         # Registro S-1020 - Tabela de Lotações Tributárias
         elif self.registro == 'S-1020':
-            # Criar registro do Lote
-            data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            vals = {
-                'tipo': 'esocial',
-                'ambiente': self.ambiente,
-                'transmissao_ids': [(4, self.id)],
-                'data_hora_transmissao': data_hora_transmissao,
-            }
+            return
 
-            lote_id = self.env['sped.lote'].create(vals)
-            self.lote_ids = [(4, lote_id.id)]
-            self.data_hora_transmissao = data_hora_transmissao
+            # # Criar registro do Lote
+            # data_hora_transmissao = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            # vals = {
+            #     'tipo': 'esocial',
+            #     'ambiente': self.ambiente,
+            #     'transmissao_ids': [(4, self.id)],
+            #     'data_hora_transmissao': data_hora_transmissao,
+            # }
+            #
+            # lote_id = self.env['sped.lote'].create(vals)
+            # self.lote_ids = [(4, lote_id.id)]
+            # self.data_hora_transmissao = data_hora_transmissao
 
         # Registro S-1030 - Tabela de Cargos/Empregos Públicos
         elif self.registro == 'S-1030':
